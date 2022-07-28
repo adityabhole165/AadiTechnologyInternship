@@ -1,0 +1,116 @@
+import { IAttendance } from 'src/Interface/Student/Attendance';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import PageHeader from 'src/UI_Library/heading/PageHeader';
+import { RootState } from 'src/store';
+import { useEffect } from 'react';
+import { getAttendanceList } from 'src/Client_Api/Student/Attendance';
+import DotLegend from 'src/UI_Library/summary/summary';
+import { Box } from '@mui/material';
+import { GetStudentAttendaceForMonthResult } from 'src/Interface/Student/Attendance';
+import http from 'src/Client_Api/SchoolService/schoolServices';
+import { useState } from 'react';
+import Card1 from 'src/UI_Library/mainCard/Card1';
+import { Calender1 } from 'src/Component/Student/Attendance/Calender';
+
+function Attendance() {
+  const dispatch = useDispatch();
+
+  const Attendance = useSelector(
+    (state: RootState) => state.Attendance.DailyAttendanceList
+  );
+  const attendance = {
+    Title1: 'Total present days ',
+    Title2: 'School working days ',
+    Title3: ' Total absent days'
+  };
+
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStandardId = sessionStorage.getItem('StandardId');
+  const asDivisionId = sessionStorage.getItem('DivisionId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+
+  const [month, setMonth] = useState(new Date().getMonth() + 1);
+  const [year, setYear] = useState(new Date().getFullYear());
+
+  const [AttendanceData, setAttendanceData] =
+    useState<GetStudentAttendaceForMonthResult>();
+
+  const body: IAttendance = {
+    asStandardId: asStandardId,
+    asDivisionId: asDivisionId,
+    asStudentId: asStudentId,
+    asMonth: month,
+    asYear: year,
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
+
+  const GetAttendanceresult = (body) => {
+    http
+      .post('Student/GetStudentAttendaceForMonth', body)
+      .then((resp) => resp.data.GetStudentAttendaceForMonthResult)
+      .then((data) => {
+        setAttendanceData(data);
+      });
+  };
+
+  useEffect(() => {
+    dispatch(getAttendanceList(body));
+    GetAttendanceresult(body);
+  }, [month, year]);
+
+  return (
+    <>
+      <PageHeader heading={'Attendance'} subheading={''} />
+      <DotLegend />
+      <br />
+      <Box sx={{ marginTop: '5px' }}>
+        <Calender1
+          month={setMonth}
+          year={setYear}
+          AttendenceData={AttendanceData?.DailyAttendanceList}
+        />
+      </Box>
+      <Box sx={{ marginTop: '20px' }}>
+        {AttendanceData === undefined ? null : (
+          <>
+            <Card1
+              header={attendance.Title2}
+              text3={AttendanceData.TotalAttendanceDays}
+              text2=""
+              text1=""
+              isSelected=""
+              Color=""
+              margin=""
+            />
+            <Card1
+              header={attendance.Title1}
+              text3={AttendanceData.PresentDays}
+              text2=""
+              text1=""
+              isSelected=""
+              Color=""
+              margin=""
+            />
+            <Card1
+              header={attendance.Title3}
+              text3={
+                Number(AttendanceData.TotalAttendanceDays) -
+                Number(AttendanceData.PresentDays)
+              }
+              text2=""
+              text1=""
+              isSelected=""
+              Color=""
+              margin=""
+            />
+          </>
+        )}
+      </Box>
+    </>
+  );
+}
+
+export default Attendance;

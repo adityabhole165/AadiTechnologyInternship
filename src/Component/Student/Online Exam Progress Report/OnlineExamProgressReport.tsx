@@ -1,0 +1,61 @@
+import { useDispatch } from 'react-redux';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import Accordion6 from 'src/UI_Library/accordion/accordion6';
+import OnlineExamProgressReport from 'src/Interface/Student/OnlineExamProgressReport';
+import PageHeader from 'src/UI_Library/heading/PageHeader';
+import {
+  getSchoolInformation,
+  getStudentDetails,
+  getSubjects,
+  getOnlineExams,
+  getMarkInformation
+} from 'src/Client_Api/Student/OnlineExamProgressReport';
+
+function OnlineExamReport() {
+  const dispatch = useDispatch();
+  const getStudent = useSelector(
+    (state: RootState) => state.ExamOnlineReport.Students
+  );
+  const SchoolInformation = useSelector(
+    (state: RootState) => state.ExamOnlineReport.SchoolInformation
+  );
+  const geOnlineExams = useSelector(
+    (state: RootState) => state.ExamOnlineReport.OnlineExams
+  );
+  const getsubjects = useSelector(
+    (state: RootState) => state.ExamOnlineReport.Subjects
+  );
+  const getMarks = useSelector(
+    (state: RootState) => state.ExamOnlineReport.MarkInformation
+  );
+
+  const ExamDetails: OnlineExamProgressReport = {
+    aiStudentId: '11687',
+    aiSchoolId: '120',
+    aiAcademicYrId: '8',
+    asStdDivId: '88'
+  };
+
+  useEffect(() => {
+    dispatch(getStudentDetails(ExamDetails));
+    dispatch(getSchoolInformation(ExamDetails));
+    dispatch(getSubjects(ExamDetails));
+    dispatch(getOnlineExams(ExamDetails));
+    dispatch(getMarkInformation(ExamDetails));
+  }, []);
+
+  return (
+    <>
+      <PageHeader heading={'Online Progress Report'} subheading={''} />
+      <Accordion6
+        Student={getStudent}
+        OnlineExams={geOnlineExams}
+        MarkInformation={getMarks}
+        Subject={getsubjects}
+      />
+    </>
+  );
+}
+export default OnlineExamReport;
