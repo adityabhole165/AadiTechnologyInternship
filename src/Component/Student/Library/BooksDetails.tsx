@@ -17,20 +17,28 @@ function BooksDetails() {
     (state: RootState) => state.library.BooksDetaiLs
   );
 
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asLanguage = localStorage.getItem('Language');
+  const asStandardID = localStorage.getItem('StandardId');
+  const asParentStaffID = localStorage.getItem('ParentStaffID');
+  const asStartRowIndex = localStorage.getItem('StartRowIndex');
+  const asSortRowIndexExpression = localStorage.getItem('SortRowIndexExpression');
+
+
   const BooksDetails_body: IBooksDetails = {
-    aiSchoolId: 120,
+    aiSchoolId: asSchoolId,
     asBookName: null,
     asAccessionNumber: null,
     asAuthorName: null,
     asPublisher: null,
-    asLanguage: '0',
-    aiStandardId: 0,
+    asLanguage: asLanguage,
+    aiStandardId: asStandardID,
     aiMediaType: 2,
     aiBookId: 0,
-    aiParentStaffId: 0,
+    aiParentStaffId: asParentStaffID,
     aiEndIndex: 20,
-    aiStartRowIndex: 0,
-    asSortExpression: 'Book_Title asc'
+    aiStartRowIndex: asStartRowIndex,
+    asSortExpression: asSortRowIndexExpression
   };
 
   useEffect(() => {

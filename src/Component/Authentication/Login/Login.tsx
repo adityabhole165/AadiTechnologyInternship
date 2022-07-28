@@ -11,8 +11,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LoginApi from 'src/Api/Authentication/Login';
-import { IAuthenticateUser, IAuthenticateUserResult, IStudentDetails ,IGetDetails, IGetTeacherDetails } from 'src/Interface/Authentication/Login'
-import http from 'src/Client_Api/SchoolService/schoolServices';
+import { IAuthenticateUser, IAuthenticateUserResult, IGetTeacherDetails } from 'src/Interface/Authentication/Login'
 import { useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -23,10 +22,8 @@ import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
 import { Styles } from "src/assets/style/student-style";
-import { object } from 'prop-types';
 import { toast } from 'react-toastify';
-import { spacing } from '@mui/system';
-import { Field, Form, Formik, useFormik } from 'formik';
+import { useFormik } from 'formik';
 
 
 function SelectSchool() {
@@ -41,7 +38,6 @@ function SelectSchool() {
 
     };
     const [show, setShow] = useState(true);
-    const [GetTeacherData, setTeacherData] = useState<IGetTeacherDetails>()
    
     const changeschool = () => {
         setShow(true);
@@ -118,9 +114,6 @@ function SelectSchool() {
         if(!values.password){
           errors.password="Password is Required "
         }
-        // if(!values.Attachment){
-        //   errors.Attachment="Message body should not be blank."
-        // }
    
       return errors}
       })
@@ -160,7 +153,12 @@ function SelectSchool() {
                 sessionStorage.setItem('Blood_Group',studentDetails.Blood_Group);
                 sessionStorage.setItem('EndDate',studentDetails.EndDate);
                 sessionStorage.setItem('StartDate',studentDetails.StartDate);
-
+                sessionStorage.setItem('Language',studentDetails.asLanguage);
+                sessionStorage.setItem('ParentStaffID',studentDetails.aiParentStaffId);
+                sessionStorage.setItem('StartRowIndex',studentDetails.aiStartRowIndex);
+                sessionStorage.setItem('SortRowIndexExpression',studentDetails.asSortExpression);
+                sessionStorage.setItem('BookTittleName',studentDetails.asBookTitle);
+                sessionStorage.setItem('UserName',studentDetails.asUserName);
         }
        
 
