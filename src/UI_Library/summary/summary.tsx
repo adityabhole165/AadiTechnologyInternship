@@ -19,7 +19,7 @@ function summary() {
 
   return (
     <>
-      <Container>
+      <Container sx={{mt:'-15px'}}>
         <Grid container xs={12}  >
           <Grid direction="column" xs={6}>
               <DotLegend className={classes.border}

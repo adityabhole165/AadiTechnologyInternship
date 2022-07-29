@@ -18,7 +18,7 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading }) => {
   const theme = useTheme();
 
   return (
-    <Container>
+    <Container sx={{mt:'-25px'}}>
       <RootWrapper display="flex" alignItems="center">
         <Typography variant="h3"
           sx={{
