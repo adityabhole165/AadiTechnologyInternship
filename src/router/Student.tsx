@@ -130,7 +130,7 @@ const studentRoutes = [
     element: <OnlineExam/>
   },
   {
-    path: 'OnlineExamDetails',
+    path: 'OnlineExamDetails/:ExamId/:SubjectId',
     element: <OnlineExamDetails/>
   },
   {

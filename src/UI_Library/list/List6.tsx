@@ -29,9 +29,10 @@ List6.propTypes = {
     Instruction: PropTypes.string,
     StartDateAndTime: PropTypes.string,
     Subject_Name: PropTypes.string,
-    ExamId: PropTypes?.number
+    ExamId: PropTypes?.number,
+    SubjectId: PropTypes?.number,
 }
-function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Description, index, Instruction,ExamId }) {
+function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Description, index, Instruction,ExamId,SubjectId }) {
 
     const [checked, setChecked] = useState(true);
     const [expand, setExpand] = useState(false);
@@ -40,6 +41,7 @@ function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Descripti
         setExpand(!expand);
     };
     const theme = useTheme();
+
 
     //const [instruction, setinstruction] = Instruction;
 
@@ -75,6 +77,8 @@ function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Descripti
 
     const classes = Styles();
     const clas = useStyles();
+
+    console.log(SubjectId)
 
     return (
         <>
@@ -138,7 +142,7 @@ function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Descripti
                                 <>
                                     <RouterLink to={
                                         `/${location.pathname.split('/')[1]
-                                        }/Student/onlineExamDetails`
+                                        }/Student/onlineExamDetails/` + ExamId + "/"+ SubjectId
                                     }>
                                         <Box display="flex" flexDirection="row" justifyContent="right" sx={{ marginRight: "18px" }}
                                         >
