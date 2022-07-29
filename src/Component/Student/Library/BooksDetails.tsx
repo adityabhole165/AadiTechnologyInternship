@@ -18,12 +18,11 @@ function BooksDetails() {
   );
 
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asLanguage = localStorage.getItem('Language');
-  const asStandardID = localStorage.getItem('StandardId');
-  const asParentStaffID = localStorage.getItem('ParentStaffID');
-  const asStartRowIndex = localStorage.getItem('StartRowIndex');
-  const asSortRowIndexExpression = localStorage.getItem('SortRowIndexExpression');
-
+  const asLanguage = sessionStorage.getItem('Language');
+  const asStandardID = sessionStorage.getItem('StandardId');
+  const asParentStaffID = sessionStorage.getItem('ParentStaffID');
+  const asStartRowIndex = sessionStorage.getItem('StartRowIndex');
+  const asSortRowIndexExpression = sessionStorage.getItem('SortRowIndexExpression');
 
   const BooksDetails_body: IBooksDetails = {
     aiSchoolId: asSchoolId,
@@ -31,14 +30,14 @@ function BooksDetails() {
     asAccessionNumber: null,
     asAuthorName: null,
     asPublisher: null,
-    asLanguage: asLanguage,
+    asLanguage: "0",
     aiStandardId: asStandardID,
     aiMediaType: 2,
     aiBookId: 0,
-    aiParentStaffId: asParentStaffID,
+    aiParentStaffId: "0",
     aiEndIndex: 20,
-    aiStartRowIndex: asStartRowIndex,
-    asSortExpression: asSortRowIndexExpression
+    aiStartRowIndex: "0",
+    asSortExpression: ""
   };
 
   useEffect(() => {

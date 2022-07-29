@@ -28,7 +28,7 @@ function Card5({ Content, FileName, Name }) {
   const navigate = useNavigate();
 
   const redirect = () => {
-    navigate('/extended-sidebar/student/Schoolnotice');
+    navigate('/extended-sidebar/Common/SchoolNotice');
   };
 
   const download = (e) => {
