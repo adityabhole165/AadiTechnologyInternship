@@ -114,10 +114,6 @@ const studentRoutes = [
     element: <Library/>
   },
   {
-    path: 'Progressreport',
-    element: <Progressreport />
-  },
-  {
     path: 'examschedule',
     element: <ExamSchedule />
   },

@@ -68,7 +68,7 @@ function Basenav() {
                </NavLink>
              </IconButton> : (RoleId == "2" )?
              <IconButton>
-               <NavLink  to={`/${location.pathname.split('/')[1]}/student/TAttendance`} className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
+               <NavLink  to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`} className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
                <EventNoteIcon/>
                </NavLink>
              </IconButton> :(RoleId == "6" )?
@@ -89,12 +89,12 @@ function Basenav() {
                 </NavLink>
               </IconButton>:   (RoleId == "2")?
               <IconButton>
-                <NavLink to={`/${location.pathname.split('/')[1]}/Student/TeacherTimeTable`} className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
+                <NavLink to={`/${location.pathname.split('/')[1]}/Teacher/TeacherTimeTable`} className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
                 < AccessTimeIcon/>
                 </NavLink>
               </IconButton>:   (RoleId == "6")?
               <IconButton>
-                <NavLink  to={`/${location.pathname.split('/')[1]}/Student/Schoolnotice`} className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
+                <NavLink  to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`} className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
                 <AssignmentIcon />
                 </NavLink>
               </IconButton>: null
@@ -114,7 +114,7 @@ function Basenav() {
             { 
               (RoleId == "3")?
               <IconButton>
-                <NavLink to={`/${location.pathname.split('/')[1]}/Student/Schoolnotice`} className={classes.root}
+                <NavLink to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`} className={classes.root}
                   activeStyle={
                     { color: '#9e9e9e' }
                   }>
@@ -149,7 +149,7 @@ function Basenav() {
               </NavLink>
             </IconButton>:(RoleId == "2")?
             <IconButton>
-              <NavLink to={`/${location.pathname.split('/')[1]}/Student/Schoolnotice`} className={classes.root}
+              <NavLink to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`} className={classes.root}
                 activeStyle={
                   { color: '#9e9e9e' }
                 }>

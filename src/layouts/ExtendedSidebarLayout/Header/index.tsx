@@ -229,7 +229,7 @@ function Header() {
                 handleClose();
               }}
               button
-              to={"/extended-sidebar/Student/changePassword"}
+              to={"/extended-sidebar/common/changePassword"}
               component={NavLink}
             >
               <LockOpenTwoToneIcon fontSize="small" sx={{color:"#053082"}}/>

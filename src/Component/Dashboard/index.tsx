@@ -105,7 +105,7 @@ function LandingPage() {
                 <Grid container columnSpacing={3} sx={{ marginTop: "-15px", textAlign: "center" }}>
                   {ModulesPermission.some(item => item.ModuleName === "EnableSchoolNotices" && item.IsEnabled === true) ?
                     <Grid item xs={4}>
-                      <Link to={`/${location.pathname.split('/')[1]}/Common/Schoolnotice`}>
+                      <Link to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`}>
                         <IconButton>
                           <AssignmentIcon fontSize="large" color="primary" />
                         </IconButton>
@@ -381,7 +381,7 @@ function LandingPage() {
                 <Grid container columnSpacing={3} sx={{ marginTop: "-15px", textAlign: "center" }}>
                   {GetScreensAccessPermissions.some(item => item.ScreenName === "SchoolNotices" && item.IsEnabled === true) ?
                     <Grid item xs={4}>
-                      <Link to={`/${location.pathname.split('/')[1]}/Commom/Schoolnotice`}>
+                      <Link to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`}>
                         <IconButton>
                           <AssignmentIcon fontSize="large" color="primary" />
                         </IconButton>
@@ -646,7 +646,7 @@ function LandingPage() {
                 <Grid container columnSpacing={3} sx={{ marginTop: "-15px", textAlign: "center" }}>
                   {GetScreensAccessPermissions.some(item => item.ScreenName === "SchoolNotices" && item.IsEnabled === true) ?
                     <Grid item xs={4}>
-                      <Link to={`/${location.pathname.split('/')[1]}/Common/Schoolnotice`}>
+                      <Link to={`/${location.pathname.split('/')[1]}/Common/schoolnotice`}>
                         <IconButton>
                           <AssignmentIcon fontSize="large" color="primary" />
                         </IconButton>

@@ -54,7 +54,7 @@ function List11({ VideoId, Title, VideoDetailsId, UrlSourceId, VideoUrl }) {
                 <RouterLink to={
                     `/${location.pathname.split('/')[1]
 
-                    }/student/videoview/` +  returnURL(VideoUrl)
+                    }/Common/videoview/` +  returnURL(VideoUrl)
 
                 }
                     color="primary"
