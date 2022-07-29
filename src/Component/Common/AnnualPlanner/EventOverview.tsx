@@ -13,6 +13,10 @@ import moment from 'moment';
 import List1 from 'src/UI_Library/mainCard/List1';
 
 function EventOverview() {
+
+  const [CalanderDate,setCalanderDate] = useState("");
+  const [calanderSelected,setcalanderSelected] = useState(false);
+
   const dispatch = useDispatch();
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
@@ -95,6 +99,16 @@ function EventOverview() {
     };
   });
 
+  const CalenderDateHandler = (e) => {
+    const date = new Date(e);
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    const NewDateFormat = `${Day}-${Month}-${Year}`;
+    setCalanderDate(NewDateFormat);
+    setcalanderSelected(true);
+  }
+
   return (
     <>
       <PageHeader heading={'Events Overview'} subheading={''} />
@@ -102,7 +116,7 @@ function EventOverview() {
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
-        Close={undefined}
+        Close={CalenderDateHandler}
       />
       <>
         {StartDate.getTime() <= date1.getTime() &&

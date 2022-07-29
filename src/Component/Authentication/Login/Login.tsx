@@ -11,7 +11,7 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LoginApi from 'src/Api/Authentication/Login';
-import { IAuthenticateUser, IAuthenticateUserResult, IGetTeacherDetails } from 'src/Interface/Authentication/Login'
+import { IAuthenticateUser, IAuthenticateUserResult } from 'src/Interface/Authentication/Login'
 import { useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
@@ -159,6 +159,8 @@ function SelectSchool() {
                 sessionStorage.setItem('SortRowIndexExpression',studentDetails.asSortExpression);
                 sessionStorage.setItem('BookTittleName',studentDetails.asBookTitle);
                 sessionStorage.setItem('UserName',studentDetails.asUserName);
+                sessionStorage.setItem('ExamID',studentDetails.asExamId);
+
         }
        
 

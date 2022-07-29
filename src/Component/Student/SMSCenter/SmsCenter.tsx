@@ -6,6 +6,7 @@ import { ISmsList, IMobileNumber } from 'src/Interface/Student/SMSCenter';
 import PageHeader from 'src/UI_Library/heading/PageHeader';
 import Icon1 from 'src/UI_Library/icon/icon1';
 import List1 from 'src/UI_Library/mainCard/List1';
+import { Container } from '@mui/material';
 
 function SmsCenter() {
   const dispatch = useDispatch();
@@ -54,9 +55,11 @@ function SmsCenter() {
   return (
     <>
       <PageHeader heading={'Recieved SMS'} subheading={''} />
+      <Container>
 
       <Icon1 Title={Mobilenumber} Subtitle={MobileNumber} Note={Note} />
-
+      </Container>
+      
       {<List1 items={Data} />}
     </>
   );

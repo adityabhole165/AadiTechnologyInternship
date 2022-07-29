@@ -62,7 +62,7 @@ function Holidays() {
           id: index,
           header: item.Name,
           text1: item.StartDate,
-          text2: '',
+          text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
           isSelected: 1
         }
@@ -74,6 +74,8 @@ function Holidays() {
           isSelected: 0
         };
   });
+
+  
   return (
     <>
       <PageHeader heading={'Holidays'} subheading={''} />

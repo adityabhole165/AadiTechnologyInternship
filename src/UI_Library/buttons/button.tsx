@@ -13,6 +13,7 @@ import Calendar from 'react-calendar';
 import { useState } from 'react';
 import 'src/assets/style/student-cal.css';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
+import 'src/assets/style/Homework_Calci.css'
 
 Buttons.propTypes = {
   Date: PropTypes.any,
@@ -44,6 +45,8 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
   const closeCalander = () => {
     setdateClickDependent('none');
   }
+
+  
 
   return (
     <>

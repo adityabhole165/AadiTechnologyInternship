@@ -33,6 +33,8 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
       };
     }
   );
+
+  
   return (
     <div>
       <Container>
