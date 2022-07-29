@@ -30,7 +30,7 @@ const onlineExam = () => {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
-  const asExamID = sessionStorage.getItem('ExamID');
+
 
   const OnlineExamList_body: IOnlineTest = {
     aiSchoolId: asSchoolId,
@@ -41,7 +41,7 @@ const onlineExam = () => {
   const SubjectList_body: IOnlineTestSubject = {
     aiSchoolId: asSchoolId,
     aiAcademicYrId: asAcademicYearId,
-    asExamId: parseInt(`${asExamID}`),
+    asExamId: parseInt(`${examid}`),
     aiStudentId: asStudentId
   };
 
@@ -64,6 +64,7 @@ const onlineExam = () => {
       dispatch(GetOnlineExamSubjectList(SubjectList_body));
     }
   }, [examid]);
+
 
   return (
     <>
@@ -99,6 +100,7 @@ const onlineExam = () => {
               EndTime={subjectList.EndTime}
               SubjectName={subjectList.SubjectName}
               ExamId={subjectList.Exam_Id}
+              SubjectId={subjectList.SubjectId}
               index={i}
             />
           </>
