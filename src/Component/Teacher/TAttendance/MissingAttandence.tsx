@@ -14,7 +14,7 @@ import { Grid } from '@mui/material';
 
 function MissingAttandence() {
 
-	// USE PARAMS FOR PREVIOUS PAGES DATE
+	// USE PARAMS FOR PREVIOUS PAGES DATE 
 	const { assignedDate } = useParams();
 
 	// VARIABLES 
