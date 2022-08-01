@@ -72,13 +72,12 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
-  var AttachmentData: any = Attachment1.replace(
-    /^data:image\/[a-z]+;base64,/,
-    ''
-  );
+ 
+
+  let DataAttachment = Attachment1.slice(Attachment1.indexOf(',') + 1);
+
   const [fileExtension, setfileExtension] = React.useState<any>('');
 
-  console.log('data show : ' + AttachmentData);
   const handleClick = () => {
     setOpen((prev) => !prev);
   };
@@ -100,9 +99,8 @@ function Form13() {
 
       reader.onload = (event) => {
         resolve(event.target.result);
-        // setbase64(event.target.result)
         SetAttachment(event.target.result);
-        console.log(event.target.result);
+        console.log("Actual String",event.target.result)
       };
 
       reader.onerror = (err) => {
@@ -116,32 +114,8 @@ function Form13() {
       const fileExtension = file?.name?.split('.').at(-1);
       setfileExtension(fileExtension);
       const allowedFileTypes = [
-        'BMP',
-        'DOC',
-        'DOCX',
-        'JPG',
-        'JPEG',
-        'PDF',
-        'PNG',
-        'PPS',
-        'PPSX',
-        'PPT',
-        'PPTX',
-        'XLS',
-        'XLSX',
-        'bmp',
-        'doc',
-        'docx',
-        'jpg',
-        'jpeg',
-        'pdf',
-        'png',
-        'pps',
-        'ppsx',
-        'ppt',
-        'pptx',
-        'xls',
-        'xlsx'
+        'BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc','docx','jpg',
+        'jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'
       ];
 
       if (fileExtension != undefined || null) {
@@ -166,11 +140,11 @@ function Form13() {
       const IdList = To.map((data) => data.Id);
       setname(NameList);
       setId(IdList);
-      console.log('Id' + Id + 'TeacherName' + Name);
     }
   }, [To]);
 
   const sendMessage = () => {
+    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -192,10 +166,10 @@ function Form13() {
       asSelectedStDivId: DivisionId,
       asSelectedUserIds: Id.toString(),
       sIsReply: 'N',
-      stream: AttachmentData,
+      stream: DataAttachment,
       asFileName: fileName
     };
-    console.log(body);
+    console.log('SendMessageBody: ',body);
 
     MessageCenterApi.GetSendMessage(body)
     // .then((response) => {

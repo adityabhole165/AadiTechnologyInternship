@@ -25,8 +25,8 @@ function SentMessage() {
     const UserId = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const totalResult = 0;
     const [PageIndex, setPageIndex] = useState(1)
+    
 
     const getList: IgetList = {
         "asUserId": UserId,

@@ -29,10 +29,10 @@ const MessageCenterSlice = createSlice({
       state.AdminStaffList=action.payload.GetUsersInGroupResult;
     },
     getYearsList (state,action){
-      state.YearsList=action.payload.GetAllMonthsResult;
+      state.YearsList=action.payload.GetAcademicYearsResult;
     },
     getAllMonthList (state,action){
-      state.AllMonthList=action.payload.GetAllAcademicYearsResult;
+      state.AllMonthList=action.payload.GetAllMonthDetailsResult;
     }
   }   
 });
