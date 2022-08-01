@@ -1,9 +1,9 @@
 import { string } from "prop-types"
 
 export default interface IOnlineTest {
-    aiSchoolId: number,
-    aiAcademicYrId: number,
-    aiStudentId: number
+    aiSchoolId: string,
+    aiAcademicYrId: string,
+    aiStudentId: string
 }
 
 export interface GetAllTestsForStudentdata {
@@ -12,10 +12,10 @@ export interface GetAllTestsForStudentdata {
 }
 
 export interface IOnlineTestSubject {
-    aiSchoolId: number,
-    aiAcademicYrId: number,
+    aiSchoolId: string,
+    aiAcademicYrId: string,
     asExamId: number,
-    aiStudentId: number
+    aiStudentId: string
 }
 
 export interface GetAllSubjectsForExamdata {

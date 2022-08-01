@@ -32,7 +32,7 @@ function Schoolnotice() {
       header: item.Name,
       text1: item.Date,
       text2: '',
-      linkPath: '/Student/Viewschoolnotice/' + item.Id,
+      linkPath: '/Common/Viewschoolnotice/' + item.Id,
       FileName: item.FileName
     };
   });

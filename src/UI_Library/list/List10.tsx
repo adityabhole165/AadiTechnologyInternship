@@ -32,7 +32,7 @@ function List10({ Title, VideoID,VideoDetailsId }) {
 
                 <RouterLink to={
                     `/${location.pathname.split('/')[1]
-                    }/student/Comments/` + VideoID 
+                    }/Common/Comments/` + VideoID 
                 }
                     color="primary"
                     style={{ textDecoration: 'none' }}>

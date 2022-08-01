@@ -27,17 +27,22 @@ const onlineExam = () => {
     (state: RootState) => state.OnlineExam.SubjectList
   );
 
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+
+
   const OnlineExamList_body: IOnlineTest = {
-    aiSchoolId: 120,
-    aiAcademicYrId: 8,
-    aiStudentId: 11585
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    aiStudentId: asStudentId
   };
 
   const SubjectList_body: IOnlineTestSubject = {
-    aiSchoolId: 120,
-    aiAcademicYrId: 8,
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
     asExamId: parseInt(`${examid}`),
-    aiStudentId: 11585
+    aiStudentId: asStudentId
   };
 
   const handleChange = (event) => {
@@ -59,6 +64,7 @@ const onlineExam = () => {
       dispatch(GetOnlineExamSubjectList(SubjectList_body));
     }
   }, [examid]);
+
 
   return (
     <>
@@ -94,6 +100,7 @@ const onlineExam = () => {
               EndTime={subjectList.EndTime}
               SubjectName={subjectList.SubjectName}
               ExamId={subjectList.Exam_Id}
+              SubjectId={subjectList.SubjectId}
               index={i}
             />
           </>

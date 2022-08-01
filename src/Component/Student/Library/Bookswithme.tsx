@@ -13,14 +13,19 @@ import {
 function Bookswithme() {
   const dispatch = useDispatch();
 
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+
+
   const GetBook = useSelector(
     (state: RootState) => state.library.BookswithmeList
   );
 
   const Books_body: IBookswithmeList = {
-    aiSchoolId: '120',
-    aiAcademicYrId: '8',
-    aiUserId: '515'
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    aiUserId: UserId
   };
 
   useEffect(() => {

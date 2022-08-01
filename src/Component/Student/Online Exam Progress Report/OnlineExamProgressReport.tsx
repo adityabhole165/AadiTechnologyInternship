@@ -14,6 +14,16 @@ import {
 } from 'src/Client_Api/Student/OnlineExamProgressReport';
 
 function OnlineExamReport() {
+
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+
+
+  console.log(asStandardDivisionId);
+  
+
   const dispatch = useDispatch();
   const getStudent = useSelector(
     (state: RootState) => state.ExamOnlineReport.Students
@@ -32,10 +42,10 @@ function OnlineExamReport() {
   );
 
   const ExamDetails: OnlineExamProgressReport = {
-    aiStudentId: '11687',
-    aiSchoolId: '120',
-    aiAcademicYrId: '8',
-    asStdDivId: '88'
+    aiStudentId: asStudentId,
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    asStdDivId: asStandardDivisionId
   };
 
   useEffect(() => {

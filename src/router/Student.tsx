@@ -114,10 +114,6 @@ const studentRoutes = [
     element: <Library/>
   },
   {
-    path: 'Progressreport',
-    element: <Progressreport />
-  },
-  {
     path: 'examschedule',
     element: <ExamSchedule />
   },
@@ -134,7 +130,7 @@ const studentRoutes = [
     element: <OnlineExam/>
   },
   {
-    path: 'OnlineExamDetails',
+    path: 'OnlineExamDetails/:ExamId/:SubjectId',
     element: <OnlineExamDetails/>
   },
   {

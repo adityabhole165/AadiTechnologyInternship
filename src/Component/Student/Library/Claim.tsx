@@ -32,18 +32,22 @@ function Claim() {
   const SchoolId = sessionStorage.getItem('SchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asUserId = sessionStorage.getItem('Id');
+  const asBookTittleName = sessionStorage.getItem('BookTittleName');
+  const asUserName = sessionStorage.getItem('UserName');
+  const asStartRowIndex = localStorage.getItem('StartRowIndex');
+  const asSortRowIndexExpression = localStorage.getItem('SortRowIndexExpression');
 
   const classes = Styles();
 
   const Claim_body: IClaimList = {
-    aiSchoolId: 120,
-    aiAcademicYearId: 8,
-    aiUserId: 264,
-    asBookTitle: '',
-    asUserName: '',
-    aiStartRowIndex: '0',
+    aiSchoolId: SchoolId,
+    aiAcademicYearId: AcademicYearId,
+    aiUserId: asUserId,
+    asBookTitle: asBookTittleName,
+    asUserName: asUserName,
+    aiStartRowIndex: asStartRowIndex,
     aiEndIndex: 20,
-    asSortExpression: 'Order by Book_Title asc',
+    asSortExpression: asSortRowIndexExpression,
     aiAllUser: value
   };
   useEffect(() => {

@@ -113,7 +113,7 @@ function Card1({
               <Grid xs={4}>
                 <Typography
                   className={classes.Listfont2}
-                  sx={{ float: 'right',ml:'-10px' }}
+                  sx={{ float: 'right',ml:'-20px' }}
                 >
                   {text2}
                 </Typography>

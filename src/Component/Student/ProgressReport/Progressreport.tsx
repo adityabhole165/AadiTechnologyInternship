@@ -67,9 +67,12 @@ function Progressreport() {
 
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
-      asStudentId: '11429',
-      asAcademicYearId: '8',
-      asSchoolId: '120'
+      // asStudentId: asStudentId,
+      // asAcademicYearId: asAcademicYearId,
+      // asSchoolId: asSchoolId
+            "asStudentId": "11429",
+            "asAcademicYearId": "8",
+            "asSchoolId": "120"
     };
 
     http
@@ -85,20 +88,28 @@ function Progressreport() {
 
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
     {
-      asSchoolId: '120',
-      asStudentId: '11429',
-      asAcademicYearId: '8'
+      // asSchoolId: asSchoolId,
+      // asStudentId: asStudentId,
+      // asAcademicYearId: asAcademicYearId
+      "asSchoolId": "120",
+      "asStudentId": "11429",
+      "asAcademicYearId": "8"
     };
 
   const GetExamResultList_body: IExamResult = {
-    asSchoolId: '120',
-    asStudentId: '11429'
+    // asSchoolId: asSchoolId,
+    // asStudentId: asStudentId
+    "asSchoolId": "120",
+    "asStudentId": "11429"
   };
 
   const GetAcademicYears_body: any = {
-    aiSchoolId: '120',
-    asAcademicYearId: '8',
-    aiStudentId: '11554'
+    // aiSchoolId: asSchoolId,
+    // asAcademicYearId: asAcademicYearId,
+    // aiStudentId: asStudentId
+    "aiSchoolId": "120",
+    "asAcademicYearId": "8",
+    "aiStudentId": "11554"
   };
 
   useEffect(() => {

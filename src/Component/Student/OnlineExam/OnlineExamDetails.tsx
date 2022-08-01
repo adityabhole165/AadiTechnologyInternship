@@ -14,9 +14,11 @@ import {
 import PageHeader from 'src/UI_Library/heading/PageHeader';
 import ExamDetails from 'src/UI_Library/list/examDetailsCard';
 import BackButton from 'src/UI_Library/button/BackButton';
+import { useParams } from 'react-router-dom';
 
 const onlineExamDetails = () => {
   const dispatch = useDispatch();
+  const { ExamId, SubjectId} = useParams();
   const QuestionDetailsList = useSelector(
     (state: RootState) => state.OnlineExam.QuestionDetailsList
   );
@@ -27,14 +29,20 @@ const onlineExamDetails = () => {
     (state: RootState) => state.OnlineExam.ExamSchedulesList
   );
 
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asStandardId = sessionStorage.getItem('StandardId');
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+
   const QuestionsForOnlineExam: IOnlineExamQuestions = {
-    aiSchoolId: '120',
-    aiAcademicYrId: '8',
-    asStandardId: '1061',
-    asStdDivId: '0',
-    asSubjectId: '2942',
-    asSchoolwiseTestId: '3',
-    asStudentId: '11442'
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    asStandardId: asStandardId,
+    asStdDivId: asStandardDivisionId,
+    asSubjectId: SubjectId,
+    asSchoolwiseTestId: ExamId,
+    asStudentId: asStudentId
   };
 
   useEffect(() => {
@@ -47,7 +55,6 @@ const onlineExamDetails = () => {
     <>
       <PageHeader heading={'Online Exam Details'} subheading={''} />
       <BackButton />
-      <br />
       {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {
         return (
           <>

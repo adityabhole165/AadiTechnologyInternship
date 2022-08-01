@@ -1,17 +1,17 @@
 //books details
 export interface IBooksDetails {
-    aiSchoolId:number,
+        aiSchoolId:string,
          asBookName:null,
          asAccessionNumber:null,
          asAuthorName:null,
          asPublisher:null,
          asLanguage:string,
-         aiStandardId:number,
+         aiStandardId:string,
          aiMediaType:number,
          aiBookId:number,
-         aiParentStaffId:number,
+         aiParentStaffId:string,
          aiEndIndex:number,
-         aiStartRowIndex:number,
+         aiStartRowIndex:string,
          asSortExpression:string
 }
 
@@ -53,9 +53,9 @@ export interface GetBookswithmeResult {
 
 //Claim Books
 export interface IClaimList {
-    aiSchoolId:number,
-    aiAcademicYearId:number,
-    aiUserId:number,
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiUserId:string,
     asBookTitle:string,
     asUserName:string,
     aiStartRowIndex:string,
