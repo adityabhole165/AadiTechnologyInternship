@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import GetExamResultApi from "../../Api/Student/ProgressReport";
+import GetExamResultApi from "../../api/Student/ProgressReport";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IExamResult from 'src/Interface/Student/ProgressReport';

@@ -1,5 +1,5 @@
 import { createSlice} from '@reduxjs/toolkit'
-import LibraryApi from 'src/Api/Student/Library';
+import LibraryApi from 'src/api/Student/Library';
 import { AppThunk } from 'src/store';
 import { IBooksDetails,IBookswithmeList,IClaimList } from 'src/Interface/Student/Library';
 

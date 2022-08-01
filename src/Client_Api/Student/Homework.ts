@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import HomeworkApi from "../../Api/Student/Homework";
+import HomeworkApi from "../../api/Student/Homework";
 import { AppThunk } from 'src/store';
 import { IHomework,IHomeworkSubject} from "src/Interface/Student/Homework";
 

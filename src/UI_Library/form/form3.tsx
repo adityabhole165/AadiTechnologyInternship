@@ -16,7 +16,6 @@ import {
   IChangePassword,
   IChangePasswordResult
 } from 'src/Interface/Common/ChangePassword';
-import ChangePasswordapi from 'src/Api/Common/ChangePassword';
 import http from 'src/Client_Api/SchoolService/schoolServices';
 import { toast } from 'react-toastify'
 import * as Yup from 'yup';

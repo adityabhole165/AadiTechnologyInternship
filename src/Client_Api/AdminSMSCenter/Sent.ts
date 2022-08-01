@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import GetSentSMSApi from "src/Api/AdminSMSCenter/Sent";
+import GetSentSMSApi from "src/api/AdminSMSCenter/Sent";
 import ISentMsg from "src/Interface/AdminSMSCenter/Sent";
 import { AppThunk } from "src/store";
 

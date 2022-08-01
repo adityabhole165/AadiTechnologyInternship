@@ -6,7 +6,7 @@ import ErrorMessages from "src/UI_Library/ErrorMessages/ErrorMessages";
 import List3 from "src/UI_Library/list/List3";
 import { IgetList } from "src/Interface/MessageCenter/GetList";
 import { Button, Container, Box } from "@mui/material";
-import MoveToTrashApi from 'src/Api/MessageCenter/MoveToTrash';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import { getInboxList } from "src/Client_Api/Student/InboxMessage";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';

@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import SmsCenterApi from "src/Api/Student/SMSCenter";
+import SmsCenterApi from "src/api/Student/SMSCenter";
 import { ISmsList, IMobileNumber, IViewSms } from "src/Interface/Student/SMSCenter";
 import { AppThunk } from "src/store";
 

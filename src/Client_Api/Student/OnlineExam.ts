@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import GetOnlineExamListApi from "../../Api/Student/OnlineExam";
+import GetOnlineExamListApi from "../../api/Student/OnlineExam";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IOnlineTest, { AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/Interface/Student/OnlineExam';

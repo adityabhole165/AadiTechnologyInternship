@@ -20,7 +20,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { ISendMessage } from '../../Interface/MessageCenter/MessageCenter';
-import MessageCenterApi from 'src/Api/MessageCenter/MessageCenter';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { makeStyles } from '@mui/styles';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';

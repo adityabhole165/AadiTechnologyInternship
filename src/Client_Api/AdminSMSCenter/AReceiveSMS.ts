@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import GetReceiveSMSListApi from "src/Api/AdminSMSCenter/AReceiveSMS";
+import GetReceiveSMSListApi from "src/api/AdminSMSCenter/AReceiveSMS";
 import AReceiveSMSListBody from "src/Interface/AdminSMSCenter/AReceiveSMS";
 
 const AReceiveSMSSlice = createSlice({

@@ -24,7 +24,6 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import InboxIcon from '@mui/icons-material/Inbox';
 import DeleteIcon from '@mui/icons-material/Delete';
-import MoveToTrashApi from 'src/Api/MessageCenter/MoveToTrash';
 import { getSentList } from 'src/Client_Api/Student/Sentmessage';
 import { getInboxList } from 'src/Client_Api/Student/InboxMessage';
 import { getTrashList } from 'src/Client_Api/MessageCenter/MessaageCenter';
