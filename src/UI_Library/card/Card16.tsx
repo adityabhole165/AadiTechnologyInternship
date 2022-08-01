@@ -11,7 +11,7 @@ import { ClickAwayListener } from '@mui/material';
 import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import { GetFeeDetailsResult } from 'src/Interface/Student/Fees';
-import { Link, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 
 Card16.propTypes = {
@@ -28,9 +28,27 @@ export interface Iprops {
 }
 
 function Card16({ Note, Fee, Heading }) {
+
+  let arr = [];
+
+  // const ArrayOFPayGroup = Fee.map((item,i) => {
+  //     // return item.PaymentGroup
+
+  //     if((i < item.length-1) &&  item[i].PaymentGroup == item[i + 1].PaymentGroup){
+  //       var sameAmount = item[i].AmountPayable + item[i + 1].AmountPayable
+  //       arr.push(sameAmount);
+  //     }
+  //     else{
+  //       arr.push(item.AmountPayable);
+  //     }
+  //     // return(arr);
+  // })
+
+
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
+
 
   const classes = Styles();
   const theme = useTheme();
@@ -42,7 +60,7 @@ function Card16({ Note, Fee, Heading }) {
   const [Data1, setData1] = useState<any>([]);
   const [countFees, setCount] = useState<any>([]);
 
-  console.log('count', countFees);
+  // console.log(Data1);
 
   const mystyle = {
     pointerEvents: pointerEvents as 'none',
@@ -168,6 +186,7 @@ function Card16({ Note, Fee, Heading }) {
         {Fee === undefined ? null : (
           <>
             {Fee.map((item: GetFeeDetailsResult, i) => {
+
               return (
                 <List
                   key={i}
@@ -175,6 +194,7 @@ function Card16({ Note, Fee, Heading }) {
                   sx={{
                     background: date.find((value) =>
                       value.includes(item.DueDateFormat)
+                      
                     )
                       ? 'coral'
                       : `${theme.colors.gradients.pink1}`,

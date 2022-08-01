@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import {
   GetQuestionDetailsList,
   GetAnswerDetailsList,
@@ -15,6 +15,7 @@ import PageHeader from 'src/UI_Library/heading/PageHeader';
 import ExamDetails from 'src/UI_Library/list/examDetailsCard';
 import BackButton from 'src/UI_Library/button/BackButton';
 import { useParams } from 'react-router-dom';
+import { Container } from '@mui/material';
 
 const onlineExamDetails = () => {
   const dispatch = useDispatch();
@@ -53,8 +54,11 @@ const onlineExamDetails = () => {
 
   return (
     <>
+    <Container>
       <PageHeader heading={'Online Exam Details'} subheading={''} />
-      <BackButton />
+      <span style={{position:'relative',top:'-20px',left:'5px'}}>
+        <BackButton />
+        </span>
       {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {
         return (
           <>
@@ -69,6 +73,7 @@ const onlineExamDetails = () => {
           </>
         );
       })}
+    </Container>
     </>
   );
 };
