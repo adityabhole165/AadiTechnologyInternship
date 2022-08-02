@@ -26,11 +26,10 @@ function Photos() {
   }, []);
   return (
     <div>
-      <Container>
-        <BackButton />
-      </Container>
       <PageHeader heading={imgId} subheading={''} />
+
       <Card22 pic={img} />
+
     </div>
   );
 }

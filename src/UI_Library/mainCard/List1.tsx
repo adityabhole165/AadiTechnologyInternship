@@ -5,7 +5,8 @@ import Card1 from 'src/UI_Library/mainCard/Card1';
 import { Link, useLocation } from 'react-router-dom';
 
 function List1({ items }) {
-
+  
+  console.log(items)
   const maxLength = 1;
   let text1Length = Math.max(...items.map((o) => o.text1.length));
   let headerLength = Math.max(...items.map((o) => o.header.length));

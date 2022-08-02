@@ -13,6 +13,8 @@ import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import BackButton from 'src/UI_Library/button/BackButton';
+
 
 Card5.propTypes = {
   Content: PropTypes.string,
@@ -60,16 +62,7 @@ function Card5({ Content, FileName, Name }) {
               mb: 2
             }}
           >
-            <Fab
-              className={classes.backArrow}
-              onClick={redirect}
-              sx={{
-                background: `${theme.colors.gradients.pink1}`,
-                position: 'absolute'
-              }}
-            >
-              <ReplyIcon />
-            </Fab>
+            <BackButton />
           </Box>
           <Box p={2}>
             <span>

@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import { getFees } from 'src/Client_Api/Student/Fees';
 import Card16 from 'src/UI_Library/card/Card16';
 import Card15 from 'src/UI_Library/card/Card15';
+import Card27 from 'src/UI_Library/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -85,8 +86,11 @@ function Fees() {
         <br />
       </Container>
 
-      <Card16 Fee={FeesList} Heading={Feedata} Note={Note} />
+      {/* <Card16 Fee={FeesList} Heading={Feedata} Note={Note} /> */}
+      <Card27  />
+
       {FeesList2 === undefined ? null : <Card15 FeeAmount={FeeAmount} />}
+
     </>
   );
 }

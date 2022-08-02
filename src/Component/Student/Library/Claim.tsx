@@ -66,9 +66,13 @@ function Claim() {
   return (
     <>
       <PageHeader heading={'Claimed Book Details'} subheading={''} />
+      <span style={{position:'relative',left:'25px',top:'-40px'}}>
+      <BackButton />
+
+      </span>
+
       <Container>
-        <BackButton />
-        <br />
+      
         <Box sx={{ display: 'flex', flexDirection: 'row' }}>
           <Checkbox
             value={1}
