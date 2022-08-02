@@ -176,7 +176,7 @@ function MessaageCenter() {
             <Grid
               item
               xs={3}
-              sx={{ position: 'fixed',  bottom: '90px',zIndex:'2',width:'21vw',marginLeft:'10px' }}
+              sx={{ position: 'fixed',  bottom: '85px',zIndex:'2',width:'25vw',marginLeft:'10px',right:'20px' }}
             >
               <Link
                 to="/extended-sidebar/MessageCenter/Compose"
