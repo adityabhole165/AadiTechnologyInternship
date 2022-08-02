@@ -1,5 +1,5 @@
-import { IgetModulesPermission, ISchoolId } from "src/interfaces/School_Setting/schoolSettings";
-import { IGetScreensAccessPermissions,GetScreensAccessPermissions } from "src/interfaces/School_Setting/schoolSettings";
+import { IgetModulesPermission, ISchoolId } from "src/interfaces/SchoolSetting/schoolSettings";
+import { IGetScreensAccessPermissions,GetScreensAccessPermissions } from "src/interfaces/SchoolSetting/schoolSettings";
 import http from "../../requests/SchoolService/schoolServices";
 
 

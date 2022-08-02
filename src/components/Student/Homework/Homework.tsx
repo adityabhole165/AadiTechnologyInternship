@@ -16,7 +16,7 @@ import Accordion2 from 'src/libraries/accordion/accordion2';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { styled } from '@mui/material';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 
 
 function Homework() {

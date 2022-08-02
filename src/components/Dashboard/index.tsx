@@ -27,7 +27,7 @@ import { styled } from "@mui/material/styles";
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { getModulesPermission, getModulesPermissionsResultt, getSchoolSettings } from 'src/requests/SchoolSetting/schoolSetting';
-import { ISchoolId, IgetModulesPermission, IGetScreensAccessPermissions } from 'src/interfaces/School_Setting/schoolSettings';
+import { ISchoolId, IgetModulesPermission, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
 
 const Text = styled(Box)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",

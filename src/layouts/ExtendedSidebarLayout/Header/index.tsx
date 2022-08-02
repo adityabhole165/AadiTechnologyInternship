@@ -24,7 +24,7 @@ import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HeaderButtons from './Buttons';
 import HeaderUserbox from './Userbox';
-import ThemeSettings from 'src/layouts/components/ThemeSettings';
+import ThemeSettings from 'src/layouts/Components/ThemeSettings';
 import { Styles } from 'src/assets/style/student-style'
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
