@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import AttendanceApi from "src/Api/Student/Attendance";
+import AttendanceApi from "src/api/Student/Attendance";
 import { IAttendance } from "src/Interface/Student/Attendance";
 import { AppThunk } from "src/store";
 

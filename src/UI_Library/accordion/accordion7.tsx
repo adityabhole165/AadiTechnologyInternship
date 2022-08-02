@@ -61,7 +61,6 @@ function Accordion7({ Data, additional, AddLectures }) {
               borderRadius: 1,
               borderBottom: 2,
               mb: 1,
-              backgroundColor: '#5c5f628a'
             }}
           >
             {!additional == null ? (

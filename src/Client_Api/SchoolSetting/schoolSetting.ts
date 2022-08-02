@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import SchoolSettingApi from "src/Api/School_Setting";
+import SchoolSettingApi from "src/api/School_Setting";
 import { ISchoolId,IgetModulesPermission, IGetScreensAccessPermissions } from "src/Interface/School_Setting/schoolSettings";
 import { AppThunk } from "src/store";
 

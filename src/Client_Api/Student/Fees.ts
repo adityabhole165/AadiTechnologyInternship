@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import FeesApi from "../../Api/Student/Fees";
+import FeesApi from "../../api/Student/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IFees, { IPayOnline } from 'src/Interface/Student/Fees';

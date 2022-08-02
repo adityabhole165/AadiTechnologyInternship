@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from 'src/store'
 import ISubjectTeacher from 'src/Interface/Student/SubjectTeacher'
-import SubjectTeacherApi from '../../Api/Student/SubjectTeacher'
+import SubjectTeacherApi from '../../api/Student/SubjectTeacher'
 
 const SubjectTeacherSlice = createSlice({
   name: 'SubjectTeacher',

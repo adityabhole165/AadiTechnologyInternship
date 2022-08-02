@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import AnnualPlannerApi from "../../Api/Common/AnnualPlanner";
+import AnnualPlannerApi from "../../api/Common/AnnualPlanner";
 import { AppThunk } from 'src/store';
 import {IEventList} from 'src/Interface/Common/AnnualPlanner';
 

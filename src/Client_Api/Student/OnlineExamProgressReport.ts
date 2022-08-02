@@ -1,7 +1,7 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import OnlineExamProgressReport from 'src/Interface/Student/OnlineExamProgressReport';
-import OnlineExamProgressReportapi from 'src/Api/Student/OnlineExamProgressReport';
+import OnlineExamProgressReportapi from 'src/api/Student/OnlineExamProgressReport';
 
 
 const OnlineExamProgressReportSlice = createSlice({

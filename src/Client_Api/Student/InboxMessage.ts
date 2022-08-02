@@ -1,5 +1,5 @@
 import { createSlice} from '@reduxjs/toolkit'
-import InboxMessageApi from "../../Api/MessageCenter/InboxMessage";
+import InboxMessageApi from "../../api/MessageCenter/InboxMessage";
 import { AppThunk } from 'src/store';
 import {IInboxList} from 'src/Interface/MessageCenter/InboxMessage';
 import { IgetList } from 'src/Interface/MessageCenter/GetList';

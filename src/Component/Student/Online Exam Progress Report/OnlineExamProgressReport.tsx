@@ -12,6 +12,9 @@ import {
   getOnlineExams,
   getMarkInformation
 } from 'src/Client_Api/Student/OnlineExamProgressReport';
+import BackButton from 'src/UI_Library/button/BackButton';
+import { Box, Container } from '@mui/material';
+
 
 function OnlineExamReport() {
 
@@ -58,7 +61,12 @@ function OnlineExamReport() {
 
   return (
     <>
+    <Box sx={{mt:"30px",ml:"20px"}}>
+    <BackButton/>
+    </Box>
+      
       <PageHeader heading={'Online Progress Report'} subheading={''} />
+      
       <Accordion6
         Student={getStudent}
         OnlineExams={geOnlineExams}

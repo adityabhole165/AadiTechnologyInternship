@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import DashboardApi from "../../Api/Student/dashboard";
+import DashboardApi from "../../api/Student/dashboard";
 
 import { AppThunk } from 'src/store';
 import { IUnreadMessages, IUpcomingEventsList, IBirthdays, IPhotoAlbum ,IFeedbackList,IMsgfrom} from 'src/Interface/Student/dashboard';

@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import staffBirthdayApi from "../../Api/Common/StaffBirthday";
+import staffBirthdayApi from "../../api/Common/StaffBirthday";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IstaffBirthday from 'src/Interface/Common/StaffBirthday';

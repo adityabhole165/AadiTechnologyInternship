@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import GetMessageTemplateAdminSMSListApi from "src/Api/AdminSMSCenter/AComposeSMS";
+import GetMessageTemplateAdminSMSListApi from "src/api/AdminSMSCenter/AComposeSMS";
 import {MessageTemplateSMSCenter} from "src/Interface/AdminSMSCenter/ACompose_SendSMS"; 
 import ACompose_SendSMS from "src/Interface/AdminSMSCenter/ACompose_SendSMS";
 

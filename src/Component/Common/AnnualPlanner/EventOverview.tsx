@@ -91,7 +91,7 @@ function EventOverview() {
       header: item.Description,
       text1: 'Standard : ' + item.StandardList,
       text2: item.StartDate,
-      linkPath: '/Student/viewevent/' + item.Id
+      linkPath: '/Common/viewevent/' + item.Id
     };
   });
 
@@ -105,15 +105,26 @@ function EventOverview() {
         Close={undefined}
       />
       <>
-        {StartDate.getTime() <= date1.getTime() &&
-        EndDate.getTime() >= date1.getTime() ? (
+        { StartDate.getTime() <= date1.getTime() &&
+          EndDate.getTime() >= date1.getTime() ? (
           <>
             <List1 items={Data}></List1>
           </>
         ) : (
           <ErrorMessages Error={'Outside Academic Year'} />
-        )}
+
+        ) }
+   {/* {Data.length === 0 ? (
+        <ErrorMessages Error={'No records found'} />
+      ) : (
+        <>
+          <List1 items={Data}></List1>
+        </>
+      )} */}
+
+
       </>
+      
     </>
   );
 }

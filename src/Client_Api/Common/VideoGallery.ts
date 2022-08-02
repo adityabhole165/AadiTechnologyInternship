@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import VideoGalleryApi from 'src/Api/Common/VideoGallery';
+import VideoGalleryApi from 'src/api/Common/VideoGallery';
 import { AppThunk } from 'src/store';
 import { IVideoList,Icomments } from 'src/Interface/Common/VideoGallery';
 

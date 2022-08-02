@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import GetScheduledSMSListApi from "src/Api/AdminSMSCenter/AScheduledSMS";
+import GetScheduledSMSListApi from "src/api/AdminSMSCenter/AScheduledSMS";
 import AScheduledSMSListBody from "src/Interface/AdminSMSCenter/AScheduledSMS";
 
 const AScheduledSMSSlice = createSlice({
