@@ -1,6 +1,6 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IInboxList} from "../../Interface/MessageCenter/InboxMessage"
-import { IgetList } from "src/Interface/MessageCenter/GetList";
+import http from "../../requests/SchoolService/schoolServices";
+import {IInboxList} from "../../interfaces/MessageCenter/InboxMessage"
+import { IgetList } from "src/interfaces/MessageCenter/GetList";
 
   const GetInboxList = (data: IgetList) => {
     return http.post<IgetList>('MessageCenter/GetMessages',data);

@@ -1,6 +1,6 @@
-import { IgetModulesPermission, ISchoolId } from "src/Interface/School_Setting/schoolSettings";
-import { IGetScreensAccessPermissions,GetScreensAccessPermissions } from "src/Interface/School_Setting/schoolSettings";
-import http from "../../Client_Api/SchoolService/schoolServices";
+import { IgetModulesPermission, ISchoolId } from "src/interfaces/School_Setting/schoolSettings";
+import { IGetScreensAccessPermissions,GetScreensAccessPermissions } from "src/interfaces/School_Setting/schoolSettings";
+import http from "../../requests/SchoolService/schoolServices";
 
 
 const GetSchoolSettings=(data:ISchoolId)=>{

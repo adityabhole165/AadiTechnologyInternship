@@ -7,7 +7,7 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 
 import { CssBaseline } from '@mui/material';
 import ThemeProvider from './theme/ThemeProvider';
-import AppInit from './UI_Library/AppInit';
+import AppInit from './libraries/AppInit';
 import ExtendedSidebarLayout from './layouts/ExtendedSidebarLayout';
 
 function App() {

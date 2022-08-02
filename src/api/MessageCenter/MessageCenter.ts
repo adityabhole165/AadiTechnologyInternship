@@ -1,6 +1,6 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import { IUserGroupList,ISendMessage} from "../../Interface/MessageCenter/MessageCenter";
-import { IgetList } from "src/Interface/MessageCenter/GetList";
+import http from "../../requests/SchoolService/schoolServices";
+import { IUserGroupList,ISendMessage} from "../../interfaces/MessageCenter/MessageCenter";
+import { IgetList } from "src/interfaces/MessageCenter/GetList";
 
   const GetTrashList = (data: IgetList) => {
     return http.post<IgetList>('MessageCenter/GetTrashMessages',data);

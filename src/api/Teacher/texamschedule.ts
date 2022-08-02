@@ -1,7 +1,7 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IGetAllStandards from "src/Interface/Teacher/TExamSchedule"
-import IGetExamsList from "src/Interface/Teacher/TExamSchedule"
-import IExamList from "src/Interface/Teacher/TExamSchedule"
+import http from "../../requests/SchoolService/schoolServices";
+import IGetAllStandards from "src/interfaces/Teacher/TExamSchedule"
+import IGetExamsList from "src/interfaces/Teacher/TExamSchedule"
+import IExamList from "src/interfaces/Teacher/TExamSchedule"
 
 
 const GetAllStandards  =  (data:IGetAllStandards) =>{

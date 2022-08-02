@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {ISmsList, IMobileNumber, IViewSms} from "../../Interface/Student/SMSCenter"
+import http from "../../requests/SchoolService/schoolServices";
+import {ISmsList, IMobileNumber, IViewSms} from "../../interfaces/Student/SMSCenter"
 
 //Sms center list
   const GetSmsCenterList = (data: ISmsList) => {

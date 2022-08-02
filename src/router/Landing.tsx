@@ -12,7 +12,7 @@ const Loader = (Component) => (props) =>
 );
 
 // Dashboards
-const Landing = Loader(lazy(() => import('src/Component/Dashboard/index')));
+const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
 
 const landingRoutes = [
   {

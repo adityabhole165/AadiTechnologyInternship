@@ -11,13 +11,13 @@ const Loader = (Component) => (props) =>
   </Suspense>
 );
 
-const Trash =  Loader(lazy(() => import('src/Component/MessageCenter/Trash')));
-const Composee =  Loader(lazy(() => import('src/Component/MessageCenter/Compose')));
-const Inbox =  Loader(lazy(() => import('src/Component/MessageCenter/Inbox')));
-const Msgcenter = Loader(lazy(() => import('src/Component/MessageCenter/Messagecenter')));
-const Sent = Loader(lazy(() => import('src/Component/MessageCenter/Sent')));
-const ViewMsg = Loader(lazy(() => import('src/Component/MessageCenter/ViewMessage')));
-const Search=Loader(lazy(()=>import('src/Component/MessageCenter/Search')));
+const Trash =  Loader(lazy(() => import('src/components/MessageCenter/Trash')));
+const Composee =  Loader(lazy(() => import('src/components/MessageCenter/Compose')));
+const Inbox =  Loader(lazy(() => import('src/components/MessageCenter/Inbox')));
+const Msgcenter = Loader(lazy(() => import('src/components/MessageCenter/Messagecenter')));
+const Sent = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
+const ViewMsg = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
+const Search=Loader(lazy(()=>import('src/components/MessageCenter/Search')));
 
 const messageCenterRoutes :PartialRouteObject[] = [
 

@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IMoveToTrash} from "../../Interface/MessageCenter/MoveToTrash"
+import http from "../../requests/SchoolService/schoolServices";
+import {IMoveToTrash} from "../../interfaces/MessageCenter/MoveToTrash"
 
   const MoveToTrash = (data: IMoveToTrash) => {
     return http.post<IMoveToTrash>('MessageCenter/MoveToTrash',data);
