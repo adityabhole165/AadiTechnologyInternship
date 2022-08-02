@@ -105,7 +105,8 @@ function EventOverview() {
         Close={undefined}
       />
       <>
-        { StartDate.getTime() <= date1.getTime() &&
+        { 
+        StartDate.getTime() <= date1.getTime() &&
           EndDate.getTime() >= date1.getTime() ? (
           <>
             <List1 items={Data}></List1>
@@ -114,15 +115,6 @@ function EventOverview() {
           <ErrorMessages Error={'Outside Academic Year'} />
 
         ) }
-   {/* {Data.length === 0 ? (
-        <ErrorMessages Error={'No records found'} />
-      ) : (
-        <>
-          <List1 items={Data}></List1>
-        </>
-      )} */}
-
-
       </>
       
     </>

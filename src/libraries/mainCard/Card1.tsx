@@ -12,6 +12,7 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import { useLocation } from 'react-router-dom';
 
 Card1.propTypes = {
   header: PropTypes.string,
@@ -45,6 +46,11 @@ function Card1({
     background =
       isSelected === 1 ? `${'#80daeb'}` : `${theme.colors.gradients.pink1}`;
   else background = Color;
+
+  const location = useLocation();
+  const pathname = location.pathname;
+  const pageName = pathname.replace('/extended-sidebar/Student/', '');
+  console.log(pageName);
 
   return (
     <>
@@ -90,7 +96,7 @@ function Card1({
             )}
 
             <Grid container>
-              <Grid xs={10}>
+              <Grid xs={ (pageName == "Timetable") ? 6 : 10  }>
                 <Typography
                   sx={{ fontWeight: 'bold' }}
                   className={classes.Listfont2}
@@ -99,7 +105,7 @@ function Card1({
                 </Typography>
               </Grid>
 
-              <Grid xs={2}>
+              <Grid xs={ (pageName == "Timetable") ? 6 : 2  } >
                 <Typography
                   className={classes.Listfont2}
                   sx={{ float: 'right' }}
