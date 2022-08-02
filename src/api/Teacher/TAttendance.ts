@@ -1,6 +1,6 @@
-import StandardAttendance from "src/Interface/Teacher/TAttendance";
-import AttendanceData, { IGetStudentDetails, ISaveAttendance } from "src/Interface/Teacher/TAttendanceList";
-import http from "../../Client_Api/SchoolService/schoolServices";
+import StandardAttendance from "src/interfaces/Teacher/TAttendance";
+import AttendanceData, { IGetStudentDetails, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
+import http from "../../requests/SchoolService/schoolServices";
 
 
 const GetStandardList = (data:StandardAttendance)=>{

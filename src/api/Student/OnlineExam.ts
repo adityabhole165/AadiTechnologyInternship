@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IOnlineTest, { IOnlineTestSubject,IOnlineExamQuestions } from "../../Interface/Student/OnlineExam"
+import http from "../../requests/SchoolService/schoolServices";
+import IOnlineTest, { IOnlineTestSubject,IOnlineExamQuestions } from "../../interfaces/Student/OnlineExam"
 
   const GetOnlineExamList = (data: IOnlineTest) => {
     return http.post<IOnlineTest>('Student/GetAllTestsForStudent',data);

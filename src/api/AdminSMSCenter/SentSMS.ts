@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import  ISent  from "src/Interface/AdminSMSCenter/SentSMS";
+import http from "../../requests/SchoolService/schoolServices";
+import  ISent  from "src/interfaces/AdminSMSCenter/SentSMS";
 
 const GetSentSMS = (data: ISent) => {
     return http.post<ISent>('SMS/GetAllSentSMSPermissionAndCounts',data);

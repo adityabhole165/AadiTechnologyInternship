@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import { IAttendance } from "src/Interface/Student/Attendance";
+import http from "../../requests/SchoolService/schoolServices";
+import { IAttendance } from "src/interfaces/Student/Attendance";
 
 
 const Attendance =(data:IAttendance)=>{

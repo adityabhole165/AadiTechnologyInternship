@@ -10,11 +10,11 @@ const Loader = (Component) => (props) =>
   </Suspense>
 );
 
-const TAttendance = Loader(lazy(() => import('src/Component/Teacher/TAttendance/Tattendance')))
-const TExamschedule = Loader(lazy(() => import('src/Component/Teacher/TExamschedule/TExamSchedule')))
-const TView = Loader(lazy(() => import('src/Component/Teacher/TAttendance/TView')))
-const TeacherTimetable = Loader(lazy(() => import('src/Component/Teacher/TeacherTimetable/TeacherTimetable')));
-const MissingAttandence = Loader(lazy(() => import('src/Component/Teacher/TAttendance/MissingAttandence')))
+const TAttendance = Loader(lazy(() => import('src/components/Teacher/TAttendance/Tattendance')))
+const TExamschedule = Loader(lazy(() => import('src/components/Teacher/TExamschedule/TExamSchedule')))
+const TView = Loader(lazy(() => import('src/components/Teacher/TAttendance/TView')))
+const TeacherTimetable = Loader(lazy(() => import('src/components/Teacher/TeacherTimetable/TeacherTimetable')));
+const MissingAttandence = Loader(lazy(() => import('src/components/Teacher/TAttendance/MissingAttandence')))
 
 const teacherRoutes = [
     {

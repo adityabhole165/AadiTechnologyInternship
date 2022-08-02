@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {ISchoolList} from "src/Interface/Authentication/SchoolList"
+import http from "../../requests/SchoolService/schoolServices";
+import {ISchoolList} from "src/interfaces/Authentication/SchoolList"
 
   const SchoolList = (data: ISchoolList) => {
     return http.post<ISchoolList>('School/GetAllSchools',data);

@@ -16,7 +16,7 @@ import {
 import SidebarTopSection from './SidebarTopSection';
 import SidebarMenu from './SidebarMenu';
 import SidebarFooter from './SidebarFooter';
-import Logo from 'src/UI_Library/LogoSign';
+import Logo from 'src/libraries/LogoSign';
 
 const SidebarWrapper = styled(Box)(
   ({ theme }) => `

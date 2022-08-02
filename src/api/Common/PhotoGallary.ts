@@ -1,7 +1,7 @@
 
-import { Iimg, IPics } from "src/Interface/Common/PhotoGallery";
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IYearList} from "../../Interface/Student/PhotoGallary"
+import { Iimg, IPics } from "src/interfaces/Common/PhotoGallery";
+import http from "../../requests/SchoolService/schoolServices";
+import {IYearList} from "../../interfaces/Student/PhotoGallary"
 
 //Get year list
 

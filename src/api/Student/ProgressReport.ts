@@ -1,8 +1,8 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IExamResult from "../../Interface/Student/ProgressReport"
-import IGetAcademicYearsOfStudent from "../../Interface/Student/ProgressReport"
-import IGetReasonforBlockingProgressReport from  "../../Interface/Student/ProgressReport"
+import http from "../../requests/SchoolService/schoolServices";
+import IExamResult from "../../interfaces/Student/ProgressReport"
+import IGetAcademicYearsOfStudent from "../../interfaces/Student/ProgressReport"
+import IGetReasonforBlockingProgressReport from  "../../interfaces/Student/ProgressReport"
 
 
 const GetStudentExamResultList  = (data: IExamResult) => {

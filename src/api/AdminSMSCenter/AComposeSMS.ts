@@ -1,6 +1,6 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {MessageTemplateSMSCenter} from "src/Interface/AdminSMSCenter/ACompose_SendSMS"; 
-import ACompose_SendSMS from "src/Interface/AdminSMSCenter/ACompose_SendSMS";
+import http from "../../requests/SchoolService/schoolServices";
+import {MessageTemplateSMSCenter} from "src/interfaces/AdminSMSCenter/ACompose_SendSMS"; 
+import ACompose_SendSMS from "src/interfaces/AdminSMSCenter/ACompose_SendSMS";
 
 const GetMessageTemplateAdminSMSList = (data:MessageTemplateSMSCenter)=>{
     return http.post<MessageTemplateSMSCenter>('AdminStaff/GetTemplate',data);

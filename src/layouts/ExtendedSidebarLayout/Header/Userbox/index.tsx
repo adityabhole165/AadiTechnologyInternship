@@ -23,7 +23,7 @@ import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
-import Text from 'src/UI_Library/Text';
+import Text from 'src/libraries/Text';
 import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
 
 

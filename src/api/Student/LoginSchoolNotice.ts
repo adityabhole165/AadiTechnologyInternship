@@ -1,6 +1,6 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import ISchoolnotice from "src/Interface/Student/LoginSchoolNotice";
-import IViewschoolnotice from "src/Interface/Student/LoginViewSchoolNotice"
+import http from "../../requests/SchoolService/schoolServices";
+import ISchoolnotice from "src/interfaces/Student/LoginSchoolNotice";
+import IViewschoolnotice from "src/interfaces/Student/LoginViewSchoolNotice"
 
 const GetLoginSchoolNoticeList = (data: ISchoolnotice) => {
   return http.post<ISchoolnotice>('School/GetSchoolNotices', data);
