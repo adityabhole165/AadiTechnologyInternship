@@ -29,8 +29,10 @@ function Comments() {
   return (
     <div>
       <Container>
-        <BackButton />
         <PageHeader heading={'Comments'} subheading={''} />
+        <span style={{position:'relative',top:'-20px',left:'5px'}}>
+        <BackButton />
+        </span>
         {comment.length === 0 ? (
           <ErrorMessages Error={'No records found'} />
         ) : (

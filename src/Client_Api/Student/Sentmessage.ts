@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import SentMessageApi from "src/Api/Student/SentMessage";
+import SentMessageApi from "src/api/Student/SentMessage";
 import { IgetList } from "src/Interface/MessageCenter/GetList";
 import { ISentList,IViewSent } from "src/Interface/MessageCenter/Sent_Message";
 import { AppThunk } from "src/store";

@@ -1,11 +1,11 @@
 import { createSlice} from '@reduxjs/toolkit'
-import MessageCenterApi from "../../Api/MessageCenter/MessageCenter";
+import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {ITrashList} from 'src/Interface/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../Interface/MessageCenter/MessageCenter";
 import { IgetList } from 'src/Interface/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../Interface/MessageCenter/Search";
-import filterApi from "../../Api/MessageCenter/Search";
+import filterApi from "../../api/MessageCenter/Search";
 
 
 const MessageCenterSlice = createSlice({
@@ -29,10 +29,10 @@ const MessageCenterSlice = createSlice({
       state.AdminStaffList=action.payload.GetUsersInGroupResult;
     },
     getYearsList (state,action){
-      state.YearsList=action.payload.GetAllMonthsResult;
+      state.YearsList=action.payload.GetAcademicYearsResult;
     },
     getAllMonthList (state,action){
-      state.AllMonthList=action.payload.GetAllAcademicYearsResult;
+      state.AllMonthList=action.payload.GetAllMonthDetailsResult;
     }
   }   
 });

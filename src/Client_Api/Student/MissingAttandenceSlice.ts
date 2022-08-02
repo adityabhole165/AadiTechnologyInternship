@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import GetMissingAttandenceApi from "src/Api/Student/MissingAttandence";
+import GetMissingAttandenceApi from "src/api/Student/MissingAttandence";
 import MissingAttandenceInterface from "src/Interface/Student/MissingAttandenceInterface";
 
 const MissingAttandenceSlice = createSlice({

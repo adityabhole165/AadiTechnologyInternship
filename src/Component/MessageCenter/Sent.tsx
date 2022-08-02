@@ -7,7 +7,7 @@ import { ISentList, GetSentListResult } from "src/Interface/MessageCenter/Sent_M
 import { useTheme } from '@mui/material';
 import List3 from "src/UI_Library/list/List3";
 import { IgetList } from "src/Interface/MessageCenter/GetList";
-import MoveToTrashApi from 'src/Api/MessageCenter/MoveToTrash';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import { Button, Container, Box } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
@@ -25,8 +25,8 @@ function SentMessage() {
     const UserId = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const totalResult = 0;
     const [PageIndex, setPageIndex] = useState(1)
+    
 
     const getList: IgetList = {
         "asUserId": UserId,

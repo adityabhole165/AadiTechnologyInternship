@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import { IPics, Iimg } from "src/Interface/Common/PhotoGallery";
 import { IYearList } from 'src/Interface/Student/PhotoGallary';
-import PhotoGallaryApi from 'src/Api/Common/PhotoGallary';
+import PhotoGallaryApi from 'src/api/Common/PhotoGallary';
 
 const GallerySlice = createSlice({
   name: 'Gallery',

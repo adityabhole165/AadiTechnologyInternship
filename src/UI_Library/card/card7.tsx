@@ -22,6 +22,8 @@ Card7.propTypes = {
 };
 
 function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
+  console.log(From);
+  
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =

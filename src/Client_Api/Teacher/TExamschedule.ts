@@ -5,7 +5,7 @@ import IGetAllStandards  from "src/Interface/Teacher/TExamSchedule";
 import IGetExamsList from "src/Interface/Teacher/TExamSchedule";
 import IExamList from "src/Interface/Teacher/TExamSchedule";
 
-import GetTExamResultListApi from "src/Api/Teacher/texamschedule";
+import GetTExamResultListApi from "src/api/Teacher/texamschedule";
 
 
 const SelectStandardExamslice = createSlice({

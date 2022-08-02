@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import getuserlistapi from "src/Api/AdminSMSCenter/To";
+import getuserlistapi from "src/api/AdminSMSCenter/To";
 import {IUsergroup} from "src/Interface/AdminSMSCenter/To";
 import {IGetStudentsUser} from "src/Interface/AdminSMSCenter/To"
 import {GetAdminAndprincipalUsers} from "src/Interface/AdminSMSCenter/To";

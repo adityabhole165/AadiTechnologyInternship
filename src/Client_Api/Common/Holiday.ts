@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IHolidays from 'src/Interface/Common/Holidays';
-import HolidaysApi from 'src/Api/Common/Holiday';
+import HolidaysApi from 'src/api/Common/Holiday';
 
 const Holidaysslice = createSlice({
   name: 'holidays',

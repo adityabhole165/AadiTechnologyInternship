@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import SchoolListApi from "../../Api/Authentication/SchoolList";
+import SchoolListApi from "../../api/Authentication/SchoolList";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import {ISchoolList} from "src/Interface/Authentication/SchoolList"
