@@ -27,7 +27,9 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
       return {
         id: index,
         header: 'Lec no.' + item.LectureNumber,
-        text1: item.Subject,
+        text3: item.Subject,
+        text2:'',
+        text1:'',
         backgroundColor: '#c8dccb',
         mx: '-15px'
       };
