@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import Card1 from 'src/UI_Library/mainCard/Card1';
 import { Link, useLocation } from 'react-router-dom';
+import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function List1({ items }) {
 
@@ -28,6 +29,11 @@ function List1({ items }) {
   }
   return (
     <>
+    {
+      (items.length == 0)
+      ?
+      <ErrorMessages Error={'No records found'} />
+      :
       <Grid container>
         {items.map((items, index) => (
           <Grid xs={rowWidth} key={index}>
@@ -70,6 +76,7 @@ function List1({ items }) {
           </Grid>
         ))}
       </Grid>
+}
     </>
   );
 }
