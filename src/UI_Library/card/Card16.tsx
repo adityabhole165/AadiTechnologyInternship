@@ -11,7 +11,7 @@ import { ClickAwayListener } from '@mui/material';
 import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import { GetFeeDetailsResult } from 'src/Interface/Student/Fees';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link, Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 
 Card16.propTypes = {
@@ -28,27 +28,12 @@ export interface Iprops {
 }
 
 function Card16({ Note, Fee, Heading }) {
-
-  let arr = [];
-
-  // const ArrayOFPayGroup = Fee.map((item,i) => {
-  //     // return item.PaymentGroup
-
-  //     if((i < item.length-1) &&  item[i].PaymentGroup == item[i + 1].PaymentGroup){
-  //       var sameAmount = item[i].AmountPayable + item[i + 1].AmountPayable
-  //       arr.push(sameAmount);
-  //     }
-  //     else{
-  //       arr.push(item.AmountPayable);
-  //     }
-  //     // return(arr);
-  // })
-
-
+  let data;
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
 
+  let ArrayOfFees = [];
 
   const classes = Styles();
   const theme = useTheme();
@@ -60,7 +45,7 @@ function Card16({ Note, Fee, Heading }) {
   const [Data1, setData1] = useState<any>([]);
   const [countFees, setCount] = useState<any>([]);
 
-  // console.log(Data1);
+  // console.log('count', countFees);
 
   const mystyle = {
     pointerEvents: pointerEvents as 'none',
@@ -76,47 +61,63 @@ function Card16({ Note, Fee, Heading }) {
   };
 
   const handleChange = (event) => {
-    if (event.target.checked) {
-      setDisable(false);
-      setpointerEvents('auto');
-      setDate([...date, event.target._wrapperState.initialValue]);
-      setSelected([...selected, event.target.value]);
-      const selectedId = event.target.id;
-
-      {
-        Fee.filter((item) => {
-          if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-            Data1.push(parseInt(item.Amount));
-          }
-        });
-      }
-
-      let data = Data1.reduce((pre, curr) => pre + curr, 0);
-      setCount(data);
+    let ArrayOfFees_To_NumberArray;
+    if (event.target.checked){
+      ArrayOfFees.push(event.target.value);
+      console.log(ArrayOfFees);
+      ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
     }
-
-    if (!event.target.checked) {
-      setDisable(true);
-      setpointerEvents('none');
-      const updatedList = selected.filter((item) => item != event.target.value);
-      setSelected(updatedList);
-      const updatedData = date.filter(
-        (item) => item != event.target._wrapperState.initialValue
-      );
-      setDate(updatedData);
-
-      const selectedId = event.target.id;
-      {
-        Fee.filter((item) => {
-          if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-            Data1.pop(parseInt(item.Amount));
-            let count = Data1.reduce((pre, curr) => pre + curr, 0);
-            console.log('deduct', count);
-            setCount(count);
-          }
-        });
-      }
+    if (!event.target.checked){
+      let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
+      let newArray = ArrayOfFees.splice(indexOfUnCheck_Box,1);
+      ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
     }
+    data = ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0);
+    console.log(data)
+    // let data = arr.reduce((pre, curr) => pre + curr, 0);
+    // console.log(data);
+
+    // if (event.target.checked) {
+    //   setDisable(false);
+    //   setpointerEvents('auto');
+    //   setDate([...date, event.target._wrapperState.initialValue]);
+    //   setSelected([...selected, event.target.value]);
+    //   const selectedId = event.target.id;
+
+    //   {
+    //     Fee.filter((item) => {
+    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
+    //         Data1.push(parseInt(item.Amount));
+    //       }
+    //     });
+    //   }
+
+    //   let data = Data1.reduce((pre, curr) => pre + curr, 0);
+    //   setCount(data);
+    // }
+
+    // if (!event.target.checked) {
+    //   setDisable(true);
+    //   setpointerEvents('none');
+    //   const updatedList = selected.filter((item) => item != event.target.value);
+    //   setSelected(updatedList);
+    //   const updatedData = date.filter(
+    //     (item) => item != event.target._wrapperState.initialValue
+    //   );
+    //   setDate(updatedData);
+
+    //   const selectedId = event.target.id;
+    //   {
+    //     Fee.filter((item) => {
+    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
+    //         Data1.pop(parseInt(item.Amount));
+    //         let count = Data1.reduce((pre, curr) => pre + curr, 0);
+    //         console.log('deduct', count);
+    //         setCount(count);
+    //       }
+    //     });
+    //   }
+    // }
   };
 
   const getSelected = () => {
@@ -137,6 +138,7 @@ function Card16({ Note, Fee, Heading }) {
         '\\RITeSchool\\OtherDownloads\\ReceiptDownloads\\Receipt_84202216516894.pdf'
     );
   };
+
 
   return (
     <div>
@@ -186,7 +188,6 @@ function Card16({ Note, Fee, Heading }) {
         {Fee === undefined ? null : (
           <>
             {Fee.map((item: GetFeeDetailsResult, i) => {
-
               return (
                 <List
                   key={i}
@@ -194,7 +195,6 @@ function Card16({ Note, Fee, Heading }) {
                   sx={{
                     background: date.find((value) =>
                       value.includes(item.DueDateFormat)
-                      
                     )
                       ? 'coral'
                       : `${theme.colors.gradients.pink1}`,
@@ -206,7 +206,22 @@ function Card16({ Note, Fee, Heading }) {
                       <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
                         {item.AmountPayable != '0' && item.RowNumber == '1' ? (
                           <Checkbox
-                            value={item.DueDateFormat}
+                            value=
+                            {
+                              ((i<Fee.length-1) && Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup)
+                              ?
+                              parseInt(Fee[i].AmountPayable) + parseInt(Fee[i + 1].AmountPayable)
+                              :
+                              ((i<Fee.length-1) && Fee[i].PaymentGroup !== Fee[i + 1].PaymentGroup)
+                              ?
+                              (parseInt(Fee[i].AmountPayable))
+                              :
+                              ((i==Fee.length-1) && Fee[i].PaymentGroup !== Fee[Fee.length-1].PaymentGroup)
+                              ?
+                              null
+                              :
+                              (parseInt(Fee[Fee.length-1].AmountPayable))
+                            }
                             className="check"
                             size="small"
                             id={item.PaymentGroup}
