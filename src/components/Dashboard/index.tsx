@@ -44,7 +44,6 @@ function LandingPage() {
   const dispatch = useDispatch()
   const GetSchoolSettingList = useSelector((state: RootState) => state.getSchoolSettings.SchoolSettingList)
   const ModulesPermission: any = useSelector((state: RootState) => state.getSchoolSettings.ModulesPermission)
-  console.log("sejal", ModulesPermission);
 
   const GetScreensAccessPermissions: any = useSelector((state: RootState) => state.getModulesPermissionsResult.ModulesPermissionsResult)
 
