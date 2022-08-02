@@ -62,7 +62,7 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
               </Typography>
             </AccordionSummary>
             <AccordionDetails
-              sx={{ borderRadius: 1, backgroundColor: '#5c5f628a', mb: '10px' }}
+              sx={{ borderRadius: 1, mb: '10px' }}
             >
               {<List1 items={Data1}></List1>}
             </AccordionDetails>
