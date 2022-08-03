@@ -113,6 +113,7 @@ function Progressreport() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
     dispatch(GetAcademicYears(GetAcademicYears_body));

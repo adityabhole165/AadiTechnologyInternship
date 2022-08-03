@@ -54,6 +54,7 @@ const onlineExam = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(GetOnlineExamList(OnlineExamList_body));
   }, []);
 
@@ -68,7 +69,7 @@ const onlineExam = () => {
 
   return (
     <>
-      <PageHeader heading={'Online Exam'} subheading={''} />
+      <PageHeader heading={'Online Exam Schedule'} subheading={''} />
       <Container>
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}

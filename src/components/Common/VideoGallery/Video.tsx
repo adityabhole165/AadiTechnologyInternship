@@ -62,6 +62,10 @@ function VideoGallary() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
+  },[])
+
+  useEffect(() => {
     dispatch(getVideoss(VideoList_body));
     dispatch(getYearList(YearBody));
   }, [year, month]);

@@ -182,8 +182,11 @@ function SelectSchool() {
         sessionStorage.setItem("StudentName", result.Name);
         sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
         sessionStorage.setItem("Userlogin", result.UserLogin);
-
-        if (result.RoleName == "Student") {
+        const url = localStorage.getItem("url");
+        if(url!=null){
+            navigate(url);
+        }
+        else if (result.RoleName == "Student") {
             navigate('/extended-sidebar/landing/landing');
         }
         else if (result.RoleName == "Teacher") {

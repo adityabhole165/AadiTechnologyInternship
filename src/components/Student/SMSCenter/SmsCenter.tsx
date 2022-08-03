@@ -38,6 +38,7 @@ function SmsCenter() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getSmsList(SmsList_body));
     dispatch(getMobileNumber(MobileNumber_body));
   }, []);

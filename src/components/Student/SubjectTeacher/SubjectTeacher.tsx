@@ -34,6 +34,7 @@ function SubjectTeacher() {
     asUserId: asUserId
   };
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getSubjectList(body));
   }, []);
 

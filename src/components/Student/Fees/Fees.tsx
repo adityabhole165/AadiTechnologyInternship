@@ -40,6 +40,7 @@ function Fees() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getFees(body));
   }, []);
 
