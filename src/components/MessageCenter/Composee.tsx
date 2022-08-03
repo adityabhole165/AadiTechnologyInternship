@@ -10,7 +10,8 @@ import {
   Fab,
   Autocomplete,
   Grid,
-  Card
+  Card,
+  Typography
 } from '@mui/material';
 import React, { useContext, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -27,6 +28,8 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
+import { useParams } from 'react-router-dom';
+
 
 const useStyles = makeStyles({
   option: {
@@ -41,6 +44,11 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
+
+	const { Text, To ,Text2 , Attachments, BODY} = useParams();
+  console.log(BODY)
+
+
   const classes = Styles();
   const classes1 = useStyles();
   const theme = useTheme();
@@ -61,7 +69,7 @@ function Form13() {
     { Name: 'Software Co-ordinator', Id: '1' }
   ]);
   const allData = TeacherList.concat(AdminStaffList).concat(coOrdinator);
-  const [To, setValue] = React.useState<any>([]);
+  const [Too, setValue] = React.useState<any>([]);
   const [Name, setname] = React.useState<any>('');
   const [Id, setId] = React.useState<any>('');
   const [Attachment1, SetAttachment] = React.useState<any>('');
@@ -135,13 +143,13 @@ function Form13() {
   // Submit form data
 
   useEffect(() => {
-    if (To !== undefined) {
-      const NameList = To.map((data) => data.Name);
-      const IdList = To.map((data) => data.Id);
+    if (Too !== undefined) {
+      const NameList = Too.map((data) => data.Name);
+      const IdList = Too.map((data) => data.Id);
       setname(NameList);
       setId(IdList);
     }
-  }, [To]);
+  }, [Too]);
 
   const sendMessage = () => {
     debugger;
@@ -204,7 +212,7 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      if (To.length == 0) {
+      if (Too.length == 0) {
         errors.To = 'Atleast one recipient should be selected.';
       }
       if (!values.Subject) {
@@ -217,6 +225,11 @@ function Form13() {
       return errors;
     }
   });
+
+  const file_path =
+    'http://riteschool_old.aaditechnology.com' +
+    '/RITeSchool/Uploads/' +
+    Attachments;
 
   return (
     <>
@@ -237,7 +250,7 @@ function Form13() {
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <Autocomplete
-                value={To}
+                value={Too}
                 onChange={(events, newValue) => setValue(newValue)}
                 classes={{
                   option: classes1.option
@@ -266,13 +279,14 @@ function Form13() {
                     label={'To'}
                     className={classes.InputField}
                     onChange={formik.handleChange}
-                    value={formik.values.To}
+                    value={formik.values.To || To}
+                    
                   />
                 )}
               />
             </FormControl>
             <p style={{ color: 'red', marginTop: 2 }}>
-              {To.length == 0 ? (
+              {Too.length == 0 ? (
                 <div className={classes.error}>{formik.errors.To}</div>
               ) : null}
             </p>
@@ -285,7 +299,7 @@ function Form13() {
               type="text"
               autoComplete="off"
               variant="standard"
-              value={formik.values.Subject}
+              value={formik.values.Subject  || Text2 || Text}
               onChange={formik.handleChange}
               sx={{ mt: '-0.3rem' }}
             />
@@ -303,6 +317,7 @@ function Form13() {
               variant="standard"
               className={classes.InputField}
               onChange={fileChangedHandler}
+              // value={Attachments}
               InputProps={{
                 endAdornment: (
                   <Box
@@ -352,6 +367,19 @@ function Form13() {
                 )
               }}
             />
+             {Attachments.length === 0 ? null : (
+              <>
+              <Typography>Attachment(s):</Typography>
+                <Typography
+                  className={classes.Cardfont1}
+                  onClick={(event: React.MouseEvent<HTMLElement>) => {
+                    window.open(file_path);
+                  }}
+                >
+                  {Attachments}
+                </Typography>
+              </>
+            )}
             {fileerror && (
               <p style={{ marginBottom: -25 }} className={classes.error}>
                 {fileerror}
@@ -366,7 +394,7 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={formik.values.Content}
+              value={formik.values.Content || BODY }
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />

@@ -10,6 +10,9 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../button/BackButton';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { useState } from 'react';
+
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -22,8 +25,9 @@ Card7.propTypes = {
 };
 
 function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
-  console.log(From);
-  
+  // console.log(Text);
+const Text2 = Text
+console.log("Text2",Text2);
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
@@ -36,9 +40,14 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
   };
 
   const classes = Styles();
+  // const BodyId = () => ({
+  //   dangerouslySetInnerHTML={{ __html: Body }}
+  // })
+  const BODY = Body.replace(/(<([^>]+)>)/ig, '');
   return (
     <>
       <Container>
+        
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`
@@ -91,27 +100,43 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
               dangerouslySetInnerHTML={{ __html: Body }}
             />
           </Box>
+         
         </Card>
 
-        <Box onClick={Compredirect} sx={{ marginTop: '0px' }}>
-          <Button
-            className={classes.Reply}
-            sx={{
-              background: 'rgb(11 101 214)',
-              position: 'absolute'
-            }}
-          >
-            Reply
-          </Button>
-        </Box>
-
+        {/* <RouterLink
+          style={{ textDecoration: 'none' }}
+          to={
+            `/${location.pathname.split('/')[1]
+            }/MessageCenter/Compose/` + Text + "/" + To
+          }
+        > */}
+          <Box sx={{ marginTop: '0px' }}>
+            {/*  onClick={Compredirect} */}
+            <Button
+              className={classes.Reply}
+              sx={{
+                background: 'rgb(11 101 214)',
+                position: 'absolute'
+              }}
+            >
+              Reply
+            </Button>
+          </Box>
+        {/* </RouterLink> */}
+        <RouterLink
+          style={{ textDecoration: 'none' }}
+          to={
+            `/${location.pathname.split('/')[1]
+            }/MessageCenter/Compose/` + Attachments + "/" + Text2 + "/" + BODY
+          }
+        >
         <Box
-          onClick={Compredirect}
+          // onClick={Compredirect}
           sx={{
             mt: -1
           }}
         >
-          <Button
+          <Button 
             className={classes.Forward}
             sx={{
               background: 'rgb(11 101 214)',
@@ -121,6 +146,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
             Forward
           </Button>
         </Box>
+        </RouterLink>
       </Container>
     </>
   );
