@@ -287,7 +287,7 @@ function LandingPage() {
                         <BorderColorOutlinedIcon fontSize="large" color="success" />
                       </IconButton>
                     </Link>
-                    <Text >Online Exam</Text>
+                    <Text >Online Exam Schedule</Text>
                   </Grid>
                   <Grid item xs={4}>
                     <Link to={`/${location.pathname.split('/')[1]}/Student/OnlineExamProgressReport`}>
