@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import Card7 from "src/libraries/card/card7";
 import http from 'src/requests/SchoolService/schoolServices';
 
-function ViewSms() {
+function ViewSms({Text}) {
   const dispatch = useDispatch();
   // const ViewSent: any = useSelector((state: RootState) => state.Sent__Message.ViewSent)
   const ViewDetail = { From:"From", Subject:"Subject", To:"To", Attachment:"Attachment", Body: "Content" }
@@ -21,6 +21,9 @@ function ViewSms() {
   const RoleId = sessionStorage.getItem('RoleId');
 
 
+  const ChildToParent = (e) => {
+    console.log(e)
+  }
 
 
   const GetViewEventResult = () => {
@@ -30,6 +33,8 @@ function ViewSms() {
       "asReceiverId": UserId,
       "asAcademicYearId": asAcademicYearId
     };
+
+
 
     http.post('MessageCenter/GetMessage', ViewSent_body)
       .then((resp) =>
@@ -51,7 +56,14 @@ function ViewSms() {
         (viewSent === undefined) ?
           null
           :
-          <Card7 ViewDetail={ViewDetail} From={viewSent.UserName} To={viewSent.RecieverName} Body={viewSent.Body} Text={viewSent.Subject} Attachments={viewSent.Attachment} />
+          <Card7 ViewDetail={ViewDetail} 
+          From={viewSent.UserName}
+           To={viewSent.RecieverName} 
+           Body={viewSent.Body}
+            Text={viewSent.Subject} 
+            Attachments={viewSent.Attachment}
+           
+            />
       }
 
 
