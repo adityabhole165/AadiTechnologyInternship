@@ -38,7 +38,7 @@ function SelectSchool() {
 
     };
     const [show, setShow] = useState(true);
-   
+
     const changeschool = () => {
         setShow(true);
         setValue(null);
@@ -67,7 +67,7 @@ function SelectSchool() {
     const SchoolId = sessionStorage.getItem('SchoolId');
     const SchoolName = localStorage.getItem('SchoolName')
     const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
-    const localschoolId=localStorage.getItem('localSchoolId')
+    const localschoolId = localStorage.getItem('localSchoolId')
 
     // end select School
 
@@ -80,109 +80,102 @@ function SelectSchool() {
     // const [responseErr, setresponseErr] = useState('')
 
 
-   
+
     const handleClickShowPassword = () => {
         setFormValues({
             ...formValues,
             showPassword: !formValues.showPassword,
         });
     };
-       
+
     const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
         event.preventDefault();
     };
 
-   
 
-    const formik=useFormik({
-        initialValues:{
-            userName:'',
-            password:'',
+
+    const formik = useFormik({
+        initialValues: {
+            userName: '',
+            password: '',
         },
 
-        onSubmit:values=>{
-          loginform()
+        onSubmit: values => {
+            loginform()
         },
-        
-        validate:values=>{ 
-        
-          const errors:any={}
-     
-          if(!values.userName){
-            errors.userName="Username is Required "
-        }
-        if(!values.password){
-          errors.password="Password is Required "
-        }
-   
-      return errors}
-      })
 
-    const loginform = async () => {
-        const body: IAuthenticateUser = {
-            asUserName: formik.values.userName,
-            asPassword: formik.values.password,
-            asSchoolId: localschoolId
-        };
+        validate: values => {
 
-       const response:any = await LoginApi.AuthenticateUser(body) 
-       if(response.data != null){
-        const result:IAuthenticateUserResult = await response.data.AuthenticateUserResult
-        const studentDetails:any= await response.data.StudentDetails
-        const teacherDetails:any= await response.data.TeacherDetails
-        const adminDetails:any= await response.data.TeacherDetails
+            const errors: any = {}
+
+            if (!values.userName) {
+                errors.userName = "Username is Required "
+            }
+            if (!values.password) {
+                errors.password = "Password is Required "
+            }
+
+            return errors
+        }
+    })
+
+    const setSession = async (response) =>{
+        const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
+        const studentDetails: any = await response.data.StudentDetails
+        const teacherDetails: any = await response.data.TeacherDetails
+        const adminDetails: any = await response.data.TeacherDetails
         // const adminDetails:any= await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
-        if(result.RoleName === "Student"){
-                window.sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
-                sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
-                sessionStorage.setItem('Class', studentDetails.Class);
-                sessionStorage.setItem('StandardId', studentDetails.StandardId);
-                sessionStorage.setItem('RollNo', studentDetails.RollNo);
-                sessionStorage.setItem('AcademicYearId', studentDetails.AcademicYearId);
-                sessionStorage.setItem('StudentId', studentDetails.StudentId);
-                sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
-                sessionStorage.setItem('Address',studentDetails.Address);
-                sessionStorage.setItem('Residence_Phone_Number',studentDetails.Residence_Phone_Number);
-                sessionStorage.setItem('CasteAndSubCaste',studentDetails.CasteAndSubCaste);
-                sessionStorage.setItem('UDISENumber',studentDetails.UDISENumber);
-                sessionStorage.setItem('Birth_Place',studentDetails.Birth_Place);
-                sessionStorage.setItem('Nationality',studentDetails.Nationality);
-                sessionStorage.setItem('Mother_Tongue',studentDetails.Mother_Tongue);
-                sessionStorage.setItem('Blood_Group',studentDetails.Blood_Group);
-                sessionStorage.setItem('EndDate',studentDetails.EndDate);
-                sessionStorage.setItem('StartDate',studentDetails.StartDate);
-                sessionStorage.setItem('Language',studentDetails.asLanguage);
-                sessionStorage.setItem('ParentStaffID',studentDetails.aiParentStaffId);
-                sessionStorage.setItem('StartRowIndex',studentDetails.aiStartRowIndex);
-                sessionStorage.setItem('SortRowIndexExpression',studentDetails.asSortExpression);
-                sessionStorage.setItem('BookTittleName',studentDetails.asBookTitle);
-                sessionStorage.setItem('UserName',studentDetails.asUserName);
-                sessionStorage.setItem('ExamID',studentDetails.asExamId);
+        if (result.RoleName === "Student") {
+            window.sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+            sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
+            sessionStorage.setItem('Class', studentDetails.Class);
+            sessionStorage.setItem('StandardId', studentDetails.StandardId);
+            sessionStorage.setItem('RollNo', studentDetails.RollNo);
+            sessionStorage.setItem('AcademicYearId', studentDetails.AcademicYearId);
+            sessionStorage.setItem('StudentId', studentDetails.StudentId);
+            sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
+            sessionStorage.setItem('Address', studentDetails.Address);
+            sessionStorage.setItem('Residence_Phone_Number', studentDetails.Residence_Phone_Number);
+            sessionStorage.setItem('CasteAndSubCaste', studentDetails.CasteAndSubCaste);
+            sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
+            sessionStorage.setItem('Birth_Place', studentDetails.Birth_Place);
+            sessionStorage.setItem('Nationality', studentDetails.Nationality);
+            sessionStorage.setItem('Mother_Tongue', studentDetails.Mother_Tongue);
+            sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
+            sessionStorage.setItem('EndDate', studentDetails.EndDate);
+            sessionStorage.setItem('StartDate', studentDetails.StartDate);
+            sessionStorage.setItem('Language', studentDetails.asLanguage);
+            sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
+            sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
+            sessionStorage.setItem('SortRowIndexExpression', studentDetails.asSortExpression);
+            sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
+            sessionStorage.setItem('UserName', studentDetails.asUserName);
+            sessionStorage.setItem('ExamID', studentDetails.asExamId);
 
         }
-       
 
-        if(result.RoleName === "Teacher"){
-                sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
-                sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
-                sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
-                sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
-                sessionStorage.setItem('StandardId', teacherDetails.StandardId);
-                sessionStorage.setItem('ClassName',teacherDetails.ClassName);
-                sessionStorage.setItem('AcademicYearId',teacherDetails.AcademicYearId);
-                sessionStorage.setItem('EndDate',teacherDetails.EndDate);
-                sessionStorage.setItem('StartDate',teacherDetails.StartDate);
-        
+
+        if (result.RoleName === "Teacher") {
+            sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
+            sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
+            sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
+            sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
+            sessionStorage.setItem('StandardId', teacherDetails.StandardId);
+            sessionStorage.setItem('ClassName', teacherDetails.ClassName);
+            sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
+            sessionStorage.setItem('EndDate', teacherDetails.EndDate);
+            sessionStorage.setItem('StartDate', teacherDetails.StartDate);
+
         }
-        if(result.RoleName === "Admin Staff"){
+        if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
-            sessionStorage.setItem('EndDate',adminDetails.EndDate);
-            sessionStorage.setItem('StartDate',adminDetails.StartDate);
-    }
-    
+            sessionStorage.setItem('EndDate', adminDetails.EndDate);
+            sessionStorage.setItem('StartDate', adminDetails.StartDate);
+        }
+
 
         sessionStorage.setItem("Id", result.Id);
         sessionStorage.setItem("RoleId", result.RoleId);
@@ -193,16 +186,30 @@ function SelectSchool() {
         if (result.RoleName == "Student") {
             navigate('/extended-sidebar/landing/landing');
         }
-        else if (result.RoleName == "Teacher"){
+        else if (result.RoleName == "Teacher") {
             navigate('/extended-sidebar/landing/landing');
         }
-        else if (result.RoleName == "Admin Staff"){
+        else if (result.RoleName == "Admin Staff") {
             navigate('/extended-sidebar/landing/landing');
         }
-       }
-       else{
-         toast.error("Invalid Username or Password");
-       }
+    }
+
+
+    const loginform = async () => {
+        const body: IAuthenticateUser = {
+            asUserName: formik.values.userName,
+            asPassword: formik.values.password,
+            asSchoolId: localschoolId
+        };
+
+        const response: any = await LoginApi.AuthenticateUser(body)
+        if (response.data != null) {
+            localStorage.setItem("auth",JSON.stringify(response))
+            setSession(response)
+        }
+        else {
+            toast.error("Invalid Username or Password");
+        }
     };
     // End Login form
     const ListData: ISchoolList = {
@@ -212,11 +219,16 @@ function SelectSchool() {
     useEffect(() => {
         dispatch(getSchoolList(ListData))
         if (localschoolId !== null) {
-            setShow(false);
-        }   
+            const res = localStorage.getItem("auth")
+            if(res === null){
+                setShow(false);
+            }else{
+                setSession(JSON.parse(res))
+        }
+        }
     }, []);
 
-   
+
 
     return (
         <Grid style={styles.paperContainer}>
@@ -244,9 +256,9 @@ function SelectSchool() {
                                         value={value}
                                         onChange={(event, newValue) => {
                                             setValue(newValue);
-                                                if (value == null) {
-                                                    setShow(false)
-                                                }
+                                            if (value == null) {
+                                                setShow(false)
+                                            }
                                         }}
                                         inputValue={inputValue}
                                         onInputChange={(event, newInputValue) => {
@@ -276,29 +288,29 @@ function SelectSchool() {
                         columns={{ xs: 12, md: 12 }}
                     >
 
-                     <Box>
-                        <Grid alignItems="" >
-                            <img src={img_src} className={styleroot.logo}/>
-                        </Grid> 
-                     </Box>
+                        <Box>
+                            <Grid alignItems="" >
+                                <img src={img_src} className={styleroot.logo} />
+                            </Grid>
+                        </Box>
 
-                     <Box sx={{pb:5}} style={{textShadow:"7px 7px 10px gray",fontSize: "12px"}}>
-                        <h1>{SchoolName}</h1>
-                     </Box>
+                        <Box sx={{ pb: 5 }} style={{ textShadow: "7px 7px 10px gray", fontSize: "12px" }}>
+                            <h1>{SchoolName}</h1>
+                        </Box>
 
-                     <Box sx={{ maxWidth: '90%'}}>
-                       <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
-                             <Grid item xs={12}>
-                                <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
-                                    <InputLabel htmlFor="username"
-                                        sx={{
+                        <Box sx={{ maxWidth: '90%' }}>
+                            <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
+                                <Grid item xs={12}>
+                                    <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
+                                        <InputLabel htmlFor="username"
+                                            sx={{
                                                 color: "#362b32cf",
                                                 fontSize: "16px",
                                                 fontWeight: "bold",
                                             }}
-                                    >Username</InputLabel>
-                                    <Input
-                                         sx={{
+                                        >Username</InputLabel>
+                                        <Input
+                                            sx={{
                                                 marginTop: '20px !important',
                                                 fontSize: "15px !important",
                                             }}
@@ -309,13 +321,13 @@ function SelectSchool() {
                                             onChange={formik.handleChange}
                                             onBlur={formik.handleBlur}
                                             defaultValue="Normal"
-                                     />
-                                     {
-                                     formik.touched.userName && formik.errors.userName ? (<div className={classes.error}>{formik.errors.userName}</div>):null
-                                     }
+                                        />
+                                        {
+                                            formik.touched.userName && formik.errors.userName ? (<div className={classes.error}>{formik.errors.userName}</div>) : null
+                                        }
                                     </FormControl>
-                               
-                                    <FormControl fullWidth sx={{ mr: 1 , mt:1}} variant="standard">
+
+                                    <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
                                         <InputLabel htmlFor="standard-adornment-password"
                                             sx={{
                                                 color: "#362b32cf",
@@ -349,31 +361,31 @@ function SelectSchool() {
                                             }
                                         />
                                     </FormControl>
-                                     {
-                                     formik.touched.password && formik.errors.password ? (<div className={classes.error}>{formik.errors.password}</div>):null
-                                     }
-                                   
-                                    <Grid sx={{ mr: "auto", pt: 1,pb:3 }}>
-                                            <Button variant="contained" color="success" sx={{ml:"auto"}} type="submit"  onChange={formik.handleChange}>
-                                                Login
-                                            </Button>
-                                           <span style={{ color: "blue",float:"right",marginTop:"14px"}}> Forgot Password </span>
+                                    {
+                                        formik.touched.password && formik.errors.password ? (<div className={classes.error}>{formik.errors.password}</div>) : null
+                                    }
+
+                                    <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
+                                        <Button variant="contained" color="success" sx={{ ml: "auto" }} type="submit" onChange={formik.handleChange}>
+                                            Login
+                                        </Button>
+                                        <span style={{ color: "blue", float: "right", marginTop: "14px" }}> Forgot Password </span>
                                     </Grid>
 
                                 </Grid>
                             </form>
                         </Box>
                         <Grid>
-                            <span style={{ color: "blue", textDecorationLine: "none",paddingTop:3 }} onClick={changeschool}>Change School For Login</span>
+                            <span style={{ color: "blue", textDecorationLine: "none", paddingTop: 3 }} onClick={changeschool}>Change School For Login</span>
                         </Grid>
                         <Grid>
-                        <span style={{ color: "blue ", marginTop: '-0.7rem', textDecorationLine: 'none' }} onClick={schoolNotice}>School Notices</span>
+                            <span style={{ color: "blue ", marginTop: '-0.7rem', textDecorationLine: 'none' }} onClick={schoolNotice}>School Notices</span>
                         </Grid>
                     </Grid>
             }
-        
+
         </Grid>
-       
+
     )
 
 }

@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import {
-  Box,
-  Grid,
-} from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Getimg } from 'src/interfaces/Common/PhotoGallery';
 import { makeStyles } from '@mui/styles';
 import { Styles } from 'src/assets/style/student-style';
 import { SRLWrapper } from 'simple-react-lightbox';
 import SimpleReactLightbox from 'simple-react-lightbox';
+import 'src/assets/style/Homework_Calci.css';
+import BackButton from '../button/BackButton';
 
 Card22.propTypes = {
   pic: PropTypes.array,
@@ -55,13 +54,17 @@ function Card22({ pic }) {
       thumbnailsIconColor: '#ffffff',
       thumbnailsOpacity: 0.4,
       thumbnailsPosition: 'bottom',
-      thumbnailsSize: ['100px', '80px']
+      thumbnailsSize: ['100px', '20px']
     }
   };
 
   return (
     <>
       <SimpleReactLightbox>
+      <span style={{position:'relative',left:'20px',top:'-35px'}}>
+      <BackButton />
+      </span>
+
         <SRLWrapper options={options}>
           <Grid
             container
@@ -83,7 +86,9 @@ function Card22({ pic }) {
                         width="100"
                         height="100"
                         alt={items.Description}
+                    
                       />
+               
                     </Box>
                   </Grid>
                 </>

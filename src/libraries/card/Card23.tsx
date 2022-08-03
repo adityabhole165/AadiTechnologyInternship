@@ -14,8 +14,10 @@ function Card23({ pic }) {
     <>
       <br />
       <Container>
-        <BackButton />
-        <br />
+      <br />
+      <span style={{position:'relative',left:'5px',top:'7px'}}>
+      <BackButton />
+      </span>
         <br />
       </Container>
       <Container>

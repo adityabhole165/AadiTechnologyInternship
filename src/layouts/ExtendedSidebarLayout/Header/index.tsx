@@ -121,6 +121,7 @@ function Header() {
       handleClose();
       //localStorage.clear();
       sessionStorage.clear();
+      localStorage.removeItem("auth")
       navigate('/');
     } catch (err) {
       console.error(err);
