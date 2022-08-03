@@ -4,11 +4,13 @@ import ArrowRight from '@mui/icons-material/ArrowRight';
 import { Styles } from 'src/assets/style/student-style';
 import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
+import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 import 'src/assets/style/student-cal.css';
 import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import 'src/assets/style/Homework_Calci.css';
 import { useLocation } from 'react-router-dom';
+
 
 Buttons.propTypes = {
   Date: PropTypes.any,
@@ -40,6 +42,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
       setdateClickDependent('none');
     }
   };
+  
 
   return (
     <>
@@ -58,20 +61,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                 onClick={dateClickHnadler}
               >
                 {' '}
-                <Typography sx={{ fontWeight: 'bold' }}>
-                  {date}
-                  {pageName == 'Homework' ? (
-                    <EventRoundedIcon
-                      sx={{
-                        mt: '-20px',
-                        zIndex: '2',
-                        position: 'relative',
-                        top: '5px',
-                        ml: '5px'
-                      }}
-                    />
-                  ) : null}
-                </Typography>
+                <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
               <Item
                 sx={{
@@ -79,11 +69,13 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                   position: 'absolute',
                   left: '41%',
                   display: dateClickDependent,
+
                   zIndex: '2'
                 }}
               >
                 <Calendar onChange={(e) => Close(e.toLocaleString())} />
               </Item>
+           
             </Grid>
             <Grid item xs={2}>
               <Item onClick={() => NextDate()}>
