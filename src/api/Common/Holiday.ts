@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IHolidays from "../../Interface/Common/Holidays"
+import http from "../../requests/SchoolService/schoolServices";
+import IHolidays from "../../interfaces/Common/Holidays"
 
   const GetHolidayList = (data: IHolidays) => {
     return http.post<IHolidays>('School/GetHolidayList',data);

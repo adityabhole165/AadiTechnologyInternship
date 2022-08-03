@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import MissingAttandenceInterface from "src/Interface/Student/MissingAttandenceInterface";
+import http from "../../requests/SchoolService/schoolServices";
+import MissingAttandenceInterface from "src/interfaces/Student/MissingAttandenceInterface";
 
 
 const GetMissingAttandence = (data:MissingAttandenceInterface)=>{

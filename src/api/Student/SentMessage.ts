@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import { IgetList } from "src/Interface/MessageCenter/GetList";
+import http from "../../requests/SchoolService/schoolServices";
+import { IgetList } from "src/interfaces/MessageCenter/GetList";
 
 const GetSentMessageList  = (data: IgetList) => {
     return http.post<IgetList>('MessageCenter/GetSentMessages',data);

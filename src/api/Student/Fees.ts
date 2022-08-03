@@ -1,6 +1,6 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IFees, { IPayOnline }  from "../../Interface/Student/Fees";
-import IReceipt from "../../Interface/Student/Fees"
+import http from "../../requests/SchoolService/schoolServices";
+import IFees, { IPayOnline }  from "../../interfaces/Student/Fees";
+import IReceipt from "../../interfaces/Student/Fees"
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);

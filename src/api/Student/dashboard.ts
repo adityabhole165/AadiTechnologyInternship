@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IUnreadMessages,IUpcomingEventsList, IBirthdays, IPhotoAlbum,IFeedbackList,IMsgfrom} from "../../Interface/Student/dashboard"
+import http from "../../requests/SchoolService/schoolServices";
+import {IUnreadMessages,IUpcomingEventsList, IBirthdays, IPhotoAlbum,IFeedbackList,IMsgfrom} from "../../interfaces/Student/dashboard"
 
 //Unread messages
 

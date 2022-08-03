@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import { IVideoList,Icomments } from "src/Interface/Common/VideoGallery";
+import http from "../../requests/SchoolService/schoolServices";
+import { IVideoList,Icomments } from "src/interfaces/Common/VideoGallery";
 
 const GetVideosGallary = (data: IVideoList) => {
     return http.post<IVideoList>('User/GetVideoGallery',data);

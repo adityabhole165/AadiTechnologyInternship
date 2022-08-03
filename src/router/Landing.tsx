@@ -1,7 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 
 
 const Loader = (Component) => (props) =>
@@ -12,7 +12,7 @@ const Loader = (Component) => (props) =>
 );
 
 // Dashboards
-const Landing = Loader(lazy(() => import('src/Component/Dashboard/index')));
+const Landing = Loader(lazy(() => import('src/components/Dashboard/index')));
 
 const landingRoutes = [
   {

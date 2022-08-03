@@ -1,7 +1,7 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import ISelectExam from "../../Interface/Student/ExamSchedule"
-import IExamList from "../../Interface/Student/ExamSchedule"
+import http from "../../requests/SchoolService/schoolServices";
+import ISelectExam from "../../interfaces/Student/ExamSchedule"
+import IExamList from "../../interfaces/Student/ExamSchedule"
 
 
 const GetSelectExamList  = (data: ISelectExam) => {

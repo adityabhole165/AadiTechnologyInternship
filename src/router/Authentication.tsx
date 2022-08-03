@@ -1,7 +1,7 @@
 import { Suspense, lazy, Component } from 'react';
 import { Navigate } from 'react-router-dom';
 
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
 (
@@ -12,10 +12,10 @@ const Loader = (Component) => (props) =>
 
 // Dashboards
 //const SchoolList = Loader(lazy(() => import('src/RITeSchool/authentication/schoolList/schoolList')));
-const SchoolNotice = Loader(lazy(() => import('src/Component/Authentication/SchoolNotice/LoginSchoolNotice')));
-const ViewSchoolNotice = Loader(lazy(() => import('src/Component/Authentication/SchoolNotice/LoginViewSchoolNotice')));
+const SchoolNotice = Loader(lazy(() => import('src/components/Authentication/SchoolNotice/LoginSchoolNotice')));
+const ViewSchoolNotice = Loader(lazy(() => import('src/components/Authentication/SchoolNotice/LoginViewSchoolNotice')));
 
-const SchoolList = Loader(lazy(() => import('src/Component/Authentication/Login/Login')));
+const SchoolList = Loader(lazy(() => import('src/components/Authentication/Login/Login')));
 
 const AuthenticationRoute = [
   {

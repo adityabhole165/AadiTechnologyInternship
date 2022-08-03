@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IBooksDetails,IBookswithmeList,IClaimList} from "../../Interface/Student/Library"
+import http from "../../requests/SchoolService/schoolServices";
+import {IBooksDetails,IBookswithmeList,IClaimList} from "../../interfaces/Student/Library"
 
 const GetBooksDetailsList = (data: IBooksDetails) => {
     return http.post<IBooksDetails>('Library/GetPagedBookList',data);

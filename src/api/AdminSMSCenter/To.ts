@@ -1,7 +1,7 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import  {IUsergroup}  from "src/Interface/AdminSMSCenter/To";
-import {IGetStudentsUser} from "src/Interface/AdminSMSCenter/To"
-import {GetAdminAndprincipalUsers} from "src/Interface/AdminSMSCenter/To";
+import http from "../../requests/SchoolService/schoolServices";
+import  {IUsergroup}  from "src/interfaces/AdminSMSCenter/To";
+import {IGetStudentsUser} from "src/interfaces/AdminSMSCenter/To"
+import {GetAdminAndprincipalUsers} from "src/interfaces/AdminSMSCenter/To";
 
 const GetUsersInGroup=(data:IUsergroup)=>{
     return http.post<IUsergroup>('User/GetUsersInGroup',data);

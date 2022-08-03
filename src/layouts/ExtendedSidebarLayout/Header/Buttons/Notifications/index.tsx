@@ -21,7 +21,7 @@ import {
   Typography
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-import Scrollbar from 'src/layouts/components/Scrollbar';
+import Scrollbar from 'src/layouts/Components/Scrollbar';
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -29,7 +29,7 @@ import TimelineSeparator from '@mui/lab/TimelineSeparator';
 import TimelineConnector from '@mui/lab/TimelineConnector';
 import TimelineContent from '@mui/lab/TimelineContent';
 import TimelineDot from '@mui/lab/TimelineDot';
-import Text from 'src/UI_Library/Text';
+import Text from 'src/libraries/Text';
 
 import NotificationsActiveTwoToneIcon from '@mui/icons-material/NotificationsActiveTwoTone';
 import Link from '@mui/material/Link';

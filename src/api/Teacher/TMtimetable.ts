@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import IWdays ,{ItimeTable} from "../../Interface/Student/Tmtimetable"
+import http from "../../requests/SchoolService/schoolServices";
+import IWdays ,{ItimeTable} from "../../interfaces/Student/Tmtimetable"
 
   const GetWeekdays = (data: IWdays) => {
     return http.post<IWdays>('School/GetWeekDays',data);

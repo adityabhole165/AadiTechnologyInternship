@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import ISubjectTeacher from "src/Interface/Student/SubjectTeacher";
+import http from "../../requests/SchoolService/schoolServices";
+import ISubjectTeacher from "src/interfaces/Student/SubjectTeacher";
 
 
 const GetSubjectTeacherList = (data:ISubjectTeacher) => {

@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IAuthenticateUser,IStudentDetails} from "src/Interface/Authentication/Login";
+import http from "../../requests/SchoolService/schoolServices";
+import {IAuthenticateUser,IStudentDetails} from "src/interfaces/Authentication/Login";
 
   const AuthenticateUser = (data: IAuthenticateUser) => {
     return http.post<IAuthenticateUser>('User/AuthenticateUser',data);

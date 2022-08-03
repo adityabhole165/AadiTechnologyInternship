@@ -1,6 +1,6 @@
 
-import http from "../../Client_Api/SchoolService/schoolServices";
-import {IChangePassword,IChangePasswordResult,IAcceptTerms} from "src/Interface/Common/ChangePassword";
+import http from "../../requests/SchoolService/schoolServices";
+import {IChangePassword,IChangePasswordResult,IAcceptTerms} from "src/interfaces/Common/ChangePassword";
 
 const changepassword=(data:IChangePassword)=>{
     return http.post<IChangePassword>('School/ChangePassword',data);

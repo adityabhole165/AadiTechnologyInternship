@@ -1,5 +1,5 @@
-import http from "../../Client_Api/SchoolService/schoolServices";
-import ISentMsg from "src/Interface/AdminSMSCenter/Sent";
+import http from "../../requests/SchoolService/schoolServices";
+import ISentMsg from "src/interfaces/AdminSMSCenter/Sent";
 
 const GetSentMsg = (data: ISentMsg) => {
     return http.post<ISentMsg>('MessageCenter/GetSentMessages',data);
