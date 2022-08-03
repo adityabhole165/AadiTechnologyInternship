@@ -7,6 +7,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { SRLWrapper } from 'simple-react-lightbox';
 import SimpleReactLightbox from 'simple-react-lightbox';
 import 'src/assets/style/Homework_Calci.css';
+import BackButton from '../button/BackButton';
 
 Card22.propTypes = {
   pic: PropTypes.array,
@@ -60,7 +61,11 @@ function Card22({ pic }) {
   return (
     <>
       <SimpleReactLightbox>
-        <SRLWrapper options={options} >
+      <span style={{position:'relative',left:'20px',top:'-35px'}}>
+      <BackButton />
+      </span>
+
+        <SRLWrapper options={options}>
           <Grid
             container
             xs={12}

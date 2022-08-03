@@ -2,7 +2,7 @@ import { Container, Card, Avatar, Grid, useTheme, Typography, Box, Paper, CardHe
 import React, { useEffect } from 'react';
 import { makeStyles } from "@mui/styles";
 import AssignmentIcon from '@mui/icons-material/Assignment';
-import EventIcon from '@mui/icons-material/Event';
+import EventIcon from '@mui/icons-material/Event'; 
 import SmsIcon from '@mui/icons-material/Sms';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleIcon from '@mui/icons-material/People';
@@ -44,7 +44,6 @@ function LandingPage() {
   const dispatch = useDispatch()
   const GetSchoolSettingList = useSelector((state: RootState) => state.getSchoolSettings.SchoolSettingList)
   const ModulesPermission: any = useSelector((state: RootState) => state.getSchoolSettings.ModulesPermission)
-  console.log("sejal", ModulesPermission);
 
   const GetScreensAccessPermissions: any = useSelector((state: RootState) => state.getModulesPermissionsResult.ModulesPermissionsResult)
 

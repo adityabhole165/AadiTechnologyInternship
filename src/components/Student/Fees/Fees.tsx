@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { getFees } from 'src/requests/Student/Fees';
 import Card16 from 'src/libraries/card/Card16';
@@ -86,7 +86,9 @@ function Fees() {
       </Container>
 
       <Card16 Fee={FeesList} Heading={Feedata} Note={Note} />
+
       {FeesList2 === undefined ? null : <Card15 FeeAmount={FeeAmount} />}
+
     </>
   );
 }

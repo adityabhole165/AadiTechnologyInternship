@@ -142,7 +142,6 @@ function Card16({ Note, Fee, Heading }) {
 
   return (
     <div>
-      <Container>
         {GetFeeDetails.IsRTEstudent ? (
           <ClickAwayListener onClickAway={handleClickAway}>
             <Tooltip
@@ -182,7 +181,8 @@ function Card16({ Note, Fee, Heading }) {
         ) : null}
 
         <Button variant="contained" sx={{ mb: 2 }}>
-          Total: {countFees}
+          {/* Total: {countFees} */}
+          Term 3
         </Button>
 
         {Fee === undefined ? null : (
@@ -287,11 +287,10 @@ function Card16({ Note, Fee, Heading }) {
             </RouterLink>
 
             {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
-              <Button variant="contained"> Pay Caution Money Online</Button>
+              <Button variant="contained"> Pay Caution Money </Button>
             ) : null}
           </Stack>
         </>
-      </Container>
     </div>
   );
 }

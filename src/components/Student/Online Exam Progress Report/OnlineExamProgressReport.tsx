@@ -62,7 +62,9 @@ function OnlineExamReport() {
   return (
     <>
     <Box sx={{mt:"30px",ml:"20px"}}>
-    <BackButton/>
+    <span style={{position:'relative',left:'0px',top:'10px'}}>
+      <BackButton />
+      </span>
     </Box>
       
       <PageHeader heading={'Online Progress Report'} subheading={''} />
