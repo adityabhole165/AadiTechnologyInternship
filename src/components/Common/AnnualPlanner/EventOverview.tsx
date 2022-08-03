@@ -48,6 +48,7 @@ function EventOverview() {
   }
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     setCurrentDate();
   }, []);
 

@@ -73,6 +73,7 @@ function ExamSchedule() {
     setexamid(event?.target.value);
   };
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(GetSelectExamList(SelectexamList_body));
     GetAllStandardsResult();
   }, []);

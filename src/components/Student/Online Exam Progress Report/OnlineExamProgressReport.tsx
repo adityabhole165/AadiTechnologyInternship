@@ -52,6 +52,7 @@ function OnlineExamReport() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getStudentDetails(ExamDetails));
     dispatch(getSchoolInformation(ExamDetails));
     dispatch(getSubjects(ExamDetails));

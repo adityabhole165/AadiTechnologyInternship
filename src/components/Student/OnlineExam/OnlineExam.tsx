@@ -54,6 +54,7 @@ const onlineExam = () => {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(GetOnlineExamList(OnlineExamList_body));
   }, []);
 

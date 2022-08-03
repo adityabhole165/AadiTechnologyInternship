@@ -69,9 +69,14 @@ function Photos() {
     asUserRoleId: RoleId
   };
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
+  },[])
+
+  useEffect(() => {
     dispatch(getpicS(pics_body));
     dispatch(getYearList(YearBody));
   }, [year, month]);
+  
   return (
     <>
       <PageHeader heading={'Photo Gallery'} subheading={''} />

@@ -42,6 +42,7 @@ function Timetable() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getWeekdays(body2));
     dispatch(getTimetable(body));
   }, []);
