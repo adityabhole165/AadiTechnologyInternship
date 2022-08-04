@@ -178,23 +178,15 @@ function Form13() {
     console.log('SendMessageBody: ',body);
 
     MessageCenterApi.GetSendMessage(body)
-    // .then((response) => {
-    //   console.log(response.status);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    //   toast.error('Message send successfully');
-    // })
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res.status === 200) {
-      //     toast.success('Message send successfully');
-      //   }
-      // })
-      // .catch((err) => {
-      //   // console.log(JSON.stringify(err));
-      //   console.log(err)
-      // });
+    .then((res: any) => {
+        if (res.status === 200) {
+          formik.resetForm();
+          toast.success('Message send successfully');
+        }
+      })
+      .catch((err) => {
+        toast.error('Message not send successfully');
+      });
   };
 
   const formik = useFormik({
@@ -306,7 +298,6 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-
             <TextField
               fullWidth
               id="fullWidth"
