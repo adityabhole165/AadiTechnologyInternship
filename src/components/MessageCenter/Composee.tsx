@@ -150,7 +150,6 @@ function Form13() {
   }, [Too]);
 
   const sendMessage = () => {
-    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
