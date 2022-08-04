@@ -5,7 +5,7 @@ import {
   Typography,
   useTheme,
   Container,
-  Fab,
+  Fab
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { saveAs } from 'file-saver';
@@ -14,7 +14,6 @@ import { useNavigate } from 'react-router-dom';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import BackButton from '../button/BackButton';
-
 
 Card5.propTypes = {
   Content: PropTypes.string,
@@ -50,6 +49,9 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
+      <span style={{ position: 'relative', left: '20px', top: '-45px' }}>
+        <BackButton />
+      </span>
       <Container>
         <Card
           sx={{
@@ -57,13 +59,6 @@ function Card5({ Content, FileName, Name }) {
             marginTop: '25px'
           }}
         >
-          <Box
-            sx={{
-              mb: 2
-            }}
-          >
-            <BackButton />
-          </Box>
           <Box p={2}>
             <span>
               <Typography>

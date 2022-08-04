@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -18,10 +18,11 @@ import { useTheme } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-
 import { Outlet } from 'react-router-dom';
 
+
 const Item = styled(Paper)(({ theme }) => ({
+
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
@@ -38,8 +39,16 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-
 function MessaageCenter() {
+
+  const [Subject,SetSubject] = useState(
+    {
+      Year : "",
+      Month : "",
+      Input : "Input"
+    }
+  );
+
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -51,9 +60,9 @@ function MessaageCenter() {
   };
   const theme = useTheme();
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
-  
+    localStorage.setItem('url', window.location.pathname);
+  }, []);
+
   const classes = Styles();
   const [state, setState] = React.useState(false);
 
@@ -64,8 +73,8 @@ function MessaageCenter() {
   );
 
   const SearchData = (e) => {
-    console.log(e);
-  }
+    SetSubject(e);
+  };
 
   return (
     <>
@@ -77,21 +86,26 @@ function MessaageCenter() {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-
             <Grid item xs={3}>
-              <Link
+              {/* <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
                 className={classes.TextDecoration}
+              > */}
+                <RouterLink
+                style={{ textDecoration: 'none' }}
+                to={
+                  `/${location.pathname.split('/')[1]}/MessageCenter/msgCenter/Inbox`
+                }
               >
                 <Item
                   sx={
                     pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
-                      pageName == 'Inbox'
+                    pageName == 'Inbox'
                       ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
+                          fontSize: '10px',
+                          backgroundColor: 'gray',
+                          color: 'white'
+                        }
                       : { fontSize: '10px' }
                   }
                 >
@@ -99,7 +113,8 @@ function MessaageCenter() {
                   <br />
                   <b>Inbox</b>
                 </Item>
-              </Link>
+                </RouterLink>
+              {/* </Link> */}
             </Grid>
 
             <Grid item xs={3}>
@@ -111,10 +126,10 @@ function MessaageCenter() {
                   sx={
                     pageName == 'Sent'
                       ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
+                          fontSize: '10px',
+                          backgroundColor: 'gray',
+                          color: 'white'
+                        }
                       : { fontSize: '10px' }
                   }
                 >
@@ -134,10 +149,10 @@ function MessaageCenter() {
                   sx={
                     pageName == 'Trash'
                       ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
+                          fontSize: '10px',
+                          backgroundColor: 'gray',
+                          color: 'white'
+                        }
                       : { fontSize: '10px' }
                   }
                 >
@@ -154,10 +169,10 @@ function MessaageCenter() {
                 sx={
                   pageName == 'Search'
                     ? {
-                      fontSize: '10px',
-                      backgroundColor: 'gray',
-                      color: 'white'
-                    }
+                        fontSize: '10px',
+                        backgroundColor: 'gray',
+                        color: 'white'
+                      }
                     : { fontSize: '10px' }
                 }
               >
@@ -174,24 +189,29 @@ function MessaageCenter() {
                 aria-describedby="alert-dialog-slide-description"
                 sx={{ mt: 10 }}
               >
-                <Search searchData={SearchData} />
+                <Search searchData={SearchData} Flag={"hello"}/>
               </Dialog>
             </Grid>
 
             <Grid
               item
               xs={3}
-              sx={{ position: 'fixed', bottom: '85px', zIndex: '2', width: '25vw', marginLeft: '10px', right: '20px' }}
+              sx={{
+                position: 'fixed',
+                bottom: '85px',
+                zIndex: '2',
+                width: '25vw',
+                marginLeft: '10px',
+                right: '20px'
+              }}
             >
-              {/* <Link
-                to="/extended-sidebar/MessageCenter/Compose" 
-                className={classes.TextDecoration}
-              > */}
               <RouterLink
                 style={{ textDecoration: 'none' }}
                 to={
-                  `/${location.pathname.split('/')[1]
-                  }/MessageCenter/Compose/` + "Compose/" + "Compose/" + "Compose"
+                  `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` +
+                  'Compose/' +
+                  'Compose/' +
+                  'Compose'
                 }
               >
                 <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
@@ -199,14 +219,7 @@ function MessaageCenter() {
                   <br />
                   <b>Compose</b>
                 </Item>
-
               </RouterLink>
-              {/* <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
-                <AddCircleIcon />
-                <br />
-                <b>Compose</b>
-              </Item> */}
-              {/* </Link> */}
             </Grid>
           </Grid>
         </Box>

@@ -30,17 +30,14 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
 
   const YearChangeHandler = (e) => {
     setYear(e.target.value);
-    console.log(e.target.value);
   };
 
   const MonthChangeHandler = (e) => {
     setMonth(e.target.value);
-    console.log(e.target.value);
   };
 
   const InputFieldChangeHandler = (e) => {
     setInput(e.target.value);
-    console.log(e.target.value);
   };
 
   const ApplyClickHandler = () => {
@@ -75,7 +72,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
                           <option
                             key={i}
                             id="demo-simple-select"
-                            value={item.AcademicYearName}
+                            value={item.AcademicYearId}
                           >
                             {item.AcademicYearName}
                           </option>
@@ -102,7 +99,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
                           <option
                             key={i}
                             id="demo-simple-select"
-                            value={item.Name}
+                            value={item.MonthId}
                           >
                             {item.Name}
                           </option>

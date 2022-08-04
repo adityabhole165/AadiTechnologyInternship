@@ -46,8 +46,6 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 function Form13() {
 
 	const { Text, To ,Text2 , Attachments, BODY} = useParams();
-  console.log(BODY)
-
 
   const classes = Styles();
   const classes1 = useStyles();
