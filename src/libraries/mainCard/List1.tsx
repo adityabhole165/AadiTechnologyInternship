@@ -33,7 +33,7 @@ function List1({ items }) {
     {
       (items.length == 0)
       ?
-      <ErrorMessages Error={'No records found'} />
+      <ErrorMessages Error={'No events found'} />
       :
       <Grid container>
         {items.map((items, index) => (
