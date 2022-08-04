@@ -40,6 +40,7 @@ function Holidays() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getHolidays(body));
   }, []);
 

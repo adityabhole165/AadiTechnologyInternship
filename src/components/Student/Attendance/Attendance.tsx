@@ -55,6 +55,10 @@ function Attendance() {
         setAttendanceData(data);
       });
   };
+  
+  useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
+  },[])
 
   useEffect(() => {
     dispatch(getAttendanceList(body));

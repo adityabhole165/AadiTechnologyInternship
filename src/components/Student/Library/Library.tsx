@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Bookswithme from './Bookswithme';
 import BooksDetails from './BooksDetails';
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
@@ -24,6 +24,10 @@ function Library() {
       setText('Books with me');
     }
   }
+  useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
+  },[])
+
   const classes = Styles();
 
   return (

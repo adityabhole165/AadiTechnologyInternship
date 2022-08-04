@@ -101,6 +101,7 @@ function Homework() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     getCurrentDate();
   }, []);
 

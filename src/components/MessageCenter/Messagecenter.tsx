@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -38,6 +38,7 @@ const Transition = React.forwardRef(function Transition(
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
+
 function MessaageCenter() {
   const [open, setOpen] = React.useState(false);
 
@@ -49,7 +50,10 @@ function MessaageCenter() {
     setOpen(false);
   };
   const theme = useTheme();
-
+  useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
+  },[])
+  
   const classes = Styles();
   const [state, setState] = React.useState(false);
 

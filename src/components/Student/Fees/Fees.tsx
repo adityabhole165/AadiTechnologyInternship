@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
 import { getFees } from 'src/requests/Student/Fees';
-import Card16 from 'src/libraries/card/Card16';
 import Card15 from 'src/libraries/card/Card15';
+import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -35,11 +35,12 @@ function Fees() {
   const asStudentId = sessionStorage.getItem('StudentId');
 
   const body: IFees = {
-    asSchoolId: asSchoolId,
-    asStudentId: asStudentId
+    asSchoolId: "120",
+    asStudentId: "11618"
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getFees(body));
   }, []);
 
@@ -83,9 +84,12 @@ function Fees() {
         </small>
         <br />
         <br />
-      </Container>
+      
+        </Container>
 
-      <Card16 Fee={FeesList} Heading={Feedata} Note={Note} />
+      {/* <Card16 Fee={FeesList} Heading={Feedata} Note={Note} /> */}
+      <Card27 FeesType={"Paid Fees"}/>
+      <Card27 FeesType={"Payable Fees"} Fee={FeesList} Heading={Feedata} Note={Note}/>
 
       {FeesList2 === undefined ? null : <Card15 FeeAmount={FeeAmount} />}
 

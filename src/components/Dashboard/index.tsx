@@ -83,6 +83,7 @@ function LandingPage() {
   }, [])
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getModulesPermissionsResultt(body2))
   }, [])
 

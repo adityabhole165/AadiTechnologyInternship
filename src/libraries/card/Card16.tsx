@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTheme, Grid, Checkbox, Stack, List, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { Container } from '@mui/material';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import { saveAs } from 'file-saver';
@@ -11,7 +10,7 @@ import { ClickAwayListener } from '@mui/material';
 import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import { GetFeeDetailsResult } from 'src/interfaces/Student/Fees';
-import { Link, Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 
 Card16.propTypes = {
@@ -62,18 +61,18 @@ function Card16({ Note, Fee, Heading }) {
 
   const handleChange = (event) => {
     let ArrayOfFees_To_NumberArray;
-    if (event.target.checked){
+    if (event.target.checked) {
       ArrayOfFees.push(event.target.value);
       console.log(ArrayOfFees);
       ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
     }
-    if (!event.target.checked){
+    if (!event.target.checked) {
       let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
-      let newArray = ArrayOfFees.splice(indexOfUnCheck_Box,1);
+      let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
       ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
     }
     data = ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0);
-    console.log(data)
+    console.log(data);
     // let data = arr.reduce((pre, curr) => pre + curr, 0);
     // console.log(data);
 
@@ -139,158 +138,156 @@ function Card16({ Note, Fee, Heading }) {
     );
   };
 
-
   return (
     <div>
-        {GetFeeDetails.IsRTEstudent ? (
-          <ClickAwayListener onClickAway={handleClickAway}>
-            <Tooltip
-              PopperProps={{
-                disablePortal: true
-              }}
-              onClose={handleClick}
-              open={open}
-              disableFocusListener
-              disableHoverListener
-              disableTouchListener
-              title={Note}
-              arrow
-              placement="left"
-              componentsProps={{
-                tooltip: {
-                  sx: {
-                    marginLeft: '70px',
-                    transform: 'translate3d(5px, 0px, 0px) !important'
-                  }
+      {GetFeeDetails.IsRTEstudent ? (
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <Tooltip
+            PopperProps={{
+              disablePortal: true
+            }}
+            onClose={handleClick}
+            open={open}
+            disableFocusListener
+            disableHoverListener
+            disableTouchListener
+            title={Note}
+            arrow
+            placement="left"
+            componentsProps={{
+              tooltip: {
+                sx: {
+                  marginLeft: '70px',
+                  transform: 'translate3d(5px, 0px, 0px) !important'
                 }
+              }
+            }}
+          >
+            <InfoTwoToneIcon
+              type="button"
+              onClick={handleClick}
+              sx={{
+                color: 'navy',
+                mt: '-4rem',
+                fontSize: 20,
+                float: 'right',
+                borderRadius: '50%'
               }}
-            >
-              <InfoTwoToneIcon
-                type="button"
-                onClick={handleClick}
+            />
+          </Tooltip>
+        </ClickAwayListener>
+      ) : null}
+
+      <Button variant="contained" sx={{ mb: 2 }}>
+        Total: {countFees}
+        {/* Term 3 */}
+      </Button>
+
+      {Fee === undefined ? null : (
+        <>
+          {Fee.map((item: GetFeeDetailsResult, i) => {
+
+            return item.AmountPayable == '0' ? null : (
+              <List
+                key={i}
+                className={classes.ListStyle}
                 sx={{
-                  color: 'navy',
-                  mt: '-4rem',
-                  fontSize: 20,
-                  float: 'right',
-                  borderRadius: '50%'
+                  background: date.find((value) =>
+                    value.includes(item.DueDateFormat)
+                  )
+                    ? 'coral'
+                    : `${theme.colors.gradients.pink1}`,
+                  mb: 1
                 }}
-              />
-            </Tooltip>
-          </ClickAwayListener>
-        ) : null}
+              >
+                <Box>
+                  <Grid container>
+                    <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
+                      {item.AmountPayable != '0' && item.RowNumber == '1' ? (
+                        <Checkbox
+                          value={
+                            i < Fee.length - 1 &&
+                            Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup
+                              ? parseInt(Fee[i].AmountPayable) +
+                                parseInt(Fee[i + 1].AmountPayable)
+                              : i < Fee.length - 1 &&
+                                Fee[i].PaymentGroup !== Fee[i + 1].PaymentGroup
+                              ? parseInt(Fee[i].AmountPayable)
+                              : i == Fee.length - 1 &&
+                                Fee[i].PaymentGroup !==
+                                  Fee[Fee.length - 1].PaymentGroup
+                              ? null
+                              : parseInt(Fee[Fee.length - 1].AmountPayable)
+                          }
+                          className="check"
+                          size="small"
+                          id={item.PaymentGroup}
+                          onChange={(event) => {
+                            handleChange(event);
+                          }}
+                        />
+                      ) : null}
+                    </Grid>
 
-        <Button variant="contained" sx={{ mb: 2 }}>
-          {/* Total: {countFees} */}
-          Term 3
-        </Button>
-
-        {Fee === undefined ? null : (
-          <>
-            {Fee.map((item: GetFeeDetailsResult, i) => {
-              return (
-                <List
-                  key={i}
-                  className={classes.ListStyle}
-                  sx={{
-                    background: date.find((value) =>
-                      value.includes(item.DueDateFormat)
-                    )
-                      ? 'coral'
-                      : `${theme.colors.gradients.pink1}`,
-                    mb: 1
-                  }}
-                >
-                  <Box>
-                    <Grid container>
-                      <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
-                        {item.AmountPayable != '0' && item.RowNumber == '1' ? (
-                          <Checkbox
-                            value=
-                            {
-                              ((i<Fee.length-1) && Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup)
-                              ?
-                              parseInt(Fee[i].AmountPayable) + parseInt(Fee[i + 1].AmountPayable)
-                              :
-                              ((i<Fee.length-1) && Fee[i].PaymentGroup !== Fee[i + 1].PaymentGroup)
-                              ?
-                              (parseInt(Fee[i].AmountPayable))
-                              :
-                              ((i==Fee.length-1) && Fee[i].PaymentGroup !== Fee[Fee.length-1].PaymentGroup)
-                              ?
-                              null
-                              :
-                              (parseInt(Fee[Fee.length-1].AmountPayable))
-                            }
-                            className="check"
-                            size="small"
-                            id={item.PaymentGroup}
-                            onChange={(event) => {
-                              handleChange(event);
+                    <Grid item xs={10}>
+                      <Grid container xs={12}>
+                        <Grid xs={8}>
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                              overflow: 'hidden'
                             }}
-                          />
-                        ) : null}
+                          >
+                            {item.FeeType}
+                          </Typography>
+                        </Grid>
+                        <Grid xs={2}></Grid>
                       </Grid>
-
-                      <Grid item xs={10}>
-                        <Grid container xs={12}>
-                          <Grid xs={8}>
-                            <Typography
-                              variant="h4"
-                              sx={{
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                                overflow: 'hidden'
-                              }}
-                            >
-                              {item.FeeType}
-                            </Typography>
-                          </Grid>
-                          <Grid xs={2}></Grid>
+                      <Grid container xs={12}>
+                        <Grid xs={10}>
+                          <Typography
+                            sx={{
+                              whiteSpace: 'nowrap',
+                              textOverflow: 'ellipsis',
+                              overflow: 'hidden'
+                            }}
+                          >
+                            {Heading.Fee2} <strong>{item.Amount}</strong>
+                          </Typography>
                         </Grid>
-                        <Grid container xs={12}>
-                          <Grid xs={10}>
-                            <Typography
-                              sx={{
-                                whiteSpace: 'nowrap',
-                                textOverflow: 'ellipsis',
-                                overflow: 'hidden'
-                              }}
-                            >
-                              {Heading.Fee2} <strong>{item.Amount}</strong>
-                            </Typography>
-                          </Grid>
-                        </Grid>
-                        <Grid container xs={12}>
-                          <Grid xs={10}>Due On :{item.DueDateFormat}</Grid>
-                        </Grid>
+                      </Grid>
+                      <Grid container xs={12}>
+                        <Grid xs={10}>Due On :{item.DueDateFormat}</Grid>
                       </Grid>
                     </Grid>
-                  </Box>
-                </List>
-              );
-            })}
-          </>
-        )}
-
-        <>
-          <Stack direction="row" spacing={2}>
-            <RouterLink
-              to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
-              style={mystyle}
-            >
-              {Fee.AmountPayable != 0 ? (
-                <Button disabled={disable} variant="contained">
-                  Pay Online
-                </Button>
-              ) : null}
-            </RouterLink>
-
-            {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
-              <Button variant="contained"> Pay Caution Money </Button>
-            ) : null}
-          </Stack>
+                  </Grid>
+                </Box>
+              </List>
+            );
+          })}
         </>
+      )}
+
+      <>
+        <Stack direction="row" spacing={2}>
+          <RouterLink
+            to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+            style={mystyle}
+          >
+            {Fee.AmountPayable != 0 ? (
+              <Button disabled={disable} variant="contained">
+                Pay Online
+              </Button>
+            ) : null}
+          </RouterLink>
+
+          {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
+            <Button variant="contained"> Pay Caution Money </Button>
+          ) : null}
+        </Stack>
+      </>
     </div>
   );
 }

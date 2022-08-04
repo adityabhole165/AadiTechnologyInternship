@@ -23,6 +23,7 @@ function Schoolnotice() {
   };
 
   useEffect(() => {
+    localStorage.setItem("url",window.location.pathname)
     dispatch(getSchoolNotice(body));
   }, []);
 
