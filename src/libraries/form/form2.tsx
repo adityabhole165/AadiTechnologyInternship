@@ -12,6 +12,12 @@ import {
   IGetAllMonthlist
 } from 'src/interfaces/MessageCenter/Search';
 import { useState } from 'react';
+import { IgetList } from "src/interfaces/MessageCenter/GetList";
+import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
+import { getInboxList } from "src/requests/Student/InboxMessage";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "src/store";
+
 
 Form2.propTypes = {
   YearsList: PropTypes.array,
@@ -19,6 +25,8 @@ Form2.propTypes = {
 };
 
 function Form2({ YearsList, allMonthList, searchFunction }) {
+  const dispatch = useDispatch()
+
   const [Year_Month_Input, setYear_Month_Input] = useState({
     Year: '',
     Month: '',
@@ -27,6 +35,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
   const [Year, setYear] = useState('');
   const [Month, setMonth] = useState('');
   const [Input, setInput] = useState('');
+  console.log(Input);
 
   const YearChangeHandler = (e) => {
     setYear(e.target.value);
@@ -48,10 +57,43 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     });
   };
 
+  const pathname = window.location.pathname;
+  const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '');
+  const pageName2 = pathname.replace("/extended-sidebar/MessageCenter/", '')
+
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  
+  const GetInboxMessageList = useSelector((state: RootState) => state.InboxMessage.InboxList);
+  // console.log(GetInboxMessageList);
+
+  const getList: IgetList = {
+    "asUserId": UserId,
+    "asAcademicYearId": AcademicYearId,
+    "asUserRoleId": RoleId,
+    "asSchoolId": asSchoolId,
+    "abIsSMSCenter": null,
+    "asFilter": Input,
+    "asPageIndex": 1,
+    "asMonthId": null
+  }
+
   const FormSubmitted = (event) => {
     event.preventDefault();
     searchFunction(Year_Month_Input);
+
+    InboxMessageApi.GetInboxList(getList)
+      .then((data) => {
+          dispatch(getInboxList(getList));
+          console.log(data)
+      })
+      .catch((err) => {
+        alert("error network")
+      })
   };
+
 
   return (
     <form onSubmit={FormSubmitted}>

@@ -86,7 +86,7 @@ function MessaageCenter() {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               {/* <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
                 className={classes.TextDecoration}
@@ -117,7 +117,7 @@ function MessaageCenter() {
               {/* </Link> */}
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Sent"
                 className={classes.TextDecoration}
@@ -140,7 +140,7 @@ function MessaageCenter() {
               </Link>
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Trash"
                 className={classes.TextDecoration}
@@ -163,23 +163,8 @@ function MessaageCenter() {
               </Link>
             </Grid>
 
-            <Grid item xs={3}>
-              <Item
-                onClick={handleClickOpen}
-                sx={
-                  pageName == 'Search'
-                    ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
-                    : { fontSize: '10px' }
-                }
-              >
-                <SearchIcon />
-                <br />
-                <b>Search</b>
-              </Item>
+            <Grid item xs={1.5}>
+                <SearchIcon sx={{fontSize: '40px',marginTop:'10px'}} onClick={handleClickOpen} />
 
               <Dialog
                 open={open}
@@ -187,7 +172,7 @@ function MessaageCenter() {
                 keepMounted
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
-                sx={{ mt: 10 }}
+                sx={{ mt: -45 }}
               >
                 <Search searchData={SearchData} Flag={"hello"}/>
               </Dialog>

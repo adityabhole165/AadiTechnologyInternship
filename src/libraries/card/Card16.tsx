@@ -17,7 +17,7 @@ Card16.propTypes = {
   Fee: PropTypes.array,
   Heading: PropTypes.object,
   Note: PropTypes.string,
-  FeesTypes: PropTypes?.string,
+  FeesTypes: PropTypes?.string
 };
 
 export interface Iprops {
@@ -28,14 +28,15 @@ export interface Iprops {
 }
 
 function Card16({ Note, Fee, Heading, FeesTypes }) {
-  let data;
+  
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
 
-  console.log({FeesTypes})
-
+  let SumOfFees;
   let ArrayOfFees = [];
+  let SelectedCheckBoxes = [];
+
 
   const classes = Styles();
   const theme = useTheme();
@@ -43,11 +44,9 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
   const [pointerEvents, setpointerEvents] = useState<string>('none');
   const [date, setDate] = useState<any>([]);
   const [disable, setDisable] = useState(false);
-  const [selected, setSelected] = useState<any>([]);
-  const [Data1, setData1] = useState<any>([]);
+  // const [selected, setSelected] = useState([]);
   const [countFees, setCount] = useState<any>([]);
-
-  // console.log('count', countFees);
+  // const [isSelected,setisSelected] = useState(false)
 
   const mystyle = {
     pointerEvents: pointerEvents as 'none',
@@ -66,73 +65,39 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     let ArrayOfFees_To_NumberArray;
     if (event.target.checked) {
       ArrayOfFees.push(event.target.value);
-      console.log(ArrayOfFees);
       ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+      SumOfFees = ArrayOfFees_To_NumberArray.reduce(
+        (pre, curr) => pre + curr,0
+      );
+      console.log(SumOfFees);
+
+      SelectedCheckBoxes.push(event.target.name);
     }
     if (!event.target.checked) {
       let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
       let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
       ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+
+      let indexOfUnCheck_Box_Name = SelectedCheckBoxes.indexOf(
+        event.target.name
+      );
+      let newArrayName = SelectedCheckBoxes.splice(indexOfUnCheck_Box_Name, 1);
+      console.log(SelectedCheckBoxes);
     }
-    data = ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0);
-    console.log(data);
-    // let data = arr.reduce((pre, curr) => pre + curr, 0);
-    // console.log(data);
-
-    // if (event.target.checked) {
-    //   setDisable(false);
-    //   setpointerEvents('auto');
-    //   setDate([...date, event.target._wrapperState.initialValue]);
-    //   setSelected([...selected, event.target.value]);
-    //   const selectedId = event.target.id;
-
-    //   {
-    //     Fee.filter((item) => {
-    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-    //         Data1.push(parseInt(item.Amount));
-    //       }
-    //     });
-    //   }
-
-    //   let data = Data1.reduce((pre, curr) => pre + curr, 0);
-    //   setCount(data);
-    // }
-
-    // if (!event.target.checked) {
-    //   setDisable(true);
-    //   setpointerEvents('none');
-    //   const updatedList = selected.filter((item) => item != event.target.value);
-    //   setSelected(updatedList);
-    //   const updatedData = date.filter(
-    //     (item) => item != event.target._wrapperState.initialValue
-    //   );
-    //   setDate(updatedData);
-
-    //   const selectedId = event.target.id;
-    //   {
-    //     Fee.filter((item) => {
-    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-    //         Data1.pop(parseInt(item.Amount));
-    //         let count = Data1.reduce((pre, curr) => pre + curr, 0);
-    //         console.log('deduct', count);
-    //         setCount(count);
-    //       }
-    //     });
-    //   }
-    // }
+    console.log(SelectedCheckBoxes)
   };
 
-  const getSelected = () => {
-    if (selected.length > 1 || selected.length > 0) {
-      setDisable(false);
-    } else if (selected.length === 0) {
-      setDisable(true);
-    }
-  };
+  // const getSelected = () => {
+  //   if (selected.length > 1 || selected.length > 0) {
+  //     setDisable(false);
+  //   } else if (selected.length === 0) {
+  //     setDisable(true);
+  //   }
+  // };
 
-  useEffect(() => {
-    getSelected();
-  }, [handleChange]);
+  // useEffect(() => {
+  //   getSelected();
+  // }, [handleChange]);
 
   const Receipt = () => {
     saveAs(
@@ -140,6 +105,13 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
         '\\RITeSchool\\OtherDownloads\\ReceiptDownloads\\Receipt_84202216516894.pdf'
     );
   };
+
+  let isSelected;
+
+  useEffect(() => {
+    console.log(SelectedCheckBoxes)
+  }, [])
+  
 
   return (
     <div>
@@ -183,13 +155,15 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
       <Button variant="contained" sx={{ mb: 2 }}>
         Total: {countFees}
-        {/* Term 3 */}
       </Button>
 
       {Fee === undefined ? null : (
         <>
+          
           {Fee.map((item: GetFeeDetailsResult, i) => {
 
+       
+            
             return item.AmountPayable == '0' ? null : (
               <List
                 key={i}
@@ -208,6 +182,8 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                     <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
                       {item.AmountPayable != '0' && item.RowNumber == '1' ? (
                         <Checkbox
+                          checked={isSelected}
+                          name={item.PaymentGroup}
                           value={
                             i < Fee.length - 1 &&
                             Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup
@@ -288,7 +264,9 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
           {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
             <Button variant="contained"> Pay Caution Money </Button>
-          ) : null}
+          ) : (
+            <Button variant="contained"> Caution Money Receipt </Button>
+          )}
         </Stack>
       </>
     </div>

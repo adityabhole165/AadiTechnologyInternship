@@ -31,6 +31,7 @@ function Search({searchData,Flag}) {
     asAcademicYearId: '8',
     asSchoolId: '120'
   };
+  
 
   useEffect(() => {
     dispatch(getYearsList(body));
