@@ -103,13 +103,13 @@ console.log("Text2",Text2);
          
         </Card>
 
-        {/* <RouterLink
+        <RouterLink
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + Text + "/" + To
+            }/MessageCenter/Compose/`  + Text + "/" + BODY
           }
-        > */}
+        >
           <Box sx={{ marginTop: '0px' }}>
             {/*  onClick={Compredirect} */}
             <Button
@@ -122,12 +122,12 @@ console.log("Text2",Text2);
               Reply
             </Button>
           </Box>
-        {/* </RouterLink> */}
+        </RouterLink> 
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + Attachments + "/" + Text2 + "/" + BODY
+            }/MessageCenter/Compose/` + Text2 + "/" + Attachments + "/" + BODY
           }
         >
         <Box

@@ -7,7 +7,7 @@ import { useParams } from "react-router-dom";
 import Card7 from "src/libraries/card/card7";
 import http from 'src/requests/SchoolService/schoolServices';
 
-function ViewSms({Text}) {
+function ViewSms({}) {
   const dispatch = useDispatch();
   // const ViewSent: any = useSelector((state: RootState) => state.Sent__Message.ViewSent)
   const ViewDetail = { From:"From", Subject:"Subject", To:"To", Attachment:"Attachment", Body: "Content" }
@@ -33,6 +33,11 @@ function ViewSms({Text}) {
       "asReceiverId": UserId,
       "asAcademicYearId": asAcademicYearId
     };
+
+console.log(ID);
+console.log(UserId);
+
+console.log(asAcademicYearId);
 
 
 

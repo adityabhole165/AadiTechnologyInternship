@@ -44,9 +44,13 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
+const Text = ""
+const To = ""
+// const Attachments = "sssssssss.ppt"
+	const {Text2,Attachments,BODY} = useParams();
+	// const { Text, To ,Text2 , Attachments, BODY} = useParams();
+  console.log(Text2)
 
-	const { Text, To ,Text2 , Attachments, BODY} = useParams();
-  console.log(BODY)
 
 
   const classes = Styles();
@@ -367,7 +371,7 @@ function Form13() {
                 )
               }}
             />
-             {Attachments.length === 0 ? null : (
+             { Attachments == undefined ? null : (
               <>
               <Typography>Attachment(s):</Typography>
                 <Typography
