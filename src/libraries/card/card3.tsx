@@ -20,13 +20,15 @@ function Card3({ ViewDetail, From, To, Date, Text }) {
   const classes = Styles();
   return (
     <>
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+        <BackButton />
+      </span>
       <Container>
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`
           }}
         >
-          <BackButton />
           <Box
             display="flex"
             justifyContent="space-between"

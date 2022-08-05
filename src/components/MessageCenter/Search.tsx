@@ -9,7 +9,13 @@ import { RootState } from 'src/store';
 import { Iyears, IGetAllMonths } from 'src/interfaces/MessageCenter/Search';
 import Form2 from 'src/libraries/form/form2';
 
-function Search({searchData}) {
+function Search({searchData,Flag}) {
+
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+
   const dispatch = useDispatch();
   const YearsList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList

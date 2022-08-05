@@ -44,12 +44,6 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
-const Text = ""
-const To = ""
-// const Attachments = "sssssssss.ppt"
-	const {Text2,Attachments,BODY} = useParams();
-	// const { Text, To ,Text2 , Attachments, BODY} = useParams();
-  console.log(Text2)
 
 
 
@@ -156,7 +150,6 @@ const To = ""
   }, [Too]);
 
   const sendMessage = () => {
-    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -184,23 +177,15 @@ const To = ""
     console.log('SendMessageBody: ',body);
 
     MessageCenterApi.GetSendMessage(body)
-    // .then((response) => {
-    //   console.log(response.status);
-    // })
-    // .catch((error) => {
-    //   console.log(error);
-    //   toast.error('Message send successfully');
-    // })
-      // .then((res: any) => {
-      //   console.log(res);
-      //   if (res.status === 200) {
-      //     toast.success('Message send successfully');
-      //   }
-      // })
-      // .catch((err) => {
-      //   // console.log(JSON.stringify(err));
-      //   console.log(err)
-      // });
+    .then((res: any) => {
+        if (res.status === 200) {
+          formik.resetForm();
+          toast.success('Message send successfully');
+        }
+      })
+      .catch((err) => {
+        toast.error('Message not send successfully');
+      });
   };
 
   const formik = useFormik({
@@ -312,7 +297,6 @@ const To = ""
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-
             <TextField
               fullWidth
               id="fullWidth"

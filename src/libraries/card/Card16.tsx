@@ -16,7 +16,8 @@ import { Styles } from 'src/assets/style/student-style';
 Card16.propTypes = {
   Fee: PropTypes.array,
   Heading: PropTypes.object,
-  Note: PropTypes.string
+  Note: PropTypes.string,
+  FeesTypes: PropTypes?.string,
 };
 
 export interface Iprops {
@@ -26,11 +27,13 @@ export interface Iprops {
   pointerEvents: string;
 }
 
-function Card16({ Note, Fee, Heading }) {
+function Card16({ Note, Fee, Heading, FeesTypes }) {
   let data;
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
+
+  console.log({FeesTypes})
 
   let ArrayOfFees = [];
 

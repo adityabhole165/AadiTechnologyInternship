@@ -53,69 +53,50 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             >
               <Card16 Fee={Fee} Heading={Heading} Note={Note} />
             </AccordionDetails>
-          ) : 
-          
-          (
-            (Fee !== undefined )
-          // ?
-          // "Noo message"
-          // :
-          ?
+          ) : Fee !== undefined ? (
             Fee.map((item, i) => {
-              {
-                return item.AmountPayable == 0 ? (
-                  // <AccordionDetails
-                  //   sx={{
-                  //     borderRadius: 1,
-                  //     borderBottom: 2,
-                  //     mb: 1,
-                  //     backgroundColor: '#5c5f628a'
-                  //   }}
-                  // >
-                    <Card
+              return item.AmountPayable == 0 ? (
+                <Card
+                  sx={{
+                    background: `${theme.colors.gradients.pink1}`,
+                    marginTop: '0.3rem'
+                  }}
+                  key={i}
+                >
+                  <Grid container direction="row">
+                    <Grid
+                      xs={9}
                       sx={{
-                        background: `${theme.colors.gradients.pink1}`,
-                        marginTop: '0.3rem'
+                        borderRight: 1,
+                        borderRadius: 1,
+                        border: 'none'
                       }}
-                      key={i}
                     >
-                      <Grid container direction="row">
-                        <Grid
-                          xs={9}
-                          sx={{
-                            borderRight: 1,
-                            borderRadius: 1,
-                            border: 'none'
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }}
-                          >
-                            Hello5
-                          </Typography>
-                        </Grid>
-                        <Grid xs={3}>
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pt: 1, textAlign: 'center' }}
-                          >
-                            {item.Amount}
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Card>
-                  // </AccordionDetails>
-                ) : null;
-              }
+                      <Typography
+                        component="div"
+                        variant="h5"
+                        sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }}
+                      >
+                        Hello5
+                      </Typography>
+                    </Grid>
+                    <Grid xs={3}>
+                      <Typography
+                        component="div"
+                        variant="h5"
+                        sx={{ pt: 1, textAlign: 'center' }}
+                      >
+                        {item.Amount}
+                      </Typography>
+                    </Grid>
+                  </Grid>
+                </Card>
+              ) : null;
             })
-            :
-          "hello"
-          )
-          
-          }
+          ) : 
+          (
+            null
+          )}
         </Accordion>
       </Container>
     </>
