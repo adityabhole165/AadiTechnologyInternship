@@ -9,7 +9,7 @@ import { RootState } from 'src/store';
 import { Iyears, IGetAllMonths } from 'src/interfaces/MessageCenter/Search';
 import Form2 from 'src/libraries/form/form2';
 
-function Search({searchData,Flag}) {
+function Search({searchData}) {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
