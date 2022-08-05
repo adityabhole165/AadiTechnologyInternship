@@ -45,7 +45,7 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
 
-	const { Text, To ,Text2 , Attachments, BODY} = useParams();
+  const { Text, To ,Text2 , Attachments, BODY} = useParams();
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -355,7 +355,7 @@ function Form13() {
                 )
               }}
             />
-             {Attachments.length === 0 ? null : (
+             { Attachments == undefined ? null : (
               <>
               <Typography>Attachment(s):</Typography>
                 <Typography

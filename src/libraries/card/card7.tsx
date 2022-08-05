@@ -97,33 +97,33 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
           </Box>
         </Card>
 
-        {/* <RouterLink
+        <RouterLink
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + Text + "/" + To
+            }/MessageCenter/Compose/`  + Text + "/" + BODY
           }
-        > */}
-        <Box sx={{ marginTop: '0px' }}>
-          {/*  onClick={Compredirect} */}
-          <Button
-            className={classes.Reply}
-            sx={{
-              background: 'rgb(11 101 214)',
-              position: 'absolute'
-            }}
-          >
-            Reply
-          </Button>
-        </Box>
-        {/* </RouterLink> */}
+        >
+          <Box sx={{ marginTop: '0px' }}>
+            {/*  onClick={Compredirect} */}
+            <Button
+              className={classes.Reply}
+              sx={{
+                background: 'rgb(11 101 214)',
+                position: 'absolute'
+              }}
+            >
+              Reply
+            </Button>
+          </Box>
+        </RouterLink> 
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` +
-            Attachments +
-            '/' +
             Text2 +
+            '/' +
+            Attachments +
             '/' +
             BODY
           }
