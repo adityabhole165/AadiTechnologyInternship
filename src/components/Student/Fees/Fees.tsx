@@ -1,22 +1,22 @@
-import { useEffect } from 'react'
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFees } from 'src/requests/Student/Fees';
-import Card15 from 'src/libraries/card/Card15';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled } from '@mui/material';
+import { Card, styled } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useTheme } from '@mui/material';
 
 function Fees() {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-  const FeesList2 = useSelector((state: RootState) => state.Fees.FeesData2);
+  const FeesList2: any = useSelector(
+    (state: RootState) => state.Fees.FeesData2
+  );
 
   const Feedata = {
     Fee1: 'Fee Type',
@@ -35,14 +35,16 @@ function Fees() {
   const asStudentId = sessionStorage.getItem('StudentId');
 
   const body: IFees = {
-    asSchoolId: "120",
+    asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
+
+  const theme = useTheme();
 
   const DotLegend = styled('span')(
     ({ theme }) => `
@@ -58,41 +60,52 @@ function Fees() {
   return (
     <>
       <PageHeader heading={'Fee Details'} subheading={''} />
-      <Container>
+
+      <Container sx={{ mb: '-10px' }}>
+        
         <DotLegend
           className={classes.border}
-          style={{ background: '#9575cd' }}
+          style={{ background: '#9575cd', display: 'inline-block',marginLeft:1 }}
         />
         <small>
           <b>Bouncee Cheque Transaction </b>
         </small>
-        <br />
         <DotLegend
           className={classes.border}
-          style={{ background: '#f48fb1' }}
-        />
-        <small>
-          <b>Fees Payable </b>
-        </small>
-        <br />
-        <DotLegend
-          className={classes.border}
-          style={{ background: '#64b5f6' }}
+          sx={{ background: '#64b5f6', display: 'inline-block', ml: '5px' }}
         />
         <small>
           <b>Refunded Fees </b>
         </small>
         <br />
         <br />
-      
-        </Container>
 
-      {/* <Card16 Fee={FeesList} Heading={Feedata} Note={Note} /> */}
-      <Card27 FeesType={"Paid Fees"}/>
-      <Card27 FeesType={"Payable Fees"} Fee={FeesList} Heading={Feedata} Note={Note}/>
+        <Card
+          sx={{
+            textAlign: 'center',
+            background: `${theme.colors.gradients.pink1}`,
+            mb: 4,
+            boxShadow: '6px 6px 8px  gray !important',
+            p: 0.5,
+            fontWeight:'bold'
+          }}
+        >
+          Applicable Fees : {FeesList2.TotalFee}
+        </Card>
+      </Container>
 
-      {FeesList2 === undefined ? null : <Card15 FeeAmount={FeeAmount} />}
-
+      <Card27
+        FeesType={'Paid Fees'}
+        Fee={FeesList}
+        Heading={Feedata}
+        Note={Note}
+      />
+      <Card27
+        FeesType={'Payable Fees'}
+        Fee={FeesList}
+        Heading={Feedata}
+        Note={Note}
+      />
     </>
   );
 }

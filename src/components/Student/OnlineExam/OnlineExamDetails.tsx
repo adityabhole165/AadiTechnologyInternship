@@ -56,7 +56,7 @@ const onlineExamDetails = () => {
     <>
     <Container>
       <PageHeader heading={'Online Exam Details'} subheading={''} />
-      <span style={{position:'relative',top:'-20px',left:'5px'}}>
+      <span style={{position:'relative',top:'-38px',left:'2px'}}>
         <BackButton />
         </span>
       {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {

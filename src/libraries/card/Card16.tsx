@@ -8,16 +8,19 @@ import Tooltip from '@mui/material/Tooltip';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { ClickAwayListener } from '@mui/material';
 import { RootState } from 'src/store';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { GetFeeDetailsResult } from 'src/interfaces/Student/Fees';
 import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
+import { getFees } from 'src/requests/Student/Fees';
+import IFees from 'src/interfaces/Student/Fees';
+
 
 Card16.propTypes = {
   Fee: PropTypes.array,
   Heading: PropTypes.object,
   Note: PropTypes.string,
-  FeesTypes: PropTypes?.string,
+  FeesTypes: PropTypes?.string
 };
 
 export interface Iprops {
@@ -28,14 +31,14 @@ export interface Iprops {
 }
 
 function Card16({ Note, Fee, Heading, FeesTypes }) {
-  let data;
+  
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
 
-  console.log({FeesTypes})
-
+  let SumOfFees;
   let ArrayOfFees = [];
+  let SelectedCheckBoxes = [];
 
   const classes = Styles();
   const theme = useTheme();
@@ -43,14 +46,12 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
   const [pointerEvents, setpointerEvents] = useState<string>('none');
   const [date, setDate] = useState<any>([]);
   const [disable, setDisable] = useState(false);
-  const [selected, setSelected] = useState<any>([]);
-  const [Data1, setData1] = useState<any>([]);
   const [countFees, setCount] = useState<any>([]);
+  let CheckBoxPaymentGroup = ["1"];
 
-  // console.log('count', countFees);
+  const [disabledState,setdisabledState] = useState(false)
 
   const mystyle = {
-    pointerEvents: pointerEvents as 'none',
     textDecoration: 'none' as 'none'
   };
 
@@ -62,6 +63,32 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     setOpen(false);
   };
 
+  // const handleChange = (event) => {
+  //   let ArrayOfFees_To_NumberArray;
+  //   if (event.target.checked) {
+  //     ArrayOfFees.push(event.target.value);
+  //     ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+  //     SumOfFees = ArrayOfFees_To_NumberArray.reduce(
+  //       (pre, curr) => pre + curr,0
+  //     );
+  //     SelectedCheckBoxes.push(event.target.name);
+  //     CheckBoxPaymentGroup.push("2")
+  //   }
+  //   if (!event.target.checked) {
+  //     let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
+  //     let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
+  //     ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+
+  //     let indexOfUnCheck_Box_Name = SelectedCheckBoxes.indexOf(
+  //       event.target.name
+  //     );
+  //     let newArrayName = SelectedCheckBoxes.splice(indexOfUnCheck_Box_Name, 1);
+
+  //   }
+  //   console.log(SumOfFees)
+  // };
+
+  const [data,setdata] = useState(0);
   const handleChange = (event) => {
     let ArrayOfFees_To_NumberArray;
     if (event.target.checked) {
@@ -74,65 +101,10 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
       let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
       ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
     }
-    data = ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0);
-    console.log(data);
-    // let data = arr.reduce((pre, curr) => pre + curr, 0);
-    // console.log(data);
+    setdata(ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0));
+  }
+  console.log(data)
 
-    // if (event.target.checked) {
-    //   setDisable(false);
-    //   setpointerEvents('auto');
-    //   setDate([...date, event.target._wrapperState.initialValue]);
-    //   setSelected([...selected, event.target.value]);
-    //   const selectedId = event.target.id;
-
-    //   {
-    //     Fee.filter((item) => {
-    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-    //         Data1.push(parseInt(item.Amount));
-    //       }
-    //     });
-    //   }
-
-    //   let data = Data1.reduce((pre, curr) => pre + curr, 0);
-    //   setCount(data);
-    // }
-
-    // if (!event.target.checked) {
-    //   setDisable(true);
-    //   setpointerEvents('none');
-    //   const updatedList = selected.filter((item) => item != event.target.value);
-    //   setSelected(updatedList);
-    //   const updatedData = date.filter(
-    //     (item) => item != event.target._wrapperState.initialValue
-    //   );
-    //   setDate(updatedData);
-
-    //   const selectedId = event.target.id;
-    //   {
-    //     Fee.filter((item) => {
-    //       if ([selectedId].find((val) => val.includes(item.PaymentGroup))) {
-    //         Data1.pop(parseInt(item.Amount));
-    //         let count = Data1.reduce((pre, curr) => pre + curr, 0);
-    //         console.log('deduct', count);
-    //         setCount(count);
-    //       }
-    //     });
-    //   }
-    // }
-  };
-
-  const getSelected = () => {
-    if (selected.length > 1 || selected.length > 0) {
-      setDisable(false);
-    } else if (selected.length === 0) {
-      setDisable(true);
-    }
-  };
-
-  useEffect(() => {
-    getSelected();
-  }, [handleChange]);
 
   const Receipt = () => {
     saveAs(
@@ -141,8 +113,24 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     );
   };
 
+  const dispatch = useDispatch();
+  
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+
+  const body: IFees = {
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId
+  };
+
+  useEffect(() => {
+    dispatch(getFees(body));
+  }, [disabledState]);
+
+
   return (
     <div>
+                
       {GetFeeDetails.IsRTEstudent ? (
         <ClickAwayListener onClickAway={handleClickAway}>
           <Tooltip
@@ -182,13 +170,15 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
       ) : null}
 
       <Button variant="contained" sx={{ mb: 2 }}>
-        Total: {countFees}
-        {/* Term 3 */}
+        Total: {data}
       </Button>
 
       {Fee === undefined ? null : (
         <>
           {Fee.map((item: GetFeeDetailsResult, i) => {
+
+          // setdisabledState(CheckBoxPaymentGroup.includes(item.PaymentGroup))
+          // disabledState = disabledCheckBox.includes(item.PaymentGroup);
 
             return item.AmountPayable == '0' ? null : (
               <List
@@ -208,6 +198,10 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                     <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
                       {item.AmountPayable != '0' && item.RowNumber == '1' ? (
                         <Checkbox
+                          disabled= 
+                          {disabledState}
+                          // { (disabledCheckBox[i] == item.PaymentGroup ) ? false : true }
+                          name={item.PaymentGroup}
                           value={
                             i < Fee.length - 1 &&
                             Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup
@@ -288,7 +282,10 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
           {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
             <Button variant="contained"> Pay Caution Money </Button>
-          ) : null}
+          ) : (
+            <Button variant="contained"> Caution Money Receipt </Button>
+          )}
+          
         </Stack>
       </>
     </div>
