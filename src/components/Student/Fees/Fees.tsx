@@ -35,7 +35,7 @@ function Fees() {
   const asStudentId = sessionStorage.getItem('StudentId');
 
   const body: IFees = {
-    asSchoolId: '120',
+    asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
 

@@ -64,7 +64,7 @@ function MessaageCenter() {
   );
 
   const SearchData = (e) => {
-    console.log(e);
+    setOpen(!e.Apply);
   }
 
   return (
@@ -156,7 +156,7 @@ function MessaageCenter() {
                 keepMounted
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
-                sx={{ mt: -45 }}
+                sx={{ mt: -55 }}
               >
                 <Search searchData={SearchData} />
               </Dialog>

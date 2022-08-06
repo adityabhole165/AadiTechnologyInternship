@@ -25,11 +25,11 @@ function Search({searchData}) {
   );
 
   const body: Iyears = {
-    asSchoolId: '120'
+    asSchoolId: asSchoolId
   };
   const Mbody: IGetAllMonths = {
-    asAcademicYearId: '8',
-    asSchoolId: '120'
+    asAcademicYearId: AcademicYearId,
+    asSchoolId: asSchoolId
   };
   
 

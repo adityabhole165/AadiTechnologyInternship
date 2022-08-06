@@ -180,11 +180,11 @@ function Form13() {
     .then((res: any) => {
         if (res.status === 200) {
           formik.resetForm();
-          toast.success('Message send successfully');
+          toast.success('Message sent successfully');
         }
       })
       .catch((err) => {
-        toast.error('Message not send successfully');
+        toast.error('Message not sent successfully');
       });
   };
 
