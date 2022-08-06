@@ -23,6 +23,20 @@ function List9({Title,Acc,title,issue,returnn,parentissue}) {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+const issuedate = new Date(issue);
+		const Day = issuedate.getDate();
+		const Month = issuedate.toLocaleString("default", { month: 'short'});
+		const Year = issuedate.getFullYear();
+		const NewDateFormat = `${Day}/${Month}/${Year}`;
+   console.log(issue.slice(9,-6))
+
+   const returndate = new Date(returnn);
+   const Days = returndate.getDate();
+   const Months = returndate.toLocaleString("default", { month: 'short'});
+   const Years = returndate.getFullYear();
+   const NewDateFormats = `${Days}/${Months}/${Years}`;
+  console.log(issue.slice(9,-6))
+
 
     return (
         <>
@@ -80,7 +94,7 @@ function List9({Title,Acc,title,issue,returnn,parentissue}) {
                                 <Grid item xs={9}
                                   className={classes.gridstart}>
                                   <Typography className={classes.Listfont2}>
-                                  {issue}
+                                  {NewDateFormat} {issue.slice(9,-6)} {issue.slice(18)}
                                   </Typography>
                                 </Grid>
                               </Box>
@@ -94,7 +108,7 @@ function List9({Title,Acc,title,issue,returnn,parentissue}) {
                                 <Grid item xs={9}
                                   className={classes.gridstart}>
                                   <Typography className={classes.Listfont2}>
-                                  {returnn} 
+                                  {NewDateFormats}  {returnn.slice(9,-6)} {returnn.slice(18)}
                                   </Typography>
                                 </Grid>
                               </Box>
