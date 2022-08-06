@@ -27,7 +27,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
 
   return (
     <>
-      <Container sx={{ mt: 1, pb: '5px', pl: '-8px' }}>
+      <Container sx={{ pb: '5px', pl: '-8px' }}>
         <Accordion className={classes.background}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
