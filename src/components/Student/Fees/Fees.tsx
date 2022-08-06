@@ -36,7 +36,7 @@ function Fees() {
 
   const body: IFees = {
     asSchoolId: "120",
-    asStudentId: "11618"
+    asStudentId: asStudentId
   };
 
   useEffect(() => {
