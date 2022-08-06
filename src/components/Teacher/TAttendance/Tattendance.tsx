@@ -32,22 +32,15 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import List13 from 'src/libraries/list/List13';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Styles } from 'src/assets/style/student-style';
 import Buttons from 'src/libraries/buttons/button';
-import Switch, { SwitchProps } from '@mui/material/Switch';
-import { useNavigate } from 'react-router-dom';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { red } from '@mui/material/colors';
+import { Link as RouterLink } from 'react-router-dom';
 import 'src/assets/style/teacher.css';
 import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
 import { getAttendanceDataList, getStandardList, GetStudentDetailsList } from 'src/requests/Teacher/TAttendance';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
 
 function Attendance() {
-  const navigate = useNavigate();
-  const classes = Styles();
   const dispatch = useDispatch();
 
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -71,9 +64,6 @@ function Attendance() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [open, setOpen] = useState(false);
   const [assignedDate, setAssignedDate] = useState<string>(currentDate);
-  const [checked, setChecked] = useState(true);
-  var abc = 'W';
-  const theme = useTheme();
 
   // start
   const RollNoList = useSelector(

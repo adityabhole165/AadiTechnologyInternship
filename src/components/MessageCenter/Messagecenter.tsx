@@ -64,7 +64,7 @@ function MessaageCenter() {
   );
 
   const SearchData = (e) => {
-    console.log(e);
+    setOpen(!e.Apply);
   }
 
   return (
@@ -77,8 +77,7 @@ function MessaageCenter() {
             rowSpacing={1}
             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
           >
-
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
                 className={classes.TextDecoration}
@@ -102,7 +101,7 @@ function MessaageCenter() {
               </Link>
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Sent"
                 className={classes.TextDecoration}
@@ -125,7 +124,7 @@ function MessaageCenter() {
               </Link>
             </Grid>
 
-            <Grid item xs={3}>
+            <Grid item xs={3.5}>
               <Link
                 to="/extended-sidebar/MessageCenter/msgCenter/Trash"
                 className={classes.TextDecoration}
@@ -148,23 +147,8 @@ function MessaageCenter() {
               </Link>
             </Grid>
 
-            <Grid item xs={3}>
-              <Item
-                onClick={handleClickOpen}
-                sx={
-                  pageName == 'Search'
-                    ? {
-                      fontSize: '10px',
-                      backgroundColor: 'gray',
-                      color: 'white'
-                    }
-                    : { fontSize: '10px' }
-                }
-              >
-                <SearchIcon />
-                <br />
-                <b>Search</b>
-              </Item>
+            <Grid item xs={1.5}>
+                <SearchIcon sx={{fontSize: '40px',marginTop:'10px'}} onClick={handleClickOpen} />
 
               <Dialog
                 open={open}
@@ -172,7 +156,7 @@ function MessaageCenter() {
                 keepMounted
                 onClose={handleClose}
                 aria-describedby="alert-dialog-slide-description"
-                sx={{ mt: 10 }}
+                sx={{ mt: -55 }}
               >
                 <Search searchData={SearchData} />
               </Dialog>
@@ -183,15 +167,11 @@ function MessaageCenter() {
               xs={3}
               sx={{ position: 'fixed', bottom: '85px', zIndex: '2', width: '25vw', marginLeft: '10px', right: '20px' }}
             >
-              {/* <Link
-                to="/extended-sidebar/MessageCenter/Compose" 
-                className={classes.TextDecoration}
-              > */}
               <RouterLink
                 style={{ textDecoration: 'none' }}
                 to={
                   `/${location.pathname.split('/')[1]
-                  }/MessageCenter/Compose/` + "Compose/" + "Compose/" + "Compose"
+                  }/MessageCenter/Compose/`+ "To/" + "Text/" + "Attachment/" + "BODY"
                 }
               >
                 <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
@@ -201,12 +181,6 @@ function MessaageCenter() {
                 </Item>
 
               </RouterLink>
-              {/* <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
-                <AddCircleIcon />
-                <br />
-                <b>Compose</b>
-              </Item> */}
-              {/* </Link> */}
             </Grid>
           </Grid>
         </Box>

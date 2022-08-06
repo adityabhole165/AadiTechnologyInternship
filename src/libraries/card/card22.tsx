@@ -11,7 +11,8 @@ import BackButton from '../button/BackButton';
 
 Card22.propTypes = {
   pic: PropTypes.array,
-  YearData: PropTypes.array
+  imgId: PropTypes.string,
+  YearData: PropTypes?.array
 };
 const useStyles = makeStyles((theme) => ({
   resonsive: {
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function Card22({ pic }) {
+function Card22({ pic, imgId }) {
   const options = {
     buttons: {
       backgroundColor: 'rgb(105,105,105)',
@@ -59,11 +60,14 @@ function Card22({ pic }) {
   };
 
   return (
-    <>
+    <div>
       <SimpleReactLightbox>
-      <span style={{position:'relative',left:'20px',top:'-35px'}}>
-      <BackButton />
-      </span>
+        <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+          <BackButton />
+        </span>
+        <span style={{display:'flex', justifyContent: 'center' }}>
+          <span>{imgId}</span>
+        </span>
 
         <SRLWrapper options={options}>
           <Grid
@@ -72,6 +76,7 @@ function Card22({ pic }) {
             direction="row"
             rowSpacing={1}
             justifyContent="center"
+            sx={{ marginTop: '20px' }}
           >
             {pic.map((items: Getimg, i) => {
               return (
@@ -86,9 +91,7 @@ function Card22({ pic }) {
                         width="100"
                         height="100"
                         alt={items.Description}
-                    
                       />
-               
                     </Box>
                   </Grid>
                 </>
@@ -97,7 +100,7 @@ function Card22({ pic }) {
           </Grid>
         </SRLWrapper>
       </SimpleReactLightbox>
-    </>
+    </div>
   );
 }
 export default Card22;
