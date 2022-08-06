@@ -83,7 +83,7 @@ function Holidays() {
       <DotLegend
         className={classes.border}
         style={{
-          background: '#e9a69a',
+          background: '#80daeb',
           marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}

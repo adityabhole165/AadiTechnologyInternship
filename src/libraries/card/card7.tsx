@@ -10,9 +10,7 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../button/BackButton';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import { useState } from 'react';
-
+import { Link as RouterLink } from 'react-router-dom';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -21,13 +19,12 @@ Card7.propTypes = {
   Text: PropTypes.string,
   ViewDetail: PropTypes.object,
   Body: PropTypes.string,
-  Attachments: PropTypes.string
+  Attachments: PropTypes.string,
+  ID: PropTypes.string,
+  Viewsent: PropTypes.array,
 };
 
-function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
-  // console.log(Text);
-const Text2 = Text
-console.log("Text2",Text2);
+function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
@@ -35,26 +32,24 @@ console.log("Text2",Text2);
     '/RITeSchool/Uploads/' +
     Attachments;
 
-  const Compredirect = () => {
-    navigate('/extended-sidebar/MessageCenter/Compose');
-  };
+  // const Compredirect = () => {
+  //   navigate('/extended-sidebar/MessageCenter/Compose');
+  // };
 
   const classes = Styles();
-  // const BodyId = () => ({
-  //   dangerouslySetInnerHTML={{ __html: Body }}
-  // })
-  const BODY = Body.replace(/(<([^>]+)>)/ig, '');
+
+  const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   return (
     <>
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+        <BackButton />
+      </span>
       <Container>
-        
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`
           }}
         >
-          <BackButton />
-
           <Box
             display="flex"
             justifyContent="space-between"
@@ -100,16 +95,15 @@ console.log("Text2",Text2);
               dangerouslySetInnerHTML={{ __html: Body }}
             />
           </Box>
-         
         </Card>
 
-        {/* <RouterLink
+        <RouterLink
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + Text + "/" + To
+            }/MessageCenter/Compose/`+ To + "/" + ID + "/" + Text + "/" + BODY
           }
-        > */}
+        >
           <Box sx={{ marginTop: '0px' }}>
             {/*  onClick={Compredirect} */}
             <Button
@@ -122,30 +116,29 @@ console.log("Text2",Text2);
               Reply
             </Button>
           </Box>
-        {/* </RouterLink> */}
+        </RouterLink> 
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + Attachments + "/" + Text2 + "/" + BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` + Text + '/' + Attachments +'/' + BODY
           }
         >
-        <Box
-          // onClick={Compredirect}
-          sx={{
-            mt: -1
-          }}
-        >
-          <Button 
-            className={classes.Forward}
+          <Box
+            // onClick={Compredirect}
             sx={{
-              background: 'rgb(11 101 214)',
-              position: 'absolute'
+              mt: -1
             }}
           >
-            Forward
-          </Button>
-        </Box>
+            <Button
+              className={classes.Forward}
+              sx={{
+                background: 'rgb(11 101 214)',
+                position: 'absolute'
+              }}
+            >
+              Forward
+            </Button>
+          </Box>
         </RouterLink>
       </Container>
     </>

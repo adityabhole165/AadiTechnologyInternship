@@ -10,6 +10,12 @@ import { Iyears, IGetAllMonths } from 'src/interfaces/MessageCenter/Search';
 import Form2 from 'src/libraries/form/form2';
 
 function Search({searchData}) {
+
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+
   const dispatch = useDispatch();
   const YearsList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -19,12 +25,13 @@ function Search({searchData}) {
   );
 
   const body: Iyears = {
-    asSchoolId: '120'
+    asSchoolId: asSchoolId
   };
   const Mbody: IGetAllMonths = {
-    asAcademicYearId: '8',
-    asSchoolId: '120'
+    asAcademicYearId: AcademicYearId,
+    asSchoolId: asSchoolId
   };
+  
 
   useEffect(() => {
     dispatch(getYearsList(body));
