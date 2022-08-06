@@ -20,12 +20,6 @@ function ViewSms({}) {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
-
-  const ChildToParent = (e) => {
-    console.log(e)
-  }
-
-
   const GetViewEventResult = () => {
     const ViewSent_body: IViewSent = {
       "asSchoolId":asSchoolId,
@@ -33,14 +27,6 @@ function ViewSms({}) {
       "asReceiverId": UserId,
       "asAcademicYearId": asAcademicYearId
     };
-
-console.log(ID);
-console.log(UserId);
-
-console.log(asAcademicYearId);
-
-
-
     http.post('MessageCenter/GetMessage', ViewSent_body)
       .then((resp) =>
         resp.data.GetMessagesResult
@@ -67,6 +53,7 @@ console.log(asAcademicYearId);
            Body={viewSent.Body}
             Text={viewSent.Subject} 
             Attachments={viewSent.Attachment}
+            ID={UserId}
            
             />
       }

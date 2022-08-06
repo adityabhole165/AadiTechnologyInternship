@@ -19,12 +19,12 @@ Card7.propTypes = {
   Text: PropTypes.string,
   ViewDetail: PropTypes.object,
   Body: PropTypes.string,
-  Attachments: PropTypes.string
+  Attachments: PropTypes.string,
+  ID: PropTypes.string,
+  Viewsent: PropTypes.array,
 };
 
-function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
-  const Text2 = Text;
-  console.log('Text2', Text2);
+function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
@@ -32,9 +32,9 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
     '/RITeSchool/Uploads/' +
     Attachments;
 
-  const Compredirect = () => {
-    navigate('/extended-sidebar/MessageCenter/Compose');
-  };
+  // const Compredirect = () => {
+  //   navigate('/extended-sidebar/MessageCenter/Compose');
+  // };
 
   const classes = Styles();
 
@@ -101,7 +101,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/`  + Text + "/" + BODY
+            }/MessageCenter/Compose/`+ To + "/" + ID + "/" + Text + "/" + BODY
           }
         >
           <Box sx={{ marginTop: '0px' }}>
@@ -120,12 +120,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments }) {
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` +
-            Text2 +
-            '/' +
-            Attachments +
-            '/' +
-            BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` + Text + '/' + Attachments +'/' + BODY
           }
         >
           <Box
