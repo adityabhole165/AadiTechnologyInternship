@@ -10,12 +10,14 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
 import Card16 from 'src/libraries/card/Card16';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
   Fee: PropTypes?.array,
   Heading: PropTypes?.object,
-  Note: PropTypes?.string
+  Note: PropTypes?.string,
 };
 
 function Card27({ FeesType, Fee, Heading, Note }) {
@@ -23,11 +25,9 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const classes = Styles();
   const Summery: any = useSelector((state: RootState) => state.Fees.FeesData2);
 
-  console.log({ Fee });
-
   return (
     <>
-      <Container sx={{ mt: 1, pb: '5px', pl: '-8px' }}>
+      <Container sx={{ pb: '5px', pl: '-8px' }}>
         <Accordion className={classes.background}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -51,71 +51,87 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                 backgroundColor: '#5c5f628a'
               }}
             >
-              <Card16 Fee={Fee} Heading={Heading} Note={Note} />
+              <Card16
+                Fee={Fee}
+                Heading={Heading}
+                Note={Note}
+                FeesTypes={FeesType}
+              />
             </AccordionDetails>
-          ) : 
-          
-          (
-            (Fee !== undefined )
-          // ?
-          // "Noo message"
-          // :
-          ?
-            Fee.map((item, i) => {
-              {
-                return item.AmountPayable == 0 ? (
-                  // <AccordionDetails
-                  //   sx={{
-                  //     borderRadius: 1,
-                  //     borderBottom: 2,
-                  //     mb: 1,
-                  //     backgroundColor: '#5c5f628a'
-                  //   }}
-                  // >
-                    <Card
-                      sx={{
-                        background: `${theme.colors.gradients.pink1}`,
-                        marginTop: '0.3rem'
-                      }}
-                      key={i}
-                    >
-                      <Grid container direction="row">
-                        <Grid
-                          xs={9}
-                          sx={{
-                            borderRight: 1,
-                            borderRadius: 1,
-                            border: 'none'
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }}
+          ) : (
+            <AccordionDetails
+              sx={{
+                borderRadius: 1,
+                borderBottom: 2,
+                mb: 1,
+                backgroundColor: `${Fee.AmountPayable !== 0 ? 'white' : '#5c5f628a'}` 
+              }}
+            >
+              {Fee == undefined
+                ? 
+                null
+                : 
+                (Fee.AmountPayable == 0  )
+                ?
+                Fee.map((item, i) => {
+                    return (
+                      <Card
+                        sx={{
+                          background: `${theme.colors.gradients.pink1}`,
+                          marginTop: '0.3rem'
+                        }}
+                        key={i}
+                      >
+                        <Grid container direction="row">
+                          <Grid
+                            xs={8}
+                            sx={{
+                              borderRight: 1,
+                              borderRadius: 1,
+                              border: 'none'
+                            }}
                           >
-                            Hello5
-                          </Typography>
-                        </Grid>
-                        <Grid xs={3}>
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pt: 1, textAlign: 'center' }}
+                            <Typography
+                              component="div"
+                              variant="h5"
+                              sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }}
+                            >
+                              {item.OriginalFeeType}
+                            </Typography>
+                          </Grid>
+                          <Grid xs={2}>
+                            <Typography
+                              component="div"
+                              variant="h5"
+                              sx={{ pt: 1, textAlign: 'center' }}
+                            >
+                              {item.Amount}
+                            </Typography>
+                          </Grid>
+                          <Grid
+                            xs={2}
+                            sx={{
+                              borderRight: 1,
+                              borderRadius: 1,
+                              border: 'none'
+                            }}
                           >
-                            {item.Amount}
-                          </Typography>
+                            <Typography
+                              component="div"
+                              variant="h5"
+                              sx={{ pl: 2,pt:'3px', pb: 1, textAlign: 'start' }}
+                            >
+                              <FileDownloadOutlinedIcon />
+                            </Typography>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    </Card>
-                  // </AccordionDetails>
-                ) : null;
-              }
-            })
-            :
-          "hello"
-          )
-          
-          }
+                      </Card>
+                    ) ;
+                  })
+                  : <ErrorMessages Error={'No Fees has been paid yet'} />
+                }
+            </AccordionDetails>
+          )}
         </Accordion>
       </Container>
     </>

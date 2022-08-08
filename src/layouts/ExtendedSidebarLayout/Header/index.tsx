@@ -20,6 +20,7 @@ import {
 } from '@mui/material';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import { SidebarContext } from 'src/contexts/SidebarContext';
+import GroupIcon from '@mui/icons-material/Group';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HeaderButtons from './Buttons';
@@ -155,8 +156,8 @@ function Header() {
         <IconButton
           size="small"
           sx={{
-            width: 35, 
-            height: 35 ,
+            width: 35,
+            height: 35,
             '&:hover': {
               color: `${theme.colors.alpha.trueWhite[100]}`,
               background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
@@ -165,7 +166,7 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={`data:image/png;base64,${studnetprofile}`}  sx={{ backgroundColor: "#90caf9", width: 35, height: 35}} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={`data:image/png;base64,${studnetprofile}`} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add" />
         </IconButton>
         <Popover
           disableScrollLock
@@ -222,8 +223,8 @@ function Header() {
               to={"/extended-sidebar/Student/Profile"}
               component={NavLink}
             >
-              <AccountBoxTwoToneIcon fontSize="small" sx={{color:"#053082"}}/>
-              <ListItemText primary={<Typography sx={{color:"blue",fontWeight:"bold"}}  >Profile</Typography>} />
+              <AccountBoxTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Profile</Typography>} />
             </ListItem>
             <ListItem
               onClick={() => {
@@ -233,8 +234,19 @@ function Header() {
               to={"/extended-sidebar/common/changePassword"}
               component={NavLink}
             >
-              <LockOpenTwoToneIcon fontSize="small" sx={{color:"#053082"}}/>
-              <ListItemText  primary={<Typography sx={{color:"blue",fontWeight:"bold"}}  >Change Password</Typography>} />
+              <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</Typography>} />
+            </ListItem>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/common/SiblingLogin"}
+              component={NavLink}
+            >
+              <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Sibling Login</Typography>} />
             </ListItem>
             {/* <ListItem
             onClick={() => {
@@ -256,11 +268,11 @@ function Header() {
               <PowerSettingsNewTwoToneIcon fontSize="small"
                 sx={{
                   mr: 1,
-                  fontWeight:"bold",
-                  color:"#053082"
+                  fontWeight: "bold",
+                  color: "#053082"
                 }}
               />
-              <Typography sx={{color:"blue",fontWeight:"bold"}}  >Sign Out</Typography>
+              <Typography sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</Typography>
             </Button>
           </Box>
         </Popover>

@@ -26,10 +26,8 @@ function Photos() {
   }, []);
   return (
     <div>
-      <PageHeader heading={imgId} subheading={''} />
-
-      <Card22 pic={img} />
-
+      <PageHeader heading={'Album'} subheading={''} />
+      <Card22 pic={img} imgId={imgId} />
     </div>
   );
 }

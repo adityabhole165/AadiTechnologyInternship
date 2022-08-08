@@ -28,8 +28,10 @@ function Comments() {
 
   return (
     <div>
-      <Container>
+      <span style={{ position: 'relative', left: '20px', top: '38px' }}>
         <BackButton />
+      </span>
+      <Container>
         <PageHeader heading={'Comments'} subheading={''} />
 
         {comment.length === 0 ? (

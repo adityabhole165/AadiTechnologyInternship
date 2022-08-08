@@ -14,6 +14,7 @@ const Holidays = Loader(lazy(() => import('src/components/Common/Holidays/Holida
 const Schoolnotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Schoolnotice')));
 const ViewSchoolNotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Viewschoolnotice')));
 const ChangePassword = Loader(lazy(() => import('src/components/Common/ChangePassword/changePassword')))
+const SiblingLogin = Loader(lazy(() => import('src/components/Common/SiblingLogin/SiblingLogin')))
 const Comments = Loader(lazy(() => import('src/components/Common/VideoGallery/Comments')))
 const Albums = Loader(lazy(() => import('src/components/Common/PhotoGallery/Albums')))
 const Photos = Loader(lazy(() => import('src/components/Common/PhotoGallery/photos')))
@@ -32,6 +33,10 @@ const commonRoutes = [
     {
         path: 'ChangePassword',
         element: <ChangePassword />
+    },
+    {
+        path: 'SiblingLogin',
+        element: <SiblingLogin />
     },
     {
         path: 'VideoGallery',

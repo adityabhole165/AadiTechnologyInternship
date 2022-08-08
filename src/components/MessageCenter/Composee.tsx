@@ -29,6 +29,7 @@ import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -45,9 +46,13 @@ const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
 
-	const { Text, To ,Text2 , Attachments, BODY} = useParams();
-  console.log(BODY)
+  const location = useLocation();
+  const pathname = location.pathname;
+  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/', '');
 
+  const { To, ID, Text, Attachments, BODY } = useParams();
+  const [change, setChange] = useState(To);
+  console.log(To)
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -80,7 +85,7 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
- 
+
 
   let DataAttachment = Attachment1.slice(Attachment1.indexOf(',') + 1);
 
@@ -108,7 +113,6 @@ function Form13() {
       reader.onload = (event) => {
         resolve(event.target.result);
         SetAttachment(event.target.result);
-        console.log("Actual String",event.target.result)
       };
 
       reader.onerror = (err) => {
@@ -122,8 +126,8 @@ function Form13() {
       const fileExtension = file?.name?.split('.').at(-1);
       setfileExtension(fileExtension);
       const allowedFileTypes = [
-        'BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc','docx','jpg',
-        'jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'
+        'BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc', 'docx', 'jpg',
+        'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx'
       ];
 
       if (fileExtension != undefined || null) {
@@ -149,10 +153,10 @@ function Form13() {
       setname(NameList);
       setId(IdList);
     }
+
   }, [Too]);
 
   const sendMessage = () => {
-    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -177,17 +181,16 @@ function Form13() {
       stream: DataAttachment,
       asFileName: fileName
     };
-    console.log('SendMessageBody: ',body);
 
     MessageCenterApi.GetSendMessage(body)
-    .then((res: any) => {
+      .then((res: any) => {
         if (res.status === 200) {
           formik.resetForm();
-          toast.success('Message send successfully');
+          toast.success('Message sent successfully');
         }
       })
       .catch((err) => {
-        toast.error('Message not send successfully');
+        toast.error('Message not sent successfully');
       });
   };
 
@@ -199,7 +202,6 @@ function Form13() {
       Attachment: ''
     },
     onSubmit: (values) => {
-      console.log('Form Data', values);
       sendMessage();
     },
     validate: (values) => {
@@ -242,8 +244,8 @@ function Form13() {
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <Autocomplete
-                value={Too}
-                onChange={(events, newValue) => setValue(newValue)}
+                value={Too || To}
+                onChange={(events, newValue) => setValue(newValue)} //
                 classes={{
                   option: classes1.option
                 }}
@@ -259,22 +261,39 @@ function Form13() {
                       checkedIcon={checkedIcon}
                       style={{ marginRight: 8 }}
                       checked={selected}
+                      value={option.UserId}
                     />
                     {option.Name}
+
                   </li>
                 )}
+                
                 renderInput={(params) => (
+                  (To == "To")
+                  ?
                   <TextField
                     {...params}
                     variant="standard"
                     name="To"
                     label={'To'}
+                    placeholder={To}
+                    // value={To}
                     className={classes.InputField}
                     onChange={formik.handleChange}
-                    value={formik.values.To || To}
-                    
                   />
-                )}
+                  :
+                  <TextField
+                    variant="standard"
+                    fullWidth
+                    name="To"
+                    label={'To'}
+                    placeholder={To}
+                    value={To}
+                    className={classes.InputField}
+                    onChange={formik.handleChange}
+                  />
+                )
+                }
               />
             </FormControl>
             <p style={{ color: 'red', marginTop: 2 }}>
@@ -291,7 +310,9 @@ function Form13() {
               type="text"
               autoComplete="off"
               variant="standard"
-              value={formik.values.Subject  || Text2 || Text}
+              // className={ (pageName == "Timetable") ? 6 : 2  }
+
+              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Subject : Text}
               onChange={formik.handleChange}
               sx={{ mt: '-0.3rem' }}
             />
@@ -358,9 +379,9 @@ function Form13() {
                 )
               }}
             />
-             {Attachments.length === 0 ? null : (
+            {Attachments == undefined ? null : (
               <>
-              <Typography>Attachment(s):</Typography>
+                <Typography>Attachment(s):</Typography>
                 <Typography
                   className={classes.Cardfont1}
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
@@ -385,7 +406,7 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={formik.values.Content || BODY }
+              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Content : BODY}
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />

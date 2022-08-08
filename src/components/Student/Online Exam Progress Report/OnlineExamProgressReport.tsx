@@ -13,19 +13,12 @@ import {
   getMarkInformation
 } from 'src/requests/Student/OnlineExamProgressReport';
 import BackButton from 'src/libraries/button/BackButton';
-import { Box, Container } from '@mui/material';
-
 
 function OnlineExamReport() {
-
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
-
-
-  console.log(asStandardDivisionId);
-  
 
   const dispatch = useDispatch();
   const getStudent = useSelector(
@@ -52,7 +45,7 @@ function OnlineExamReport() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getStudentDetails(ExamDetails));
     dispatch(getSchoolInformation(ExamDetails));
     dispatch(getSubjects(ExamDetails));
@@ -62,14 +55,12 @@ function OnlineExamReport() {
 
   return (
     <>
-    <Box sx={{mt:"30px",ml:"20px"}}>
-    <span style={{position:'relative',left:'0px',top:'10px'}}>
-      <BackButton />
+      <span style={{ position: 'relative', left: '20px', top: '32px' }}>
+        <BackButton />
       </span>
-    </Box>
-      
+
       <PageHeader heading={'Online Progress Report'} subheading={''} />
-      
+
       <Accordion6
         Student={getStudent}
         OnlineExams={geOnlineExams}

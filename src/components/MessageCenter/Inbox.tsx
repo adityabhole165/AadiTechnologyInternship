@@ -11,6 +11,8 @@ import { getInboxList } from "src/requests/Student/InboxMessage";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
+import { useParams } from 'react-router-dom';
+
 
 function Inbox() {
 
@@ -35,14 +37,15 @@ function Inbox() {
   }
 
   useEffect(() => {
-    dispatch(getInboxList(getList))
+      dispatch(getInboxList(getList));
   }, [])
 
   const [checked, setChecked] = useState(true);
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] })
-  console.log(Id)
-  const pathname = window.location.pathname
-  const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '')
+  const pathname = window.location.pathname;
+  const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '');
+  const pageName2 = pathname.replace("/extended-sidebar/MessageCenter/", '')
+  console.log(pageName,pageName2)
 
   const handleChange = (event) => {
     setChecked(true);
@@ -95,8 +98,6 @@ function Inbox() {
       .catch((err) => {
         alert("error network")
       })
-
-
   }
 
   const Reset = () => {
