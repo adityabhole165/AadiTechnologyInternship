@@ -7,7 +7,6 @@ import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function List1({ items }) {
   
-  console.log(items)
   const maxLength = 1;
   let text1Length = Math.max(...items.map((o) => o.text1.length));
   let headerLength = Math.max(...items.map((o) => o.header.length));
@@ -33,7 +32,7 @@ function List1({ items }) {
     {
       (items.length == 0)
       ?
-      <ErrorMessages Error={'No events found'} />
+      <ErrorMessages Error={'No records found'} />
       :
       <Grid container>
         {items.map((items, index) => (
