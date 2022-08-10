@@ -34,7 +34,7 @@ function Photos() {
   const PhotoAlbum: any = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
   );
-  console.log("vvvvv",PhotoAlbum);
+  // console.log("vvvvv",PhotoAlbum[0].ImageList);
 
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
@@ -69,7 +69,7 @@ function Photos() {
     aiMonth: month,
     aiYear: year,
     abSetPreviousMonth: 'true',
-    aiUserId: asUserId
+    aiUserId: "695"
   };
 
   const YearBody: IYearList = {

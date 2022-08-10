@@ -66,12 +66,22 @@ function Photos() {
   //   asYear: year
   // };
   const PhotoAlbumBody: IPhotoAlbum = {
-    aiSchoolId: asSchoolId,
+    aiSchoolId: "120",
     aiMonth: month,
     aiYear: year,
     abSetPreviousMonth: 'true',
-    aiUserId: asUserId
+    aiUserId: "695"
   };
+  console.log(year,asUserId,month);
+
+  // const PhotoAlbumBody: IPhotoAlbum = {
+  //   aiSchoolId: asSchoolId,
+  //   aiMonth: month,
+  //   aiYear: year,
+  //   abSetPreviousMonth: 'true',
+  //   aiUserId: asUserId
+  // };
+
 
   const YearBody: IYearList = {
     asSchoolId: asSchoolId,

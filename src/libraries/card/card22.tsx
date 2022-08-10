@@ -60,6 +60,7 @@ function Card22({ pic, imgId }) {
     }
   };
 
+
   return (
     <div>
       <SimpleReactLightbox>
@@ -80,6 +81,7 @@ function Card22({ pic, imgId }) {
             sx={{ marginTop: '20px' }}
           >
             {pic.map((items: GetPhotoAlbum, i) => {
+              console.log(items)
               return (
                 <>
                   <Grid>
@@ -87,7 +89,7 @@ function Card22({ pic, imgId }) {
                       <img
                         src={
                           'http://riteschool_old.aaditechnology.com/RITeSchool/' +
-                          items.ImagePath
+                          "Images/Gallery/images16595.jpg"
                         }
                         width="100"
                         height="100"
