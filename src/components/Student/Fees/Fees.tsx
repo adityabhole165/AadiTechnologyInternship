@@ -65,7 +65,7 @@ function Fees() {
         
         <DotLegend
           className={classes.border}
-          style={{ background: '#9575cd', display: 'inline-block',marginLeft:1 }}
+          style={{ background: 'red', display: 'inline-block',marginLeft:1 }}
         />
         <small>
           <b>Bouncee Cheque Transaction </b>
@@ -80,11 +80,11 @@ function Fees() {
         <br />
         <br />
 
-        <Card
+        <Card square
           sx={{
             textAlign: 'center',
             background: `${theme.colors.gradients.pink1}`,
-            mb: 4,
+            mb: 3,
             boxShadow: '6px 6px 8px  gray !important',
             p: 0.5,
             fontWeight:'bold'
@@ -106,6 +106,20 @@ function Fees() {
         Heading={Feedata}
         Note={Note}
       />
+      <Container sx={{ mb: '-10px' ,mt:0.5}}>
+      <Card square
+          sx={{
+            textAlign: 'center',
+            background: 'pink' ,//`${theme.colors.gradients.pink1}`,
+            mb: 4,
+            boxShadow: '6px 6px 8px  gray !important',
+            p: 0.5,
+            fontWeight:'bold'
+          }}
+        >
+          Note : {Note}
+        </Card>
+      </Container>
     </>
   );
 }

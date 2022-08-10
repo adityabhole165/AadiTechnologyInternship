@@ -29,13 +29,13 @@ function LoginViewSchoolNotice() {
     const LoginViewSchoolNotice = useSelector((state: RootState) => state.LoginList.LoginViewSchoolNoticeData);
 
     const asSchoolId = localStorage.getItem('localSchoolId');
-    const Id = sessionStorage.getItem('Id');
+    const userId = localStorage.getItem('UserId');
 
     const { ID } = useParams();
     const body: IViewschoolnotice = {
         "asSchoolId": asSchoolId,
         "asNoticeId": `${ID}`,
-        "asUserId": "0"
+        "asUserId": userId
     };
 
     useEffect(() => {

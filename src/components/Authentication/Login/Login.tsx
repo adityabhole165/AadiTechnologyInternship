@@ -45,6 +45,9 @@ function SelectSchool() {
         localStorage.clear();
     }
 
+    const forgotPassword = () => {
+        navigate('/forgotPassword');
+    }
     const schoolNotice = () => {
         navigate('/schoolNotice');
     }
@@ -119,7 +122,7 @@ function SelectSchool() {
         }
     })
 
-    const setSession = async (response) =>{
+    const setSession = async (response) => {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
@@ -153,7 +156,7 @@ function SelectSchool() {
             sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
-
+            localStorage.setItem("UserId", result.Id);
         }
 
 
@@ -183,7 +186,7 @@ function SelectSchool() {
         sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
         sessionStorage.setItem("Userlogin", result.UserLogin);
         const url = localStorage.getItem("url");
-        if(url!=null){
+        if (url != null) {
             navigate(url);
         }
         else if (result.RoleName == "Student") {
@@ -207,7 +210,7 @@ function SelectSchool() {
 
         const response: any = await LoginApi.AuthenticateUser(body)
         if (response.data != null) {
-            localStorage.setItem("auth",JSON.stringify(response))
+            localStorage.setItem("auth", JSON.stringify(response))
             setSession(response)
         }
         else {
@@ -223,11 +226,11 @@ function SelectSchool() {
         dispatch(getSchoolList(ListData))
         if (localschoolId !== null) {
             const res = localStorage.getItem("auth")
-            if(res === null){
+            if (res === null) {
                 setShow(false);
-            }else{
+            } else {
                 setSession(JSON.parse(res))
-        }
+            }
         }
     }, []);
 
@@ -372,7 +375,8 @@ function SelectSchool() {
                                         <Button variant="contained" color="success" sx={{ ml: "auto" }} type="submit" onChange={formik.handleChange}>
                                             Login
                                         </Button>
-                                        <span style={{ color: "blue", float: "right", marginTop: "14px" }}> Forgot Password </span>
+                                        <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>
+
                                     </Grid>
 
                                 </Grid>
