@@ -6,9 +6,9 @@ import { Link as RouterLink } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { getYearList } from 'src/requests/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
-import { getpicS } from 'src/requests/Common/PhotoGallery';
-import { IPics, GetPics } from 'src/interfaces/Common/PhotoGallery';
+import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import List12 from 'src/libraries/list/List12';
+import { getPhotoAlbum } from 'src/requests/Student/Dashboard';
 import {
   Box,
   Container,
@@ -29,12 +29,15 @@ const useStyles = makeStyles((theme) => ({
 }));
 function Photos() {
   const dispatch = useDispatch();
-  const Pics: any = useSelector((state: RootState) => state.Gallery.PicsList);
+  const PhotoAlbum: any = useSelector(
+    (state: RootState) => state.Dashboard.PhotoAlbumList
+  );
+  console.log("please",PhotoAlbum);
+
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
   );
 
-  console.log(Pics);
   
 
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -51,16 +54,23 @@ function Photos() {
   const [year, setYear] = React.useState(Year);
   const handleClick = (event) => {
     setYear(event.target.value);
-    getpicS(pics_body);
+    getPhotoAlbum(PhotoAlbumBody);
   };
   const YearData = YearList.map((key, index) => {
     return YearList[index].split('-')[0];
   });
 
-  const pics_body: IPics = {
-    asSchoolId: asSchoolId,
-    asMonth: month,
-    asYear: year
+  // const pics_body: IPics = {
+  //   asSchoolId: asSchoolId,
+  //   asMonth: month,
+  //   asYear: year
+  // };
+  const PhotoAlbumBody: IPhotoAlbum = {
+    aiSchoolId: asSchoolId,
+    aiMonth: month,
+    aiYear: year,
+    abSetPreviousMonth: 'true',
+    aiUserId: asUserId
   };
 
   const YearBody: IYearList = {
@@ -73,7 +83,7 @@ function Photos() {
   },[])
 
   useEffect(() => {
-    dispatch(getpicS(pics_body));
+    dispatch(getPhotoAlbum(PhotoAlbumBody));
     dispatch(getYearList(YearBody));
   }, [year, month]);
   
@@ -118,21 +128,20 @@ function Photos() {
         </Grid>
       </Container>
 
-      {Pics.length === 0 ? (
+      {PhotoAlbum.length === 0 ? (
         <ErrorMessages Error={'No records found'} />
       ) : (
         <>
-          {Pics.map((items: GetPics, i) => (
+          {PhotoAlbum.map((items, i) => (
             <RouterLink
               key={i}
               to={
-                `/${location.pathname.split('/')[1]}/Common/Photos/` +
-                items.AlumbName
+                `/${location.pathname.split('/')[1]}/Common/Photos/` + items.Name 
               }
               color="primary"
               style={{ textDecoration: 'none' }}
             >
-              <List12 imgId={items.AlumbName} key={i} />
+              <List12 imgId={items.Name} key={i} />
             </RouterLink>
           ))}
         </>

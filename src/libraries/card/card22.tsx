@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Box, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Getimg } from 'src/interfaces/Common/PhotoGallery';
+import { GetPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import { makeStyles } from '@mui/styles';
 import { Styles } from 'src/assets/style/student-style';
 import { SRLWrapper } from 'simple-react-lightbox';
@@ -12,7 +12,8 @@ import BackButton from '../button/BackButton';
 Card22.propTypes = {
   pic: PropTypes.array,
   imgId: PropTypes.string,
-  YearData: PropTypes?.array
+  YearData: PropTypes?.array,
+  
 };
 const useStyles = makeStyles((theme) => ({
   resonsive: {
@@ -78,7 +79,7 @@ function Card22({ pic, imgId }) {
             justifyContent="center"
             sx={{ marginTop: '20px' }}
           >
-            {pic.map((items: Getimg, i) => {
+            {pic.map((items: GetPhotoAlbum, i) => {
               return (
                 <>
                   <Grid>

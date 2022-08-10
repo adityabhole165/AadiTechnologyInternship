@@ -71,7 +71,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 <AccordionDetails
                   sx={{
                     borderRadius: 1,
-                    borderBottom: 2,
+                  
                     mb: 1
                   }}
                 >
@@ -110,7 +110,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 <AccordionDetails
                   sx={{
                     borderRadius: 1,
-                    borderBottom: 2,
+                 
                     mb: 1
                   }}
                 >

@@ -8,11 +8,12 @@ import PageHeader from "src/libraries/heading/PageHeader";
 import { RootState } from 'src/store';
 import { Link, useLocation } from 'react-router-dom';
 // import List2 from "src/library/Lists small/List1";
-import List1 from "src/libraries/Lists small/List";
+import List1 from "src/libraries/Lists small/List1";
 import BackButton from 'src/libraries/button/BackButton'
 import { Box, Grid } from '@mui/material';
 import { Styles } from "src/assets/style/student-style";
 import school5 from 'src/assets/img/school5.jpg';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 
 function LoginSchoolNotice() {
@@ -31,16 +32,17 @@ function LoginSchoolNotice() {
     const LoginSchoolNoticeList = useSelector((state: RootState) => state.LoginList.LoginSchoolNoticeData)
 
     const asSchoolId = localStorage.getItem('localSchoolId');
-    const Id = sessionStorage.getItem('Id');
+    const userId = localStorage.getItem('UserId');
+
 
     let location = useLocation();
 
-  
+
 
     const body: ISchoolnotice = {
-        "asSchoolId":asSchoolId,
+        "asSchoolId": asSchoolId,
         "asNoticeId": 0,
-        "asUserId": "0",
+        "asUserId": userId,
     };
 
     useEffect(() => {
@@ -49,28 +51,32 @@ function LoginSchoolNotice() {
 
 
     return (
-    <>
-        <Grid style={styles.paperContainer}>
+        <>
+            <Grid style={styles.paperContainer}>
 
-            <PageHeader heading={"School Notice"} subheading={""} />
-            <Box sx={{ marginBottom: '3rem', marginLeft: '2rem', marginTop: '-2.5rem' }}>
-                <BackButton /></Box>
-            {
-                LoginSchoolNoticeList.map(
-                    (items: GetSchoolNoticesResult, i) =>
-                        <Link style={{ textDecoration: "none" }} key={i}
-                            to={
-                                "/LoginViewSchoolNotice/" + items.Id
-                            }>
-                            {/* <List2 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} /> */}
-                            <List1 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} />
-                        </Link>
-                )
-            }
+                <PageHeader heading={"School Notice"} subheading={""} />
+                <Box sx={{ marginBottom: '3rem', marginLeft: '2rem', marginTop: '-2.5rem' }}>
+                    <BackButton />
+                </Box>
+                {
+                    (LoginSchoolNoticeList.length == 0)
+                        ?
+                        <ErrorMessages Error={'No records found'} />
+                        :
+                        LoginSchoolNoticeList.map(
+                            (items: GetSchoolNoticesResult, i) =>
+                                <Link style={{ textDecoration: "none" }} key={i}
+                                    to={
+                                        "/LoginViewSchoolNotice/" + items.Id
+                                    }>
+                                    {/* <List2 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} /> */}
+                                    <List1 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} />
+                                </Link>
+                        )
+                }
 
-
-        </Grid>
-    </>
+            </Grid>
+        </>
     )
 
 

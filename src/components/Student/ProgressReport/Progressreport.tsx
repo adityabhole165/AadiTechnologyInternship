@@ -19,6 +19,8 @@ import http from 'src/requests/SchoolService/schoolServices';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
+
 import {
   IIsPendingFeesForStudent,
   IGetAcademicYears,
@@ -210,6 +212,11 @@ function Progressreport() {
           </Container>
 
           <Box>
+          {
+                    (progressreportResult === null)?
+                    <ErrorMessages Error={'There is no exam'} />
+                    :
+                   <>
             {progressreportResult?.map(
               (examresult: GetStudentExamResult, i) => (
                 <Accordions3
@@ -222,6 +229,8 @@ function Progressreport() {
                 />
               )
             )}
+          </>
+}
           </Box>
         </>
       )}

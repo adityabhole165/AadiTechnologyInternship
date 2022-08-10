@@ -156,7 +156,7 @@ function SelectSchool() {
             sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
-
+            localStorage.setItem("UserId", result.Id);
         }
 
 

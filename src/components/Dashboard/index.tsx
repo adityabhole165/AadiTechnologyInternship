@@ -52,22 +52,22 @@ function LandingPage() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem("Id");
-
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const body: ISchoolId = {
     "asSchoolId": asSchoolId
   }
 
   const body1: IgetModulesPermission = {
-    "asSchoolId": "120",
-    "asAcademicYearId": "8",
-    "asUserId": "339",
+    "asSchoolId": asSchoolId,
+    "asAcademicYearId": AcademicYearId,
+    "asUserId": userId,
     "abIsPreprimary": false,
     "abXseedApplicable": false
   }
 
   const body2: IGetScreensAccessPermissions = {
     "asSchoolId": asSchoolId,
-    "asAcademicYearId": "9",
+    "asAcademicYearId": AcademicYearId,
     "asUserId": userId,
     "asUserRoleId": RoleId,
     "abIsPreprimaryTeacher": false
