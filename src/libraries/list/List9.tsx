@@ -95,6 +95,7 @@ const issuedate = new Date(issue);
                                   className={classes.gridstart}>
                                   <Typography className={classes.Listfont2}>
                                   {NewDateFormat} {issue.slice(9,-6)} {issue.slice(18)}
+                                  
                                   </Typography>
                                 </Grid>
                               </Box>
