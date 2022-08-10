@@ -15,7 +15,6 @@ import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Student/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 
-
 Card16.propTypes = {
   Fee: PropTypes.array,
   Heading: PropTypes.object,
@@ -31,25 +30,19 @@ export interface Iprops {
 }
 
 function Card16({ Note, Fee, Heading, FeesTypes }) {
-  
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
+  const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
 
-  let SumOfFees;
-  let ArrayOfFees = [];
-  let SelectedCheckBoxes = [];
+  const [ArrayOfFees, setArrayOfFees] = useState<any>([]);
 
   const classes = Styles();
   const theme = useTheme();
   const [open, setOpen] = useState(false);
-  const [pointerEvents, setpointerEvents] = useState<string>('none');
   const [date, setDate] = useState<any>([]);
   const [disable, setDisable] = useState(false);
-  const [countFees, setCount] = useState<any>([]);
-  let CheckBoxPaymentGroup = ["1"];
-
-  const [disabledState,setdisabledState] = useState(false)
+  const [CheckBoxPaymentGroup, setCheckBoxPaymentGroup] = useState<any>(['1']);
 
   const mystyle = {
     textDecoration: 'none' as 'none'
@@ -63,48 +56,29 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     setOpen(false);
   };
 
-  // const handleChange = (event) => {
-  //   let ArrayOfFees_To_NumberArray;
-  //   if (event.target.checked) {
-  //     ArrayOfFees.push(event.target.value);
-  //     ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
-  //     SumOfFees = ArrayOfFees_To_NumberArray.reduce(
-  //       (pre, curr) => pre + curr,0
-  //     );
-  //     SelectedCheckBoxes.push(event.target.name);
-  //     CheckBoxPaymentGroup.push("2")
-  //   }
-  //   if (!event.target.checked) {
-  //     let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
-  //     let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
-  //     ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+  const [data, setdata] = useState(0);
+  const [change,setChange] = useState(true);
 
-  //     let indexOfUnCheck_Box_Name = SelectedCheckBoxes.indexOf(
-  //       event.target.name
-  //     );
-  //     let newArrayName = SelectedCheckBoxes.splice(indexOfUnCheck_Box_Name, 1);
-
-  //   }
-  //   console.log(SumOfFees)
-  // };
-
-  const [data,setdata] = useState(0);
   const handleChange = (event) => {
-    let ArrayOfFees_To_NumberArray;
     if (event.target.checked) {
       ArrayOfFees.push(event.target.value);
-      console.log(ArrayOfFees);
-      ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+      let ArrayOfFees_To_Number = ArrayOfFees.map(Number);
+      let NextPaymentGroup = parseInt(event.target.name) + 1;
+      let NextPaymentGroup_ToString = NextPaymentGroup.toString()
+      setCheckBoxPaymentGroup([...CheckBoxPaymentGroup,NextPaymentGroup_ToString]); 
+      setChange(true)
     }
     if (!event.target.checked) {
       let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
       let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
-      ArrayOfFees_To_NumberArray = ArrayOfFees.map(Number);
+      let ArrayOfFees_To_Number = ArrayOfFees.map(Number);
+      let NextPaymentGroup = parseInt(event.target.name);
+      let indexOF_NextPaymentGroup = CheckBoxPaymentGroup.indexOf(event.target.name) + 1;
+      let removedPaymentGroup = CheckBoxPaymentGroup.splice(indexOF_NextPaymentGroup);
+      setCheckBoxPaymentGroup(CheckBoxPaymentGroup);
+      setChange(false)
     }
-    setdata(ArrayOfFees_To_NumberArray.reduce((pre, curr) => pre + curr, 0));
-  }
-  console.log(data)
-
+  };
 
   const Receipt = () => {
     saveAs(
@@ -114,7 +88,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
   };
 
   const dispatch = useDispatch();
-  
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
 
@@ -125,12 +99,10 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
   useEffect(() => {
     dispatch(getFees(body));
-  }, [disabledState]);
-
+  }, [CheckBoxPaymentGroup,change]);
 
   return (
     <div>
-                
       {GetFeeDetails.IsRTEstudent ? (
         <ClickAwayListener onClickAway={handleClickAway}>
           <Tooltip
@@ -173,12 +145,13 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
         Total: {data}
       </Button>
 
-      {Fee === undefined ? null : (
+      {FeesList === undefined ? null : (
         <>
-          {Fee.map((item: GetFeeDetailsResult, i) => {
-
-          // setdisabledState(CheckBoxPaymentGroup.includes(item.PaymentGroup))
-          // disabledState = disabledCheckBox.includes(item.PaymentGroup);
+          {FeesList.map((item: GetFeeDetailsResult, i) => {
+            const disabledState = !CheckBoxPaymentGroup.includes(
+              item.PaymentGroup.toString()
+            );
+            // console.log(typeof CheckBoxPaymentGroup[i]);
 
             return item.AmountPayable == '0' ? null : (
               <List
@@ -198,23 +171,25 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                     <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
                       {item.AmountPayable != '0' && item.RowNumber == '1' ? (
                         <Checkbox
-                          disabled= 
-                          {disabledState}
-                          // { (disabledCheckBox[i] == item.PaymentGroup ) ? false : true }
+                          disabled={disabledState}
                           name={item.PaymentGroup}
                           value={
-                            i < Fee.length - 1 &&
-                            Fee[i].PaymentGroup == Fee[i + 1].PaymentGroup
-                              ? parseInt(Fee[i].AmountPayable) +
-                                parseInt(Fee[i + 1].AmountPayable)
-                              : i < Fee.length - 1 &&
-                                Fee[i].PaymentGroup !== Fee[i + 1].PaymentGroup
-                              ? parseInt(Fee[i].AmountPayable)
-                              : i == Fee.length - 1 &&
-                                Fee[i].PaymentGroup !==
-                                  Fee[Fee.length - 1].PaymentGroup
+                            i < FeesList.length - 1 &&
+                            FeesList[i].PaymentGroup ==
+                              FeesList[i + 1].PaymentGroup
+                              ? parseInt(FeesList[i].AmountPayable) +
+                                parseInt(FeesList[i + 1].AmountPayable)
+                              : i < FeesList.length - 1 &&
+                                FeesList[i].PaymentGroup !==
+                                  FeesList[i + 1].PaymentGroup
+                              ? parseInt(FeesList[i].AmountPayable)
+                              : i == FeesList.length - 1 &&
+                                FeesList[i].PaymentGroup !==
+                                  FeesList[FeesList.length - 1].PaymentGroup
                               ? null
-                              : parseInt(Fee[Fee.length - 1].AmountPayable)
+                              : parseInt(
+                                  FeesList[FeesList.length - 1].AmountPayable
+                                )
                           }
                           className="check"
                           size="small"
@@ -273,7 +248,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
             style={mystyle}
           >
-            {Fee.AmountPayable != 0 ? (
+            {FeesList.AmountPayable != 0 ? (
               <Button disabled={disable} variant="contained">
                 Pay Online
               </Button>
@@ -285,7 +260,6 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
           ) : (
             <Button variant="contained"> Caution Money Receipt </Button>
           )}
-          
         </Stack>
       </>
     </div>

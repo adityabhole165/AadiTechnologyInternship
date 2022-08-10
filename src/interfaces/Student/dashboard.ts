@@ -43,8 +43,8 @@ export interface GetUpcomingStaffBdayList {
 //Photo album
 export interface IPhotoAlbum {
     aiSchoolId: string,
-    aiMonth: string,
-    aiYear: string,
+    aiMonth: any,
+    aiYear: any,
     abSetPreviousMonth: string,
     aiUserId: string
 

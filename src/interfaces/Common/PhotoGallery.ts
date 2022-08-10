@@ -20,4 +20,20 @@ export interface Getimg {
     ImageId: number,
     ImagePath: string
 }
+//New photo ablum
+export interface IPhotoAlbum {
+    aiSchoolId:string,
+    aiMonth:any,
+    aiYear:any,
+    abSetPreviousMonth:string,
+    aiUserId:string
+    }
+
+    export interface GetPhotoAlbum {
+        ImagePath: string,
+        Description: string,
+        Name: string,
+        Id:number,
+        ImageId:number
+    }
 
