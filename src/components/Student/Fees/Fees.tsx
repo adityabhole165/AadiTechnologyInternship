@@ -68,7 +68,7 @@ function Fees() {
           style={{ background: 'red', display: 'inline-block',marginLeft:1 }}
         />
         <small>
-          <b>Bouncee Cheque Transaction </b>
+          <b>Bounced cheque Transaction </b>
         </small>
         <DotLegend
           className={classes.border}
