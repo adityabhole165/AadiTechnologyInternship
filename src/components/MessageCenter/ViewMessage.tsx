@@ -52,7 +52,7 @@ function ViewSms({}) {
            To={viewSent.RecieverName} 
            Body={viewSent.Body}
             Text={viewSent.Subject} 
-            Attachments={viewSent.Attachment}
+            Attachments={viewSent.Attachments}
             ID={UserId}
            
             />

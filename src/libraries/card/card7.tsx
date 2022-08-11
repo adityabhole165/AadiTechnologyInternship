@@ -11,6 +11,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
+import { array } from 'yup/lib/locale';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -19,22 +20,23 @@ Card7.propTypes = {
   Text: PropTypes.string,
   ViewDetail: PropTypes.object,
   Body: PropTypes.string,
-  Attachments: PropTypes.string,
+  Attachments: PropTypes.any,
   ID: PropTypes.string,
   Viewsent: PropTypes.array,
 };
 
-function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
+function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const file_path =
-    'http://riteschool_old.aaditechnology.com' +
-    '/RITeSchool/Uploads/' +
-    Attachments;
 
-  // const Compredirect = () => {
-  //   navigate('/extended-sidebar/MessageCenter/Compose');
-  // };
+  let attachment = Attachments;
+  let attachmentObj: any = [];
+  let file_path =  'http://riteschool_old.aaditechnology.com'  + '/RITeSchool/Uploads/';
+
+  for (const property in attachment) {
+    let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
+    attachmentObj.push(AttachmentFile);
+  }
 
   const classes = Styles();
 
@@ -71,19 +73,23 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
               {ViewDetail.Subject}
             </Typography>
             <Typography className={classes.Cardfont2}>{Text}</Typography>
-            {Attachments.length === 0 ? null : (
+            {attachmentObj.length === 0 ? null : (
               <>
-                <Typography className={classes.Cardfont1}>
-                  {ViewDetail.Attachment}
-                </Typography>
-                <Typography
-                  className={classes.Cardfont2}
-                  onClick={(event: React.MouseEvent<HTMLElement>) => {
-                    window.open(file_path);
-                  }}
-                >
-                  {Attachments}
-                </Typography>
+                {
+                  attachmentObj.map((item, i) => {
+                    return (
+                      <Typography key={i} className={classes.Cardfont1}
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                        window.open(item.FilePath);
+                      }
+                    }
+                      >
+                        {item.FileName}
+                        
+                      </Typography>
+                    )
+                  })
+                }
               </>
             )}
 
@@ -101,7 +107,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/`+ To + "/" + ID + "/" + Text + "/" + BODY
+            }/MessageCenter/Compose/` + To + "/" + ID + "/" + Text + "/" + BODY
           }
         >
           <Box sx={{ marginTop: '0px' }}>
@@ -116,11 +122,11 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments ,ID,Viewsent}) {
               Reply
             </Button>
           </Box>
-        </RouterLink> 
+        </RouterLink>
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` + Text + '/' + Attachments +'/' + BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` + Text + '/' + Attachments + '/' + BODY
           }
         >
           <Box
