@@ -32,16 +32,15 @@ function Photos() {
   const PhotoAlbum: any = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
   );
-  console.log("please",PhotoAlbum);
 
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
   );
 
-  
-
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
+  console.log("PhotoAlbum",PhotoAlbum);
+  
   const RoleId = sessionStorage.getItem('RoleId');
 
   const Month = new Date().getMonth() + 1;
@@ -65,22 +64,16 @@ function Photos() {
   //   asMonth: month,
   //   asYear: year
   // };
+
+  // console.log(year,asUserId,month);
+
   const PhotoAlbumBody: IPhotoAlbum = {
-    aiSchoolId: "120",
+    aiSchoolId: asSchoolId,
     aiMonth: month,
     aiYear: year,
     abSetPreviousMonth: 'true',
-    aiUserId: "695"
+    aiUserId: asUserId
   };
-  console.log(year,asUserId,month);
-
-  // const PhotoAlbumBody: IPhotoAlbum = {
-  //   aiSchoolId: asSchoolId,
-  //   aiMonth: month,
-  //   aiYear: year,
-  //   abSetPreviousMonth: 'true',
-  //   aiUserId: asUserId
-  // };
 
 
   const YearBody: IYearList = {
@@ -137,11 +130,12 @@ function Photos() {
           </Grid>
         </Grid>
       </Container>
-
-      {PhotoAlbum.length === 0 ? (
-        <ErrorMessages Error={'No records found'} />
-      ) : (
         <>
+        {
+                    (PhotoAlbum[0].ImageList == null || PhotoAlbum === null)?
+                    <ErrorMessages Error={'No record found'} />
+                    :
+                   <>
           {PhotoAlbum.map((items, i) => (
             <RouterLink
               key={i}
@@ -154,8 +148,10 @@ function Photos() {
               <List12 imgId={items.Name} key={i} />
             </RouterLink>
           ))}
+          </>
+}
         </>
-      )}
+      
     </>
   );
 }

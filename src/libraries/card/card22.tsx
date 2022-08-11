@@ -8,6 +8,7 @@ import { SRLWrapper } from 'simple-react-lightbox';
 import SimpleReactLightbox from 'simple-react-lightbox';
 import 'src/assets/style/Homework_Calci.css';
 import BackButton from '../button/BackButton';
+import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
 
 Card22.propTypes = {
   pic: PropTypes.array,
@@ -80,16 +81,20 @@ function Card22({ pic, imgId }) {
             justifyContent="center"
             sx={{ marginTop: '20px' }}
           >
+             {
+                    (pic === null)?
+                    <ErrorMessages Error={'No message'} />
+                    :
+                   <>
+                  
             {pic.map((items: GetPhotoAlbum, i) => {
-              console.log(items)
               return (
                 <>
                   <Grid>
                     <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
                       <img
                         src={
-                          'http://riteschool_old.aaditechnology.com/RITeSchool/' +
-                          "Images/Gallery/images16595.jpg"
+                          'http://riteschool_old.aaditechnology.com/RITeSchool/' + items.ImagePath
                         }
                         width="100"
                         height="100"
@@ -100,6 +105,8 @@ function Card22({ pic, imgId }) {
                 </>
               );
             })}
+             </>
+                }
           </Grid>
         </SRLWrapper>
       </SimpleReactLightbox>
