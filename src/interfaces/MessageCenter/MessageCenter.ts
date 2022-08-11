@@ -58,8 +58,13 @@ export interface  ISendMessage {
     asSchoolName: string,
     asIsForward:string,
     sIsReply:string,
-    stream:string,
+    attachmentFile:AttachmentFile[],
     asFileName:string
+}
+
+export interface AttachmentFile {
+    FileName : string,
+    Base64URL: string
 }
 
 

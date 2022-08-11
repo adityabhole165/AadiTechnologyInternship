@@ -20,7 +20,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { ISendMessage } from '../../interfaces/MessageCenter/MessageCenter';
+import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { makeStyles } from '@mui/styles';
@@ -52,7 +52,6 @@ function Form13() {
 
   const { To, ID, Text, Attachments, BODY } = useParams();
   const [change, setChange] = useState(To);
-  console.log(To)
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -62,6 +61,8 @@ function Form13() {
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
+  const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
+
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
   const TeacherList: any = useSelector(
@@ -87,8 +88,6 @@ function Form13() {
   const SchoolName = localStorage.getItem('SchoolName');
 
 
-  let DataAttachment = Attachment1.slice(Attachment1.indexOf(',') + 1);
-
   const [fileExtension, setfileExtension] = React.useState<any>('');
 
   const handleClick = () => {
@@ -103,47 +102,65 @@ function Form13() {
     setOpen(false);
   };
 
-  const fileChangedHandler = (event) => {
-    event.preventDefault();
-    let file = event.target.files[0];
-    setfileName(event.target.files[0].name);
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-
-      reader.onload = (event) => {
-        resolve(event.target.result);
-        SetAttachment(event.target.result);
-      };
-
-      reader.onerror = (err) => {
-        reject(err);
-      };
-
-      if (event.target.files[0]) {
-        reader.readAsDataURL(event.target.files[0]);
+  const fileChangedHandler = async (event) => {
+    debugger;
+    const multipleFiles = event.target.files
+    for(let i=0; i < multipleFiles.length; i++){
+      const isValid = CheckValidation(multipleFiles[i]);
+      let fileName = multipleFiles[i].name;
+      let base64URL:any = "";
+      if(isValid)
+      {
+        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
       }
+      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+    
+      let AttachmentFile:AttachmentFile = {FileName:fileName, Base64URL:DataAttachment};
+      finalBase64.push(AttachmentFile);
+    }
+    // event.preventDefault();
+    // let file = event.target.files[0];
+    // setfileName(event.target.files[0].name);
+  };
 
-      const fileExtension = file?.name?.split('.').at(-1);
+  const CheckValidation = (fileData)=>{
+    const fileExtension = fileData?.name?.split('.').at(-1);
       setfileExtension(fileExtension);
       const allowedFileTypes = [
-        'BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc', 'docx', 'jpg',
-        'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx'
+        'BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc','docx','jpg',
+        'jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'
       ];
 
       if (fileExtension != undefined || null) {
         if (!allowedFileTypes.includes(fileExtension)) {
           setFilerror('File does not support. Please cheked Note');
-        } else if (allowedFileTypes.includes(fileExtension)) {
+          return false;
+        } 
+        else if (allowedFileTypes.includes(fileExtension)) {
           setFilerror(null);
+          return true
         }
-
-        if (file?.size > 20e6) {
+        if (fileData?.size > 20e6) {
           setFilerror('Please upload a file smaller than 20 MB');
           return false;
         }
       }
+  }
+
+
+  const ChangeFileIntoBase64 = (fileData)=>{
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(fileData);
+      
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (err) => {
+        reject(err);
+      };
     });
-  };
+  }
   // Submit form data
 
   useEffect(() => {
@@ -178,7 +195,7 @@ function Form13() {
       asSelectedStDivId: DivisionId,
       asSelectedUserIds: Id.toString(),
       sIsReply: 'N',
-      stream: DataAttachment,
+      attachmentFile: finalBase64,
       asFileName: fileName
     };
 
@@ -330,6 +347,7 @@ function Form13() {
               className={classes.InputField}
               onChange={fileChangedHandler}
               // value={Attachments}
+              inputProps={{multiple:true}}
               InputProps={{
                 endAdornment: (
                   <Box
