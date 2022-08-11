@@ -37,6 +37,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) 
     let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
     attachmentObj.push(AttachmentFile);
   }
+  console.log(Attachments)
 
   const classes = Styles();
 
@@ -107,7 +108,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) 
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/` + To + "/" + ID + "/" + Text + "/" + BODY
+            }/MessageCenter/Compose/Reply/` + To + "/" + Text + "/" + Attachments + "/" + BODY
           }
         >
           <Box sx={{ marginTop: '0px' }}>
@@ -126,7 +127,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) 
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/` + Text + '/' + Attachments + '/' + BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + '/' + Attachments + '/' + BODY
           }
         >
           <Box

@@ -28,9 +28,6 @@ export const Composee = () => {
     "asSelectedUserGroup": "2",
     "abIsSMSCenter": false
   }
-console.log("asUserId",asUserId);
-console.log("asDivisionId",asDivisionId);
-
 
   const AdminstaffList: IUserGroupList = {
     "asAcademicYearId": asAcademicYearId,

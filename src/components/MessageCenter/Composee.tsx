@@ -30,6 +30,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import parseJSON from 'date-fns/esm/fp/parseJSON/index';
 
 
 const useStyles = makeStyles({
@@ -49,8 +50,11 @@ function Form13() {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/', '');
+  const PageName = pageName.slice(0,5);
 
-  const { To, ID, Text, Attachments, BODY } = useParams();
+  const { To, Text, Attachments, BODY } = useParams();
+  console.log(`${Attachments}`)
+
   const [change, setChange] = useState(To);
 
   const classes = Styles();
@@ -286,19 +290,8 @@ function Form13() {
                 )}
                 
                 renderInput={(params) => (
-                  (To == "To")
+                  (PageName == "Reply")
                   ?
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    name="To"
-                    label={'To'}
-                    placeholder={To}
-                    // value={To}
-                    className={classes.InputField}
-                    onChange={formik.handleChange}
-                  />
-                  :
                   <TextField
                     variant="standard"
                     fullWidth
@@ -306,6 +299,17 @@ function Form13() {
                     label={'To'}
                     placeholder={To}
                     value={To}
+                    className={classes.InputField}
+                    onChange={formik.handleChange}
+                  />
+                  :
+                  <TextField
+                    {...params}
+                    variant="standard"
+                    name="To"
+                    label={'To'}
+                    placeholder={To}
+                    // value={To}
                     className={classes.InputField}
                     onChange={formik.handleChange}
                   />

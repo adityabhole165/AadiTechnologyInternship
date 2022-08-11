@@ -171,7 +171,7 @@ function MessaageCenter() {
                 style={{ textDecoration: 'none' }}
                 to={
                   `/${location.pathname.split('/')[1]
-                  }/MessageCenter/Compose/`+ "To/" + "Text/" + "Attachment/" + "BODY"
+                  }/MessageCenter/Compose`
                 }
               >
                 <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
