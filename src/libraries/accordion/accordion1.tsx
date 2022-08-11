@@ -35,7 +35,11 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: '#c8dccb',
-      mx: '-30px'
+      mx: '-30px',
+      RealatedSection:item.RealatedSection,
+      borderRadius:"6px",
+      marginBottom:"8px",
+      boxShadow:"6px 4px 5px grey"
     };
   });
   return (
@@ -53,7 +57,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 expanded={expanded === 'panel1'}
                 onChange={handleChange('panel1')}
               >
-                <AccordionSummary
+                <AccordionSummary 
                   expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
@@ -68,7 +72,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   </Typography>
                 </AccordionSummary>
 
-                <AccordionDetails
+                <AccordionDetails 
                   sx={{
                     borderRadius: 1,
                   

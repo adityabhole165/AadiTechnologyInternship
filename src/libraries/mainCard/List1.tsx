@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function List1({ items }) {
-  
+  const classes = Styles();
   const maxLength = 1;
   let text1Length = Math.max(...items.map((o) => o.text1.length));
   let headerLength = Math.max(...items.map((o) => o.header.length));
@@ -29,6 +29,7 @@ function List1({ items }) {
   }
   return (
     <>
+
     {
       (items.length == 0)
       ?
@@ -40,7 +41,7 @@ function List1({ items }) {
             
           {(items.linkPath === '' || items.linkPath === undefined)? 
           
-          <Card1
+          <Card1 
           header={items.header}
           text1={items.text1}
           text2={items.text2}
@@ -48,7 +49,10 @@ function List1({ items }) {
           isSelected={items.isSelected}
           Color={items.backgroundColor}
           margin={items.mx}
-    
+          borderRadius={items.borderRadius}
+          marginBottom={items.marginBottom}
+          boxShadow={items.boxShadow}
+          RealatedSection={items.RealatedSection}
           FileName={items.FileName}
           key={items.id}
         />
