@@ -21,7 +21,6 @@ Card27.propTypes = {
 function Card27({ FeesType, Fee, Heading, Note }) {
   const theme = useTheme();
   const classes = Styles();
-  console.log(Fee);
 
   return (
     <>
@@ -108,7 +107,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                   );
                 })
               ) : (
-                <ErrorMessages Error={'No fees has been paid yet'} />
+                <ErrorMessages Error={'No fees has been paid'} />
               )}
             </AccordionDetails>
           ) : (
