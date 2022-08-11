@@ -295,6 +295,7 @@ function Form13() {
                     label={'To'}
                     placeholder={To}
                     value={To}
+                    disabled={true}
                     className={classes.InputField}
                     onChange={formik.handleChange}
                   />
@@ -304,8 +305,6 @@ function Form13() {
                     variant="standard"
                     name="To"
                     label={'To'}
-                    placeholder={To}
-                    // value={To}
                     className={classes.InputField}
                     onChange={formik.handleChange}
                   />
