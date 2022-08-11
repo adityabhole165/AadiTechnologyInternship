@@ -30,7 +30,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import parseJSON from 'date-fns/esm/fp/parseJSON/index';
 
 
 const useStyles = makeStyles({
@@ -53,9 +52,6 @@ function Form13() {
   const PageName = pageName.slice(0,5);
 
   const { To, Text, Attachments, BODY } = useParams();
-  console.log(`${Attachments}`)
-
-  const [change, setChange] = useState(To);
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -107,7 +103,6 @@ function Form13() {
   };
 
   const fileChangedHandler = async (event) => {
-    debugger;
     const multipleFiles = event.target.files
     for(let i=0; i < multipleFiles.length; i++){
       const isValid = CheckValidation(multipleFiles[i]);
@@ -206,6 +201,7 @@ function Form13() {
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
+          console.log(res.status)
           formik.resetForm();
           toast.success('Message sent successfully');
         }
@@ -218,7 +214,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: '',
+      Subject: (PageName == "Forwa" || PageName == "Reply") ? Text : '' ,
       Content: '',
       Attachment: ''
     },
@@ -227,13 +223,13 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      if (Too.length == 0) {
+      if (Too.length == 0 && PageName !== "Reply") {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Subject) {
+      if (!values.Subject && PageName !== "Forwa" && PageName !== "Reply") {
         errors.Subject = 'Subject should not be blank.';
       }
-      if (!values.Content) {
+      if (!values.Content && PageName !== "Forwa" && PageName !== "Reply") {
         errors.Content = 'Message body should not be blank.';
       }
 
@@ -290,7 +286,7 @@ function Form13() {
                 )}
                 
                 renderInput={(params) => (
-                  (PageName == "Reply")
+                  (PageName === "Reply")
                   ?
                   <TextField
                     variant="standard"
@@ -323,6 +319,22 @@ function Form13() {
               ) : null}
             </p>
 
+            {
+              (PageName === "Reply" || PageName === "Forwa")
+              ?
+              <TextField
+              fullWidth
+              margin="normal"
+              label={'Subject'}
+              name="Subject"
+              type="text"
+              autoComplete="off"
+              variant="standard"
+              value={ Text }
+              onChange={formik.handleChange}
+              sx={{ mt: '-0.3rem' }}
+            />
+            :
             <TextField
               fullWidth
               margin="normal"
@@ -331,12 +343,11 @@ function Form13() {
               type="text"
               autoComplete="off"
               variant="standard"
-              // className={ (pageName == "Timetable") ? 6 : 2  }
-
-              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Subject : Text}
+              value={ formik.values.Subject }
               onChange={formik.handleChange}
               sx={{ mt: '-0.3rem' }}
             />
+            }
             <p style={{ color: 'red', marginTop: -10 }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
@@ -419,6 +430,7 @@ function Form13() {
                 {fileerror}
               </p>
             )}
+
             <TextField
               fullWidth
               multiline
@@ -428,7 +440,7 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Content : BODY}
+              value={PageName === "Forwa" ? BODY :  formik.values.Content }
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />
