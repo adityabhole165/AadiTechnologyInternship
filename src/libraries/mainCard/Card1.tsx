@@ -18,7 +18,11 @@ Card1.propTypes = {
   header: PropTypes.string,
   text1: PropTypes.string,
   text2: PropTypes.string,
-  FileName: PropTypes.string
+  FileName: PropTypes.string,
+  RealatedSection:PropTypes.string,
+  borderRadius:PropTypes.string,
+  marginBottom:PropTypes.string,
+  boxShadow:PropTypes.string,
 };
 
 function Card1({
@@ -29,8 +33,14 @@ function Card1({
   isSelected,
   Color,
   FileName,
-  margin
+  margin,
+  RealatedSection,
+  borderRadius,
+  marginBottom,
+  boxShadow
 }) {
+  console.log("RealatedSection",RealatedSection);
+  
   const date = new Date();
   const NewDate = new Date(date).toDateString();
   const Day = NewDate.slice(8, 10);
@@ -61,10 +71,13 @@ function Card1({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <List
-            className={classes.ListStyle}
+            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2}
             sx={{
               background: background,
-              mx: margin
+              mx: margin,
+              borderRadius: borderRadius,
+              marginBottom: marginBottom,
+              boxShadow: boxShadow,
             }}
           >
             {text1 == NewDateFormat ? (
@@ -110,7 +123,7 @@ function Card1({
                   className={classes.Listfont2}
                   sx={{ float: 'right' }}
                 >
-                  {text3}
+                  {/* {text3} */}
                 </Typography>
               </Grid>
               <Grid xs={8}>
@@ -121,7 +134,7 @@ function Card1({
                   className={classes.Listfont2}
                   sx={{ float: 'right',ml:'-20px' }}
                 >
-                  {text2}
+                  {/* {text2} */}
                 </Typography>
               </Grid>
             </Grid>
