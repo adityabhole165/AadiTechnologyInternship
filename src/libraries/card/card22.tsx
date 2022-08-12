@@ -65,9 +65,7 @@ function Card22({ pic, imgId }) {
   return (
     <div>
       <SimpleReactLightbox>
-        <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
-          <BackButton />
-        </span>
+        
         <span style={{display:'flex', justifyContent: 'center' }}>
           <span>{imgId}</span>
         </span>

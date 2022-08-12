@@ -133,7 +133,7 @@ function Inbox() {
             {
               GetInboxMessageList.map(
                 (GetInboxMessageListitem: GetInboxMessageResult, i) =>
-                  <List3 data={GetInboxMessageListitem} key={i} handleChange={handleChange} check={checked} Attachments={GetInboxMessageListitem.Attachment} />)
+                  <List3 data={GetInboxMessageListitem} key={i} handleChange={handleChange} check={checked} Attachments={GetInboxMessageListitem.Attachment} FromRoute={"/Inbox"} />)
             }
           </>
       }

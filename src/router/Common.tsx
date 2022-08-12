@@ -56,7 +56,7 @@ const commonRoutes = [
         element: <Albums />
     },
     {
-        path: 'Photos/:imgId',
+        path: 'Photos/:imgId/:FromRoute',
         element: <Photos />
     },
     ,

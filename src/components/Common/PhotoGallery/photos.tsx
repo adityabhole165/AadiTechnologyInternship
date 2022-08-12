@@ -9,8 +9,9 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
 
+
 function Photos() {
-  const { imgId } = useParams();
+  const { imgId,FromRoute } = useParams();
 
   const dispatch = useDispatch();
   const img: any = useSelector((state: RootState) => state.Gallery.imgList);
@@ -18,7 +19,7 @@ function Photos() {
 
   const img_body: Iimg = {
     asSchoolId: asSchoolId,
-    asGalleryName: imgId
+    asGalleryName: imgId,
   };
 
   useEffect(() => {
@@ -27,6 +28,9 @@ function Photos() {
   return (
     <div>
       <PageHeader heading={'Album'} subheading={''} />
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+          <BackButton FromRoute={"/Common/"+ FromRoute} />
+      </span>
       <Card22 pic={img} imgId={imgId} />
     </div>
   );
