@@ -132,7 +132,7 @@ function Photos() {
       </Container>
         <>
         {
-                    (PhotoAlbum[0].ImageList == null || PhotoAlbum === null)?
+                    (PhotoAlbum[0].ImageList == null )?
                     <ErrorMessages Error={'No record found'} />
                     :
                    <>
