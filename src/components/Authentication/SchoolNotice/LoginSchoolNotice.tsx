@@ -10,15 +10,18 @@ import { Link, useLocation } from 'react-router-dom';
 // import List2 from "src/library/Lists small/List1";
 import List1 from "src/libraries/Lists small/List1";
 import BackButton from 'src/libraries/button/BackButton'
-import { Box, Grid } from '@mui/material';
+import { Box, Fab, Grid, useTheme } from '@mui/material';
 import { Styles } from "src/assets/style/student-style";
 import school5 from 'src/assets/img/school5.jpg';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-
+import { useNavigate } from 'react-router-dom';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 function LoginSchoolNotice() {
+    const navigate = useNavigate();
+    const classes = Styles();
+    const theme = useTheme();
 
-    const styleroot = Styles();
     const styles = {
         paperContainer: {
             backgroundImage: `url(${school5})`,
@@ -55,9 +58,19 @@ function LoginSchoolNotice() {
             <Grid style={styles.paperContainer}>
 
                 <PageHeader heading={"School Notice"} subheading={""} />
-                <Box sx={{ marginBottom: '3rem', marginLeft: '2rem', marginTop: '-2.5rem' }}>
-                    <BackButton />
-                </Box>
+                <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+                    <Box >
+                        <Fab className={classes.backArrow}
+                            sx={{
+                                background: `${theme.colors.gradients.pink1}`,
+                                position: 'absolute',
+
+                            }}
+                            onClick={() => { navigate(-1) }}
+                        ><ReplyIcon />
+                        </Fab>
+                    </Box>
+                </span>
                 {
                     (LoginSchoolNoticeList.length == 0)
                         ?

@@ -34,9 +34,7 @@ function Card4({
   const classes = Styles();
   return (
     <>
-      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
-        <BackButton />
-      </span>
+     
       <Container>
         <Card
           sx={{

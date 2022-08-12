@@ -4,12 +4,15 @@ import {
   Card,
   Typography,
   useTheme,
-  Container
+  Container,
+  Fab
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import BackButton from '../button/BackButton';
+import { useNavigate } from 'react-router-dom';
+import ReplyIcon from '@mui/icons-material/Reply';
 
 Card6.propTypes = {
   Content: PropTypes.string,
@@ -22,7 +25,7 @@ Card6.propTypes = {
 
 function Card6({ Content, FileName, Name }) {
   const theme = useTheme();
-
+  const navigate = useNavigate();
   const file_path =
     'http://riteschool_old.aaditechnology.com/RITeSchool' +
     '/DOWNLOADS/School%20Notices/' +
@@ -38,7 +41,17 @@ function Card6({ Content, FileName, Name }) {
             marginTop: 10
           }}
         >
-          <BackButton />
+          <Box >
+            <Fab className={classes.backArrow}
+              sx={{
+                background: `${theme.colors.gradients.pink1}`,
+                position: 'absolute',
+
+              }}
+              onClick={() => { navigate(-1) }}
+              ><ReplyIcon />
+            </Fab>
+          </Box>
           <Box p={2}>
             <span>
               <Typography>

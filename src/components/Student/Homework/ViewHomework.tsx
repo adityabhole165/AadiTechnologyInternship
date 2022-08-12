@@ -7,6 +7,7 @@ import {
 import http from 'src/requests/SchoolService/schoolServices';
 import Card4 from 'src/libraries/card/card4';
 import PageHeader from 'src/libraries/heading/PageHeader';
+import BackButton from 'src/libraries/button/BackButton';
 
 function ViewHomework() {
   const { Id } = useParams();
@@ -46,6 +47,9 @@ function ViewHomework() {
   return (
     <>
       <PageHeader heading={'View Homework'} subheading={''} />
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+        <BackButton FromRoute={"/Student/Homework"} />
+      </span>
       {viewHomework === undefined ? null : (
         <Card4
           ViewDetail={ViewDetail}

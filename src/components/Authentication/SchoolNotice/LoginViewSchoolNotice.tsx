@@ -23,7 +23,6 @@ function LoginViewSchoolNotice() {
 
     };
 
-
     const dispatch = useDispatch();
 
     const LoginViewSchoolNotice = useSelector((state: RootState) => state.LoginList.LoginViewSchoolNoticeData);
