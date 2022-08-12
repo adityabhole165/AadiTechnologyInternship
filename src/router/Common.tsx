@@ -44,11 +44,11 @@ const commonRoutes = [
     },
 
     {
-        path: 'Comments/:VideoID',
+        path: 'Comments/:VideoID/:FromRoute',
         element: <Comments />
     },
     {
-        path: 'videoview/:VideoUrl',
+        path: 'videoview/:VideoUrl/:VideoID',
         element: <Videoview />
     },
     {
