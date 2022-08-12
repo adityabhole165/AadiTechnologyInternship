@@ -49,9 +49,9 @@ function Form13() {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/', '');
+  const PageName = pageName.slice(0,5);
 
-  const { To, ID, Text, Attachments, BODY } = useParams();
-  const [change, setChange] = useState(To);
+  const { To, Text, Attachments, BODY } = useParams();
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -103,7 +103,6 @@ function Form13() {
   };
 
   const fileChangedHandler = async (event) => {
-    debugger;
     const multipleFiles = event.target.files
     for(let i=0; i < multipleFiles.length; i++){
       const isValid = CheckValidation(multipleFiles[i]);
@@ -202,6 +201,7 @@ function Form13() {
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
+          console.log(res.status)
           formik.resetForm();
           toast.success('Message sent successfully');
         }
@@ -214,7 +214,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: '',
+      Subject: (PageName == "Forwa" || PageName == "Reply") ? Text : '' ,
       Content: '',
       Attachment: ''
     },
@@ -223,13 +223,13 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      if (Too.length == 0) {
+      if (Too.length == 0 && PageName !== "Reply") {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Subject) {
+      if (!values.Subject && PageName !== "Forwa" && PageName !== "Reply") {
         errors.Subject = 'Subject should not be blank.';
       }
-      if (!values.Content) {
+      if (!values.Content && PageName !== "Forwa" && PageName !== "Reply") {
         errors.Content = 'Message body should not be blank.';
       }
 
@@ -286,19 +286,8 @@ function Form13() {
                 )}
                 
                 renderInput={(params) => (
-                  (To == "To")
+                  (PageName === "Reply")
                   ?
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    name="To"
-                    label={'To'}
-                    placeholder={To}
-                    // value={To}
-                    className={classes.InputField}
-                    onChange={formik.handleChange}
-                  />
-                  :
                   <TextField
                     variant="standard"
                     fullWidth
@@ -306,6 +295,16 @@ function Form13() {
                     label={'To'}
                     placeholder={To}
                     value={To}
+                    disabled={true}
+                    className={classes.InputField}
+                    onChange={formik.handleChange}
+                  />
+                  :
+                  <TextField
+                    {...params}
+                    variant="standard"
+                    name="To"
+                    label={'To'}
                     className={classes.InputField}
                     onChange={formik.handleChange}
                   />
@@ -319,6 +318,22 @@ function Form13() {
               ) : null}
             </p>
 
+            {
+              (PageName === "Reply" || PageName === "Forwa")
+              ?
+              <TextField
+              fullWidth
+              margin="normal"
+              label={'Subject'}
+              name="Subject"
+              type="text"
+              autoComplete="off"
+              variant="standard"
+              value={ Text }
+              onChange={formik.handleChange}
+              sx={{ mt: '-0.3rem' }}
+            />
+            :
             <TextField
               fullWidth
               margin="normal"
@@ -327,12 +342,11 @@ function Form13() {
               type="text"
               autoComplete="off"
               variant="standard"
-              // className={ (pageName == "Timetable") ? 6 : 2  }
-
-              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Subject : Text}
+              value={ formik.values.Subject }
               onChange={formik.handleChange}
               sx={{ mt: '-0.3rem' }}
             />
+            }
             <p style={{ color: 'red', marginTop: -10 }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
@@ -415,6 +429,7 @@ function Form13() {
                 {fileerror}
               </p>
             )}
+
             <TextField
               fullWidth
               multiline
@@ -424,7 +439,7 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={(pageName == "To/Text/Attachment/BODY") ? formik.values.Content : BODY}
+              value={PageName === "Forwa" ? BODY :  formik.values.Content }
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />

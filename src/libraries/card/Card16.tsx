@@ -34,17 +34,20 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     (state: RootState) => state.Fees.FeesData2
   );
   const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
+  const LengthOfFeesList = FeesList.length; 							// For splicing operation
 
-  const [ArrayOfFees, setArrayOfFees] = useState<any>([]);
-
+  const dispatch = useDispatch();
+  const [ArrayOfPaymentGroup, setArrayOfPaymentGroup] = useState([]); 	// Check value and Background Color
+  const [ArrayOfFees, setArrayOfFees] = useState<any>([]); 				// Fees group
+  const [open, setOpen] = useState(false);
+  const [CheckBoxPaymentGroup, setCheckBoxPaymentGroup] = useState<any>(['1']); // First Payment Group
+  const [change, setChange] = useState(true); 								// Unselect check box and change disability of checkboxes
+  const [FeesTotal, setFeesTotal] = useState(0); 							// Sum of Fees
   const classes = Styles();
   const theme = useTheme();
-  const [open, setOpen] = useState(false);
-  const [date, setDate] = useState<any>([]);
-  const [disable, setDisable] = useState(false);
-  const [CheckBoxPaymentGroup, setCheckBoxPaymentGroup] = useState<any>(['1']);
 
   const mystyle = {
+    pointerEvents: `${FeesTotal > 0 ? 'auto' : 'none'}` as 'none', 			// For Payonline Pointer
     textDecoration: 'none' as 'none'
   };
 
@@ -56,39 +59,47 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     setOpen(false);
   };
 
-  const [data, setdata] = useState(0);
-  const [change,setChange] = useState(true);
-
   const handleChange = (event) => {
+    let ArrayOfFees_To_Number;
     if (event.target.checked) {
-      ArrayOfFees.push(event.target.value);
-      let ArrayOfFees_To_Number = ArrayOfFees.map(Number);
-      let NextPaymentGroup = parseInt(event.target.name) + 1;
-      let NextPaymentGroup_ToString = NextPaymentGroup.toString()
-      setCheckBoxPaymentGroup([...CheckBoxPaymentGroup,NextPaymentGroup_ToString]); 
-      setChange(true)
+      ArrayOfPaymentGroup.push(event.target.name);
+      ArrayOfFees.push(event.target.value); 						// Payment Group
+      ArrayOfFees_To_Number = ArrayOfFees.map(Number); 				// String to Number
+      let NextPaymentGroup = parseInt(event.target.name) + 1; 		// Next payment group
+      let NextPaymentGroup_ToString = NextPaymentGroup.toString();  // Type conversion as value != name
+      setCheckBoxPaymentGroup([
+        ...CheckBoxPaymentGroup,
+        NextPaymentGroup_ToString
+      ]);
+      setChange(true); 		// For Useeffect call
     }
     if (!event.target.checked) {
-      let indexOfUnCheck_Box = ArrayOfFees.indexOf(event.target.value);
-      let newArray = ArrayOfFees.splice(indexOfUnCheck_Box, 1);
-      let ArrayOfFees_To_Number = ArrayOfFees.map(Number);
-      let NextPaymentGroup = parseInt(event.target.name);
-      let indexOF_NextPaymentGroup = CheckBoxPaymentGroup.indexOf(event.target.name) + 1;
-      let removedPaymentGroup = CheckBoxPaymentGroup.splice(indexOF_NextPaymentGroup);
+      let indexOfArrayOfPaymentGroup = ArrayOfPaymentGroup.indexOf(
+        event.target.name
+      );
+      let NewSplicedArrayOfPG = ArrayOfPaymentGroup.splice(
+        indexOfArrayOfPaymentGroup,
+        LengthOfFeesList
+      );
+      setArrayOfPaymentGroup([...ArrayOfPaymentGroup]);
+      let indexOfUnChecked_Box = ArrayOfFees.indexOf(event.target.value);
+      let SplicedArray = ArrayOfFees.splice(
+        indexOfUnChecked_Box,
+        LengthOfFeesList
+      );
+      ArrayOfFees_To_Number = ArrayOfFees.map(Number); 		 // String to Number
+      let indexOF_NextPaymentGroup =
+        CheckBoxPaymentGroup.indexOf(event.target.name) + 1; // index of current payment group
+      let removedPaymentGroup = CheckBoxPaymentGroup.splice( // Payment group not required
+        indexOF_NextPaymentGroup
+      );
       setCheckBoxPaymentGroup(CheckBoxPaymentGroup);
-      setChange(false)
+      setChange(false); 		// For Useeffect call
     }
+    setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); 	// Sum of the Fees
   };
 
-  const Receipt = () => {
-    saveAs(
-      'http://riteschool_old.aaditechnology.com' +
-        '\\RITeSchool\\OtherDownloads\\ReceiptDownloads\\Receipt_84202216516894.pdf'
-    );
-  };
-
-  const dispatch = useDispatch();
-
+  // Body and Dispatch
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
 
@@ -99,7 +110,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
   useEffect(() => {
     dispatch(getFees(body));
-  }, [CheckBoxPaymentGroup,change]);
+  }, [CheckBoxPaymentGroup, change, ArrayOfPaymentGroup]);
 
   return (
     <div>
@@ -121,7 +132,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
               tooltip: {
                 sx: {
                   marginLeft: '70px',
-                  transform: 'translate3d(5px, 0px, 0px) !important'
+                  trFeesTotalform: 'trFeesTotallate3d(5px, 0px, 0px) !important'
                 }
               }
             }}
@@ -142,24 +153,28 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
       ) : null}
 
       <Button variant="contained" sx={{ mb: 2 }}>
-        Total: {data}
+        Total: {FeesTotal}
       </Button>
 
       {FeesList === undefined ? null : (
         <>
           {FeesList.map((item: GetFeeDetailsResult, i) => {
-            const disabledState = !CheckBoxPaymentGroup.includes(
+            // Checked Box Disability
+            const disabledStateCheckBox = !CheckBoxPaymentGroup.includes(
               item.PaymentGroup.toString()
             );
-            // console.log(typeof CheckBoxPaymentGroup[i]);
+            // Checked Value Boolean
+            const FeesCheckBoxBoolean = ArrayOfPaymentGroup.includes(
+              item.PaymentGroup.toString()
+            );
 
             return item.AmountPayable == '0' ? null : (
               <List
                 key={i}
                 className={classes.ListStyle}
                 sx={{
-                  background: date.find((value) =>
-                    value.includes(item.DueDateFormat)
+                  background: ArrayOfPaymentGroup.includes(
+                    item.PaymentGroup.toString()
                   )
                     ? 'coral'
                     : `${theme.colors.gradients.pink1}`,
@@ -171,9 +186,10 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                     <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
                       {item.AmountPayable != '0' && item.RowNumber == '1' ? (
                         <Checkbox
-                          disabled={disabledState}
+                          disabled={disabledStateCheckBox}
                           name={item.PaymentGroup}
                           value={
+                            // Payable Fees
                             i < FeesList.length - 1 &&
                             FeesList[i].PaymentGroup ==
                               FeesList[i + 1].PaymentGroup
@@ -191,7 +207,8 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                                   FeesList[FeesList.length - 1].AmountPayable
                                 )
                           }
-                          className="check"
+                          checked={FeesCheckBoxBoolean}
+                          className="check serial"
                           size="small"
                           id={item.PaymentGroup}
                           onChange={(event) => {
@@ -249,14 +266,25 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
             style={mystyle}
           >
             {FeesList.AmountPayable != 0 ? (
-              <Button disabled={disable} variant="contained">
+              <Button
+                disabled={FeesTotal > 0 ? false : true}
+                variant="contained"
+              >
                 Pay Online
               </Button>
             ) : null}
           </RouterLink>
 
           {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
-            <Button variant="contained"> Pay Caution Money </Button>
+            <RouterLink
+              to={`/${
+                location.pathname.split('/')[1]
+              }/Student/Fees_cautionmoney`}
+            >
+              <Button variant="contained" sx={{ pl: '10px', pr: '5px' }}>
+                Pay Caution Money
+              </Button>
+            </RouterLink>
           ) : (
             <Button variant="contained"> Caution Money Receipt </Button>
           )}

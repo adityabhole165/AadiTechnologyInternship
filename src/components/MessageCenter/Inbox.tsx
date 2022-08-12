@@ -45,7 +45,6 @@ function Inbox() {
   const pathname = window.location.pathname;
   const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '');
   const pageName2 = pathname.replace("/extended-sidebar/MessageCenter/", '')
-  console.log(pageName,pageName2)
 
   const handleChange = (event) => {
     setChecked(true);

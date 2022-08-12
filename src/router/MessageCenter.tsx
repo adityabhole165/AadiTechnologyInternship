@@ -52,15 +52,19 @@ const messageCenterRoutes :PartialRouteObject[] = [
     ],
     },
     {
-      path:'Compose/:Text/:BODY/',
+      path:'Compose', // Compose
       element: <Composee />
   },
+  // {
+  //     path:'Compose/Forward/:Text/:BODY',
+  //     element: <Composee />
+  // },
   {
-      path:'Compose/:Text/:Attachments/:BODY',
+      path:'Compose/Forward/:Text/:Attachments/:BODY', // Forward
       element: <Composee />
   },
     {
-      path:'Compose/:To/:ID/:Text/:BODY',
+      path:'Compose/Reply/:To/:Text/:Attachments/:BODY', // Reply
       element: <Composee />
   },
 
