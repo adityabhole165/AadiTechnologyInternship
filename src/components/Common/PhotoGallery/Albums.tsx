@@ -39,7 +39,6 @@ function Photos() {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
-  console.log("PhotoAlbum", PhotoAlbum);
 
   const RoleId = sessionStorage.getItem('RoleId');
 
@@ -75,7 +74,6 @@ function Photos() {
     aiUserId: asUserId
   };
 
-  console.log("Check Body:", PhotoAlbumBody);
   const YearBody: IYearList = {
     asSchoolId: asSchoolId,
     asUserId: asUserId,

@@ -20,7 +20,10 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/MessageCenter';
+import {
+  AttachmentFile,
+  ISendMessage
+} from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { makeStyles } from '@mui/styles';
@@ -30,7 +33,6 @@ import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-
 
 const useStyles = makeStyles({
   option: {
@@ -45,11 +47,13 @@ const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
-
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/', '');
-  const PageName = pageName.slice(0,5);
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/Compose/',
+    ''
+  );
+  const PageName = pageName.slice(0, 5);
 
   const { To, Text, Attachments, BODY } = useParams();
 
@@ -78,7 +82,6 @@ function Form13() {
   const [Too, setValue] = React.useState<any>([]);
   const [Name, setname] = React.useState<any>('');
   const [Id, setId] = React.useState<any>('');
-  const [Attachment1, SetAttachment] = React.useState<any>('');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -86,7 +89,6 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
-
 
   const [fileExtension, setfileExtension] = React.useState<any>('');
 
@@ -103,55 +105,76 @@ function Form13() {
   };
 
   const fileChangedHandler = async (event) => {
-    const multipleFiles = event.target.files
-    for(let i=0; i < multipleFiles.length; i++){
+    const multipleFiles = event.target.files;
+    for (let i = 0; i < multipleFiles.length; i++) {
       const isValid = CheckValidation(multipleFiles[i]);
       let fileName = multipleFiles[i].name;
-      let base64URL:any = "";
-      if(isValid)
-      {
+      let base64URL: any = '';
+      if (isValid) {
         base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
       }
       let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-    
-      let AttachmentFile:AttachmentFile = {FileName:fileName, Base64URL:DataAttachment};
+
+      let AttachmentFile: AttachmentFile = {
+        FileName: fileName,
+        Base64URL: DataAttachment
+      };
       finalBase64.push(AttachmentFile);
     }
-    // event.preventDefault();
-    // let file = event.target.files[0];
-    // setfileName(event.target.files[0].name);
   };
 
-  const CheckValidation = (fileData)=>{
+  const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
-      setfileExtension(fileExtension);
-      const allowedFileTypes = [
-        'BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc','docx','jpg',
-        'jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'
-      ];
+    setfileExtension(fileExtension);
+    const allowedFileTypes = [
+      'BMP',
+      'DOC',
+      'DOCX',
+      'JPG',
+      'JPEG',
+      'PDF',
+      'PNG',
+      'PPS',
+      'PPSX',
+      'PPT',
+      'PPTX',
+      'XLS',
+      'XLSX',
+      'bmp',
+      'doc',
+      'docx',
+      'jpg',
+      'jpeg',
+      'pdf',
+      'png',
+      'pps',
+      'ppsx',
+      'ppt',
+      'pptx',
+      'xls',
+      'xlsx'
+    ];
 
-      if (fileExtension != undefined || null) {
-        if (!allowedFileTypes.includes(fileExtension)) {
-          setFilerror('File does not support. Please cheked Note');
-          return false;
-        } 
-        else if (allowedFileTypes.includes(fileExtension)) {
-          setFilerror(null);
-          return true
-        }
-        if (fileData?.size > 20e6) {
-          setFilerror('Please upload a file smaller than 20 MB');
-          return false;
-        }
+    if (fileExtension != undefined || null) {
+      if (!allowedFileTypes.includes(fileExtension)) {
+        setFilerror('File does not support. Please cheked Note');
+        return false;
+      } else if (allowedFileTypes.includes(fileExtension)) {
+        setFilerror(null);
+        return true;
       }
-  }
+      if (fileData?.size > 20e6) {
+        setFilerror('Please upload a file smaller than 20 MB');
+        return false;
+      }
+    }
+  };
 
-
-  const ChangeFileIntoBase64 = (fileData)=>{
+  const ChangeFileIntoBase64 = (fileData) => {
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(fileData);
-      
+
       fileReader.onload = () => {
         resolve(fileReader.result);
       };
@@ -159,7 +182,7 @@ function Form13() {
         reject(err);
       };
     });
-  }
+  };
   // Submit form data
 
   useEffect(() => {
@@ -169,14 +192,17 @@ function Form13() {
       setname(NameList);
       setId(IdList);
     }
-
   }, [Too]);
+
+  const RediretToSentPage = () => {
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Sent');
+  };
 
   const sendMessage = () => {
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
-        Body: formik.values.Content,
+        Body: PageName == 'Forwa' ? BODY :  formik.values.Content,
         Subject: formik.values.Subject,
         SenderName: StudentName,
         DisplayText: Name.toString(),
@@ -187,13 +213,13 @@ function Form13() {
         InsertedById: UserId,
         Attachment: ''
       },
-      asIsForward: 'N',
+      asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
       asSelectedUserIds: Id.toString(),
-      sIsReply: 'N',
+      sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase64,
       asFileName: fileName
     };
@@ -201,9 +227,8 @@ function Form13() {
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
-          console.log(res.status)
-          formik.resetForm();
           toast.success('Message sent successfully');
+          setTimeout(RediretToSentPage, 1000);
         }
       })
       .catch((err) => {
@@ -214,7 +239,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: (PageName == "Forwa" || PageName == "Reply") ? Text : '' ,
+      Subject: PageName == 'Forwa' ? Text : '',
       Content: '',
       Attachment: ''
     },
@@ -223,16 +248,15 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      if (Too.length == 0 && PageName !== "Reply") {
+      if (Too.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Subject && PageName !== "Forwa" && PageName !== "Reply") {
+      if (!values.Subject && PageName !== 'Forwa') {
         errors.Subject = 'Subject should not be blank.';
       }
-      if (!values.Content && PageName !== "Forwa" && PageName !== "Reply") {
+      if (!values.Content && PageName !== 'Forwa') {
         errors.Content = 'Message body should not be blank.';
       }
-
       return errors;
     }
   });
@@ -281,34 +305,31 @@ function Form13() {
                       value={option.UserId}
                     />
                     {option.Name}
-
                   </li>
                 )}
-                
-                renderInput={(params) => (
-                  (PageName === "Reply")
-                  ?
-                  <TextField
-                    variant="standard"
-                    fullWidth
-                    name="To"
-                    label={'To'}
-                    placeholder={To}
-                    value={To}
-                    disabled={true}
-                    className={classes.InputField}
-                    onChange={formik.handleChange}
-                  />
-                  :
-                  <TextField
-                    {...params}
-                    variant="standard"
-                    name="To"
-                    label={'To'}
-                    className={classes.InputField}
-                    onChange={formik.handleChange}
-                  />
-                )
+                renderInput={(params) =>
+                  PageName === 'Reply' ? (
+                    <TextField
+                      variant="standard"
+                      fullWidth
+                      name="To"
+                      label={'To'}
+                      placeholder={To}
+                      value={To}
+                      disabled={true}
+                      className={classes.InputField}
+                      onChange={formik.handleChange}
+                    />
+                  ) : (
+                    <TextField
+                      {...params}
+                      variant="standard"
+                      name="To"
+                      label={'To'}
+                      className={classes.InputField}
+                      onChange={formik.handleChange}
+                    />
+                  )
                 }
               />
             </FormControl>
@@ -318,36 +339,34 @@ function Form13() {
               ) : null}
             </p>
 
-            {
-              (PageName === "Reply" || PageName === "Forwa")
-              ?
+            {PageName === 'Forwa' ? (
               <TextField
-              fullWidth
-              margin="normal"
-              label={'Subject'}
-              name="Subject"
-              type="text"
-              autoComplete="off"
-              variant="standard"
-              value={ Text }
-              onChange={formik.handleChange}
-              sx={{ mt: '-0.3rem' }}
-            />
-            :
-            <TextField
-              fullWidth
-              margin="normal"
-              label={'Subject'}
-              name="Subject"
-              type="text"
-              autoComplete="off"
-              variant="standard"
-              value={ formik.values.Subject }
-              onChange={formik.handleChange}
-              sx={{ mt: '-0.3rem' }}
-            />
-            }
-            <p style={{ color: 'red', marginTop: -10 }}>
+                fullWidth
+                margin="normal"
+                label={'Subject'}
+                name="Subject"
+                type="text"
+                autoComplete="off"
+                variant="standard"
+                value={Text}
+                disabled={true}
+                sx={{ mt: '-0.3rem' }}
+              />
+            ) : (
+              <TextField
+                fullWidth
+                margin="normal"
+                label={'Subject'}
+                name="Subject"
+                type="text"
+                autoComplete="off"
+                variant="standard"
+                value={formik.values.Subject}
+                onChange={formik.handleChange}
+                sx={{ mt: '-0.3rem' }}
+              />
+            )}
+            <p style={{ color: 'red', marginTop: -10,marginBottom:'-10px' }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
@@ -360,8 +379,7 @@ function Form13() {
               variant="standard"
               className={classes.InputField}
               onChange={fileChangedHandler}
-              // value={Attachments}
-              inputProps={{multiple:true}}
+              inputProps={{ multiple: true }}
               InputProps={{
                 endAdornment: (
                   <Box
@@ -411,7 +429,7 @@ function Form13() {
                 )
               }}
             />
-            {Attachments == undefined ? null : (
+            {Attachments == undefined || PageName === 'Reply' ? null : (
               <>
                 <Typography>Attachment(s):</Typography>
                 <Typography
@@ -430,6 +448,22 @@ function Form13() {
               </p>
             )}
 
+            {PageName === 'Reply' ? (
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+                label={'Content'}
+                name="Content"
+                type="text"
+                variant="standard"
+                value={BODY}
+                disabled={true}
+                sx={{ pt: '1px' }}
+              />
+            ) : null}
+
             <TextField
               fullWidth
               multiline
@@ -439,7 +473,8 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={PageName === "Forwa" ? BODY :  formik.values.Content }
+              value={PageName === 'Forwa' ? BODY : formik.values.Content}
+              disabled={PageName === 'Forwa' ? true : false}
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />
