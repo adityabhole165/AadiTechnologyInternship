@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
@@ -18,7 +18,6 @@ import { useTheme } from '@mui/material';
 import Dialog from '@mui/material/Dialog';
 import Slide from '@mui/material/Slide';
 import { TransitionProps } from '@mui/material/transitions';
-
 import { Outlet } from 'react-router-dom';
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,6 +25,7 @@ const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
+  height:"61px",
   color: theme.palette.text.secondary
 }));
 
@@ -37,7 +37,6 @@ const Transition = React.forwardRef(function Transition(
 ) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
-
 
 function MessaageCenter() {
   const [open, setOpen] = React.useState(false);
@@ -51,9 +50,9 @@ function MessaageCenter() {
   };
   const theme = useTheme();
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
-  
+    localStorage.setItem('url', window.location.pathname);
+  }, []);
+
   const classes = Styles();
   const [state, setState] = React.useState(false);
 
@@ -64,126 +63,137 @@ function MessaageCenter() {
   );
 
   const SearchData = (e) => {
-    setOpen(!e.Apply);
+    setShow(!e.Apply);
   }
+  const [show, setShow] = useState(false);
+  const handleClick = (e) => {
+    setShow(!show);
+  };
 
   return (
     <>
       <Container>
         <PageHeader heading={'Message Center'} subheading={''} />
-        <Box sx={{ width: 'auto', marginBottom: '10px' }}>
-          <Grid
-            container
-            rowSpacing={1}
-            columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-          >
-            <Grid item xs={3.5}>
-              <Link
-                to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
-                className={classes.TextDecoration}
-              >
-                <Item
-                  sx={
-                    pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
-                      pageName == 'Inbox'
-                      ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
-                      : { fontSize: '10px' }
-                  }
-                >
-                  <InboxIcon />
-                  <br />
-                  <b>Inbox</b>
-                </Item>
-              </Link>
-            </Grid>
-
-            <Grid item xs={3.5}>
-              <Link
-                to="/extended-sidebar/MessageCenter/msgCenter/Sent"
-                className={classes.TextDecoration}
-              >
-                <Item
-                  sx={
-                    pageName == 'Sent'
-                      ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
-                      : { fontSize: '10px' }
-                  }
-                >
-                  <SendIcon />
-                  <br />
-                  <b>Sent</b>
-                </Item>
-              </Link>
-            </Grid>
-
-            <Grid item xs={3.5}>
-              <Link
-                to="/extended-sidebar/MessageCenter/msgCenter/Trash"
-                className={classes.TextDecoration}
-              >
-                <Item
-                  sx={
-                    pageName == 'Trash'
-                      ? {
-                        fontSize: '10px',
-                        backgroundColor: 'gray',
-                        color: 'white'
-                      }
-                      : { fontSize: '10px' }
-                  }
-                >
-                  <DeleteIcon />
-                  <br />
-                  <b>Trash</b>
-                </Item>
-              </Link>
-            </Grid>
-
-            <Grid item xs={1.5}>
-                <SearchIcon sx={{fontSize: '40px',marginTop:'10px'}} onClick={handleClickOpen} />
-
-              <Dialog
-                open={open}
-                TransitionComponent={Transition}
-                keepMounted
-                onClose={handleClose}
-                aria-describedby="alert-dialog-slide-description"
-                sx={{ mt: -55 }}
-              >
-                <Search searchData={SearchData} />
-              </Dialog>
-            </Grid>
-
+        {!show && (
+          <Box sx={{ width: 'auto', marginBottom: '10px'}}>
             <Grid
-              item
-              xs={3}
-              sx={{ position: 'fixed', bottom: '85px', zIndex: '2', width: '25vw', marginLeft: '10px', right: '20px' }}
+              container
+              rowSpacing={1}
+              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
             >
-              <RouterLink
-                style={{ textDecoration: 'none' }}
-                to={
-                  `/${location.pathname.split('/')[1]
-                  }/MessageCenter/Compose`
-                }
-              >
-                <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
-                  <AddCircleIcon />
-                  <br />
-                  <b>Compose</b>
-                </Item>
+              <Grid item xs={3.5}>
+                <Link
+                  to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
+                  className={classes.TextDecoration}
+                >
+                  <Item
+                    sx={
+                      pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
+                      pageName == 'Inbox'
+                        ? {
+                            fontSize: '10px',
+                            backgroundColor: 'gray',
+                            color: 'white',
+                          
+                          }
+                        : { fontSize: '10px' }
+                    }
+                  >
+                    <InboxIcon />
+                    <br />
+                    <b>Inbox</b>
+                  </Item>
+                </Link>
+              </Grid>
 
-              </RouterLink>
+              <Grid item xs={3.5}>
+                <Link
+                  to="/extended-sidebar/MessageCenter/msgCenter/Sent"
+                  className={classes.TextDecoration}
+                >
+                  <Item
+                    sx={
+                      pageName == 'Sent'
+                        ? {
+                            fontSize: '10px',
+                            backgroundColor: 'gray',
+                            color: 'white'
+                          }
+                        : { fontSize: '10px' }
+                    }
+                  >
+                    <SendIcon />
+                    <br />
+                    <b>Sent</b>
+                  </Item>
+                </Link>
+              </Grid>
+
+              <Grid item xs={3.5}>
+                <Link
+                  to="/extended-sidebar/MessageCenter/msgCenter/Trash"
+                  className={classes.TextDecoration}
+                >
+                  <Item
+                    sx={
+                      pageName == 'Trash'
+                        ? {
+                            fontSize: '10px',
+                            backgroundColor: 'gray',
+                            color: 'white'
+                          }
+                        : { fontSize: '10px' }
+                    }
+                  >
+                    <DeleteIcon />
+                    <br />
+                    <b>Trash</b>
+                  </Item>
+                </Link>
+              </Grid>
+
+              <Grid item xs={1.5}>
+                <SearchIcon
+                  sx={{
+                    fontSize: '40px',
+                    marginTop: '10px',
+                    cursor: 'pointer'
+                  }}
+                  onClick={handleClick}
+                />
+              </Grid>
+
+              <Grid
+                item
+                xs={3}
+                sx={{
+                  position: 'fixed',
+                  bottom: '85px',
+                  zIndex: '2',
+                  width: '25vw',
+                  marginLeft: '10px',
+                  right: '20px'
+                }}
+              >
+                <RouterLink
+                  style={{ textDecoration: 'none' }}
+                  to={
+                    `/${
+                      location.pathname.split('/')[1]
+                    }/MessageCenter/Compose`
+                  }
+                >
+                  <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
+                    <AddCircleIcon />
+                    <br />
+                    <b>Compose</b>
+                  </Item>
+                </RouterLink>
+              </Grid>
             </Grid>
-          </Grid>
-        </Box>
+          </Box>
+        )}
+        {show && <Search  searchData={SearchData}/>}
       </Container>
       <Box
         display="block"

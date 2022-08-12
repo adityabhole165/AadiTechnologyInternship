@@ -37,7 +37,6 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) 
     let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
     attachmentObj.push(AttachmentFile);
   }
-  console.log(Attachments)
 
   const classes = Styles();
 

@@ -3,7 +3,6 @@ import { useTheme, Grid, Checkbox, Stack, List, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
-import { saveAs } from 'file-saver';
 import Tooltip from '@mui/material/Tooltip';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { ClickAwayListener } from '@mui/material';
@@ -34,20 +33,20 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     (state: RootState) => state.Fees.FeesData2
   );
   const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
-  const LengthOfFeesList = FeesList.length; 							// For splicing operation
+  const LengthOfFeesList = FeesList.length; // For splicing operation
 
   const dispatch = useDispatch();
-  const [ArrayOfPaymentGroup, setArrayOfPaymentGroup] = useState([]); 	// Check value and Background Color
-  const [ArrayOfFees, setArrayOfFees] = useState<any>([]); 				// Fees group
+  const [ArrayOfPaymentGroup, setArrayOfPaymentGroup] = useState([]); // Check value and Background Color
+  const [ArrayOfFees, setArrayOfFees] = useState<any>([]); // Fees group
   const [open, setOpen] = useState(false);
   const [CheckBoxPaymentGroup, setCheckBoxPaymentGroup] = useState<any>(['1']); // First Payment Group
-  const [change, setChange] = useState(true); 								// Unselect check box and change disability of checkboxes
-  const [FeesTotal, setFeesTotal] = useState(0); 							// Sum of Fees
+  const [change, setChange] = useState(true); // Unselect check box and change disability of checkboxes
+  const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const classes = Styles();
   const theme = useTheme();
 
   const mystyle = {
-    pointerEvents: `${FeesTotal > 0 ? 'auto' : 'none'}` as 'none', 			// For Payonline Pointer
+    pointerEvents: `${FeesTotal > 0 ? 'auto' : 'none'}` as 'none', // For Payonline Pointer
     textDecoration: 'none' as 'none'
   };
 
@@ -63,15 +62,15 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
     let ArrayOfFees_To_Number;
     if (event.target.checked) {
       ArrayOfPaymentGroup.push(event.target.name);
-      ArrayOfFees.push(event.target.value); 						// Payment Group
-      ArrayOfFees_To_Number = ArrayOfFees.map(Number); 				// String to Number
-      let NextPaymentGroup = parseInt(event.target.name) + 1; 		// Next payment group
-      let NextPaymentGroup_ToString = NextPaymentGroup.toString();  // Type conversion as value != name
+      ArrayOfFees.push(event.target.value); // Payment Group
+      ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
+      let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
+      let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
       setCheckBoxPaymentGroup([
         ...CheckBoxPaymentGroup,
         NextPaymentGroup_ToString
       ]);
-      setChange(true); 		// For Useeffect call
+      setChange(true); // For Useeffect call
     }
     if (!event.target.checked) {
       let indexOfArrayOfPaymentGroup = ArrayOfPaymentGroup.indexOf(
@@ -87,16 +86,17 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
         indexOfUnChecked_Box,
         LengthOfFeesList
       );
-      ArrayOfFees_To_Number = ArrayOfFees.map(Number); 		 // String to Number
+      ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       let indexOF_NextPaymentGroup =
         CheckBoxPaymentGroup.indexOf(event.target.name) + 1; // index of current payment group
-      let removedPaymentGroup = CheckBoxPaymentGroup.splice( // Payment group not required
+      let removedPaymentGroup = CheckBoxPaymentGroup.splice(
+        // Payment group not required
         indexOF_NextPaymentGroup
       );
       setCheckBoxPaymentGroup(CheckBoxPaymentGroup);
-      setChange(false); 		// For Useeffect call
+      setChange(false); // For Useeffect call
     }
-    setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); 	// Sum of the Fees
+    setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
   };
 
   // Body and Dispatch
@@ -152,9 +152,24 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
         </ClickAwayListener>
       ) : null}
 
-      <Button variant="contained" sx={{ mb: 2 }}>
+      <Button color='error' variant="contained" sx={{ mb: 2 ,borderRadius:'5px'}}>
         Total: {FeesTotal}
       </Button>
+
+      <RouterLink
+        to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+        style={mystyle}
+      >
+        {FeesList.AmountPayable != 0 ? (
+          <Button
+            disabled={FeesTotal > 0 ? false : true}
+            sx={{ float: 'right', borderRadius: '5px' }}
+            variant="contained"
+          >
+            Pay Online
+          </Button>
+        ) : null}
+      </RouterLink>
 
       {FeesList === undefined ? null : (
         <>
@@ -261,33 +276,32 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
       <>
         <Stack direction="row" spacing={2}>
-          <RouterLink
-            to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
-            style={mystyle}
-          >
-            {FeesList.AmountPayable != 0 ? (
-              <Button
-                disabled={FeesTotal > 0 ? false : true}
-                variant="contained"
-              >
-                Pay Online
-              </Button>
-            ) : null}
-          </RouterLink>
-
           {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
             <RouterLink
               to={`/${
                 location.pathname.split('/')[1]
               }/Student/Fees_cautionmoney`}
             >
-              <Button variant="contained" sx={{ pl: '10px', pr: '5px' }}>
+              <Button variant="contained" sx={{ pl: '10px', pr: '5px',textDecoration:'none', borderRadius: '5px' }}>
                 Pay Caution Money
               </Button>
             </RouterLink>
           ) : (
             <Button variant="contained"> Caution Money Receipt </Button>
           )}
+
+          <RouterLink
+            to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+          >
+            {FeesList.AmountPayable != 0 ? (
+              <Button
+                variant="contained"
+                sx={{borderRadius: '5px'}}
+              >
+                Pay Internal Fees
+              </Button>
+            ) : null}
+          </RouterLink>
         </Stack>
       </>
     </div>

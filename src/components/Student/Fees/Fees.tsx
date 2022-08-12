@@ -106,7 +106,7 @@ function Fees() {
         Heading={Feedata}
         Note={Note}
       />
-      <Container sx={{ mb: '-10px' ,mt:0.5}}>
+      <Container sx={{ mb: '-10px'}}>
       <Card square
           sx={{
             textAlign: 'center',
