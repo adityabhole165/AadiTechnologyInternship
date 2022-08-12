@@ -18,13 +18,20 @@ List12.propTypes = {
   FromRoute: PropTypes.string
 };
 
-function List12({ imgId }) {
+function List12({ imgId,FromRoute }) {
   const theme = useTheme();
   const classes = Styles();
 
   return (
     <>
       <Container>
+      <RouterLink
+              to={
+                `/${location.pathname.split('/')[1]}/Common/Photos/` + imgId + FromRoute
+              }
+              color="primary"
+              style={{ textDecoration: 'none' }}
+            >
         <List
           className={classes.ListStyle}
           sx={{
@@ -35,6 +42,7 @@ function List12({ imgId }) {
             <Typography className={classes.Listfont1}>{imgId}</Typography>
           </Box>
         </List>
+        </RouterLink>
       </Container>
     </>
   );

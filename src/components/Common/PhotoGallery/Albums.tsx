@@ -39,8 +39,8 @@ function Photos() {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
-  console.log("PhotoAlbum",PhotoAlbum);
-  
+  console.log("PhotoAlbum", PhotoAlbum);
+
   const RoleId = sessionStorage.getItem('RoleId');
 
   const Month = new Date().getMonth() + 1;
@@ -75,21 +75,21 @@ function Photos() {
     aiUserId: asUserId
   };
 
-
+  console.log("Check Body:", PhotoAlbumBody);
   const YearBody: IYearList = {
     asSchoolId: asSchoolId,
     asUserId: asUserId,
     asUserRoleId: RoleId
   };
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
+    localStorage.setItem("url", window.location.pathname)
+  }, [])
 
   useEffect(() => {
     dispatch(getPhotoAlbum(PhotoAlbumBody));
     dispatch(getYearList(YearBody));
   }, [year, month]);
-  
+
   return (
     <>
       <PageHeader heading={'Photo Gallery'} subheading={''} />
@@ -130,28 +130,19 @@ function Photos() {
           </Grid>
         </Grid>
       </Container>
-        <>
+      <>
         {
-                    (PhotoAlbum[0].ImageList == null )?
-                    <ErrorMessages Error={'No record found'} />
-                    :
-                   <>
-          {PhotoAlbum.map((items, i) => (
-            <RouterLink
-              key={i}
-              to={
-                `/${location.pathname.split('/')[1]}/Common/Photos/` + items.Name 
-              }
-              color="primary"
-              style={{ textDecoration: 'none' }}
-            >
-              <List12 imgId={items.Name} key={i} FromRoute={"/PhotoGallery"}/>
-            </RouterLink>
-          ))}
-          </>
-}
-        </>
-      
+          (PhotoAlbum.length == 0) ?
+            <ErrorMessages Error={'No record found'} />
+            :
+            <>
+              {PhotoAlbum.map((items, i) => (
+
+                <List12 imgId={items.Name} key={i} FromRoute={"/PhotoGallery"} />
+              ))}
+            </>
+        }
+      </>
     </>
   );
 }
