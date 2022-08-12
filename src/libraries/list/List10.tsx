@@ -17,9 +17,10 @@ List10.propTypes = {
     Title: PropTypes.string,
     VideoID: PropTypes.number,
     VideoDetailsId: PropTypes.number,
+    FromRoute: PropTypes.string
 }
 
-function List10({ Title, VideoID,VideoDetailsId }) {
+function List10({ Title, VideoID, VideoDetailsId, FromRoute }) {
 
     const [checked, setChecked] = useState(true);
     const theme = useTheme();
@@ -28,11 +29,9 @@ function List10({ Title, VideoID,VideoDetailsId }) {
     return (
         <>
             <Container>
-
-
                 <RouterLink to={
                     `/${location.pathname.split('/')[1]
-                    }/Common/Comments/` + VideoID 
+                    }/Common/Comments/` + VideoID + FromRoute
                 }
                     color="primary"
                     style={{ textDecoration: 'none' }}>
@@ -52,7 +51,6 @@ function List10({ Title, VideoID,VideoDetailsId }) {
 
                     </List>
                 </RouterLink>
-
             </Container>
         </>
     );

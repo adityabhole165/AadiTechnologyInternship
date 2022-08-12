@@ -12,14 +12,6 @@ function Card23({ pic }) {
 
   return (
     <>
-      <br />
-      <Container>
-      <br />
-      <span style={{position:'relative',left:'5px',top:'7px'}}>
-      <BackButton />
-      </span>
-        <br />
-      </Container>
       <Container>
         <Grid container xs={12} justifyContent="center">
           <Grid xs={11}>

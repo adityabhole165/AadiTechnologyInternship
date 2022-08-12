@@ -18,18 +18,20 @@ import { RootState } from "src/store";
 
 List11.propTypes = {
     VideoDetailsId: PropTypes.number,
-    VideoId: PropTypes.number,
+    VideoID: PropTypes.number,
     Title: PropTypes.string,
     UrlSourceId: PropTypes.number,
-    VideoUrl: PropTypes.string
+    VideoUrl: PropTypes.string,
+    FromRoute:PropTypes.string
 }
 
-function List11({ VideoId, Title, VideoDetailsId, UrlSourceId, VideoUrl }) {
+function List11({ VideoID, Title, VideoDetailsId, UrlSourceId, VideoUrl, FromRoute}) {
+
     const theme = useTheme();
     const classes = Styles();
+    console.log("URL:",`Common/videoview/` +  returnURL(VideoUrl) + "/" +  VideoID)
 
     const comment: any = useSelector((state: RootState) => state.Video.Comments)
-    //   alert(JSON.stringify(comment))
     const [click, setClick] = React.useState();
     const handleclickk = (event) => {
         setClick(event.target.value)
@@ -44,17 +46,11 @@ function List11({ VideoId, Title, VideoDetailsId, UrlSourceId, VideoUrl }) {
     }
     return (
         <>
-{/*            
-                <Grow
-                    in={checked}
-                    style={{ transformOrigin: '0 0 1' }}
-                    {...(checked ? { timeout: 1500 } : {})}
-                > */}
 
                 <RouterLink to={
                     `/${location.pathname.split('/')[1]
 
-                    }/Common/videoview/` +  returnURL(VideoUrl)
+                    }/Common/videoview/` +  returnURL(VideoUrl) + "/" +  VideoID
 
                 }
                     color="primary"
