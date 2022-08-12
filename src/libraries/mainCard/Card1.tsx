@@ -75,9 +75,9 @@ function Card1({
             sx={{
               background: background,
               mx: margin,
-              borderRadius: borderRadius,
-              marginBottom: marginBottom,
-              boxShadow: boxShadow,
+              borderRadius: "6px !important",
+              marginBottom: "8px !important",
+              boxShadow: "6px 4px 5px grey !important",
             }}
           >
             {text1 == NewDateFormat ? (
