@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Link as RouterLink } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { getYearList } from 'src/requests/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
