@@ -6,13 +6,16 @@ import PageHeader from "src/libraries/heading/PageHeader";
 import { useParams } from "react-router-dom";
 import Card7 from "src/libraries/card/card7";
 import http from 'src/requests/SchoolService/schoolServices';
+import BackButton from 'src/libraries/button/BackButton';
+
 
 function ViewSms({}) {
+
   const dispatch = useDispatch();
   // const ViewSent: any = useSelector((state: RootState) => state.Sent__Message.ViewSent)
   const ViewDetail = { From:"From", Subject:"Subject", To:"To", Attachment:"Attachment", Body: "Content" }
 
-  const { ID } = useParams();
+  const { ID, FromRoute } = useParams();
   const [viewSent, setViewSent] = useState<GetSentListResult>()
   
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -43,18 +46,20 @@ function ViewSms({}) {
   return (
     <>
       <PageHeader heading={"View Message"} subheading={""} />
+      <span style={{position:'relative',top:'-38px',left:'35px'}}>
+        <BackButton FromRoute={"/MessageCenter/msgCenter/"+ FromRoute}/>
+      </span>
       {
         (viewSent === undefined) ?
           null
           :
           <Card7 ViewDetail={ViewDetail} 
-          From={viewSent.UserName}
-           To={viewSent.RecieverName} 
-           Body={viewSent.Body}
+            From={viewSent.UserName}
+            To={viewSent.RecieverName} 
+            Body={viewSent.Body}
             Text={viewSent.Subject} 
             Attachments={viewSent.Attachments}
             ID={UserId}
-           
             />
       }
 

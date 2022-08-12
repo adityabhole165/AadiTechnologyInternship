@@ -139,7 +139,7 @@ function Trash() {
                     <>
                         {
                             trashList.map((trashListitem: GetTrashMessagesResult, i) =>
-                                <List3 data={trashListitem} key={i} handleChange={handleChange} check={checked}  />)
+                                <List3 data={trashListitem} key={i} handleChange={handleChange} check={checked} FromRoute={"/Trash"} />)
                         }
                     </>
             }

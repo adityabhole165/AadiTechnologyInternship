@@ -65,7 +65,7 @@ const messageCenterRoutes :PartialRouteObject[] = [
   },
 
     {
-        path: 'viewMSg/:ID',
+        path: 'viewMSg/:ID/:FromRoute',
         element: <ViewMsg/>
     },
     {

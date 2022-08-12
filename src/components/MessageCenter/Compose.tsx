@@ -10,7 +10,7 @@ import { RootState} from 'src/store';
 import Form13 from './Composee'
 
 export const Composee = () => {
- 
+  
   const dispatch = useDispatch()
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -28,9 +28,6 @@ export const Composee = () => {
     "asSelectedUserGroup": "2",
     "abIsSMSCenter": false
   }
-console.log("asUserId",asUserId);
-console.log("asDivisionId",asDivisionId);
-
 
   const AdminstaffList: IUserGroupList = {
     "asAcademicYearId": asAcademicYearId,

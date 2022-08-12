@@ -132,7 +132,7 @@ function SentMessage() {
                      {
                           GetSentMessagesList.map(
                             (GetSentMessagesListitems: GetSentListResult, i) =>
-                                <List3 data={GetSentMessagesListitems} key={i} handleChange={handleChange} check={checked} Attachments={GetSentMessagesListitems.Attachment} />)
+                                <List3 data={GetSentMessagesListitems} key={i} handleChange={handleChange} check={checked} Attachments={GetSentMessagesListitems.Attachment} FromRoute={"/Sent"}/>)
                      }
                    </>
                 }

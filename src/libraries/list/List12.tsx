@@ -14,7 +14,8 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 
 List12.propTypes = {
-  imgId: PropTypes.string
+  imgId: PropTypes.string,
+  FromRoute: PropTypes.string
 };
 
 function List12({ imgId }) {

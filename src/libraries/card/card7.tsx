@@ -9,7 +9,6 @@ import {
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
-import BackButton from '../button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { array } from 'yup/lib/locale';
 
@@ -25,7 +24,7 @@ Card7.propTypes = {
   Viewsent: PropTypes.array,
 };
 
-function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) {
+function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -44,7 +43,6 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent }) 
   return (
     <>
       <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
-        <BackButton />
       </span>
       <Container>
         <Card

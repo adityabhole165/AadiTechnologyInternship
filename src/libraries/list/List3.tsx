@@ -40,10 +40,11 @@ List3.propTypes = {
   data: PropTypes.any,
   handleChange: PropTypes.any,
   check: PropTypes.any,
-  Attachments: PropTypes.any
+  Attachments: PropTypes.any,
+  FromRoute: PropTypes.string
 };
 
-function List3({ data, handleChange, check, Attachments }) {
+function List3({ data, handleChange, check, Attachments, FromRoute }) {
   const dispatch = useDispatch();
 
   const [checked, setChecked] = useState(false);
@@ -90,7 +91,7 @@ function List3({ data, handleChange, check, Attachments }) {
                   to={
                     `/${
                       location.pathname.split('/')[1]
-                    }/MessageCenter/viewMSg/` + data.DetailsId
+                    }/MessageCenter/viewMSg/` + data.DetailsId + FromRoute
                   }
                   color="primary"
                   style={{ textDecoration: 'none' }}

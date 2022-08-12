@@ -151,7 +151,7 @@ function Photos() {
               color="primary"
               style={{ textDecoration: 'none' }}
             >
-              <List12 imgId={items.Name} key={i} />
+              <List12 imgId={items.Name} key={i} FromRoute={"/PhotoGallery"}/>
             </RouterLink>
           ))}
         </>
