@@ -131,17 +131,13 @@ function Photos() {
         </Grid>
       </Container>
       <>
-        {
-          (PhotoAlbum.length == 0) ?
-            <ErrorMessages Error={'No record found'} />
-            :
-            <>
+     
               {PhotoAlbum.map((items, i) => (
 
-                <List12 imgId={items.Name} key={i} FromRoute={"/PhotoGallery"} />
+                <List12 imgId={items.Name} key={i} FromRoute={"/PhotoGallery"} data={PhotoAlbum} />
               ))}
-            </>
-        }
+           
+        
       </>
     </>
   );
