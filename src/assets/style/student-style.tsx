@@ -234,11 +234,11 @@ export const Styles = makeStyles({
 
   Forward: {
     width: "80px !important",
-    height: "10px !important",
+    height: "15px !important",
     borderRadius: "10px !important",
     marginTop: "15px !important",
     marginLeft: "90px !important",
-    paddingBlock: "16px !important",
+    paddingBlock: "17px !important",
     color: "white !important",
   },
 
