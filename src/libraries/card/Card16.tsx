@@ -174,6 +174,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
       {FeesList === undefined ? null : (
         <>
           {FeesList.map((item: GetFeeDetailsResult, i) => {
+            console.log(item)
             // Checked Box Disability
             const disabledStateCheckBox = !CheckBoxPaymentGroup.includes(
               item.PaymentGroup.toString()
@@ -208,17 +209,25 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                             i < FeesList.length - 1 &&
                             FeesList[i].PaymentGroup ==
                               FeesList[i + 1].PaymentGroup
+
                               ? parseInt(FeesList[i].AmountPayable) +
                                 parseInt(FeesList[i + 1].AmountPayable)
+
                               : i < FeesList.length - 1 &&
                                 FeesList[i].PaymentGroup !==
                                   FeesList[i + 1].PaymentGroup
-                              ? parseInt(FeesList[i].AmountPayable)
-                              : i == FeesList.length - 1 &&
+
+                              ? 
+                              parseInt(FeesList[i].AmountPayable)
+
+                              : 
+                              i == FeesList.length - 1 &&
                                 FeesList[i].PaymentGroup !==
                                   FeesList[FeesList.length - 1].PaymentGroup
-                              ? null
-                              : parseInt(
+                              ? 
+                              null
+                              : 
+                              parseInt(
                                   FeesList[FeesList.length - 1].AmountPayable
                                 )
                           }
