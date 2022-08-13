@@ -11,7 +11,7 @@ import { Container } from '@mui/material';
 import List11 from 'src/libraries/list/List11';
 
 function Comments() {
-  const { VideoID } = useParams();
+  const { VideoID, FromRoute } = useParams();
   const dispatch = useDispatch();
   const comment: any = useSelector((state: RootState) => state.Video.Comments);
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -29,7 +29,7 @@ function Comments() {
   return (
     <div>
       <span style={{ position: 'relative', left: '20px', top: '38px' }}>
-        <BackButton />
+        <BackButton FromRoute={"/Common/"+FromRoute}/>
       </span>
       <Container>
         <PageHeader heading={'Comments'} subheading={''} />
@@ -41,9 +41,10 @@ function Comments() {
             {comment.map((items: Getcomments, i) => (
               <List11
                 key={i}
-                VideoId={items.VideoId}
+                VideoID={items.VideoId}
                 Title={items.VideoComment}
                 VideoUrl={items.VideoUrl}
+                FromRoute={"/Comments"}
               />
             ))}
           </>

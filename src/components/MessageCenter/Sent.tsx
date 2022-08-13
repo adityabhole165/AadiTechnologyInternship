@@ -80,7 +80,6 @@ function SentMessage() {
         }
         MoveToTrashApi.MoveToTrash(trashbody)
             .then((data) => {
-                console.log(data);
                 
                 if (pageName == "Sent") {
                     toast.success("Message deleted successfully")

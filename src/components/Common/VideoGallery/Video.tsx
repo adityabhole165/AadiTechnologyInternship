@@ -119,6 +119,7 @@ function VideoGallary() {
               Title={items.VideoGalleryName}
               VideoID={items.VideoId}
               key={i}
+              FromRoute={"/VideoGallery"}
             />
           ))}
         </>

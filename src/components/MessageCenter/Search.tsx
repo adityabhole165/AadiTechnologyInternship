@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect,useState } from 'react';
 import {
   getYearsList,
   getAllMonthList
@@ -42,6 +42,10 @@ function Search({searchData}) {
     searchData(e);
   }
 
+  const [show, setShow] = useState(false);
+  const handleClick = (e) => {
+    setShow(!show);
+  };
   return (
     <>
       <Form2 YearsList={YearsList} allMonthList={AllMonthList} searchFunction={SearchFunction}/>

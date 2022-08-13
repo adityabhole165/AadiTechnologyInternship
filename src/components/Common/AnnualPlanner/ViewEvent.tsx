@@ -4,6 +4,7 @@ import PageHeader from "src/libraries/heading/PageHeader";
 import { useParams } from "react-router-dom";
 import Card2 from "src/libraries/card/card2";
 import http from 'src/requests/SchoolService/schoolServices';
+import BackButton from 'src/libraries/button/BackButton';
 
 
 function ViewEvent() {
@@ -35,7 +36,9 @@ function ViewEvent() {
   return (
     <>
       <PageHeader heading={"View Event"} subheading={""} />
-
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+        <BackButton FromRoute={"/Common/EventOverview"}/>
+      </span>
       {
         (viewEvent === undefined) ?
           null

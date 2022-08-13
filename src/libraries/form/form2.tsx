@@ -3,8 +3,10 @@ import {
   FormControl,
   Grid,
   TextField,
+  Card,
   Button,
-  NativeSelect
+  NativeSelect,
+  InputLabel
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import {
@@ -17,6 +19,9 @@ import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
+import SentMessageApi from 'src/api/Student/SentMessage';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+
 
 Form2.propTypes = {
   YearsList: PropTypes.array,
@@ -55,7 +60,6 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     '/extended-sidebar/MessageCenter/msgCenter/',
     ''
   );
-  const pageName2 = pathname.replace('/extended-sidebar/MessageCenter/', '');
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -74,75 +78,104 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     abIsSMSCenter: null,
     asFilter: Input,
     asPageIndex: 1,
-    asMonthId: null
+    asMonthId: Month
   };
 
   const FormSubmitted = (event) => {
     event.preventDefault();
     searchFunction(Year_Month_Input);
-
-    InboxMessageApi.GetInboxList(getList)
+    if(pageName === "Inbox" ||  pageName === "/extended-sidebar/MessageCenter/msgCenter"){
+      InboxMessageApi.GetInboxList(getList)
       .then((data) => {
         dispatch(getInboxList(getList));
       })
       .catch((err) => {
         alert('error network');
       });
+    }
+    if(pageName === "Sent"){
+      SentMessageApi.GetSentMessageList(getList)
+      .then((data) => {
+        dispatch(getInboxList(getList));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+    }
+    if(pageName === "Trash"){
+      MessageCenterApi.GetTrashList(getList)
+      .then((data) => {
+        dispatch(getInboxList(getList));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+    }
+    
   };
 
   return (
-    <form onSubmit={FormSubmitted}>
-        <Grid container sx={{marginTop:"10px"}}>
-          <Grid item xs={12} sx={{  mx: 2 }}>
+    <Card
+      sx={{
+        mb: '10px',
+        height: '61px',
+        boxShadow: '6px 4px 5px grey !important'
+      }}
+    >
+      <form onSubmit={FormSubmitted}>
+        <Grid container sx={{}}>
+          <Grid item xs={5} sx={{ mt: '10px', mb: '10px' }}>
             <TextField
               id="standard-basic"
               label="Name / Subject / Message Body :"
               variant="standard"
               fullWidth
               onChange={InputFieldChangeHandler}
+              sx={{ mx: '10px' }}
             />
           </Grid>
-          <Grid xs={6}>
-            <Box sx={{ m: 2,mt:'15px' }}>
-              <FormControl fullWidth variant="standard">
-                Select Month
-                {
-                  <NativeSelect
-                    id="demo-simple-select-label"
-                    onChange={MonthChangeHandler}
-                  >
-                    {allMonthList.map((item: IGetAllMonthlist, i) => {
-                      return (
-                        <>
-                          <option
-                            key={i}
-                            id="demo-simple-select"
-                            value={item.MonthId}
-                          >
-                            {item.Name}
-                          </option>
-                        </>
-                      );
-                    })}
-                  </NativeSelect>
-                }
-              </FormControl>
-            </Box>
-          </Grid>
 
-          <Grid xs={6} sx={{padding:'5px',ml:'-8px'}}>
+          <Grid xs={3}>
+            <FormControl
+              sx={{ minWidth: '110px', mx: '20px', mt: '26px' }}
+              variant="outlined"
+            >
+              {
+                <NativeSelect
+                  id="demo-simple-select-label"
+                  onChange={MonthChangeHandler}
+                >
+                  {allMonthList.map((item: IGetAllMonthlist, i) => {
+                    return (
+                      <>
+                        <option
+                          key={i}
+                          id="demo-simple-select"
+                          value={item.MonthId}
+                        >
+                          {item.Name}
+                        </option>
+                      </>
+                    );
+                  })}
+                </NativeSelect>
+              }
+            </FormControl>
+          </Grid>
+          <Grid xs={4}>
             <Button
-              type="submit"
               variant="contained"
-              fullWidth
+              sx={{ mr: '5px', mt: '26px', float: 'right' }}
+              size="small"
               onClick={ApplyClickHandler}
-              sx={{mt:'20px'}}
+              type='submit'
             >
               Apply
             </Button>
           </Grid>
         </Grid>
-    </form>
+      </form>
+    </Card>
   );
 }
 

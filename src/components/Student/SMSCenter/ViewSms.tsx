@@ -4,6 +4,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router-dom';
 import Card3 from 'src/libraries/card/card3';
 import http from 'src/requests/SchoolService/schoolServices';
+import BackButton from 'src/libraries/button/BackButton';
 
 function ViewSms() {
   const ViewDetail = {
@@ -43,6 +44,10 @@ function ViewSms() {
   return (
     <>
       <PageHeader heading={'View SMS'} subheading={''} />
+      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+        <BackButton FromRoute={"/Student/smsCenter"}/>
+      </span>
+      
       {viewSms === undefined ? null : (
         <Card3
           ViewDetail={ViewDetail}
