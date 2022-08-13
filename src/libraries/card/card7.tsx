@@ -27,7 +27,6 @@ Card7.propTypes = {
 function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
   const theme = useTheme();
   const navigate = useNavigate();
-  console.log(From)
 
   let attachment = Attachments;
   let attachmentObj: any = [];
