@@ -55,8 +55,7 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
 
-  const { To, Text, Attachments, BODY } = useParams();
-  console.log(BODY)
+  const { From, Text, Attachments, BODY } = useParams();
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -196,7 +195,7 @@ function Form13() {
   }, [Too]);
 
   const RediretToSentPage = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Sent');
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
   };
 
   const sendMessage = () => {
@@ -240,7 +239,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: PageName == 'Forwa' ? Text : '',
+      Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
       Content: '',
       Attachment: ''
     },
@@ -286,7 +285,7 @@ function Form13() {
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <Autocomplete
-                value={Too || To}
+                value={Too || From}
                 onChange={(events, newValue) => setValue(newValue)} //
                 classes={{
                   option: classes1.option
@@ -315,8 +314,8 @@ function Form13() {
                       fullWidth
                       name="To"
                       label={'To'}
-                      placeholder={To}
-                      value={To}
+                      placeholder={From}
+                      value={From}
                       disabled={true}
                       className={classes.InputField}
                       onChange={formik.handleChange}
@@ -362,7 +361,7 @@ function Form13() {
                 type="text"
                 autoComplete="off"
                 variant="standard"
-                value={formik.values.Subject}
+                value={PageName === 'Reply' ? Text : formik.values.Subject}
                 onChange={formik.handleChange}
                 sx={{ mt: '-0.3rem' }}
               />

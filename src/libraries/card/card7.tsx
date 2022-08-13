@@ -27,6 +27,7 @@ Card7.propTypes = {
 function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
   const theme = useTheme();
   const navigate = useNavigate();
+  console.log(From)
 
   let attachment = Attachments;
   let attachmentObj: any = [];
@@ -105,7 +106,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/Reply/` + To + "/" + Text + "/" + Attachments + "/" + BODY
+            }/MessageCenter/Compose/Reply/` + From + "/" + Text + "/" + Attachments + "/" + BODY
           }
         >
           <Box sx={{ marginTop: '0px' }}>

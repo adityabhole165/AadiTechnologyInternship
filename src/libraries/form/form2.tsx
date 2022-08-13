@@ -93,7 +93,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
         alert('error network');
       });
     }
-    else if(pageName === "Sent"){
+    if(pageName === "Sent"){
       SentMessageApi.GetSentMessageList(getList)
       .then((data) => {
         dispatch(getInboxList(getList));
@@ -102,7 +102,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
         alert('error network');
       });
     }
-    else{
+    if(pageName === "Trash"){
       MessageCenterApi.GetTrashList(getList)
       .then((data) => {
         dispatch(getInboxList(getList));
