@@ -55,12 +55,7 @@ function OnlineExamReport() {
 
   return (
     <>
-      <span style={{ position: 'relative', left: '20px', top: '32px' }}>
-        <BackButton />
-      </span>
-
       <PageHeader heading={'Online Progress Report'} subheading={''} />
-
       <Accordion6
         Student={getStudent}
         OnlineExams={geOnlineExams}

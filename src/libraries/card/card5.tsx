@@ -49,9 +49,7 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
-      <span style={{ position: 'relative', left: '20px', top: '-45px' }}>
-        <BackButton />
-      </span>
+      
       <Container>
         <Card
           sx={{
