@@ -19,6 +19,9 @@ import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
+import SentMessageApi from 'src/api/Student/SentMessage';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+
 
 Form2.propTypes = {
   YearsList: PropTypes.array,
@@ -57,7 +60,6 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     '/extended-sidebar/MessageCenter/msgCenter/',
     ''
   );
-  const pageName2 = pathname.replace('/extended-sidebar/MessageCenter/', '');
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -76,19 +78,40 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     abIsSMSCenter: null,
     asFilter: Input,
     asPageIndex: 1,
-    asMonthId: null
+    asMonthId: Month
   };
 
   const FormSubmitted = (event) => {
     event.preventDefault();
     searchFunction(Year_Month_Input);
-    InboxMessageApi.GetInboxList(getList)
+    if(pageName === "Inbox" ||  pageName === "/extended-sidebar/MessageCenter/msgCenter"){
+      InboxMessageApi.GetInboxList(getList)
       .then((data) => {
         dispatch(getInboxList(getList));
       })
       .catch((err) => {
         alert('error network');
       });
+    }
+    else if(pageName === "Sent"){
+      SentMessageApi.GetSentMessageList(getList)
+      .then((data) => {
+        dispatch(getInboxList(getList));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+    }
+    else{
+      MessageCenterApi.GetTrashList(getList)
+      .then((data) => {
+        dispatch(getInboxList(getList));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+    }
+    
   };
 
   return (

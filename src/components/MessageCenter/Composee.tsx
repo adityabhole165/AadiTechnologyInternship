@@ -56,6 +56,7 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
 
   const { To, Text, Attachments, BODY } = useParams();
+  console.log(BODY)
 
   const classes = Styles();
   const classes1 = useStyles();
