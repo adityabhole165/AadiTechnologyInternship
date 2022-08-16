@@ -1,8 +1,8 @@
 import http from "../../requests/SchoolService/schoolServices";
-import OnlineExamProgressReport from "../../interfaces/Student/OnlineExamProgressReport"
+import OnlineExamProgressReport,{ OnlineExamResult } from "../../interfaces/Student/OnlineExamProgressReport"
 
   const getOnlineExamProgressReport = (data: OnlineExamProgressReport) => {
-    return http.post<OnlineExamProgressReport>('Student/GetOnlineExamProgressReportDetails',data);
+    return http.post<OnlineExamResult>('Student/GetOnlineExamProgressReportDetails',data);
     
   };
   

@@ -9,6 +9,12 @@ export default interface OnlineExamProgressReport {
         asStdDivId:string
     
     
+}export interface OnlineExamResult{
+    SchoolInformation: SchoolInformation,
+    Students: Students[],
+    OnlineExams: OnlineExams[]
+    Subjects: Subjects[],
+    MarkInformation: MarkInformation[]
 }
 export interface SchoolInformation{
     SchoolName: string,
