@@ -361,7 +361,7 @@ function Form13() {
                 type="text"
                 autoComplete="off"
                 variant="standard"
-                value={PageName === 'Reply' ? Text : formik.values.Subject}
+                value={formik.values.Subject}
                 onChange={formik.handleChange}
                 sx={{ mt: '-0.3rem' }}
               />

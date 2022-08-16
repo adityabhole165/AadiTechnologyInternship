@@ -12,15 +12,18 @@ import React, { useState, useEffect } from 'react';
 import { GetVideoGalleryResult, IVideoList } from "src/interfaces/Common/VideoGallery";
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
+import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 
 List12.propTypes = {
   imgId: PropTypes.string,
-  FromRoute: PropTypes.string
+  FromRoute: PropTypes.string,
+  data:PropTypes.array
 };
 
-function List12({ imgId,FromRoute }) {
+function List12({ imgId,FromRoute ,data}) {
   const theme = useTheme();
   const classes = Styles();
+console.log("data",data);
 
   return (
     <>
@@ -32,6 +35,10 @@ function List12({ imgId,FromRoute }) {
               color="primary"
               style={{ textDecoration: 'none' }}
             >
+              {data[0].Name == null &&  data[0].ImageList == null ? (
+                  <ErrorMessages2 Error={'No record found'} />
+                ) : (
+                  <>
         <List
           className={classes.ListStyle}
           sx={{
@@ -42,6 +49,8 @@ function List12({ imgId,FromRoute }) {
             <Typography className={classes.Listfont1}>{imgId}</Typography>
           </Box>
         </List>
+        </>
+            )}
         </RouterLink>
       </Container>
     </>

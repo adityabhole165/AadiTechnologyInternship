@@ -31,6 +31,7 @@ export interface IPhotoAlbum {
 
     export interface GetPhotoAlbum {
         ImagePath: string,
+        ImageList: any,
         Description: string,
         Name: string,
         Id:number,
