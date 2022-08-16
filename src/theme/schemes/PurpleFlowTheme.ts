@@ -28,7 +28,7 @@ const colors = {
     purple1: 'linear-gradient(135deg, #43CBFF 0%, #9708CC 100%)',
     purple3: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
     navy2: 'linear-gradient(135deg, #2C3E50 0%, #4CA1AF 100%)',
-    pink1: 'linear-gradient(135deg, #ec7bb5 0%, #e4d9dd 100%);',
+    pink1: 'linear-gradient(135deg, white 0%, white 100%);',
     pink2: 'linear-gradient(135deg, #F761A1 0%, #8C1BAB 100%)',
     green1: 'linear-gradient(135deg, #FFF720 0%, #3CD500 100%)',
     green2: 'linear-gradient(to bottom, #00b09b, #96c93d)',
