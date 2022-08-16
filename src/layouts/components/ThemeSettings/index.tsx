@@ -132,11 +132,12 @@ const ColorSchemeWrapper = styled(Box)(
     
     &.purpleFlow {
         .primary {
-            background: #ec7bb5;
+         
+            background: white;
         }
     
         .secondary {
-            background: #F8F8F8;
+          background: gray;
         }
     }
     

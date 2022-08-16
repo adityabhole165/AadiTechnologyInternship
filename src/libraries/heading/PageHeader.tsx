@@ -22,13 +22,14 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading }) => {
       <RootWrapper display="flex" alignItems="center">
         <Typography variant="h3"
           sx={{
-            fontWeight: 'bolder',
-            fontSize: '29px',
+           
+            fontWeight:"500",
+            fontSize: '25px',
             color: 'black',
             margin: 'auto',
             mt:"18px",
             fontFamily: 'roboto',
-            textShadow: '7px 7px 10px grey'
+            textShadow: '   9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)'
           }}>{(heading)}</Typography>
         {subheading && (
           <Typography variant="subtitle2" sx={{

@@ -71,13 +71,13 @@ function Card1({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <List
-            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2}
+            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2 }
             sx={{
               background: background,
               mx: margin,
               borderRadius: "6px !important",
               marginBottom: "8px !important",
-              boxShadow: "6px 4px 5px grey !important",
+              boxShadow:  ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)',
             }}
           >
             {text1 == NewDateFormat ? (

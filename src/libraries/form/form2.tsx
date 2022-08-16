@@ -21,6 +21,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+import { getSentList } from 'src/requests/Student/Sentmessage';
+import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 
 
 Form2.propTypes = {
@@ -96,7 +98,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     if(pageName === "Sent"){
       SentMessageApi.GetSentMessageList(getList)
       .then((data) => {
-        dispatch(getInboxList(getList));
+        dispatch(getSentList(getList));
       })
       .catch((err) => {
         alert('error network');
@@ -105,7 +107,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     if(pageName === "Trash"){
       MessageCenterApi.GetTrashList(getList)
       .then((data) => {
-        dispatch(getInboxList(getList));
+        dispatch(getTrashList(getList));
       })
       .catch((err) => {
         alert('error network');
