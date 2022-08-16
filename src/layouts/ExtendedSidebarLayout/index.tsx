@@ -18,7 +18,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
     <>
       <Box
         sx={{
-          backgroundImage: `url(${school5})`,
+          backgroundColor: "#f4f3f2",
           flex: 1,
           height: '100%',
           width: '100%',

@@ -41,7 +41,7 @@ export const Styles = makeStyles({
   ListStyle: {
     borderRadius: "6px !important",
     marginBottom: "8px !important",
-    boxShadow: "6px 4px 5px grey !important",
+    boxShadow: "5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3)",
   },
   Listfont1: {
     left: "1px",
