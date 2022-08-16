@@ -101,8 +101,8 @@ function Progressreport() {
   const GetExamResultList_body: IExamResult = {
     // asSchoolId: asSchoolId,
     // asStudentId: asStudentId
-    "asSchoolId": "120",
-    "asStudentId": "11429"
+    "asSchoolId": asSchoolId,
+    "asStudentId": asStudentId
   };
 
   const GetAcademicYears_body: any = {
@@ -214,7 +214,7 @@ function Progressreport() {
           <Box>
           {
                     (progressreportResult === null)?
-                    <ErrorMessages Error={'There is no exam'} />
+                    <ErrorMessages Error={'No exam for this class has been conducted for the current academic year'} />
                     :
                    <>
             {progressreportResult?.map(
