@@ -6,7 +6,8 @@ import {
   Card,
   Button,
   NativeSelect,
-  InputLabel
+  InputLabel,
+  IconButton
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import {
@@ -23,7 +24,9 @@ import SentMessageApi from 'src/api/Student/SentMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
-
+import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
+import { Styles } from 'src/assets/style/student-style';
+import CloseIcon from '@mui/icons-material/Close';
 
 Form2.propTypes = {
   YearsList: PropTypes.array,
@@ -86,47 +89,54 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
   const FormSubmitted = (event) => {
     event.preventDefault();
     searchFunction(Year_Month_Input);
-    if(pageName === "Inbox" ||  pageName === "/extended-sidebar/MessageCenter/msgCenter"){
+    if (
+      pageName === 'Inbox' ||
+      pageName === '/extended-sidebar/MessageCenter/msgCenter'
+    ) {
       InboxMessageApi.GetInboxList(getList)
-      .then((data) => {
-        dispatch(getInboxList(getList));
-      })
-      .catch((err) => {
-        alert('error network');
-      });
+        .then((data) => {
+          dispatch(getInboxList(getList));
+        })
+        .catch((err) => {
+          alert('error network');
+        });
     }
-    if(pageName === "Sent"){
+    if (pageName === 'Sent') {
       SentMessageApi.GetSentMessageList(getList)
-      .then((data) => {
-        dispatch(getSentList(getList));
-      })
-      .catch((err) => {
-        alert('error network');
-      });
+        .then((data) => {
+          dispatch(getSentList(getList));
+        })
+        .catch((err) => {
+          alert('error network');
+        });
     }
-    if(pageName === "Trash"){
+    if (pageName === 'Trash') {
       MessageCenterApi.GetTrashList(getList)
-      .then((data) => {
-        dispatch(getTrashList(getList));
-      })
-      .catch((err) => {
-        alert('error network');
-      });
+        .then((data) => {
+          dispatch(getTrashList(getList));
+        })
+        .catch((err) => {
+          alert('error network');
+        });
     }
-    
   };
-
+  const classes = Styles();
+  console.log(classes);
+  // alert(classes.ListStyle1)
   return (
     <Card
+      className={classes.ListStyle1}
       sx={{
         mb: '10px',
-        height: '61px',
-        boxShadow: '6px 4px 5px grey !important'
+        height: '61px'
       }}
     >
       <form onSubmit={FormSubmitted}>
+        <IconButton sx={{ position: 'relative', float: 'right', top: -6 }}>
+          <CloseIcon fontSize="small" />
+        </IconButton>
         <Grid container sx={{}}>
-          <Grid item xs={5} sx={{ mt: '10px', mb: '10px' }}>
+          <Grid item xs={5} sx={{ mt: '-30px', mb: '10px' }}>
             <TextField
               id="standard-basic"
               label="Name / Subject / Message Body :"
@@ -137,9 +147,9 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
             />
           </Grid>
 
-          <Grid xs={3}>
+          <Grid xs={5}>
             <FormControl
-              sx={{ minWidth: '110px', mx: '20px', mt: '26px' }}
+              sx={{ minWidth: '120px', mx: '20px', mt: '-14px' }}
               variant="outlined"
             >
               {
@@ -164,16 +174,14 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
               }
             </FormControl>
           </Grid>
-          <Grid xs={4}>
-            <Button
-              variant="contained"
-              sx={{ mr: '5px', mt: '26px', float: 'right' }}
-              size="small"
+          <Grid xs={2}>
+            <IconButton
               onClick={ApplyClickHandler}
-              type='submit'
+              type="submit"
+              sx={{ mr: '5px', mt: '-12px', float: 'right' }}
             >
-              Apply
-            </Button>
+              <KeyboardDoubleArrowRightIcon />
+            </IconButton>
           </Grid>
         </Grid>
       </form>
