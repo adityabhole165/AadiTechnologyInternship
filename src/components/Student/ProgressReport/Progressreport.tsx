@@ -61,7 +61,7 @@ function Progressreport() {
           margin-top: -${theme.spacing(0.1)};
       `
   );
-  const Note: string = '* Denotes subject marks not considered in total marks.';
+  const Note: string = '* Denotes subject marks are not considered in total marks.';
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
