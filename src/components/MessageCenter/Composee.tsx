@@ -33,6 +33,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import BackButton from 'src/libraries/button/BackButton';
 
 const useStyles = makeStyles({
   option: {
@@ -269,7 +270,7 @@ function Form13() {
   return (
     <>
       <Container>
-        <Box onClick={getinbox}>
+        {/* <Box onClick={getinbox}>
           <Fab
             className={classes.backArrow}
             sx={{
@@ -280,7 +281,8 @@ function Form13() {
           >
             <ReplyIcon />
           </Fab>
-        </Box>
+        </Box> */}
+        <BackButton FromRoute={"/MessageCenter/msgCenter"}/>
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>

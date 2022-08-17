@@ -34,7 +34,7 @@ function OnlineExamReport() {
            
 
             <PageHeader heading={'Online Progress Report'} subheading={''} />
-            <BackButton FromRoute={"/landing/landing"} />
+           
             
             <Card28 />
             <Card30 header={Header}></Card30>
