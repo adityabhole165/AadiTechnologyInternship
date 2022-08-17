@@ -10,6 +10,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Card16 from 'src/libraries/card/Card16';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -21,6 +23,10 @@ Card27.propTypes = {
 function Card27({ FeesType, Fee, Heading, Note }) {
   const theme = useTheme();
   const classes = Styles();
+
+  const FeesObject: any = useSelector(
+    (state: RootState) => state.Fees.FeesData2
+  );
 
   return (
     <>
@@ -45,14 +51,15 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                 borderRadius: 1,
                 borderBottom: 2,
                 mb: 1,
-                backgroundColor: `${
-                  Fee.AmountPayable !== 0 ? 'white' : '#5c5f628a'
-                }`
+                backgroundColor: '#5c5f628a'
               }}
             >
-              {Fee == undefined ? null : Fee.AmountPayable == 0 ? (
+              {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
+                0 ? (
+                <ErrorMessages Error={'No fees has been paid'} />
+              ) : Fee == undefined ? null : (
                 Fee.map((item, i) => {
-                  return (
+                  return item.AmountPayable == 0 ? (
                     <Card
                       sx={{
                         background: `${theme.colors.gradients.pink1}`,
@@ -104,10 +111,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                         </Grid>
                       </Grid>
                     </Card>
-                  );
+                  ) : null;
                 })
-              ) : (
-                <ErrorMessages Error={'No fees has been paid'} />
               )}
             </AccordionDetails>
           ) : (

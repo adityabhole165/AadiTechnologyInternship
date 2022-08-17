@@ -202,7 +202,7 @@ function Form13() {
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
-        Body: PageName == 'Forwa' ? BODY :  formik.values.Content,
+        Body: formik.values.Content,
         Subject: formik.values.Subject,
         SenderName: StudentName,
         DisplayText: Name.toString(),
@@ -240,7 +240,7 @@ function Form13() {
     initialValues: {
       To: '',
       Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
-      Content: '',
+      Content: PageName == 'Forwa' ? BODY : '',
       Attachment: ''
     },
     onSubmit: (values) => {
@@ -251,10 +251,10 @@ function Form13() {
       if (Too.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Subject && PageName !== 'Forwa') {
+      if (!values.Subject ) {
         errors.Subject = 'Subject should not be blank.';
       }
-      if (!values.Content && PageName !== 'Forwa') {
+      if (!values.Content ) {
         errors.Content = 'Message body should not be blank.';
       }
       return errors;
@@ -339,33 +339,19 @@ function Form13() {
               ) : null}
             </p>
 
-            {PageName === 'Forwa' ? (
-              <TextField
-                fullWidth
-                margin="normal"
-                label={'Subject'}
-                name="Subject"
-                type="text"
-                autoComplete="off"
-                variant="standard"
-                value={Text}
-                disabled={true}
-                sx={{ mt: '-0.3rem' }}
-              />
-            ) : (
-              <TextField
-                fullWidth
-                margin="normal"
-                label={'Subject'}
-                name="Subject"
-                type="text"
-                autoComplete="off"
-                variant="standard"
-                value={formik.values.Subject}
-                onChange={formik.handleChange}
-                sx={{ mt: '-0.3rem' }}
-              />
-            )}
+            <TextField
+              fullWidth
+              margin="normal"
+              label={'Subject'}
+              name="Subject"
+              type="text"
+              autoComplete="off"
+              variant="standard"
+              value={formik.values.Subject}
+              onChange={formik.handleChange}
+              sx={{ mt: '-0.3rem' }}
+            />
+
             <p style={{ color: 'red', marginTop: -10,marginBottom:'-10px' }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
@@ -473,8 +459,7 @@ function Form13() {
               name="Content"
               type="text"
               variant="standard"
-              value={PageName === 'Forwa' ? BODY : formik.values.Content}
-              disabled={PageName === 'Forwa' ? true : false}
+              value={formik.values.Content}
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}
             />
