@@ -7,9 +7,9 @@ function Videoview() {
 
   return (
     <div>
-      <span style={{position:'relative',left:'5px',top:'7px'}}>
+     
         <BackButton FromRoute={"/Common/Comments/" + VideoID + "/" + "VideoGallery" }/>
-      </span>
+    
       <Card23 pic={VideoUrl} />
     </div>
   );

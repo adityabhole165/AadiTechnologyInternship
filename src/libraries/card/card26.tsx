@@ -11,7 +11,7 @@ function Card26({ paymentPageLink }) {
   return (
     <Container>
       <div>
-        <BackButton />
+        <BackButton FromRoute={"/Student/Fees"}/>
           <iframe
             width='100%'
             height="600px"

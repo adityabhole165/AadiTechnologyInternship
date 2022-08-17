@@ -29,11 +29,13 @@ function OnlineExamReport() {
     }, []);
     return (
         <>
-            <span style={{ position: 'relative', left: '20px', top: '32px' }}>
-                <BackButton />
-            </span>
+           
+              
+           
 
             <PageHeader heading={'Online Progress Report'} subheading={''} />
+            <BackButton FromRoute={"/landing/landing"} />
+            
             <Card28 />
             <Card30 header={Header}></Card30>
          
