@@ -28,9 +28,9 @@ function Comments() {
 
   return (
     <div>
-      <span style={{ position: 'relative', left: '20px', top: '38px' }}>
+     
         <BackButton FromRoute={"/Common/"+FromRoute}/>
-      </span>
+    
       <Container>
         <PageHeader heading={'Comments'} subheading={''} />
 

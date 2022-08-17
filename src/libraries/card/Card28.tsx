@@ -1,43 +1,44 @@
 import React from 'react';
 import { Container, Card, Grid, Typography, Box } from '@mui/material';
+import { ClassNames } from '@emotion/react';
+import { Styles } from 'src/assets/style/student-style';
+
 
 function Card28() {
+  const classes = Styles();
   const Class = sessionStorage.getItem('Class');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RollNo = sessionStorage.getItem('RollNo');
   const UserName = sessionStorage.getItem('UserName');
 
+const  AcademicYear =  sessionStorage.getItem('AcademicYear');
+console.log(AcademicYear);
+
   return (
     <Container>
-      <Card sx={{ p: 1, mb: '10px' }}>
+      <Card sx={{ p: 1, mb: '10px' }} className={classes.ListStyle1}>
         <Grid container>
           <Grid xs={12}>
-            <Box sx={{ display: 'flex' }}>
-              <Typography variant="h5">Name:</Typography>
-              <Typography sx={{ pl: 0.5 }}> {UserName}</Typography>
-            </Box>
+            <Typography>
+              <b>Name:</b>
+              {UserName}
+            </Typography>
           </Grid>
           <Grid xs={4}>
-            <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography variant="h5">Roll no:</Typography>
-              <Typography sx={{ pl: 0.5 }}>{RollNo}</Typography>
-            </Box>
+            <Typography sx={{ pt: '5px' }}>
+              <b> Roll no:</b>
+              {RollNo}
+            </Typography>
           </Grid>
           <Grid xs={4}>
-            <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography variant="h5" sx={{ pl: 3 }}>
-                Class:
-              </Typography>
-              <Typography sx={{ pl: 0.5 }}>{Class}</Typography>
-            </Box>
+            <Typography sx={{ pl: 3, pt: 0.5 }}>
+              <b>Class:</b> {Class}
+            </Typography>
           </Grid>
           <Grid xs={4}>
-            <Box sx={{ display: 'flex', pt: 0.5 }}>
-              <Typography variant="h5" sx={{ pl: 2 }}>
-                Year:
-              </Typography>
-              <Typography sx={{ pr: 2 }}>2022</Typography>
-            </Box>
+            <Typography sx={{ pl: 2, pt: 0.5 }}>
+              <b> Year:</b>{AcademicYear}
+            </Typography>
           </Grid>
         </Grid>
       </Card>

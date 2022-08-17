@@ -8,6 +8,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import {getHeader} from 'src/requests/Student/OnlineExamProgressReport';
 import BackButton from 'src/libraries/button/BackButton';
 import Card30 from 'src/libraries/card/Card30';
+import Card28 from 'src/libraries/card/Card28';
 
 function OnlineExamReport() {
     const dispatch = useDispatch();
@@ -28,13 +29,16 @@ function OnlineExamReport() {
     }, []);
     return (
         <>
-            <span style={{ position: 'relative', left: '20px', top: '32px' }}>
-                <BackButton />
-            </span>
+           
+              
+           
 
             <PageHeader heading={'Online Progress Report'} subheading={''} />
-
+           
+            
+            <Card28 />
             <Card30 header={Header}></Card30>
+         
 
         </>
     );

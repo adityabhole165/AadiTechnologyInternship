@@ -137,6 +137,7 @@ function SelectSchool() {
             sessionStorage.setItem('StandardId', studentDetails.StandardId);
             sessionStorage.setItem('RollNo', studentDetails.RollNo);
             sessionStorage.setItem('AcademicYearId', studentDetails.AcademicYearId);
+            sessionStorage.setItem('AcademicYear', studentDetails.AcademicYear);
             sessionStorage.setItem('StudentId', studentDetails.StudentId);
             sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
             sessionStorage.setItem('Address', studentDetails.Address);

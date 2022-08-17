@@ -28,9 +28,9 @@ function Photos() {
   return (
     <div>
       <PageHeader heading={'Album'} subheading={''} />
-      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
+     
           <BackButton FromRoute={"/Common/"+ FromRoute} />
-      </span>
+    
       <Card22 pic={img} imgId={imgId} />
     </div>
   );
