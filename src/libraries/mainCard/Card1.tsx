@@ -13,6 +13,7 @@ import { Styles } from 'src/assets/style/student-style';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 import { useLocation } from 'react-router-dom';
+import Card4 from 'src/libraries/mainCard/Card4';
 
 Card1.propTypes = {
   header: PropTypes.string,
@@ -37,7 +38,8 @@ function Card1({
   RealatedSection,
   borderRadius,
   marginBottom,
-  boxShadow
+  boxShadow,
+  
 }) {
   console.log("RealatedSection",RealatedSection);
   
@@ -107,37 +109,12 @@ function Card1({
                 <AttachmentIcon />
               </Box>
             )}
-
-            <Grid container>
-              <Grid xs={ (pageName == "Timetable") ? 6 : 10  }>
-                <Typography
-                  sx={{ fontWeight: 'bold' }}
-                  className={classes.Listfont2}
-                >
-                  {header}
-                </Typography>
-              </Grid>
-
-              <Grid xs={ (pageName == "Timetable") ? 6 : 2  } >
-                <Typography
-                  className={classes.Listfont2}
-                  sx={{ float: 'right' }}
-                >
-                  {/* {text3} */}
-                </Typography>
-              </Grid>
-              <Grid xs={8}>
-                <Typography className={classes.Listfont2}>{text1}</Typography>
-              </Grid>
-              <Grid xs={4}>
-                <Typography
-                  className={classes.Listfont2}
-                  sx={{ float: 'right',ml:'-20px' }}
-                >
-                  {/* {text2} */}
-                </Typography>
-              </Grid>
-            </Grid>
+             <Card4 header={header}
+          text1={text1}
+          text2={text2}
+          text3={text3}
+         />
+         
           </List>
         </Grow>
       </Container>
