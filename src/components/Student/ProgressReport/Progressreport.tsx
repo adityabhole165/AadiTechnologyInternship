@@ -44,6 +44,7 @@ function Progressreport() {
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
+  // console.log("Reason",getreasonbprgrepres.GetReasonforBlockingProgressReport);
 
   const pendingfees: any = useSelector(
     (state: RootState) => state.Progressreport.PendingFees
@@ -51,11 +52,15 @@ function Progressreport() {
 
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-console.log("pendingfees",pendingfees);
+  const [DependentOnAttendance, setDependentOnAttendance] = useState(" ")
+
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
+  const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
+  console.log("pendingfees", pendingfees);
+  console.log("asStudentId", asStudentId);
 
   const classes = Styles();
   const DotLegend = styled('span')(
@@ -79,11 +84,8 @@ console.log("pendingfees",pendingfees);
       asStudentId: asStudentId,
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId
-            // "asStudentId": "11429",
-            // "asAcademicYearId": "8",
-            // "asSchoolId": "120"
     };
-    
+
 
     http
       .post(
@@ -95,21 +97,16 @@ console.log("pendingfees",pendingfees);
         setfeependingres(data);
       });
   };
-console.log("asStudentId",asStudentId);
+
 
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
-    {
-      asSchoolId: asSchoolId,
-      asStudentId: asStudentId,
-      asAcademicYearId: asAcademicYearId
-    //   "asSchoolId": "120",
-    //   "asStudentId": "11429",
-    //   "asAcademicYearId": "8"
-     };
+  {
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId
+  };
 
   const GetExamResultList_body: IExamResult = {
-    // asSchoolId: asSchoolId,
-    // asStudentId: asStudentId
     "asSchoolId": asSchoolId,
     "asStudentId": asStudentId
   };
@@ -124,13 +121,10 @@ console.log("asStudentId",asStudentId);
     aiSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
-    // "aiSchoolId": "120",
-    // "asAcademicYearId": "8",
-    // "aiStudentId": "11554"
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem("url", window.location.pathname)
     dispatch(Getpendingfees(Getpendingfees_body))
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
@@ -140,116 +134,123 @@ console.log("asStudentId",asStudentId);
         GetReasonforBlockingProgressReport_body
       )
     );
+
   }, []);
 
   return (
     <>
-      <PageHeader heading={'Progress Report'} subheading={''} />
-      <Container>
-        <Grid container justifyContent="center" rowSpacing={1}>
-          <Grid xs={6}>
-            <DotLegend
-              className={classes.border}
-              style={{ background: '#5C3317', marginBottom: '-1px' }}
-            />
-            <small>
-              <b>Subject</b>
-            </small>
-            <br></br>
-            <DotLegend
-              className={classes.border}
-              style={{ background: 'blueviolet ', marginBottom: '-1px' }}
-            />
-            <small>
-              <b>Grade</b>
-            </small>
-          </Grid>
-          <Grid xs={6}>
-            <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
-          </Grid>
-        </Grid>
-      </Container>
+     
+            <PageHeader heading={'Progress Report'} subheading={''} />
+            {
+        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "Attendance is less than 75%") ?
+          <>
+            <Container  >
 
-      {feependingres ? null : (
-        <>
-          <Container>
-            <Box sx={{ borderRadius: 1, borderBottom: 5, mb: 2 }}>
-              <FormControl
-                sx={{
-                  marginTop: '50px',
-                  m: 1,
-                  width: '100%',
-                  marginLeft: '1px'
-                }}
-              >
-                {
-                  <NativeSelect>
-                    <option value="0">Academic Year</option>
+              <Grid container justifyContent="center" rowSpacing={1} >
+                <Grid xs={6}>
+                  <DotLegend
+                    className={classes.border}
+                    style={{ background: '#5C3317', marginBottom: '-1px' }}
+                  />
+                  <small>
+                    <b>Subject</b>
+                  </small>
+                  <br></br>
+                  <DotLegend
+                    className={classes.border}
+                    style={{ background: 'blueviolet ', marginBottom: '-1px' }}
+                  />
+                  <small>
+                    <b>Grade</b>
+                  </small>
+                </Grid>
+                <Grid xs={6}>
+                  <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
+                </Grid>
+              </Grid>
+            </Container>
 
-                    {academicyearResult?.map(
-                      (getacademicyr: IGetAcademicYears, i) => {
-                        return (
-                          <option value={getacademicyr.Id} key={i}>
-                            {getacademicyr.AcademicYear}
-                          </option>
-                        );
+            {feependingres ? null : (
+              <>
+                <Container>
+                  <Box sx={{ borderRadius: 1, borderBottom: 5, mb: 2 }}>
+                    <FormControl
+                      sx={{
+                        marginTop: '50px',
+                        m: 1,
+                        width: '100%',
+                        marginLeft: '1px'
+                      }}
+                    >
+                      {
+                        <NativeSelect>
+                          <option value="0">Academic Year</option>
+
+                          {academicyearResult?.map(
+                            (getacademicyr: IGetAcademicYears, i) => {
+                              return (
+                                <option value={getacademicyr.Id} key={i}>
+                                  {getacademicyr.AcademicYear}
+                                </option>
+                              );
+                            }
+                          )}
+                        </NativeSelect>
                       }
+                    </FormControl>
+
+                    <FormControl
+                      sx={{
+                        marginTop: '50px',
+                        m: 1,
+                        width: '100%',
+                        marginLeft: '1px'
+                      }}
+                    >
+                      {
+                        <NativeSelect>
+                          <option value="0">Exam Type</option>
+
+                          {academictermsResult?.map((gettermsres: IGetTerms, i) => {
+                            return (
+                              <option value={gettermsres.Id} key={i}>
+                                {gettermsres.TermName}
+                              </option>
+                            );
+                          })}
+                        </NativeSelect>
+                      }
+                    </FormControl>
+                    <Box sx={{ margin: '3' }}>
+                      <FileDownloadOutlinedIcon />
+                    </Box>
+                  </Box>
+                </Container>
+
+                <Box>
+
+                  <>
+                    {progressreportResult?.map(
+                      (examresult: GetStudentExamResult, i) => (
+                        <Accordions3
+                          Data={progressreportResult}
+                          Exam={examresult.Exam}
+                          key={i}
+                          index={i}
+                          Collapse={handleChange}
+                          expand={expanded}
+                        />
+                      )
                     )}
-                  </NativeSelect>
-                }
-              </FormControl>
+                  </>
 
-              <FormControl
-                sx={{
-                  marginTop: '50px',
-                  m: 1,
-                  width: '100%',
-                  marginLeft: '1px'
-                }}
-              >
-                {
-                  <NativeSelect>
-                    <option value="0">Exam Type</option>
-
-                    {academictermsResult?.map((gettermsres: IGetTerms, i) => {
-                      return (
-                        <option value={gettermsres.Id} key={i}>
-                          {gettermsres.TermName}
-                        </option>
-                      );
-                    })}
-                  </NativeSelect>
-                }
-              </FormControl>
-              <Box sx={{ margin: '3' }}>
-                <FileDownloadOutlinedIcon />
-              </Box>
-            </Box>
-          </Container>
-
-          <Box>
-          {
-                    (progressreportResult === null)?
-                    <ErrorMessages Error={'No exam for this class has been conducted for the current academic year'} />
-                    :
-                   <>
-            {progressreportResult?.map(
-              (examresult: GetStudentExamResult, i) => (
-                <Accordions3
-                  Data={progressreportResult}
-                  Exam={examresult.Exam}
-                  key={i}
-                  index={i}
-                  Collapse={handleChange}
-                  expand={expanded}
-                />
-              )
+                </Box>
+              </>
             )}
           </>
-}
-          </Box>
-        </>
-      )}
+          :
+          <ErrorMessages Error={Reason} />
+      }
     </>
   );
 }
