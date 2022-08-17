@@ -2,7 +2,8 @@ import { useDispatch } from 'react-redux';
 import {
   GetExamResultList,
   GetAcademicYears,
-  GetReasonforBlockingProgressReport
+  GetReasonforBlockingProgressReport,
+  Getpendingfees
 } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -43,8 +44,14 @@ function Progressreport() {
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
+
+  const pendingfees: any = useSelector(
+    (state: RootState) => state.Progressreport.PendingFees
+  );
+
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
+console.log("pendingfees",pendingfees);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -61,7 +68,7 @@ function Progressreport() {
           margin-top: -${theme.spacing(0.1)};
       `
   );
-  const Note: string = '* Denotes subject marks not considered in total marks.';
+  const Note: string = '* Denotes subject marks are not considered in total marks.';
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -69,13 +76,14 @@ function Progressreport() {
 
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
-      // asStudentId: asStudentId,
-      // asAcademicYearId: asAcademicYearId,
-      // asSchoolId: asSchoolId
-            "asStudentId": "11429",
-            "asAcademicYearId": "8",
-            "asSchoolId": "120"
+      asStudentId: asStudentId,
+      asAcademicYearId: asAcademicYearId,
+      asSchoolId: asSchoolId
+            // "asStudentId": "11429",
+            // "asAcademicYearId": "8",
+            // "asSchoolId": "120"
     };
+    
 
     http
       .post(
@@ -87,16 +95,17 @@ function Progressreport() {
         setfeependingres(data);
       });
   };
+console.log("asStudentId",asStudentId);
 
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
     {
-      // asSchoolId: asSchoolId,
-      // asStudentId: asStudentId,
-      // asAcademicYearId: asAcademicYearId
-      "asSchoolId": "120",
-      "asStudentId": "11429",
-      "asAcademicYearId": "8"
-    };
+      asSchoolId: asSchoolId,
+      asStudentId: asStudentId,
+      asAcademicYearId: asAcademicYearId
+    //   "asSchoolId": "120",
+    //   "asStudentId": "11429",
+    //   "asAcademicYearId": "8"
+     };
 
   const GetExamResultList_body: IExamResult = {
     // asSchoolId: asSchoolId,
@@ -105,17 +114,24 @@ function Progressreport() {
     "asStudentId": asStudentId
   };
 
+  const Getpendingfees_body: IIsPendingFeesForStudent = {
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
+
   const GetAcademicYears_body: any = {
-    // aiSchoolId: asSchoolId,
-    // asAcademicYearId: asAcademicYearId,
-    // aiStudentId: asStudentId
-    "aiSchoolId": "120",
-    "asAcademicYearId": "8",
-    "aiStudentId": "11554"
+    aiSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    aiStudentId: asStudentId
+    // "aiSchoolId": "120",
+    // "asAcademicYearId": "8",
+    // "aiStudentId": "11554"
   };
 
   useEffect(() => {
     localStorage.setItem("url",window.location.pathname)
+    dispatch(Getpendingfees(Getpendingfees_body))
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
     dispatch(GetAcademicYears(GetAcademicYears_body));
