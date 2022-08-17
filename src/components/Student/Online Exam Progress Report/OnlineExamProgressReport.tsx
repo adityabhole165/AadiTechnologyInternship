@@ -1,68 +1,42 @@
 import { useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import Accordion6 from 'src/libraries/accordion/accordion6';
-import OnlineExamProgressReport from 'src/interfaces/Student/OnlineExamProgressReport';
+import OnlineExamProgressReport, { OnlineExamResult, OnlineExams, MarkInformation }
+    from "src/interfaces/Student/OnlineExamProgressReport";
 import PageHeader from 'src/libraries/heading/PageHeader';
-import {
-  getSchoolInformation,
-  getStudentDetails,
-  getSubjects,
-  getOnlineExams,
-  getMarkInformation
-} from 'src/requests/Student/OnlineExamProgressReport';
+import {getHeader} from 'src/requests/Student/OnlineExamProgressReport';
 import BackButton from 'src/libraries/button/BackButton';
+import Card30 from 'src/libraries/card/Card30';
 
 function OnlineExamReport() {
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const asStudentId = sessionStorage.getItem('StudentId');
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+    const dispatch = useDispatch();
+    const  Header = useSelector(
+        (state: RootState) => state.ExamOnlineReport.Header
+    );
 
-  const dispatch = useDispatch();
-  const getStudent = useSelector(
-    (state: RootState) => state.ExamOnlineReport.Students
-  );
-  const SchoolInformation = useSelector(
-    (state: RootState) => state.ExamOnlineReport.SchoolInformation
-  );
-  const geOnlineExams = useSelector(
-    (state: RootState) => state.ExamOnlineReport.OnlineExams
-  );
-  const getsubjects = useSelector(
-    (state: RootState) => state.ExamOnlineReport.Subjects
-  );
-  const getMarks = useSelector(
-    (state: RootState) => state.ExamOnlineReport.MarkInformation
-  );
+    useEffect(() => {
+        localStorage.setItem("url",window.location.pathname)
+        const ExamDetails: OnlineExamProgressReport = {
+            aiStudentId: sessionStorage.getItem('StudentId'),
+            aiSchoolId: localStorage.getItem('localSchoolId'),
+            aiAcademicYrId: sessionStorage.getItem('AcademicYearId'),
+            asStdDivId: sessionStorage.getItem('StandardDivisionId')
+        };
+        dispatch(getHeader(ExamDetails));
+        
+    }, []);
+    return (
+        <>
+            <span style={{ position: 'relative', left: '20px', top: '32px' }}>
+                <BackButton />
+            </span>
 
-  const ExamDetails: OnlineExamProgressReport = {
-    aiStudentId: asStudentId,
-    aiSchoolId: asSchoolId,
-    aiAcademicYrId: asAcademicYearId,
-    asStdDivId: asStandardDivisionId
-  };
+            <PageHeader heading={'Online Progress Report'} subheading={''} />
 
-  useEffect(() => {
-    localStorage.setItem('url', window.location.pathname);
-    dispatch(getStudentDetails(ExamDetails));
-    dispatch(getSchoolInformation(ExamDetails));
-    dispatch(getSubjects(ExamDetails));
-    dispatch(getOnlineExams(ExamDetails));
-    dispatch(getMarkInformation(ExamDetails));
-  }, []);
+            <Card30 header={Header}></Card30>
 
-  return (
-    <>
-      <PageHeader heading={'Online Progress Report'} subheading={''} />
-      <Accordion6
-        Student={getStudent}
-        OnlineExams={geOnlineExams}
-        MarkInformation={getMarks}
-        Subject={getsubjects}
-      />
-    </>
-  );
+        </>
+    );
 }
 export default OnlineExamReport;

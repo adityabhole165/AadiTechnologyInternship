@@ -30,16 +30,15 @@ function Card27({ FeesType, Fee, Heading, Note }) {
 
   return (
     <>
-      <Container sx={{ pl: '-8px' }}>
-        <Accordion className={classes.background}>
+      <Container sx={{ pl: '-8px',pb: '5px', }}>
+        <Accordion  className={classes.ListStyle1}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
             sx={{
               background: `${theme.colors.gradients.pink1}`,
-              color: 'white',
-              boxShadow: '6px 6px 8px  gray !important'
+            
             }}
-            className={classes.ListStyle}
+            className={classes.ListStyle1}
           >
             <Typography sx={{ color: 'black' }}>
               <b>{FeesType}</b>

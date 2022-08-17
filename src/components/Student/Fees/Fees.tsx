@@ -5,7 +5,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled } from '@mui/material';
+import { Card, collapseClasses, styled } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
@@ -80,15 +80,16 @@ function Fees() {
         <br />
         <br />
 
-        <Card square
+        <Card 
           sx={{
             textAlign: 'center',
             background: `${theme.colors.gradients.pink1}`,
-            mb: 3,
-            boxShadow: '6px 6px 8px  gray !important',
-            p: 0.5,
+            mb: 2,
+       
+            p: 1,
             fontWeight:'bold'
           }}
+          className={classes.ListStyle1}
         >
           Applicable Fees : {FeesList2.TotalFee}
         </Card>
@@ -107,15 +108,16 @@ function Fees() {
         Note={Note}
       />
       <Container sx={{ mb: '-10px'}}>
-      <Card square
+      <Card 
           sx={{
             textAlign: 'center',
             background: 'pink' ,//`${theme.colors.gradients.pink1}`,
-            mb: 4,
-            boxShadow: '6px 6px 8px  gray !important',
+            mt: 0.5,
+       
             p: 0.5,
             fontWeight:'bold'
           }}
+          className={classes.ListStyle1}
         >
           Note : {Note}
         </Card>
