@@ -11,11 +11,11 @@ const Card32 = ({ Id, Name,  expand }) => {
         const expandFunc= () => {
             console.log(expanded)
             setExpanded(!expanded)
+            expand(Id)
         }
         return (
         <Grid container onClick={expandFunc}>
-            <Grid item xs={10}
-                onClick={() => expand(Id)}>
+            <Grid item xs={10}>
                 <Typography
                     variant="h4"
                     sx={{ py: 1, mx: 1 }}>
