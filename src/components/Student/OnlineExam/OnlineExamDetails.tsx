@@ -56,9 +56,9 @@ const onlineExamDetails = () => {
     <>
     <Container>
       <PageHeader heading={'Online Exam Details'} subheading={''} />
-      <span style={{position:'relative',top:'-38px',left:'2px'}}>
+     
         <BackButton FromRoute={"/Student/OnlineExam"}/>
-        </span>
+  
       {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {
         return (
           <>

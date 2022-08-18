@@ -5,6 +5,7 @@ import { AppThunk } from 'src/store';
 import IExamResult from 'src/interfaces/Student/ProgressReport';
 import IGetAcademicYearsOfStudent from  'src/interfaces/Student/ProgressReport';
 import IGetReasonforBlockingProgressReport from 'src/interfaces/Student/ProgressReport';
+import { IIsPendingFeesForStudent } from 'src/interfaces/Student/ProgressReport';
 
 
 
@@ -15,7 +16,8 @@ const GetExamResultslice = createSlice({
         GetExamResultData: [] ,
         GetAcademicYears: [], 
         GetTerms:[],  
-        GetReasonforBlocking: []
+        GetReasonforBlocking: [],
+        PendingFees:[]
       
     },
     reducers: {
@@ -28,9 +30,10 @@ const GetExamResultslice = createSlice({
         },
         getReasonforBlockingProgressReport(state,action){
           state.GetReasonforBlocking = action.payload
-        
-        
-      }
+      },
+      getPendingFees(state, action) {
+        state.PendingFees = action.payload; 
+    },
     }
 
 });
@@ -55,6 +58,14 @@ export const GetExamResultList =
   async (dispatch) => {
     const response = await GetExamResultApi.GetReasonforBlockingProgressReport(data);
     dispatch(GetExamResultslice.actions.getReasonforBlockingProgressReport(response.data));
+
+  };
+
+  export const Getpendingfees =
+  (data:IIsPendingFeesForStudent): AppThunk =>
+  async (dispatch) => {
+    const response = await GetExamResultApi.GetPendingFees(data);
+    dispatch(GetExamResultslice.actions.getPendingFees(response.data));
 
   };
 

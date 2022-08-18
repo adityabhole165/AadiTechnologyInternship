@@ -35,7 +35,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: '#c8dccb',
-      mx: '-30px',
+      mx: '-35px',
       RealatedSection:item.RealatedSection,
       borderRadius:"6px",
       marginBottom:"8px",

@@ -15,7 +15,7 @@ import { getFees } from 'src/requests/Student/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 
 Card16.propTypes = {
-  Fee: PropTypes.array,
+  Fee: PropTypes?.array,
   Heading: PropTypes.object,
   Note: PropTypes.string,
   FeesTypes: PropTypes?.string
@@ -28,7 +28,7 @@ export interface Iprops {
   pointerEvents: string;
 }
 
-function Card16({ Note, Fee, Heading, FeesTypes }) {
+function Card16({ Note, Heading }) {
   const GetFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
@@ -105,7 +105,7 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
 
   const body: IFees = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId
+    asStudentId: asStudentId    //"11554"
   };
 
   useEffect(() => {
@@ -174,7 +174,6 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
       {FeesList === undefined ? null : (
         <>
           {FeesList.map((item: GetFeeDetailsResult, i) => {
-            console.log(item)
             // Checked Box Disability
             const disabledStateCheckBox = !CheckBoxPaymentGroup.includes(
               item.PaymentGroup.toString()
@@ -221,7 +220,8 @@ function Card16({ Note, Fee, Heading, FeesTypes }) {
                               parseInt(FeesList[i].AmountPayable)
 
                               : 
-                              i == FeesList.length - 1 &&
+                              i == FeesList.length - 1 
+                              &&
                                 FeesList[i].PaymentGroup !==
                                   FeesList[FeesList.length - 1].PaymentGroup
                               ? 

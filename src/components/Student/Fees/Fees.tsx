@@ -34,7 +34,7 @@ function Fees() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
 
-  const body: IFees = {
+  const body: IFees = { 
     asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
