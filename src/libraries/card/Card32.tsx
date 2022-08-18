@@ -4,9 +4,11 @@ import { Container, Card, Typography, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 const Card32 = ({ Id, Name, enableRow, expand }) => {
+    
     const ExpandIcon = ({ expanded }) =>
         expanded ? <ExpandLessIcon sx={{ float: "right" }} /> : <ExpandMoreIcon sx={{ float: "right" }} />;
-    return (
+    
+        return (
         <Grid container>
             <Grid item xs={10}
                 onClick={() => expand(Id)}>

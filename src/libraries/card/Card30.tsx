@@ -4,6 +4,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Card31 from './Card31';
 import Card32 from './Card32';
+import List23 from '../list/List23';
 export const Card30 = ({ header }) => {
     const [enableRow, setEnableRow] = useState(-1)
     const expand = (index) => {
@@ -26,15 +27,8 @@ export const Card30 = ({ header }) => {
                             expand={expand} />
 
                         {
-                            Header.Child.map((Detail) => (
-                                enableRow === Header.Id &&
-
-                                <Card31 key={Detail.Id}
-                                    Id={Detail.Id}
-                                    Name={Detail.Name}
-                                    Value={Detail.Value} />
-
-                            ))
+                            enableRow === Header.Id &&
+                            <List23 data={Header.Child}/>
                         }
                     </Card>
                 ))
