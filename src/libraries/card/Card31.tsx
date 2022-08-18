@@ -1,21 +1,22 @@
 import React from 'react';
-import { Container, Card, Typography, Grid } from '@mui/material';
-
+import {  Typography, Grid } from '@mui/material';
 
 function Card31({ Name, Value }) {
-    return (
-        <div>
-            <Grid container>
-                <Grid item xs={10} >
-                    <Typography variant="h6" sx={{ py: 1, mx: 1 }}>
-                        {Name}
-                    </Typography>
-                </Grid>
-                <Grid item xs={2}>
-                    {Value}
-                </Grid>
-            </Grid>
-        </div>
-    )
+  return (
+    <div>
+      <Grid container>
+        <Grid item xs={10}>
+          <Typography variant="h6" sx={{ my: 0.5, mx: 1 }}>
+            {Name}
+          </Typography>
+        </Grid>
+        <Grid item xs={2}>
+          <Typography sx={{ mt: 0.5, float: 'right', mr: 1.3 }}>
+            {Value}
+          </Typography>
+        </Grid>
+      </Grid>
+    </div>
+  );
 }
-export default Card31
+export default Card31;
