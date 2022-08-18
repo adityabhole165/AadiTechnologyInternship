@@ -23,7 +23,6 @@ export const Card30 = ({ header }) => {
                         <Card32
                             Id={Header.Id}
                             Name={Header.Name}
-                            enableRow={enableRow}
                             expand={expand} />
 
                         {
