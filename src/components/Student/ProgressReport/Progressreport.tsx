@@ -152,7 +152,7 @@ function Progressreport() {
       <PageHeader heading={'Progress Report'} subheading={''} />
       {
        
-        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == true) ?
+        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false) ?
           <>
             <Container  >
              
