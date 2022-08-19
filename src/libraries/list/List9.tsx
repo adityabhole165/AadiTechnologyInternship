@@ -67,7 +67,7 @@ const issuedate = new Date(issue);
                   Book Title : {title}
                 </AccordionSummary>
 
-                <AccordionDetails sx={{ borderRadius: 1, borderBottom: 2, backgroundColor: "#5c5f628a", mb: 1 }}>
+                <AccordionDetails sx={{ borderRadius: 1, mb: 1 }}>
 
                   <List
 
