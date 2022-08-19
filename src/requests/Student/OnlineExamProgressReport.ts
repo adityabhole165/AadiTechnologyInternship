@@ -69,13 +69,20 @@ export const getSubjects =
       dispatch(OnlineExamProgressReportSlice.actions.getSubjects(response.data));
     };
 
-export const getMarkInformation =
-  (data: OnlineExamProgressReport): AppThunk =>
-    async (dispatch) => {
-      const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
-      dispatch(OnlineExamProgressReportSlice.actions.getMarkInformation(response.data));
-    };
+    export const getMarkInformation =
+    (data: OnlineExamProgressReport): AppThunk =>
+      async (dispatch) => {
+        const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
+        dispatch(OnlineExamProgressReportSlice.actions.getMarkInformation(response.data));
+      };
 
+      export const getDetails =
+      (data: OnlineExamProgressReport): AppThunk =>
+        async (dispatch) => {
+          const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
+          dispatch(OnlineExamProgressReportSlice.actions.getDetails(response.data));
+        };
+      
 export const getHeader =
   (data: OnlineExamProgressReport): AppThunk =>
     async (dispatch) => {

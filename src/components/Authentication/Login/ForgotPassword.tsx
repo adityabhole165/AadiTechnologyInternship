@@ -33,7 +33,7 @@ function ForgotPassword() {
             
             toast.success("SMS sent you your email address"); 
             else
-            toast.success(res.data); 
+            toast.warning(res.data); 
         })
         .catch((err) => {
             toast.success('Failed to send SMS');

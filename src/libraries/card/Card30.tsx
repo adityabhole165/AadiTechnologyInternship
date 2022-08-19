@@ -1,77 +1,38 @@
-import { useState } from 'react';
-import {
-  Card,
-  Container,
-  Typography,
-  Box,
-  CardContent,
-  useTheme
-} from '@mui/material';
+import { useState } from 'react'
+import { Container, Card, Typography, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-
-import { Styles } from 'src/assets/style/student-style';
-
+import Card31 from './Card31';
+import Card32 from './Card32';
+import List23 from '../list/List23';
 export const Card30 = ({ header }) => {
-  
-  const ExpandIcon = ({ expanded }) =>
-    expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />;
-  const [enableRow, setEnableRow] = useState(-1);
-  const expand = (index) => {
-    if (enableRow === index) setEnableRow(-1);
-    else setEnableRow(index);
-  };
-  const classes = Styles();
-  const theme = useTheme();
-  return (
-    <Container>
-      {header.map((Header) => (
-        <Card
-          key={Header.Id}
-          sx={{ mb: '10px' }}
-          className={classes.ListStyle1}
-        >
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              cursor: 'pointer',
-              background: `${theme.colors.gradients.pink1}`
-            }}
-            onClick={() => expand(Header.Id)}
-          >
-            <Typography variant="h4" sx={{ py: 1.5, mx: 1 }}>
-              {Header.Name}
-            </Typography>
-            <Box sx={{ mr: '5px' }}>
-              <ExpandIcon expanded={Header.expanded} />
-            </Box>
-          </Box>
-          {Header.Child.map(
-            (Detail) =>
-              enableRow === Header.Id && (
-                <Box
-                  key={Detail.Id}
-                  sx={{
-                    ml: '20px',
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    mr: '20px',
-                    mb: '5px',
-                    mt: '3px'
-                  }}
-                >
-                  <Typography variant="h6">{Detail.Name}</Typography>
-                  <Typography>{Detail.Value}</Typography>
-                </Box>
-              )
-          )}
-        </Card>
-      ))}
-    </Container>
-  );
-};
+    const [enableRow, setEnableRow] = useState(-1)
+    const expand = (index) => {
+        if (enableRow === index)
+            setEnableRow(-1)
+        else
+            setEnableRow(index)
+    }
+    return (
+        <><Container>
+            {
+                header.map((Header) => (
+
+                    <Card key={Header.Id} sx={{ mt: 1, bgcolor: 'white' }}>
+
+                        <Card32
+                            Id={Header.Id}
+                            Name={Header.Name}
+                            expand={expand} />
+
+                        {
+                            enableRow === Header.Id &&
+                            <List23 data={Header.Child}/>
+                        }
+                    </Card>
+                ))
+            }
+        </Container></>
+    )
+}
 export default Card30;
