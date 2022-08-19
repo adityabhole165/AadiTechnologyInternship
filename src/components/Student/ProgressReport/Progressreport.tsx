@@ -7,9 +7,9 @@ import {
 } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, Grid, Box } from '@mui/material';
+import { styled, Grid, Box, Typography } from '@mui/material';
 import IExamResult, {
-  GetStudentExamResult
+  GetStudentExamResult, IGetReasonforBlockingProgressReportResult
 } from 'src/interfaces/Student/ProgressReport';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect, useState } from 'react';
@@ -20,7 +20,7 @@ import http from 'src/requests/SchoolService/schoolServices';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
+import ErrorMessagess from "src/libraries/ErrorMessages/ProgressReportError";
 
 import {
   IIsPendingFeesForStudent,
@@ -53,6 +53,7 @@ function Progressreport() {
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
   const [DependentOnAttendance, setDependentOnAttendance] = useState(" ")
+  const [block, setBlock] = useState("none")
 
 
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -107,8 +108,8 @@ function Progressreport() {
   };
 
   const GetExamResultList_body: IExamResult = {
-    "asSchoolId": asSchoolId,
-    "asStudentId": asStudentId
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId
   };
 
   const Getpendingfees_body: IIsPendingFeesForStudent = {
@@ -134,19 +135,28 @@ function Progressreport() {
         GetReasonforBlockingProgressReport_body
       )
     );
+    if (pendingfees.IsPendingFeesForStudentResult == false) {
+      setBlock('block')
+    }
+    if (pendingfees.IsPendingFeesForStudentResult == true) {
+      setBlock('none')
+    }
 
   }, []);
-
+//   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
+//     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
+// });
   return (
     <>
-     
-            <PageHeader heading={'Progress Report'} subheading={''} />
-            {
-        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "Attendance is less than 75%") ?
+
+      <PageHeader heading={'Progress Report'} subheading={''} />
+      {
+       
+        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == true) ?
           <>
             <Container  >
-
-              <Grid container justifyContent="center" rowSpacing={1} >
+             
+              <Grid container justifyContent="center" rowSpacing={1} style={{ display: block }}>
                 <Grid xs={6}>
                   <DotLegend
                     className={classes.border}
@@ -168,6 +178,7 @@ function Progressreport() {
                   <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
                 </Grid>
               </Grid>
+             
             </Container>
 
             {feependingres ? null : (
@@ -248,8 +259,11 @@ function Progressreport() {
               </>
             )}
           </>
+          
           :
-          <ErrorMessages Error={Reason} />
+          <><><ErrorMessagess Error={"You are prohibited to view the progress report due to the following reason: "} />
+            <ErrorMessagess Error={Reason} /></>
+            <ErrorMessagess Error={"Please do the needful to view the progress report."} /></>
       }
     </>
   );
