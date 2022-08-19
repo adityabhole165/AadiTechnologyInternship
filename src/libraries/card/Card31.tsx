@@ -6,7 +6,7 @@ function Card31({ Name, Value }) {
     <div>
       <Grid container>
         <Grid item xs={10}>
-          <Typography variant="h6" sx={{ my: 0.5, mx: 1 }}>
+          <Typography sx={{ my: 0.5, mx: 1 }}>
             {Name}
           </Typography>
         </Grid>

@@ -1,13 +1,11 @@
 import { useState } from 'react'
-import { Container, Card, Typography, Grid,Box } from '@mui/material';
+import { Container, Card, Typography, Grid } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Styles } from 'src/assets/style/student-style';
 import Card31 from './Card31';
 import Card32 from './Card32';
 import List23 from '../list/List23';
 export const Card30 = ({ header }) => {
-    const classes = Styles();
     const [enableRow, setEnableRow] = useState(-1)
     const expand = (index) => {
         if (enableRow === index)
@@ -20,18 +18,16 @@ export const Card30 = ({ header }) => {
             {
                 header.map((Header) => (
 
-                    <Card key={Header.Id} sx={{ mt: 1 }} className={classes.ListStyle1}>
+                    <Card key={Header.Id} sx={{ mt: 1, bgcolor: 'white' }}>
 
                         <Card32
                             Id={Header.Id}
                             Name={Header.Name}
-                            enableRow={enableRow}
                             expand={expand} />
 
                         {
                             enableRow === Header.Id &&
                             <List23 data={Header.Child}/>
-                            
                         }
                     </Card>
                 ))
