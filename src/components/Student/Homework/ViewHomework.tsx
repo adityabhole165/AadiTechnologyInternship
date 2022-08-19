@@ -47,9 +47,7 @@ function ViewHomework() {
   return (
     <>
       <PageHeader heading={'View Homework'} subheading={''} />
-      <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
         <BackButton FromRoute={"/Student/Homework"} />
-      </span>
       {viewHomework === undefined ? null : (
         <Card4
           ViewDetail={ViewDetail}

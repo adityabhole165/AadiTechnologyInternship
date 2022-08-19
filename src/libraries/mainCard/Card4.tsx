@@ -9,7 +9,6 @@ function Card4({ header, text1, text2, text3 }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
-  console.log(pageName);
   return (
     <>
       <Grid container>

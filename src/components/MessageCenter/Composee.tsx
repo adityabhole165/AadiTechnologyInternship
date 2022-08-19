@@ -436,7 +436,7 @@ function Form13() {
               </p>
             )}
 
-            {PageName === 'Reply' ? (
+            {PageName === 'Reply' || PageName === 'Forwa' ? (
               <TextField
                 fullWidth
                 multiline

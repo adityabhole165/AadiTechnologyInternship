@@ -57,7 +57,7 @@ function List1({ items }) {
           key={items.id}
         />
           : (
-            <Link style={{ color:"#37474f",textDecoration:"none" }}
+            <Link style={{ color:"#80daeb",textDecoration:"none" }}
                   to={
                     `/${
                       location.pathname.split('/')[1]

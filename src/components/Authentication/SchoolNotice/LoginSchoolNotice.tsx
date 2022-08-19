@@ -24,8 +24,8 @@ function LoginSchoolNotice() {
 
     const styles = {
         paperContainer: {
-            backgroundImage: `url(${school5})`,
-            backgroundColor: "#2c171738"
+            // backgroundImage: `url(${school5})`,
+            backgroundColor: "#f4f3f2"
         },
 
     };

@@ -29,7 +29,7 @@ function Fees() {
     Sum3: 'Late Fee',
     Sum4: 'Applicable Fees'
   };
-  const Note: string = '*RTE student (100% Consession on school fees)';
+  const Note: string = '*RITE student (100% Consession on school fees)';
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
