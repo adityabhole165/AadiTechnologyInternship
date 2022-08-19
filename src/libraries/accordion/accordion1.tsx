@@ -35,7 +35,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: '#c8dccb',
-      mx: '-44px',
+      mx: '-33px',
       RealatedSection:item.RealatedSection,
       borderRadius:"6px",
       marginBottom:"8px",
@@ -50,7 +50,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text2: item.MobileNumber1,
       text3: item.Class,
       backgroundColor: '#c8dccb',
-      mx:"-44px"
+      mx:"-33px"
     };
   });
   return (
