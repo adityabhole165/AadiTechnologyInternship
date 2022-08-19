@@ -61,8 +61,8 @@ function Accordion2({ subject, Data, Close, index, expand }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                borderBottom: 2,
-                backgroundColor: '#5c5f628a'
+               
+                
               }}
             >
               {Data?.map((list: IHomeworkResponse, i) => {

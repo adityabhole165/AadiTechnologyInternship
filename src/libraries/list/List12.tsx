@@ -12,7 +12,7 @@ import React, { useState, useEffect } from 'react';
 import { GetVideoGalleryResult, IVideoList } from "src/interfaces/Common/VideoGallery";
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 List12.propTypes = {
   imgId: PropTypes.string,
@@ -35,7 +35,7 @@ function List12({ imgId,FromRoute ,data}) {
               style={{ textDecoration: 'none' }}
             >
               {data[0].Name == null &&  data[0].ImageList == null ? (
-                  <ErrorMessages2 Error={'No record found'} />
+                  <ErrorMessages Error={'No records found'} />
                 ) : (
                   <>
         <List

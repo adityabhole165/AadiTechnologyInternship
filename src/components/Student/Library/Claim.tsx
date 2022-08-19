@@ -66,9 +66,9 @@ function Claim() {
   return (
     <>
       <PageHeader heading={'Claimed Book Details'} subheading={''} />
-      <span style={{position:'relative',left:'20px',top:'-38px'}}>
+    
         <BackButton FromRoute={"/Student/Library"}/>
-      </span>
+     
 
       <Container>
       

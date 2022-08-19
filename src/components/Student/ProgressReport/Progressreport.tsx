@@ -134,7 +134,7 @@ function Progressreport() {
       )
     );
     if (pendingfees.IsPendingFeesForStudentResult == false) {
-      setBlock('block')
+      setBlock('flex')
     }
     if (pendingfees.IsPendingFeesForStudentResult == true) {
       setBlock('none')
@@ -150,7 +150,7 @@ function Progressreport() {
       <PageHeader heading={'Progress Report'} subheading={''} />
       {
        
-        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == true) ?
+        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false) ?
           <>
             <Container  >
              
@@ -158,7 +158,7 @@ function Progressreport() {
                 <Grid xs={6}>
                   <DotLegend
                     className={classes.border}
-                    style={{ background: '#5C3317', marginBottom: '-1px' }}
+                    style={{ background: '#5C3317', marginBottom: '-1px'}}
                   />
                   <small>
                     <b>Subject</b>
@@ -172,7 +172,7 @@ function Progressreport() {
                     <b>Grade</b>
                   </small>
                 </Grid>
-                <Grid xs={6}>
+                <Grid xs={6} >
                   <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
                 </Grid>
               </Grid>

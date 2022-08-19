@@ -77,8 +77,7 @@ function Accordion4({
                 <AccordionDetails
                   sx={{
                     borderRadius: 1,
-                    borderBottom: 2,
-                    backgroundColor: '#5c5f628a',
+                    
                     mb: 1
                   }}
                 >

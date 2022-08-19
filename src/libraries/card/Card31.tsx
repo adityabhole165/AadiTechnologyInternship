@@ -4,7 +4,7 @@ import {  Typography, Grid } from '@mui/material';
 function Card31({ Name, Value }) {
   return (
     <div>
-      <Grid container>
+      <Grid container sx={{borderTop:"0.1px solid #eeeeee"}}>
         <Grid item xs={10}>
           <Typography sx={{ my: 0.5, mx: 1 }}>
             {Name}
