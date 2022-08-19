@@ -52,7 +52,6 @@ function Progressreport() {
 
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-  const [DependentOnAttendance, setDependentOnAttendance] = useState(" ")
   const [block, setBlock] = useState("none")
 
 
@@ -60,8 +59,6 @@ function Progressreport() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
-  console.log("pendingfees", pendingfees);
-  console.log("asStudentId", asStudentId);
 
   const classes = Styles();
   const DotLegend = styled('span')(

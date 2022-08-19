@@ -14,6 +14,7 @@ import {
     IGetPassword,
     GetPasswordResult
 } from 'src/interfaces/Authentication/GetPassword';
+import BackButton from 'src/libraries/button/BackButton';
 
 function ForgotPassword() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -79,6 +80,7 @@ function ForgotPassword() {
     return (
         <>
             <PageHeader heading={'Forgot Password'} subheading={''} />
+            <BackButton  />
             <Container>
                 <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
                     <form onSubmit={formik.handleSubmit}>

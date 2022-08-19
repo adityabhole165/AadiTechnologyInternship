@@ -13,11 +13,22 @@ function BackButton({ FromRoute }) {
   const theme = useTheme();
   const classes = Styles();
   //const navigate = useNavigate();
+  const pathname = window.location.pathname;
+  const pageName = pathname.replace(
+    '/schoolList',
+    ''
+  );
 
   return (
     <>
       <RouterLink
-        to={`/${location.pathname.split('/')[1]}` + FromRoute}
+        to={
+          pageName == "/forgotPassword"
+          ?
+          "/schoolList"
+          :
+          `/${location.pathname.split('/')[1]}` + FromRoute
+        }
         color="primary"
         style={{ textDecoration: 'none' }}
       >

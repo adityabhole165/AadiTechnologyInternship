@@ -46,7 +46,6 @@ function Card3({
  
 
   const theme = useTheme();
-  console.log(iconColor, " --", theme.colors.gradients.pink1)
 if(theme.colors.gradients.pink1!=="linear-gradient(135deg, white 0%, white 100%);")
 iconColor = "white"
   return (

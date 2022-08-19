@@ -23,7 +23,6 @@ function Card2({ items, heading, rowsCol }) {
   const width = 12 / rowsCol;
 
   const theme = useTheme();
-  console.log(theme.colors.gradients.pink1);
 
   return (
     <Container>
