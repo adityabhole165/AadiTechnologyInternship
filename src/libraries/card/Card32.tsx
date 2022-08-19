@@ -12,7 +12,7 @@ const Card32 = ({ Id, Name, expand }) => {
     ) : (
       <ExpandMoreIcon sx={{float:"right",mr:1}} />
     );
-    const [expanded, setExpanded] = useState(true)
+    const [expanded, setExpanded] = useState(false)
     const expandFunc= () => {
         setExpanded(!expanded)
         expand(Id)
