@@ -78,8 +78,6 @@ function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Descripti
     const classes = Styles();
     const clas = useStyles();
 
-    console.log(SubjectId)
-
     return (
         <>
             <Container>

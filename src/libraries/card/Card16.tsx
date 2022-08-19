@@ -57,7 +57,7 @@ function Card16({ Note, Heading }) {
   const handleClickAway = () => {
     setOpen(false);
   };
-
+  const [sum,setsum] = useState(0);
   const handleChange = (event) => {
     let ArrayOfFees_To_Number;
     if (event.target.checked) {
@@ -71,6 +71,8 @@ function Card16({ Note, Heading }) {
         NextPaymentGroup_ToString
       ]);
       setChange(true); // For Useeffect call
+      setsum (sum + parseInt(event.target.value));
+
     }
     if (!event.target.checked) {
       let indexOfArrayOfPaymentGroup = ArrayOfPaymentGroup.indexOf(
@@ -81,9 +83,11 @@ function Card16({ Note, Heading }) {
         LengthOfFeesList
       );
       setArrayOfPaymentGroup([...ArrayOfPaymentGroup]);
-      let indexOfUnChecked_Box = ArrayOfFees.indexOf(event.target.value);
+      let indexOfUnChecked_Box = ArrayOfFees.lastIndexOf(event.target.value);
       let SplicedArray = ArrayOfFees.splice(
         indexOfUnChecked_Box,
+        // 2
+        // ,
         LengthOfFeesList
       );
       ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
@@ -95,7 +99,10 @@ function Card16({ Note, Heading }) {
       );
       setCheckBoxPaymentGroup(CheckBoxPaymentGroup);
       setChange(false); // For Useeffect call
+      setsum (sum - parseInt(event.target.value));
+
     }
+
     setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
   };
 
