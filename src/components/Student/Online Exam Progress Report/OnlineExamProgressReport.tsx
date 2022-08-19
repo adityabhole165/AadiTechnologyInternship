@@ -6,9 +6,7 @@ import OnlineExamProgressReport, { OnlineExamResult, OnlineExams, MarkInformatio
     from "src/interfaces/Student/OnlineExamProgressReport";
 import PageHeader from 'src/libraries/heading/PageHeader';
 import {getHeader} from 'src/requests/Student/OnlineExamProgressReport';
-import BackButton from 'src/libraries/button/BackButton';
 import Card30 from 'src/libraries/card/Card30';
-
 function OnlineExamReport() {
     const dispatch = useDispatch();
     const  Header = useSelector(
@@ -28,14 +26,11 @@ function OnlineExamReport() {
     }, []);
     return (
         <>
-            <span style={{ position: 'relative', left: '20px', top: '32px' }}>
-                <BackButton />
-            </span>
-
+           
             <PageHeader heading={'Online Progress Report'} subheading={''} />
-
+           
             <Card30 header={Header}></Card30>
-
+         
         </>
     );
 }

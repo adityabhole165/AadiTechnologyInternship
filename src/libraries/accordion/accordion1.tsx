@@ -35,11 +35,22 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: '#c8dccb',
-      mx: '-30px',
+      mx: '-44px',
       RealatedSection:item.RealatedSection,
       borderRadius:"6px",
       marginBottom:"8px",
       boxShadow:"6px 4px 5px grey"
+    };
+  });
+  const Data1 = Parent.map((item, index) => {
+    return {
+      id: index,
+      header: item.ParentName,
+      text1: item.ParentDesignation,
+      text2: item.MobileNumber1,
+      text3: item.Class,
+      backgroundColor: '#c8dccb',
+      mx:"-44px"
     };
   });
   return (
@@ -118,51 +129,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                     mb: 1
                   }}
                 >
-                  {Parent.map((items: GetPTADetailsResult, i) => {
-                    return (
-                      <List
-                        key={i}
-                        className={classes.color2}
-                        sx={{
-                          boxShadow: '6px 6px 8px  gray !important',
-                          borderColor: '#1E656D',
-                          borderRadius: 1,
-                          mb: 1,
-                          mt: 1,
-                          color: 'black',
-                          background: '#c8dccb'
-                        }}
-                      >
-                        <Grid>
-                          <Box className={classes.root2}>
-                            <Grid item xs={6} sx={{ maxWidth: '100%' }}>
-                              <Typography className={classes.Listfont1}>
-                                {items.ParentName}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6} className={classes.gridend}>
-                              <Typography className={classes.Listfont2}>
-                                {items.Class}
-                              </Typography>
-                            </Grid>
-                          </Box>
-                          <Box className={classes.root2}>
-                            <Grid item xs={6} className={classes.gridstart}>
-                              <Typography className={classes.Listfont2}>
-                                {items.ParentDesignation}
-                              </Typography>
-                            </Grid>
-                            <Grid item xs={6} className={classes.gridend}>
-                              <Typography className={classes.Listfont2}>
-                                {items.MobileNumber1}&nbsp;
-                                {items.MobileNumber2}
-                              </Typography>
-                            </Grid>
-                          </Box>
-                        </Grid>
-                      </List>
-                    );
-                  })}
+                  <List1 items={Data1} />
                 </AccordionDetails>
               </Accordion>
             </div>

@@ -57,7 +57,6 @@
     "jsonwebtoken": "8.5.1",
     "material-react-toastify": "^1.0.1",
     "moment": "^2.29.3",
-    "node": "^18.7.0",
     "notistack": "2.0.3",
     "nprogress": "0.2.0",
     "numeral": "2.0.6",
@@ -103,7 +102,7 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "react-scripts build",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
@@ -135,3 +134,6 @@
     "prettier": "^2.5.0"
   }
 }
+
+
+
