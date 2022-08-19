@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
   Paper,
@@ -7,16 +8,8 @@ import {
   IconButton,
   Typography,
   Box,
-  Card,
-  Avatar,
-  CardContent,
-  ListItemAvatar
+  Avatar
 } from '@mui/material';
-
-
-import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
-
-import AddCommentIcon from '@mui/icons-material/AddComment';
 
 import EventIcon from '@mui/icons-material/Event';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -30,7 +23,7 @@ import LockOpenIcon from '@mui/icons-material/LockOpen';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import AccessTimeFilledIcon from '@mui/icons-material/AccessTimeFilled';
+
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -38,72 +31,73 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
 import { iteratorSymbol } from 'immer/dist/internal';
 import { makeStyles } from '@mui/styles';
-const useStyles = makeStyles((theme) => ({
-  root: {
-    '&:hover': {
-      color: 'red',
-      width: '80px',
-      // transition: "transform 2s",
-      transform: 'rotate(5deg)'
-    }
-  }
-}));
 
-let fav = 'avatar';
 
 function Card3({
   color,
-  text,
+  text1,
+  text2,
   icon,
   iconColor,
   opacityLevel,
   Link1,
   isAvtar
 }) {
-  const classes = useStyles();
-  //   const aLink = `/${location.pathname.split('/')[1]}/` + Link;
-  const opacity =
-    'rgba(255, 255, 255, ' + (opacityLevel === '1' ? '0.3' : '0') + ')';
-const theme = useTheme();
-  // console.log(icon)
+ 
+
+  const theme = useTheme();
+  console.log(iconColor, " --", theme.colors.gradients.pink1)
+if(theme.colors.gradients.pink1!=="linear-gradient(135deg, white 0%, white 100%);")
+iconColor = "white"
   return (
     <>
-      <Card
+      <Box
         sx={{
-          background: color,
-          mx: '5px',
-          mb: '5px',
-          height:"100px"
+          mb: '7px',
+          mt: '-3px'
         }}
       >
         <Box sx={{ textAlign: 'center' }}>
           <Link to={`/${location.pathname.split('/')[1]}/${Link1}`}>
-            <IconButton>
+            <IconButton
+              sx={{
+                borderRadius: '10px',
+                mt: '-3px'
+              }}
+            >
               <Avatar
                 variant="square"
+              
                 sx={{
-                  boxShadow: '6px 6px 6px grey !important',
-
-                  backgroundColor: iconColor,
-                  borderRadius: '10px'
+                  width: '50px',
+                  background:`${theme.colors.gradients.pink1}`,
+                  color: iconColor,
+                  borderRadius: '10px',
+               mb:"5px",
+                 
+                    boxShadow:' 5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3)'
                 }}
               >
                 {icon === 1 && <AssignmentIcon />}
                 {icon === 2 && <EventIcon />}
-                {icon === 3 && <DateRangeIcon  />}
-                {icon === 4 && <PhotoIcon  />}
+                {icon === 3 && <DateRangeIcon />}
+                {icon === 4 && <PhotoIcon />}
                 {icon === 5 && <VideoLibraryIcon />}
                 {icon === 6 && <EventNoteIcon />}
                 {icon === 7 && <AccessTimeIcon />}
                 {icon === 8 && <MonetizationOnIcon />}
-                {icon === 9 && <MenuBookIcon  />}
-                {icon === 10 && <LockOpenIcon  />}
-                {icon === 11 && <PeopleIcon  />}
-                {icon === 12 && <CalendarTodayIcon  />}
-                {icon === 13 && <AssessmentIcon  />}
-                {icon === 14 && <ForwardToInboxIcon  />}
-                {icon === 15 && <SmsIcon  />}
-                {icon === 16 && <PeopleIcon  />}
+                {icon === 9 && <MenuBookIcon />}
+                {icon === 10 && <LockOpenIcon />}
+                {icon === 11 && <PeopleIcon />}
+                {icon === 12 && <CalendarTodayIcon />}
+                {icon === 13 && <AssessmentIcon />}
+                {icon === 14 && <AssessmentIcon />}
+                {icon === 15 && <AssessmentIcon />}
+                {icon === 16 && <AssessmentIcon />}
+
+                {icon === 17 && <ForwardToInboxIcon />}
+                {icon === 18 && <SmsIcon />}
+                {icon === 19 && <PeopleIcon />}
               </Avatar>
             </IconButton>
           </Link>
@@ -111,15 +105,29 @@ const theme = useTheme();
 
         <Typography
           sx={{
-         
+            mt: '-5px',
             textAlign: 'center',
-            textShadow: '1px 1px 20px '
+            fontSize: '12px',
+            lineHeight: '1rem',
+            // textShadow:
+            //   ' 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)'
           }}
         >
-          {text}
+          {text1}
         </Typography>
-      </Card>
+        <Typography
+          sx={{
+            mt: '-5px',
+            textAlign: 'center',
+            fontSize: '12px',
+            lineHeight: '1.3rem'
+          }}
+        >
+          {text2}
+        </Typography>
+      </Box>
     </>
   );
 }
+
 export default Card3;
