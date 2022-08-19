@@ -5,6 +5,7 @@ import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import Card31 from './Card31';
 import Card32 from './Card32';
 import List23 from '../list/List23';
+import { Styles } from 'src/assets/style/student-style';
 export const Card30 = ({ header }) => {
     const [enableRow, setEnableRow] = useState(-1)
     const expand = (index) => {
@@ -13,12 +14,13 @@ export const Card30 = ({ header }) => {
         else
             setEnableRow(index)
     }
+    const classes = Styles();
     return (
         <><Container>
             {
                 header.map((Header) => (
 
-                    <Card key={Header.Id} sx={{ mt: 1, bgcolor: 'white' }}>
+                    <Card key={Header.Id} sx={{ mt: 1}} className={classes.ListStyle1}>
 
                         <Card32
                             Id={Header.Id}
