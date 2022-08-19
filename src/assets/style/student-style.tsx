@@ -84,7 +84,7 @@ export const Styles = makeStyles({
     width: "35px !important",
     height: "10px !important",
     borderRadius: "4px !important",
-    marginTop: "-55px !important",
+    marginTop: "-63px !important",
     marginLeft: "0px !important",
     paddingLeft: "0px",
   },
