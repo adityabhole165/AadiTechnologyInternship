@@ -52,7 +52,6 @@ function Progressreport() {
 
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-  const [DependentOnAttendance, setDependentOnAttendance] = useState(" ")
   const [block, setBlock] = useState("none")
 
 
