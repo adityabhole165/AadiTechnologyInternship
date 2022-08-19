@@ -34,9 +34,7 @@ function Viewschoolnotice() {
   return (
     <>
       <PageHeader heading={'Notice Details'} subheading={''} />
-      <span style={{ position: 'relative', left: '20px', top: '-45px' }}>
         <BackButton FromRoute={"/Common/schoolnotice"}/>
-      </span>
       <div>
       {ViewSchoolnotice.map((items: GetSchoolNoticeListResult, i) => (
         <Card5

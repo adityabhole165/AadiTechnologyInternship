@@ -23,7 +23,6 @@ List12.propTypes = {
 function List12({ imgId,FromRoute ,data}) {
   const theme = useTheme();
   const classes = Styles();
-console.log("data",data);
 
   return (
     <>

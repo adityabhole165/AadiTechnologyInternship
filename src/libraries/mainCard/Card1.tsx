@@ -41,7 +41,6 @@ function Card1({
   boxShadow,
   
 }) {
-  console.log("RealatedSection",RealatedSection);
   
   const date = new Date();
   const NewDate = new Date(date).toDateString();
@@ -62,7 +61,6 @@ function Card1({
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
-  console.log(pageName);
 
   return (
     <>

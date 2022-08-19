@@ -34,8 +34,6 @@ function Homework() {
   const [expanded, setExpanded] = useState<boolean>(true);
   const [isLoading, setLoading] = useState<boolean>(false);
   const [calanderSelected,setcalanderSelected] = useState(false);
-  console.log(date);
-  
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
