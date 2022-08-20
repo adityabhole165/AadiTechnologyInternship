@@ -124,8 +124,8 @@ function SentMessage() {
             <div>
 
                 {
-                    (GetSentMessagesList === null)?
-                    <ErrorMessages Error={'No message'} />
+                    (GetSentMessagesList === null || GetSentMessagesList.length == 0)?
+                    <ErrorMessages Error={'No message found'} />
                     :
                    <>
                      {

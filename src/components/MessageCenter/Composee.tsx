@@ -199,6 +199,8 @@ function Form13() {
     navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
   };
 
+  const [sendButtonDisabled,setsendButtonDisabled] = useState(false);
+
   const sendMessage = () => {
     const body: ISendMessage = {
       asSchoolId: localschoolId,
@@ -228,12 +230,13 @@ function Form13() {
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
+          setsendButtonDisabled(true);
           toast.success('Message sent successfully');
-          setTimeout(RediretToSentPage, 1000);
+          setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
-        toast.error('Message not sent successfully');
+        toast.error('Message does not sent successfully');
       });
   };
 
@@ -241,7 +244,7 @@ function Form13() {
     initialValues: {
       To: '',
       Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
-      Content: PageName == 'Forwa' ? BODY : '',
+      Content: '',
       Attachment: ''
     },
     onSubmit: (values) => {
@@ -483,6 +486,7 @@ function Form13() {
                   size="large"
                   variant="contained"
                   onChange={formik.handleChange}
+                  disabled={sendButtonDisabled}
                 >
                   {'Send'}
                 </Button>
