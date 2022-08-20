@@ -11,19 +11,17 @@ import { getInboxList } from "src/requests/Student/InboxMessage";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
-import { useParams } from 'react-router-dom';
-
 
 function Inbox() {
 
-  const GetInboxMessageList = useSelector((state: RootState) => state.InboxMessage.InboxList)
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+
+  const GetInboxMessageList = useSelector((state: RootState) => state.InboxMessage.InboxList);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-
 
   const getList: IgetList = {
     "asUserId": UserId,
@@ -44,7 +42,6 @@ function Inbox() {
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] })
   const pathname = window.location.pathname;
   const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '');
-  const pageName2 = pathname.replace("/extended-sidebar/MessageCenter/", '')
 
   const handleChange = (event) => {
     setChecked(true);
@@ -126,8 +123,8 @@ function Inbox() {
       }
 
       {
-        (GetInboxMessageList === null) ?
-          <ErrorMessages Error={'No Record Found'} />
+        (GetInboxMessageList === null || GetInboxMessageList.length == 0) ?
+          <ErrorMessages Error={'No message found'} />
           :
           <>
             {

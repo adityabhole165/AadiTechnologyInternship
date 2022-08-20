@@ -229,11 +229,11 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           toast.success('Message sent successfully');
-          setTimeout(RediretToSentPage, 1000);
+          setTimeout(RediretToSentPage, 400);
         }
       })
       .catch((err) => {
-        toast.error('Message not sent successfully');
+        toast.error('Message does not sent successfully');
       });
   };
 
@@ -241,7 +241,7 @@ function Form13() {
     initialValues: {
       To: '',
       Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
-      Content: PageName == 'Forwa' ? BODY : '',
+      Content: '',
       Attachment: ''
     },
     onSubmit: (values) => {

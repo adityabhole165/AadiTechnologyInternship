@@ -1,47 +1,43 @@
-import Box from '@mui/material/Box';
 import {
   FormControl,
   Grid,
   TextField,
   Card,
-  Button,
   NativeSelect,
-  InputLabel,
-  IconButton
+  IconButton,
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import {
-  IgetYears,
   IGetAllMonthlist
 } from 'src/interfaces/MessageCenter/Search';
 import { useState } from 'react';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useDispatch } from 'react-redux';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Styles } from 'src/assets/style/student-style';
-import CloseIcon from '@mui/icons-material/Close';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 Form2.propTypes = {
-  YearsList: PropTypes.array,
+  YearsList: PropTypes?.array,
   allMonthList: PropTypes.array
 };
 
-function Form2({ YearsList, allMonthList, searchFunction }) {
+function Form2({ allMonthList, searchFunction }) {
   const dispatch = useDispatch();
+  const classes = Styles();
 
+  // Search Object 
   const [Year_Month_Input, setYear_Month_Input] = useState({
     Apply: false,
     Month: '',
     Input: ''
   });
+
   const [Month, setMonth] = useState('');
   const [Input, setInput] = useState('');
 
@@ -61,6 +57,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
     });
   };
 
+  //  Page name for api call
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
     '/extended-sidebar/MessageCenter/msgCenter/',
@@ -71,10 +68,6 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-
-  const GetInboxMessageList = useSelector(
-    (state: RootState) => state.InboxMessage.InboxList
-  );
 
   const getList: IgetList = {
     asUserId: UserId,
@@ -89,7 +82,8 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
 
   const FormSubmitted = (event) => {
     event.preventDefault();
-    searchFunction(Year_Month_Input);
+    searchFunction(Year_Month_Input);  // set search object
+    //  Page conditions
     if (
       pageName === 'Inbox' ||
       pageName === '/extended-sidebar/MessageCenter/msgCenter'
@@ -121,9 +115,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
         });
     }
   };
-  const classes = Styles();
-  console.log(classes);
-  // alert(classes.ListStyle1)
+
   return (
     <Card
       className={classes.ListStyle1}
@@ -133,10 +125,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
       }}
     >
       <form onSubmit={FormSubmitted}>
-        <IconButton sx={{ position: 'relative', float: 'right', top: -6 }}>
-          <CloseIcon fontSize="small" />
-        </IconButton>
-        <Grid container sx={{}}>
+        <Grid container sx={{ mt: '35px' }}>
           <Grid item xs={5} sx={{ mt: '-30px', mb: '10px' }}>
             <TextField
               id="standard-basic"
@@ -150,7 +139,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
 
           <Grid xs={5}>
             <FormControl
-              sx={{ minWidth: '120px', mx: '20px', mt: '-14px' }}
+              sx={{ minWidth: '130px', mx: '20px', mt: '-14px' }}
               variant="outlined"
             >
               {
@@ -181,10 +170,15 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
               type="submit"
               sx={{ mr: '5px', mt: '-12px', float: 'right' }}
             >
-              <ArrowCircleRightRoundedIcon sx={{fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/>
-                  {/* <Button color='error' variant="contained" sx={{borderRadius:'5px',mt:-2}}>
-           Apply
-          </Button> */}
+              <ArrowCircleRightRoundedIcon
+                sx={{
+                  color: '#90caf9',
+                  fontSize: '35px',
+                  position: 'relative',
+                  bottom: '2px',
+                  right: '-7px'
+                }}
+              />
             </IconButton>
           </Grid>
         </Grid>
