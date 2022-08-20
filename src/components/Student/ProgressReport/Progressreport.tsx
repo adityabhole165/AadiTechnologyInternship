@@ -7,7 +7,7 @@ import {
 } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, Grid, Box, Typography } from '@mui/material';
+import { styled, Grid, Box, Typography, debounce } from '@mui/material';
 import IExamResult, {
   GetStudentExamResult, IGetReasonforBlockingProgressReportResult
 } from 'src/interfaces/Student/ProgressReport';
@@ -21,6 +21,7 @@ import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessagess from "src/libraries/ErrorMessages/ProgressReportError";
+import moment from 'moment';
 
 import {
   IIsPendingFeesForStudent,
@@ -58,6 +59,9 @@ function Progressreport() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
+  console.log("progressreportResult",progressreportResult);
+  // console.log("pendingfees",pendingfees.IsPendingFeesForStudentResult);
+  
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
 
   const classes = Styles();
@@ -97,6 +101,7 @@ function Progressreport() {
   };
 
 
+
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
   {
     asSchoolId: asSchoolId,
@@ -121,11 +126,20 @@ function Progressreport() {
     aiStudentId: asStudentId
   };
 
+   const Noexam=()=>{
+    debugger;
+if(progressreportResult.length === 0){
+  console.log("YES")
+}else{
+  console.log("NO")
+}
+   }
   useEffect(() => {
     localStorage.setItem("url", window.location.pathname)
     dispatch(Getpendingfees(Getpendingfees_body))
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
+    Noexam();
     dispatch(GetAcademicYears(GetAcademicYears_body));
     dispatch(
       GetReasonforBlockingProgressReport(
@@ -138,13 +152,20 @@ function Progressreport() {
   //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
   //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
   // });
+// const NoExam = progressreportResult.GetStudentExamResultResult;
   return (
     <>
 
       <PageHeader heading={'Progress Report'} subheading={''} />
+      <Box>
+        {
+          (progressreportResult.length === 0) ?
+          <ErrorMessagess Error={"No exam for this class has been conducted for the current academic year"} />
+      :
+      <>
       {
 
-        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false) ?
+        (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false ) ?
           <>
             {feependingres ? null : (
               <>
@@ -241,6 +262,9 @@ function Progressreport() {
             <ErrorMessagess Error={Reason} /></>
             <ErrorMessagess Error={"Please do the needful to view the progress report."} /></>
       }
+      </>
+}
+      </Box>
     </>
   );
 }
