@@ -74,7 +74,7 @@ function LandingPage() {
       index: 2
     },
     {
-      Text1: 'Holiday',
+      Text1: 'Holidays',
       Text2: '',
       Color: '#90a4ae',
       iconColor: '#424242',
@@ -112,7 +112,7 @@ function LandingPage() {
       index: 6
     },
     {
-      Text1: 'Time Table',
+      Text1: 'Timetable',
       Text2: '',
       Color: '#ef5350',
       iconColor: '#f0483e',
@@ -130,8 +130,8 @@ function LandingPage() {
       index: 8
     },
     {
-      Text1: 'Home ',
-      Text2: 'Work',
+      Text1: 'Homework ',
+    
       Color: '#90a4ae',
       iconColor: '#424242',
       Icon: MenuBookIcon,
@@ -215,7 +215,7 @@ function LandingPage() {
     },
     {
       Text1: 'SMS ',
-      Text2: 'center',
+      Text2: 'Center',
       Color: '#90a4ae',
       iconColor: '#35abd9',
       Icon: SmsIcon,

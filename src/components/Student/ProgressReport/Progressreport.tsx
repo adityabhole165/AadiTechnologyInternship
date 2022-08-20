@@ -44,7 +44,7 @@ function Progressreport() {
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
-  // console.log("Reason",getreasonbprgrepres.GetReasonforBlockingProgressReport);
+
 
   const pendingfees: any = useSelector(
     (state: RootState) => state.Progressreport.PendingFees
@@ -132,54 +132,50 @@ function Progressreport() {
         GetReasonforBlockingProgressReport_body
       )
     );
-    if (pendingfees.IsPendingFeesForStudentResult == false) {
-      setBlock('flex')
-    }
-    if (pendingfees.IsPendingFeesForStudentResult == true) {
-      setBlock('none')
-    }
+
 
   }, []);
-//   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
-//     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
-// });
+  //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
+  //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
+  // });
   return (
     <>
 
       <PageHeader heading={'Progress Report'} subheading={''} />
       {
-       
+
         (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false) ?
           <>
-            <Container  >
-             
-              <Grid container justifyContent="center" rowSpacing={1} style={{ display: block }}>
-                <Grid xs={6}>
-                  <DotLegend
-                    className={classes.border}
-                    style={{ background: '#5C3317', marginBottom: '-1px'}}
-                  />
-                  <small>
-                    <b>Subject</b>
-                  </small>
-                  <br></br>
-                  <DotLegend
-                    className={classes.border}
-                    style={{ background: 'blueviolet ', marginBottom: '-1px' }}
-                  />
-                  <small>
-                    <b>Grade</b>
-                  </small>
-                </Grid>
-                <Grid xs={6} >
-                  <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
-                </Grid>
-              </Grid>
-             
-            </Container>
-
             {feependingres ? null : (
               <>
+                <Container  >
+
+                  <Grid container justifyContent="center" rowSpacing={1} >
+                    <Grid xs={6} ></Grid>
+                    <Grid xs={6} >
+                      <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
+                    </Grid>
+                  </Grid>
+
+                </Container>
+                <Box>
+
+                  <>
+                    {progressreportResult?.map(
+                      (examresult: GetStudentExamResult, i) => (
+                        <Accordions3
+                          Data={progressreportResult}
+                          Exam={examresult.Exam}
+                          key={i}
+                          index={i}
+                          Collapse={handleChange}
+                          expand={expanded}
+                        />
+                      )
+                    )}
+                  </>
+
+                </Box>
                 <Container>
                   <Box sx={{ borderRadius: 1, borderBottom: 5, mb: 2 }}>
                     <FormControl
@@ -235,28 +231,11 @@ function Progressreport() {
                   </Box>
                 </Container>
 
-                <Box>
 
-                  <>
-                    {progressreportResult?.map(
-                      (examresult: GetStudentExamResult, i) => (
-                        <Accordions3
-                          Data={progressreportResult}
-                          Exam={examresult.Exam}
-                          key={i}
-                          index={i}
-                          Collapse={handleChange}
-                          expand={expanded}
-                        />
-                      )
-                    )}
-                  </>
-
-                </Box>
               </>
             )}
           </>
-          
+
           :
           <><><ErrorMessagess Error={"You are prohibited to view the progress report due to the following reason: "} />
             <ErrorMessagess Error={Reason} /></>

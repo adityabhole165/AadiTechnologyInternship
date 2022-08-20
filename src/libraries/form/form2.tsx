@@ -170,15 +170,10 @@ function Form2({ allMonthList, searchFunction }) {
               type="submit"
               sx={{ mr: '5px', mt: '-12px', float: 'right' }}
             >
-              <ArrowCircleRightRoundedIcon
-                sx={{
-                  color: '#90caf9',
-                  fontSize: '35px',
-                  position: 'relative',
-                  bottom: '2px',
-                  right: '-7px'
-                }}
-              />
+              <ArrowCircleRightRoundedIcon sx={{fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/>
+                  {/* <Button color='error' variant="contained" sx={{borderRadius:'5px',mt:-2}}>
+           Apply
+          </Button> */}
             </IconButton>
           </Grid>
         </Grid>

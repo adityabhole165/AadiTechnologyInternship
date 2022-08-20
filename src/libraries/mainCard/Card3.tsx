@@ -1,4 +1,3 @@
-
 import React from 'react';
 import {
   Paper,
@@ -32,7 +31,6 @@ import { Link } from 'react-router-dom';
 import { iteratorSymbol } from 'immer/dist/internal';
 import { makeStyles } from '@mui/styles';
 
-
 function Card3({
   color,
   text1,
@@ -43,11 +41,12 @@ function Card3({
   Link1,
   isAvtar
 }) {
- 
-
   const theme = useTheme();
-if(theme.colors.gradients.pink1!=="linear-gradient(135deg, white 0%, white 100%);")
-iconColor = "white"
+  if (
+    theme.colors.gradients.pink1 !==
+    'linear-gradient(135deg, white 0%, white 100%);'
+  )
+    iconColor = 'white';
   return (
     <>
       <Box
@@ -66,15 +65,15 @@ iconColor = "white"
             >
               <Avatar
                 variant="square"
-              
                 sx={{
                   width: '50px',
-                  background:`${theme.colors.gradients.pink1}`,
+                  background: `${theme.colors.gradients.pink1}`,
                   color: iconColor,
                   borderRadius: '10px',
-               mb:"5px",
-                 
-                    boxShadow:' 5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3)'
+                  mb: '5px',
+
+                  boxShadow:
+                    ' 5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3)'
                 }}
               >
                 {icon === 1 && <AssignmentIcon />}
@@ -107,9 +106,7 @@ iconColor = "white"
             mt: '-5px',
             textAlign: 'center',
             fontSize: '12px',
-            lineHeight: '1rem',
-            // textShadow:
-            //   ' 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)'
+            lineHeight: '1rem'
           }}
         >
           {text1}

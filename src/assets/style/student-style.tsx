@@ -77,6 +77,7 @@ export const Styles = makeStyles({
     borderRadius: "4px !important",
     marginTop: "-17px !important",
     marginLeft: "-16px !important",
+    boxShadow: "5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important",
 
   },
 

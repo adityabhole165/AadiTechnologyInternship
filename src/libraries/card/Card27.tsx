@@ -48,9 +48,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                borderBottom: 2,
                 mb: 1,
-                backgroundColor: '#5c5f628a'
+
               }}
             >
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
@@ -118,9 +117,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                borderBottom: 2,
                 mb: 1,
-                backgroundColor: '#5c5f628a'
               }}
             >
               <Card16
