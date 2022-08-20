@@ -6,7 +6,7 @@ import {
   List,
   Container,
   Grow,
-  Grid,
+  Grid
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
@@ -20,10 +20,10 @@ Card1.propTypes = {
   text1: PropTypes.string,
   text2: PropTypes.string,
   FileName: PropTypes.string,
-  RealatedSection:PropTypes.string,
-  borderRadius:PropTypes.string,
-  marginBottom:PropTypes.string,
-  boxShadow:PropTypes.string,
+  RealatedSection: PropTypes.string,
+  borderRadius: PropTypes.string,
+  marginBottom: PropTypes.string,
+  boxShadow: PropTypes.string
 };
 
 function Card1({
@@ -38,10 +38,8 @@ function Card1({
   RealatedSection,
   borderRadius,
   marginBottom,
-  boxShadow,
-  
+  boxShadow
 }) {
-  
   const date = new Date();
   const NewDate = new Date(date).toDateString();
   const Day = NewDate.slice(8, 10);
@@ -71,13 +69,16 @@ function Card1({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <List
-            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2 }
+            className={
+              RealatedSection == '2' ? classes.colorpta1 : classes.colorpta2
+            }
             sx={{
               background: background,
               mx: margin,
-              borderRadius: "6px !important",
-              marginBottom: "8px !important",
-              boxShadow:  ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)',
+              borderRadius: '6px !important',
+              marginBottom: '8px !important',
+              boxShadow:
+                ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)'
             }}
           >
             {text1 == NewDateFormat ? (
@@ -94,25 +95,11 @@ function Card1({
             ) : null}
 
             {FileName === '' || FileName === undefined ? null : (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  right: 1,
-                  mt: '-18px',
-                  transform: 'rotateZ(-36deg)',
-                  mr: '-0.8rem',
-                  textAlign: 'center'
-                }}
-              >
+              <Box className={classes.attchmentIcon}>
                 <AttachmentIcon />
               </Box>
             )}
-             <Card4 header={header}
-          text1={text1}
-          text2={text2}
-          text3={text3}
-         />
-         
+            <Card4 header={header} text1={text1} text2={text2} text3={text3} />
           </List>
         </Grow>
       </Container>
