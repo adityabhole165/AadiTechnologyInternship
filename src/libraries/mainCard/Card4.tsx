@@ -19,10 +19,10 @@ function Card4({ header, text1, text2, text3 }) {
         <Grid xs={pageName == 'Timetable' ? 6 : 2}>
           <Typography className={classes.ListFont1}>{text3}</Typography>
         </Grid>
-        <Grid xs={8}>
+        <Grid xs={6}>
           <Typography className={classes.ListFont5}>{text1}</Typography>
         </Grid>
-        <Grid xs={4}>
+        <Grid xs={6}>
           <Typography className={classes.ListFont2}>{text2}</Typography>
         </Grid>
       </Grid>
