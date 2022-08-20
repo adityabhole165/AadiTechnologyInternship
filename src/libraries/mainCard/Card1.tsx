@@ -74,7 +74,6 @@ function Card1({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <List
-            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2 }
             sx={{
               background: background,
               mx: margin,
