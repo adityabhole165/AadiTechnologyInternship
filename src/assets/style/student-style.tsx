@@ -327,10 +327,11 @@ export const Styles = makeStyles({
   },
 
   attchmentIcon: {
-    marginTop: '-20px',
+    marginTop: '1rem',
     transform: 'rotateZ(-36deg)',
     marginRight: '-20px',
-    float: 'right'
+    float: 'right',
+    position:"absolute"
   },
 
   ListFont5: {
@@ -351,5 +352,6 @@ export const Styles = makeStyles({
     
     fontSize: '12px !important',
     color: 'black',
+   
   }
 });

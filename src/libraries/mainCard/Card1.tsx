@@ -53,13 +53,10 @@ function Card1({
   const classes = Styles();
   if (Color === undefined || Color === '')
     background =
-      isSelected === 1 || RealatedSection === "2" ? `${'#e9a69a'}` : `${theme.colors.gradients.pink1}`;
+      isSelected === 1 || RealatedSection === '2'
+        ? `${'#e9a69a'}`
+        : `${theme.colors.gradients.pink1}`;
   else background = Color;
-//   if (Color === undefined || Color === '')
-//   background =
-//     isSelected === 1 ? `${'#e9a69a'}` : `${theme.colors.gradients.pink1}`;
-// else background = Color;
-  
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -97,16 +94,20 @@ function Card1({
             ) : null}
 
             {FileName === '' || FileName === undefined ? null : (
-              <Box className={classes.attchmentIcon}>
+              <Box
+                sx={{
+                  position: 'absolute',
+                  right: 1,
+                  mt: '-18px',
+                  transform: 'rotateZ(-36deg)',
+                  mr: '-0.8rem',
+                  textAlign: 'center'
+                }}
+              >
                 <AttachmentIcon />
               </Box>
             )}
-             <Card4 header={header}
-          text1={text1}
-          text2={text2}
-          text3={text3}
-         />
-         
+            <Card4 header={header} text1={text1} text2={text2} text3={text3} />
           </List>
         </Grow>
       </Container>
