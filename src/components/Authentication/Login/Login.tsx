@@ -38,6 +38,7 @@ function SelectSchool() {
 
     };
     const [show, setShow] = useState(true);
+    const [LoginButtonDisabled,setLoginButtonDisabled] = useState("auto");
 
     const changeschool = () => {
         setShow(true);
@@ -78,11 +79,6 @@ function SelectSchool() {
     const navigate = useNavigate();
     const values = { username: "", password: "", showPassword: false };
     const [formValues, setFormValues] = useState(values);
-    const [formError, setFormError] = useState<any>({});
-    const [isSubmit, setIsSubmit] = useState(false);
-    // const [responseErr, setresponseErr] = useState('')
-
-
 
     const handleClickShowPassword = () => {
         setFormValues({
@@ -95,8 +91,6 @@ function SelectSchool() {
         event.preventDefault();
     };
 
-
-
     const formik = useFormik({
         initialValues: {
             userName: '',
@@ -104,7 +98,8 @@ function SelectSchool() {
         },
 
         onSubmit: values => {
-            loginform()
+            loginform();
+            setLoginButtonDisabled("none");
         },
 
         validate: values => {
@@ -201,7 +196,6 @@ function SelectSchool() {
         }
     }
 
-
     const loginform = async () => {
         const body: IAuthenticateUser = {
             asUserName: formik.values.userName,
@@ -211,11 +205,14 @@ function SelectSchool() {
 
         const response: any = await LoginApi.AuthenticateUser(body)
         if (response.data != null) {
-            localStorage.setItem("auth", JSON.stringify(response))
-            setSession(response)
+            localStorage.setItem("auth", JSON.stringify(response));
+            setSession(response);
         }
         else {
             toast.error("Invalid Username or Password");
+            setTimeout(() => {
+                setLoginButtonDisabled("auto");
+            }, 3500);
         }
     };
     // End Login form
@@ -234,7 +231,6 @@ function SelectSchool() {
             }
         }
     }, []);
-
 
 
     return (
@@ -373,7 +369,7 @@ function SelectSchool() {
                                     }
 
                                     <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
-                                        <Button variant="contained" color="success" sx={{ ml: "auto" }} type="submit" onChange={formik.handleChange}>
+                                        <Button variant="contained" color="success" sx={{ ml: "auto",pointerEvents:LoginButtonDisabled}} type="submit" onChange={formik.handleChange}  > 
                                             Login
                                         </Button>
                                         <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>

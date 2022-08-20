@@ -92,6 +92,7 @@ function Form13() {
   const SchoolName = localStorage.getItem('SchoolName');
 
   const [fileExtension, setfileExtension] = React.useState<any>('');
+  const [disabledStateOfSend,setdisabledStateOfSend] = useState(false);
 
   const handleClick = () => {
     setOpen((prev) => !prev);
@@ -228,12 +229,13 @@ function Form13() {
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
+          setdisabledStateOfSend(true);
           toast.success('Message sent successfully');
-          setTimeout(RediretToSentPage, 1000);
+          setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
-        toast.error('Message not sent successfully');
+        toast.error('Message does not sent successfully');
       });
   };
 
@@ -241,11 +243,12 @@ function Form13() {
     initialValues: {
       To: '',
       Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
-      Content: PageName == 'Forwa' ? BODY : '',
+      Content: '',
       Attachment: ''
     },
     onSubmit: (values) => {
       sendMessage();
+      setdisabledStateOfSend(true)
     },
     validate: (values) => {
       const errors: any = {};
@@ -482,7 +485,8 @@ function Form13() {
                   fullWidth
                   size="large"
                   variant="contained"
-                  onChange={formik.handleChange}
+                  onClick={formik.handleChange}
+                  disabled={disabledStateOfSend}
                 >
                   {'Send'}
                 </Button>

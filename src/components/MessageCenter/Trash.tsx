@@ -133,8 +133,8 @@ function Trash() {
             }
 
             {
-                (trashList === null) ?
-                    <ErrorMessages Error={'No Record Found'} />
+                (trashList === null || trashList.length == 0) ?
+                <ErrorMessages Error={'No message found'} />
                     :
                     <>
                         {

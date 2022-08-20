@@ -11,12 +11,15 @@ import {
 function ErrorMessages({Error}) {
 
   const classes = Styles();
+  console.log("errorrr",window.location.pathname);
+  
 
   return (
     <>
-        <Container>
-            <Typography className={classes.errorMessage3}>{Error}</Typography>
-        </Container>
+        
+          { window.location.pathname == "/extended-sidebar/Student/Progressreport" ? <Typography className={classes.errorMessage4}>"{Error}"</Typography> : <Typography className={classes.errorMessage3}>{Error}</Typography>}
+            
+        
     </>
   )
 }

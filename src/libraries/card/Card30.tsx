@@ -1,8 +1,6 @@
-import { useState } from 'react'
-import { Container, Card, Typography, Grid } from '@mui/material';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import Card31 from './Card31';
+import { useState } from 'react';
+import { Container, Card } from '@mui/material';
+
 import Card32 from './Card32';
 import List23 from '../list/List23';
 import { Styles } from 'src/assets/style/student-style';

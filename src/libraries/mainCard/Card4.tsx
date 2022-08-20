@@ -12,27 +12,18 @@ function Card4({ header, text1, text2, text3 }) {
   return (
     <>
       <Grid container>
-        <Grid xs={pageName == 'Timetable' ? 6 :  10 } >
-          <Typography sx={{ fontWeight: 'bold' }} className={classes.Listfont2}>
-            {header}
-          </Typography>
+        <Grid xs={pageName == 'Timetable' ? 6 : 10}>
+          <Typography className={classes.Listfont2}>{header}</Typography>
         </Grid>
 
-        <Grid xs={pageName == 'Timetable' ? 6 : 2 }>
-          <Typography className={classes.Listfont2} sx={{ float: 'right' }}>
-            {text3}
-          </Typography>
+        <Grid xs={pageName == 'Timetable' ? 6 : 2}>
+          <Typography className={classes.ListFont1}>{text3}</Typography>
         </Grid>
-        <Grid xs={8}>
-          <Typography className={classes.Listfont2}>{text1}</Typography>
+        <Grid xs={6}>
+          <Typography className={classes.ListFont5}>{text1}</Typography>
         </Grid>
-        <Grid xs={4}>
-          <Typography
-            className={classes.Listfont2}
-            sx={{ float: 'right', ml: '-20px' }}
-          >
-            {text2}
-          </Typography>
+        <Grid xs={6}>
+          <Typography className={classes.ListFont2}>{text2}</Typography>
         </Grid>
       </Grid>
     </>

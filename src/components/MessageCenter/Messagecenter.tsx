@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
 import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import {Box,Card} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import InboxIcon from '@mui/icons-material/Inbox';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SendIcon from '@mui/icons-material/Send';
-import { BrowserRouter, Link } from 'react-router-dom';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Search from 'src/components/MessageCenter/Search';
-import { useTheme } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
-import Slide from '@mui/material/Slide';
-import { TransitionProps } from '@mui/material/transitions';
 import { Outlet } from 'react-router-dom';
 
 const Item = styled(Card)(({ theme }) => ({
@@ -30,32 +25,13 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.secondary
 }));
 
-const Transition = React.forwardRef(function Transition(
-  props: TransitionProps & {
-    children: React.ReactElement<any, any>;
-  },
-  ref: React.Ref<unknown>
-) {
-  return <Slide direction="down" ref={ref} {...props} />;
-});
-
 function MessaageCenter() {
-  const [open, setOpen] = React.useState(false);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const theme = useTheme();
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
   }, []);
 
   const classes = Styles();
-  const [state, setState] = React.useState(false);
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
@@ -64,12 +40,17 @@ function MessaageCenter() {
   );
 
   const SearchData = (e) => {
-    setShow(!e.Apply);
+    // setShow(!e.Apply);
   }
   const [show, setShow] = useState(false);
   const handleClick = (e) => {
     setShow(!show);
   };
+
+  //  Close icon
+  const closeIconClicked = (e) =>{
+    setShow(!e)
+  }
 
   return (
     <>
@@ -194,7 +175,7 @@ function MessaageCenter() {
             </Grid>
           </Box>
         )}
-        {show && <Search  searchData={SearchData}/>}
+        {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
       </Container>
       <Box
         display="block"
