@@ -20,8 +20,6 @@ const Card32 = ({ Id, Name, expand }) => {
   };
 
   const classes = Styles();
-
-  console.log(theme.colors.gradients.pink1);
   return (
     <Grid
       container
