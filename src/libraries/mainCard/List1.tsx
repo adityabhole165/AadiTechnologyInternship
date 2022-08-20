@@ -58,12 +58,12 @@ function List1({ items }) {
           key={items.id}
         />
           : (
-            <Link style={{ color:"#e9a69a",textDecoration:"none" }}
+             <Link style={{ color:"#424242",textDecoration:"none" }}
                   to={
                     `/${
-                      location.pathname.split('/')[1]
-                    }` + items.linkPath
-                  }
+                     location.pathname.split('/')[1]
+                  }` + items.linkPath
+                 }
                 >
             <Card1
               header={items.header}
