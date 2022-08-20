@@ -78,7 +78,7 @@ function LoginSchoolNotice() {
                         :
                         LoginSchoolNoticeList.map(
                             (items: GetSchoolNoticesResult, i) =>
-                                <Link style={{ textDecoration: "none" }} key={i}
+                                <Link style={{ color:"#424242",textDecoration: "none" }} key={i}
                                     to={
                                         "/LoginViewSchoolNotice/" + items.Id
                                     }>
