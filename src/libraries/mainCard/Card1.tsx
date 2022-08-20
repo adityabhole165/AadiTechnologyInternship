@@ -53,8 +53,13 @@ function Card1({
   const classes = Styles();
   if (Color === undefined || Color === '')
     background =
-      isSelected === 1 ? `${'#e9a69a'}` : `${theme.colors.gradients.pink1}`;
+      isSelected === 1 || RealatedSection === "2" ? `${'#e9a69a'}` : `${theme.colors.gradients.pink1}`;
   else background = Color;
+//   if (Color === undefined || Color === '')
+//   background =
+//     isSelected === 1 ? `${'#e9a69a'}` : `${theme.colors.gradients.pink1}`;
+// else background = Color;
+  
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -69,9 +74,7 @@ function Card1({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <List
-            className={
-              RealatedSection == '2' ? classes.colorpta1 : classes.colorpta2
-            }
+            className={RealatedSection == "2" ? classes.colorpta1 : classes.colorpta2 }
             sx={{
               background: background,
               mx: margin,
@@ -99,7 +102,12 @@ function Card1({
                 <AttachmentIcon />
               </Box>
             )}
-            <Card4 header={header} text1={text1} text2={text2} text3={text3} />
+             <Card4 header={header}
+          text1={text1}
+          text2={text2}
+          text3={text3}
+         />
+         
           </List>
         </Grow>
       </Container>

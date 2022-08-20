@@ -24,10 +24,9 @@ import SentMessageApi from 'src/api/Student/SentMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
-import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
 import { Styles } from 'src/assets/style/student-style';
 import CloseIcon from '@mui/icons-material/Close';
-import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+// import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 Form2.propTypes = {
   YearsList: PropTypes.array,
@@ -181,7 +180,7 @@ function Form2({ YearsList, allMonthList, searchFunction }) {
               type="submit"
               sx={{ mr: '5px', mt: '-12px', float: 'right' }}
             >
-              <ArrowCircleRightRoundedIcon sx={{fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/>
+              {/* <ArrowCircleRightRoundedIcon sx={{fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/> */}
                   {/* <Button color='error' variant="contained" sx={{borderRadius:'5px',mt:-2}}>
            Apply
           </Button> */}
