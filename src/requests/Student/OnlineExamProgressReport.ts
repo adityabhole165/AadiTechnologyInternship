@@ -110,7 +110,7 @@ export const getHeader =
             Child: child(item.Id)
           };
         })
-      dispatch(OnlineExamProgressReportSlice.actions.getHeader(header));
+      dispatch(OnlineExamProgressReportSlice.actions.getHeader({Header:header, Students:response.data.Students}));
     };
 
 export default OnlineExamProgressReportSlice.reducer
