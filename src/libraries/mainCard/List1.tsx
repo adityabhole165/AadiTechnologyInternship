@@ -6,7 +6,6 @@ import { Link, useLocation } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function List1({ items }) {
-  console.log("itemslist1",items);
   
   const classes = Styles();
   const maxLength = 1;
