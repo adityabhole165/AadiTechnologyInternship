@@ -29,18 +29,34 @@ function Accordion1({ Parent, Teacher, headingg }) {
   const classes = Styles();
 
   const Data = Teacher.map((item, index) => {
-    return {
-      id: index,
+    return item.RealatedSection ==="2" 
+    ? {
+      id: item.RealatedSection,
+      header: item.TeacherName,
+      text1: item.TeacherDesignation,
+      text2: '',
+      backgroundColor: '#e9a69a',
+      mx: '-33px',
+      RelatedSection:"2",
+      borderRadius:"6px",
+      marginBottom:"8px",
+      boxShadow:"6px 4px 5px grey",
+
+    }
+    :{
+      id: item.RealatedSection,
       header: item.TeacherName,
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: '#c8dccb',
       mx: '-33px',
-      RealatedSection:item.RealatedSection,
+      RelatedSection:"0",
       borderRadius:"6px",
       marginBottom:"8px",
-      boxShadow:"6px 4px 5px grey"
-    };
+      boxShadow:"6px 4px 5px grey",
+
+    }
+
   });
   const Data1 = Parent.map((item, index) => {
     return {

@@ -6,6 +6,8 @@ import { Link, useLocation } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function List1({ items }) {
+  console.log("itemslist1",items);
+  
   const classes = Styles();
   const maxLength = 1;
   let text1Length = Math.max(...items.map((o) => o.text1.length));
@@ -57,7 +59,7 @@ function List1({ items }) {
           key={items.id}
         />
           : (
-            <Link style={{ color:"#80daeb",textDecoration:"none" }}
+            <Link style={{ color:"#e9a69a",textDecoration:"none" }}
                   to={
                     `/${
                       location.pathname.split('/')[1]
