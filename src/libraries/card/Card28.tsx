@@ -21,16 +21,16 @@ function Card28({ Student }) {
     <Container>
       <Card sx={{ p: 1, mb: '10px' }} className={classes.ListStyle1}>
         <Grid container>
-          <Grid xs={12}>
+          <Grid item xs={12}>
             <Typography><b>Name:</b> {UserName}</Typography>
           </Grid>
-          <Grid xs={3}>
+          <Grid item xs={3}>
             <Typography sx={{ pt: '5px' }}><b> Roll no:</b> {RollNo}</Typography>
           </Grid>
-          <Grid xs={3}>
+          <Grid item xs={3}>
             <Typography sx={{ pl: 1, pt: 0.5 }}><b>Class:</b> {Class}</Typography>
           </Grid>
-          <Grid xs={6}>
+          <Grid item xs={6}>
             <Typography sx={{ pl: 3, pt: 0.5 }}><b> Year:</b> {AcademicYear}</Typography>
           </Grid>
         </Grid>
