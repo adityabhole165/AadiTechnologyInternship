@@ -20,7 +20,7 @@ const Albums = Loader(lazy(() => import('src/components/PhotoGallery/Albums')))
 const Photos = Loader(lazy(() => import('src/components/PhotoGallery/photos')))
 const Videoview = Loader(lazy(() => import('src/components/Common/VideoGallery/videoview')))
 const VideoGallery = Loader(lazy(() => import('src/components/Common/VideoGallery/Video')))
-const Pta = Loader(lazy(() => import('src/components/Common/PTA/PTA')))
+const Pta = Loader(lazy(() => import('src/components/PTA/PTA')))
 const EventOverview = Loader(lazy(() => import('src/components/AnnualPlanner/EventOverview')));
 const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEvent')));
 const StaffBirthday = Loader(lazy(() => import('src/components/Common/StaffBirthday/StaffBirthday')));
