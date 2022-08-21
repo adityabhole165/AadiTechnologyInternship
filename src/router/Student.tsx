@@ -28,7 +28,7 @@ const Progressreport = Loader(lazy(() => import('src/components/Student/Progress
 const Library = Loader(lazy(() => import('src/components/Library/Library')));
 const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
  const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
-const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Student/Online Exam Progress Report/OnlineExamProgressReport')))
+const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Online Exam Progress Report/OnlineExamProgressReport')))
 const ViewClaim = Loader(lazy(() => import('src/components/Library/Claim')))
 const OnlineExam = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExam')))
 const OnlineExamDetails = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExamDetails')))
