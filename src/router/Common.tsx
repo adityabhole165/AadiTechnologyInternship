@@ -15,11 +15,11 @@ const Schoolnotice = Loader(lazy(() => import('src/components/SchoolNotice/Schoo
 const ViewSchoolNotice = Loader(lazy(() => import('src/components/SchoolNotice/Viewschoolnotice')));
 const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')))
 const SiblingLogin = Loader(lazy(() => import('src/components/SiblingLogin/SiblingLogin')))
-const Comments = Loader(lazy(() => import('src/components/Common/VideoGallery/Comments')))
+const Comments = Loader(lazy(() => import('src/components/VideoGallery/Comments')))
 const Albums = Loader(lazy(() => import('src/components/PhotoGallery/Albums')))
 const Photos = Loader(lazy(() => import('src/components/PhotoGallery/photos')))
-const Videoview = Loader(lazy(() => import('src/components/Common/VideoGallery/videoview')))
-const VideoGallery = Loader(lazy(() => import('src/components/Common/VideoGallery/Video')))
+const Videoview = Loader(lazy(() => import('src/components/VideoGallery/videoview')))
+const VideoGallery = Loader(lazy(() => import('src/components/VideoGallery/Video')))
 const Pta = Loader(lazy(() => import('src/components/PTA/PTA')))
 const EventOverview = Loader(lazy(() => import('src/components/AnnualPlanner/EventOverview')));
 const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEvent')));
