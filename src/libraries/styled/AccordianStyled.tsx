@@ -13,6 +13,8 @@ export const Header1 = styled(Typography)(
   ({ theme }) => `
   padding-top: 2px;
   padding-left: 10px;
+  font-size:16px;
+  font-weight:bold
   `
 );
 
@@ -24,16 +26,24 @@ export const Header2 = styled(Typography)(
 );
 
 export const CardDetail1= styled(Typography)`
-  // margin-top:5px;
+  margin-top:8px;
   margin-left:5px;
-  display:flex;
+  margin-bottom:4px;
+  
+
 `
 export const CardDetail2= styled(Typography)`
- float:right;
- margin-right:8px;
- display:flex;
+margin-top:8px;
+margin-bottom:4px;
+float: right;
+margin-right:10px;
+
 `
 export const CardDetail= styled(Grid)`
  border-top:0.1px 
  solid gray;
+ display:flex;
+ justify-content:space-between;
+
+ 
 `
