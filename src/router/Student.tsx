@@ -18,10 +18,10 @@ const ViewSms = Loader(lazy(() => import('src/components/Student/SMSCenter/ViewS
 const Timetable = Loader(lazy(() => import('src/components/Student/TimeTable/Timetable')));
 const SentMessage = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const Viewsent = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
-const Homework = Loader(lazy(() => import('src/components/Student/Homework/Homework')));
+const Homework = Loader(lazy(() => import('src/components/Homework/Homework')));
 const Fees = Loader(lazy(() => import('src/components/Fees/Fees')));
 const ExamSchedule =  Loader(lazy(() => import('src/components/Examschedule/ExamSchedule')));
-const ViewHomework = Loader(lazy(() => import('src/components/Student/Homework/ViewHomework')));
+const ViewHomework = Loader(lazy(() => import('src/components/Homework/ViewHomework')));
 const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
 const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
