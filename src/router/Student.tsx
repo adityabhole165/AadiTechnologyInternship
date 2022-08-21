@@ -22,7 +22,7 @@ const Homework = Loader(lazy(() => import('src/components/Student/Homework/Homew
 const Fees = Loader(lazy(() => import('src/components/Student/Fees/Fees')));
 const ExamSchedule =  Loader(lazy(() => import('src/components/Student/Examschedule/ExamSchedule')));
 const ViewHomework = Loader(lazy(() => import('src/components/Student/Homework/ViewHomework')));
-const Attendance = Loader(lazy(() => import('src/components/Student/Attendance/Attendance')));
+const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
 const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
 const Library = Loader(lazy(() => import('src/components/Student/Library/Library')));
