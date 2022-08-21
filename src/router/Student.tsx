@@ -19,15 +19,15 @@ const Timetable = Loader(lazy(() => import('src/components/Student/TimeTable/Tim
 const SentMessage = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const Viewsent = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Homework = Loader(lazy(() => import('src/components/Student/Homework/Homework')));
-const Fees = Loader(lazy(() => import('src/components/Student/Fees/Fees')));
+const Fees = Loader(lazy(() => import('src/components/Fees/Fees')));
 const ExamSchedule =  Loader(lazy(() => import('src/components/Examschedule/ExamSchedule')));
 const ViewHomework = Loader(lazy(() => import('src/components/Student/Homework/ViewHomework')));
 const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
 const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
 const Library = Loader(lazy(() => import('src/components/Student/Library/Library')));
-const Fees_cautionmoney = Loader(lazy(() => import('src/components/Student/Fees/Fees_cautionmoney')));
- const PayOnline = Loader(lazy(()=>import('src/components/Student/Fees/PayOnline')))
+const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
+ const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
 const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Student/Online Exam Progress Report/OnlineExamProgressReport')))
 const ViewClaim = Loader(lazy(() => import('src/components/Student/Library/Claim')))
 const OnlineExam = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExam')))
