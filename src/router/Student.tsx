@@ -25,11 +25,11 @@ const ViewHomework = Loader(lazy(() => import('src/components/Homework/ViewHomew
 const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
 const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
-const Library = Loader(lazy(() => import('src/components/Student/Library/Library')));
+const Library = Loader(lazy(() => import('src/components/Library/Library')));
 const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
  const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
 const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Student/Online Exam Progress Report/OnlineExamProgressReport')))
-const ViewClaim = Loader(lazy(() => import('src/components/Student/Library/Claim')))
+const ViewClaim = Loader(lazy(() => import('src/components/Library/Claim')))
 const OnlineExam = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExam')))
 const OnlineExamDetails = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExamDetails')))
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
