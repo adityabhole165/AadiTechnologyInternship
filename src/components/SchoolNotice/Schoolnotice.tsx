@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getSchoolNotice } from 'src/requests/Common/Schoolnotice';
-import ISchoolnotice from '../../../interfaces/Common/SchoolNotice';
+import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import List1 from 'src/libraries/mainCard/List1';
 
 function Schoolnotice() {
