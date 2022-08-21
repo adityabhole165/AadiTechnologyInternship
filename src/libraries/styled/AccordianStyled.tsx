@@ -6,6 +6,8 @@ export const AccordianHeader = styled(Grid)(
   padding: 8px;
     cursor: pointer;
       background: ${theme.colors.gradients.pink1};
+      display:flex;
+ justify-content:space-between;
   `
 );
 
