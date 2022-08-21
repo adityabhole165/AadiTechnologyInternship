@@ -20,7 +20,7 @@ const SentMessage = Loader(lazy(() => import('src/components/MessageCenter/Sent'
 const Viewsent = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Homework = Loader(lazy(() => import('src/components/Student/Homework/Homework')));
 const Fees = Loader(lazy(() => import('src/components/Student/Fees/Fees')));
-const ExamSchedule =  Loader(lazy(() => import('src/components/Student/Examschedule/ExamSchedule')));
+const ExamSchedule =  Loader(lazy(() => import('src/components/Examschedule/ExamSchedule')));
 const ViewHomework = Loader(lazy(() => import('src/components/Student/Homework/ViewHomework')));
 const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
