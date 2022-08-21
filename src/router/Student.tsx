@@ -24,7 +24,7 @@ const ExamSchedule =  Loader(lazy(() => import('src/components/Examschedule/Exam
 const ViewHomework = Loader(lazy(() => import('src/components/Homework/ViewHomework')));
 const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
-const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
+const Progressreport = Loader(lazy(() => import('src/components/ProgressReport/Progressreport')));
 const Library = Loader(lazy(() => import('src/components/Library/Library')));
 const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
  const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
