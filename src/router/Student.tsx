@@ -12,7 +12,7 @@ const Loader = (Component) => (props) =>
 );
 
 // Dashboards
-const SubjectTeacher = Loader(lazy(() => import('src/components/Student/SubjectTeacher/SubjectTeacher')))
+const SubjectTeacher = Loader(lazy(() => import('src/components/SubjectTeacher/SubjectTeacher')))
 const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
 const ViewSms = Loader(lazy(() => import('src/components/Student/SMSCenter/ViewSms')))
 const Timetable = Loader(lazy(() => import('src/components/TimeTable/Timetable')));
