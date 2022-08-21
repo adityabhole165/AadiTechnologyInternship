@@ -32,7 +32,7 @@ const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Student/
 const ViewClaim = Loader(lazy(() => import('src/components/Student/Library/Claim')))
 const OnlineExam = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExam')))
 const OnlineExamDetails = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExamDetails')))
-const Layout = Loader(lazy(() => import('src/components/Student/layout/layout')))
+const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Student/Profile/Profile')))
 
 
