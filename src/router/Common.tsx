@@ -11,10 +11,10 @@ const Loader = (Component) => (props) =>
 );
 
 const Holidays = Loader(lazy(() => import('src/components/Holidays/Holidays')));
-const Schoolnotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Schoolnotice')));
-const ViewSchoolNotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Viewschoolnotice')));
+const Schoolnotice = Loader(lazy(() => import('src/components/SchoolNotice/Schoolnotice')));
+const ViewSchoolNotice = Loader(lazy(() => import('src/components/SchoolNotice/Viewschoolnotice')));
 const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')))
-const SiblingLogin = Loader(lazy(() => import('src/components/Common/SiblingLogin/SiblingLogin')))
+const SiblingLogin = Loader(lazy(() => import('src/components/SiblingLogin/SiblingLogin')))
 const Comments = Loader(lazy(() => import('src/components/Common/VideoGallery/Comments')))
 const Albums = Loader(lazy(() => import('src/components/PhotoGallery/Albums')))
 const Photos = Loader(lazy(() => import('src/components/PhotoGallery/photos')))
