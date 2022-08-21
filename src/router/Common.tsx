@@ -10,7 +10,7 @@ const Loader = (Component) => (props) =>
     </Suspense>
 );
 
-const Holidays = Loader(lazy(() => import('src/components/Common/Holidays/Holidays')));
+const Holidays = Loader(lazy(() => import('src/components/Holidays/Holidays')));
 const Schoolnotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Schoolnotice')));
 const ViewSchoolNotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Viewschoolnotice')));
 const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')))
