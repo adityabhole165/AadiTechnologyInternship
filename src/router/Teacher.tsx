@@ -11,7 +11,7 @@ const Loader = (Component) => (props) =>
 );
 
 const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
-const TExamschedule = Loader(lazy(() => import('src/components/Teacher/TExamschedule/TExamSchedule')))
+const TExamschedule = Loader(lazy(() => import('src/components/TExamschedule/TExamSchedule')))
 const TView = Loader(lazy(() => import('src/components/TAttendance/TView')))
 const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetable/TeacherTimetable')));
 const MissingAttandence = Loader(lazy(() => import('src/components/TAttendance/MissingAttandence')))
