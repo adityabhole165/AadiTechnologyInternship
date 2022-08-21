@@ -15,7 +15,7 @@ const Loader = (Component) => (props) =>
 const SubjectTeacher = Loader(lazy(() => import('src/components/Student/SubjectTeacher/SubjectTeacher')))
 const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
 const ViewSms = Loader(lazy(() => import('src/components/Student/SMSCenter/ViewSms')))
-const Timetable = Loader(lazy(() => import('src/components/Student/TimeTable/Timetable')));
+const Timetable = Loader(lazy(() => import('src/components/TimeTable/Timetable')));
 const SentMessage = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const Viewsent = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Homework = Loader(lazy(() => import('src/components/Homework/Homework')));
