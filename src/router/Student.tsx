@@ -33,7 +33,7 @@ const ViewClaim = Loader(lazy(() => import('src/components/Library/Claim')))
 const OnlineExam = Loader(lazy(() => import('src/components/OnlineExam/OnlineExam')))
 const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/OnlineExamDetails')))
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
-const Profile = Loader(lazy(() => import('src/components/Student/Profile/Profile')))
+const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 
 
 
