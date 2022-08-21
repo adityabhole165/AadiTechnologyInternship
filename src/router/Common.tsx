@@ -13,7 +13,7 @@ const Loader = (Component) => (props) =>
 const Holidays = Loader(lazy(() => import('src/components/Common/Holidays/Holidays')));
 const Schoolnotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Schoolnotice')));
 const ViewSchoolNotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Viewschoolnotice')));
-const ChangePassword = Loader(lazy(() => import('src/components/Common/ChangePassword/changePassword')))
+const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')))
 const SiblingLogin = Loader(lazy(() => import('src/components/Common/SiblingLogin/SiblingLogin')))
 const Comments = Loader(lazy(() => import('src/components/Common/VideoGallery/Comments')))
 const Albums = Loader(lazy(() => import('src/components/Common/PhotoGallery/Albums')))
