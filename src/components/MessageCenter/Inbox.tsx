@@ -45,11 +45,12 @@ function Inbox() {
 
   const handleChange = (event) => {
     setChecked(true);
-    const { value, name } = event.target;
+    const { value, name, checked } = event;
+    // const { value, name } = event.target;
 
     const { DetailInfo, recieverInfo } = Id;
 
-    if (event.target.checked) {
+    if (checked) {
 
       setId({
         DetailInfo: [...DetailInfo, value],

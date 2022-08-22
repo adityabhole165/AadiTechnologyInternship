@@ -48,7 +48,7 @@ function Trash() {
 
     const handleChange = (event) => {
         setChecked(true);
-        const { value, name } = event.target;
+        const { value, name, checked } = event;
 
         var recieverName = ""
         if (name == "0") {
@@ -60,7 +60,7 @@ function Trash() {
         }
         const { DetailInfo, recieverInfo } = Id;
 
-        if (event.target.checked) {
+        if (checked) {
 
             setId({
                 DetailInfo: [...DetailInfo, value],
