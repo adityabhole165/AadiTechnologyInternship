@@ -5,7 +5,7 @@ import Accordion1 from 'src/libraries/accordion/accordion1';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled, useTheme } from '@mui/material';
-import IPta from '../../../interfaces/Common/PTA';
+import IPta from '../../interfaces/Common/PTA';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Styles } from 'src/assets/style/student-style';
 

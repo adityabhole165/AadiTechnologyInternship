@@ -10,20 +10,20 @@ const Loader = (Component) => (props) =>
     </Suspense>
 );
 
-const Holidays = Loader(lazy(() => import('src/components/Common/Holidays/Holidays')));
-const Schoolnotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Schoolnotice')));
-const ViewSchoolNotice = Loader(lazy(() => import('src/components/Common/SchoolNotice/Viewschoolnotice')));
-const ChangePassword = Loader(lazy(() => import('src/components/Common/ChangePassword/changePassword')))
-const SiblingLogin = Loader(lazy(() => import('src/components/Common/SiblingLogin/SiblingLogin')))
-const Comments = Loader(lazy(() => import('src/components/Common/VideoGallery/Comments')))
-const Albums = Loader(lazy(() => import('src/components/Common/PhotoGallery/Albums')))
-const Photos = Loader(lazy(() => import('src/components/Common/PhotoGallery/photos')))
-const Videoview = Loader(lazy(() => import('src/components/Common/VideoGallery/videoview')))
-const VideoGallery = Loader(lazy(() => import('src/components/Common/VideoGallery/Video')))
-const Pta = Loader(lazy(() => import('src/components/Common/PTA/PTA')))
-const EventOverview = Loader(lazy(() => import('src/components/Common/AnnualPlanner/EventOverview')));
-const ViewEvent = Loader(lazy(() => import('src/components/Common/AnnualPlanner/ViewEvent')));
-const StaffBirthday = Loader(lazy(() => import('src/components/Common/StaffBirthday/StaffBirthday')));
+const Holidays = Loader(lazy(() => import('src/components/Holidays/Holidays')));
+const Schoolnotice = Loader(lazy(() => import('src/components/SchoolNotice/Schoolnotice')));
+const ViewSchoolNotice = Loader(lazy(() => import('src/components/SchoolNotice/Viewschoolnotice')));
+const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')))
+const SiblingLogin = Loader(lazy(() => import('src/components/SiblingLogin/SiblingLogin')))
+const Comments = Loader(lazy(() => import('src/components/VideoGallery/Comments')))
+const Albums = Loader(lazy(() => import('src/components/PhotoGallery/Albums')))
+const Photos = Loader(lazy(() => import('src/components/PhotoGallery/photos')))
+const Videoview = Loader(lazy(() => import('src/components/VideoGallery/videoview')))
+const VideoGallery = Loader(lazy(() => import('src/components/VideoGallery/Video')))
+const Pta = Loader(lazy(() => import('src/components/PTA/PTA')))
+const EventOverview = Loader(lazy(() => import('src/components/AnnualPlanner/EventOverview')));
+const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEvent')));
+const StaffBirthday = Loader(lazy(() => import('src/components/StaffBirthday/StaffBirthday')));
 
 const commonRoutes = [
     {
