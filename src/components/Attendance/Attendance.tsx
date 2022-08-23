@@ -11,7 +11,7 @@ import { GetStudentAttendaceForMonthResult } from 'src/interfaces/Student/Attend
 import http from 'src/requests/SchoolService/schoolServices';
 import { useState } from 'react';
 import Card1 from 'src/libraries/mainCard/Card1';
-import { Calender1 } from 'src/components/Student/Attendance/Calender';
+import { Calender1 } from 'src/components/Attendance/Calender';
 
 function Attendance() {
   const dispatch = useDispatch();

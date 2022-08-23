@@ -12,28 +12,28 @@ const Loader = (Component) => (props) =>
 );
 
 // Dashboards
-const SubjectTeacher = Loader(lazy(() => import('src/components/Student/SubjectTeacher/SubjectTeacher')))
+const SubjectTeacher = Loader(lazy(() => import('src/components/SubjectTeacher/SubjectTeacher')))
 const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
 const ViewSms = Loader(lazy(() => import('src/components/Student/SMSCenter/ViewSms')))
-const Timetable = Loader(lazy(() => import('src/components/Student/TimeTable/Timetable')));
+const Timetable = Loader(lazy(() => import('src/components/TimeTable/Timetable')));
 const SentMessage = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const Viewsent = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
-const Homework = Loader(lazy(() => import('src/components/Student/Homework/Homework')));
-const Fees = Loader(lazy(() => import('src/components/Student/Fees/Fees')));
-const ExamSchedule =  Loader(lazy(() => import('src/components/Student/Examschedule/ExamSchedule')));
-const ViewHomework = Loader(lazy(() => import('src/components/Student/Homework/ViewHomework')));
-const Attendance = Loader(lazy(() => import('src/components/Student/Attendance/Attendance')));
+const Homework = Loader(lazy(() => import('src/components/Homework/Homework')));
+const Fees = Loader(lazy(() => import('src/components/Fees/Fees')));
+const ExamSchedule =  Loader(lazy(() => import('src/components/Examschedule/ExamSchedule')));
+const ViewHomework = Loader(lazy(() => import('src/components/Homework/ViewHomework')));
+const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendance')));
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
-const Progressreport = Loader(lazy(() => import('src/components/Student/ProgressReport/Progressreport')));
-const Library = Loader(lazy(() => import('src/components/Student/Library/Library')));
-const Fees_cautionmoney = Loader(lazy(() => import('src/components/Student/Fees/Fees_cautionmoney')));
- const PayOnline = Loader(lazy(()=>import('src/components/Student/Fees/PayOnline')))
-const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Student/Online Exam Progress Report/OnlineExamProgressReport')))
-const ViewClaim = Loader(lazy(() => import('src/components/Student/Library/Claim')))
-const OnlineExam = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExam')))
-const OnlineExamDetails = Loader(lazy(() => import('src/components/Student/OnlineExam/OnlineExamDetails')))
-const Layout = Loader(lazy(() => import('src/components/Student/layout/layout')))
-const Profile = Loader(lazy(() => import('src/components/Student/Profile/Profile')))
+const Progressreport = Loader(lazy(() => import('src/components/ProgressReport/Progressreport')));
+const Library = Loader(lazy(() => import('src/components/Library/Library')));
+const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
+ const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
+const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Online Exam Progress Report/OnlineExamProgressReport')))
+const ViewClaim = Loader(lazy(() => import('src/components/Library/Claim')))
+const OnlineExam = Loader(lazy(() => import('src/components/OnlineExam/OnlineExam')))
+const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/OnlineExamDetails')))
+const Layout = Loader(lazy(() => import('src/components/layout/layout')))
+const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 
 
 

@@ -169,7 +169,7 @@ else if(values.ConfirmPassword != values.NewPassword){
          
          <Card sx={{ boxShadow: "6px 4px 5px !important",borderRadius:"10px",mb:"10px",backgroundColor: '#d0dbd2'}}>
           <Typography sx={{ml:"10px",mt:"5px",mb:"5px"}}>
-          <b>Note :</b> "Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character."
+          <b>Note :</b> Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.
           </Typography>
          </Card>
          

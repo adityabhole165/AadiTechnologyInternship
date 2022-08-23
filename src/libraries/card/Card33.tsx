@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
-const Card33 = ({ name, checked, onClick }) => {
+const Card33 = ({ name, checked, value, onChange }) => {
     useEffect(() => {
         
     }, [])
     const clickFunc = () => {
-        onClick({ name: name, checked: !checked })
+        onChange({ name: name, value : value, checked: !checked })
     }
     return (<>
         {

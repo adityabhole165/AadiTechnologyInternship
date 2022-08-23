@@ -28,7 +28,7 @@ import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-
+import Card33 from '../card/Card33';
 const Checked = styled('span')(
   ({ theme }) => `
       Color : white;
@@ -50,7 +50,8 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
   const [checked, setChecked] = useState(false);
 
   const checkedbox = (event) => {
-    setChecked(event.target.checked);
+    setChecked(event.checked);
+    // setChecked(event.target.checked);
     handleChange(event);
   };
 
@@ -76,27 +77,35 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
           <Box>
             <Grid container>
               <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
-                <Checkbox
+                {/* <Checkbox
                   checked={checked}
                   onChange={(event) => checkedbox(event)}
                   inputProps={{ 'aria-label': 'controlled' }}
                   value={data.DetailsId}
                   name={data.ReceiverDetailsId}
+                /> */}
+                
+                <Card33 
+                  checked={checked}
+                  onChange={(event) => checkedbox(event)}
+                  // inputProps={{ 'aria-label': 'controlled' }}
+                  value={data.DetailsId}
+                  name={data.ReceiverDetailsId}
                 />
+
               </Grid>
 
               <Grid item xs={10}>
                 <RouterLink
                   key={data.Id}
                   to={
-                    `/${
-                      location.pathname.split('/')[1]
+                    `/${location.pathname.split('/')[1]
                     }/MessageCenter/viewMSg/` + data.DetailsId + FromRoute
                   }
                   color="primary"
                   style={{ textDecoration: 'none' }}
                 >
-                  <Grid xs={12}>
+                  <Grid item xs={12}>
                     <Typography
                       className={classes.Listfont1}
                       sx={{
@@ -109,7 +118,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
                     </Typography>
                   </Grid>
                   <Grid container xs={12}>
-                    <Grid xs={6}>
+                    <Grid item xs={6}>
                       <Typography
                         sx={{
                           whiteSpace: 'nowrap',
@@ -135,7 +144,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
                 </RouterLink>
               </Grid>
               <Grid container>
-                <Grid xs={9}></Grid>
+                <Grid item xs={9}></Grid>
               </Grid>
             </Grid>
           </Box>

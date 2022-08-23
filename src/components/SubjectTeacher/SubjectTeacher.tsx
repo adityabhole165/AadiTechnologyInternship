@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import ISubjectTeacher, {
   GetSubjectTeacherResult
-} from '../../../interfaces/Student/SubjectTeacher';
+} from '../../interfaces/Student/SubjectTeacher';
 import { Typography, useTheme, Container } from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
