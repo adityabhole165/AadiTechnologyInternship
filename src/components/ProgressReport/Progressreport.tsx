@@ -154,7 +154,7 @@ function Progressreport() {
           <Container>
             <Card sx={{ boxShadow: "6px 4px 5px !important", borderRadius: "10px", mb: "10px", backgroundColor: '#d0dbd2' }}>
               <Typography sx={{ ml: "10px", mt: "5px", mb: "5px",fontSize:"9pt" }}>
-               <b>"No exam for this class has been conducted for the current academic year."</b> 
+               <b>    No exam for this class has been conducted for the current academic year.</b> 
               </Typography>
             </Card>
             </Container>
@@ -195,7 +195,7 @@ function Progressreport() {
 
                         </Box>
                         <Container>
-                          <Box sx={{ borderRadius: 1, borderBottom: 5, mb: 2 }}>
+                          <Box >
                             <FormControl
                               sx={{
                                 marginTop: '50px',
@@ -243,8 +243,8 @@ function Progressreport() {
                                 </NativeSelect>
                               }
                             </FormControl>
-                            <Box sx={{ margin: '3' }}>
-                              <FileDownloadOutlinedIcon />
+                            <Box >
+                              <Typography>Download Progress report</Typography>
                             </Box>
                           </Box>
                         </Container>
