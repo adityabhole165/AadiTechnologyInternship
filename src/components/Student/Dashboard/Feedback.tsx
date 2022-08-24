@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IFeedbackList } from 'src/interfaces/Student/dashboard';
-import { getFeedback } from 'src/requests/Student/Dashboard';
+import { getFeedback } from 'src/requests/Dashboard/Dashboard';
 
 function Feedback() {
   const dispatch = useDispatch();

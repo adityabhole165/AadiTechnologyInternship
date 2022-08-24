@@ -88,7 +88,7 @@ console.log(ddd);
 
   const handleChange = (event) => {
     setChecked(true);
-    const { value } = event.target;
+    const { value,checked } = event;
 
     const { DetailInfo } = Id;
 

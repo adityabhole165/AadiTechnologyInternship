@@ -2,7 +2,7 @@ import { useParams } from "react-router";
 import IViewschoolnotice from '../../../interfaces/Student/LoginViewSchoolNotice'
 import { useDispatch } from "react-redux";
 import React, { useState, useEffect } from "react";
-import { getLoginViewSchoolNotice } from 'src/requests/Student/LoginSchoolNotice'
+import { getLoginViewSchoolNotice } from 'src/requests/LoginSchoolNotice/LoginSchoolNotice'
 import { useSelector } from "react-redux";
 import { RootState } from "src/store";
 import { GetSchoolNoticesResult } from '../../../interfaces/Student/LoginSchoolNotice'

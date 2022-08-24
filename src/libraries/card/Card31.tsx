@@ -1,21 +1,19 @@
 import React from 'react';
-import {  Typography, Grid } from '@mui/material';
+import { Typography, Grid } from '@mui/material';
+import {
+  CardDetail,
+  CardDetail1,
+  CardDetail2
+} from '../styled/AccordianStyled';
 
 function Card31({ Name, Value }) {
   return (
     <div>
-      <Grid container sx={{borderTop:"0.1px solid #eeeeee"}}>
-        <Grid item xs={10}>
-          <Typography sx={{ my: 0.5, mx: 1 }}>
-            {Name}
-          </Typography>
-        </Grid>
-        <Grid item xs={2}>
-          <Typography sx={{ mt: 0.5, float: 'right', mr: 1.3 }}>
-            {Value}
-          </Typography>
-        </Grid>
-      </Grid>
+      <CardDetail>
+        <CardDetail1>{Name}</CardDetail1>
+
+        <CardDetail2>{Value}</CardDetail2>
+      </CardDetail>
     </div>
   );
 }

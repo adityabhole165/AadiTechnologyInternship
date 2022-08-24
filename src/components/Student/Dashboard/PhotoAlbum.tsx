@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getPhotoAlbum } from 'src/requests/Student/Dashboard';
-import { getYearList } from 'src/requests/Common/PhotoGallery';
+import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
+import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { IPhotoAlbum } from 'src/interfaces/Student/dashboard';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 

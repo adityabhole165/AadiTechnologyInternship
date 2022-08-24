@@ -2,7 +2,7 @@ import React from 'react';
 import ISchoolnotice, { GetSchoolNoticesResult } from 'src/interfaces/Student/LoginSchoolNotice';
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { getLoginSchoolNotice } from 'src/requests/Student/LoginSchoolNotice';
+import { getLoginSchoolNotice } from 'src/requests/LoginSchoolNotice/LoginSchoolNotice';
 import { useSelector } from "react-redux";
 import PageHeader from "src/libraries/heading/PageHeader";
 import { RootState } from 'src/store';
