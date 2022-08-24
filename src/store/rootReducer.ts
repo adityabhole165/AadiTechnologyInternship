@@ -24,7 +24,7 @@ import GetExamResultslice from 'src/requests/Student/ProgressReport';
 import OnlineExamProgressReportSlice from 'src/requests/Student/OnlineExamProgressReport';
 import PhotoGallarySlice from 'src/requests/PhotoGallery/PhotoGallery';
 import GallerySlice from 'src/requests/PhotoGallery/PhotoGallery';
-import VideOGallerySlice from 'src/requests/Common/VideoGallery'
+import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery'
 import SelectOnlineExamSlice from 'src/requests/Student/OnlineExam';
 import TMTimetableslice from 'src/requests/Teacher/TMtimetable';
 import TAttendanceSlice from 'src/requests/Teacher/TAttendance';

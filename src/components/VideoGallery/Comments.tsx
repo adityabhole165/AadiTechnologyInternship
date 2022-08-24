@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { getcommentS } from 'src/requests/Common/VideoGallery';
+import { getcommentS } from 'src/requests/VideoGallery/VideoGallery';
 import { Icomments, Getcomments } from 'src/interfaces/Common/VideoGallery';
 import { useParams } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
