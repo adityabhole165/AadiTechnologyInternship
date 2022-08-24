@@ -29,7 +29,7 @@ import SelectOnlineExamSlice from 'src/requests/Student/OnlineExam';
 import TMTimetableslice from 'src/requests/Teacher/TMtimetable';
 import TAttendanceSlice from 'src/requests/TAttendance/TAttendance';
 import MissingAttandenceSlice from 'src/requests/Student/MissingAttandenceSlice';
-import SelectStandardExamslice from  'src/requests/Teacher/TExamschedule';
+import SelectStandardExamslice from  'src/requests/TExamschedule/TExamschedule';
 import AScheduledSMSSlice from 'src/requests/AdminSMSCenter/AScheduledSMS';
 import SentSlice from 'src/requests/AdminSMSCenter/SentSMS';
 import AReceiveSMSSlice from 'src/requests/AdminSMSCenter/AReceiveSMS';

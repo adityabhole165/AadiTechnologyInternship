@@ -7,7 +7,7 @@ import IGetAllStandards, {
 import {
   GetSelectStandardRes,
   GetSelectExamRes
-} from 'src/requests/Teacher/TExamschedule';
+} from 'src/requests/TExamschedule/TExamschedule';
 import { GetExamsListResult } from 'src/interfaces/Teacher/TExamSchedule';
 import { GetStandardListResult } from 'src/interfaces/Teacher/TExamSchedule';
 import { GetExamListResult } from 'src/interfaces/Teacher/TExamSchedule';
