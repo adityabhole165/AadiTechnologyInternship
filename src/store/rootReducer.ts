@@ -9,7 +9,7 @@ import Schoolnoticeslice  from "../requests/Common/Schoolnotice";
 import SmsCenterSlice from "../requests/Student/SMSCenter";
 import SubjectTeacherSlice from "../requests/Student/SubjectTeacher";
 import SentMessageSlice from "../requests/Student/Sentmessage";
-import AnnualPlannerSlice from "../requests/Common/AnnualPlanner";
+import AnnualPlannerSlice from "../requests/AnnualPlanner/AnnualPlanner";
 import HomeworkSlice from "../requests/Student/Homework";
 import SelectExamslice from 'src/requests/Student/Examschedule';
 import LoginSchoolNoticeSlice from 'src/requests/Student/LoginSchoolNotice'
