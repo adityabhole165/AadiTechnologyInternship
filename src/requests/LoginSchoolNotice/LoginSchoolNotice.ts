@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import LoginSchoolNoticeApi from "../../api/Student/LoginSchoolNotice"
+import LoginSchoolNoticeApi from "../../api/LoginSchoolNotice/LoginSchoolNotice"
 import ISchoolnotice from 'src/interfaces/Student/LoginSchoolNotice';
 import { AppThunk } from 'src/store';
 import IViewschoolnotice from 'src/interfaces/Student/LoginViewSchoolNotice'

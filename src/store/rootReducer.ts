@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import Holidaysslice from "../requests/Holiday/Holiday";
 import staffBirthdayslice from "../requests/StaffBirthday/StaffBirthday";
-import Feesslice from "../requests/Student/Fees";
+import Feesslice from "../requests/Fees/Fees";
 import PtaSlice from "../requests/PTA/PTA";
 import SchoolListslice from "src/requests/Authentication/SchoolList";
 import Timetableslice from "../requests/Student/Timetable";
@@ -12,7 +12,7 @@ import SentMessageSlice from "../requests/Student/Sentmessage";
 import AnnualPlannerSlice from "../requests/AnnualPlanner/AnnualPlanner";
 import HomeworkSlice from "../requests/Homework/Homework";
 import SelectExamslice from 'src/requests/Examschedule/Examschedule';
-import LoginSchoolNoticeSlice from 'src/requests/Student/LoginSchoolNotice'
+import LoginSchoolNoticeSlice from 'src/requests/LoginSchoolNotice/LoginSchoolNotice'
 import MessageCenterSlice from 'src/requests/MessageCenter/MessaageCenter';
 import InboxMessageSlice from 'src/requests/Student/InboxMessage';
 import UpcomingEventSlice from 'src/requests/Dashboard/Dashboard'

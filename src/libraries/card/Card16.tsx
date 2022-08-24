@@ -11,7 +11,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetFeeDetailsResult } from 'src/interfaces/Student/Fees';
 import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
-import { getFees } from 'src/requests/Student/Fees';
+import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 
 Card16.propTypes = {
