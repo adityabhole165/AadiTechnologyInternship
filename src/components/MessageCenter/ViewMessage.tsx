@@ -49,6 +49,7 @@ function ViewSms({}) {
     GetViewEventResult();
   }, []);
 
+
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -64,6 +65,7 @@ function ViewSms({}) {
           Text={viewSent.Subject}
           Attachments={viewSent.Attachments}
           ID={UserId}
+          ViewSentObject={viewSent}
         />
       )}
     </>

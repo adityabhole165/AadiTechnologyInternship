@@ -22,6 +22,7 @@ export const getInboxList =
   (data:IgetList): AppThunk =>
   async (dispatch) => {
     const response = await InboxMessageApi.GetInboxList(data);
+    console.log("called GetInbox -- ")
     dispatch(InboxMessageSlice.actions.getInboxList(response.data));
   };
 

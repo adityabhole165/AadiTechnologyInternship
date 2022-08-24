@@ -56,7 +56,9 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
 
-  const { From, Text, Attachments, BODY } = useParams();
+  const { From, Text, Attachments, BODY ,FromUserID } = useParams();
+  console.log(Attachments)
+
 
   const classes = Styles();
   const classes1 = useStyles();
@@ -67,6 +69,7 @@ function Form13() {
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
+  console.log(finalBase64)
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -220,7 +223,7 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: Id.toString(),
+      asSelectedUserIds: `${PageName === 'Reply' ? FromUserID.toString() : Id.toString()}` ,
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase64,
       asFileName: fileName
@@ -270,6 +273,7 @@ function Form13() {
     '/RITeSchool/Uploads/' +
     Attachments;
 
+    // console.log(Id.toString());
   return (
     <>
       <Container>
@@ -290,8 +294,9 @@ function Form13() {
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <Autocomplete
-                value={Too || From}
-                onChange={(events, newValue) => setValue(newValue)} //
+                value={Too}
+                
+                onChange={(events, newValue) => setValue(newValue)} //  
                 classes={{
                   option: classes1.option
                 }}

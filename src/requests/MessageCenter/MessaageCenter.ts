@@ -16,7 +16,7 @@ const MessageCenterSlice = createSlice({
     AdminStaffList:[],
     YearsList:[],
     AllMonthList:[],
-
+    PageIndex:0
   },
   reducers: {
     getTrashList (state,action){
@@ -33,6 +33,9 @@ const MessageCenterSlice = createSlice({
     },
     getAllMonthList (state,action){
       state.AllMonthList=action.payload.GetAllMonthDetailsResult;
+    },
+    sePageIndex (state,action){
+      state.PageIndex=action.payload;
     }
   }   
 });
@@ -70,5 +73,9 @@ export const getTrashList =
     const response = await MessageCenterApi.GetUsegroupList(data);
     dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
   };
+  
+  // export const getPageINdex = () => {
+  //   dispatch(MessageCenterSlice.actions.sePageIndex(1))
+  // }
 
 export default MessageCenterSlice.reducer

@@ -11,6 +11,7 @@ function PayOnline() {
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
+  console.log(paymentPageLink)
 
   const body: IPayOnline = {
     asSchoolId: '120',
