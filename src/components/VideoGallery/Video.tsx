@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideoss } from 'src/requests/Common/VideoGallery';
+import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
 import { RootState } from 'src/store';
 import {
   GetVideoGalleryResult,
