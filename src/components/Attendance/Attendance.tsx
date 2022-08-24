@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { RootState } from 'src/store';
 import { useEffect } from 'react';
-import { getAttendanceList } from 'src/requests/Student/Attendance';
+import { getAttendanceList } from 'src/requests/Attendance/Attendance';
 import DotLegend from 'src/libraries/summary/summary';
 import { Box } from '@mui/material';
 import { GetStudentAttendaceForMonthResult } from 'src/interfaces/Student/Attendance';

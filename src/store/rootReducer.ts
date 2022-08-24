@@ -16,7 +16,7 @@ import LoginSchoolNoticeSlice from 'src/requests/Student/LoginSchoolNotice'
 import MessageCenterSlice from 'src/requests/MessageCenter/MessaageCenter';
 import InboxMessageSlice from 'src/requests/Student/InboxMessage';
 import UpcomingEventSlice from 'src/requests/Student/Dashboard'
-import AttendanceSlice from 'src/requests/Student/Attendance';
+import AttendanceSlice from 'src/requests/Attendance/Attendance';
 import  Dashboardlice from 'src/requests/Student/Dashboard';
 import LibrarySlicee from 'src/requests/Student/Library';
 import GetExamResultslice from 'src/requests/Student/ProgressReport';
