@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import GetTAttendanceListApi from "src/api/Teacher/TAttendance";
+import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance from "src/interfaces/Teacher/TAttendance";
 import AttendanceData, { IGetStudentDetails } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";

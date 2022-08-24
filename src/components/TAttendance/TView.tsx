@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useParams } from 'react-router-dom';
 import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList, getStandardList } from 'src/requests/Teacher/TAttendance';
+import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
 
 const TView = () => {
   const { assignedDate } = useParams();
