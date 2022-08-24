@@ -5,7 +5,7 @@ import Feesslice from "../requests/Student/Fees";
 import PtaSlice from "../requests/PTA/PTA";
 import SchoolListslice from "src/requests/Authentication/SchoolList";
 import Timetableslice from "../requests/Student/Timetable";
-import Schoolnoticeslice  from "../requests/Common/Schoolnotice";
+import Schoolnoticeslice  from "../requests/Schoolnotice/Schoolnotice";
 import SmsCenterSlice from "../requests/Student/SMSCenter";
 import SubjectTeacherSlice from "../requests/Student/SubjectTeacher";
 import SentMessageSlice from "../requests/Student/Sentmessage";
