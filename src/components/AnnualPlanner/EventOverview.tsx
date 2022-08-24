@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEventList } from 'src/requests/Common/AnnualPlanner';
+import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import {
   IEventList,
 } from 'src/interfaces/Common/AnnualPlanner';
