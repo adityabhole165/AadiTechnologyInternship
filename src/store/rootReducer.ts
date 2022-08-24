@@ -1,5 +1,5 @@
 import { combineReducers } from '@reduxjs/toolkit';
-import Holidaysslice from "../requests/Common/Holiday";
+import Holidaysslice from "../requests/Holiday/Holiday";
 import staffBirthdayslice from "../requests/Common/StaffBirthday";
 import Feesslice from "../requests/Student/Fees";
 import PtaSlice from "../requests/Common/PTA";
@@ -22,8 +22,8 @@ import LibrarySlicee from 'src/requests/Student/Library';
 import GetExamResultslice from 'src/requests/Student/ProgressReport';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
 import OnlineExamProgressReportSlice from 'src/requests/Student/OnlineExamProgressReport';
-import PhotoGallarySlice from 'src/requests/Common/PhotoGallery';
-import GallerySlice from 'src/requests/Common/PhotoGallery';
+import PhotoGallarySlice from 'src/requests/PhotoGallery/PhotoGallery';
+import GallerySlice from 'src/requests/PhotoGallery/PhotoGallery';
 import VideOGallerySlice from 'src/requests/Common/VideoGallery'
 import SelectOnlineExamSlice from 'src/requests/Student/OnlineExam';
 import TMTimetableslice from 'src/requests/Teacher/TMtimetable';
