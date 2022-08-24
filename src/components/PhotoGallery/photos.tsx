@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { getimgs } from 'src/requests/Common/PhotoGallery';
+import { getimgs } from 'src/requests/PhotoGallery/PhotoGallery';
 import { Iimg } from 'src/interfaces/Common/PhotoGallery';
 import Card22 from 'src/libraries/card/card22';
 import { useParams } from 'react-router-dom';

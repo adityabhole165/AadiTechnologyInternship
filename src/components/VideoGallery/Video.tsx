@@ -6,7 +6,7 @@ import {
   GetVideoGalleryResult,
   IVideoList
 } from 'src/interfaces/Common/VideoGallery';
-import { getYearList } from 'src/requests/Common/PhotoGallery';
+import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import List10 from 'src/libraries/list/List10';
 import PageHeader from 'src/libraries/heading/PageHeader';
