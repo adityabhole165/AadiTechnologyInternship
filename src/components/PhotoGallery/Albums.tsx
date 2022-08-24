@@ -7,7 +7,7 @@ import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import List12 from 'src/libraries/list/List12';
-import { getPhotoAlbum } from 'src/requests/Student/Dashboard';
+import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import {
   Box,
   Container,
