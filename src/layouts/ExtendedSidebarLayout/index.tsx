@@ -18,7 +18,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
     <>
       <Box
         sx={{
-          backgroundColor: "#f4f3f2",
+          backgroundColor: "#EAF1F5",
           flex: 1,
           height: '100%',
           width: '100%',
