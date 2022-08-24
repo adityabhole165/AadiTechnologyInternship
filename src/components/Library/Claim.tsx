@@ -1,6 +1,6 @@
 import React from 'react';
 import Accordion5 from 'src/libraries/accordion/accordion5';
-import { getClaimlist } from 'src/requests/Student/Library';
+import { getClaimlist } from 'src/requests/Library/Library';
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';

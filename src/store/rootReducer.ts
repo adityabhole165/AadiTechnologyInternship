@@ -18,7 +18,7 @@ import InboxMessageSlice from 'src/requests/Student/InboxMessage';
 import UpcomingEventSlice from 'src/requests/Dashboard/Dashboard'
 import AttendanceSlice from 'src/requests/Attendance/Attendance';
 import  Dashboardlice from 'src/requests/Dashboard/Dashboard';
-import LibrarySlicee from 'src/requests/Student/Library';
+import LibrarySlicee from 'src/requests/Library/Library';
 import GetExamResultslice from 'src/requests/Student/ProgressReport';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
 import OnlineExamProgressReportSlice from 'src/requests/Student/OnlineExamProgressReport';

@@ -1,5 +1,5 @@
 import Accordion4 from 'src/libraries/accordion/accordion4';
-import { getBookDetailslist } from 'src/requests/Student/Library';
+import { getBookDetailslist } from 'src/requests/Library/Library';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
