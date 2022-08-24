@@ -4,7 +4,7 @@ import {
   getWeekday,
   getTimetable,
   getAdditional
-} from 'src/requests/Teacher/TMtimetable';
+} from 'src/requests/TMtimetable/TMtimetable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';

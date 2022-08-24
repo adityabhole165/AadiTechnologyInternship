@@ -1,5 +1,5 @@
 import {createSlice} from '@reduxjs/toolkit'
-import WeekdayApi from "../../api/Teacher/TMtimetable";
+import WeekdayApi from "../../api/TMtimetable/TMtimetable";
 import { AppThunk } from 'src/store';
 import IWdays,{ItimeTable}  from "../../interfaces/Student/Tmtimetable"
 

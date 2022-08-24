@@ -26,7 +26,7 @@ import PhotoGallarySlice from 'src/requests/PhotoGallery/PhotoGallery';
 import GallerySlice from 'src/requests/PhotoGallery/PhotoGallery';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery'
 import SelectOnlineExamSlice from 'src/requests/Student/OnlineExam';
-import TMTimetableslice from 'src/requests/Teacher/TMtimetable';
+import TMTimetableslice from 'src/requests/TMtimetable/TMtimetable';
 import TAttendanceSlice from 'src/requests/TAttendance/TAttendance';
 import MissingAttandenceSlice from 'src/requests/Student/MissingAttandenceSlice';
 import SelectStandardExamslice from  'src/requests/TExamschedule/TExamschedule';
