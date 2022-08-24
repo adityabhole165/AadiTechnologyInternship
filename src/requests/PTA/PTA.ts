@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IPta from 'src/interfaces/Common/PTA';
-import PtaApi from "../../api/Common/PTA";
+import PtaApi from "../../api/PTA/PTA";
 
 const PtaSlice = createSlice({
   name: 'PTA',
