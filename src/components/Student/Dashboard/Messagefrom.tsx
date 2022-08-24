@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IMsgfrom } from 'src/interfaces/Student/dashboard';
-import { getmsgfrom } from 'src/requests/Student/Dashboard';
+import { getmsgfrom } from 'src/requests/Dashboard/Dashboard';
 
 function Messagefrom() {
   const dispatch = useDispatch();
