@@ -11,7 +11,7 @@ import SubjectTeacherSlice from "../requests/Student/SubjectTeacher";
 import SentMessageSlice from "../requests/Student/Sentmessage";
 import AnnualPlannerSlice from "../requests/AnnualPlanner/AnnualPlanner";
 import HomeworkSlice from "../requests/Student/Homework";
-import SelectExamslice from 'src/requests/Student/Examschedule';
+import SelectExamslice from 'src/requests/Examschedule/Examschedule';
 import LoginSchoolNoticeSlice from 'src/requests/Student/LoginSchoolNotice'
 import MessageCenterSlice from 'src/requests/MessageCenter/MessaageCenter';
 import InboxMessageSlice from 'src/requests/Student/InboxMessage';

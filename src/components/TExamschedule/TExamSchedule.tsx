@@ -19,7 +19,7 @@ import NativeSelect from '@mui/material/NativeSelect';
 import List15 from 'src/libraries/list/List15';
 import Icon4 from 'src/libraries/icon/icon4';
 import { IExamList } from 'src/interfaces/Student/ExamSchedule';
-import { ViewExamDataRess } from 'src/requests/Student/Examschedule';
+import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function Texamschedule() {

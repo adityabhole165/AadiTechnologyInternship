@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import GetSelectExamApi from "../../api/Student/ExamsSchedule";
+import GetSelectExamApi from "../../api/ExamsSchedule/ExamsSchedule";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import ISelectExam from 'src/interfaces/Student/ExamSchedule';
