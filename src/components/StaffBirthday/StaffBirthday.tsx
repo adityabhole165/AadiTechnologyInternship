@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getstaffBirthday } from 'src/requests/Common/StaffBirthday';
+import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
