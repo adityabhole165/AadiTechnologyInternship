@@ -17,7 +17,14 @@ const themeColors = {
 
 const colors = {
   gradients: {
-    blue1: 'linear-gradient(135deg, #6B73FF 0%, #000DFF 100%)',
+    primayButton: 'linear-gradient(135deg, red 0%, red 100%)',
+    listColor: '#fdfdfd',
+    selectedlistColor: 'linear-gradient(135deg,  #e3e3e1 100%,  #e3e3e1 100%)',
+    HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
+    pageBackground:'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
+    containerBackground:'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
+    accordianHeadercolor:'linear-gradient(135deg, #f2f6fc 100%, #f2f6fc 100%)',
+    blue1: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue2: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue3: 'linear-gradient(127.55deg, #141E30 3.73%, #243B55 92.26%)',
     blue4: 'linear-gradient(-20deg, #2b5876 0%, #4e4376 100%)',
@@ -138,6 +145,15 @@ export const GreyGooseTheme = createTheme({
   // direction: i18n.dir(),
   colors: {
     gradients: {
+
+   
+      primayButton: colors.gradients.primayButton,
+      listColor: colors.gradients.listColor,
+      selectedlistColor: colors.gradients.selectedlistColor,
+      HighlightedlistColor:colors.gradients.HighlightedlistColor,
+      pageBackground:colors.gradients.  pageBackground,
+      containerBackground:colors.gradients. containerBackground,
+      accordianHeadercolor:colors.gradients.accordianHeadercolor,
       blue1: colors.gradients.blue1,
       blue2: colors.gradients.blue2,
       blue3: colors.gradients.blue3,
