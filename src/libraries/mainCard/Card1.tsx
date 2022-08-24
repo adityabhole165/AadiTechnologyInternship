@@ -64,7 +64,7 @@ function Card1({
 
   return (
     <>
-      <Container>
+      <Container >
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}

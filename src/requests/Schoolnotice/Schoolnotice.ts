@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import ISchoolnotice from 'src/interfaces/Common/SchoolNotice';
-import SchoolNoticeApi from "../../api/Common/SchoolNotice";
+import SchoolNoticeApi from "../../api/SchoolNotice/SchoolNotice";
 import IViewschoolnotice from 'src/interfaces/Student/ViewSchoolNotice'
 
 const Schoolnoticeslice = createSlice({

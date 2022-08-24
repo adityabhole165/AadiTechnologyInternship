@@ -141,11 +141,12 @@ function ForgotPassword() {
                         <p style={{ color: 'red', marginTop: -10 }}>{formik.touched.EmailId && formik.errors.EmailId ? (<div>{formik.errors.EmailId}</div>) : null}</p>
                         <Button
                             sx={{
-                                mt: 0.4
+                                mt: 0.4, width: '75px',
+                                height: '35px !important',
                             }}
                             color="primary"
                             type="submit"
-                            fullWidth
+                           
                             size="large"
                             variant="contained"
                             onChange={formik.handleChange}

@@ -24,13 +24,14 @@ Card7.propTypes = {
   Viewsent: PropTypes.array,
 };
 
-function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
+function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,ViewSentObject}) {
   const theme = useTheme();
   const navigate = useNavigate();
 
   let attachment = Attachments;
   let attachmentObj: any = [];
   let file_path =  'http://riteschool_old.aaditechnology.com'  + '/RITeSchool/Uploads/';
+  console.log(Attachments)
 
   for (const property in attachment) {
     let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
@@ -40,6 +41,8 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
   const classes = Styles();
 
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
+  const FromUserID = ViewSentObject.SenderUserId;
+
   return (
     <>
       <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
@@ -105,7 +108,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent}) {
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/Reply/` + From + "/" + Text + "/" + Attachments + "/" + BODY
+            }/MessageCenter/Compose/Reply/` + From + "/" + Text + "/" + Attachments + "/" + BODY + "/" + FromUserID
           }
         >
           <Box sx={{ marginTop: '0px' }}>

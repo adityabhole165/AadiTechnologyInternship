@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getHolidays } from 'src/requests/Common/Holiday';
+import { getHolidays } from 'src/requests/Holiday/Holiday';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';

@@ -212,7 +212,7 @@ function SelectSchool() {
             toast.error("Invalid Username or Password");
             setTimeout(() => {
                 setLoginButtonDisabled("auto");
-            }, 3500);
+            }, 3000);
         }
     };
     // End Login form

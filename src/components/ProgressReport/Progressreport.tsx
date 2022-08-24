@@ -7,7 +7,7 @@ import {
 } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, Grid, Box, Typography, debounce, Card } from '@mui/material';
+import { styled, Grid, Box, Typography, debounce, Card, List, useTheme } from '@mui/material';
 import IExamResult, {
   GetStudentExamResult, IGetReasonforBlockingProgressReportResult
 } from 'src/interfaces/Student/ProgressReport';
@@ -33,6 +33,7 @@ import Icon1 from 'src/libraries/icon/icon1';
 
 function Progressreport() {
   const dispatch = useDispatch();
+  const theme = useTheme();
   const progressreportResult = useSelector(
     (state: RootState) => state.Progressreport.GetExamResultData
   );
@@ -59,8 +60,6 @@ function Progressreport() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
-  console.log("progressreportResult", progressreportResult);
-  // console.log("pendingfees",pendingfees.IsPendingFeesForStudentResult);
 
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
 
@@ -143,6 +142,7 @@ function Progressreport() {
   //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
   //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
   // });
+  
 
   return (
     <>
@@ -150,123 +150,151 @@ function Progressreport() {
       <PageHeader heading={'Progress Report'} subheading={''} />
       <Box>
         {
+
           (progressreportResult.length === 0) ?
-          <Container>
-            <Card sx={{ boxShadow: "6px 4px 5px !important", borderRadius: "10px", mb: "10px", backgroundColor: '#d0dbd2' }}>
-              <Typography sx={{ ml: "10px", mt: "5px", mb: "5px",fontSize:"9pt" }}>
-               <b>"No exam for this class has been conducted for the current academic year."</b> 
-              </Typography>
-            </Card>
+            <Container>
+              <Card sx={{ boxShadow: "6px 4px 5px !important", borderRadius: "10px", mb: "10px", backgroundColor: '#d0dbd2' }}>
+                <Typography sx={{ ml: "10px", mt: "5px", mb: "5px", fontSize: "9pt" }}>
+                  <b>    No exam for this class has been conducted for the current academic year.</b>
+                </Typography>
+              </Card>
             </Container>
             :
-            <>
+
+            <Box>
               {
+                (pendingfees.IsPendingFeesForStudentResult !== false) ?
 
-                (getreasonbprgrepres.GetReasonforBlockingProgressReport == "" && pendingfees.IsPendingFeesForStudentResult == false) ?
-                  <>
-                    {feependingres ? null : (
-                      <>
-                        <Container  >
-
-                          <Grid container justifyContent="center" rowSpacing={1} >
-                            <Grid xs={6} ></Grid>
-                            <Grid xs={6} >
-                              <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
-                            </Grid>
-                          </Grid>
-
-                        </Container>
-                        <Box>
-
-                          <>
-                            {progressreportResult?.map(
-                              (examresult: GetStudentExamResult, i) => (
-                                <Accordions3
-                                  Data={progressreportResult}
-                                  Exam={examresult.Exam}
-                                  key={i}
-                                  index={i}
-                                  Collapse={handleChange}
-                                  expand={expanded}
-                                />
-                              )
-                            )}
-                          </>
-
-                        </Box>
-                        <Container>
-                          <Box sx={{ borderRadius: 1, borderBottom: 5, mb: 2 }}>
-                            <FormControl
-                              sx={{
-                                marginTop: '50px',
-                                m: 1,
-                                width: '100%',
-                                marginLeft: '1px'
-                              }}
-                            >
-                              {
-                                <NativeSelect>
-                                  <option value="0">Academic Year</option>
-
-                                  {academicyearResult?.map(
-                                    (getacademicyr: IGetAcademicYears, i) => {
-                                      return (
-                                        <option value={getacademicyr.Id} key={i}>
-                                          {getacademicyr.AcademicYear}
-                                        </option>
-                                      );
-                                    }
-                                  )}
-                                </NativeSelect>
-                              }
-                            </FormControl>
-
-                            <FormControl
-                              sx={{
-                                marginTop: '50px',
-                                m: 1,
-                                width: '100%',
-                                marginLeft: '1px'
-                              }}
-                            >
-                              {
-                                <NativeSelect>
-                                  <option value="0">Exam Type</option>
-
-                                  {academictermsResult?.map((gettermsres: IGetTerms, i) => {
-                                    return (
-                                      <option value={gettermsres.Id} key={i}>
-                                        {gettermsres.TermName}
-                                      </option>
-                                    );
-                                  })}
-                                </NativeSelect>
-                              }
-                            </FormControl>
-                            <Box sx={{ margin: '3' }}>
-                              <FileDownloadOutlinedIcon />
-                            </Box>
-                          </Box>
-                        </Container>
-
-
-                      </>
-                    )}
-                  </>
-
+                  <Container>
+                    <Card sx={{ boxShadow: "6px 4px 5px !important", borderRadius: "10px", mb: "10px", backgroundColor: '#d0dbd2' }}>
+                      <Typography sx={{ ml: "10px", mt: "5px", mb: "5px", fontSize: "9pt" }}>
+                        <b>Your school fees are pending. Please pay the dues to view the progress report.</b>
+                      </Typography>
+                    </Card>
+                  </Container>
                   :
                   <>
-                  <Container>
-                  <Typography className={classes.errorMessage4}> You are prohibited to view the progress report due to the following reason:</Typography>
-                  <ErrorMessages Error={Reason} />
-                  <Typography className={classes.errorMessage4}> Please do the needful to view the progress report.</Typography>
-                  </Container>
-                 
-                  </>
+                    {
 
-               
+                      (getreasonbprgrepres.GetReasonforBlockingProgressReport == "") ?
+                        <>
+                          {feependingres ? null : (
+                            <>
+                              <Container  >
+
+                                <Grid container justifyContent="center" rowSpacing={1} >
+                                  <Grid xs={6} ></Grid>
+                                  <Grid xs={6} >
+                                    <Icon1 Title={undefined} Subtitle={undefined} Note={Note} />
+                                  </Grid>
+                                </Grid>
+
+                              </Container>
+                              <Box>
+
+                                <>
+                                  {progressreportResult?.map(
+                                    (examresult: GetStudentExamResult, i) => (
+                                      <Accordions3
+                                        Data={progressreportResult}
+                                        Exam={examresult.Exam}
+                                        key={i}
+                                        index={i}
+                                        Collapse={handleChange}
+                                        expand={expanded}
+                                      />
+                                    )
+                                  )}
+                                </>
+
+                              </Box>
+                              <Container>
+                                <Box >
+                                  <FormControl
+                                    sx={{
+                                      marginTop: '50px',
+                                      m: 1,
+                                      width: '100%',
+                                      marginLeft: '1px'
+                                    }}
+                                  >
+                                    {
+                                      <NativeSelect>
+                                        <option value="0">Academic Year</option>
+
+                                        {academicyearResult?.map(
+                                          (getacademicyr: IGetAcademicYears, i) => {
+                                            return (
+                                              <option value={getacademicyr.Id} key={i}>
+                                                {getacademicyr.AcademicYear}
+                                              </option>
+                                            );
+                                          }
+                                        )}
+                                      </NativeSelect>
+                                    }
+                                  </FormControl>
+                                  <List>
+                                    {academictermsResult?.map((gettermsres: IGetTerms, i) => {
+                                      return (
+                                        <Card
+                                          sx={{
+                                            background: `${theme.colors.gradients.pink1}`,
+                                            marginTop: '0.3rem'
+                                          }}
+                                          key={i}
+                                        >
+                                          <Grid container direction="row">
+                                            <Grid key={i}
+                                              xs={9}
+                                              sx={{
+                                                borderRight: 1,
+                                                borderRadius: 1,
+                                                border: 'none'
+                                              }} >
+                                              <Typography
+                                                component="div"
+                                                variant="h5"
+                                                sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }} >
+                                                {gettermsres.TermName}
+                                              </Typography>
+                                            </Grid>
+                                            <Grid
+                                              xs={2}
+                                              sx={{
+                                                borderRight: 1,
+                                                borderRadius: 1,
+                                                border: 'none'
+                                              }} >
+                                              <Typography
+                                                component="div"
+                                                variant="h5"
+                                                sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'end' }} >
+                                                <FileDownloadOutlinedIcon />
+                                              </Typography>
+                                            </Grid>
+                                          </Grid>
+                                        </Card>
+                                      );
+                                    })}
+                                  </List>
+                                </Box>
+                              </Container>
+                            </>
+                          )}
+                        </>
+                        :
+                        <>
+                          <Container>
+                            <Typography className={classes.errorMessage4}> You are prohibited to view the progress report due to the following reason:</Typography>
+                            <ErrorMessages Error={Reason} />
+                            <Typography className={classes.errorMessage4}> Please do the needful to view the progress report.</Typography>
+                          </Container>
+                        </>
+                    }
+                  </>
               }
-            </>
+            </Box>
         }
       </Box>
     </>

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IPayOnline } from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { payOnline } from 'src/requests/Student/Fees';
+import { payOnline } from 'src/requests/Fees/Fees';
 import Card26 from 'src/libraries/card/card26';
 
 function PayOnline() {
@@ -11,6 +11,7 @@ function PayOnline() {
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
+  console.log(paymentPageLink)
 
   const body: IPayOnline = {
     asSchoolId: '120',

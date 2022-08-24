@@ -52,9 +52,19 @@ function MessaageCenter() {
     setShow(!e)
   }
 
+  const scrolling = () => {
+    console.log("hello");
+  }
+
+  document.onscroll = function(){
+    console.log("hello")
+  }
+
   return (
     <>
-      <Container>
+
+
+      <Container >
         <PageHeader heading={'Message Center'} subheading={''} />
         {!show && (
           <Box sx={{ width: 'auto', marginBottom: '10px'}}>
@@ -177,12 +187,13 @@ function MessaageCenter() {
         )}
         {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
       </Container>
-      <Box
-        display="block"
-        sx={{ position: 'absolute', width: '100%', paddingBottom: '80px' }}
+      <div
+        // display="block"
+        // onScroll={scrolling}
+        style={{ position: 'absolute', width: '100%', paddingBottom: '100px',height:'570px' ,overflow:'auto'}}
       >
         <Outlet />
-      </Box>
+      </div>
     </>
   );
 }

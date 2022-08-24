@@ -49,7 +49,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               sx={{
                 borderRadius: 1,
                 mb: 1,
-
+                
               }}
             >
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
@@ -61,7 +61,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                     <Card
                       sx={{
                         background: `${theme.colors.gradients.pink1}`,
-                        marginTop: '0.3rem'
+                        marginTop: '0.3rem',
                       }}
                       key={i}
                     >

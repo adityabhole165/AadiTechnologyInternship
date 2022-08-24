@@ -1,7 +1,7 @@
 import Card10 from 'src/libraries/card/card10';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getEventsList } from 'src/requests/Student/Dashboard';
+import { getEventsList } from 'src/requests/Dashboard/Dashboard';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IUpcomingEventsList } from 'src/interfaces/Student/dashboard';

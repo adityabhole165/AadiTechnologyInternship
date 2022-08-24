@@ -10,7 +10,7 @@ import {
 import {
   getHomework,
   getHomeworkSubject
-} from 'src/requests/Student/Homework';
+} from 'src/requests/Homework/Homework';
 import { RootState } from 'src/store';
 import Accordion2 from 'src/libraries/accordion/accordion2';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';

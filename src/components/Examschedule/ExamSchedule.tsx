@@ -2,7 +2,7 @@ import { useDispatch } from 'react-redux';
 import {
   GetSelectExamList,
   ViewExamDataRess
-} from 'src/requests/Student/Examschedule';
+} from 'src/requests/Examschedule/Examschedule';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled, useTheme } from '@mui/material';

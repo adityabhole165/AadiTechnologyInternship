@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getPtaList } from 'src/requests/Common/PTA';
+import { getPtaList } from 'src/requests/PTA/PTA';
 import Accordion1 from 'src/libraries/accordion/accordion1';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';

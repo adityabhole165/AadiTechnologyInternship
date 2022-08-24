@@ -36,7 +36,7 @@ function List1({ items }) {
       ?
       <ErrorMessages Error={'No records found'} />
       :
-      <Grid container>
+      <Grid container >
         {items.map((items, index) => (
           <Grid xs={rowWidth} key={index}>
             

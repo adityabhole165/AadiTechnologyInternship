@@ -3,11 +3,11 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { getYearList } from 'src/requests/Common/PhotoGallery';
+import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import List12 from 'src/libraries/list/List12';
-import { getPhotoAlbum } from 'src/requests/Student/Dashboard';
+import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import {
   Box,
   Container,

@@ -37,7 +37,7 @@ import Buttons from 'src/libraries/buttons/button';
 import { Link as RouterLink } from 'react-router-dom';
 import 'src/assets/style/teacher.css';
 import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
-import { getAttendanceDataList, getStandardList, GetStudentDetailsList } from 'src/requests/Teacher/TAttendance';
+import { getAttendanceDataList, getStandardList, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
 
 function Attendance() {

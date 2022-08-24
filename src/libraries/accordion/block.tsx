@@ -175,7 +175,7 @@ function Block({
           {
             name: 'Marks Scored',
             data: series,
-            color: '#be0032'
+            color: '#0000FF'
           },
           {
             name: 'Outof Marks',

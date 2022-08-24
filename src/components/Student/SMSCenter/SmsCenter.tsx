@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSmsList, getMobileNumber } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
@@ -8,9 +8,15 @@ import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
 
+const PageNumber = 1;
+
 function SmsCenter() {
+  const [state,setstate] = useState([]);
+  const [page,setpage] = useState(PageNumber);
+
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
+  console.log(SmsList)
   const MobileNumber = useSelector(
     (state: RootState) => state.SmsCenter.MobileNumber
   );
@@ -41,7 +47,8 @@ function SmsCenter() {
     localStorage.setItem("url",window.location.pathname)
     dispatch(getSmsList(SmsList_body));
     dispatch(getMobileNumber(MobileNumber_body));
-  }, []);
+      
+  }, [page]);
 
   const Data = SmsList.map((item, index) => {
     return {
@@ -53,10 +60,31 @@ function SmsCenter() {
     };
   });
 
+  const scrollToEnd = () => {
+    setpage(page + 1);
+  }
+
+  // console.log(window.innerHeight + document.documentElement.scrollTop);
+  // console.log(document.documentElement.offsetHeight);
+  // console.log((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight))
+  // if(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight){
+  //   // scrollToEnd();
+  //   console.log("hello")
+  // }
+
+
+  // window.onscroll = function (){
+  //   console.log(window.innerHeight + document.documentElement.scrollTop);
+  //   console.log(document.documentElement.offsetHeight);
+  //   if(window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight){
+  //     scrollToEnd();
+  //   }
+  // }
+
   return (
     <>
       <PageHeader heading={'Recieved SMS'} subheading={''} />
-      <Container>
+      <Container >
 
       <Icon1 Title={Mobilenumber} Subtitle={MobileNumber} Note={Note} />
       </Container>
