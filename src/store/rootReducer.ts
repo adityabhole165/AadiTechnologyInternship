@@ -1,7 +1,7 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import Holidaysslice from "../requests/Holiday/Holiday";
 import staffBirthdayslice from "../requests/StaffBirthday/StaffBirthday";
-import Feesslice from "../requests/Student/Fees";
+import Feesslice from "../requests/Fees/Fees";
 import PtaSlice from "../requests/PTA/PTA";
 import SchoolListslice from "src/requests/Authentication/SchoolList";
 import Timetableslice from "../requests/Student/Timetable";
