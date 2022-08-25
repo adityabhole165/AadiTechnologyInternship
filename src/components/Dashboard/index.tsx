@@ -33,7 +33,7 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import DashboardData from './Dashboard';
 import Card2 from 'src/libraries/mainCard/Card2';
@@ -126,7 +126,11 @@ function LandingPage() {
   return (
     <>
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
-
+      <IconButton>
+      <NavLink  to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`} activeStyle={{ color: '#9e9e9e' }}>
+      <EventNoteIcon/>
+      </NavLink>
+    </IconButton>
       {(RoleId != "6") &&
         (<Card2 items={items2} heading={header2} rowsCol="4" />)
       }

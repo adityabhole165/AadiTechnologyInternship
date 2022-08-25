@@ -13,6 +13,13 @@ declare module '@mui/material/styles' {
   interface Theme {
     colors: {
       gradients: {
+        primayButton: string;
+        listColor: string,
+        selectedlistColor: string,
+        HighlightedlistColor:string,
+        pageBackground:string,
+        containerBackground:string,
+        accordianHeadercolor:string,
         blue1: string;
         blue2: string;
         blue3: string;
@@ -135,6 +142,13 @@ declare module '@mui/material/styles' {
   interface ThemeOptions {
     colors: {
       gradients: {
+        primayButton: string;
+        listColor: string,
+        selectedlistColor: string,
+        HighlightedlistColor:string,
+        pageBackground:string,
+        containerBackground:string,
+        accordianHeadercolor:string,
         blue1: string;
         blue2: string;
         blue3: string;
