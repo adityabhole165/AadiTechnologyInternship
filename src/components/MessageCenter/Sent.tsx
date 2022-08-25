@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useDispatch } from 'react-redux';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { useSelector } from 'react-redux';
@@ -16,7 +16,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import InfiniteScroll from "react-infinite-scroll-component";
 import SentMessageApi from 'src/api/Student/SentMessage';
 
 const PageNumber = 1;
@@ -25,30 +24,33 @@ function SentMessage() {
   const [page, setpage] = useState(PageNumber);
 
   const theme = useTheme();
-  const [state, setstate] = useState<any>();
-  const [ddd,setddd] = useState<any>([]);
-//   if(state !== undefined){
-//     console.log(state.GetScheduledSMSResult);
-//     ddd.push([...state.GetScheduledSMSResult]);
-//   }
-//   console.log(ddd)
-if(state !== undefined){
-    ddd.concat(state.GetScheduledSMSResult);
-}
-console.log(ddd);
 
   const dispatch = useDispatch();
   const GetSentMessagesList = useSelector(
     (state: RootState) => state.Sent__Message.SentList
   );
-//   console.log(GetSentMessagesList)
-//   console.log(state)
-//   if(state != undefined){
-//     console.log(state.GetScheduledSMSResult);
-//     GetSentMessagesList.concat(state.GetScheduledSMSResult)
-//   }
 
-//   setddd(GetSentMessagesList)
+  const [mainData, setmainData] = useState<any>();
+  const [ManipulatedData, setManipulatedData] = useState<any>([]);
+
+  if (ManipulatedData != undefined && GetSentMessagesList != undefined) {
+    console.log(ManipulatedData[0] == GetSentMessagesList[0]);
+    if (ManipulatedData[0] !== GetSentMessagesList[0]) {
+      GetSentMessagesList.forEach((element) => {
+        if (element != undefined) {
+          ManipulatedData.push(element);
+        }
+      });
+    }
+    // else{
+    //   // console.log(GetSentMessagesList.length)
+    //   if(mainData != undefined){
+    //     if(mainData.GetScheduledSMSResult != undefined){
+    //       ManipulatedData.concat(mainData.GetScheduledSMSResult)
+    //     }
+    //   }
+    // }
+  }
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -62,20 +64,13 @@ console.log(ddd);
     asSchoolId: asSchoolId,
     abIsSMSCenter: '0',
     asFilter: '',
-    asPageIndex: page,
+    asPageIndex: 1,
     asMonthId: '0'
   };
 
-  useEffect(() => {
+  useMemo(() => {
     dispatch(getSentList(getList));
-    SentMessageApi.GetSentMessageList(getList)
-    .then((data) => {
-        setstate(data.data)
-      })
-      .catch((err) => {
-        alert('error network');
-      });
-  }, [page]);
+  }, []);
 
   const [checked, setChecked] = useState(true);
   const [Id, setId] = useState({ DetailInfo: [] });
@@ -88,7 +83,7 @@ console.log(ddd);
 
   const handleChange = (event) => {
     setChecked(true);
-    const { value,checked } = event;
+    const { value, checked } = event;
 
     const { DetailInfo } = Id;
 
@@ -137,40 +132,45 @@ console.log(ddd);
     });
   };
 
-  const scrollToEnd = () => {
-    setpage(page + 1);
-  };
 
-  const iii = document.getElementById('mainDiv');
+  const DivElement = document.getElementById('mainDiv');
 
   const scrolling = () => {
-    if(iii.offsetHeight > iii.scrollTop){
-        scrollToEnd();
-        SentMessageApi.GetSentMessageList(getList)
-    .then((data) => {
-        setstate(data.data)
-      })
-      .catch((err) => {
-        alert('error network');
-      });
-        // GetSentMessagesList.concat(dispatch(getSentList(getList)))
+    // console.log(DivElement.scrollTop)
+    // console.log(DivElement.scrollTop);
+    // console.log(DivElement.scrollHeight - DivElement.scrollTop)
+    // if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
+    //   console.log('call for api');
+    // }
+    // console.log(window.scrollY)
+    // if(DivElement.scrollTop > window.innerHeight){
+      const scrollToEnd = () => {
+        setpage(page + 1);
+      };
+
+    if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
+      scrollToEnd();
+      const getListUpdated: IgetList = {
+        asUserId: UserId,
+        asAcademicYearId: AcademicYearId,
+        asUserRoleId: RoleId,
+        asSchoolId: asSchoolId,
+        abIsSMSCenter: '0',
+        asFilter: '',
+        asPageIndex: page,
+        asMonthId: '0'
+      };
+      // dispatch(getSentList(getListUpdated));
+      SentMessageApi.GetSentMessageList(getListUpdated)
+        .then((data) => {
+          setmainData(data.data);
+          // console.log(data.data)
+        })
+        .catch((err) => {
+          alert('error network');
+        });
     }
   };
-
-  const fetchMoreData = () => {
-    console.log("fetchMoreData")
-    if(iii.offsetHeight > iii.scrollTop){
-        scrollToEnd();
-        dispatch(getSentList(getList));
-    }
-  }
-
-  window.onscroll = function(ev) {
-    console.log("hello")
-    if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
-        console.log("hello")
-    }
-};
 
   return (
     <>
@@ -206,7 +206,7 @@ console.log(ddd);
       <div
         id="mainDiv"
         // display="block"
-        // onScroll={scrolling}
+        onScroll={scrolling}
         style={{
           position: 'absolute',
           width: '100%',
@@ -215,17 +215,11 @@ console.log(ddd);
           overflow: 'auto'
         }}
       >
-        {GetSentMessagesList === null || GetSentMessagesList.length == 0 ? (
+        {ManipulatedData === null || ManipulatedData.length == 0 ? (
           <ErrorMessages Error={'No message found'} />
         ) : (
           <>
-          {/* <InfiniteScroll
-          dataLength={5}
-          next={fetchMoreData}
-          hasMore={true}
-          loader={<h4>Loading...</h4>}
-        > */}
-            {GetSentMessagesList.map(
+            {ManipulatedData.map(
               (GetSentMessagesListitems: GetSentListResult, i) => (
                 <List3
                   data={GetSentMessagesListitems}
@@ -237,7 +231,6 @@ console.log(ddd);
                 />
               )
             )}
-            {/* </InfiniteScroll> */}
           </>
         )}
       </div>

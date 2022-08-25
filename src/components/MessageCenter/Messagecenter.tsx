@@ -52,13 +52,25 @@ function MessaageCenter() {
     setShow(!e)
   }
 
+  const iii = document.getElementById('mainDiv2');
+  // console.log(iii);
+
+
   const scrolling = () => {
-    console.log("hello");
+  // console.log(window.scrollY)
+
+    // console.log(iii);
+    // console.log(window.innerHeight - document.documentElement.scrollTop);
+    // console.log(document.documentElement.offsetHeight);
+    // console.log(iii.scrollTop )
+    // console.log(iii.offsetHeight)
   }
 
-  document.onscroll = function(){
-    console.log("hello")
-  }
+  // document.onscroll = function(){
+  //   console.log("hello");
+    
+  // }
+
 
   return (
     <>
@@ -187,13 +199,13 @@ function MessaageCenter() {
         )}
         {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
       </Container>
-      <div
-        // display="block"
+      {/* <div
+        id='mainDiv2'
         // onScroll={scrolling}
-        style={{ position: 'absolute', width: '100%', paddingBottom: '100px',height:'570px' ,overflow:'auto'}}
-      >
+        // style={{ position: 'absolute', width: '100%', paddingBottom: '100px',height:'570px' ,overflow:'auto'}}
+      > */}
         <Outlet />
-      </div>
+      {/* </div> */}
     </>
   );
 }

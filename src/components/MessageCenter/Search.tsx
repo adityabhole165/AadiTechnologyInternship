@@ -40,6 +40,7 @@ function Search({ searchData,closeSearchbarBoolean }) {
 
   const SearchFunction = (e) => {
     searchData(e);
+    // console.log(e)
   };
 
   const closeIcon = () => {

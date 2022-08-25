@@ -13,11 +13,10 @@ import {
   Card,
   Typography
 } from '@mui/material';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import ReplyIcon from '@mui/icons-material/Reply';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {
@@ -40,7 +39,6 @@ const useStyles = makeStyles({
     marginBottom: -11,
     marginTop: -11,
     backgroundColor: 'white'
-    // "rgba(229, 232, 255,1)"
   }
 });
 
@@ -56,20 +54,24 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
 
-  const { From, Text, Attachments, BODY ,FromUserID } = useParams();
-  console.log(Attachments)
+  const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
+  const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
 
+  useMemo(() => {
+    if (AttachmentArray != undefined) {
+      const a = AttachmentArray.split(',');
+      setArrayOfAttachment(a);
+    }
+  }, []);
 
   const classes = Styles();
   const classes1 = useStyles();
   const theme = useTheme();
   const navigate = useNavigate();
-
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
-  console.log(finalBase64)
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -95,7 +97,7 @@ function Form13() {
   const SchoolName = localStorage.getItem('SchoolName');
 
   const [fileExtension, setfileExtension] = React.useState<any>('');
-  const [disabledStateOfSend,setdisabledStateOfSend] = useState(false);
+  const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
   const handleClick = () => {
     setOpen((prev) => !prev);
@@ -223,7 +225,9 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: `${PageName === 'Reply' ? FromUserID.toString() : Id.toString()}` ,
+      asSelectedUserIds: `${
+        PageName === 'Reply' ? FromUserID.toString() : Id.toString()
+      }`,
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase64,
       asFileName: fileName
@@ -251,52 +255,40 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
-      setdisabledStateOfSend(true)
+      setdisabledStateOfSend(true);
     },
     validate: (values) => {
       const errors: any = {};
       if (Too.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Subject ) {
+      if (!values.Subject) {
         errors.Subject = 'Subject should not be blank.';
       }
-      if (!values.Content ) {
+      if (!values.Content) {
         errors.Content = 'Message body should not be blank.';
       }
       return errors;
     }
   });
 
-  const file_path =
-    'http://riteschool_old.aaditechnology.com' +
-    '/RITeSchool/Uploads/' +
-    Attachments;
+  const AttachmentFilePath = 'https://192.168.1.80/';
+  
+  // const file_path =
+  //   'http://riteschool_old.aaditechnology.com' + 
+  //   '/RITeSchool/Uploads/' +
+  //   AttachmentArray;
 
-    // console.log(Id.toString());
   return (
     <>
       <Container>
-        {/* <Box onClick={getinbox}>
-          <Fab
-            className={classes.backArrow}
-            sx={{
-              background: `${theme.colors.gradients.pink1}`,
-              position: 'absolute',
-              zIndex: 2
-            }}
-          >
-            <ReplyIcon />
-          </Fab>
-        </Box> */}
-        <BackButton FromRoute={"/MessageCenter/msgCenter"}/>
+        <BackButton FromRoute={'/MessageCenter/msgCenter'} />
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <Autocomplete
                 value={Too}
-                
-                onChange={(events, newValue) => setValue(newValue)} //  
+                onChange={(events, newValue) => setValue(newValue)} //
                 classes={{
                   option: classes1.option
                 }}
@@ -362,7 +354,7 @@ function Form13() {
               sx={{ mt: '-0.3rem' }}
             />
 
-            <p style={{ color: 'red', marginTop: -10,marginBottom:'-10px' }}>
+            <p style={{ color: 'red', marginTop: -10, marginBottom: '-10px' }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
@@ -425,17 +417,23 @@ function Form13() {
                 )
               }}
             />
-            {Attachments == undefined || PageName === 'Reply' ? null : (
+            {ArrayOfAttachment == undefined || PageName === 'Reply' ? null : (
               <>
                 <Typography>Attachment(s):</Typography>
-                <Typography
-                  className={classes.Cardfont1}
-                  onClick={(event: React.MouseEvent<HTMLElement>) => {
-                    window.open(file_path);
-                  }}
-                >
-                  {Attachments}
-                </Typography>
+                {ArrayOfAttachment.map((item) => {
+                  return (
+                    <>
+                      <Typography
+                        className={classes.Cardfont1}
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          window.open(AttachmentFilePath.concat(item));
+                        }}
+                      >
+                        {item}
+                      </Typography>
+                    </>
+                  );
+                })}
               </>
             )}
             {fileerror && (

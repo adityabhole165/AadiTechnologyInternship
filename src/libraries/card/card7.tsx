@@ -11,6 +11,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
 import { array } from 'yup/lib/locale';
+import { useState } from 'react';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -33,10 +34,28 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
   let file_path =  'http://riteschool_old.aaditechnology.com'  + '/RITeSchool/Uploads/';
   console.log(Attachments)
 
+  const [AttachmentArray,setAttachmentArray] = useState<any>([]);
+  const [AttachmentString,setAttachmentString] = useState<any>("");
+
   for (const property in attachment) {
     let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
+    console.log(AttachmentFile.FilePath)
+    AttachmentArray.push(property);
+    console.log(property)
     attachmentObj.push(AttachmentFile);
+    // setAttachmentString(AttachmentArray.toString())
   }
+  // const [AttachmentString,setAttachmentString] = useState<any>("");
+  // attachmentObj.forEach((element)=>{
+  //   if(element != undefined){
+  //     if(element.FilePath != undefined){
+  //       AttachmentArray.push(element.FilePath)
+  //     }
+  //   }
+  // })
+  console.log(AttachmentArray.toString());
+  // console.log(JSON.stringify(AttachmentArray));
+  
 
   const classes = Styles();
 
@@ -108,7 +127,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
           style={{ textDecoration: 'none' }}
           to={
             `/${location.pathname.split('/')[1]
-            }/MessageCenter/Compose/Reply/` + From + "/" + Text + "/" + Attachments + "/" + BODY + "/" + FromUserID
+            }/MessageCenter/Compose/Reply/` + From + "/" + Text + "/" + AttachmentArray + "/" + BODY + "/" + FromUserID
           }
         >
           <Box sx={{ marginTop: '0px' }}>
@@ -127,7 +146,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + '/' + Attachments + '/' + BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + '/' + AttachmentArray + '/' + BODY
           }
         >
           <Box
