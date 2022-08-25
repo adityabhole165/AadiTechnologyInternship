@@ -92,7 +92,6 @@ function Form2({YearsList, allMonthList, searchFunction }) {
   const FormSubmitted = (event) => {
     event.preventDefault();
     searchFunction(Year_Month_Input);  // set search object
-    console.log(Year_Month_Input)
     //  Page conditions
     if (
       pageName === 'Inbox' ||
