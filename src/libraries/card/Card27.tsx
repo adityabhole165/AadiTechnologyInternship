@@ -12,6 +12,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -41,7 +42,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             className={classes.ListStyle1}
           >
             <Typography sx={{ color: 'black' }}>
-              <b>{FeesType}</b>
+              <b>{FeesType}</b> &nbsp;:&nbsp;<CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> <b>{FeesType == 'Paid Fees' ? FeesObject.TotalFeesPaid : FeesObject.FeesTobePaid} </b>
             </Typography>
           </AccordionSummary>
           {FeesType == 'Paid Fees' ? (
@@ -49,7 +50,6 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               sx={{
                 borderRadius: 1,
                 mb: 1,
-                
               }}
             >
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
@@ -67,7 +67,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                     >
                       <Grid container direction="row">
                         <Grid
-                          xs={8}
+                          xs={6}
                           sx={{
                             borderRight: 1,
                             borderRadius: 1,
@@ -82,13 +82,13 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                             {item.OriginalFeeType}
                           </Typography>
                         </Grid>
-                        <Grid xs={2}>
+                        <Grid xs={4}>
                           <Typography
                             component="div"
                             variant="h5"
-                            sx={{ pt: 1, textAlign: 'center' }}
+                            sx={{  textAlign: 'right' }}
                           >
-                            {item.Amount}
+                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>{item.Amount}
                           </Typography>
                         </Grid>
                         <Grid

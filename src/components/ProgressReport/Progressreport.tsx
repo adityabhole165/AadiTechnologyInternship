@@ -162,7 +162,18 @@ function Progressreport() {
 
 
   }, []);
+  //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
+  //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
+  // });
   
+  const [dropyear, setDropyear] = useState();
+  const [showyear, setShowyear] = useState(false);
+
+  const handledropyear = (e) =>{
+    setDropyear(e.target.value)
+    setShowyear(true)
+
+  }
   return (
     <>
 
@@ -238,10 +249,9 @@ function Progressreport() {
                                     }}
                                   >
                                     {
-                                      <NativeSelect>
-                                        <option value="0">Academic Year</option>
-
-                                        {academicyearResult?.map(
+                                      <NativeSelect onChange={handledropyear}>
+                                        <option  value="0"  > Select Academic Year</option>
+                                       {academicyearResult?.map(
                                           (getacademicyr: IGetAcademicYears, i) => {
                                             return (
                                               <option value={getacademicyr.Id} key={i}>
@@ -253,7 +263,12 @@ function Progressreport() {
                                       </NativeSelect>
                                     }
                                   </FormControl>
-                                  <List>
+                                  { (dropyear !== "0") ?
+                                 <>
+                                 {
+                                  showyear ?
+                                
+                                 <List>
                                     {academictermsResult?.map((gettermsres: IGetTerms, i) => {
                                       return (
                                         <Card
@@ -300,6 +315,12 @@ function Progressreport() {
                                       );
                                     })}
                                   </List>
+                                   : null}
+                                 </>
+                                  :
+                                  // <ErrorMessages Error={"No progress report of this class has been published for the selected academic year."} />
+                                  null
+                                       }
                                 </Box>
                               </Container>
                             </>

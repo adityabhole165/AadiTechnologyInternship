@@ -55,6 +55,7 @@ function ViewSms({}) {
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+      
 
       {viewSent === undefined ? null : (
         <Card7
