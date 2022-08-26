@@ -5,11 +5,13 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, collapseClasses, styled } from '@mui/material';
+import { Card, styled } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
 import { useTheme } from '@mui/material';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+
 
 function Fees() {
   const dispatch = useDispatch();
@@ -91,7 +93,7 @@ function Fees() {
           }}
           className={classes.ListStyle1}
         >
-          Applicable Fees : {FeesList2.TotalFee}
+          Applicable Fees : &nbsp;&nbsp;<CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>  {FeesList2.TotalFee}
         </Card>
       </Container>
 

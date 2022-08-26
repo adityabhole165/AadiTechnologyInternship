@@ -20,26 +20,37 @@ import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 import { Styles } from 'src/assets/style/student-style';
-// import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
 Form2.propTypes = {
   YearsList: PropTypes?.array,
   allMonthList: PropTypes.array
 };
 
-function Form2({ allMonthList, searchFunction }) {
+function Form2({YearsList, allMonthList, searchFunction }) {
   const dispatch = useDispatch();
   const classes = Styles();
+
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
   // Search Object 
   const [Year_Month_Input, setYear_Month_Input] = useState({
     Apply: false,
+    Year:'',
     Month: '',
     Input: ''
   });
 
+  const [Year, setYear] = useState(AcademicYearId);
   const [Month, setMonth] = useState('');
   const [Input, setInput] = useState('');
+
+  const YearChangeHandler = (e) => {
+    setYear(e.target.value);
+  };
 
   const MonthChangeHandler = (e) => {
     setMonth(e.target.value);
@@ -52,6 +63,7 @@ function Form2({ allMonthList, searchFunction }) {
   const ApplyClickHandler = () => {
     setYear_Month_Input({
       Apply: true,
+      Year: Year,
       Month: Month,
       Input: Input
     });
@@ -64,14 +76,11 @@ function Form2({ allMonthList, searchFunction }) {
     ''
   );
 
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const UserId = sessionStorage.getItem('Id');
-  const RoleId = sessionStorage.getItem('RoleId');
-  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+
 
   const getList: IgetList = {
     asUserId: UserId,
-    asAcademicYearId: AcademicYearId,
+    asAcademicYearId: Year,
     asUserRoleId: RoleId,
     asSchoolId: asSchoolId,
     abIsSMSCenter: null,
@@ -121,12 +130,12 @@ function Form2({ allMonthList, searchFunction }) {
       className={classes.ListStyle1}
       sx={{
         mb: '10px',
-        height: '61px'
+        height: '120px'
       }}
     >
       <form onSubmit={FormSubmitted}>
-        <Grid container sx={{ mt: '35px' }}>
-          <Grid item xs={5} sx={{ mt: '-30px', mb: '10px' }}>
+      <Grid container sx={{ mt: '35px' }}>
+      <Grid item xs={11} sx={{ mt: '-30px', mb: '10px' }}>
             <TextField
               id="standard-basic"
               label="Name / Subject / Message Body :"
@@ -135,6 +144,35 @@ function Form2({ allMonthList, searchFunction }) {
               onChange={InputFieldChangeHandler}
               sx={{ mx: '10px' }}
             />
+          </Grid>
+      </Grid>
+        <Grid container sx={{ mt: '35px' }}>
+        <Grid xs={5}>
+            <FormControl
+              sx={{ minWidth: '130px', mx: '20px', mt: '-14px' }}
+              variant="outlined"
+            >
+              {
+                <NativeSelect
+                  id="demo-simple-select-label"
+                  onChange={YearChangeHandler}
+                >
+                  {YearsList.map((item, i) => {
+                    return (
+                      <>
+                        <option
+                          key={i}
+                          id="demo-simple-select"
+                          value={item.AcademicYearId}
+                        >
+                          {item.AcademicYearName}
+                        </option>
+                      </>
+                    );
+                  })}
+                </NativeSelect>
+              }
+            </FormControl>
           </Grid>
 
           <Grid xs={5}>
@@ -147,6 +185,13 @@ function Form2({ allMonthList, searchFunction }) {
                   id="demo-simple-select-label"
                   onChange={MonthChangeHandler}
                 >
+                  <option
+                          key={"0"}
+                          id="demo-simple-select"
+                          value={"0"}
+                        >
+                          {"All"}
+                        </option>
                   {allMonthList.map((item: IGetAllMonthlist, i) => {
                     return (
                       <>
@@ -170,7 +215,7 @@ function Form2({ allMonthList, searchFunction }) {
               type="submit"
               sx={{ mr: '5px', mt: '-12px', float: 'right' }}
             >
-              {/* <ArrowCircleRightRoundedIcon sx={{color:'#90caf9',fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/> */}
+              <ArrowCircleRightRoundedIcon sx={{color:'#90caf9',fontSize:"35px",position:'relative',bottom:'6px',right:'-10px'}}/>
             </IconButton>
           </Grid>
         </Grid>
