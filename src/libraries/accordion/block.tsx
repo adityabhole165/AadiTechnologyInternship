@@ -169,6 +169,19 @@ function Block({
               barHeight: '70%',
               borderRadius: 4
             }
+          },
+          tooltip: {
+            x: {
+              show: false
+            },
+            y: {
+              title: {
+                formatter: function () {
+                  return 'Marks Scored :'
+                }
+              },
+            
+            }
           }
         }}
         series={[
