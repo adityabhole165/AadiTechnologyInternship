@@ -272,12 +272,8 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = 'https://192.168.1.80/';
-  
-  // const file_path =
-  //   'http://riteschool_old.aaditechnology.com' + 
-  //   '/RITeSchool/Uploads/' +
-  //   AttachmentArray;
+  // const AttachmentFilePath = 'https://192.168.1.80/';
+  const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
   return (
     <>

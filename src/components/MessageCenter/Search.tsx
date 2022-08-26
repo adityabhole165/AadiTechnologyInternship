@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import {
   getYearsList,
   getAllMonthList
@@ -17,6 +17,7 @@ function Search({ searchData,closeSearchbarBoolean }) {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const [SelectedAcademicYearId,setSelectedAcademicYearId] = useState(AcademicYearId);
 
   const YearsList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -29,22 +30,25 @@ function Search({ searchData,closeSearchbarBoolean }) {
     asSchoolId: asSchoolId
   };
   const Mbody: IGetAllMonths = {
-    asAcademicYearId: AcademicYearId,
+    asAcademicYearId: SelectedAcademicYearId,
     asSchoolId: asSchoolId
   };
 
   useEffect(() => {
     dispatch(getYearsList(body));
     dispatch(getAllMonthList(Mbody));
-  }, []);
+  }, [SelectedAcademicYearId]);
 
   const SearchFunction = (e) => {
     searchData(e);
-    // console.log(e)
   };
 
   const closeIcon = () => {
     closeSearchbarBoolean(true)
+  }
+
+  const AcademicYearChanged = (e) =>{
+    setSelectedAcademicYearId(e);
   }
 
   return (
@@ -60,6 +64,7 @@ function Search({ searchData,closeSearchbarBoolean }) {
         YearsList={YearsList}
         allMonthList={AllMonthList}
         searchFunction={SearchFunction} // Child to parent search object
+        YearChangeCapture={AcademicYearChanged}
       />
     </>
   );

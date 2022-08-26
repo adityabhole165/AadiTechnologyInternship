@@ -1,4 +1,4 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { useSelector } from 'react-redux';
@@ -16,6 +16,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+
 import SentMessageApi from 'src/api/Student/SentMessage';
 
 const PageNumber = 1;
@@ -24,38 +26,31 @@ function SentMessage() {
   const [page, setpage] = useState(PageNumber);
 
   const theme = useTheme();
+  const [state, setstate] = useState<any>();
+  const [daataa,setmainData] = useState<any>();
 
   const dispatch = useDispatch();
   const GetSentMessagesList = useSelector(
     (state: RootState) => state.Sent__Message.SentList
   );
 
-  const [mainData, setmainData] = useState<any>();
-  const [ManipulatedData, setManipulatedData] = useState<any>([]);
+  const [Dummy,setDummy] = useState<any>();
 
-  if (ManipulatedData != undefined && GetSentMessagesList != undefined) {
-    console.log(ManipulatedData[0] == GetSentMessagesList[0]);
-    if (ManipulatedData[0] !== GetSentMessagesList[0]) {
-      GetSentMessagesList.forEach((element) => {
-        if (element != undefined) {
-          ManipulatedData.push(element);
-        }
-      });
+  // useEffect(()=> {
+    
+  // },[])
+  setTimeout(()=>{
+    if(GetSentMessagesList != undefined){
+      setDummy(GetSentMessagesList)
     }
-    // else{
-    //   // console.log(GetSentMessagesList.length)
-    //   if(mainData != undefined){
-    //     if(mainData.GetScheduledSMSResult != undefined){
-    //       ManipulatedData.concat(mainData.GetScheduledSMSResult)
-    //     }
-    //   }
-    // }
-  }
+  },2000)
+  // console.log(Dummy);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  // const [PageIndex, setPageIndex] = useState(1);
 
   const getList: IgetList = {
     asUserId: UserId,
@@ -68,7 +63,7 @@ function SentMessage() {
     asMonthId: '0'
   };
 
-  useMemo(() => {
+  useEffect(() => {
     dispatch(getSentList(getList));
   }, []);
 
@@ -80,10 +75,22 @@ function SentMessage() {
     '/extended-sidebar/MessageCenter/msgCenter/',
     ''
   );
+  if(daataa != undefined){
+    if(daataa.GetScheduledSMSResult != undefined){
+      const a = daataa.GetScheduledSMSResult
+      // console.log(a) //Dummy
+      // Dummy.concat(a)
+      setTimeout(()=>{
+        if(a != undefined){
+          setDummy([...Dummy,...a])
+        }
+      },2000)
+    }
+  }
 
   const handleChange = (event) => {
     setChecked(true);
-    const { value, checked } = event;
+    const { value } = event.target;
 
     const { DetailInfo } = Id;
 
@@ -132,43 +139,35 @@ function SentMessage() {
     });
   };
 
+  const scrollToEnd = () => {
+    setpage(page + 1);
+  };
 
-  const DivElement = document.getElementById('mainDiv');
+  const iii = document.getElementById('mainDiv');
 
   const scrolling = () => {
-    // console.log(DivElement.scrollTop)
-    // console.log(DivElement.scrollTop);
-    // console.log(DivElement.scrollHeight - DivElement.scrollTop)
-    // if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
-    //   console.log('call for api');
-    // }
-    // console.log(window.scrollY)
-    // if(DivElement.scrollTop > window.innerHeight){
-      const scrollToEnd = () => {
-        setpage(page + 1);
-      };
 
-    if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
-      scrollToEnd();
-      const getListUpdated: IgetList = {
-        asUserId: UserId,
-        asAcademicYearId: AcademicYearId,
-        asUserRoleId: RoleId,
-        asSchoolId: asSchoolId,
-        abIsSMSCenter: '0',
-        asFilter: '',
-        asPageIndex: page,
-        asMonthId: '0'
-      };
-      // dispatch(getSentList(getListUpdated));
-      SentMessageApi.GetSentMessageList(getListUpdated)
-        .then((data) => {
-          setmainData(data.data);
-          // console.log(data.data)
-        })
-        .catch((err) => {
-          alert('error network');
-        });
+    if(iii.scrollTop > iii.offsetHeight){
+        scrollToEnd();
+        const getListUpdated: IgetList = {
+            asUserId: UserId,
+            asAcademicYearId: AcademicYearId,
+            asUserRoleId: RoleId,
+            asSchoolId: asSchoolId,
+            abIsSMSCenter: '0',
+            asFilter: '',
+            asPageIndex: page,
+            asMonthId: '0'
+          };
+        // dispatch(getSentList(getList));
+        // SentMessageApi.GetSentMessageList(getListUpdated)
+        // .then((data) => {
+        //   setmainData(data.data);
+        //   // console.log(data.data)
+        // })
+        // .catch((err) => {
+        //   alert('error network');
+        // });
     }
   };
 
@@ -203,10 +202,9 @@ function SentMessage() {
         </>
       ) : null}
 
-      <div
+      {/* <div
         id="mainDiv"
-        // display="block"
-        onScroll={scrolling}
+        // onScroll={scrolling}
         style={{
           position: 'absolute',
           width: '100%',
@@ -214,12 +212,17 @@ function SentMessage() {
           height: '570px',
           overflow: 'auto'
         }}
-      >
-        {ManipulatedData === null || ManipulatedData.length == 0 ? (
+      > */}
+        {
+          // GetSentMessagesList == undefined
+          // ?
+          // <SuspenseLoader/>
+          // :
+        GetSentMessagesList === null || GetSentMessagesList.length ==0 || GetSentMessagesList == undefined? (
           <ErrorMessages Error={'No message found'} />
         ) : (
           <>
-            {ManipulatedData.map(
+            {GetSentMessagesList.map(
               (GetSentMessagesListitems: GetSentListResult, i) => (
                 <List3
                   data={GetSentMessagesListitems}
@@ -233,7 +236,7 @@ function SentMessage() {
             )}
           </>
         )}
-      </div>
+      {/* </div> */}
     </>
   );
 }
