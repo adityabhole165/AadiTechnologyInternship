@@ -15,13 +15,13 @@ function PayOnline() {
 
   const body: IPayOnline = {
     asSchoolId: '120',
-    asUserLogin: '10561',
+    asUserLogin: '10125',
     asQueryString:
-      'StudentId=11636&DueDates=05-05-2021 12:00 AM&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
+      'StudentId=12771&DueDates=09/30/2022 12:00 AM&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
-      'http://riteschool_old.aaditechnology.com/RITeSchool/SingleSignOnPage.aspx?',
+      'https://192.168.1.80/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-      'http://riteschool_old.aaditechnology.com/RITeSchool/Accountant/PayFeeOnline.aspx?'
+      'https://192.168.1.80/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
 
   useEffect(() => {

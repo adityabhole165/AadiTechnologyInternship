@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import GetExamResultApi from "../../api/Student/ProgressReport";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IExamResult from 'src/interfaces/Student/ProgressReport';
+import IExamResult, { IGetProgressReportFileName } from 'src/interfaces/Student/ProgressReport';
 import IGetAcademicYearsOfStudent from  'src/interfaces/Student/ProgressReport';
 import IGetReasonforBlockingProgressReport from 'src/interfaces/Student/ProgressReport';
 import { IIsPendingFeesForStudent } from 'src/interfaces/Student/ProgressReport';
@@ -17,8 +17,8 @@ const GetExamResultslice = createSlice({
         GetAcademicYears: [], 
         GetTerms:[],  
         GetReasonforBlocking: [],
-        PendingFees:[]
-      
+        PendingFees:[],
+        ProgressReportFileName:""
     },
     reducers: {
         getExamResult(state, action) {
@@ -30,10 +30,13 @@ const GetExamResultslice = createSlice({
         },
         getReasonforBlockingProgressReport(state,action){
           state.GetReasonforBlocking = action.payload
-      },
-      getPendingFees(state, action) {
-        state.PendingFees = action.payload; 
-    },
+        },
+        getPendingFees(state, action) {
+          state.PendingFees = action.payload; 
+        },
+        getProgressReportFileName(state, action) {
+          state.ProgressReportFileName = action.payload.GetProgressReportFileNameResult; 
+        },
     }
 
 });
@@ -66,7 +69,13 @@ export const GetExamResultList =
   async (dispatch) => {
     const response = await GetExamResultApi.GetPendingFees(data);
     dispatch(GetExamResultslice.actions.getPendingFees(response.data));
+  };
 
+  export const GetProgressReportFileName =
+  (data: IGetProgressReportFileName): AppThunk =>
+  async (dispatch) => {
+    const response = await GetExamResultApi.GetProgressReportFileName(data);
+    dispatch(GetExamResultslice.actions.getProgressReportFileName(response.data));
   };
 
   export default GetExamResultslice.reducer 

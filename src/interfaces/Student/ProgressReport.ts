@@ -79,3 +79,16 @@ export interface IGetReasonforBlockingProgressReportResult{
    
     GetReasonforBlockingProgressReportResult : string
 }
+
+export interface IGetProgressReportFileName{
+    asSchoolId:string,
+    asAcademicYearId:string,
+    asStudentId:string,
+    asLoginUserId:string,
+    asTermId:string
+}
+
+export interface IGetProgressReportFileNameResult{
+   
+    GetProgressReportFileNameResult : string
+}

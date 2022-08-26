@@ -3,7 +3,8 @@ import {
   GetExamResultList,
   GetAcademicYears,
   GetReasonforBlockingProgressReport,
-  Getpendingfees
+  Getpendingfees,
+  GetProgressReportFileName
 } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -47,20 +48,29 @@ function Progressreport() {
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
 
-
   const pendingfees: any = useSelector(
     (state: RootState) => state.Progressreport.PendingFees
   );
 
+  const progressReportFilePath : any = useSelector(
+    (state: RootState) => state.Progressreport.ProgressReportFileName
+  );
+  
+  const filePath = progressReportFilePath.replace(/\\/g, "/");
+  let sitePath = 'https://192.168.1.80';
+  let downloadPathOfProgressReport = sitePath + filePath;
+
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-  const [block, setBlock] = useState("none")
-
+  
+  const [block, setBlock] = useState("none");
+  const [termId, setSetTermId] = useState(0);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
-
+  const authData = JSON.parse(localStorage.getItem("auth")); 
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
 
   const classes = Styles();
@@ -99,8 +109,6 @@ function Progressreport() {
       });
   };
 
-
-
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
   {
     asSchoolId: asSchoolId,
@@ -124,6 +132,21 @@ function Progressreport() {
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
+
+  
+
+  const downloadProgress = (termId) =>{
+    const getProgressReportFileName_body: any ={
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStudentId: asStudentId,
+      asLoginUserId: userLoginId,
+      asTermId: termId
+    }
+    dispatch(GetProgressReportFileName(getProgressReportFileName_body))
+    window.open(downloadPathOfProgressReport);
+  }
+
   useEffect(() => {
     localStorage.setItem("url", window.location.pathname)
     dispatch(Getpendingfees(Getpendingfees_body))
@@ -139,11 +162,7 @@ function Progressreport() {
 
 
   }, []);
-  //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
-  //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
-  // });
   
-
   return (
     <>
 
@@ -265,11 +284,14 @@ function Progressreport() {
                                                 borderRight: 1,
                                                 borderRadius: 1,
                                                 border: 'none'
-                                              }} >
-                                              <Typography
+                                              }}
+                                              >
+                                                <Typography
                                                 component="div"
                                                 variant="h5"
-                                                sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'end' }} >
+                                                sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'end' }}
+                                                onClick={()=> downloadProgress(gettermsres.Id)}
+                                                >
                                                 <FileDownloadOutlinedIcon />
                                               </Typography>
                                             </Grid>

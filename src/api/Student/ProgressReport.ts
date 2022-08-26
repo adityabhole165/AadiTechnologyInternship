@@ -1,6 +1,6 @@
 
 import http from "../../requests/SchoolService/schoolServices";
-import IExamResult from "../../interfaces/Student/ProgressReport"
+import IExamResult, { IGetProgressReportFileName, IGetProgressReportFileNameResult } from "../../interfaces/Student/ProgressReport"
 import IGetAcademicYearsOfStudent from "../../interfaces/Student/ProgressReport"
 import IGetReasonforBlockingProgressReport from  "../../interfaces/Student/ProgressReport"
 import { IIsPendingFeesForStudent } from "../../interfaces/Student/ProgressReport";
@@ -22,12 +22,17 @@ const GetPendingFees  = (data: IIsPendingFeesForStudent) => {
 
     return http.post<IIsPendingFeesForStudent>('Student/IsPendingFeesForStudent',data);
 };
+const GetProgressReportFileName  = (data: IGetProgressReportFileName) => {
+
+    return http.post<IGetProgressReportFileNameResult>('ProgressReport/GetProgressReportFileName',data);
+};
+
 const GetExamResultApi= {
     GetStudentExamResultList,
     GetAcademicYears,
     GetReasonforBlockingProgressReport,
-    GetPendingFees
-
+    GetPendingFees,
+    GetProgressReportFileName
 }
 
 export default GetExamResultApi;

@@ -269,7 +269,7 @@ function Form13() {
   });
 
   const file_path =
-    'http://riteschool_old.aaditechnology.com' +
+    'https://192.168.1.80' +
     '/RITeSchool/Uploads/' +
     Attachments;
 
