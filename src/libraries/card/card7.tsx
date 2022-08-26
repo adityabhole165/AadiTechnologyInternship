@@ -28,7 +28,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
 
   let attachment = Attachments;
   let attachmentObj: any = [];
-  let file_path =  'http://riteschool_old.aaditechnology.com'  + '/RITeSchool/Uploads/';
+  let file_path =  'https://192.168.1.80'  + '/RITeSchool/Uploads/';
 
   const [AttachmentArray,setAttachmentArray] = useState<any>([]);
 

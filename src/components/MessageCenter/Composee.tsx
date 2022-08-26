@@ -275,6 +275,7 @@ function Form13() {
   // const AttachmentFilePath = 'https://192.168.1.80/';
   const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
+    // console.log(Id.toString());
   return (
     <>
       <Container>
