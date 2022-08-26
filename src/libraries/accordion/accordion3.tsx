@@ -50,9 +50,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                borderBottom: 2,
                 mb: 1,
-                backgroundColor: '#5c5f628a'
+
               }}
             >
               {Data.map((list: GetStudentExamResult, index) => {
