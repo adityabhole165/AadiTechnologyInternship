@@ -48,6 +48,8 @@ function Card16({ Note, Heading }) {
   const [newArrayOfFess, setnewArrayOfFess] = useState([]); // Associated Array 
   const classes = Styles();
   const theme = useTheme();
+  const [dueDateArrayObj, setDueDateArrayObj] = useState([]);
+  const selectedDueDate = dueDateArrayObj.toString();
 
   const mystyle = {
     pointerEvents: `${FeesTotal > 0 ? 'auto' : 'none'}` as 'none', // For Payonline Pointer
@@ -65,7 +67,7 @@ function Card16({ Note, Heading }) {
   const handleChange = (event) => {
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
-
+    
     if (event.target.checked) {
       ArrayOfPaymentGroup.push(event.target.name);
       let indexOfComma = valueOfCheckBox.indexOf(':');
@@ -76,6 +78,8 @@ function Card16({ Note, Heading }) {
       ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
       let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
+      dueDateArrayObj.push(event.target.id);
+      
       setCheckBoxPaymentGroup([
         ...CheckBoxPaymentGroup,
         NextPaymentGroup_ToString
@@ -96,6 +100,7 @@ function Card16({ Note, Heading }) {
         indexOfUnChecked_Box,
         LengthOfFeesList
       );
+
       ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       let indexOF_NextPaymentGroup =
         CheckBoxPaymentGroup.indexOf(event.target.name) + 1; // index of current payment group
@@ -103,6 +108,13 @@ function Card16({ Note, Heading }) {
         // Payment group not required
         indexOF_NextPaymentGroup
       );
+
+      let indexOfDueDate = dueDateArrayObj.indexOf(event.target.id);
+      let splicedArrayOfDueDate = dueDateArrayObj.splice(
+        indexOfDueDate,
+        LengthOfFeesList
+      );
+      setDueDateArrayObj([...dueDateArrayObj]);
       setCheckBoxPaymentGroup(CheckBoxPaymentGroup);
       setChange(false); // For Useeffect call
     }
@@ -168,7 +180,7 @@ function Card16({ Note, Heading }) {
         </div>
 
         <RouterLink
-          to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+          to={`/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate }
           style={mystyle}
         >
           {FeesList.AmountPayable != 0 ? (
@@ -241,7 +253,7 @@ function Card16({ Note, Heading }) {
                           checked={FeesCheckBoxBoolean}
                           className="check serial"
                           size="small"
-                          id={item.PaymentGroup}
+                          id={item.DueDateString}
                           onChange={(event) => {
                             handleChange(event);
                           }}

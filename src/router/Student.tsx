@@ -138,7 +138,7 @@ const studentRoutes = [
     element: <Layout/>
   },
   {
-    path: 'PayOnline',
+    path: 'PayOnline/:SelectedDueDate',
     element: <PayOnline/>
   },
   ];

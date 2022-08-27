@@ -4,18 +4,6 @@ export default interface IFees {
         "asStudentId": string
     
 }
-export interface IReceipt {
-                "asSchoolId": string,
-                "asAcademicYearId": string,
-                "asStudentId": string,
-                "asReceiptNo": string,
-                "asAccountHeaderId": string,
-                "asIsRefundFee": string,
-                "asSerialNo": string
-                "asLoginUserId": string
-            
-}
-
 
 export interface GetFeeDetailsResult {
                 AccountHeaderId: string;
@@ -53,7 +41,6 @@ export interface GetFeeDetailsResult {
                 TotalLateFee: string;
 }
 
-
 export interface IPayOnline {
         asSchoolId: string,
         asUserLogin:string,
@@ -62,5 +49,13 @@ export interface IPayOnline {
         asRedirectPageUrl: string
 };
 
-
-
+export interface IGetReceiptFileName {
+        asSchoolId: string,
+        asReceiptNo:string,
+        asAcademicYearId:string,
+        asAccountHeaderId: string,
+        asIsRefundFee: string,
+        asStudentId:string,
+        asSerialNo:string,
+        asLoginUserId:string
+};

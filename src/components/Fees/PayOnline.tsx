@@ -5,25 +5,31 @@ import { IPayOnline } from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { payOnline } from 'src/requests/Fees/Fees';
 import Card26 from 'src/libraries/card/card26';
+import { useParams } from 'react-router';
 
 function PayOnline() {
+  const {SelectedDueDate} = useParams();
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
-  console.log(paymentPageLink)
+  
+  const studentId = sessionStorage.getItem('StudentId');
+  const authData = JSON.parse(localStorage.getItem("auth")); 
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const schoolId = localStorage.getItem('localSchoolId');
 
   const body: IPayOnline = {
-    asSchoolId: '120',
-    asUserLogin: '10125',
+    asSchoolId: schoolId,
+    asUserLogin: userLoginId,
     asQueryString:
-      'StudentId=12771&DueDates=09/30/2022 12:00 AM&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
+    'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
-      'https://192.168.1.80/RITeSchool/SingleSignOnPage.aspx?',
+      'http://localhost:65222/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-      'https://192.168.1.80/RITeSchool/Accountant/PayFeeOnline.aspx?'
+      'http://localhost:65222/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
-
+  console.log("PayOnline Body",body);
   useEffect(() => {
     dispatch(payOnline(body));
   }, []);

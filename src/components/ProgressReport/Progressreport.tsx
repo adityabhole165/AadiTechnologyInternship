@@ -65,6 +65,7 @@ function Progressreport() {
   
   const [block, setBlock] = useState("none");
   const [termId, setSetTermId] = useState(0);
+  const [academicYearId, setAcademicYearId] = useState('');
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -138,7 +139,7 @@ function Progressreport() {
   const downloadProgress = (termId) =>{
     const getProgressReportFileName_body: any ={
       asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
+      asAcademicYearId: parseInt(`${academicYearId}`),
       asStudentId: asStudentId,
       asLoginUserId: userLoginId,
       asTermId: termId
@@ -159,12 +160,8 @@ function Progressreport() {
         GetReasonforBlockingProgressReport_body
       )
     );
-
-
-  }, []);
-  //   const newReason = Reason.split("\n").map((item:IGetReasonforBlockingProgressReportResult, i) => {
-  //     return <p key={i}>{item.GetReasonforBlockingProgressReportResult}</p>;
-  // });
+  }, [academicYearId]);
+  
   
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
@@ -172,7 +169,7 @@ function Progressreport() {
   const handledropyear = (e) =>{
     setDropyear(e.target.value)
     setShowyear(true)
-
+    setAcademicYearId(e?.target.value);
   }
   return (
     <>
@@ -304,7 +301,7 @@ function Progressreport() {
                                                 <Typography
                                                 component="div"
                                                 variant="h5"
-                                                sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'end' }}
+                                                sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'end',cursor:'pointer' }}
                                                 onClick={()=> downloadProgress(gettermsres.Id)}
                                                 >
                                                 <FileDownloadOutlinedIcon />
