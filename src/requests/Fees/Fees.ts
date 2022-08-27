@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IPayOnline } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 
 const Feesslice = createSlice({
@@ -10,7 +10,8 @@ const Feesslice = createSlice({
   initialState:{
     FeesData:[],
     FeesData2:[],
-    paymentUrl:[]
+    paymentUrl:[],
+    ReceiptFileName:""
   },
     
     
@@ -19,10 +20,14 @@ const Feesslice = createSlice({
     getFees(state,action){
       state.FeesData=action.payload.GetFeeDetailsResult.FeeDetails;
       state.FeesData2=action.payload.GetFeeDetailsResult;
-      },
+    },
     
     payOnline (state,action) {
       state.paymentUrl =action.payload.GetSingleSignOnPageEncryptedURLResult
+    }, 
+
+    getReceiptFileName (state,action) {
+      state.ReceiptFileName =action.payload
     }  
   }   
 });
@@ -42,5 +47,11 @@ export const getFees =
     dispatch(Feesslice.actions.payOnline(response.data));
   };
 
+  export const getReceiptFileName =
+  (data:IGetReceiptFileName): AppThunk =>
+  async (dispatch) => {
+    const response = await FeesApi.getReceiptFileName(data);
+    dispatch(Feesslice.actions.getReceiptFileName(response.data));
+  };
 
 export default Feesslice.reducer
