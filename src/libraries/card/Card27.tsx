@@ -44,7 +44,6 @@ function Card27({ FeesType, Fee, Heading, Note }) {
     let downloadPathOfReceipt = sitePath + filePath;
 
   const downloadReceiptFile = (receiptNo) =>{
-    debugger;
     const getReceiptFileName_body: any ={
         asSchoolId: schoolId,
         asReceiptNo: receiptNo,

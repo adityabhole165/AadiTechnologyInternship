@@ -14,6 +14,8 @@ import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import { Avatar } from '@mui/material';
 
 
 const PageIndex = 1; // Initial page index
@@ -24,6 +26,7 @@ function SentMessage() {
   const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index 
   const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
   const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
+  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
@@ -52,8 +55,6 @@ function SentMessage() {
     else {
       if (NextPageData != undefined && ManipulatedData.length != 0) {
         if (NextPageData.GetScheduledSMSResult != undefined) {
-          console.log(NextPageData.GetScheduledSMSResult[0].DetailsId);
-          console.log(ManipulatedData[0].DetailsId);
           if (
             NextPageData.GetScheduledSMSResult[0].DetailsId !=
             ManipulatedData[0].DetailsId
@@ -156,7 +157,15 @@ function SentMessage() {
 
   const scrolling = (): void => {
     // (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
-    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) { 
+    if(ScrollableDivRefference.scrollTop >= 400){
+      setdisplayMoveToTop("flex")
+    }
+    if(ScrollableDivRefference.scrollTop < 400){
+      setdisplayMoveToTop("none")
+    }
+    // console.log(ScrollableDivRefference.scrollTop)
+    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 600) { 
+      // setdisplayMoveToTop("flex")
       PageIndexIncrement();
       const UpdatedBody: IgetList = {
         asUserId: UserId,
@@ -177,6 +186,13 @@ function SentMessage() {
         });
     }
   };
+
+  const MoveToTop = (e) => {
+    ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      setdisplayMoveToTop("none")
+    }, 10);
+  }
 
   return (
     <>
@@ -249,6 +265,13 @@ function SentMessage() {
             )}
           </>
         )}
+        <Avatar
+        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
+        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
+        onClick={MoveToTop} // Close function 
+      > 
+        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
+      </Avatar>
       </div>
     </>
   );
