@@ -12,12 +12,15 @@ function Fees_cautionmoney() {
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
+  const studentId = sessionStorage.getItem('StudentId');
+  const authData = JSON.parse(localStorage.getItem("auth")); 
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const schoolId = localStorage.getItem('localSchoolId');
 
   const body: IPayOnline = {
-    asSchoolId: '120',
-    asUserLogin: '10561',
-    asQueryString:
-      'StudentId=11636&DueDates=05-05-2021 12:00 AM&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
+    asSchoolId: schoolId,
+    asUserLogin: userLoginId,
+    asQueryString: 'StudentId='+ studentId +'&DueDates=M&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=1',
     asSchoolSiteUrl:
       'http://riteschool_old.aaditechnology.com/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:

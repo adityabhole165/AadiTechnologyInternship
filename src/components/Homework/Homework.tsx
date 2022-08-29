@@ -129,9 +129,9 @@ function Homework() {
     setcalanderSelected(true);
   }
 
-
   return (
     <>
+    
       <PageHeader heading={'Homework'} subheading={''} />
       <div>
         <DotLegend
@@ -158,18 +158,19 @@ function Homework() {
       ) : HomeworkSubjectList.length === 0 ? (
         <ErrorMessages Error={'Homework is not available'} />
       ) : (
-        HomeworkSubjectList.map((item: IHomeworkResponse, i) => (
-          <>
-            <Accordion2
-              subject={item.SubjectName}
-              Data={HomeworkList}
-              Close={handleChange}
-              index={i}
-              expand={expanded}
-            />
-          </>
-        ))
-      )}
+          HomeworkSubjectList.map((item: IHomeworkResponse, i) => (
+            <>
+              <Accordion2
+                subject={item.SubjectName}
+                Data={HomeworkList}
+                Close={handleChange}
+                index={i}
+                expand={expanded}
+              />
+            </>
+          ))
+      )
+      }
     </>
   );
 }

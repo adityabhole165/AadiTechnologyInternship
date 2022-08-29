@@ -7,21 +7,27 @@ import { AppThunk } from "src/store";
 const SentMessageSlice = createSlice({
     name: 'Sent Message',
     initialState: {
-        SentList:[],
+      SentList:[],
       ViewSent: [],
+      Loading:true
+
     },
     reducers: {
         getSentList(state, action) {
+        state.Loading = false
         state.SentList = action.payload.GetScheduledSMSResult;
-       
       },
-          
+      getLoading (state,action) {
+        state.Loading = true
+        state.SentList=[];
+    }
     }
   })
   
   export const getSentList =
   (data: IgetList): AppThunk =>
     async (dispatch) => {
+      dispatch(SentMessageSlice.actions.getLoading(true));
       const response = await SentMessageApi.GetSentMessageList(data)
       dispatch(SentMessageSlice.actions.getSentList(response.data));
     };

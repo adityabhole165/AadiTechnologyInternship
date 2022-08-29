@@ -27,7 +27,7 @@ Form2.propTypes = {
   allMonthList: PropTypes.array
 };
 
-function Form2({YearsList, allMonthList, searchFunction }) {
+function Form2({YearsList, allMonthList, searchFunction, YearChangeCapture }) {
   const dispatch = useDispatch();
   const classes = Styles();
 
@@ -50,6 +50,7 @@ function Form2({YearsList, allMonthList, searchFunction }) {
 
   const YearChangeHandler = (e) => {
     setYear(e.target.value);
+    YearChangeCapture(e.target.value);
   };
 
   const MonthChangeHandler = (e) => {
@@ -75,8 +76,6 @@ function Form2({YearsList, allMonthList, searchFunction }) {
     '/extended-sidebar/MessageCenter/msgCenter/',
     ''
   );
-
-
 
   const getList: IgetList = {
     asUserId: UserId,

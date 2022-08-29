@@ -10,9 +10,10 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Card16 from 'src/libraries/card/Card16';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import { getReceiptFileName } from 'src/requests/Fees/Fees';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -24,10 +25,40 @@ Card27.propTypes = {
 function Card27({ FeesType, Fee, Heading, Note }) {
   const theme = useTheme();
   const classes = Styles();
+  const dispatch = useDispatch();
 
   const FeesObject: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
+  const receiptFileName : any = useSelector(
+    (state: RootState) => state.Fees.ReceiptFileName
+  );
+
+  const schoolId = localStorage.getItem('localSchoolId');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const studentId = sessionStorage.getItem('StudentId');
+  const authData = JSON.parse(localStorage.getItem("auth")); 
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const filePath = receiptFileName.replace(/\\/g, "/");
+    let sitePath = 'https://192.168.1.80';
+    let downloadPathOfReceipt = sitePath + filePath;
+
+  const downloadReceiptFile = (receiptNo) =>{
+    const getReceiptFileName_body: any ={
+        asSchoolId: schoolId,
+        asReceiptNo: receiptNo,
+        asAcademicYearId: academicYearId,
+        asAccountHeaderId: "0",
+        asIsRefundFee: "0",
+        asStudentId: studentId,
+        asSerialNo:"0",
+        asLoginUserId: userLoginId
+    }
+    dispatch(getReceiptFileName(getReceiptFileName_body))
+    setTimeout(() => {
+      window.open(downloadPathOfReceipt);
+    }, 1000);
+  }
 
   return (
     <>
@@ -102,9 +133,10 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                           <Typography
                             component="div"
                             variant="h5"
-                            sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'start' }}
+                            sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'start',cursor:'pointer' }}
+                            onClick={()=> downloadReceiptFile(item.ReceiptNo)}
                           >
-                            <FileDownloadOutlinedIcon />
+                          <FileDownloadOutlinedIcon />
                           </Typography>
                         </Grid>
                       </Grid>

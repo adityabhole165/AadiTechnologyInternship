@@ -1,13 +1,9 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getSentList } from 'src/requests/Student/Sentmessage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {
-  ISentList,
-  GetSentListResult
-} from 'src/interfaces/MessageCenter/Sent_Message';
-import { useTheme } from '@mui/material';
+import { GetSentListResult } from 'src/interfaces/MessageCenter/Sent_Message';
 import List3 from 'src/libraries/list/List3';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
@@ -17,47 +13,71 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SentMessageApi from 'src/api/Student/SentMessage';
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import { Avatar } from '@mui/material';
 
-const PageNumber = 1;
+
+const PageIndex = 1; // Initial page index
 
 function SentMessage() {
-  const [page, setpage] = useState(PageNumber);
-
-  const theme = useTheme();
-
   const dispatch = useDispatch();
-  const GetSentMessagesList = useSelector(
-    (state: RootState) => state.Sent__Message.SentList
+
+  const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index 
+  const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
+  const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
+  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
+
+  const pathname = window.location.pathname;
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/msgCenter/',
+    ''
   );
 
-  const [mainData, setmainData] = useState<any>();
-  const [ManipulatedData, setManipulatedData] = useState<any>([]);
+  // Original Array
+  const GetSentMessagesList = useSelector(
+    (state: RootState) => state.Sent__Message.SentList
+  ); 
+  const loading:boolean = useSelector(
+    (state: RootState) => state.Sent__Message.Loading
+  );
 
-  if (ManipulatedData != undefined && GetSentMessagesList != undefined) {
-    console.log(ManipulatedData[0] == GetSentMessagesList[0]);
-    if (ManipulatedData[0] !== GetSentMessagesList[0]) {
+  // First time modification 
+  if (GetSentMessagesList != undefined) { 
+    if (ManipulatedData.length == 0) {
       GetSentMessagesList.forEach((element) => {
         if (element != undefined) {
           ManipulatedData.push(element);
         }
       });
+    } 
+  // After page increment data modifications
+    else {
+      if (NextPageData != undefined && ManipulatedData.length != 0) {
+        if (NextPageData.GetScheduledSMSResult != undefined) {
+          if (
+            NextPageData.GetScheduledSMSResult[0].DetailsId !=
+            ManipulatedData[0].DetailsId
+          ) {
+            NextPageData.GetScheduledSMSResult.forEach((element) => {
+              if (element != undefined) {
+                ManipulatedData.push(element);
+              }
+            });
+          }
+        }
+      }
     }
-    // else{
-    //   // console.log(GetSentMessagesList.length)
-    //   if(mainData != undefined){
-    //     if(mainData.GetScheduledSMSResult != undefined){
-    //       ManipulatedData.concat(mainData.GetScheduledSMSResult)
-    //     }
-    //   }
-    // }
   }
 
+  // Session data
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
-  const getList: IgetList = {
+  // Initial Body
+  const SentMessageBody: IgetList = {
     asUserId: UserId,
     asAcademicYearId: AcademicYearId,
     asUserRoleId: RoleId,
@@ -68,18 +88,12 @@ function SentMessage() {
     asMonthId: '0'
   };
 
-  useMemo(() => {
-    dispatch(getSentList(getList));
+  useEffect(() => {
+    dispatch(getSentList(SentMessageBody));
   }, []);
 
   const [checked, setChecked] = useState(true);
   const [Id, setId] = useState({ DetailInfo: [] });
-
-  const pathname = window.location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
-    ''
-  );
 
   const handleChange = (event) => {
     setChecked(true);
@@ -98,6 +112,7 @@ function SentMessage() {
     }
   };
 
+  // Selected data delete operation
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
 
@@ -113,7 +128,7 @@ function SentMessage() {
       .then((data) => {
         if (pageName == 'Sent') {
           toast.success('Message deleted successfully');
-          dispatch(getSentList(getList));
+          dispatch(getSentList(SentMessageBody));
         }
         setChecked(false);
         setId({
@@ -125,6 +140,7 @@ function SentMessage() {
       });
   };
 
+  // Selected Data reset operation
   const Reset = () => {
     setChecked(false);
     setId({
@@ -132,45 +148,51 @@ function SentMessage() {
     });
   };
 
+  // Pagination Api call and data setters
+  const ScrollableDivRefference = document.getElementById('ScrollableDiv');
 
-  const DivElement = document.getElementById('mainDiv');
+  const PageIndexIncrement = (): void => {
+    setpageIndex(pageIndex + 1);
+  };
 
-  const scrolling = () => {
-    // console.log(DivElement.scrollTop)
-    // console.log(DivElement.scrollTop);
-    // console.log(DivElement.scrollHeight - DivElement.scrollTop)
-    // if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
-    //   console.log('call for api');
-    // }
-    // console.log(window.scrollY)
-    // if(DivElement.scrollTop > window.innerHeight){
-      const scrollToEnd = () => {
-        setpage(page + 1);
-      };
-
-    if (DivElement.scrollHeight - DivElement.scrollTop <= 580) {
-      scrollToEnd();
-      const getListUpdated: IgetList = {
+  const scrolling = (): void => {
+    // (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
+    if(ScrollableDivRefference.scrollTop >= 400){
+      setdisplayMoveToTop("flex")
+    }
+    if(ScrollableDivRefference.scrollTop < 400){
+      setdisplayMoveToTop("none")
+    }
+    // console.log(ScrollableDivRefference.scrollTop)
+    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 600) { 
+      // setdisplayMoveToTop("flex")
+      PageIndexIncrement();
+      const UpdatedBody: IgetList = {
         asUserId: UserId,
         asAcademicYearId: AcademicYearId,
         asUserRoleId: RoleId,
         asSchoolId: asSchoolId,
         abIsSMSCenter: '0',
         asFilter: '',
-        asPageIndex: page,
+        asPageIndex: pageIndex,
         asMonthId: '0'
       };
-      // dispatch(getSentList(getListUpdated));
-      SentMessageApi.GetSentMessageList(getListUpdated)
-        .then((data) => {
-          setmainData(data.data);
-          // console.log(data.data)
+      SentMessageApi.GetSentMessageList(UpdatedBody) 
+        .then((response) => {
+          setNextPageData(response.data); // Next page data setter
         })
         .catch((err) => {
           alert('error network');
         });
     }
   };
+
+  const MoveToTop = (e) => {
+    ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      setdisplayMoveToTop("none")
+    }, 10);
+  }
 
   return (
     <>
@@ -204,8 +226,7 @@ function SentMessage() {
       ) : null}
 
       <div
-        id="mainDiv"
-        // display="block"
+        id="ScrollableDiv"
         onScroll={scrolling}
         style={{
           position: 'absolute',
@@ -215,9 +236,20 @@ function SentMessage() {
           overflow: 'auto'
         }}
       >
-        {ManipulatedData === null || ManipulatedData.length == 0 ? (
+        {
+        loading 
+        ? 
+        (
+          <SuspenseLoader />
+        ) 
+        : 
+        ManipulatedData === null || ManipulatedData.length == 0 
+        ? 
+        (
           <ErrorMessages Error={'No message found'} />
-        ) : (
+        ) 
+        : 
+        (
           <>
             {ManipulatedData.map(
               (GetSentMessagesListitems: GetSentListResult, i) => (
@@ -233,6 +265,13 @@ function SentMessage() {
             )}
           </>
         )}
+        <Avatar
+        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
+        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
+        onClick={MoveToTop} // Close function 
+      > 
+        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
+      </Avatar>
       </div>
     </>
   );

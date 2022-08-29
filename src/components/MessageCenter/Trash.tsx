@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import PageHeader from "src/libraries/heading/PageHeader";
-import { Link as RouterLink, useLocation } from 'react-router-dom';
 import { getTrashList } from "src/requests/MessageCenter/MessaageCenter"
-import { ITrashList, GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
+import { GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
 import { RootState } from "src/store";
 import List3 from "src/libraries/list/List3";
 import { IgetList } from "src/interfaces/MessageCenter/GetList";
@@ -13,10 +11,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay'
 import { toast } from 'react-toastify';
 import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
+import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+
 
 function Trash() {
 
-    const trashList = useSelector((state: RootState) => state.MessageCenter.TrashList)
+    const trashList = useSelector((state: RootState) => state.MessageCenter.TrashList);
+    const loading:boolean = useSelector(
+        (state: RootState) => state.MessageCenter.Loading
+      );
     const dispatch = useDispatch();
 
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -134,6 +137,12 @@ function Trash() {
             }
 
             {
+                loading 
+                ? 
+                (
+                  <SuspenseLoader />
+                ) 
+                : 
                 (trashList === null || trashList.length == 0) ?
                 <ErrorMessages Error={'No message found'} />
                     :

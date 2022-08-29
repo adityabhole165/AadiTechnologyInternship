@@ -272,13 +272,10 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = 'https://192.168.1.80/';
-  
-  // const file_path =
-  //   'http://riteschool_old.aaditechnology.com' + 
-  //   '/RITeSchool/Uploads/' +
-  //   AttachmentArray;
+  // const AttachmentFilePath = 'https://192.168.1.80/';
+  const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
+    // console.log(Id.toString());
   return (
     <>
       <Container>
@@ -320,7 +317,6 @@ function Form13() {
                       value={From}
                       disabled={true}
                       className={classes.InputField}
-                      onChange={formik.handleChange}
                     />
                   ) : (
                     <TextField

@@ -16,10 +16,13 @@ const MessageCenterSlice = createSlice({
     AdminStaffList:[],
     YearsList:[],
     AllMonthList:[],
-    PageIndex:0
+    PageIndex:0,
+    Loading:true
+
   },
   reducers: {
     getTrashList (state,action){
+      state.Loading = false
       state.TrashList=action.payload.GetTrashMessagesResult;
     },
     getTeacherList (state,action){
@@ -36,7 +39,11 @@ const MessageCenterSlice = createSlice({
     },
     sePageIndex (state,action){
       state.PageIndex=action.payload;
-    }
+    },
+    getLoading (state,action) {
+      state.Loading = true
+      state.TrashList=[];
+  }
   }   
 });
 
@@ -44,6 +51,7 @@ const MessageCenterSlice = createSlice({
 export const getTrashList =
   (data ? :IgetList): AppThunk =>
   async (dispatch) => {
+    dispatch(MessageCenterSlice.actions.getLoading(true));
     const response = await MessageCenterApi.GetTrashList(data);
     dispatch(MessageCenterSlice.actions.getTrashList(response.data));
   };

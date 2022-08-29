@@ -6,16 +6,15 @@ import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
-import 'src/assets/style/student-cal.css';
-import EventRoundedIcon from '@mui/icons-material/EventRounded';
 import 'src/assets/style/Homework_Calci.css';
 import { useLocation } from 'react-router-dom';
-
 
 Buttons.propTypes = {
   Date: PropTypes.any,
   PrevDate: PropTypes.any,
-  NextDate: PropTypes.any
+  NextDate: PropTypes.any,
+  Close: PropTypes?.any,
+  displayCalander: PropTypes?.any
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -36,13 +35,18 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
 
   const dateClickHnadler = (e) => {
     if (dateClickDependent == 'none' && pageName == 'Homework') {
-      setdateClickDependent('block');
+      setdateClickDependent('flex');
     }
-    if (dateClickDependent == 'block' && pageName == 'Homework') {
-      setdateClickDependent('none');
-    }
+    if (dateClickDependent == 'flex' && pageName == 'Homework') {
+        setdateClickDependent('none');
+      }
   };
-  
+
+  const ChangeCapture = (e) => {
+      setTimeout(() => {
+        setdateClickDependent('none');
+      }, 100);
+  }
 
   return (
     <>
@@ -64,19 +68,38 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                 <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
               <Item
+              onClick={ChangeCapture}
                 sx={{
-                  width: '250px',
+                  width: '300px',
                   position: 'absolute',
-                  left: '41%',
                   display: dateClickDependent,
-
-                  zIndex: '2'
+                  left:'70px',
+                  zIndex: '2',
+                  mt: '5px',
                 }}
               >
                 <Calendar onChange={(e) => Close(e.toLocaleString())} />
+                {/* <Avatar
+                  sx={{
+                    position: 'absolute',
+                    top: '-15px',
+                    // right:'5px',
+                    zIndex: '4',
+                    right: '-10px',
+                    p: '2px',
+                    width: 29,
+                    height: 29,
+                    backgroundColor: 'white',
+                    boxShadow:
+                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                  }}
+                  onClick={closeIcon} // Close function
+                >
+                  <CloseIcon fontSize="small" color="error" />
+                </Avatar> */}
               </Item>
-           
             </Grid>
+
             <Grid item xs={2}>
               <Item onClick={() => NextDate()}>
                 <ArrowRight sx={{ mt: 0.5, fontSize: 25 }} />

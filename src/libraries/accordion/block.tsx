@@ -46,6 +46,7 @@ function Block({
     setgrade(grades);
   }, []);
 
+
   Data.map((list, index) => {
     list.StudentMarksList.map((list1, index1) => {
       if (ExamId == list1.ExamId) {
@@ -54,16 +55,22 @@ function Block({
           singlesubject.push(list1.Subject);
           indexval = index1;
         }
-
+        if(list1.Marks == 0 && list1.Grade == 'Absent'){
+          let Marks = '101'
+          marks.push(Marks);
+        }else{
+          marks.push(list1.Marks);
+        }
         subject.push(list1.Subject);
-        marks.push(list1.Marks);
         outofmarks.push(list1.OutOf);
         grades.push(list1.Grade);
         gradeormarks.push(list1.GradeOrMarks);
         endingmarksrange.push(list1.EndingMarksRange);
         examstatus.push(list1.ExamStatus);
         IsAbsent.push(list1.IsAbsent);
-      } else {
+      }
+      
+      else {
       }
     });
   });
@@ -102,7 +109,7 @@ function Block({
                   return 'A+';
                 } else if (val >= 80 && val <= 89) {
                   return 'A';
-                } else if (val === min) {
+                } else if (val === 101) {
                   return 'Absent';
                 } else if (val >= 45 && val <= 49) {
                   return 'D+';
@@ -169,19 +176,35 @@ function Block({
               barHeight: '70%',
               borderRadius: 4
             }
+          },
+
+          tooltip: {
+            x: {
+              show: false
+            },
+            y: {
+              title: {
+                formatter: function (e) {
+                    return 'Marks Scored : '
+                }
+              },
+
+            }
           }
         }}
+
         series={[
           {
             name: 'Marks Scored',
             data: series,
-            color: '#0000FF'
+            color: '#0000FF',
           },
           {
             name: 'Outof Marks',
             color: '#800000'
           }
         ]}
+
         type="bar"
         width="100%"
         height="100%"

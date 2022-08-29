@@ -8,9 +8,7 @@ import {
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import { useNavigate } from 'react-router-dom';
 import { Link as RouterLink } from 'react-router-dom';
-import { array } from 'yup/lib/locale';
 import { useState } from 'react';
 
 Card7.propTypes = {
@@ -27,38 +25,20 @@ Card7.propTypes = {
 
 function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,ViewSentObject}) {
   const theme = useTheme();
-  const navigate = useNavigate();
 
   let attachment = Attachments;
   let attachmentObj: any = [];
-  let file_path =  'http://riteschool_old.aaditechnology.com'  + '/RITeSchool/Uploads/';
-  console.log(Attachments)
+  let file_path =  'https://192.168.1.80'  + '/RITeSchool/Uploads/';
 
   const [AttachmentArray,setAttachmentArray] = useState<any>([]);
-  const [AttachmentString,setAttachmentString] = useState<any>("");
 
   for (const property in attachment) {
     let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
-    console.log(AttachmentFile.FilePath)
     AttachmentArray.push(property);
-    console.log(property)
     attachmentObj.push(AttachmentFile);
-    // setAttachmentString(AttachmentArray.toString())
   }
-  // const [AttachmentString,setAttachmentString] = useState<any>("");
-  // attachmentObj.forEach((element)=>{
-  //   if(element != undefined){
-  //     if(element.FilePath != undefined){
-  //       AttachmentArray.push(element.FilePath)
-  //     }
-  //   }
-  // })
-  console.log(AttachmentArray.toString());
-  // console.log(JSON.stringify(AttachmentArray));
-  
 
   const classes = Styles();
-
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
 
