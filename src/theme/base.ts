@@ -14,6 +14,8 @@ declare module '@mui/material/styles' {
     colors: {
       gradients: {
         primayButton: string;
+        secondaryButton:string;
+        disableButton:string;
         listColor: string,
         selectedlistColor: string,
         HighlightedlistColor:string,
@@ -143,6 +145,8 @@ declare module '@mui/material/styles' {
     colors: {
       gradients: {
         primayButton: string;
+        secondaryButton: string;
+        disableButton: string;
         listColor: string,
         selectedlistColor: string,
         HighlightedlistColor:string,
