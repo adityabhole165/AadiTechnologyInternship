@@ -13,12 +13,12 @@ import {
 import { useState } from 'react';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
-import { getInboxList } from 'src/requests/Student/InboxMessage';
+import { getInboxList, getNextPageInboxList } from 'src/requests/Student/InboxMessage';
 import { useDispatch } from 'react-redux';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
-import { getSentList } from 'src/requests/Student/Sentmessage';
-import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
+import { getNextPageSentList, getSentList } from 'src/requests/Student/Sentmessage';
+import { getNextPageTrashList, getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 import { Styles } from 'src/assets/style/student-style';
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 
@@ -98,7 +98,7 @@ function Form2({YearsList, allMonthList, searchFunction, YearChangeCapture }) {
     ) {
       InboxMessageApi.GetInboxList(getList)
         .then((data) => {
-          dispatch(getInboxList(getList));
+          dispatch(getNextPageInboxList(getList));
         })
         .catch((err) => {
           alert('error network');
@@ -107,7 +107,7 @@ function Form2({YearsList, allMonthList, searchFunction, YearChangeCapture }) {
     if (pageName === 'Sent') {
       SentMessageApi.GetSentMessageList(getList)
         .then((data) => {
-          dispatch(getSentList(getList));
+          dispatch(getNextPageSentList(getList));
         })
         .catch((err) => {
           alert('error network');
@@ -116,7 +116,7 @@ function Form2({YearsList, allMonthList, searchFunction, YearChangeCapture }) {
     if (pageName === 'Trash') {
       MessageCenterApi.GetTrashList(getList)
         .then((data) => {
-          dispatch(getTrashList(getList));
+          dispatch(getNextPageTrashList(getList));
         })
         .catch((err) => {
           alert('error network');

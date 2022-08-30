@@ -58,7 +58,7 @@ function Form13() {
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
 
   useMemo(() => {
-    if (AttachmentArray != undefined) {
+    if (AttachmentArray != undefined || AttachmentArray.length != 0) {
       const a = AttachmentArray.split(',');
       setArrayOfAttachment(a);
     }
@@ -413,7 +413,7 @@ function Form13() {
                 )
               }}
             />
-            {ArrayOfAttachment == undefined || PageName === 'Reply' ? null : (
+            {ArrayOfAttachment == undefined || ArrayOfAttachment =="null" || ArrayOfAttachment.length == 0 || PageName === 'Reply' ? null : (
               <>
                 <Typography>Attachment(s):</Typography>
                 {ArrayOfAttachment.map((item) => {

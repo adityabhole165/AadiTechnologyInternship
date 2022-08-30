@@ -12,6 +12,7 @@ const MessageCenterSlice = createSlice({
   name: 'Message Center',
   initialState:{
     TrashList:[],
+    FilterData: false,
     TeacherList:[],
     AdminStaffList:[],
     YearsList:[],
@@ -24,6 +25,9 @@ const MessageCenterSlice = createSlice({
     getTrashList (state,action){
       state.Loading = false
       state.TrashList=action.payload.GetTrashMessagesResult;
+    },
+    getFilterData(state, action) {
+      state.FilterData = action.payload;
     },
     getTeacherList (state,action){
       state.TeacherList=action.payload.GetUsersInGroupResult;
@@ -52,9 +56,20 @@ export const getTrashList =
   (data ? :IgetList): AppThunk =>
   async (dispatch) => {
     dispatch(MessageCenterSlice.actions.getLoading(true));
+    dispatch(MessageCenterSlice.actions.getFilterData(false));
     const response = await MessageCenterApi.GetTrashList(data);
     dispatch(MessageCenterSlice.actions.getTrashList(response.data));
   };
+
+  export const getNextPageTrashList =
+  (data: IgetList): AppThunk =>
+  async (dispatch) => {
+    dispatch(MessageCenterSlice.actions.getLoading(true));
+    dispatch(MessageCenterSlice.actions.getFilterData(true));
+    const response = await MessageCenterApi.GetTrashList(data);
+    dispatch(MessageCenterSlice.actions.getTrashList(response.data));
+  };
+
   export const getYearsList =
   (data:Iyears): AppThunk =>
   async (dispatch) => {

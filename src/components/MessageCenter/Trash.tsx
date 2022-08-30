@@ -6,21 +6,76 @@ import { RootState } from "src/store";
 import List3 from "src/libraries/list/List3";
 import { IgetList } from "src/interfaces/MessageCenter/GetList";
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { Button, Container, Box } from "@mui/material";
+import { Button, Container, Box, Avatar } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay'
 import { toast } from 'react-toastify';
 import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import MessageCenterApi from "src/api/MessageCenter/MessageCenter";
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
+
+const PageIndex = 2; // Initial page index
 
 function Trash() {
+
+    const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index 
+    const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
+    const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
+    const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
+    const [pageIndexUpdated,setpageIndexUpdated] = useState(false);
 
     const trashList = useSelector((state: RootState) => state.MessageCenter.TrashList);
     const loading:boolean = useSelector(
         (state: RootState) => state.MessageCenter.Loading
       );
+      const FilterData:boolean = useSelector(
+        (state: RootState) => state.MessageCenter.FilterData
+      );
     const dispatch = useDispatch();
+
+    if (trashList != undefined) { 
+        if (ManipulatedData.length == 0 && pageIndexUpdated == false) {
+            trashList.forEach((element) => {
+            if (element != undefined) {
+              ManipulatedData.push(element);
+            }
+          });
+        }
+      // For Filter
+      if(FilterData == true){
+        if(ManipulatedData.length != 0 && trashList.length != 0){
+          ManipulatedData.length = 0;
+          trashList.forEach((element) => {
+            if (element != undefined) {
+              ManipulatedData.push(element);
+            }
+          });
+        }
+        else{
+          ManipulatedData.length = 0;
+        }
+      }
+      // After page increment data modifications
+        else {
+          if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
+            if (NextPageData.GetTrashMessagesResult != undefined) {
+              if (
+                NextPageData.GetTrashMessagesResult[0].DetailsId !=
+                ManipulatedData[0].DetailsId
+              ) {
+                NextPageData.GetTrashMessagesResult.forEach((element) => {
+                  if (element != undefined) {
+                    ManipulatedData.push(element);
+                  }
+                });
+              }
+            }
+          }
+        }
+      }
+
 
     const asSchoolId = localStorage.getItem('localSchoolId');
     const UserId = sessionStorage.getItem('Id');
@@ -118,6 +173,52 @@ function Trash() {
         })
     }
 
+      // Pagination Api call and data setters
+  const ScrollableDivRefference = document.getElementById('ScrollableDiv');
+
+  const PageIndexIncrement = (): void => {
+    setpageIndex(pageIndex + 1);
+  };
+
+  const scrolling = (): void => {
+    // (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
+    if(ScrollableDivRefference.scrollTop >= 400){
+      setdisplayMoveToTop("flex")
+    }
+    if(ScrollableDivRefference.scrollTop < 400){
+      setdisplayMoveToTop("none")
+    }
+    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) { 
+      setpageIndexUpdated(true);
+      const UpdatedBody: IgetList = {
+        asUserId: UserId,
+        asAcademicYearId: AcademicYearId,
+        asUserRoleId: RoleId,
+        asSchoolId: asSchoolId,
+        abIsSMSCenter: '0',
+        asFilter: '',
+        asPageIndex: pageIndex,
+        asMonthId: '0'
+      };
+      MessageCenterApi.GetTrashList(UpdatedBody) 
+        .then((response) => {
+          setNextPageData(response.data); // Next page data setter
+          console.log(response.data)
+        })
+        .catch((err) => {
+          alert('error network');
+        });
+      PageIndexIncrement();
+    }
+  };
+
+  const MoveToTop = (e) => {
+    ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      setdisplayMoveToTop("none")
+    }, 10);
+  }
+
 
     return (
         <>
@@ -136,6 +237,18 @@ function Trash() {
                     null
             }
 
+<div
+        id="ScrollableDiv"
+        onScroll={scrolling}
+        style={{
+          position: 'absolute',
+          width: '100%',
+          paddingBottom: '100px',
+          height: '570px',
+          overflow: 'auto'
+        }}
+      >
+
             {
                 loading 
                 ? 
@@ -143,16 +256,24 @@ function Trash() {
                   <SuspenseLoader />
                 ) 
                 : 
-                (trashList === null || trashList.length == 0) ?
+                (ManipulatedData === null || ManipulatedData.length == 0 || ManipulatedData == undefined) ?
                 <ErrorMessages Error={'No message found'} />
                     :
                     <>
                         {
-                            trashList.map((trashListitem: GetTrashMessagesResult, i) =>
+                            ManipulatedData.map((trashListitem: GetTrashMessagesResult, i) =>
                                 <List3 data={trashListitem} key={i} handleChange={handleChange} check={checked} FromRoute={"/Trash"} />)
                         }
                     </>
             }
+            <Avatar
+        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
+        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
+        onClick={MoveToTop} // Close function 
+      > 
+        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
+      </Avatar>
+            </div>
         </>
     )
 }
