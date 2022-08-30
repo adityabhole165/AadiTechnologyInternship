@@ -20,6 +20,13 @@ import http from 'src/requests/SchoolService/schoolServices';
 import { toast } from 'react-toastify'
 import * as Yup from 'yup';
 import {Formik, useFormik} from 'formik';
+import {
+  ButtonPrimary,
+  ButtonSecondary,
+  ButtonDisable,
+  ButtonWrapper
+} from 'src/libraries/styled/ButtonStyle';
+
 
 function Form() {
   const navigate = useNavigate();
@@ -122,6 +129,7 @@ else if(values.ConfirmPassword != values.NewPassword){
 
         
     <Container>
+   
       <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -173,7 +181,7 @@ else if(values.ConfirmPassword != values.NewPassword){
           </Typography>
          </Card>
          
-          <Grid container spacing={2}>
+          {/* <Grid container spacing={2}>
             <Grid item xs={6} style={{ flexDirection: 'row' }}>
               <Button
                 sx={{
@@ -208,7 +216,12 @@ else if(values.ConfirmPassword != values.NewPassword){
                 {'Cancel'}
               </Button>
             </Grid>
-          </Grid>
+          </Grid> */}
+          <ButtonWrapper>
+          <ButtonPrimary    onChange={formik.handleChange}   type="submit">  {'Save'}</ButtonPrimary>
+          <ButtonSecondary   onClick={getHomepage}>{'Cancel'}</ButtonSecondary>
+          </ButtonWrapper>
+         
         </form>
       </Card>
     </Container>
@@ -216,3 +229,8 @@ else if(values.ConfirmPassword != values.NewPassword){
 }
 
 export default Form;
+
+
+
+
+

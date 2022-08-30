@@ -1,7 +1,7 @@
 
-import { Grid, Typography, styled } from '@mui/material';
+import { Box, Typography, styled } from '@mui/material';
 
-export const AccordianHeader = styled(Grid)(
+export const AccordianHeader = styled(Box)(
   ({ theme }) => `
   padding: 8px;
     cursor: pointer;
@@ -41,7 +41,7 @@ float: right;
 margin-right:10px;
 
 `
-export const CardDetail= styled(Grid)`
+export const CardDetail= styled(Box)`
  border-top:0.1px 
  solid gray;
  display:flex;
