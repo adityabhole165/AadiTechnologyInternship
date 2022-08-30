@@ -18,7 +18,7 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import { Avatar } from '@mui/material';
 
 
-const PageIndex = 1; // Initial page index
+const PageIndex = 2; // Initial page index
 
 function SentMessage() {
   const dispatch = useDispatch();
@@ -27,6 +27,7 @@ function SentMessage() {
   const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
   const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
   const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
+  const [pageIndexUpdated,setpageIndexUpdated] = useState(false);
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
@@ -41,19 +42,38 @@ function SentMessage() {
   const loading:boolean = useSelector(
     (state: RootState) => state.Sent__Message.Loading
   );
+  const FilterData:boolean = useSelector(
+    (state: RootState) => state.Sent__Message.FilterData
+  );
 
+
+  
   // First time modification 
   if (GetSentMessagesList != undefined) { 
-    if (ManipulatedData.length == 0) {
+    if (ManipulatedData.length == 0 && pageIndexUpdated == false) {
       GetSentMessagesList.forEach((element) => {
         if (element != undefined) {
           ManipulatedData.push(element);
         }
       });
-    } 
+    }
+  // For Filter
+  if(FilterData == true){
+    if(ManipulatedData.length != 0 && GetSentMessagesList.length != 0){
+      ManipulatedData.length = 0;
+      GetSentMessagesList.forEach((element) => {
+        if (element != undefined) {
+          ManipulatedData.push(element);
+        }
+      });
+    }
+    else{
+      ManipulatedData.length = 0;
+    }
+  }
   // After page increment data modifications
     else {
-      if (NextPageData != undefined && ManipulatedData.length != 0) {
+      if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
         if (NextPageData.GetScheduledSMSResult != undefined) {
           if (
             NextPageData.GetScheduledSMSResult[0].DetailsId !=
@@ -97,7 +117,16 @@ function SentMessage() {
 
   const handleChange = (event) => {
     setChecked(true);
-    const { value, checked } = event;
+    const { value, name, checked } = event;
+
+    var recieverName = ""
+        if (name == "0") {
+            recieverName = value
+        }
+        else {
+            recieverName = name
+
+        }
 
     const { DetailInfo } = Id;
 
@@ -163,10 +192,8 @@ function SentMessage() {
     if(ScrollableDivRefference.scrollTop < 400){
       setdisplayMoveToTop("none")
     }
-    // console.log(ScrollableDivRefference.scrollTop)
-    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 600) { 
-      // setdisplayMoveToTop("flex")
-      PageIndexIncrement();
+    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) { 
+      setpageIndexUpdated(true);
       const UpdatedBody: IgetList = {
         asUserId: UserId,
         asAcademicYearId: AcademicYearId,
@@ -184,6 +211,7 @@ function SentMessage() {
         .catch((err) => {
           alert('error network');
         });
+      PageIndexIncrement();
     }
   };
 

@@ -64,23 +64,6 @@ function SmsCenter() {
     setpage(page + 1);
   }
 
-  // console.log(window.innerHeight + document.documentElement.scrollTop);
-  // console.log(document.documentElement.offsetHeight);
-  // console.log((window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight))
-  // if(window.innerHeight + document.documentElement.scrollTop === document.documentElement.offsetHeight){
-  //   // scrollToEnd();
-  //   console.log("hello")
-  // }
-
-
-  // window.onscroll = function (){
-  //   console.log(window.innerHeight + document.documentElement.scrollTop);
-  //   console.log(document.documentElement.offsetHeight);
-  //   if(window.innerHeight + document.documentElement.scrollTop !== document.documentElement.offsetHeight){
-  //     scrollToEnd();
-  //   }
-  // }
-
   return (
     <>
       <PageHeader heading={'Recieved SMS'} subheading={''} />

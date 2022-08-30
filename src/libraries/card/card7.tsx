@@ -32,10 +32,15 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
 
   const [AttachmentArray,setAttachmentArray] = useState<any>([]);
 
-  for (const property in attachment) {
-    let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
-    AttachmentArray.push(property);
-    attachmentObj.push(AttachmentFile);
+  if(typeof(attachment) == "object"){
+    AttachmentArray.push("null")
+  }
+  else{
+    for (const property in attachment) {
+      let AttachmentFile:any = {FileName: `${property}`, FilePath:file_path + `${property}`};
+      AttachmentArray.push(property);
+      attachmentObj.push(AttachmentFile);
+    }
   }
 
   const classes = Styles();
@@ -126,7 +131,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={
-            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + '/' + AttachmentArray + '/' + BODY
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + '/' +  AttachmentArray + '/' + BODY
           }
         >
           <Box
