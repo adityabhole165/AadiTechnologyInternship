@@ -88,6 +88,7 @@ function Form13() {
   const [Too, setValue] = React.useState<any>([]);
   const [Name, setname] = React.useState<any>('');
   const [Id, setId] = React.useState<any>('');
+  console.log(Id)
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -255,6 +256,7 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
+      console.log(values)
       setdisabledStateOfSend(true);
     },
     validate: (values) => {
