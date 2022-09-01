@@ -191,7 +191,6 @@ function Header() {
   }
 
   const loginToSibling = async (siblingUserLogin, siblingPassword) => {
-    debugger;
     const body: IAuthenticateUser = {
       asUserName: siblingUserLogin,
       asPassword: siblingPassword,
