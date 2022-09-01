@@ -49,48 +49,8 @@ function Form13() {
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
   const [daaaaa,setdaaa] = useState<any>([]);
   const [ArrayOfAttachments,setArrayOfAttachments] = useState([]);
-  // setArrayOfAttachments(AttachmentArray.split(","))
-  // console.log(ArrayOfAttachments)
-
-  // useEffect(()=>{
-  //   const a = AttachmentArray.split(",");
-  //   const fileChangedHandler = async (a) => {
-  //   const multipleFiles = a;
-  //   // console.log(multipleFiles)
-  //   for (let i = 0; i < multipleFiles.length; i++) {
-  //     console.log(multipleFiles)
-  //     // const isValid = CheckValidation(multipleFiles[i]);
-  //     // console.log(isValid)
-
-  //     // let fileName = multipleFiles[i].name;
-  //     // let base64URL: any = '';
-
-  //     // // if (isValid) {
-  //     //   base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-  //     //   console.log(base64URL)
-  //     // }
-  //     // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-
-  //     // let AttachmentFile: AttachmentFile = {
-  //     //   FileName: fileName,
-  //     //   Base64URL: DataAttachment
-  //     // };
-  //     // finalBase64.push(AttachmentFile);
-  //   }
-  // };
-  // fileChangedHandler(a);
-
-  // },[])
   
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
-
-  // if(AttachmentArray == undefined || AttachmentArray.length ==0){
-  //     setArrayOfAttachment([])
-  //   }
-  //   else if(AttachmentArray != undefined || AttachmentArray.length != 0){
-  //     const a = AttachmentArray.split(',');
-  //     setArrayOfAttachment(a);
-  //   }
 
   const classes = Styles();
   const navigate = useNavigate();
