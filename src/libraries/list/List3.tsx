@@ -41,10 +41,12 @@ List3.propTypes = {
   handleChange: PropTypes.any,
   check: PropTypes.any,
   Attachments: PropTypes.any,
-  FromRoute: PropTypes.string
+  FromRoute: PropTypes.string,
+  pointerEvent: PropTypes?.string,
+  Id: PropTypes?.any
 };
 
-function List3({ data, handleChange, check, Attachments, FromRoute }) {
+function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,Id }) {
   const dispatch = useDispatch();
 
   const [checked, setChecked] = useState(false);
@@ -54,6 +56,13 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
     // setChecked(event.target.checked);
     handleChange(event);
   };
+
+  const location = useLocation();
+  const pathname = location.pathname;
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/Compose/',
+    ''
+  );
 
   const theme = useTheme();
   const classes = Styles();
@@ -77,6 +86,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
           <Box>
             <Grid container>
               <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
+
                 {/* <Checkbox
                   checked={checked}
                   onChange={(event) => checkedbox(event)}
@@ -86,11 +96,11 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
                 /> */}
                 
                 <Card33 
-                  checked={checked}
+                  checked={pageName == "Recipients" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
-                  value={data.DetailsId}
-                  name={data.ReceiverDetailsId}
+                  value={Id}
+                  name={pageName == "Recipients" ? data.Name : data.ReceiverDetailsId}
                 />
 
               </Grid>
@@ -103,7 +113,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
                     }/MessageCenter/viewMSg/` + data.DetailsId + FromRoute
                   }
                   color="primary"
-                  style={{ textDecoration: 'none' }}
+                  style={{ textDecoration: 'none',pointerEvents:pointerEvent }}
                 >
                   <Grid item xs={12}>
                     <Typography
@@ -115,6 +125,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute }) {
                       }}
                     >
                       {data.Subject}
+                      {data.Name}
                     </Typography>
                   </Grid>
                   <Grid container xs={12}>
