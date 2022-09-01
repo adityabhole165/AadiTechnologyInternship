@@ -273,8 +273,8 @@ const formik=useFormik({
             size="medium"
             name="response"
             value={selectedRollNo }
-            onChange={handleChange1}
-            onChangeCapture={formik.handleChange}
+            onChange={formik.handleChange}
+            onChangeCapture={handleChange1}
             sx={{ mb: 1 }}
             InputProps={{
               endAdornment: (
