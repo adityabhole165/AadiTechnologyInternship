@@ -371,7 +371,9 @@ function SelectSchool() {
                                     }
 
                                     <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
-                                        <Button variant="contained" color="success" sx={{ ml: "auto",pointerEvents:LoginButtonDisabled}} type="submit" onChange={formik.handleChange}  > 
+                                        <Button variant="contained" color="success" sx={{ ml: "auto"
+                                        // ,pointerEvents:LoginButtonDisabled
+                                        }} type="submit" onChange={formik.handleChange}  > 
                                             Login
                                         </Button>
                                         <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>

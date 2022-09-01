@@ -73,7 +73,8 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                   width: '300px',
                   position: 'absolute',
                   display: dateClickDependent,
-                  left:'70px',
+                  alignItems:'center',
+                  // left:'12%',
                   zIndex: '2',
                   mt: '5px',
                 }}

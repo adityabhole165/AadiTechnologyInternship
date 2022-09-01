@@ -5,8 +5,7 @@ import GetPasswordApi from 'src/api/Authentication/GetPassword';
 import {
   ButtonPrimary,
   ButtonSecondary,
-  ButtonDisable,
-  ButtonWrapper
+  ButtonDisable
 } from 'src/libraries/styled/ButtonStyle';
 
 import {
@@ -27,9 +26,10 @@ import {
 } from 'src/interfaces/Authentication/GetPassword';
 import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate } from 'react-router-dom';
-import Card34 from 'src/libraries/card/Card34';
+import Note from 'src/libraries/Note/Note';
 
 function ForgotPassword() {
+  const br = `\n`;
   const theme = useTheme();
   const asSchoolId = localStorage.getItem('localSchoolId');
 
@@ -90,6 +90,13 @@ function ForgotPassword() {
   const click = () => {
     navigate('/schoolList');
   };
+  const note = [
+    '1) Parents need to enter the date of birth of their child.',
+    '2) Please enter the user name and date of birth, the system will SMS you the password on the mobile number registered with the  RITeSchool account.',
+   ' 3) If you dont remember the user then enter mobile number that is currently registered with the RITeSchool account and date of birth.',
+    '4) Please enter email id to receive the login details through email.'
+  ];
+
   return (
     <>
       <PageHeader heading={'Forgot Password'} subheading={''} />
@@ -168,15 +175,25 @@ function ForgotPassword() {
                 <div>{formik.errors.EmailId}</div>
               ) : null}
             </p>
-            <ButtonWrapper>
-              <ButtonPrimary onChange={formik.handleChange} type="submit">
-                Submit
-              </ButtonPrimary>
-              <ButtonSecondary onClick={click}>{'Cancel'}</ButtonSecondary>
-            </ButtonWrapper>
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <ButtonPrimary
+                  onChange={formik.handleChange}
+                  type="submit"
+                  fullWidth
+                >
+                  Submit
+                </ButtonPrimary>
+              </Grid>
+              <Grid item xs={6}>
+                <ButtonSecondary onClick={click} fullWidth>
+                  Cancel
+                </ButtonSecondary>
+              </Grid>
+            </Grid>
           </form>
-         
-          <Card34/>
+
+          <Note NoteDetail={note} />
         </Card>
       </Container>
     </>
