@@ -168,6 +168,7 @@ function SelectSchool() {
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
 
         }
+
         if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
@@ -200,7 +201,8 @@ function SelectSchool() {
         const body: IAuthenticateUser = {
             asUserName: formik.values.userName,
             asPassword: formik.values.password,
-            asSchoolId: localschoolId
+            asSchoolId: localschoolId,
+            asIsSiblingLogin: false
         };
 
         const response: any = await LoginApi.AuthenticateUser(body)
