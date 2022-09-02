@@ -36,7 +36,6 @@ const Recipients = () => {
   const TeacherList: any = useSelector(
     (state: RootState) => state.MessageCenter.TeacherList
   );
-  console.log(TeacherList);
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -191,7 +190,7 @@ const Recipients = () => {
                         value={2}
                         control={<Radio />}
                         name="RecipientList"
-                        label="RecipientList"
+                        label="Teacher"
                       />
                       <FormControlLabel
                         value={6}

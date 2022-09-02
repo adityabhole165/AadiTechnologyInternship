@@ -13,7 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 
 
 Card16.propTypes = {
@@ -175,9 +175,9 @@ function Card16({ Note, Heading }) {
       ) : null}
 
       <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-        {/* <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
+        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
           Total: {FeesTotal > 0 ? <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
-        </div> */}
+        </div>
 
         <RouterLink
           to={`/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate }
@@ -287,7 +287,7 @@ function Card16({ Note, Heading }) {
                             }}
                           >
                             {Heading.Fee2}
-                            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> */}
+                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
                             <strong>{item.Amount}</strong>
                           </Typography>
                         </Grid>

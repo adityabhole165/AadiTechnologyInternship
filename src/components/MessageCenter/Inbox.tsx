@@ -7,7 +7,7 @@ import List3 from 'src/libraries/list/List3';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { Button, Container, Box, Avatar } from '@mui/material';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { getInboxList } from 'src/requests/Student/InboxMessage';
+import { getInboxList, getNextPageInboxList } from 'src/requests/Student/InboxMessage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
@@ -150,7 +150,7 @@ function Inbox() {
           'pagename /extended-sidebar/MessageCenter/msgCenter'
         ) {
           toast.success('Message deleted successfully');
-          dispatch(getInboxList(getList));
+          dispatch(getNextPageInboxList(getList));
         }
         setChecked(false);
         setId({

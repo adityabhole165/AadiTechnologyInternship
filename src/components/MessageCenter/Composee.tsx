@@ -10,7 +10,7 @@ import {
   Card,
   Typography,
 } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -27,7 +27,7 @@ import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import BackButton from 'src/libraries/button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
-import { removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
+import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 
 
 function Form13() {
@@ -47,10 +47,37 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
-  const [daaaaa,setdaaa] = useState<any>([]);
-  const [ArrayOfAttachments,setArrayOfAttachments] = useState([]);
-  
+  console.log(From)
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
+
+  const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
+
+  useEffect(()=>{
+    if(PageName == "Reply"){
+      const PayLoadObject = {
+        Name: From,
+        ID: FromUserID.toString()
+      };
+      dispatch(addRecipients(PayLoadObject));
+    }
+  },[])
+
+  useMemo(() => {
+    if(AttachmentArray != undefined){
+      const a = AttachmentArray.split(",");
+      for(let i=0; i<a.length ;i++){
+        ArrayOfAttachment.push(a[i]);
+        const filename = a[i];
+        const encode = window.btoa(a[i])
+        let AttachmentFile: AttachmentFile = {
+          FileName: filename,
+          Base64URL: encode
+        };
+        finalBase642.push(AttachmentFile)
+      }
+    }
+  },[AttachmentArray])
+
 
   const classes = Styles();
   const navigate = useNavigate();
@@ -101,12 +128,9 @@ function Form13() {
         FileName: fileName,
         Base64URL: DataAttachment
       };
-      finalBase64.push(AttachmentFile);
+      finalBase642.push(AttachmentFile);
     }
   };
-
-  console.log(finalBase64)
-
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
@@ -156,9 +180,11 @@ function Form13() {
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
-    console.log(fileData)
+    // console.log(fileData)
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
+      console.log(fileReader)
+
       fileReader.readAsDataURL(fileData);
 
       fileReader.onload = () => {
@@ -195,11 +221,9 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: `${
-        PageName === 'Reply' ? FromUserID.toString() : RecipientsListID.toString() // Id.toString()
-      }`,
+      asSelectedUserIds: RecipientsListID.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
-      attachmentFile: finalBase64,
+      attachmentFile: finalBase642,
       asFileName: fileName
     };
 

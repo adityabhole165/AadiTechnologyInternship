@@ -10,7 +10,7 @@ import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
 import { useTheme } from '@mui/material';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 
 
 function Fees() {
@@ -94,7 +94,7 @@ function Fees() {
           className={classes.ListStyle1}
         >
           Applicable Fees : &nbsp;&nbsp;
-          {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>  */}
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> 
            {FeesList2.TotalFee}
         </Card>
       </Container>
