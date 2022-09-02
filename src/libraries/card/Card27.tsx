@@ -73,7 +73,9 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             className={classes.ListStyle1}
           >
             <Typography sx={{ color: 'black' }}>
-              <b>{FeesType}</b> &nbsp;:&nbsp;<CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> <b>{FeesType == 'Paid Fees' ? FeesObject.TotalFeesPaid : FeesObject.FeesTobePaid} </b>
+              <b>{FeesType}</b> &nbsp;:&nbsp;
+              <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> 
+              <b>{FeesType == 'Paid Fees' ? FeesObject.TotalFeesPaid : FeesObject.FeesTobePaid} </b>
             </Typography>
           </AccordionSummary>
           {FeesType == 'Paid Fees' ? (
@@ -119,7 +121,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                             variant="h5"
                             sx={{  textAlign: 'right' }}
                           >
-                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>{item.Amount}
+                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
+                            {item.Amount}
                           </Typography>
                         </Grid>
                         <Grid

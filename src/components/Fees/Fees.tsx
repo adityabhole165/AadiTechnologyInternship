@@ -93,7 +93,9 @@ function Fees() {
           }}
           className={classes.ListStyle1}
         >
-          Applicable Fees : &nbsp;&nbsp;<CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>  {FeesList2.TotalFee}
+          Applicable Fees : &nbsp;&nbsp;
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> 
+           {FeesList2.TotalFee}
         </Card>
       </Container>
 

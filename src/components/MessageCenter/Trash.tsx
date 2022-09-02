@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getTrashList } from "src/requests/MessageCenter/MessaageCenter"
+import { getNextPageTrashList, getTrashList } from "src/requests/MessageCenter/MessaageCenter"
 import { GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
 import { RootState } from "src/store";
 import List3 from "src/libraries/list/List3";
@@ -150,7 +150,7 @@ function Trash() {
             .then((data) => {
                 if (pageName == "Trash") {
                     toast.success("Message deleted successfully")
-                    dispatch(getTrashList(getList))
+                    dispatch(getNextPageTrashList(getList))
                 }
                 setChecked(false)
                 setId({

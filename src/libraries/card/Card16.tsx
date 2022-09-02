@@ -286,7 +286,9 @@ function Card16({ Note, Heading }) {
                               overflow: 'hidden'
                             }}
                           >
-                            {Heading.Fee2}<CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><strong>{item.Amount}</strong>
+                            {Heading.Fee2}
+                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
+                            <strong>{item.Amount}</strong>
                           </Typography>
                         </Grid>
                       </Grid>

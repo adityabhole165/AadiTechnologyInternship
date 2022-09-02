@@ -25,6 +25,7 @@ Card7.propTypes = {
 
 function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,ViewSentObject}) {
   const theme = useTheme();
+  console.log(From)
 
   let attachment = Attachments;
   let attachmentObj: any = [];
@@ -32,7 +33,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
 
   const [AttachmentArray,setAttachmentArray] = useState<any>([]);
 
-  if(typeof(attachment) == "object"){
+  if((Object.keys(Attachments).length) == 0){
     AttachmentArray.push("null")
   }
   else{
@@ -42,6 +43,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
       attachmentObj.push(AttachmentFile);
     }
   }
+  // console.log(Object.keys(Attachments).length)
 
   const classes = Styles();
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');

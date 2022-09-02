@@ -39,6 +39,8 @@ import 'src/assets/style/teacher.css';
 import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
 import { getAttendanceDataList, getStandardList, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
+import {Formik, useFormik} from 'formik';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -139,6 +141,8 @@ function Attendance() {
     setUsers(getAttendanceData);
   }, []);
 
+  const [selectedValues,setselectedValues] = useState<any>();
+
   // Start Calender Here
 
   const getCurrentDate = (newDate?: Date) => {
@@ -189,6 +193,19 @@ function Attendance() {
 
   // End Calender Here
 
+  const callSubmit = (e) => {
+    e.preventDefault()
+    console.log(e)
+  }
+
+const formik=useFormik({
+  initialValues:{
+    response:'',
+  },
+  onSubmit:values=>{
+    setselectedValues(selectedRollNo)
+  },
+})
   return (
     <>
       <PageHeader heading={'Attendance'} subheading={''} />
@@ -242,12 +259,12 @@ function Attendance() {
 
       {/* Start Enter Absent number Here  */}
       <Container>
-        <form>
+        <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
             id="standard-basic"
             label={
-              <Typography sx={{ color: 'black' }}>
+              <Typography sx={{ color: 'black' }}> 
                 Enter Absent Number
               </Typography>
             }
@@ -255,8 +272,9 @@ function Attendance() {
             className="form-check-input"
             size="medium"
             name="response"
-            value={selectedRollNo}
-            onChange={handleChange1}
+            value={selectedRollNo }
+            onChange={formik.handleChange}
+            onChangeCapture={handleChange1}
             sx={{ mb: 1 }}
             InputProps={{
               endAdornment: (
@@ -306,10 +324,11 @@ function Attendance() {
               )
             }}
           />
-
-          <Button variant="contained" color="primary">
+          <Button variant="contained" color="primary" type="submit" onChange={formik.handleChange}>
             Save
           </Button>
+           {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
+           {/* onChange={formik.handleChange}  */}
         </form>
 
         {/* end Enter Absent number Here  */}
@@ -322,9 +341,8 @@ function Attendance() {
           fullWidth
           sx={{ mb: 1 }}
           id="standard-read-only-input"
-          label={
-            <Typography sx={{ color: 'black' }}>Absent Roll Number</Typography>
-          }
+          placeholder='Absent Roll Numbers'
+          value={selectedValues}
           InputProps={{
             readOnly: true
           }}
@@ -410,7 +428,6 @@ function Attendance() {
                             {' '}
                             <b>{data.RollNumber}</b>{' '}
                           </TableCell>
-
                           <TableCell align="center">
                             <b>{data.StudentName}</b>
                           </TableCell>
