@@ -3,9 +3,9 @@ import { Box, Typography, styled } from '@mui/material';
 
 export const AccordianHeader = styled(Box)(
   ({ theme }) => `
-  padding: 8px;
+  
     cursor: pointer;
-      background: ${theme.colors.gradients.pink1};
+      // background: ${theme.colors.gradients.pink1};
       display:flex;
  justify-content:space-between;
   `
