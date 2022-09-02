@@ -274,6 +274,7 @@ const formik=useFormik({
             name="response"
             value={selectedRollNo }
             onChange={formik.handleChange}
+            onChangeCapture={handleChange1}
             sx={{ mb: 1 }}
             InputProps={{
               endAdornment: (
@@ -340,9 +341,8 @@ const formik=useFormik({
           fullWidth
           sx={{ mb: 1 }}
           id="standard-read-only-input"
-          
+          placeholder='Absent Roll Numbers'
           value={selectedValues}
-          label={'Absent Roll Number'}
           InputProps={{
             readOnly: true
           }}
