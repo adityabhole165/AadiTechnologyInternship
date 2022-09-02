@@ -5,6 +5,7 @@ import Card32 from './Card32';
 import List23 from '../list/List23';
 import { Styles } from 'src/assets/style/student-style';
 import Card28 from './Card28';
+import { ListStyle } from '../styled/CardStyle';
 export const Card30 = ({ header}) => {
     const [enableRow, setEnableRow] = useState(-1)
     const expand = (index) => {
@@ -21,7 +22,7 @@ export const Card30 = ({ header}) => {
             {header.Header!= undefined ?
                 header.Header.map((Header) => (
 
-                    <Card key={Header.Id} sx={{ mt: 1}} className={classes.ListStyle1}>
+                    <ListStyle key={Header.Id}>
 
                         <Card32
                             Id={Header.Id}
@@ -32,7 +33,7 @@ export const Card30 = ({ header}) => {
                             enableRow === Header.Id &&
                             <List23 data={Header.Child}/>
                         }
-                    </Card>
+                    </ListStyle>
                 ))
             :null}
         </Container>
