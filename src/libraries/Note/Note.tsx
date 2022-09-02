@@ -1,12 +1,12 @@
 import React from 'react'
-import { CardDetail2 } from '../styled/CardStyle';
+import { CardDetail2, CardDetail3 } from '../styled/CardStyle';
 import { NoteStyle } from '../styled/NoteStyle'
 
 function Note({NoteDetail}) {
   return (
     <div>
       <NoteStyle>
-        <CardDetail2>
+        <CardDetail3>
         <b>Note :</b>
         {
                
@@ -22,7 +22,7 @@ function Note({NoteDetail}) {
                       )
                   })
               }
-        </CardDetail2>
+        </CardDetail3>
       </NoteStyle>
     </div>
   )

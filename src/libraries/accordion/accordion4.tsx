@@ -8,6 +8,7 @@ import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
 import { Box, Container, Grow, Grid, List, useTheme } from '@mui/material';
+import {CardDetail1,CardDetail3,ListStyle,CardWrapper} from '../styled/CardStyle';
 
 Accordion4.propTypes = {
   Bookk: PropTypes.array,
@@ -81,92 +82,33 @@ function Accordion4({
                     mb: 1
                   }}
                 >
-                  <List
-                    sx={{
-                      boxShadow: '6px 6px 8px  gray !important',
-                      borderColor: '#1E656D',
-                      borderRadius: 1,
-                      mb: 1,
-                      mt: 1,
-                      color: 'black',
-                      backgroundColor: 'white'
-                    }}
-                  >
-                    <Grid>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} sx={{ maxWidth: '100%' }}>
-                          <Typography className={classes.Listfont1}>
-                            Author:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {author}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} className={classes.gridstart}>
-                          <Typography className={classes.Listfont1}>
-                            Publisher:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {publisher}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} sx={{ maxWidth: '100%' }}>
-                          <Typography className={classes.Listfont1}>
-                            Standards:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {standard}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} className={classes.gridstart}>
-                          <Typography className={classes.Listfont1}>
-                            Language:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {language}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} sx={{ maxWidth: '100%' }}>
-                          <Typography className={classes.Listfont1}>
-                            Available:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {available}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                      <Box className={classes.root2}>
-                        <Grid item xs={3} className={classes.gridstart}>
-                          <Typography className={classes.Listfont1}>
-                            Total:
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={9} className={classes.gridstart}>
-                          <Typography className={classes.Listfont2}>
-                            {total}
-                          </Typography>
-                        </Grid>
-                      </Box>
-                    </Grid>
-                  </List>
+                  <ListStyle>
+                    <CardWrapper>
+                      <CardDetail1> Author:</CardDetail1>
+                      <CardDetail3>{author}</CardDetail3>
+                    </CardWrapper>
+                    <CardWrapper>
+                      <CardDetail1> Publisher:</CardDetail1>
+                      <CardDetail3>{publisher}</CardDetail3>
+                    </CardWrapper>
+                    <CardWrapper>
+                      <CardDetail1> Standards:</CardDetail1>
+                      <CardDetail3> {standard}</CardDetail3>
+                    </CardWrapper>
+                    <CardWrapper>
+                      <CardDetail1> Standards:</CardDetail1>
+                      <CardDetail3> {language}</CardDetail3>
+                    </CardWrapper>
+                    <CardWrapper>
+                      <CardDetail1> Available:</CardDetail1>
+                      <CardDetail3> {available}</CardDetail3>
+                    </CardWrapper>
+                    <CardWrapper>
+                      <CardDetail1> Total:</CardDetail1>
+                      <CardDetail3> {total}</CardDetail3>
+                    </CardWrapper>
+                   
+                  </ListStyle>
                 </AccordionDetails>
               </Accordion>
             </div>

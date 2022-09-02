@@ -178,57 +178,7 @@ function Form() {
             ) : null}
           </p>
           <Note NoteDetail={note} />
-          {/* <Card
-            sx={{
-              boxShadow: '6px 4px 5px !important',
-              borderRadius: '10px',
-              mb: '10px',
-              backgroundColor: '#d0dbd2'
-            }}
-          >
-            <Typography sx={{ ml: '10px', mt: '5px', mb: '5px' }}>
-              <b>Note :</b> Capitalization Matters! Min 6 characters, Max 15
-              characters. Password should be combination of at least one
-              character, digit & special character.
-            </Typography>
-          </Card> */}
-
-          {/* <Grid container spacing={2}>
-            <Grid item xs={6} style={{ flexDirection: 'row' }}>
-              <Button
-                sx={{
-                  mt: 0.4
-                }}
-                color="primary"
-                type="submit"
-                fullWidth
-                size="large"
-                variant="contained"
-                //disabled={!validate}
-                onChange={formik.handleChange}
-              >
-                {'Save'}
-              </Button>
-            </Grid>
-            <Grid item xs={6}>
-              <Button
-                sx={{
-                  mt: 0.4
-                }}
-                color="primary"
-                type="reset"
-                fullWidth
-                size="large"
-                onClick={getHomepage}
-                variant="contained"
-                // onClick={back}
-                
-                
-              >
-                {'Cancel'}
-              </Button>
-            </Grid>
-          </Grid> */}
+        
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <ButtonPrimary
