@@ -3,21 +3,18 @@ import {
   TextField,
   Box,
   Button,
-  useTheme,
   FormControl,
   Tooltip,
   ClickAwayListener,
-  Fab,
-  Autocomplete,
   Grid,
   Card,
-  Typography
+  Typography,
 } from '@mui/material';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import {
   AttachmentFile,
@@ -25,27 +22,22 @@ import {
 } from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
-import { makeStyles } from '@mui/styles';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
-import Checkbox from '@mui/material/Checkbox';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import BackButton from 'src/libraries/button/BackButton';
+import { Link as RouterLink } from 'react-router-dom';
+import { removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 
-const useStyles = makeStyles({
-  option: {
-    marginBottom: -11,
-    marginTop: -11,
-    backgroundColor: 'white'
-  }
-});
-
-const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
-const checkedIcon = <CheckBoxIcon fontSize="small" />;
 
 function Form13() {
+
+  const RecipientsList: any = useSelector(
+    (state: RootState) => state.MessageCenter.RecipientsName
+  );
+
+  const dispatch = useDispatch();
+
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
@@ -55,18 +47,12 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
+  const [daaaaa,setdaaa] = useState<any>([]);
+  const [ArrayOfAttachments,setArrayOfAttachments] = useState([]);
+  
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
 
-  useMemo(() => {
-    if (AttachmentArray != undefined) {
-      const a = AttachmentArray.split(',');
-      setArrayOfAttachment(a);
-    }
-  }, []);
-
   const classes = Styles();
-  const classes1 = useStyles();
-  const theme = useTheme();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
@@ -75,19 +61,12 @@ function Form13() {
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
-  const TeacherList: any = useSelector(
-    (state: RootState) => state.MessageCenter.TeacherList
+
+  const RecipientsListID: any = useSelector(
+    (state: RootState) => state.MessageCenter.RecipientsId
   );
-  const AdminStaffList: any = useSelector(
-    (state: RootState) => state.MessageCenter.AdminStaffList
-  );
-  const [coOrdinator, setCoOrdinator] = useState<any>([
-    { Name: 'Software Co-ordinator', Id: '1' }
-  ]);
-  const allData = TeacherList.concat(AdminStaffList).concat(coOrdinator);
-  const [Too, setValue] = React.useState<any>([]);
+
   const [Name, setname] = React.useState<any>('');
-  const [Id, setId] = React.useState<any>('');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -101,10 +80,6 @@ function Form13() {
 
   const handleClick = () => {
     setOpen((prev) => !prev);
-  };
-
-  const getinbox = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
   };
 
   const handleClickAway = () => {
@@ -129,6 +104,9 @@ function Form13() {
       finalBase64.push(AttachmentFile);
     }
   };
+
+  console.log(finalBase64)
+
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
@@ -178,6 +156,7 @@ function Form13() {
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
+    console.log(fileData)
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       fileReader.readAsDataURL(fileData);
@@ -191,15 +170,6 @@ function Form13() {
     });
   };
   // Submit form data
-
-  useEffect(() => {
-    if (Too !== undefined) {
-      const NameList = Too.map((data) => data.Name);
-      const IdList = Too.map((data) => data.Id);
-      setname(NameList);
-      setId(IdList);
-    }
-  }, [Too]);
 
   const RediretToSentPage = () => {
     navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
@@ -226,7 +196,7 @@ function Form13() {
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
       asSelectedUserIds: `${
-        PageName === 'Reply' ? FromUserID.toString() : Id.toString()
+        PageName === 'Reply' ? FromUserID.toString() : RecipientsListID.toString() // Id.toString()
       }`,
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase64,
@@ -239,6 +209,7 @@ function Form13() {
           setdisabledStateOfSend(true);
           toast.success('Message sent successfully');
           setTimeout(RediretToSentPage, 100);
+          dispatch(removeAllRecipients("All"))
         }
       })
       .catch((err) => {
@@ -255,11 +226,12 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
+      console.log(values)
       setdisabledStateOfSend(true);
     },
     validate: (values) => {
       const errors: any = {};
-      if (Too.length == 0 && PageName !== 'Reply') {
+      if (RecipientsList.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
       if (!values.Subject) {
@@ -272,10 +244,9 @@ function Form13() {
     }
   });
 
-  // const AttachmentFilePath = 'https://192.168.1.80/';
-  const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
+  const AttachmentFilePath = 'https://192.168.1.80/'  + '/RITeSchool/Uploads/';
+  // const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
-    // console.log(Id.toString());
   return (
     <>
       <Container>
@@ -283,59 +254,43 @@ function Form13() {
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
-              <Autocomplete
-                value={Too}
-                onChange={(events, newValue) => setValue(newValue)} //
-                classes={{
-                  option: classes1.option
-                }}
-                multiple
-                id="tags-filled"
-                options={allData}
-                disableCloseOnSelect
-                getOptionLabel={(option: any) => option.Name}
-                renderOption={(props, option, { selected }) => (
-                  <li {...props}>
-                    <Checkbox
-                      icon={icon}
-                      checkedIcon={checkedIcon}
-                      style={{ marginRight: 8 }}
-                      checked={selected}
-                      value={option.UserId}
-                    />
-                    {option.Name}
-                  </li>
-                )}
-                renderInput={(params) =>
-                  PageName === 'Reply' ? (
-                    <TextField
-                      variant="standard"
-                      fullWidth
-                      name="To"
-                      label={'To'}
-                      placeholder={From}
-                      value={From}
-                      disabled={true}
-                      className={classes.InputField}
-                    />
-                  ) : (
-                    <TextField
-                      {...params}
-                      variant="standard"
-                      name="To"
-                      label={'To'}
-                      className={classes.InputField}
-                      onChange={formik.handleChange}
-                    />
-                  )
-                }
-              />
-            </FormControl>
+              <TextField
+              fullWidth
+              margin="normal"
+              label={'To'}
+              name="To"
+              type="text"
+              autoComplete="off"
+              variant="standard"
+              value={RecipientsList}
+              onChange={formik.handleChange}
+              sx={{ mt: '-0.3rem' }}
+            />
+            
             <p style={{ color: 'red', marginTop: 2 }}>
-              {Too.length == 0 ? (
+              {RecipientsList.length == 0 ? (
                 <div className={classes.error}>{formik.errors.To}</div>
               ) : null}
             </p>
+
+          <span>
+          <RouterLink
+          to={`/${
+            location.pathname.split('/')[1]
+          }/MessageCenter/Compose/Recipients`}
+        >
+            <Button
+              sx={{ float: 'left', borderRadius: '5px',display:'inline', backgroundColor:'blue' }}
+              variant="contained"
+            >
+              Add Recipients
+            </Button>
+        </RouterLink>
+          </span>
+            
+
+            </FormControl>
+            
 
             <TextField
               fullWidth
@@ -347,7 +302,6 @@ function Form13() {
               variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
-              sx={{ mt: '-0.3rem' }}
             />
 
             <p style={{ color: 'red', marginTop: -10, marginBottom: '-10px' }}>
@@ -413,7 +367,7 @@ function Form13() {
                 )
               }}
             />
-            {ArrayOfAttachment == undefined || PageName === 'Reply' ? null : (
+            {ArrayOfAttachment == undefined || ArrayOfAttachment =="null" || ArrayOfAttachment.length == 0 || PageName === 'Reply' ? null : (
               <>
                 <Typography>Attachment(s):</Typography>
                 {ArrayOfAttachment.map((item) => {

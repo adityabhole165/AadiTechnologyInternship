@@ -16,7 +16,12 @@ import {
   List,
   ListItem,
   ListItemText,
-  Button
+  Button,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  NativeSelect
 } from '@mui/material';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
 import { SidebarContext } from 'src/contexts/SidebarContext';
@@ -34,6 +39,9 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import { useTranslation } from 'react-i18next';
+import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login';
+import LoginApi from 'src/api/Authentication/Login';
+import { toast } from 'react-toastify';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -103,6 +111,9 @@ function Header() {
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const studnetprofile = sessionStorage.getItem("PhotoFilePath")
+  const authData = JSON.parse(localStorage.getItem("auth"));
+  const siblingList = authData.data.StudentDetails.StudentSiblingList;
+  const schoolId = localStorage.getItem("localSchoolId");
 
   const { t }: { t: any } = useTranslation();
   const navigate = useNavigate();
@@ -120,7 +131,6 @@ function Header() {
   const handleLogout = async (): Promise<void> => {
     try {
       handleClose();
-      //localStorage.clear();
       sessionStorage.clear();
       localStorage.removeItem("auth")
       navigate('/');
@@ -128,6 +138,78 @@ function Header() {
       console.error(err);
     }
   };
+
+  const setSession = async (response) => {
+    const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
+    const studentDetails: any = await response.data.StudentDetails
+    const teacherDetails: any = await response.data.TeacherDetails
+    const adminDetails: any = await response.data.TeacherDetails
+
+    if (result.RoleName === "Student") {
+      window.sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+      sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
+      sessionStorage.setItem('Class', studentDetails.Class);
+      sessionStorage.setItem('StandardId', studentDetails.StandardId);
+      sessionStorage.setItem('RollNo', studentDetails.RollNo);
+      sessionStorage.setItem('AcademicYearId', studentDetails.AcademicYearId);
+      sessionStorage.setItem('AcademicYear', studentDetails.AcademicYear);
+      sessionStorage.setItem('StudentId', studentDetails.StudentId);
+      sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
+      sessionStorage.setItem('Address', studentDetails.Address);
+      sessionStorage.setItem('Residence_Phone_Number', studentDetails.Residence_Phone_Number);
+      sessionStorage.setItem('CasteAndSubCaste', studentDetails.CasteAndSubCaste);
+      sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
+      sessionStorage.setItem('Birth_Place', studentDetails.Birth_Place);
+      sessionStorage.setItem('Nationality', studentDetails.Nationality);
+      sessionStorage.setItem('Mother_Tongue', studentDetails.Mother_Tongue);
+      sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
+      sessionStorage.setItem('EndDate', studentDetails.EndDate);
+      sessionStorage.setItem('StartDate', studentDetails.StartDate);
+      sessionStorage.setItem('Language', studentDetails.asLanguage);
+      sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
+      sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
+      sessionStorage.setItem('SortRowIndexExpression', studentDetails.asSortExpression);
+      sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
+      sessionStorage.setItem('UserName', studentDetails.asUserName);
+      sessionStorage.setItem('ExamID', studentDetails.asExamId);
+      localStorage.setItem("UserId", result.Id);
+    }
+
+    sessionStorage.setItem("Id", result.Id);
+    sessionStorage.setItem("RoleId", result.RoleId);
+    sessionStorage.setItem("StudentName", result.Name);
+    sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
+    sessionStorage.setItem("Userlogin", result.UserLogin);
+    const url = localStorage.getItem("url");
+
+    if (result.RoleName == "Student") {
+      navigate('/extended-sidebar/landing/landing');
+    }
+    else {
+      navigate(url);
+    }
+  }
+
+  const loginToSibling = async (siblingUserLogin, siblingPassword) => {
+    const body: IAuthenticateUser = {
+      asUserName: siblingUserLogin,
+      asPassword: siblingPassword,
+      asSchoolId: schoolId,
+      asIsSiblingLogin: true
+    };
+
+    const response: any = await LoginApi.AuthenticateUser(body)
+    if (response.data != null) {
+      localStorage.setItem("auth", JSON.stringify(response));
+      setSession(response);
+    }
+    else {
+      toast.error("Invalid Username or Password");
+      navigate('/')
+    }
+
+  }
+
   return (
     <HeaderWrapper
       display="flex"
@@ -237,30 +319,55 @@ function Header() {
               <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</Typography>} />
             </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/common/SiblingLogin"}
-              component={NavLink}
-            >
-              <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Sibling Login</Typography>} />
-            </ListItem>
-            {/* <ListItem
-            onClick={() => {
-              handleClose();
-            }}
-            button
-            to={`/${
-              location.pathname.split('/')[1]
-            }/applications/projects-board`}
-            component={NavLink}
-          >
-            <AccountTreeTwoToneIcon fontSize="small" />
-            <ListItemText primary={t('Projects')} />
-          </ListItem> */}
+            {siblingList.length == 0 ? (
+              <>
+              </>
+            ) : siblingList.length == 1 ?
+              (
+                <>
+                  <ListItem
+                    button
+                    to={""}
+                    component={NavLink}
+                    style={{ background: 'white !important' }}
+                  >
+                    <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
+                    <ListItemText
+                      primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}
+                        onClick={() => {
+                          loginToSibling(siblingList[0].UserName, siblingList[0].Password);
+                        }}
+                      >Sibling Login</Typography>} />
+                  </ListItem>
+                </>
+              ) :
+              <ListItem
+                button
+                to={""}
+                component={NavLink}
+                style={{ background: 'white' }}
+              >
+                <GroupIcon fontSize="small" sx={{ color: "#053082", marginBottom: '42px' }} />
+                <ul style={{ listStyle: 'none', padding: '0px', margin: '0px' }}>
+                  <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography>
+                  {
+                    siblingList?.map(
+                      (sibling: any, i) => {
+                        return (
+                          <>
+                            <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
+                              onClick={() => {
+                                loginToSibling(sibling.UserName, sibling.Password);
+                              }}
+                            >{sibling.FullName}</li>
+                          </>
+                        );
+                      }
+                    )
+                  }
+                </ul>
+              </ListItem>
+            }
           </List>
           <Divider />
           <Box m={1}>

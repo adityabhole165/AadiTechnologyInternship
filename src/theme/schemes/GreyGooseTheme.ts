@@ -17,7 +17,9 @@ const themeColors = {
 
 const colors = {
   gradients: {
-    primayButton: 'linear-gradient(135deg, red 0%, red 100%)',
+    primayButton: '#599d92',
+    secondaryButton: 'gray',
+    disableButton: '#cccccc',
     listColor: '#fdfdfd',
     selectedlistColor: 'linear-gradient(135deg,  #e3e3e1 100%,  #e3e3e1 100%)',
     HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
@@ -148,6 +150,8 @@ export const GreyGooseTheme = createTheme({
 
    
       primayButton: colors.gradients.primayButton,
+      secondaryButton:colors.gradients.secondaryButton,
+      disableButton:colors.gradients.disableButton,
       listColor: colors.gradients.listColor,
       selectedlistColor: colors.gradients.selectedlistColor,
       HighlightedlistColor:colors.gradients.HighlightedlistColor,

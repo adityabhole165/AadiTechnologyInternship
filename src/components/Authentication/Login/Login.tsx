@@ -168,6 +168,7 @@ function SelectSchool() {
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
 
         }
+
         if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
@@ -200,7 +201,8 @@ function SelectSchool() {
         const body: IAuthenticateUser = {
             asUserName: formik.values.userName,
             asPassword: formik.values.password,
-            asSchoolId: localschoolId
+            asSchoolId: localschoolId,
+            asIsSiblingLogin: false
         };
 
         const response: any = await LoginApi.AuthenticateUser(body)
@@ -369,7 +371,9 @@ function SelectSchool() {
                                     }
 
                                     <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
-                                        <Button variant="contained" color="success" sx={{ ml: "auto",pointerEvents:LoginButtonDisabled}} type="submit" onChange={formik.handleChange}  > 
+                                        <Button variant="contained" color="success" sx={{ ml: "auto"
+                                        // ,pointerEvents:LoginButtonDisabled
+                                        }} type="submit" onChange={formik.handleChange}  > 
                                             Login
                                         </Button>
                                         <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>

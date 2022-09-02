@@ -23,7 +23,7 @@ const DashboardData = {
     items1:[
     {
       Text1: 'School ',
-      Text2: 'Notice',
+      Text2: 'Notices',
       Color: '#81c784',
       iconColor: '#35abd9',
       Icon: AssignmentIcon,
@@ -163,7 +163,7 @@ const DashboardData = {
     },
     {
       Text1: ' Online Exam ',
-      Text2: 'ProgressReport',
+      Text2: 'Progress Report',
       Color: '#90a4ae',
       iconColor: '#35abd9',
       Icon: AssessmentOutlinedIcon,

@@ -2,6 +2,12 @@ import React from 'react';
 import { Typography, Grid, useTheme } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import { useLocation } from 'react-router-dom';
+import {
+  CardDetail,
+  CardDetail1,
+  CardDetail2,CardDetail3,
+} from '../styled/CardStyle';
+
 
 function Card4({ header, text1, text2, text3 }) {
   const theme = useTheme();
@@ -11,21 +17,18 @@ function Card4({ header, text1, text2, text3 }) {
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
   return (
     <>
-      <Grid container>
-        <Grid xs={pageName == 'Timetable' ? 6 : 10}>
-          <Typography className={classes.Listfont2}>{header}</Typography>
-        </Grid>
-
-        <Grid xs={pageName == 'Timetable' ? 6 : 2}>
-          <Typography className={classes.ListFont1}>{text3}</Typography>
-        </Grid>
-        <Grid xs={6}>
-          <Typography className={classes.ListFont5}>{text1}</Typography>
-        </Grid>
-        <Grid xs={6}>
-          <Typography className={classes.ListFont2}>{text2}</Typography>
-        </Grid>
-      </Grid>
+     <CardDetail>
+        <CardDetail1>{header}</CardDetail1>
+        <CardDetail2>{text3}</CardDetail2>
+     
+      </CardDetail>
+      
+      <CardDetail>
+        <CardDetail3>{text1}</CardDetail3>
+        <CardDetail2>{text2}</CardDetail2>
+     
+      </CardDetail>
+    
     </>
   );
 }

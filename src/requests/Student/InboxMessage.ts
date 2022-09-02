@@ -8,11 +8,20 @@ const InboxMessageSlice = createSlice({
   name: 'Message Center',
   initialState:{
     InboxList:[],
-
+    FilterData: false,
+    Loading:true
   },
   reducers: {
     getInboxList (state,action){
+      state.Loading = false;
       state.InboxList=action.payload.GetMessagesResult;
+    },
+    getFilterData(state, action) {
+      state.FilterData = action.payload;
+    },
+    getLoading (state,action) {
+      state.Loading = true
+      state.InboxList=[];
     }
   }   
 });
@@ -21,10 +30,20 @@ const InboxMessageSlice = createSlice({
 export const getInboxList =
   (data:IgetList): AppThunk =>
   async (dispatch) => {
+    dispatch(InboxMessageSlice.actions.getLoading(true));
+    dispatch(InboxMessageSlice.actions.getFilterData(false));
     const response = await InboxMessageApi.GetInboxList(data);
-    console.log("called GetInbox -- ")
     dispatch(InboxMessageSlice.actions.getInboxList(response.data));
   };
+
+export const getNextPageInboxList =
+(data: IgetList): AppThunk =>
+async (dispatch) => {
+  dispatch(InboxMessageSlice.actions.getLoading(true));
+  dispatch(InboxMessageSlice.actions.getFilterData(true));
+  const response = await InboxMessageApi.GetInboxList(data);
+  dispatch(InboxMessageSlice.actions.getInboxList(response.data));
+};
 
 
 export default InboxMessageSlice.reducer

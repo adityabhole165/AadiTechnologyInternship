@@ -50,10 +50,7 @@ function List1({ items }) {
           isSelected={items.isSelected}
           Color={items.backgroundColor}
           margin={items.mx}
-          borderRadius={items.borderRadius}
-          marginBottom={items.marginBottom}
-          boxShadow={items.boxShadow}
-          RealatedSection={items.RealatedSection}
+           RealatedSection={items.RealatedSection}
           FileName={items.FileName}
           key={items.id}
         />

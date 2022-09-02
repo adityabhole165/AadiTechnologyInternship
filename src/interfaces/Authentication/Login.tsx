@@ -1,7 +1,8 @@
 export interface IAuthenticateUser {
       asUserName: string,
       asPassword: string,
-      asSchoolId: string
+      asSchoolId: string,
+      asIsSiblingLogin: boolean
 }
 
 

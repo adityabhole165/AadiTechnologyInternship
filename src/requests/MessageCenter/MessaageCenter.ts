@@ -11,7 +11,10 @@ import filterApi from "../../api/MessageCenter/Search";
 const MessageCenterSlice = createSlice({
   name: 'Message Center',
   initialState:{
+    RecipientsName : [],
+    RecipientsId : [],
     TrashList:[],
+    FilterData: false,
     TeacherList:[],
     AdminStaffList:[],
     YearsList:[],
@@ -21,9 +24,26 @@ const MessageCenterSlice = createSlice({
 
   },
   reducers: {
-    getTrashList (state,action){
+    addRecipients(state,action){
+      state.RecipientsName.push(action.payload.Name);
+      state.RecipientsId.push(action.payload.ID);
+    },
+    removeRecipients(state,action){
+      let indexOfElement1 = state.RecipientsName.indexOf(action.payload.Name);
+      let SplicedArray1 = state.RecipientsName.splice(indexOfElement1,1);
+      let indexOfElement2 = state.RecipientsId.indexOf(action.payload.ID);
+      let SplicedArray2 = state.RecipientsId.splice(indexOfElement2,1);
+    },
+    removeAllRecipients(state,action){
+      state.RecipientsName.length = 0;
+      state.RecipientsId.length = 0;
+    },
+    getTrashList(state,action){
       state.Loading = false
       state.TrashList=action.payload.GetTrashMessagesResult;
+    },
+    getFilterData(state, action) {
+      state.FilterData = action.payload;
     },
     getTeacherList (state,action){
       state.TeacherList=action.payload.GetUsersInGroupResult;
@@ -52,9 +72,20 @@ export const getTrashList =
   (data ? :IgetList): AppThunk =>
   async (dispatch) => {
     dispatch(MessageCenterSlice.actions.getLoading(true));
+    dispatch(MessageCenterSlice.actions.getFilterData(false));
     const response = await MessageCenterApi.GetTrashList(data);
     dispatch(MessageCenterSlice.actions.getTrashList(response.data));
   };
+
+  export const getNextPageTrashList =
+  (data: IgetList): AppThunk =>
+  async (dispatch) => {
+    dispatch(MessageCenterSlice.actions.getLoading(true));
+    dispatch(MessageCenterSlice.actions.getFilterData(true));
+    const response = await MessageCenterApi.GetTrashList(data);
+    dispatch(MessageCenterSlice.actions.getTrashList(response.data));
+  };
+
   export const getYearsList =
   (data:Iyears): AppThunk =>
   async (dispatch) => {
@@ -85,5 +116,7 @@ export const getTrashList =
   // export const getPageINdex = () => {
   //   dispatch(MessageCenterSlice.actions.sePageIndex(1))
   // }
+
+export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;
 
 export default MessageCenterSlice.reducer

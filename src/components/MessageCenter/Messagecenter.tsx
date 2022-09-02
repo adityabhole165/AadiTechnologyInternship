@@ -39,8 +39,11 @@ function MessaageCenter() {
     ''
   );
 
+  const [FilterData,setFilterData] = useState<boolean>(false);
+
   const SearchData = (e) => {
     // setShow(!e.Apply);
+    setFilterData(!e.Apply);
   }
   const [show, setShow] = useState(false);
   const handleClick = (e) => {
@@ -112,7 +115,7 @@ function MessaageCenter() {
 
               <Grid item xs={3.5}>
                 <Link
-                  to="/extended-sidebar/MessageCenter/msgCenter/Sent"
+                  to="/extended-sidebar/MessageCenter/msgCenter/Sent"  //FilterData
                   className={classes.TextDecoration}
                 >
                   <Item
