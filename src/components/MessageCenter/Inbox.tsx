@@ -65,7 +65,7 @@ function Inbox() {
         ManipulatedData.length != 0 &&
         pageIndexUpdated == true
       ) {
-        if (NextPageData.GetMessagesResult != undefined) {
+        if (NextPageData.GetMessagesResult != undefined && NextPageData.GetMessagesResult.length != 0) {
           if (
             NextPageData.GetMessagesResult[0].DetailsId !=
             ManipulatedData[0].DetailsId
@@ -207,6 +207,7 @@ function Inbox() {
         })
         .catch((err) => {
           alert('error network');
+          console.log(err)
         });
       PageIndexIncrement();
     }
