@@ -60,7 +60,7 @@ function Card1({
               background:
                 text1 == NewDateFormat
                   ? `${theme.colors.gradients.HighlightedlistColor}`
-                  : background
+                  : background,mx: margin,
             }}
           >
             {FileName === '' || FileName === undefined ? null : (
