@@ -11,9 +11,11 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
 import { useTheme } from '@mui/material';
 import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
-
+import { CardDetail1, ListStyle } from 'src/libraries/styled/CardStyle';
+import Note from 'src/libraries/Note/Note';
 
 function Fees() {
+
   const dispatch = useDispatch();
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector(
@@ -31,8 +33,8 @@ function Fees() {
     Sum3: 'Late Fee',
     Sum4: 'Applicable Fees'
   };
-  const Note: string = '*RITE student (100% Consession on school fees)';
-
+  const Note2: string = '*RITE student (100% Consession on school fees)';
+ 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
 
@@ -59,6 +61,10 @@ function Fees() {
     `
   );
   const classes = Styles();
+  const note1 = [
+    '1) *RITE student (100% Consession on school fees)',
+   
+  ];
   return (
     <>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -82,49 +88,32 @@ function Fees() {
         <br />
         <br />
 
-        <Card 
-          sx={{
-            textAlign: 'center',
-            background: `${theme.colors.gradients.pink1}`,
-            mb: 2,
-       
-            p: 1,
-            fontWeight:'bold'
-          }}
-          className={classes.ListStyle1}
-        >
-          Applicable Fees : &nbsp;&nbsp;
-          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> 
+        <ListStyle sx={{mb:2}}>
+          
+          <CardDetail1  sx={{textAlign: 'center'}}> <b>Applicable Fees</b>  : &nbsp;
+          &nbsp;    
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px',fontWeight:'bold'}}/> 
            {FeesList2.TotalFee}
-        </Card>
+           </CardDetail1>
+     
+        </ListStyle>
       </Container>
 
       <Card27
         FeesType={'Paid Fees'}
         Fee={FeesList}
         Heading={Feedata}
-        Note={Note}
+        Note={Note2}
       />
       <Card27
         FeesType={'Payable Fees'}
         Fee={FeesList}
         Heading={Feedata}
-        Note={Note}
+        Note={Note2}
       />
       <Container sx={{ mb: '-10px'}}>
-      <Card 
-          sx={{
-            textAlign: 'center',
-            background: 'pink' ,//`${theme.colors.gradients.pink1}`,
-            mt: 0.5,
-       
-            p: 0.5,
-            fontWeight:'bold'
-          }}
-          className={classes.ListStyle1}
-        >
-          Note : {Note}
-        </Card>
+     
+        <Note NoteDetail={note1} />
       </Container>
     </>
   );
