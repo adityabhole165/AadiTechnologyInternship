@@ -25,7 +25,7 @@ import {
   ButtonSecondary
 } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
-import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.'
@@ -138,7 +138,7 @@ function Form() {
           />
 
           {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
-            <ErrorMessages Error={formik.errors.Oldpassword} />
+            <Errormessage Error={formik.errors.Oldpassword} />
           ) : null}
 
           <TextField
@@ -155,7 +155,7 @@ function Form() {
           />
 
           {formik.touched.NewPassword && formik.errors.NewPassword ? (
-            <ErrorMessages Error={formik.errors.NewPassword} />
+            <Errormessage Error={formik.errors.NewPassword} />
           ) : null}
           <TextField
             fullWidth
@@ -171,7 +171,7 @@ function Form() {
           />
 
           {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
-            <ErrorMessages Error={formik.errors.ConfirmPassword} />
+            <Errormessage Error={formik.errors.ConfirmPassword} />
           ) : null}
 
           <Note NoteDetail={note} />

@@ -28,7 +28,8 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 
 function ForgotPassword() {
   const br = `\n`;
@@ -107,7 +108,7 @@ function ForgotPassword() {
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
             {formik.touched.Login && formik.errors.Login ? (
-              <ErrorMessages Error={formik.errors.Login} />
+              <Errormessage Error={formik.errors.Login} />
             ) : null}
 
             <TextField
@@ -137,7 +138,7 @@ function ForgotPassword() {
             />
 
             {formik.touched.MobileNo && formik.errors.MobileNo ? (
-              <ErrorMessages Error={formik.errors.MobileNo} />
+              <Errormessage Error={formik.errors.MobileNo} />
             ) : null}
             <br />
             <TextField
@@ -153,7 +154,7 @@ function ForgotPassword() {
             />
 
             {formik.touched.DOB && formik.errors.DOB ? (
-              <ErrorMessages Error={formik.errors.DOB} />
+              <Errormessage Error={formik.errors.DOB} />
             ) : null}
 
             <TextField
@@ -171,7 +172,7 @@ function ForgotPassword() {
             {/* <br/>Please enter email id to receive the login details through email. */}
 
             {formik.touched.EmailId && formik.errors.EmailId ? (
-              <ErrorMessages Error={formik.errors.EmailId} />
+              <Errormessage Error={formik.errors.EmailId} />
             ) : null}
             <Grid container spacing={2}>
               <Grid item xs={6}>
