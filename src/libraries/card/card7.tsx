@@ -55,7 +55,7 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
     <>
       <span style={{ position: 'relative', left: '20px', top: '-38px' }}>
       </span>
-      <Container>
+      <Container sx={{marginBottom:'60px'}}>
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`

@@ -29,10 +29,12 @@ export const CardDetail = styled(Box)(
 export const CardWrapper = styled(Box)(
   ({ theme }) => `
  display:flex;
- 
-
- 
-`
+ `
+);
+export const BoxWrapper = styled(Box)(
+  ({ theme }) => `
+margin:10px
+ `
 );
 
 export const ListStyle = styled(Box)(

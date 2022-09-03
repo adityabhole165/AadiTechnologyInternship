@@ -58,7 +58,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                 <ArrowLeft sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>
-            <Grid item xs={8}>
+            <Grid item xs={8} >
               <Item
                 sx={{ p: 1.3, background: 'rgb(36 66 175 / 0.4)' }}
                 className={classes.date}
@@ -73,8 +73,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                   width: '300px',
                   position: 'absolute',
                   display: dateClickDependent,
-                  alignItems:'center',
-                  // left:'12%',
+                  alignSelf:'center',
                   zIndex: '2',
                   mt: '5px',
                 }}
