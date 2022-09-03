@@ -119,6 +119,7 @@ function Card16({ Note, Heading }) {
       setChange(false); // For Useeffect call
     }
     setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
+    console.log(ArrayOfPaymentGroup)
   };
 
   // Body and Dispatch
@@ -206,6 +207,7 @@ function Card16({ Note, Heading }) {
             const FeesCheckBoxBoolean = ArrayOfPaymentGroup.includes(
               item.PaymentGroup.toString()
             );
+            console.log(item.PaymentGroup.toString())
 
             return item.AmountPayable == '0' ? null : (
               <List

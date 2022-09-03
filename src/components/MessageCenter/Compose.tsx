@@ -4,7 +4,7 @@ import Form13 from './Composee'
 export const Composee = () => {
 
   return (
-    <div>
+    <div >
       <PageHeader heading={"Compose Message"} subheading={""} />
        <Form13 />
     </div>
