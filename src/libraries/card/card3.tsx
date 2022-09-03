@@ -1,9 +1,12 @@
-import { Box, Card, Typography, useTheme, Container, Fab } from '@mui/material';
+import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
-import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
-import BackButton from '../button/BackButton';
+
+import {
+  CardDetail3,
+  CardDetail1,
+  ListStyle,
+  BoxWrapper
+} from '../styled/CardStyle';
 
 Card3.propTypes = {
   From: PropTypes.string,
@@ -14,47 +17,34 @@ Card3.propTypes = {
 };
 
 function Card3({ ViewDetail, From, To, Date, Text }) {
-  const theme = useTheme();
-  const navigate = useNavigate();
-
-  const classes = Styles();
   return (
     <>
-      
       <Container>
-        <Card
-          sx={{
-            background: `${theme.colors.gradients.pink1}`
-          }}
-        >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            p={3}
-            alignItems="flex-start"
-            flexDirection="column"
-          >
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.From}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{From}</Typography>
+        <ListStyle>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.From}</CardDetail1>
 
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.Received_Date}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{Date}</Typography>
+            <CardDetail3>{From}</CardDetail3>
+          </BoxWrapper>
 
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.To}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{To}</Typography>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.Received_Date}</CardDetail1>
 
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.SMS_Text}
-            </Typography>
-            <Typography className={classes.CardBottomMargin}>{Text}</Typography>
-          </Box>
-        </Card>
+            <CardDetail3>{Date}</CardDetail3>
+          </BoxWrapper>
+
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.To}</CardDetail1>
+
+            <CardDetail3>{To}</CardDetail3>
+          </BoxWrapper>
+
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.SMS_Text}</CardDetail1>
+
+            <CardDetail3>{Text}</CardDetail3>
+          </BoxWrapper>
+        </ListStyle>
       </Container>
     </>
   );
