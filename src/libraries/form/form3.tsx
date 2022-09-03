@@ -22,11 +22,10 @@ import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
 import {
   ButtonPrimary,
-  ButtonSecondary,
- 
- 
+  ButtonSecondary
 } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
+import ErrorMessages from '../ErrorMessages/ErrorMessages';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.'
 ];
@@ -136,11 +135,10 @@ function Form() {
             onBlur={formik.handleBlur}
             sx={{ mt: '-0.3rem' }}
           />
-          <p style={{ color: 'red', marginTop: -10 }}>
-            {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
-              <div>{formik.errors.Oldpassword}</div>
-            ) : null}
-          </p>
+
+          {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
+            <ErrorMessages Error={formik.errors.Oldpassword} />
+          ) : null}
 
           <TextField
             fullWidth
@@ -154,12 +152,10 @@ function Form() {
             onBlur={formik.handleBlur}
             sx={{ mt: '-0.3rem' }}
           />
-          <p style={{ color: 'red', marginTop: -10 }}>
-            {formik.touched.NewPassword && formik.errors.NewPassword ? (
-              <div>{formik.errors.NewPassword}</div>
-            ) : null}
-          </p>
 
+          {formik.touched.NewPassword && formik.errors.NewPassword ? (
+            <ErrorMessages Error={formik.errors.NewPassword} />
+          ) : null}
           <TextField
             fullWidth
             margin="normal"
@@ -172,13 +168,13 @@ function Form() {
             onBlur={formik.handleBlur}
             sx={{ mt: '-0.3rem' }}
           />
-          <p style={{ color: 'red', marginTop: -10 }}>
-            {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
-              <div>{formik.errors.ConfirmPassword}</div>
-            ) : null}
-          </p>
+
+          {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
+            <ErrorMessages Error={formik.errors.ConfirmPassword} />
+          ) : null}
+
           <Note NoteDetail={note} />
-        
+
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <ButtonPrimary
@@ -186,7 +182,6 @@ function Form() {
                 type="submit"
                 fullWidth
               >
-              
                 Save
               </ButtonPrimary>
             </Grid>
