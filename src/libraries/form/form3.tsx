@@ -26,6 +26,7 @@ import {
 } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import { ListStyle } from '../styled/CardStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.'
 ];
@@ -121,7 +122,7 @@ function Form() {
 
   return (
     <Container>
-      <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+      <ListStyle>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
@@ -192,7 +193,7 @@ function Form() {
             </Grid>
           </Grid>
         </form>
-      </Card>
+      </ListStyle>
     </Container>
   );
 }
