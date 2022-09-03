@@ -1,6 +1,7 @@
 import React from 'react';
 import { Box, Card, Typography, useTheme, Container } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
+import { ErrorDetail } from '../styled/ErrormessageStyled'
 
 function ErrorMessages({ Error }) {
   const classes = Styles();
@@ -9,9 +10,9 @@ function ErrorMessages({ Error }) {
     <>
       {window.location.pathname ==
       '/extended-sidebar/Student/Progressreport' ? (
-        <Typography className={classes.errorMessage4}>"{Error}"</Typography>
+        <ErrorDetail >"{Error}"</ErrorDetail>
       ) : (
-        <Typography className={classes.errorMessage3}>{Error}</Typography>
+        <ErrorDetail >{Error}</ErrorDetail>
       )}
     </>
   );

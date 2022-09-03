@@ -351,15 +351,10 @@ function Progressreport() {
                 ) : (
                   <>
                     <Container>
-                      <Typography className={classes.errorMessage4}>
-                    
-                        You are prohibited to view the progress report due to
-                        the following reason:
-                      </Typography>
+                     
+                      <ErrorMessages Error={'You are prohibited to view the progress report due to the following reason:'} />
                       <ErrorMessages Error={Reason} />
-                      <Typography className={classes.errorMessage4}>
-                        Please do the needful to view the progress report.
-                      </Typography>
+                      <ErrorMessages Error={'  Please do the needful to view the progress report.'} />
                     </Container>
                   </>
                 )}

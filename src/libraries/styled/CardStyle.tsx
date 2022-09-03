@@ -33,7 +33,7 @@ export const CardWrapper = styled(Box)(
 );
 export const BoxWrapper = styled(Box)(
   ({ theme }) => `
-margin:10px
+margin:10px;
  `
 );
 
