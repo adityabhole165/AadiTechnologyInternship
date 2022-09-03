@@ -60,7 +60,7 @@ function Trash() {
       // After page increment data modifications
         else {
           if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
-            if (NextPageData.GetTrashMessagesResult != undefined) {
+            if (NextPageData.GetTrashMessagesResult != undefined  && NextPageData.GetTrashMessagesResult.length != 0) {
               if (
                 NextPageData.GetTrashMessagesResult[0].DetailsId !=
                 ManipulatedData[0].DetailsId

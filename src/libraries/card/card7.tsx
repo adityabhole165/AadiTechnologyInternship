@@ -25,7 +25,6 @@ Card7.propTypes = {
 
 function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,ViewSentObject}) {
   const theme = useTheme();
-  console.log(From)
 
   let attachment = Attachments;
   let attachmentObj: any = [];
@@ -45,9 +44,12 @@ function Card7({ ViewDetail, From, To, Body, Text, Attachments, ID, Viewsent,Vie
   }
   // console.log(Object.keys(Attachments).length)
 
+
   const classes = Styles();
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
+  console.log(BODY)
+
 
   return (
     <>

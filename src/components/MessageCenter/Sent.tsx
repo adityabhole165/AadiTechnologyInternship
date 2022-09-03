@@ -74,7 +74,7 @@ function SentMessage() {
   // After page increment data modifications
     else {
       if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
-        if (NextPageData.GetScheduledSMSResult != undefined) {
+        if (NextPageData.GetScheduledSMSResult != undefined && NextPageData.GetScheduledSMSResult.length != 0) {
           if (
             NextPageData.GetScheduledSMSResult[0].DetailsId !=
             ManipulatedData[0].DetailsId
