@@ -22,7 +22,7 @@ const colors = {
     secondaryButton: 'gray',
     disableButton: '#cccccc',
     listColor: '#fdfdfd',
-    selectedlistColor: 'linear-gradient(135deg,  #e3e3e1 100%,  #e3e3e1 100%)',
+    selectedlistColor: '#f2f6fc',
     HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
     pageBackground:'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
     containerBackground:'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
