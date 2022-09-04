@@ -15,7 +15,13 @@ import ExpandLess from '@mui/material/Icon/Icon';
 import ExpandMore from '@mui/material/Icon/Icon';
 import { makeStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
-import { CardDetail, CardDetail1, ListStyle } from '../styled/CardStyle';
+import {
+  CardDetail,
+  CardDetail1,
+  CardDetail3,
+  ListStyle
+} from '../styled/CardStyle';
+import Note from 'src/libraries/Note/Note';
 
 List6.propTypes = {
   StartDate: PropTypes.string,
@@ -88,7 +94,7 @@ function List6({
   const clas = useStyles();
 
   return (
-    <>
+   
       <Container>
         <Grow
           in={checked}
@@ -96,22 +102,15 @@ function List6({
           {...(checked ? { timeout: 1500 } : {})}
         >
           <ListStyle>
-            <Box>
-              <Typography
-                sx={{ marginBottom: '25px !important' }}
-                className={classes.Listfont1}
-              >
-                <b>
-                  {SubjectName}{' '}
-                  {TestType !== '' ? <b>{'-' + ' ' + TestType}</b> : null}
-                </b>
-              </Typography>
-            </Box>
+            <CardDetail1 sx={{ marginBottom: '25px !important' }}>
+             
+                {SubjectName}
+                {TestType !== '' ? <b>{'-' + ' ' + TestType}</b> : null}
+       
+            </CardDetail1>
 
             <CardDetail>
-              <CardDetail1 sx={{ marginTop: '-25px', marginLeft: '-1px' }}>
-                {StartDate}
-              </CardDetail1>
+              <CardDetail1 sx={{ marginTop: '-25px' }}>{StartDate}</CardDetail1>
               <CardDetail1 sx={{ marginTop: '-25px' }}>
                 {StartTime}-{EndTime}
               </CardDetail1>
@@ -119,12 +118,9 @@ function List6({
 
             {Description !== ' ' ? (
               <>
-                <Typography
-                  className={classes.Listfont2}
-                  sx={{ color: 'darkmagenta' }}
-                >
+                <CardDetail1 sx={{ color: 'darkmagenta' }}>
                   <b>{Description}</b>
-                </Typography>
+                </CardDetail1>
               </>
             ) : null}
             {ExamId !== undefined ? (
@@ -158,7 +154,7 @@ function List6({
           </ListStyle>
         </Grow>
       </Container>
-    </>
+
   );
 }
 
