@@ -29,6 +29,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 
 function Form13() {
@@ -276,7 +277,8 @@ function Form13() {
     <>
       <Container >
         <BackButton FromRoute={'/MessageCenter/msgCenter'} />
-        <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+      
+        <ListStyle sx={{padding:"20px"}}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <TextField
@@ -455,7 +457,8 @@ function Form13() {
               </Grid>
         
           </form>
-        </Card>
+          </ListStyle>
+      
       </Container>
     </>
   );
