@@ -59,42 +59,28 @@ function Card5({ Content, FileName, Name }) {
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
           <Divider />
-          <Typography>
-            <Box
-              sx={{ marginTop: '' }}
-              dangerouslySetInnerHTML={{ __html: Content }}
-            ></Box>
-          </Typography>
+          <Box dangerouslySetInnerHTML={{ __html: Content }}></Box>
 
-          <CardDetail3>
-            <CardDetail
-              sx={{
-                mt: 1,
-                ml: 2
-              }}
-            >
-              {FileName}
-              <Box>
-                {FileName === '' ? null : (
-                  <>
-                    <Box
-                      // onClick={showimg}
-                      sx={{
-                        width: '40px',
-                        height: '15px',
-                        marginTop: '-5px',
-                        color: 'black'
-                      }}
-                    >
-                      <a>
-                        <FileDownloadOutlinedIcon onClick={download} />
-                      </a>
-                    </Box>
-                  </>
-                )}
-              </Box>
-            </CardDetail>
-          </CardDetail3>
+          <CardDetail
+            sx={{
+              mt: 1,
+              ml: 2
+            }}
+          >
+            {FileName}
+            <Box>
+              {FileName === '' ? null : (
+                <>
+                  <Box
+                    sx={{width: '40px',marginTop: '-5px'}}>
+                    <a>
+                      <FileDownloadOutlinedIcon onClick={download} />
+                    </a>
+                  </Box>
+                </>
+              )}
+            </Box>
+          </CardDetail>
         </ListStyle>
       </Container>
     </>
