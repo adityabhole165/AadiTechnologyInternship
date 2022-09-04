@@ -30,6 +30,7 @@ color: black;
 export const CardWrapper = styled(Box)(
   ({ theme }) => `
  display:flex;
+ margin-top:5px;
  `
 );
 export const BoxWrapper = styled(Box)(
