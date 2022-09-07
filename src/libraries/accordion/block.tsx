@@ -113,8 +113,6 @@ function Block({
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel}></BarChart>
-
-
       <Card20
         percentage={Percentage}
         rank={Rank}

@@ -33,3 +33,9 @@ export interface ISaveAttendance{
     asAcademicYearId:string
 }
 
+export interface IGetAttendanceStatusDetails{
+    asAttendanceDate:string,
+    asStanardDivisionId:string,
+    asAcademicYearId:string,
+    asSchoolId:string
+}

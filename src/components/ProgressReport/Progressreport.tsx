@@ -44,6 +44,7 @@ import {
 import Icon1 from 'src/libraries/icon/icon1';
 
 function Progressreport() {
+  console.log("HELLO");
   const note = [
     '1)Your school fees are pending. Please pay the dues to view the progress report. '
   ];
@@ -245,7 +246,8 @@ function Progressreport() {
                                 marginTop: '50px',
                                 m: 1,
                                 width: '100%',
-                                marginLeft: '1px'
+                                marginLeft: '1px',
+                                display:'none'
                               }}
                             >
                               {

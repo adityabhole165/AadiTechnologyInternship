@@ -11,8 +11,8 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
   //   })
   
   const height =
-    xData.length > 4 ? '200%' :
-      xData.length > 3 ? '150%' : '100%'
+    xData.length > 4 ? '200rem' :
+      xData.length > 3 ? '200rem' : '125rem'
   const data = {
     options: {
       chart: {
@@ -59,7 +59,8 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
     series: [{ data: series }]
   };
   return (
-    <div className="app">
+    <div className="app"> 
+     {/* style={{height:'100px'}} */}
       <div className="row">
         <div className="mixed-chart">
           <Chart
@@ -68,7 +69,6 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
             type="bar"
             width="100%"
             height={height}
-
           />
         </div>
       </div>

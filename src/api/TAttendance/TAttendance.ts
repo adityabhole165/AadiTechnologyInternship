@@ -1,5 +1,5 @@
 import StandardAttendance from "src/interfaces/Teacher/TAttendance";
-import AttendanceData, { IGetStudentDetails, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
+import AttendanceData, { IGetStudentDetails, ISaveAttendance ,IGetAttendanceStatusDetails} from "src/interfaces/Teacher/TAttendanceList";
 import http from "../../requests/SchoolService/schoolServices";
 
 
@@ -19,11 +19,15 @@ const SaveStudentAttendanceDetails = (data:ISaveAttendance) => {
     return http.post<ISaveAttendance>('Teacher/SaveStudentAttendanceDetails',data);
 }
 
+const GetAttendanceStatus = (data:IGetAttendanceStatusDetails) => {
+    return http.post<IGetAttendanceStatusDetails>('Teacher/GetAttendanceStatus',data);
+}
 const GetTAttendanceListApi={
     GetStandardList,
     GetAttendanceData,
     GetStudentDetails,
-    SaveStudentAttendanceDetails
+    SaveStudentAttendanceDetails,
+    GetAttendanceStatus
     
 }
 

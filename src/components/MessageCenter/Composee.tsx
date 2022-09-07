@@ -221,10 +221,10 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: RecipientsListID.toString(),
+      asSelectedUserIds: `${PageName === 'Reply' ? FromUserID.toString() :  RecipientsListID.toString()}`,
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642,
-      asFileName: fileName
+      asFileName: fileName 
     };
 
     MessageCenterApi.GetSendMessage(body)
