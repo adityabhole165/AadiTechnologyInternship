@@ -37,7 +37,7 @@ const TAttendanceSlice = createSlice({
     }
 });
 
-export const getStandardList =
+export const ConflictsgetStandardList =
 (data:StandardAttendance): AppThunk =>
 async(dispatch)=>{
     const response = await GetTAttendanceListApi.GetStandardList(data);

@@ -39,12 +39,12 @@ import 'src/assets/style/teacher.css';
 import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
 import {
   getAttendanceDataList,
-  getStandardList,
+  ConflictsgetStandardList,
   GetStudentDetailsList,
   GetAttendanceStatus
 } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, {
-  GetStandardDivisionsResult
+  GetStandardDivisionsResult,IStudentsDetails
 } from 'src/interfaces/Teacher/TAttendance';
 import { Formik, useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -61,6 +61,7 @@ function Attendance() {
   const StandardAttendance: any = useSelector(
     (state: RootState) => state.StandardAttendance.StandardDivisionAttendance
   );
+
   const getAttendanceData = useSelector(
     (state: RootState) => state.AttendanceList.AttendanceData
   );
@@ -151,7 +152,7 @@ function Attendance() {
     asSchoolId: asSchoolId
   };
 
-  const GetStudentDetails: any = {
+  const GetStudentDetails: IStudentsDetails = {
     asStdDivId: StandardId,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
@@ -168,7 +169,7 @@ function Attendance() {
   //End Save attendance Here
 
   useEffect(() => {
-    dispatch(getStandardList(body));
+    dispatch(ConflictsgetStandardList(body));
   }, [StandardId]);
 
   useEffect(() => {
@@ -182,12 +183,9 @@ function Attendance() {
     dispatch(getAttendanceDataList(body1));
   }, [assignedDate, StandardId]);
 
-  // useEffect(() => {
-  //   // setUsers(getAttendanceData);
-  //   if(RollNoList != undefined){
-  //     console.log("hello")
-  //   }
-  // }, [selectedRollNo]);
+  useEffect(() => {
+    setUsers(getAttendanceData);
+  }, []);
 
   const [selectedValues, setselectedValues] = useState<any>();
 
@@ -408,6 +406,8 @@ function Attendance() {
           </Button>
           {/* {/ <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> /} */}
           {/* {/ onChange={formik.handleChange}  /} */}
+          {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
+          {/* onChange={formik.handleChange}  */}
         </form>
 
         {/* {/ end Enter Absent number Here  /} */}
@@ -444,8 +444,7 @@ function Attendance() {
           <RouterLink
             style={{ textDecoration: 'none' }}
             to={
-              `/${
-                location.pathname.split('/')[1]
+              `/${location.pathname.split('/')[1]
               }/Student/Tattendance/MissingAttandence/` + assignedDate
             }
           >

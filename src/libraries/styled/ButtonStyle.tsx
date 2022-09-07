@@ -5,7 +5,10 @@ export const ButtonPrimary = styled(Button)(
 color: white;
 font-size: 12px;
 
-padding: 3px 1px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 2px;
+padding-bottom: 2px;
 background: ${theme.colors.gradients.primayButton};
 &:hover {
     background: ${theme.colors.gradients.primayButton};
@@ -15,7 +18,7 @@ border-radius: 3px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 
 
-// background-color:red;
+
  
 `
 );
@@ -24,8 +27,10 @@ export const ButtonSecondary = styled(Button)(
   ({ theme }) => `
 color: white;
 font-size: 12px;
-
-padding: 3px 1px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 2px;
+padding-bottom: 2px;
 background: ${theme.colors.gradients.secondaryButton};
 &:hover {
     background: ${theme.colors.gradients.secondaryButton};

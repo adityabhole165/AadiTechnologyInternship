@@ -5,7 +5,7 @@ import { Styles } from 'src/assets/style/student-style';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import Card4 from 'src/libraries/mainCard/Card4';
 import { BoxStyle, ListStyle } from '../styled/CardStyle';
-
+import {Box} from "@mui/material";
 Card1.propTypes = {
   header: PropTypes.string,
   text1: PropTypes.string,
@@ -60,7 +60,7 @@ function Card1({
               background:
                 text1 == NewDateFormat
                   ? `${theme.colors.gradients.HighlightedlistColor}`
-                  : background,mx: margin,
+                  : background,mx: margin
             }}
           >
             {FileName === '' || FileName === undefined ? null : (

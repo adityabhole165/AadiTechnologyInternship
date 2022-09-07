@@ -208,6 +208,12 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
-    }
+    },
+    // {
+    //   Text1: 'AttendenceNew',
+    //   Text2: '',
+    //   Link: 'Student/AttendenceNew',
+    //   index: 20,
+    // }
   ]}
 export default DashboardData;

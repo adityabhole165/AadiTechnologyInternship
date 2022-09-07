@@ -10,7 +10,6 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
 import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
 
-
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -40,7 +39,7 @@ function Holidays() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getHolidays(body));
   }, []);
 
@@ -76,10 +75,23 @@ function Holidays() {
         };
   });
 
-  
   return (
     <>
       <PageHeader heading={'Holidays'} subheading={''} />
+      <DotLegend
+        className={classes.border}
+        style={{
+          background: '#c2dbff',
+          marginLeft: '1.5rem',
+          marginBottom: '-2px'
+        }}
+      />
+
+      <small>
+        <b> Todays Holiday </b> &nbsp;&nbsp;&nbsp;
+      </small>
+    
+
       <DotLegend
         className={classes.border}
         style={{
@@ -88,24 +100,11 @@ function Holidays() {
           marginBottom: '-2px'
         }}
       />
-      
       <small>
-        <b> Upcoming Holidays </b> &nbsp;&nbsp;&nbsp;
-      </small>
-      <CheckRoundedIcon
-                sx={{
-                  position:'relative',
-                  color: 'green',
-                  fontSize: '25px',
-                  top:'5px'
-                }}
-              />
-              <small>
-        <b> Ongoing Holidays </b> 
+        <b> Upcoming Holidays </b>
       </small>
       <br />
       <br />
-
 
       <List1 items={Data} />
     </>
