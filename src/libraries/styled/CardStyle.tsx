@@ -19,16 +19,18 @@ export const CardDetail3 = styled(Typography)`
 export const CardDetail = styled(Box)(
   ({ theme }) => `
  display:flex;
+justify-content: space-between;
+font-size: 12px;
+color: black;
 
- justify-content: space-between;
 
- 
 `
 );
 
 export const CardWrapper = styled(Box)(
   ({ theme }) => `
  display:flex;
+ margin-top:5px;
  `
 );
 export const BoxWrapper = styled(Box)(
@@ -41,26 +43,19 @@ export const ListStyle = styled(Box)(
   ({ theme }) => `
 
  background: ${theme.colors.gradients.listColor}; 
-   
-
-
+    position:relative;
  padding:6px;
-
- border-radius: 6px;
+border-radius: 6px;
    margin-bottom: 8px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
- 
-`
+ `
 );
 
 export const BoxStyle = styled(Box)(
   ({ theme }) => `
-  position: absolute;
-    right: 6px;
-   
-    margin-top: -18px;
+  position:absolute;
+    right: -6px;
+   margin-top: -18px;
     transform: rotateZ(-36deg);
-  
- float:right;
   `
 );

@@ -1,170 +1,161 @@
 import {
-    Box,
-    Typography,
-    useTheme,
-    List,
-    Container,
-    Grow,
-    Divider
+  Box,
+  Typography,
+  useTheme,
+  List,
+  Container,
+  Grow,
+  Divider
 } from '@mui/material';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 // import ShowMoreText from "react-show-more-text";
-import ExpandLess from "@mui/material/Icon/Icon";
-import ExpandMore from "@mui/material/Icon/Icon";
+import ExpandLess from '@mui/material/Icon/Icon';
+import ExpandMore from '@mui/material/Icon/Icon';
 import { makeStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
-
-
+import {
+  CardDetail,
+  CardDetail1,
+  CardDetail3,
+  ListStyle
+} from '../styled/CardStyle';
+import Note from 'src/libraries/Note/Note';
 
 List6.propTypes = {
-    StartDate: PropTypes.string,
-    StartTime: PropTypes.string,
-    EndTime: PropTypes.string,
-    SubjectName: PropTypes.string,
-    TestType: PropTypes.string,
-    Description: PropTypes.string,
-    Index: PropTypes.number,
-    Instruction: PropTypes.string,
-    StartDateAndTime: PropTypes.string,
-    Subject_Name: PropTypes.string,
-    ExamId: PropTypes?.number,
-    SubjectId: PropTypes?.number,
-}
-function List6({ StartDate, StartTime, EndTime, SubjectName, TestType, Description, index, Instruction,ExamId,SubjectId }) {
+  StartDate: PropTypes.string,
+  StartTime: PropTypes.string,
+  EndTime: PropTypes.string,
+  SubjectName: PropTypes.string,
+  TestType: PropTypes.string,
+  Description: PropTypes.string,
+  Index: PropTypes.number,
+  Instruction: PropTypes.string,
+  StartDateAndTime: PropTypes.string,
+  Subject_Name: PropTypes.string,
+  ExamId: PropTypes?.number,
+  SubjectId: PropTypes?.number
+};
+function List6({
+  StartDate,
+  StartTime,
+  EndTime,
+  SubjectName,
+  TestType,
+  Description,
+  index,
+  Instruction,
+  ExamId,
+  SubjectId
+}) {
+  const [checked, setChecked] = useState(true);
+  const [expand, setExpand] = useState(false);
 
-    const [checked, setChecked] = useState(true);
-    const [expand, setExpand] = useState(false);
+  const onClick = () => {
+    setExpand(!expand);
+  };
+  const theme = useTheme();
+
+  //const [instruction, setinstruction] = Instruction;
+
+  const useStyles = makeStyles({
+    root: {
+      background: '#ff7961'
+    },
+    roo1: {
+      background: `${theme.colors.gradients.pink1}`
+    },
+    testtypessx: {
+      borderColor: '#223294',
+      border: '1',
+      width: '5rem',
+      height: '2rem',
+      paddingTop: '9px',
+      paddingLeft: '22px',
+      fontSize: 'inherit',
+      fontWeight: 'bold',
+      borderRadius: '15px 2px',
+      backgroundColor: 'whitesmoke',
+      boxShadow: '4px 1px 1px black',
+      borderTop: '0px solid',
+      alignItems: 'center'
+    },
+    timesx: {
+      display: 'flex',
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      marginTop: '-14px'
+    }
+  });
+
+  const classes = Styles();
+  const clas = useStyles();
+
+  return (
    
-    const onClick = () => {
-        setExpand(!expand);
-    };
-    const theme = useTheme();
-
-
-    //const [instruction, setinstruction] = Instruction;
-
-    const useStyles = makeStyles({
-        root: {
-            background: "#ff7961"
-        },
-        roo1: {
-            background: `${theme.colors.gradients.pink1}`
-        },
-        testtypessx:{
-
-            borderColor: '#223294',
-            border: '1',  width: '5rem',
-            height: '2rem',  paddingTop: '9px',
-            paddingLeft: '22px', fontSize: 'inherit',
-            fontWeight: 'bold',    borderRadius: '15px 2px',
-            backgroundColor: 'whitesmoke',
-            boxShadow:  '4px 1px 1px black',
-            borderTop: '0px solid',  alignItems: 'center',
-
-        },
-        timesx:{
-            display:"flex" ,
-            flexDirection:"row",
-             alignItems:"center" ,
-             justifyContent:"space-between",
-              marginTop:"-14px"
-
-        },
+      <Container>
+        <Grow
+          in={checked}
+          style={{ transformOrigin: '0 0 1' }}
+          {...(checked ? { timeout: 1500 } : {})}
+        >
+          <ListStyle>
+            <CardDetail1 sx={{ marginBottom: '25px !important' }}>
+             
+                {SubjectName}
+                {TestType !== '' ? <b>{'-' + ' ' + TestType}</b> : null}
        
-    });
+            </CardDetail1>
 
-    const classes = Styles();
-    const clas = useStyles();
+            <CardDetail>
+              <CardDetail1 sx={{ marginTop: '-25px' }}>{StartDate}</CardDetail1>
+              <CardDetail1 sx={{ marginTop: '-25px' }}>
+                {StartTime}-{EndTime}
+              </CardDetail1>
+            </CardDetail>
 
-    return (
-        <>
-            <Container>
-                <Grow
-                    in={checked}
-                    style={{ transformOrigin: '0 0 1' }}
-                    {...(checked ? { timeout: 1500 } : {})}
+            {Description !== ' ' ? (
+              <>
+                <CardDetail1 sx={{ color: 'darkmagenta' }}>
+                  <b>{Description}</b>
+                </CardDetail1>
+              </>
+            ) : null}
+            {ExamId !== undefined ? (
+              <>
+                <RouterLink
+                  to={
+                    `/${
+                      location.pathname.split('/')[1]
+                    }/Student/onlineExamDetails/` +
+                    ExamId +
+                    '/' +
+                    SubjectId
+                  }
                 >
-               <List
-                        sx={{
-                            boxShadow: "8px 4px 5px grey !important",
-                            borderRadius: 1,
-                            background: `${theme.colors.gradients.pink1}`,
-                            mb: 1,
-                          
-                        }}>
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    justifyContent="right"
+                    sx={{ marginRight: '18px' }}
+                  >
+                    <Typography
+                      className={classes.Listfont1}
+                      sx={{ color: 'blue', marginRight: '6px' }}
+                    >
+                      Exam
+                    </Typography>
+                  </Box>
+                </RouterLink>
+              </>
+            ) : null}
+          </ListStyle>
+        </Grow>
+      </Container>
 
-                    <Box>
-                        <Typography sx={{ marginBottom: '25px !important' ,  }} className={classes.Listfont1} >
-                            <b>{SubjectName}   {(TestType !== '') ? <b>{"-"+" "+ TestType}</b> : null}</b>   
-                        </Typography>           
-                    </Box>
-
-                    <Box
-                        sx={{
-                            mt: 2
-                        }}>
-                        <Box className={clas.timesx}>
-                            <Typography className={classes.Listfont2} sx={{marginTop:'-10px'}}>
-                            {StartDate}
-                            </Typography>
-                            <Typography className={classes.Listfont2} sx={{marginTop:'-10px'}}>
-                                 {StartTime}-{EndTime}
-                            </Typography>
-                        </Box>
-                    </Box>
-                    {
-                        (Description !== " ") ?
-
-                            <>
-                                <Typography className={classes.Listfont2} sx={{color:'darkmagenta'}}>
-                                    {/* <ShowMoreText
-                                            lines={1}
-                                            more={<ExpandMore />}
-                                            less={<ExpandLess />}
-                                            onClick={onClick}
-                                            expanded={expand}
-                                        // width={auto}
-                                        > */}
-                                    <b>{Description}</b>
-                                    {/* {/ </ShowMoreText> /} */}
-                                </Typography>
-                            </> :
-                            null
-
-
-                    }
-                    {
-                    (ExamId !== undefined) ?
-                                <>
-                                    <RouterLink to={
-                                        `/${location.pathname.split('/')[1]
-                                        }/Student/onlineExamDetails/` + ExamId + "/"+ SubjectId
-                                    }>
-                                        <Box display="flex" flexDirection="row" justifyContent="right" sx={{ marginRight: "18px" }}
-                                        >
-                                            <Typography className={classes.Listfont1}
-                                                sx={{ color: 'blue', marginRight: "6px" }}
-                                            >
-                                                Exam
-                                            </Typography>
-                                        </Box>
-                                    </RouterLink>
-                                </> :
-                                null
-                        }
-                </List>
-
-            </Grow>
-
-        </Container>
-
-        </>
-
-    )
-
-
+  );
 }
 
 export default List6;

@@ -28,7 +28,7 @@ import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import Card33 from '../card/Card33';
+import CheckboxImg from '../card/CheckboxImg';
 const Checked = styled('span')(
   ({ theme }) => `
       Color : white;
@@ -95,7 +95,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                   name={data.ReceiverDetailsId}
                 /> */}
                 
-                <Card33 
+                <CheckboxImg 
                   checked={pageName == "Recipients" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}

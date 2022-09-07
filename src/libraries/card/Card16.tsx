@@ -13,7 +13,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import { ButtonDisable, ButtonPrimary } from '../styled/ButtonStyle';
 
 
 Card16.propTypes = {
@@ -193,6 +194,7 @@ function Card16({ Note, Heading }) {
             >
               Pay Online
             </Button>
+           
           ) : null}
         </RouterLink>
       </div>
@@ -218,7 +220,7 @@ function Card16({ Note, Heading }) {
                   background: ArrayOfPaymentGroup.includes(
                     item.PaymentGroup.toString()
                   )
-                    ? 'rgb(230,230,250)'
+                    ? `${theme.colors.gradients.selectedlistColor}`
                     : `${theme.colors.gradients.pink1}`,
                   mb: 1
                 }}
@@ -315,17 +317,9 @@ function Card16({ Note, Heading }) {
                 location.pathname.split('/')[1]
               }/Student/Fees_cautionmoney`}
             >
-              <Button
-                variant="contained"
-                sx={{
-                  pl: '10px',
-                  pr: '5px',
-                  textDecoration: 'none',   
-                  borderRadius: '5px'
-                }}
-              >
-                Pay Caution Money
-              </Button>
+              
+
+              <ButtonPrimary>Pay Caution Money</ButtonPrimary>
             </RouterLink>
           ) : (
             <Button variant="contained"> Caution Money Receipt </Button>
@@ -335,9 +329,7 @@ function Card16({ Note, Heading }) {
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
           >
             {FeesList.AmountPayable != 0 ? (
-              <Button variant="contained" sx={{ borderRadius: '5px' }}>
-                Pay Internal Fees
-              </Button>
+           <ButtonPrimary> Pay Internal Fees</ButtonPrimary>
             ) : null}
           </RouterLink>
         </Stack>
