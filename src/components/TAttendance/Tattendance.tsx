@@ -37,10 +37,12 @@ import Buttons from 'src/libraries/buttons/button';
 import { Link as RouterLink } from 'react-router-dom';
 import 'src/assets/style/teacher.css';
 import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
-import { getAttendanceDataList, getStandardList, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
-import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import {Formik, useFormik} from 'formik';
+import { getAttendanceDataList, getStandardList, GetStudentDetailsList, GetAttendanceStatus } from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
+import IStudentsDetails, { IGetAttendanceStatusDetails } from 'src/interfaces/Teacher/TAttendanceList'
+import { Formik, useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -71,6 +73,11 @@ function Attendance() {
   const RollNoList = useSelector(
     (state: RootState) => state.AttendanceList.GetStudentDetailsList
   );
+
+  const Attendancestatus = useSelector(
+    (state: RootState) => state.AttendanceList.AttendanceStatus
+  );
+  console.log("Attendancestatus", Attendancestatus);
 
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
 
@@ -114,12 +121,24 @@ function Attendance() {
     asSchoolId: asSchoolId
   };
 
-  const GetStudentDetails: any = {
+  const GetStudentDetails: IStudentsDetails = {
     asStdDivId: StandardId,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
+
+  const AttendanceStatus: IGetAttendanceStatusDetails = { 
+    asStanardDivisionId: "102",
+    asAttendanceDate: "7-Sep-2022",
+    asAcademicYearId: "9",
+    asSchoolId: "120"
+  }
+  console.log("asStandardDivisionId", asStandardDivisionId);
+  console.log("date", date);
+  console.log("asAcademicYearId", asAcademicYearId);
+  console.log("asSchoolId", asSchoolId);
+
 
   //End Save attendance Here
 
@@ -130,6 +149,7 @@ function Attendance() {
   useEffect(() => {
     getCurrentDate();
     dispatch(getAttendanceDataList(body1));
+    dispatch(GetAttendanceStatus(AttendanceStatus));
   }, []);
 
   useEffect(() => {
@@ -141,7 +161,7 @@ function Attendance() {
     setUsers(getAttendanceData);
   }, []);
 
-  const [selectedValues,setselectedValues] = useState<any>();
+  const [selectedValues, setselectedValues] = useState<any>();
 
   // Start Calender Here
 
@@ -198,14 +218,20 @@ function Attendance() {
     console.log(e)
   }
 
-const formik=useFormik({
-  initialValues:{
-    response:'',
-  },
-  onSubmit:values=>{
-    setselectedValues(selectedRollNo)
-  },
-})
+  const formik = useFormik({
+    initialValues: {
+      response: '',
+    },
+    onSubmit: values => {
+      setselectedValues(selectedRollNo)
+    },
+  })
+
+  const AssignDate = new Date(assignedDate);
+  const PresentDate = new Date();
+
+  // const StudentName = RollNoList;
+
   return (
     <>
       <PageHeader heading={'Attendance'} subheading={''} />
@@ -264,7 +290,7 @@ const formik=useFormik({
             fullWidth
             id="standard-basic"
             label={
-              <Typography sx={{ color: 'black' }}> 
+              <Typography sx={{ color: 'black' }}>
                 Enter Absent Number
               </Typography>
             }
@@ -272,7 +298,7 @@ const formik=useFormik({
             className="form-check-input"
             size="medium"
             name="response"
-            value={selectedRollNo }
+            value={selectedRollNo}
             onChange={formik.handleChange}
             onChangeCapture={handleChange1}
             sx={{ mb: 1 }}
@@ -327,8 +353,8 @@ const formik=useFormik({
           <Button variant="contained" color="primary" type="submit" onChange={formik.handleChange}>
             Save
           </Button>
-           {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
-           {/* onChange={formik.handleChange}  */}
+          {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
+          {/* onChange={formik.handleChange}  */}
         </form>
 
         {/* end Enter Absent number Here  */}
@@ -365,8 +391,7 @@ const formik=useFormik({
           <RouterLink
             style={{ textDecoration: 'none' }}
             to={
-              `/${
-                location.pathname.split('/')[1]
+              `/${location.pathname.split('/')[1]
               }/Student/Tattendance/MissingAttandence/` + assignedDate
             }
           >
@@ -381,64 +406,81 @@ const formik=useFormik({
         {/* Start New Code Dev.Ganesh */}
         <Card>
           <Divider />
-          {selectedSomeRollNo != null ? (
-            <>
-              <TableContainer>
-                <Table>
-                  <TableHead>
-                    <TableRow sx={{ background: '#ceabd2' }}>
-                      <TableCell padding="checkbox">
-                        <Checkbox
-                          checked={selectedAllRollNo}
-                          indeterminate={selectedSomeRollNo}
-                          onChange={handleSelectAllRollNo}
-                        />
-                      </TableCell>
-                      <TableCell align="center">Roll No</TableCell>
+          {/* {RollNoList?.map((data) => {
+            return ( */}
+              <>
+                {
+                  (AssignDate > PresentDate) ? <ErrorMessages Error={'Future date attendance is not allowed'} />
+                    :
+                    // (data.StudentName == "") ? <ErrorMessages Error={'There are no students available'} />
+                    //   :
+                    // MissingAttandenceList.daywiseAttendanceStatusResult.map((items: GetMissingAttandenceData, i) => {
+                    //   return (
+                    <>
+                      {selectedSomeRollNo != null ? (
+                        <>
+                          <TableContainer>
+                            <Table>
+                              <TableHead>
+                                <TableRow sx={{ background: '#ceabd2' }}>
+                                  <TableCell padding="checkbox">
+                                    <Checkbox
+                                      checked={selectedAllRollNo}
+                                      indeterminate={selectedSomeRollNo}
+                                      onChange={handleSelectAllRollNo}
+                                    />
+                                  </TableCell>
+                                  <TableCell align="center">Roll No</TableCell>
 
-                      <TableCell align="center">Student Name</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {RollNoList?.map((data) => {
-                      const isSelected = selectedRollNo.includes(
-                        data.RollNumber
-                      );
-                      return (
-                        <TableRow
-                          key={data.RollNumber}
-                          selected={isSelected}
-                          sx={{
-                            background: data.IsPresent
-                              ? '#87ed87a6'
-                              : '#ffd5cde8'
-                          }}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isSelected}
-                              onChange={(event) =>
-                                handleSelectOne(event, data.RollNumber)
-                              }
-                              value={isSelected}
-                            />
-                          </TableCell>
+                                  <TableCell align="center">Student Name</TableCell>
+                                </TableRow>
+                              </TableHead>
+                              <TableBody>
+                                {RollNoList?.map((data) => {
+                                  const isSelected = selectedRollNo.includes(
+                                    data.RollNumber
+                                  );
+                                  return (
+                                    <TableRow
+                                      key={data.RollNumber}
+                                      selected={isSelected}
+                                      sx={{
+                                        background: data.IsPresent
+                                          ? '#87ed87a6'
+                                          : '#ffd5cde8'
+                                      }}
+                                    >
+                                      <TableCell padding="checkbox">
+                                        <Checkbox
+                                          checked={isSelected}
+                                          onChange={(event) =>
+                                            handleSelectOne(event, data.RollNumber)
+                                          }
+                                          value={isSelected}
+                                        />
+                                      </TableCell>
 
-                          <TableCell align="center">
-                            {' '}
-                            <b>{data.RollNumber}</b>{' '}
-                          </TableCell>
-                          <TableCell align="center">
-                            <b>{data.StudentName}</b>
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </>
-          ) : null}
+                                      <TableCell align="center">
+                                        {' '}
+                                        <b>{data.RollNumber}</b>{' '}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        <b>{data.StudentName}</b>
+                                      </TableCell>
+                                    </TableRow>
+                                  );
+                                })}
+                              </TableBody>
+                            </Table>
+                          </TableContainer>
+                        </>
+                      ) : null}
+                    </>
+                }
+              </>
+            {/* )
+          })} */}
+
         </Card>
       </Container>
     </>

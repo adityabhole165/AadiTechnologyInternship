@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance from "src/interfaces/Teacher/TAttendance";
-import AttendanceData, { IGetStudentDetails } from "src/interfaces/Teacher/TAttendanceList";
+import AttendanceData, { IGetStudentDetails,IGetAttendanceStatusDetails } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
 
@@ -13,7 +13,8 @@ const TAttendanceSlice = createSlice({
     initialState: {
         StandardDivisionAttendance:[],
         AttendanceData:[],
-        GetStudentDetailsList:[]
+        GetStudentDetailsList:[],
+        AttendanceStatus:[],
     },
 
     reducers: {
@@ -25,6 +26,9 @@ const TAttendanceSlice = createSlice({
         },
         GetStudentDetailsList(state,action){
             state.GetStudentDetailsList=action.payload
+        },
+        GetAttendanceStatusList(state,action){
+            state.AttendanceStatus=action.payload
         }
     }
 });
@@ -50,4 +54,10 @@ async (dispatch)=>{
     dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
 }
 
+export const GetAttendanceStatus =
+(data:IGetAttendanceStatusDetails):AppThunk =>
+async (dispatch)=>{
+    const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
+    dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(response.data));
+}
 export default TAttendanceSlice.reducer
