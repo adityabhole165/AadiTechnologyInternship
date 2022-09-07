@@ -177,9 +177,10 @@ function Card16({ Note, Heading }) {
       ) : null}
 
       <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: {FeesTotal > 0 ? <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
-        </div>
+        {/* <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
+          Total: {FeesTotal > 0 ? 
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
+        </div> */}
 
         <RouterLink
           to={`/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate }
@@ -291,7 +292,7 @@ function Card16({ Note, Heading }) {
                             }}
                           >
                             {Heading.Fee2}
-                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
+                            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> */}
                             <strong>{item.Amount}</strong>
                           </Typography>
                         </Grid>
