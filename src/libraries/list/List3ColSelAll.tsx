@@ -1,4 +1,4 @@
-import Card35 from '../card/ListHeaderCard3ColSel'
+import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel'
 import ListCard3ColSel from '../card/ListCard3ColSel'
 const List3ColSelAll = ({ Itemlist, refreshData }) => {
     let isCheckAll =
@@ -26,7 +26,7 @@ const List3ColSelAll = ({ Itemlist, refreshData }) => {
     }
     return (
         <div>
-            <Card35
+            <ListHeaderCard3ColSel
                 Item={{ text1: '0', text2: 'Select All', isActive: isCheckAll }}
                 onChange={ClickAll}
             />
