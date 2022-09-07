@@ -1,40 +1,47 @@
 import React from 'react';
-import { Container, Card, Grid, Typography, Box } from '@mui/material';
+import { Container, Grid,useTheme } from '@mui/material';
 import { ClassNames } from '@emotion/react';
 import { Styles } from 'src/assets/style/student-style';
-
+import { CardDetail1, CardDetail3, ListStyle } from '../styled/CardStyle';
 
 function Card28({ Student }) {
+  const theme = useTheme();
   const classes = Styles();
   const Class = sessionStorage.getItem('Class');
   const RollNo = sessionStorage.getItem('RollNo');
   const UserName = sessionStorage.getItem('StudentName');
 
-  let AcademicYear = ''
+  let AcademicYear = '';
   if (Student != undefined) {
-    Student.map((Header) => (
-      AcademicYear = Header.AcademicYear
-    ))
+    Student.map((Header) => (AcademicYear = Header.AcademicYear));
   }
 
   return (
     <Container>
-      <Card sx={{ p: 1, mb: '10px' }} className={classes.ListStyle1}>
+      <ListStyle sx={{ background: `${theme.colors.gradients.HighlightedlistColor}`}}>
         <Grid container>
           <Grid item xs={12}>
-            <Typography><b>Name:</b> {UserName}</Typography>
+            <CardDetail3>
+              <b>Name:</b> {UserName}
+            </CardDetail3>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ pt: '5px' }}><b> Roll no:</b> {RollNo}</Typography>
+            <CardDetail3>
+              <b> Roll no:</b> {RollNo}
+            </CardDetail3>
           </Grid>
           <Grid item xs={3}>
-            <Typography sx={{ pl: 1, pt: 0.5 }}><b>Class:</b> {Class}</Typography>
+            <CardDetail3>
+              <b>Class:</b> {Class}
+            </CardDetail3>
           </Grid>
           <Grid item xs={6}>
-            <Typography sx={{ pl: 3, pt: 0.5 }}><b> Year:</b> {AcademicYear}</Typography>
+            <CardDetail3>
+              <b> Year:</b> {AcademicYear}
+            </CardDetail3>
           </Grid>
         </Grid>
-      </Card>
+      </ListStyle>
     </Container>
   );
 }

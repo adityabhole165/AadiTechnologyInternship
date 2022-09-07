@@ -7,14 +7,20 @@ import List3 from 'src/libraries/list/List3';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { Button, Container, Box, Avatar } from '@mui/material';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { getInboxList, getNextPageInboxList } from 'src/requests/Student/InboxMessage';
+import {
+  getInboxList,
+  getNextPageInboxList
+} from 'src/requests/Student/InboxMessage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-
+import {
+  ButtonPrimary,
+  ButtonSecondary
+} from 'src/libraries/styled/ButtonStyle';
 
 const PageIndex = 2; // Initial page index
 
@@ -65,7 +71,10 @@ function Inbox() {
         ManipulatedData.length != 0 &&
         pageIndexUpdated == true
       ) {
-        if (NextPageData.GetMessagesResult != undefined) {
+        if (
+          NextPageData.GetMessagesResult != undefined &&
+          NextPageData.GetMessagesResult.length != 0
+        ) {
           if (
             NextPageData.GetMessagesResult[0].DetailsId !=
             ManipulatedData[0].DetailsId
@@ -179,11 +188,11 @@ function Inbox() {
 
   const scrolling = (): void => {
     //(ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
-    if(ScrollableDivRefference.scrollTop >= 400){
-      setdisplayMoveToTop("flex")
+    if (ScrollableDivRefference.scrollTop >= 400) {
+      setdisplayMoveToTop('flex');
     }
-    if(ScrollableDivRefference.scrollTop < 400){
-      setdisplayMoveToTop("none")
+    if (ScrollableDivRefference.scrollTop < 400) {
+      setdisplayMoveToTop('none');
     }
     if (
       ScrollableDivRefference.scrollHeight -
@@ -207,6 +216,7 @@ function Inbox() {
         })
         .catch((err) => {
           alert('error network');
+          console.log(err);
         });
       PageIndexIncrement();
     }
@@ -215,9 +225,9 @@ function Inbox() {
   const MoveToTop = (e) => {
     ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
-      setdisplayMoveToTop("none")
+      setdisplayMoveToTop('none');
     }, 10);
-  }
+  };
 
   return (
     <>
@@ -225,25 +235,8 @@ function Inbox() {
         <>
           <Container>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                endIcon={<DeleteIcon />}
-                onClick={() => moveToTrash()}
-              >
-                DELETE
-              </Button>
-              &nbsp;&nbsp;
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                endIcon={<ReplayIcon />}
-                onClick={() => Reset()}
-              >
-                RESET
-              </Button>
+              <ButtonPrimary endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
+              <ButtonSecondary endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonSecondary>
             </Box>
           </Container>
           <br />
@@ -284,12 +277,23 @@ function Inbox() {
           </>
         )}
         <Avatar
-        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
-        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
-        onClick={MoveToTop} // Close function 
-      > 
-        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
-      </Avatar>
+          sx={{
+            display: displayMoveToTop,
+            position: 'fixed',
+            bottom: '95px',
+            zIndex: '4',
+            left: '15px',
+            p: '2px',
+            width: 50,
+            height: 50,
+            backgroundColor: 'white',
+            boxShadow:
+              '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+          }}
+          onClick={MoveToTop} // Close function
+        >
+          <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
+        </Avatar>
       </div>
     </>
   );

@@ -28,6 +28,7 @@ import { useLocation } from 'react-router-dom';
 import BackButton from 'src/libraries/button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 
 function Form13() {
@@ -273,7 +274,7 @@ function Form13() {
 
   return (
     <>
-      <Container>
+      <Container >
         <BackButton FromRoute={'/MessageCenter/msgCenter'} />
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
@@ -303,12 +304,9 @@ function Form13() {
             location.pathname.split('/')[1]
           }/MessageCenter/Compose/Recipients`}
         >
-            <Button
-              sx={{ float: 'left', borderRadius: '5px',display:'inline', backgroundColor:'blue' }}
-              variant="contained"
-            >
-              Add Recipients
-            </Button>
+          
+
+            <ButtonPrimary>Add Recipients</ButtonPrimary>
         </RouterLink>
           </span>
             
@@ -451,24 +449,11 @@ function Form13() {
               ) : null}
             </p>
 
-            <Grid container spacing={2}>
-              <Grid item xs={12} style={{ flexDirection: 'row' }}>
-                <Button
-                  sx={{
-                    mt: 0.4
-                  }}
-                  color="primary"
-                  type="submit"
-                  fullWidth
-                  size="large"
-                  variant="contained"
-                  onClick={formik.handleChange}
-                  disabled={disabledStateOfSend}
-                >
-                  {'Send'}
-                </Button>
+           
+              <Grid item xs={12}>
+                <ButtonPrimary onClick={formik.handleChange} disabled={disabledStateOfSend}  type="submit"   fullWidth> Send</ButtonPrimary>
               </Grid>
-            </Grid>
+        
           </form>
         </Card>
       </Container>

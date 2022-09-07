@@ -164,7 +164,7 @@ const Recipients = () => {
             <FormControl>
               <div style={{ display: 'flex' }}>
                   <FormControlLabel
-                    sx={{marginLeft:'-15px'}}
+                    sx={{marginLeft:'-18px',mt:'-40px'}}
                     control={
                       <Checkbox
                         name={'Software Co-ordinator'}
@@ -184,13 +184,13 @@ const Recipients = () => {
                       aria-labelledby="demo-controlled-radio-buttons-group"
                       name="controlled-radio-buttons-group"
                       onClick={handleRadioButtons}
-                      sx={{marginLeft:'19px'}}
+                      sx={{marginLeft:'-10px'}}
                     >
                       <FormControlLabel
                         value={2}
                         control={<Radio />}
                         name="RecipientList"
-                        label="Teacher"
+                        label="Teacher List"
                       />
                       <FormControlLabel
                         value={6}

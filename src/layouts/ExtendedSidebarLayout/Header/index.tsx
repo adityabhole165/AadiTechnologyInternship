@@ -112,7 +112,10 @@ function Header() {
   const RollNo = sessionStorage.getItem("RollNo");
   const studnetprofile = sessionStorage.getItem("PhotoFilePath")
   const authData = JSON.parse(localStorage.getItem("auth"));
-  const siblingList = authData.data.StudentDetails.StudentSiblingList;
+  let siblingList: any = []; 
+  if(authData.data.AuthenticateUserResult.RoleName === 'Student'){
+    siblingList = authData.data.StudentDetails.StudentSiblingList
+  }
   const schoolId = localStorage.getItem("localSchoolId");
 
   const { t }: { t: any } = useTranslation();

@@ -27,6 +27,9 @@ import {
 import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
+
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 
 function ForgotPassword() {
   const br = `\n`;
@@ -93,7 +96,7 @@ function ForgotPassword() {
   const note = [
     '1) Parents need to enter the date of birth of their child.',
     '2) Please enter the user name and date of birth, the system will SMS you the password on the mobile number registered with the  RITeSchool account.',
-   ' 3) If you dont remember the user then enter mobile number that is currently registered with the RITeSchool account and date of birth.',
+    ' 3) If you dont remember the user then enter mobile number that is currently registered with the RITeSchool account and date of birth.',
     '4) Please enter email id to receive the login details through email.'
   ];
 
@@ -102,13 +105,11 @@ function ForgotPassword() {
       <PageHeader heading={'Forgot Password'} subheading={''} />
 
       <Container>
-        <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+        <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <p style={{ color: 'red', marginTop: -10 }}>
-              {formik.touched.Login && formik.errors.Login ? (
-                <div>{formik.errors.Login}</div>
-              ) : null}
-            </p>
+            {formik.touched.Login && formik.errors.Login ? (
+              <Errormessage Error={formik.errors.Login} />
+            ) : null}
 
             <TextField
               fullWidth
@@ -135,11 +136,10 @@ function ForgotPassword() {
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-            <p style={{ color: 'red', marginTop: -10 }}>
-              {formik.touched.MobileNo && formik.errors.MobileNo ? (
-                <div>{formik.errors.MobileNo}</div>
-              ) : null}
-            </p>
+
+            {formik.touched.MobileNo && formik.errors.MobileNo ? (
+              <Errormessage Error={formik.errors.MobileNo} />
+            ) : null}
             <br />
             <TextField
               fullWidth
@@ -152,11 +152,11 @@ function ForgotPassword() {
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-            <p style={{ color: 'red', marginTop: -10 }}>
-              {formik.touched.DOB && formik.errors.DOB ? (
-                <div>{formik.errors.DOB}</div>
-              ) : null}
-            </p>
+
+            {formik.touched.DOB && formik.errors.DOB ? (
+              <Errormessage Error={formik.errors.DOB} />
+            ) : null}
+
             <TextField
               fullWidth
               margin="normal"
@@ -170,11 +170,10 @@ function ForgotPassword() {
               sx={{ mt: '-0.3rem' }}
             />
             {/* <br/>Please enter email id to receive the login details through email. */}
-            <p style={{ color: 'red', marginTop: -10 }}>
-              {formik.touched.EmailId && formik.errors.EmailId ? (
-                <div>{formik.errors.EmailId}</div>
-              ) : null}
-            </p>
+
+            {formik.touched.EmailId && formik.errors.EmailId ? (
+              <Errormessage Error={formik.errors.EmailId} />
+            ) : null}
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <ButtonPrimary
@@ -194,7 +193,7 @@ function ForgotPassword() {
           </form>
 
           <Note NoteDetail={note} />
-        </Card>
+        </ListStyle>
       </Container>
     </>
   );

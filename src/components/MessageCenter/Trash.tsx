@@ -1,179 +1,184 @@
-import { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getNextPageTrashList, getTrashList } from "src/requests/MessageCenter/MessaageCenter"
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getNextPageTrashList,
+  getTrashList
+} from 'src/requests/MessageCenter/MessaageCenter';
 import { GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
-import { RootState } from "src/store";
-import List3 from "src/libraries/list/List3";
-import { IgetList } from "src/interfaces/MessageCenter/GetList";
+import { RootState } from 'src/store';
+import List3 from 'src/libraries/list/List3';
+import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { Button, Container, Box, Avatar } from "@mui/material";
+import { Button, Container, Box, Avatar } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayIcon from '@mui/icons-material/Replay'
+import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
-import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
-import MessageCenterApi from "src/api/MessageCenter/MessageCenter";
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-
+import {
+  ButtonPrimary,
+  ButtonSecondary
+} from 'src/libraries/styled/ButtonStyle';
 
 const PageIndex = 2; // Initial page index
 
 function Trash() {
+  const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index
+  const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
+  const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
+  const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
+  const [pageIndexUpdated, setpageIndexUpdated] = useState(false);
 
-    const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index 
-    const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
-    const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
-    const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
-    const [pageIndexUpdated,setpageIndexUpdated] = useState(false);
+  const trashList = useSelector(
+    (state: RootState) => state.MessageCenter.TrashList
+  );
+  const loading: boolean = useSelector(
+    (state: RootState) => state.MessageCenter.Loading
+  );
+  const FilterData: boolean = useSelector(
+    (state: RootState) => state.MessageCenter.FilterData
+  );
+  const dispatch = useDispatch();
 
-    const trashList = useSelector((state: RootState) => state.MessageCenter.TrashList);
-    const loading:boolean = useSelector(
-        (state: RootState) => state.MessageCenter.Loading
-      );
-      const FilterData:boolean = useSelector(
-        (state: RootState) => state.MessageCenter.FilterData
-      );
-    const dispatch = useDispatch();
-
-    if (trashList != undefined) { 
-        if (ManipulatedData.length == 0 && pageIndexUpdated == false) {
-            trashList.forEach((element) => {
-            if (element != undefined) {
-              ManipulatedData.push(element);
-            }
-          });
+  if (trashList != undefined) {
+    if (ManipulatedData.length == 0 && pageIndexUpdated == false) {
+      trashList.forEach((element) => {
+        if (element != undefined) {
+          ManipulatedData.push(element);
         }
-      // For Filter
-      if(FilterData == true){
-        if(ManipulatedData.length != 0 && trashList.length != 0){
-          ManipulatedData.length = 0;
-          trashList.forEach((element) => {
-            if (element != undefined) {
-              ManipulatedData.push(element);
-            }
-          });
-        }
-        else{
-          ManipulatedData.length = 0;
-        }
+      });
+    }
+    // For Filter
+    if (FilterData == true) {
+      if (ManipulatedData.length != 0 && trashList.length != 0) {
+        ManipulatedData.length = 0;
+        trashList.forEach((element) => {
+          if (element != undefined) {
+            ManipulatedData.push(element);
+          }
+        });
+      } else {
+        ManipulatedData.length = 0;
       }
-      // After page increment data modifications
-        else {
-          if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
-            if (NextPageData.GetTrashMessagesResult != undefined) {
-              if (
-                NextPageData.GetTrashMessagesResult[0].DetailsId !=
-                ManipulatedData[0].DetailsId
-              ) {
-                NextPageData.GetTrashMessagesResult.forEach((element) => {
-                  if (element != undefined) {
-                    ManipulatedData.push(element);
-                  }
-                });
+    }
+    // After page increment data modifications
+    else {
+      if (
+        NextPageData != undefined &&
+        ManipulatedData.length != 0 &&
+        pageIndexUpdated == true
+      ) {
+        if (
+          NextPageData.GetTrashMessagesResult != undefined &&
+          NextPageData.GetTrashMessagesResult.length != 0
+        ) {
+          if (
+            NextPageData.GetTrashMessagesResult[0].DetailsId !=
+            ManipulatedData[0].DetailsId
+          ) {
+            NextPageData.GetTrashMessagesResult.forEach((element) => {
+              if (element != undefined) {
+                ManipulatedData.push(element);
               }
-            }
+            });
           }
         }
       }
-
-
-    const asSchoolId = localStorage.getItem('localSchoolId');
-    const UserId = sessionStorage.getItem('Id');
-    const RoleId = sessionStorage.getItem('RoleId');
-    const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-
-    
-    const getList: IgetList = {
-        "asUserId": UserId,
-        "asAcademicYearId": AcademicYearId,
-        "asUserRoleId": RoleId,
-        "asSchoolId": asSchoolId,
-        "abIsSMSCenter": "0",
-        "asFilter": "",
-        "asPageIndex": 1,
-        "asMonthId": "0"
     }
+  }
 
-    useEffect(() => {
-        dispatch(getTrashList(getList))
-    }, [])
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
-    const [checked, setChecked] = useState(true);
-    const [Id, setId] = useState<any>({ DetailInfo: [], recieverInfo: [] })
+  const getList: IgetList = {
+    asUserId: UserId,
+    asAcademicYearId: AcademicYearId,
+    asUserRoleId: RoleId,
+    asSchoolId: asSchoolId,
+    abIsSMSCenter: '0',
+    asFilter: '',
+    asPageIndex: 1,
+    asMonthId: '0'
+  };
 
-    const pathname = window.location.pathname
-    const pageName = pathname.replace("/extended-sidebar/MessageCenter/msgCenter/", '')
+  useEffect(() => {
+    dispatch(getTrashList(getList));
+  }, []);
 
-    const handleChange = (event) => {
-        setChecked(true);
-        const { value, name, checked } = event;
+  const [checked, setChecked] = useState(true);
+  const [Id, setId] = useState<any>({ DetailInfo: [], recieverInfo: [] });
 
-        var recieverName = ""
-        if (name == "0") {
-            recieverName = value
-        }
-        else {
-            recieverName = name
+  const pathname = window.location.pathname;
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/msgCenter/',
+    ''
+  );
 
-        }
-        const { DetailInfo, recieverInfo } = Id;
+  const handleChange = (event) => {
+    setChecked(true);
+    const { value, name, checked } = event;
 
-        if (checked) {
-
-            setId({
-                DetailInfo: [...DetailInfo, value],
-                recieverInfo: [...recieverInfo, recieverName]
-            })
-
-
-        }
-        else {
-
-            setId({
-                DetailInfo: DetailInfo.filter((event) => event !== value),
-                recieverInfo: recieverInfo.filter((event) => event !== recieverName)
-            })
-        }
+    var recieverName = '';
+    if (name == '0') {
+      recieverName = value;
+    } else {
+      recieverName = name;
     }
-    const moveToTrash = () => {
-        const joinDetails = Id.DetailInfo.join(';')
-        const joinReciever = Id.recieverInfo.join(';')
-        const trashbody: any = {
-            "asSchoolId": asSchoolId,
-            "asMessageRecieverDetailsId": joinReciever,
-            "asMessageDetailsId": joinDetails,
-            "asIsArchive": "Y",
-            "asIsCompeteDelete": 1,
-            "asFlag": "Trash"
-        }
-        MoveToTrashApi.MoveToTrash(trashbody)
-            .then((data) => {
-                if (pageName == "Trash") {
-                    toast.success("Message deleted successfully")
-                    dispatch(getNextPageTrashList(getList))
-                }
-                setChecked(false)
-                setId({
-                    DetailInfo: [],
-                    recieverInfo: []
-                })
-            })
-            .catch((err) => {
-                alert("error network")
-            })
+    const { DetailInfo, recieverInfo } = Id;
 
-
+    if (checked) {
+      setId({
+        DetailInfo: [...DetailInfo, value],
+        recieverInfo: [...recieverInfo, recieverName]
+      });
+    } else {
+      setId({
+        DetailInfo: DetailInfo.filter((event) => event !== value),
+        recieverInfo: recieverInfo.filter((event) => event !== recieverName)
+      });
     }
-
-    const Reset = () => {
-        setChecked(false)
+  };
+  const moveToTrash = () => {
+    const joinDetails = Id.DetailInfo.join(';');
+    const joinReciever = Id.recieverInfo.join(';');
+    const trashbody: any = {
+      asSchoolId: asSchoolId,
+      asMessageRecieverDetailsId: joinReciever,
+      asMessageDetailsId: joinDetails,
+      asIsArchive: 'Y',
+      asIsCompeteDelete: 1,
+      asFlag: 'Trash'
+    };
+    MoveToTrashApi.MoveToTrash(trashbody)
+      .then((data) => {
+        if (pageName == 'Trash') {
+          toast.success('Message deleted successfully');
+          dispatch(getNextPageTrashList(getList));
+        }
+        setChecked(false);
         setId({
-            DetailInfo: [],
-            recieverInfo: []
-        })
-    }
+          DetailInfo: [],
+          recieverInfo: []
+        });
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+  };
 
-      // Pagination Api call and data setters
+  const Reset = () => {
+    setChecked(false);
+    setId({
+      DetailInfo: [],
+      recieverInfo: []
+    });
+  };
+
+  // Pagination Api call and data setters
   const ScrollableDivRefference = document.getElementById('ScrollableDiv');
 
   const PageIndexIncrement = (): void => {
@@ -182,13 +187,17 @@ function Trash() {
 
   const scrolling = (): void => {
     // (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
-    if(ScrollableDivRefference.scrollTop >= 400){
-      setdisplayMoveToTop("flex")
+    if (ScrollableDivRefference.scrollTop >= 400) {
+      setdisplayMoveToTop('flex');
     }
-    if(ScrollableDivRefference.scrollTop < 400){
-      setdisplayMoveToTop("none")
+    if (ScrollableDivRefference.scrollTop < 400) {
+      setdisplayMoveToTop('none');
     }
-    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) { 
+    if (
+      ScrollableDivRefference.scrollHeight -
+        ScrollableDivRefference.scrollTop <=
+      570
+    ) {
       setpageIndexUpdated(true);
       const UpdatedBody: IgetList = {
         asUserId: UserId,
@@ -200,10 +209,10 @@ function Trash() {
         asPageIndex: pageIndex,
         asMonthId: '0'
       };
-      MessageCenterApi.GetTrashList(UpdatedBody) 
+      MessageCenterApi.GetTrashList(UpdatedBody)
         .then((response) => {
           setNextPageData(response.data); // Next page data setter
-          console.log(response.data)
+          console.log(response.data);
         })
         .catch((err) => {
           alert('error network');
@@ -215,29 +224,25 @@ function Trash() {
   const MoveToTop = (e) => {
     ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
-      setdisplayMoveToTop("none")
+      setdisplayMoveToTop('none');
     }, 10);
-  }
+  };
 
-
-    return (
+  return (
+    <>
+      {Id.DetailInfo.length !== 0 ? (
         <>
-            {
-                (Id.DetailInfo.length !== 0) ?
-                    <>
-                        <Container>
-                            <Box display="flex" flexDirection="row" justifyContent="flex-end">
-                                <Button variant="contained" color="error" size="small" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</Button>&nbsp;&nbsp;
-                                <Button variant="contained" color="primary" size="small" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</Button>
-                            </Box>
-                        </Container>
-                        <br />
-                    </>
-                    :
-                    null
-            }
+          <Container>
+            <Box display="flex" justifyContent="flex-end">
+              <ButtonPrimary endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
+              <ButtonSecondary endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonSecondary>
+            </Box>
+          </Container>
+          <br />
+        </>
+      ) : null}
 
-<div
+      <div
         id="ScrollableDiv"
         onScroll={scrolling}
         style={{
@@ -248,34 +253,46 @@ function Trash() {
           overflow: 'auto'
         }}
       >
-
-            {
-                loading 
-                ? 
-                (
-                  <SuspenseLoader />
-                ) 
-                : 
-                (ManipulatedData === null || ManipulatedData.length == 0 || ManipulatedData == undefined) ?
-                <ErrorMessages Error={'No message found'} />
-                    :
-                    <>
-                        {
-                            ManipulatedData.map((trashListitem: GetTrashMessagesResult, i) =>
-                                <List3 data={trashListitem} key={i} handleChange={handleChange} check={checked} FromRoute={"/Trash"} />)
-                        }
-                    </>
-            }
-            <Avatar
-        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
-        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
-        onClick={MoveToTop} // Close function 
-      > 
-        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
-      </Avatar>
-            </div>
-        </>
-    )
+        {loading ? (
+          <SuspenseLoader />
+        ) : ManipulatedData === null ||
+          ManipulatedData.length == 0 ||
+          ManipulatedData == undefined ? (
+          <ErrorMessages Error={'No message found'} />
+        ) : (
+          <>
+            {ManipulatedData.map((trashListitem: GetTrashMessagesResult, i) => (
+              <List3
+                data={trashListitem}
+                key={i}
+                handleChange={handleChange}
+                check={checked}
+                FromRoute={'/Trash'}
+              />
+            ))}
+          </>
+        )}
+        <Avatar
+          sx={{
+            display: displayMoveToTop,
+            position: 'fixed',
+            bottom: '95px',
+            zIndex: '4',
+            left: '15px',
+            p: '2px',
+            width: 50,
+            height: 50,
+            backgroundColor: 'white',
+            boxShadow:
+              '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+          }}
+          onClick={MoveToTop} // Close function
+        >
+          <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
+        </Avatar>
+      </div>
+    </>
+  );
 }
 
-export default Trash
+export default Trash;

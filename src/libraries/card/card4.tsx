@@ -5,6 +5,12 @@ import BackButton from '../button/BackButton';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { useNavigate } from 'react-router-dom';
+import {
+  CardDetail3,
+  CardDetail1,
+  ListStyle,
+  BoxWrapper
+} from '../styled/CardStyle';
 
 Card4.propTypes = {
   Title: PropTypes.string,
@@ -34,66 +40,48 @@ function Card4({
   const classes = Styles();
   return (
     <>
-     
       <Container>
-        <Card
-          sx={{
-            background: `${theme.colors.gradients.pink1}`
-          }}
+        <ListStyle
         >
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            p={2}
-            alignItems="flex-start"
-            flexDirection="column"
-            marginTop="10px"
-          >
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.SubjectName}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{SubjectName}</Typography>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.SubjectName}</CardDetail1>
+            <CardDetail3>{SubjectName}</CardDetail3>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.Title}</CardDetail1>
+            <CardDetail3>{Title}</CardDetail3>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.AssignedDate}</CardDetail1>
+            <CardDetail3>{Assignedate}</CardDetail3>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.CompleteByDate}</CardDetail1>
+            <CardDetail3> {CompletedDate}</CardDetail3>
+          </BoxWrapper>
 
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.Title}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{Title}</Typography>
-
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.AssignedDate}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{Assignedate}</Typography>
-
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.CompleteByDate}
-            </Typography>
-            <Typography className={classes.Cardfont2}>
-              {CompletedDate}
-            </Typography>
-
-            {Attachments.length === 0 ? null : (
-              <>
-                <Typography className={classes.Cardfont1}>
-                  {ViewDetail.AttachmentPath}
-                </Typography>
-                <Typography
-                  sx={{ color: 'blue' }}
-                  className={classes.Cardfont2}
+          {Attachments.length === 0 ? null : (
+            <>
+              <BoxWrapper>
+                <CardDetail1> {ViewDetail.AttachmentPath}</CardDetail1>
+                <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     window.open(file_path);
                   }}
                 >
+                  {' '}
                   {Attachments}
-                </Typography>
-              </>
-            )}
+                </CardDetail3>
+              </BoxWrapper>
+            </>
+          )}
 
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.Details}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{Details}</Typography>
-          </Box>
-        </Card>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.Details}</CardDetail1>
+            <CardDetail3>{Details}</CardDetail3>
+          </BoxWrapper>
+
+        </ListStyle>
       </Container>
     </>
   );
