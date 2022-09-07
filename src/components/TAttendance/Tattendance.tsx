@@ -97,7 +97,7 @@ function Attendance() {
   ): void => {
     setifTrue(false)
     setSelectedRollNo(
-      !event.target.checked ? RollNoList?.map((data) => data.RollNumber+" ") : []
+      !event.target.checked ? RollNoList?.map((data) => data.RollNumber) : []
     );
     setselectedStudentId(
       event.target.checked ? RollNoList?.map((data) => data.StudentId) : []
@@ -113,12 +113,12 @@ function Attendance() {
     // console.log(selectedRollNo.indexOf("-"))
     // console.log(selectedRollNo.includes(RollId))
     console.log(selectedRollNo)
-    if (!selectedRollNo.includes(RollId+" ")) {
-      setSelectedRollNo((prevSelected) => [...prevSelected, RollId+" "]);
+    if (!selectedRollNo.includes(RollId)) {
+      setSelectedRollNo((prevSelected) => [...prevSelected, RollId]);
       setselectedStudentId((prevSelected) => [...prevSelected, StudentId]);
     } else {
       setSelectedRollNo((prevSelected) =>
-        prevSelected.filter((id) => id !== RollId+" ")
+        prevSelected.filter((id) => id !== RollId)
       );
       setselectedStudentId((prevSelected) =>
         prevSelected.filter((id) => id !== StudentId)
@@ -486,11 +486,11 @@ function Attendance() {
                       <TableBody>
                         {RollNoList?.map((data) => {
                           const isSelected = ifTrue ? true : !selectedRollNo.includes(
-                            data.RollNumber+" "
+                            data.RollNumber
                           );
                           return (
                             <TableRow
-                              key={data.RollNumber+" "}
+                              key={data.RollNumber}
                               selected={isSelected}
                               sx={{
                                 background: data.IsPresent
