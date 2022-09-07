@@ -13,7 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { ButtonDisable, ButtonPrimary } from '../styled/ButtonStyle';
 
 
