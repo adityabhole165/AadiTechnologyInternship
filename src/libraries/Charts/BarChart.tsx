@@ -15,14 +15,16 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
       xData.length > 3 ? '200rem' : '125rem'
   const data = {
     options: {
+      tooltip: {
+        enabled: false
+      },
       chart: {
+        toolbar: {show: false},
         id: "basic-bar",
         background: '#FFFFFF',
 
       },
-      legend: {
-        show: false
-      },
+      legend: { show: false},
       dataLabels: {
         formatter: function (val, opts) {
           return dataLabel(val);
@@ -42,7 +44,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
         range: 0 - 100,
         labels: {
           show: false
-        }
+        },
       },
 
       yaxis: {
