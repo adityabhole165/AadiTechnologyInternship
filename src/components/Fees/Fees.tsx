@@ -10,7 +10,7 @@ import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
 import { useTheme } from '@mui/material';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { CardDetail1, ListStyle } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 
@@ -92,7 +92,7 @@ function Fees() {
           
           <CardDetail1  sx={{textAlign: 'center'}}> <b>Applicable Fees</b>  : &nbsp;
           &nbsp;    
-          {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px',fontWeight:'bold'}}/>  */}
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px',fontWeight:'bold'}}/> 
            {FeesList2.TotalFee}
            </CardDetail1>
      

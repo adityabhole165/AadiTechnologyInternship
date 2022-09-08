@@ -60,7 +60,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/Compose/',
+    '/extended-sidebar/MessageCenter/',
     ''
   );
 
@@ -96,11 +96,11 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                 /> */}
                 
                 <CheckboxImg 
-                  checked={pageName == "Recipients" ? check : checked}
+                  checked={pageName.slice(0,7) == "Compose" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
                   value={Id}
-                  name={pageName == "Recipients" ? data.Name : data.ReceiverDetailsId}
+                  name={pageName.slice(0,7) == "Compose" ? data.Name : data.ReceiverDetailsId}
                 />
 
               </Grid>

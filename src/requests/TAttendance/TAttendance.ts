@@ -31,7 +31,7 @@ const TAttendanceSlice = createSlice({
         GetAttendanceStatusList(state,action){
             state.AttendanceStatus=action.payload
         },
-        GetSaveAttendanceStatus(state,action){
+        GetSaveAttendanceStatusList(state,action){
             state.SaveAttendanceStatus=action.payload
         }
     }
@@ -69,7 +69,7 @@ export const GetSaveAttendanceStatus =
 (data:ISaveAttendance):AppThunk =>
 async (dispatch)=>{
     const response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(data);
-    dispatch(TAttendanceSlice.actions.GetSaveAttendanceStatus(response.data));
+    dispatch(TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data));
 }
 
 export default TAttendanceSlice.reducer

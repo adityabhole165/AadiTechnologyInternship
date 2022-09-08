@@ -9,6 +9,8 @@ import {
   Grid,
   Card,
   Typography,
+  useTheme,
+  Fab,
 } from '@mui/material';
 import React, { useEffect, useMemo, useState } from 'react';
 import { useNavigate } from 'react-router';
@@ -29,6 +31,9 @@ import BackButton from 'src/libraries/button/BackButton';
 import { Link as RouterLink } from 'react-router-dom';
 import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import ReplyIcon from '@mui/icons-material/Reply';
+import Recipients from './Recipients';
+
 
 
 function Form13() {
@@ -39,6 +44,7 @@ function Form13() {
 
   const dispatch = useDispatch();
 
+  const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
@@ -48,8 +54,19 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
-  console.log(From)
+
+  const ReplyRecipientNameId = { 
+    ReplyRecipientName : From,
+    ReplyRecipientID : FromUserID
+  }
+
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
+  const [RecipientsObject,setRecipientsObject] = useState<any>(
+    {
+      RecipientName : [],
+      RecipientId : []
+    }
+  );
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
 
@@ -63,8 +80,8 @@ function Form13() {
     }
   },[])
 
-  useMemo(() => {
-    if(AttachmentArray != undefined){
+  useEffect(() => {
+    if(AttachmentArray != undefined && PageName !== "Reply"){
       const a = AttachmentArray.split(",");
       for(let i=0; i<a.length ;i++){
         ArrayOfAttachment.push(a[i]);
@@ -86,6 +103,9 @@ function Form13() {
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
+  const [displayOfRecipients,setdisplayOfRecipients] = useState("none");
+  const [displayOfComposePage,setdisplayOfComposePage] = useState("block")
+
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -93,6 +113,7 @@ function Form13() {
   const RecipientsListID: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsId
   );
+  // console.log(RecipientsListID)
 
   const [Name, setname] = React.useState<any>('');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -203,13 +224,14 @@ function Form13() {
   };
 
   const sendMessage = () => {
+    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
         Body: formik.values.Content,
         Subject: formik.values.Subject,
         SenderName: StudentName,
-        DisplayText: Name.toString(),
+        DisplayText: RecipientsObject.RecipientName.toString(),
         SenderUserId: UserId,
         SenderUserRoleId: RoleId,
         AcademicYearId: AcademicYearId,
@@ -222,22 +244,21 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: `${PageName === 'Reply' ? FromUserID.toString() :  RecipientsListID.toString()}`,
+      asSelectedUserIds: RecipientsObject.RecipientId.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
-      attachmentFile: finalBase642,
+      attachmentFile: finalBase642, 
       asFileName: fileName 
     };
-
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
           toast.success('Message sent successfully');
           setTimeout(RediretToSentPage, 100);
-          dispatch(removeAllRecipients("All"))
         }
       })
       .catch((err) => {
+        console.log(err)
         toast.error('Message does not sent successfully');
       });
   };
@@ -256,7 +277,7 @@ function Form13() {
     },
     validate: (values) => {
       const errors: any = {};
-      if (RecipientsList.length == 0 && PageName !== 'Reply') {
+      if (RecipientsObject.RecipientName.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
       if (!values.Subject) {
@@ -272,10 +293,49 @@ function Form13() {
   const AttachmentFilePath = 'https://192.168.1.80/'  + '/RITeSchool/Uploads/';
   // const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
+  const RecipientButton = (e) => {
+    setdisplayOfRecipients("block");
+    setdisplayOfComposePage("none")
+  }
+
+  const displayPropertyFun = (e) => {
+    if(e == "none"){
+      setdisplayOfRecipients(e);
+      setdisplayOfComposePage("block")
+    }
+  }
+
+  const RecipientsListFun = (e) => {
+    setRecipientsObject(e)
+  }
+
+  useEffect(()=>{
+    if(ReplyRecipientNameId.ReplyRecipientName != undefined){
+      RecipientsObject.RecipientName.push(ReplyRecipientNameId.ReplyRecipientName);
+      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID)
+    }
+  },[])
+
+  console.log(RecipientsObject.RecipientId.toString())
+
   return (
     <>
-      <Container >
-        <BackButton FromRoute={'/MessageCenter/msgCenter'} />
+      <Container sx={{display:displayOfComposePage}}>
+      <span
+          onClick={() => {navigate(-1)}}
+      >
+        <Fab
+          className={classes.backArrow}
+          sx={{
+            background: `${theme.colors.gradients.pink1}`,
+            position: 'absolute',
+            top: '30px',
+            left: '35px'
+          }}
+        >
+          <ReplyIcon />
+        </Fab>
+      </span>
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
@@ -287,7 +347,7 @@ function Form13() {
               type="text"
               autoComplete="off"
               variant="standard"
-              value={RecipientsList}
+              value={RecipientsObject.RecipientName}
               onChange={formik.handleChange}
               sx={{ mt: '-0.3rem' }}
             />
@@ -297,23 +357,10 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.To}</div>
               ) : null}
             </p>
-
           <span>
-          <RouterLink
-          to={`/${
-            location.pathname.split('/')[1]
-          }/MessageCenter/Compose/Recipients`}
-        >
-          
-
-            <ButtonPrimary>Add Recipients</ButtonPrimary>
-        </RouterLink>
+            <ButtonPrimary onClick={(e)=> RecipientButton(e)}>Add Recipients</ButtonPrimary>
           </span>
-            
-
             </FormControl>
-            
-
             <TextField
               fullWidth
               margin="normal"
@@ -457,6 +504,9 @@ function Form13() {
           </form>
         </Card>
       </Container>
+      <div style={{display:displayOfRecipients}}>
+          <Recipients displayProperty={displayPropertyFun} RecipientsListDetails={RecipientsListFun} ReplyRecipient={ReplyRecipientNameId}/>
+      </div>
     </>
   );
 }

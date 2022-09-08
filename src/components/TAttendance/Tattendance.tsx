@@ -1,18 +1,12 @@
 import {
   Container,
-  useTheme,
   TextField,
-  Select,
-  MenuItem,
   FormControl,
   NativeSelect,
   ClickAwayListener,
   Tooltip,
   Button,
   Checkbox,
-  List,
-  Grid,
-  InputLabel
 } from '@mui/material';
 import {
   Table,
@@ -36,18 +30,18 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Buttons from 'src/libraries/buttons/button';
 import { Link as RouterLink } from 'react-router-dom';
 import 'src/assets/style/teacher.css';
-import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
+import AttendanceData, { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
 import {
   getAttendanceDataList,
   ConflictsgetStandardList,
   GetStudentDetailsList,
-  GetAttendanceStatus
+  GetAttendanceStatus,
+  GetSaveAttendanceStatus
 } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, {
   GetStandardDivisionsResult,IStudentsDetails
 } from 'src/interfaces/Teacher/TAttendance';
-import { Formik, useFormik } from 'formik';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useFormik } from 'formik';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function Attendance() {
@@ -83,6 +77,10 @@ function Attendance() {
   const Attendancestatus = useSelector(
     (state: RootState) => state.AttendanceList.AttendanceStatus
   );
+  const SaveAttendanceStatus = useSelector(
+    (state: RootState) => state.AttendanceList.SaveAttendanceStatus
+  );
+  console.log(SaveAttendanceStatus)
   // console.log("RollNoList", RollNoList);
 
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
@@ -110,9 +108,6 @@ function Attendance() {
     StudentId: number
   ): void => {
     setifTrue(false)
-    // console.log(selectedRollNo.indexOf("-"))
-    // console.log(selectedRollNo.includes(RollId))
-    console.log(selectedRollNo)
     if (!selectedRollNo.includes(RollId)) {
       setSelectedRollNo((prevSelected) => [...prevSelected, RollId]);
       setselectedStudentId((prevSelected) => [...prevSelected, StudentId]);
@@ -165,6 +160,16 @@ function Attendance() {
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
+
+  const SaveAttendance : ISaveAttendance ={
+    asStandardDivisionId :asStandardDivisionId,
+    asDate:assignedDate,
+    asAbsentRollNos:selectedRollNo.toString(),
+    asAllPresentOrAllAbsent:"P",
+    asUserId:asTeacherId,
+    asSchoolId:asSchoolId,
+    asAcademicYearId:asAcademicYearId
+}
 
   //End Save attendance Here
 
@@ -236,21 +241,7 @@ function Attendance() {
 
   const handleChange1 = (e) => {
     setifTrue(false)
-    // if(selectedRollNo.includes("-")){
-    //   let indexOfHiphen = selectedRollNo.lastIndexOf("-");
-    //   let PreNumber = selectedRollNo.slice(indexOfHiphen-1);
-    //   let IntervalNumbersArray = [];
-    //   let len = (-(Number(PreNumber[0]) - Number(PreNumber[2])));
-    //   for(let i = 0; i <= len; i++){
-    //     let addition = Number(PreNumber[0]) + i;
-    //     IntervalNumbersArray.push(addition)
-    //   }
-    //     // setSelectedRollNo(e.target.value.concat(IntervalNumbersArray))
-    //     // console.log(e.target.value.concat(IntervalNumbersArray))
-    // }
-    // else{
-      setSelectedRollNo(e.target.value);
-    // }
+    setSelectedRollNo(e.target.value);
   };
 
   // End Calender Here
@@ -266,6 +257,7 @@ function Attendance() {
     },
     onSubmit: (values) => {
       setselectedValues(selectedRollNo);
+      dispatch(GetSaveAttendanceStatus(SaveAttendance))
     }
   });
 

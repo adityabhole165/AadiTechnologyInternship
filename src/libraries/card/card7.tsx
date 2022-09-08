@@ -67,7 +67,7 @@ function Card7({
   const classes = Styles();
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
-  console.log(BODY);
+  console.log(FromUserID);
 
   return (
     <>
