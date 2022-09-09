@@ -437,7 +437,7 @@ function Attendance() {
             style={{ textDecoration: 'none' }}
             to={
               `/${location.pathname.split('/')[1]
-              }/Student/Tattendance/MissingAttandence/` + assignedDate
+              }/Teacher/Tattendance/MissingAttandence/` + assignedDate
             }
           >
             <Button variant="contained" color="primary">

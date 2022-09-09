@@ -1,18 +1,24 @@
 import React from "react";
 import Chart from "react-apexcharts";
 
-
 const BarChart = ({ xData, series, colors, dataLabel }) => {
-
   //     const xData = [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999];
   //   const seriesData = [30, 40, 45, 50, 49, 60, 70, 91]
   //   const colors = seriesData.map((item)=>{
   //     return item===50?'#f48024':'#13d8aa'
   //   })
   
-  const height =
-    xData.length > 4 ? '200rem' :
-      xData.length > 3 ? '200rem' : '125rem'
+  const height = 
+  xData.length == 1 ? '100rem': 
+  xData.length == 2 ? '125rem' : 
+  xData.length == 3 ? '150rem' : 
+  xData.length == 4 ? '200rem' : 
+  xData.length == 5 ? '225rem' : 
+  xData.length == 6 ? '500rem' : 
+  xData.length == 7 ? '400rem' : 
+  xData.length == 8 ? '300rem' : 
+  xData.length == 9 ? '400rem' : 
+  xData.length == 10 ? '300rem': '200rem';
   const data = {
     options: {
       tooltip: {
@@ -22,7 +28,6 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
         toolbar: {show: false},
         id: "basic-bar",
         background: '#FFFFFF',
-
       },
       legend: { show: false},
       dataLabels: {
@@ -46,10 +51,8 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
           show: false
         },
       },
-
       yaxis: {
         labels: {
-
           style: {
             colors: ['#000000'],
             fontSize: '14px',
@@ -77,5 +80,4 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
     </div>
   )
 }
-
 export default BarChart;
