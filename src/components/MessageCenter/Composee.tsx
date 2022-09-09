@@ -27,9 +27,7 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import BackButton from 'src/libraries/button/BackButton';
-import { Link as RouterLink } from 'react-router-dom';
-import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
+import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
 import Recipients from './Recipients';
@@ -93,6 +91,7 @@ function Form13() {
         };
         finalBase642.push(AttachmentFile)
       }
+      setArrayOfAttachment((prev)=> [...prev])
     }
   },[AttachmentArray])
 
@@ -202,7 +201,6 @@ function Form13() {
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
-    // console.log(fileData)
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
       console.log(fileReader)
@@ -224,7 +222,6 @@ function Form13() {
   };
 
   const sendMessage = () => {
-    debugger;
     const body: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -262,6 +259,7 @@ function Form13() {
         toast.error('Message does not sent successfully');
       });
   };
+  console.log(RecipientsObject.RecipientName.includes("Software Co-ordinator"))
 
   const formik = useFormik({
     initialValues: {
