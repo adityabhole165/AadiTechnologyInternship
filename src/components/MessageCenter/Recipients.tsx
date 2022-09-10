@@ -36,6 +36,7 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const TeacherList: any = useSelector(
     (state: RootState) => state.MessageCenter.TeacherList
   );
+  console.log(TeacherList)
   const AdminStaffList: any = useSelector(
     (state: RootState) => state.MessageCenter.AdminStaffList
   );
@@ -154,12 +155,6 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
     if(ReplyRecipient.ReplyRecipientName != undefined){
       RecipientsArray.RecipientName.push(ReplyRecipient.ReplyRecipientName);
       RecipientsArray.RecipientId.push(ReplyRecipient.ReplyRecipientID.toString());
-        // setRecipientsArray((prev)=>{
-        //   return{
-        //     RecipientName : [...prev.RecipientName],
-        //       RecipientId : [...prev.RecipientId]
-        //   }
-        // })
     }
   },[])
 

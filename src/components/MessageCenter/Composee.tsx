@@ -465,13 +465,11 @@ function Form13() {
                           p: '2px',
                           width: 25,
                           height: 25,
-                          // border:'2px solid red',
                           backgroundColor: 'white',
                           boxShadow:
                             '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
                         }}
                         onClick={(i) => RemoveAttachment(i)} // Close function
-                        className={item}
                       >
                         <CloseIcon fontSize="small" color="error" />
                       </Avatar>

@@ -36,13 +36,14 @@ import {
   ConflictsgetStandardList,
   GetStudentDetailsList,
   GetAttendanceStatus,
-  GetSaveAttendanceStatus
 } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, {
   GetStandardDivisionsResult,IStudentsDetails
 } from 'src/interfaces/Teacher/TAttendance';
 import { useFormik } from 'formik';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
+import { toast } from 'react-toastify';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -69,6 +70,7 @@ function Attendance() {
   const [open, setOpen] = useState(false);
   const [assignedDate, setAssignedDate] = useState<string>(currentDate);
   const [ifTrue,setifTrue] = useState(true);
+  const [SelectAllChecckBox,setSelectAllChecckBox] = useState(true);
 
   // start
   const RollNoList = useSelector(
@@ -80,9 +82,9 @@ function Attendance() {
   const SaveAttendanceStatus = useSelector(
     (state: RootState) => state.AttendanceList.SaveAttendanceStatus
   );
-  console.log(SaveAttendanceStatus)
-  // console.log("RollNoList", RollNoList);
+  // console.log(RollNoList == null)
 
+  const [AllPresentOrAllAbsent,setAllPresentOrAllAbsent] = useState("");
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
   const [selectedStudentId, setselectedStudentId] = useState<number[]>([]);
   const [AbsentyObject, setAbsentyObject] = useState<any>({
@@ -95,11 +97,12 @@ function Attendance() {
   ): void => {
     setifTrue(false)
     setSelectedRollNo(
-      !event.target.checked ? RollNoList?.map((data) => data.RollNumber) : []
+      !event.target.checked ? RollNoList?.map((data) => (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber) : []
     );
     setselectedStudentId(
       event.target.checked ? RollNoList?.map((data) => data.StudentId) : []
     );
+
   };
 
   const handleSelectOne = (
@@ -113,7 +116,7 @@ function Attendance() {
       setselectedStudentId((prevSelected) => [...prevSelected, StudentId]);
     } else {
       setSelectedRollNo((prevSelected) =>
-        prevSelected.filter((id) => id !== RollId)
+        prevSelected.filter((id) =>  id !== RollId)
       );
       setselectedStudentId((prevSelected) =>
         prevSelected.filter((id) => id !== StudentId)
@@ -141,7 +144,7 @@ function Attendance() {
   };
 
   const body1: AttendanceData = {
-    asStdDivId: asStandardDivisionId,
+    asStdDivId: StandardId,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
@@ -155,17 +158,17 @@ function Attendance() {
   };
 
   const AttendanceStatus = {
-    asStanardDivisionId: asStandardDivisionId,
+    asStanardDivisionId: StandardId,
     asAttendanceDate: date,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
 
   const SaveAttendance : ISaveAttendance ={
-    asStandardDivisionId :asStandardDivisionId,
+    asStandardDivisionId :StandardId,
     asDate:assignedDate,
     asAbsentRollNos:selectedRollNo.toString(),
-    asAllPresentOrAllAbsent:"P",
+    asAllPresentOrAllAbsent: selectedRollNo.length == RollNoList?.length ? "A" : "",
     asUserId:asTeacherId,
     asSchoolId:asSchoolId,
     asAcademicYearId:asAcademicYearId
@@ -235,6 +238,7 @@ function Attendance() {
   };
 
   const handleChange = (e) => {
+    setSelectAllChecckBox(false)
     setifTrue(true)
     setStandardId(e.target.value);
   };
@@ -246,28 +250,32 @@ function Attendance() {
 
   // End Calender Here
 
-  const callSubmit = (e) => {
-    e.preventDefault();
-    console.log(e);
-  };
-
   const formik = useFormik({
     initialValues: {
       response: ''
     },
     onSubmit: (values) => {
-      setselectedValues(selectedRollNo);
-      dispatch(GetSaveAttendanceStatus(SaveAttendance))
+      if(selectedRollNo.length !== 0){
+        setselectedValues(selectedRollNo);
+        console.log(SaveAttendance)
+        GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
+        .then((resp) => {
+          if(resp.status == 200) {
+            toast.success('Attendance saved for the valid roll number(s) !!!');
+          }
+        })
+        .catch((err) => {
+          alert('error network');
+        });
+      }
+      if(selectedRollNo.length == 0){
+        toast.error('Please enter absent roll numbers or select either option.');
+      }
     }
   });
 
-  const clickHandler = (e) => {
-    console.log("hello")
-  }
-
   const AssignDate = new Date(assignedDate);
   const PresentDate = new Date();
-
 
   return (
     <>
@@ -278,7 +286,6 @@ function Attendance() {
             <NativeSelect
               sx={{ mr: '14px', ml: '-8px' }}
               onChange={(e) => handleChange(e)}
-              onClick={(e) => clickHandler(e)}
             >
               <option>Select Class</option>
               {StandardAttendance.map(
@@ -468,6 +475,7 @@ function Attendance() {
                               checked={ifTrue ? true : !selectedAllRollNo}
                               indeterminate={selectedSomeRollNo}
                               onChange={handleSelectAllRollNo}
+                              disabled={SelectAllChecckBox}
                             />
                           </TableCell>
                           <TableCell align="center">Roll No</TableCell>
@@ -478,7 +486,7 @@ function Attendance() {
                       <TableBody>
                         {RollNoList?.map((data) => {
                           const isSelected = ifTrue ? true : !selectedRollNo.includes(
-                            data.RollNumber
+                            (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber
                           );
                           return (
                             <TableRow
@@ -496,7 +504,7 @@ function Attendance() {
                                   onChange={(event) =>
                                     handleSelectOne(
                                       event,
-                                      data.RollNumber,
+                                      (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber,
                                       data.StudentId
                                     )
                                   }
@@ -507,7 +515,7 @@ function Attendance() {
 
                               <TableCell align="center">
                                 {' '}
-                                <b>{data.RollNumber}</b>{' '}
+                                <b>{(data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber}</b>{' '}
                               </TableCell>
                               <TableCell align="center">
                                 <b>{data.StudentName}</b>
