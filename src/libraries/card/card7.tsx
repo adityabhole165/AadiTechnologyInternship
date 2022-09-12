@@ -1,10 +1,7 @@
 import {
-  Box,
-  Card,
   Typography,
   useTheme,
   Container,
-  Button
 } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
@@ -67,7 +64,7 @@ function Card7({
   const classes = Styles();
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
-  console.log(BODY);
+  console.log(FromUserID);
 
   return (
     <>
@@ -95,7 +92,7 @@ function Card7({
                         window.open(item.FilePath);
                       }}
                     >
-                      {item.FileName}
+                      {item.FileName.slice(0,40) + "..."}
                     </Typography>
                   );
                 })}

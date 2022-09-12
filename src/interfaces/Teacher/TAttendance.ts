@@ -26,4 +26,9 @@ export interface GetSaveStudentAttendanceDetails {
         AllStudentStatusMsg: string
 }
 
-
+export interface IStudentsDetails{
+    asStdDivId: string,
+    asDate:string,
+    asAcademicYearId:string,
+    asSchoolId:string
+}

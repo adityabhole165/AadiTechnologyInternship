@@ -28,7 +28,7 @@ import { getSentList } from 'src/requests/Student/Sentmessage';
 import { getInboxList } from 'src/requests/Student/InboxMessage';
 import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import Card33 from '../card/Card33';
+import CheckboxImg from '../card/CheckboxImg';
 const Checked = styled('span')(
   ({ theme }) => `
       Color : white;
@@ -60,7 +60,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/Compose/',
+    '/extended-sidebar/MessageCenter/',
     ''
   );
 
@@ -95,12 +95,12 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                   name={data.ReceiverDetailsId}
                 /> */}
                 
-                <Card33 
-                  checked={pageName == "Recipients" ? check : checked}
+                <CheckboxImg 
+                  checked={pageName.slice(0,7) == "Compose" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
                   value={Id}
-                  name={pageName == "Recipients" ? data.Name : data.ReceiverDetailsId}
+                  name={pageName.slice(0,7) == "Compose" ? data.Name : data.ReceiverDetailsId}
                 />
 
               </Grid>

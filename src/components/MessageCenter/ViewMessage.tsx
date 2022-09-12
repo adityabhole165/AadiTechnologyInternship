@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   GetSentListResult,
   IViewSent

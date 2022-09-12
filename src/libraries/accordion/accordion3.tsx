@@ -23,7 +23,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
 
   return (
     <div>
-      <Container>
+      <Container >
         <Grow
           in={checked}
           style={{ transformOrigin: '1 1 1' }}
@@ -51,7 +51,6 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
               sx={{
                 borderRadius: 1,
                 mb: 1,
-
               }}
             >
               {Data.map((list: GetStudentExamResult, index) => {

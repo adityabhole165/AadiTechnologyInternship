@@ -18,7 +18,8 @@ export default interface ACompose_SendSMS{
     asMessageId: number,
     sIsReply:string ,
     asIsForward:string ,
-    asSchoolName: string
+    asSchoolName: string,
+    asTemplateRegistrationId: string
 };
 
 export interface MessageTemplateSMSCenter {

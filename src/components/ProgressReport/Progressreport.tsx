@@ -34,7 +34,6 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import Note from 'src/libraries/Note/Note';
-
 import {
   IIsPendingFeesForStudent,
   IGetAcademicYears,
@@ -42,8 +41,8 @@ import {
   IGetReasonforBlockingProgressReport
 } from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
-
 function Progressreport() {
+  console.log("HELLO");
   const note = [
     '1)Your school fees are pending. Please pay the dues to view the progress report. '
   ];
@@ -64,33 +63,26 @@ function Progressreport() {
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
-
   const pendingfees: any = useSelector(
     (state: RootState) => state.Progressreport.PendingFees
   );
-
   const progressReportFilePath: any = useSelector(
     (state: RootState) => state.Progressreport.ProgressReportFileName
   );
-
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let sitePath = 'https://192.168.1.80';
   let downloadPathOfProgressReport = sitePath + filePath;
-
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-
   const [block, setBlock] = useState('none');
   const [termId, setSetTermId] = useState(0);
   const [academicYearId, setAcademicYearId] = useState('');
-
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
-
   const classes = Styles();
   const DotLegend = styled('span')(
     ({ theme }) => `
@@ -104,18 +96,15 @@ function Progressreport() {
   );
   const Note1: string =
     '* Denotes subject marks are not considered in total marks.';
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
       asStudentId: asStudentId,
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId
     };
-
     http
       .post(
         'Student/IsPendingFeesForStudent',
@@ -126,31 +115,26 @@ function Progressreport() {
         setfeependingres(data);
       });
   };
-
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
     {
       asSchoolId: asSchoolId,
       asStudentId: asStudentId,
       asAcademicYearId: asAcademicYearId
     };
-
   const GetExamResultList_body: IExamResult = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
-
   const Getpendingfees_body: IIsPendingFeesForStudent = {
     asStudentId: asStudentId,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
-
   const GetAcademicYears_body: any = {
     aiSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
-
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
       asSchoolId: asSchoolId,
@@ -162,13 +146,11 @@ function Progressreport() {
     dispatch(GetProgressReportFileName(getProgressReportFileName_body));
     window.open(downloadPathOfProgressReport);
   };
-
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(Getpendingfees(Getpendingfees_body));
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
-
     dispatch(GetAcademicYears(GetAcademicYears_body));
     dispatch(
       GetReasonforBlockingProgressReport(
@@ -176,10 +158,8 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
-
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
-
   const handledropyear = (e) => {
     setDropyear(e.target.value);
     setShowyear(true);
@@ -195,16 +175,18 @@ function Progressreport() {
           </Container>
         ) : (
           <Box>
-            {pendingfees.IsPendingFeesForStudentResult !== false ? (
+            {
+            pendingfees.IsPendingFeesForStudentResult !== false ? (
               <Container>
                 <Note NoteDetail={note} />
               </Container>
-            ) : (
+            ) : 
+            (
               <>
                 {getreasonbprgrepres.GetReasonforBlockingProgressReport ==
                 '' ? (
-                  <>
-                    {feependingres ? null : (
+                  <> 
+                    { feependingres  ? null : (
                       <>
                         <Container>
                           <Grid
@@ -245,7 +227,8 @@ function Progressreport() {
                                 marginTop: '50px',
                                 m: 1,
                                 width: '100%',
-                                marginLeft: '1px'
+                                marginLeft: '1px',
+                                display:'none'
                               }}
                             >
                               {
@@ -366,5 +349,4 @@ function Progressreport() {
     </>
   );
 }
-
 export default Progressreport;

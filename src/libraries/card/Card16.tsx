@@ -178,7 +178,8 @@ function Card16({ Note, Heading }) {
 
       <div style={{ marginTop: '10px', marginBottom: '20px' }}>
         <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: {FeesTotal > 0 ? <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
+          Total: {FeesTotal > 0 ? 
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
         </div>
 
         <RouterLink

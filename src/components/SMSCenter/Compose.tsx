@@ -459,7 +459,8 @@ const Compose = () => {
     asMessageId: 0,
     sIsReply: "N",
     asIsForward: "N",
-    asSchoolName: "Bright Future School<br/>"
+    asSchoolName: "Bright Future School<br/>",
+    asTemplateRegistrationId:"1007909675688447888"
   }
 
   // SMS Template
