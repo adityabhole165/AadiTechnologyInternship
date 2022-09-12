@@ -16,6 +16,7 @@ import SentMessageApi from 'src/api/Student/SentMessage';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { Avatar } from '@mui/material';
+import { ButtonPrimary, ButtonSecondary } from 'src/libraries/styled/ButtonStyle';
 
 
 const PageIndex = 2; // Initial page index
@@ -113,30 +114,26 @@ function SentMessage() {
   }, []);
 
   const [checked, setChecked] = useState(true);
-  const [Id, setId] = useState({ DetailInfo: [] });
+  const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
+
 
   const handleChange = (event) => {
     setChecked(true);
     const { value, name, checked } = event;
+    // const { value, name } = event.target;
 
-    var recieverName = ""
-        if (name == "0") {
-            recieverName = value
-        }
-        else {
-            recieverName = name
+    const { DetailInfo, recieverInfo } = Id;
 
-        }
-
-    const { DetailInfo } = Id;
-
-    if (event.target.checked) {
+    if (checked) {
       setId({
-        DetailInfo: [...DetailInfo, value]
+        DetailInfo: [...DetailInfo, value],
+        recieverInfo: [...recieverInfo, name]
       });
     } else {
       setId({
-        DetailInfo: DetailInfo.filter((event) => event !== value)
+        DetailInfo: DetailInfo.filter((event) => event !== value),
+
+        recieverInfo: recieverInfo.filter((event) => event !== name)
       });
     }
   };
@@ -144,10 +141,11 @@ function SentMessage() {
   // Selected data delete operation
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
+    const joinReciever = Id.recieverInfo.join(';');
 
     const trashbody: any = {
       asSchoolId: asSchoolId,
-      asMessageRecieverDetailsId: joinDetails,
+      asMessageRecieverDetailsId: joinReciever,
       asMessageDetailsId: joinDetails,
       asIsArchive: 'Y',
       asIsCompeteDelete: 0,
@@ -161,7 +159,8 @@ function SentMessage() {
         }
         setChecked(false);
         setId({
-          DetailInfo: []
+          DetailInfo: [],
+          recieverInfo: []
         });
       })
       .catch((err) => {
@@ -173,7 +172,8 @@ function SentMessage() {
   const Reset = () => {
     setChecked(false);
     setId({
-      DetailInfo: []
+      DetailInfo: [],
+      recieverInfo: []
     });
   };
 
@@ -228,25 +228,8 @@ function SentMessage() {
         <>
           <Container>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
-              <Button
-                variant="contained"
-                color="error"
-                size="small"
-                endIcon={<DeleteIcon />}
-                onClick={() => moveToTrash()}
-              >
-                DELETE
-              </Button>
-              &nbsp;&nbsp;
-              <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                endIcon={<ReplayIcon />}
-                onClick={() => Reset()}
-              >
-                RESET
-              </Button>
+            <ButtonPrimary endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
+              <ButtonSecondary endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonSecondary>
             </Box>
           </Container>
           <br />

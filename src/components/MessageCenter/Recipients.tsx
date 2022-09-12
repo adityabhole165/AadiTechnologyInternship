@@ -26,7 +26,7 @@ import { useTheme, Fab } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 
 
-const Recipients = () => {
+const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) => {
 
   let navigate = useNavigate();
   const theme = useTheme();
@@ -36,11 +36,15 @@ const Recipients = () => {
   const TeacherList: any = useSelector(
     (state: RootState) => state.MessageCenter.TeacherList
   );
-  const RecipientsList: any = useSelector(
-    (state: RootState) => state.MessageCenter.RecipientsName
-  );
+  console.log(TeacherList)
   const AdminStaffList: any = useSelector(
     (state: RootState) => state.MessageCenter.AdminStaffList
+  );
+  const [RecipientsArray,setRecipientsArray] = useState(
+    {
+      RecipientName : [],
+      RecipientId : []
+    }
   );
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -74,47 +78,67 @@ const Recipients = () => {
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
 
   const handleChange = (event) => {
-    const PayLoadObject = {
-      Name: event.name,
-      ID: event.value.toString()
-    };
-
-    const RecipientsListBoolean = RecipientsList.includes(event.name);
-    if (RecipientsListBoolean) {
-      dispatch(removeRecipients(PayLoadObject));
-    } else {
-      dispatch(addRecipients(PayLoadObject));
-    }
 
     setChecked(true);
     const { value, name, checked } = event;
     const { DetailInfo, recieverInfo } = Id;
 
     if (checked) {
+      RecipientsArray.RecipientName.push(event.name)
+      RecipientsArray.RecipientId.push(event.value.toString())
+      setRecipientsArray((prev) => {
+        return{
+            RecipientName : [...prev.RecipientName],
+            RecipientId : [...prev.RecipientId]
+        }
+      })
       setId({
         DetailInfo: [...DetailInfo, value],
         recieverInfo: [...recieverInfo, name]
       });
     } else {
+      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(event.name);
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
+      let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(event.value);
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
+      setRecipientsArray((prev) => {
+        return{
+            RecipientName : [...prev.RecipientName],
+            RecipientId : [...prev.RecipientId]
+        }
+      })
       setId({
         DetailInfo: DetailInfo.filter((event) => event !== value),
-
         recieverInfo: recieverInfo.filter((event) => event !== name)
       });
     }
+
+    RecipientsListDetails(RecipientsArray)
   };
 
   const handleCheckBox = (e) => {
-    const RecipientsListBoolean = RecipientsList.includes(e.target.name);
-    const PayLoadObject = {
-      Name: e.target.name,
-      ID: e.target.value.toString()
-    };
-    if (RecipientsListBoolean) {
-      dispatch(removeRecipients(PayLoadObject));
+    if (e.target.checked) {
+      RecipientsArray.RecipientName.push(e.target.name);
+      RecipientsArray.RecipientId.push(e.target.value.toString());
+      setRecipientsArray((prev)=>{
+        return{
+          RecipientName : [...prev.RecipientName],
+            RecipientId : [...prev.RecipientId]
+        }
+      })
     } else {
-      dispatch(addRecipients(PayLoadObject));
+      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(e.target.name);
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
+      let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(e.target.value);
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
+      setRecipientsArray((prev) => {
+        return{
+            RecipientName : [...prev.RecipientName],
+            RecipientId : [...prev.RecipientId]
+        }
+      })
     }
+    RecipientsListDetails(RecipientsArray)
   };
 
   const handleRadioButtons = (e) => {
@@ -125,14 +149,19 @@ const Recipients = () => {
   useEffect(() => {
     dispatch(getTeacherList(teacherList));
     dispatch(getAdminstaffList(AdminstaffList));
-  }, [RecipientsList, selectedUserGroup]);
+  }, [selectedUserGroup]);
 
+  useEffect(()=>{
+    if(ReplyRecipient.ReplyRecipientName != undefined){
+      RecipientsArray.RecipientName.push(ReplyRecipient.ReplyRecipientName);
+      RecipientsArray.RecipientId.push(ReplyRecipient.ReplyRecipientID.toString());
+    }
+  },[])
 
   return (
     <div>
-      <PageHeader heading={'Recipients'} subheading={''} />
       <span
-      onClick={() => navigate(-1)}
+      onClick={() => displayProperty("none")}
       >
         <Fab
           className={classes.backArrow}
@@ -157,7 +186,7 @@ const Recipients = () => {
             type="text"
             autoComplete="off"
             variant="standard"
-            value={RecipientsList}
+            value={RecipientsArray.RecipientName}
             sx={{ mt: '-0.3rem' }}
           />
           <form>
@@ -168,8 +197,8 @@ const Recipients = () => {
                     control={
                       <Checkbox
                         name={'Software Co-ordinator'}
-                        onClick={handleCheckBox}
-                        checked={RecipientsList.includes(
+                        onChange={handleCheckBox}
+                        checked={RecipientsArray.RecipientName.includes(
                           'Software Co-ordinator'
                         )}
                         value={'1'}
@@ -210,7 +239,7 @@ const Recipients = () => {
           ? TeacherList == undefined || TeacherList.length == 0
             ? null
             : TeacherList.map((item, i) => {
-                const RecipientsListBoolean = RecipientsList.includes(
+                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
                   item.Name
                 );
                 return (
@@ -230,7 +259,7 @@ const Recipients = () => {
           ? AdminStaffList == undefined || AdminStaffList.length == 0
             ? null
             : AdminStaffList.map((item, i) => {
-                const RecipientsListBoolean = RecipientsList.includes(
+                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
                   item.Name
                 );
                 return (

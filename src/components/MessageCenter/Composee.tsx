@@ -2,15 +2,17 @@ import {
   Container,
   TextField,
   Box,
-  Button,
   FormControl,
   Tooltip,
   ClickAwayListener,
   Grid,
   Card,
   Typography,
+  useTheme,
+  Fab,
+  Avatar
 } from '@mui/material';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -25,20 +27,20 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
-import BackButton from 'src/libraries/button/BackButton';
-import { Link as RouterLink } from 'react-router-dom';
-import { addRecipients, removeAllRecipients } from 'src/requests/MessageCenter/MessaageCenter';
+import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-
+import ReplyIcon from '@mui/icons-material/Reply';
+import Recipients from './Recipients';
+import CloseIcon from '@mui/icons-material/Close';
 
 function Form13() {
-
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
 
   const dispatch = useDispatch();
 
+  const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
@@ -48,37 +50,49 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
-  console.log(From)
+  // console.log(AttachmentArray);
+
+  const ReplyRecipientNameId = {
+    ReplyRecipientName: From,
+    ReplyRecipientID: FromUserID
+  };
+
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
+  const [RecipientsObject, setRecipientsObject] = useState<any>({
+    RecipientName: [],
+    RecipientId: []
+  });
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
 
-  useEffect(()=>{
-    if(PageName == "Reply"){
+  useEffect(() => {
+    if (PageName == 'Reply') {
       const PayLoadObject = {
         Name: From,
         ID: FromUserID.toString()
       };
       dispatch(addRecipients(PayLoadObject));
     }
-  },[])
+  }, []);
 
-  useMemo(() => {
-    if(AttachmentArray != undefined){
-      const a = AttachmentArray.split(",");
-      for(let i=0; i<a.length ;i++){
-        ArrayOfAttachment.push(a[i]);
-        const filename = a[i];
-        const encode = window.btoa(a[i])
-        let AttachmentFile: AttachmentFile = {
-          FileName: filename,
-          Base64URL: encode
-        };
-        finalBase642.push(AttachmentFile)
+  useEffect(() => {
+    if (AttachmentArray != undefined ) {
+      if( AttachmentArray != 'null'){
+        const a = AttachmentArray.split(',');
+        for (let i = 0; i < a.length; i++) {
+          ArrayOfAttachment.push(a[i]);
+          const filename = a[i];
+          const encode = window.btoa(a[i]);
+          let AttachmentFile: AttachmentFile = {
+            FileName: filename,
+            Base64URL: encode
+          };
+          finalBase642.push(AttachmentFile);
+        }
+        setArrayOfAttachment((prev) => [...prev]);
       }
     }
-  },[AttachmentArray])
-
+  }, [AttachmentArray]);
 
   const classes = Styles();
   const navigate = useNavigate();
@@ -86,6 +100,8 @@ function Form13() {
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
+  const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
+  const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -93,8 +109,8 @@ function Form13() {
   const RecipientsListID: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsId
   );
+  // console.log(RecipientsListID)
 
-  const [Name, setname] = React.useState<any>('');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -181,11 +197,8 @@ function Form13() {
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
-    // console.log(fileData)
     return new Promise((resolve, reject) => {
       const fileReader = new FileReader();
-      console.log(fileReader)
-
       fileReader.readAsDataURL(fileData);
 
       fileReader.onload = () => {
@@ -209,7 +222,7 @@ function Form13() {
         Body: formik.values.Content,
         Subject: formik.values.Subject,
         SenderName: StudentName,
-        DisplayText: Name.toString(),
+        DisplayText: RecipientsObject.RecipientName.toString(),
         SenderUserId: UserId,
         SenderUserRoleId: RoleId,
         AcademicYearId: AcademicYearId,
@@ -222,22 +235,21 @@ function Form13() {
       asMessageId: 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: DivisionId,
-      asSelectedUserIds: RecipientsListID.toString(),
+      asSelectedUserIds: RecipientsObject.RecipientId.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642,
       asFileName: fileName
     };
-
     MessageCenterApi.GetSendMessage(body)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
           toast.success('Message sent successfully');
           setTimeout(RediretToSentPage, 100);
-          dispatch(removeAllRecipients("All"))
         }
       })
       .catch((err) => {
+        console.log(err);
         toast.error('Message does not sent successfully');
       });
   };
@@ -251,12 +263,12 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
-      console.log(values)
+      console.log(values);
       setdisabledStateOfSend(true);
     },
     validate: (values) => {
       const errors: any = {};
-      if (RecipientsList.length == 0 && PageName !== 'Reply') {
+      if (RecipientsObject.RecipientName.length == 0 && PageName !== 'Reply') {
         errors.To = 'Atleast one recipient should be selected.';
       }
       if (!values.Subject) {
@@ -269,51 +281,88 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = 'https://192.168.1.80/'  + '/RITeSchool/Uploads/';
+  const AttachmentFilePath = 'https://192.168.1.80/' + '/RITeSchool/Uploads/';
   // const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
+
+  const RecipientButton = (e) => {
+    setdisplayOfRecipients('block');
+    setdisplayOfComposePage('none');
+  };
+
+  const displayPropertyFun = (e) => {
+    if (e == 'none') {
+      setdisplayOfRecipients(e);
+      setdisplayOfComposePage('block');
+    }
+  };
+
+  const RecipientsListFun = (e) => {
+    setRecipientsObject(e);
+  };
+
+  useEffect(() => {
+    if (ReplyRecipientNameId.ReplyRecipientName != undefined) {
+      RecipientsObject.RecipientName.push(
+        ReplyRecipientNameId.ReplyRecipientName
+      );
+      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID);
+    }
+  }, []);
+
+  const RemoveAttachment = (i) => {
+    finalBase642.pop()
+    setFinalBase642((prev) => [...prev])
+    ArrayOfAttachment.pop()
+    setArrayOfAttachment((prev) => [...prev])
+  }
 
   return (
     <>
-      <Container >
-        <BackButton FromRoute={'/MessageCenter/msgCenter'} />
+      <Container sx={{ display: displayOfComposePage }}>
+        <span
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          <Fab
+            className={classes.backArrow}
+            sx={{
+              background: `${theme.colors.gradients.pink1}`,
+              position: 'absolute',
+              top: '30px',
+              left: '35px'
+            }}
+          >
+            <ReplyIcon />
+          </Fab>
+        </span>
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <TextField
-              fullWidth
-              margin="normal"
-              label={'To'}
-              name="To"
-              type="text"
-              autoComplete="off"
-              variant="standard"
-              value={RecipientsList}
-              onChange={formik.handleChange}
-              sx={{ mt: '-0.3rem' }}
-            />
-            
-            <p style={{ color: 'red', marginTop: 2 }}>
-              {RecipientsList.length == 0 ? (
-                <div className={classes.error}>{formik.errors.To}</div>
-              ) : null}
-            </p>
+                fullWidth
+                margin="normal"
+                label={'To'}
+                name="To"
+                type="text"
+                autoComplete="off"
+                variant="standard"
+                value={RecipientsObject.RecipientName}
+                onChange={formik.handleChange}
+                sx={{ mt: '-0.3rem' }}
+              />
 
-          <span>
-          <RouterLink
-          to={`/${
-            location.pathname.split('/')[1]
-          }/MessageCenter/Compose/Recipients`}
-        >
-          
-
-            <ButtonPrimary>Add Recipients</ButtonPrimary>
-        </RouterLink>
-          </span>
-            
-
+              <p style={{ color: 'red', marginTop: 2 }}>
+                {RecipientsList.length == 0 ? (
+                  <div className={classes.error}>{formik.errors.To}</div>
+                ) : null}
+              </p>
+              <span>
+                <ButtonPrimary onClick={(e) => RecipientButton(e)}>
+                  Add Recipients
+                </ButtonPrimary>
+              </span>
             </FormControl>
-            
-
             <TextField
               fullWidth
               margin="normal"
@@ -389,24 +438,47 @@ function Form13() {
                 )
               }}
             />
-            {ArrayOfAttachment == undefined || ArrayOfAttachment =="null" || ArrayOfAttachment.length == 0 || PageName === 'Reply' ? null : (
-              <>
-                <Typography>Attachment(s):</Typography>
-                {ArrayOfAttachment.map((item) => {
+            {ArrayOfAttachment == undefined ||
+            ArrayOfAttachment == 'null' ||
+            ArrayOfAttachment.length == 0 ||
+            PageName === 'Reply' ? null : (
+              <div style={{marginTop:'10px'}}>
+                <Typography sx={{mb:'10px'}}>Attachment(s):</Typography>
+                {ArrayOfAttachment.map((item, i) => {
                   return (
                     <>
+                    <span className={item}>
                       <Typography
+                        sx={{ border: '2px solid black',borderRadius:'6px 1px 1px 6px',paddingLeft:'5px' }}
                         className={classes.Cardfont1}
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                           window.open(AttachmentFilePath.concat(item));
                         }}
                       >
-                        {item}
+                        {item.slice(0,40) + "..."}
                       </Typography>
+                      <Avatar
+                        sx={{
+                          position: 'relative',
+                          top:'-35px',
+                          right:"-300px",
+                          p: '2px',
+                          width: 25,
+                          height: 25,
+                          backgroundColor: 'white',
+                          boxShadow:
+                            '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                        }}
+                        onClick={(i) => RemoveAttachment(i)} // Close function
+                      >
+                        <CloseIcon fontSize="small" color="error" />
+                      </Avatar>
+                    </span>
+
                     </>
                   );
                 })}
-              </>
+              </div>
             )}
             {fileerror && (
               <p style={{ marginBottom: -25 }} className={classes.error}>
@@ -426,7 +498,7 @@ function Form13() {
                 variant="standard"
                 value={BODY}
                 disabled={true}
-                sx={{ pt: '1px' }}
+                sx={{ mt: '10px' }}
               />
             ) : null}
 
@@ -449,14 +521,27 @@ function Form13() {
               ) : null}
             </p>
 
-           
-              <Grid item xs={12}>
-                <ButtonPrimary onClick={formik.handleChange} disabled={disabledStateOfSend}  type="submit"   fullWidth> Send</ButtonPrimary>
-              </Grid>
-        
+            <Grid item xs={12}>
+              <ButtonPrimary
+                onClick={formik.handleChange}
+                disabled={disabledStateOfSend}
+                type="submit"
+                fullWidth
+              >
+                {' '}
+                Send
+              </ButtonPrimary>
+            </Grid>
           </form>
         </Card>
       </Container>
+      <div style={{ display: displayOfRecipients }}>
+        <Recipients
+          displayProperty={displayPropertyFun}
+          RecipientsListDetails={RecipientsListFun}
+          ReplyRecipient={ReplyRecipientNameId}
+        />
+      </div>
     </>
   );
 }

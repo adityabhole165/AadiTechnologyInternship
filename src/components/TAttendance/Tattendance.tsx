@@ -1,18 +1,12 @@
 import {
   Container,
-  useTheme,
   TextField,
-  Select,
-  MenuItem,
   FormControl,
   NativeSelect,
   ClickAwayListener,
   Tooltip,
   Button,
   Checkbox,
-  List,
-  Grid,
-  InputLabel
 } from '@mui/material';
 import {
   Table,
@@ -36,13 +30,20 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Buttons from 'src/libraries/buttons/button';
 import { Link as RouterLink } from 'react-router-dom';
 import 'src/assets/style/teacher.css';
-import AttendanceData from 'src/interfaces/Teacher/TAttendanceList';
-import { getAttendanceDataList, getStandardList, GetStudentDetailsList, GetAttendanceStatus } from 'src/requests/TAttendance/TAttendance';
-import ITAttendance, { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import IStudentsDetails, { IGetAttendanceStatusDetails } from 'src/interfaces/Teacher/TAttendanceList'
-import { Formik, useFormik } from 'formik';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import AttendanceData, { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
+import {
+  getAttendanceDataList,
+ getStandardList,
+  GetStudentDetailsList,
+  GetAttendanceStatus,
+} from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, {
+  GetStandardDivisionsResult,IStudentsDetails
+} from 'src/interfaces/Teacher/TAttendance';
+import { useFormik } from 'formik';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
+import { toast } from 'react-toastify';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -68,39 +69,67 @@ function Attendance() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [open, setOpen] = useState(false);
   const [assignedDate, setAssignedDate] = useState<string>(currentDate);
+  const [ifTrue,setifTrue] = useState(true);
+  const [SelectAllChecckBox,setSelectAllChecckBox] = useState(true);
 
   // start
   const RollNoList = useSelector(
     (state: RootState) => state.AttendanceList.GetStudentDetailsList
   );
-
   const Attendancestatus = useSelector(
     (state: RootState) => state.AttendanceList.AttendanceStatus
   );
-  console.log("Attendancestatus", Attendancestatus);
+  const SaveAttendanceStatus = useSelector(
+    (state: RootState) => state.AttendanceList.SaveAttendanceStatus
+  );
+  // console.log(RollNoList == null)
 
+  const [AllPresentOrAllAbsent,setAllPresentOrAllAbsent] = useState("");
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
+  const [selectedStudentId, setselectedStudentId] = useState<number[]>([]);
+  const [AbsentyObject, setAbsentyObject] = useState<any>({
+    RollNo: [],
+    StudentId: []
+  });
 
   const handleSelectAllRollNo = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
+    setifTrue(false)
     setSelectedRollNo(
-      event.target.checked ? RollNoList?.map((data) => data.RollNumber) : []
+      !event.target.checked ? RollNoList?.map((data) => (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber) : []
     );
+    setselectedStudentId(
+      event.target.checked ? RollNoList?.map((data) => data.StudentId) : []
+    );
+
   };
 
   const handleSelectOne = (
     event: ChangeEvent<HTMLInputElement>,
-    RollId: string
+    RollId: string,
+    StudentId: number
   ): void => {
+    setifTrue(false)
     if (!selectedRollNo.includes(RollId)) {
       setSelectedRollNo((prevSelected) => [...prevSelected, RollId]);
+      setselectedStudentId((prevSelected) => [...prevSelected, StudentId]);
     } else {
       setSelectedRollNo((prevSelected) =>
-        prevSelected.filter((id) => id !== RollId)
+        prevSelected.filter((id) =>  id !== RollId)
+      );
+      setselectedStudentId((prevSelected) =>
+        prevSelected.filter((id) => id !== StudentId)
       );
     }
   };
+
+  useEffect(() => {
+    setAbsentyObject({
+      RollNo: [...selectedRollNo],
+      StudentId: [...selectedStudentId]
+    });
+  }, [selectedRollNo]);
 
   const selectedSomeRollNo =
     selectedRollNo?.length > 0 && selectedRollNo?.length < RollNoList?.length;
@@ -115,7 +144,7 @@ function Attendance() {
   };
 
   const body1: AttendanceData = {
-    asStdDivId: asStandardDivisionId,
+    asStdDivId: StandardId,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
@@ -128,17 +157,22 @@ function Attendance() {
     asSchoolId: asSchoolId
   };
 
-  const AttendanceStatus: IGetAttendanceStatusDetails = { 
-    asStanardDivisionId: "102",
-    asAttendanceDate: "7-Sep-2022",
-    asAcademicYearId: "9",
-    asSchoolId: "120"
-  }
-  console.log("asStandardDivisionId", asStandardDivisionId);
-  console.log("date", date);
-  console.log("asAcademicYearId", asAcademicYearId);
-  console.log("asSchoolId", asSchoolId);
+  const AttendanceStatus = {
+    asStanardDivisionId: StandardId,
+    asAttendanceDate: date,
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
 
+  const SaveAttendance : ISaveAttendance ={
+    asStandardDivisionId :StandardId,
+    asDate:assignedDate,
+    asAbsentRollNos:selectedRollNo.toString(),
+    asAllPresentOrAllAbsent: selectedRollNo.length == RollNoList?.length ? "A" : "",
+    asUserId:asTeacherId,
+    asSchoolId:asSchoolId,
+    asAcademicYearId:asAcademicYearId
+}
 
   //End Save attendance Here
 
@@ -204,33 +238,44 @@ function Attendance() {
   };
 
   const handleChange = (e) => {
+    setSelectAllChecckBox(false)
+    setifTrue(true)
     setStandardId(e.target.value);
   };
 
   const handleChange1 = (e) => {
+    setifTrue(false)
     setSelectedRollNo(e.target.value);
   };
 
   // End Calender Here
 
-  const callSubmit = (e) => {
-    e.preventDefault()
-    console.log(e)
-  }
-
   const formik = useFormik({
     initialValues: {
-      response: '',
+      response: ''
     },
-    onSubmit: values => {
-      setselectedValues(selectedRollNo)
-    },
-  })
+    onSubmit: (values) => {
+      if(selectedRollNo.length !== 0){
+        setselectedValues(selectedRollNo);
+        console.log(SaveAttendance)
+        GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
+        .then((resp) => {
+          if(resp.status == 200) {
+            toast.success('Attendance saved for the valid roll number(s) !!!');
+          }
+        })
+        .catch((err) => {
+          alert('error network');
+        });
+      }
+      if(selectedRollNo.length == 0){
+        toast.error('Please enter absent roll numbers or select either option.');
+      }
+    }
+  });
 
   const AssignDate = new Date(assignedDate);
   const PresentDate = new Date();
-
-  // const StudentName = RollNoList;
 
   return (
     <>
@@ -283,7 +328,7 @@ function Attendance() {
         Close={undefined}
       />
 
-      {/* Start Enter Absent number Here  */}
+      {/* {/ Start Enter Absent number Here  /} */}
       <Container>
         <form onSubmit={formik.handleSubmit}>
           <TextField
@@ -350,14 +395,21 @@ function Attendance() {
               )
             }}
           />
-          <Button variant="contained" color="primary" type="submit" onChange={formik.handleChange}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            onChange={formik.handleChange}
+          >
             Save
           </Button>
+          {/* {/ <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> /} */}
+          {/* {/ onChange={formik.handleChange}  /} */}
           {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
           {/* onChange={formik.handleChange}  */}
         </form>
 
-        {/* end Enter Absent number Here  */}
+        {/* {/ end Enter Absent number Here  /} */}
 
         <Typography variant="h5" textAlign="center">
           {' '}
@@ -367,7 +419,7 @@ function Attendance() {
           fullWidth
           sx={{ mb: 1 }}
           id="standard-read-only-input"
-          placeholder='Absent Roll Numbers'
+          placeholder="Absent Roll Numbers"
           value={selectedValues}
           InputProps={{
             readOnly: true
@@ -392,7 +444,7 @@ function Attendance() {
             style={{ textDecoration: 'none' }}
             to={
               `/${location.pathname.split('/')[1]
-              }/Student/Tattendance/MissingAttandence/` + assignedDate
+              }/Teacher/Tattendance/MissingAttandence/` + assignedDate
             }
           >
             <Button variant="contained" color="primary">
@@ -403,84 +455,81 @@ function Attendance() {
         </Stack>
         <br />
 
-        {/* Start New Code Dev.Ganesh */}
+        {/* {/ Start New Code Dev.Ganesh /} */}
         <Card>
           <Divider />
-          {/* {RollNoList?.map((data) => {
-            return ( */}
-              <>
-                {
-                  (AssignDate > PresentDate) ? <ErrorMessages Error={'Future date attendance is not allowed'} />
-                    :
-                    // (data.StudentName == "") ? <ErrorMessages Error={'There are no students available'} />
-                    //   :
-                    // MissingAttandenceList.daywiseAttendanceStatusResult.map((items: GetMissingAttandenceData, i) => {
-                    //   return (
-                    <>
-                      {selectedSomeRollNo != null ? (
-                        <>
-                          <TableContainer>
-                            <Table>
-                              <TableHead>
-                                <TableRow sx={{ background: '#ceabd2' }}>
-                                  <TableCell padding="checkbox">
-                                    <Checkbox
-                                      checked={selectedAllRollNo}
-                                      indeterminate={selectedSomeRollNo}
-                                      onChange={handleSelectAllRollNo}
-                                    />
-                                  </TableCell>
-                                  <TableCell align="center">Roll No</TableCell>
+          {AssignDate > PresentDate ? (
+            <ErrorMessages Error={'Future date attendance is not allowed'} />
+          ) : (
+            // (RollNoList.StudentName == " ") ? <ErrorMessages Error={'There are no students available'} />
+            // :
+            <>
+              {selectedSomeRollNo != null ? (
+                <>
+                  <TableContainer>
+                    <Table>
+                      <TableHead>
+                        <TableRow sx={{ background: '#ceabd2' }}>
+                          <TableCell padding="checkbox">
+                            <Checkbox
+                              checked={ifTrue ? true : !selectedAllRollNo}
+                              indeterminate={selectedSomeRollNo}
+                              onChange={handleSelectAllRollNo}
+                              disabled={SelectAllChecckBox}
+                            />
+                          </TableCell>
+                          <TableCell align="center">Roll No</TableCell>
 
-                                  <TableCell align="center">Student Name</TableCell>
-                                </TableRow>
-                              </TableHead>
-                              <TableBody>
-                                {RollNoList?.map((data) => {
-                                  const isSelected = selectedRollNo.includes(
-                                    data.RollNumber
-                                  );
-                                  return (
-                                    <TableRow
-                                      key={data.RollNumber}
-                                      selected={isSelected}
-                                      sx={{
-                                        background: data.IsPresent
-                                          ? '#87ed87a6'
-                                          : '#ffd5cde8'
-                                      }}
-                                    >
-                                      <TableCell padding="checkbox">
-                                        <Checkbox
-                                          checked={isSelected}
-                                          onChange={(event) =>
-                                            handleSelectOne(event, data.RollNumber)
-                                          }
-                                          value={isSelected}
-                                        />
-                                      </TableCell>
+                          <TableCell align="center">Student Name</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {RollNoList?.map((data) => {
+                          const isSelected = ifTrue ? true : !selectedRollNo.includes(
+                            (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber
+                          );
+                          return (
+                            <TableRow
+                              key={data.RollNumber}
+                              selected={isSelected}
+                              sx={{
+                                background: data.IsPresent
+                                  ? '#87ed87a6'
+                                  : '#ffd5cde8'
+                              }}
+                            >
+                              <TableCell padding="checkbox">
+                                <Checkbox
+                                  checked={isSelected}
+                                  onChange={(event) =>
+                                    handleSelectOne(
+                                      event,
+                                      (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber,
+                                      data.StudentId
+                                    )
+                                  }
+                                  value={isSelected}
+                                  name={data.StudentId}
+                                />
+                              </TableCell>
 
-                                      <TableCell align="center">
-                                        {' '}
-                                        <b>{data.RollNumber}</b>{' '}
-                                      </TableCell>
-                                      <TableCell align="center">
-                                        <b>{data.StudentName}</b>
-                                      </TableCell>
-                                    </TableRow>
-                                  );
-                                })}
-                              </TableBody>
-                            </Table>
-                          </TableContainer>
-                        </>
-                      ) : null}
-                    </>
-                }
-              </>
-            {/* )
-          })} */}
-
+                              <TableCell align="center">
+                                {' '}
+                                <b>{(data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber}</b>{' '}
+                              </TableCell>
+                              <TableCell align="center">
+                                <b>{data.StudentName}</b>
+                              </TableCell>
+                            </TableRow>
+                          );
+                        })}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </>
+              ) : null}
+            </>
+          )}
         </Card>
       </Container>
     </>

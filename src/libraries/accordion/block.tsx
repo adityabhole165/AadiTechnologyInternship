@@ -81,40 +81,40 @@ function Block({
   });
   // console.log(color)
   const dataLabel = (val) => {
+    let returnVal = val
     if (val >= '90' && val <= '100') {
-      return 'A+';
+      returnVal = 'A+';
     } else if (val >= 80 && val <= 89) {
-      return 'A';
+      returnVal = 'A';
     } else if (val === 101) {
-      return 'Absent';
+      returnVal = 'Absent';
     } else if (val >= 45 && val <= 49) {
-      return 'D+';
+      returnVal = 'D+';
     } else if (val >= 35 && val <= 44) {
-      return 'D';
+      returnVal = 'D';
     } else if (val >= 0 && val <= 34) {
-      return 'NH';
+      returnVal = 'NH';
     } else if (val == 0) {
-      return 'NH';
+      returnVal = 'NH';
     } else if (val >= 50 && val <= 54) {
-      return 'C';
+      returnVal = 'C';
     } else if (val >= 55 && val <= 59) {
-      return 'C+';
+      returnVal = 'C+';
     } else if (val >= 60 && val <= 69) {
-      return 'B';
+      returnVal = 'B';
     } else if (val >= 70 && val <= 79) {
-      return 'B+';
+      returnVal = 'B+';
     } else if (val >= 80 && val <= 89) {
-      return 'A';
+      returnVal = 'A';
     } else if (val >= 90 && val <= 92) {
-      return 'A-';
+      returnVal = 'A-';
     }
+    return returnVal + (val===101?'': ' ('+val+')')
   }
 
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel}></BarChart>
-
-
       <Card20
         percentage={Percentage}
         rank={Rank}

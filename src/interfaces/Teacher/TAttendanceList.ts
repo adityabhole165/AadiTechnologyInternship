@@ -14,7 +14,14 @@ export interface GetClassAttendanceResult {
     StudentId: number,
     StudentName: string
 }
-
+// export interface GetAttendanceResult {
+//         StatusMessage:string,
+//         AbsentRollNos:string,
+//         AcademicYearMsg:string,
+//         AcYrStatusCode:string,
+//         IsAllPresentOrAbsentMessage:string
+//     }
+    
 
 export interface IGetStudentDetails{
     asStdDivId:string,
