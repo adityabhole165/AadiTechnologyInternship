@@ -27,6 +27,7 @@ export interface GetSaveStudentAttendanceDetails {
 }
 
 export interface IStudentsDetails{
+    asStdDivId:string,
     asDate:string,
     asAcademicYearId:string,
     asSchoolId:string
