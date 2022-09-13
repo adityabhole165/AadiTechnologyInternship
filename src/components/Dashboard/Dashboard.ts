@@ -111,7 +111,16 @@ const DashboardData = {
       Link: 'Student/Homework',
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
-    }
+    },
+    {
+      Text1: 'TeacherAttendance',
+      Text2: '',
+      Color: '#81c784',
+      iconColor: '#424242',
+      Icon: EventNoteIcon,
+      Link: 'Student/TeacherAttendance',
+      index: 10,
+    },
     // {
     //   Text: 'Change Password',
     //   Color: '#90a4ae',

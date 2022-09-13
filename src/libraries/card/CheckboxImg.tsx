@@ -8,7 +8,7 @@ const CheckboxImg = ({ name, checked, value, onChange }) => {
     return (<>
         {
             checked ?
-                <CheckCircleIcon sx={{color:'green'}} onClick={onClick} /> :
+                <CheckCircleIcon sx={{color:'black'}} onClick={onClick} /> :
                 <RadioButtonUncheckedIcon onClick={onClick}/>
         }
     </>)

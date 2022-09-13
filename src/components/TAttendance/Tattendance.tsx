@@ -33,7 +33,7 @@ import 'src/assets/style/teacher.css';
 import AttendanceData, { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
 import {
   getAttendanceDataList,
-  ConflictsgetStandardList,
+ getStandardList,
   GetStudentDetailsList,
   GetAttendanceStatus,
 } from 'src/requests/TAttendance/TAttendance';
@@ -177,7 +177,7 @@ function Attendance() {
   //End Save attendance Here
 
   useEffect(() => {
-    dispatch(ConflictsgetStandardList(body));
+    dispatch(getStandardList(body));
   }, [StandardId]);
 
   useEffect(() => {

@@ -1,10 +1,11 @@
-import StandardAttendance from "src/interfaces/Teacher/TAttendance";
-import AttendanceData, { IGetStudentDetails, ISaveAttendance ,IGetAttendanceStatusDetails} from "src/interfaces/Teacher/TAttendanceList";
+import StandardAttendance ,{GetStandardDivisionsResult}from "src/interfaces/Teacher/TAttendance";
+import AttendanceData, { IGetStudentDetails, ISaveAttendance ,
+    IGetAttendanceStatusDetails,GetClassAttendanceResult} from "src/interfaces/Teacher/TAttendanceList";
 import http from "../../requests/SchoolService/schoolServices";
 
 
 const GetStandardList = (data:StandardAttendance)=>{
-    return http.post<StandardAttendance>('Teacher/GetStandardDivisions',data);
+    return http.post<GetStandardDivisionsResult>('Teacher/GetStandardDivisions',data);
 };
 
 const GetAttendanceData = (data:AttendanceData)=>{
@@ -12,7 +13,7 @@ const GetAttendanceData = (data:AttendanceData)=>{
 };
 
 const GetStudentDetails = (data:IGetStudentDetails) => {
-    return http.post<IGetStudentDetails>('Teacher/GetStudentDetails',data);
+    return http.post<GetClassAttendanceResult[]>('Teacher/GetStudentDetails',data);
 }
 
 const SaveStudentAttendanceDetails = (data:ISaveAttendance) => {
@@ -20,7 +21,7 @@ const SaveStudentAttendanceDetails = (data:ISaveAttendance) => {
 }
 
 const GetAttendanceStatus = (data:IGetAttendanceStatusDetails) => {
-    return http.post<IGetAttendanceStatusDetails>('Teacher/GetAttendanceStatus',data);
+    return http.post<GetClassAttendanceResult[]>('Teacher/GetAttendanceStatus',data);
 }
 const GetTAttendanceListApi={
     GetStandardList,

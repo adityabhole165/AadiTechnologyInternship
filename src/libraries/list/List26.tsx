@@ -1,19 +1,25 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import List3ColSelAll from './List3ColSelAll'
 import TextCommaNumber from '../Text/TextCommaNumber'
-const List26 = () => {
+import { Container } from '@mui/material'
+const List26 = ({Dataa}) => {
     const [textarray, setTextarray] = useState('')
     const [getLabel, setGetLabel] = useState('Comma separated Roll Number')
-    const [Data, setData] = useState([{
-        text1: "1",
-        text2: "Ajit",
-        isActive: true
-    }, {
-        text1: "2",
-        text2: "Mayur",
-        isActive: true
-    }]
-    )
+    const [Data, setData] = useState([])
+    useEffect(() => {
+        setData(Dataa);
+      },[Dataa]);
+
+        // const [Dataa, setData] = useState([{
+    //     text1: "1",
+    //     text2: "Ajit",
+    //     isActive: true
+    // }, {
+    //     text1: "2",
+    //     text2: "Mayur",
+    //     isActive: true
+    // }]
+    // )
     const refreshData = (data) => {
         let arr = []
         data.map((obj) => {
@@ -23,6 +29,8 @@ const List26 = () => {
         setTextarray(arr.join(','))
         setGetLabel('Comma separated Roll Number')
         setData(data);
+    console.log("a -- ",Data)
+
     }
     const changeText = (data) => {
         setTextarray(data.text)
@@ -35,8 +43,8 @@ const List26 = () => {
 
     return (
         <>
-
-            <TextCommaNumber
+<Container>
+<TextCommaNumber
                 name={'Roll Number'}
                 textarray={textarray}
                 validarray={Data.map((obj) => obj.text1)}
@@ -44,6 +52,8 @@ const List26 = () => {
                 getLabel={getLabel} />
 
             <List3ColSelAll Itemlist={Data} refreshData={refreshData} />
+</Container>
+            
         </>
     )
 }
