@@ -22,7 +22,7 @@ import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
 import {
   ButtonPrimary,
-  ButtonSecondary
+  
 } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';

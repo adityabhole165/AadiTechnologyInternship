@@ -358,7 +358,7 @@ function Form13() {
                 ) : null}
               </p>
               <span>
-                <ButtonPrimary onClick={(e) => RecipientButton(e)}>
+                <ButtonPrimary color="primary" onClick={(e) => RecipientButton(e)}>
                   Add Recipients
                 </ButtonPrimary>
               </span>
@@ -522,7 +522,7 @@ function Form13() {
             </p>
 
             <Grid item xs={12}>
-              <ButtonPrimary
+              <ButtonPrimary color="primary"
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
                 type="submit"
