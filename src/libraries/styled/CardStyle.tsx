@@ -5,16 +5,19 @@ export const CardDetail1 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
   color: black;
+  font-family: 'Roboto'
 `;
 export const CardDetail2 = styled(Typography)`
   font-size: 12px;
   margin-left: 50px;
   color: black;
+  font-family: 'Roboto'
 `;
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
   color: black;
+  font-family: 'Roboto'
 `;
 export const CardDetail = styled(Box)(
   ({ theme }) => `
@@ -22,6 +25,7 @@ export const CardDetail = styled(Box)(
 justify-content: space-between;
 font-size: 12px;
 color: black;
+font-family: 'Roboto'
 
 
 `
