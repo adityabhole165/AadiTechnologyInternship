@@ -14,7 +14,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
-import { ButtonDisable, ButtonPrimary } from '../styled/ButtonStyle';
+import {  ButtonPrimary } from '../styled/ButtonStyle';
 
 
 Card16.propTypes = {
@@ -319,17 +319,17 @@ function Card16({ Note, Heading }) {
             >
               
 
-              <ButtonPrimary>Pay Caution Money</ButtonPrimary>
+              <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
             </RouterLink>
           ) : (
-            <Button variant="contained"> Caution Money Receipt </Button>
+            <ButtonPrimary color="secondary"> Caution Money Receipt </ButtonPrimary>
           )}
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
           >
             {FeesList.AmountPayable != 0 ? (
-           <ButtonPrimary> Pay Internal Fees</ButtonPrimary>
+           <ButtonPrimary color="secondary"> Pay Internal Fees</ButtonPrimary>
             ) : null}
           </RouterLink>
         </Stack>

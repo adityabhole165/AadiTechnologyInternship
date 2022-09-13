@@ -19,7 +19,7 @@ import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import {
   ButtonPrimary,
-  ButtonSecondary
+
 } from 'src/libraries/styled/ButtonStyle';
 
 const PageIndex = 2; // Initial page index
@@ -234,8 +234,8 @@ function Trash() {
         <>
           <Container>
             <Box display="flex" justifyContent="flex-end">
-              <ButtonPrimary endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
-              <ButtonSecondary endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonSecondary>
+              <ButtonPrimary color="primary" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
+              <ButtonPrimary color="secondary" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonPrimary>
             </Box>
           </Container>
           <br />
