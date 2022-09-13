@@ -182,14 +182,16 @@ function Form() {
                 onChange={formik.handleChange}
                 type="submit"
                 fullWidth
+                color='primary'
               >
                 Save
               </ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-              <ButtonSecondary onClick={getHomepage} fullWidth>
+              <ButtonPrimary onClick={getHomepage} fullWidth
+                color='secondary'>
                 Cancel
-              </ButtonSecondary>
+              </ButtonPrimary>
             </Grid>
           </Grid>
         </form>
