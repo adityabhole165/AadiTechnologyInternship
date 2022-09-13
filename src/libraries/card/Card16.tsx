@@ -14,8 +14,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
-import {  ButtonPrimary } from '../styled/ButtonStyle';
-
+import { ButtonPrimary } from '../styled/ButtonStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -46,7 +45,7 @@ function Card16({ Note, Heading }) {
   const [CheckBoxPaymentGroup, setCheckBoxPaymentGroup] = useState<any>(['1']); // First Payment Group
   const [change, setChange] = useState(true); // Unselect check box and change disability of checkboxes
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
-  const [newArrayOfFess, setnewArrayOfFess] = useState([]); // Associated Array 
+  const [newArrayOfFess, setnewArrayOfFess] = useState([]); // Associated Array
   const classes = Styles();
   const theme = useTheme();
   const [dueDateArrayObj, setDueDateArrayObj] = useState([]);
@@ -68,7 +67,7 @@ function Card16({ Note, Heading }) {
   const handleChange = (event) => {
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
-    
+
     if (event.target.checked) {
       ArrayOfPaymentGroup.push(event.target.name);
       let indexOfComma = valueOfCheckBox.indexOf(':');
@@ -80,7 +79,7 @@ function Card16({ Note, Heading }) {
       let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
       let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
       dueDateArrayObj.push(event.target.id);
-      
+
       setCheckBoxPaymentGroup([
         ...CheckBoxPaymentGroup,
         NextPaymentGroup_ToString
@@ -120,7 +119,7 @@ function Card16({ Note, Heading }) {
       setChange(false); // For Useeffect call
     }
     setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
-    console.log(ArrayOfPaymentGroup)
+    console.log(ArrayOfPaymentGroup);
   };
 
   // Body and Dispatch
@@ -177,24 +176,41 @@ function Card16({ Note, Heading }) {
       ) : null}
 
       <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: {FeesTotal > 0 ? 
-          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
+        <div
+          style={{
+            display: 'inline-block',
+            marginTop: '10px',
+            fontWeight: 'bold'
+          }}
+        >
+          Total:{' '}
+          {FeesTotal > 0 ? (
+            <CurrencyRupeeRoundedIcon
+              sx={{ fontSize: '18px', position: 'relative', top: '5px' }}
+            />
+          ) : null}{' '}
+          {FeesTotal}
         </div>
 
         <RouterLink
-          to={`/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate }
+          to={
+            `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+            selectedDueDate
+          }
           style={mystyle}
         >
           {FeesList.AmountPayable != 0 ? (
-            <Button
-              disabled={FeesTotal > 0 ? false : true}
-              sx={{ float: 'right', borderRadius: '5px' }}
-              variant="contained"
-            >
-              Pay Online
-            </Button>
+            FeesTotal > 0 ? (
+              <ButtonPrimary color="primary" sx={{ float: 'right' }}>
+                
+                Pay Online
+              </ButtonPrimary>
+            ) : (
+              <ButtonPrimary color="warning" sx={{ float: 'right' }}>
            
+                Pay Online
+              </ButtonPrimary>
+            )
           ) : null}
         </RouterLink>
       </div>
@@ -210,7 +226,7 @@ function Card16({ Note, Heading }) {
             const FeesCheckBoxBoolean = ArrayOfPaymentGroup.includes(
               item.PaymentGroup.toString()
             );
-            console.log(item.PaymentGroup.toString())
+            console.log(item.PaymentGroup.toString());
 
             return item.AmountPayable == '0' ? null : (
               <List
@@ -292,7 +308,13 @@ function Card16({ Note, Heading }) {
                             }}
                           >
                             {Heading.Fee2}
-                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
+                            <CurrencyRupeeRoundedIcon
+                              sx={{
+                                fontSize: '18px',
+                                position: 'relative',
+                                top: '5px'
+                              }}
+                            />
                             <strong>{item.Amount}</strong>
                           </Typography>
                         </Grid>
@@ -317,19 +339,19 @@ function Card16({ Note, Heading }) {
                 location.pathname.split('/')[1]
               }/Student/Fees_cautionmoney`}
             >
-              
-
               <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
             </RouterLink>
           ) : (
-            <ButtonPrimary color="secondary"> Caution Money Receipt </ButtonPrimary>
+            <ButtonPrimary color="secondary">
+              Caution Money Receipt{' '}
+            </ButtonPrimary>
           )}
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
           >
             {FeesList.AmountPayable != 0 ? (
-           <ButtonPrimary color="secondary"> Pay Internal Fees</ButtonPrimary>
+              <ButtonPrimary color="secondary">Pay Internal Fees</ButtonPrimary>
             ) : null}
           </RouterLink>
         </Stack>
