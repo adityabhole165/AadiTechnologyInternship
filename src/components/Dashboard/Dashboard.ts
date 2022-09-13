@@ -20,6 +20,7 @@ import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 
 const DashboardData = {
+  Student:{
     items1:[
     {
       Text1: 'School ',
@@ -217,12 +218,134 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
-    },
+    }
     // {
     //   Text1: 'AttendenceNew',
     //   Text2: '',
     //   Link: 'Student/AttendenceNew',
     //   index: 20,
     // }
-  ]}
+  ]},
+  Teacher:{
+    items1:[
+      {
+        Text1: 'School ',
+        Text2: 'Notices',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: AssignmentIcon,
+        Link: 'Common/SchoolNotice',
+        index: 1,
+        ScreenPermission: 'EnableSchoolNotices'
+      },
+      {
+        Text1: 'Annual  ',
+        Text2: 'Planner',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: EventIcon,
+        Link: 'Student/EventOverview',
+        index: 2,
+        ScreenPermission: 'AnnualEventPlanner'
+      },
+
+      {
+        Text1: 'Holidays  ',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: DateRangeIcon,
+        Link: 'Student/Holidays',
+        index: 3,
+        ScreenPermission: 'HolidaysManagement'
+      },
+      {
+        Text1: 'Staff   ',
+        Text2: 'Birthday',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: DateRangeIcon,
+        Link: 'Student/AstaffBirthday',
+        index: 4,
+        ScreenPermission: 'StaffBirthday'
+      },
+      {
+        Text1: 'Photo    ',
+        Text2: 'Gallery',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: PhotoIcon,
+        Link: 'Student/gallery',
+        index: 5,
+        ScreenPermission: ''
+      }
+    ],
+    items2:[
+      {
+        Text1: 'Video  ',
+        Text2: 'Gallery',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: VideoLibraryIcon,
+        Link: 'Student/VideoGallery',
+        index: 6,
+        ScreenPermission: ''
+      },
+      {
+        Text1: 'Attendance  ',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: EventNoteIcon,
+        Link: 'student/TAttendance',
+        index: 7,
+        ScreenPermission: 'Attendance'
+      },
+      {
+        Text1: 'Exam ',
+        Text2: 'Schedule',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: CalendarTodayIcon,
+        Link: 'Student/Texamschedule',
+        index: 8,
+        ScreenPermission: 'ExamSchedule'
+      }, 
+      {
+        Text1: 'Exam ',
+        Text2: 'Schedule',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: CalendarTodayIcon,
+        Link: 'Student/Texamschedule',
+        index: 8,
+        ScreenPermission: 'ExamSchedule'
+      },
+      {
+        Text1: 'Timetable ',
+        Text2: 'Schedule',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: CalendarTodayIcon,
+        Link: 'Student/TeacherTimeTable',
+        index: 8,
+        ScreenPermission: 'ExamSchedule'
+      },
+    ],
+    items3:[
+      {
+        Text1: 'School ',
+        Text2: 'Notices',
+        Color: '#90a4ae',
+      iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Common/SchoolNotice',
+        index: 1,
+        ScreenPermission: 'EnableSchoolNotices'
+      }
+    ]
+}   
+   
+  
+}
 export default DashboardData;
