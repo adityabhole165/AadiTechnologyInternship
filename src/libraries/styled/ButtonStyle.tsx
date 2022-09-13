@@ -4,13 +4,13 @@ export const ButtonPrimary = styled(Button)(
   ({ theme }) => `
 color: white;
 font-size: 12px;
-// background: ${theme.colors.gradients.primayButton};
-background: ${(props) => (props.secondary ? 'theme.colors.gradients.secondaryButton': 'theme.colors.gradients.primayButton')};
+background: ${theme.colors.gradients.primayButton};
+// background: ${(props) => (props.secondary ? 'theme.colors.gradients.secondaryButton': 'theme.colors.gradients.primayButton')};
 
 
-// &:hover {
-//     background: ${theme.colors.gradients.primayButton};
-//   }
+&:hover {
+    background: ${theme.colors.gradients.primayButton};
+  }
 border-radius: 3px;
 
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
