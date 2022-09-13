@@ -22,7 +22,7 @@ import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
 import {
   ButtonPrimary,
-  ButtonSecondary
+  
 } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';
@@ -182,14 +182,16 @@ function Form() {
                 onChange={formik.handleChange}
                 type="submit"
                 fullWidth
+                color='primary'
               >
                 Save
               </ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-              <ButtonSecondary onClick={getHomepage} fullWidth>
+              <ButtonPrimary onClick={getHomepage} fullWidth
+                color='secondary'>
                 Cancel
-              </ButtonSecondary>
+              </ButtonPrimary>
             </Grid>
           </Grid>
         </form>

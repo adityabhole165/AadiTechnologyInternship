@@ -30,7 +30,6 @@ function EventOverview() {
   const [date, setDate] = useState({ selectedDate: '' });
   const [assignedYear, setAssignedYear] = useState<number>();
 
-  const [assignedMonth, setAssignedMonth] = useState<string>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<number>();
 
   function setCurrentDate(newDate?: Date) {
@@ -43,7 +42,6 @@ function EventOverview() {
       selectedDate: NewDateFormat
     });
     setAssignedYear(Year);
-    setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
 
@@ -84,7 +82,7 @@ function EventOverview() {
 
   useEffect(() => {
     dispatch(getEventList(body));
-  }, [assignedMonth]);
+  }, [assignedMonth_num]);
 
   const Data = eventList.map((item, index) => {
     return {

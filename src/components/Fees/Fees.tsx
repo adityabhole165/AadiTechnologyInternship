@@ -62,7 +62,7 @@ function Fees() {
   );
   const classes = Styles();
   const note1 = [
-    '1) *RITE student (100% Consession on school fees)',
+    '1) *RTE student (100% Consession on school fees)',
    
   ];
   return (
