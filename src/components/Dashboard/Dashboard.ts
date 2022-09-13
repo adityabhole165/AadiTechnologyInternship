@@ -162,8 +162,8 @@ const DashboardData = {
       index: 14
     },
     {
-      Text1: ' Online Exam ',
-      Text2: 'Progress Report',
+      Text1: ' O-Progress',
+      Text2: 'Report',
       Color: '#90a4ae',
       iconColor: '#35abd9',
       Icon: AssessmentOutlinedIcon,

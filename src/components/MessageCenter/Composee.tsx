@@ -533,7 +533,7 @@ function Form13() {
               </ButtonPrimary>
             </Grid>
           </form>
-          </ListStyle>
+          </Card>
       
       </Container>
       <div style={{ display: displayOfRecipients }}>

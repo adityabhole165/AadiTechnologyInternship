@@ -8,12 +8,7 @@ function ErrorMessages({ Error }) {
 
   return (
     <>
-      {window.location.pathname ==
-      '/extended-sidebar/Student/Progressreport' ? (
-        <ErrorDetail >"{Error}"</ErrorDetail>
-      ) : (
-        <ErrorDetail >{Error}</ErrorDetail>
-      )}
+      <ErrorDetail >{Error}</ErrorDetail>
     </>
   );
 }
