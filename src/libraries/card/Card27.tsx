@@ -12,7 +12,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
 
 Card27.propTypes = {
@@ -74,7 +74,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           >
             <Typography sx={{ color: 'black' }}>
               <b>{FeesType}</b> &nbsp;:&nbsp;
-              <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> 
+              {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>  */}
               <b>{FeesType == 'Paid Fees' ? FeesObject.TotalFeesPaid : FeesObject.FeesTobePaid} </b>
             </Typography>
           </AccordionSummary>
@@ -121,7 +121,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                             variant="h5"
                             sx={{  textAlign: 'right' }}
                           >
-                            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>
+                            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> */}
                             {item.Amount}
                           </Typography>
                         </Grid>

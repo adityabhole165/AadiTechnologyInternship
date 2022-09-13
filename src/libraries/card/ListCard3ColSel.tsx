@@ -2,7 +2,6 @@ import { Grid } from '@mui/material'
 import CheckboxImg from './CheckboxImg'
 
 const ListCard3ColSel = ({ Item, onChange }) => {
-    console.log("ajit -- ",Item.isActive)
     return (<>
         <Grid container bgcolor={Item.isActive ? '#ceabd2' : 'white'}>
             <Grid item xs={2} sx={{mt:"7px"}}>

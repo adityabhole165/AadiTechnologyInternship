@@ -6,6 +6,7 @@ export default  interface StandardAttendance {
 }
 
 export  interface GetStandardDivisionsResult {
+    map(arg0: (item: any, index: any) => { Value: string; Name: string;}): unknown
     Class: string,
     Id: string
 }

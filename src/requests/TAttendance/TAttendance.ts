@@ -16,12 +16,16 @@ const TAttendanceSlice = createSlice({
         GetStudentDetailsList:[],
         AttendanceStatus:[],
         StudentList:[],
-        SaveAttendanceStatus:[]
+        SaveAttendanceStatus:[],
+        stdlist:[]
     },
 
     reducers: {
         getStandardList(state,action) {
             state.StandardDivisionAttendance = action.payload
+        },
+        getStandard(state,action) {
+            state.stdlist = action.payload
         },
         getTAttendanceList(state,action) {
             state.AttendanceData = action.payload
@@ -42,12 +46,7 @@ const TAttendanceSlice = createSlice({
     }
 });
 
-export const getStandardList =
-(data:StandardAttendance): AppThunk =>
-async(dispatch)=>{
-    const response = await GetTAttendanceListApi.GetStandardList(data);
-    dispatch(TAttendanceSlice.actions.getStandardList(response.data));
-};
+
 
 export const getAttendanceDataList = 
 (data:AttendanceData): AppThunk =>
@@ -79,6 +78,20 @@ async (dispatch)=>{
                 })
     dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
 }
+export const getStandardList =
+(data:StandardAttendance): AppThunk =>
+async(dispatch)=>{
+    const response = await GetTAttendanceListApi.GetStandardList(data);
+    const standardList =
+    response.data.map((item) => {
+        return {
+            Value: item.Id,
+            Name: item.Class,
+        }
+
+    })
+    dispatch(TAttendanceSlice.actions.getStandard(standardList));
+};
 
 export const GetAttendanceStatus =
 (data:IGetAttendanceStatusDetails):AppThunk =>
