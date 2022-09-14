@@ -24,6 +24,7 @@ import school2 from 'src/assets/img/Shool_Logo/school2.png';
 import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 
 function SelectSchool() {
@@ -371,11 +372,11 @@ function SelectSchool() {
                                     }
 
                                     <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
-                                        <Button variant="contained" color="success" sx={{ ml: "auto"
+                                        <ButtonPrimary color="primary"  sx={{ ml: "auto"
                                         // ,pointerEvents:LoginButtonDisabled
                                         }} type="submit" onChange={formik.handleChange}  > 
                                             Login
-                                        </Button>
+                                        </ButtonPrimary>
                                         <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>
 
                                     </Grid>
