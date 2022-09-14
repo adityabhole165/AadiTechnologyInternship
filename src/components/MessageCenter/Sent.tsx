@@ -16,7 +16,7 @@ import SentMessageApi from 'src/api/Student/SentMessage';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { Avatar } from '@mui/material';
-import { ButtonPrimary, ButtonSecondary } from 'src/libraries/styled/ButtonStyle';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 
 const PageIndex = 2; // Initial page index
@@ -228,8 +228,8 @@ function SentMessage() {
         <>
           <Container>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
-            <ButtonPrimary endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
-              <ButtonSecondary endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonSecondary>
+            <ButtonPrimary color="primary" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
+              <ButtonPrimary color="secondary" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonPrimary>
             </Box>
           </Container>
           <br />

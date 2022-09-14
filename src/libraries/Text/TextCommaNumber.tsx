@@ -1,7 +1,8 @@
-import { TextField } from '@mui/material'
+import {TextField} from '@mui/material'
 import { useEffect, useState } from 'react'
 
 const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) => {
+
     const defaultLabel = 'Comma separated ' + name
     let label = ''
     const isRepeat = (value) => {
@@ -72,11 +73,13 @@ const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) 
             changeText({ text: value, getLabel: label })
     }
 
-
     return (
         <>
             <br />
-            <TextField value={textarray}
+            <TextField
+                variant="standard"
+                fullWidth
+                value={textarray}
                 error={getLabel !== defaultLabel}
                 label={getLabel}
                 onChange={(e) => SetTextData2(e.target.value)}

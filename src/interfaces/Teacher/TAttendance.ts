@@ -6,6 +6,7 @@ export default  interface StandardAttendance {
 }
 
 export  interface GetStandardDivisionsResult {
+    map(arg0: (item: any, index: any) => { Value: string; Name: string;}): unknown
     Class: string,
     Id: string
 }
@@ -27,7 +28,7 @@ export interface GetSaveStudentAttendanceDetails {
 }
 
 export interface IStudentsDetails{
-    asStdDivId: string,
+    asStdDivId:string,
     asDate:string,
     asAcademicYearId:string,
     asSchoolId:string

@@ -15,12 +15,17 @@ const TAttendanceSlice = createSlice({
         AttendanceData:[],
         GetStudentDetailsList:[],
         AttendanceStatus:[],
-        SaveAttendanceStatus:[]
+        StudentList:[],
+        SaveAttendanceStatus:[],
+        stdlist:[]
     },
 
     reducers: {
         getStandardList(state,action) {
             state.StandardDivisionAttendance = action.payload
+        },
+        getStandard(state,action) {
+            state.stdlist = action.payload
         },
         getTAttendanceList(state,action) {
             state.AttendanceData = action.payload
@@ -31,18 +36,17 @@ const TAttendanceSlice = createSlice({
         GetAttendanceStatusList(state,action){
             state.AttendanceStatus=action.payload
         },
+        GetStudentList(state,action){
+            state.StudentList=action.payload
+        },
+
         GetSaveAttendanceStatusList(state,action){
             state.SaveAttendanceStatus=action.payload
         }
     }
 });
 
-export const ConflictsgetStandardList =
-(data:StandardAttendance): AppThunk =>
-async(dispatch)=>{
-    const response = await GetTAttendanceListApi.GetStandardList(data);
-    dispatch(TAttendanceSlice.actions.getStandardList(response.data));
-};
+
 
 export const getAttendanceDataList = 
 (data:AttendanceData): AppThunk =>
@@ -57,6 +61,37 @@ async (dispatch)=>{
     const response = await GetTAttendanceListApi.GetStudentDetails(data);
     dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
 }
+
+export const GetStudentList =
+(data:IGetStudentDetails):AppThunk =>
+async (dispatch)=>{
+    const response = await GetTAttendanceListApi.GetStudentDetails(data);
+    const studentList =
+                response.data.map((item, index) => {
+                    return {
+                        text1: item.RollNumber,
+                        text2: item.StudentName,
+                        isActive: item.IsPresent,
+                        status: item.Status
+                    }
+
+                })
+    dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
+}
+export const getStandardList =
+(data:StandardAttendance): AppThunk =>
+async(dispatch)=>{
+    const response = await GetTAttendanceListApi.GetStandardList(data);
+    const standardList =
+    response.data.map((item) => {
+        return {
+            Value: item.Id,
+            Name: item.Class,
+        }
+
+    })
+    dispatch(TAttendanceSlice.actions.getStandard(standardList));
+};
 
 export const GetAttendanceStatus =
 (data:IGetAttendanceStatusDetails):AppThunk =>

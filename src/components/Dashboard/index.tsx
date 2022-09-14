@@ -33,16 +33,28 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
-import { BrowserRouter as Router, Route, Link, NavLink } from 'react-router-dom';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link,
+  NavLink
+} from 'react-router-dom';
 import { styled } from '@mui/material/styles';
 import DashboardData from './Dashboard';
 import Card2 from 'src/libraries/mainCard/Card2';
 
-
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { getModulesPermission, getModulesPermissionsResultt, getSchoolSettings } from 'src/requests/SchoolSetting/schoolSetting';
-import { ISchoolId, IgetModulesPermission, IGetScreensAccessPermissions } from 'src/interfaces/SchoolSetting/schoolSettings';
+import {
+  getModulesPermission,
+  getModulesPermissionsResultt,
+  getSchoolSettings
+} from 'src/requests/SchoolSetting/schoolSetting';
+import {
+  ISchoolId,
+  IgetModulesPermission,
+  IGetScreensAccessPermissions
+} from 'src/interfaces/SchoolSetting/schoolSettings';
 
 const Text = styled(Box)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -54,86 +66,211 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function LandingPage() {
-
-
   const theme = useTheme();
-  const dispatch = useDispatch()
-  const GetSchoolSettingList = useSelector((state: RootState) => state.getSchoolSettings.SchoolSettingList)
-  const ModulesPermission: any = useSelector((state: RootState) => state.getSchoolSettings.ModulesPermission)
+  const dispatch = useDispatch();
+  const GetSchoolSettingList = useSelector(
+    (state: RootState) => state.getSchoolSettings.SchoolSettingList
+  );
+  const ModulesPermission: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.ModulesPermission
+  );
 
-  const GetScreensAccessPermissions: any = useSelector((state: RootState) => state.getModulesPermissionsResult.ModulesPermissionsResult)
+  const GetScreensAccessPermissions: any = useSelector(
+    (state: RootState) =>
+      state.getModulesPermissionsResult.ModulesPermissionsResult
+  );
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
-  const userId = sessionStorage.getItem("Id");
+  const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const body: ISchoolId = {
-    "asSchoolId": asSchoolId
-  }
+    asSchoolId: asSchoolId
+  };
 
   const body1: IgetModulesPermission = {
-    "asSchoolId": asSchoolId,
-    "asAcademicYearId": AcademicYearId,
-    "asUserId": userId,
-    "abIsPreprimary": false,
-    "abXseedApplicable": false
-  }
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYearId,
+    asUserId: userId,
+    abIsPreprimary: false,
+    abXseedApplicable: false
+  };
 
   const body2: IGetScreensAccessPermissions = {
-    "asSchoolId": asSchoolId,
-    "asAcademicYearId": AcademicYearId,
-    "asUserId": userId,
-    "asUserRoleId": RoleId,
-    "abIsPreprimaryTeacher": false
-  }
-
+    asSchoolId: asSchoolId,
+    asAcademicYearId: AcademicYearId,
+    asUserId: userId,
+    asUserRoleId: RoleId,
+    abIsPreprimaryTeacher: false
+  };
 
   useEffect(() => {
     dispatch(getSchoolSettings(body));
 
-    if (RoleId == "3") {
-      dispatch(getModulesPermission(body1))
+    if (RoleId == '3') {
+      dispatch(getModulesPermission(body1));
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
-    localStorage.setItem("url", window.location.pathname)
-    dispatch(getModulesPermissionsResultt(body2))
-  }, [])
-  const items1 = DashboardData.items1.filter((el) => {
-    return ModulesPermission.some((f) => {
-      return f.ModuleName ===
-        (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission)
-        && el.ModulesPermission === undefined ? true : f.IsEnabled === true
+    localStorage.setItem('url', window.location.pathname);
+    dispatch(getModulesPermissionsResultt(body2));
+  }, []);
+  let items1 = [];
+  let items2 = [];
+  let items3 = [];
+  if (RoleId === '3') {
+    items1 = DashboardData.Student.items1.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
     });
-  });
-  const items2 = DashboardData.items2.filter((el) => {
-    return ModulesPermission.some((f) => {
-      return f.ModuleName ===
-        (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission)
-        && el.ModulesPermission === undefined ? true : f.IsEnabled === true
+    items2 = DashboardData.Student.items2.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
     });
-  });
-  const items3 = DashboardData.items3.filter((el) => {
-    return ModulesPermission.some((f) => {
-      return f.ModuleName ===
-        (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission)
-        && el.ModulesPermission === undefined ? true : f.IsEnabled === true
+    items3 = DashboardData.Student.items3.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
     });
-  });
-  let header2 = RoleId === "3" ? 'Student' : 'Teacher'
-  let header3 = RoleId === "6" ? 'Communication' : 'Exam & Communication'
+  }
+
+if (RoleId === '3') {
+    items1 = DashboardData.Student.items1.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items2 = DashboardData.Student.items2.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items3 = DashboardData.Student.items3.filter((el) => {
+      return ModulesPermission.some((f) => {
+        return f.ModuleName ===
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) && el.ModulesPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+  }
+
+
+
+  if (RoleId === '6') {
+    items1 = DashboardData.Admin.items1.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items2 = DashboardData.Admin.items2.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items3 = DashboardData.Teacher.items3.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+  }
+
+
+
+
+
+  if (RoleId === '2') {
+    items1 = DashboardData.Teacher.items1.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items2 = DashboardData.Teacher.items2.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+    items3 = DashboardData.Teacher.items3.filter((el) => {
+      return GetScreensAccessPermissions.some((f) => {
+        return f.ScreenName ===
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) && el.ScreenPermission === undefined
+          ? true
+          : f.IsEnabled === true;
+      });
+    });
+  }
+  let header2 = RoleId === '3' ? 'Student' : 'Teacher';
+  let header3 = RoleId === '6' ? 'Communication' : 'Exam & Communication';
+
   return (
     <>
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
       <IconButton>
-      <NavLink  to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`} activeStyle={{ color: '#9e9e9e' }}>
-      <EventNoteIcon/>
-      </NavLink>
-    </IconButton>
-      {(RoleId != "6") &&
-        (<Card2 items={items2} heading={header2} rowsCol="4" />)
-      }
+        <NavLink
+          to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`}
+          activeStyle={{ color: '#9e9e9e' }}
+        >
+          <EventNoteIcon />
+        </NavLink>
+      </IconButton>
+      {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
       <Card2 items={items3} heading={header3} rowsCol="4"></Card2>
     </>
   );

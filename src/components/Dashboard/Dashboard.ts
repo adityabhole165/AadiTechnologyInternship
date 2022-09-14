@@ -20,6 +20,7 @@ import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 
 const DashboardData = {
+  Student:{
     items1:[
     {
       Text1: 'School ',
@@ -69,8 +70,7 @@ const DashboardData = {
       Link: 'Common/VideoGallery',
       index: 5
     }
-  ]
-  ,
+  ],
   items2 : [
     {
       Text1: 'Attendance',
@@ -111,7 +111,16 @@ const DashboardData = {
       Link: 'Student/Homework',
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
-    }
+    },
+    {
+      Text1: 'TeacherAttendance',
+      Text2: '',
+      Color: '#81c784',
+      iconColor: '#424242',
+      Icon: EventNoteIcon,
+      Link: 'Student/TeacherAttendance',
+      index: 10,
+    },
     // {
     //   Text: 'Change Password',
     //   Color: '#90a4ae',
@@ -162,8 +171,8 @@ const DashboardData = {
       index: 14
     },
     {
-      Text1: ' Online Exam ',
-      Text2: 'Progress Report',
+      Text1: ' O-Progress',
+      Text2: 'Report',
       Color: '#90a4ae',
       iconColor: '#35abd9',
       Icon: AssessmentOutlinedIcon,
@@ -208,12 +217,268 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
-    },
+    }
     // {
     //   Text1: 'AttendenceNew',
     //   Text2: '',
     //   Link: 'Student/AttendenceNew',
     //   index: 20,
     // }
-  ]}
+  ]},
+  Teacher:{
+    items1:[
+      {
+        Text1: 'School ',
+        Text2: 'Notices',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: AssignmentIcon,
+        Link: 'Common/SchoolNotice',
+        index: 1,
+        ScreenPermission: 'EnableSchoolNotices'
+      },
+      {
+        Text1: 'Annual  ',
+        Text2: 'Planner',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon: EventIcon,
+        Link: 'Common/EventOverview',
+        index: 2,
+        ScreenPermission: 'AnnualEventPlanner'
+      },
+
+      {
+        Text1: 'Holidays  ',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: DateRangeIcon,
+        Link: 'Common/Holidays',
+        index: 3,
+        ScreenPermission: 'HolidaysManagement'
+      },
+      {
+        Text1: 'Staff   ',
+        Text2: 'Birthday',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: DateRangeIcon,
+        Link: 'Common/StaffBirthday',
+        index: 4,
+        ScreenPermission: 'StaffBirthday'
+      },
+      {
+        Text1: 'Photo    ',
+        Text2: 'Gallery',
+        Color: '#81c784',
+        iconColor: '#f0483e',
+        Icon: PhotoIcon,
+        Link: 'Common/PhotoGallery',
+        index: 5,
+        ScreenPermission: ''
+      }
+    ],
+    items2:[
+      {
+        Text1: 'Video  ',
+        Text2: 'Gallery',
+        Color: '#ef5350',
+        iconColor: '#35abd9',
+        Icon: VideoLibraryIcon,
+        Link: 'Common/VideoGallery',
+        index: 6,
+        ScreenPermission: ''
+      },
+      {
+        Text1: 'Attendance  ',
+        Text2: '',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: EventNoteIcon,
+        Link: 'Teacher/TAttendance',
+        index: 7,
+        ScreenPermission: 'Attendance'
+      },
+      {
+        Text1: 'Exam ',
+        Text2: 'Schedule',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon: CalendarTodayIcon,
+        Link: 'Teacher/Texamschedule',
+        index: 8,
+        ScreenPermission: 'ExamSchedule'
+      }, 
+      {
+        Text1: 'Timetable ',
+        Text2: 'Schedule',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon: CalendarTodayIcon,
+        Link: 'Teacher/TeacherTimeTable',
+        index: 9,
+        ScreenPermission: 'TeacherTimeTable'
+      },
+    ],
+    items3:[
+      {
+        Text1: 'Fees ',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#35abd9',
+        Icon: MonetizationOnIcon,
+        Link: 'Student/Fees',
+        index: 1,
+        ScreenPermission: 'EnableStudentFeesModule'
+      },
+      {
+        Text1: 'Homework ',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: MenuBookIcon,
+        Link: 'Student/Homework',
+        index: 2,
+        ScreenPermission: 'EnableHomeworkModule'
+      },
+      {
+        Text1: 'Massege  ',
+        Text2: 'Center',
+        Color: '#90a4ae',
+        iconColor: '#f0483e',
+        Icon: ForwardToInboxIcon,
+        Link: 'MessageCenter/msgCenter',
+        index: 3,
+        ScreenPermission: 'MessageCenter'
+      },
+      {
+        Text1: 'SMS ',
+        Text2: 'Center',
+        Color: '#90a4ae',
+        iconColor: '#35abd9',
+        Icon: SmsIcon,
+        Link: 'Student/SmsCenter',
+        index: 4,
+        ScreenPermission: 'SMSCenter'
+      },
+      {
+        Text1: 'PTA ',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: PeopleIcon ,
+        Link: 'Common/pta',
+        index: 5,
+        ScreenPermission: 'EnablePTAModuleforStudents'
+      },
+    ],
+},  
+   Admin:{
+      items1:[
+        {
+      Text1: 'School  ',
+      Text2:  'Notices',
+      Color: '#90a4ae',
+      iconColor: '#424242',
+      Icon: AssignmentIcon ,
+      Link: 'Common/schoolnotice',
+      index: 1,
+      ScreenPermission: 'SchoolNotices'
+     },
+     {
+      Text1: 'Annual  ',
+      Text2:  'Planner',
+      Color: '#ef5350',
+      iconColor: '#f0483e',
+      Icon: EventIcon ,
+      Link: 'Common/EventOverview',
+      index: 2,
+      ScreenPermission: 'SchoolNotices'
+     },
+     {
+      Text1: 'Holidays  ',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#424242',
+      Icon: DateRangeIcon,
+      Link: 'Common/Holidays',
+      index: 3,
+      ScreenPermission: 'HolidaysManagement'
+    },
+    {
+      Text1: 'Staff   ',
+      Text2: 'Birthday',
+      Color: '#90a4ae',
+      iconColor: '#424242',
+      Icon: DateRangeIcon,
+      Link: 'Common/StaffBirthday',
+      index: 4,
+      ScreenPermission: 'StaffBirthday'
+    },
+    {
+      Text1: 'Photo    ',
+      Text2: 'Gallery',
+      Color: '#81c784',
+      iconColor: '#f0483e',
+      Icon: PhotoIcon,
+      Link: 'Common/PhotoGallery',
+      index: 5,
+      ScreenPermission: ''
+    },
+    {
+      Text1: 'Video  ',
+      Text2: 'Gallery',
+      Color: '#ef5350',
+      iconColor: '#35abd9',
+      Icon: VideoLibraryIcon,
+      Link: 'Common/VideoGallery',
+      index: 6,
+      ScreenPermission: ''
+    },
+     ],
+
+     items2:[
+      {
+        Text1: 'Massege  ',
+        Text2: 'Center',
+        Color: '#90a4ae',
+        iconColor: '#f0483e',
+        Icon: ForwardToInboxIcon,
+        Link: 'MessageCenter/msgCenter',
+        index: 1,
+        ScreenPermission: 'MessageCenter'
+      },
+      {
+        Text1: 'SMS ',
+        Text2: 'Center',
+        Color: '#90a4ae',
+        iconColor: '#35abd9',
+        Icon: SmsIcon,
+        Link: 'SMSCenter/smsCenter',
+        index: 2,
+        ScreenPermission: 'SMSCenter'
+      },
+      {
+        Text1: 'Teacher  ',
+        Text2: 'TimeTable',
+        Color: '#ef5350',
+        iconColor: '#f0483e',
+        Icon:  AccessTimeIcon,
+        Link: 'Student/TeacherTimeTable',
+        index: 3,
+        ScreenPermission: 'TeacherTimeTable'
+      },
+      {
+        Text1: 'PTA ',
+        Color: '#90a4ae',
+        iconColor: '#424242',
+        Icon: PeopleIcon ,
+        Link: 'Common/pta',
+        index: 4,
+        ScreenPermission: 'EnablePTAModuleforStudents'
+      }
+    ]
+   }
+  
+}
 export default DashboardData;

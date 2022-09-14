@@ -4,8 +4,7 @@ import GetPasswordApi from 'src/api/Authentication/GetPassword';
 
 import {
   ButtonPrimary,
-  ButtonSecondary,
-  ButtonDisable
+  
 } from 'src/libraries/styled/ButtonStyle';
 
 import {
@@ -176,7 +175,7 @@ function ForgotPassword() {
             ) : null}
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <ButtonPrimary
+                <ButtonPrimary color='primary'
                   onChange={formik.handleChange}
                   type="submit"
                   fullWidth
@@ -185,9 +184,9 @@ function ForgotPassword() {
                 </ButtonPrimary>
               </Grid>
               <Grid item xs={6}>
-                <ButtonSecondary onClick={click} fullWidth>
+                <ButtonPrimary color='secondary' onClick={click} fullWidth>
                   Cancel
-                </ButtonSecondary>
+                </ButtonPrimary>
               </Grid>
             </Grid>
           </form>

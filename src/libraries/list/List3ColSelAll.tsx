@@ -1,5 +1,6 @@
 import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel'
 import ListCard3ColSel from '../card/ListCard3ColSel'
+import { Box, Card } from '@mui/material';
 const List3ColSelAll = ({ Itemlist, refreshData }) => {
     let isCheckAll =
         (!Itemlist.some(obj => obj.isActive === false)) ?
@@ -26,19 +27,27 @@ const List3ColSelAll = ({ Itemlist, refreshData }) => {
     }
     return (
         <div>
+            <Box sx={{mt:"10px"}}>
             <ListHeaderCard3ColSel
-                Item={{ text1: '0', text2: 'Select All', isActive: isCheckAll }}
+                Item={{ text1: 'Roll Number', text2: 'Student Name', isActive: isCheckAll }}
                 onChange={ClickAll}
             />
+            </Box>
+            
+           
             {
                 Itemlist.map((item, index) => (
+                    <Card sx={{mt:"10px"}}  key={index}>
                     <ListCard3ColSel
-                        key={index}
+                       
                         Item={item}
                         onChange={clickSingle}
                     />
+                     </Card>
                 ))
             }
+           
+            
         </div>
     )
 }

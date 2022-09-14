@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList, ConflictsgetStandardList } from 'src/requests/TAttendance/TAttendance';
+import { getAttendanceDataList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 
@@ -85,7 +85,7 @@ const TView = () => {
   };
 
   useEffect(() => {
-    dispatch(ConflictsgetStandardList(body));
+    // dispatch(ConflictsgetStandardList(body));
     dispatch(getAttendanceDataList(body1));
   }, [assignedDate, getStandardId]);
 
@@ -102,7 +102,7 @@ const TView = () => {
     setgetStandardId(e.target.value);
   };
   useEffect(() => {
-    dispatch(ConflictsgetStandardList(body));
+    // dispatch(ConflictsgetStandardList(body));
   }, [getStandardId]);
 
   const DotLegend = styled('span')(
