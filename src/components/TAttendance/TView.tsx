@@ -4,20 +4,25 @@ import { Styles } from 'src/assets/style/student-style';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import List14 from 'src/libraries/list/List14';
-import { FormControl, NativeSelect } from '@mui/material';
+import { Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
 import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { styled, Grid } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
 import { getAttendanceDataList, ConflictsgetStandardList } from 'src/requests/TAttendance/TAttendance';
+import ReplyIcon from '@mui/icons-material/Reply';
+
 
 const TView = () => {
   const { assignedDate } = useParams();
   const { StandardId } = useParams();
   const classes = Styles();
+  const theme = useTheme();
+  let navigate = useNavigate();
+
   const dispatch = useDispatch();
   const [getDate, setgetDate] = useState(assignedDate);
   const [getStandardId, setgetStandardId] = useState(StandardId);
@@ -118,7 +123,21 @@ const TView = () => {
       <PageHeader heading={'View Attendance'} subheading={''} />
 
       <Grid container direction="row" sx={{ mt: '-40px', marginLeft: '27px' }}>
-        <BackButton />
+      <span
+      onClick={() => navigate(-1)}
+      >
+        <Fab
+          className={classes.backArrow}
+          sx={{
+            background: `${theme.colors.gradients.pink1}`,
+            position: 'absolute',
+            top: '30px',
+            left: '35px'
+          }}
+        >
+          <ReplyIcon />
+        </Fab>
+      </span>
       </Grid>
       <br />
       <Grid container direction="row" sx={{ ml: 2.7, mt: 1.5 }}>

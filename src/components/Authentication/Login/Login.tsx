@@ -166,6 +166,7 @@ function SelectSchool() {
             sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
             sessionStorage.setItem('EndDate', teacherDetails.EndDate);
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
+            sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
 
         }
 
