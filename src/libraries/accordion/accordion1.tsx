@@ -91,7 +91,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
                     boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-                    mb: 0.5
+                    mb: 1
                   }}
                 >
                   <Typography sx={{ color: 'black' }}>
@@ -103,7 +103,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     borderRadius: 1,
                   
-                    mb: -1.5
+                    mb: -1
                   }}
                 >
                   <List1 items={Data} />
@@ -130,7 +130,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
                     boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-                    mb: 0.5
+                    mb: 1
                   }}
                 >
                   <Typography sx={{ color: 'black' }}>
@@ -142,7 +142,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     borderRadius: 1,
                  
-                    mb: -1.5
+                    mb: -1
                   }}
                 >
                   <List1 items={Data1} />
