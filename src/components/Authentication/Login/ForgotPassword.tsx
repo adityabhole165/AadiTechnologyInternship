@@ -2,10 +2,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect } from 'react';
 import GetPasswordApi from 'src/api/Authentication/GetPassword';
 
-import {
-  ButtonPrimary,
-  
-} from 'src/libraries/styled/ButtonStyle';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 import {
   Button,
@@ -15,7 +12,9 @@ import {
   Typography,
   Box,
   Grid,
-  useTheme
+  useTheme,
+  Avatar,
+  Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -104,7 +103,24 @@ function ForgotPassword() {
       <PageHeader heading={'Forgot Password'} subheading={''} />
 
       <Container>
-        <ListStyle>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+        >
+          <img
+            src="/imges/forgotpassword.png"
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+            }}
+          />
+        </Stack>
+
+        <ListStyle sx={{ mt: '30px' }}>
           <form onSubmit={formik.handleSubmit}>
             {formik.touched.Login && formik.errors.Login ? (
               <Errormessage Error={formik.errors.Login} />
@@ -175,7 +191,8 @@ function ForgotPassword() {
             ) : null}
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <ButtonPrimary color='primary'
+                <ButtonPrimary
+                  color="primary"
                   onChange={formik.handleChange}
                   type="submit"
                   fullWidth
@@ -184,7 +201,7 @@ function ForgotPassword() {
                 </ButtonPrimary>
               </Grid>
               <Grid item xs={6}>
-                <ButtonPrimary color='secondary' onClick={click} fullWidth>
+                <ButtonPrimary color="secondary" onClick={click} fullWidth>
                   Cancel
                 </ButtonPrimary>
               </Grid>
