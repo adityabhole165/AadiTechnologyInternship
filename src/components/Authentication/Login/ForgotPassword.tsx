@@ -43,10 +43,9 @@ function ForgotPassword() {
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
     };
-    console.log(body);
     GetPasswordApi.GetPasswordResult(body)
       .then((res) => {
-        if (res != null) toast.success('SMS sent you your email address');
+        if (res != null) toast.success('SMS has been Sent');
         else toast.success(res.data);
       })
       .catch((err) => {
