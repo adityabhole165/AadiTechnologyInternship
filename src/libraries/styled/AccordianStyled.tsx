@@ -12,12 +12,14 @@ export const AccordianHeader = styled(Box)(
 );
 
 export const Header1 = styled(Typography)(
-  ({ theme }) => `
+  ({ theme, color }) => `
   padding-top: 2px;
   padding-left: 10px;
   font-size:16px;
   font-weight:bold;
-  font-family: 'Roboto'
+  font-family: 'Roboto';
+  color: ${theme.colors.gradients.HighlightedlistColor};
+
   `
 );
 
