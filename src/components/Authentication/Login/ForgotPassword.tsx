@@ -4,7 +4,7 @@ import GetPasswordApi from 'src/api/Authentication/GetPassword';
 
 import {
   ButtonPrimary,
-  
+
 } from 'src/libraries/styled/ButtonStyle';
 
 import {
@@ -36,9 +36,9 @@ function ForgotPassword() {
   const asSchoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
+    debugger;
     const body: IGetPassword = {
       asSchoolId: asSchoolId,
-      asMobileNo: formik.values.MobileNo,
       asLogin: formik.values.Login,
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
@@ -46,11 +46,11 @@ function ForgotPassword() {
     console.log(body);
     GetPasswordApi.GetPasswordResult(body)
       .then((res) => {
-        if (res.data === null) toast.success('SMS sent you your email address');
-        else toast.warning(res.data);
+        if (res != null) toast.success('SMS sent you your email address');
+        else toast.success(res.data);
       })
       .catch((err) => {
-        toast.success('Failed to send SMS');
+        toast.warning('Failed to send SMS');
       });
   };
 
@@ -69,12 +69,9 @@ function ForgotPassword() {
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Mobile Numbers
 
       const errors: any = {};
-      if (!values.MobileNo) {
-        if (!values.Login) {
-          errors.Login = 'Please enter the user name or mobile Number.';
-        }
-      } else if (!phoneRegExp.test(values.MobileNo)) {
-        errors.MobileNo = 'Invalid Phone Number';
+
+      if (!values.Login) {
+        errors.Login = 'Please enter the User name or Mobile number.';
       }
       if (!values.DOB) {
         errors.DOB = 'Date of Birth should not be blank.';
@@ -106,14 +103,10 @@ function ForgotPassword() {
       <Container>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            {formik.touched.Login && formik.errors.Login ? (
-              <Errormessage Error={formik.errors.Login} />
-            ) : null}
-
             <TextField
               fullWidth
               margin="normal"
-              label={'User Name'}
+              label={'UserName/MobileNumber'}
               name="Login"
               type="number"
               variant="standard"
@@ -121,28 +114,17 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
+              required
             />
-            <Typography>--Or--</Typography>
-            <TextField
-              fullWidth
-              margin="normal"
-              label={'Mobile Number'}
-              name="MobileNo"
-              type="number"
-              variant="standard"
-              value={formik.values.MobileNo}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
-            />
-
-            {formik.touched.MobileNo && formik.errors.MobileNo ? (
-              <Errormessage Error={formik.errors.MobileNo} />
+            {formik.touched.Login && formik.errors.Login ? (
+              <Errormessage Error={formik.errors.Login} />
             ) : null}
             <br />
-            <TextField
+            <Box>
+              <TextField
               fullWidth
               margin="normal"
+              label={"Date Of Birth"}
               name="DOB"
               type="date"
               variant="standard"
@@ -150,7 +132,10 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
+              required
             />
+            </Box>
+
 
             {formik.touched.DOB && formik.errors.DOB ? (
               <Errormessage Error={formik.errors.DOB} />
@@ -167,6 +152,7 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
+              required
             />
             {/* <br/>Please enter email id to receive the login details through email. */}
 
