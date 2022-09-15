@@ -39,9 +39,10 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
               sx={{
                 background: `${theme.colors.gradients.pink1}`,
                 color: 'white',
-                boxShadow: '6px 6px 8px  gray !important'
+                boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
+                mb:0.5
               }}
-              className={classes.ListStyle}
+             
             >
               <Typography sx={{ color: 'black' }}>
                 <b>{Exam}</b>
@@ -50,7 +51,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                mb: 1,
+                mb: -1.5,
               }}
             >
               {Data.map((list: GetStudentExamResult, index) => {
