@@ -2,10 +2,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect } from 'react';
 import GetPasswordApi from 'src/api/Authentication/GetPassword';
 
-import {
-  ButtonPrimary,
-
-} from 'src/libraries/styled/ButtonStyle';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 import {
   Button,
@@ -15,7 +12,9 @@ import {
   Typography,
   Box,
   Grid,
-  useTheme
+  useTheme,
+  Avatar,
+  Stack
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
@@ -36,9 +35,9 @@ function ForgotPassword() {
   const asSchoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
-    debugger;
     const body: IGetPassword = {
       asSchoolId: asSchoolId,
+      // asMobileNo: formik.values.MobileNo,
       asLogin: formik.values.Login,
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
@@ -49,7 +48,7 @@ function ForgotPassword() {
         else toast.success(res.data);
       })
       .catch((err) => {
-        toast.warning('Failed to send SMS');
+        toast.success('Failed to send SMS');
       });
   };
 
@@ -68,9 +67,12 @@ function ForgotPassword() {
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Mobile Numbers
 
       const errors: any = {};
-
-      if (!values.Login) {
-        errors.Login = 'Please enter the User name or Mobile number.';
+      if (!values.MobileNo) {
+        if (!values.Login) {
+          errors.Login = 'Please enter the user name or mobile Number.';
+        }
+      } else if (!phoneRegExp.test(values.MobileNo)) {
+        errors.MobileNo = 'Invalid Phone Number';
       }
       if (!values.DOB) {
         errors.DOB = 'Date of Birth should not be blank.';
@@ -100,12 +102,33 @@ function ForgotPassword() {
       <PageHeader heading={'Forgot Password'} subheading={''} />
 
       <Container>
-        <ListStyle>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="center"
+          gap={1}
+        >
+          <img
+            src="/imges/forgotpassword.png"
+            style={{
+              width: '200px',
+              height: '200px',
+              borderRadius: '50%',
+              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+            }}
+          />
+        </Stack>
+
+        <ListStyle sx={{ mt: '30px' }}>
           <form onSubmit={formik.handleSubmit}>
+            {formik.touched.Login && formik.errors.Login ? (
+              <Errormessage Error={formik.errors.Login} />
+            ) : null}
+
             <TextField
               fullWidth
               margin="normal"
-              label={'UserName/MobileNumber'}
+              label={'User Name'}
               name="Login"
               type="number"
               variant="standard"
@@ -113,17 +136,28 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
-              required
             />
-            {formik.touched.Login && formik.errors.Login ? (
-              <Errormessage Error={formik.errors.Login} />
-            ) : null}
-            <br />
-            <Box>
-              <TextField
+            <Typography>--Or--</Typography>
+            <TextField
               fullWidth
               margin="normal"
-              label={"Date Of Birth"}
+              label={'Mobile Number'}
+              name="MobileNo"
+              type="number"
+              variant="standard"
+              value={formik.values.MobileNo}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              sx={{ mt: '-0.3rem' }}
+            />
+
+            {formik.touched.MobileNo && formik.errors.MobileNo ? (
+              <Errormessage Error={formik.errors.MobileNo} />
+            ) : null}
+            <br />
+            <TextField
+              fullWidth
+              margin="normal"
               name="DOB"
               type="date"
               variant="standard"
@@ -131,10 +165,7 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
-              required
             />
-            </Box>
-
 
             {formik.touched.DOB && formik.errors.DOB ? (
               <Errormessage Error={formik.errors.DOB} />
@@ -151,7 +182,6 @@ function ForgotPassword() {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
-              required
             />
             {/* <br/>Please enter email id to receive the login details through email. */}
 
@@ -160,7 +190,8 @@ function ForgotPassword() {
             ) : null}
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <ButtonPrimary color='primary'
+                <ButtonPrimary
+                  color="primary"
                   onChange={formik.handleChange}
                   type="submit"
                   fullWidth
@@ -169,7 +200,7 @@ function ForgotPassword() {
                 </ButtonPrimary>
               </Grid>
               <Grid item xs={6}>
-                <ButtonPrimary color='secondary' onClick={click} fullWidth>
+                <ButtonPrimary color="secondary" onClick={click} fullWidth>
                   Cancel
                 </ButtonPrimary>
               </Grid>
