@@ -1,25 +1,25 @@
 import React, { useEffect, useState } from 'react'
 import List3ColSelAll from './List3ColSelAll'
 import TextCommaNumber from '../Text/TextCommaNumber'
-import { Container } from '@mui/material'
-const List26 = ({Dataa}) => {
+import { Container, Button, TextField, Typography } from '@mui/material'
+
+
+const List26 = ({ Dataa,handleClick}) => {
+
+
+
     const [textarray, setTextarray] = useState('')
+    console.log("textarray", textarray);
+
+    const click = () =>{
+        setTextarray(textarray)
+    }
     const [getLabel, setGetLabel] = useState('Comma separated Roll Number')
+
     const [Data, setData] = useState([])
     useEffect(() => {
         setData(Dataa);
-      },[Dataa]);
-
-        // const [Dataa, setData] = useState([{
-    //     text1: "1",
-    //     text2: "Ajit",
-    //     isActive: true
-    // }, {
-    //     text1: "2",
-    //     text2: "Mayur",
-    //     isActive: true
-    // }]
-    // )
+    }, [Dataa]);
     const refreshData = (data) => {
         let arr = []
         data.map((obj) => {
@@ -27,9 +27,8 @@ const List26 = ({Dataa}) => {
                 arr.push(obj.text1)
         })
         setTextarray(arr.join(','))
-        setGetLabel('Comma separated Roll Number')
+        setGetLabel('Enter Absent Numbers')
         setData(data);
-    console.log("a -- ",Data)
 
     }
     const changeText = (data) => {
@@ -43,17 +42,18 @@ const List26 = ({Dataa}) => {
 
     return (
         <>
-<Container>
-<TextCommaNumber
-                name={'Roll Number'}
-                textarray={textarray}
-                validarray={Data.map((obj) => obj.text1)}
-                changeText={changeText}
-                getLabel={getLabel} />
+            <Container>
+                <TextCommaNumber
+                    name={'Roll Number'}
+                    textarray={textarray}
+                    validarray={Data.map((obj) => obj.text1)}
+                    changeText={changeText}
+                    getLabel={getLabel}
+                />
 
-            <List3ColSelAll Itemlist={Data} refreshData={refreshData} />
-</Container>
-            
+                <List3ColSelAll Itemlist={Data} refreshData={refreshData} />
+            </Container>
+
         </>
     )
 }

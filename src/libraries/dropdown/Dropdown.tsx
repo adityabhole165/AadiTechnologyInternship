@@ -19,7 +19,7 @@ const Dropdown = ({Array,handleChange}) => {
                         (items, i) => {
                             return (
                                 <>
-                                    <option value={items.value} key={i}>
+                                    <option value={items.Value} key={i}>
                                         {items.Name}
                                     </option>
                                 </>

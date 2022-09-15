@@ -430,7 +430,7 @@ function Attendance() {
           <RouterLink
             style={{ textDecoration: 'none' }}
             to={
-              `/${location.pathname.split('/')[1]}/Student/Tattendance/Tview/` +
+              `/${location.pathname.split('/')[1]}/Teacher/Tattendance/Tview/` +
               assignedDate +
               '/' +
               StandardId

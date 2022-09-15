@@ -17,6 +17,7 @@ function Card24() {
   const Nationality = sessionStorage.getItem('Nationality');
   const Mother_Tongue = sessionStorage.getItem('Mother_Tongue');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
+  const RollNo = sessionStorage.getItem('RollNo');
 
   return (
     <>
@@ -38,14 +39,14 @@ function Card24() {
                   variant="h5"
                   sx={{ textAlign: 'center' }}
                 >
-                  Address:
+                  Roll No:
                 </Typography>
               </CardContent>
             </Grid>
             <Grid xs={8}>
               <CardContent sx={{ color: 'black' }}>
                 <Typography component="div" sx={{ textAlign: 'center' }}>
-                  {Address}
+                  {RollNo}
                 </Typography>
               </CardContent>
             </Grid>
