@@ -17,7 +17,8 @@ export const Card30 = ({ header}) => {
     const classes = Styles();
     return (
         <>
-        <Card28 Student={header.Students}/>
+        {header.Students===undefined?null:
+            <Card28 Student={header.Students}/>}
         <Container>
             {header.Header!= undefined ?
                 header.Header.map((Header) => (
