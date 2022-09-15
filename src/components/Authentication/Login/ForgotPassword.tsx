@@ -37,7 +37,7 @@ function ForgotPassword() {
   const submitresult = () => {
     const body: IGetPassword = {
       asSchoolId: asSchoolId,
-      asMobileNo: formik.values.MobileNo,
+      // asMobileNo: formik.values.MobileNo,
       asLogin: formik.values.Login,
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
