@@ -6,20 +6,15 @@ import {
   FormControl,
   Tooltip,
   Typography,
-  FormGroup,
   Grid,
   Card,
   Box,
-  Checkbox,
-  FormControlLabel,
   NativeSelect,
-  Radio,
   ClickAwayListener,
   useTheme,
   Fab,
-  RadioGroup
 } from '@mui/material';
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -30,20 +25,9 @@ import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/Admin
 import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 
 //  to page ===================================
-import {
-  IGetStudentsUser,
-  GetStudentsUserResult
-} from 'src/interfaces/AdminSMSCenter/To';
-import { IUsergroup } from 'src/interfaces/AdminSMSCenter/To';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { GetUser } from 'src/requests/AdminSMSCenter/To';
-import { GetStudent } from 'src/requests/AdminSMSCenter/To';
-import { GetGetAdminAndprincipalUsers } from 'src/requests/AdminSMSCenter/To';
-import Icon2 from 'src/libraries/icon/icon2';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { GetAdminAndprincipalUsers } from 'src/interfaces/AdminSMSCenter/To';
-import List21 from 'src/libraries/list/List21';
+import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
 
 const Compose = () => {
 
@@ -53,43 +37,40 @@ const Compose = () => {
   const theme = useTheme();
   toast.configure();
 
-  const [inputBoxValue, setinputBoxValue] = useState<any>('');
   const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] =
     useState<any>('none');
   const [displayOfCompose_Page, setdisplayOfCompose_Page] =
     useState<any>('block');
+  const [RecipientsArray,setRecipientsArray] = useState(
+    { 
+      RecipientName : [],
+      RecipientId : []
+    }
+  );
 
   const To_Recipients_Page = (e) => {
     setdisplayOfTo_RecipientsPage('block');
     setdisplayOfCompose_Page('none');
   };
 
-  const ToPageClicked = (e) => {
-    setdisplayOfCompose_Page('block');
-    setdisplayOfTo_RecipientsPage('none');
-  };
-
   // Tool Tip  =================================
-  const [open, setOpen] = useState(false);
   const Note1: string =
     'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
-  const handleClick = () => {
-    setOpen((prev) => !prev);
-  };
-
   const getAComposeSMSTemplate: any = useSelector(
     (state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList
   );
   const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
 
-  const [ContentTemplateDependent, setContentTemplateDependent] =
-    useState<any>();
+  const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
+  const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
 
-  const handleChangeForTemplate = (e) => {
-    setContentTemplateDependent(e.target.value);
-    console.log(e.target.value.length);
+const handleChangeForTemplate = (e) => {
+    const indexValue = e.target.value.indexOf(',')
+    const templateId = e.target.value.slice(0,indexValue);
+    setContentTemplateDependent(e.target.value.slice(indexValue,).replace(',',''));
+    setTemplateRegistrationId(templateId)
   };
-
+  
   // Message counter  =================================
 
   const [contentError, setcontentError] = useState<any>(); // For content Error
@@ -154,13 +135,13 @@ const Compose = () => {
     if (initialCount == 0 || ContentTemplateDependent.length == 0) {
       setcontentError(true);
     }
-    if (inputBoxValue.length == 0) {
+    if (RecipientsArray.RecipientName.length == 0) {
       setToError(true);
     }
 
     if (
       initialCount > 160 &&
-      inputBoxValue.length > 0 &&
+      RecipientsArray.RecipientName.length > 0 &&
       ContentTemplateDependent.length > 0
     ) {
       confirmationDone = confirm(
@@ -170,7 +151,7 @@ const Compose = () => {
     if (
       initialCount > 0 &&
       ContentTemplateDependent.length > 0 &&
-      inputBoxValue.length > 0 &&
+      RecipientsArray.RecipientName.length > 0 &&
       confirmationDone
     ) {
       toast.success('Message Has Been Sent Successfully');
@@ -179,7 +160,7 @@ const Compose = () => {
     if (
       initialCount < 160 &&
       initialCount != 0 &&
-      inputBoxValue.length > 0 &&
+      RecipientsArray.RecipientName.length > 0 &&
       initialCount < 159
     ) {
       confirmationDoneForPlainMessage = confirm(
@@ -188,7 +169,7 @@ const Compose = () => {
     }
     if (
       initialCount > 0 &&
-      inputBoxValue.length > 0 &&
+      RecipientsArray.RecipientName.length > 0 &&
       confirmationDoneForPlainMessage &&
       initialCount < 159
     ) {
@@ -203,290 +184,55 @@ const Compose = () => {
 
   //  ============================================================================================================================
 
-  // Student checked for stdent list in dropdown
-  // Input values from compose page
-
-  const [defaultCheckBoxForprincipal, setdefaultCheckBoxForprincipal] =
-    useState<any>(false);
-
-  const [PrincipalChecked, setPrincipalChecked] = useState<any>();
-
-  const [EntireSchookIsChecked, setEntireSchookIsChecked] =
-    useState('selected');
-
   // Input value for teacher list ,student list ,other staff and admin staff
-  const [valueFor_APi, ChnageValueForAPI] = useState();
-
-  const [nativeSelectDefault, setnativeSelectDefault] = useState('none');
-
-  const [EntireSchoolChecked, setEntireSchoolChecked] = useState('inherit');
-
   const dispatch = useDispatch();
-
-  // Api for Admin principle and Software co-ordinator
-  const GetAdminAndprincipalUsersApiBody: any = useSelector(
-    (state: RootState) =>
-      state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
-  );
-  const StaffAndAdmin =
-    GetAdminAndprincipalUsersApiBody.GetAdminAndprincipalUsersResult;
-
-  // Check box labels/ names for input box Admin ,Principle ,SWCo_ordinator
-  let Admin;
-  let Principle;
-  let SWCo_ordinator;
-
-  if (StaffAndAdmin == undefined) {
-    console.log('null');
-  } else {
-    Admin = '  ' + StaffAndAdmin[0].Name;
-    Principle = '  ' + StaffAndAdmin[1].Name;
-    SWCo_ordinator = '  ' + StaffAndAdmin[2].Name;
-  }
-
-  // Api for Teacher list ,Student list ,Other staff and admin staff
-  const getuserlist: any = useSelector(
-    (state: RootState) => state.getuser.GetUser
-  );
-  const list = getuserlist.GetUsersInGroupResult;
 
   // List of classes of students
   const SendSMS: any = useSelector(
     (state: RootState) => state.getASendSMS.ASendSMS
   );
-  console.log(SendSMS);
-
-  // Send SMS Api
-  const getstudentlist: any = useSelector(
-    (state: RootState) => state.getuser.getStudent
-  );
-  const Student = getstudentlist.GetStudentsUserResult;
-
-  const [getStandardId, setgetStandardId] = useState();
-
-  const [listOpend, setlistOpend] = useState(false);
-
-  // natvie list of To / Recipients Page
-  const handleChange = (e) => {
-    setgetStandardId(e.target.value);
-    setnativeSelectDefault('block');
-    setlistOpend(true);
-  };
-
-  const [checkedTeacher, setTeacherChecked] = useState(false);
-  const [studentclicked, setStudentClicked] = useState(false);
-  const [otherStaffClicked, setOtherStaffClicked] = useState(false);
-  const [adminStaffClicked, setAdminStaffClicked] = useState(false);
-
-  const [EntireSchoolDependent, setEntireSchoolDependent] = useState<any>();
-
-  //  Call for api based on Value Teacher / Student / OtherStaff / Admin Staff and Displaying Dropdown list
-  const getUserListBasedOnRollID = (e) => {
-    if (e.target.value == '3') {
-      setnativeSelectDefault('block');
-      setStudentClicked(true);
-      setEntireSchookIsChecked('unselected');
-    }
-    if (e.target.value == '7') {
-      setnativeSelectDefault('none');
-      setOtherStaffClicked(true);
-      setStudentClicked(false);
-      setEntireSchookIsChecked('unselected');
-    }
-    if (e.target.value == '6') {
-      setnativeSelectDefault('none');
-      setAdminStaffClicked(true);
-      setStudentClicked(false);
-      setEntireSchookIsChecked('unselected');
-    }
-    if (e.target.value == '2') {
-      setnativeSelectDefault('none');
-      setTeacherChecked(true);
-      setStudentClicked(false);
-      setEntireSchookIsChecked('unselected');
-    }
-    // Default call For api based on values passed on radio button
-    ChnageValueForAPI(e.target.value);
-  };
-
-  // Checking conditions for Admin Principal Software Coordinator
-  const AdminAndPrincipalUsers = (e) => {
-    if (e.target.checked) {
-      if (e.target.value == 'Entire School') {
-        setinputBoxValue(' Entire School ');
-        setEntireSchookIsChecked('selected');
-        setEntireSchoolChecked('none');
-        setnativeSelectDefault('none');
-        setEntireSchoolDependent('none');
-      }
-      if (e.target.value == 'Admin') {
-        setinputBoxValue(inputBoxValue + ' ' + Admin);
-      }
-      if (e.target.value == 'Principle') {
-        setinputBoxValue(inputBoxValue + ' ' + Principle);
-        setPrincipalChecked(true);
-      }
-      if (e.target.value == 'S/W Co-ordinator') {
-        setinputBoxValue(inputBoxValue + ' ' + SWCo_ordinator);
-      }
-    }
-    // On uncheck except "Entire School"
-    if (!e.target.checked) {
-      if (e.target.value == 'Admin') {
-        let arrayToString = inputBoxValue.split('  ');
-
-        let indexing = arrayToString.indexOf(
-          ' Mr. F L. Khan (Chief Administrative Officer)'
-        );
-        let deletinTheElement = arrayToString.splice(indexing, 1);
-
-        let stringToArray = arrayToString.join('  ');
-
-        setinputBoxValue(stringToArray);
-      }
-      if (e.target.value == 'Principle') {
-        setPrincipalChecked(false);
-        let arrayToString = inputBoxValue.split('  ');
-
-        let indexing = arrayToString.indexOf(' Mr. Ashraf (Principal)');
-        let deletinTheElement = arrayToString.splice(indexing, 1);
-
-        let stringToArray = arrayToString.join('  ');
-
-        setinputBoxValue(stringToArray);
-      }
-      if (e.target.value == 'S/W Co-ordinator') {
-        let arrayToString = inputBoxValue.split('  ');
-
-        let indexing = arrayToString.indexOf(' Software Coordinator');
-        let deletinTheElement = arrayToString.splice(indexing, 1);
-
-        let stringToArray = arrayToString.join('  ');
-
-        setinputBoxValue(stringToArray);
-      }
-    }
-    // On uncheck fro "Entire School"
-    if (!e.target.checked) {
-      if (e.target.value == 'Entire School') {
-        setEntireSchoolChecked('');
-        setinputBoxValue('');
-        setEntireSchoolDependent('flex');
-        if (studentclicked) {
-          setnativeSelectDefault('block');
-        } else {
-          setnativeSelectDefault('none');
-        }
-      }
-    }
-  };
-
-  // Input values for list of Students / Teachers / Admin Staff / Other Staff
-  const ListCheckedTeacherStudent = (e) => {
-    if (e.target.checked) {
-      setinputBoxValue(inputBoxValue + ' ' + e.target.name);
-      setPrincipalChecked(true);
-    }
-
-    if (!e.target.checked) {
-      if (e.target.value == ' Mr. Ashraf (Principal)') {
-        setPrincipalChecked(false);
-      }
-
-      let arrayToString = inputBoxValue.split('  ');
-
-      let ans = e.target.value;
-      let trimmed = ans.trim();
-
-      let indexing = arrayToString.indexOf(' ' + trimmed);
-
-      let deletinTheElement = arrayToString.splice(indexing, 1);
-
-      let stringToArray = arrayToString.join('  ');
-
-      setinputBoxValue(stringToArray);
-    }
-  };
-
-  const AdminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
-    asAcademicYearId: '9',
-    asSchoolId: '120'
-  };
 
   // Api body of Admin SMS Template
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asUserId = sessionStorage.getItem('Id');
+  const SchoolName = sessionStorage.getItem('SchoolName');
 
   const AComposeSMSTemplate: MessageTemplateSMSCenter = {
-    asSchoolId: 120,
+    asSchoolId: asSchoolId,
     sortDirection: 'asc',
-    asShowSystemDefined: 'N'
-  };
-
-  // Teacher / Students / Other Staff / Admin Staff Body
-  const body: IUsergroup = {
-    asAcademicYearId: '9',
-    asSchoolId: '120',
-    asStdDivId: ' ',
-    asUserId: '695',
-    asSelectedUserGroup: valueFor_APi,
-    abIsSMSCenter: false
-  };
-
-  // Standared List
-  const body2: IGetStudentsUser = {
-    asStdDivId: getStandardId,
-    asAcadmeicYearId: '9',
-    asSchoolId: '120'
+    asShowSystemDefined: 'Y'
   };
 
   // Send SMS
   const Send_SMS: ACompose_SendSMS = {
-    asSchoolId: "120",
+    asSchoolId: asSchoolId,
     aoMessage: {
       Body: ContentTemplateDependent,
       Subject: "SMS",
       SenderName: "",
-      DisplayText: inputBoxValue,
-      SenderUserId: "339",
+      DisplayText: RecipientsArray.RecipientName.toString(),
+      SenderUserId: asUserId,
       SenderUserRoleId: "3",
-      AcademicYearId: "8",
-      SchoolId: "120",
-      InsertedById: "339",
+      AcademicYearId: asAcademicYearId,
+      SchoolId: asSchoolId,
+      InsertedById: asUserId,
       Attachment: ""
     },
-    asSelectedUserIds: ", , 414, ",
+    asSelectedUserIds: RecipientsArray.RecipientId.toString(),
     asSelectedStDivId: "",
     asIsSoftwareCordinator: 0,
     asMessageId: 0,
     sIsReply: "N",
     asIsForward: "N",
     asSchoolName: "Bright Future School<br/>",
-    asTemplateRegistrationId:"1007909675688447888"
+    asTemplateRegistrationId: TemplateRegistrationId
   }
 
   // SMS Template
   useMemo(() => {
     dispatch(getAComposeSMSTemplateList(AComposeSMSTemplate));
   }, []);
-
-  // Admin / Principle / Software Coordinator body
-  useMemo(() => {
-    dispatch(GetGetAdminAndprincipalUsers(AdminAndprincipalUsersApiBody));
-  }, []);
-
-  // Teacher / Students List / Admin Staff / Other Staff Body
-  useEffect(() => {
-    dispatch(GetUser(body));
-  }, [valueFor_APi, PrincipalChecked]); //SendSMS
-
-  // Send SMS
-  // useEffect(() => {
-  //   dispatch(getSendSMS(Send_SMS));
-  // }, []);
-
-  // Standard List Call
-  useEffect(() => {
-    dispatch(GetStudent(body2));
-  }, [getStandardId]);
 
   const Note: string =
     'Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).';
@@ -498,11 +244,26 @@ const Compose = () => {
     setOpen1(false);
   };
 
+  const displayPropertyFun = (e) => {
+    if (e == 'none') {
+      setdisplayOfTo_RecipientsPage(e);
+      setdisplayOfCompose_Page('block');
+    }
+  };
+
+  const RecipientsListFun = (e) => {
+    setRecipientsArray(() => {
+      return e
+    })
+  };
+
+  console.log(RecipientsArray.RecipientId.toString())
+
   return (
     <>
-      <Box style={{ display: displayOfCompose_Page }}>
-        <PageHeader heading={'Compose Message'} subheading={''} />
+      <PageHeader heading={'Compose Message'} subheading={''} />
 
+      <Box style={{ display: displayOfCompose_Page }}>
         <Grid
           container
           direction="row"
@@ -587,7 +348,7 @@ const Compose = () => {
                     InputProps={{
                       readOnly: true
                     }}
-                    value={inputBoxValue}
+                    value={RecipientsArray.RecipientName}
                   />
                 </FormControl>
                 <p
@@ -626,7 +387,7 @@ const Compose = () => {
                     <FormControl fullWidth>
                       {
                         <NativeSelect
-                          onChange={(e) => handleChangeForTemplate(e)}
+                          onChange={handleChangeForTemplate}
                           style={{ borderRadius: '2px solid black' }}
                         >
                           <option>Select a Message Template</option>
@@ -702,222 +463,9 @@ const Compose = () => {
 
       {/* To Recipient Page */}
 
-      <Container style={{ display: displayOfTo_RecipientsPage }}>
-        <PageHeader heading={'Compose Message'} subheading={''} />
-        <Icon2 Note={Note} />
-        <Box
-          sx={{
-            background: `${theme.colors.gradients.pink1}`,
-            margin: '-2px',
-            backgroundColor: '#FFFFFF',
-            minHeight: '25vh',
-            borderRadius: '20px'
-          }}
-        >
-          <TextField
-            multiline
-            placeholder="Selected Recipient"
-            value={inputBoxValue}
-            variant="outlined"
-            id="body"
-            fullWidth
-            margin="normal"
-            style={{ scrollBehavior: 'auto' }}
-            sx={{
-              marginLeft: 1,
-              width: '97%',
-              maxHeight: '60px',
-              overflow: 'auto'
-            }}
-          />
-          <FormGroup>
-            <Button
-              onClick={ToPageClicked}
-              sx={{
-                background: 'rgb(11 101 214)',
-                position: 'absolute',
-                marginLeft: 1,
-                marginTop: 0.5,
-                color: 'white'
-              }}
-            >
-              Back To Compose{' '}
-            </Button>
-
-            <FormControlLabel
-              sx={{
-                marginLeft: 1,
-                marginTop: 6.5,
-                border: '2px solid black',
-                borderRadius: '10px',
-                width: '21.2rem'
-              }}
-              control={<Checkbox />}
-              onChange={(e) => AdminAndPrincipalUsers(e)}
-              value="Entire School"
-              label="Entire School"
-            />
-
-            <Box
-              sx={{
-                display: EntireSchoolDependent,
-                flexDirection: 'column',
-                marginLeft: 1,
-                marginTop: 0.5,
-                border: '2px solid black',
-                borderRadius: '10px',
-                width: '11.5rem',
-                paddingBottom: '42px'
-              }}
-            >
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox />}
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                value="Admin"
-                name="teacher"
-                label="Admin"
-              />
-
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox />}
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                checked={PrincipalChecked}
-                value="Principle"
-                label="Principle"
-              />
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox />}
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                value="S/W Co-ordinator"
-                label="S/W Co-ordinator"
-              />
-            </Box>
-
-            <RadioGroup
-              sx={{
-                display: EntireSchoolDependent,
-                marginLeft: 22,
-                marginTop: -19,
-                border: '2px solid black',
-                borderRadius: '10px',
-                width: '9.3rem',
-                paddingLeft: '8px'
-              }}
-            >
-              <FormControlLabel
-                onClick={getUserListBasedOnRollID}
-                value="2"
-                control={<Radio />}
-                label="Teacher"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                onClick={getUserListBasedOnRollID}
-                value="3"
-                label="Student"
-              />
-              <FormControlLabel
-                onClick={getUserListBasedOnRollID}
-                control={<Radio />}
-                value="7"
-                label="Other Staff"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                onClick={getUserListBasedOnRollID}
-                value="6"
-                label="Admin Staff"
-              />
-            </RadioGroup>
-          </FormGroup>
-
-          <FormControl
-            fullWidth
-            sx={{ mt: '0.2rem', mb: '-2', marginLeft: '24px' }}
-          >
-            {
-              <NativeSelect
-                sx={{ mr: '48px', display: nativeSelectDefault }}
-                onChange={(e) => handleChange(e)}
-              >
-                <option style={{ backgroundColor: '#e0ffff' }}>
-                  Select Class
-                </option>
-                {
-                  list?.map((items: GetStudentsUserResult, i) => {
-                    return (
-                      <>
-                        <option
-                          style={{ backgroundColor: '#e0ffff' }}
-                          value={items.Id}
-                          key={i}
-                        >
-                          {items.Name}
-                        </option>
-                      </>
-                    );
-                  })}
-              </NativeSelect>
-            }
-            <br></br>
-          </FormControl>
-        </Box>
-
-        {(checkedTeacher || otherStaffClicked || adminStaffClicked) &&
-          nativeSelectDefault == 'none' ? (
-          <h1>
-            {list == undefined || list == 0 ? (
-              EntireSchookIsChecked == 'selected' ? null : (
-                <ErrorMessages Error={'No List Found'} />
-              )
-            ) : (
-              list.map((elm, i) => {
-                return (
-                  <>
-                    {EntireSchookIsChecked == 'selected' ? null : (
-                      <List21
-                        StudentName={elm.Name}
-                        key={i}
-                        data={elm}
-                        check={
-                          elm.Id == '696'
-                            ? PrincipalChecked
-                            : defaultCheckBoxForprincipal
-                        }
-                        handleChange1={ListCheckedTeacherStudent}
-                      />
-                    )}
-                  </>
-                );
-              })
-            )}
-          </h1>
-        ) : null}
-        {EntireSchookIsChecked == 'selected' ? null : studentclicked &&
-          nativeSelectDefault == 'block' &&
-          listOpend ? (
-          <h1>
-            {Student == undefined || Student == 0 ? (
-              <ErrorMessages Error={'No List Found'} />
-            ) : (
-              Student.map((elm, i) => {
-                return (
-                  <List21
-                    StudentName={elm.Name}
-                    key={i}
-                    data={elm}
-                    check={false}
-                    handleChange1={ListCheckedTeacherStudent}
-                  />
-                );
-              })
-            )}
-          </h1>
-        ) : null}
-      </Container>
+      <div style={{ display: displayOfTo_RecipientsPage }}>
+        <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} />
+      </div>
     </>
   );
 };

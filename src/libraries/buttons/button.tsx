@@ -38,15 +38,15 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
       setdateClickDependent('flex');
     }
     if (dateClickDependent == 'flex' && pageName == 'Homework') {
-        setdateClickDependent('none');
-      }
+      setdateClickDependent('none');
+    }
   };
 
   const ChangeCapture = (e) => {
-      setTimeout(() => {
-        setdateClickDependent('none');
-      }, 100);
-  }
+    setTimeout(() => {
+      setdateClickDependent('none');
+    }, 100);
+  };
 
   return (
     <>
@@ -58,7 +58,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                 <ArrowLeft sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>
-            <Grid item xs={8} >
+            <Grid item xs={8}>
               <Item
                 sx={{ p: 1.3, background: 'rgb(36 66 175 / 0.4)' }}
                 className={classes.date}
@@ -67,37 +67,18 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
                 {' '}
                 <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
-              <Item
-              onClick={ChangeCapture}
-                sx={{
-                  width: '300px',
-                  position: 'absolute',
+              <div
+                onClick={ChangeCapture}
+                style={{
+                  position: 'fixed',
                   display: dateClickDependent,
-                  alignSelf:'center',
-                  zIndex: '2',
-                  mt: '5px',
+                  width: '300px',
+                  marginTop: '5px',
+                  zIndex:'2'
                 }}
               >
                 <Calendar onChange={(e) => Close(e.toLocaleString())} />
-                {/* <Avatar
-                  sx={{
-                    position: 'absolute',
-                    top: '-15px',
-                    // right:'5px',
-                    zIndex: '4',
-                    right: '-10px',
-                    p: '2px',
-                    width: 29,
-                    height: 29,
-                    backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                  }}
-                  onClick={closeIcon} // Close function
-                >
-                  <CloseIcon fontSize="small" color="error" />
-                </Avatar> */}
-              </Item>
+              </div>
             </Grid>
 
             <Grid item xs={2}>
