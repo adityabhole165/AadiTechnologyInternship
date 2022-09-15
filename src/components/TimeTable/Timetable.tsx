@@ -1,28 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getWeekdays, getTimetable } from 'src/requests/Student/Timetable';
+import { getTimetable } from 'src/requests/Student/Timetable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import ITimetable, {
-  GetWeekDaysResult,
-  IWeekdays
 } from 'src/interfaces/Student/TimeTable';
-import ControlledAccordions from 'src/libraries/accordion/accordion';
+import Card30 from 'src/libraries/card/Card30';
 
 function Timetable() {
   const dispatch = useDispatch();
-  const weekdaysList = useSelector(
-    (state: RootState) => state.Timetable.WeekdaysData
-  );
   const TimetableList = useSelector(
     (state: RootState) => state.Timetable.TimetableData
   );
-  const [expanded, setExpanded] = useState<boolean>(true);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -36,30 +26,16 @@ function Timetable() {
     asIsTeacher: '0'
   };
 
-  const body2: IWeekdays = {
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId
-  };
-
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-    dispatch(getWeekdays(body2));
+    localStorage.setItem("url", window.location.pathname)
     dispatch(getTimetable(body));
   }, []);
 
   return (
     <div>
       <PageHeader heading={'Timetable'} subheading={''} />
-      {weekdaysList.map((day: GetWeekDaysResult, i) => (
-        <ControlledAccordions
-          Days={day.WeekDay}
-          Data={TimetableList}
-          key={i}
-          index={i}
-          Collapse={handleChange}
-          expand={expanded}
-        />
-      ))}
+
+      <Card30 header={{ Header: TimetableList }}></Card30>
     </div>
   );
 }
