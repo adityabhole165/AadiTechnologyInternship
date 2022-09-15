@@ -90,7 +90,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   id="panel1bh-header"
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
+                    boxShadow: '6px 6px 8px  gray !important',
                     mb: 1
                   }}
                 >
@@ -103,7 +103,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     borderRadius: 1,
                   
-                    mb: -1
+                    mb: 1
                   }}
                 >
                   <List1 items={Data} />
@@ -129,7 +129,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   id="panel1bh-header"
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
+                    boxShadow: '6px 6px 8px  gray !important',
                     mb: 1
                   }}
                 >
@@ -142,7 +142,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     borderRadius: 1,
                  
-                    mb: -1
+                    mb: 1
                   }}
                 >
                   <List1 items={Data1} />

@@ -18,7 +18,7 @@ const Timetableslice = createSlice({
     },
 
     getTimetable(state, action) {
-      state.TimetableData = action.payload;
+      state.TimetableData = action.payload.GetTimeTableResult.TimeTableList;
     },
   }
 });
@@ -33,37 +33,8 @@ export const getWeekdays =
 export const getTimetable =
   (data: ITimetable): AppThunk =>
     async (dispatch) => {
-
-      
-  const data2: IWeekdays = {
-    asAcademicYearId: data.asAcademicYearId,
-    asSchoolId: data.asSchoolId
-  };
-      const response1 = await WeekdaysApi.GetWeekdaysList(data2);
       const response = await WeekdaysApi.GetTimetableList(data);
-      const child = (WeekDay) => {
-        return response.data.GetTimeTableResult.TimeTableList
-          .filter((obj) => {
-            return obj.WeekDay === WeekDay;
-          })
-          .map((item, index) => {
-            return {
-              Id: index,
-              Name: item.LectureNumber,
-              Value: item.Subject
-            };
-          })
-      }
-      const header =
-        response1.data.GetWeekDaysResult.map((item, index) => {
-          return {
-            Id: index,
-            Name: item.WeekDay,
-            Child: child(item.WeekDay)
-          };
-        })
-
-      dispatch(Timetableslice.actions.getTimetable(header));
+      dispatch(Timetableslice.actions.getTimetable(response.data));
     };
 
 

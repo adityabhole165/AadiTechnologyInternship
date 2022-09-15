@@ -1,12 +1,12 @@
 import http from "../../requests/SchoolService/schoolServices";
-import ITimetable, { IWeekdays,GetWeekDaysResult,GetTimetableResult } from "../../interfaces/Student/TimeTable"
+import ITimetable, { IWeekdays } from "../../interfaces/Student/TimeTable"
 
   const GetWeekdaysList = (data: IWeekdays) => {
-    return http.post<GetWeekDaysResult>('School/GetWeekDays',data);
+    return http.post<IWeekdays>('School/GetWeekDays',data);
   };
   
   const GetTimetableList = (data: ITimetable) => {
-    return http.post<GetTimetableResult>('Student/GetTimeTable',data);
+    return http.post<ITimetable>('Student/GetTimeTable',data);
   };
   
 const WeekdaysApi ={

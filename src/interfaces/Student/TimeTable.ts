@@ -1,32 +1,22 @@
 export default interface ITimetable {
-    asSchoolId: string,
-    asAcademicYearId: string
-    asStandardDivId: string,
-    asTeacherId: string,
-    asIsTeacher: string,
+    asSchoolId:string,
+    asAcademicYearId:string
+    asStandardDivId:string,
+    asTeacherId:string,
+    asIsTeacher:string,
 }
 
-export interface IWeekdays {
-    asSchoolId: string,
-    asAcademicYearId: string
+export  interface IWeekdays {
+    asSchoolId:string,
+    asAcademicYearId:string
 }
 export interface GetWeekDaysResult {
-    GetWeekDaysResult: [{
-        WeekDay: string
-    }]
+WeekDay:string
 }
 
 export interface GetTimetableResult {
-    GetTimeTableResult
-    : {
-        TimeTableList: [
-            {
-                LectureNumber: string,
-                Subject: string,
-                WeekDay: string,
-                WeekDayId: string
-            }
-        ]
-    }
-
+LectureNumber: string,
+Subject: string,
+WeekDay: string,
+WeekDayId:string
 }
