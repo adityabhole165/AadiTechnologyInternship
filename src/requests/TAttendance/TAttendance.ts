@@ -21,9 +21,9 @@ const TAttendanceSlice = createSlice({
     },
 
     reducers: {
-        getStandardList(state,action) {
-            state.StandardDivisionAttendance = action.payload
-        },
+        // getStandardList(state,action) {
+        //     state.StandardDivisionAttendance = action.payload
+        // },
         getStandard(state,action) {
             state.stdlist = action.payload
         },

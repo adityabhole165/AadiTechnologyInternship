@@ -42,7 +42,6 @@ import {
 } from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
 function Progressreport() {
-  console.log("HELLO");
   const note = [
     '1)Your school fees are pending. Please pay the dues to view the progress report. '
   ];
@@ -165,6 +164,9 @@ function Progressreport() {
     setShowyear(true);
     setAcademicYearId(e?.target.value);
   };
+  console.log(dropyear) 
+  //  dropyear
+
   return (
     <>
       <PageHeader heading={'Progress Report'} subheading={''} />
@@ -228,7 +230,7 @@ function Progressreport() {
                                 m: 1,
                                 width: '100%',
                                 marginLeft: '1px',
-                                display:'none'
+                                // display:'none'
                               }}
                             >
                               {
@@ -252,7 +254,7 @@ function Progressreport() {
                                 </NativeSelect>
                               }
                             </FormControl>
-                            {dropyear !== '0' ? (
+                            {dropyear !== '0' ? ( 
                               <>
                                 {showyear ? (
                                   <List>

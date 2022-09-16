@@ -119,11 +119,14 @@ function Inbox() {
   );
 
   const handleChange = (event) => {
+    // debugger;
+
     setChecked(true);
     const { value, name, checked } = event;
     // const { value, name } = event.target;
 
     const { DetailInfo, recieverInfo } = Id;
+    console.log(name)
 
     if (checked) {
       setId({
@@ -142,6 +145,8 @@ function Inbox() {
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
+    console.log(joinReciever)
+
 
     const trashbody: any = {
       asSchoolId: asSchoolId,
@@ -228,6 +233,8 @@ function Inbox() {
       setdisplayMoveToTop('none');
     }, 10);
   };
+  console.log(Id.DetailInfo)
+
 
   return (
     <>

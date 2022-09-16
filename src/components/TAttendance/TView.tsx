@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList } from 'src/requests/TAttendance/TAttendance';
+import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 
@@ -28,8 +28,9 @@ const TView = () => {
   const [getStandardId, setgetStandardId] = useState(StandardId);
   const [date, setDate] = useState<any>({ selectedDate: assignedDate });
   const getTeacherAttendance: any = useSelector(
-    (state: RootState) => state.StandardAttendance.StandardDivisionAttendance
+    (state: RootState) => state.StandardAttendance.stdlist
   );
+  console.log(getTeacherAttendance)
   const currentDate = new Date();
 
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -85,7 +86,7 @@ const TView = () => {
   };
 
   useEffect(() => {
-    // dispatch(ConflictsgetStandardList(body));
+    dispatch(getStandardList(body));
     dispatch(getAttendanceDataList(body1));
   }, [assignedDate, getStandardId]);
 
@@ -102,7 +103,7 @@ const TView = () => {
     setgetStandardId(e.target.value);
   };
   useEffect(() => {
-    // dispatch(ConflictsgetStandardList(body));
+    dispatch(getStandardList(body));
   }, [getStandardId]);
 
   const DotLegend = styled('span')(
@@ -173,11 +174,11 @@ const TView = () => {
             <NativeSelect sx={{ mr: '48px' }} onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
-                (items: GetStandardDivisionsResult, i) => {
+                (items, i) => {
                   return (
                     <>
-                      <option value={items.Id} key={i}>
-                        {items.Class}
+                      <option value={items.Value} key={i}>
+                        {items.Name}
                       </option>
                     </>
                   );
