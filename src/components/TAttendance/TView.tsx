@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList } from 'src/requests/TAttendance/TAttendance';
+import { getAttendanceDataList,getStandardList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 

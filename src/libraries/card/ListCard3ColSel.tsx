@@ -4,8 +4,7 @@ import CheckboxImg from './CheckboxImg'
 const ListCard3ColSel = ({ Item, onChange }) => {
     const theme = useTheme();
     return (<>
-        <Grid container bgcolor={Item.isActive ? 
-        
+        <Grid container bgcolor={!Item.isActive ? 
         `${theme.colors.gradients.listColor}`:
         `${theme.colors.gradients.selectedlistColor}`}>
             <Grid item xs={1} sx={{mt:"7px", paddingLeft:'5px'}}>
