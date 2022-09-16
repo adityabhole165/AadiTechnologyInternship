@@ -23,7 +23,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
 
   return (
     <div>
-      <Container >
+      <Container>
         <Grow
           in={checked}
           style={{ transformOrigin: '1 1 1' }}
@@ -35,23 +35,29 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             onChange={Collapse(index)}
           >
             <AccordionSummary
-              expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+              expandIcon={<ExpandMoreIcon />}
               sx={{
                 background: `${theme.colors.gradients.pink1}`,
                 color: 'white',
-                boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-                mb:1
+                boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+                mb: 1
               }}
-            
             >
-              <Typography sx={{ color: 'black' }}>
+              <Typography
+                sx={{
+                  color:
+                    expand === index
+                      ? `${theme.colors.gradients.accordianHeadercolor}`
+                      : 'black'
+                }}
+              >
                 <b>{Exam}</b>
               </Typography>
             </AccordionSummary>
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                mb: -1,
+                mb: -1
               }}
             >
               {Data.map((list: GetStudentExamResult, index) => {

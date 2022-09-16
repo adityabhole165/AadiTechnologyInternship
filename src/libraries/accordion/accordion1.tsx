@@ -29,34 +29,31 @@ function Accordion1({ Parent, Teacher, headingg }) {
   const classes = Styles();
 
   const Data = Teacher.map((item, index) => {
-    return item.RealatedSection ==="2" 
-    ? {
-      id: item.RealatedSection,
-      header: item.TeacherName,
-      text1: item.TeacherDesignation,
-      text2: '',
-      backgroundColor: '#e9a69a',
-      mx: '-33px',
-      RelatedSection:"2",
-      borderRadius:"6px",
-      marginBottom:"8px",
-      boxShadow:"6px 4px 5px grey",
-
-    }
-    :{
-      id: item.RealatedSection,
-      header: item.TeacherName,
-      text1: item.TeacherDesignation,
-      text2: '',
-      backgroundColor: '#c8dccb',
-      mx: '-33px',
-      RelatedSection:"0",
-      borderRadius:"6px",
-      marginBottom:"8px",
-      boxShadow:"6px 4px 5px grey",
-
-    }
-
+    return item.RealatedSection === '2'
+      ? {
+          id: item.RealatedSection,
+          header: item.TeacherName,
+          text1: item.TeacherDesignation,
+          text2: '',
+          backgroundColor: '#e9a69a',
+          mx: '-33px',
+          RelatedSection: '2',
+          borderRadius: '6px',
+          marginBottom: '8px',
+          boxShadow: '6px 4px 5px grey'
+        }
+      : {
+          id: item.RealatedSection,
+          header: item.TeacherName,
+          text1: item.TeacherDesignation,
+          text2: '',
+          backgroundColor: '#c8dccb',
+          mx: '-33px',
+          RelatedSection: '0',
+          borderRadius: '6px',
+          marginBottom: '8px',
+          boxShadow: '6px 4px 5px grey'
+        };
   });
   const Data1 = Parent.map((item, index) => {
     return {
@@ -66,7 +63,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text2: item.MobileNumber1,
       text3: item.Class,
       backgroundColor: '#c8dccb',
-      mx:"-33px"
+      mx: '-33px'
     };
   });
   return (
@@ -84,25 +81,31 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 expanded={expanded === 'panel1'}
                 onChange={handleChange('panel1')}
               >
-                <AccordionSummary 
+                <AccordionSummary
                   expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
+                    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
                     mb: 1
                   }}
                 >
-                  <Typography sx={{ color: 'black' }}>
+                  <Typography
+                    sx={{
+                      color: expanded === 'panel1'
+                        ?  `${theme.colors.gradients.accordianHeadercolor}`
+                        : ''
+                    }}
+                  >
                     <b>{headingg.PTA_Member}</b>
                   </Typography>
                 </AccordionSummary>
 
-                <AccordionDetails 
+                <AccordionDetails
                   sx={{
                     borderRadius: 1,
-                  
+
                     mb: -1
                   }}
                 >
@@ -129,11 +132,17 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   id="panel1bh-header"
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
+                    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
                     mb: 1
                   }}
                 >
-                  <Typography sx={{ color: 'black' }}>
+                  <Typography
+                    sx={{
+                      color:expanded === 'panel2'
+                        ?   `${theme.colors.gradients.accordianHeadercolor}`
+                        : ''
+                    }}
+                  >
                     <b>{headingg.PTA}</b>
                   </Typography>
                 </AccordionSummary>
@@ -141,7 +150,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 <AccordionDetails
                   sx={{
                     borderRadius: 1,
-                 
+
                     mb: -1
                   }}
                 >

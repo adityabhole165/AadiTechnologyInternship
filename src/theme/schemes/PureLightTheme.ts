@@ -26,7 +26,7 @@ const colors = {
     HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
     pageBackground:'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
     containerBackground:'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
-    accordianHeadercolor:'linear-gradient(135deg, #f2f6fc 100%, #f2f6fc 100%)',
+    accordianHeadercolor:'#dc9cfd',
     blue1: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue2: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue3: 'linear-gradient(127.55deg, #141E30 3.73%, #243B55 92.26%)',
