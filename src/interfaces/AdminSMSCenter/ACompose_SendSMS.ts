@@ -23,7 +23,7 @@ export default interface ACompose_SendSMS{
 };
 
 export interface MessageTemplateSMSCenter {
-    asSchoolId:number,
+    asSchoolId:string,
     sortDirection:string,
     asShowSystemDefined:string
 }

@@ -45,7 +45,7 @@ function List21({ data, StudentName, check, handleChange1 }) {
                 checked={checked}
                 onChange={(event) => checkedbox(event)}
                 inputProps={{ 'aria-label': 'controlled' }}
-                value={"  "+data.Name}
+                value={"  "+data.Id}
                 name={"  "+data.Name}
               />
             </Grid>

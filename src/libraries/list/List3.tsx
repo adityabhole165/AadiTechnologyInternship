@@ -60,9 +60,10 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/',
+    '/extended-sidebar/SMSCenter/',
     ''
   );
+  console.log(pageName)
 
   const theme = useTheme();
   const classes = Styles();
@@ -79,8 +80,10 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
     <Container>
         <List
           className={classes.ListStyle}
-          sx={{
-            background: `${theme.colors.gradients.pink1}`
+          sx={{ 
+            background: checked ? 
+            `${theme.colors.gradients.selectedlistColor}`:
+            `${theme.colors.gradients.listColor}`
           }}
         >
           <Box>
@@ -96,11 +99,11 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                 /> */}
                 
                 <CheckboxImg 
-                  checked={pageName.slice(0,7) == "Compose" ? check : checked}
+                  checked={pageName == "Compose" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
                   value={Id}
-                  name={pageName.slice(0,7) == "Compose" ? data.Name : data.ReceiverDetailsId}
+                  name={pageName == "Compose" ? data.Name : data.ReceiverDetailsId}
                 />
 
               </Grid>

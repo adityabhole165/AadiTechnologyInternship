@@ -10,15 +10,17 @@ const Card32 = ({ Id, Name, expand }) => {
   const theme = useTheme();
   const ExpandIcon = () => (expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />);
   const [expanded, setExpanded] = useState(false);
+  const [color, setColor] = useState('');
   const expandFunc = () => {
     setExpanded(!expanded);
     expand(Id);
+    setColor(expanded?'seconday':'primary')
   };
 
   const classes = Styles();
   return (
     <AccordianHeader onClick={expandFunc}>
-      <Header1> {Name} </Header1>
+      <Header1 color={color}> {Name} </Header1>
       <Header2>
         <ExpandIcon />
       </Header2>
