@@ -57,8 +57,10 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
     <Container>
         <List
           className={classes.ListStyle}
-          sx={{
-            background: `${theme.colors.gradients.pink1}`
+          sx={{ 
+            background: checked ? 
+            `${theme.colors.gradients.selectedlistColor}`:
+            `${theme.colors.gradients.listColor}`
           }}
         >
           <Box>
