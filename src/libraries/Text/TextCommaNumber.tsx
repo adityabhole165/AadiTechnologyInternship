@@ -78,7 +78,7 @@ const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) 
             <br />
             <TextField
                 variant="standard"
-                fullWidth
+                sx={{width:'80%'}}
                 value={textarray}
                 error={getLabel !== defaultLabel}
                 label={getLabel}

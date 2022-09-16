@@ -8,9 +8,9 @@ const Dropdown = ({Array,handleChange}) => {
   
     return (
         <>
-            <FormControl variant="standard" fullWidth sx={{ m: 1, mb: 2 }}>
+            <FormControl variant="standard"  sx={{ mb: 2,width:'80%' }}>
                 <NativeSelect
-                    sx={{ mr: '14px', ml: '-8px' }}
+                    
                     onChange={(e) => handleChange(e.target.value)}
                     
                 >
@@ -19,7 +19,7 @@ const Dropdown = ({Array,handleChange}) => {
                         (items, i) => {
                             return (
                                 <>
-                                    <option value={items.value} key={i}>
+                                    <option value={items.Value} key={i}>
                                         {items.Name}
                                     </option>
                                 </>

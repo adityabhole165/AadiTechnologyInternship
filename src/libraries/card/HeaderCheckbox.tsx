@@ -5,9 +5,9 @@ const HeaderCheckbox = ({ checked, onChange }) => {
     const onClick = () => {
         let isActive = checked === 0 ||
             checked === 2 ? true : false
-            onChange(isActive)
+        onChange(isActive)
     }
-    const checkColor ={ color: 'black' }
+    const checkColor = { color: 'green' }
     return (<>
         {
             checked === 0 ?

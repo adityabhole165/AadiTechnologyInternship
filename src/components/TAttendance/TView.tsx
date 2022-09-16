@@ -10,7 +10,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { styled, Grid } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
 import { useParams } from 'react-router-dom';
-import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
+import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
 import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
 
@@ -179,7 +179,7 @@ const TView = () => {
       <br></br>
 
       {getAttendanceData.length > 1 ? (
-        getAttendanceData.map((items: GetClassAttendanceResult, i) => (
+        getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
           <List14
             date={items.JoinDate}
             assigne={getDate}
@@ -195,7 +195,7 @@ const TView = () => {
           <ErrorMessages Error={'Future date attendance cannot be viewed.'} />
         </>
       ) : (
-        getAttendanceData.map((items: GetClassAttendanceResult, i) => {
+        getAttendanceData.map((items: IGetClassAttendanceResult, i) => {
           return (
             <>
               {i === 0 && items.Status == 'O' ? (
