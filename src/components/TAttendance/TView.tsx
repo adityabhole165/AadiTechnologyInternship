@@ -10,9 +10,9 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { styled, Grid } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
-import AttendanceData, { GetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
+import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList } from 'src/requests/TAttendance/TAttendance';
+import { getAttendanceDataList,getStandardList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 
@@ -85,7 +85,7 @@ const TView = () => {
   };
 
   useEffect(() => {
-    // dispatch(ConflictsgetStandardList(body));
+    dispatch(getStandardList(body));
     dispatch(getAttendanceDataList(body1));
   }, [assignedDate, getStandardId]);
 
@@ -102,7 +102,7 @@ const TView = () => {
     setgetStandardId(e.target.value);
   };
   useEffect(() => {
-    // dispatch(ConflictsgetStandardList(body));
+    dispatch(getStandardList(body));
   }, [getStandardId]);
 
   const DotLegend = styled('span')(
@@ -198,7 +198,7 @@ const TView = () => {
       <br></br>
 
       {getAttendanceData.length > 1 ? (
-        getAttendanceData.map((items: GetClassAttendanceResult, i) => (
+        getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
           <List14
             date={items.JoinDate}
             assigne={getDate}
@@ -214,7 +214,7 @@ const TView = () => {
           <ErrorMessages Error={'Future date attendance cannot be viewed.'} />
         </>
       ) : (
-        getAttendanceData.map((items: GetClassAttendanceResult, i) => {
+        getAttendanceData.map((items: IGetClassAttendanceResult, i) => {
           return (
             <>
               {i === 0 && items.Status == 'O' ? (

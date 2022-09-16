@@ -25,20 +25,9 @@ const Item = styled(Paper)(({ theme }) => ({
   borderRadius: '4px'
 }));
 
-function DateSelector({ date,setCurrentDate,Close }) {
-    const getPreviousDate = () => {
-        const { selectedDate } = {selectedDate: date};
-        const currentDayInMilli = new Date(selectedDate);
-        currentDayInMilli.setMonth(currentDayInMilli.getMonth() - 1);
-        setCurrentDate(currentDayInMilli);
-      };
-    
-      const getNextDate = () => {
-        const { selectedDate } = {selectedDate: date};
-        const currentDayInMilli = new Date(selectedDate);
-        currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
-        setCurrentDate(currentDayInMilli);
-      };
+function DateSelector({ date, setCurrentDate, Close }) {
+
+
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -46,19 +35,29 @@ function DateSelector({ date,setCurrentDate,Close }) {
   const classes = Styles();
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
+  const SetNewDate = (prevNext) => {
+    const { selectedDate } = { selectedDate: date };
+
+    const currentDayInMilli = new Date(selectedDate).getTime();
+    const oneDay = prevNext * 1000 * 60 * 60 * 24;
+    const nextDayInMilli = currentDayInMilli + oneDay;
+    const next = new Date(nextDayInMilli);
+    setCurrentDate(next);
+  }
+
   const dateClickHnadler = (e) => {
     if (dateClickDependent == 'none' && pageName == 'Homework') {
       setdateClickDependent('flex');
     }
     if (dateClickDependent == 'flex' && pageName == 'Homework') {
-        setdateClickDependent('none');
-      }
+      setdateClickDependent('none');
+    }
   };
 
   const ChangeCapture = (e) => {
-      setTimeout(() => {
-        setdateClickDependent('none');
-      }, 100);
+    setTimeout(() => {
+      setdateClickDependent('none');
+    }, 100);
   }
 
   return (
@@ -67,7 +66,7 @@ function DateSelector({ date,setCurrentDate,Close }) {
         <div>
           <Grid container spacing={0.5}>
             <Grid item xs={2}>
-              <Item onClick={() => getPreviousDate()}>
+              <Item onClick={() => SetNewDate(-1)}>
                 <ArrowLeft sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>
@@ -81,40 +80,22 @@ function DateSelector({ date,setCurrentDate,Close }) {
                 <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
               <Item
-              onClick={ChangeCapture}
+                onClick={ChangeCapture}
                 sx={{
                   width: '300px',
                   position: 'absolute',
                   display: dateClickDependent,
-                  alignSelf:'center',
+                  alignSelf: 'center',
                   zIndex: '2',
                   mt: '5px',
                 }}
               >
                 <Calendar onChange={(e) => Close(e.toLocaleString())} />
-                {/* <Avatar
-                  sx={{
-                    position: 'absolute',
-                    top: '-15px',
-                    // right:'5px',
-                    zIndex: '4',
-                    right: '-10px',
-                    p: '2px',
-                    width: 29,
-                    height: 29,
-                    backgroundColor: 'white',
-                    boxShadow:
-                      '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                  }}
-                  onClick={closeIcon} // Close function
-                >
-                  <CloseIcon fontSize="small" color="error" />
-                </Avatar> */}
               </Item>
             </Grid>
 
             <Grid item xs={2}>
-              <Item onClick={() => getNextDate()}>
+              <Item onClick={() => SetNewDate(1)}>
                 <ArrowRight sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>

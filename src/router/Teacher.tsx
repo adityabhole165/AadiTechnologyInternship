@@ -10,7 +10,8 @@ const Loader = (Component) => (props) =>
   </Suspense>
 );
 
-const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
+// const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
+const TAttendance = Loader(lazy(() => import('src/components/MyAttendance/TAttendance')))
 const TExamschedule = Loader(lazy(() => import('src/components/TExamschedule/TExamSchedule')))
 const TView = Loader(lazy(() => import('src/components/TAttendance/TView')))
 const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetable/TeacherTimetable')));

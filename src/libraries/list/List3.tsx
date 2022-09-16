@@ -4,37 +4,15 @@ import {
   useTheme,
   List,
   Container,
-  Grow,
-  Checkbox,
   Grid,
-  styled,
-  FormGroup,
-  IconButton
 } from '@mui/material';
 
 import { useDispatch } from 'react-redux';
-import { positions, spacing } from '@mui/system';
 import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
-import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import InboxIcon from '@mui/icons-material/Inbox';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { getSentList } from 'src/requests/Student/Sentmessage';
-import { getInboxList } from 'src/requests/Student/InboxMessage';
-import { getTrashList } from 'src/requests/MessageCenter/MessaageCenter';
-import AttachmentIcon from '@mui/icons-material/Attachment';
 import CheckboxImg from '../card/CheckboxImg';
-const Checked = styled('span')(
-  ({ theme }) => `
-      Color : white;
-      margin-left: -9px;
-    margin-top: -10px; `
-);
 
 List3.propTypes = {
   data: PropTypes.any,
@@ -60,10 +38,9 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/SMSCenter/',
+    '/extended-sidebar/MessageCenter/msgCenter/',
     ''
   );
-  console.log(pageName)
 
   const theme = useTheme();
   const classes = Styles();
@@ -102,8 +79,8 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                   checked={pageName == "Compose" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
-                  value={Id}
-                  name={pageName == "Compose" ? data.Name : data.ReceiverDetailsId}
+                  value={data.DetailsId}
+                  name={data.ReceiverDetailsId}
                 />
 
               </Grid>

@@ -1,12 +1,12 @@
 //aatendance list
-export default interface AttendanceData{
+export default interface IGetClassAttendance{
     asStdDivId:string,
     asDate:string,
     asAcademicYearId:string,
     asSchoolId:string
 }
 
-export interface GetClassAttendanceResult {
+export interface GetStudentDetailsResult {
     IsPresent: string
     JoinDate: string,
     RollNumber: string,
@@ -14,13 +14,21 @@ export interface GetClassAttendanceResult {
     StudentId: number,
     StudentName: string
 }
-// export interface GetAttendanceResult {
-//         StatusMessage:string,
-//         AbsentRollNos:string,
-//         AcademicYearMsg:string,
-//         AcYrStatusCode:string,
-//         IsAllPresentOrAbsentMessage:string
-//     }
+export interface IGetClassAttendanceResult {
+    IsPresent: string
+    JoinDate: string,
+    RollNumber: string,
+    Status: string,
+    StudentId: number,
+    StudentName: string
+}
+export interface IGetAttendanceStatusResult {
+        StatusMessage:string,
+        AbsentRollNos:string,
+        AcademicYearMsg:string,
+        AcYrStatusCode:string,
+        IsAllPresentOrAbsentMessage:string
+    }
     
 
 export interface IGetStudentDetails{
@@ -40,7 +48,7 @@ export interface ISaveAttendance{
     asAcademicYearId:string
 }
 
-export interface IGetAttendanceStatusDetails{
+export interface IGetAttendanceStatus{
     asAttendanceDate:string,
     asStanardDivisionId:string,
     asAcademicYearId:string,
