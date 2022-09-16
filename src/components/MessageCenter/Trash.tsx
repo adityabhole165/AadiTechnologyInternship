@@ -145,6 +145,7 @@ function Trash() {
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
+    console.log(joinDetails)
     const trashbody: any = {
       asSchoolId: asSchoolId,
       asMessageRecieverDetailsId: joinReciever,

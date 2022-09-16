@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { getSentList } from 'src/requests/Student/Sentmessage';
+import { getNextPageSentList, getSentList } from 'src/requests/Student/Sentmessage';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { GetSentListResult } from 'src/interfaces/MessageCenter/Sent_Message';
@@ -114,38 +114,42 @@ function SentMessage() {
   }, []);
 
   const [checked, setChecked] = useState(true);
-  const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
+  const [Id, setId] = useState({ DetailInfo: [] });
 
 
   const handleChange = (event) => {
+    // debugger;
     setChecked(true);
     const { value, name, checked } = event;
     // const { value, name } = event.target;
 
-    const { DetailInfo, recieverInfo } = Id;
+    const { DetailInfo } = Id;
+    console.log(checked)
 
     if (checked) {
       setId({
         DetailInfo: [...DetailInfo, value],
-        recieverInfo: [...recieverInfo, name]
+        // recieverInfo: [...recieverInfo, name]
       });
     } else {
       setId({
         DetailInfo: DetailInfo.filter((event) => event !== value),
-
-        recieverInfo: recieverInfo.filter((event) => event !== name)
+        // recieverInfo: recieverInfo.filter((event) => event !== name)
       });
     }
   };
 
+  
+
   // Selected data delete operation
   const moveToTrash = () => {
+  
     const joinDetails = Id.DetailInfo.join(';');
-    const joinReciever = Id.recieverInfo.join(';');
+    console.log(joinDetails)
 
     const trashbody: any = {
       asSchoolId: asSchoolId,
-      asMessageRecieverDetailsId: joinReciever,
+      asMessageRecieverDetailsId: joinDetails,
       asMessageDetailsId: joinDetails,
       asIsArchive: 'Y',
       asIsCompeteDelete: 0,
@@ -155,12 +159,12 @@ function SentMessage() {
       .then((data) => {
         if (pageName == 'Sent') {
           toast.success('Message deleted successfully');
-          dispatch(getSentList(SentMessageBody));
+          dispatch(getNextPageSentList(SentMessageBody));
         }
         setChecked(false);
         setId({
           DetailInfo: [],
-          recieverInfo: []
+          // recieverInfo: []
         });
       })
       .catch((err) => {
@@ -173,7 +177,7 @@ function SentMessage() {
     setChecked(false);
     setId({
       DetailInfo: [],
-      recieverInfo: []
+      // recieverInfo: []
     });
   };
 
@@ -222,6 +226,7 @@ function SentMessage() {
     }, 10);
   }
 
+  console.log(Id.DetailInfo)
   return (
     <>
       {Id.DetailInfo.length !== 0 ? (
