@@ -43,9 +43,7 @@ function Card1({
         : `${theme.colors.gradients.listColor}`;
   else background = Color;
 
-  // const location = useLocation();
-  // const pathname = location.pathname;
-  // const pageName = pathname.replace('/extended-sidebar/Student/', '');
+
 
   return (
     <>
