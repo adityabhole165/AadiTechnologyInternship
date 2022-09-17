@@ -264,14 +264,14 @@ if (RoleId === '3') {
   return (
     <>
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
-      <IconButton>
+      {/* <IconButton>
         <NavLink
           to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`}
           activeStyle={{ color: '#9e9e9e' }}
         >
           <EventNoteIcon />
         </NavLink>
-      </IconButton>
+      </IconButton> */}
       {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
       <Card2 items={items3} heading={header3} rowsCol="4"></Card2>
     </>

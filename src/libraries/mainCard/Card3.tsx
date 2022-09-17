@@ -7,6 +7,7 @@ import {
   IconButton,
   Typography,
   Box,
+  Card,
   Avatar
 } from '@mui/material';
 
@@ -51,76 +52,77 @@ function Card3({
     <>
       <Box
         sx={{
-          mb: '7px',
-          mt: '-3px'
+          mb: '10px',
+          mt: '-8px',
+          textAlign:"center"
         }}
       >
-        <Box sx={{ textAlign: 'center' }}>
-          <Link to={`/${location.pathname.split('/')[1]}/${Link1}`}>
-            <IconButton
+        <IconButton>
+          <Box
+            sx={{
+              // width: '150px',
+         
+              width: 70,
+              height: 65,
+              background: `${theme.colors.gradients.pink1}`,
+              
+              borderRadius: '10px',
+              mb: '5px',
+              textAlign: 'center',
+              textDecoration:"none",
+              boxShadow:
+                ' 1px 4px 5px 2px rgba(0,0,0,0.3)'
+            }}
+          >
+        <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} >
+            {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
+            {icon === 3 && <DateRangeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 4 && <PhotoIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 5 && <VideoLibraryIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 6 && <EventNoteIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 7 && <AccessTimeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 8 && <MonetizationOnIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 9 && <MenuBookIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 10 && <LockOpenIcon sx={{color: iconColor,mt:"7px"}}  fontSize="medium" />}
+            {icon === 11 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 12 && <CalendarTodayIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 13 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 14 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 15 && <AssessmentIcon  sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 16 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+
+            {icon === 17 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            </Link>
+        
+            <Typography
               sx={{
-                borderRadius: '10px',
-                mt: '-3px'
+                mt: '-3px',
+                textAlign: 'center',
+                fontSize: '12px',
+                textDecoration:"none",
+                color:'black',
+                lineHeight: '1rem'
               }}
             >
-              <Avatar
-                variant="square"
-                sx={{
-                  width: '50px',
-                  background: `${theme.colors.gradients.pink1}`,
-                  color: iconColor,
-                  borderRadius: '10px',
-                  mb: '5px',
-
-                  boxShadow:
-                    ' 5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3)'
-                }}
-              >
-                {icon === 1 && <AssignmentIcon />}
-                {icon === 2 && <EventIcon />}
-                {icon === 3 && <DateRangeIcon />}
-                {icon === 4 && <PhotoIcon />}
-                {icon === 5 && <VideoLibraryIcon />}
-                {icon === 6 && <EventNoteIcon />}
-                {icon === 7 && <AccessTimeIcon />}
-                {icon === 8 && <MonetizationOnIcon />}
-                {icon === 9 && <MenuBookIcon />}
-                {icon === 10 && <LockOpenIcon />}
-                {icon === 11 && <PeopleIcon />}
-                {icon === 12 && <CalendarTodayIcon />}
-                {icon === 13 && <AssessmentIcon />}
-                {icon === 14 && <AssessmentIcon />}
-                {icon === 15 && <AssessmentIcon />}
-                {icon === 16 && <AssessmentIcon />}
-
-                {icon === 17 && <ForwardToInboxIcon />}
-                {icon === 18 && <SmsIcon />}
-                {icon === 19 && <PeopleIcon />}
-              </Avatar>
-            </IconButton>
-          </Link>
-        </Box>
-
-        <Typography
-          sx={{
-            mt: '-5px',
-            textAlign: 'center',
-            fontSize: '12px',
-            lineHeight: '1rem'
-          }}
-        >
-          {text1}
-        </Typography>
-        <Typography
-          sx={{
-            mt: '-5px',
-            textAlign: 'center',
-            fontSize: '12px',
-            lineHeight: '1.3rem'
-          }}
-        >
-          {text2}
-        </Typography>
+              {text1}
+            </Typography>
+            <Typography
+              sx={{
+                mt: '-5px',
+                textAlign: 'center',
+                fontSize: '12px',
+                lineHeight: '1.3rem',
+                textDecoration:"none",
+                color:'black'
+              }}
+            >
+              {text2}
+            </Typography>
+          </Box>
+          </IconButton>
       </Box>
     </>
   );

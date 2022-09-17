@@ -13,8 +13,7 @@ function Card5({ text1, text2, clickIcon }) {
     <div>
     <ListStyle>
         <CardDetail>
-          <CardDetail1>{text1}</CardDetail1>
-          <CardDetail2>{text2}</CardDetail2>
+          <CardDetail3><b>{text1}</b>&nbsp;:&nbsp;{text2}</CardDetail3>
           <CardDetail2 onClick={clickIcon}>{<FileDownloadOutlinedIcon />}</CardDetail2>
         </CardDetail>
       </ListStyle>

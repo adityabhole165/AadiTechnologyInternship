@@ -113,8 +113,8 @@ const DashboardData = {
       ModulesPermission: 'EnableHomeworkModule'
     },
     {
-      Text1: 'TeacherAttendance',
-      Text2: '',
+      Text1: 'Teacher',
+      Text2: 'Attendance',
       Color: '#81c784',
       iconColor: '#424242',
       Icon: EventNoteIcon,
@@ -162,7 +162,7 @@ const DashboardData = {
     },
 
     {
-      Text1: 'Online Exam ',
+      Text1: 'O-Exam ',
       Text2: 'Schedule',
       Color: '#90a4ae',
       iconColor: '#f0483e',
