@@ -232,7 +232,7 @@ const handleChangeForTemplate = (e) => {
 
   return (
     <>
-      <PageHeader heading={'Compose Message'} subheading={''} />
+      <PageHeader heading={'Compose SMS'} subheading={''} />
 
       <Box style={{ display: displayOfCompose_Page }}>
         <Grid
