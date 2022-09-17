@@ -28,6 +28,9 @@ import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS'
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
+import { useFormik } from 'formik';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+
 
 const Compose = () => {
 
@@ -63,12 +66,35 @@ const Compose = () => {
 
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
   const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
+  let confirmationDone;
 
 const handleChangeForTemplate = (e) => {
     const indexValue = e.target.value.indexOf(',')
     const templateId = e.target.value.slice(0,indexValue);
-    setContentTemplateDependent(e.target.value.slice(indexValue,).replace(',',''));
-    setTemplateRegistrationId(templateId)
+    const templateText = e.target.value.slice(indexValue,).replace(',','');
+
+    if (templateText.length >= 300) {
+      toast.error('More than 300 characters not allowed');
+    }
+    if (templateText.length >= 1 && templateText.length <= 160) {
+      setinitialMessage(1);
+      setContentTemplateDependent(templateText);
+      setTemplateRegistrationId(templateId)
+    }
+    if (templateText.length > 160) {
+       {
+        confirmationDone = confirm(
+          'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
+        );
+      }
+      setinitialMessage(2);
+      setContentTemplateDependent(templateText);
+      setTemplateRegistrationId(templateId)
+    }
+    if (templateText.length == 0) {
+      setinitialMessage(0);
+    }
+    setCharacterCount(templateText.length);
   };
   
   // Message counter  =================================
@@ -76,28 +102,6 @@ const handleChangeForTemplate = (e) => {
   const [contentError, setcontentError] = useState<any>(); // For content Error
   const [initialMessage, setinitialMessage] = useState(0);
   const [initialCount, setCharacterCount] = useState(0);
-
-  const changeHandler = (e) => {
-    if (e.target.value.length == 0) {
-      setcontentError(true);
-    } else {
-      setcontentError(false);
-    }
-    if (e.target.value.length >= 300) {
-      toast.error('More than 300 characters not allowed');
-    }
-    if (e.target.value.length >= 1 && e.target.value.length <= 160) {
-      setinitialMessage(1);
-    }
-    if (e.target.value.length > 160) {
-      setinitialMessage(2);
-    }
-    if (e.target.value.length == 0) {
-      setinitialMessage(0);
-    }
-
-    setCharacterCount(e.target.value.length);
-  };
 
   const ContentFieldBlur = (e) => {
     setcontentError(false);
@@ -124,71 +128,16 @@ const handleChangeForTemplate = (e) => {
       setToError(false);
     }
   };
+
   const ToFieldFocus = (e) => {
     setToError(false);
   };
-
-  //  On send confirmation and message sending  = ================================
-  let confirmationDone;
-  let confirmationDoneForPlainMessage;
-  const clickSend = () => {
-    if (initialCount == 0 || ContentTemplateDependent.length == 0) {
-      setcontentError(true);
-    }
-    if (RecipientsArray.RecipientName.length == 0) {
-      setToError(true);
-    }
-
-    if (
-      initialCount > 160 &&
-      RecipientsArray.RecipientName.length > 0 &&
-      ContentTemplateDependent.length > 0
-    ) {
-      confirmationDone = confirm(
-        'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
-      );
-    }
-    if (
-      initialCount > 0 &&
-      ContentTemplateDependent.length > 0 &&
-      RecipientsArray.RecipientName.length > 0 &&
-      confirmationDone
-    ) {
-      toast.success('Message Has Been Sent Successfully');
-    }
-
-    if (
-      initialCount < 160 &&
-      initialCount != 0 &&
-      RecipientsArray.RecipientName.length > 0 &&
-      initialCount < 159
-    ) {
-      confirmationDoneForPlainMessage = confirm(
-        'Do You Want To Send The Message To Selected Recipient'
-      );
-    }
-    if (
-      initialCount > 0 &&
-      RecipientsArray.RecipientName.length > 0 &&
-      confirmationDoneForPlainMessage &&
-      initialCount < 159
-    ) {
-      toast.success('Message Has Been Sent Successfully');
-    }
-  };
-
-  //  OnSubmit  =================================
-  const SubmitForm = (event) => {
-    event.preventDefault();
-  };
-
-  //  ============================================================================================================================
 
   // Input value for teacher list ,student list ,other staff and admin staff
   const dispatch = useDispatch();
 
   // List of classes of students
-  const SendSMS: any = useSelector(
+  const getSendSMS: any = useSelector(
     (state: RootState) => state.getASendSMS.ASendSMS
   );
 
@@ -196,7 +145,8 @@ const handleChangeForTemplate = (e) => {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
-  const SchoolName = sessionStorage.getItem('SchoolName');
+  const schoolName = localStorage.getItem('SchoolName');
+  const userRoleId = sessionStorage.getItem('RoleId');
 
   const AComposeSMSTemplate: MessageTemplateSMSCenter = {
     asSchoolId: asSchoolId,
@@ -204,30 +154,53 @@ const handleChangeForTemplate = (e) => {
     asShowSystemDefined: 'Y'
   };
 
-  // Send SMS
-  const Send_SMS: ACompose_SendSMS = {
-    asSchoolId: asSchoolId,
-    aoMessage: {
-      Body: ContentTemplateDependent,
-      Subject: "SMS",
-      SenderName: "",
-      DisplayText: RecipientsArray.RecipientName.toString(),
-      SenderUserId: asUserId,
-      SenderUserRoleId: "3",
-      AcademicYearId: asAcademicYearId,
-      SchoolId: asSchoolId,
-      InsertedById: asUserId,
-      Attachment: ""
+  const formik = useFormik({
+    initialValues:{
+      To: RecipientsArray.RecipientName,
+      Content: ContentTemplateDependent
     },
-    asSelectedUserIds: RecipientsArray.RecipientId.toString(),
-    asSelectedStDivId: "",
-    asIsSoftwareCordinator: 0,
-    asMessageId: 0,
-    sIsReply: "N",
-    asIsForward: "N",
-    asSchoolName: "Bright Future School<br/>",
-    asTemplateRegistrationId: TemplateRegistrationId
+    onSubmit:()=>{
+       submitResult(); 
+    },
+    validate:(values) =>{
+      const errors: any = {};
+      if (values.To.length===0) {
+          errors.To = 'Atleast one recipient should be selected.';
+      }
+      if (!values.Content) {
+        errors.Content = 'SMS content should not be blank please select SMS Template';
+      }
+      return errors;
+    }
+  });
+
+  // Send SMS
+  const submitResult = () =>{
+    const Send_SMS: ACompose_SendSMS = {
+      asSchoolId: asSchoolId,
+      aoMessage: {
+        Body: ContentTemplateDependent,
+        Subject: "SMS",
+        SenderName: "",
+        DisplayText: RecipientsArray.RecipientName.toString(),
+        SenderUserId: asUserId,
+        SenderUserRoleId: userRoleId,
+        AcademicYearId: asAcademicYearId,
+        SchoolId: asSchoolId,
+        InsertedById: asUserId,
+        Attachment: ""
+      },
+      asSelectedUserIds: RecipientsArray.RecipientId.toString(),
+      asSelectedStDivId: "",
+      asIsSoftwareCordinator: 0,
+      asMessageId: 0,
+      sIsReply: "N",
+      asIsForward: "N",
+      asSchoolName: schoolName,
+      asTemplateRegistrationId: TemplateRegistrationId
+    }
   }
+  
 
   // SMS Template
   useMemo(() => {
@@ -256,8 +229,6 @@ const handleChangeForTemplate = (e) => {
       return e
     })
   };
-
-  console.log(RecipientsArray.RecipientId.toString())
 
   return (
     <>
@@ -322,7 +293,7 @@ const handleChangeForTemplate = (e) => {
               </ClickAwayListener>
             </Box>
             <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
-              <form onSubmit={SubmitForm}>
+              <form onSubmit={formik.handleSubmit}>
                 <FormControl fullWidth>
                   <TextField
                     sx={{ marginBottom: '-10px' }}
@@ -348,20 +319,13 @@ const handleChangeForTemplate = (e) => {
                     InputProps={{
                       readOnly: true
                     }}
-                    value={RecipientsArray.RecipientName}
+                    value={formik.values.To}
                   />
+                <div style={{marginTop:'15px'}}>
+                  <Errormessage Error={formik.errors.To} />
+                </div>
                 </FormControl>
-                <p
-                  style={{
-                    color: 'red',
-                    marginTop: 2,
-                    marginBottom: 2,
-                    fontWeight: 'bold'
-                  }}
-                >
-                  {ToError ? 'Atleast one recipient should be selected.' : null}
-                </p>
-
+                
                 <Grid container style={{ marginTop: '15px' }}>
                   <Grid md={3} style={{ flexDirection: 'row' }}>
                     <Button
@@ -396,7 +360,7 @@ const handleChangeForTemplate = (e) => {
                             : TemplateList?.map((items: GetSMSTemplates, i) => {
                               return (
                                 <>
-                                  <option value={items.Template} key={i}>
+                                  <option value={items.registration_Number + "," + items.Template} key={i}>
                                     {items.Template}
                                   </option>
                                 </>
@@ -425,19 +389,21 @@ const handleChangeForTemplate = (e) => {
                   multiline
                   rows={4}
                   margin="normal"
-                  label={'Content'}
                   name="Content"
                   type="text"
                   value={ContentTemplateDependent}
-                  onChange={changeHandler}
+                  //onChange={changeHandler}
                   onBlur={ContentFieldBlur}
                   sx={{ marginTop: '1px' }}
                   id="content"
+                  InputProps={{
+                    readOnly: true
+                  }}
                 />
-                <p style={{ color: 'red', marginTop: -5, fontWeight: 'bold' }}>
-                  {contentError ? 'Message body should not be blank.' : null}
-                </p>
-
+                <div style={{marginTop:'8px'}}>
+                  <Errormessage Error={formik.errors.Content} />
+                </div>
+                <br/>
                 <Grid container>
                   <Grid xs={12} style={{ flexDirection: 'row' }}>
                     <Button
@@ -449,9 +415,9 @@ const handleChangeForTemplate = (e) => {
                       fullWidth
                       size="large"
                       variant="contained"
-                      onClick={clickSend}
+                      onChange={formik.handleChange}
                     >
-                      {'Send'}
+                     Send
                     </Button>
                   </Grid>
                 </Grid>
