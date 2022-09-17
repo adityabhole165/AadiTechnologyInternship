@@ -116,9 +116,11 @@ function LandingPage() {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(body2));
   }, []);
+
   let items1 = [];
   let items2 = [];
   let items3 = [];
+
   if (RoleId === '3') {
     items1 = DashboardData.Student.items1.filter((el) => {
       return ModulesPermission.some((f) => {
