@@ -12,8 +12,17 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
+import React, { useState } from 'react';
 // import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
+import { ListStyle } from '../styled/CardStyle';
+import Card5 from 'src/libraries/mainCard/Card5';
+import {
+  CardDetail,
+  CardDetail1,
+  CardDetail2,
+  CardDetail3
+} from '../styled/CardStyle';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -23,6 +32,11 @@ Card27.propTypes = {
 };
 
 function Card27({ FeesType, Fee, Heading, Note }) {
+  const [expanded, setExpanded] = useState<string | false>(false);
+
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
@@ -30,59 +44,76 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const FeesObject: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
-  const receiptFileName : any = useSelector(
+  const receiptFileName: any = useSelector(
     (state: RootState) => state.Fees.ReceiptFileName
   );
 
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem("auth")); 
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
-  const filePath = receiptFileName.replace(/\\/g, "/");
-    let sitePath = 'https://192.168.1.80';
-    let downloadPathOfReceipt = sitePath + filePath;
+  const authData = JSON.parse(localStorage.getItem('auth'));
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
+  const filePath = receiptFileName.replace(/\\/g, '/');
+  let sitePath = 'https://192.168.1.80';
+  let downloadPathOfReceipt = sitePath + filePath;
 
-  const downloadReceiptFile = (receiptNo) =>{
-    const getReceiptFileName_body: any ={
-        asSchoolId: schoolId,
-        asReceiptNo: receiptNo,
-        asAcademicYearId: academicYearId,
-        asAccountHeaderId: "0",
-        asIsRefundFee: "0",
-        asStudentId: studentId,
-        asSerialNo:"0",
-        asLoginUserId: userLoginId
-    }
-    dispatch(getReceiptFileName(getReceiptFileName_body))
+  const downloadReceiptFile = (receiptNo) => {
+    console.log('ii -- ', receiptNo);
+    const getReceiptFileName_body: any = {
+      asSchoolId: schoolId,
+      asReceiptNo: receiptNo,
+      asAcademicYearId: academicYearId,
+      asAccountHeaderId: '0',
+      asIsRefundFee: '0',
+      asStudentId: studentId,
+      asSerialNo: '0',
+      asLoginUserId: userLoginId
+    };
+    dispatch(getReceiptFileName(getReceiptFileName_body));
     setTimeout(() => {
       window.open(downloadPathOfReceipt);
     }, 1000);
-  }
+  };
 
   return (
     <>
-      <Container sx={{ pl: '-8px',pb: '5px', }}>
-        <Accordion  className={classes.ListStyle1}>
+      <Container>
+        <Accordion
+          className={classes.background}
+          expanded={expanded === 'panel1'}
+          onChange={handleChange('panel1')}
+        >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
             sx={{
               background: `${theme.colors.gradients.pink1}`,
-            
+              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+              mb: 1
             }}
-            className={classes.ListStyle1}
           >
-            <Typography sx={{ color: 'black' }}>
+            <Typography
+              sx={{
+                color:
+                  expanded === 'panel1'
+                    ? `${theme.colors.gradients.accordianHeadercolor}`
+                    : ''
+              }}
+            >
               <b>{FeesType}</b> &nbsp;:&nbsp;
-              {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/>  */}
-              <b>{FeesType == 'Paid Fees' ? FeesObject.TotalFeesPaid : FeesObject.FeesTobePaid} </b>
+              <b>
+                {FeesType == 'Paid Fees'
+                  ? FeesObject.TotalFeesPaid
+                  : FeesObject.FeesTobePaid}{' '}
+              </b>
             </Typography>
           </AccordionSummary>
           {FeesType == 'Paid Fees' ? (
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                mb: 1,
+                mb: -1
               }}
             >
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
@@ -91,59 +122,14 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               ) : Fee == undefined ? null : (
                 Fee.map((item, i) => {
                   return item.AmountPayable == 0 ? (
-                    <Card
-                      sx={{
-                        background: `${theme.colors.gradients.pink1}`,
-                        marginTop: '0.3rem',
-                      }}
+                    <Card5
                       key={i}
-                    >
-                      <Grid container direction="row">
-                        <Grid
-                          xs={6}
-                          sx={{
-                            borderRight: 1,
-                            borderRadius: 1,
-                            border: 'none'
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pl: 2, pt: 1, pb: 1, textAlign: 'start' }}
-                          >
-                            {item.OriginalFeeType}
-                          </Typography>
-                        </Grid>
-                        <Grid xs={4}>
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{  textAlign: 'right' }}
-                          >
-                            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> */}
-                            {item.Amount}
-                          </Typography>
-                        </Grid>
-                        <Grid
-                          xs={2}
-                          sx={{
-                            borderRight: 1,
-                            borderRadius: 1,
-                            border: 'none'
-                          }}
-                        >
-                          <Typography
-                            component="div"
-                            variant="h5"
-                            sx={{ pl: 2, pt: '3px', pb: 1, textAlign: 'start',cursor:'pointer' }}
-                            onClick={()=> downloadReceiptFile(item.ReceiptNo)}
-                          >
-                          <FileDownloadOutlinedIcon />
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                    </Card>
+                      text1={item.OriginalFeeType}
+                      text2={item.Amount}
+                      clickIcon={() => {
+                        downloadReceiptFile(item.ReceiptNo);
+                      }}
+                    />
                   ) : null;
                 })
               )}
@@ -152,7 +138,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
-                mb: 1,
+                mb: 1
               }}
             >
               <Card16

@@ -112,15 +112,15 @@ const DashboardData = {
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
     },
-    {
-      Text1: 'TeacherAttendance',
-      Text2: '',
-      Color: '#81c784',
-      iconColor: '#424242',
-      Icon: EventNoteIcon,
-      Link: 'Student/TeacherAttendance',
-      index: 10,
-    },
+    // {
+    //   Text1: 'Teacher',
+    //   Text2: 'Attendance',
+    //   Color: '#81c784',
+    //   iconColor: '#424242',
+    //   Icon: EventNoteIcon,
+    //   Link: 'Student/TeacherAttendance',
+    //   index: 10,
+    // },
     // {
     //   Text: 'Change Password',
     //   Color: '#90a4ae',
@@ -162,7 +162,7 @@ const DashboardData = {
     },
 
     {
-      Text1: 'Online Exam ',
+      Text1: 'O-Exam ',
       Text2: 'Schedule',
       Color: '#90a4ae',
       iconColor: '#f0483e',

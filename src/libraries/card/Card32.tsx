@@ -14,7 +14,7 @@ const Card32 = ({ Id, Name, expand }) => {
   const expandFunc = () => {
     setExpanded(!expanded);
     expand(Id);
-    setColor(expanded?'seconday':'primary')
+    setColor(expanded? '': `${theme.colors.gradients.accordianHeadercolor}`)
   };
 
   const classes = Styles();
