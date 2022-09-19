@@ -1,12 +1,12 @@
 
 import { Iimg, IPics } from "src/interfaces/Common/PhotoGallery";
 import http from "../../requests/SchoolService/schoolServices";
-import {IYearList} from "../../interfaces/Student/PhotoGallary"
+import {IYearList,AllAcademicYearsForSchoolResult} from "../../interfaces/Student/PhotoGallary"
 
 //Get year list
 
 const GetAllAcademicYearsForSchool = (data: IYearList) => {
-      return http.post<IYearList>('School/GetAllAcademicYearsForSchool',data);
+      return http.post<AllAcademicYearsForSchoolResult>('School/GetAllAcademicYearsForSchool',data);
 };
 
 const GetPICSList = (data: IPics) => {
