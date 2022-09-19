@@ -110,8 +110,8 @@ const onlineExam = () => {
               <Card1
                 header={subjectList.SubjectName}
                 text1=""
-                text2={subjectList.StartTime}
-                text4={subjectList.EndTime}
+                text2={subjectList.StartTime + '-' + subjectList.EndTime}
+                text5=""
                 text3={subjectList.StartDate}
                 isSelected=""
                 Color=""

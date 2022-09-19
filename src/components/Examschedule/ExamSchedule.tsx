@@ -19,6 +19,7 @@ import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import List6 from 'src/libraries/list/List6';
+import Card1 from 'src/libraries/mainCard/Card1';
 import { Styles } from 'src/assets/style/student-style';
 import http from 'src/requests/SchoolService/schoolServices';
 import Icon3 from 'src/libraries/icon/icon3';
@@ -73,7 +74,7 @@ function ExamSchedule() {
     setexamid(event?.target.value);
   };
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(GetSelectExamList(SelectexamList_body));
     GetAllStandardsResult();
   }, []);
@@ -94,7 +95,7 @@ function ExamSchedule() {
           margin-top: -${theme.spacing(0.1)};
       `
   );
-
+  console.log(ExamsList);
   return (
     <div>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
@@ -138,15 +139,23 @@ function ExamSchedule() {
             {i == 0 && items.Instructions !== '' ? (
               <Icon3 Note={items.Instructions} />
             ) : null}
-            <List6
-              StartDate={items.StartDate}
-              StartTime={items.StartTime}
-              EndTime={items.EndTime}
-              SubjectName={items.SubjectName}
-              TestType={items.TestType}
-              Description={items.Description}
-              Instruction={items.Instructions}
-              index={i}
+
+            <Card1
+              header={
+                items.SubjectName +
+                ' ' +
+                (items.TestType !== '' ? '- ' + items.TestType : '')
+              }
+              text1=""
+              text2={items.StartTime + '-' + items.EndTime}
+              text5={items.Description}
+              text3={items.StartDate}
+              isSelected=""
+              Color=""
+              margin=""
+              RealatedSection=""
+              FileName=""
+              key=""
             />
           </>
         );

@@ -6,7 +6,7 @@ import {
   CardDetail3
 } from '../styled/CardStyle';
 
-function Card4({ header, text1, text2, text3 , text4 }) {
+function Card4({ header, text1, text2, text3  ,text5}) {
   return (
     <>
       <CardDetail>
@@ -16,8 +16,9 @@ function Card4({ header, text1, text2, text3 , text4 }) {
 
       <CardDetail>
         <CardDetail3>{text1}</CardDetail3>
-        <CardDetail2>{text2}-{text4}</CardDetail2>
+        <CardDetail2>{text2}</CardDetail2>
       </CardDetail>
+      <CardDetail3 color="primary">{text5}</CardDetail3>
     </>
   );
 }

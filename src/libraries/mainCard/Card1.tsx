@@ -19,13 +19,15 @@ function Card1({
   text1,
   text2,
   text3,
-  text4,
+
+  text5,
   isSelected,
   Color,
   FileName='',
   margin = '',
   RealatedSection = ''
 }) {
+  console.log(header)
   const date = new Date();
   const NewDate = new Date(date).toDateString();
   const Day = NewDate.slice(8, 10);
@@ -67,7 +69,7 @@ function Card1({
                 <AttachmentIcon />
               </BoxStyle>
             )}
-            <Card4 header={header} text1={text1} text2={text2} text3={text3} text4={text4} />
+            <Card4 header={header} text1={text1} text2={text2} text3={text3} text5={text5}  />
           </ListStyle>
         </Grow>
       </Container>
