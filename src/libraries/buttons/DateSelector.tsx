@@ -8,8 +8,8 @@ import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 import 'src/assets/style/Homework_Calci.css';
 import { useLocation } from 'react-router-dom';
-import { ErrorDetail } from '../styled/ErrormessageStyled';
-
+import { ErrorDetail, ErrorDetail1 } from '../styled/ErrormessageStyled';
+import { isFutureDate } from '../../components/Common/Util'
 DateSelector.propTypes = {
   Date: PropTypes.any,
   setCurrentDate: PropTypes.any,
@@ -33,7 +33,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
 
   const classes = Styles();
-  const [dateClickDependent, setdateClickDependent] = useState('none');
+  const [isFuture, setIsFuture] = useState(false);
 
   const SetNewDate = (prevNext) => {
     const { selectedDate } = { selectedDate: date };
@@ -42,23 +42,12 @@ function DateSelector({ date, setCurrentDate, Close }) {
     const oneDay = prevNext * 1000 * 60 * 60 * 24;
     const nextDayInMilli = currentDayInMilli + oneDay;
     const next = new Date(nextDayInMilli);
-    setCurrentDate(next);
+    let cDay = (new Date(new Date().toLocaleDateString()))
+    setIsFuture(isFutureDate(next))
+    if (isFutureDate(next))
+      setCurrentDate(next);
   }
 
-  const dateClickHnadler = (e) => {
-    if (dateClickDependent == 'none' && pageName == 'Homework') {
-      setdateClickDependent('flex');
-    }
-    if (dateClickDependent == 'flex' && pageName == 'Homework') {
-      setdateClickDependent('none');
-    }
-  };
-
-  const ChangeCapture = (e) => {
-    setTimeout(() => {
-      setdateClickDependent('none');
-    }, 100);
-  }
 
   return (
     <>
@@ -74,17 +63,15 @@ function DateSelector({ date, setCurrentDate, Close }) {
               <Item
                 sx={{ p: 1.3, background: 'rgb(36 66 175 / 0.4)' }}
                 className={classes.date}
-                onClick={dateClickHnadler}
               >
                 {' '}
                 <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
               <Item
-                onClick={ChangeCapture}
                 sx={{
                   width: '300px',
                   position: 'absolute',
-                  display: dateClickDependent,
+                  display: 'none',
                   alignSelf: 'center',
                   zIndex: '2',
                   mt: '5px',
@@ -98,6 +85,9 @@ function DateSelector({ date, setCurrentDate, Close }) {
               <Item onClick={() => SetNewDate(1)}>
                 <ArrowRight sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
+            </Grid>
+            <Grid item xs={12}>
+              {isFuture && <ErrorDetail>Future date attendance not allowed</ErrorDetail>}
             </Grid>
           </Grid>
         </div>
