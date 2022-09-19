@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import { IPics, Iimg } from "src/interfaces/Common/PhotoGallery";
-import { IYearList } from 'src/interfaces/Student/PhotoGallary';
+import { IYearList,AllAcademicYearsForSchoolResult } from 'src/interfaces/Student/PhotoGallary';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
 
 const GallerySlice = createSlice({
@@ -19,7 +19,7 @@ const GallerySlice = createSlice({
       state.imgList = action.payload.GetImagesResult;
     },
     getYearList(state, action) {
-      state.YearList = action.payload.GetAllAcademicYearsForSchoolResult;
+      state.YearList = action.payload;
     },
   }
 });
@@ -41,6 +41,9 @@ export const getYearList =
   (data: IYearList): AppThunk =>
     async (dispatch) => {
       const response = await PhotoGallaryApi.GetAllAcademicYearsForSchool(data);
-      dispatch(GallerySlice.actions.getYearList(response.data));
+      const YearData = response.data.GetAllAcademicYearsForSchoolResult.map((key, index) => {
+        return response.data.GetAllAcademicYearsForSchoolResult[index].split('-')[0];
+      });
+      dispatch(GallerySlice.actions.getYearList(YearData));
     };
 export default GallerySlice.reducer

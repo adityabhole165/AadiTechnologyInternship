@@ -5,3 +5,6 @@ export interface IYearList  {
     asUserId : string,
     asUserRoleId: string,
 }
+export interface AllAcademicYearsForSchoolResult {
+    GetAllAcademicYearsForSchoolResult:[string]
+}
