@@ -41,6 +41,7 @@ import {
   IGetReasonforBlockingProgressReport
 } from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
+import Card5 from 'src/libraries/mainCard/Card5';
 function Progressreport() {
   const note = [
     '1)Your school fees are pending. Please pay the dues to view the progress report. '
@@ -164,7 +165,7 @@ function Progressreport() {
     setShowyear(true);
     setAcademicYearId(e?.target.value);
   };
-  console.log(dropyear) 
+  console.log(dropyear);
   //  dropyear
 
   return (
@@ -177,34 +178,32 @@ function Progressreport() {
           </Container>
         ) : (
           <Box>
-            {
-            pendingfees.IsPendingFeesForStudentResult !== false ? (
+            {pendingfees.IsPendingFeesForStudentResult !== false ? (
               <Container>
                 <Note NoteDetail={note} />
               </Container>
-            ) : 
-            (
+            ) : (
               <>
                 {getreasonbprgrepres.GetReasonforBlockingProgressReport ==
                 '' ? (
-                  <> 
-                    { feependingres  ? null : (
+                  <>
+                    {feependingres ? null : (
                       <>
                         <Container>
-                          <Grid
+                          {/* <Grid
                             container
                             justifyContent="center"
                             rowSpacing={1}
-                          >
-                            <Grid xs={6}></Grid>
-                            <Grid xs={6}>
+                          > */}
+                            {/* <Grid xs={6}></Grid> */}
+                            {/* <Grid xs={6}> */}
                               <Icon1
                                 Title={undefined}
                                 Subtitle={undefined}
                                 Note={Note1}
                               />
-                            </Grid>
-                          </Grid>
+                            {/* </Grid>
+                          </Grid> */}
                         </Container>
                         <Box>
                           <>
@@ -229,7 +228,7 @@ function Progressreport() {
                                 marginTop: '50px',
                                 m: 1,
                                 width: '100%',
-                                marginLeft: '1px',
+                                marginLeft: '1px'
                                 // display:'none'
                               }}
                             >
@@ -254,72 +253,21 @@ function Progressreport() {
                                 </NativeSelect>
                               }
                             </FormControl>
-                            {dropyear !== '0' ? ( 
+                            {dropyear !== '0' ? (
                               <>
                                 {showyear ? (
                                   <List>
                                     {academictermsResult?.map(
                                       (gettermsres: IGetTerms, i) => {
                                         return (
-                                          <Card
-                                            sx={{
-                                              background: `${theme.colors.gradients.pink1}`,
-                                              marginTop: '0.3rem'
-                                            }}
+                                          <Card5
                                             key={i}
-                                          >
-                                            <Grid container direction="row">
-                                              <Grid
-                                                key={i}
-                                                xs={9}
-                                                sx={{
-                                                  borderRight: 1,
-                                                  borderRadius: 1,
-                                                  border: 'none'
-                                                }}
-                                              >
-                                                <Typography
-                                                  component="div"
-                                                  variant="h5"
-                                                  sx={{
-                                                    pl: 2,
-                                                    pt: 1,
-                                                    pb: 1,
-                                                    textAlign: 'start'
-                                                  }}
-                                                >
-                                                  {gettermsres.TermName}
-                                                </Typography>
-                                              </Grid>
-                                              <Grid
-                                                xs={2}
-                                                sx={{
-                                                  borderRight: 1,
-                                                  borderRadius: 1,
-                                                  border: 'none'
-                                                }}
-                                              >
-                                                <Typography
-                                                  component="div"
-                                                  variant="h5"
-                                                  sx={{
-                                                    pl: 2,
-                                                    pt: '3px',
-                                                    pb: 1,
-                                                    textAlign: 'end',
-                                                    cursor: 'pointer'
-                                                  }}
-                                                  onClick={() =>
-                                                    downloadProgress(
-                                                      gettermsres.Id
-                                                    )
-                                                  }
-                                                >
-                                                  <FileDownloadOutlinedIcon />
-                                                </Typography>
-                                              </Grid>
-                                            </Grid>
-                                          </Card>
+                                            text1={gettermsres.TermName}
+                                            text2=""
+                                            clickIcon={() => {
+                                              downloadProgress(gettermsres.Id);
+                                            }}
+                                          />
                                         );
                                       }
                                     )}
@@ -336,10 +284,17 @@ function Progressreport() {
                 ) : (
                   <>
                     <Container>
-                     
-                      <ErrorMessages Error={'You are prohibited to view the progress report due to the following reason:'} />
+                      <ErrorMessages
+                        Error={
+                          'You are prohibited to view the progress report due to the following reason:'
+                        }
+                      />
                       <ErrorMessages Error={Reason} />
-                      <ErrorMessages Error={'  Please do the needful to view the progress report.'} />
+                      <ErrorMessages
+                        Error={
+                          '  Please do the needful to view the progress report.'
+                        }
+                      />
                     </Container>
                   </>
                 )}

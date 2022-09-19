@@ -26,6 +26,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   const classes = Styles();
 
   const Data = Teacher.map((item, index) => {
@@ -35,24 +36,20 @@ function Accordion1({ Parent, Teacher, headingg }) {
           header: item.TeacherName,
           text1: item.TeacherDesignation,
           text2: '',
-          backgroundColor: '#e9a69a',
+          backgroundColor: `${theme.colors.gradients.selectedlistColor}`,
           mx: '-33px',
           RelatedSection: '2',
-          borderRadius: '6px',
-          marginBottom: '8px',
-          boxShadow: '6px 4px 5px grey'
+        
         }
       : {
           id: item.RealatedSection,
           header: item.TeacherName,
           text1: item.TeacherDesignation,
           text2: '',
-          backgroundColor: '#c8dccb',
+          backgroundColor: '',
           mx: '-33px',
           RelatedSection: '0',
-          borderRadius: '6px',
-          marginBottom: '8px',
-          boxShadow: '6px 4px 5px grey'
+        
         };
   });
   const Data1 = Parent.map((item, index) => {
@@ -62,13 +59,13 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.ParentDesignation,
       text2: item.MobileNumber1,
       text3: item.Class,
-      backgroundColor: '#c8dccb',
+      backgroundColor: '',
       mx: '-33px'
     };
   });
   return (
     <>
-      <Grid item xs={12} container>
+   
         <Container>
           <Grow
             in={checked}
@@ -160,7 +157,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
             </div>
           </Grow>
         </Container>
-      </Grid>
+   
     </>
   );
 }
