@@ -47,6 +47,7 @@ function List1({ items }) {
           text1={items.text1}
           text2={items.text2}
           text3={items.text3}
+          text4={items.text4}
           isSelected={items.isSelected}
           Color={items.backgroundColor}
           margin={items.mx}
@@ -67,6 +68,7 @@ function List1({ items }) {
               text1={items.text1}
               text2={items.text2}
               text3={items.text3}
+              text4={items.text4}
               isSelected={items.isSelected}
               Color={items.backgroundColor}
               margin={items.mx}
