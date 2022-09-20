@@ -67,7 +67,7 @@ const DashboardData = {
       Color: '#ef5350',
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
-      Link: 'Common/VideoGallery',
+      Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
     }
   ],
@@ -147,6 +147,7 @@ const DashboardData = {
       iconColor: '#35abd9',
       Icon: CalendarTodayIcon,
       Link: 'Student/Examschedule',
+      ImageUrl: "/imges/onlineExam.png",
       index: 12,
       ModulesPermission: 'EnableStudentExamSchedule'
     },
@@ -155,8 +156,9 @@ const DashboardData = {
       Text2: 'Report',
       Color: '#90a4ae',
       iconColor: '#424242',
-      Icon: AssessmentIcon,
+      Icon: "/imges/progressreport.png",
       Link: 'Student/Progressreport',
+      ImageUrl: "/imges/progressreport.png",
       index: 13,
       ModulesPermission: 'EnableProgressReport'
     },
@@ -167,6 +169,7 @@ const DashboardData = {
       Color: '#90a4ae',
       iconColor: '#f0483e',
       Icon: BorderColorOutlinedIcon,
+      ImageUrl: "/imges/onlineExam.png",
       Link: 'Student/OnlineExam',
       index: 14
     },
@@ -176,6 +179,7 @@ const DashboardData = {
       Color: '#90a4ae',
       iconColor: '#35abd9',
       Icon: AssessmentOutlinedIcon,
+      ImageUrl: "/imges/progressreport.png",
       Link: 'Student/OnlineExamProgressReport',
       index: 15
     },
@@ -185,6 +189,7 @@ const DashboardData = {
       Color: '#90a4ae',
       iconColor: '#424242',
       Icon: HistoryEduOutlinedIcon,
+      ImageUrl: "/imges/library.png",
       Link: 'Student/Library',
       index: 16
     },

@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+import VideoAlbum from 'src/components/VideoGallery2/VideoAlbum';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 
 
@@ -24,6 +25,7 @@ const Pta = Loader(lazy(() => import('src/components/PTA/PTA')))
 const EventOverview = Loader(lazy(() => import('src/components/AnnualPlanner/EventOverview')));
 const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEvent')));
 const StaffBirthday = Loader(lazy(() => import('src/components/StaffBirthday/StaffBirthday')));
+const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 
 const commonRoutes = [
     {
@@ -42,7 +44,10 @@ const commonRoutes = [
         path: 'VideoGallery',
         element: <VideoGallery />
     },
-
+    {
+        path: 'VideoGallery2/VideoAlbum',
+        element: <VideoGallery2/>
+    },
     {
         path: 'Comments/:VideoID/:FromRoute',
         element: <Comments />

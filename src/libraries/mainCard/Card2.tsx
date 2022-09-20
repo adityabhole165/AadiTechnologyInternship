@@ -56,6 +56,9 @@ function Card2({ items, heading, rowsCol }) {
                 text2={item.Text2}
                 icon={item.index}
                 Link1={item.Link}
+                
+               ImageUrl={item.ImageUrl}
+
                 iconColor={item.iconColor}
                 isAvtar="true"
                 opacityLevel="1"
