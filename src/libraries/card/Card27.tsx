@@ -102,14 +102,10 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               }}
             >
               <b>{FeesType}</b> &nbsp;:&nbsp;
-              <b>
-                {FeesType == 'Paid Fees'
-                  ? FeesObject.TotalFeesPaid
-                  : FeesObject.FeesTobePaid}{' '}
-              </b>
+              <b>{FeesObject.TotalFeesPaid}</b>
             </Typography>
           </AccordionSummary>
-          {FeesType == 'Paid Fees' ? (
+          {
             <AccordionDetails
               sx={{
                 borderRadius: 1,
@@ -134,26 +130,12 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                 })
               )}
             </AccordionDetails>
-          ) : (
-            <AccordionDetails
-              sx={{
-                borderRadius: 1,
-                mb: 1
-              }}
-            >
-              <Card16
-                Fee={Fee}
-                Heading={Heading}
-                Note={Note}
-                FeesTypes={FeesType}
-              />
-            </AccordionDetails>
-          )}
+          }
         </Accordion>
         <Accordion
-        className={classes.background}
-        expanded={expanded === 'panel1'}
-        onChange={handleChange('panel1')}
+          className={classes.background}
+          expanded={expanded === 'panel1'}
+          onChange={handleChange('panel1')}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -165,22 +147,28 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               mb: 1
             }}
           >
-        
-            <b>{"Payable Fees"}</b> &nbsp;:&nbsp;
-            </AccordionSummary>
-            <AccordionDetails
-              sx={{
-                borderRadius: 1,
-                mb: 1
-              }}
-            >
-              <Card16
-                Fee={Fee}
-                Heading={Heading}
-                Note={Note}
-                FeesTypes={FeesType}
-              />
-            </AccordionDetails>
+            <Typography sx={{
+                color:
+                  expanded === 'panel1'
+                    ? `${theme.colors.gradients.accordianHeadercolor}`
+                    : ''
+              }}> 
+            <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
+            </Typography>
+          </AccordionSummary>
+          <AccordionDetails
+            sx={{
+              borderRadius: 1,
+              mb: 1
+            }}
+          >
+            <Card16
+              Fee={Fee}
+              Heading={Heading}
+              Note={Note}
+              FeesTypes={FeesType}
+            />
+          </AccordionDetails>
         </Accordion>
       </Container>
     </>
