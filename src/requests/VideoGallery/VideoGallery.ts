@@ -12,7 +12,7 @@ const VideOGallerySlice = createSlice({
     },
     reducers: {
         getVideos(state,action){
-          state.VideoList=action.payload.GetVideoGalleryResult;
+          state.VideoList=action.payload;
         },
         getComments(state,action){
           state.Comments=action.payload.GetVideoGalleryCommentsResult;
@@ -25,7 +25,19 @@ const VideOGallerySlice = createSlice({
       (data:IVideoList): AppThunk =>
       async (dispatch) => {
         const response = await VideoGalleryApi.GetVideosGallary(data);
-        dispatch(VideOGallerySlice.actions.getVideos(response.data));
+        const Data=response.data.GetVideoGalleryResult===undefined?[]:
+        response.data.GetVideoGalleryResult.map((item, index) => {
+           return {
+             id: index,
+             header: item.VideoGalleryName===null?'':item.VideoGalleryName,
+             text1: '',
+             text2: '',
+             linkPath: `/Common/Comments/` + item.VideoId + '/VideoGallery',
+             FileName: ''
+           };
+         });
+
+        dispatch(VideOGallerySlice.actions.getVideos(Data));
       };
 
       export const getcommentS =

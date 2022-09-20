@@ -6,11 +6,13 @@ export interface IVideoList {
 }
 
 export interface GetVideoGalleryResult {
+    GetVideoGalleryResult:[{
     IsSubjectExists: number,
     StartDateEndDate: string,
     UrlSourceId: number,
     VideoGalleryName: string,
     VideoId: number
+}]
 }
 
 //comments

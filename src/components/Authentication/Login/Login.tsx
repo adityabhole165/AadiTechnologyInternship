@@ -154,6 +154,7 @@ function SelectSchool() {
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
             localStorage.setItem("UserId", result.Id);
+            localStorage.setItem("RoleName", result.RoleName);
         }
 
 
@@ -163,12 +164,13 @@ function SelectSchool() {
             sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
             sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
             sessionStorage.setItem('StandardId', teacherDetails.StandardId);
+            sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
             sessionStorage.setItem('ClassName', teacherDetails.ClassName);
             sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
             sessionStorage.setItem('EndDate', teacherDetails.EndDate);
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
-
+            localStorage.setItem("RoleName", result.RoleName);
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -176,6 +178,10 @@ function SelectSchool() {
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
             sessionStorage.setItem('EndDate', adminDetails.EndDate);
             sessionStorage.setItem('StartDate', adminDetails.StartDate);
+            localStorage.setItem("RoleName", result.RoleName);
+            sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
+            sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+
         }
 
 

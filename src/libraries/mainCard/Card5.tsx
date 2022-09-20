@@ -1,5 +1,5 @@
 import React from 'react';
-import { ListStyle } from '../styled/CardStyle';
+import {  CardDetail4, ListStyle } from '../styled/CardStyle';
 import {
   CardDetail,
   CardDetail1,
@@ -13,7 +13,7 @@ function Card5({ text1, text2, clickIcon }) {
     <div>
     <ListStyle>
         <CardDetail>
-          <CardDetail3><b>{text1}</b>&nbsp;:&nbsp;{text2}</CardDetail3>
+          <CardDetail4><b>{text1}</b>&nbsp;:&nbsp;{text2}</CardDetail4>
           <CardDetail2 onClick={clickIcon}>{<FileDownloadOutlinedIcon />}</CardDetail2>
         </CardDetail>
       </ListStyle>

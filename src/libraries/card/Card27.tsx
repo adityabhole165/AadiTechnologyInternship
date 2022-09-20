@@ -80,8 +80,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
       <Container>
         <Accordion
           className={classes.background}
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
+          expanded={expanded === 'panel'}
+          onChange={handleChange('panel')}
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -96,7 +96,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             <Typography
               sx={{
                 color:
-                  expanded === 'panel1'
+                  expanded === 'panel'
                     ? `${theme.colors.gradients.accordianHeadercolor}`
                     : ''
               }}
@@ -149,6 +149,38 @@ function Card27({ FeesType, Fee, Heading, Note }) {
               />
             </AccordionDetails>
           )}
+        </Accordion>
+        <Accordion
+        className={classes.background}
+        expanded={expanded === 'panel1'}
+        onChange={handleChange('panel1')}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+            aria-controls="panel1bh-content"
+            id="panel1bh-header"
+            sx={{
+              background: `${theme.colors.gradients.pink1}`,
+              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
+              mb: 1
+            }}
+          >
+        
+            <b>{"Payable Fees"}</b> &nbsp;:&nbsp;
+            </AccordionSummary>
+            <AccordionDetails
+              sx={{
+                borderRadius: 1,
+                mb: 1
+              }}
+            >
+              <Card16
+                Fee={Fee}
+                Heading={Heading}
+                Note={Note}
+                FeesTypes={FeesType}
+              />
+            </AccordionDetails>
         </Accordion>
       </Container>
     </>

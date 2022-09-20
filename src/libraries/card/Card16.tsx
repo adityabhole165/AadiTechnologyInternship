@@ -13,7 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import {
   CardDetail1,
@@ -190,11 +190,11 @@ function Card16({ Note, Heading }) {
           }}
         >
           Total:{' '}
-          {FeesTotal > 0 ? (
+          {/* {FeesTotal > 0 ? (
             <CurrencyRupeeRoundedIcon
               sx={{ fontSize: '18px', position: 'relative', top: '5px' }}
             />
-          ) : null}{' '}
+          ) : null}{' '} */}
           {FeesTotal}
         </div>
 
@@ -314,6 +314,7 @@ function Card16({ Note, Heading }) {
               to={`/${
                 location.pathname.split('/')[1]
               }/Student/Fees_cautionmoney`}
+              style={{textDecoration:'none'}}
             >
               <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
             </RouterLink>
@@ -325,6 +326,7 @@ function Card16({ Note, Heading }) {
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+            style={{textDecoration:'none'}}
           >
             {FeesList.AmountPayable != 0 ? (
               <ButtonPrimary color="secondary">Pay Internal Fees</ButtonPrimary>

@@ -26,7 +26,6 @@ List3.propTypes = {
 
 function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,Id }) {
   const dispatch = useDispatch();
-  console.log(data)
 
   const [checked, setChecked] = useState(false);
 

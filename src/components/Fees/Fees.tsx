@@ -88,7 +88,7 @@ function Fees() {
         <br />
         <br />
 
-        <ListStyle sx={{mb:2}}>
+        <ListStyle sx={{mb:2}} color="info">
           
           <CardDetail1  sx={{textAlign: 'center'}}> <b>Applicable Fees</b>  : &nbsp;
           &nbsp;    
@@ -105,12 +105,12 @@ function Fees() {
         Heading={Feedata}
         Note={Note2}
       />
-      <Card27
+      {/* <Card27
         FeesType={'Payable Fees'}
         Fee={FeesList}
         Heading={Feedata}
         Note={Note2}
-      />
+      /> */}
       <Container sx={{ mb: '-10px'}}>
      
         <Note NoteDetail={note1} />

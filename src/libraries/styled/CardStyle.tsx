@@ -10,6 +10,7 @@ export const CardDetail1 = styled(Typography)`
 export const CardDetail2 = styled(Typography)`
   font-size: 12px;
   margin-left: 50px;
+  margin-right: 5px;
   color: black;
   font-family: Roboto
   cursor: pointer
@@ -17,7 +18,13 @@ export const CardDetail2 = styled(Typography)`
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
- 
+
+  font-family: Roboto
+`;
+export const CardDetail4 = styled(Typography)`
+  font-size: 12px;
+  margin-left: 5px;
+ margin-top:5px;
   font-family: Roboto
 `;
 export const CardDetail = styled(Box)(
@@ -51,6 +58,7 @@ export const ListStyle = styled(Box)(
  background: ${color === 'primary' ? theme.colors.gradients.listColor :
       color === 'secondary' ? theme.colors.gradients.HighlightedlistColor :
         color === 'warning' ? theme.colors.gradients.selectedlistColor :
+        color === 'info' ? theme.colors.gradients.pageBackground :
           theme.colors.gradients.listColor
     };
     position:relative;
@@ -60,6 +68,7 @@ border-radius: 6px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
  `
 );
+
 
 export const BoxStyle = styled(Box)(
   ({ theme }) => `

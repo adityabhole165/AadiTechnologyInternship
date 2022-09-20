@@ -5,6 +5,7 @@ export const ButtonPrimary = styled(Button)(
 color: white;
 font-size: 12px;
 font-family: 'Roboto';
+text-decoration: none;
 
 background: ${color === 'primary' ? theme.colors.gradients.primayButton :
       color === 'secondary' ? theme.colors.gradients.secondaryButton :
