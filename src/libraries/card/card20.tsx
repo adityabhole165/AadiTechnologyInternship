@@ -29,7 +29,8 @@ function Card20({
   subjectgrade,
   subject,
   indexval
-}) {
+})
+{
   return (
     <>
       <ListStyle>
@@ -47,7 +48,9 @@ function Card20({
         </CardDetail>
         <CardDetail>
           <CardDetail1> Rank</CardDetail1>
-          <CardDetail2> {rank}</CardDetail2>
+          {
+              (rank != "999" &&  rank != "-99") ? <CardDetail1> {rank}</CardDetail1> : <CardDetail1> </CardDetail1>
+          }
         </CardDetail>
       </ListStyle>
 
