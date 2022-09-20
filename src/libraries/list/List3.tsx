@@ -26,6 +26,7 @@ List3.propTypes = {
 
 function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,Id }) {
   const dispatch = useDispatch();
+  console.log(data)
 
   const [checked, setChecked] = useState(false);
 
@@ -38,9 +39,11 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
+    '/extended-sidebar/MessageCenter/',
     ''
   );
+  // console.log(pathname.slice(-7,))
+  const PageName = pathname.slice(-7,);
 
   const theme = useTheme();
   const classes = Styles();
@@ -76,11 +79,11 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                 /> */}
                 
                 <CheckboxImg 
-                  checked={pageName == "Compose" ? check : checked}
+                  checked={PageName == "Compose" ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   // inputProps={{ 'aria-label': 'controlled' }}
-                  value={data.DetailsId}
-                  name={data.ReceiverDetailsId}
+                  value={PageName == "Compose" ? data.Id : data.DetailsId}
+                  name={PageName == "Compose" ? data.Name : data.ReceiverDetailsId}
                 />
 
               </Grid>

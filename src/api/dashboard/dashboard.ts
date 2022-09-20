@@ -1,6 +1,7 @@
 
 import http from "../../requests/SchoolService/schoolServices";
-import {IUnreadMessages,IUpcomingEventsList, IBirthdays, IPhotoAlbum,IFeedbackList,IMsgfrom} from "../../interfaces/Student/dashboard"
+import {IUnreadMessages,IUpcomingEventsList, IBirthdays, 
+  IPhotoAlbum,IFeedbackList,IMsgfrom, IPhotoAlbumResult} from "../../interfaces/Student/dashboard"
 
 //Unread messages
 
@@ -19,7 +20,7 @@ const BirthdayDetailsData  = (data: IBirthdays) => {
 
 //photo album
 const PhotoAlbumData  = (data: IPhotoAlbum) => {
-  return http.post<IPhotoAlbum>('Dashboard/GetAlbumsList',data);
+  return http.post<IPhotoAlbumResult[]>('Dashboard/GetAlbumsList',data);
 };
 
 //Feedback

@@ -85,6 +85,8 @@ function Attendance() {
               text3={AttendanceData.TotalAttendanceDays}
               text2=""
               text1=""
+           
+              text5=""
               isSelected=""
               Color=""
               margin=""
@@ -94,6 +96,8 @@ function Attendance() {
               text3={AttendanceData.PresentDays}
               text2=""
               text1=""
+          
+              text5=""
               isSelected=""
               Color=""
               margin=""
@@ -106,6 +110,8 @@ function Attendance() {
               }
               text2=""
               text1=""
+       
+              text5=""
               isSelected=""
               Color=""
               margin=""

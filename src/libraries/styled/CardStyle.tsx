@@ -17,7 +17,7 @@ export const CardDetail2 = styled(Typography)`
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
-  color: black;
+ 
   font-family: Roboto
 `;
 export const CardDetail = styled(Box)(

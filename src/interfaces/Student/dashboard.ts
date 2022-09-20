@@ -49,6 +49,19 @@ export interface IPhotoAlbum {
     aiUserId: string
 
 }
+export interface IPhotoAlbumResult {
+     Name:string,
+     UserId: Number,
+     Id:Number,
+     Year:Number,
+     ImageList:[{
+        Description: string,
+        ImageId: Number,
+        ImagePath: string
+     }],
+     Month: Number,
+}
+
 // Feedback
 export interface IFeedbackList {
     
