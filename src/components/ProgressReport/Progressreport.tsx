@@ -60,6 +60,7 @@ function Progressreport() {
   const academictermsResult = useSelector(
     (state: RootState) => state.Progressreport.GetTerms
   );
+  console.log(academictermsResult)
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );

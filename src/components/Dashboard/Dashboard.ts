@@ -67,7 +67,7 @@ const DashboardData = {
       Color: '#ef5350',
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
-      Link: 'Common/VideoGallery',
+      Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
     }
   ],

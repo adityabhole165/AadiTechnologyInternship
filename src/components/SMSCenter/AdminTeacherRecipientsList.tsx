@@ -1,4 +1,4 @@
-import { Box, TextField, FormGroup, Button, FormControlLabel, Checkbox, RadioGroup, Radio, FormControl, NativeSelect, Container } from '@mui/material';
+import { Box, TextField, FormGroup, Button, FormControlLabel, Checkbox, RadioGroup, Radio, FormControl, NativeSelect, Container, Fab, useTheme } from '@mui/material';
 import { useEffect, useMemo, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -8,8 +8,18 @@ import Icon2 from 'src/libraries/icon/icon2';
 import List3 from 'src/libraries/list/List3';
 import { GetGetAdminAndprincipalUsers, GetUser, GetStudent } from 'src/requests/AdminSMSCenter/To';
 import { RootState } from 'src/store';
+import PropTypes from 'prop-types';
+import ReplyIcon from '@mui/icons-material/Reply';
+import { Styles } from 'src/assets/style/student-style';
 
-const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) => {
+
+AdminTeacherRecipientsList.propTypes = {
+  displayProperty: PropTypes.any,
+  RecipientsListDetails: PropTypes.any,
+  ReplyRecipient: PropTypes?.any,
+};
+
+function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, ReplyRecipient}){
 
   toast.configure();
 
@@ -19,6 +29,9 @@ const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) =>
       RecipientId : []
     }
   );
+
+  const theme = useTheme();
+  const classes = Styles();
 
   // Tool Tip  =================================
   const Note1: string =
@@ -219,6 +232,11 @@ const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) =>
     }
   };
 
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStandardId = sessionStorage.getItem('StandardId');
+  const asDivisionId = sessionStorage.getItem('DivisionId');
+  const asUserId = sessionStorage.getItem('Id');
   const AdminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
     asAcademicYearId: '9',
     asSchoolId: '120'
@@ -229,7 +247,7 @@ const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) =>
     asAcademicYearId: '9',
     asSchoolId: '120',
     asStdDivId: ' ',
-    asUserId: '695',
+    asUserId: asUserId,
     asSelectedUserGroup: valueFor_APi,
     abIsSMSCenter: false
   };
@@ -256,16 +274,40 @@ const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) =>
     dispatch(GetStudent(body2));
   }, [getStandardId]);
 
+  useEffect(()=>{
+    if(ReplyRecipient != undefined){
+      if(ReplyRecipient.ReplyRecipientName != undefined){
+        RecipientsArray.RecipientName.push(ReplyRecipient.ReplyRecipientName);
+        RecipientsArray.RecipientId.push(ReplyRecipient.ReplyRecipientID.toString());
+      }
+    }
+  },[])
+
   const Note: string =
     'Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).';
   
   return (
     <div>
         <Container>
+        <span
+      onClick={() => {displayProperty("none");RecipientsListDetails(RecipientsArray)}}
+      >
+        <Fab
+          className={classes.backArrow}
+          sx={{
+            background: `${theme.colors.gradients.pink1}`,
+            position: 'absolute',
+            top: '30px',
+            left: '35px'
+          }}
+        >
+          <ReplyIcon />
+        </Fab>
+      </span>
         <Icon2 Note={Note} />
         <Box
           sx={{
-            // background: `${theme.colors.gradients.pink1}`,
+            background: `${theme.colors.gradients.pink1}`,
             margin: '-2px',
             backgroundColor: '#FFFFFF',
             minHeight: '25vh',
@@ -283,32 +325,21 @@ const AdminTeacherRecipientsList = ({displayProperty, RecipientsListDetails}) =>
             style={{ scrollBehavior: 'auto' }}
             sx={{
               marginLeft: 1,
-              width: '19rem',
+              width: '19.5rem',
+              // 19rem
               maxHeight: '60px',
               overflow: 'auto'
             }}
           />
           <FormGroup>
-            <Button
-              onClick={() => {displayProperty("none");RecipientsListDetails(RecipientsArray)}}
-              sx={{
-                background: 'rgb(11 101 214)',
-                position: 'absolute',
-                marginLeft: 1,
-                marginTop: 0.5,
-                color: 'white'
-              }}
-            >
-              Back To Compose{' '}
-            </Button>
 
             <FormControlLabel
               sx={{
                 marginLeft: 1,
-                marginTop: 6.5,
+                marginTop: 1,
                 border: '2px solid black',
                 borderRadius: '10px',
-                width: '19rem'
+                width: '19.5rem'
               }}
               control={<Checkbox />}
               onChange={(e) => AdminAndPrincipalUsers(e)}

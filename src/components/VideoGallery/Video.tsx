@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
 function VideoGallary() {
   const dispatch = useDispatch();
   const VideoList = useSelector((state: RootState) => state.Video.VideoList);
+  console.log(VideoList)
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
   );
@@ -54,6 +55,7 @@ function VideoGallary() {
     asYear: year,
     asUserId: asUserId
   };
+  // console.log(month)
 
   const YearBody: IYearList = {
     asSchoolId: asSchoolId,
@@ -115,13 +117,13 @@ function VideoGallary() {
       ) : (
         <>
           {VideoList.map((items: GetVideoGalleryResult, i) => (
-            <List10
-              Title={items.VideoGalleryName}
-              VideoID={items.VideoId}
-              key={i}
-              FromRoute={"/VideoGallery"}
-            />
-          ))}
+            // <List10
+            //   Title={items.VideoGalleryName}
+            //   VideoID={items.VideoId}
+            //   key={i}
+            //   FromRoute={"/VideoGallery"}
+            // />
+          <></>))}
         </>
       )}
     </>

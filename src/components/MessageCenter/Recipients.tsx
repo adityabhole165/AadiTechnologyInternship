@@ -55,6 +55,7 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const [selectedUserGroup, setselectedUserGroup] = useState<number>(0);
   const [RadioButtonDependent, setRadioButtonDependent] =
     useState<string>('none');
+    console.log(asUserId)
 
   const teacherList: IUserGroupList = {
     asAcademicYearId: asAcademicYearId,
