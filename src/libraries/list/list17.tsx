@@ -43,7 +43,16 @@ import {
       birthDate.push(item.BirthDate)
     })
 
-    const presntDate = moment().format("DD MMM") +1
+    const presDate = moment().format("DD MMM ") 
+    console.log(BirthDate == presDate);
+    // console.log(BirthDate);
+    const PresentDate = new Date();
+    const PresntDay = new Date(PresentDate).getDate();
+    const PresentMonth = new Date(PresentDate).toLocaleString('default', { month: 'short' });
+    const PresentDateFormat = `${PresntDay} ${PresentMonth}`;
+    console.log(PresentDateFormat == BirthDate)
+
+    
     const presentDate = new Date()
     const currentDayInMilli = new Date(presentDate).getTime();
     const oneDay = 1000 * 60 * 60 * 24;
@@ -93,7 +102,7 @@ const useStyles = makeStyles({
             style={{ transformOrigin: '0 0 1' }}
             {...(checked ? { timeout: 1500 } : {})}
           >  
-          <List sx={{ background: BirthDate == NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
+          <List sx={{ background: PresentDateFormat == BirthDate || BirthDate === NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
           // <List sx={{ background: BirthDate == presentDate  ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                 mb: 1,
                 boxShadow : "8px 4px 5px grey !important",
