@@ -164,6 +164,7 @@ function SelectSchool() {
             sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
             sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
             sessionStorage.setItem('StandardId', teacherDetails.StandardId);
+            sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
             sessionStorage.setItem('ClassName', teacherDetails.ClassName);
             sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
             sessionStorage.setItem('EndDate', teacherDetails.EndDate);

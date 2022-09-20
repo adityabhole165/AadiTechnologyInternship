@@ -29,7 +29,7 @@ import {
 
   
   function List17({ Name, BirthDate}) {
-  
+    console.log("BirthDate",BirthDate);
     const [checked, setChecked] = useState(true);
     const theme = useTheme();
     const classes = Styles();
@@ -43,8 +43,15 @@ import {
       birthDate.push(item.BirthDate)
     })
 
-    const presentDate = moment().format("DD MMM")
-   
+    const presntDate = moment().format("DD MMM") +1
+    const presentDate = new Date()
+    const currentDayInMilli = new Date(presentDate).getTime();
+    const oneDay = 1000 * 60 * 60 * 24;
+    const nextDayInMilli = currentDayInMilli + oneDay;
+    const nextDay = new Date(nextDayInMilli);
+    const Day = new Date(nextDay).getDate();
+    const Month = new Date(nextDay).toLocaleString('default', { month: 'short' });
+    const NewDateFormat = `${Day} ${Month}`;
     const datesToBeChecked:any = birthDate
     const dateToCheckFor = presentDate;
 
@@ -86,7 +93,8 @@ const useStyles = makeStyles({
             style={{ transformOrigin: '0 0 1' }}
             {...(checked ? { timeout: 1500 } : {})}
           >  
-          <List sx={{ background: BirthDate == presentDate  ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
+          <List sx={{ background: BirthDate == NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
+          // <List sx={{ background: BirthDate == presentDate  ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                 mb: 1,
                 boxShadow : "8px 4px 5px grey !important",
                 borderRadius: 1}}>
