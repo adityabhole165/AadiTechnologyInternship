@@ -114,9 +114,6 @@ const TAttendance = () => {
         dispatch(GetAttendanceStatus(getAttendanceStatus));
     }, [Standardid, assignedDate]);
 
-    // useEffect(() => {
-    //     GetAttendanceStatus(GetAttendanceStatusData)
-    // },[])
 
     const popupateDate = () => {
         if (Standardid !== undefined) {
