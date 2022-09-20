@@ -171,7 +171,7 @@ function TeacherAttendance() {
         (StandardId != "0") ?
           <>
           
-              <List26 Dataa={RollNoList} getAbsetNumber={handleClick} />
+              {/* <List26 Dataa={RollNoList} getAbsetNumber={handleClick} /> */}
             
           </>
 

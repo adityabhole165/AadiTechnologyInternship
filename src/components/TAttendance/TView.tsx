@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
 import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
+import { getAttendanceDataList,getStandardList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
 
 
@@ -28,9 +28,8 @@ const TView = () => {
   const [getStandardId, setgetStandardId] = useState(StandardId);
   const [date, setDate] = useState<any>({ selectedDate: assignedDate });
   const getTeacherAttendance: any = useSelector(
-    (state: RootState) => state.StandardAttendance.stdlist
+    (state: RootState) => state.StandardAttendance.StandardDivisionAttendance
   );
-  console.log(getTeacherAttendance)
   const currentDate = new Date();
 
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -174,11 +173,11 @@ const TView = () => {
             <NativeSelect sx={{ mr: '48px' }} onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
-                (items, i) => {
+                (items: GetStandardDivisionsResult, i) => {
                   return (
                     <>
-                      <option value={items.Value} key={i}>
-                        {items.Name}
+                      <option value={items.Id} key={i}>
+                        {items.Class}
                       </option>
                     </>
                   );

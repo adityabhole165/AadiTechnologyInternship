@@ -15,6 +15,12 @@ import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
+import {
+  CardDetail1,
+  CardDetail2,
+  CardDetail3,
+  ListStyle
+} from '../styled/CardStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -175,10 +181,21 @@ function Card16({ Note, Heading }) {
         </ClickAwayListener>
       ) : null}
 
-      <div style={{ marginTop: '10px', marginBottom: '20px' }}>
-        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: {FeesTotal > 0 ? 
-          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
+      <div style={{ marginBottom: '20px' }}>
+        <div
+          style={{
+            display: 'inline-block',
+            marginTop: '10px',
+            fontWeight: 'bold'
+          }}
+        >
+          Total:{' '}
+          {FeesTotal > 0 ? (
+            <CurrencyRupeeRoundedIcon
+              sx={{ fontSize: '18px', position: 'relative', top: '5px' }}
+            />
+          ) : null}{' '}
+          {FeesTotal}
         </div>
 
         <RouterLink
@@ -191,12 +208,10 @@ function Card16({ Note, Heading }) {
           {FeesList.AmountPayable != 0 ? (
             FeesTotal > 0 ? (
               <ButtonPrimary color="primary" sx={{ float: 'right' }}>
-                
                 Pay Online
               </ButtonPrimary>
             ) : (
               <ButtonPrimary color="warning" sx={{ float: 'right' }}>
-           
                 Pay Online
               </ButtonPrimary>
             )
@@ -218,9 +233,8 @@ function Card16({ Note, Heading }) {
             console.log(item.PaymentGroup.toString());
 
             return item.AmountPayable == '0' ? null : (
-              <List
+              <ListStyle
                 key={i}
-                className={classes.ListStyle}
                 sx={{
                   background: ArrayOfPaymentGroup.includes(
                     item.PaymentGroup.toString()
@@ -230,85 +244,64 @@ function Card16({ Note, Heading }) {
                   mb: 1
                 }}
               >
-                <Box>
-                  <Grid container>
-                    <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
-                      {item.AmountPayable != '0' && item.RowNumber == '1' ? (
-                        <Checkbox
-                          disabled={disabledStateCheckBox}
-                          name={item.PaymentGroup}
-                          value={
-                            // Payable Fees
-                            i < FeesList.length - 1 &&
-                            FeesList[i].PaymentGroup ==
-                              FeesList[i + 1].PaymentGroup
-                              ? parseInt(FeesList[i].AmountPayable) +
-                                parseInt(FeesList[i + 1].AmountPayable) +
-                                ':' +
-                                FeesList[i].PaymentGroup
-                              : i < FeesList.length - 1 &&
-                                FeesList[i].PaymentGroup !==
-                                  FeesList[i + 1].PaymentGroup
-                              ? parseInt(FeesList[i].AmountPayable) +
-                                ':' +
-                                FeesList[i].PaymentGroup
-                              : i == FeesList.length - 1
-                              ? parseInt(
-                                  FeesList[FeesList.length - 1].AmountPayable
-                                ) +
-                                ':' +
-                                FeesList[FeesList.length - 1].PaymentGroup
-                              : null
-                          }
-                          checked={FeesCheckBoxBoolean}
-                          className="check serial"
-                          size="small"
-                          id={item.DueDateString}
-                          onChange={(event) => {
-                            handleChange(event);
-                          }}
-                        />
-                      ) : null}
-                    </Grid>
-
-                    <Grid item xs={10}>
-                      <Grid container xs={12}>
-                        <Grid xs={8}>
-                          <Typography
-                            variant="h4"
-                            sx={{
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis',
-                              overflow: 'hidden'
-                            }}
-                          >
-                            {item.FeeType}
-                          </Typography>
-                        </Grid>
-                        <Grid xs={2}></Grid>
-                      </Grid>
-                      <Grid container xs={12}>
-                        <Grid xs={10}>
-                          <Typography
-                            sx={{
-                              whiteSpace: 'nowrap',
-                              textOverflow: 'ellipsis',
-                              overflow: 'hidden'
-                            }}
-                          >
-                            {Heading.Fee2}
-                            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> */}
-                            <strong>{item.Amount}</strong>
-                          </Typography>
-                        </Grid>
-                      </Grid>
-                      <Grid container xs={12}>
-                        <Grid xs={10}>Due On :{item.DueDateFormat}</Grid>
-                      </Grid>
-                    </Grid>
+                <Grid container>
+                  <Grid item xs={2}>
+                    {item.AmountPayable != '0' && item.RowNumber == '1' ? (
+                      <Checkbox
+                        disabled={disabledStateCheckBox}
+                        name={item.PaymentGroup}
+                        value={
+                          // Payable Fees
+                          i < FeesList.length - 1 &&
+                          FeesList[i].PaymentGroup ==
+                            FeesList[i + 1].PaymentGroup
+                            ? parseInt(FeesList[i].AmountPayable) +
+                              parseInt(FeesList[i + 1].AmountPayable) +
+                              ':' +
+                              FeesList[i].PaymentGroup
+                            : i < FeesList.length - 1 &&
+                              FeesList[i].PaymentGroup !==
+                                FeesList[i + 1].PaymentGroup
+                            ? parseInt(FeesList[i].AmountPayable) +
+                              ':' +
+                              FeesList[i].PaymentGroup
+                            : i == FeesList.length - 1
+                            ? parseInt(
+                                FeesList[FeesList.length - 1].AmountPayable
+                              ) +
+                              ':' +
+                              FeesList[FeesList.length - 1].PaymentGroup
+                            : null
+                        }
+                        checked={FeesCheckBoxBoolean}
+                        className="check serial"
+                        size="small"
+                        id={item.DueDateString}
+                        onChange={(event) => {
+                          handleChange(event);
+                        }}
+                      />
+                    ) : null}
                   </Grid>
-                </Box>
-              </List>
+
+                  <Grid item xs={10}>
+                    <CardDetail1>{item.FeeType}</CardDetail1>
+                  </Grid>
+
+                  <Grid xs={2} />
+                  <Grid xs={10} sx={{mt:"-20px"}}>
+                    <CardDetail3>
+                      {Heading.Fee2}
+                      <strong>{item.Amount}</strong>
+                    </CardDetail3>
+                  </Grid>
+                  <Grid xs={2} />
+
+                  <Grid xs={10}>
+                    <CardDetail3>Due On :{item.DueDateFormat}</CardDetail3>
+                  </Grid>
+                </Grid>
+              </ListStyle>
             );
           })}
         </>

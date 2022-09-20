@@ -37,7 +37,6 @@ function ForgotPassword() {
   const submitresult = () => {
     const body: IGetPassword = {
       asSchoolId: asSchoolId,
-      // asMobileNo: formik.values.MobileNo,
       asLogin: formik.values.Login,
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
@@ -48,13 +47,12 @@ function ForgotPassword() {
         else toast.success(res.data);
       })
       .catch((err) => {
-        toast.success('Failed to send SMS');
+        toast.error('Failed to send SMS');
       });
   };
 
   const formik = useFormik({
     initialValues: {
-      MobileNo: '',
       Login: '',
       DOB: '',
       EmailId: ''
@@ -63,23 +61,19 @@ function ForgotPassword() {
       submitresult();
     },
     validate: (values) => {
-      const phoneRegExp = /^\d{10}$/; // for Mobile Numbers
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Mobile Numbers
 
       const errors: any = {};
-      if (!values.MobileNo) {
-        if (!values.Login) {
+      if (!values.Login) {
           errors.Login = 'Please enter the user name or mobile Number.';
-        }
-      } else if (!phoneRegExp.test(values.MobileNo)) {
-        errors.MobileNo = 'Invalid Phone Number';
       }
       if (!values.DOB) {
         errors.DOB = 'Date of Birth should not be blank.';
       }
       if (!values.EmailId) {
         errors.EmailId = 'Email Id should not be blank.';
-      } else if (!emailRegExp.test(values.EmailId)) {
+      } 
+      else if (!emailRegExp.test(values.EmailId)) {
         errors.EmailId = 'Invalid email address';
       }
       return errors;
@@ -121,10 +115,6 @@ function ForgotPassword() {
 
         <ListStyle sx={{ mt: '30px' }}>
           <form onSubmit={formik.handleSubmit}>
-            {formik.touched.Login && formik.errors.Login ? (
-              <Errormessage Error={formik.errors.Login} />
-            ) : null}
-
             <TextField
               fullWidth
               margin="normal"
@@ -137,24 +127,10 @@ function ForgotPassword() {
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-            <Typography>--Or--</Typography>
-            <TextField
-              fullWidth
-              margin="normal"
-              label={'Mobile Number'}
-              name="MobileNo"
-              type="number"
-              variant="standard"
-              value={formik.values.MobileNo}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
-            />
-
-            {formik.touched.MobileNo && formik.errors.MobileNo ? (
-              <Errormessage Error={formik.errors.MobileNo} />
+            {formik.touched.Login && formik.errors.Login ? (
+              <Errormessage Error={formik.errors.Login} />
             ) : null}
-            <br />
+
             <TextField
               fullWidth
               margin="normal"

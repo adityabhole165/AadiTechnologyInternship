@@ -66,7 +66,20 @@ export const getEventsList =
     (data: IPhotoAlbum): AppThunk =>
       async (dispatch) => {
         const response = await DashboardApi.PhotoAlbumData(data)
-        dispatch(Dashboardlice.actions.getPhotoAlbum(response.data));
+
+       const Data=response.data[0].Name===null?[]:
+       response.data.map((item, index) => {
+          return {
+            id: index,
+            header: item.Name===null?'':item.Name,
+            text1: '',
+            text2: '',
+            linkPath: `/Common/Photos/` + item.Name + '/PhotoGallery',
+            FileName: ''
+          };
+        });
+        console.log(Data.length, "res - ",response.data.length)
+        dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
       };
 
       export const getFeedback =
