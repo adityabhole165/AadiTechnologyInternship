@@ -30,6 +30,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
 
 
 const Compose = () => {
@@ -164,12 +165,12 @@ const handleChangeForTemplate = (e) => {
     },
     validate:(values) =>{
       const errors: any = {};
-      if (values.To.length===0) {
-          errors.To = 'Atleast one recipient should be selected.';
-      }
-      if (!values.Content) {
-        errors.Content = 'SMS content should not be blank please select SMS Template';
-      }
+      // if (values.To.length===0) {
+      //     errors.To = 'Atleast one recipient should be selected.';
+      // }
+      // if (!values.Content) {
+      //   errors.Content = 'SMS content should not be blank please select SMS Template';
+      // }
       return errors;
     }
   });
@@ -199,6 +200,19 @@ const handleChangeForTemplate = (e) => {
       asSchoolName: schoolName,
       asTemplateRegistrationId: TemplateRegistrationId
     }
+    GetMessageTemplateAdminSMSListApi.GetSendSMS(Send_SMS)
+    .then((res: any) => {
+      if (res.status === 200) {
+        // setdisabledStateOfSend(true);
+        // toast.success('Message sent successfully');
+        // setTimeout(RediretToSentPage, 100);
+        console.log(res)
+      }
+    })
+    .catch((err) => {
+      // console.log(err);
+      // toast.error('Message does not sent successfully');
+    });
   }
   
 
@@ -319,7 +333,7 @@ const handleChangeForTemplate = (e) => {
                     InputProps={{
                       readOnly: true
                     }}
-                    value={formik.values.To}
+                    value={RecipientsArray.RecipientName}
                   />
                 <div style={{marginTop:'15px'}}>
                   <Errormessage Error={formik.errors.To} />
