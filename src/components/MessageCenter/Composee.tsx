@@ -32,6 +32,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
 import Recipients from './Recipients';
 import CloseIcon from '@mui/icons-material/Close';
+import AdminTeacherRecipientsList from '../SMSCenter/AdminTeacherRecipientsList';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -537,7 +538,7 @@ function Form13() {
       
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <Recipients
+        <AdminTeacherRecipientsList
           displayProperty={displayPropertyFun}
           RecipientsListDetails={RecipientsListFun}
           ReplyRecipient={ReplyRecipientNameId}

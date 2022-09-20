@@ -59,6 +59,7 @@ function Progressreport() {
   const academictermsResult = useSelector(
     (state: RootState) => state.Progressreport.GetTerms
   );
+  console.log(academictermsResult)
   const getreasonbprgrepres: any = useSelector(
     (state: RootState) => state.Progressreport.GetReasonforBlocking
   );
@@ -164,8 +165,6 @@ function Progressreport() {
     setShowyear(true);
     setAcademicYearId(e?.target.value);
   };
-  console.log(dropyear) 
-  //  dropyear
 
   return (
     <>
@@ -178,7 +177,7 @@ function Progressreport() {
         ) : (
           <Box>
             {
-            pendingfees.IsPendingFeesForStudentResult !== false ? (
+            pendingfees.IsPendingFeesForStudentResult == true ? (
               <Container>
                 <Note NoteDetail={note} />
               </Container>
