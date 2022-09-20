@@ -35,7 +35,7 @@ const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/On
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 const TeacherAttendance = Loader(lazy(() => import('src/components/TeacherAttendance/TeacherAttendance')))
-
+const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 
 
 const studentRoutes = [
@@ -43,11 +43,16 @@ const studentRoutes = [
     path: '/',
     element: <Navigate to="holidays" replace />
   },
-
+  {
+    path: 'VideoGallery2/VideoAlbum',
+    element: <VideoGallery2/>
+},
+  
   {
     path: 'Dashboard',
     element: <Dashboard/>
   },
+  
   {
     path: 'Profile',
     element: <Profile/>

@@ -69,6 +69,15 @@ const DashboardData = {
       Icon: VideoLibraryIcon,
       Link: 'Common/VideoGallery',
       index: 5
+    },
+    {
+      Text1: 'Video ',
+      Text2: 'Gallery',
+      Color: '#ef5350',
+      iconColor: '#35abd9',
+      Icon: VideoLibraryIcon,
+      Link: 'Student/VideoGallery2/VideoAlbum',
+      index: 6
     }
   ],
   items2 : [
