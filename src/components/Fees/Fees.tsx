@@ -88,7 +88,7 @@ function Fees() {
         <br />
         <br />
 
-        <ListStyle sx={{mb:2 ,   background: `${theme.colors.gradients.pageBackground}`}}>
+        <ListStyle sx={{mb:2}} color="info">
           
           <CardDetail1  sx={{textAlign: 'center'}}> <b>Applicable Fees</b>  : &nbsp;
           &nbsp;    

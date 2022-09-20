@@ -52,6 +52,7 @@ export const ListStyle = styled(Box)(
  background: ${color === 'primary' ? theme.colors.gradients.listColor :
       color === 'secondary' ? theme.colors.gradients.HighlightedlistColor :
         color === 'warning' ? theme.colors.gradients.selectedlistColor :
+        color === 'info' ? theme.colors.gradients.pageBackground :
           theme.colors.gradients.listColor
     };
     position:relative;
