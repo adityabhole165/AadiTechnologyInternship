@@ -40,7 +40,9 @@ function Card3({
   iconColor,
   opacityLevel,
   Link1,
-  isAvtar
+  isAvtar,
+    
+  ImageUrl
 }) {
   const theme = useTheme();
   if (
@@ -86,15 +88,21 @@ function Card3({
             {icon === 9 && <MenuBookIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 10 && <LockOpenIcon sx={{color: iconColor,mt:"7px"}}  fontSize="medium" />}
             {icon === 11 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 12 && <CalendarTodayIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 13 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 14 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 15 && <AssessmentIcon  sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 16 && <AssessmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            
+           
+             {icon === 12 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter: "invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) brightness(94%) contrast(92%)" }} />}
+            {icon === 13 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px"}}/>}
+            
+            {icon === 14 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter: "invert(40%) sepia(87%) saturate(1676%) hue-rotate(333deg) brightness(92%) contrast(105%)" }} />}
+            {icon === 15 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter:"invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) contrast(94%)  brightness(92%) "}}/>}
+            {icon === 16 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}}/>}
 
             {icon === 17 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {/* <IconButton> */}
+           
+            {/* </IconButton> */}
             </Link>
         
             <Typography
@@ -104,7 +112,8 @@ function Card3({
                 fontSize: '12px',
                 textDecoration:"none",
                 color:'black',
-                lineHeight: '1rem'
+                lineHeight: '1rem',
+              
               }}
             >
               {text1}
@@ -116,7 +125,8 @@ function Card3({
                 fontSize: '12px',
                 lineHeight: '1.3rem',
                 textDecoration:"none",
-                color:'black'
+                color:'black',
+            
               }}
             >
               {text2}
