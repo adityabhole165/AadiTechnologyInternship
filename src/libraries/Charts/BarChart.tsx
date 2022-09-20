@@ -48,7 +48,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
         max: 100,
         range: 0 - 100,
         labels: {
-          show: false
+          show: true
         },
       },
       yaxis: {

@@ -16,6 +16,9 @@ import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import List6 from 'src/libraries/list/List6';
+import Card4 from 'src/libraries/mainCard/Card4';
+import Card1 from 'src/libraries/mainCard/Card1';
+import { Link as RouterLink } from 'react-router-dom';
 
 const onlineExam = () => {
   const dispatch = useDispatch();
@@ -30,7 +33,6 @@ const onlineExam = () => {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
-
 
   const OnlineExamList_body: IOnlineTest = {
     aiSchoolId: asSchoolId,
@@ -54,7 +56,7 @@ const onlineExam = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(GetOnlineExamList(OnlineExamList_body));
   }, []);
 
@@ -65,7 +67,6 @@ const onlineExam = () => {
       dispatch(GetOnlineExamSubjectList(SubjectList_body));
     }
   }, [examid]);
-
 
   return (
     <>
@@ -95,15 +96,31 @@ const onlineExam = () => {
       {SubjectList?.map((subjectList: GetAllSubjectsForExamdata, i) => {
         return (
           <>
-            <List6
-              StartDate={subjectList.StartDate}
-              StartTime={subjectList.StartTime}
-              EndTime={subjectList.EndTime}
-              SubjectName={subjectList.SubjectName}
-              ExamId={subjectList.Exam_Id}
-              SubjectId={subjectList.SubjectId}
-              index={i}
-            />
+            <RouterLink
+              to={
+                `/${
+                  location.pathname.split('/')[1]
+                }/Student/onlineExamDetails/` +
+                subjectList.Exam_Id +
+                '/' +
+                subjectList.SubjectId
+              }
+              style={{ textDecoration: 'none' }}
+            >
+              <Card1
+                header={subjectList.SubjectName}
+                text1=""
+                text2={subjectList.StartTime + '-' + subjectList.EndTime}
+                text5=""
+                text3={subjectList.StartDate}
+                isSelected=""
+                Color=""
+                margin=""
+                RealatedSection=""
+                FileName=""
+                key=""
+              />
+            </RouterLink>
           </>
         );
       })}

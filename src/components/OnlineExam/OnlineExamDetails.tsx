@@ -16,10 +16,11 @@ import ExamDetails from 'src/libraries/list/examDetailsCard';
 import BackButton from 'src/libraries/button/BackButton';
 import { useParams } from 'react-router-dom';
 import { Container } from '@mui/material';
+import Card1 from 'src/libraries/mainCard/Card1';
 
 const onlineExamDetails = () => {
   const dispatch = useDispatch();
-  const { ExamId, SubjectId} = useParams();
+  const { ExamId, SubjectId } = useParams();
   const QuestionDetailsList = useSelector(
     (state: RootState) => state.OnlineExam.QuestionDetailsList
   );
@@ -54,26 +55,39 @@ const onlineExamDetails = () => {
 
   return (
     <>
-    <Container>
-      <PageHeader heading={'Online Exam Details'} subheading={''} />
-     
-        <BackButton FromRoute={"/Student/OnlineExam"}/>
-  
-      {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {
-        return (
-          <>
-            <ExamDetails
+      <Container>
+        <PageHeader heading={'Online Exam Details'} subheading={''} />
+
+        <BackButton FromRoute={'/Student/OnlineExam'} />
+
+        {ExamSchedules?.map((examSchedules: ExamSchedules, i) => {
+          return (
+            <>
+              {/* <ExamDetails
               Exam={examSchedules.Exam}
               StartDate={examSchedules.StartDate}
               StartTime={examSchedules.StartTime}
               EndDate={examSchedules.EndDate}
               EndTime={examSchedules.EndTime}
               SubjectName={examSchedules.Subject}
-            />
-          </>
-        );
-      })}
-    </Container>
+            /> */}
+              <Card1
+                header={examSchedules.Exam}
+                text1={examSchedules.Subject}
+                text2={examSchedules.StartTime + '-' + examSchedules.EndTime}
+                text5=""
+                text3={examSchedules.StartDate}
+                isSelected=""
+                Color=""
+                margin=""
+                RealatedSection=""
+                FileName=""
+                key=""
+              />
+            </>
+          );
+        })}
+      </Container>
     </>
   );
 };

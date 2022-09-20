@@ -35,7 +35,7 @@ function Card20({
       <ListStyle>
         <CardDetail>
           <CardDetail1> Total</CardDetail1>
-          <CardDetail2>{grandTotal / subjectTotalMarks}</CardDetail2>
+          <CardDetail2>{grandTotal + "/" + subjectTotalMarks}</CardDetail2>
         </CardDetail>
         <CardDetail>
           <CardDetail1> Percentage</CardDetail1>
