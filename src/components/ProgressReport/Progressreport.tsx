@@ -166,7 +166,7 @@ function Progressreport() {
     setShowyear(true);
     setAcademicYearId(e?.target.value);
   };
-  console.log(dropyear);
+  console.log(getreasonbprgrepres);
   //  dropyear
 
   return (

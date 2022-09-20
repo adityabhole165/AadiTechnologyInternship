@@ -1,34 +1,57 @@
-import { Box, TextField, FormGroup, Button, FormControlLabel, Checkbox, RadioGroup, Radio, FormControl, NativeSelect, Container, Fab, useTheme } from '@mui/material';
-import { useEffect, useMemo, useState } from 'react'
+import {
+  Box,
+  TextField,
+  FormGroup,
+  Button,
+  FormControlLabel,
+  Checkbox,
+  RadioGroup,
+  Radio,
+  FormControl,
+  NativeSelect,
+  Container,
+  Fab,
+  useTheme
+} from '@mui/material';
+import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { GetAdminAndprincipalUsers, IUsergroup, IGetStudentsUser, GetStudentsUserResult } from 'src/interfaces/AdminSMSCenter/To';
+import {
+  GetAdminAndprincipalUsers,
+  IUsergroup,
+  IGetStudentsUser,
+  GetStudentsUserResult
+} from 'src/interfaces/AdminSMSCenter/To';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Icon2 from 'src/libraries/icon/icon2';
 import List3 from 'src/libraries/list/List3';
-import { GetGetAdminAndprincipalUsers, GetUser, GetStudent } from 'src/requests/AdminSMSCenter/To';
+import {
+  GetGetAdminAndprincipalUsers,
+  GetUser,
+  GetStudent
+} from 'src/requests/AdminSMSCenter/To';
 import { RootState } from 'src/store';
 import PropTypes from 'prop-types';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Styles } from 'src/assets/style/student-style';
 
-
 AdminTeacherRecipientsList.propTypes = {
   displayProperty: PropTypes.any,
   RecipientsListDetails: PropTypes.any,
-  ReplyRecipient: PropTypes?.any,
+  ReplyRecipient: PropTypes?.any
 };
 
-function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, ReplyRecipient}){
-
+function AdminTeacherRecipientsList({
+  displayProperty,
+  RecipientsListDetails,
+  ReplyRecipient
+}) {
   toast.configure();
 
-  const [RecipientsArray,setRecipientsArray] = useState(
-    { 
-      RecipientName : [],
-      RecipientId : []
-    }
-  );
+  const [RecipientsArray, setRecipientsArray] = useState({
+    RecipientName: [],
+    RecipientId: []
+  });
 
   const theme = useTheme();
   const classes = Styles();
@@ -65,16 +88,15 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
   let SWCo_ordinatorName;
   let SWCo_ordinatorId;
 
-  
-  if (StaffAndAdmin == undefined) { 
+  if (StaffAndAdmin == undefined) {
     console.log('null');
   } else {
     AdminName = StaffAndAdmin[0].Name;
     PrincipleName = StaffAndAdmin[1].Name;
     SWCo_ordinatorName = StaffAndAdmin[2].Name;
-    AdminId =  StaffAndAdmin[0].Id;
-    PrincipleId =  StaffAndAdmin[1].Id;
-    SWCo_ordinatorId =  StaffAndAdmin[2].Id;
+    AdminId = StaffAndAdmin[0].Id;
+    PrincipleId = StaffAndAdmin[1].Id;
+    SWCo_ordinatorId = StaffAndAdmin[2].Id;
   }
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
@@ -141,7 +163,7 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
     if (e.target.checked) {
       if (e.target.name == 'Entire School') {
         RecipientsArray.RecipientName.length = 0;
-        RecipientsArray.RecipientName.push("Entire School");
+        RecipientsArray.RecipientName.push('Entire School');
         // RecipientsArray.RecipientId.push(e.target.value);
         setEntireSchookIsChecked('selected');
         setnativeSelectDefault('none');
@@ -154,22 +176,37 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
     }
     // On uncheck except "Entire School"
     if (!e.target.checked) {
-        let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(e.target.name);
-        let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
-        let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(e.target.value);
-        let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
+      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(
+        e.target.name
+      );
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(
+        indexOfRedipientName,
+        1
+      );
+      let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(
+        e.target.value
+      );
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(
+        indexOfRedipientId,
+        1
+      );
     }
     // On uncheck fro "Entire School"
     if (!e.target.checked) {
       if (e.target.name == 'Entire School') {
-        let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(e.target.name);
-        let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
+        let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(
+          e.target.name
+        );
+        let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(
+          indexOfRedipientName,
+          1
+        );
         setRecipientsArray((prev) => {
-          return{
-              RecipientName : [...prev.RecipientName],
-              RecipientId : [...prev.RecipientId]
-          }
-        })
+          return {
+            RecipientName: [...prev.RecipientName],
+            RecipientId: [...prev.RecipientId]
+          };
+        });
 
         setEntireSchoolDependent('flex');
         if (studentclicked) {
@@ -180,11 +217,11 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
       }
     }
     setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+      return {
+        RecipientName: [...prev.RecipientName],
+        RecipientId: [...prev.RecipientId]
+      };
+    });
   };
 
   // Input values for list of Students / Teachers / Admin Staff / Other Staff
@@ -193,21 +230,20 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
 
   const ListCheckedTeacherStudent = (e) => {
-
     setChecked(true);
     const { value, name, checked } = e;
     const { DetailInfo, recieverInfo } = Id;
 
     if (checked) {
       setPrincipalChecked(true);
-      RecipientsArray.RecipientName.push(e.name)
-      RecipientsArray.RecipientId.push(e.value.toString())
+      RecipientsArray.RecipientName.push(e.name);
+      RecipientsArray.RecipientId.push(e.value.toString());
       setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
       setId({
         DetailInfo: [...DetailInfo, value],
         recieverInfo: [...recieverInfo, name]
@@ -216,15 +252,21 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
 
     if (!checked) {
       let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(e.name);
-      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(
+        indexOfRedipientName,
+        1
+      );
       let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(e.value);
-      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(
+        indexOfRedipientId,
+        1
+      );
       setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
       setId({
         DetailInfo: DetailInfo.filter((event) => event !== value),
         recieverInfo: recieverInfo.filter((event) => event !== name)
@@ -237,6 +279,14 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
   const asStandardId = sessionStorage.getItem('StandardId');
   const asDivisionId = sessionStorage.getItem('DivisionId');
   const asUserId = sessionStorage.getItem('Id');
+  const RoleName = localStorage.getItem('RoleName');
+  const SchoolName = sessionStorage.getItem('SchoolName');
+  const asSchoolName = sessionStorage.getItem('asSchoolName');
+
+
+  console.log(SchoolName);
+  console.log(asSchoolName)
+
   const AdminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
     asAcademicYearId: '9',
     asSchoolId: '120'
@@ -274,36 +324,41 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
     dispatch(GetStudent(body2));
   }, [getStandardId]);
 
-  useEffect(()=>{
-    if(ReplyRecipient != undefined){
-      if(ReplyRecipient.ReplyRecipientName != undefined){
+  useEffect(() => {
+    if (ReplyRecipient != undefined) {
+      if (ReplyRecipient.ReplyRecipientName != undefined) {
         RecipientsArray.RecipientName.push(ReplyRecipient.ReplyRecipientName);
-        RecipientsArray.RecipientId.push(ReplyRecipient.ReplyRecipientID.toString());
+        RecipientsArray.RecipientId.push(
+          ReplyRecipient.ReplyRecipientID.toString()
+        );
       }
     }
-  },[])
+  }, []);
 
   const Note: string =
     'Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).';
-  
+
   return (
     <div>
-        <Container>
+      <Container>
         <span
-      onClick={() => {displayProperty("none");RecipientsListDetails(RecipientsArray)}}
-      >
-        <Fab
-          className={classes.backArrow}
-          sx={{
-            background: `${theme.colors.gradients.pink1}`,
-            position: 'absolute',
-            top: '30px',
-            left: '35px'
+          onClick={() => {
+            displayProperty('none');
+            RecipientsListDetails(RecipientsArray);
           }}
         >
-          <ReplyIcon />
-        </Fab>
-      </span>
+          <Fab
+            className={classes.backArrow}
+            sx={{
+              background: `${theme.colors.gradients.pink1}`,
+              position: 'absolute',
+              top: '30px',
+              left: '35px'
+            }}
+          >
+            <ReplyIcon />
+          </Fab>
+        </span>
         <Icon2 Note={Note} />
         <Box
           sx={{
@@ -311,7 +366,7 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
             margin: '-2px',
             backgroundColor: '#FFFFFF',
             minHeight: '25vh',
-            borderRadius:'8px'
+            borderRadius: '8px'
           }}
         >
           <TextField
@@ -332,21 +387,22 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
             }}
           />
           <FormGroup>
-
-            <FormControlLabel
-              sx={{
-                marginLeft: 1,
-                marginTop: 1,
-                border: '2px solid black',
-                borderRadius: '10px',
-                width: '19.5rem'
-              }}
-              control={<Checkbox />}
-              onChange={(e) => AdminAndPrincipalUsers(e)}
-              value="Entire School"
-              name="Entire School"
-              label="Entire School"
-            />
+            {RoleName === 'Admin Staff' ? (
+              <FormControlLabel
+                sx={{
+                  marginLeft: 1,
+                  marginTop: 1,
+                  border: '2px solid black',
+                  borderRadius: '10px',
+                  width: '19.5rem'
+                }}
+                control={<Checkbox />}
+                onChange={(e) => AdminAndPrincipalUsers(e)}
+                value="Entire School"
+                name="Entire School"
+                label="Entire School"
+              />
+            ) : null}
 
             <Box
               sx={{
@@ -360,68 +416,124 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
                 paddingBottom: '42px'
               }}
             >
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox checked={RecipientsArray.RecipientName.includes(AdminName)}/>} 
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                value={AdminId}
-                name={AdminName}
-                label="Admin"
-              />
+              {RoleName === 'Student' ? (
+                <FormControlLabel
+                  sx={{ marginLeft: 0.1 }}
+                  control={
+                    <Checkbox
+                      checked={RecipientsArray.RecipientName.includes(
+                        SWCo_ordinatorName
+                      )}
+                    />
+                  }
+                  onChange={(e) => AdminAndPrincipalUsers(e)}
+                  value={SWCo_ordinatorId}
+                  name={SWCo_ordinatorName}
+                  label="S/W Co-ordinator"
+                />
+              ) : (
+                <>
+                  <FormControlLabel
+                    sx={{ marginLeft: 0.1 }}
+                    control={
+                      <Checkbox
+                        checked={RecipientsArray.RecipientName.includes(
+                          AdminName
+                        )}
+                      />
+                    }
+                    onChange={(e) => AdminAndPrincipalUsers(e)}
+                    value={AdminId}
+                    name={AdminName}
+                    label="Admin"
+                  />
 
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox checked={RecipientsArray.RecipientName.includes(PrincipleName)}/>}
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                value={PrincipleId}
-                name={PrincipleName}
-                label="Principle"
-              />
-              <FormControlLabel
-                sx={{ marginLeft: 0.1 }}
-                control={<Checkbox checked={RecipientsArray.RecipientName.includes(SWCo_ordinatorName)}/>}
-                onChange={(e) => AdminAndPrincipalUsers(e)}
-                value={SWCo_ordinatorId}
-                name={SWCo_ordinatorName}
-                label="S/W Co-ordinator"
-              />
+                  <FormControlLabel
+                    sx={{ marginLeft: 0.1 }}
+                    control={
+                      <Checkbox
+                        checked={RecipientsArray.RecipientName.includes(
+                          PrincipleName
+                        )}
+                      />
+                    }
+                    onChange={(e) => AdminAndPrincipalUsers(e)}
+                    value={PrincipleId}
+                    name={PrincipleName}
+                    label="Principle"
+                  />
+                  <FormControlLabel
+                    sx={{ marginLeft: 0.1 }}
+                    control={
+                      <Checkbox
+                        checked={RecipientsArray.RecipientName.includes(
+                          SWCo_ordinatorName
+                        )}
+                      />
+                    }
+                    onChange={(e) => AdminAndPrincipalUsers(e)}
+                    value={SWCo_ordinatorId}
+                    name={SWCo_ordinatorName}
+                    label="S/W Co-ordinator"
+                  />
+                </>
+              )}
             </Box>
 
             <RadioGroup
               sx={{
                 display: EntireSchoolDependent,
                 marginLeft: 22,
-                marginTop: "-175px",
+                marginTop: `${RoleName == 'Student' ? '-90px' : '-175px'} ` ,
                 border: '2px solid black',
                 borderRadius: '10px',
                 width: '8.5rem',
                 paddingLeft: '8px'
               }}
             >
-              <FormControlLabel
-                onClick={getUserListBasedOnRollID}
-                value="2"
-                control={<Radio />}
-                label="Teacher"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                onClick={getUserListBasedOnRollID}
-                value="3"
-                label="Student"
-              />
-              <FormControlLabel
-                onClick={getUserListBasedOnRollID}
-                control={<Radio />}
-                value="7"
-                label="Other Staff"
-              />
-              <FormControlLabel
-                control={<Radio />}
-                onClick={getUserListBasedOnRollID}
-                value="6"
-                label="Admin Staff"
-              />
+              {RoleName === 'Student' ? (
+                <div>
+                  <FormControlLabel
+                    onClick={getUserListBasedOnRollID}
+                    value="2"
+                    control={<Radio />}
+                    label="Teacher"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    onClick={getUserListBasedOnRollID}
+                    value="6"
+                    label="Admin Staff"
+                  />
+                </div>
+              ) : (
+                <>
+                  <FormControlLabel
+                    onClick={getUserListBasedOnRollID}
+                    value="2"
+                    control={<Radio />}
+                    label="Teacher"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    onClick={getUserListBasedOnRollID}
+                    value="3"
+                    label="Student"
+                  />
+                  <FormControlLabel
+                    onClick={getUserListBasedOnRollID}
+                    control={<Radio />}
+                    value="7"
+                    label="Other Staff"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    onClick={getUserListBasedOnRollID}
+                    value="6"
+                    label="Admin Staff"
+                  />
+                </>
+              )}
             </RadioGroup>
           </FormGroup>
 
@@ -437,72 +549,41 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
                 <option style={{ backgroundColor: '#e0ffff' }}>
                   Select Class
                 </option>
-                {
-                  list?.map((items: GetStudentsUserResult, i) => {
-                    return (
-                      <>
-                        <option
-                          style={{ backgroundColor: '#e0ffff' }}
-                          value={items.Id}
-                          key={i}
-                        >
-                          {items.Name}
-                        </option>
-                      </>
-                    );
-                  })}
+                {list?.map((items: GetStudentsUserResult, i) => {
+                  return (
+                    <>
+                      <option
+                        style={{ backgroundColor: '#e0ffff' }}
+                        value={items.Id}
+                        key={i}
+                      >
+                        {items.Name}
+                      </option>
+                    </>
+                  );
+                })}
               </NativeSelect>
             }
             <br></br>
           </FormControl>
         </Box>
-        </Container>
+      </Container>
 
-
-        {(checkedTeacher || otherStaffClicked || adminStaffClicked) &&
-          nativeSelectDefault == 'none' ? (
-          <h1>
-            {list == undefined || list == 0 ? (
-              EntireSchookIsChecked == 'selected' ? null : (
-                <ErrorMessages Error={'No List Found'} />
-              )
-            ) : (
-              list.map((elm, i) => {
-                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
-                    elm.Name
-                  );
-                return (
-                  <>
-                    {EntireSchookIsChecked == 'selected' ? null : (
-                      <List3
-                      data={elm}
-                      key={i}
-                      handleChange={ListCheckedTeacherStudent}
-                      check={RecipientsListBoolean}
-                      pointerEvent={'none'}
-                      Id={elm.Id}
-                    />
-                    )}
-                  </>
-                );
-              })
-            )}
-          </h1>
-        ) : null}
-        {EntireSchookIsChecked == 'selected' ? null : studentclicked &&
-          nativeSelectDefault == 'block' &&
-          listOpend ? (
-          <h1>
-            {Student == undefined || Student == 0 ? (
+      {(checkedTeacher || otherStaffClicked || adminStaffClicked) &&
+      nativeSelectDefault == 'none' ? (
+        <h1>
+          {list == undefined || list == 0 ? (
+            EntireSchookIsChecked == 'selected' ? null : (
               <ErrorMessages Error={'No List Found'} />
-            ) : (
-              Student.map((elm, i) => {
-                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
-                    elm.Name
-                  );
-
-                return (
-                  <List3
+            )
+          ) : (
+            list.map((elm, i) => {
+              const RecipientsListBoolean =
+                RecipientsArray.RecipientName.includes(elm.Name);
+              return (
+                <>
+                  {EntireSchookIsChecked == 'selected' ? null : (
+                    <List3
                       data={elm}
                       key={i}
                       handleChange={ListCheckedTeacherStudent}
@@ -510,13 +591,40 @@ function AdminTeacherRecipientsList({displayProperty, RecipientsListDetails, Rep
                       pointerEvent={'none'}
                       Id={elm.Id}
                     />
-                );
-              })
-            )}
-          </h1>
-        ) : null}
+                  )}
+                </>
+              );
+            })
+          )}
+        </h1>
+      ) : null}
+      {EntireSchookIsChecked == 'selected' ? null : studentclicked &&
+        nativeSelectDefault == 'block' &&
+        listOpend ? (
+        <h1>
+          {Student == undefined || Student == 0 ? (
+            <ErrorMessages Error={'No List Found'} />
+          ) : (
+            Student.map((elm, i) => {
+              const RecipientsListBoolean =
+                RecipientsArray.RecipientName.includes(elm.Name);
+
+              return (
+                <List3
+                  data={elm}
+                  key={i}
+                  handleChange={ListCheckedTeacherStudent}
+                  check={RecipientsListBoolean}
+                  pointerEvent={'none'}
+                  Id={elm.Id}
+                />
+              );
+            })
+          )}
+        </h1>
+      ) : null}
     </div>
-  )
+  );
 }
 
 export default AdminTeacherRecipientsList;

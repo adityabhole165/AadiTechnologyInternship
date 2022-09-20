@@ -314,6 +314,7 @@ function Card16({ Note, Heading }) {
               to={`/${
                 location.pathname.split('/')[1]
               }/Student/Fees_cautionmoney`}
+              style={{textDecoration:'none'}}
             >
               <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
             </RouterLink>
@@ -325,6 +326,7 @@ function Card16({ Note, Heading }) {
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
+            style={{textDecoration:'none'}}
           >
             {FeesList.AmountPayable != 0 ? (
               <ButtonPrimary color="secondary">Pay Internal Fees</ButtonPrimary>
