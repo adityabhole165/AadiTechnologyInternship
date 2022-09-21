@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
   borderRadius: '4px'
 }));
 
-function DateSelector({ date, setCurrentDate, Close, Array}) {
+function DateSelector({ date, setCurrentDate, Close}) {
 
 
   const location = useLocation();
@@ -35,7 +35,6 @@ function DateSelector({ date, setCurrentDate, Close, Array}) {
 
   const classes = Styles();
   const [isFuture, setIsFuture] = useState(false);
-console.log("isFuture",isFuture);
 
   const SetNewDate = (prevNext) => {
     const { selectedDate } = { selectedDate: date };
@@ -89,7 +88,7 @@ console.log("isFuture",isFuture);
               </Item>
             </Grid>
             <Grid item xs={12}>
-              {(Array.StatusMessage == "Attendance not yet marked." && isFuture ) ? <ErrorDetail>Attendance not yet marked.</ErrorDetail> : null}
+           {isFuture ? <ErrorDetail>Future date attendance is not allowed.</ErrorDetail> : null }
             </Grid>
           </Grid>
         </div>
