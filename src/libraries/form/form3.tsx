@@ -27,8 +27,11 @@ import {
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
+
 const note = [
-  '1) Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.'
+  '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
+  '2) Password should be combination of at least one character, digit & special character.',
+  
 ];
 function Form() {
   const navigate = useNavigate();
