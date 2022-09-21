@@ -74,7 +74,10 @@ function Card27({ FeesType, Fee, Heading, Note }) {
       window.open(downloadPathOfReceipt);
     }, 1000);
   };
+ 
+ 
 
+  
   return (
     <>
       <Container>
@@ -82,6 +85,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           className={classes.background}
           expanded={expanded === 'panel'}
           onChange={handleChange('panel')}
+          elevation={0}
+          disableGutters
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -90,7 +95,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             sx={{
               background: `${theme.colors.gradients.pink1}`,
               boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-              mb: 1
+              mb: 1,height:'40px',minHeight:'40px'
             }}
           >
             <Typography
@@ -136,6 +141,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           className={classes.background}
           expanded={expanded === 'panel1'}
           onChange={handleChange('panel1')}
+          elevation={0}
+          disableGutters
         >
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -144,7 +151,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             sx={{
               background: `${theme.colors.gradients.pink1}`,
               boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-              mb: 1
+              mb: 1,height:'40px',minHeight:'40px'
             }}
           >
             <Typography sx={{
