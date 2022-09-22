@@ -1,30 +1,14 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
-import {
-  Container,
-  TextField,
-  Button,
-  FormControl,
-  Tooltip,
-  Typography,
-  Grid,
-  Card,
-  Box,
-  NativeSelect,
-  ClickAwayListener,
-  useTheme,
-  Fab,
-} from '@mui/material';
+import {Container,TextField,Button,FormControl,Tooltip,Typography,Grid,Card,Box,NativeSelect,ClickAwayListener,useTheme,Fab,} from '@mui/material';
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { toast } from 'react-toastify';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { getAComposeSMSTemplateList, getSendSMS } from 'src/requests/AdminSMSCenter/AComposeSMS';
+import { getAComposeSMSTemplateList, sendSMS } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
-
-//  to page ===================================
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
@@ -41,10 +25,8 @@ const Compose = () => {
   const theme = useTheme();
   toast.configure();
 
-  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] =
-    useState<any>('none');
-  const [displayOfCompose_Page, setdisplayOfCompose_Page] =
-    useState<any>('block');
+  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
+  const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
   const [RecipientsArray,setRecipientsArray] = useState(
     { 
       RecipientName : [],
@@ -58,13 +40,11 @@ const Compose = () => {
   };
 
   // Tool Tip  =================================
-  const Note1: string =
-    'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
-  const getAComposeSMSTemplate: any = useSelector(
-    (state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList
-  );
-  const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
+  const Note1: string = 
+  'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
+  const getAComposeSMSTemplate: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
+  const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
   const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
   let confirmationDone;
@@ -148,8 +128,10 @@ const handleChangeForTemplate = (e) => {
   const asUserId = sessionStorage.getItem('Id');
   const schoolName = localStorage.getItem('SchoolName');
   const userRoleId = sessionStorage.getItem('RoleId');
+  const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
+  const senderUserName = SchoolSettingsValue.SMSSenderUserName;
 
-  const AComposeSMSTemplate: MessageTemplateSMSCenter = {
+  const getTemplateAPIBody: MessageTemplateSMSCenter = {
     asSchoolId: asSchoolId,
     sortDirection: 'asc',
     asShowSystemDefined: 'Y'
@@ -165,24 +147,24 @@ const handleChangeForTemplate = (e) => {
     },
     validate:(values) =>{
       const errors: any = {};
-      // if (values.To.length===0) {
-      //     errors.To = 'Atleast one recipient should be selected.';
-      // }
-      // if (!values.Content) {
-      //   errors.Content = 'SMS content should not be blank please select SMS Template';
-      // }
+      if (values.To.length===0) {
+          errors.To = 'Atleast one recipient should be selected.';
+      }
+      if (!values.Content) {
+        errors.Content = 'SMS content should not be blank please select SMS Template';
+      }
       return errors;
     }
   });
 
   // Send SMS
   const submitResult = () =>{
-    const Send_SMS: ACompose_SendSMS = {
+    const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
       aoMessage: {
         Body: ContentTemplateDependent,
-        Subject: "SMS",
-        SenderName: "",
+        Subject: "",
+        SenderName: senderUserName,
         DisplayText: RecipientsArray.RecipientName.toString(),
         SenderUserId: asUserId,
         SenderUserRoleId: userRoleId,
@@ -200,25 +182,21 @@ const handleChangeForTemplate = (e) => {
       asSchoolName: schoolName,
       asTemplateRegistrationId: TemplateRegistrationId
     }
-    GetMessageTemplateAdminSMSListApi.GetSendSMS(Send_SMS)
+    GetMessageTemplateAdminSMSListApi.SendSMS(sendSMSAPIBody)
     .then((res: any) => {
       if (res.status === 200) {
-        // setdisabledStateOfSend(true);
-        // toast.success('Message sent successfully');
-        // setTimeout(RediretToSentPage, 100);
-        console.log(res)
+        toast.success('SMS sent successfully');
       }
     })
     .catch((err) => {
-      // console.log(err);
-      // toast.error('Message does not sent successfully');
+      toast.error('SMS does not sent successfully');
     });
   }
   
 
   // SMS Template
   useMemo(() => {
-    dispatch(getAComposeSMSTemplateList(AComposeSMSTemplate));
+    dispatch(getAComposeSMSTemplateList(getTemplateAPIBody));
   }, []);
 
   const Note: string =
@@ -318,7 +296,7 @@ const handleChangeForTemplate = (e) => {
                     InputProps={{
                       readOnly: true
                     }}
-                    defaultValue="BFS"
+                    value ={senderUserName}
                   />
 
                   <TextField

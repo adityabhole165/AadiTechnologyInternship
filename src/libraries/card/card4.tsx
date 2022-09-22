@@ -33,7 +33,7 @@ function Card4({
 }) {
   const theme = useTheme();
   const file_path =
-    'http://riteschool_old.aaditechnology.com/RITeSchool' +
+    'https://192.168.1.80/RITeSchool' +
     '/DOWNLOADS/Homework/' +
     Attachments;
 

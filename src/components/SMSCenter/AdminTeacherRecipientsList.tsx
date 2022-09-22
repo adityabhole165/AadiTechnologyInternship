@@ -41,11 +41,7 @@ AdminTeacherRecipientsList.propTypes = {
   ReplyRecipient: PropTypes?.any
 };
 
-function AdminTeacherRecipientsList({
-  displayProperty,
-  RecipientsListDetails,
-  ReplyRecipient
-}) {
+function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,ReplyRecipient}){
   toast.configure();
 
   const [RecipientsArray, setRecipientsArray] = useState({
@@ -62,8 +58,7 @@ function AdminTeacherRecipientsList({
 
   const [PrincipalChecked, setPrincipalChecked] = useState<any>();
 
-  const [EntireSchookIsChecked, setEntireSchookIsChecked] =
-    useState('selected');
+  const [EntireSchookIsChecked, setEntireSchookIsChecked] = useState('selected');
 
   // Input value for teacher list ,student list ,other staff and admin staff
   const [valueFor_APi, ChnageValueForAPI] = useState();
@@ -73,12 +68,10 @@ function AdminTeacherRecipientsList({
   const dispatch = useDispatch();
 
   // Api for Admin principle and Software co-ordinator
-  const GetAdminAndprincipalUsersApiBody: any = useSelector(
-    (state: RootState) =>
+  const GetAdminAndprincipalUsersApiBody: any = useSelector((state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
-  const StaffAndAdmin =
-    GetAdminAndprincipalUsersApiBody.GetAdminAndprincipalUsersResult;
+  const StaffAndAdmin = GetAdminAndprincipalUsersApiBody.GetAdminAndprincipalUsersResult;
 
   // Check box labels/ names for input box Admin ,Principle ,SWCo_ordinator
   let AdminName;
@@ -88,9 +81,7 @@ function AdminTeacherRecipientsList({
   let SWCo_ordinatorName;
   let SWCo_ordinatorId;
 
-  if (StaffAndAdmin == undefined) {
-    console.log('null');
-  } else {
+  if (StaffAndAdmin != undefined) {
     AdminName = StaffAndAdmin[0].Name;
     PrincipleName = StaffAndAdmin[1].Name;
     SWCo_ordinatorName = StaffAndAdmin[2].Name;
@@ -164,7 +155,6 @@ function AdminTeacherRecipientsList({
       if (e.target.name == 'Entire School') {
         RecipientsArray.RecipientName.length = 0;
         RecipientsArray.RecipientName.push('Entire School');
-        // RecipientsArray.RecipientId.push(e.target.value);
         setEntireSchookIsChecked('selected');
         setnativeSelectDefault('none');
         setEntireSchoolDependent('none');
@@ -274,29 +264,22 @@ function AdminTeacherRecipientsList({
     }
   };
 
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const asStandardId = sessionStorage.getItem('StandardId');
-  const asDivisionId = sessionStorage.getItem('DivisionId');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const schoolId = localStorage.getItem('localSchoolId');
+  const stdDivId = sessionStorage.getItem('DivisionId');
   const asUserId = sessionStorage.getItem('Id');
   const RoleName = localStorage.getItem('RoleName');
-  const SchoolName = sessionStorage.getItem('SchoolName');
-  const asSchoolName = sessionStorage.getItem('asSchoolName');
-
-
-  console.log(SchoolName);
-  console.log(asSchoolName)
 
   const AdminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
-    asAcademicYearId: '9',
-    asSchoolId: '120'
+    asAcademicYearId: academicYearId,
+    asSchoolId: schoolId
   };
 
   // Teacher / Students / Other Staff / Admin Staff Body
   const body: IUsergroup = {
-    asAcademicYearId: '9',
-    asSchoolId: '120',
-    asStdDivId: ' ',
+    asAcademicYearId: academicYearId,
+    asSchoolId: schoolId,
+    asStdDivId: stdDivId,
     asUserId: asUserId,
     asSelectedUserGroup: valueFor_APi,
     abIsSMSCenter: false
@@ -305,8 +288,8 @@ function AdminTeacherRecipientsList({
   // Standared List
   const body2: IGetStudentsUser = {
     asStdDivId: getStandardId,
-    asAcadmeicYearId: '9',
-    asSchoolId: '120'
+    asAcadmeicYearId: academicYearId,
+    asSchoolId: schoolId
   };
 
   // Admin / Principle / Software Coordinator body

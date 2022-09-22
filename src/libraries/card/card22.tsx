@@ -92,7 +92,7 @@ function Card22({ pic, imgId }) {
                     <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
                       <img
                         src={
-                          'http://riteschool_old.aaditechnology.com/RITeSchool/' + items.ImagePath
+                          'https://192.168.1.80/RITeSchool/' + items.ImagePath
                         }
                         width="100"
                         height="100"

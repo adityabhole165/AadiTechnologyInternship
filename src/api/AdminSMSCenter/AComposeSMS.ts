@@ -6,12 +6,12 @@ const GetMessageTemplateAdminSMSList = (data:MessageTemplateSMSCenter)=>{
     return http.post<MessageTemplateSMSCenter>('AdminStaff/GetTemplate',data);
 };
 
-const GetSendSMS = (data:ACompose_SendSMS)=>{
+const SendSMS = (data:ACompose_SendSMS)=>{
     return http.post<ACompose_SendSMS>('SMS/SendSMS',data);
 };
 
 const GetMessageTemplateAdminSMSListApi={
     GetMessageTemplateAdminSMSList,
-    GetSendSMS
+    SendSMS
 }
 export default GetMessageTemplateAdminSMSListApi;

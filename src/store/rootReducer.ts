@@ -82,7 +82,8 @@ const rootReducer = combineReducers({
     getAComposeSMS:AComposeSMSSlice,
     getSchoolSettings:schoolSettingSlice,
     getASendSMS:AComposeSMSSlice,
-    getModulesPermissionsResult:schoolSettingSlice
+    getModulesPermissionsResult:schoolSettingSlice,
+    SchoolSettings:SchoolListslice
 });
 
 export default rootReducer;
