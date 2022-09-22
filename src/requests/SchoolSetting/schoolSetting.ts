@@ -7,7 +7,7 @@ const SchoolSettingSlice = createSlice({
     name:'SchoolSetting',
     initialState:{
         ModulesPermission:[],
-        ModulesPermissionsResult:[],
+        ModulesPermissionsResult:[],    
     },
     reducers:{
         getModulesPermission(state,action){
