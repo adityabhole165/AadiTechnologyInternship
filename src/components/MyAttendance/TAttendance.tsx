@@ -189,7 +189,7 @@ const TAttendance = () => {
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
 
-            <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} Array={AttendanceStatus}></DateSelector>
+            <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} ></DateSelector>
             {AttendanceStatus?.map(
                 (item, i) => {
                     return (
