@@ -41,10 +41,8 @@ const Compose = () => {
   const theme = useTheme();
   toast.configure();
 
-  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] =
-    useState<any>('none');
-  const [displayOfCompose_Page, setdisplayOfCompose_Page] =
-    useState<any>('block');
+  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
+  const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
   const [RecipientsArray,setRecipientsArray] = useState(
     { 
       RecipientName : [],
@@ -58,8 +56,9 @@ const Compose = () => {
   };
 
   // Tool Tip  =================================
-  const Note1: string =
-    'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
+  const Note1: string = 
+  'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
+
   const getAComposeSMSTemplate: any = useSelector(
     (state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList
   );
@@ -67,6 +66,7 @@ const Compose = () => {
 
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
   const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
+
   let confirmationDone;
 
 const handleChangeForTemplate = (e) => {
@@ -148,6 +148,10 @@ const handleChangeForTemplate = (e) => {
   const asUserId = sessionStorage.getItem('Id');
   const schoolName = localStorage.getItem('SchoolName');
   const userRoleId = sessionStorage.getItem('RoleId');
+  const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
+  const senderUserName = SchoolSettingsValue.SMSSenderUserName;
+
+  console.log("senderUserName:",senderUserName);
 
   const AComposeSMSTemplate: MessageTemplateSMSCenter = {
     asSchoolId: asSchoolId,
@@ -165,12 +169,12 @@ const handleChangeForTemplate = (e) => {
     },
     validate:(values) =>{
       const errors: any = {};
-      // if (values.To.length===0) {
-      //     errors.To = 'Atleast one recipient should be selected.';
-      // }
-      // if (!values.Content) {
-      //   errors.Content = 'SMS content should not be blank please select SMS Template';
-      // }
+      if (values.To.length===0) {
+          errors.To = 'Atleast one recipient should be selected.';
+      }
+      if (!values.Content) {
+        errors.Content = 'SMS content should not be blank please select SMS Template';
+      }
       return errors;
     }
   });
@@ -181,8 +185,8 @@ const handleChangeForTemplate = (e) => {
       asSchoolId: asSchoolId,
       aoMessage: {
         Body: ContentTemplateDependent,
-        Subject: "SMS",
-        SenderName: "",
+        Subject: "",
+        SenderName: senderUserName,
         DisplayText: RecipientsArray.RecipientName.toString(),
         SenderUserId: asUserId,
         SenderUserRoleId: userRoleId,
@@ -203,15 +207,11 @@ const handleChangeForTemplate = (e) => {
     GetMessageTemplateAdminSMSListApi.GetSendSMS(Send_SMS)
     .then((res: any) => {
       if (res.status === 200) {
-        // setdisabledStateOfSend(true);
-        // toast.success('Message sent successfully');
-        // setTimeout(RediretToSentPage, 100);
-        console.log(res)
+        toast.success('SMS sent successfully');
       }
     })
     .catch((err) => {
-      // console.log(err);
-      // toast.error('Message does not sent successfully');
+      toast.error('SMS does not sent successfully');
     });
   }
   
@@ -318,7 +318,7 @@ const handleChangeForTemplate = (e) => {
                     InputProps={{
                       readOnly: true
                     }}
-                    defaultValue="BFS"
+                    value ={{senderUserName}}
                   />
 
                   <TextField

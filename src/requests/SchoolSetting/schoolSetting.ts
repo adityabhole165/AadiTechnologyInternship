@@ -6,17 +6,12 @@ import { AppThunk } from "src/store";
 const SchoolSettingSlice = createSlice({
     name:'SchoolSetting',
     initialState:{
-        SchoolSettingList:[],
         ModulesPermission:[],
         ModulesPermissionsResult:[],
     },
     reducers:{
-        getSchoolSettings(state,action){
-            state.SchoolSettingList=action.payload.GetSchoolSettingsResult
-        },
         getModulesPermission(state,action){
             state.ModulesPermission=action.payload.GetModulesPermissionsResult
-            // alert(JSON.stringify(state.ModulesPermission))
         },
         getModulesPermissionsResult(state,action){
             state.ModulesPermissionsResult=action.payload
@@ -24,13 +19,6 @@ const SchoolSettingSlice = createSlice({
 
     }
 });
-
-export const getSchoolSettings =
-(data: ISchoolId):AppThunk =>
-async (dispatch) => {
-    const response= await SchoolSettingApi.GetSchoolSettings(data)
-    dispatch(SchoolSettingSlice.actions.getSchoolSettings(response.data))
-};
 
 export const getModulesPermission = 
 (data: IgetModulesPermission): AppThunk =>
