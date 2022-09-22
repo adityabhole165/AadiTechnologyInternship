@@ -14,7 +14,7 @@ const AComposeSMSSlice = createSlice({
         getAComposeSMSTemplateList(state,action) {
             state.AComposeSMSTemplateList = action.payload
         },
-        getSendSMS(state,action) {
+        sendSMS(state,action) {
             state.ASendSMS = action.payload
         }
     }
@@ -26,10 +26,10 @@ async(dispatch)=>{
     dispatch(AComposeSMSSlice.actions.getAComposeSMSTemplateList(response.data));
 };
 
-export const getSendSMS = (data:ACompose_SendSMS): AppThunk => 
+export const sendSMS = (data:ACompose_SendSMS): AppThunk => 
 async(dispatch)=>{
-    const response = await GetMessageTemplateAdminSMSListApi.GetSendSMS(data);
-    dispatch(AComposeSMSSlice.actions.getSendSMS(response.data));
+    const response = await GetMessageTemplateAdminSMSListApi.SendSMS(data);
+    dispatch(AComposeSMSSlice.actions.sendSMS(response.data));
 };
 
 export default AComposeSMSSlice.reducer;

@@ -1,50 +1,32 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { useEffect } from 'react';
 import GetPasswordApi from 'src/api/Authentication/GetPassword';
-
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-
-import {
-  Button,
-  TextField,
-  Container,
-  Card,
-  Typography,
-  Box,
-  Grid,
-  useTheme,
-  Avatar,
-  Stack
-} from '@mui/material';
+import { TextField, Container, Grid, useTheme, Stack } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
-import {
-  IGetPassword,
-  GetPasswordResult
-} from 'src/interfaces/Authentication/GetPassword';
-import BackButton from 'src/libraries/button/BackButton';
+import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
 import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 
 function ForgotPassword() {
-  const br = `\n`;
   const theme = useTheme();
-  const asSchoolId = localStorage.getItem('localSchoolId');
+  const schoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
-    const body: IGetPassword = {
-      asSchoolId: asSchoolId,
+    const getPasswordAPIBody: IGetPassword = {
+      asSchoolId: schoolId,
       asLogin: formik.values.Login,
       asDOB: formik.values.DOB,
       asEmailId: formik.values.EmailId
     };
-    GetPasswordApi.GetPasswordResult(body)
-      .then((res) => {
-        if (res != null) toast.success('SMS has been Sent');
-        else toast.success(res.data);
+    GetPasswordApi.GetPasswordResult(getPasswordAPIBody)
+      .then((res: any) => {
+        if (res.status === 200) {
+          toast.success('SMS has been Sent');
+          formik.resetForm();
+        }
       })
       .catch((err) => {
         toast.error('Failed to send SMS');
@@ -65,25 +47,27 @@ function ForgotPassword() {
 
       const errors: any = {};
       if (!values.Login) {
-          errors.Login = 'Please enter the user name or mobile Number.';
+        errors.Login = 'Please enter the user name or mobile Number.';
       }
       if (!values.DOB) {
         errors.DOB = 'Date of Birth should not be blank.';
       }
       if (!values.EmailId) {
         errors.EmailId = 'Email Id should not be blank.';
-      } 
+      }
       else if (!emailRegExp.test(values.EmailId)) {
         errors.EmailId = 'Invalid email address';
       }
       return errors;
     }
   });
+
   const navigate = useNavigate();
 
   const click = () => {
     navigate('/schoolList');
   };
+
   const note = [
     '1) Parents need to enter the date of birth of their child.',
     '2) Please enter the user name and date of birth, the system will SMS you the password on the mobile number registered with the  RITeSchool account.',
@@ -94,7 +78,6 @@ function ForgotPassword() {
   return (
     <>
       <PageHeader heading={'Forgot Password'} subheading={''} />
-
       <Container>
         <Stack
           direction="row"
@@ -112,7 +95,6 @@ function ForgotPassword() {
             }}
           />
         </Stack>
-
         <ListStyle sx={{ mt: '30px' }}>
           <form onSubmit={formik.handleSubmit}>
             <TextField
@@ -129,8 +111,8 @@ function ForgotPassword() {
             />
             {formik.touched.Login && formik.errors.Login ? (
               <Errormessage Error={formik.errors.Login} />
-            ) : null}
-
+            ) : null
+            }
             <TextField
               fullWidth
               margin="normal"
@@ -142,11 +124,10 @@ function ForgotPassword() {
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-
             {formik.touched.DOB && formik.errors.DOB ? (
               <Errormessage Error={formik.errors.DOB} />
-            ) : null}
-
+            ) : null
+            }
             <TextField
               fullWidth
               margin="normal"
@@ -159,11 +140,10 @@ function ForgotPassword() {
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-            {/* <br/>Please enter email id to receive the login details through email. */}
-
             {formik.touched.EmailId && formik.errors.EmailId ? (
               <Errormessage Error={formik.errors.EmailId} />
-            ) : null}
+            ) : null
+            }
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <ButtonPrimary
@@ -182,7 +162,6 @@ function ForgotPassword() {
               </Grid>
             </Grid>
           </form>
-
           <Note NoteDetail={note} />
         </ListStyle>
       </Container>

@@ -1,30 +1,14 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
-import {
-  Container,
-  TextField,
-  Button,
-  FormControl,
-  Tooltip,
-  Typography,
-  Grid,
-  Card,
-  Box,
-  NativeSelect,
-  ClickAwayListener,
-  useTheme,
-  Fab,
-} from '@mui/material';
+import {Container,TextField,Button,FormControl,Tooltip,Typography,Grid,Card,Box,NativeSelect,ClickAwayListener,useTheme,Fab,} from '@mui/material';
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { toast } from 'react-toastify';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { getAComposeSMSTemplateList, getSendSMS } from 'src/requests/AdminSMSCenter/AComposeSMS';
+import { getAComposeSMSTemplateList, sendSMS } from 'src/requests/AdminSMSCenter/AComposeSMS';
 import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
-
-//  to page ===================================
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
@@ -59,14 +43,10 @@ const Compose = () => {
   const Note1: string = 
   'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
-  const getAComposeSMSTemplate: any = useSelector(
-    (state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList
-  );
+  const getAComposeSMSTemplate: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
   const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
-
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
   const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
-
   let confirmationDone;
 
 const handleChangeForTemplate = (e) => {
@@ -151,9 +131,7 @@ const handleChangeForTemplate = (e) => {
   const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
   const senderUserName = SchoolSettingsValue.SMSSenderUserName;
 
-  console.log("senderUserName:",senderUserName);
-
-  const AComposeSMSTemplate: MessageTemplateSMSCenter = {
+  const getTemplateAPIBody: MessageTemplateSMSCenter = {
     asSchoolId: asSchoolId,
     sortDirection: 'asc',
     asShowSystemDefined: 'Y'
@@ -181,7 +159,7 @@ const handleChangeForTemplate = (e) => {
 
   // Send SMS
   const submitResult = () =>{
-    const Send_SMS: ACompose_SendSMS = {
+    const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
       aoMessage: {
         Body: ContentTemplateDependent,
@@ -204,7 +182,7 @@ const handleChangeForTemplate = (e) => {
       asSchoolName: schoolName,
       asTemplateRegistrationId: TemplateRegistrationId
     }
-    GetMessageTemplateAdminSMSListApi.GetSendSMS(Send_SMS)
+    GetMessageTemplateAdminSMSListApi.SendSMS(sendSMSAPIBody)
     .then((res: any) => {
       if (res.status === 200) {
         toast.success('SMS sent successfully');
@@ -218,7 +196,7 @@ const handleChangeForTemplate = (e) => {
 
   // SMS Template
   useMemo(() => {
-    dispatch(getAComposeSMSTemplateList(AComposeSMSTemplate));
+    dispatch(getAComposeSMSTemplateList(getTemplateAPIBody));
   }, []);
 
   const Note: string =
@@ -318,7 +296,7 @@ const handleChangeForTemplate = (e) => {
                     InputProps={{
                       readOnly: true
                     }}
-                    value ={{senderUserName}}
+                    value ={senderUserName}
                   />
 
                   <TextField
