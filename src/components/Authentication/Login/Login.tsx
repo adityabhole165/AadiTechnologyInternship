@@ -133,8 +133,7 @@ function SelectSchool() {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
-        const adminDetails: any = await response.data.TeacherDetails
-        // const adminDetails:any= await response.data.AdminStaffDetails.GetAdminStaffResult
+        const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
         if (result.RoleName === "Student") {
