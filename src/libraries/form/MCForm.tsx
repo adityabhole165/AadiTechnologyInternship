@@ -27,15 +27,15 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                     <TextField id="standard-basic" label="Name / Subject / Message Body :"
                         variant="standard" fullWidth onChange={textOnChange} sx={{ mx: '10px' }}
                     />
-                    <Grid item xs={5}>
-                        <Dropdown Array={AcademicYearList} handleChange={clickAY} value={academicYear} />
-                    </Grid>
-                    <Grid item xs={5}>
-                        <Dropdown Array={MonthYearList} handleChange={clickMY} value={monthYear} />
-                    </Grid>
-                    <Grid item xs={2}>
-                        {/* <ArrowCircleRightRoundedIcon onClick={onClick}></ArrowCircleRightRoundedIcon> */}
-                    </Grid>
+              
+                <Grid item xs={5}>
+                    <Dropdown Array={AcademicYearList} handleChange={clickAY} value={academicYear} />
+                </Grid>
+                <Grid item xs={5}>
+                    <Dropdown Array={MonthYearList} handleChange={clickMY} value={monthYear} />
+                </Grid>
+                <Grid item xs={2}>
+                    {/* <ArrowCircleRightRoundedIcon onClick={onClick}></ArrowCircleRightRoundedIcon> */}
                 </Grid>
             </Grid>
         </>

@@ -44,6 +44,8 @@ export const getInboxList =
   export const getInboxList1 =
   (data:IgetList, ActiveTab:string): AppThunk =>
   async (dispatch) => {
+    dispatch(InboxMessageSlice.actions.getLoading(true));
+    
     if(ActiveTab==='Inbox'){
     const response = await InboxMessageApi.GetInboxList(data);
     const data2 =response.data.GetMessagesResult.map((item)=>{
@@ -70,7 +72,9 @@ export const getInboxList =
         text2:item.UserName,
         text3:item.Date + item.Time,
         NavPath:item.DetailsId + '/Sent',
-        isActive:false
+        isActive:false,
+        DetailsId:item.DetailsId,
+        ReceiverDetailsId:item.ReceiverDetailsId
       }
     })
 

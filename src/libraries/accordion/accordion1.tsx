@@ -10,6 +10,7 @@ import PropTypes from 'prop-types';
 import { GetPTADetailsResult } from 'src/interfaces/Common/PTA';
 import { Box, Container, Grow, Grid, List, useTheme } from '@mui/material';
 import List1 from '../mainCard/List1';
+import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 
 Accordion1.propTypes = {
   Parent: PropTypes.array,
@@ -77,8 +78,10 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 className={classes.background}
                 expanded={expanded === 'panel1'}
                 onChange={handleChange('panel1')}
+                elevation={0}
+          disableGutters
               >
-                <AccordionSummary
+                <Accordionsummary
                   expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
@@ -88,7 +91,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
                     mb: 1
                   }}
                 >
-                  <Typography
+                  <Header1
                     sx={{
                       color: expanded === 'panel1'
                         ?  `${theme.colors.gradients.accordianHeadercolor}`
@@ -96,8 +99,8 @@ function Accordion1({ Parent, Teacher, headingg }) {
                     }}
                   >
                     <b>{headingg.PTA_Member}</b>
-                  </Typography>
-                </AccordionSummary>
+                  </Header1>
+                </Accordionsummary>
 
                 <AccordionDetails
                   sx={{
@@ -122,18 +125,19 @@ function Accordion1({ Parent, Teacher, headingg }) {
                 className={classes.background}
                 expanded={expanded === 'panel2'}
                 onChange={handleChange('panel2')}
+                elevation={0}
+          disableGutters
               >
-                <AccordionSummary
+                <Accordionsummary
                   expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
                   aria-controls="panel1bh-content"
                   id="panel1bh-header"
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                    mb: 1
+                  
                   }}
                 >
-                  <Typography
+                  <Header1
                     sx={{
                       color:expanded === 'panel2'
                         ?   `${theme.colors.gradients.accordianHeadercolor}`
@@ -141,8 +145,8 @@ function Accordion1({ Parent, Teacher, headingg }) {
                     }}
                   >
                     <b>{headingg.PTA}</b>
-                  </Typography>
-                </AccordionSummary>
+                  </Header1>
+                </Accordionsummary>
 
                 <AccordionDetails
                   sx={{
