@@ -3,13 +3,13 @@ import moment from 'moment';
 import { FormControl, NativeSelect } from '@mui/material';
 import { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
 
-const Dropdown = ({ Array, handleChange }) => {
+const Dropdown = ({ Array, handleChange, value='0'}) => {
 
 
     return (
         <>
             <FormControl variant="standard" sx={{ mb: 2 }} fullWidth>
-                <NativeSelect onChange={(e) => handleChange(e.target.value)} >
+                <NativeSelect value={value} onChange={(e) => handleChange(e.target.value)} >
                     <option value="0">Select Class</option>
                     {Array.map((items, i) => {
                         return (

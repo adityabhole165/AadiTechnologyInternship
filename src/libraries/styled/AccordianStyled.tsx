@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material';
+import { Box, Typography, styled, AccordionSummary } from '@mui/material';
 
 export const AccordianHeader = styled(Box)(
   ({ theme }) => `
@@ -13,7 +13,7 @@ export const AccordianHeader = styled(Box)(
 export const Header1 = styled(Typography)(
   ({ theme, color }) => `
 
-  padding-left: 10px;
+  padding-left: 5px;
   align-items: center;
   font-size:16px;
   font-weight:bold;
@@ -63,4 +63,12 @@ export const CardDetail = styled(Box)`
   display: flex;
   justify-content: space-between;
   font-family: Roboto;
+`;
+
+export const Accordionsummary = styled(AccordionSummary)`
+ background-color:red;
+ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+ margin-bottom: 10px;
+ height:40px;
+ min-height:40px;
 `;

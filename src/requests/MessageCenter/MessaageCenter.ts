@@ -54,8 +54,14 @@ const MessageCenterSlice = createSlice({
     getYearsList (state,action){
       state.YearsList=action.payload.GetAcademicYearsResult;
     },
+    getAcademicYearList (state,action){
+      state.YearsList=action.payload;
+    },
     getAllMonthList (state,action){
       state.AllMonthList=action.payload.GetAllMonthDetailsResult;
+    },
+    getMonthYearList (state,action){
+      state.AllMonthList=action.payload;
     },
     sePageIndex (state,action){
       state.PageIndex=action.payload;
@@ -92,6 +98,19 @@ export const getTrashList =
     const response = await filterApi.getyears(data);
     dispatch(MessageCenterSlice.actions.getYearsList(response.data));
   };
+  export const getAcademicYearList =
+  (data:Iyears): AppThunk =>
+  async (dispatch) => {
+    const response = await filterApi.getyears(data);
+    const data2 = response.data.GetAcademicYearsResult.map((item)=>{
+      return {
+        Name:item.AcademicYearName,
+        Value:item.AcademicYearId
+      }
+    })
+    dispatch(MessageCenterSlice.actions.getAcademicYearList(data2));
+  };
+
   export const getAllMonthList =
   (data:IGetAllMonths): AppThunk =>
   async (dispatch) => {
@@ -99,7 +118,20 @@ export const getTrashList =
     dispatch(MessageCenterSlice.actions.getAllMonthList(response.data));
   };
 
-  export const getTeacherList =
+  export const getMonthYearList =
+  (data:IGetAllMonths): AppThunk =>
+  async (dispatch) => {
+    const response = await filterApi.getmonths(data);
+    const data2 = response.data.GetAllMonthDetailsResult.map((item)=>{
+      return {
+        Name:item.Name,
+        Value:item.MonthId
+      }
+    })
+    dispatch(MessageCenterSlice.actions.getMonthYearList(data2));
+  };
+
+    export const getTeacherList =
   (data :IUserGroupList): AppThunk =>
   async (dispatch) => {
     const response = await MessageCenterApi.GetUsegroupList(data);
