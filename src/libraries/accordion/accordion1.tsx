@@ -38,7 +38,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
           text1: item.TeacherDesignation,
           text2: '',
           backgroundColor: `${theme.colors.gradients.selectedlistColor}`,
-          mx: '-33px',
+       
           RelatedSection: '2',
         
         }
@@ -48,7 +48,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
           text1: item.TeacherDesignation,
           text2: '',
           backgroundColor: '',
-          mx: '-33px',
+      
           RelatedSection: '0',
         
         };
@@ -61,13 +61,13 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text2: item.MobileNumber1,
       text3: item.Class,
       backgroundColor: '',
-      mx: '-33px'
+   
     };
   });
   return (
     <>
    
-        <Container>
+       
           <Grow
             in={checked}
             style={{ transformOrigin: '0 0 0' }}
@@ -160,7 +160,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
               </Accordion>
             </div>
           </Grow>
-        </Container>
+    
    
     </>
   );

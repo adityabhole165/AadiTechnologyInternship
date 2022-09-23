@@ -169,7 +169,7 @@ function Progressreport() {
   //  dropyear
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
       <Box>
         {progressreportResult.length === 0 ?
@@ -220,7 +220,7 @@ function Progressreport() {
                       )}
                     </>
                   </Box>
-                  <Container>
+            
                     <Box>
                       <FormControl
                         sx={{
@@ -275,11 +275,11 @@ function Progressreport() {
                       ) :
                         null}
                     </Box>
-                  </Container>
+              
                 </>
         }
       </Box>
-    </>
+    </Container>
   );
 }
 export default Progressreport;

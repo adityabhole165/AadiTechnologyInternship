@@ -97,21 +97,20 @@ function ExamSchedule() {
   );
   console.log(ExamsList);
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
       <DotLegend
         className={classes.border}
         style={{
           background: 'darkmagenta',
-          marginLeft: '1.5rem',
+        
           marginBottom: '-2px'
         }}
       />
       <small>
         <b>Description</b>
       </small>
-      <></>
-      <Container>
+     
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
         >
@@ -131,7 +130,7 @@ function ExamSchedule() {
             </NativeSelect>
           }
         </FormControl>
-      </Container>
+   
 
       {ExamsList?.map((items: GetExamsListResult, i) => {
         return (
@@ -160,7 +159,7 @@ function ExamSchedule() {
           </>
         );
       })}
-    </div>
+    </Container>
   );
 }
 

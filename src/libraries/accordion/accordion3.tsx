@@ -23,8 +23,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
   const classes = Styles();
 
   return (
-    <div>
-      <Container>
+ 
+   
         <Grow
           in={checked}
           style={{ transformOrigin: '1 1 1' }}
@@ -81,8 +81,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             </AccordionDetails>
           </Accordion>
         </Grow>
-      </Container>
-    </div>
+   
+  
   );
 }
 

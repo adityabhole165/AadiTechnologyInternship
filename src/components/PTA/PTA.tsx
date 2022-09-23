@@ -4,7 +4,7 @@ import { getPtaList } from 'src/requests/PTA/PTA';
 import Accordion1 from 'src/libraries/accordion/accordion1';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, useTheme } from '@mui/material';
+import { Container, styled, useTheme } from '@mui/material';
 import IPta from '../../interfaces/Common/PTA';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Styles } from 'src/assets/style/student-style';
@@ -50,13 +50,13 @@ function pta() {
   const theme = useTheme();
   const classes = Styles();
   return (
-    <div>
+    <Container>
       <PageHeader heading={'PTA'} subheading={''} />
       <div>
         <DotLegend
           className={classes.border}
           sx={{
-            marginLeft: '1.5rem',
+          
             marginBottom: '-2px',
             background: '#c8dccb'
           }}
@@ -68,7 +68,7 @@ function pta() {
         <DotLegend
           className={classes.border}
           sx={{
-            marginLeft: '1.5rem',
+          
             marginBottom: '-2px',
             background: '#e9a69a'
           }}
@@ -84,7 +84,7 @@ function pta() {
         Teacher={TeacherCommitteeList}
         headingg={data3}
       />
-    </div>
+    </Container>
   );
 }
 

@@ -8,6 +8,7 @@ import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import MonthYearselector from './MonthYearselector';
 import List1 from 'src/libraries/mainCard/List1';
+import { Container } from '@mui/material';
 function Photos() {
   const dispatch = useDispatch();
   const PhotoAlbum: any = useSelector(
@@ -57,14 +58,14 @@ function Photos() {
 
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Photo Gallery'} subheading={''} />
 
       <MonthYearselector month={month} onChange={handleChange} year={year} YearData={YearList} newChange={handleClick} />
 
       <List1 items={PhotoAlbum} />
 
-    </>
+    </Container>
   );
 }
 export default Photos;

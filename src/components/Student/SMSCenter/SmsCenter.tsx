@@ -65,15 +65,15 @@ function SmsCenter() {
   }
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Recieved SMS'} subheading={''} />
-      <Container >
+  
 
       <Icon1 Title={Mobilenumber} Subtitle={MobileNumber} Note={Note} />
-      </Container>
+    
       
       {<List1 items={Data} />}
-    </>
+    </Container>
   );
 }
 
