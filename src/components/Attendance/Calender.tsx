@@ -53,7 +53,7 @@ export function Calender1({ month, year, AttendenceData }) {
 
   return (
     <>
-      <Container>
+    
         {AttendenceData === undefined ? null : (
           <Grow
             in={checked}
@@ -105,7 +105,7 @@ export function Calender1({ month, year, AttendenceData }) {
             </Box>
           </Grow>
         )}
-      </Container>
+     
     </>
   );
 }
