@@ -16,6 +16,7 @@ import React, { useState } from 'react';
 // import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
 import { ListStyle } from '../styled/CardStyle';
+
 import Card5 from 'src/libraries/mainCard/Card5';
 import {
   CardDetail,
@@ -23,6 +24,7 @@ import {
   CardDetail2,
   CardDetail3
 } from '../styled/CardStyle';
+import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -88,17 +90,15 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           elevation={0}
           disableGutters
         >
-          <AccordionSummary
+          <Accordionsummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
               background: `${theme.colors.gradients.pink1}`,
-              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-              mb: 1,height:'40px',minHeight:'40px'
-            }}
+             }}
           >
-            <Typography
+            <Header1
               sx={{
                 color:
                   expanded === 'panel'
@@ -108,13 +108,13 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             >
               <b>{FeesType}</b> &nbsp;:&nbsp;
               <b>{FeesObject.TotalFeesPaid}</b>
-            </Typography>
-          </AccordionSummary>
+            </Header1>
+          </Accordionsummary>
           {
             <AccordionDetails
               sx={{
-                borderRadius: 1,
-                mb: -1
+                // borderRadius: 1,
+                // mb: 1
               }}
             >
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
@@ -144,25 +144,24 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           elevation={0}
           disableGutters
         >
-          <AccordionSummary
+          <Accordionsummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
               background: `${theme.colors.gradients.pink1}`,
-              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-              mb: 1,height:'40px',minHeight:'40px'
-            }}
+           
+            }} color='primary'
           >
-            <Typography sx={{
+            <Header1 sx={{
                 color:
                   expanded === 'panel1'
                     ? `${theme.colors.gradients.accordianHeadercolor}`
                     : ''
               }}> 
             <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
-            </Typography>
-          </AccordionSummary>
+            </Header1>
+          </Accordionsummary>
           <AccordionDetails
             sx={{
               borderRadius: 1,
