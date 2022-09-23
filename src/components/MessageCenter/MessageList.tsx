@@ -12,7 +12,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getInboxList1 } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -124,7 +124,7 @@ const MessageList = () => {
 
     }
     return (
-        <div>
+        <Container>
             <PageHeader heading='Message Center' subheading=''></PageHeader>
             {
                 !showSearch ? <Grid container>
@@ -162,7 +162,7 @@ const MessageList = () => {
                     <b>Compose</b>
                 </Item>
             </RouterLink>
-        </div>
+        </Container>
     )
 }
 
