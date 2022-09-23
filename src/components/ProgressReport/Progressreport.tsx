@@ -173,34 +173,34 @@ function Progressreport() {
       <PageHeader heading={'Progress Report'} subheading={''} />
       <Box>
         {progressreportResult.length === 0 ?
-          <Container>
+          
             <Note NoteDetail={note2} />
-          </Container>
+     
           :
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
-            <Container>
+          
               <Note NoteDetail={note} />
-            </Container>
+         
             :
             getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
-              <Container>
+            
                 <Note NoteDetail={[
                   'You are prohibited to view the progress report due to the following reason:',
                     Reason,
                   'Please do the needful to view the progress report.']} />
-              </Container>
+           
               :
               (getreasonbprgrepres.GetReasonforBlockingProgressReport != ''
                 && BlockProgressReportIfFeesArePending == "Y"
                 && pendingfees.IsPendingFeesForStudentResult == true) ?
                 <>
-                  <Container>
+             
                     <Note NoteDetail={[
                       'Your school fees are pending. Please pay the dues to view progress report.',
                       'You are prohibited to view the progress report due to the following reason:', 
                        Reason,
                       'Please do the needful to view the progress report.']} />
-                  </Container>
+               
                 </>
                 :
                 <>
