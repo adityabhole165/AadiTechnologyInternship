@@ -50,14 +50,13 @@ const TAttendance = () => {
     const AttendanceStatus = useSelector(
         (state: RootState) => state.AttendanceList.AttendanceStatus
     );
-    console.log("AttendanceStatus", AttendanceStatus);
 
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asStandardDivisionId = sessionStorage.getItem('DivisionId');
     const asStandardId = sessionStorage.getItem('StandardDivisionId')
 
-    console.log("sejal", asStandardId);
+
     const asTeacherId = sessionStorage.getItem('TeacherId');
     // Date selector Start
     const [date, setDate] = useState({ selectedDate: '' });
@@ -89,6 +88,8 @@ const TAttendance = () => {
 
     const [Standardid, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
+    console.log("assignedDate",assignedDate);
+    
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
         asDate: assignedDate,
@@ -189,31 +190,48 @@ const TAttendance = () => {
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
 
-            <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} Array={AttendanceStatus}></DateSelector>
-            {AttendanceStatus?.map(
+            <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} ></DateSelector>
+            {RollNoList?.map(
                 (item, i) => {
                     return (
                         <>
                             {
-                                (item.StatusMessage == "Attendance is already marked.") ? <ErrorDetail>Attendance is already marked.</ErrorDetail>
+                                (item.RollNumber == "0") ? <ErrorDetail>There are no students available.</ErrorDetail>
                                     : null}
-                            <>
-                                {(AssignDate > PresentDate) ? <ErrorDetail>Future date attendance is not allowed.</ErrorDetail>
+                        </>
+                    );
+                }
+            )}
+            {AttendanceStatus?.map(
+                
+                (item, i) => {
+                    console.log("StatusMessage",item.StatusMessage);
+                     
+                    return (
+                        <>
+                            {
+                                (Standardid == undefined || Standardid == 0 ) ? null
                                     :
                                     <>
-                                        <TextField
-                                            variant="standard"
-                                            fullWidth
-                                            label='Absent Roll Number'
-                                            value={StudentAbsent}></TextField>
-                                        <br></br>
-                                        <br></br>
-                                        <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
-                                        <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber}></List26>
+                                        {
+                                            (  i === 0 && item.StatusMessage == "Attendance is already marked.") ? <ErrorDetail>Attendance is already marked.</ErrorDetail>
+                                                : <ErrorDetail>Attendance not yet marked.</ErrorDetail>}
+                                        
+                                                <>
+                                                    <TextField
+                                                        variant="standard"
+                                                        fullWidth
+                                                        label='Absent Roll Number'
+                                                        value={StudentAbsent}></TextField>
+                                                    <br></br>
+                                                    <br></br>
+                                                    <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
+                                                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber}></List26>
 
+                                                </>
+                                           
                                     </>
-                                }
-                            </>
+                            }
                         </>
 
                     );

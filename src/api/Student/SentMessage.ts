@@ -1,8 +1,8 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IgetList } from "src/interfaces/MessageCenter/GetList";
+import { IgetList,GetScheduledSMSResult } from "src/interfaces/MessageCenter/GetList";
 
 const GetSentMessageList  = (data: IgetList) => {
-    return http.post<IgetList>('MessageCenter/GetSentMessages',data);
+    return http.post<GetScheduledSMSResult>('MessageCenter/GetSentMessages',data);
 };
 
 const SentMessageApi ={

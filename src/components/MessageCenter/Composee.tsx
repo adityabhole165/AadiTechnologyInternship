@@ -1,27 +1,11 @@
-import {
-  Container,
-  TextField,
-  Box,
-  FormControl,
-  Tooltip,
-  ClickAwayListener,
-  Grid,
-  Card,
-  Typography,
-  useTheme,
-  Fab,
-  Avatar
-} from '@mui/material';
+import {Container,TextField,Box,FormControl,Tooltip,ClickAwayListener,Grid,Card,Typography,useTheme,Fab,Avatar} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import {
-  AttachmentFile,
-  ISendMessage
-} from '../../interfaces/MessageCenter/MessageCenter';
+import {AttachmentFile,ISendMessage} from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -30,7 +14,6 @@ import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
-import Recipients from './Recipients';
 import CloseIcon from '@mui/icons-material/Close';
 import AdminTeacherRecipientsList from '../SMSCenter/AdminTeacherRecipientsList';
 
@@ -44,14 +27,10 @@ function Form13() {
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/Compose/',
-    ''
-  );
+  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/','');
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
-  // console.log(AttachmentArray);
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -107,11 +86,6 @@ function Form13() {
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
 
-  const RecipientsListID: any = useSelector(
-    (state: RootState) => state.MessageCenter.RecipientsId
-  );
-  // console.log(RecipientsListID)
-
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -153,34 +127,8 @@ function Form13() {
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = [
-      'BMP',
-      'DOC',
-      'DOCX',
-      'JPG',
-      'JPEG',
-      'PDF',
-      'PNG',
-      'PPS',
-      'PPSX',
-      'PPT',
-      'PPTX',
-      'XLS',
-      'XLSX',
-      'bmp',
-      'doc',
-      'docx',
-      'jpg',
-      'jpeg',
-      'pdf',
-      'png',
-      'pps',
-      'ppsx',
-      'ppt',
-      'pptx',
-      'xls',
-      'xlsx'
-    ];
+    const allowedFileTypes = ['BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc',
+      'docx','jpg','jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -210,14 +158,11 @@ function Form13() {
       };
     });
   };
-  // Submit form data
 
-  const RediretToSentPage = () => {
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
-  };
+  const RediretToSentPage = () => { navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');};
 
   const sendMessage = () => {
-    const body: ISendMessage = {
+    const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
         Body: formik.values.Content,
@@ -241,7 +186,7 @@ function Form13() {
       attachmentFile: finalBase642,
       asFileName: fileName
     };
-    MessageCenterApi.GetSendMessage(body)
+    MessageCenterApi.GetSendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
@@ -250,7 +195,6 @@ function Form13() {
         }
       })
       .catch((err) => {
-        console.log(err);
         toast.error('Message does not sent successfully');
       });
   };
@@ -283,7 +227,6 @@ function Form13() {
   });
 
   const AttachmentFilePath = 'https://192.168.1.80/' + '/RITeSchool/Uploads/';
-  // const AttachmentFilePath = 'http://riteschool_old.aaditechnology.com' + '/RITeSchool/Uploads/'
 
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');

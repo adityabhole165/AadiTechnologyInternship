@@ -42,34 +42,19 @@ import {
 } from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
+
 function Progressreport() {
-  const note = [
-    '1)Your school fees are pending. Please pay the dues to view the progress report. '
-  ];
-  const note2 = [
-    '1) No exam for this class has been conducted for the current academic year. '
-  ];
+  const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
+  const note2 = ['No exam of this class has been published for the current academic year.'];
   const dispatch = useDispatch();
   const theme = useTheme();
-  const progressreportResult = useSelector(
-    (state: RootState) => state.Progressreport.GetExamResultData
-  );
-  const academicyearResult = useSelector(
-    (state: RootState) => state.Progressreport.GetAcademicYears
-  );
-  const academictermsResult = useSelector(
-    (state: RootState) => state.Progressreport.GetTerms
-  );
-  console.log(academictermsResult)
-  const getreasonbprgrepres: any = useSelector(
-    (state: RootState) => state.Progressreport.GetReasonforBlocking
-  );
-  const pendingfees: any = useSelector(
-    (state: RootState) => state.Progressreport.PendingFees
-  );
-  const progressReportFilePath: any = useSelector(
-    (state: RootState) => state.Progressreport.ProgressReportFileName
-  );
+  const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
+  const academicyearResult = useSelector((state: RootState) => state.Progressreport.GetAcademicYears);
+  const academictermsResult = useSelector((state: RootState) => state.Progressreport.GetTerms);
+  const getreasonbprgrepres: any = useSelector((state: RootState) => state.Progressreport.GetReasonforBlocking);
+  const pendingfees: any = useSelector((state: RootState) => state.Progressreport.PendingFees);
+  const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
+
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let sitePath = 'https://192.168.1.80';
   let downloadPathOfProgressReport = sitePath + filePath;
@@ -84,7 +69,11 @@ function Progressreport() {
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
+  const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
+  const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
+
   const classes = Styles();
+
   const DotLegend = styled('span')(
     ({ theme }) => `
           border-radius: 22px;
@@ -95,11 +84,13 @@ function Progressreport() {
           margin-top: -${theme.spacing(0.1)};
       `
   );
-  const Note1: string =
-    '* Denotes subject marks are not considered in total marks.';
+
+  const Note1: string = '* Denotes subject marks are not considered in total marks.';
+
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
+
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
       asStudentId: asStudentId,
@@ -116,26 +107,31 @@ function Progressreport() {
         setfeependingres(data);
       });
   };
+
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
-    {
-      asSchoolId: asSchoolId,
-      asStudentId: asStudentId,
-      asAcademicYearId: asAcademicYearId
-    };
+  {
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId
+  };
+
   const GetExamResultList_body: IExamResult = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
+
   const Getpendingfees_body: IIsPendingFeesForStudent = {
     asStudentId: asStudentId,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
   };
+
   const GetAcademicYears_body: any = {
     aiSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
+
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
       asSchoolId: asSchoolId,
@@ -147,6 +143,7 @@ function Progressreport() {
     dispatch(GetProgressReportFileName(getProgressReportFileName_body));
     window.open(downloadPathOfProgressReport);
   };
+
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(Getpendingfees(Getpendingfees_body));
@@ -159,150 +156,128 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
+
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
+
   const handledropyear = (e) => {
     setDropyear(e.target.value);
     setShowyear(true);
     setAcademicYearId(e?.target.value);
   };
-  console.log(getreasonbprgrepres);
+
   //  dropyear
 
   return (
     <>
       <PageHeader heading={'Progress Report'} subheading={''} />
       <Box>
-        {progressreportResult.length === 0 ? (
+        {progressreportResult.length === 0 ?
           <Container>
             <Note NoteDetail={note2} />
           </Container>
-        ) : (
-          <Box>
-            {pendingfees.IsPendingFeesForStudentResult !== false ? (
+          :
+          (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
+            <Container>
+              <Note NoteDetail={note} />
+            </Container>
+            :
+            getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
               <Container>
-                <Note NoteDetail={note} />
+                <Note NoteDetail={[
+                  'You are prohibited to view the progress report due to the following reason:',
+                    Reason,
+                  'Please do the needful to view the progress report.']} />
               </Container>
-            ) : (
-              <>
-                {getreasonbprgrepres.GetReasonforBlockingProgressReport ==
-                '' ? (
-                  <>
-                    {feependingres ? null : (
-                      <>
-                        <Container>
-                          {/* <Grid
-                            container
-                            justifyContent="center"
-                            rowSpacing={1}
-                          > */}
-                            {/* <Grid xs={6}></Grid> */}
-                            {/* <Grid xs={6}> */}
-                              <Icon1
-                                Title={undefined}
-                                Subtitle={undefined}
-                                Note={Note1}
-                              />
-                            {/* </Grid>
-                          </Grid> */}
-                        </Container>
-                        <Box>
-                          <>
-                            {progressreportResult?.map(
-                              (examresult: GetStudentExamResult, i) => (
-                                <Accordions3
-                                  Data={progressreportResult}
-                                  Exam={examresult.Exam}
-                                  key={i}
-                                  index={i}
-                                  Collapse={handleChange}
-                                  expand={expanded}
-                                />
-                              )
-                            )}
-                          </>
-                        </Box>
-                        <Container>
-                          <Box>
-                            <FormControl
-                              sx={{
-                                marginTop: '50px',
-                                m: 1,
-                                width: '100%',
-                                marginLeft: '1px'
-                                // display:'none'
-                              }}
-                            >
-                              {
-                                <NativeSelect onChange={handledropyear}>
-                                  <option value="0">
-                                    {' '}
-                                    Select Academic Year
+              :
+              (getreasonbprgrepres.GetReasonforBlockingProgressReport != ''
+                && BlockProgressReportIfFeesArePending == "Y"
+                && pendingfees.IsPendingFeesForStudentResult == true) ?
+                <>
+                  <Container>
+                    <Note NoteDetail={[
+                      'Your school fees are pending. Please pay the dues to view progress report.',
+                      'You are prohibited to view the progress report due to the following reason:', 
+                       Reason,
+                      'Please do the needful to view the progress report.']} />
+                  </Container>
+                </>
+                :
+                <>
+                  <Box>
+                    <>
+                      {progressreportResult?.map(
+                        (examresult: GetStudentExamResult, i) => (
+                          <Accordions3
+                            Data={progressreportResult}
+                            Exam={examresult.Exam}
+                            key={i}
+                            index={i}
+                            Collapse={handleChange}
+                            expand={expanded}
+                          />
+                        )
+                      )}
+                    </>
+                  </Box>
+                  <Container>
+                    <Box>
+                      <FormControl
+                        sx={{
+                          marginTop: '50px',
+                          m: 1,
+                          width: '100%',
+                          marginLeft: '1px'
+                        }}
+                      >
+                        {
+                          <NativeSelect onChange={handledropyear}>
+                            <option value="0">
+                              {' '}
+                              Select Academic Year
+                            </option>
+                            {academicyearResult?.map(
+                              (getacademicyr: IGetAcademicYears, i) => {
+                                return (
+                                  <option
+                                    value={getacademicyr.Id}
+                                    key={i}
+                                  >
+                                    {getacademicyr.AcademicYear}
                                   </option>
-                                  {academicyearResult?.map(
-                                    (getacademicyr: IGetAcademicYears, i) => {
-                                      return (
-                                        <option
-                                          value={getacademicyr.Id}
-                                          key={i}
-                                        >
-                                          {getacademicyr.AcademicYear}
-                                        </option>
-                                      );
-                                    }
-                                  )}
-                                </NativeSelect>
+                                );
                               }
-                            </FormControl>
-                            {dropyear !== '0' ? (
-                              <>
-                                {showyear ? (
-                                  <List>
-                                    {academictermsResult?.map(
-                                      (gettermsres: IGetTerms, i) => {
-                                        return (
-                                          <Card5
-                                            key={i}
-                                            text1={gettermsres.TermName}
-                                            text2=""
-                                            clickIcon={() => {
-                                              downloadProgress(gettermsres.Id);
-                                            }}
-                                          />
-                                        );
-                                      }
-                                    )}
-                                  </List>
-                                ) : null}
-                              </>
-                            ) : // <ErrorMessages Error={"No progress report of this class has been published for the selected academic year."} />
-                            null}
-                          </Box>
-                        </Container>
-                      </>
-                    )}
-                  </>
-                ) : (
-                  <>
-                    <Container>
-                      <ErrorMessages
-                        Error={
-                          'You are prohibited to view the progress report due to the following reason:'
+                            )}
+                          </NativeSelect>
                         }
-                      />
-                      <ErrorMessages Error={Reason} />
-                      <ErrorMessages
-                        Error={
-                          '  Please do the needful to view the progress report.'
-                        }
-                      />
-                    </Container>
-                  </>
-                )}
-              </>
-            )}
-          </Box>
-        )}
+                      </FormControl>
+                      {dropyear !== '0' ? (
+                        <>
+                          {showyear ? (
+                            <List>
+                              {academictermsResult?.map(
+                                (gettermsres: IGetTerms, i) => {
+                                  return (
+                                    <Card5
+                                      key={i}
+                                      text1={gettermsres.TermName}
+                                      text2=""
+                                      clickIcon={() => {
+                                        downloadProgress(gettermsres.Id);
+                                      }}
+                                    />
+                                  );
+                                }
+                              )}
+                            </List>
+                          ) : null}
+                        </>
+                      ) :
+                        null}
+                    </Box>
+                  </Container>
+                </>
+        }
       </Box>
     </>
   );

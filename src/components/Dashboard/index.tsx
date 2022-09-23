@@ -48,7 +48,6 @@ import { RootState } from 'src/store';
 import {
   getModulesPermission,
   getModulesPermissionsResultt,
-  getSchoolSettings
 } from 'src/requests/SchoolSetting/schoolSetting';
 import {
   ISchoolId,
@@ -68,9 +67,6 @@ const Text = styled(Box)(({ theme }) => ({
 function LandingPage() {
   const theme = useTheme();
   const dispatch = useDispatch();
-  const GetSchoolSettingList = useSelector(
-    (state: RootState) => state.getSchoolSettings.SchoolSettingList
-  );
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
   );
@@ -84,9 +80,6 @@ function LandingPage() {
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const body: ISchoolId = {
-    asSchoolId: asSchoolId
-  };
 
   const body1: IgetModulesPermission = {
     asSchoolId: asSchoolId,
@@ -105,8 +98,6 @@ function LandingPage() {
   };
 
   useEffect(() => {
-    dispatch(getSchoolSettings(body));
-
     if (RoleId == '3') {
       dispatch(getModulesPermission(body1));
     }

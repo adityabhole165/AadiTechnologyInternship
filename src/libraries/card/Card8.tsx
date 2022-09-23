@@ -26,7 +26,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
-    'http://riteschool_old.aaditechnology.com' +
+    'https://192.168.1.80' +
     '/RITeSchool/Uploads/' +
     Attachments;
 
