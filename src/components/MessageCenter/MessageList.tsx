@@ -17,6 +17,11 @@ import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { toast } from 'react-toastify';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
+import DeleteIcon from '@mui/icons-material/Delete';
+import ReplayIcon from '@mui/icons-material/Replay';
 
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -40,6 +45,8 @@ const MessageList = () => {
     const [monthYear, setMonthYear] = useState('')
     const [isSearchClicked, setIsSearchClicked] = useState(false)
     const [showSearch, setShowSearch] = useState(false)
+    const [inboxListData, setInboxListData] = useState([])
+    const [isDeleteActive, setIsDeleteActive] = useState(false)
 
     const AcademicYearList = useSelector(
         (state: RootState) => state.MessageCenter.YearsList
@@ -53,7 +60,7 @@ const MessageList = () => {
 
     const loading: boolean = useSelector(
         (state: RootState) => state.InboxMessage.Loading
-      );
+    );
 
     const getList: IgetList = {
         asSchoolId: SchoolId,
@@ -84,6 +91,9 @@ const MessageList = () => {
     }, [])
 
     useEffect(() => {
+        setInboxListData(InboxList)
+    }, [InboxList])
+    useEffect(() => {
         if (academicYear !== '') {
             dispatch(getMonthYearList(Mbody));
         }
@@ -109,6 +119,38 @@ const MessageList = () => {
     const clickSearchIcon = () => {
         setShowSearch(!showSearch)
     }
+    const clickDelete = () => {
+        let arrDetails = []
+        let arrReciever = []
+        inboxListData.map((obj) => {
+            if (obj.isActive) {
+                arrDetails.push(obj.DetailsId)
+                arrReciever.push(obj.ReceiverDetailsId)
+            }
+        })
+        const trashbody: any = {
+            asSchoolId: SchoolId,
+            asMessageDetailsId: arrDetails.join(';'),
+            asMessageRecieverDetailsId: arrReciever.join(';'),
+            asIsArchive: 'Y',
+            asIsCompeteDelete: 0,
+            asFlag: activeTab
+        };
+        MoveToTrashApi.MoveToTrash(trashbody)
+            .then((data) => {
+                toast.success('Message deleted successfully');
+                dispatch(getInboxList1(getList, activeTab));
+            })
+            .catch((err) => {
+                alert('error network');
+            });
+    }
+
+    const clickReset = () => {
+        setInboxListData(inboxListData.map((obj) => {
+                return { ...obj, isActive: false }
+            }))
+    }
 
     const clickSearch = (searchText, academicYear, monthYear, isSearchClicked) => {
         setSearchText(searchText)
@@ -117,41 +159,51 @@ const MessageList = () => {
         setIsSearchClicked(isSearchClicked)
         setShowSearch(!showSearch)
 
-        console.log(searchText, academicYear, monthYear, isSearchClicked)
     }
 
-    const refreshData = () => {
-
+    const refreshData = (value) => {
+        setIsDeleteActive((value.some(obj => obj.isActive === true)) )
+        setInboxListData(value)
     }
     return (
         <Container>
             <PageHeader heading='Message Center' subheading=''></PageHeader>
-            {
-                !showSearch ? <Grid container>
-                    <Grid item xs={10}>
-                        <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
-                    </Grid>
-                    <Grid item xs={2}>
-                        <SearchIcon
-                            sx={{
-                                fontSize: '40px',
-                                marginTop: '10px',
-                                cursor: 'pointer'
-                            }}
-                            onClick={clickSearchIcon}
-                        />
-                    </Grid>
-                </Grid> :
-                    <MCForm AcademicYearList={AcademicYearList} MonthYearList={MonthYearList} clickSearch={clickSearch}
-                        academicYear={academicYear} monthYear={monthYear}
-                        clickAcademicYear={clickAcademicYear} clickMonthYear={clickMonthYear}
-                        isSearchClicked={isSearchClicked}
-                    />
+            <Grid container>
+                {
+                    !showSearch ? <>
+                        <Grid item xs={10}>
+                            <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
+                        </Grid>
+                        <Grid item xs={2}>
+                            <SearchIcon
+                                sx={{
+                                    fontSize: '40px',
+                                    marginTop: '10px',
+                                    cursor: 'pointer'
+                                }}
+                                onClick={clickSearchIcon}
+                            />
+                        </Grid></>
+                        :
+                        <Grid item xs={10}>
+
+                            <MCForm AcademicYearList={AcademicYearList} MonthYearList={MonthYearList} clickSearch={clickSearch}
+                                academicYear={academicYear} monthYear={monthYear}
+                                clickAcademicYear={clickAcademicYear} clickMonthYear={clickMonthYear}
+                                isSearchClicked={isSearchClicked}
+                            />
+                        </Grid>
+                }
+                {isDeleteActive &&
+                <Grid item xs={10}>
+
+                    <ButtonPrimary onClick={clickDelete} endIcon={<DeleteIcon />}>Delete</ButtonPrimary>
+                    <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>Reset</ButtonPrimary>
+                </Grid>}
+            </Grid>
+            {loading ? (<SuspenseLoader />) :
+                <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
             }
-            
-        {loading ? ( <SuspenseLoader /> ):
-            <SelectList3Col Itemlist={InboxList} refreshData={refreshData} />
-        }
             <RouterLink
                 style={{ textDecoration: 'none' }}
                 to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}

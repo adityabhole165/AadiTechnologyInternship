@@ -72,7 +72,9 @@ export const getInboxList =
         text2:item.UserName,
         text3:item.Date + item.Time,
         NavPath:item.DetailsId + '/Sent',
-        isActive:false
+        isActive:false,
+        DetailsId:item.DetailsId,
+        ReceiverDetailsId:item.ReceiverDetailsId
       }
     })
 

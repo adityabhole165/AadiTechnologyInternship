@@ -128,7 +128,6 @@ export const getTrashList =
         Value:item.MonthId
       }
     })
-    console.log(data,data2)
     dispatch(MessageCenterSlice.actions.getMonthYearList(data2));
   };
 
