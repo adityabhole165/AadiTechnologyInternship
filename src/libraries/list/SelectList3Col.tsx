@@ -2,7 +2,6 @@ import ListCard4ColSel from '../card/ListCard4ColSel'
 import ErrorMessages from '../../libraries/ErrorMessages/ErrorMessages';
 
 const SelectList3Col = ({ Itemlist, refreshData}) => {
-    console.log(Itemlist)
     const clickSingle = (value) => {
         Itemlist =
             Itemlist.map((obj) =>
