@@ -70,14 +70,14 @@ function Attendance() {
       <PageHeader heading={'Attendance'} subheading={''} />
       <DotLegend />
       <br />
-      <Box sx={{ marginTop: '-10px' }}>
+      <Box sx={{ marginTop: '-10px' ,marginBottom:"10px"}}>
         <Calender1
           month={setMonth}
           year={setYear}
           AttendenceData={AttendanceData?.DailyAttendanceList}
         />
       </Box>
-      <Box sx={{ marginTop: '10px',mb:'-5px' }}>
+      <Box >
         {AttendanceData === undefined ? null : (
           <>
             <Card1

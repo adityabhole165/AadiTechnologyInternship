@@ -21,6 +21,7 @@ import {
   CardDetail3,
   ListStyle
 } from '../styled/CardStyle';
+import { Header1 } from '../styled/AccordianStyled';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -181,21 +182,22 @@ function Card16({ Note, Heading }) {
         </ClickAwayListener>
       ) : null}
 
-      <div style={{ marginBottom: '20px' }}>
+      <div style={{ marginBottom: '20px'}} >
         <div
           style={{
             display: 'inline-block',
             marginTop: '10px',
-            fontWeight: 'bold'
+            
           }}
         >
-          Total:{' '}
+          <Header1>  Total:   {FeesTotal}</Header1>
+         
           {/* {FeesTotal > 0 ? (
             <CurrencyRupeeRoundedIcon
               sx={{ fontSize: '18px', position: 'relative', top: '5px' }}
             />
           ) : null}{' '} */}
-          {FeesTotal}
+        
         </div>
 
         <RouterLink
