@@ -7,16 +7,8 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Container } from '@mui/material'
 import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import {
-    getStandard,
-    GetSaveAttendanceStatus,
-    GetStudentList,
-    GetAttendanceStatus,
-
-} from 'src/requests/TAttendance/TAttendance';
-import ITAttendance, {
-    ISaveStudentAttendanceDetails, IStudentsDetails
-} from 'src/interfaces/Teacher/TAttendance';
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, GetAttendanceStatus, } from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, { ISaveStudentAttendanceDetails, IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
@@ -24,30 +16,13 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
 
 const TAttendance = () => {
-    const [Dataa, setData] = useState([{
-        text1: "1",
-        text2: "Ajit",
-        isActive: true
-    }, {
-        text1: "2",
-        text2: "Mayur",
-        isActive: true
-    }]
-    )
+
     const dispatch = useDispatch();
 
-    const stdlist: any = useSelector(
-        (state: RootState) => state.StandardAttendance.stdlist
-    );
-    const RollNoList = useSelector(
-        (state: RootState) => state.AttendanceList.StudentList
-    );
-    const StudentAbsent = useSelector(
-        (state: RootState) => state.AttendanceList.StudentAbsent
-    );
-    const AttendanceStatus = useSelector(
-        (state: RootState) => state.AttendanceList.AttendanceStatus
-    );
+    const stdlist: any = useSelector((state: RootState) => state.StandardAttendance.stdlist);
+    const RollNoList = useSelector((state: RootState) => state.AttendanceList.StudentList);
+    const StudentAbsent = useSelector((state: RootState) => state.AttendanceList.StudentAbsent);
+    const AttendanceStatus = useSelector((state: RootState) => state.AttendanceList.AttendanceStatus);
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asStandardDivisionId = sessionStorage.getItem('DivisionId');
@@ -61,6 +36,7 @@ const TAttendance = () => {
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
+
     const getCurrentDate = (newDate?: Date) => {
         const date = newDate || new Date();
         const Day = new Date(date).getDate();
@@ -72,14 +48,15 @@ const TAttendance = () => {
         });
         setAssignedDate(NewDateFormat);
     };
+
     const body: ITAttendance = {
         asSchoolId: asSchoolId,
         asAcademicyearId: asAcademicYearId,
         asTeacherId: asTeacherId
     };
+
     const [Standardid, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
-    console.log("Standardid", Standardid);
 
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
@@ -94,15 +71,18 @@ const TAttendance = () => {
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
+
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate();
 
     }, []);
+
     useEffect(() => {
         popupateDate()
         dispatch(GetAttendanceStatus(getAttendanceStatus));
     }, [Standardid, assignedDate]);
+
     const popupateDate = () => {
         if (Standardid !== undefined) {
             dispatch(GetStudentList(GetStudentDetails));
@@ -114,9 +94,11 @@ const TAttendance = () => {
             setAbsentText(arr.join(','))
         }
     }
+
     const handleChange = (value) => {
         setStandardId(value);
     }
+
     const getAbsetNumber = (value) => {
         setActivateButton(true)
         if (value === '')
@@ -127,6 +109,7 @@ const TAttendance = () => {
             setAllPresentOrAllAbsent('')
         setAbsentRollNos(value)
     }
+
     const clickSave = (value) => {
         const GetSaveStudentAttendance: ISaveAttendance = {
             asStandardDivisionId: Standardid,
@@ -140,6 +123,7 @@ const TAttendance = () => {
 
         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
     }
+
     const GetSaveStudentAttendance: ISaveAttendance = {
         asStandardDivisionId: Standardid,
         asDate: assignedDate,
@@ -149,8 +133,10 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
+
     const AssignDate = new Date(assignedDate);
     const PresentDate = new Date();
+
     const SaveMsg = () => {
         {
             if (asAbsentRollNos.length == 0) {
@@ -168,6 +154,7 @@ const TAttendance = () => {
             }
         }
     }
+
     return (
         <Container sx={{ paddingLeft: '25px' }}>
             <PageHeader heading="Attendance" subheading=''></PageHeader>
@@ -200,17 +187,21 @@ const TAttendance = () => {
                                                 : null}
                                             <>
                                                 {(item.StatusMessage == "Selected date is Holiday.") ? <ErrorDetail>Selected date is Holiday.</ErrorDetail> : null}
-                                                <>
-                                                    <TextField
-                                                        variant="standard"
-                                                        fullWidth
-                                                        label='Absent Roll Number'
-                                                        value={StudentAbsent}></TextField>
-                                                    <br></br>
-                                                    <br></br>
-                                                    <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
-                                                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
-                                                </>
+                                                {
+                                                    <>
+                                                        <TextField
+                                                            variant="standard"
+                                                            fullWidth
+                                                            label='Absent Roll Number'
+                                                            value={StudentAbsent}></TextField>
+                                                        <br></br>
+                                                        <br></br>
+                                                        <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
+                                                        <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
+                                                    </>
+
+                                                }
+
                                             </>
                                         </>
                                     </>
