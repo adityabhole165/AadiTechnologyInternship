@@ -1,18 +1,7 @@
-import React, { useState } from 'react';
-import { useTheme, Container, Grow } from '@mui/material';
-import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
+import { Grow } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import Card4 from 'src/libraries/mainCard/Card4';
 import { BoxStyle, ListStyle } from '../styled/CardStyle';
-import { Box } from "@mui/material";
-// Card1.propTypes = {
-//   header: PropTypes.string,
-//   text1: PropTypes.string,
-//   text2: PropTypes.string,
-//   FileName: PropTypes.string,
-//   RealatedSection: PropTypes.string,
-//   };
 
 function Card1({
   header,
@@ -27,28 +16,14 @@ function Card1({
   margin = '',
   RealatedSection = ''
 }) {
-  const date = new Date();
-  const NewDate = new Date(date).toDateString();
-  const Day = NewDate.slice(8, 10);
-  const Month = NewDate.slice(4, 7);
-  const Year = NewDate.slice(11, 15);
-  const NewDateFormat = `${Day} ${Month} ${Year}`;
-
-  const [checked, setChecked] = useState(true);
-  const theme = useTheme();
-  let background =
-    (text1 === NewDateFormat) ? 'secondary' :
-      !(Color === undefined || Color === '') ? Color :
-        (RealatedSection === '2') ? 'warning'
-          : 'primary'
 
   return (
     <Grow
-      in={checked}
+      in={true}
       style={{ transformOrigin: '0 0 1' }}
-      {...(checked ? { timeout: 1500 } : {})}
+      {...{ timeout: 1500 }}
     >
-      <ListStyle color={background} sx={{mx: margin}}>
+      <ListStyle color={Color} sx={{mx: margin}}>
         {FileName === '' || FileName === undefined ? null : (
           <BoxStyle>
             <AttachmentIcon />

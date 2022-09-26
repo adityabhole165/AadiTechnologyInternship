@@ -8,7 +8,7 @@ import { Container, styled, useTheme } from '@mui/material';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import {isTodaysDate} from '../Common/Util'
 
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -65,7 +65,7 @@ function Holidays() {
           text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
           isSelected: 1,
-          backgroundColor:'warning'
+          backgroundColor:(isTodaysDate(item.StartDate)) ? 'secondary' :'warning'
         }
       : {
           id: index,
@@ -73,7 +73,7 @@ function Holidays() {
           text1: item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
           isSelected: 0,
-          backgroundColor:'primary'
+          backgroundColor:(isTodaysDate(item.StartDate)) ? 'secondary' : 'primary'
         };
   });
 
