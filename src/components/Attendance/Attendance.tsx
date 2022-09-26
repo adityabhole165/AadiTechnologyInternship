@@ -83,22 +83,12 @@ function Attendance() {
             <Card1
               header={attendance.Title2}
               text3={AttendanceData.TotalAttendanceDays}
-              text2=""
-              text1=""
-           
-              text5=""
-              Color=""
-              margin=""
+              text2="" text1="" text5="" Color="" margin=""
             />
             <Card1
               header={attendance.Title1}
               text3={AttendanceData.PresentDays}
-              text2=""
-              text1=""
-          
-              text5=""
-              Color=""
-              margin=""
+              text2="" text1="" text5="" Color="" margin=""
             />
             <Card1
               header={attendance.Title3}
@@ -106,12 +96,7 @@ function Attendance() {
                 Number(AttendanceData.TotalAttendanceDays) -
                 Number(AttendanceData.PresentDays)
               }
-              text2=""
-              text1=""
-       
-              text5=""
-              Color=""
-              margin=""
+              text2="" text1="" text5="" Color="" margin=""
             />
           </>
         )}
