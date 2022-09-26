@@ -64,14 +64,16 @@ function Holidays() {
           text1: item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
-          isSelected: 1
+          isSelected: 1,
+          backgroundColor:'warning'
         }
       : {
           id: index,
           header: item.Name,
           text1: item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
-          isSelected: 0
+          isSelected: 0,
+          backgroundColor:'primary'
         };
   });
 

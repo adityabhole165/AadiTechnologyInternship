@@ -39,7 +39,7 @@ function Card1({
   let background =
     (text1 === NewDateFormat) ? 'secondary' :
       !(Color === undefined || Color === '') ? Color :
-        (isSelected === 1 || RealatedSection === '2') ? 'warning'
+        (RealatedSection === '2') ? 'warning'
           : 'primary'
 
   return (
