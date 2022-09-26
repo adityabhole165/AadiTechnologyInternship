@@ -1,6 +1,5 @@
 import { Box, Grid, useTheme } from '@mui/material'
 import CheckboxImg from './CheckboxImg'
-import { Styles } from 'src/assets/style/student-style';
 
 const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
  

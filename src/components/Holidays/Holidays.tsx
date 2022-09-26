@@ -8,7 +8,7 @@ import { Container, styled, useTheme } from '@mui/material';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
-import CheckRoundedIcon from '@mui/icons-material/CheckRounded';
+import {isTodaysDate} from '../Common/Util'
 
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -64,14 +64,16 @@ function Holidays() {
           text1: item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
-          isSelected: 1
+          isSelected: 1,
+          backgroundColor:(isTodaysDate(item.StartDate)) ? 'secondary' :'warning'
         }
       : {
           id: index,
           header: item.Name,
           text1: item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
-          isSelected: 0
+          isSelected: 0,
+          backgroundColor:(isTodaysDate(item.StartDate)) ? 'secondary' : 'primary'
         };
   });
 
@@ -81,7 +83,7 @@ function Holidays() {
       <DotLegend
         className={classes.border}
         style={{
-          background: '#c2dbff',
+          background: theme.colors.gradients.HighlightedlistColor,
           // marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}
@@ -95,7 +97,7 @@ function Holidays() {
       <DotLegend
         className={classes.border}
         style={{
-          background: '#e9a69a',
+          background: theme.colors.gradients.selectedlistColor,
           marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}

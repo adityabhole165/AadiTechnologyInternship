@@ -58,7 +58,7 @@ function pta() {
           sx={{
           
             marginBottom: '-2px',
-            background: '#c8dccb'
+            background: `${theme.colors.gradients.listColor}`
           }}
         />
         <small>
@@ -70,7 +70,7 @@ function pta() {
           sx={{
           
             marginBottom: '-2px',
-            background: '#e9a69a'
+            background: `${theme.colors.gradients.selectedlistColor}`
           }}
         />
         <small>

@@ -18,8 +18,7 @@ export const Header1 = styled(Typography)(
   font-size:16px;
   font-weight:bold;
   font-family: Roboto;
-  color: ${theme.colors.gradients.HighlightedlistColor};
-
+  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
   `
 );
 

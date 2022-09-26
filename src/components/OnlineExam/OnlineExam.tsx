@@ -113,10 +113,8 @@ const onlineExam = () => {
                 text2={subjectList.StartTime + '-' + subjectList.EndTime}
                 text5=""
                 text3={subjectList.StartDate}
-                isSelected=""
                 Color=""
                 margin=""
-                RealatedSection=""
                 FileName=""
                 key=""
               />
