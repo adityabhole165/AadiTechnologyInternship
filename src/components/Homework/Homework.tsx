@@ -15,8 +15,9 @@ import { RootState } from 'src/store';
 import Accordion2 from 'src/libraries/accordion/accordion2';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { styled } from '@mui/material';
+import { Container, styled } from '@mui/material';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import Card30 from 'src/libraries/card/Card30';
 
 
 function Homework() {
@@ -153,24 +154,8 @@ function Homework() {
         NextDate={getNextDate}
         Close={CalenderDateHandler}
       />
-      {loading ? (
-        <SuspenseLoader />
-      ) : HomeworkSubjectList.length === 0 ? (
-        <ErrorMessages Error={'Homework is not available'} />
-      ) : (
-          HomeworkSubjectList.map((item: IHomeworkResponse, i) => (
-            <>
-              <Accordion2
-                subject={item.SubjectName}
-                Data={HomeworkList}
-                Close={handleChange}
-                index={i}
-                expand={expanded}
-              />
-            </>
-          ))
-      )
-      }
+       <Container>
+      <Card30 header={HomeworkSubjectList}/></Container>
     </>
   );
 }
