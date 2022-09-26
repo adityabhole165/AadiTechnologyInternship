@@ -79,7 +79,7 @@ const TAttendance = () => {
     };
     const [Standardid, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
-console.log("Standardid",Standardid);
+    console.log("Standardid", Standardid);
 
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
@@ -200,26 +200,17 @@ console.log("Standardid",Standardid);
                                                 : null}
                                             <>
                                                 {(item.StatusMessage == "Selected date is Holiday.") ? <ErrorDetail>Selected date is Holiday.</ErrorDetail> : null}
-                                                {/* <>
-                                                    {RollNoList?.map(
-                                                        (item, i) => {
-                                                            return ( */}
-                                                                <>
-                                                                    <TextField
-                                                                        variant="standard"
-                                                                        fullWidth
-                                                                        label='Absent Roll Number'
-                                                                        value={StudentAbsent}></TextField>
-                                                                    <br></br>
-                                                                    <br></br>
-                                                                    <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
-                                                                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
-                                                                </>
-                                                                {/* );
-                                                            }
-                                                        )} 
-                                                </> */}
-
+                                                <>
+                                                    <TextField
+                                                        variant="standard"
+                                                        fullWidth
+                                                        label='Absent Roll Number'
+                                                        value={StudentAbsent}></TextField>
+                                                    <br></br>
+                                                    <br></br>
+                                                    <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
+                                                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
+                                                </>
                                             </>
                                         </>
                                     </>
