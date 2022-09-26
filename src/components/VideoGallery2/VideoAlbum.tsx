@@ -11,6 +11,7 @@ import {
   IVideoList
 } from 'src/interfaces/Common/VideoGallery';
 import { RootState } from 'src/store';
+import { Container } from '@mui/material';
 const VideoAlbum = () => {
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
@@ -64,11 +65,11 @@ const VideoAlbum = () => {
 
 
   return (
-    <div>
+    <Container>
       <PageHeader heading='Video Album' subheading={''} />
       <MonthYearselector month={month} onChange={handleChange} year={year} YearData={YearList} newChange={handleClick} />
       <List1 items={VideoList} />
-    </div>
+    </Container>
   )
 }
 

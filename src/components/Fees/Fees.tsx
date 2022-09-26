@@ -105,12 +105,7 @@ function Fees() {
         Heading={Feedata}
         Note={Note2}
       />
-      {/* <Card27
-        FeesType={'Payable Fees'}
-        Fee={FeesList}
-        Heading={Feedata}
-        Note={Note2}
-      /> */}
+   
       <Container sx={{ mb: '-10px'}}>
      
         <Note NoteDetail={note1} />

@@ -6,7 +6,7 @@ import { RootState } from 'src/store';
 import { useEffect } from 'react';
 import { getAttendanceList } from 'src/requests/Attendance/Attendance';
 import DotLegend from 'src/libraries/summary/summary';
-import { Box } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { GetStudentAttendaceForMonthResult } from 'src/interfaces/Student/Attendance';
 import http from 'src/requests/SchoolService/schoolServices';
 import { useState } from 'react';
@@ -66,18 +66,18 @@ function Attendance() {
   }, [month, year]);
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Attendance'} subheading={''} />
       <DotLegend />
       <br />
-      <Box sx={{ marginTop: '-10px' }}>
+      <Box sx={{ marginTop: '-10px' ,marginBottom:"10px"}}>
         <Calender1
           month={setMonth}
           year={setYear}
           AttendenceData={AttendanceData?.DailyAttendanceList}
         />
       </Box>
-      <Box sx={{ marginTop: '10px',mb:'-5px' }}>
+      <Box >
         {AttendanceData === undefined ? null : (
           <>
             <Card1
@@ -119,7 +119,7 @@ function Attendance() {
           </>
         )}
       </Box>
-    </>
+    </Container>
   );
 }
 

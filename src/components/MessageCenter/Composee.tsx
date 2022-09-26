@@ -481,11 +481,7 @@ function Form13() {
       
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AdminTeacherRecipientsList
-          displayProperty={displayPropertyFun}
-          RecipientsListDetails={RecipientsListFun}
-          ReplyRecipient={ReplyRecipientNameId}
-        />
+        <AdminTeacherRecipientsList displayProperty={displayPropertyFun} RecipientsListDetails={RecipientsListFun} ReplyRecipient={ReplyRecipientNameId} PageName={'MessageCenter'}/>
       </div>
     </>
   );

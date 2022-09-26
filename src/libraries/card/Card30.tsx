@@ -19,7 +19,7 @@ export const Card30 = ({ header}) => {
         <>
         {header.Students===undefined?null:
             <Card28 Student={header.Students}/>}
-        <Container>
+      
             {header.Header!= undefined ?
                 header.Header.map((Header) => (
 
@@ -37,7 +37,7 @@ export const Card30 = ({ header}) => {
                     </ListStyle>
                 ))
             :null}
-        </Container>
+
         </>
     )
 }

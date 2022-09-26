@@ -1,35 +1,12 @@
-import {
-  Box,
-  TextField,
-  FormGroup,
-  Button,
-  FormControlLabel,
-  Checkbox,
-  RadioGroup,
-  Radio,
-  FormControl,
-  NativeSelect,
-  Container,
-  Fab,
-  useTheme
-} from '@mui/material';
+import {Box, TextField,FormGroup,Button,FormControlLabel,Checkbox,RadioGroup,Radio,FormControl,NativeSelect,Container,Fab,useTheme} from '@mui/material';
 import { useEffect, useMemo, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import {
-  GetAdminAndprincipalUsers,
-  IUsergroup,
-  IGetStudentsUser,
-  GetStudentsUserResult
-} from 'src/interfaces/AdminSMSCenter/To';
+import {GetAdminAndprincipalUsers,IUsergroup,IGetStudentsUser,GetStudentsUserResult} from 'src/interfaces/AdminSMSCenter/To';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Icon2 from 'src/libraries/icon/icon2';
 import List3 from 'src/libraries/list/List3';
-import {
-  GetGetAdminAndprincipalUsers,
-  GetUser,
-  GetStudent
-} from 'src/requests/AdminSMSCenter/To';
+import {GetGetAdminAndprincipalUsers,GetUser,GetStudent} from 'src/requests/AdminSMSCenter/To';
 import { RootState } from 'src/store';
 import PropTypes from 'prop-types';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -38,10 +15,11 @@ import { Styles } from 'src/assets/style/student-style';
 AdminTeacherRecipientsList.propTypes = {
   displayProperty: PropTypes.any,
   RecipientsListDetails: PropTypes.any,
-  ReplyRecipient: PropTypes?.any
+  ReplyRecipient: PropTypes?.any,
+  PageName:PropTypes.string
 };
 
-function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,ReplyRecipient}){
+function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,ReplyRecipient,PageName}){
   toast.configure();
 
   const [RecipientsArray, setRecipientsArray] = useState({
@@ -266,27 +244,27 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
-  const stdDivId = sessionStorage.getItem('DivisionId');
+  const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
   const RoleName = localStorage.getItem('RoleName');
 
-  const AdminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
+  const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
     asAcademicYearId: academicYearId,
     asSchoolId: schoolId
   };
 
   // Teacher / Students / Other Staff / Admin Staff Body
-  const body: IUsergroup = {
+  const getUsersInGroupAPIBody: IUsergroup = {
     asAcademicYearId: academicYearId,
     asSchoolId: schoolId,
     asStdDivId: stdDivId,
     asUserId: asUserId,
     asSelectedUserGroup: valueFor_APi,
-    abIsSMSCenter: false
+    abIsSMSCenter: ((PageName=='SMSCenter')? true : false)
   };
 
   // Standared List
-  const body2: IGetStudentsUser = {
+  const getStudentsUserAPIBody: IGetStudentsUser = {
     asStdDivId: getStandardId,
     asAcadmeicYearId: academicYearId,
     asSchoolId: schoolId
@@ -294,17 +272,17 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
 
   // Admin / Principle / Software Coordinator body
   useMemo(() => {
-    dispatch(GetGetAdminAndprincipalUsers(AdminAndprincipalUsersApiBody));
+    dispatch(GetGetAdminAndprincipalUsers(adminAndprincipalUsersApiBody));
   }, []);
 
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    dispatch(GetUser(body));
+    dispatch(GetUser(getUsersInGroupAPIBody));
   }, [valueFor_APi, PrincipalChecked]); //SendSMS
 
   // Standard List Call
   useEffect(() => {
-    dispatch(GetStudent(body2));
+    dispatch(GetStudent(getStudentsUserAPIBody));
   }, [getStandardId]);
 
   useEffect(() => {

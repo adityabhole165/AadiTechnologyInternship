@@ -4,7 +4,7 @@ import { getHolidays } from 'src/requests/Holiday/Holiday';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, useTheme } from '@mui/material';
+import { Container, styled, useTheme } from '@mui/material';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
@@ -76,13 +76,13 @@ function Holidays() {
   });
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Holidays'} subheading={''} />
       <DotLegend
         className={classes.border}
         style={{
           background: '#c2dbff',
-          marginLeft: '1.5rem',
+          // marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}
       />
@@ -107,7 +107,7 @@ function Holidays() {
       <br />
 
       <List1 items={Data} />
-    </>
+    </Container>
   );
 }
 export default Holidays;

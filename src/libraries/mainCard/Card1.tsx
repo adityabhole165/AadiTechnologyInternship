@@ -50,7 +50,7 @@ function Card1({
 
   return (
     <>
-      <Container>
+   
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}
@@ -72,7 +72,7 @@ function Card1({
             <Card4 header={header} text1={text1} text2={text2} text3={text3} text5={text5}  />
           </ListStyle>
         </Grow>
-      </Container>
+    
     </>
   );
 }

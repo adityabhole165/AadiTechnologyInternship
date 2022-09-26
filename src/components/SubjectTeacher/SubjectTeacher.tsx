@@ -9,6 +9,8 @@ import ISubjectTeacher, {
 import { Typography, useTheme, Container } from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
+import { CardDetail1 } from 'src/libraries/styled/CardStyle';
+import { Header1 } from 'src/libraries/styled/AccordianStyled';
 
 function SubjectTeacher() {
   const dispatch = useDispatch();
@@ -34,7 +36,7 @@ function SubjectTeacher() {
     asUserId: asUserId
   };
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getSubjectList(body));
   }, []);
 
@@ -47,30 +49,17 @@ function SubjectTeacher() {
   });
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Subject  Teachers'} subheading={''} />
-      <Container>
-        {ClassTeachers.map((items: GetSubjectTeacherResult, i) => (
-          <>
-            <div style={{ flexDirection: 'row' }}>
-              <Typography
-                variant="body2"
-                fontSize="0.8rem"
-                marginLeft="0.2rem"
-                marginBottom="1rem"
-                key={i}
-              >
-                <b>
-                  {'Class Teacher'} : {items.TeacherName}
-                </b>
-              </Typography>
-            </div>
-          </>
-        ))}
-      </Container>
+
+      {ClassTeachers.map((items: GetSubjectTeacherResult, i) => (
+        <Header1 marginBottom="1rem" key={i}>
+          {'Class Teacher'} : {items.TeacherName}
+        </Header1>
+      ))}
 
       {<List1 items={Data}></List1>}
-    </>
+    </Container>
   );
 }
 

@@ -76,10 +76,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
       window.open(downloadPathOfReceipt);
     }, 1000);
   };
- 
- 
 
-  
   return (
     <>
       <Container>
@@ -95,8 +92,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
-              background: `${theme.colors.gradients.pink1}`,
-             }}
+              background: `${theme.colors.gradients.pink1}`
+            }}
           >
             <Header1
               sx={{
@@ -111,12 +108,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             </Header1>
           </Accordionsummary>
           {
-            <AccordionDetails
-              sx={{
-                // borderRadius: 1,
-                // mb: 1
-              }}
-            >
+            <AccordionDetails>
               {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
                 0 ? (
                 <ErrorMessages Error={'No fees has been paid'} />
@@ -149,25 +141,23 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             aria-controls="panel1bh-content"
             id="panel1bh-header"
             sx={{
-              background: `${theme.colors.gradients.pink1}`,
-           
-            }} color='primary'
+              background: `${theme.colors.gradients.pink1}`
+            }}
+            color="primary"
           >
-            <Header1 sx={{
+            <Header1
+              sx={{
                 color:
                   expanded === 'panel1'
                     ? `${theme.colors.gradients.accordianHeadercolor}`
                     : ''
-              }}> 
-            <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
+              }}
+            >
+              <b>{'Payable Fees'}</b> &nbsp;:&nbsp;
+              <b>{FeesObject.FeesTobePaid}</b>
             </Header1>
           </Accordionsummary>
-          <AccordionDetails
-            sx={{
-              borderRadius: 1,
-              mb: 1
-            }}
-          >
+          <AccordionDetails>
             <Card16
               Fee={Fee}
               Heading={Heading}

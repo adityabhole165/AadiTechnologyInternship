@@ -139,18 +139,20 @@ const handleChangeForTemplate = (e) => {
 
   const formik = useFormik({
     initialValues:{
-      To: RecipientsArray.RecipientName,
+      From: senderUserName,
+      To: RecipientsArray.RecipientName.toString(),
       Content: ContentTemplateDependent
     },
     onSubmit:()=>{
        submitResult(); 
     },
     validate:(values) =>{
+      // debugger;
       const errors: any = {};
-      if (values.To.length===0) {
+      if (RecipientsArray.RecipientName.toString().length == 0) {
           errors.To = 'Atleast one recipient should be selected.';
       }
-      if (!values.Content) {
+      if (ContentTemplateDependent.length == 0) {
         errors.Content = 'SMS content should not be blank please select SMS Template';
       }
       return errors;
@@ -159,6 +161,7 @@ const handleChangeForTemplate = (e) => {
 
   // Send SMS
   const submitResult = () =>{
+    debugger;
     const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
       aoMessage: {
@@ -186,6 +189,7 @@ const handleChangeForTemplate = (e) => {
     .then((res: any) => {
       if (res.status === 200) {
         toast.success('SMS sent successfully');
+        formik.resetForm();
       }
     })
     .catch((err) => {
@@ -384,7 +388,6 @@ const handleChangeForTemplate = (e) => {
                   name="Content"
                   type="text"
                   value={ContentTemplateDependent}
-                  //onChange={changeHandler}
                   onBlur={ContentFieldBlur}
                   sx={{ marginTop: '1px' }}
                   id="content"
@@ -407,7 +410,7 @@ const handleChangeForTemplate = (e) => {
                       fullWidth
                       size="large"
                       variant="contained"
-                      onChange={formik.handleChange}
+                      onClick={formik.handleChange}
                     >
                      Send
                     </Button>
@@ -422,7 +425,7 @@ const handleChangeForTemplate = (e) => {
       {/* To Recipient Page */}
 
       <div style={{ display: displayOfTo_RecipientsPage }}>
-        <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} />
+        <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} />
       </div>
     </>
   );

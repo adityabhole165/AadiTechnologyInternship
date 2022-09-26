@@ -7,6 +7,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import ITimetable, {
 } from 'src/interfaces/Student/TimeTable';
 import Card30 from 'src/libraries/card/Card30';
+import { Container } from '@mui/material';
 
 function Timetable() {
   const dispatch = useDispatch();
@@ -32,11 +33,11 @@ function Timetable() {
   }, []);
 
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Timetable'} subheading={''} />
       
       <Card30 header={{Header:TimetableList}}></Card30>
-    </div>
+    </Container>
   );
 }
 
