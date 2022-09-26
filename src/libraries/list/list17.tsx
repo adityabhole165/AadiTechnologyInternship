@@ -103,7 +103,6 @@ const useStyles = makeStyles({
             {...(checked ? { timeout: 1500 } : {})}
           >  
           <List sx={{ background: PresentDateFormat == BirthDate || BirthDate === NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
-          // <List sx={{ background: BirthDate == presentDate  ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                 mb: 1,
                 boxShadow : "8px 4px 5px grey !important",
                 borderRadius: 1}}>

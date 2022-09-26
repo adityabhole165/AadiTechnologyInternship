@@ -8,7 +8,7 @@ List26.propTypes = {
     Dataa: PropTypes.any,
     getAbsetNumber: PropTypes.any,
 };
-function List26({ Dataa, getAbsetNumber }) {
+function List26({ Dataa, getAbsetNumber ,assignedDate }) {
 
     const [textarray, setTextarray] = useState('')
     const [getLabel, setGetLabel] = useState('Comma separated Roll Number')
@@ -50,7 +50,7 @@ function List26({ Dataa, getAbsetNumber }) {
                     changeText={changeText}
                     getLabel={getLabel} />
 
-                <List3ColSelAll Itemlist={Data} refreshData={refreshData} />
+                <List3ColSelAll Itemlist={Data} refreshData={refreshData} assignedDate={assignedDate} />
             </>
 
         </>
