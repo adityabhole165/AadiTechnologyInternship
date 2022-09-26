@@ -113,7 +113,8 @@ export const GetStudentList =
                         text1: item.RollNumber,
                         text2: item.StudentName,
                         isActive: item.IsPresent === 'true' ? true : false,
-                        status: item.Status
+                        status: item.Status,
+                        joinDate:item.JoinDate
                     }
 
                 })

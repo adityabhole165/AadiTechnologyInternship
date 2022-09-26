@@ -31,27 +31,14 @@ function Accordion1({ Parent, Teacher, headingg }) {
   const classes = Styles();
 
   const Data = Teacher.map((item, index) => {
-    return item.RealatedSection === '2'
-      ? {
-          id: item.RealatedSection,
-          header: item.TeacherName,
-          text1: item.TeacherDesignation,
-          text2: '',
-          backgroundColor: `${theme.colors.gradients.selectedlistColor}`,
-       
-          RelatedSection: '2',
-        
-        }
-      : {
-          id: item.RealatedSection,
-          header: item.TeacherName,
-          text1: item.TeacherDesignation,
-          text2: '',
-          backgroundColor: '',
-      
-          RelatedSection: '0',
-        
-        };
+    return {
+      id: item.RealatedSection,
+      header: item.TeacherName,
+      text1: item.TeacherDesignation,
+      text2: '',
+      Color: item.RealatedSection === '2'?'warning':'',
+      RelatedSection: item.RealatedSection === '2'?'2':'0',
+    }
   });
   const Data1 = Parent.map((item, index) => {
     return {
@@ -88,18 +75,13 @@ function Accordion1({ Parent, Teacher, headingg }) {
                   sx={{
                     background: `${theme.colors.gradients.pink1}`,
                     boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                    mb: 1
+                    mb: 1,
+                    color: expanded === 'panel1'
+                    ?  `${theme.colors.gradients.accordianHeadercolor}`
+                    : ''
                   }}
                 >
-                  <Header1
-                    sx={{
-                      color: expanded === 'panel1'
-                        ?  `${theme.colors.gradients.accordianHeadercolor}`
-                        : ''
-                    }}
-                  >
                     <b>{headingg.PTA_Member}</b>
-                  </Header1>
                 </Accordionsummary>
 
                 <AccordionDetails
