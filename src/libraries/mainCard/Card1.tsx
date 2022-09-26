@@ -5,7 +5,7 @@ import { Styles } from 'src/assets/style/student-style';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import Card4 from 'src/libraries/mainCard/Card4';
 import { BoxStyle, ListStyle } from '../styled/CardStyle';
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 // Card1.propTypes = {
 //   header: PropTypes.string,
 //   text1: PropTypes.string,
@@ -19,15 +19,14 @@ function Card1({
   text1,
   text2,
   text3,
-
   text5,
+  
   isSelected,
   Color,
-  FileName='',
+  FileName = '',
   margin = '',
   RealatedSection = ''
 }) {
-  console.log(header)
   const date = new Date();
   const NewDate = new Date(date).toDateString();
   const Day = NewDate.slice(8, 10);
@@ -37,43 +36,27 @@ function Card1({
 
   const [checked, setChecked] = useState(true);
   const theme = useTheme();
-  let background = `${theme.colors.gradients.listColor}`;
-  
-  if (Color === undefined || Color === '')
-    background =
-      isSelected === 1 || RealatedSection === '2'
-        ? `${'#e9a69a'}`
-        : `${theme.colors.gradients.listColor}`;
-  else background = Color;
-
-
+  let background =
+    (text1 === NewDateFormat) ? 'secondary' :
+      !(Color === undefined || Color === '') ? Color :
+        (isSelected === 1 || RealatedSection === '2') ? 'warning'
+          : 'primary'
 
   return (
-    <>
-   
-        <Grow
-          in={checked}
-          style={{ transformOrigin: '0 0 1' }}
-          {...(checked ? { timeout: 1500 } : {})}
-        >
-          <ListStyle
-            sx={{
-              background:
-                text1 == NewDateFormat
-                  ? `${theme.colors.gradients.HighlightedlistColor}`
-                  : background,mx: margin
-            }}
-          >
-            {FileName === '' || FileName === undefined ? null : (
-              <BoxStyle>
-                <AttachmentIcon />
-              </BoxStyle>
-            )}
-            <Card4 header={header} text1={text1} text2={text2} text3={text3} text5={text5}  />
-          </ListStyle>
-        </Grow>
-    
-    </>
+    <Grow
+      in={checked}
+      style={{ transformOrigin: '0 0 1' }}
+      {...(checked ? { timeout: 1500 } : {})}
+    >
+      <ListStyle color={background} sx={{mx: margin}}>
+        {FileName === '' || FileName === undefined ? null : (
+          <BoxStyle>
+            <AttachmentIcon />
+          </BoxStyle>
+        )}
+        <Card4 header={header} text1={text1} text2={text2} text3={text3} text5={text5} />
+      </ListStyle>
+    </Grow>
   );
 }
 

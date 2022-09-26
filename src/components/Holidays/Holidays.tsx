@@ -81,7 +81,7 @@ function Holidays() {
       <DotLegend
         className={classes.border}
         style={{
-          background: '#c2dbff',
+          background: theme.colors.gradients.HighlightedlistColor,
           // marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}
@@ -95,7 +95,7 @@ function Holidays() {
       <DotLegend
         className={classes.border}
         style={{
-          background: '#e9a69a',
+          background: theme.colors.gradients.selectedlistColor,
           marginLeft: '1.5rem',
           marginBottom: '-2px'
         }}
