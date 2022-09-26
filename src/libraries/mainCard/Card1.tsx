@@ -10,11 +10,9 @@ function Card1({
   text3,
   text5,
   
-  isSelected,
   Color,
   FileName = '',
   margin = '',
-  RealatedSection = ''
 }) {
 
   return (

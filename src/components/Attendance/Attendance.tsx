@@ -87,7 +87,6 @@ function Attendance() {
               text1=""
            
               text5=""
-              isSelected=""
               Color=""
               margin=""
             />
@@ -98,7 +97,6 @@ function Attendance() {
               text1=""
           
               text5=""
-              isSelected=""
               Color=""
               margin=""
             />
@@ -112,7 +110,6 @@ function Attendance() {
               text1=""
        
               text5=""
-              isSelected=""
               Color=""
               margin=""
             />
