@@ -58,7 +58,8 @@ export const getHomework =
               return {
                 Id: item.Id,
                 Name: item.SubjectName,
-                Value: item.AssignedDate
+                Value: item.AssignedDate,
+                navPath: '/extended-sidebar/Student/viewHomework/' + item.Id
               };
             })
         }
