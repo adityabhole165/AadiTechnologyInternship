@@ -46,7 +46,7 @@ const MessageList = () => {
     const [isSearchClicked, setIsSearchClicked] = useState(false)
     const [showSearch, setShowSearch] = useState(false)
     const [inboxListData, setInboxListData] = useState([])
-    const [isDeleteActive, setIsDeleteActive] = useState(false)
+    let isDeleteActive = inboxListData.some(obj => obj.isActive === true);
 
     const AcademicYearList = useSelector(
         (state: RootState) => state.MessageCenter.YearsList
@@ -148,8 +148,8 @@ const MessageList = () => {
 
     const clickReset = () => {
         setInboxListData(inboxListData.map((obj) => {
-                return { ...obj, isActive: false }
-            }))
+            return { ...obj, isActive: false }
+        }))
     }
 
     const clickSearch = (searchText, academicYear, monthYear, isSearchClicked) => {
@@ -162,7 +162,6 @@ const MessageList = () => {
     }
 
     const refreshData = (value) => {
-        setIsDeleteActive((value.some(obj => obj.isActive === true)) )
         setInboxListData(value)
     }
     return (
@@ -195,11 +194,10 @@ const MessageList = () => {
                         </Grid>
                 }
                 {isDeleteActive &&
-                <Grid item xs={10}>
-
-                    <ButtonPrimary onClick={clickDelete} endIcon={<DeleteIcon />}>Delete</ButtonPrimary>
-                    <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>Reset</ButtonPrimary>
-                </Grid>}
+                    <Grid item xs={10}>
+                        <ButtonPrimary onClick={clickDelete} endIcon={<DeleteIcon />}>Delete</ButtonPrimary>
+                        <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>Reset</ButtonPrimary>
+                    </Grid>}
             </Grid>
             {loading ? (<SuspenseLoader />) :
                 <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />

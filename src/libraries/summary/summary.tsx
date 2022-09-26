@@ -20,10 +20,12 @@ function summary() {
   return (
     <>
     
-        <Grid container xs={12}  >
-          <Grid direction="column" xs={6}>
-              <DotLegend className={classes.border}
-                style={{ background: '#2abf2a', marginBottom: "-2px" }}
+        <Grid container item xs={12}  >
+          <Grid item xs={6}>
+              <DotLegend 
+              className={classes.border}
+                
+              style={{ background: '#2abf2a', marginBottom: "-2px" }}
               /><small><b>Present</b></small><br />
 
               <DotLegend className={classes.border}
@@ -39,7 +41,7 @@ function summary() {
               /><small><b>Outside Academic Year</b></small><br />
             </Grid>
 
-            <Grid   direction="column" xs={6} >
+            <Grid item xs={6} >
               <DotLegend className={classes.border}
                 style={{ background: '#f33737',  marginBottom: "-2px" }}
               /><small><b>Absent</b></small><br />
