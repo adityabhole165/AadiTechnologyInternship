@@ -28,7 +28,8 @@ export const Card30 = ({ header}) => {
                         <Card32
                             Id={Header.Id}
                             Name={Header.Name}
-                            expand={expand} />
+                            expand={expand} 
+                            isActive={enableRow === Header.Id}/>
 
                         {
                             enableRow === Header.Id &&

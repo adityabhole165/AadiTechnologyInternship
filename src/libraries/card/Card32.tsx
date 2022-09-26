@@ -1,28 +1,16 @@
-import React, { useEffect } from 'react';
-
-import { Typography, Grid, useTheme } from '@mui/material';
+import { useTheme } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState } from 'react';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import { Styles } from 'src/assets/style/student-style';
 import { AccordianHeader, Header1, Header2 } from '../styled/AccordianStyled';
-const Card32 = ({ Id, Name, expand }) => {
+const Card32 = ({ Id, Name, expand, isActive }) => {
   const theme = useTheme();
-  const ExpandIcon = () => (expanded ? <ExpandLessIcon /> : <ExpandMoreIcon />);
-  const [expanded, setExpanded] = useState(false);
-  const [color, setColor] = useState('');
-  const expandFunc = () => {
-    setExpanded(!expanded);
-    expand(Id);
-    setColor(expanded? '': `${theme.colors.gradients.accordianHeadercolor}`)
-  };
-
-  const classes = Styles();
   return (
-    <AccordianHeader onClick={expandFunc}>
-      <Header1 color={color}> {Name} </Header1>
+    <AccordianHeader onClick={() => expand(Id)}>
+      <Header1 color={isActive ? 'secondary':''}> {Name} </Header1>
       <Header2>
-        <ExpandIcon />
+        {isActive ?
+          <ExpandLessIcon /> :
+          <ExpandMoreIcon />}
       </Header2>
     </AccordianHeader>
   );
