@@ -15,7 +15,7 @@ DateSelector.propTypes = {
   setCurrentDate: PropTypes.any,
   Close: PropTypes?.any,
   displayCalander: PropTypes?.any,
-  Array:PropTypes.array
+  Array: PropTypes.array
 };
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -26,7 +26,7 @@ const Item = styled(Paper)(({ theme }) => ({
   borderRadius: '4px'
 }));
 
-function DateSelector({ date, setCurrentDate, Close, Array}) {
+function DateSelector({ date, setCurrentDate, Close }) {
 
 
   const location = useLocation();
@@ -35,7 +35,6 @@ function DateSelector({ date, setCurrentDate, Close, Array}) {
 
   const classes = Styles();
   const [isFuture, setIsFuture] = useState(false);
-console.log("isFuture",isFuture);
 
   const SetNewDate = (prevNext) => {
     const { selectedDate } = { selectedDate: date };
@@ -46,7 +45,7 @@ console.log("isFuture",isFuture);
     const next = new Date(nextDayInMilli);
     let cDay = (new Date(new Date().toLocaleDateString()))
     setIsFuture(isFutureDate(next))
-    if (isFutureDate(next))
+    if (!isFutureDate(next))
       setCurrentDate(next);
   }
 
@@ -89,7 +88,8 @@ console.log("isFuture",isFuture);
               </Item>
             </Grid>
             <Grid item xs={12}>
-              {(Array.StatusMessage == "Attendance not yet marked." && isFuture ) ? <ErrorDetail>Attendance not yet marked.</ErrorDetail> : null}
+
+              {isFuture ? <ErrorDetail>Future date attendance is not allowed.</ErrorDetail> : null}
             </Grid>
           </Grid>
         </div>

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ISchoolList, GetAllSchoolsResult } from "src/interfaces/Authentication/SchoolList"
 import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
-import { getSchoolList } from 'src/requests/Authentication/SchoolList';
+import { getSchoolList, getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import { RootState } from 'src/store';
 import school5 from 'src/assets/img/school5.jpg';
 import TextField from '@mui/material/TextField';
@@ -25,6 +25,7 @@ import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
 
 
 function SelectSchool() {
@@ -57,9 +58,11 @@ function SelectSchool() {
     //   select School
     const dispatch = useDispatch();
     const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
+    const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
+
     const [value, setValue] = React.useState<GetAllSchoolsResult>();
     const [inputValue, setInputValue] = React.useState('');
-
+  
     if ((value !== undefined) && (value !== null)) {
         window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
         sessionStorage.setItem("SchoolId", value.SchoolId);
@@ -69,11 +72,19 @@ function SelectSchool() {
     }
     const Id = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
-    const SchoolId = sessionStorage.getItem('SchoolId');
     const SchoolName = localStorage.getItem('SchoolName')
     const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
-    const localschoolId = localStorage.getItem('localSchoolId')
+    const schoolId = localStorage.getItem('localSchoolId')
+    if((schoolId != null && schoolId != undefined)){
+        localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
+    }
 
+    let schoolSettingAPIBody:ISchoolSettings = null;
+    if((schoolId != null && schoolId != undefined)){
+        schoolSettingAPIBody = {
+            asSchoolId: schoolId
+        }
+    }
     // end select School
 
     // Login form
@@ -122,8 +133,7 @@ function SelectSchool() {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
-        const adminDetails: any = await response.data.TeacherDetails
-        // const adminDetails:any= await response.data.AdminStaffDetails.GetAdminStaffResult
+        const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
         if (result.RoleName === "Student") {
@@ -209,7 +219,7 @@ function SelectSchool() {
         const body: IAuthenticateUser = {
             asUserName: formik.values.userName,
             asPassword: formik.values.password,
-            asSchoolId: localschoolId,
+            asSchoolId: schoolId,
             asIsSiblingLogin: false
         };
 
@@ -229,10 +239,13 @@ function SelectSchool() {
     const ListData: ISchoolList = {
         "asSchoolId": "Default"
     }
-
+    
     useEffect(() => {
         dispatch(getSchoolList(ListData))
-        if (localschoolId !== null) {
+        if((schoolId != null && schoolId != undefined)){
+            dispatch(getSchoolSettingsValue(schoolSettingAPIBody))
+        }
+        if (schoolId !== null) {
             const res = localStorage.getItem("auth")
             if (res === null) {
                 setShow(false);
@@ -240,7 +253,7 @@ function SelectSchool() {
                 setSession(JSON.parse(res))
             }
         }
-    }, []);
+    }, [value]);
 
 
     return (

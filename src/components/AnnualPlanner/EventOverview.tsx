@@ -11,6 +11,7 @@ import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
+import { Container } from '@mui/material';
 
 function EventOverview() {
   const dispatch = useDispatch();
@@ -95,7 +96,7 @@ function EventOverview() {
   });
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Events Overview'} subheading={''} />
       <Buttons
         date={date.selectedDate}
@@ -116,7 +117,7 @@ function EventOverview() {
         ) }
       </>
       
-    </>
+    </Container>
   );
 }
 

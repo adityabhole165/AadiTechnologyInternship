@@ -9,6 +9,7 @@ import { Container, Grow, useTheme } from '@mui/material';
 import { GetStudentExamResult } from 'src/interfaces/Student/ProgressReport';
 import { Styles } from 'src/assets/style/student-style';
 import Block from 'src/libraries/accordion/block';
+import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 
 Accordions3.propTypes = {
   Exam: PropTypes.string,
@@ -22,8 +23,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
   const classes = Styles();
 
   return (
-    <div>
-      <Container>
+ 
+   
         <Grow
           in={checked}
           style={{ transformOrigin: '1 1 1' }}
@@ -33,17 +34,17 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             className={classes.background}
             expanded={expand === index}
             onChange={Collapse(index)}
+            elevation={0}
+          disableGutters
           >
-            <AccordionSummary
+            <Accordionsummary
               expandIcon={<ExpandMoreIcon />}
               sx={{
                 background: `${theme.colors.gradients.pink1}`,
-                color: 'white',
-                boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                mb: 1
+              
               }}
             >
-              <Typography
+              <Header1
                 sx={{
                   color:
                     expand === index
@@ -52,8 +53,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
                 }}
               >
                 <b>{Exam}</b>
-              </Typography>
-            </AccordionSummary>
+              </Header1>
+            </Accordionsummary>
             <AccordionDetails
               sx={{
                 borderRadius: 1,
@@ -80,8 +81,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             </AccordionDetails>
           </Accordion>
         </Grow>
-      </Container>
-    </div>
+   
+  
   );
 }
 

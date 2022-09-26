@@ -40,14 +40,14 @@ function Card5({ Content, FileName, Name }) {
 
   const download = (e) => {
     saveAs(
-      'http://riteschool_old.aaditechnology.com/RITeSchool' +
+      'https://192.168.1.80/RITeSchool/' +
         '/DOWNLOADS/School%20Notices/' +
         FileName
     );
   };
 
   const file_path =
-    'http://riteschool_old.aaditechnology.com/RITeSchool' +
+    'https://192.168.1.80/RITeSchool/' +
     '/DOWNLOADS/School%20Notices/' +
     FileName;
 

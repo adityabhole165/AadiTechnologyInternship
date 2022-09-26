@@ -6,6 +6,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import List1 from 'src/libraries/mainCard/List1';
+import { Container } from '@mui/material';
 
 function Schoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -39,10 +40,10 @@ function Schoolnotice() {
   });
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'School Notices'} subheading={''} />
       <List1 items={Data} />
-    </>
+    </Container>
   );
 }
 export default Schoolnotice;

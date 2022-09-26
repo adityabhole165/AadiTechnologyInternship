@@ -17,7 +17,7 @@ function Card28({ Student }) {
   }
 
   return (
-    <Container>
+    
       <ListStyle sx={{ background: `${theme.colors.gradients.HighlightedlistColor}`}}>
         <Grid container>
           <Grid item xs={12}>
@@ -42,7 +42,7 @@ function Card28({ Student }) {
           </Grid>
         </Grid>
       </ListStyle>
-    </Container>
+   
   );
 }
 

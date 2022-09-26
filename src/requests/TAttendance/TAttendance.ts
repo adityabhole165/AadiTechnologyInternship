@@ -105,20 +105,21 @@ export const GetStudentDetailsList =
 export const GetStudentList =
     (data: IGetStudentDetails): AppThunk =>
         async (dispatch) => {
-            console.log("call me")
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
-            const studentList =
-                response?.data.map((item, index) => {
+            if(response?.data != null){
+                const studentList = response?.data.map((item, index) => {
+                    
                     return {
                         text1: item.RollNumber,
                         text2: item.StudentName,
                         isActive: item.IsPresent === 'true' ? true : false,
-                        status: item.Status
+                        status: item.Status,
+                        joinDate:item.JoinDate
                     }
 
                 })
-            console.log("studentList", studentList)
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
+        }
         }
 export const getStandard =
     (data: StandardAttendance): AppThunk =>

@@ -69,9 +69,9 @@ const onlineExam = () => {
   }, [examid]);
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Online Exam Schedule'} subheading={''} />
-      <Container>
+    
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
         >
@@ -92,7 +92,7 @@ const onlineExam = () => {
             </NativeSelect>
           }
         </FormControl>
-      </Container>
+     
       {SubjectList?.map((subjectList: GetAllSubjectsForExamdata, i) => {
         return (
           <>
@@ -113,10 +113,8 @@ const onlineExam = () => {
                 text2={subjectList.StartTime + '-' + subjectList.EndTime}
                 text5=""
                 text3={subjectList.StartDate}
-                isSelected=""
                 Color=""
                 margin=""
-                RealatedSection=""
                 FileName=""
                 key=""
               />
@@ -124,7 +122,7 @@ const onlineExam = () => {
           </>
         );
       })}
-    </>
+    </Container>
   );
 };
 
