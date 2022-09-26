@@ -56,7 +56,7 @@ export const getHomework =
             })
             .map((item, index) => {
               return {
-                Id: index,
+                Id: item.Id,
                 Name: item.SubjectName,
                 Value: item.AssignedDate
               };
@@ -71,7 +71,6 @@ export const getHomework =
               Child: child(item.SubjectId)
             };
           })
-          console.log(Data2)
         dispatch(HomeworkSlice.actions.getHomeworkSubject({Header:Data2}));
       };
 
