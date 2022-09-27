@@ -1,8 +1,16 @@
 export function isFutureDate(date) {
-    return (new Date(date.toLocaleDateString()))
+    return ((new Date(date.toLocaleDateString()))
         >
-        (new Date(new Date().toLocaleDateString()))
+        (new Date(new Date().toLocaleDateString())))
 }
+
+//date='02 Oct 2022'
+export function isTodaysDate(date) {
+    return (new Date(date)).toLocaleDateString() 
+    === 
+    (new Date().toLocaleDateString())
+}
+
 export function ReturnTimeOrDateYear(date){
     var dateFormat = new Date(date);
     if(new Date(dateFormat.toLocaleDateString()) === new Date(new Date().toLocaleDateString()))

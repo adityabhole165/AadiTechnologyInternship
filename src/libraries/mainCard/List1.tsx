@@ -22,10 +22,8 @@ function List1({ items }) {
                   <Card1
                     header={items.header}
                     text1={items.text1} text2={items.text2} text3={items.text3} text5={items.text5}
-                    isSelected={items.isSelected}
                     Color={items.backgroundColor}
                     margin={items.mx}
-                    RealatedSection={items.RealatedSection}
                     FileName={items.FileName}
                     key={items.id}
                   />
@@ -39,7 +37,6 @@ function List1({ items }) {
                       <Card1
                         header={items.header}
                         text1={items.text1} text2={items.text2} text3={items.text3} text5={items.text5}
-                        isSelected={items.isSelected}
                         Color={items.backgroundColor}
                         margin={items.mx}
                         FileName={items.FileName}

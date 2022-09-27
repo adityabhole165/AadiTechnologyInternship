@@ -149,10 +149,8 @@ function ExamSchedule() {
               text2={items.StartTime + '-' + items.EndTime}
               text5={items.Description}
               text3={items.StartDate}
-              isSelected=""
               Color=""
               margin=""
-              RealatedSection=""
               FileName=""
               key=""
             />

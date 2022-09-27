@@ -49,7 +49,6 @@ function List26({ Dataa, getAbsetNumber ,assignedDate }) {
                     validarray={Data.map((obj) => obj.text1)}
                     changeText={changeText}
                     getLabel={getLabel} />
-
                 <List3ColSelAll Itemlist={Data} refreshData={refreshData} assignedDate={assignedDate} />
             </>
 
@@ -58,14 +57,4 @@ function List26({ Dataa, getAbsetNumber ,assignedDate }) {
 }
 
 export default List26
-
-        // const [Dataa, setData] = useState([{
-    //     text1: "1",
-    //     text2: "Ajit",
-    //     isActive: true
-    // }, {
-    //     text1: "2",
-    //     text2: "Mayur",
-    //     isActive: true
-    // }]
-    // )    
+   
