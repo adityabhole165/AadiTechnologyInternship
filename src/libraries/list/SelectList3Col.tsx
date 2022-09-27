@@ -11,6 +11,7 @@ const SelectList3Col = ({ Itemlist, refreshData}) => {
             )
         refreshData(Itemlist)
     }
+    console.log(Itemlist)
   return (
     <div>
                     {Itemlist?.length===0?

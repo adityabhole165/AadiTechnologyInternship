@@ -3,7 +3,7 @@ import { IUserGroupList,ISendMessage} from "../../interfaces/MessageCenter/Messa
 import { IgetList } from "src/interfaces/MessageCenter/GetList";
 
   const GetTrashList = (data: IgetList) => {
-    return http.post<IgetList>('MessageCenter/GetTrashMessages',data);
+    return http.post('MessageCenter/GetTrashMessages',data);
   };
 
   const GetUsegroupList = (data: IUserGroupList) => {
