@@ -65,7 +65,7 @@ function Card3({
               // width: '150px',
          
               width: 70,
-              height: 65,
+              height: 70,
               background: `${theme.colors.gradients.pink1}`,
               
               borderRadius: '10px',
