@@ -101,32 +101,26 @@ function ExamSchedule() {
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
-     
 
+      <DotLegend color="success" text="Description" />
 
-          <DotLegend color='success' text='Description' />
-      
-     
-        <FormControl
-          sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
-        >
-          {
-            <NativeSelect onChange={(e) => handleChange(e)}>
-              <option value="0">Select Exam</option>
+      <FormControl
+        sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
+      >
+        {
+          <NativeSelect onChange={(e) => handleChange(e)}>
+            <option value="0">Select Exam</option>
 
-              {SelectExamList?.map(
-                (allexamslist: GetSelectExamListResult, i) => {
-                  return (
-                    <option value={allexamslist.Id} key={i}>
-                      {allexamslist.Name}
-                    </option>
-                  );
-                }
-              )}
-            </NativeSelect>
-          }
-        </FormControl>
-   
+            {SelectExamList?.map((allexamslist: GetSelectExamListResult, i) => {
+              return (
+                <option value={allexamslist.Id} key={i}>
+                  {allexamslist.Name}
+                </option>
+              );
+            })}
+          </NativeSelect>
+        }
+      </FormControl>
 
       {ExamsList?.map((items: GetExamsListResult, i) => {
         return (
