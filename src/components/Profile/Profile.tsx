@@ -5,14 +5,14 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Card6 from 'src/libraries/mainCard/Card6';
 function Profile() {
   return (
-    // <Box sx={{backgroundColor:"#bbdefb",Top:0,  position: 'fixed',width:"100%",height:"100%"}}>
-      <Container>
+    <Box sx={{backgroundColor:"#bbdefb",Top:0,  position: 'fixed',width:"100%",height:"100%"}}>
+   
           <PageHeader heading={'My Profile'} subheading={''} />
           <Card24 />
-      </Container>
+    
   
-      // {/* <Card6/> */}
-    // </Box>
+      {/* <Card6/> */}
+    </Box>
   );
 }
 export default Profile;

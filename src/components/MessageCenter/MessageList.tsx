@@ -221,7 +221,9 @@ const MessageList = () => {
       {loading ? (
         <SuspenseLoader />
       ) : (
+        <div style={{marginTop:'10px'}}>
             <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
+        </div>
       )}
       <span
         style={{

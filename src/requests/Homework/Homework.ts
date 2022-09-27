@@ -22,7 +22,7 @@ const HomeworkSlice = createSlice ({
 
       getHomeworkSubject(state, action){
         state.Loading = false
-        state.HomeworkSubjectData = action.payload.GetHomeworkSubjectsResult.HomeworkSubjects;
+        state.HomeworkSubjectData = action.payload;
       },
       
       getLoading (state,action) {
@@ -38,6 +38,8 @@ export const getHomework =
     async (dispatch) => {
         dispatch(HomeworkSlice.actions.getLoading(true));
         const response = await HomeworkApi.GetHomeworkList(data);
+
+
         dispatch(HomeworkSlice.actions.getHomework(response.data));
       };
 
@@ -46,7 +48,31 @@ export const getHomework =
     async (dispatch) => {
         dispatch(HomeworkSlice.actions.getLoading(true));
         const response = await HomeworkApi.GetHomeworkSubjectList(data);
-        dispatch(HomeworkSlice.actions.getHomeworkSubject(response.data));
+        const response1 = await HomeworkApi.GetHomeworkList(data);
+        const child = (SubjectId) => {
+          return response1.data.GetHomeworkDetailsResult.Homeworks
+            .filter((obj) => {
+              return obj.SubjectId === SubjectId;
+            })
+            .map((item, index) => {
+              return {
+                Id: item.Id,
+                Name: item.SubjectName,
+                Value: item.AssignedDate,
+                navPath: '/extended-sidebar/Student/viewHomework/' + item.Id
+              };
+            })
+        }
+
+        const Data2=(response.data.GetHomeworkSubjectsResult.HomeworkSubjects.length===0)?[]:
+          response.data.GetHomeworkSubjectsResult.HomeworkSubjects.map((item, index) => {
+            return {
+              Id: index,
+              Name: item.SubjectName,
+              Child: child(item.SubjectId)
+            };
+          })
+        dispatch(HomeworkSlice.actions.getHomeworkSubject({Header:Data2}));
       };
 
 export default HomeworkSlice.reducer
