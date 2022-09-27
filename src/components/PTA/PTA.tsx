@@ -9,6 +9,8 @@ import IPta from '../../interfaces/Common/PTA';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Styles } from 'src/assets/style/student-style';
 
+import DotLegend from 'src/libraries/summary/DotLegend';
+import Grid from '@mui/material/Grid';
 function pta() {
   const dispatch = useDispatch();
   const ParentCommitteeList: any = useSelector(
@@ -36,16 +38,6 @@ function pta() {
     dispatch(getPtaList(body));
   }, []);
 
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-      border-radius: 22px;
-      width: ${theme.spacing(1.5)};
-      height: ${theme.spacing(1.5)};
-      display: inline-block;
-      margin-right: ${theme.spacing(1)};
-      margin-top: -${theme.spacing(0.1)};
-  `
-  );
 
   const theme = useTheme();
   const classes = Styles();
@@ -53,7 +45,14 @@ function pta() {
     <Container>
       <PageHeader heading={'PTA'} subheading={''} />
       <div>
-        <DotLegend
+      <Grid container>
+        <Grid item xs={12}>
+          <DotLegend color='secondary' text='PTA members' />
+        </Grid><Grid item xs={12}>
+          <DotLegend color='warning' text='PTA members associated with section and class' />
+        </Grid>
+      </Grid>
+        {/* <DotLegend
           className={classes.border}
           sx={{
           
@@ -76,7 +75,7 @@ function pta() {
         <small>
           <b> PTA members associated with section and class </b>
         </small>
-        <br />
+        <br /> */}
       </div>{' '}
       <br />
       <Accordion1
