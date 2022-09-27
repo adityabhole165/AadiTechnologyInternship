@@ -23,6 +23,8 @@ import Card1 from 'src/libraries/mainCard/Card1';
 import { Styles } from 'src/assets/style/student-style';
 import http from 'src/requests/SchoolService/schoolServices';
 import Icon3 from 'src/libraries/icon/icon3';
+import DotLegend from 'src/libraries/summary/DotLegend';
+import Grid from '@mui/material/Grid';
 
 function ExamSchedule() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -85,31 +87,25 @@ function ExamSchedule() {
 
   const theme = useTheme();
   const classes = Styles();
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-          border-radius: 22px;
-          width: ${theme.spacing(1.5)};
-          height: ${theme.spacing(1.5)};
-          display: inline-block;
-          margin-right: ${theme.spacing(1)};
-          margin-top: -${theme.spacing(0.1)};
-      `
-  );
+  // const DotLegend = styled('span')(
+  //   ({ theme }) => `
+  //         border-radius: 22px;
+  //         width: ${theme.spacing(1.5)};
+  //         height: ${theme.spacing(1.5)};
+  //         display: inline-block;
+  //         margin-right: ${theme.spacing(1)};
+  //         margin-top: -${theme.spacing(0.1)};
+  //     `
+  // );
   console.log(ExamsList);
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
-      <DotLegend
-        className={classes.border}
-        style={{
-          background: 'darkmagenta',
-        
-          marginBottom: '-2px'
-        }}
-      />
-      <small>
-        <b>Description</b>
-      </small>
+     
+
+
+          <DotLegend color='success' text='Description' />
+      
      
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
