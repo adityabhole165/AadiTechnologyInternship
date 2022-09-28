@@ -1,4 +1,4 @@
-import{ useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import List26 from '../../libraries/list/List26'
@@ -7,13 +7,14 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Container } from '@mui/material'
 import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import {getStandard,GetSaveAttendanceStatus,GetStudentList,GetAttendanceStatus,GetStudentDetailsList} from 'src/requests/TAttendance/TAttendance';
-import ITAttendance, {IStudentsDetails} from 'src/interfaces/Teacher/TAttendance';
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, GetAttendanceStatus, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
+import { Link as RouterLink } from 'react-router-dom';
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -22,7 +23,8 @@ const TAttendance = () => {
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asTeacherId = sessionStorage.getItem('TeacherId');
-    const [Standardid, setStandardId] = useState();
+    const [Standardid, setStandardid] = useState();
+    const [StandardId, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
     // Date selector Start
     const [date, setDate] = useState({ selectedDate: '' });
@@ -113,7 +115,7 @@ const TAttendance = () => {
     }
 
     const handleChange = (value) => {
-        setStandardId(value);
+        setStandardid(value);
     }
 
     const getAbsetNumber = (value) => {
@@ -140,9 +142,9 @@ const TAttendance = () => {
 
         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
     }
- 
+
     const SaveMsg = () => {
-        { 
+        {
             GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
                 .then((resp) => {
                     if (resp.status == 200) {
@@ -151,7 +153,7 @@ const TAttendance = () => {
                 })
                 .catch((err) => {
                     alert('error network');
-                });  
+                });
         }
     }
 
@@ -198,10 +200,27 @@ const TAttendance = () => {
                                                     label='Absent Roll Number'
                                                     value={StudentAbsent}></TextField><br></br>
                                                 <ButtonPrimary onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
-                                                <br/>
-                                                
-                                                <ButtonPrimary >TView</ButtonPrimary>
-                                                <ButtonPrimary>Missing Attendance</ButtonPrimary>
+                                                <br />
+                                                <RouterLink
+                                                    style={{ textDecoration: 'none' }}
+                                                    to={
+                                                        `/${location.pathname.split('/')[1]}/Teacher/Tattendance/Tview/` +
+                                                        assignedDate +
+                                                        '/' +
+                                                        StandardId
+                                                    }
+                                                >
+                                                    <ButtonPrimary >TView</ButtonPrimary>
+                                                </RouterLink>
+                                                <RouterLink
+                                                    style={{ textDecoration: 'none' }}
+                                                    to={
+                                                        `/${location.pathname.split('/')[1]
+                                                        }/Teacher/TAttendance/MissingAttandence/` + assignedDate
+                                                    }
+                                                >
+                                                    <ButtonPrimary>Missing Attendance</ButtonPrimary>
+                                                </RouterLink>
                                                 <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
 
                                             </>
