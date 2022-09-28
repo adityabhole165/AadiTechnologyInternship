@@ -16,6 +16,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
 
+
+
 const TAttendance = () => {
     const dispatch = useDispatch();
 
@@ -32,6 +34,7 @@ const TAttendance = () => {
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
+console.log("Standardid",Standardid);
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -119,6 +122,8 @@ const TAttendance = () => {
     }
 
     const getAbsetNumber = (value) => {
+        console.log("value",value);
+        
         setActivateButton(true)
         if (value === '')
             setAllPresentOrAllAbsent('P')
@@ -129,7 +134,33 @@ const TAttendance = () => {
         setAbsentRollNos(value)
     }
 
+    // let confirmationDone;
     const clickSave = (value) => {
+//     const Confirmation = AttendanceStatus;
+//     const confirmationMsg = Confirmation[0].StatusMessage;
+//     console.log("confirmationMsg",confirmationMsg);
+//     if (confirmationMsg == "Selected date is Holiday.") {
+
+//         {
+//          if(confirm('Selected date is holidy')){
+//             debugger;
+//             const GetSaveStudentAttendance: ISaveAttendance = {
+//                 asStandardDivisionId: Standardid,
+//                 asDate: assignedDate,
+//                 asAcademicYearId: asAcademicYearId,
+//                 asSchoolId: asSchoolId,
+//                 asAbsentRollNos: asAbsentRollNos,
+//                 asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
+//                 asUserId: asTeacherId
+//             };
+    
+//             dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+//          }
+//          else{
+// return null;
+//          }
+//        }
+//      } else{
         const GetSaveStudentAttendance: ISaveAttendance = {
             asStandardDivisionId: Standardid,
             asDate: assignedDate,
@@ -139,13 +170,19 @@ const TAttendance = () => {
             asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
             asUserId: asTeacherId
         };
-
         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
-    }
+     }
 
+    let confirmationDone;
     const SaveMsg = () => {
-        {
-            GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
+        const Confirmation = AttendanceStatus;
+        const confirmationMsg = Confirmation[0].StatusMessage;
+       debugger;
+        if (confirmationMsg == "Selected date is Holiday.") {
+
+            {
+             if(confirm('Selected date is Holiday')){
+                GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
                 .then((resp) => {
                     if (resp.status == 200) {
                         toast.success('Attendance saved for the valid roll number(s) !!!');
@@ -154,7 +191,24 @@ const TAttendance = () => {
                 .catch((err) => {
                     alert('error network');
                 });
-        }
+             }
+             else{
+                setAbsentRollNos('');
+                return null;
+             }
+           }
+         }else{
+            GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
+            .then((resp) => {
+                if (resp.status == 200) {
+                    toast.success('Attendance saved for the valid roll number(s) !!!');
+                }
+            })
+            .catch((err) => {
+                alert('error network');
+            });
+         }
+        
     }
 
     return (
@@ -181,6 +235,8 @@ const TAttendance = () => {
             }
             {AttendanceStatus?.map(
                 (item, i) => {
+                    console.log("item",item.StatusMessage);
+                    
                     return (
                         < >
                             {
