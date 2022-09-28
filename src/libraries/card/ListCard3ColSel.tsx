@@ -2,6 +2,14 @@ import { Box, Grid, useTheme } from '@mui/material'
 import CheckboxImg from './CheckboxImg'
 
 const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
+
+
+    const date = Item.joinDate;
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    const joinDate = `${Day}-${Month}-${Year}`;
+
  
     const userJoinDate = new Date(Item.joinDate);
     const selectedDate = new Date(assignedDate);
