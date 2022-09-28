@@ -34,7 +34,6 @@ const TAttendance = () => {
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
-console.log("Standardid",Standardid);
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -122,7 +121,6 @@ console.log("Standardid",Standardid);
     }
 
     const getAbsetNumber = (value) => {
-        console.log("value",value);
         
         setActivateButton(true)
         if (value === '')
@@ -134,33 +132,8 @@ console.log("Standardid",Standardid);
         setAbsentRollNos(value)
     }
 
-    // let confirmationDone;
     const clickSave = (value) => {
-//     const Confirmation = AttendanceStatus;
-//     const confirmationMsg = Confirmation[0].StatusMessage;
-//     console.log("confirmationMsg",confirmationMsg);
-//     if (confirmationMsg == "Selected date is Holiday.") {
 
-//         {
-//          if(confirm('Selected date is holidy')){
-//             debugger;
-//             const GetSaveStudentAttendance: ISaveAttendance = {
-//                 asStandardDivisionId: Standardid,
-//                 asDate: assignedDate,
-//                 asAcademicYearId: asAcademicYearId,
-//                 asSchoolId: asSchoolId,
-//                 asAbsentRollNos: asAbsentRollNos,
-//                 asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
-//                 asUserId: asTeacherId
-//             };
-    
-//             dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
-//          }
-//          else{
-// return null;
-//          }
-//        }
-//      } else{
         const GetSaveStudentAttendance: ISaveAttendance = {
             asStandardDivisionId: Standardid,
             asDate: assignedDate,
@@ -235,8 +208,6 @@ console.log("Standardid",Standardid);
             }
             {AttendanceStatus?.map(
                 (item, i) => {
-                    console.log("item",item.StatusMessage);
-                    
                     return (
                         < >
                             {
