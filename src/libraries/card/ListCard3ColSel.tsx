@@ -10,8 +10,6 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Year = new Date(date).getFullYear();
     const joinDate = `${Day}-${Month}-${Year}`;
-    console.log("joinDate", joinDate);
-    console.log("assignedDate", assignedDate);
 
     const theme = useTheme();
     return (

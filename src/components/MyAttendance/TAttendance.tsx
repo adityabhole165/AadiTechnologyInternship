@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import{ useEffect, useState } from 'react'
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import List26 from '../../libraries/list/List26'
@@ -7,16 +7,8 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Container } from '@mui/material'
 import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import {
-    getStandard,
-    GetSaveAttendanceStatus,
-    GetStudentList,
-    GetAttendanceStatus,
-
-} from 'src/requests/TAttendance/TAttendance';
-import ITAttendance, {
-    ISaveStudentAttendanceDetails, IStudentsDetails
-} from 'src/interfaces/Teacher/TAttendance';
+import {getStandard,GetSaveAttendanceStatus,GetStudentList,GetAttendanceStatus,GetStudentDetailsList} from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, {IStudentsDetails} from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
@@ -24,17 +16,20 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
 
 const TAttendance = () => {
-    const [Dataa, setData] = useState([{
-        text1: "1",
-        text2: "Ajit",
-        isActive: true
-    }, {
-        text1: "2",
-        text2: "Mayur",
-        isActive: true
-    }]
-    )
     const dispatch = useDispatch();
+
+
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const asTeacherId = sessionStorage.getItem('TeacherId');
+    const [Standardid, setStandardId] = useState();
+    const [assignedDate, setAssignedDate] = useState<string>();
+    // Date selector Start
+    const [date, setDate] = useState({ selectedDate: '' });
+    const [asAbsentRollNos, setAbsentRollNos] = useState('');
+    const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
+    const [activateButton, setActivateButton] = useState(false);
+    const [absentText, setAbsentText] = useState('warning');
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -42,44 +37,22 @@ const TAttendance = () => {
     const RollNoList = useSelector(
         (state: RootState) => state.AttendanceList.StudentList
     );
+    const RollNoList2 = useSelector(
+        (state: RootState) => state.AttendanceList.GetStudentDetailsList
+    );
     const StudentAbsent = useSelector(
         (state: RootState) => state.AttendanceList.StudentAbsent
     );
     const AttendanceStatus = useSelector(
         (state: RootState) => state.AttendanceList.AttendanceStatus
     );
-    const asSchoolId = localStorage.getItem('localSchoolId');
-    const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const asStandardDivisionId = sessionStorage.getItem('DivisionId');
-    const asStandardId = sessionStorage.getItem('StandardDivisionId')
-    const asTeacherId = sessionStorage.getItem('TeacherId');
-    // Date selector Start
-    const [date, setDate] = useState({ selectedDate: '' });
-    const [assignedYear, setAssignedYear] = useState<number>();
-    const [assignedMonth_num, SetassignedMonth_num] = useState<number>();
-    const [asAbsentRollNos, setAbsentRollNos] = useState('');
-    const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
-    const [activateButton, setActivateButton] = useState(false);
-    const [absentText, setAbsentText] = useState('warning');
-    const getCurrentDate = (newDate?: Date) => {
-        const date = newDate || new Date();
-        const Day = new Date(date).getDate();
-        const Month = new Date(date).toLocaleString('default', { month: 'short' });
-        const Year = new Date(date).getFullYear();
-        const NewDateFormat = `${Day}-${Month}-${Year}`;
-        setDate({
-            selectedDate: NewDateFormat
-        });
-        setAssignedDate(NewDateFormat);
-    };
+
+
     const body: ITAttendance = {
         asSchoolId: asSchoolId,
         asAcademicyearId: asAcademicYearId,
         asTeacherId: asTeacherId
     };
-    const [Standardid, setStandardId] = useState();
-    const [assignedDate, setAssignedDate] = useState<string>();
-    console.log("Standardid", Standardid);
 
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
@@ -94,6 +67,15 @@ const TAttendance = () => {
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
+    const GetSaveStudentAttendance: ISaveAttendance = {
+        asStandardDivisionId: Standardid,
+        asDate: assignedDate,
+        asAcademicYearId: asAcademicYearId,
+        asSchoolId: asSchoolId,
+        asAbsentRollNos: asAbsentRollNos,
+        asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
+        asUserId: asTeacherId
+    };
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate();
@@ -102,7 +84,21 @@ const TAttendance = () => {
     useEffect(() => {
         popupateDate()
         dispatch(GetAttendanceStatus(getAttendanceStatus));
+        dispatch(GetStudentDetailsList(GetStudentDetails));
     }, [Standardid, assignedDate]);
+
+    const getCurrentDate = (newDate?: Date) => {
+        const date = newDate || new Date();
+        const Day = new Date(date).getDate();
+        const Month = new Date(date).toLocaleString('default', { month: 'short' });
+        const Year = new Date(date).getFullYear();
+        const NewDateFormat = `${Day}-${Month}-${Year}`;
+        setDate({
+            selectedDate: NewDateFormat
+        });
+        setAssignedDate(NewDateFormat);
+    };
+
     const popupateDate = () => {
         if (Standardid !== undefined) {
             dispatch(GetStudentList(GetStudentDetails));
@@ -140,32 +136,18 @@ const TAttendance = () => {
 
         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
     }
-    const GetSaveStudentAttendance: ISaveAttendance = {
-        asStandardDivisionId: Standardid,
-        asDate: assignedDate,
-        asAcademicYearId: asAcademicYearId,
-        asSchoolId: asSchoolId,
-        asAbsentRollNos: asAbsentRollNos,
-        asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
-        asUserId: asTeacherId
-    };
-    const AssignDate = new Date(assignedDate);
-    const PresentDate = new Date();
+ 
     const SaveMsg = () => {
-        {
-            if (asAbsentRollNos.length == 0) {
-                toast.error('Please enter absent roll numbers or select either option.');
-            } else {
-                GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
-                    .then((resp) => {
-                        if (resp.status == 200) {
-                            toast.success('Attendance saved for the valid roll number(s) !!!');
-                        }
-                    })
-                    .catch((err) => {
-                        alert('error network');
-                    });
-            }
+        { 
+            GetTAttendanceListApi.SaveStudentAttendanceDetails(GetSaveStudentAttendance)
+                .then((resp) => {
+                    if (resp.status == 200) {
+                        toast.success('Attendance saved for the valid roll number(s) !!!');
+                    }
+                })
+                .catch((err) => {
+                    alert('error network');
+                });  
         }
     }
     return (
@@ -173,21 +155,27 @@ const TAttendance = () => {
             <PageHeader heading="Attendance" subheading=''></PageHeader>
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
             <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} ></DateSelector>
-            {RollNoList?.map(
-                (item, i) => {
-                    return (
-                        <>
-                            {
-                                (item.Status == "E") ? <ErrorDetail>There are no students available.</ErrorDetail>
-                                    : null}
-                        </>
-                    );
-                }
-            )}
+            {
+                (Standardid == undefined || Standardid == 0) ? null :
+                    <>
+                        {(RollNoList2 == null) ? <ErrorDetail>There are no students available.</ErrorDetail> :
+                            <>
+                                {AttendanceStatus.map((item, i) => {
+                                    return (
+                                        <>
+                                            {(item.StatusMessage == "Attendance not yet marked.") ? <ErrorDetail>Attendance not yet marked.</ErrorDetail>
+                                                : null}
+                                        </>
+                                    )
+                                })}
+                            </>
+                        }
+                    </>
+            }
             {AttendanceStatus?.map(
                 (item, i) => {
                     return (
-                        <>
+                        < >
                             {
                                 (Standardid == undefined || Standardid == 0) ? null
                                     :
@@ -196,21 +184,21 @@ const TAttendance = () => {
                                             (item.StatusMessage == "Attendance is already marked.") ? <ErrorDetail>Attendance is already marked.</ErrorDetail>
                                                 : null}
                                         <>
-                                            {(item.StatusMessage == "Attendance not yet marked.") ? <ErrorDetail>Attendance not yet marked.</ErrorDetail>
-                                                : null}
+                                            {(item.StatusMessage == "Selected date is Weekend.") ? <ErrorDetail>Selected date is Weekend.</ErrorDetail> : null}
                                             <>
                                                 {(item.StatusMessage == "Selected date is Holiday.") ? <ErrorDetail>Selected date is Holiday.</ErrorDetail> : null}
-                                                <>
-                                                    <TextField
-                                                        variant="standard"
-                                                        fullWidth
-                                                        label='Absent Roll Number'
-                                                        value={StudentAbsent}></TextField>
-                                                    <br></br>
-                                                    <br></br>
-                                                    <ButtonPrimary color={StudentAbsent !== asAbsentRollNos ? 'primary' : 'warning'} onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
-                                                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
-                                                </>
+                                                <TextField
+                                                    variant="standard"
+                                                    fullWidth
+                                                    label='Absent Roll Number'
+                                                    value={StudentAbsent}></TextField><br></br>
+                                                <ButtonPrimary onClick={clickSave} onClickCapture={SaveMsg}>Save</ButtonPrimary>
+                                                <br/>
+                                                
+                                                <ButtonPrimary >TView</ButtonPrimary>
+                                                <ButtonPrimary>Missing Attendance</ButtonPrimary>
+                                                <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
+
                                             </>
                                         </>
                                     </>

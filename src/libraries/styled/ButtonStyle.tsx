@@ -20,7 +20,8 @@ background: ${color === 'primary' ? theme.colors.gradients.primayButton :
     };
   }
 border-radius: 3px;
-
+margin-left: 10px;
+margin-top:10px;
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 
 `

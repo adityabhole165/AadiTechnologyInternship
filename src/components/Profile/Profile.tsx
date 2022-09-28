@@ -1,5 +1,5 @@
-import { Box } from '@mui/material';
-import { Container } from '@mui/system';
+import { Box,Container } from '@mui/material';
+
 import Card24 from 'src/libraries/card/Card24';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Card6 from 'src/libraries/mainCard/Card6';

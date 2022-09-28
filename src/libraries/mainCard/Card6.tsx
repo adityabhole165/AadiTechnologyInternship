@@ -1,5 +1,4 @@
-import { Avatar, Box, Card, Stack, Typography, Grid } from '@mui/material';
-import { Container } from '@mui/system';
+import { Avatar, Box, Card, Stack, Typography, Grid,Container } from '@mui/material';
 import React from 'react';
 import Card28 from '../card/Card28';
 import { CardDetail1, CardDetail3, ListStyle } from '../styled/CardStyle';
