@@ -18,6 +18,7 @@ import BorderColorOutlinedIcon from '@mui/icons-material/BorderColorOutlined';
 import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import CakeIcon from '@mui/icons-material/Cake';
 
 const DashboardData = {
   Student:{
@@ -263,16 +264,7 @@ const DashboardData = {
         index: 3,
         ScreenPermission: 'HolidaysManagement'
       },
-      {
-        Text1: 'Staff   ',
-        Text2: 'Birthday',
-        Color: '#90a4ae',
-        iconColor: '#424242',
-        Icon: DateRangeIcon,
-        Link: 'Common/StaffBirthday',
-        index: 4,
-        ScreenPermission: 'StaffBirthday'
-      },
+    
       {
         Text1: 'Photo    ',
         Text2: 'Gallery',
@@ -280,11 +272,9 @@ const DashboardData = {
         iconColor: '#f0483e',
         Icon: PhotoIcon,
         Link: 'Common/PhotoGallery',
-        index: 5,
+        index: 4,
         ScreenPermission: ''
-      }
-    ],
-    items2:[
+      },
       {
         Text1: 'Video  ',
         Text2: 'Gallery',
@@ -292,17 +282,20 @@ const DashboardData = {
         iconColor: '#35abd9',
         Icon: VideoLibraryIcon,
         Link: 'Common/VideoGallery',
-        index: 6,
+        index: 5,
         ScreenPermission: ''
       },
+    ],
+    items2:[
+    
       {
         Text1: 'Attendance  ',
         Text2: '',
         Color: '#81c784',
-        iconColor: '#35abd9',
+        iconColor: '#424242',
         Icon: EventNoteIcon,
         Link: 'Teacher/TAttendance',
-        index: 7,
+        index: 6,
         ScreenPermission: 'Attendance'
       },
       {
@@ -310,43 +303,24 @@ const DashboardData = {
         Text2: 'Schedule',
         Color: '#81c784',
         iconColor: '#35abd9',
-        Icon: CalendarTodayIcon,
+        ImageUrl: "/imges/onlineExam.png",
         Link: 'Teacher/Texamschedule',
-        index: 8,
+        index: 12,
         ScreenPermission: 'ExamSchedule'
       }, 
       {
         Text1: 'Timetable ',
-        Text2: 'Schedule',
+        Text2: '',
         Color: '#ef5350',
         iconColor: '#f0483e',
         Icon: CalendarTodayIcon,
         Link: 'Teacher/TeacherTimeTable',
-        index: 9,
+        index: 7,
         ScreenPermission: 'TeacherTimeTable'
       },
     ],
     items3:[
-      {
-        Text1: 'Fees ',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#35abd9',
-        Icon: MonetizationOnIcon,
-        Link: 'Student/Fees',
-        index: 1,
-        ScreenPermission: 'EnableStudentFeesModule'
-      },
-      {
-        Text1: 'Homework ',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#424242',
-        Icon: MenuBookIcon,
-        Link: 'Student/Homework',
-        index: 2,
-        ScreenPermission: 'EnableHomeworkModule'
-      },
+     
       {
         Text1: 'Massege  ',
         Text2: 'Center',
@@ -354,7 +328,7 @@ const DashboardData = {
         iconColor: '#f0483e',
         Icon: ForwardToInboxIcon,
         Link: 'MessageCenter/msgCenter',
-        index: 3,
+        index: 17,
         ScreenPermission: 'MessageCenter'
       },
       {
@@ -362,19 +336,10 @@ const DashboardData = {
         Text2: 'Center',
         Color: '#90a4ae',
         iconColor: '#35abd9',
-        Icon: SmsIcon,
-        Link: 'Student/SmsCenter',
-        index: 4,
+      
+        Link: 'Teacher/SmsCenter',
+        index: 22,
         ScreenPermission: 'SMSCenter'
-      },
-      {
-        Text1: 'PTA ',
-        Color: '#90a4ae',
-        iconColor: '#424242',
-        Icon: PeopleIcon ,
-        Link: 'Common/pta',
-        index: 5,
-        ScreenPermission: 'EnablePTAModuleforStudents'
       },
     ],
 },  
@@ -384,8 +349,8 @@ const DashboardData = {
       Text1: 'School  ',
       Text2:  'Notices',
       Color: '#90a4ae',
-      iconColor: '#424242',
-      Icon: AssignmentIcon ,
+      iconColor: '#35abd9',
+     
       Link: 'Common/schoolnotice',
       index: 1,
       ScreenPermission: 'SchoolNotices'
@@ -414,10 +379,10 @@ const DashboardData = {
       Text1: 'Staff   ',
       Text2: 'Birthday',
       Color: '#90a4ae',
-      iconColor: '#424242',
-      Icon: DateRangeIcon,
+      iconColor: '#35abd9',
+      Icon:CakeIcon,
       Link: 'Common/StaffBirthday',
-      index: 4,
+      index: 20,
       ScreenPermission: 'StaffBirthday'
     },
     {
@@ -427,9 +392,10 @@ const DashboardData = {
       iconColor: '#f0483e',
       Icon: PhotoIcon,
       Link: 'Common/PhotoGallery',
-      index: 5,
+      index: 4,
       ScreenPermission: ''
     },
+    
     {
       Text1: 'Video  ',
       Text2: 'Gallery',
@@ -437,12 +403,13 @@ const DashboardData = {
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
       Link: 'Common/VideoGallery',
-      index: 6,
+      index: 5,
       ScreenPermission: ''
     },
+     
      ],
 
-     items2:[
+     items3:[
       {
         Text1: 'Massege  ',
         Text2: 'Center',
@@ -450,7 +417,7 @@ const DashboardData = {
         iconColor: '#f0483e',
         Icon: ForwardToInboxIcon,
         Link: 'MessageCenter/msgCenter',
-        index: 1,
+        index: 21,
         ScreenPermission: 'MessageCenter'
       },
       {
@@ -458,30 +425,10 @@ const DashboardData = {
         Text2: 'Center',
         Color: '#90a4ae',
         iconColor: '#35abd9',
-        Icon: SmsIcon,
         Link: 'SMSCenter/smsCenter',
-        index: 2,
+        index: 22,
         ScreenPermission: 'SMSCenter'
       },
-      {
-        Text1: 'Teacher  ',
-        Text2: 'TimeTable',
-        Color: '#ef5350',
-        iconColor: '#f0483e',
-        Icon:  AccessTimeIcon,
-        Link: 'Student/TeacherTimeTable',
-        index: 3,
-        ScreenPermission: 'TeacherTimeTable'
-      },
-      {
-        Text1: 'PTA ',
-        Color: '#90a4ae',
-        iconColor: '#424242',
-        Icon: PeopleIcon ,
-        Link: 'Common/pta',
-        index: 4,
-        ScreenPermission: 'EnablePTAModuleforStudents'
-      }
     ]
    }
   

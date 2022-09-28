@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 
 import EventIcon from '@mui/icons-material/Event';
+import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleIcon from '@mui/icons-material/People';
@@ -100,6 +101,9 @@ function Card3({
             {icon === 17 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 22 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {/* <IconButton> */}
            
             {/* </IconButton> */}
