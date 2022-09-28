@@ -18,7 +18,6 @@ const AccordionPTA = ({ name, header, Data, isExpanded, handleChange }) => {
                 style={{ transformOrigin: '0 0 0' }}
                 {...({ timeout: 1000 })}
             >
-                <div>
                     <Accordion
                         className={classes.background}
                         expanded={isExpanded}
@@ -46,7 +45,6 @@ const AccordionPTA = ({ name, header, Data, isExpanded, handleChange }) => {
                             {Data?.length > 0 && <List1 items={Data} />}
                         </AccordionDetails>
                     </Accordion>
-                </div>
             </Grow>
 
         </>

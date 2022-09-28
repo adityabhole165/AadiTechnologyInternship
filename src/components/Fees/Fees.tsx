@@ -66,10 +66,10 @@ function Fees() {
    
   ];
   return (
-    <>
+    <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
 
-      <Container sx={{ mb: '-10px' }}>
+    
         
         <DotLegend
           className={classes.border}
@@ -97,7 +97,7 @@ function Fees() {
            </CardDetail1>
      
         </ListStyle>
-      </Container>
+   
 
       <Card27
         FeesType={'Paid Fees'}
@@ -106,11 +106,11 @@ function Fees() {
         Note={Note2}
       />
    
-      <Container sx={{ mb: '-10px'}}>
+    
      
         <Note NoteDetail={note1} />
-      </Container>
-    </>
+   
+    </Container>
   );
 }
 

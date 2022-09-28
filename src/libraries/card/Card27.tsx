@@ -79,7 +79,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
 
   return (
     <>
-      <Container>
+ 
         <Accordion
           className={classes.background}
           expanded={expanded === 'panel'}
@@ -166,7 +166,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             />
           </AccordionDetails>
         </Accordion>
-      </Container>
+  
     </>
   );
 }

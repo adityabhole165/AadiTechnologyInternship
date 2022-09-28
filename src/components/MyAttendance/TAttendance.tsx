@@ -81,6 +81,7 @@ const TAttendance = () => {
         getCurrentDate();
 
     }, []);
+
     useEffect(() => {
         popupateDate()
         dispatch(GetAttendanceStatus(getAttendanceStatus));
@@ -110,9 +111,11 @@ const TAttendance = () => {
             setAbsentText(arr.join(','))
         }
     }
+
     const handleChange = (value) => {
         setStandardId(value);
     }
+
     const getAbsetNumber = (value) => {
         setActivateButton(true)
         if (value === '')
@@ -123,6 +126,7 @@ const TAttendance = () => {
             setAllPresentOrAllAbsent('')
         setAbsentRollNos(value)
     }
+
     const clickSave = (value) => {
         const GetSaveStudentAttendance: ISaveAttendance = {
             asStandardDivisionId: Standardid,
@@ -150,6 +154,7 @@ const TAttendance = () => {
                 });  
         }
     }
+
     return (
         <Container sx={{ paddingLeft: '25px' }}>
             <PageHeader heading="Attendance" subheading=''></PageHeader>

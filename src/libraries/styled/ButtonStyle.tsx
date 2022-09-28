@@ -6,17 +6,21 @@ color: white;
 font-size: 12px;
 font-family: 'Roboto';
 text-decoration: none;
+height:'40px';
+
 
 background: ${color === 'primary' ? theme.colors.gradients.primayButton :
       color === 'secondary' ? theme.colors.gradients.secondaryButton :
         color === 'warning' ? theme.colors.gradients.disableButton :
-          theme.colors.gradients.primayButton
+          color === 'error' ? '#DC143C' :
+            theme.colors.gradients.primayButton
     };
 &:hover {
     background: ${color === 'primary' ? theme.colors.gradients.primayButton :
       color === 'secondary' ? theme.colors.gradients.secondaryButton :
         color === 'warning' ? theme.colors.gradients.disableButton :
-          theme.colors.gradients.primayButton
+          color === 'error' ? '#DC143C' :
+            theme.colors.gradients.primayButton
     };
   }
 border-radius: 3px;

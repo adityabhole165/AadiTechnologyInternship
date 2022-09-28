@@ -22,14 +22,12 @@ List11.propTypes = {
     Title: PropTypes.string,
     UrlSourceId: PropTypes.number,
     VideoUrl: PropTypes.string,
-    FromRoute:PropTypes.string
+    FromRoute: PropTypes.string
 }
 
-function List11({ VideoID, Title, VideoDetailsId, UrlSourceId, VideoUrl, FromRoute}) {
-
+function List11({ VideoID, Title, VideoDetailsId, UrlSourceId, VideoUrl, FromRoute }) {
     const theme = useTheme();
     const classes = Styles();
-    console.log("URL:",`Common/videoview/` +  returnURL(VideoUrl) + "/" +  VideoID)
 
     const comment: any = useSelector((state: RootState) => state.Video.Comments)
     const [click, setClick] = React.useState();
@@ -38,37 +36,41 @@ function List11({ VideoID, Title, VideoDetailsId, UrlSourceId, VideoUrl, FromRou
         alert(event.target.value)
     }
     function returnURL(VideoUrl) {
-        if (VideoUrl.split('=')[1].split('&')[0] === undefined) {
-            return VideoUrl.split('=')[1]
+        if (VideoUrl.split('v=').length > 1) {
+            if (VideoUrl.split('v=')[1].split('&')[0] === undefined) {
+                return VideoUrl.split('v=')[1]
+            }
+            else
+                return VideoUrl.split('v=')[1].split('&')[0]
         }
         else
-            return VideoUrl.split('=')[1].split('&')[0]
+            return VideoUrl.split('be/')[1]
     }
     return (
         <>
 
-                <RouterLink to={
-                    `/${location.pathname.split('/')[1]
+            <RouterLink to={
+                `/${location.pathname.split('/')[1]
 
-                    }/Common/videoview/` +  returnURL(VideoUrl) + "/" +  VideoID
+                }/Common/videoview/` + returnURL(VideoUrl) + "/" + VideoID
 
-                }
-                    color="primary"
-                    style={{ textDecoration: 'none' }}>
-                    <List
-                        className={classes.ListStyle}
-                        sx={{
-                            background: `${theme.colors.gradients.pink1}`,
-                        }}
-                    >
-                        <Typography className={classes.Listfont1}>
-                            {Title}
-                        </Typography>
-                    </List>
+            }
+                color="primary"
+                style={{ textDecoration: 'none' }}>
+                <List
+                    className={classes.ListStyle}
+                    sx={{
+                        background: `${theme.colors.gradients.pink1}`,
+                    }}
+                >
+                    <Typography className={classes.Listfont1}>
+                        {Title}
+                    </Typography>
+                </List>
 
-                </RouterLink>
-                {/* </Grow> */}
-           
+            </RouterLink>
+            {/* </Grow> */}
+
         </>
     );
 }

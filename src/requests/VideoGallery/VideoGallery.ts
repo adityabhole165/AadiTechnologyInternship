@@ -32,7 +32,7 @@ const VideOGallerySlice = createSlice({
              header: item.VideoGalleryName===null?'':item.VideoGalleryName,
              text1: '',
              text2: '',
-             linkPath: `/Common/Comments/` + item.VideoId + '/VideoGallery',
+             linkPath: `/Common/Comments/` + item.VideoId + '/VideoGallery2',
              FileName: ''
            };
          });

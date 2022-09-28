@@ -16,7 +16,7 @@ AdminTeacherRecipientsList.propTypes = {
   displayProperty: PropTypes.any,
   RecipientsListDetails: PropTypes.any,
   ReplyRecipient: PropTypes?.any,
-  PageName:PropTypes.string
+  PageName:PropTypes?.string
 };
 
 function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,ReplyRecipient,PageName}){

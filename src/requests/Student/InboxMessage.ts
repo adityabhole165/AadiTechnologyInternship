@@ -3,7 +3,8 @@ import InboxMessageApi from "../../api/MessageCenter/InboxMessage";
 import { AppThunk } from 'src/store';
 import {IInboxList} from 'src/interfaces/MessageCenter/InboxMessage';
 import SentMessageApi from 'src/api/Student/SentMessage';
-import { IgetList } from 'src/interfaces/MessageCenter/GetList';
+import { GetMessagesResult, IgetList } from 'src/interfaces/MessageCenter/GetList';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 
 const InboxMessageSlice = createSlice({
   name: 'Message Center',
@@ -17,7 +18,7 @@ const InboxMessageSlice = createSlice({
       state.Loading = false;
       state.InboxList=action.payload.GetMessagesResult;
     },
-    getInboxList1 (state,action){
+    Messages(state,action){
       state.Loading = false;
       state.InboxList=action.payload;
     },
@@ -31,24 +32,14 @@ const InboxMessageSlice = createSlice({
   }   
 });
 
-
-export const getInboxList =
-  (data:IgetList): AppThunk =>
-  async (dispatch) => {
-    dispatch(InboxMessageSlice.actions.getLoading(true));
-    dispatch(InboxMessageSlice.actions.getFilterData(false));
-    const response = await InboxMessageApi.GetInboxList(data);
-    dispatch(InboxMessageSlice.actions.getInboxList(response.data));
-  };
-
-  export const getInboxList1 =
-  (data:IgetList, ActiveTab:string): AppThunk =>
+  export const getListOfMessages =
+  (body, ActiveTab:string): AppThunk =>
   async (dispatch) => {
     dispatch(InboxMessageSlice.actions.getLoading(true));
     
-    if(ActiveTab==='Inbox'){
-    const response = await InboxMessageApi.GetInboxList(data);
-    const data2 =response.data.GetMessagesResult.map((item)=>{
+  if(ActiveTab==='Inbox'){
+    const response = await InboxMessageApi.GetInboxList(body);
+    const data =response.data.GetMessagesResult.map((item)=>{
       return {
         Id:item.DetailsId,
         text1:item.Subject,
@@ -60,12 +51,12 @@ export const getInboxList =
         ReceiverDetailsId:item.ReceiverDetailsId
       }
     })
-    dispatch(InboxMessageSlice.actions.getInboxList1(data2));
+    dispatch(InboxMessageSlice.actions.Messages(data));
   }
-  else
+  if(ActiveTab==='Sent')
   {
-    const response = await SentMessageApi.GetSentMessageList(data);
-    const data2 =response.data.GetScheduledSMSResult.map((item)=>{
+    const response = await SentMessageApi.GetSentMessageList(body);
+    const data =response.data.GetScheduledSMSResult.map((item)=>{
       return {
         Id:item.DetailsId,
         text1:item.Subject,
@@ -78,9 +69,60 @@ export const getInboxList =
       }
     })
 
-    dispatch(InboxMessageSlice.actions.getInboxList1(data2));
+    dispatch(InboxMessageSlice.actions.Messages(data));
+  }
+  if(ActiveTab==='Trash')
+  {
+    const response = await MessageCenterApi.GetTrashList(body);
+    const data =response.data.GetTrashMessagesResult.map((item)=>{
+      return {
+        Id:item.DetailsId,
+        text1:item.Subject,
+        text2:item.UserName,
+        text3:item.Date + item.Time,
+        NavPath:item.DetailsId + '/Trash',
+        isActive:false,
+        DetailsId:item.DetailsId,
+        ReceiverDetailsId:item.ReceiverDetailsId
+      }
+    })
+
+    dispatch(InboxMessageSlice.actions.Messages(data));
   }
 };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const getInboxList =
+  (data:IgetList): AppThunk =>
+  async (dispatch) => {
+    dispatch(InboxMessageSlice.actions.getLoading(true));
+    dispatch(InboxMessageSlice.actions.getFilterData(false));
+    const response = await InboxMessageApi.GetInboxList(data);
+    dispatch(InboxMessageSlice.actions.getInboxList(response.data));
+  };
 
 export const getNextPageInboxList =
 (data: IgetList): AppThunk =>
