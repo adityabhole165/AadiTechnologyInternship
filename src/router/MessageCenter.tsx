@@ -19,7 +19,6 @@ const Sent = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const ViewMsg = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Search=Loader(lazy(()=>import('src/components/MessageCenter/Search')));
 const Recipients = Loader(lazy(() => import('src/components/MessageCenter/Recipients')));
-const EmailSetting = Loader(lazy(() => import('src/components/MessageCenter/MenuBar/EmailSetting')));
 
 
 
@@ -84,11 +83,6 @@ const messageCenterRoutes :PartialRouteObject[] = [
       path:'Search',
       element:<Search/>
     },
-    {
-      path:'EmailSetting', // Compose
-      element: <EmailSetting />
-  },
-   
    
 ]
 
