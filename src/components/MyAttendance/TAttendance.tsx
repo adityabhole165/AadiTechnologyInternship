@@ -35,22 +35,11 @@ const TAttendance = () => {
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
 
-    const stdlist: any = useSelector(
-        (state: RootState) => state.StandardAttendance.stdlist
-    );
-    const RollNoList = useSelector(
-        (state: RootState) => state.AttendanceList.StudentList
-    );
-    const RollNoList2 = useSelector(
-        (state: RootState) => state.AttendanceList.GetStudentDetailsList
-    );
-    const StudentAbsent = useSelector(
-        (state: RootState) => state.AttendanceList.StudentAbsent
-    );
-    const AttendanceStatus = useSelector(
-        (state: RootState) => state.AttendanceList.AttendanceStatus
-    );
-
+    const stdlist: any = useSelector((state: RootState) => state.StandardAttendance.stdlist);
+    const RollNoList = useSelector((state: RootState) => state.AttendanceList.StudentList);
+    const RollNoList2 = useSelector((state: RootState) => state.AttendanceList.GetStudentDetailsList);
+    const StudentAbsent = useSelector((state: RootState) => state.AttendanceList.StudentAbsent);
+    const AttendanceStatus = useSelector((state: RootState) => state.AttendanceList.AttendanceStatus);
 
     const body: ITAttendance = {
         asSchoolId: asSchoolId,
@@ -71,6 +60,7 @@ const TAttendance = () => {
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
+
     const GetSaveStudentAttendance: ISaveAttendance = {
         asStandardDivisionId: Standardid,
         asDate: assignedDate,
@@ -80,6 +70,7 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
+    
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate();

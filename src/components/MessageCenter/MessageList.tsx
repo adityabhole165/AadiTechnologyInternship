@@ -24,7 +24,6 @@ import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
-import LongMenu from './MenuBar/MessageCenterMenuBar';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -242,9 +241,6 @@ const MessageList = () => {
                 }}
                 onClick={clickSearchIcon}
               />
-            </Grid>
-            <Grid item xs={.5}>
-                <LongMenu/>
             </Grid>
           </>
         ) : (
