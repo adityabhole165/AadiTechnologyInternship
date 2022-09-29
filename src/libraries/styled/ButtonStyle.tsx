@@ -9,28 +9,34 @@ text-decoration: none;
 height:'40px';
 
 
-background: ${color === 'primary' ? theme.colors.gradients.primayButton :
-      color === 'secondary' ? theme.colors.gradients.secondaryButton :
-        color === 'warning' ? theme.colors.gradients.disableButton :
-          color === 'error' ? '#DC143C' :
-            theme.colors.gradients.primayButton
-    };
+background: ${
+    color === 'primary'
+      ? theme.colors.gradients.primayButton
+      : color === 'secondary'
+      ? theme.colors.gradients.secondaryButton
+      : color === 'warning'
+      ? theme.colors.gradients.disableButton
+      : color === 'error'
+      ? '#DC143C'
+      : theme.colors.gradients.primayButton
+  };
 &:hover {
-    background: ${color === 'primary' ? theme.colors.gradients.primayButton :
-      color === 'secondary' ? theme.colors.gradients.secondaryButton :
-        color === 'warning' ? theme.colors.gradients.disableButton :
-          color === 'error' ? '#DC143C' :
-            theme.colors.gradients.primayButton
+    background: ${
+      color === 'primary'
+        ? theme.colors.gradients.primayButton
+        : color === 'secondary'
+        ? theme.colors.gradients.secondaryButton
+        : color === 'warning'
+        ? theme.colors.gradients.disableButton
+        : color === 'error'
+        ? '#DC143C'
+        : theme.colors.gradients.primayButton
     };
   }
 border-radius: 3px;
-margin-left: 10px;
-margin-top:10px;
+
+
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 
 `
 );
-
-
-
-

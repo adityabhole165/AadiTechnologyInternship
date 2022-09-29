@@ -53,6 +53,7 @@ function Card3({
     iconColor = 'white';
   return (
     <>
+         <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} >
       <Box
         sx={{
           mb: '10px',
@@ -77,7 +78,7 @@ function Card3({
                 ' 1px 4px 5px 2px rgba(0,0,0,0.3)'
             }}
           >
-        <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} >
+   
             {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
             {icon === 3 && <DateRangeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
@@ -107,7 +108,7 @@ function Card3({
             {/* <IconButton> */}
            
             {/* </IconButton> */}
-            </Link>
+           
         
             <Typography
               sx={{
@@ -137,7 +138,10 @@ function Card3({
             </Typography>
           </Box>
           </IconButton>
+        
       </Box>
+      </Link>
+ 
     </>
   );
 }
