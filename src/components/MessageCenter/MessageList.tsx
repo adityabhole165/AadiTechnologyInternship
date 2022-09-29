@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container } from '@mui/material';
+import { Grid, Card } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
+import LongMenu from './MenuBar/MessageCenterMenuBar';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -36,12 +37,15 @@ const Item = styled(Card)(({ theme }) => ({
   color: theme.palette.text.secondary
 }));
 
+const NextPageIndex = 2; // Initial page index
+
 const MessageList = () => {
   const dispatch = useDispatch();
 
   const SchoolId = localStorage.getItem('localSchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
+  const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index 
   const [activeTab, setActiveTab] = useState('');
   const [searchText, setSearchText] = useState('');
   const [academicYear, setAcademicYear] = useState('');
@@ -50,6 +54,8 @@ const MessageList = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [inboxListData, setInboxListData] = useState([]);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
+  const [nextPageData,setNextPageData] = useState<any>();
+  const [ToolTip,setToolTip] = useState<boolean>(true)
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -60,10 +66,14 @@ const MessageList = () => {
   const InboxList = useSelector(
     (state: RootState) => state.InboxMessage.InboxList
   );
-
+  const NextInboxList = useSelector(
+    (state: RootState) => state.InboxMessage.NextPageList
+  );
+//   console.log(NextInboxList)
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );
+
 
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
@@ -94,6 +104,7 @@ const MessageList = () => {
   useEffect(() => {
     setInboxListData(InboxList);
   }, [InboxList]);
+
   useEffect(() => {
     if (academicYear !== '') {
       dispatch(getMonthYearList(Mbody));
@@ -102,7 +113,7 @@ const MessageList = () => {
 
   useEffect(() => {
     if (academicYear !== '') {
-      dispatch(getListOfMessages(getListBody, activeTab));
+      dispatch(getListOfMessages(getListBody, activeTab,false));
     }
   }, [activeTab, isSearchClicked]);
 
@@ -120,7 +131,7 @@ const MessageList = () => {
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
   };
-  const clickDelete = () => {
+  const clickDelete = (isCompleteDelete) => {
     let arrDetails = [];
     let arrReciever = [];
     inboxListData.map((obj) => {
@@ -129,18 +140,19 @@ const MessageList = () => {
         arrReciever.push(obj.ReceiverDetailsId);
       }
     });
+    
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: arrReciever.join(';'),
+      asMessageRecieverDetailsId: (activeTab == "Sent" ? arrDetails.join(';') : arrReciever.join(';')) ,
       asIsArchive: 'Y',
-      asIsCompeteDelete: 0,
+      asIsCompeteDelete: isCompleteDelete,
       asFlag: activeTab
     };
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
         toast.success('Message deleted successfully');
-        dispatch(getListOfMessages(getListBody, activeTab));
+        dispatch(getListOfMessages(getListBody, activeTab,false));
       })
       .catch((err) => {
         alert('error network');
@@ -165,20 +177,59 @@ const MessageList = () => {
     setAcademicYear(academicYear);
     setMonthYear(monthYear);
     setIsSearchClicked(isSearchClicked);
-    setShowSearch(!showSearch);
   };
 
   const refreshData = (value) => {
     setIsDeleteActive(value.some((obj) => obj.isActive === true));
     setInboxListData(value);
   };
+
+  const scrollableDivRefference = document.getElementById('ScrollableDiv');
+
+  const pageIndexIncrement = (): void => {
+    setpageIndex((prev) => {
+        return pageIndex+1
+    });
+  };
+
+  const scrolling = (): void => {
+    if (
+      scrollableDivRefference.scrollHeight -
+        scrollableDivRefference.scrollTop <=
+      600
+    ) {
+        const getListBody: IgetList = {
+            asSchoolId: SchoolId,
+            asAcademicYearId: academicYear,
+            asUserId: sessionStorage.getItem('Id'),
+            asUserRoleId: sessionStorage.getItem('RoleId'),
+            abIsSMSCenter: '0',
+            asFilter: searchText,
+            asPageIndex: pageIndex,
+            asMonthId: monthYear
+          };
+        dispatch(getListOfMessages(getListBody, activeTab, true));
+        console.log(NextInboxList.length)
+        if(NextInboxList.length != 0){
+            setInboxListData((prev)=>{
+                return [...InboxList,...NextInboxList]
+            });
+        }
+        pageIndexIncrement()
+    }
+  };
+
+  const closeSearchBar = () => {
+    setShowSearch(false)
+  }
+
   return (
     <>
       <PageHeader heading="Message Center" subheading=""></PageHeader>
       <Grid container>
         {!showSearch ? (
           <>
-            <Grid item xs={11}>
+            <Grid item xs={10.5}>
               <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
             </Grid>
             <Grid item xs={1}>
@@ -192,9 +243,12 @@ const MessageList = () => {
                 onClick={clickSearchIcon}
               />
             </Grid>
+            <Grid item xs={.5}>
+                <LongMenu/>
+            </Grid>
           </>
         ) : (
-          <Grid item xs={10}>
+          <Grid item xs={12}>
             <MCForm
               AcademicYearList={AcademicYearList}
               MonthYearList={MonthYearList}
@@ -204,12 +258,16 @@ const MessageList = () => {
               clickAcademicYear={clickAcademicYear}
               clickMonthYear={clickMonthYear}
               isSearchClicked={isSearchClicked}
+              CloseSearchBar={closeSearchBar}
             />
           </Grid>
         )}
         {isDeleteActive && (
-          <Grid item xs={10}>
-            <ButtonPrimary onClick={clickDelete} endIcon={<DeleteIcon />}>
+          <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
+            <ButtonPrimary onClick={() =>clickDelete(1)} endIcon={<DeleteIcon />}>
+              Delete From Everyone
+            </ButtonPrimary>
+            <ButtonPrimary onClick={() =>clickDelete(0)} endIcon={<DeleteIcon />}>
               Delete
             </ButtonPrimary>
             <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>
@@ -221,8 +279,18 @@ const MessageList = () => {
       {loading ? (
         <SuspenseLoader />
       ) : (
-        <div style={{marginTop:'10px'}}>
-            <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
+        <div
+          id="ScrollableDiv"
+          onScroll={scrolling}
+          style={{
+            position: 'absolute',
+            width: '93%',
+            paddingBottom: '100px',
+            height: '570px',
+            overflow: 'auto'
+          }}
+        >
+          <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
         </div>
       )}
       <span
@@ -233,6 +301,11 @@ const MessageList = () => {
           right: '20px'
         }}
       >
+
+                
+        
+
+                
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}

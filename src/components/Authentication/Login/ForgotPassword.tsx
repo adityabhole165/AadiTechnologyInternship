@@ -43,7 +43,7 @@ function ForgotPassword() {
       submitresult();
     },
     validate: (values) => {
-      const emailRegExp = /^\S+@\S+\.\S+$/; // for Mobile Numbers
+      const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
 
       const errors: any = {};
       if (!values.Login) {
