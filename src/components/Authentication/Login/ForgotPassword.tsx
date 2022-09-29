@@ -76,9 +76,10 @@ function ForgotPassword() {
   ];
 
   return (
-    <>
+
+     <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
-      <Container>
+     
         <Stack
           direction="row"
           alignItems="center"
@@ -164,8 +165,8 @@ function ForgotPassword() {
           </form>
           <Note NoteDetail={note} />
         </ListStyle>
-      </Container>
-    </>
+        </Container>
+   
   );
 }
 

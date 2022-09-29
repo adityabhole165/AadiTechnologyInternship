@@ -12,6 +12,7 @@ import {
 } from '@mui/material';
 
 import EventIcon from '@mui/icons-material/Event';
+import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
 import DateRangeIcon from '@mui/icons-material/DateRange';
 import PeopleIcon from '@mui/icons-material/People';
@@ -52,6 +53,7 @@ function Card3({
     iconColor = 'white';
   return (
     <>
+         <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} >
       <Box
         sx={{
           mb: '10px',
@@ -65,7 +67,7 @@ function Card3({
               // width: '150px',
          
               width: 70,
-              height: 65,
+              height: 70,
               background: `${theme.colors.gradients.pink1}`,
               
               borderRadius: '10px',
@@ -76,7 +78,7 @@ function Card3({
                 ' 1px 4px 5px 2px rgba(0,0,0,0.3)'
             }}
           >
-        <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} >
+   
             {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
             {icon === 3 && <DateRangeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
@@ -100,10 +102,13 @@ function Card3({
             {icon === 17 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 22 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {/* <IconButton> */}
            
             {/* </IconButton> */}
-            </Link>
+           
         
             <Typography
               sx={{
@@ -133,7 +138,10 @@ function Card3({
             </Typography>
           </Box>
           </IconButton>
+        
       </Box>
+      </Link>
+ 
     </>
   );
 }
