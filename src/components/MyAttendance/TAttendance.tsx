@@ -74,6 +74,7 @@ const TAttendance = () => {
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
+
     const GetSaveStudentAttendance: ISaveAttendance = {
         asStandardDivisionId: Standardid,
         asDate: assignedDate,
@@ -83,6 +84,7 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
+    
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate();

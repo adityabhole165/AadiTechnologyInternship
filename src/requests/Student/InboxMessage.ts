@@ -1,15 +1,15 @@
 import { createSlice} from '@reduxjs/toolkit'
 import InboxMessageApi from "../../api/MessageCenter/InboxMessage";
 import { AppThunk } from 'src/store';
-import {IInboxList} from 'src/interfaces/MessageCenter/InboxMessage';
 import SentMessageApi from 'src/api/Student/SentMessage';
-import { GetMessagesResult, IgetList } from 'src/interfaces/MessageCenter/GetList';
+import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 
 const InboxMessageSlice = createSlice({
   name: 'Message Center',
   initialState:{
     InboxList:[],
+    NextPageList:[],
     FilterData: false,
     Loading:true
   },
@@ -22,20 +22,26 @@ const InboxMessageSlice = createSlice({
       state.Loading = false;
       state.InboxList=action.payload;
     },
+    NextMessages(state,action){
+      state.NextPageList=action.payload;
+    },
     getFilterData(state, action) {
       state.FilterData = action.payload;
     },
     getLoading (state,action) {
-      state.Loading = true
+      state.Loading = true;
       state.InboxList=[];
+      state.NextPageList=[];
     }
   }   
 });
 
   export const getListOfMessages =
-  (body, ActiveTab:string): AppThunk =>
+  (body, ActiveTab:string,Pagination:boolean): AppThunk =>
   async (dispatch) => {
+  if(!Pagination){
     dispatch(InboxMessageSlice.actions.getLoading(true));
+  }
     
   if(ActiveTab==='Inbox'){
     const response = await InboxMessageApi.GetInboxList(body);
@@ -51,7 +57,12 @@ const InboxMessageSlice = createSlice({
         ReceiverDetailsId:item.ReceiverDetailsId
       }
     })
-    dispatch(InboxMessageSlice.actions.Messages(data));
+    if(Pagination == true){
+      dispatch(InboxMessageSlice.actions.NextMessages(data))
+    }
+    if(Pagination == false){
+      dispatch(InboxMessageSlice.actions.Messages(data));
+    }
   }
   if(ActiveTab==='Sent')
   {
@@ -69,7 +80,12 @@ const InboxMessageSlice = createSlice({
       }
     })
 
-    dispatch(InboxMessageSlice.actions.Messages(data));
+    if(Pagination == true){
+      dispatch(InboxMessageSlice.actions.NextMessages(data))
+    }
+    if(Pagination == false){
+      dispatch(InboxMessageSlice.actions.Messages(data));
+    }
   }
   if(ActiveTab==='Trash')
   {
@@ -87,32 +103,15 @@ const InboxMessageSlice = createSlice({
       }
     })
 
-    dispatch(InboxMessageSlice.actions.Messages(data));
+    if(Pagination == true){
+      dispatch(InboxMessageSlice.actions.NextMessages(data))
+    }
+    if(Pagination == false){
+      dispatch(InboxMessageSlice.actions.Messages(data));
+    }
   }
+  
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 export const getInboxList =
@@ -133,5 +132,4 @@ async (dispatch) => {
   dispatch(InboxMessageSlice.actions.getInboxList(response.data));
 };
 
-
-export default InboxMessageSlice.reducer
+export default InboxMessageSlice.reducer;
