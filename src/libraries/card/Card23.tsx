@@ -20,7 +20,7 @@ function Card23({ pic }) {
                 width="100% "
                 height="385px "
                 allowFullScreen
-                src={'https://www.youtube.com/embed/' + pic}
+                src={'https://www.youtube.com/embed/' + pic + '?controls=0'}
                 title="YouTube video player"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
               ></iframe>
