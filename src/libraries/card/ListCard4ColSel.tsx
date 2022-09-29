@@ -10,9 +10,9 @@ const ListCard4ColSel = ({ Item, onChange }) => {
     return (<>
         <Grid container bgcolor={!Item.isActive ?
             `${theme.colors.gradients.listColor}` :
-            `${theme.colors.gradients.selectedlistColor}`}>
+            `${theme.colors.gradients.selectedlistColor}`} sx={{mt:'10px',borderRadius:'10px',height:'60px'}}>
 
-            <Grid item xs={2} md={1} sx={{ mt: '20px' }}>
+            <Grid item xs={2} md={1} sx={{ m:'15px 0 0 10px ' }}>
 
                 <CheckboxImg
                     name={Item.Id}
@@ -22,7 +22,7 @@ const ListCard4ColSel = ({ Item, onChange }) => {
                 />
             </Grid>
 
-            <Grid item xs={10}>
+            <Grid item xs={9} sx={{mt:'10px'}}>
                 <RouterLink
                     key={Item.Id}
                     to={
