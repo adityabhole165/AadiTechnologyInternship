@@ -44,7 +44,7 @@ const MessageList = () => {
   const SchoolId = localStorage.getItem('localSchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
-  const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index 
+  const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index
   const [activeTab, setActiveTab] = useState('');
   const [searchText, setSearchText] = useState('');
   const [academicYear, setAcademicYear] = useState('');
@@ -53,8 +53,8 @@ const MessageList = () => {
   const [showSearch, setShowSearch] = useState(false);
   const [inboxListData, setInboxListData] = useState([]);
   const [isDeleteActive, setIsDeleteActive] = useState(false);
-  const [nextPageData,setNextPageData] = useState<any>();
-  const [ToolTip,setToolTip] = useState<boolean>(true)
+  const [nextPageData, setNextPageData] = useState<any>();
+  const [ToolTip, setToolTip] = useState<boolean>(true);
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -68,11 +68,10 @@ const MessageList = () => {
   const NextInboxList = useSelector(
     (state: RootState) => state.InboxMessage.NextPageList
   );
-//   console.log(NextInboxList)
+  //   console.log(NextInboxList)
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );
-
 
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
@@ -112,7 +111,7 @@ const MessageList = () => {
 
   useEffect(() => {
     if (academicYear !== '') {
-      dispatch(getListOfMessages(getListBody, activeTab,false));
+      dispatch(getListOfMessages(getListBody, activeTab, false));
     }
   }, [activeTab, isSearchClicked]);
 
@@ -139,11 +138,12 @@ const MessageList = () => {
         arrReciever.push(obj.ReceiverDetailsId);
       }
     });
-    
+
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: (activeTab == "Sent" ? arrDetails.join(';') : arrReciever.join(';')) ,
+      asMessageRecieverDetailsId:
+        activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
       asIsArchive: 'Y',
       asIsCompeteDelete: isCompleteDelete,
       asFlag: activeTab
@@ -151,7 +151,7 @@ const MessageList = () => {
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
         toast.success('Message deleted successfully');
-        dispatch(getListOfMessages(getListBody, activeTab,false));
+        dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
         alert('error network');
@@ -187,7 +187,7 @@ const MessageList = () => {
 
   const pageIndexIncrement = (): void => {
     setpageIndex((prev) => {
-        return pageIndex+1
+      return pageIndex + 1;
     });
   };
 
@@ -195,32 +195,33 @@ const MessageList = () => {
     if (
       scrollableDivRefference.scrollHeight -
         scrollableDivRefference.scrollTop <=
-      600
+      580
     ) {
-        const getListBody: IgetList = {
-            asSchoolId: SchoolId,
-            asAcademicYearId: academicYear,
-            asUserId: sessionStorage.getItem('Id'),
-            asUserRoleId: sessionStorage.getItem('RoleId'),
-            abIsSMSCenter: '0',
-            asFilter: searchText,
-            asPageIndex: pageIndex,
-            asMonthId: monthYear
-          };
-        dispatch(getListOfMessages(getListBody, activeTab, true));
-        console.log(NextInboxList.length)
-        if(NextInboxList.length != 0){
-            setInboxListData((prev)=>{
-                return [...InboxList,...NextInboxList]
-            });
-        }
-        pageIndexIncrement()
+      const getListBody: IgetList = {
+        asSchoolId: SchoolId,
+        asAcademicYearId: academicYear,
+        asUserId: sessionStorage.getItem('Id'),
+        asUserRoleId: sessionStorage.getItem('RoleId'),
+        abIsSMSCenter: '0',
+        asFilter: searchText,
+        asPageIndex: pageIndex,
+        asMonthId: monthYear
+      };
+      dispatch(getListOfMessages(getListBody, activeTab, true));
+      setInboxListData((prev) => {
+        return [...inboxListData, ...NextInboxList];
+      });
+      pageIndexIncrement();
     }
   };
 
   const closeSearchBar = () => {
-    setShowSearch(false)
-  }
+    setShowSearch(false);
+    setAcademicYear(AcademicYearId);
+    setMonthYear('');
+    setSearchText('');
+    dispatch(getListOfMessages(getListBody, activeTab, false));
+  };
 
   return (
     <>
@@ -260,10 +261,16 @@ const MessageList = () => {
         )}
         {isDeleteActive && (
           <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
-            <ButtonPrimary onClick={() =>clickDelete(1)} endIcon={<DeleteIcon />}>
+            <ButtonPrimary
+              onClick={() => clickDelete(1)}
+              endIcon={<DeleteIcon />}
+            >
               Delete From Everyone
             </ButtonPrimary>
-            <ButtonPrimary onClick={() =>clickDelete(0)} endIcon={<DeleteIcon />}>
+            <ButtonPrimary
+              onClick={() => clickDelete(0)}
+              endIcon={<DeleteIcon />}
+            >
               Delete
             </ButtonPrimary>
             <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>
@@ -297,11 +304,6 @@ const MessageList = () => {
           right: '20px'
         }}
       >
-
-                
-        
-
-                
         <RouterLink
           style={{ textDecoration: 'none' }}
           to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
