@@ -8,8 +8,7 @@ const ListCard4ColSel = ({ Item, onChange }) => {
   const navigate = useNavigate();
 
   const clickNav = (value) => {
-    navigate(
-      location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + value
+    navigate('/'+ location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + value
     );
   };
   return (
