@@ -18,18 +18,14 @@ const ListCard4ColSel = ({ Item, onChange }) => {
         <Grid container>
           <Grid xs={1} sx={{ mt: '5px' }}>
             <CheckboxImg
-              name={Item.Id}
-              value={Item.Id}
-              checked={Item.isActive}
-              onChange={onChange}
+              name={Item.Id} value={Item.Id}
+              checked={Item.isActive} onChange={onChange}
             />
           </Grid>
           <Grid xs={11} onClick={() => clickNav(Item.NavPath)}>
             <Card4
-              header={Item.text1}
-              text1={Item.text2}
-              text2={Item.text3}
-              text3={''}
+              header={Item.text1} text1={Item.text2}
+              text2={Item.text3} text3={''}
               text5={''}
             />
           </Grid>
@@ -38,3 +34,4 @@ const ListCard4ColSel = ({ Item, onChange }) => {
     </>
   );
 };
+export default ListCard4ColSel;
