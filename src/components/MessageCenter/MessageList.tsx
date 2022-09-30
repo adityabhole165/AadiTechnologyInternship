@@ -194,7 +194,7 @@ const MessageList = () => {
             </Grid>
           </>
         ) : (
-          <Grid item xs={10}>
+          <Grid item xs={12}>
             <MCForm
               AcademicYearList={AcademicYearList}
               MonthYearList={MonthYearList}

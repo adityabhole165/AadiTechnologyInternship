@@ -8,7 +8,7 @@ const Dropdown = ({ Array, handleChange}) => {
 
     return (
         <>
-            <FormControl variant="standard" sx={{ mb: 2 }} fullWidth>
+            <FormControl variant="standard" fullWidth>
                 <NativeSelect  onChange={(e) => handleChange(e.target.value)} >
                     <option>Select Class</option>
                     {Array.map((items, i) => {
