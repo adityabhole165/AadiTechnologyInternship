@@ -28,9 +28,9 @@ function OnlineExamReport() {
     return (
         <Container>
            
-            <PageHeader heading={'Online Progress Report'} subheading={''} />
-            <Card30 header={Header}></Card30>
-            {/* <MessageList></MessageList> */}
+            {/* <PageHeader heading={'Online Progress Report'} subheading={''} />
+            <Card30 header={Header}></Card30> */}
+            <MessageList></MessageList>
 
         </Container>
     );
