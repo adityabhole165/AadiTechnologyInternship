@@ -260,7 +260,7 @@ const MessageList = () => {
           </Grid>
         )}
         {isDeleteActive && (
-          <Grid item xs={12} display={'flex'} justifyContent={'space-between'}>
+          <Grid item xs={12} display={'flex'} justifyContent={'space-between'} sx={{mb:"10px"}}>
             <ButtonPrimary
               onClick={() => clickDelete(1)}
               endIcon={<DeleteIcon />}
@@ -273,7 +273,7 @@ const MessageList = () => {
             >
               Delete
             </ButtonPrimary>
-            <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />}>
+            <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />} color="secondary">
               Reset
             </ButtonPrimary>
           </Grid>
