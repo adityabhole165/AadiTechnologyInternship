@@ -1,6 +1,7 @@
 import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel'
 import ListCard3ColSel from '../card/ListCard3ColSel'
 import { Box, Card } from '@mui/material';
+
 const List3ColSelAll = ({ Itemlist, refreshData ,assignedDate}) => {
     
     let isCheckAll =
@@ -30,7 +31,7 @@ const List3ColSelAll = ({ Itemlist, refreshData ,assignedDate}) => {
         <div>
             <Box sx={{mt:"10px"}}>
             <ListHeaderCard3ColSel
-                Item={{ text1: 'Roll Number', text2: 'Student Name', isActive: isCheckAll }}
+                Item={{ text1: 'Roll No.', text2: 'Student Name', isActive: isCheckAll }}
                 onChange={ClickAll}
             />
             </Box>

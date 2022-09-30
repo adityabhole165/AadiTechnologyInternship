@@ -14,12 +14,13 @@ const TAttendanceSlice = createSlice({
         StandardDivisionAttendance: [],
         AttendanceData: [],
         GetStudentDetailsList: [],
-        AttendanceStatus: [],
+        AttendanceStatus: '',
         StudentList: [],
         SaveAttendanceStatus: [],
         stdlist: [],
         StudentAttendanceData: [],
-        StudentAbsent: ''
+        StudentAbsent: '',
+        SaveResponse: ''
     },
 
     reducers: {
@@ -38,18 +39,23 @@ const TAttendanceSlice = createSlice({
         GetStudentDetailsList(state, action) {
             state.GetStudentDetailsList = action.payload
         },
+        GetStudentList(state, action) {
+            if (action.payload === null) {
+                state.StudentAbsent = ''
+                state.StudentList = []
+            } else {
+                state.StudentList = action.payload
+                let arr = []
+                action.payload.map((obj) => {
+                    if (!obj.isActive)
+                        arr.push(obj.text1)
+                })
+                state.StudentAbsent = arr.join(',')
+            }
+
+        },
         GetAttendanceStatusList(state, action) {
             state.AttendanceStatus = action.payload
-        },
-        GetStudentList(state, action) {
-            state.StudentList = action.payload
-            
-            let arr = []
-            action.payload.map((obj) => {
-                if (!obj.isActive)
-                    arr.push(obj.text1)
-            })
-            state.StudentAbsent = arr.join(',')
         },
 
         GetSaveAttendanceStatusList(state, action) {
@@ -59,11 +65,14 @@ const TAttendanceSlice = createSlice({
                 return arr.includes(obj.text1.toString()) ?
                     { ...obj, isActive: false } :
                     { ...obj, isActive: true }
-                }
+            }
             )
             state.StudentAbsent = arr.join(',')
             state.SaveAttendanceStatus = action.payload
-        }
+        },
+        getSaveResponse(state, action) {
+            state.SaveResponse = action.payload
+        },
     }
 });
 
@@ -106,20 +115,35 @@ export const GetStudentList =
     (data: IGetStudentDetails): AppThunk =>
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
-            if(response?.data != null){
-                const studentList = response?.data.map((item, index) => {
-                    
+            let studentList = null;
+            let message = 'There are no students available.'
+            if (response?.data != null) {
+                studentList = response?.data.map((item, index) => {
+
                     return {
                         text1: item.RollNumber,
                         text2: item.StudentName,
                         isActive: item.IsPresent === 'true' ? true : false,
                         status: item.Status,
-                        joinDate:item.JoinDate
+                        joinDate: item.JoinDate
                     }
 
                 })
+
+                const data2 = {
+                    asAcademicYearId: data.asAcademicYearId,
+                    asAttendanceDate: '30-Jul-2022',
+                    // asAttendanceDate: data.asDate,
+                    asSchoolId: data.asSchoolId,
+                    asStanardDivisionId: data.asStdDivId
+                }
+                const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
+                response2.data?.map((item, i) => {
+                    message = item.StatusMessage
+                })
+            }
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
-        }
+            dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
         }
 export const getStandard =
     (data: StandardAttendance): AppThunk =>
@@ -155,14 +179,29 @@ export const GetAttendanceStatus =
     (data: IGetAttendanceStatus): AppThunk =>
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
-            dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(response.data));
+            let message = ''
+            response.data?.map((item, i) => {
+                message = item.StatusMessage
+            })
+            dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
         }
 
 export const GetSaveAttendanceStatus =
     (data: ISaveAttendance): AppThunk =>
         async (dispatch) => {
-            const response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(data);
+            let response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(data);
+            let responseMsg = ''
 
+            // GetTAttendanceListApi.SaveStudentAttendanceDetails(data)
+            // .then((resp) => {
+            //     if (resp.status == 200) {
+            // response = resp.data;
+            //     }
+            // })
+            // .catch((err) => {
+            //     responseMsg = 'error network';
+            // });
+            responseMsg = 'Attendance saved for the valid roll number(s) !!!'
 
             const GetStudentDetails: IStudentsDetails = {
                 asStdDivId: data.asStandardDivisionId,
@@ -170,6 +209,7 @@ export const GetSaveAttendanceStatus =
                 asAcademicYearId: data.asAcademicYearId,
                 asSchoolId: data.asSchoolId
             };
+            dispatch(TAttendanceSlice.actions.getSaveResponse(responseMsg));
             dispatch(TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data));
         }
 

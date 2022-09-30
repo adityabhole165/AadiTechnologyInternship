@@ -2,8 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import OnlineExamProgressReport, { OnlineExamResult, OnlineExams, MarkInformation }
-    from "src/interfaces/Student/OnlineExamProgressReport";
+import OnlineExamProgressReport, { OnlineExamResult, OnlineExams, MarkInformation }from "src/interfaces/Student/OnlineExamProgressReport";
 import PageHeader from 'src/libraries/heading/PageHeader';
 import {getHeader} from 'src/requests/Student/OnlineExamProgressReport';
 import Card30 from 'src/libraries/card/Card30';
@@ -29,10 +28,9 @@ function OnlineExamReport() {
     return (
         <Container>
            
-            {/* <PageHeader heading={'Online Progress Report'} subheading={''} /> */}
-           
-            {/* <Card30 header={Header}></Card30> */}
-            <MessageList></MessageList>
+            <PageHeader heading={'Online Progress Report'} subheading={''} />
+            <Card30 header={Header}></Card30>
+            {/* <MessageList></MessageList> */}
 
         </Container>
     );
