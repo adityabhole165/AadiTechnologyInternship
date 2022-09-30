@@ -132,8 +132,7 @@ export const GetStudentList =
 
                 const data2 = {
                     asAcademicYearId: data.asAcademicYearId,
-                    asAttendanceDate: '30-Jul-2022',
-                    // asAttendanceDate: data.asDate,
+                    asAttendanceDate: data.asDate,
                     asSchoolId: data.asSchoolId,
                     asStanardDivisionId: data.asStdDivId
                 }

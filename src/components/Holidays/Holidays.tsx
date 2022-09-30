@@ -75,11 +75,11 @@ function Holidays() {
       <Grid container>
         <Grid item xs={4}>
           <DotLegend color='secondary' text='Todays Holiday' />
-        </Grid><Grid item xs={6}>
+        </Grid><Grid item xs={6}>&nbsp;&nbsp;
           <DotLegend color='warning' text='Upcoming Holidays' />
         </Grid>
       </Grid>
-
+<br/>
       <List1 items={Data} />
     </Container>
   );
