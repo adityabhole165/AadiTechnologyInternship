@@ -14,6 +14,8 @@ const List23 = ({ data }) => {
           <Card31
             Name={Detail.Name}
             Value={Detail.Value}
+            text1={Detail.text1}
+            text2={Detail.text2}
 
           />
         </div>

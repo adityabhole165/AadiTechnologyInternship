@@ -63,6 +63,11 @@ export const CardDetail = styled(Box)`
   justify-content: space-between;
   font-family: Roboto;
 `;
+export const CardDetailH = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  font-family: Roboto;
+`;
 
 export const Accordionsummary = styled(AccordionSummary)`
  background-color:red;
