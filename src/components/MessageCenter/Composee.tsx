@@ -14,8 +14,14 @@ import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
-import CloseIcon from '@mui/icons-material/Close';
 import AdminTeacherRecipientsList from '../SMSCenter/AdminTeacherRecipientsList';
+import Collapse from '@mui/material/Collapse';
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+import { TransitionGroup } from 'react-transition-group';
+import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
+
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -79,7 +85,7 @@ function Form13() {
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
-  const [finalBase64, setFinalBase64] = useState<AttachmentFile[]>([]);
+  const [finalBase64, setFinalBase64] = useState([]);
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
 
@@ -253,13 +259,6 @@ function Form13() {
     }
   }, []);
 
-  const RemoveAttachment = (i) => {
-    finalBase642.pop()
-    setFinalBase642((prev) => [...prev])
-    ArrayOfAttachment.pop()
-    setArrayOfAttachment((prev) => [...prev])
-  }
-
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -388,40 +387,22 @@ function Form13() {
             PageName === 'Reply' ? null : (
               <div style={{marginTop:'10px'}}>
                 <Typography sx={{mb:'10px'}}>Attachment(s):</Typography>
-                {ArrayOfAttachment.map((item, i) => {
-                  return (
-                    <>
-                    <span className={item}>
-                      <Typography
-                        sx={{ border: '2px solid black',borderRadius:'6px 1px 1px 6px',paddingLeft:'5px' }}
-                        className={classes.Cardfont1}
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                <Box sx={{ mt: 1 }}>
+                  <List>
+                    <TransitionGroup>
+                      {ArrayOfAttachment.map((item,key) => (
+                        <Collapse key={item}>
+                          <ListItem>
+                        <FilePresentRoundedIcon sx={{ml:'-20px',mr:'15px',color:'blue'}}/>
+                        <ListItemText primary={item.slice(0,25)} onClick={(event: React.MouseEvent<HTMLElement>) => {
                           window.open(AttachmentFilePath.concat(item));
-                        }}
-                      >
-                        {item.slice(0,40) + "..."}
-                      </Typography>
-                      <Avatar
-                        sx={{
-                          position: 'relative',
-                          top:'-35px',
-                          right:"-300px",
-                          p: '2px',
-                          width: 25,
-                          height: 25,
-                          backgroundColor: 'white',
-                          boxShadow:
-                            '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                        }}
-                        onClick={(i) => RemoveAttachment(i)} // Close function
-                      >
-                        <CloseIcon fontSize="small" color="error" />
-                      </Avatar>
-                    </span>
-
-                    </>
-                  );
-                })}
+                        }}/>
+                      </ListItem>
+                        </Collapse>
+                      ))}
+                    </TransitionGroup>
+                  </List>
+                </Box>               
               </div>
             )}
             {fileerror && (
@@ -488,3 +469,4 @@ function Form13() {
 }
 
 export default Form13;
+

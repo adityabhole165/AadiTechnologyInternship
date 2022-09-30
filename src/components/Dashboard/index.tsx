@@ -191,17 +191,7 @@ if (RoleId === '3') {
           : f.IsEnabled === true;
       });
     });
-    items2 = DashboardData.Admin.items2.filter((el) => {
-      return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true;
-      });
-    });
-    items3 = DashboardData.Teacher.items3.filter((el) => {
+    items2 = DashboardData.Admin.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
         return f.ScreenName ===
           (el.ScreenPermission === undefined
@@ -212,10 +202,6 @@ if (RoleId === '3') {
       });
     });
   }
-
-
-
-
 
   if (RoleId === '2') {
     items1 = DashboardData.Teacher.items1.filter((el) => {
@@ -249,22 +235,16 @@ if (RoleId === '3') {
       });
     });
   }
+
   let header2 = RoleId === '3' ? 'Student' : 'Teacher';
   let header3 = RoleId === '6' ? 'Communication' : 'Exam & Communication';
 
   return (
     <>
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
-      {/* <IconButton>
-        <NavLink
-          to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`}
-          activeStyle={{ color: '#9e9e9e' }}
-        >
-          <EventNoteIcon />
-        </NavLink>
-      </IconButton> */}
       {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
-      <Card2 items={items3} heading={header3} rowsCol="4"></Card2>
+      {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4" />}
+      {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"></Card2>}
     </>
   );
 }

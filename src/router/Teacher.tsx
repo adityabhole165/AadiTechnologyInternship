@@ -16,6 +16,7 @@ const TExamschedule = Loader(lazy(() => import('src/components/TExamschedule/TEx
 const TView = Loader(lazy(() => import('src/components/TAttendance/TView')))
 const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetable/TeacherTimetable')));
 const MissingAttandence = Loader(lazy(() => import('src/components/TAttendance/MissingAttandence')))
+const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
 
 const teacherRoutes = [
     {
@@ -38,6 +39,10 @@ const teacherRoutes = [
     {
       path: 'TAttendance/MissingAttandence/:assignedDate',
       element: <MissingAttandence/>
+    },
+    {
+      path: 'smscenter',
+      element: <SmsCenter/>
     },
     ];
   

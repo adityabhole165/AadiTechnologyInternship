@@ -43,7 +43,7 @@ function ForgotPassword() {
       submitresult();
     },
     validate: (values) => {
-      const emailRegExp = /^\S+@\S+\.\S+$/; // for Mobile Numbers
+      const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
 
       const errors: any = {};
       if (!values.Login) {
@@ -76,9 +76,10 @@ function ForgotPassword() {
   ];
 
   return (
-    <>
+
+     <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
-      <Container>
+     
         <Stack
           direction="row"
           alignItems="center"
@@ -164,8 +165,8 @@ function ForgotPassword() {
           </form>
           <Note NoteDetail={note} />
         </ListStyle>
-      </Container>
-    </>
+        </Container>
+   
   );
 }
 

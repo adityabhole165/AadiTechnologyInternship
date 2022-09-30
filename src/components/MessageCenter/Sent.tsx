@@ -210,7 +210,7 @@ function SentMessage() {
       };
       SentMessageApi.GetSentMessageList(UpdatedBody) 
         .then((response) => {
-          setNextPageData(response.data); // Next page data setter
+          setNextPageData(response.data);
         })
         .catch((err) => {
           alert('error network');
