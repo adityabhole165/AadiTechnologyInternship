@@ -32,6 +32,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
+  const PageName = pathname.replace('/extended-sidebar/Teacher/', '');
 
   const classes = Styles();
   const [isFuture, setIsFuture] = useState(false);
@@ -48,7 +49,22 @@ function DateSelector({ date, setCurrentDate, Close }) {
     if (!isFutureDate(next))
       setCurrentDate(next);
   }
+  const [dateClickDependent, setdateClickDependent] = useState('none');
 
+  const dateClickHnadler = (e) => {
+    if (dateClickDependent == 'none' && PageName == 'TAttendance') {
+      setdateClickDependent('flex');
+    }
+    if (dateClickDependent == 'flex' && PageName == 'TAttendance') {
+      setdateClickDependent('none');
+    }
+  };
+
+  const ChangeCapture = (e) => {
+    setTimeout(() => {
+      setdateClickDependent('none');
+    }, 100);
+  };
 
   return (
     <>
@@ -63,11 +79,12 @@ function DateSelector({ date, setCurrentDate, Close }) {
               <Item
                 sx={{ p: 1.3, background: 'rgb(36 66 175 / 0.4)' }}
                 className={classes.date}
+                onClick={dateClickHnadler}
               >
                 {' '}
                 <Typography sx={{ fontWeight: 'bold' }}>{date}</Typography>
               </Item>
-              <Item
+              {/* <Item
                 sx={{
                   width: '300px',
                   position: 'absolute',
@@ -77,8 +94,20 @@ function DateSelector({ date, setCurrentDate, Close }) {
                   mt: '5px',
                 }}
               >
+               <Calendar onChange={(e) => Close(e.toLocaleString())} />
+              </Item> */}
+               <div
+                onClick={ChangeCapture}
+                style={{
+                  position: 'fixed',
+                  display: dateClickDependent,
+                  width: '300px',
+                  marginTop: '5px',
+                  zIndex:'2'
+                }}
+              >
                 <Calendar onChange={(e) => Close(e.toLocaleString())} />
-              </Item>
+              </div>
             </Grid>
 
             <Grid item xs={2}>

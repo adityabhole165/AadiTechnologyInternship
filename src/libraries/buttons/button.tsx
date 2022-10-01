@@ -50,11 +50,11 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
 
   return (
     <>
-
+      <Container>
         <div>
           <Grid container spacing={0.5}>
             <Grid item xs={2}>
-              <Item onClick={() => NextDate(-1)}>
+              <Item onClick={() => PrevDate()}>
                 <ArrowLeft sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>
@@ -82,13 +82,13 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
             </Grid>
 
             <Grid item xs={2}>
-              <Item onClick={() => NextDate(1)}>
+              <Item onClick={() => NextDate()}>
                 <ArrowRight sx={{ mt: 0.5, fontSize: 25 }} />
               </Item>
             </Grid>
           </Grid>
         </div>
-   
+      </Container>
       <br />
     </>
   );

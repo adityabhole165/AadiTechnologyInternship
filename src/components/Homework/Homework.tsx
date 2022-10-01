@@ -23,8 +23,6 @@ function Homework() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedDate, setAssignedDate] = useState<string>();
   const [calanderSelected, setcalanderSelected] = useState(false);
-
-
   const [CalanderDate, setCalanderDate] = useState("");
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -112,13 +110,12 @@ function Homework() {
 
   return (
     <>
-
+<Container>
       <PageHeader heading={'Homework'} subheading={''} />
       <div>
         <DotLegend
           sx={{
             backgroundColor: '#DA70D6',
-            marginLeft: '1.5rem',
             marginBottom: '-2px',
             border: '1px black solid'
           }}
@@ -139,11 +136,12 @@ function Homework() {
       ) : HomeworkSubjectList.length === 0 ? (
         <ErrorMessages Error={'Homework is not available'} />
       ) : (
-        <Container>
+        
 
           <Card30 header={HomeworkSubjectList} />
-        </Container>
+       
       )}
+      </Container>
     </>
   );
 }

@@ -4,7 +4,7 @@ import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, useTheme } from '@mui/material';
+import { Container, styled, useTheme } from '@mui/material';
 import IstaffBirthday, {
   GetstaffBirthdayList
 } from 'src/interfaces/Common/StaffBirthday';
@@ -97,14 +97,16 @@ function StaffBirthday() {
       </small>
       <br />
       <br />
-
-      <Buttons
+<Container>
+<Buttons
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
         Close={undefined}
       />
 
+</Container>
+     
       {staffBirthdayList.length === 0 ? (
         <ErrorMessages Error={'No birthdays are available'} />
       ) : (

@@ -17,6 +17,7 @@ import {
   import { RootState } from "src/store";
 
 
+
   List17.propTypes = {
     Name: PropTypes.string,
     BirthDate: PropTypes.string,
@@ -29,7 +30,6 @@ import {
 
   
   function List17({ Name, BirthDate}) {
-    console.log("BirthDate",BirthDate);
     const [checked, setChecked] = useState(true);
     const theme = useTheme();
     const classes = Styles();
@@ -44,8 +44,7 @@ import {
     })
 
     const presDate = moment().format("DD MMM ") 
-    console.log(BirthDate == presDate);
-    // console.log(BirthDate);
+ 
     const PresentDate = new Date();
     const PresntDay = new Date(PresentDate).getDate();
     const PresentMonth = new Date(PresentDate).toLocaleString('default', { month: 'short' });
@@ -63,14 +62,15 @@ import {
     const NewDateFormat = `${Day} ${Month}`;
     const datesToBeChecked:any = birthDate
     const dateToCheckFor = presentDate;
-    console.log("present",PresentDateFormat)
-    console.log("newdate",NewDateFormat)
-    console.log("birthdate",BirthDate)
+
 
     let nearestDate;
     
     datesToBeChecked.map(date => {
+
+      
       let diff = moment(date).diff(moment(dateToCheckFor), 'days');
+
       
       if (diff > 0) {
         if (nearestDate) {
@@ -83,8 +83,6 @@ import {
       }
     });
 
-    // console.log("nearest",nearestDate);
-
 
 const useStyles = makeStyles({
       root:{
@@ -96,7 +94,6 @@ const useStyles = makeStyles({
     }); 
     const clas = useStyles();
     
-    
     return (
       <>
         <Container>
@@ -105,7 +102,7 @@ const useStyles = makeStyles({
             style={{ transformOrigin: '0 0 1' }}
             {...(checked ? { timeout: 1500 } : {})}
           >  
-          <List sx={{ background: PresentDateFormat == BirthDate || BirthDate > NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
+          <List sx={{ background: PresentDateFormat == BirthDate || BirthDate === NewDateFormat ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                 mb: 1,
                 boxShadow : "8px 4px 5px grey !important",
                 borderRadius: 1}}>

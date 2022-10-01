@@ -9,7 +9,7 @@ import Buttons from 'src/libraries/buttons/button';
 import List16 from 'src/libraries/list/List16';
 import { GetMissingAttandenceData } from 'src/interfaces/Student/MissingAttandenceInterface';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Fab, Grid, useTheme } from '@mui/material';
+import { Container, Fab, Grid, useTheme } from '@mui/material';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Styles } from 'src/assets/style/student-style';
 
@@ -93,6 +93,7 @@ function MissingAttandence() {
 
   return (
     <>
+    <Container>
       <PageHeader heading={'Missing Attendance'} subheading={''} />
       <Grid container direction="row" sx={{ mt: '-40px', marginLeft: '33px' }}>
         <span
@@ -167,6 +168,7 @@ function MissingAttandence() {
           }
         )
       )}
+      </Container>
     </>
   );
 }

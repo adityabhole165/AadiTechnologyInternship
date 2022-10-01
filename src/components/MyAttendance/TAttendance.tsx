@@ -28,12 +28,16 @@ const TAttendance = () => {
     const [Standardid, setStandardid] = useState();
     const [StandardId, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
+    const [calanderSelected, setcalanderSelected] = useState(false);
+    const [CalanderDate, setCalanderDate] = useState("");
     // Date selector Start
     const [date, setDate] = useState({ selectedDate: '' });
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
+    console.log(date)
+
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -105,8 +109,10 @@ const TAttendance = () => {
             selectedDate: NewDateFormat
         });
         setAssignedDate(NewDateFormat);
+        setcalanderSelected(false);
+        setCalanderDate(NewDateFormat);
     };
-
+   
     const popupateDate = () => {
         if (Standardid !== undefined) {
             dispatch(GetStudentList(GetStudentDetails));
@@ -167,14 +173,15 @@ const TAttendance = () => {
     const clickNav = (value) => {
         navigate(`/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value)
     }
+   
     return (
         <Container sx={{ paddingLeft: '25px' }}>
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
-
-            <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={undefined} ></DateSelector>
+<br/>
+ <br/>           <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
             <ErrorDetail>{AttendanceStatus}</ErrorDetail>
 
@@ -186,7 +193,7 @@ const TAttendance = () => {
             <br></br>
             <Grid container>
                 <Grid item xs={3}>
-                    <ButtonPrimary onClick={SaveMsg} >Save</ButtonPrimary>
+                    <ButtonPrimary onClick={SaveMsg}>Save</ButtonPrimary>
                 </Grid><Grid item xs={3}>
                     <ButtonPrimary color='secondary'
                         onClick={() => clickNav('Tview/' + assignedDate + '/' + StandardId)}>

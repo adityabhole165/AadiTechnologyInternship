@@ -25,10 +25,10 @@ Accordion7.propTypes = {
 };
 
 function Accordion7({ Data, additional, AddLectures }) {
-  console.log('data', AddLectures);
+  // console.log('data', AddLectures);
   const classes = Styles();
 
-  console.log('acc', Data);
+  console.log('AddLecturesAddLectures', AddLectures);
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -63,7 +63,7 @@ function Accordion7({ Data, additional, AddLectures }) {
               mb: 1,
             }}
           >
-            {!additional == null ? (
+            {/* {!additional == null ? (
               <>
                 {AddLectures.map((list: AdditionalLecture, index) => (
                   <Card
@@ -129,7 +129,74 @@ function Accordion7({ Data, additional, AddLectures }) {
               </>
             ) : (
               <ErrorMessages Error={'No additional lectures are assigned'} />
-            )}
+            )} */}
+
+
+
+
+            <>
+              {AddLectures.map((list: AdditionalLecture, index) => (
+                <Card
+                  key={index}
+                  sx={{ backgroundColor: '#c8dccb', mb: 1, p: 1, mt: 1 }}
+                >
+                  <Grid container item direction="row">
+                    <Grid
+                      sx={{ mt: '-10px' }}
+                      item
+                      xs={6}
+                      style={{ display: 'flex' }}
+                    >
+                      <ListItem>
+                        <ListItemText>Day: {list.Day}</ListItemText>
+                      </ListItem>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        marginBottom: '-10px',
+                        marginTop: '-20px'
+                      }}
+                    >
+                      <ListItem>
+                        <ListItemText>Subject: {list.Name}</ListItemText>
+                      </ListItem>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        marginBottom: '-10px',
+                        marginTop: '-20px'
+                      }}
+                    >
+                      <ListItem>
+                        <ListItemText>Class: {list.ClassName}</ListItemText>
+                      </ListItem>
+                    </Grid>
+                    <Grid
+                      item
+                      xs={6}
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-start',
+                        marginBottom: '-10px',
+                        marginTop: '-15px'
+                      }}
+                    >
+                      <ListItem>
+                        <ListItemText>Lecture: {list.Number}</ListItemText>
+                      </ListItem>
+                    </Grid>
+                  </Grid>
+                </Card>
+              ))}
+            </>
           </AccordionDetails>
         </Accordion>
       </Container>
