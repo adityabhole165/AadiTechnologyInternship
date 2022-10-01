@@ -34,10 +34,10 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const dateClickHnadler = (e) => {
-    if (dateClickDependent == 'none' && pageName == 'Homework') {
+    if (dateClickDependent == 'none') {
       setdateClickDependent('flex');
     }
-    if (dateClickDependent == 'flex' && pageName == 'Homework') {
+    if (dateClickDependent == 'flex') {
       setdateClickDependent('none');
     }
   };
