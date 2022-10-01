@@ -73,13 +73,14 @@ function Holidays() {
     <Container>
       <PageHeader heading={'Holidays'} subheading={''} />
       <Grid container>
-        <Grid item xs={4}>
+        <Grid item xs={6}>
           <DotLegend color='secondary' text='Todays Holiday' />
-        </Grid><Grid item xs={6}>&nbsp;&nbsp;
+        </Grid><Grid item xs={6}>
           <DotLegend color='warning' text='Upcoming Holidays' />
         </Grid>
       </Grid>
-<br/>
+      <br/>
+
       <List1 items={Data} />
     </Container>
   );
