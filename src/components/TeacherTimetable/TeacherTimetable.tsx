@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
-  getWeekday,
   getTimetable,
   getAdditional
 } from 'src/requests/Teacher/TMtimetable';
+import ITimetable from 'src/interfaces/Student/TimeTable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -15,7 +15,8 @@ import IWdays, {
 } from 'src/interfaces/Student/Tmtimetable';
 import Accordion7 from 'src/libraries/accordion/accordion7';
 import ControlledAccordions from 'src/libraries/accordion/accordion';
-
+import Card30 from 'src/libraries/card/Card30';
+import { Container } from '@mui/material';
 function TeacherTimetable() {
   const dispatch = useDispatch();
   const weekdaysList = useSelector(
@@ -39,14 +40,20 @@ function TeacherTimetable() {
   const asStandardDivisionId = sessionStorage.getItem('DivisionId');
   const asTeacherId = sessionStorage.getItem('TeacherId');
 
-  console.log('asStandardDivisionId', asStandardDivisionId);
 
   const tt_body: IWdays = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
   };
 
-  const t_body: ItimeTable = {
+  const t_body: ITimetable = {
+    asStandardDivId: '0',
+    asTeacherId: asTeacherId,
+    asIsTeacher: '1',
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
+  const teacger_body: ItimeTable = {
     asStandardDivId: '0',
     asTeacherId: asTeacherId,
     asIsTeacher: 1,
@@ -55,15 +62,17 @@ function TeacherTimetable() {
   };
 
   useEffect(() => {
-    dispatch(getWeekday(tt_body));
     dispatch(getTimetable(t_body));
-    dispatch(getAdditional(t_body));
+    // dispatch(getAdditional(teacger_body));
   }, []);
 
   return (
     <>
+    <Container>
       <PageHeader heading={'Timetable'} subheading={''} />
-      {weekdaysList.map((day: GetWdaysResult, i) => (
+      <Card30 header={{Header:TMTimetable}}></Card30>
+
+      {/* {weekdaysList.map((day: GetWdaysResult, i) => (
         <ControlledAccordions
           Days={day.WeekDay}
           Data={TMTimetable}
@@ -72,13 +81,15 @@ function TeacherTimetable() {
           Collapse={handleChange}
           expand={expanded}
         />
-      ))}
-      <Accordion7
+      ))} */}
+      <Card30 header={{Header:AddLectures}}></Card30>
+      {/* <Accordion7
         Data={TMTimetable}
         Days={weekdaysList}
         additional={additional}
         AddLectures={AddLectures}
-      />
+      /> */}
+      </Container>
     </>
   );
 }

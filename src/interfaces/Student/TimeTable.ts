@@ -26,7 +26,13 @@ export interface GetTimetableResult {
                 WeekDay: string,
                 WeekDayId: string
             }
-        ]
+        ],
+        AdditionalLecture:[{
+            Name:string,
+            Number:2,
+            ClassName:string,
+            Day:string
+        }]
     }
-
+   
 }

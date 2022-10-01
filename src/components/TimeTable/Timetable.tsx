@@ -4,8 +4,7 @@ import {  getTimetable } from 'src/requests/Student/Timetable';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import ITimetable, {
-} from 'src/interfaces/Student/TimeTable';
+import ITimetable from 'src/interfaces/Student/TimeTable';
 import Card30 from 'src/libraries/card/Card30';
 import { Container } from '@mui/material';
 

@@ -1,76 +1,48 @@
-import {TextField} from '@mui/material'
-import { useEffect, useState } from 'react'
+import { TextField } from '@mui/material'
+import {checkIsNumber, isValueInArray, isRepeat} from '../../components/Common/Util'
 
 const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) => {
-
+    console.log('a--', validarray.length)
     const defaultLabel = 'Comma separated ' + name
     let label = ''
-    const isRepeat = (value) => {
-        let arr = []
-        arr = value.split(',')
-        if (!arr.slice(0, -2).some((a) => {
-            return (a === arr[arr.length - 2])
-        })) {
-            if (validarray.some((a) => {
-                return (a === arr[arr.length - 2])
-            })) {
-                return true
-            }
-            else {
-                label = 'Invalid ' + name
-                return false
-            }
-        }
-        else {
-            label = 'Do not repeat ' + name
-            return false
-        }
-    }
-    const checkIsNumber = (value) => {
-        const re = /^[0-9\b]+$/;
-        if (value === '' || re.test(value)) {
-            label = defaultLabel
-            return true
-        }
-        else {
-            label = 'Enter number only'
-            return false
-        }
-    }
 
+    
     const SetTextData2 = (value) => {
+
+        label = ''
         let arr = value.split(',')
-
-        if (!checkIsNumber(arr[arr.length - 1])) {
-            changeText({ text: textarray, getLabel: 'Enter number only' })
-            return false
-        }
-
-        //check only if after atlease one comma
-        if (arr.length > 1) {
-            //check if atleast some text entered after comma
-            if (arr[arr.length - 1].length > 0) {
-                //check if text enterred after comma is numeric
-                if (checkIsNumber(arr[arr.length - 1]))
-                    changeText({ text: value, getLabel: label })
-            }
-            else
-                //check if comma entered without any text
-                if (arr[arr.length - 2].length > 0) {
-                    if (isRepeat(value)) {
-                        label = defaultLabel
-                        changeText({ text: value, getLabel: label })
-                    }
-                    else {
-                        changeText({ text: textarray, getLabel: label })
-                    }
-                } else {
-                    label = 'Enter ' + name
-                    changeText({ text: textarray, getLabel: label })
-                }
+        let lastNum = arr[arr.length - 1]
+        if (validarray.length === 0) {
+            label = 'There is no ' + name
         }
         else
-            changeText({ text: value, getLabel: label })
+            if (lastNum !== '') {
+                //check if number is valid
+                if (!checkIsNumber(lastNum)) {
+                    label = 'Enter number only'
+                }
+                //check if number exists in array
+                if (!isValueInArray(lastNum, validarray)) {
+                    label = 'Invalid ' + name
+                }
+            }
+            else {
+                if (arr.length > 1) {
+                    //check if comma entered without any text
+                    if (arr[arr.length - 2].length === 0) {
+                        label = 'Enter ' + name
+                    }
+                    //check if number is repeated
+                    if (!isRepeat(arr[arr.length - 2], arr)) {
+                        label = 'Do not repeat ' + name
+                    }
+                }
+            }
+        if (label === '')
+            changeText({ text: value, getLabel: defaultLabel })
+        else
+            changeText({ text: textarray, getLabel: label })
+
     }
 
     return (
@@ -78,7 +50,7 @@ const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) 
             <br />
             <TextField
                 variant="standard"
-               fullWidth
+                fullWidth
                 value={textarray}
                 error={getLabel !== defaultLabel}
                 label={getLabel}

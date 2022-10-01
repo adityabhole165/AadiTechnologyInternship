@@ -18,6 +18,20 @@ export function ReturnTimeOrDateYear(date){
     return date;
 
 }
+export const isValueInArray = (value,validarray) => {
+    return validarray.some((a) => {
+        return (a === value)
+    })
+}
+export const isRepeat = (value, arr) => {
+    return !arr.slice(0, -2).some((a) => {
+        return (a === value)
+    })
+}
+export const checkIsNumber = (value) => {
+    const re = /^[0-9\b]+$/;
+    return re.test(value)
+}
 
 const formatAMPM = (date) => {
     let hours = date.getHours();
