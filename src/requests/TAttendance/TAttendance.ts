@@ -132,13 +132,13 @@ export const GetStudentList =
 
                 const data2 = {
                     asAcademicYearId: data.asAcademicYearId,
-                    asAttendanceDate: data.asDate,
+                    asAttendanceDate:data.asDate,
                     asSchoolId: data.asSchoolId,
                     asStanardDivisionId: data.asStdDivId
                 }
                 const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
                 response2.data?.map((item, i) => {
-                    message = item.StatusMessage
+                    message = item.AcademicYearMsg === '' ? item.StatusMessage: item.AcademicYearMsg
                 })
             }
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
@@ -179,7 +179,7 @@ export const GetAttendanceStatus =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
             let message = ''
-            response.data?.map((item, i) => {
+            response.data?.map((item, i) => {       
                 message = item.StatusMessage
             })
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
@@ -204,7 +204,7 @@ export const GetSaveAttendanceStatus =
 
             const GetStudentDetails: IStudentsDetails = {
                 asStdDivId: data.asStandardDivisionId,
-                asDate: data.asDate,
+                asDate: '14-Apr-2022',
                 asAcademicYearId: data.asAcademicYearId,
                 asSchoolId: data.asSchoolId
             };
