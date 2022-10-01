@@ -28,16 +28,16 @@ const Item = styled(Paper)(({ theme }) => ({
 function Buttons({ date, PrevDate, NextDate, Close }) {
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/Student/', '');
+  console.log(pathname.slice(-13,))
 
   const classes = Styles();
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const dateClickHnadler = (e) => {
-    if (dateClickDependent == 'none') {
+    if (dateClickDependent == 'none' && pathname.slice(-13,) != "StaffBirthday") {
       setdateClickDependent('flex');
     }
-    if (dateClickDependent == 'flex') {
+    if (dateClickDependent == 'flex' && pathname.slice(-13,) != "StaffBirthday") {
       setdateClickDependent('none');
     }
   };
