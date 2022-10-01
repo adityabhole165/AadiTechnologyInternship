@@ -28,7 +28,7 @@ const TView = () => {
   const [getStandardId, setgetStandardId] = useState(StandardId);
   const [date, setDate] = useState<any>({ selectedDate: assignedDate });
   const getTeacherAttendance: any = useSelector(
-    (state: RootState) => state.StandardAttendance.StandardDivisionAttendance
+    (state: RootState) => state.StandardAttendance.stdlist
   );
   const currentDate = new Date();
 
@@ -100,6 +100,7 @@ const TView = () => {
 
   const handleChange = (e) => {
     setgetStandardId(e.target.value);
+    console.log(e.target.value)
   };
   useEffect(() => {
     dispatch(getStandardList(body));
@@ -117,6 +118,16 @@ const TView = () => {
   );
   const AssignDate = new Date(getDate);
   const PresentDate = new Date();
+
+  const CloseCalender = (e) => {
+    const date = new Date(e);
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    const NewDateFormat = `${Day}-${Month}-${Year}`;
+    setgetDate(NewDateFormat)
+  }
+
 
   return (
     <>
@@ -173,11 +184,11 @@ const TView = () => {
             <NativeSelect sx={{ mr: '48px' }} onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
-                (items: GetStandardDivisionsResult, i) => {
+                (items, i) => {
                   return (
                     <>
-                      <option value={items.Id} key={i}>
-                        {items.Class}
+                      <option value={items.Value} key={i}>
+                        {items.Name}
                       </option>
                     </>
                   );
@@ -192,7 +203,7 @@ const TView = () => {
           date={getDate}
           PrevDate={getPreviousDate}
           NextDate={getNextDate}
-          Close={undefined}
+          Close={CloseCalender}
         />
       </>
       <br></br>

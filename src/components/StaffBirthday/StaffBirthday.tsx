@@ -97,7 +97,6 @@ function StaffBirthday() {
       </small>
       <br />
       <br />
-<Container>
 <Buttons
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -105,7 +104,6 @@ function StaffBirthday() {
         Close={undefined}
       />
 
-</Container>
      
       {staffBirthdayList.length === 0 ? (
         <ErrorMessages Error={'No birthdays are available'} />
