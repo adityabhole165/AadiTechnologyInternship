@@ -44,3 +44,17 @@ const formatAMPM = (date) => {
     let strTime = hours + ':' + minutes + ' ' + ampm;
     return strTime;
 }
+
+export const getDateFormatted = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Day}-${Month}-${Year}`;
+}
+export const getNextDate = (date,prevNext) => {
+    const currentDayInMilli = new Date(date).getTime();
+    const oneDay = prevNext * 1000 * 60 * 60 * 24;
+    const nextDayInMilli = currentDayInMilli + oneDay;
+    return new Date(nextDayInMilli);
+}
