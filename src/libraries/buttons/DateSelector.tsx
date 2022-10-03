@@ -51,9 +51,11 @@ function DateSelector({ date, setCurrentDate, Close }) {
   };
 
   const ChangeCapture = (e) => {
-    setTimeout(() => {
-      setdateClickDependent('none');
-    }, 100);
+    if(e.target.type != 'button'){
+      setTimeout(() => {
+        setdateClickDependent('none');
+      }, 100);
+    }
   };
 
   return (
@@ -77,7 +79,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
                 zIndex: '2',
               }}
             >
-              <Calendar onChange={(e) => Close(e.toLocaleString())} />
+              <Calendar onChange={(e) => Close(e.toLocaleString())} maxDate={new Date()}/>
             </div>
           </Grid>
 
