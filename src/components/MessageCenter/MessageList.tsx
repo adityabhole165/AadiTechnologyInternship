@@ -24,6 +24,9 @@ import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { Avatar } from '@mui/material';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,6 +58,8 @@ const MessageList = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [nextPageData, setNextPageData] = useState<any>();
   const [ToolTip, setToolTip] = useState<boolean>(true);
+  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
+
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -192,6 +197,13 @@ const MessageList = () => {
   };
 
   const scrolling = (): void => {
+
+    if(scrollableDivRefference.scrollTop >= 400){
+      setdisplayMoveToTop("flex")
+    }
+    if(scrollableDivRefference.scrollTop < 400){
+      setdisplayMoveToTop("none")
+    }
     if (
       scrollableDivRefference.scrollHeight -
         scrollableDivRefference.scrollTop <=
@@ -222,6 +234,14 @@ const MessageList = () => {
     setSearchText('');
     dispatch(getListOfMessages(getListBody, activeTab, false));
   };
+
+  const MoveToTop = (e) => {
+    scrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      setdisplayMoveToTop("none")
+    }, 10);
+  }
+  
 
   return (
     <>
@@ -292,6 +312,15 @@ const MessageList = () => {
           <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
         </div>
       )}
+      
+      <Avatar
+        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
+        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
+        onClick={MoveToTop} // Close function 
+      > 
+        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
+      </Avatar>
+
       <span
         style={{
           width: '95px',
