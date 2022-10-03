@@ -1,11 +1,27 @@
-import {Container,TextField,Box,FormControl,Tooltip,ClickAwayListener,Grid,Card,Typography,useTheme,Fab,Avatar} from '@mui/material';
+import {
+  Container,
+  TextField,
+  Box,
+  FormControl,
+  Tooltip,
+  ClickAwayListener,
+  Grid,
+  Card,
+  Typography,
+  useTheme,
+  Fab,
+  Checkbox
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import {AttachmentFile,ISendMessage} from '../../interfaces/MessageCenter/MessageCenter';
+import {
+  AttachmentFile,
+  ISendMessage
+} from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -22,7 +38,6 @@ import ListItemText from '@mui/material/ListItemText';
 import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 
-
 function Form13() {
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
@@ -33,7 +48,10 @@ function Form13() {
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/','');
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/Compose/',
+    ''
+  );
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
@@ -62,8 +80,8 @@ function Form13() {
   }, []);
 
   useEffect(() => {
-    if (AttachmentArray != undefined ) {
-      if( AttachmentArray != 'null'){
+    if (AttachmentArray != undefined) {
+      if (AttachmentArray != 'null') {
         const a = AttachmentArray.split(',');
         for (let i = 0; i < a.length; i++) {
           ArrayOfAttachment.push(a[i]);
@@ -85,9 +103,12 @@ function Form13() {
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
-  const [finalBase64, setFinalBase64] = useState([]);
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
+  const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
+  const [scheduleDate, setscheduleDate] = useState<string>('');
+  const [scheduleTime, setscheduleTime] = useState<string>('');
+  const [readRecieptBoolean,setreadRecieptBoolean] = useState<boolean>(true);
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -99,7 +120,6 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
-
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
@@ -128,13 +148,42 @@ function Form13() {
       };
       finalBase642.push(AttachmentFile);
     }
+    setFinalBase642((prev) => {
+      return [...prev];
+    });
   };
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = ['BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc',
-      'docx','jpg','jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'];
+    const allowedFileTypes = [
+      'BMP',
+      'DOC',
+      'DOCX',
+      'JPG',
+      'JPEG',
+      'PDF',
+      'PNG',
+      'PPS',
+      'PPSX',
+      'PPT',
+      'PPTX',
+      'XLS',
+      'XLSX',
+      'bmp',
+      'doc',
+      'docx',
+      'jpg',
+      'jpeg',
+      'pdf',
+      'png',
+      'pps',
+      'ppsx',
+      'ppt',
+      'pptx',
+      'xls',
+      'xlsx'
+    ];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -165,7 +214,9 @@ function Form13() {
     });
   };
 
-  const RediretToSentPage = () => { navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');};
+  const RediretToSentPage = () => {
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+  };
 
   const sendMessage = () => {
     const sendMessageAPIBody: ISendMessage = {
@@ -196,7 +247,11 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          toast.success('Message sent successfully');
+          if (schedule_A_Message) {
+            toast.success('Message scheduled successfully');
+          } else {
+            toast.success('Message sent successfully');
+          }
           setTimeout(RediretToSentPage, 100);
         }
       })
@@ -301,7 +356,10 @@ function Form13() {
                 ) : null}
               </p>
               <span>
-                <ButtonPrimary color="primary" onClick={(e) => RecipientButton(e)}>
+                <ButtonPrimary
+                  color="primary"
+                  onClick={(e) => RecipientButton(e)}
+                >
                   Add Recipients
                 </ButtonPrimary>
               </span>
@@ -381,35 +439,52 @@ function Form13() {
                 )
               }}
             />
-            {ArrayOfAttachment == undefined ||
-            ArrayOfAttachment == 'null' ||
-            ArrayOfAttachment.length == 0 ||
-            PageName === 'Reply' ? null : (
-              <div style={{marginTop:'10px'}}>
-                <Typography sx={{mb:'10px'}}>Attachment(s):</Typography>
-                <Box sx={{ mt: 1 }}>
-                  <List>
-                    <TransitionGroup>
-                      {ArrayOfAttachment.map((item,key) => (
-                        <Collapse key={item}>
-                          <ListItem>
-                        <FilePresentRoundedIcon sx={{ml:'-20px',mr:'15px',color:'blue'}}/>
-                        <ListItemText primary={item.slice(0,25)} onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          window.open(AttachmentFilePath.concat(item));
-                        }}/>
-                      </ListItem>
-                        </Collapse>
-                      ))}
-                    </TransitionGroup>
-                  </List>
-                </Box>               
-              </div>
-            )}
+
             {fileerror && (
               <p style={{ marginBottom: -25 }} className={classes.error}>
                 {fileerror}
               </p>
             )}
+
+            {finalBase642 == undefined ||
+            finalBase642.length == 0 ||
+            PageName === 'Reply' ? null : (
+              <div style={{ marginTop: '10px' }}>
+                <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
+                <Box sx={{ mt: 1 }}>
+                  <List>
+                    <TransitionGroup>
+                      {finalBase642.map((item, key) => {
+                        return (
+                          <Collapse key={item.FileName}>
+                            <ListItem>
+                              <FilePresentRoundedIcon
+                                sx={{
+                                  ml: '-20px',
+                                  mr: '15px',
+                                  color: 'blue'
+                                }}
+                              />
+                              <ListItemText
+                                primary={item.FileName.slice(0, 25)}
+                                // onClick={(
+                                //   event: React.MouseEvent<HTMLElement>
+                                // ) => {
+                                //   window.open(
+                                //     AttachmentFilePath.concat(item.FileName)
+                                //   );
+                                // }}
+                              />
+                            </ListItem>
+                          </Collapse>
+                        );
+                      })}
+                    </TransitionGroup>
+                  </List>
+                </Box>
+              </div>
+            )}
+
 
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               <TextField
@@ -447,7 +522,8 @@ function Form13() {
             </p>
 
             <Grid item xs={12}>
-              <ButtonPrimary color="primary"
+              <ButtonPrimary
+                color="primary"
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
                 type="submit"
@@ -458,15 +534,18 @@ function Form13() {
               </ButtonPrimary>
             </Grid>
           </form>
-          </Card>
-      
+        </Card>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AdminTeacherRecipientsList displayProperty={displayPropertyFun} RecipientsListDetails={RecipientsListFun} ReplyRecipient={ReplyRecipientNameId} PageName={'MessageCenter'}/>
+        <AdminTeacherRecipientsList
+          displayProperty={displayPropertyFun}
+          RecipientsListDetails={RecipientsListFun}
+          ReplyRecipient={ReplyRecipientNameId}
+          PageName={'MessageCenter'}
+        />
       </div>
     </>
   );
 }
 
 export default Form13;
-
