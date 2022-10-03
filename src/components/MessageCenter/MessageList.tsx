@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -195,7 +195,7 @@ const MessageList = () => {
     if (
       scrollableDivRefference.scrollHeight -
         scrollableDivRefference.scrollTop <=
-      580
+      570
     ) {
       const getListBody: IgetList = {
         asSchoolId: SchoolId,
@@ -225,6 +225,8 @@ const MessageList = () => {
 
   return (
     <>
+
+<Container>
       <PageHeader heading="Message Center" subheading=""></PageHeader>
       <Grid container>
         {!showSearch ? (
@@ -260,13 +262,7 @@ const MessageList = () => {
           </Grid>
         )}
         {isDeleteActive && (
-          <Grid item xs={12} display={'flex'} justifyContent={'space-between'} sx={{mb:"10px"}}>
-            <ButtonPrimary
-              onClick={() => clickDelete(1)}
-              endIcon={<DeleteIcon />}
-            >
-              Delete From Everyone
-            </ButtonPrimary>
+          <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} sx={{mb:"10px"}}>
             <ButtonPrimary
               onClick={() => clickDelete(0)}
               endIcon={<DeleteIcon />}
@@ -315,6 +311,7 @@ const MessageList = () => {
           </Item>
         </RouterLink>
       </span>
+      </Container>
     </>
   );
 };
