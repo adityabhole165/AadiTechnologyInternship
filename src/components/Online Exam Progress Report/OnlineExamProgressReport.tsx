@@ -7,7 +7,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import {getHeader} from 'src/requests/Student/OnlineExamProgressReport';
 import Card30 from 'src/libraries/card/Card30';
 import { Container } from '@mui/material';
-import MessageList from '../MessageCenter/MessageList';
+
+
 function OnlineExamReport() {
     const dispatch = useDispatch();
     const  Header = useSelector(
@@ -28,9 +29,8 @@ function OnlineExamReport() {
     return (
         <Container>
            
-            {/* <PageHeader heading={'Online Progress Report'} subheading={''} />
-            <Card30 header={Header}></Card30> */}
-            <MessageList></MessageList>
+            <PageHeader heading={'Online Progress Report'} subheading={''} />
+            <Card30 header={Header}></Card30>
 
         </Container>
     );
