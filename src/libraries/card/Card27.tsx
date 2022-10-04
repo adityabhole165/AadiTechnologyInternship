@@ -79,94 +79,84 @@ function Card27({ FeesType, Fee, Heading, Note }) {
 
   return (
     <>
- 
-        <Accordion
-          className={classes.background}
-          expanded={expanded === 'panel'}
-          onChange={handleChange('panel')}
-          elevation={0}
-          disableGutters
+
+      <Accordion
+        className={classes.background}
+        expanded={expanded === 'panel'}
+        onChange={handleChange('panel')}
+        elevation={0}
+        disableGutters
+      >
+        <Accordionsummary
+          expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+          sx={{
+            background: `${theme.colors.gradients.pink1}`
+          }}
         >
-          <Accordionsummary
-            expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-            sx={{
-              background: `${theme.colors.gradients.pink1}`
-            }}
+          <Header1
+          color={expanded === 'panel'? 'secondary':''}
           >
-            <Header1
-              sx={{
-                color:
-                  expanded === 'panel'
-                    ? `${theme.colors.gradients.accordianHeadercolor}`
-                    : ''
-              }}
-            >
-              <b>{FeesType}</b> &nbsp;:&nbsp;
-              <b>{FeesObject.TotalFeesPaid}</b>
-            </Header1>
-          </Accordionsummary>
-          {
-            <AccordionDetails>
-              {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
-                0 ? (
-                <ErrorMessages Error={'No fees has been paid'} />
-              ) : Fee == undefined ? null : (
-                Fee.map((item, i) => {
-                  return item.AmountPayable == 0 ? (
-                    <Card5
-                      key={i}
-                      text1={item.OriginalFeeType}
-                      text2={item.Amount}
-                      clickIcon={() => {
-                        downloadReceiptFile(item.ReceiptNo);
-                      }}
-                    />
-                  ) : null;
-                })
-              )}
-            </AccordionDetails>
-          }
-        </Accordion>
-        <Accordion
-          className={classes.background}
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
-          elevation={0}
-          disableGutters
-        >
-          <Accordionsummary
-            expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-            sx={{
-              background: `${theme.colors.gradients.pink1}`
-            }}
-            color="primary"
-          >
-            <Header1
-              sx={{
-                color:
-                  expanded === 'panel1'
-                    ? `${theme.colors.gradients.accordianHeadercolor}`
-                    : ''
-              }}
-            >
-              <b>{'Payable Fees'}</b> &nbsp;:&nbsp;
-              <b>{FeesObject.FeesTobePaid}</b>
-            </Header1>
-          </Accordionsummary>
+            <b>{FeesType}</b> &nbsp;:&nbsp;
+            <b>{FeesObject.TotalFeesPaid}</b>
+          </Header1>
+        </Accordionsummary>
+        {
           <AccordionDetails>
-            <Card16
-              Fee={Fee}
-              Heading={Heading}
-              Note={Note}
-              FeesTypes={FeesType}
-            />
+            {FeesObject == undefined ? null : FeesObject.TotalFeesPaid ==
+              0 ? (
+              <ErrorMessages Error={'No fees has been paid'} />
+            ) : Fee == undefined ? null : (
+              Fee.map((item, i) => {
+                return item.AmountPayable == 0 ? (
+                  <Card5
+                    key={i}
+                    text1={item.OriginalFeeType}
+                    text2={item.Amount}
+                    clickIcon={() => {
+                      downloadReceiptFile(item.ReceiptNo);
+                    }}
+                  />
+                ) : null;
+              })
+            )}
           </AccordionDetails>
-        </Accordion>
-  
+        }
+      </Accordion>
+      <Accordion
+        className={classes.background}
+        expanded={expanded === 'panel1'}
+        onChange={handleChange('panel1')}
+        elevation={0}
+        disableGutters
+      >
+        <Accordionsummary
+          expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+          sx={{
+            background: `${theme.colors.gradients.pink1}`
+          }}
+          color="primary"
+        >
+          <Header1
+          color={expanded === 'panel1'? 'secondary':''}
+          >
+            <b>{'Payable Fees'}</b> &nbsp;:&nbsp;
+            <b>{FeesObject.FeesTobePaid}</b>
+          </Header1>
+        </Accordionsummary>
+        <AccordionDetails>
+          <Card16
+            Fee={Fee}
+            Heading={Heading}
+            Note={Note}
+            FeesTypes={FeesType}
+          />
+        </AccordionDetails>
+      </Accordion>
+
     </>
   );
 }
