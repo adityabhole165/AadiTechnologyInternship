@@ -37,6 +37,7 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -334,7 +335,7 @@ function Form13() {
             <ReplyIcon />
           </Fab>
         </span>
-        <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+        <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <TextField
@@ -534,7 +535,7 @@ function Form13() {
               </ButtonPrimary>
             </Grid>
           </form>
-        </Card>
+        </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
         <AdminTeacherRecipientsList
