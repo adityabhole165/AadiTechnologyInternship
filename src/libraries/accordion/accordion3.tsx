@@ -45,12 +45,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
               }}
             >
               <Header1
-                sx={{
-                  color:
-                    expand === index
-                      ? `${theme.colors.gradients.accordianHeadercolor}`
-                      : 'black'
-                }}
+              color={expand === index?'secondary':''}
               >
                 <b>{Exam}</b>
               </Header1>
