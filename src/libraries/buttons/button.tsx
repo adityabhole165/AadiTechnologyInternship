@@ -34,10 +34,10 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const dateClickHnadler = (e) => {
-    if (dateClickDependent == 'none' && pathname.slice(-13,) != "StaffBirthday") {
+    if (dateClickDependent == 'none' && pathname.slice(-13,) != "StaffBirthday" && pathname.slice(-13,) != "EventOverview") {
       setdateClickDependent('flex');
     }
-    if (dateClickDependent == 'flex' && pathname.slice(-13,) != "StaffBirthday") {
+    if (dateClickDependent == 'flex' && pathname.slice(-13,) != "StaffBirthday" && pathname.slice(-13,) != "EventOverview") {
       setdateClickDependent('none');
     }
   };

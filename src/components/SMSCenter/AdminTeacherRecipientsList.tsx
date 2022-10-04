@@ -26,6 +26,7 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
     RecipientName: [],
     RecipientId: []
   });
+  // console.log(RecipientsArray.RecipientId)
 
   const theme = useTheme();
   const classes = Styles();
