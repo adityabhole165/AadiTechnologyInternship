@@ -21,18 +21,18 @@ export const Card30 = ({ header}) => {
             <Card28 Student={header.Students}/>}
       
             {header.Header!= undefined ?
-                header.Header.map((Header) => (
+                header.Header.map((Header, index) => (
 
-                    <ListStyle key={Header.Id}>
+                    <ListStyle key={index}>
 
                         <Card32
-                            Id={Header.Id}
+                            Id={index}
                             Name={Header.Name}
                             expand={expand} 
-                            isActive={enableRow === Header.Id}/>
+                            isActive={enableRow === index}/>
 
                         {
-                            enableRow === Header.Id &&
+                            enableRow === index &&
                             <List23 data={Header.Child}/>
                         }
                     </ListStyle>
