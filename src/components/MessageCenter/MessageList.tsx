@@ -253,7 +253,7 @@ const MessageList = () => {
       <Grid container>
         {!showSearch ? (
           <>
-            <Grid item xs={10.5}>
+            <Grid item xs={11}>
               <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
             </Grid>
             <Grid item xs={1}>
