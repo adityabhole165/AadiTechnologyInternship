@@ -204,7 +204,7 @@ export const GetSaveAttendanceStatus =
 
             const GetStudentDetails: IStudentsDetails = {
                 asStdDivId: data.asStandardDivisionId,
-                asDate: '14-Apr-2022',
+                asDate: data.asDate,
                 asAcademicYearId: data.asAcademicYearId,
                 asSchoolId: data.asSchoolId
             };
