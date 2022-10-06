@@ -113,6 +113,15 @@ const DashboardData = {
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
     },
+    {
+      Text1: 'Birthday',
+      Text2: '',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      Icon: CakeIcon,
+      Link: 'Student/Bday',
+      index: 24,
+    },
     // {
     //   Text1: 'Teacher',
     //   Text2: 'Attendance',

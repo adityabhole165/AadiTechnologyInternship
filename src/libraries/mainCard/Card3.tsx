@@ -75,6 +75,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 22 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 23 && <FeedbackIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 24 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
            
             <Typography
               sx={{
