@@ -50,7 +50,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
 
   return (
     <>
-      <Container>
+    
         <div>
           <Grid container spacing={0.5}>
             <Grid item xs={2}>
@@ -88,7 +88,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
             </Grid>
           </Grid>
         </div>
-      </Container>
+     
       <br />
     </>
   );

@@ -12,17 +12,19 @@ export const CardDetail1 = styled(Typography)`
 `;
 export const CardDetail2 = styled(Typography)`
   font-size: 12px;
-  margin-left: 50px;
-  margin-right: 5px;
-  color: black;
-  font-family: Roboto
-  cursor: pointer
+   color: black;
+  font-family: Roboto;
+  cursor: pointer;
+  margin-left: 5px;
+ 
 `;
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
-
   font-family: Roboto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 export const CardDetail4 = styled(Typography)`
   font-size: 12px;
@@ -30,6 +32,7 @@ export const CardDetail4 = styled(Typography)`
   margin-top: 5px;
   font-family: Roboto;
 `;
+
 export const CardDetail = styled(Box)(
   ({ theme }) => `
  display:flex;

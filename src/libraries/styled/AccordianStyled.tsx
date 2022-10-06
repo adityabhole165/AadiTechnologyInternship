@@ -13,7 +13,7 @@ export const AccordianHeader = styled(Box)(
 export const Header1 = styled(Typography)(
   ({ theme, color }) => `
 
-  padding-left: 5px;
+  margin-left: 8px;
   align-items: center;
   font-size:16px;
   font-weight:bold;
@@ -30,12 +30,14 @@ export const Header2 = styled(Typography)(
   `
 );
 
-export const CardDetail1 = styled(Typography)`
+export const CardDetail1 = styled(Typography)(
+  ({ theme, align }) => `
   margin-top: 8px;
   margin-left: 10px;
   margin-bottom: 4px;
   font-family: Roboto;
-`;
+  float:${align}
+`);
 export const CardDetail2 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
@@ -65,7 +67,6 @@ export const CardDetail = styled(Box)`
 `;
 export const CardDetailH = styled(Box)`
   display: flex;
-  justify-content: space-between;
   font-family: Roboto;
 `;
 

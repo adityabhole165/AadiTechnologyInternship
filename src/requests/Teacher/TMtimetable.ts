@@ -25,18 +25,10 @@ const TMTimetableslice = createSlice({
     },
 
     getAdditionalLectures(state, action) {
-      console.log("additional ", action.payload)
       state.AdditionalLecture = action.payload
     }
   }
 });
-
-// export const getWeekday =
-//   (data: IWdays): AppThunk =>
-//     async (dispatch) => {
-//       const response = await WeekdayApi.GetWeekdays(data);
-//       dispatch(TMTimetableslice.actions.getweekday(response.data));
-//     };
 
 export const getTimetable =
   (data: ITimetable): AppThunk =>
@@ -47,7 +39,7 @@ export const getTimetable =
       };
       const response1 = await WeekdaysApi.GetWeekdaysList(data2);
       const response = await WeekdaysApi.GetTimetableList(data);
-      const child = (WeekDay) => {
+      let child = (WeekDay) => {
         return response.data.GetTimeTableResult.TimeTableList
           .filter((obj) => {
             return obj.WeekDay === WeekDay;
@@ -55,12 +47,14 @@ export const getTimetable =
           .map((item, index) => {
             return {
               Id: index,
-              Name: item.LectureNumber,
-              Value: item.Subject
+              Name: 'Lecture No.:' + item.LectureNumber,
+              Value: item.Subject,
+              text1: '',
+              text2: ''
             };
           })
       }
-      const header =
+      let header =
         response1.data.GetWeekDaysResult.map((item, index) => {
           return {
             Id: index,
@@ -68,26 +62,25 @@ export const getTimetable =
             Child: child(item.WeekDay)
           };
         })
-      const child2 = () => {
+      let child2 = () => {
         return response.data.GetTimeTableResult.AdditionalLecture.map((item, index) => {
           return {
             Id: index,
             Name: item.Day,
-            Value: item.Name,
-            text1: item.ClassName,
-            text2: item.Number
+            Value: item.ClassName,
+            text1: 'Lecture No.:' + item.Number,
+            text2: item.Name
           };
         })
       }
-      const header2 = [{
+      let header2 = {
         Id: 1,
         Name: 'Additional Lecture',
         Child: child2()
-      }];
-      console.log('abc - ',header2)
+      };
       dispatch(TMTimetableslice.actions.getAdditionalLectures(header2));
-    
 
+      header.push(header2)
       dispatch(TMTimetableslice.actions.gettimetable(header));
     };
 
