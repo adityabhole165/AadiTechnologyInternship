@@ -1,6 +1,6 @@
 import { TextField, Grid,Card } from '@mui/material'
 import Dropdown from '../dropdown/Dropdown'
-// import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
+import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import { useState } from 'react';
 import { BoxStyle, ListStyle } from '../styled/CardStyle';
 import CloseIcon from '@mui/icons-material/Close';
@@ -44,10 +44,10 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                 <Grid item xs={5}>
                     <Dropdown Array={MonthYearList} handleChange={clickMY}  />
                 </Grid>
-                {/* <Grid item xs={2}>
+                <Grid item xs={2}>
                     <ArrowCircleRightRoundedIcon onClick={onClick}
                     fontSize='large' color='success'></ArrowCircleRightRoundedIcon>
-                </Grid> */}
+                </Grid>
             </Grid>
         </ListStyle>
     )

@@ -35,6 +35,8 @@ function Homework() {
   const loading = useSelector(
     (state: RootState) => state.Homework.Loading);
 
+    console.log(HomeworkSubjectList)
+
 
   const homework_Body: IHomework = {
     asSchoolId: asSchoolId,

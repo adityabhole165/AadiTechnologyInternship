@@ -134,7 +134,8 @@ const MessageList = () => {
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
   };
-  const clickDelete = (isCompleteDelete) => {
+  const clickDelete = () => {
+    // debugger;
     let arrDetails = [];
     let arrReciever = [];
     inboxListData.map((obj) => {
@@ -143,14 +144,15 @@ const MessageList = () => {
         arrReciever.push(obj.ReceiverDetailsId);
       }
     });
+    
 
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId:
-        activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
+      asMessageRecieverDetailsId: '0',
+      // activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
       asIsArchive: 'Y',
-      asIsCompeteDelete: isCompleteDelete,
+      asIsCompeteDelete: 1,
       asFlag: activeTab
     };
     MoveToTrashApi.MoveToTrash(trashbody)
@@ -284,7 +286,7 @@ const MessageList = () => {
         {isDeleteActive && (
           <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} sx={{mb:"10px"}}>
             <ButtonPrimary
-              onClick={() => clickDelete(0)}
+              onClick={() => clickDelete()}
               endIcon={<DeleteIcon />}
             >
               Delete
