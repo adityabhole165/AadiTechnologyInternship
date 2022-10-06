@@ -47,7 +47,7 @@ export const getTimetable =
           .map((item, index) => {
             return {
               Id: index,
-              Name: 'lecture No.:' + item.LectureNumber,
+              Name: 'Lecture No.:' + item.LectureNumber,
               Value: item.Subject,
               text1: '',
               text2: ''
