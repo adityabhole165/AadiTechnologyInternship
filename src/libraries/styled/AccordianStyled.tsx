@@ -13,7 +13,7 @@ export const AccordianHeader = styled(Box)(
 export const Header1 = styled(Typography)(
   ({ theme, color }) => `
 
-  padding-left: 5px;
+  margin-left: 10px;
   align-items: center;
   font-size:16px;
   font-weight:bold;
