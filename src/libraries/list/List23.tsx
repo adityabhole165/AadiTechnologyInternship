@@ -16,6 +16,7 @@ const List23 = ({ data }) => {
             Value={Detail.Value}
             text1={Detail.text1}
             text2={Detail.text2}
+            text3={Detail.text3}
 
           />
         </div>
