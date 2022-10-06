@@ -90,7 +90,7 @@ function EventOverview() {
       id: index,
       header: item.Description,
       text1: 'Standard : ' + item.StandardList,
-      text2: item.StartDate,
+      text3: item.StartDate,
       linkPath: '/Common/viewevent/' + item.Id
     };
   });
