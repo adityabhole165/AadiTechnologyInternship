@@ -223,6 +223,15 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
+    },
+    {
+      Text1: 'Feedback',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: 'red',
+      Icon: PeopleIcon,
+      Link: 'Common/Feedback',
+      index: 23,
     }
     // {
     //   Text1: 'AttendenceNew',
@@ -341,6 +350,15 @@ const DashboardData = {
         index: 22,
         ScreenPermission: 'SMSCenter'
       },
+      {
+        Text1: 'Feedback',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: 'red',
+        Icon: PeopleIcon,
+        Link: 'Common/Feedback',
+        index: 23,
+      }
     ],
 },  
    Admin:{
@@ -429,6 +447,15 @@ const DashboardData = {
         index: 22,
         ScreenPermission: 'SMSCenter'
       },
+      {
+        Text1: 'Feedback',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: 'red',
+        Icon: PeopleIcon,
+        Link: 'Common/Feedback',
+        index: 23,
+      }
     ]
    }
   
