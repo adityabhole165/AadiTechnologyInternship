@@ -68,7 +68,7 @@ export const getTimetable =
             Id: index,
             Name: item.Day,
             Value: item.ClassName,
-            text1: 'lecture No.:' + item.Number,
+            text1: 'Lecture No.:' + item.Number,
             text2: item.Name
           };
         })
