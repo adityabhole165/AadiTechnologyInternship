@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card } from '@mui/material';
+import { Grid, Card, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -24,6 +24,9 @@ import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
+import { Avatar } from '@mui/material';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -55,6 +58,8 @@ const MessageList = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [nextPageData, setNextPageData] = useState<any>();
   const [ToolTip, setToolTip] = useState<boolean>(true);
+  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
+
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -129,7 +134,8 @@ const MessageList = () => {
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
   };
-  const clickDelete = (isCompleteDelete) => {
+  const clickDelete = () => {
+    // debugger;
     let arrDetails = [];
     let arrReciever = [];
     inboxListData.map((obj) => {
@@ -138,14 +144,15 @@ const MessageList = () => {
         arrReciever.push(obj.ReceiverDetailsId);
       }
     });
+    
 
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId:
-        activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
+      asMessageRecieverDetailsId: '0',
+      // activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
       asIsArchive: 'Y',
-      asIsCompeteDelete: isCompleteDelete,
+      asIsCompeteDelete: 1,
       asFlag: activeTab
     };
     MoveToTrashApi.MoveToTrash(trashbody)
@@ -192,10 +199,17 @@ const MessageList = () => {
   };
 
   const scrolling = (): void => {
+
+    if(scrollableDivRefference.scrollTop >= 400){
+      setdisplayMoveToTop("flex")
+    }
+    if(scrollableDivRefference.scrollTop < 400){
+      setdisplayMoveToTop("none")
+    }
     if (
       scrollableDivRefference.scrollHeight -
         scrollableDivRefference.scrollTop <=
-      580
+      570
     ) {
       const getListBody: IgetList = {
         asSchoolId: SchoolId,
@@ -223,8 +237,18 @@ const MessageList = () => {
     dispatch(getListOfMessages(getListBody, activeTab, false));
   };
 
+  const MoveToTop = (e) => {
+    scrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
+    setTimeout(() => {
+      setdisplayMoveToTop("none")
+    }, 10);
+  }
+  
+
   return (
     <>
+
+<Container>
       <PageHeader heading="Message Center" subheading=""></PageHeader>
       <Grid container>
         {!showSearch ? (
@@ -260,15 +284,9 @@ const MessageList = () => {
           </Grid>
         )}
         {isDeleteActive && (
-          <Grid item xs={12} display={'flex'} justifyContent={'space-between'} sx={{mb:"10px"}}>
+          <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} sx={{mb:"10px"}}>
             <ButtonPrimary
-              onClick={() => clickDelete(1)}
-              endIcon={<DeleteIcon />}
-            >
-              Delete From Everyone
-            </ButtonPrimary>
-            <ButtonPrimary
-              onClick={() => clickDelete(0)}
+              onClick={() => clickDelete()}
               endIcon={<DeleteIcon />}
             >
               Delete
@@ -296,6 +314,15 @@ const MessageList = () => {
           <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
         </div>
       )}
+      
+      <Avatar
+        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
+        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
+        onClick={MoveToTop} // Close function 
+      > 
+        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
+      </Avatar>
+
       <span
         style={{
           width: '95px',
@@ -315,6 +342,7 @@ const MessageList = () => {
           </Item>
         </RouterLink>
       </span>
+      </Container>
     </>
   );
 };

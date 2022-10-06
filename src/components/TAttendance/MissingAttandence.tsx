@@ -91,6 +91,15 @@ function MissingAttandence() {
   const AssignDate = new Date(getDate);
   const PresentDate = new Date();
 
+  const CloseCalender = (e) => {
+    const date = new Date(e);
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    const NewDateFormat = `${Day}-${Month}-${Year}`;
+    setgetDate(NewDateFormat)
+  }
+
   return (
     <>
     <Container>
@@ -120,7 +129,7 @@ function MissingAttandence() {
         date={getDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
-        Close={undefined}
+        Close={CloseCalender}
       />
       <br />
       {AssignDate > PresentDate ? ( // FUTURE ATTANDENCE

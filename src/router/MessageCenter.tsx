@@ -14,7 +14,7 @@ const Loader = (Component) => (props) =>
 const Trash =  Loader(lazy(() => import('src/components/MessageCenter/Trash')));
 const Composee =  Loader(lazy(() => import('src/components/MessageCenter/Compose')));
 const Inbox =  Loader(lazy(() => import('src/components/MessageCenter/Inbox')));
-const Msgcenter = Loader(lazy(() => import('src/components/MessageCenter/Messagecenter')));
+const Msgcenter = Loader(lazy(() => import('src/components/MessageCenter/MessageList')));
 const Sent = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const ViewMsg = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Search=Loader(lazy(()=>import('src/components/MessageCenter/Search')));

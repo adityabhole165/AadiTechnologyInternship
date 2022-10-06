@@ -42,7 +42,8 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
     ''
   );
   // console.log(pathname.slice(-7,))
-  const PageName = pathname.slice(-7,);
+  const PageName = pageName.slice(0,7);
+  console.log(pageName.slice(0,7))
 
   const theme = useTheme();
   const classes = Styles();

@@ -16,7 +16,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
 import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-
+import {getDateFormatted} from '../Common/Util'
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -29,14 +29,11 @@ const TAttendance = () => {
     const [StandardId, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
     const [calanderSelected, setcalanderSelected] = useState(false);
-    const [CalanderDate, setCalanderDate] = useState("");
     // Date selector Start
-    const [date, setDate] = useState({ selectedDate: '' });
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
     const [activateButton, setActivateButton] = useState(false);
     const [absentText, setAbsentText] = useState('warning');
-    console.log(date)
 
 
     const stdlist: any = useSelector(
@@ -91,7 +88,7 @@ const TAttendance = () => {
     
     useEffect(() => {
         dispatch(getStandard(body));
-        getCurrentDate();
+        getCurrentDate(new Date);
 
     }, []);
 
@@ -100,17 +97,8 @@ const TAttendance = () => {
     }, [Standardid, assignedDate]);
 
     const getCurrentDate = (newDate?: Date) => {
-        const date = newDate || new Date();
-        const Day = new Date(date).getDate();
-        const Month = new Date(date).toLocaleString('default', { month: 'short' });
-        const Year = new Date(date).getFullYear();
-        const NewDateFormat = `${Day}-${Month}-${Year}`;
-        setDate({
-            selectedDate: NewDateFormat
-        });
-        setAssignedDate(NewDateFormat);
+        setAssignedDate(getDateFormatted(newDate));
         setcalanderSelected(false);
-        setCalanderDate(NewDateFormat);
     };
    
     const popupateDate = () => {
@@ -122,7 +110,6 @@ const TAttendance = () => {
                     arr.push(obj.text1)
             })
             setAbsentText(arr.join(','))
-            // dispatch(GetAttendanceStatus(getAttendanceStatus));
         }
     }
 
@@ -181,7 +168,7 @@ const TAttendance = () => {
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
 <br/>
- <br/>           <DateSelector date={date.selectedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+ <br/>           <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
             <ErrorDetail>{AttendanceStatus}</ErrorDetail>
 

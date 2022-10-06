@@ -1,11 +1,26 @@
-import {Container,TextField,Box,FormControl,Tooltip,ClickAwayListener,Grid,Card,Typography,useTheme,Fab,Avatar} from '@mui/material';
+import {
+  Container,
+  TextField,
+  Box,
+  FormControl,
+  Tooltip,
+  ClickAwayListener,
+  Grid,
+  Card,
+  Typography,
+  useTheme,
+  Fab,
+} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import {AttachmentFile,ISendMessage} from '../../interfaces/MessageCenter/MessageCenter';
+import {
+  AttachmentFile,
+  ISendMessage
+} from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -21,7 +36,9 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
-
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -33,7 +50,10 @@ function Form13() {
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
-  const pageName = pathname.replace('/extended-sidebar/MessageCenter/Compose/','');
+  const pageName = pathname.replace(
+    '/extended-sidebar/MessageCenter/Compose/',
+    ''
+  );
   const PageName = pageName.slice(0, 5);
 
   const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
@@ -51,6 +71,13 @@ function Form13() {
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
 
+  const [finalBase642Duplicate, setFinalBase642Duplicate] = useState([]);
+
+  const [FileNameOfAttachment,setFileNameOfAttachment] = useState([]);
+  const [Base64URLOfAttachment,setBase64URLOfAttachment] = useState([]);
+  const [finalBase642New, setFinalBase642New] = useState<any>([]);
+
+
   useEffect(() => {
     if (PageName == 'Reply') {
       const PayLoadObject = {
@@ -62,8 +89,8 @@ function Form13() {
   }, []);
 
   useEffect(() => {
-    if (AttachmentArray != undefined ) {
-      if( AttachmentArray != 'null'){
+    if (AttachmentArray != undefined) {
+      if (AttachmentArray != 'null') {
         const a = AttachmentArray.split(',');
         for (let i = 0; i < a.length; i++) {
           ArrayOfAttachment.push(a[i]);
@@ -74,9 +101,23 @@ function Form13() {
             Base64URL: encode
           };
           finalBase642.push(AttachmentFile);
+          finalBase642Duplicate.push(AttachmentFile);
+          //  FileNameOfAttachment Base64URLOfAttachment
+          FileNameOfAttachment.push(AttachmentFile.FileName)
+          Base64URLOfAttachment.push(AttachmentFile.Base64URL)
         }
         setArrayOfAttachment((prev) => [...prev]);
+        setFinalBase642Duplicate((prev) => [...prev]);
+        setFileNameOfAttachment((prev) => [...prev])
+        setBase64URLOfAttachment((prev) => [...prev])
       }
+      for(let key in FileNameOfAttachment){
+        // console.log(FileNameOfAttachment[key])
+        // console.log(Base64URLOfAttachment[key])
+        finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
+      }
+  
+      setFinalBase642New((prev) => [...prev])
     }
   }, [AttachmentArray]);
 
@@ -85,9 +126,12 @@ function Form13() {
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
-  const [finalBase64, setFinalBase64] = useState([]);
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
+  const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
+  const [scheduleDate, setscheduleDate] = useState<string>('');
+  const [scheduleTime, setscheduleTime] = useState<string>('');
+  const [readRecieptBoolean, setreadRecieptBoolean] = useState<boolean>(true);
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -99,7 +143,6 @@ function Form13() {
   const StudentName = sessionStorage.getItem('StudentName');
   const DivisionId = sessionStorage.getItem('DivisionId');
   const SchoolName = localStorage.getItem('SchoolName');
-
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
@@ -127,14 +170,58 @@ function Form13() {
         Base64URL: DataAttachment
       };
       finalBase642.push(AttachmentFile);
+      finalBase642Duplicate.push(AttachmentFile);
+      FileNameOfAttachment.push(AttachmentFile.FileName)
+      Base64URLOfAttachment.push(AttachmentFile.Base64URL)
     }
+    setFinalBase642((prev) => {
+      return [...prev];
+    });
+    setFinalBase642Duplicate((prev) => {
+      return [...prev];
+    });
+    setFileNameOfAttachment((prev) => [...prev])
+    setBase64URLOfAttachment((prev) => [...prev])
+
+    for(let key in FileNameOfAttachment){
+      finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
+    }
+
+    setFinalBase642New((prev) => [...prev])
+        
   };
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = ['BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc',
-      'docx','jpg','jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'];
+    const allowedFileTypes = [
+      'BMP',
+      'DOC',
+      'DOCX',
+      'JPG',
+      'JPEG',
+      'PDF',
+      'PNG',
+      'PPS',
+      'PPSX',
+      'PPT',
+      'PPTX',
+      'XLS',
+      'XLSX',
+      'bmp',
+      'doc',
+      'docx',
+      'jpg',
+      'jpeg',
+      'pdf',
+      'png',
+      'pps',
+      'ppsx',
+      'ppt',
+      'pptx',
+      'xls',
+      'xlsx'
+    ];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -165,9 +252,14 @@ function Form13() {
     });
   };
 
-  const RediretToSentPage = () => { navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');};
+  const RediretToSentPage = () => {
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+  };
 
   const sendMessage = () => {
+
+    
+
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -186,17 +278,21 @@ function Form13() {
       asIsSoftwareCordinator: 0,
       asMessageId: 0,
       asSchoolName: SchoolName,
-      asSelectedStDivId: DivisionId,
+      asSelectedStDivId: `${RoleId == '3' ? DivisionId : ''}`,
       asSelectedUserIds: RecipientsObject.RecipientId.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
-      attachmentFile: finalBase642,
+      attachmentFile: finalBase642New,
       asFileName: fileName
     };
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          toast.success('Message sent successfully');
+          if (schedule_A_Message) {
+            toast.success('Message scheduled successfully');
+          } else {
+            toast.success('Message sent successfully');
+          }
           setTimeout(RediretToSentPage, 100);
         }
       })
@@ -259,6 +355,25 @@ function Form13() {
     }
   }, []);
 
+  const handleRemoveListItems = (e,c) =>{
+    finalBase642New.length = 0;
+
+    for(let key in FileNameOfAttachment){
+      let indOfFileName = FileNameOfAttachment.indexOf(e)
+      let indOfFileName2 = Base64URLOfAttachment.indexOf(c)
+      if(FileNameOfAttachment[key] == e){
+        let spl = FileNameOfAttachment.splice(indOfFileName,1);
+        let spl2 = Base64URLOfAttachment.splice(indOfFileName2,1);
+      }
+      console.log(FileNameOfAttachment)
+    }
+    
+    for(let key in FileNameOfAttachment){
+      finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
+    }
+    setFinalBase642New((prev) => [...prev])
+  }
+
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -279,20 +394,26 @@ function Form13() {
             <ReplyIcon />
           </Fab>
         </span>
-        <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+        <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <TextField
+                multiline
+                placeholder="To"
+                value={RecipientsObject.RecipientName}
+                // variant="outlined"
+                id="body"
+                label={'To'}
                 fullWidth
                 margin="normal"
-                label={'To'}
-                name="To"
-                type="text"
-                autoComplete="off"
-                variant="standard"
-                value={RecipientsObject.RecipientName}
                 onChange={formik.handleChange}
-                sx={{ mt: '-0.3rem' }}
+                style={{ scrollBehavior: 'auto' }}
+                sx={{
+                  marginLeft: '-5px',
+                  width: '19.5rem',
+                  maxHeight: '60px',
+                  overflow: 'auto'
+                }}
               />
 
               <p style={{ color: 'red', marginTop: 2 }}>
@@ -301,7 +422,10 @@ function Form13() {
                 ) : null}
               </p>
               <span>
-                <ButtonPrimary color="primary" onClick={(e) => RecipientButton(e)}>
+                <ButtonPrimary
+                  color="primary"
+                  onClick={(e) => RecipientButton(e)}
+                >
                   Add Recipients
                 </ButtonPrimary>
               </span>
@@ -381,34 +505,62 @@ function Form13() {
                 )
               }}
             />
-            {ArrayOfAttachment == undefined ||
-            ArrayOfAttachment == 'null' ||
-            ArrayOfAttachment.length == 0 ||
-            PageName === 'Reply' ? null : (
-              <div style={{marginTop:'10px'}}>
-                <Typography sx={{mb:'10px'}}>Attachment(s):</Typography>
-                <Box sx={{ mt: 1 }}>
-                  <List>
-                    <TransitionGroup>
-                      {ArrayOfAttachment.map((item,key) => (
-                        <Collapse key={item}>
-                          <ListItem>
-                        <FilePresentRoundedIcon sx={{ml:'-20px',mr:'15px',color:'blue'}}/>
-                        <ListItemText primary={item.slice(0,25)} onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          window.open(AttachmentFilePath.concat(item));
-                        }}/>
-                      </ListItem>
-                        </Collapse>
-                      ))}
-                    </TransitionGroup>
-                  </List>
-                </Box>               
-              </div>
-            )}
+
             {fileerror && (
               <p style={{ marginBottom: -25 }} className={classes.error}>
                 {fileerror}
               </p>
+            )}
+
+            {finalBase642New == undefined ||
+            finalBase642New.length == 0 ||
+            PageName === 'Reply' ? null : (
+              <div style={{ marginTop: '10px' }}>
+                <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
+                <Box sx={{ mt: 1 }}>
+                  <List>
+                    <TransitionGroup>
+                      {finalBase642New.map((item, key) => {
+                        return (
+                          <Collapse key={item.FileName}>
+                            <ListItem
+                             secondaryAction={
+                              <IconButton
+                                edge="end"
+                                aria-label="delete"
+                                title="Delete"
+                                onClick={() => handleRemoveListItems(item.FileName,item.Base64URL)}
+                              >
+                                <DeleteIcon sx={{color:'red'}}/>
+                              </IconButton>
+                            }
+                        
+                            >
+                              <FilePresentRoundedIcon
+                                sx={{
+                                  ml: '-20px',
+                                  mr: '15px',
+                                  color: 'blue'
+                                }}
+                              />
+                              <ListItemText
+                                primary={item.FileName.slice(0, 25)}
+                                // onClick={(
+                                //   event: React.MouseEvent<HTMLElement>
+                                // ) => {
+                                //   window.open(
+                                //     AttachmentFilePath.concat(item.Base64URl)
+                                //   );
+                                // }}
+                              />
+                            </ListItem>
+                          </Collapse>
+                        );
+                      })}
+                    </TransitionGroup>
+                  </List>
+                </Box>
+              </div>
             )}
 
             {PageName === 'Reply' || PageName === 'Forwa' ? (
@@ -447,7 +599,8 @@ function Form13() {
             </p>
 
             <Grid item xs={12}>
-              <ButtonPrimary color="primary"
+              <ButtonPrimary
+                color="primary"
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
                 type="submit"
@@ -458,15 +611,18 @@ function Form13() {
               </ButtonPrimary>
             </Grid>
           </form>
-          </Card>
-      
+        </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AdminTeacherRecipientsList displayProperty={displayPropertyFun} RecipientsListDetails={RecipientsListFun} ReplyRecipient={ReplyRecipientNameId} PageName={'MessageCenter'}/>
+        <AdminTeacherRecipientsList
+          displayProperty={displayPropertyFun}
+          RecipientsListDetails={RecipientsListFun}
+          ReplyRecipient={ReplyRecipientNameId}
+          PageName={'MessageCenter'}
+        />
       </div>
     </>
   );
 }
 
 export default Form13;
-
