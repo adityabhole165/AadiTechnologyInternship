@@ -2,7 +2,7 @@ import {  Typography, styled} from '@mui/material';
 
 export const ErrorDetail = styled(Typography)`
   font-size: 14px;
-  color: blue;
+  color: red;
    text-Align:center;
    font-family: 'Roboto'
 `;

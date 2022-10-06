@@ -1,42 +1,41 @@
-import React, { useState } from 'react';
-import { Typography, Grid } from '@mui/material';
+import {  Grid } from '@mui/material';
 import {
-  CardDetail,
-  CardDetail1,
-  CardDetail2,
-  CardWrapper1,
-  CardDetail3,
-  CardDetailH
+  CardDetail1, CardDetail4,
 } from '../styled/AccordianStyled';
 
 import { useLocation } from 'react-router-dom';
 
-function Card31({ Name, Value, text1 = '', text2 = '' }) {
-  const location = useLocation();
 
+function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
+  const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/', '');
-  const isMiddle = pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable'
+  const isMiddle =
+    pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable';
+
   return (
     <div>
-      <CardWrapper1>
-        <CardDetail1>{Name}</CardDetail1>
-        {isMiddle ? (
-          <CardDetail3>{Value}</CardDetail3>
-        ) : (
-          <CardDetail2>{Value}</CardDetail2>
+      <Grid container sx={{ borderTop: '1px solid gray' }}>
+        <Grid item xs={4}>
+          <CardDetail1>{Name}</CardDetail1>
+          <CardDetail4>{text3}</CardDetail4>
+        </Grid>
+        <Grid item xs={8}>
+          <CardDetail1 align={isMiddle ? 'left' : 'right'}>{Value}</CardDetail1>
+        </Grid>
+        {text1 !== '' && (
+          <>
+            <Grid item xs={4}>
+              <CardDetail1>{text1}</CardDetail1>
+            </Grid>
+            <Grid item xs={8}>
+              <CardDetail1 align={isMiddle ? 'left' : 'right'}>
+                {text2}
+              </CardDetail1>
+            </Grid>
+          </>
         )}
-      </CardWrapper1>
-
-      {text1 !== '' &&
-        <CardDetailH>
-        {isMiddle ? (
-          <CardDetail3>a{text2}</CardDetail3>
-        ) : (
-          <CardDetail2>b{text2}</CardDetail2>
-        )}
-        </CardDetailH>
-      }
+      </Grid>
     </div>
   );
 }

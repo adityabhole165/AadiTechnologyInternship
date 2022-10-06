@@ -36,6 +36,9 @@ const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 const TeacherAttendance = Loader(lazy(() => import('src/components/TeacherAttendance/TeacherAttendance')))
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
+// const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
+// const Birthday = Loader(lazy(() => import('src/components/AnnualPlanner/Birthday')))
+const Bday = Loader(lazy(() => import('src/components/Bday/Bday')))
 
 
 const studentRoutes = [
@@ -150,6 +153,18 @@ const studentRoutes = [
   {
     path: 'TeacherAttendance',
     element: <TeacherAttendance/>
+  },
+  // {
+  //   path: 'AnnualPlanner2',
+  //   element: <AnnualPlanner2/>
+  // },
+  // {
+  //   path: 'Birthday',
+  //   element: <Birthday/>
+  // },
+  {
+    path: 'Bday',
+    element: <Bday/>
   },
   ];
 

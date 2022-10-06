@@ -253,7 +253,7 @@ const MessageList = () => {
       <Grid container>
         {!showSearch ? (
           <>
-            <Grid item xs={10.5}>
+            <Grid item xs={11}>
               <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
             </Grid>
             <Grid item xs={1}>
@@ -304,9 +304,7 @@ const MessageList = () => {
           id="ScrollableDiv"
           onScroll={scrolling}
           style={{
-            position: 'absolute',
-            width: '93%',
-            paddingBottom: '100px',
+           paddingBottom: '100px',
             height: '570px',
             overflow: 'auto'
           }}

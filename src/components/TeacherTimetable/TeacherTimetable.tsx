@@ -72,23 +72,6 @@ function TeacherTimetable() {
       <PageHeader heading={'Timetable'} subheading={''} />
       <Card30 header={{Header:TMTimetable}}></Card30>
 
-      {/* {weekdaysList.map((day: GetWdaysResult, i) => (
-        <ControlledAccordions
-          Days={day.WeekDay}
-          Data={TMTimetable}
-          key={i}
-          index={i}
-          Collapse={handleChange}
-          expand={expanded}
-        />
-      ))} */}
-      <Card30 header={{Header:AddLectures}}></Card30>
-      {/* <Accordion7
-        Data={TMTimetable}
-        Days={weekdaysList}
-        additional={additional}
-        AddLectures={AddLectures}
-      /> */}
       </Container>
     </>
   );
