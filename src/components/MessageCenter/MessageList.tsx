@@ -304,9 +304,7 @@ const MessageList = () => {
           id="ScrollableDiv"
           onScroll={scrolling}
           style={{
-            position: 'absolute',
-            width: '93%',
-            paddingBottom: '100px',
+           paddingBottom: '100px',
             height: '570px',
             overflow: 'auto'
           }}
