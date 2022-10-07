@@ -61,7 +61,6 @@ const TView = () => {
 
 
   useEffect(() => {
-    getCurrentDate();
     dispatch(getStandardList(body));
   }, []);
 
@@ -150,7 +149,7 @@ const TView = () => {
             fullWidth
             sx={{ mt: '0.2rem', mb: '-2' }}
           >
-            <NativeSelect value={StandardId} onChange={(e) => handleChange(e)}>
+            <NativeSelect value={getStandardId} onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
                 (items, i) => {
