@@ -6,17 +6,15 @@ import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Container, Grid } from '@mui/material'
-import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import { getStandard, GetSaveAttendanceStatus, GetStudentList, GetAttendanceStatus, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
-import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {getDateFormatted} from '../Common/Util'
+import { getDateFormatted } from '../Common/Util'
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -85,7 +83,7 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
-    
+
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate(new Date);
@@ -100,7 +98,7 @@ const TAttendance = () => {
         setAssignedDate(getDateFormatted(newDate));
         setcalanderSelected(false);
     };
-   
+
     const popupateDate = () => {
         if (Standardid !== undefined) {
             dispatch(GetStudentList(GetStudentDetails));
@@ -144,8 +142,10 @@ const TAttendance = () => {
     }
 
     useEffect(() => {
-        if (saveResponseMessage != '')
+        if (saveResponseMessage != ''){
             toast.success(saveResponseMessage);
+            dispatch(setSaveResponse());
+        }
     }, [saveResponseMessage]);
 
     const SaveMsg = () => {
@@ -160,15 +160,16 @@ const TAttendance = () => {
     const clickNav = (value) => {
         navigate(`/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value)
     }
-   
+
     return (
         <Container sx={{ paddingLeft: '25px' }}>
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
-<br/>
- <br/>           <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+            <br />
+            <br />
+            <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
             <ErrorDetail>{AttendanceStatus}</ErrorDetail>
 
