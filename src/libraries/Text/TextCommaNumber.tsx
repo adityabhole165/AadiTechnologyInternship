@@ -2,7 +2,6 @@ import { TextField } from '@mui/material'
 import {checkIsNumber, isValueInArray, isRepeat} from '../../components/Common/Util'
 
 const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) => {
-    console.log('a--', validarray.length)
     const defaultLabel = 'Comma separated ' + name
     let label = ''
 
