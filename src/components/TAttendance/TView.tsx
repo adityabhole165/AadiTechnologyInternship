@@ -65,7 +65,9 @@ const TView = () => {
   }, []);
 
   useEffect(() => {
-    dispatch(getAttendanceDataList(body1));
+    if (getStandardId!="undefined") {
+      dispatch(getAttendanceDataList(body1));
+    }
   }, [getDate, getStandardId]);
 
   const handleChange = (e) => {
@@ -118,7 +120,7 @@ const TView = () => {
       </Grid>
 
       <Grid container direction="row">
-        <Grid xs={6}>
+        <Grid item xs={6}>
           <DotLegend
             className={classes.border}
             style={{ background: '#f33737', }}
@@ -128,7 +130,7 @@ const TView = () => {
           </small>
           <br />
         </Grid>
-        <Grid xs={6}>
+        <Grid item xs={6}>
           <DotLegend
             className={classes.border}
             sx={{ ml: -12.7 }}
@@ -140,10 +142,7 @@ const TView = () => {
           <br />
         </Grid>
       </Grid>
-
-
       <>
-
         <>
           <FormControl
             fullWidth
@@ -154,11 +153,9 @@ const TView = () => {
               {getTeacherAttendance.map(
                 (items, i) => {
                   return (
-                    <>
                       <option value={items.Value} key={i}>
                         {items.Name}
                       </option>
-                    </>
                   );
                 }
               )}
@@ -191,7 +188,7 @@ const TView = () => {
       ) : (
         getAttendanceData.map((items: IGetClassAttendanceResult, i) => {
           return (
-            <>
+            <div key={i}>
               {i === 0 && items.Status == 'O' ? (
                 <>
                   <ErrorMessages
@@ -225,7 +222,7 @@ const TView = () => {
                   />
                 </>
               ) : null}
-            </>
+            </div>
           );
         })
       )}
