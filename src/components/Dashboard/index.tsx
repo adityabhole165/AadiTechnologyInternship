@@ -11,6 +11,8 @@ import {
   CardContent,
   IconButton
 } from '@mui/material';
+import moment from 'moment';
+import 'src/assets/style/Bday.css';
 import React, { useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -240,13 +242,16 @@ if (RoleId === '3') {
   let header2 = RoleId === '3' ? 'Student' : 'Teacher';
   let header3 = RoleId === '6' ? 'Communication' : 'Exam & Communication';
   const Bdate = "08 Oct";
+  const presentDate = moment(new Date()).format("DD MMM")
+  
   return (
     <>
-         {Bdate ? <>{RoleId == '3' && <DashboardBday/> }</> : null} 
+         {presentDate == Bdate ? <>{RoleId == '3' && <DashboardBday/> }</> : null} 
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
       {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
       {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4" />}
       {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"></Card2>}
+    
     </>
   );
 }
