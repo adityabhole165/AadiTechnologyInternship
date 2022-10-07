@@ -13,7 +13,7 @@ const DashboardBday = () => {
     return (
         <div id="balloon-container" onClick={clickNav}>
             <h1>ᕼᗩᑭᑭƳ ᗷᗪᗩƳ</h1>
-            {/* <canvas id="birthday"></canvas> */}
+            <canvas id="birthday"></canvas>
         </div>
     )
 }
