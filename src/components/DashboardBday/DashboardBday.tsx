@@ -46,9 +46,9 @@ function createBalloons(num) {
         balloon.style.cssText = getRandomStyles(); balloonContainer.append(balloon);
     }
 }
-// window.onload = function () {
-//     createBalloons(100);
-// }
+window.onload = function () {
+    createBalloons(100);
+}
 
 export default DashboardBday
 
