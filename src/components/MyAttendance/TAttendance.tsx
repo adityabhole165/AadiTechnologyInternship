@@ -6,17 +6,15 @@ import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Container, Grid } from '@mui/material'
-import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import { getStandard, GetSaveAttendanceStatus, GetStudentList, GetAttendanceStatus, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
-import { Link as RouterLink } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import {getDateFormatted} from '../Common/Util'
+import { getDateFormatted } from '../Common/Util'
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -26,14 +24,10 @@ const TAttendance = () => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asTeacherId = sessionStorage.getItem('TeacherId');
     const [Standardid, setStandardid] = useState();
-    const [StandardId, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
-    const [calanderSelected, setcalanderSelected] = useState(false);
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
-    const [activateButton, setActivateButton] = useState(false);
-    const [absentText, setAbsentText] = useState('warning');
 
 
     const stdlist: any = useSelector(
@@ -85,10 +79,11 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
-    
+
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate(new Date);
+        console.log("list",RollNoList)
 
     }, []);
 
@@ -98,18 +93,17 @@ const TAttendance = () => {
 
     const getCurrentDate = (newDate?: Date) => {
         setAssignedDate(getDateFormatted(newDate));
-        setcalanderSelected(false);
     };
-   
+
     const popupateDate = () => {
         if (Standardid !== undefined) {
+            console.log('hi')
             dispatch(GetStudentList(GetStudentDetails));
             let arr = []
             RollNoList.map((obj) => {
                 if (!obj.isActive)
                     arr.push(obj.text1)
             })
-            setAbsentText(arr.join(','))
         }
     }
 
@@ -119,7 +113,6 @@ const TAttendance = () => {
 
     const getAbsetNumber = (value) => {
 
-        setActivateButton(true)
         if (value === '')
             setAllPresentOrAllAbsent('P')
         if (value.split(',').length === RollNoList.length)
@@ -144,8 +137,10 @@ const TAttendance = () => {
     }
 
     useEffect(() => {
-        if (saveResponseMessage != '')
+        if (saveResponseMessage != ''){
             toast.success(saveResponseMessage);
+            dispatch(setSaveResponse());
+        }
     }, [saveResponseMessage]);
 
     const SaveMsg = () => {
@@ -160,15 +155,16 @@ const TAttendance = () => {
     const clickNav = (value) => {
         navigate(`/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value)
     }
-   
+
     return (
         <Container sx={{ paddingLeft: '25px' }}>
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
             <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
-<br/>
- <br/>           <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+            <br />
+            <br />
+            <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
             <ErrorDetail>{AttendanceStatus}</ErrorDetail>
 
@@ -183,7 +179,7 @@ const TAttendance = () => {
                     <ButtonPrimary onClick={SaveMsg}>Save</ButtonPrimary>
                 </Grid><Grid item xs={3}>
                     <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('Tview/' + assignedDate + '/' + StandardId)}>
+                        onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)}>
                         TView
                     </ButtonPrimary>
                 </Grid><Grid item xs={6}>

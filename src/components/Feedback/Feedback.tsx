@@ -2,7 +2,6 @@ import { Box, Container } from '@mui/material';
 import React, { useEffect } from 'react'
 import { IFeedbackList } from 'src/interfaces/Common/Feedback';
 import List1 from 'src/libraries/mainCard/List1';
-// import RadioButton from 'src/libraries/RadioButton/RadioButton';
 import { RootState } from 'src/store';
 import { getFeedback } from 'src/requests/Feedback/Feedback';
 import { useDispatch } from "react-redux";
@@ -17,7 +16,9 @@ console.log("feedback",GetFeedback);
 const Data = GetFeedback.map((item, index) => {
     return {
       id: index,
-      text1: item.Text
+      text3: item.Date,
+      text2:item.Text,
+      header:item.UserName
     };
   });
 const Feedback_body: IFeedbackList = { 

@@ -1,15 +1,12 @@
-import { Container, Grid, Typography, styled, Paper, useTheme } from '@mui/material';
+import { Grid, Typography, styled, Paper } from '@mui/material';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-import { Styles } from 'src/assets/style/student-style';
 import PropTypes from 'prop-types';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 import 'src/assets/style/Homework_Calci.css';
-import { useLocation } from 'react-router-dom';
-import { ErrorDetail, ErrorDetail1 } from '../styled/ErrormessageStyled';
-import { isFutureDate, isTodaysDate, getNextDate } from '../../components/Common/Util'
+import { isTodaysDate, getNextDate } from '../../components/Common/Util'
 
 DateSelector.propTypes = {
   Date: PropTypes.any,
@@ -32,18 +29,17 @@ const Item = styled(Paper)(({ theme, color }) => ({
 }));
 
 function DateSelector({ date, setCurrentDate, Close }) {
-  const theme = useTheme()
-
-  const classes = Styles();
-  const [isTodayDate, setIsTodayDate] = useState(true);
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const SetNewDate = (prevNext) => {
-    if (isTodayDate && prevNext === 1) return
+    if (isTodaysDate(date) && prevNext === 1) return
 
     const nextDate = getNextDate(date, prevNext)
-    setIsTodayDate(isTodaysDate(nextDate))
     setCurrentDate(nextDate);
+  }
+
+  const clickClose=(selectDate)=>{
+    Close(selectDate)
   }
 
   const dateClickHnadler = (e) => {
@@ -79,12 +75,12 @@ function DateSelector({ date, setCurrentDate, Close }) {
                 zIndex: '2',
               }}
             >
-              <Calendar onChange={(e) => Close(e.toLocaleString())} maxDate={new Date()}/>
+              <Calendar onChange={(e) => clickClose(e.toLocaleString())} maxDate={new Date()}/>
             </div>
           </Grid>
 
           <Grid item xs={2}>
-            <Item color={isTodayDate ? 'warning' : 'primary'} onClick={() => SetNewDate(1)}>
+            <Item color={isTodaysDate(date) ? 'warning' : 'primary'} onClick={() => SetNewDate(1)}>
               <ArrowRight/>
             </Item>
           </Grid>

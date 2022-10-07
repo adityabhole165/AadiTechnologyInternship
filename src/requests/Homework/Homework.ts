@@ -10,7 +10,7 @@ const HomeworkSlice = createSlice ({
 
     initialState: {
         HomeworkData:[],
-        HomeworkSubjectData:[],
+        HomeworkSubjectData:null,
         Loading:true
     },
 
@@ -28,7 +28,7 @@ const HomeworkSlice = createSlice ({
       getLoading (state,action) {
         state.Loading = true
         state.HomeworkData=[];
-        state.HomeworkSubjectData=[];
+        state.HomeworkSubjectData=null;
     }
     }
 });
@@ -72,7 +72,7 @@ export const getHomework =
               Child: child(item.SubjectId)
             };
           })
-        dispatch(HomeworkSlice.actions.getHomeworkSubject({Header:Data2}));
+        dispatch(HomeworkSlice.actions.getHomeworkSubject(Data2));
       };
 
 export default HomeworkSlice.reducer

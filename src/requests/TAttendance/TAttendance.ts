@@ -4,8 +4,6 @@ import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAt
 import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
-
-
 const TAttendanceSlice = createSlice({
 
     name: 'TAttendance',
@@ -78,6 +76,12 @@ const TAttendanceSlice = createSlice({
 
 
 
+export const setSaveResponse = (): AppThunk =>
+    async (dispatch) => {
+        dispatch(TAttendanceSlice.actions.getSaveResponse(''));
+    };
+
+
 export const getAttendanceDataList =
     (data: AttendanceData): AppThunk =>
         async (dispatch) => {
@@ -117,6 +121,7 @@ export const GetStudentList =
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
             let studentList = null;
             let message = 'There are no students available.'
+            let AYmsg = "Selected date is outside academic year."
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {
 
@@ -132,13 +137,13 @@ export const GetStudentList =
 
                 const data2 = {
                     asAcademicYearId: data.asAcademicYearId,
-                    asAttendanceDate:data.asDate,
+                    asAttendanceDate: data.asDate,
                     asSchoolId: data.asSchoolId,
                     asStanardDivisionId: data.asStdDivId
                 }
                 const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
                 response2.data?.map((item, i) => {
-                    message = item.AcademicYearMsg === '' ? item.StatusMessage: item.AcademicYearMsg
+                    message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg
                 })
             }
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
@@ -180,7 +185,7 @@ export const GetAttendanceStatus =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
             let message = ''
-            response.data?.map((item, i) => {       
+            response.data?.map((item, i) => {
                 message = item.StatusMessage
             })
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
@@ -192,15 +197,6 @@ export const GetSaveAttendanceStatus =
             let response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(data);
             let responseMsg = ''
 
-            // GetTAttendanceListApi.SaveStudentAttendanceDetails(data)
-            // .then((resp) => {
-            //     if (resp.status == 200) {
-            // response = resp.data;
-            //     }
-            // })
-            // .catch((err) => {
-            //     responseMsg = 'error network';
-            // });
             responseMsg = 'Attendance saved for the valid roll number(s) !!!'
 
             const GetStudentDetails: IStudentsDetails = {

@@ -1,9 +1,13 @@
+import { Container } from '@mui/material'
 import React from 'react'
 
 const Bday = () => {
   return (
     <>
-    bday
+    <Container>
+    bdayyyyyyyyyyyyy
+    </Container>
+    
     </>
   )
 }

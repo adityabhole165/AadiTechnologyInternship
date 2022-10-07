@@ -4,16 +4,18 @@ import { Styles } from 'src/assets/style/student-style';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import List14 from 'src/libraries/list/List14';
-import { Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
+import { Container, Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
 import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { styled, Grid } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
 import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
-import ITAttendance,{ GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList,getStandardList } from 'src/requests/TAttendance/TAttendance';
+import ITAttendance, { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
+import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { getDateFormatted } from '../Common/Util'
+import DateSelector from 'src/libraries/buttons/DateSelector';
 
 
 const TView = () => {
@@ -54,57 +56,21 @@ const TView = () => {
   };
 
   const getCurrentDate = (newDate?: Date) => {
-    setDate({
-      selectedDate: getDate
-    });
-    setgetDate(getDate);
+    setgetDate(getDateFormatted(newDate));
   };
 
-  const getPreviousDate = () => {
-    const currentDayInMilli = new Date(getDate).valueOf();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const previousDayInMilli = currentDayInMilli - oneDay;
-    const prev = new Date(previousDayInMilli);
-    const Day = new Date(prev).getDate();
-    const Month = new Date(prev).toLocaleString('default', { month: 'short' });
-    const Year = new Date(prev).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat);
-  };
-
-  const getNextDate = () => {
-    const currentDayInMilli = new Date(getDate).getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const nextDayInMilli = currentDayInMilli + oneDay;
-    const next = new Date(nextDayInMilli);
-    const Day = new Date(next).getDate();
-    const Month = new Date(next).toLocaleString('default', { month: 'short' });
-    const Year = new Date(next).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat);
-  };
 
   useEffect(() => {
     dispatch(getStandardList(body));
-    dispatch(getAttendanceDataList(body1));
-  }, [assignedDate, getStandardId]);
-
-  useEffect(() => {
-    getCurrentDate();
   }, []);
 
   useEffect(() => {
-    // dispatch(getTAttendanceListt(body))
     dispatch(getAttendanceDataList(body1));
   }, [getDate, getStandardId]);
 
   const handleChange = (e) => {
     setgetStandardId(e.target.value);
-    console.log(e.target.value)
   };
-  useEffect(() => {
-    dispatch(getStandardList(body));
-  }, [getStandardId]);
 
   const DotLegend = styled('span')(
     ({ theme }) => `
@@ -130,32 +96,32 @@ const TView = () => {
 
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'View Attendance'} subheading={''} />
 
-      <Grid container direction="row" sx={{ mt: '-40px', marginLeft: '27px' }}>
-      <span
-      onClick={() => navigate(-1)}
-      >
-        <Fab
-          className={classes.backArrow}
-          sx={{
-            background: `${theme.colors.gradients.pink1}`,
-            position: 'absolute',
-            top: '30px',
-            left: '35px'
-          }}
+      <Grid container direction="row" >
+        <span
+          onClick={() => navigate(-1)}
         >
-          <ReplyIcon />
-        </Fab>
-      </span>
+          <Fab
+            className={classes.backArrow}
+            sx={{
+              background: `${theme.colors.gradients.pink1}`,
+              position: 'absolute',
+              top: '35px',
+              left: '35px'
+            }}
+          >
+            <ReplyIcon />
+          </Fab>
+        </span>
       </Grid>
-      <br />
-      <Grid container direction="row" sx={{ ml: 2.7, mt: 1.5 }}>
+
+      <Grid container direction="row">
         <Grid xs={6}>
           <DotLegend
             className={classes.border}
-            style={{ background: '#f33737', marginBottom: '-2px' }}
+            style={{ background: '#f33737', }}
           />
           <small>
             <b>Absent</b>
@@ -166,7 +132,7 @@ const TView = () => {
           <DotLegend
             className={classes.border}
             sx={{ ml: -12.7 }}
-            style={{ background: '#00b8d4', marginBottom: '-2px' }}
+            style={{ background: '#00b8d4', }}
           />
           <small>
             <b>Late Join</b>
@@ -174,14 +140,16 @@ const TView = () => {
           <br />
         </Grid>
       </Grid>
+
+
       <>
-        {' '}
+
         <>
           <FormControl
             fullWidth
-            sx={{ mt: '0.2rem', mb: '-2', marginLeft: '24px' }}
+            sx={{ mt: '0.2rem', mb: '-2' }}
           >
-            <NativeSelect sx={{ mr: '48px' }} onChange={(e) => handleChange(e)}>
+            <NativeSelect value={getStandardId} onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
                 (items, i) => {
@@ -199,14 +167,10 @@ const TView = () => {
           </FormControl>
         </>
         <br></br>
-        <Buttons
-          date={getDate}
-          PrevDate={getPreviousDate}
-          NextDate={getNextDate}
-          Close={CloseCalender}
-        />
+
+        <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
       </>
-      <br></br>
+
 
       {getAttendanceData.length > 1 ? (
         getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
@@ -265,7 +229,7 @@ const TView = () => {
           );
         })
       )}
-    </>
+    </Container>
   );
 };
 

@@ -26,7 +26,7 @@ function Card2({ items, heading, rowsCol }) {
 
   return (
     <Container>
-      <Card
+      <Card 
         sx={{
           mt: '10px',
 
