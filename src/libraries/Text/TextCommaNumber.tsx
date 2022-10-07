@@ -1,11 +1,11 @@
 import { TextField } from '@mui/material'
-import {checkIsNumber, isValueInArray, isRepeat} from '../../components/Common/Util'
+import { checkIsNumber, isValueInArray, isValueInArrayContains, isRepeat } from '../../components/Common/Util'
 
 const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) => {
     const defaultLabel = 'Comma separated ' + name
     let label = ''
 
-    
+
     const SetTextData2 = (value) => {
 
         label = ''
@@ -15,13 +15,14 @@ const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) 
             label = 'There is no ' + name
         }
         else
+            //if coma is enterred
             if (lastNum !== '') {
                 //check if number is valid
                 if (!checkIsNumber(lastNum)) {
                     label = 'Enter number only'
                 }
                 //check if number exists in array
-                if (!isValueInArray(lastNum, validarray)) {
+                if (!isValueInArrayContains(lastNum, validarray)) {
                     label = 'Invalid ' + name
                 }
             }
@@ -34,6 +35,10 @@ const TextCommaNumber = ({ name, textarray, validarray, changeText, getLabel }) 
                     //check if number is repeated
                     if (!isRepeat(arr[arr.length - 2], arr)) {
                         label = 'Do not repeat ' + name
+                    }
+                    //check if valid number
+                    if (!isValueInArray(arr[arr.length - 2], validarray)) {
+                        label = 'Invalid ' + name
                     }
                 }
             }

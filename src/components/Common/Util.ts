@@ -18,9 +18,14 @@ export function ReturnTimeOrDateYear(date){
     return date;
 
 }
-export const isValueInArray = (value,validarray) => {
+export const isValueInArrayContains = (value,validarray) => {
     return validarray.some((a) => {
         return (a.includes(value))
+    })
+}
+export const isValueInArray = (value,validarray) => {
+    return validarray.some((a) => {
+        return (a === value)
     })
 }
 export const isRepeat = (value, arr) => {
