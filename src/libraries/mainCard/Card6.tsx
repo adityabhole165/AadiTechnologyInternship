@@ -1,47 +1,134 @@
-import { Avatar, Box, Card, Stack, Typography, Grid,Container } from '@mui/material';
-import React from 'react';
-import Card28 from '../card/Card28';
-import { CardDetail1, CardDetail3, ListStyle } from '../styled/CardStyle';
+import {  Stack, Grid,} from '@mui/material';
+import { ListStyle } from '../styled/CardStyle';
+import {ProfileDetail1,ProfileDetail2,ProfileDetail3,ProfileDetail4,ProfileWrapper} from '../styled/ProfileStyled';
 
+import UserPhoto from '../UserPhoto/UserPhoto';
 function Card6() {
+  const UserName = sessionStorage.getItem('StudentName');
+  const RoleName = localStorage.getItem('RoleName');
+  const DesignationName = sessionStorage.getItem('DesignationName');
+  const ClassTeacher = sessionStorage.getItem('IsClassTeacher');
+  const RollNo = sessionStorage.getItem('RollNo');
+  const UDISENumber = sessionStorage.getItem('UDISENumber');
+  const Birth_Place = sessionStorage.getItem('Birth_Place');
+  const Nationality = sessionStorage.getItem('Nationality');
+  const Address = sessionStorage.getItem('Address');
+  const Blood_Group = sessionStorage.getItem('Blood_Group');
+  const Mother_Tongue = sessionStorage.getItem('Mother_Tongue');
+  const Residence_Phone_Number = sessionStorage.getItem(
+    'Residence_Phone_Number'
+  );
+  const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
-        <Avatar
-          style={{
-            width: '100px',
-            height: '100px',
-            borderRadius: '50%',
-            boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
-          }}
-        />
-        <Typography variant="h4" sx={{ mb: '10px' }}>Student name</Typography>
+        <UserPhoto ImgUrl={ImgUrl} alt={''} width={'150px'} height={'150px'} />
+
+        {RoleName == 'Teacher' ? (
+          <>
+            <ProfileDetail3><b>{UserName}</b></ProfileDetail3>
+          </>
+        ) : RoleName == 'Admin Staff' ? (
+          <>
+            <ProfileDetail3><b>{UserName}</b></ProfileDetail3>
+          </>
+        ) : (
+          <>
+            <ProfileDetail1><b>{UserName}</b></ProfileDetail1>
+            <ProfileDetail2>Roll No: {RollNo}</ProfileDetail2>
+          </>
+        )}
       </Stack>
 
       <ListStyle
         sx={{
-      
           bottom: 0,
           height: '80vh',
           width: '100%',
-          borderRadius:"15px"
+          borderRadius: '15px'
         }}
       >
         <Grid container>
           <Grid item xs={12}>
-          
-            <Typography sx={{mt:"10px"}}>   <b> Roll No:</b></Typography>
-          </Grid>
-          <Grid item xs={12}>
-         
-            <Typography sx={{mt:"10px"}}>    <b> Residence Phone No:</b></Typography>
-          </Grid>
-          <Grid item xs={12}>
-          <Typography sx={{mt:"10px"}}>      <b>Religion:</b></Typography>
-       
-          </Grid>
-          <Grid item xs={12}>
-          <Typography sx={{mt:"10px"}}>      <b>Religion:</b></Typography>
+            {RoleName == 'Teacher' ? (
+              <>
+                <ProfileWrapper>
+                  <ProfileDetail1>Designation:</ProfileDetail1>
+                  <ProfileDetail4>{DesignationName}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Class Teacher:</ProfileDetail1>
+                  <ProfileDetail4> {ClassTeacher}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Mobile Number:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Address:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+              </>
+            ) : RoleName == 'Admin Staff' ? (
+              <>
+                <ProfileWrapper>
+                  <ProfileDetail1>Designation:</ProfileDetail1>
+                  <ProfileDetail4> {DesignationName}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Mobile Number:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Address:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+              </>
+            ) : (
+              <>
+                <ProfileWrapper>
+                  <ProfileDetail1>Address:</ProfileDetail1>
+                  <ProfileDetail4> {Address}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Residence Phone No:</ProfileDetail1>
+                  <ProfileDetail4> {Residence_Phone_Number}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Religion:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Caste & sub-Caste:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>UDISEnumber:</ProfileDetail1>
+                  <ProfileDetail4> {UDISENumber}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {Birth_Place}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Nationality:</ProfileDetail1>
+                  <ProfileDetail4>{Nationality}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Mother Tongue:</ProfileDetail1>
+                  <ProfileDetail4> {Mother_Tongue}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Blood Group:</ProfileDetail1>
+                  <ProfileDetail4> {Blood_Group}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Family Photo:</ProfileDetail1>
+                  <ProfileDetail4> {}</ProfileDetail4>
+                </ProfileWrapper>
+              </>
+            )}
           </Grid>
         </Grid>
       </ListStyle>
