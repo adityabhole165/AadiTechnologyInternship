@@ -16,7 +16,9 @@ console.log("feedback",GetFeedback);
 const Data = GetFeedback.map((item, index) => {
     return {
       id: index,
-      text3: item.Text
+      text3: item.Date,
+      text2:item.Text,
+      header:item.UserName
     };
   });
 const Feedback_body: IFeedbackList = { 
