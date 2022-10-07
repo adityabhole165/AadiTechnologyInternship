@@ -13,7 +13,7 @@ const OnlineExamProgressReportSlice = createSlice({
     Subjects: [],
     MarkInformation: [],
     Details: [],
-    Header: []
+    Header: null
   },
   reducers: {
     getStudentDetails(state, action) {
