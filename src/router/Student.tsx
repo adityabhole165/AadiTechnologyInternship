@@ -39,6 +39,7 @@ const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/Vid
 // const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
 // const Birthday = Loader(lazy(() => import('src/components/AnnualPlanner/Birthday')))
 const Bday = Loader(lazy(() => import('src/components/Bday/Bday')))
+const DashboardBday = Loader(lazy(() => import('src/components/DashboardBday/DashboardBday')))
 
 
 const studentRoutes = [
@@ -165,6 +166,10 @@ const studentRoutes = [
   {
     path: 'Bday',
     element: <Bday/>
+  },
+  {
+    path: 'DashboardBday',
+    element: <DashboardBday/>
   },
   ];
 

@@ -280,7 +280,7 @@ function Attendance() {
   return (
     <>
       <PageHeader heading={'Attendance'} subheading={''} />
-      <Container>
+      <>
         {StandardAttendance.length > 1 ? (
           <FormControl variant="standard" fullWidth sx={{ m: 1, mb: 2 }}>
             <NativeSelect
@@ -320,7 +320,7 @@ function Attendance() {
             );
           })
         )}
-      </Container>
+      </>
       <Buttons
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -329,7 +329,7 @@ function Attendance() {
       />
 
       {/* {/ Start Enter Absent number Here  /} */}
-      <Container>
+      <>
         <form onSubmit={formik.handleSubmit}>
           <TextField
             fullWidth
@@ -531,7 +531,7 @@ function Attendance() {
             </>
           )}
         </Card>
-      </Container>
+      </>
     </>
   );
 }

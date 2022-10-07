@@ -4,8 +4,6 @@ import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAt
 import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
-
-
 const TAttendanceSlice = createSlice({
 
     name: 'TAttendance',
@@ -122,7 +120,8 @@ export const GetStudentList =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
             let studentList = null;
-            let message = 'There are no students in this class.'
+            let message = 'There are no students available.'
+            let AYmsg = "Selected date is outside academic year."
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {
 
@@ -144,7 +143,7 @@ export const GetStudentList =
                 }
                 const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
                 response2.data?.map((item, i) => {
-                    message = item.AcademicYearMsg === '' ? item.StatusMessage : item.AcademicYearMsg
+                    message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg
                 })
             }
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));

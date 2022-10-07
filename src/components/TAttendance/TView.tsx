@@ -4,7 +4,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import List14 from 'src/libraries/list/List14';
-import { Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
+import { Container, Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
 import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { styled, Grid } from '@mui/material';
@@ -130,10 +130,10 @@ const TView = () => {
 
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'View Attendance'} subheading={''} />
 
-      <Grid container direction="row" sx={{ mt: '-40px', marginLeft: '27px' }}>
+      <Grid container direction="row" >
       <span
       onClick={() => navigate(-1)}
       >
@@ -142,7 +142,7 @@ const TView = () => {
           sx={{
             background: `${theme.colors.gradients.pink1}`,
             position: 'absolute',
-            top: '30px',
+            top: '35px',
             left: '35px'
           }}
         >
@@ -150,12 +150,12 @@ const TView = () => {
         </Fab>
       </span>
       </Grid>
-      <br />
-      <Grid container direction="row" sx={{ ml: 2.7, mt: 1.5 }}>
+    
+      <Grid container direction="row">
         <Grid xs={6}>
           <DotLegend
             className={classes.border}
-            style={{ background: '#f33737', marginBottom: '-2px' }}
+            style={{ background: '#f33737',  }}
           />
           <small>
             <b>Absent</b>
@@ -166,7 +166,7 @@ const TView = () => {
           <DotLegend
             className={classes.border}
             sx={{ ml: -12.7 }}
-            style={{ background: '#00b8d4', marginBottom: '-2px' }}
+            style={{ background: '#00b8d4', }}
           />
           <small>
             <b>Late Join</b>
@@ -174,14 +174,16 @@ const TView = () => {
           <br />
         </Grid>
       </Grid>
+
+
       <>
-        {' '}
+     
         <>
           <FormControl
             fullWidth
-            sx={{ mt: '0.2rem', mb: '-2', marginLeft: '24px' }}
+            sx={{ mt: '0.2rem', mb: '-2' }}
           >
-            <NativeSelect sx={{ mr: '48px' }} onChange={(e) => handleChange(e)}>
+            <NativeSelect  onChange={(e) => handleChange(e)}>
               <option>Select Class</option>
               {getTeacherAttendance.map(
                 (items, i) => {
@@ -206,7 +208,7 @@ const TView = () => {
           Close={CloseCalender}
         />
       </>
-      <br></br>
+     
 
       {getAttendanceData.length > 1 ? (
         getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
@@ -265,7 +267,7 @@ const TView = () => {
           );
         })
       )}
-    </>
+    </Container>
   );
 };
 
