@@ -122,7 +122,7 @@ export const GetStudentList =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
             let studentList = null;
-            let message = 'There are no students available.'
+            let message = 'There are no students in this class.'
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {
 
