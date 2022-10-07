@@ -12,6 +12,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Fab, Grid, useTheme } from '@mui/material';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Styles } from 'src/assets/style/student-style';
+import { getDateFormatted } from '../Common/Util'
+import DateSelector from 'src/libraries/buttons/DateSelector';
 
 
 function MissingAttandence() {
@@ -24,43 +26,10 @@ function MissingAttandence() {
   const classes = Styles();
   const theme = useTheme();
   const [getDate, setgetDate] = useState<any>(assignedDate);
-  const [date, setDate] = useState<any>({ selectedDate: null });
 
-  // CURRENT DATE FUNCTION
   const getCurrentDate = (newDate?: Date) => {
-    setDate({
-      selectedDate: getDate
-    });
-    setgetDate(assignedDate);
-  };
-
-  // PREVIOUS DATE FUNCTION
-  const getPreviousDate = () => {
-    const currentDayInMilli = new Date(getDate).valueOf();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const previousDayInMilli = currentDayInMilli - oneDay;
-    const prev = new Date(previousDayInMilli);
-
-    const Day = new Date(prev).getDate();
-    const Month = new Date(prev).toLocaleString('default', { month: 'short' });
-    const Year = new Date(prev).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat);
-  };
-
-  // NEXT DATE FUNCTION
-  const getNextDate = () => {
-    const currentDayInMilli = new Date(getDate).getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const nextDayInMilli = currentDayInMilli + oneDay;
-    const next = new Date(nextDayInMilli);
-
-    const Day = new Date(next).getDate();
-    const Month = new Date(next).toLocaleString('default', { month: 'short' });
-    const Year = new Date(next).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat);
-  };
+    setgetDate(getDateFormatted(newDate));
+};
 
   const MissingAttandenceList: any = useSelector(
     (state: RootState) => state.MissingAttandence.MissingAttandenceList
@@ -79,7 +48,7 @@ function MissingAttandence() {
 
   // CALL FOR API ON DATE CHANGE AND EVEN AT START
   useEffect(() => {
-    getCurrentDate();
+    // getCurrentDate();
     dispatch(getMissingAttandenceList(body));
   }, []);
 
@@ -91,14 +60,6 @@ function MissingAttandence() {
   const AssignDate = new Date(getDate);
   const PresentDate = new Date();
 
-  const CloseCalender = (e) => {
-    const date = new Date(e);
-    const Day = new Date(date).getDate();
-    const Month = new Date(date).toLocaleString('default', { month: 'short' });
-    const Year = new Date(date).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat)
-  }
 
   return (
     <>
@@ -125,13 +86,9 @@ function MissingAttandence() {
       </Grid>
       <br />
       <br />
-      <Buttons
-        date={getDate}
-        PrevDate={getPreviousDate}
-        NextDate={getNextDate}
-        Close={CloseCalender}
-      />
-      <br />
+      
+      <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+      
       {AssignDate > PresentDate ? ( // FUTURE ATTANDENCE
         <ErrorMessages Error={'Future date attendance is not allowed'} />
       ) : MissingAttandenceList.length < 1 ||

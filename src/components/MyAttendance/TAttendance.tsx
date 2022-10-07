@@ -24,14 +24,10 @@ const TAttendance = () => {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asTeacherId = sessionStorage.getItem('TeacherId');
     const [Standardid, setStandardid] = useState();
-    const [StandardId, setStandardId] = useState();
     const [assignedDate, setAssignedDate] = useState<string>();
-    const [calanderSelected, setcalanderSelected] = useState(false);
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
-    const [activateButton, setActivateButton] = useState(false);
-    const [absentText, setAbsentText] = useState('warning');
 
 
     const stdlist: any = useSelector(
@@ -87,6 +83,7 @@ const TAttendance = () => {
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate(new Date);
+        console.log("list",RollNoList)
 
     }, []);
 
@@ -96,18 +93,17 @@ const TAttendance = () => {
 
     const getCurrentDate = (newDate?: Date) => {
         setAssignedDate(getDateFormatted(newDate));
-        setcalanderSelected(false);
     };
 
     const popupateDate = () => {
         if (Standardid !== undefined) {
+            console.log('hi')
             dispatch(GetStudentList(GetStudentDetails));
             let arr = []
             RollNoList.map((obj) => {
                 if (!obj.isActive)
                     arr.push(obj.text1)
             })
-            setAbsentText(arr.join(','))
         }
     }
 
@@ -117,7 +113,6 @@ const TAttendance = () => {
 
     const getAbsetNumber = (value) => {
 
-        setActivateButton(true)
         if (value === '')
             setAllPresentOrAllAbsent('P')
         if (value.split(',').length === RollNoList.length)
@@ -184,7 +179,7 @@ const TAttendance = () => {
                     <ButtonPrimary onClick={SaveMsg}>Save</ButtonPrimary>
                 </Grid><Grid item xs={3}>
                     <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('Tview/' + assignedDate + '/' + StandardId)}>
+                        onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)}>
                         TView
                     </ButtonPrimary>
                 </Grid><Grid item xs={6}>

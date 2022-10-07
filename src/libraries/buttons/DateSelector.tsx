@@ -29,19 +29,16 @@ const Item = styled(Paper)(({ theme, color }) => ({
 }));
 
 function DateSelector({ date, setCurrentDate, Close }) {
-  const [isTodayDate, setIsTodayDate] = useState(true);
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const SetNewDate = (prevNext) => {
-    if (isTodayDate && prevNext === 1) return
+    if (isTodaysDate(date) && prevNext === 1) return
 
     const nextDate = getNextDate(date, prevNext)
-    setIsTodayDate(isTodaysDate(nextDate))
     setCurrentDate(nextDate);
   }
 
   const clickClose=(selectDate)=>{
-    setIsTodayDate(isTodaysDate(selectDate))
     Close(selectDate)
   }
 
@@ -83,7 +80,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
           </Grid>
 
           <Grid item xs={2}>
-            <Item color={isTodayDate ? 'warning' : 'primary'} onClick={() => SetNewDate(1)}>
+            <Item color={isTodaysDate(date) ? 'warning' : 'primary'} onClick={() => SetNewDate(1)}>
               <ArrowRight/>
             </Item>
           </Grid>
