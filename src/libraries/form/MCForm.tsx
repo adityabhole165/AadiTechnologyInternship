@@ -39,10 +39,10 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                     />
                 </Grid>
                 <Grid item xs={5}>
-                    <Dropdown Array={AcademicYearList} handleChange={clickAY}  />
+                    <Dropdown Array={AcademicYearList} handleChange={clickAY} label={'Year'}/>
                 </Grid>
                 <Grid item xs={5}>
-                    <Dropdown Array={MonthYearList} handleChange={clickMY}  />
+                    <Dropdown Array={MonthYearList} handleChange={clickMY} label={'Month'}/>
                 </Grid>
                 <Grid item xs={2}>
                     <ArrowCircleRightRoundedIcon onClick={onClick}
