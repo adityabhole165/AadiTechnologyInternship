@@ -20,7 +20,7 @@ export function ReturnTimeOrDateYear(date){
 }
 export const isValueInArray = (value,validarray) => {
     return validarray.some((a) => {
-        return (a === value)
+        return (a.includes(value))
     })
 }
 export const isRepeat = (value, arr) => {

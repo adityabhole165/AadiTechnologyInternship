@@ -70,7 +70,7 @@ function TeacherTimetable() {
     <>
     <Container>
       <PageHeader heading={'Timetable'} subheading={''} />
-      <Card30 header={{Header:TMTimetable}}></Card30>
+      <Card30 header={TMTimetable}></Card30>
 
       </Container>
     </>
