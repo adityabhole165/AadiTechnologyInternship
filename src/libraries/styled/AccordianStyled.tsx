@@ -31,7 +31,7 @@ export const Header2 = styled(Typography)(
 
 export const CardDetail1 = styled(Typography)(
   ({ theme, align }) => `
-  margin-top: 4px;
+  margin-top: 1px;
   margin-left: 10px;
   margin-bottom: 2px;
   font-family: Roboto;
@@ -50,9 +50,9 @@ export const CardDetail3 = styled(Typography)`
   font-family: Roboto;
 `;
 export const CardDetail4 = styled(Typography)`
-margin-top: 8px;
+margin-top: 1px;
 margin-left: 10px;
-margin-bottom: 4px;
+margin-bottom: 2px;
 font-family: Roboto;
 font-weight:bold;
 
