@@ -35,7 +35,7 @@ function Timetable() {
     <Container>
       <PageHeader heading={'Timetable'} subheading={''} />
       
-      <Card30 header={{Header:TimetableList}}></Card30>
+      <Card30 header={TimetableList}></Card30>
     </Container>
   );
 }

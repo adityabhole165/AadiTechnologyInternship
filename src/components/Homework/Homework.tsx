@@ -16,6 +16,8 @@ import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
+import DateSelector from 'src/libraries/buttons/DateSelector';
+import { getDateFormatted } from '../Common/Util'
 
 function Homework() {
   const dispatch = useDispatch();
@@ -35,7 +37,6 @@ function Homework() {
   const loading = useSelector(
     (state: RootState) => state.Homework.Loading);
 
-    console.log(HomeworkSubjectList)
 
 
   const homework_Body: IHomework = {
@@ -54,7 +55,7 @@ function Homework() {
     asLoginUserId: Id
   };
 
-  const getCurrentDate = (newDate?: Date) => {
+  const getCurrentDate1 = (newDate?: Date) => {
     const date = `${calanderSelected ? CalanderDate : newDate || new Date()}`;
     const Day = new Date(date).getDate();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
@@ -66,6 +67,12 @@ function Homework() {
     setAssignedDate(NewDateFormat);
     setcalanderSelected(false);
   };
+
+  const getCurrentDate = (newDate?: Date) => {
+    setAssignedDate(getDateFormatted(newDate));
+    setcalanderSelected(false);
+  };
+
 
   useEffect(() => {
     localStorage.setItem("url", window.location.pathname)
@@ -112,37 +119,40 @@ function Homework() {
 
   return (
     <>
-<Container>
-      <PageHeader heading={'Homework'} subheading={''} />
-      <div>
-        <DotLegend
-          sx={{
-            backgroundColor: '#DA70D6',
-            marginBottom: '-2px',
-            border: '1px black solid'
-          }}
-        />
-        <small>
-          <b> Completed By Date </b>
-        </small>
-      </div>{' '}
-      <br />
-      <Buttons
+      <Container>
+        <PageHeader heading={'Homework'} subheading={''} />
+        <div>
+          <DotLegend
+            sx={{
+              backgroundColor: '#DA70D6',
+              marginBottom: '-2px',
+              border: '1px black solid'
+            }}
+          />
+          <small>
+            <b> Completed By Date </b>
+          </small>
+        </div>{' '}
+        <br />
+        <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+
+        <br />
+        {/* <Buttons
         date={`${calanderSelected ? CalanderDate : date.selectedDate}`}
         PrevDate={getNextDate}
         NextDate={getNextDate}
         Close={CalenderDateHandler}
-      />
-      {loading ? (
-        <SuspenseLoader />
-      ) : HomeworkSubjectList.length === 0 ? (
-        <ErrorMessages Error={'Homework is not available'} />
-      ) : (
-        
+      /> */}
+        {loading ? (
+          <SuspenseLoader />
+        ) : HomeworkSubjectList.length === 0 ? (
+          <ErrorMessages Error={'Homework is not available'} />
+        ) : (
+
 
           <Card30 header={HomeworkSubjectList} />
-       
-      )}
+
+        )}
       </Container>
     </>
   );

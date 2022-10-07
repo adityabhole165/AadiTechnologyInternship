@@ -76,6 +76,12 @@ const TAttendanceSlice = createSlice({
 
 
 
+export const setSaveResponse = (): AppThunk =>
+    async (dispatch) => {
+        dispatch(TAttendanceSlice.actions.getSaveResponse(''));
+    };
+
+
 export const getAttendanceDataList =
     (data: AttendanceData): AppThunk =>
         async (dispatch) => {
@@ -131,7 +137,7 @@ export const GetStudentList =
 
                 const data2 = {
                     asAcademicYearId: data.asAcademicYearId,
-                    asAttendanceDate:data.asDate,
+                    asAttendanceDate: data.asDate,
                     asSchoolId: data.asSchoolId,
                     asStanardDivisionId: data.asStdDivId
                 }
@@ -179,7 +185,7 @@ export const GetAttendanceStatus =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
             let message = ''
-            response.data?.map((item, i) => {       
+            response.data?.map((item, i) => {
                 message = item.StatusMessage
             })
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
@@ -191,15 +197,6 @@ export const GetSaveAttendanceStatus =
             let response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(data);
             let responseMsg = ''
 
-            // GetTAttendanceListApi.SaveStudentAttendanceDetails(data)
-            // .then((resp) => {
-            //     if (resp.status == 200) {
-            // response = resp.data;
-            //     }
-            // })
-            // .catch((err) => {
-            //     responseMsg = 'error network';
-            // });
             responseMsg = 'Attendance saved for the valid roll number(s) !!!'
 
             const GetStudentDetails: IStudentsDetails = {
