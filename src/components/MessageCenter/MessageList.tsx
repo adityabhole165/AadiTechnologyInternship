@@ -77,6 +77,7 @@ const MessageList = () => {
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );
+  
 
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
@@ -149,8 +150,7 @@ const MessageList = () => {
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: '0',
-      // activeTab == 'Sent' ? arrDetails.join(';') : arrReciever.join(';'),
+      asMessageRecieverDetailsId: activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
       asIsArchive: 'Y',
       asIsCompeteDelete: 1,
       asFlag: activeTab
@@ -244,6 +244,7 @@ const MessageList = () => {
     }, 10);
   }
   
+  console.log(inboxListData)
 
   return (
     <>

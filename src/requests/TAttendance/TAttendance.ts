@@ -168,7 +168,6 @@ export const getStandardList =
     (data: StandardAttendance): AppThunk =>
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStandardList(data);
-            console.log(response)
             const standardList =
                 response.data.map((item) => {
                     return {

@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import MissingAttandenceInteface from 'src/interfaces/Student/MissingAttandenceInterface';
 import { getMissingAttandenceList } from 'src/requests/Student/MissingAttandenceSlice';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import Buttons from 'src/libraries/buttons/button';
 import List16 from 'src/libraries/list/List16';
 import { GetMissingAttandenceData } from 'src/interfaces/Student/MissingAttandenceInterface';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -99,7 +98,7 @@ function MissingAttandence() {
         MissingAttandenceList.daywiseAttendanceStatusResult.map(
           (items: GetMissingAttandenceData, i) => {
             return (
-              <>
+              <div key={i}>
                 {' '}
                 {i === 0 && items.Status == 'A' ? (
                   <>
@@ -129,7 +128,7 @@ function MissingAttandence() {
                     <List16 Class={items.Class} key={i} />
                   </>
                 )}
-              </>
+              </div>
             );
           }
         )

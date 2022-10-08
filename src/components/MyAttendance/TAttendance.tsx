@@ -83,8 +83,6 @@ const TAttendance = () => {
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate(new Date);
-        console.log("list",RollNoList)
-
     }, []);
 
     useEffect(() => {
@@ -97,7 +95,6 @@ const TAttendance = () => {
 
     const popupateDate = () => {
         if (Standardid !== undefined) {
-            console.log('hi')
             dispatch(GetStudentList(GetStudentDetails));
             let arr = []
             RollNoList.map((obj) => {
