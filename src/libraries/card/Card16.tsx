@@ -13,7 +13,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import {
   CardDetail1,
@@ -182,22 +182,10 @@ function Card16({ Note, Heading }) {
         </ClickAwayListener>
       ) : null}
 
-      <div style={{ marginBottom: '20px'}} >
-        <div
-          style={{
-            display: 'inline-block',
-            marginTop: '10px',
-            
-          }}
-        >
-          <Header1>  Total:   {FeesTotal}</Header1>
-         
-          {/* {FeesTotal > 0 ? (
-            <CurrencyRupeeRoundedIcon
-              sx={{ fontSize: '18px', position: 'relative', top: '5px' }}
-            />
-          ) : null}{' '} */}
-        
+        <div style={{ marginTop: '10px', marginBottom: '20px' }}> 
+        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
+          Total: {FeesTotal > 0 ? 
+          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null} {FeesTotal} 
         </div>
 
         <RouterLink
@@ -294,7 +282,7 @@ function Card16({ Note, Heading }) {
                   <Grid xs={10} sx={{mt:"-20px"}}>
                     <CardDetail3>
                       {Heading.Fee2}
-                      <strong>{item.Amount}</strong>
+                      <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><strong>{item.Amount}</strong>
                     </CardDetail3>
                   </Grid>
                   <Grid xs={2} />
