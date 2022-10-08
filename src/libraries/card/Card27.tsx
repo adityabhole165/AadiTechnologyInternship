@@ -13,7 +13,7 @@ import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import React, { useState } from 'react';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
+import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
 import { ListStyle } from '../styled/CardStyle';
 
@@ -99,7 +99,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           color={expanded === 'panel'? 'secondary':''}
           >
             <b>{FeesType}</b> &nbsp;:&nbsp;
-            <b>{FeesObject.TotalFeesPaid}</b>
+            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><b>{FeesObject.TotalFeesPaid}</b>
           </Header1>
         </Accordionsummary>
         {
@@ -144,7 +144,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           color={expanded === 'panel1'? 'secondary':''}
           >
             <b>{'Payable Fees'}</b> &nbsp;:&nbsp;
-            <b>{FeesObject.FeesTobePaid}</b>
+            <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><b>{FeesObject.FeesTobePaid}</b>
           </Header1>
         </Accordionsummary>
         <AccordionDetails>
