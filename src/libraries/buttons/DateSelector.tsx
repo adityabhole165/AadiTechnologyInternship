@@ -73,6 +73,8 @@ function DateSelector({ date, setCurrentDate, Close }) {
                 position: 'fixed',
                 display: dateClickDependent,
                 zIndex: '2',
+               marginTop:"10px"
+               
               }}
             >
               <Calendar onChange={(e) => clickClose(e.toLocaleString())} maxDate={new Date()}/>
