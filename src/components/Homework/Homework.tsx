@@ -136,7 +136,7 @@ function Homework() {
         <br />
         <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
-        <br />
+        
         {/* <Buttons
         date={`${calanderSelected ? CalanderDate : date.selectedDate}`}
         PrevDate={getNextDate}

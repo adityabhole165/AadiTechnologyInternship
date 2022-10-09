@@ -105,22 +105,13 @@ const TView = () => {
         <span
           onClick={() => navigate(-1)}
         >
-          <Fab
-            className={classes.backArrow}
-            sx={{
-              background: `${theme.colors.gradients.pink1}`,
-              position: 'absolute',
-              top: '35px',
-              left: '35px'
-            }}
-          >
-            <ReplyIcon />
-          </Fab>
+          
+          <BackButton/>
         </span>
       </Grid>
 
       <Grid container direction="row">
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <DotLegend
             className={classes.border}
             style={{ background: '#f33737', }}
@@ -130,10 +121,10 @@ const TView = () => {
           </small>
           <br />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <DotLegend
             className={classes.border}
-            sx={{ ml: -12.7 }}
+        
             style={{ background: '#00b8d4', }}
           />
           <small>
