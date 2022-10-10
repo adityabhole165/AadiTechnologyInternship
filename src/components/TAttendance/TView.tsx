@@ -155,7 +155,7 @@ const TView = () => {
           </FormControl>
         </>
         <br></br>
-
+        <br></br>
         <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
       </>
 
