@@ -27,16 +27,16 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 
-
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
   height: '61px',
+  color:'black',
   boxShadow:
-    ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)',
-  color: theme.palette.text.secondary
+  '0px 8px 15px rgba(0, 0, 0, 0.1)',
+
 }));
 
 const NextPageIndex = 2; // Initial page index
@@ -58,8 +58,7 @@ const MessageList = () => {
   const [isDeleteActive, setIsDeleteActive] = useState(false);
   const [nextPageData, setNextPageData] = useState<any>();
   const [ToolTip, setToolTip] = useState<boolean>(true);
-  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
-
+  const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -77,7 +76,6 @@ const MessageList = () => {
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );
-  
 
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
@@ -145,12 +143,12 @@ const MessageList = () => {
         arrReciever.push(obj.ReceiverDetailsId);
       }
     });
-    
 
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
+      asMessageRecieverDetailsId:
+        activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
       asIsArchive: 'Y',
       asIsCompeteDelete: 1,
       asFlag: activeTab
@@ -199,12 +197,11 @@ const MessageList = () => {
   };
 
   const scrolling = (): void => {
-
-    if(scrollableDivRefference.scrollTop >= 400){
-      setdisplayMoveToTop("flex")
+    if (scrollableDivRefference.scrollTop >= 400) {
+      setdisplayMoveToTop('flex');
     }
-    if(scrollableDivRefference.scrollTop < 400){
-      setdisplayMoveToTop("none")
+    if (scrollableDivRefference.scrollTop < 400) {
+      setdisplayMoveToTop('none');
     }
     if (
       scrollableDivRefference.scrollHeight -
@@ -240,107 +237,133 @@ const MessageList = () => {
   const MoveToTop = (e) => {
     scrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
-      setdisplayMoveToTop("none")
+      setdisplayMoveToTop('none');
     }, 10);
-  }
-  
-  console.log(inboxListData)
+  };
+
+  console.log(inboxListData);
 
   return (
     <>
-
-<Container>
-      <PageHeader heading="Message Center" subheading=""></PageHeader>
-      <Grid container>
-        {!showSearch ? (
-          <>
-            <Grid item xs={11}>
-              <MCButtons activeTab={activeTab} clickTab={clickTab}></MCButtons>
-            </Grid>
-            <Grid item xs={1}>
-              <SearchIcon
-                sx={{
-                  fontSize: '40px',
-                  marginTop: '10px',
-                  cursor: 'pointer',
-                  marginLeft: '-5px'
-                }}
-                onClick={clickSearchIcon}
+      <Container>
+        <PageHeader heading="Message Center" subheading=""></PageHeader>
+        <Grid container>
+          {!showSearch ? (
+            <>
+              <Grid item xs={11}>
+                <MCButtons
+                  activeTab={activeTab}
+                  clickTab={clickTab}
+                ></MCButtons>
+              </Grid>
+              <Grid item xs={1}>
+                <SearchIcon
+                  sx={{
+                    fontSize: '40px',
+                    marginTop: '10px',
+                    cursor: 'pointer',
+                    marginLeft: '-5px'
+                  }}
+                  onClick={clickSearchIcon}
+                />
+              </Grid>
+            </>
+          ) : (
+            <Grid item xs={12}>
+              <MCForm
+                AcademicYearList={AcademicYearList}
+                MonthYearList={MonthYearList}
+                clickSearch={clickSearch}
+                academicYear={academicYear}
+                monthYear={monthYear}
+                clickAcademicYear={clickAcademicYear}
+                clickMonthYear={clickMonthYear}
+                isSearchClicked={isSearchClicked}
+                CloseSearchBar={closeSearchBar}
               />
             </Grid>
-          </>
+          )}
+          {isDeleteActive && (
+          
+            <Grid container spacing={1} sx={{mb:"10px"}}>
+              <Grid item xs={4}/>
+              <Grid item xs={4}>
+                <ButtonPrimary
+                  onClick={() => clickDelete()}
+                  endIcon={<DeleteIcon />} fullWidth
+                >
+                  Delete
+                </ButtonPrimary>
+              </Grid>
+              <Grid item xs={4}>
+                <ButtonPrimary
+                  onClick={clickReset}
+                  endIcon={<ReplayIcon />}
+                  color="secondary" fullWidth
+                >
+                  Reset
+                </ButtonPrimary>
+              </Grid>
+            </Grid>
+          )}
+        </Grid>
+        {loading ? (
+          <SuspenseLoader />
         ) : (
-          <Grid item xs={12}>
-            <MCForm
-              AcademicYearList={AcademicYearList}
-              MonthYearList={MonthYearList}
-              clickSearch={clickSearch}
-              academicYear={academicYear}
-              monthYear={monthYear}
-              clickAcademicYear={clickAcademicYear}
-              clickMonthYear={clickMonthYear}
-              isSearchClicked={isSearchClicked}
-              CloseSearchBar={closeSearchBar}
+          <div
+            id="ScrollableDiv"
+            onScroll={scrolling}
+            style={{
+              paddingBottom: '100px',
+              height: '570px',
+              overflow: 'auto'
+            }}
+          >
+            <SelectList3Col
+              Itemlist={inboxListData}
+              refreshData={refreshData}
             />
-          </Grid>
+          </div>
         )}
-        {isDeleteActive && (
-          <Grid item xs={12} display={'flex'} justifyContent={'flex-end'} sx={{mb:"10px"}}>
-            <ButtonPrimary
-              onClick={() => clickDelete()}
-              endIcon={<DeleteIcon />}
-            >
-              Delete
-            </ButtonPrimary>
-            <ButtonPrimary onClick={clickReset} endIcon={<ReplayIcon />} color="secondary">
-              Reset
-            </ButtonPrimary>
-          </Grid>
-        )}
-      </Grid>
-      {loading ? (
-        <SuspenseLoader />
-      ) : (
-        <div
-          id="ScrollableDiv"
-          onScroll={scrolling}
+
+        <Avatar
+          sx={{
+            display: displayMoveToTop,
+            position: 'fixed',
+            bottom: '95px',
+            zIndex: '4',
+            left: '15px',
+            p: '2px',
+            width: 50,
+            height: 50,
+            backgroundColor: 'white',
+            boxShadow:
+              '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+          }}
+          onClick={MoveToTop} // Close function
+        >
+          <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
+        </Avatar>
+
+        <span
           style={{
-           paddingBottom: '100px',
-            height: '570px',
-            overflow: 'auto'
+            width: '95px',
+            position: 'fixed',
+            bottom: '80px',
+            right: '20px'
           }}
         >
-          <SelectList3Col Itemlist={inboxListData} refreshData={refreshData} />
-        </div>
-      )}
-      
-      <Avatar
-        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
-        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
-        onClick={MoveToTop} // Close function 
-      > 
-        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
-      </Avatar>
-
-      <span
-        style={{
-          width: '95px',
-          position: 'fixed',
-          bottom: '80px',
-          right: '20px'
-        }}
-      >
-        <RouterLink
-          style={{ textDecoration: 'none' }}
-          to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
-        >
-          <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
-            <AddCircleIcon />
-            <br />
-            <b>Compose</b>
-          </Item>
-        </RouterLink>
-      </span>
+          <RouterLink
+            style={{ textDecoration: 'none' }}
+            to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
+          >
+            <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
+              <AddCircleIcon />
+              <br />
+              <b>Compose</b>
+            </Item>
+          </RouterLink>
+        </span>
       </Container>
     </>
   );
