@@ -177,7 +177,7 @@ const TAttendance = () => {
                 </Grid><Grid item xs={4}>
                     <ButtonPrimary color='secondary'
                         onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth>
-                       ViewAttendance
+                       View Attendance
                     </ButtonPrimary>
                 </Grid><Grid item xs={5}>
                     <ButtonPrimary color='secondary'
