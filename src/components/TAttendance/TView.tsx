@@ -184,32 +184,32 @@ const TView = () => {
                 <>
                   <ErrorMessages
                     Error={
-                      'Attendance Date Should Be Within Current Academic Year'
+                      'Attendance date should be within current academic year'
                     }
                   />
                 </>
               ) : i === 0 && items.Status == 'W' ? (
                 <>
-                  <ErrorMessages Error={'Selected Date Is Weekend.'} />
+                  <ErrorMessages Error={'Selected date is weekend.'} />
                 </>
               ) : i === 0 && items.Status == 'E' ? (
                 <>
                   <ErrorMessages
-                    Error={'There Are No Students In This Class.'}
+                    Error={'There are no students in this class.'}
                   />
                 </>
               ) : i === 0 && items.Status == 'H' ? (
                 <>
-                  <ErrorMessages Error={'Selected Date Is Holidays.'} />
+                  <ErrorMessages Error={'Selected date is holidays.'} />
                 </>
               ) : i === 0 && items.Status == 'N' ? (
                 <>
-                  <ErrorMessages Error={'Attendance Not Yet Marked.'} />
+                  <ErrorMessages Error={'Attendance not yet marked.'} />
                 </>
               ) : new Date(getDate) > currentDate ? (
                 <>
                   <ErrorMessages
-                    Error={'Future Date Attendance Cannot Be Viewed.'}
+                    Error={'Future date attendance cannot be viewed.'}
                   />
                 </>
               ) : null}

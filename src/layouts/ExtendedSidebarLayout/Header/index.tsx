@@ -30,7 +30,6 @@ import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import HeaderButtons from './Buttons';
 import HeaderUserbox from './Userbox';
-import ThemeSettings from 'src/layouts/Components/ThemeSettings';
 import { Styles } from 'src/assets/style/student-style'
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
@@ -42,6 +41,7 @@ import { useTranslation } from 'react-i18next';
 import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login';
 import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
+import ThemeSettings from 'src/layouts/Components/ThemeSettings';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `

@@ -403,13 +403,7 @@ function Attendance() {
           >
             Save
           </Button>
-          {/* {/ <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> /} */}
-          {/* {/ onChange={formik.handleChange}  /} */}
-          {/* <ButtonPrimary  variant="contained" color="primary" onChange={formik.handleChange} type="submit">  {'Save'}</ButtonPrimary> */}
-          {/* onChange={formik.handleChange}  */}
         </form>
-
-        {/* {/ end Enter Absent number Here  /} */}
 
         <Typography variant="h5" textAlign="center">
           {' '}
@@ -455,14 +449,11 @@ function Attendance() {
         </Stack>
         <br />
 
-        {/* {/ Start New Code Dev.Ganesh /} */}
         <Card>
           <Divider />
           {AssignDate > PresentDate ? (
             <ErrorMessages Error={'Future date attendance is not allowed'} />
           ) : (
-            // (RollNoList.StudentName == " ") ? <ErrorMessages Error={'There are no students available'} />
-            // :
             <>
               {selectedSomeRollNo != null ? (
                 <>

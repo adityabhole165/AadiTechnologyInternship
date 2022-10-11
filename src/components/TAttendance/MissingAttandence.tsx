@@ -90,7 +90,7 @@ function MissingAttandence() {
         ) : MissingAttandenceList.length < 1 ||
           MissingAttandenceList == undefined ||
           MissingAttandenceList.daywiseAttendanceStatusResult.length < 1 ? ( // FOR UNDEFINED VALUE OR EMPTY ARRAY
-          <ErrorMessages Error={'No Missing Attandence Found'} />
+          <ErrorMessages Error={'No missing attandence found'} />
         ) : (
           MissingAttandenceList.daywiseAttendanceStatusResult.map(
             (items: GetMissingAttandenceData, i) => {
@@ -99,7 +99,7 @@ function MissingAttandence() {
                   {' '}
                   {i === 0 && items.Status == 'A' ? (
                     <>
-                      <ErrorMessages Error={'Outside Academic Year'} />
+                      <ErrorMessages Error={'Outside academic year'} />
                     </>
                   ) : i === 0 && items.Status == 'W' ? (
                     <>
@@ -112,7 +112,7 @@ function MissingAttandence() {
                   ) : i === 0 && items.Status == 'F' ? (
                     <>
                       <ErrorMessages
-                        Error={'Future Date Attendance Cannot Be Viewed.'}
+                        Error={'Future date attendance cannot be viewed.'}
                       />
                     </>
                   ) : MissingAttandenceList.daywiseAttendanceStatusResult
