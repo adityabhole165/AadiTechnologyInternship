@@ -113,15 +113,6 @@ const DashboardData = {
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
     },
-    {
-      Text1: 'Birthday',
-      Text2: '',
-      Color: '#81c784',
-      iconColor: '#35abd9',
-      Icon: CakeIcon,
-      Link: 'Student/Bday',
-      index: 24,
-    },
     // {
     //   Text1: 'Teacher',
     //   Text2: 'Attendance',
@@ -233,15 +224,6 @@ const DashboardData = {
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
     },
-    {
-      Text1: 'Feedback',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: 'red',
-      Icon: PeopleIcon,
-      Link: 'Common/Feedback',
-      index: 23,
-    }
     // {
     //   Text1: 'AttendenceNew',
     //   Text2: '',
@@ -359,15 +341,6 @@ const DashboardData = {
         index: 22,
         ScreenPermission: 'SMSCenter'
       },
-      {
-        Text1: 'Feedback',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: 'red',
-        Icon: PeopleIcon,
-        Link: 'Common/Feedback',
-        index: 23,
-      }
     ],
 },  
    Admin:{
@@ -456,15 +429,6 @@ const DashboardData = {
         index: 22,
         ScreenPermission: 'SMSCenter'
       },
-      {
-        Text1: 'Feedback',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: 'red',
-        Icon: PeopleIcon,
-        Link: 'Common/Feedback',
-        index: 23,
-      }
     ]
    }
   
