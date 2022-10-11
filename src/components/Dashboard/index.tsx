@@ -241,12 +241,9 @@ if (RoleId === '3') {
 
   let header2 = RoleId === '3' ? 'Student' : 'Teacher';
   let header3 = RoleId === '6' ? 'Communication' : 'Exam & Communication';
-  const Bdate = "08 Oct";
-  const presentDate = moment(new Date()).format("DD MMM")
   
   return (
     <>
-         {presentDate == Bdate ? <>{RoleId == '3' && <DashboardBday/> }</> : null} 
       <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
       {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
       {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4" />}
