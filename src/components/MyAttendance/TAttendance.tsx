@@ -171,18 +171,18 @@ const TAttendance = () => {
                 label='Absent Roll Number'
                 value={StudentAbsent}></TextField><br></br>
             <br></br>
-            <Grid container>
+            <Grid container spacing={1}>
                 <Grid item xs={3}>
-                    <ButtonPrimary onClick={SaveMsg}>Save</ButtonPrimary>
-                </Grid><Grid item xs={3}>
+                    <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
+                </Grid><Grid item xs={4}>
                     <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)}>
-                        TView
+                        onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth>
+                       ViewAttendance
                     </ButtonPrimary>
-                </Grid><Grid item xs={6}>
+                </Grid><Grid item xs={5}>
                     <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('MissingAttandence/' + assignedDate)}>
-                        Missing Attendance
+                        onClick={() => clickNav('MissingAttandence/' + assignedDate)} fullWidth>
+                        MissingAttendance
                     </ButtonPrimary>
                 </Grid>
             </Grid>

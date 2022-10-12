@@ -1,6 +1,6 @@
 .react-calendar { 
-    width: 400px;
-    max-width: 100%;
+    width: 100%;
+    /* max-width: 100%; */
     background-color: #fff;
     color: #222;
     border-radius: 8px;
@@ -86,23 +86,35 @@
     background: #6f48eb;
     color: white;
    }
-   @media screen and (max-width:380px){
+   @media screen and (max-width:412px){
     .react-calendar { 
-        margin-left: -30px;
+        margin-right: -90px;
        }
    }
-   @media screen and (min-width:350px) and ( max-width:370px){
+   @media screen and (max-width:640px){
     .react-calendar { 
-        margin-left: -30px;
+        margin-right: 110px;
        }
    }
-   @media screen and (max-width:400px){
+   @media screen and (max-width:712px){
     .react-calendar { 
-        margin-left: -30px;
+        margin-right: 110px;
        }
    }
-   @media screen and (min-width:410px){
+
+
+   @media screen and (min-width:350px){
     .react-calendar { 
-        margin-left: -25px;
+        margin-right: -110px;
+       }
+   }
+   @media screen and (min-width:375px){
+    .react-calendar { 
+        margin-left: -40px;
+       }
+   }
+   @media screen and (min-width:360px){
+    .react-calendar { 
+        margin-left: -35px;
        }
    }

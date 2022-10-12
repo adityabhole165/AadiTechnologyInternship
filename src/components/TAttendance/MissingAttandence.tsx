@@ -11,9 +11,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Container, Fab, Grid, useTheme } from '@mui/material';
 import ReplyIcon from '@mui/icons-material/Reply';
 import { Styles } from 'src/assets/style/student-style';
-import { getDateFormatted } from '../Common/Util'
+import { getDateFormatted } from '../Common/Util';
 import DateSelector from 'src/libraries/buttons/DateSelector';
-
+import BackButton from 'src/libraries/button/BackButton';
 
 function MissingAttandence() {
   // USE PARAMS FOR PREVIOUS PAGES DATE
@@ -28,7 +28,7 @@ function MissingAttandence() {
 
   const getCurrentDate = (newDate?: Date) => {
     setgetDate(getDateFormatted(newDate));
-};
+  };
 
   const MissingAttandenceList: any = useSelector(
     (state: RootState) => state.MissingAttandence.MissingAttandenceList
@@ -59,80 +59,77 @@ function MissingAttandence() {
   const AssignDate = new Date(getDate);
   const PresentDate = new Date();
 
-
   return (
     <>
-    <Container>
-      <PageHeader heading={'Missing Attendance'} subheading={''} />
-      <Grid container direction="row" sx={{ mt: '-40px', marginLeft: '33px' }}>
-        <span
-          onClick={() => {
-            navigate(-1);
-          }}
+      <Container>
+        <PageHeader heading={'Missing Attendance'} subheading={''} />
+        <Grid
+          container
+          direction="row"
+          sx={{ mt: '-40px', marginLeft: '33px' }}
         >
-          <Fab
-            className={classes.backArrow}
-            sx={{
-              background: `${theme.colors.gradients.pink1}`,
-              position: 'absolute',
-              top: '30px',
-              left: '35px'
+          <span
+            onClick={() => {
+              navigate(-1);
             }}
           >
-            <ReplyIcon />
-          </Fab>
-        </span>
-      </Grid>
-      <br />
-      <br />
-      
-      <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
-      
-      {AssignDate > PresentDate ? ( // FUTURE ATTANDENCE
-        <ErrorMessages Error={'Future date attendance is not allowed'} />
-      ) : MissingAttandenceList.length < 1 ||
-        MissingAttandenceList == undefined ||
-        MissingAttandenceList.daywiseAttendanceStatusResult.length < 1 ? ( // FOR UNDEFINED VALUE OR EMPTY ARRAY
-        <ErrorMessages Error={'No Missing Attandence Found'} />
-      ) : (
-        MissingAttandenceList.daywiseAttendanceStatusResult.map(
-          (items: GetMissingAttandenceData, i) => {
-            return (
-              <div key={i}>
-                {' '}
-                {i === 0 && items.Status == 'A' ? (
-                  <>
-                    <ErrorMessages Error={'Outside Academic Year'} />
-                  </>
-                ) : i === 0 && items.Status == 'W' ? (
-                  <>
-                    <ErrorMessages Error={'Selected date is weekend.'} />
-                  </>
-                ) : i === 0 && items.Status == 'H' ? (
-                  <>
-                    <ErrorMessages Error={'Selected date is holidays.'} />
-                  </>
-                ) : i === 0 && items.Status == 'F' ? (
-                  <>
-                    <ErrorMessages
-                      Error={'Future Date Attendance Cannot Be Viewed.'}
-                    />
-                  </>
-                ) : MissingAttandenceList.daywiseAttendanceStatusResult.length <
-                  1 ? (
-                  <>
-                    <ErrorMessages Error={'No missing attandence found'} />
-                  </>
-                ) : (
-                  <>
-                    <List16 Class={items.Class} key={i} />
-                  </>
-                )}
-              </div>
-            );
-          }
-        )
-      )}
+            <BackButton />
+          </span>
+        </Grid>
+        <br />
+        <br />
+
+        <DateSelector
+          date={getDate}
+          setCurrentDate={getCurrentDate}
+          Close={getCurrentDate}
+        ></DateSelector>
+
+        {AssignDate > PresentDate ? ( // FUTURE ATTANDENCE
+          <ErrorMessages Error={'Future date attendance is not allowed'} />
+        ) : MissingAttandenceList.length < 1 ||
+          MissingAttandenceList == undefined ||
+          MissingAttandenceList.daywiseAttendanceStatusResult.length < 1 ? ( // FOR UNDEFINED VALUE OR EMPTY ARRAY
+          <ErrorMessages Error={'No missing attandence found'} />
+        ) : (
+          MissingAttandenceList.daywiseAttendanceStatusResult.map(
+            (items: GetMissingAttandenceData, i) => {
+              return (
+                <div key={i}>
+                  {' '}
+                  {i === 0 && items.Status == 'A' ? (
+                    <>
+                      <ErrorMessages Error={'Outside academic year'} />
+                    </>
+                  ) : i === 0 && items.Status == 'W' ? (
+                    <>
+                      <ErrorMessages Error={'Selected date is weekend.'} />
+                    </>
+                  ) : i === 0 && items.Status == 'H' ? (
+                    <>
+                      <ErrorMessages Error={'Selected date is holidays.'} />
+                    </>
+                  ) : i === 0 && items.Status == 'F' ? (
+                    <>
+                      <ErrorMessages
+                        Error={'Future date attendance cannot be viewed.'}
+                      />
+                    </>
+                  ) : MissingAttandenceList.daywiseAttendanceStatusResult
+                      .length < 1 ? (
+                    <>
+                      <ErrorMessages Error={'No missing attandence found'} />
+                    </>
+                  ) : (
+                    <>
+                      <List16 Class={items.Class} key={i} />
+                    </>
+                  )}
+                </div>
+              );
+            }
+          )
+        )}
       </Container>
     </>
   );

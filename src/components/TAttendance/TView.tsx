@@ -105,22 +105,13 @@ const TView = () => {
         <span
           onClick={() => navigate(-1)}
         >
-          <Fab
-            className={classes.backArrow}
-            sx={{
-              background: `${theme.colors.gradients.pink1}`,
-              position: 'absolute',
-              top: '35px',
-              left: '35px'
-            }}
-          >
-            <ReplyIcon />
-          </Fab>
+          
+          <BackButton/>
         </span>
       </Grid>
 
       <Grid container direction="row">
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <DotLegend
             className={classes.border}
             style={{ background: '#f33737', }}
@@ -130,10 +121,10 @@ const TView = () => {
           </small>
           <br />
         </Grid>
-        <Grid item xs={6}>
+        <Grid item xs={3}>
           <DotLegend
             className={classes.border}
-            sx={{ ml: -12.7 }}
+        
             style={{ background: '#00b8d4', }}
           />
           <small>
@@ -164,7 +155,7 @@ const TView = () => {
           </FormControl>
         </>
         <br></br>
-
+        <br></br>
         <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
       </>
 
@@ -193,32 +184,32 @@ const TView = () => {
                 <>
                   <ErrorMessages
                     Error={
-                      'Attendance Date Should Be Within Current Academic Year'
+                      'Attendance date should be within current academic year'
                     }
                   />
                 </>
               ) : i === 0 && items.Status == 'W' ? (
                 <>
-                  <ErrorMessages Error={'Selected Date Is Weekend.'} />
+                  <ErrorMessages Error={'Selected date is weekend.'} />
                 </>
               ) : i === 0 && items.Status == 'E' ? (
                 <>
                   <ErrorMessages
-                    Error={'There Are No Students In This Class.'}
+                    Error={'There are no students in this class.'}
                   />
                 </>
               ) : i === 0 && items.Status == 'H' ? (
                 <>
-                  <ErrorMessages Error={'Selected Date Is Holidays.'} />
+                  <ErrorMessages Error={'Selected date is holidays.'} />
                 </>
               ) : i === 0 && items.Status == 'N' ? (
                 <>
-                  <ErrorMessages Error={'Attendance Not Yet Marked.'} />
+                  <ErrorMessages Error={'Attendance not yet marked.'} />
                 </>
               ) : new Date(getDate) > currentDate ? (
                 <>
                   <ErrorMessages
-                    Error={'Future Date Attendance Cannot Be Viewed.'}
+                    Error={'Future date attendance cannot be viewed.'}
                   />
                 </>
               ) : null}

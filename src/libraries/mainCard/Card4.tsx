@@ -3,7 +3,6 @@ import { CardDetail,CardDetail1,CardDetail2,CardDetail3} from '../styled/CardSty
 import { useLocation } from 'react-router-dom';
 
 function Card4({ header, text1, text2, text3, text5 }) {
-  console.log("text1",text1);
   
   const location = useLocation();
   const pathname = location.pathname;
