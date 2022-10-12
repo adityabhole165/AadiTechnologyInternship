@@ -10,13 +10,13 @@ function Card6() {
   const ClassTeacher = sessionStorage.getItem('IsClassTeacher');
   const RollNo = sessionStorage.getItem('RollNo');
   const UDISENumber = sessionStorage.getItem('UDISENumber');
-  const Birth_Place = sessionStorage.getItem('Birth_Place');
+  const BirthPlace = sessionStorage.getItem('BirthPlace');
   const Nationality = sessionStorage.getItem('Nationality');
   const Address = sessionStorage.getItem('Address');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
-  const Mother_Tongue = sessionStorage.getItem('Mother_Tongue');
-  const Residence_Phone_Number = sessionStorage.getItem(
-    'Residence_Phone_Number'
+  const MotherTongue = sessionStorage.getItem('MotherTongue');
+  const ResidencePhoneNumber = sessionStorage.getItem(
+    'ResidencePhoneNumber'
   );
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
 
@@ -93,7 +93,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Residence Phone No:</ProfileDetail1>
-                  <ProfileDetail4> {Residence_Phone_Number}</ProfileDetail4>
+                  <ProfileDetail4> {ResidencePhoneNumber}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Religion:</ProfileDetail1>
@@ -109,7 +109,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Place of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {Birth_Place}</ProfileDetail4>
+                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Nationality:</ProfileDetail1>
@@ -117,7 +117,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Mother Tongue:</ProfileDetail1>
-                  <ProfileDetail4> {Mother_Tongue}</ProfileDetail4>
+                  <ProfileDetail4> {MotherTongue}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Blood Group:</ProfileDetail1>

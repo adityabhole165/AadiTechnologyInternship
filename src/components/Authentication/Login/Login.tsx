@@ -147,12 +147,12 @@ function SelectSchool() {
             sessionStorage.setItem('StudentId', studentDetails.StudentId);
             sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
             sessionStorage.setItem('Address', studentDetails.Address);
-            sessionStorage.setItem('Residence_Phone_Number', studentDetails.Residence_Phone_Number);
+            sessionStorage.setItem('ResidencePhoneNumber', studentDetails.ResidencePhoneNumber);
             sessionStorage.setItem('CasteAndSubCaste', studentDetails.CasteAndSubCaste);
             sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
-            sessionStorage.setItem('Birth_Place', studentDetails.Birth_Place);
+            sessionStorage.setItem('BirthPlace', studentDetails.BirthPlace);
             sessionStorage.setItem('Nationality', studentDetails.Nationality);
-            sessionStorage.setItem('Mother_Tongue', studentDetails.Mother_Tongue);
+            sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
             sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
             sessionStorage.setItem('EndDate', studentDetails.EndDate);
             sessionStorage.setItem('StartDate', studentDetails.StartDate);
