@@ -170,6 +170,7 @@ function SelectSchool() {
 
         if (result.RoleName === "Teacher") {
             sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
+            sessionStorage.setItem('Address', teacherDetails.Address);
             sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
             sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
             sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
@@ -185,6 +186,7 @@ function SelectSchool() {
 
         if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
+            sessionStorage.setItem('Address', adminDetails.Address);
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
             sessionStorage.setItem('EndDate', adminDetails.EndDate);
             sessionStorage.setItem('StartDate', adminDetails.StartDate);

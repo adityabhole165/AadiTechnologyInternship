@@ -67,7 +67,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Address:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
+                  <ProfileDetail4> {Address}</ProfileDetail4>
                 </ProfileWrapper>
               </>
             ) : RoleName == 'Admin Staff' ? (
@@ -82,7 +82,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Address:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
+                  <ProfileDetail4> {Address}</ProfileDetail4>
                 </ProfileWrapper>
               </>
             ) : (
