@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import {
   CardDetail3,
   CardDetail1,
+  CardDetail2,
   ListStyle,
   BoxWrapper
 } from '../styled/CardStyle';
@@ -78,7 +79,7 @@ function Card4({
 
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
-            <CardDetail3>{Details}</CardDetail3>
+            <CardDetail2>{Details}</CardDetail2>
           </BoxWrapper>
 
         </ListStyle>
