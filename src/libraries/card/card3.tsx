@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import {
   CardDetail3,
   CardDetail1,
+  CardDetail2,
   ListStyle,
   BoxWrapper
 } from '../styled/CardStyle';
@@ -42,7 +43,7 @@ function Card3({ ViewDetail, From, To, Date, Text }) {
           <BoxWrapper>
             <CardDetail1> {ViewDetail.SMS_Text}</CardDetail1>
 
-            <CardDetail3>{Text}</CardDetail3>
+            <CardDetail2>{Text}</CardDetail2>
           </BoxWrapper>
         </ListStyle>
       </Container>

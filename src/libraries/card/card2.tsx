@@ -5,6 +5,7 @@ import BackButton from '../button/BackButton';
 import {
   CardDetail3,
   CardDetail1,
+  CardDetail2,
   ListStyle,
   BoxWrapper
 } from '../styled/CardStyle';
@@ -51,7 +52,7 @@ function Card2({
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Description}</CardDetail1>
 
-            <CardDetail3>{Description}</CardDetail3>
+            <CardDetail2>{Description}</CardDetail2>
           </BoxWrapper>
         </ListStyle>
       </Container>
