@@ -18,7 +18,8 @@ import {
   CardDetail1,
   ListStyle,
   CardDetail,
-  CardDetail3
+  CardDetail3,
+  CardDetail2
 } from '../styled/CardStyle';
 
 Card5.propTypes = {
@@ -59,7 +60,7 @@ function Card5({ Content, FileName, Name }) {
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
           <Divider />
-          <Box dangerouslySetInnerHTML={{ __html: Content }}></Box>
+          <CardDetail2 dangerouslySetInnerHTML={{ __html: Content }}></CardDetail2>
 
           <CardDetail
             sx={{
