@@ -72,7 +72,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 22 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 22 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
            
             <Typography
               sx={{
