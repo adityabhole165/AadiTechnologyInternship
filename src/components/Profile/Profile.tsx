@@ -6,13 +6,13 @@ import Card6 from 'src/libraries/mainCard/Card6';
 function Profile() {
   return (
     <Box
-      sx={{
-        backgroundColor: '#bbdefb',
-        Top: 0,
-        position: 'fixed',
-        width: '100%',
-        height: '100%'
-      }}
+      // sx={{
+      //   backgroundColor: '#bbdefb',
+      //   Top: 0,
+      //   position: 'fixed',
+      //   width: '100%',
+      //   height: '100%'
+      // }}
     >
       <PageHeader heading={'My Profile'} subheading={''} />
 
