@@ -15,6 +15,7 @@ function ForgotPassword() {
   const schoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
+    debugger;
     const getPasswordAPIBody: IGetPassword = {
       asSchoolId: schoolId,
       asLogin: formik.values.Login,
@@ -23,9 +24,18 @@ function ForgotPassword() {
     };
     GetPasswordApi.GetPasswordResult(getPasswordAPIBody)
       .then((res: any) => {
-        if (res.status === 200) {
+        if (res.status === 200 && res.data == null) {
           toast.success('SMS has been Sent');
           formik.resetForm();
+        }
+        if(res.data == 'Provided details are not valid.'){
+          toast.error('Provided details are not valid.');
+        }
+        if(res.data == 'Login details have already been sent to you. Please try after 24 Hrs.'){
+          toast.error('Login details have already been sent to you. Please try after 24 Hrs.');
+        }
+        if(res.data == 'Failed to send the SMS.'){
+          toast.error('Failed to send the SMS.');
         }
       })
       .catch((err) => {

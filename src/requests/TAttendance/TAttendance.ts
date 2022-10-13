@@ -120,7 +120,7 @@ export const GetStudentList =
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
             let studentList = null;
-            let message = 'There are no students available.'
+            let message = 'There are no students in the class.'
             let AYmsg = "Selected date is outside academic year."
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {

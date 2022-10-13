@@ -11,6 +11,7 @@ function Profile() {
       //   Top: 0,
       //   position: 'fixed',
       //   width: '100%',
+      //   overflow: "scroll",
       //   height: '100%'
       // }}
     >

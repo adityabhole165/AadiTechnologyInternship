@@ -184,7 +184,7 @@ const TView = () => {
                 <>
                   <ErrorMessages
                     Error={
-                      'Attendance date should be within current academic year'
+                      'Attendance date should be within current academic year.'
                     }
                   />
                 </>

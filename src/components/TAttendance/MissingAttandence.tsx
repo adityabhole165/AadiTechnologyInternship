@@ -86,11 +86,11 @@ function MissingAttandence() {
         ></DateSelector>
 
         {AssignDate > PresentDate ? ( // FUTURE ATTANDENCE
-          <ErrorMessages Error={'Future date attendance is not allowed'} />
+          <ErrorMessages Error={'Future date attendance is not allowed.'} />
         ) : MissingAttandenceList.length < 1 ||
           MissingAttandenceList == undefined ||
           MissingAttandenceList.daywiseAttendanceStatusResult.length < 1 ? ( // FOR UNDEFINED VALUE OR EMPTY ARRAY
-          <ErrorMessages Error={'No missing attandence found'} />
+          <ErrorMessages Error={'No missing attandence found.'} />
         ) : (
           MissingAttandenceList.daywiseAttendanceStatusResult.map(
             (items: GetMissingAttandenceData, i) => {
@@ -118,7 +118,7 @@ function MissingAttandence() {
                   ) : MissingAttandenceList.daywiseAttendanceStatusResult
                       .length < 1 ? (
                     <>
-                      <ErrorMessages Error={'No missing attandence found'} />
+                      <ErrorMessages Error={'No missing attandence found.'} />
                     </>
                   ) : (
                     <>

@@ -82,13 +82,13 @@ function StaffBirthday() {
   console.log('staffBirthdayList', staffBirthdayList);
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Staff Birthdays'} subheading={''} />
       <DotLegend
         className={classes.border}
         style={{
           background: '#e9a69a',
-          marginLeft: '1.5rem',
+     
           marginBottom: '-2px'
         }}
       />
@@ -114,7 +114,7 @@ function StaffBirthday() {
           ))}
         </>
       )}
-    </>
+    </Container>
   );
 }
 
