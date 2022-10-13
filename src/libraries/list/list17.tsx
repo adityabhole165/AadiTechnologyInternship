@@ -15,6 +15,7 @@ import {
   import moment from 'moment';
   import { useSelector } from "react-redux";
   import { RootState } from "src/store";
+import { ListStyle } from '../styled/CardStyle';
 
 
 
@@ -101,19 +102,17 @@ const useStyles = makeStyles({
     
     return (
       <>
-        <Container>
+     
          <Grow
             in={checked}
             style={{ transformOrigin: '0 0 1' }}
             {...(checked ? { timeout: 1500 } : {})}
           >  
-          <List sx={{
+          <ListStyle sx={{
             background: BirthDate == presentDateMonth || BirthDate == NewDateFormat && presentDateMonth < BirthDate
             // background: PresentDateFormat == BirthDate || BirthDate === presentDateMonth
            ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
-                mb: 1,
-                boxShadow : "8px 4px 5px grey !important",
-                borderRadius: 1}}>
+               }}>
             <Box
               sx={{
                 mt: 1
@@ -122,22 +121,22 @@ const useStyles = makeStyles({
               <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
               <Grid container>
                 
-              <Grid xs={8} item>
+              <Grid xs={10} item>
                 <Typography className={classes.Listfont2}>
                   {Name}
                 </Typography>
                 </Grid>
-                <Grid xs={4} item justifyContent="flex-end">
-                <Typography sx={{ml:"70px"}} className={classes.Listfont2}>
+                <Grid xs={2} item justifyContent="flex-end">
+                <Typography sx={{}} className={classes.Listfont2}>
                   {BirthDate}
                 </Typography>
                 </Grid>
               </Grid>
               </Box>
             </Box>  
-          </List>
+          </ListStyle>
           </Grow>
-        </Container>
+      
       </>
     );
   }
