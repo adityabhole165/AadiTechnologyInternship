@@ -3,10 +3,7 @@ import {
   TextField,
   Box,
   FormControl,
-  Tooltip,
-  ClickAwayListener,
   Grid,
-  Card,
   Typography,
   useTheme,
   Fab,
@@ -14,7 +11,6 @@ import {
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import {
@@ -39,6 +35,7 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
+import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -102,7 +99,6 @@ function Form13() {
           };
           finalBase642.push(AttachmentFile);
           finalBase642Duplicate.push(AttachmentFile);
-          //  FileNameOfAttachment Base64URLOfAttachment
           FileNameOfAttachment.push(AttachmentFile.FileName)
           Base64URLOfAttachment.push(AttachmentFile.Base64URL)
         }
@@ -112,8 +108,6 @@ function Form13() {
         setBase64URLOfAttachment((prev) => [...prev])
       }
       for(let key in FileNameOfAttachment){
-        // console.log(FileNameOfAttachment[key])
-        // console.log(Base64URLOfAttachment[key])
         finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
       }
   
@@ -129,9 +123,6 @@ function Form13() {
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
-  const [scheduleDate, setscheduleDate] = useState<string>('');
-  const [scheduleTime, setscheduleTime] = useState<string>('');
-  const [readRecieptBoolean, setreadRecieptBoolean] = useState<boolean>(true);
 
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -145,51 +136,6 @@ function Form13() {
   const SchoolName = localStorage.getItem('SchoolName');
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
-
-  const handleClick = () => {
-    setOpen((prev) => !prev);
-  };
-
-  const handleClickAway = () => {
-    setOpen(false);
-  };
-
-  const fileChangedHandler = async (event) => {
-    const multipleFiles = event.target.files;
-    for (let i = 0; i < multipleFiles.length; i++) {
-      const isValid = CheckValidation(multipleFiles[i]);
-      let fileName = multipleFiles[i].name;
-      let base64URL: any = '';
-      if (isValid) {
-        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-      }
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-
-      let AttachmentFile: AttachmentFile = {
-        FileName: fileName,
-        Base64URL: DataAttachment
-      };
-      finalBase642.push(AttachmentFile);
-      finalBase642Duplicate.push(AttachmentFile);
-      FileNameOfAttachment.push(AttachmentFile.FileName)
-      Base64URLOfAttachment.push(AttachmentFile.Base64URL)
-    }
-    setFinalBase642((prev) => {
-      return [...prev];
-    });
-    setFinalBase642Duplicate((prev) => {
-      return [...prev];
-    });
-    setFileNameOfAttachment((prev) => [...prev])
-    setBase64URLOfAttachment((prev) => [...prev])
-
-    for(let key in FileNameOfAttachment){
-      finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
-    }
-
-    setFinalBase642New((prev) => [...prev])
-        
-  };
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
@@ -357,6 +303,7 @@ function Form13() {
 
   const handleRemoveListItems = (e,c) =>{
     finalBase642New.length = 0;
+    console.log(FileNameOfAttachment)
 
     for(let key in FileNameOfAttachment){
       let indOfFileName = FileNameOfAttachment.indexOf(e)
@@ -372,6 +319,13 @@ function Form13() {
       finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
     }
     setFinalBase642New((prev) => [...prev])
+  }
+
+  const ObjectOfFileNameAndBase64Function = (e) => {
+    console.log(e)
+    setFinalBase642New(e.FileBaseandNameObject)
+    setFileNameOfAttachment(e.NameOFFile)
+    setBase64URLOfAttachment(e.Base64UrlOfFile)
   }
 
   return (
@@ -447,70 +401,8 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-            <TextField
-              fullWidth
-              id="fullWidth"
-              type="file"
-              name="Attachment"
-              variant="standard"
-              className={classes.InputField}
-              onChange={fileChangedHandler}
-              inputProps={{ multiple: true }}
-              InputProps={{
-                endAdornment: (
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    sx={{ mb: 2 }}
-                  >
-                    <ClickAwayListener onClickAway={handleClickAway}>
-                      <Tooltip
-                        PopperProps={{
-                          disablePortal: true
-                        }}
-                        onClose={handleClick}
-                        open={open}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
-                        title={Note}
-                        arrow
-                        placement="left"
-                        componentsProps={{
-                          tooltip: {
-                            sx: {
-                              marginLeft: '70px',
-                              mt: 0.5,
-                              transform:
-                                'translate3d(17px, 0.5px, 0px) !important'
-                            }
-                          }
-                        }}
-                      >
-                        <InfoTwoToneIcon
-                          type="button"
-                          onClick={handleClick}
-                          sx={{
-                            color: 'navy',
-                            mt: 2,
-                            fontSize: '17px',
-                            float: 'right'
-                          }}
-                        />
-                      </Tooltip>
-                    </ClickAwayListener>
-                  </Box>
-                )
-              }}
-            />
 
-            {fileerror && (
-              <p style={{ marginBottom: -25 }} className={classes.error}>
-                {fileerror}
-              </p>
-            )}
+            <ChooseFile ObjectOfFileNameAndBase64={ObjectOfFileNameAndBase64Function}/>
 
             {finalBase642New == undefined ||
             finalBase642New.length == 0 ||
@@ -545,13 +437,6 @@ function Form13() {
                               />
                               <ListItemText
                                 primary={item.FileName.slice(0, 25)}
-                                // onClick={(
-                                //   event: React.MouseEvent<HTMLElement>
-                                // ) => {
-                                //   window.open(
-                                //     AttachmentFilePath.concat(item.Base64URl)
-                                //   );
-                                // }}
                               />
                             </ListItem>
                           </Collapse>
