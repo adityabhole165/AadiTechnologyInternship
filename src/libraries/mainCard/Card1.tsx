@@ -8,8 +8,9 @@ function Card1({
   text1,
   text2,
   text3,
+  text4,
   text5,
-  
+  text6,
   Color,
   FileName = '',
   margin = '',
@@ -27,7 +28,7 @@ function Card1({
             <AttachmentIcon />
           </BoxStyle>
         )}
-        <Card4 header={header} text1={text1} text2={text2} text3={text3} text5={text5} />
+        <Card4 header={header} text1={text1} text2={text2} text3={text3} text4={text4} text5={text5} text6={text6} />
       </ListStyle>
     </Grow>
   );
