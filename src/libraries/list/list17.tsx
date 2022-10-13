@@ -15,7 +15,7 @@ import {
   import moment from 'moment';
   import { useSelector } from "react-redux";
   import { RootState } from "src/store";
-import { ListStyle } from '../styled/CardStyle';
+import { CardDetail2, ListStyle } from '../styled/CardStyle';
 
 
 
@@ -113,27 +113,21 @@ const useStyles = makeStyles({
             // background: PresentDateFormat == BirthDate || BirthDate === presentDateMonth
            ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                }}>
-            <Box
-              sx={{
-                mt: 1
-              }}>
-               
-              <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+           
               <Grid container>
                 
               <Grid xs={10} item>
-                <Typography className={classes.Listfont2}>
+                <CardDetail2 >
                   {Name}
-                </Typography>
+                </CardDetail2>
                 </Grid>
                 <Grid xs={2} item justifyContent="flex-end">
-                <Typography sx={{}} className={classes.Listfont2}>
+                <CardDetail2>
                   {BirthDate}
-                </Typography>
+                </CardDetail2>
                 </Grid>
               </Grid>
-              </Box>
-            </Box>  
+           
           </ListStyle>
           </Grow>
       
