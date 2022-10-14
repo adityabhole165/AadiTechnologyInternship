@@ -37,12 +37,12 @@ function Photos() {
     };
     dispatch(getYearList(YearBody));
   }, [])
-  const handleChange = (event) => {
-    setMonth(event.target.value);
+  const handleChange = (value) => {
+    setMonth(value);
   };
 
-  const handleClick = (event) => {
-    setYear(event.target.value);
+  const handleClick = (value) => {
+    setYear(value);
   };
 
   useEffect(() => {
