@@ -166,7 +166,7 @@ const TAttendance = () => {
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
-            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class'></Dropdown>
+            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown>
             <br />
             <br />
 
