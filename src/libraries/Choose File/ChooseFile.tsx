@@ -3,19 +3,14 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useState } from 'react';
 import { AttachmentFile } from '../../interfaces/MessageCenter/MessageCenter';
 import { Styles } from 'src/assets/style/student-style';
+import { CheckFileValidation } from 'src/components/Common/Util'
 
-const ChooseFile = ({ObjectOfFileNameAndBase64}) => {
+const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
   const classes = Styles();
-
   const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
-  const [ValueOfFile,setValueOfFile] = useState('')
-
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
-  const [fileExtension, setfileExtension] = useState<any>('');
-
   const [finalBase642Duplicate, setFinalBase642Duplicate] = useState([]);
-
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
@@ -32,25 +27,25 @@ const ChooseFile = ({ObjectOfFileNameAndBase64}) => {
     // console.log(event.target.value = 0)
     const multipleFiles = event.target.files;
     for (let i = 0; i < multipleFiles.length; i++) {
-      const isValid = CheckValidation(multipleFiles[i]);
-      console.log(isValid)
+      const allowedFileTypes = 
+        ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc', 'docx', 'jpg', 'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx' ];
+      setFilerror(CheckFileValidation(multipleFiles[i], allowedFileTypes, 20e6));
 
       let fileName = multipleFiles[i].name;
       let base64URL: any = '';
-      if (isValid) {
+      if (fileerror === null) {
         base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+        let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
 
-      let AttachmentFile: AttachmentFile = {
-        FileName: fileName,
-        Base64URL: DataAttachment
-      };
-      finalBase642.push(AttachmentFile);
-      finalBase642Duplicate.push(AttachmentFile);
-      FileNameOfAttachment.push(AttachmentFile.FileName);
-      Base64URLOfAttachment.push(AttachmentFile.Base64URL);
-      setValueOfFile(event.target.value);
-    }
+        let AttachmentFile: AttachmentFile = {
+          FileName: fileName,
+          Base64URL: DataAttachment
+        };
+        finalBase642.push(AttachmentFile);
+        finalBase642Duplicate.push(AttachmentFile);
+        FileNameOfAttachment.push(AttachmentFile.FileName);
+        Base64URLOfAttachment.push(AttachmentFile.Base64URL);
+      }
 
     }
     setFinalBase642((prev) => {
@@ -71,59 +66,10 @@ const ChooseFile = ({ObjectOfFileNameAndBase64}) => {
 
     setFinalBase642New((prev) => [...prev]);
     ObjectOfFileNameAndBase64({
-        NameOFFile : FileNameOfAttachment,
-        Base64UrlOfFile : Base64URLOfAttachment,
-        FileBaseandNameObject : finalBase642New
+      NameOFFile: FileNameOfAttachment,
+      Base64UrlOfFile: Base64URLOfAttachment,
+      FileBaseandNameObject: finalBase642New
     })
-  };
-//   console.log(finalBase642New)
-
-  const CheckValidation = (fileData) => {
-    const fileExtension = fileData?.name?.split('.').at(-1);
-    console.log(fileExtension)
-    setfileExtension(fileExtension);
-    const allowedFileTypes = [
-      'BMP',
-      'DOC',
-      'DOCX',
-      'JPG',
-      'JPEG',
-      'PDF',
-      'PNG',
-      'PPS',
-      'PPSX',
-      'PPT',
-      'PPTX',
-      'XLS',
-      'XLSX',
-      'bmp',
-      'doc',
-      'docx',
-      'jpg',
-      'jpeg',
-      'pdf',
-      'png',
-      'pps',
-      'ppsx',
-      'ppt',
-      'pptx',
-      'xls',
-      'xlsx'
-    ];
-
-    if (fileExtension != undefined || null) {
-      if (!allowedFileTypes.includes(fileExtension)) {
-        setFilerror('File does not support. Please cheked Note');
-        return false;
-      } else if (allowedFileTypes.includes(fileExtension)) {
-        setFilerror(null);
-        return true;
-      }
-      if (fileData?.size > 20e6) {
-        setFilerror('Please upload a file smaller than 20 MB');
-        return false;
-      }
-    }
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
