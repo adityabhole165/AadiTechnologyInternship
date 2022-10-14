@@ -1,38 +1,19 @@
-import {
-  Button,
-  Checkbox,
-  TextField,
-  Typography,
-  FormControlLabel,
-  Link,
-  Container,
-  Card,
-  Grid
-} from '@mui/material';
-import { useState, useEffect } from 'react';
-import { AnyIfEmpty } from 'react-redux';
+import {TextField,Grid} from '@mui/material';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-  IChangePassword,
-  IChangePasswordResult
-} from 'src/interfaces/Common/ChangePassword';
+import {IChangePassword,IChangePasswordResult} from 'src/interfaces/Common/ChangePassword';
 import http from 'src/requests/SchoolService/schoolServices';
 import { toast } from 'react-toastify';
-import * as Yup from 'yup';
 import { Formik, useFormik } from 'formik';
-import {
-  ButtonPrimary,
-
-} from 'src/libraries/styled/ButtonStyle';
+import {ButtonPrimary} from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
 
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
-  '2) Password should be combination of at least one character, digit & special character.',
-
-];
+  '2) Password should be combination of at least one character, digit & special character.',];
+  
 function Form() {
   const navigate = useNavigate();
 
@@ -44,19 +25,23 @@ function Form() {
   const getHomepage = () => {
     navigate('/extended-sidebar/landing/landing');
   };
-  const click = () => {
-    navigate('/schoolList');
+
+  const Logout = async (): Promise<void> => {
+    try {
+      sessionStorage.clear();
+      localStorage.removeItem("auth")
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
   };
-  // const back=()=>{
-  //   navigate('/')
-  // }
+  
   const regularExpression = /^.*(?=.{6,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).*$/;
   const [viewSent, setoutput] = useState<IChangePasswordResult>();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
 
-  const [isSubmit, setIsSubmit] = useState(false);
   const [value, setValue] = useState<any>('');
   const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
 
@@ -74,13 +59,11 @@ function Form() {
         .then((resp) => resp.data)
         .then((data) => {
           setoutput(data);
-          if (data === 'Password changed Successfully') {
-            setIsSubmit(false);
-            toast.success(data);
+          if (data === 'True') {
+            toast.success('Password changed successfully');
+            Logout();
           } else {
             toast.error(data);
-            setIsSubmit(true);
-            logout();
           }
         });
     }
@@ -93,8 +76,6 @@ function Form() {
       ConfirmPassword: ''
     },
     onSubmit: (values) => {
-      // console.log('Form Data',values)
-
       submitresult();
     },
     validate: (values) => {
@@ -121,10 +102,8 @@ function Form() {
       return errors;
     }
   });
-  // console.log('form errors visited',formik.touched)
 
   return (
-
     <ListStyle>
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -183,7 +162,6 @@ function Form() {
           <Grid item xs={6}>
             <ButtonPrimary
               onChange={formik.handleChange}
-              onClick={click}
               type="submit"
               fullWidth
               color='primary'
