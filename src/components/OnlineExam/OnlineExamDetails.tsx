@@ -77,6 +77,8 @@ const onlineExamDetails = () => {
                 text2={examSchedules.StartTime + '-' + examSchedules.EndTime}
                 text5=""
                 text3={examSchedules.StartDate}
+                text4=""
+                text6=""
                 Color=""
                 margin=""
                 FileName=""

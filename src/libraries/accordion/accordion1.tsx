@@ -31,8 +31,10 @@ function Accordion1({ Parent, Teacher, headingg }) {
       id: index,
       header: item.ParentName,
       text1: item.ParentDesignation,
-      text2: item.MobileNumber1,
+      text2: item.MobileNumber1 ,
       text3: item.Class,
+      text4: item.MobileNumber2,
+      text6: item.ContactTime,
       backgroundColor: '',
 
     };

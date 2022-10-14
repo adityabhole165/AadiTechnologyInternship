@@ -23,9 +23,9 @@ const ListCard4ColSel = ({ Item, onChange }) => {
           </Grid>
           <Grid xs={11} onClick={() => clickNav(Item.NavPath)}>
             <Card4
-              header={Item.text1} text1={Item.text2}
+              header={Item.text1} text1={Item.text2} text4=""
               text2={Item.text3} text3={''}
-              text5={''}
+              text5={''} text6={''}
             />
           </Grid>
         </Grid>

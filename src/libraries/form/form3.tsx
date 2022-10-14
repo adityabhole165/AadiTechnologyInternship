@@ -44,7 +44,9 @@ function Form() {
   const getHomepage = () => {
     navigate('/extended-sidebar/landing/landing');
   };
-
+  const click = () => {
+    navigate('/schoolList');
+  };
   // const back=()=>{
   //   navigate('/')
   // }
@@ -181,6 +183,7 @@ function Form() {
           <Grid item xs={6}>
             <ButtonPrimary
               onChange={formik.handleChange}
+              onClick={click}
               type="submit"
               fullWidth
               color='primary'
