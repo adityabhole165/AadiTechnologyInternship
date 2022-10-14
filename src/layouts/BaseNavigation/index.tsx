@@ -35,9 +35,13 @@ const useStyles = makeStyles(theme => ({
 
     "&:active": {
 
-
+      textDecoration:"none",
       color: "black"
 
+    },
+    "&:link":  {
+      color: "black",
+   
     }
   }
 
@@ -68,7 +72,7 @@ function Basenav() {
                </NavLink>
              </IconButton> : (RoleId == "2" )?
              <IconButton>
-               <NavLink  to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`} className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
+               <NavLink  to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`}  className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
                <EventNoteIcon/>
                </NavLink>
              </IconButton> :(RoleId == "6" )?

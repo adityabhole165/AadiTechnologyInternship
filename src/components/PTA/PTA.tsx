@@ -45,11 +45,8 @@ function pta() {
       <PageHeader heading={'PTA'} subheading={''} />
       <div>
         <Grid container>
-          <Grid item xs={12}>
-            <DotLegend color='secondary' text='PTA members' />
           </Grid><Grid item xs={12}>
             <DotLegend color='warning' text='PTA members associated with section and class' />
-          </Grid>
         </Grid>
 
       </div>{' '}

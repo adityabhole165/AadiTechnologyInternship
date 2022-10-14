@@ -21,7 +21,7 @@ function List1({ items }) {
 
                   <Card1
                     header={items.header}
-                    text1={items.text1} text2={items.text2} text3={items.text3} text5={items.text5}
+                    text1={items.text1} text2={items.text2} text3={items.text3} text4={items.text4} text5={items.text5} text6={items.text6}
                     Color={items.backgroundColor}
                     margin={items.mx}
                     FileName={items.FileName}
@@ -36,7 +36,7 @@ function List1({ items }) {
                     >
                       <Card1
                         header={items.header}
-                        text1={items.text1} text2={items.text2} text3={items.text3} text5={items.text5}
+                        text1={items.text1} text2={items.text2} text3={items.text3} text4={items.text4} text5={items.text5} text6={items.text6}
                         Color={items.backgroundColor}
                         margin={items.mx}
                         FileName={items.FileName}

@@ -26,6 +26,14 @@ export const CardDetail3 = styled(Typography)`
   overflow: hidden;
   text-overflow: ellipsis;
 `;
+export const CardDetail5 = styled(Typography)`
+  font-size: 12px;
+  margin-right: -50px;
+  font-family: Roboto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
 export const CardDetail4 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;

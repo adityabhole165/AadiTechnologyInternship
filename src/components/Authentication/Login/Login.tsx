@@ -48,6 +48,9 @@ function SelectSchool() {
         localStorage.clear();
     }
 
+    const clearLocal = () => {
+        localStorage.clear();
+    }
     const forgotPassword = () => {
         navigate('/forgotPassword');
     }
@@ -396,7 +399,9 @@ function SelectSchool() {
                                     <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
                                         <ButtonPrimary color="primary"  sx={{ ml: "auto"
                                         // ,pointerEvents:LoginButtonDisabled
-                                        }} type="submit" onChange={formik.handleChange}  > 
+                                        }} type="submit" onChange={formik.handleChange} 
+                                        // onClick={clearLocal} 
+                                        > 
                                             Login
                                         </ButtonPrimary>
                                         <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>
