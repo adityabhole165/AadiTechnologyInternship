@@ -112,7 +112,7 @@ function EventOverview() {
             <List1 items={Data}></List1>
           </>
         ) : (
-          <ErrorMessages Error={'Outside Academic Year'} />
+          <ErrorMessages Error={'Selected date is outside academic year'} />
 
         ) }
       </>

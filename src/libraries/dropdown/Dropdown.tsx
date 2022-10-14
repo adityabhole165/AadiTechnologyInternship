@@ -8,7 +8,7 @@ import PropTypes from 'prop-types';
 Dropdown.propTypes = {
     Array: PropTypes.any,
     handleChange: PropTypes.any,
-    label: PropTypes?.string
+    label: PropTypes?.string,
   };
 
 function Dropdown({ Array, handleChange, label}){
@@ -21,9 +21,11 @@ function Dropdown({ Array, handleChange, label}){
                     <option>{label}</option>
                     {Array.map((items, i) => {
                         return (
+                            <>
                             <option value={items.Value} key={i}>
                                 {items.Name}
                             </option>
+                            </>
                         );
                     })}
                 </NativeSelect>

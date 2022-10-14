@@ -18,7 +18,8 @@ const TAttendanceSlice = createSlice({
         stdlist: [],
         StudentAttendanceData: [],
         StudentAbsent: '',
-        SaveResponse: ''
+        SaveResponse:'',
+        AYStatus: '',
     },
 
     reducers: {
@@ -71,6 +72,9 @@ const TAttendanceSlice = createSlice({
         getSaveResponse(state, action) {
             state.SaveResponse = action.payload
         },
+        getAYStatus(state, action){
+            state.AYStatus = action.payload
+        }
     }
 });
 
@@ -122,6 +126,7 @@ export const GetStudentList =
             let studentList = null;
             let message = 'There are no students in the class.'
             let AYmsg = "Selected date is outside academic year."
+            let forInvalidAY = ''
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {
 
@@ -144,10 +149,12 @@ export const GetStudentList =
                 const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
                 response2.data?.map((item, i) => {
                     message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg
+                    forInvalidAY = item.AcademicYearMsg === '' ? '':'none'
                 })
             }
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
+            dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
         }
 export const getStandard =
     (data: StandardAttendance): AppThunk =>

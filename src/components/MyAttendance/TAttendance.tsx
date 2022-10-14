@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Container, Grid } from '@mui/material'
+import { Box, Container, Grid } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -28,7 +28,7 @@ const TAttendance = () => {
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
-
+    const [onlySelectedClass, setOnlySelectedClass] = useState('none');
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -36,9 +36,6 @@ const TAttendance = () => {
     const RollNoList = useSelector(
         (state: RootState) => state.AttendanceList.StudentList
     );
-    // const RollNoList2 = useSelector(
-    //     (state: RootState) => state.AttendanceList.GetStudentDetailsList
-    // );
     const StudentAbsent = useSelector(
         (state: RootState) => state.AttendanceList.StudentAbsent
     );
@@ -48,7 +45,10 @@ const TAttendance = () => {
     const saveResponseMessage = useSelector(
         (state: RootState) => state.AttendanceList.SaveResponse
     );
-
+    const AYStatus = useSelector(
+        (state: RootState) => state.AttendanceList.AYStatus
+    );
+    
 
     const body: ITAttendance = {
         asSchoolId: asSchoolId,
@@ -105,7 +105,13 @@ const TAttendance = () => {
     }
 
     const handleChange = (value) => {
-        setStandardid(value);
+        if (value != 'Select Class') {
+            setStandardid(value);
+            setOnlySelectedClass('');
+        }
+        else {
+            setOnlySelectedClass('none');
+        }
     }
 
     const getAbsetNumber = (value) => {
@@ -134,21 +140,22 @@ const TAttendance = () => {
     }
 
     useEffect(() => {
-        if (saveResponseMessage != ''){
+        if (saveResponseMessage != '') {
             toast.success(saveResponseMessage);
             dispatch(setSaveResponse());
         }
     }, [saveResponseMessage]);
 
     const SaveMsg = () => {
-        if (AttendanceStatus == "Selected date is Holiday.") {
-            if (!confirm('Selected date is Holiday')) {
+        if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
+            if (!confirm('Are you sure to mark Attendance on selected weekend/ holiday?')) {
                 setAbsentRollNos('');
                 return null;
             }
         }
         SaveAttendance()
     }
+
     const clickNav = (value) => {
         navigate(`/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value)
     }
@@ -158,36 +165,38 @@ const TAttendance = () => {
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
-            <Dropdown Array={stdlist} handleChange={handleChange}></Dropdown>
+            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class'></Dropdown>
             <br />
             <br />
-            <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
-            <ErrorDetail>{AttendanceStatus}</ErrorDetail>
-
-            <TextField
-                variant="standard"
-                fullWidth
-                label='Absent Roll Number'
-                value={StudentAbsent}></TextField><br></br>
-            <br></br>
-            <Grid container spacing={1}>
-                <Grid item xs={3}>
-                    <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
-                </Grid><Grid item xs={4}>
-                    <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth>
-                       ViewAttendance
-                    </ButtonPrimary>
-                </Grid><Grid item xs={5}>
-                    <ButtonPrimary color='secondary'
-                        onClick={() => clickNav('MissingAttandence/' + assignedDate)} fullWidth>
-                        MissingAttendance
-                    </ButtonPrimary>
-                </Grid>
-            </Grid>
-            <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
-
+            <Box sx={{ display: onlySelectedClass }}>
+                <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+                <ErrorDetail>{AttendanceStatus}</ErrorDetail>
+                <Box sx={{ display: AYStatus }}>
+                    <TextField
+                        variant="standard"
+                        fullWidth
+                        label='Absent Roll Number'
+                        value={StudentAbsent}></TextField><br></br>
+                    <br></br>
+                    <Grid container spacing={1}>
+                        <Grid item xs={3}>
+                            <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
+                        </Grid><Grid item xs={4}>
+                            <ButtonPrimary color='secondary'
+                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth>
+                                View Attendance
+                            </ButtonPrimary>
+                        </Grid><Grid item xs={5}>
+                            <ButtonPrimary color='secondary'
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate)} fullWidth>
+                                Missing Attendance
+                            </ButtonPrimary>
+                        </Grid>
+                    </Grid>
+                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
+                </Box>
+            </Box>
         </Container>
     )
 }
