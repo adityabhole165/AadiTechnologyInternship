@@ -124,7 +124,7 @@ function Homework() {
         <div>
           <DotLegend
             sx={{
-              backgroundColor: '#DA70D6',
+              backgroundColor: '#8896FF',
               marginBottom: '-2px',
               border: '1px black solid'
             }}

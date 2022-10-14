@@ -57,8 +57,8 @@ export const getHomework =
             .map((item, index) => {
               return {
                 Id: item.Id,
-                Name: item.SubjectName,
-                Value: item.AssignedDate,
+                Name: item.Title,
+                Value: item.CompleteByDate,
                 navPath: '/extended-sidebar/Student/viewHomework/' + item.Id
               };
             })
@@ -70,6 +70,7 @@ export const getHomework =
               Id: index,
               Name: item.SubjectName,
               Child: child(item.SubjectId)
+              
             };
           })
         dispatch(HomeworkSlice.actions.getHomeworkSubject(Data2));
