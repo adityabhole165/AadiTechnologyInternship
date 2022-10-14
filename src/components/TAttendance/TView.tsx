@@ -105,8 +105,7 @@ const TView = () => {
         <span
           onClick={() => navigate(-1)}
         >
-          
-          <BackButton/>
+          <BackButton />
         </span>
       </Grid>
 

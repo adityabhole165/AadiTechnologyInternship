@@ -99,7 +99,7 @@ function MissingAttandence() {
                   {' '}
                   {i === 0 && items.Status == 'A' ? (
                     <>
-                      <ErrorMessages Error={'Selected date is outside academic year'} />
+                      <ErrorMessages Error={'Attendance date should be within the current academic year'} />
                     </>
                   ) : i === 0 && items.Status == 'W' ? (
                     <>
