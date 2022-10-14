@@ -68,9 +68,9 @@ function Card4({
                 <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     window.open(file_path);
-                  }}
-                >
-                  {' '}
+                  }}  color="primary"
+                  >
+              
                   {Attachments}
                 </CardDetail3>
               </BoxWrapper>
