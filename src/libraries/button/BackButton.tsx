@@ -35,7 +35,7 @@ function BackButton({ FromRoute }) {
         <Fab
           className={classes.backArrow}
           sx={{
-            background: `${theme.colors.gradients.pink1}`,
+            background: `${theme.colors.gradients.listColor}`,
             position: 'absolute',
             top: '30px',
             left: '35px'
