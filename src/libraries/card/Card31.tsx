@@ -27,11 +27,11 @@ function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
         </Grid>
         {text1 !== '' && (
           <>
-            <Grid item xs={4}>
+            <Grid item xs={5}>
               <CardDetail1>{text1}</CardDetail1>
             </Grid>
-            <Grid item xs={8}>
-              <CardDetail1 align={isMiddle ? 'left' : 'right'}>
+            <Grid item xs={7}>
+              <CardDetail1 align={isMiddle ? 'left' : 'right'} >
                 {text2}
               </CardDetail1>
             </Grid>
