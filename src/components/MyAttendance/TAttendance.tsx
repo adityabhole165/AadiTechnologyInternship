@@ -162,7 +162,7 @@ const TAttendance = () => {
     }
 
     return (
-        <Container sx={{ paddingLeft: '25px' }}>
+        <Container >
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
