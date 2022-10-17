@@ -125,7 +125,7 @@ export const GetStudentList =
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
             let studentList = null;
             let message = 'There are no students in the class.'
-            let AYmsg = "Selected date is outside academic year."
+            let AYmsg = "Attendance date should be within the current academic year"
             let forInvalidAY = ''
             if (response?.data != null) {
                 studentList = response?.data.map((item, index) => {
@@ -137,7 +137,6 @@ export const GetStudentList =
                         status: item.Status,
                         joinDate: item.JoinDate
                     }
-
                 })
 
                 const data2 = {
@@ -152,6 +151,7 @@ export const GetStudentList =
                     forInvalidAY = item.AcademicYearMsg === '' ? '':'none'
                 })
             }
+            forInvalidAY = message =='There are no students in the class.' ? 'none':''
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
             dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
@@ -193,6 +193,7 @@ export const GetAttendanceStatus =
             let message = ''
             response.data?.map((item, i) => {
                 message = item.StatusMessage
+
             })
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
         }

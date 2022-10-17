@@ -63,3 +63,31 @@ export const getNextDate = (date,prevNext) => {
     const nextDayInMilli = currentDayInMilli + oneDay;
     return new Date(nextDayInMilli);
 }
+export const monthArray = [
+    { Value: 1, Name: "January" },
+    { Value: 2, Name: "February" },
+    { Value: 3, Name: "March" },
+    { Value: 4, Name: "April" },
+    { Value: 5, Name: "May" },
+    { Value: 6, Name: "June" },
+    { Value: 7, Name: "July" },
+    { Value: 8, Name: "August" },
+    { Value: 9, Name: "September" },
+    { Value: 10, Name: "October" },
+    { Value: 11, Name: "November" },
+    { Value: 12, Name: "December" },
+  ]
+
+  export const CheckFileValidation = (fileData,allowedFileTypes, fileSize) => {
+    const fileExtension = fileData?.name?.split('.').at(-1);
+    if (fileExtension != undefined || null) {
+      if (!allowedFileTypes.includes(fileExtension)) {
+        return 'File does not support. Please cheked Note';
+      } else if (allowedFileTypes.includes(fileExtension)) {
+        return null;
+      }
+      if (fileData?.size > fileSize) {
+        return 'Please upload a file smaller than 20 MB';
+      }
+    }
+  };

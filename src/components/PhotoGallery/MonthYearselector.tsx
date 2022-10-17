@@ -1,55 +1,28 @@
 import React from 'react'
 import {
-    Box,
-    Container,
-    FormControl,
-    Grid,
-    MenuItem,
-    Select,
-  } from '@mui/material';
-import { setYear } from 'date-fns';
-
-const MonthYearselector = ({month,onChange,year,YearData,newChange}) => {
+  Box,
+  Container,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select,
+} from '@mui/material';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
+import {monthArray} from 'src/components/Common/Util'
+const MonthYearselector = ({ month, onChange, year, YearData, newChange }) => {
   return (
     <div>
-        
-  
-        <Grid container spacing={2} sx={{ mb: 2 }}>
-          <Grid item xs={6}>
-            <Box>
-              <FormControl fullWidth variant="standard">
-                <Select value={month} onChange={onChange} size="small">
-                  <MenuItem value={1}>January</MenuItem>
-                  <MenuItem value={2}>February</MenuItem>
-                  <MenuItem value={3}>March</MenuItem>
-                  <MenuItem value={4}>April</MenuItem>
-                  <MenuItem value={5}>May</MenuItem>
-                  <MenuItem value={6}>June</MenuItem>
-                  <MenuItem value={7}>July</MenuItem>
-                  <MenuItem value={8}>August</MenuItem>
-                  <MenuItem value={9}>September</MenuItem>
-                  <MenuItem value={10}>October</MenuItem>
-                  <MenuItem value={11}>November</MenuItem>
-                  <MenuItem value={12}>December</MenuItem>
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box>
-              <FormControl fullWidth variant="standard">
-                <Select value={year} onChange={newChange} size="small">
-                  {YearData?.map((item, key) => (
-                    <MenuItem value={item} key={key}>
-                      {item}
-                    </MenuItem>
-                  ))}
-                </Select>
-              </FormControl>
-            </Box>
-          </Grid>
+
+      <Grid container spacing={2} sx={{ mb: 2 }}>
+        <Grid item xs={6}>
+          <Dropdown Array={monthArray} handleChange={onChange}
+            defaultValue={month} label='Select Month' />
         </Grid>
- 
+        <Grid item xs={6}>
+          <Dropdown Array={YearData} handleChange={newChange}
+            defaultValue={year} label='Select Year' />
+        </Grid>
+      </Grid>
     </div>
   )
 }

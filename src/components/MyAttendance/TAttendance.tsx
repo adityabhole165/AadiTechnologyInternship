@@ -15,6 +15,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import { getDateFormatted } from '../Common/Util'
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -45,7 +46,7 @@ const TAttendance = () => {
     const saveResponseMessage = useSelector(
         (state: RootState) => state.AttendanceList.SaveResponse
     );
-    const AYStatus = useSelector(
+    let AYStatus = useSelector(
         (state: RootState) => state.AttendanceList.AYStatus
     );
     
@@ -115,7 +116,6 @@ const TAttendance = () => {
     }
 
     const getAbsetNumber = (value) => {
-
         if (value === '')
             setAllPresentOrAllAbsent('P')
         if (value.split(',').length === RollNoList.length)
@@ -147,6 +147,7 @@ const TAttendance = () => {
     }, [saveResponseMessage]);
 
     const SaveMsg = () => {
+        debugger;
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
             if (!confirm('Are you sure to mark Attendance on selected weekend/ holiday?')) {
                 setAbsentRollNos('');
@@ -165,7 +166,7 @@ const TAttendance = () => {
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
 
-            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class'></Dropdown>
+            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown>
             <br />
             <br />
 
@@ -184,8 +185,8 @@ const TAttendance = () => {
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
                         </Grid><Grid item xs={4}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth>
-                                View Attendance
+                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon />}>
+                                Attendance 
                             </ButtonPrimary>
                         </Grid><Grid item xs={5}>
                             <ButtonPrimary color='secondary'
