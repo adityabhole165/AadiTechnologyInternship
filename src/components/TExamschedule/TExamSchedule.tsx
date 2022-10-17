@@ -21,6 +21,7 @@ import Icon4 from 'src/libraries/icon/icon4';
 import { IExamList } from 'src/interfaces/Student/ExamSchedule';
 import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import Card1 from 'src/libraries/mainCard/Card1';
 
 function Texamschedule() {
   const dispatch = useDispatch();
@@ -79,50 +80,50 @@ function Texamschedule() {
   }, [standardid]);
 
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
-      <Container>
-        <FormControl
-          sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
-        >
-          <NativeSelect onChange={(e) => handleChange(e)}>
-            <option value={0}>Select Standard</option>
 
-            {getstandard?.map((getstandarditems: GetStandardListResult, i) => {
+      <FormControl
+        sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
+      >
+        <NativeSelect onChange={(e) => handleChange(e)}>
+          <option value={0}>Select Standard</option>
+
+          {getstandard?.map((getstandarditems: GetStandardListResult, i) => {
+            return (
+              <option value={getstandarditems.Id} key={getstandarditems.Id}>
+                {getstandarditems.Name}
+              </option>
+            );
+          })}
+        </NativeSelect>
+      </FormControl>
+      <br />
+
+      {standardid == 0 ? (
+        <> </>
+      ) : standardid != 0 && getExamType != undefined ? (
+        <FormControl
+          sx={{ marginTop: '0px', m: 1, width: '100%', marginLeft: '0px' }}
+        >
+          <NativeSelect id="ddlSelectExam" onChange={(e) => Getexamchange(e)}>
+            <option id="" value="none">
+              Select Exam
+            </option>
+
+            {getExamType?.map((getExamitems: GetExamListResult, index) => {
               return (
-                <option value={getstandarditems.Id} key={getstandarditems.Id}>
-                  {getstandarditems.Name}
+                <option value={getExamitems.Id} key={index}>
+                  {getExamitems.Name}
                 </option>
               );
             })}
           </NativeSelect>
         </FormControl>
-        <br />
+      ) : (
+        <ErrorMessages Error={'No exam has been scheduled'} />
+      )}
 
-        {standardid == 0 ? (
-          <> </>
-        ) : standardid != 0 && getExamType != undefined ? (
-          <FormControl
-            sx={{ marginTop: '0px', m: 1, width: '100%', marginLeft: '0px' }}
-          >
-            <NativeSelect id="ddlSelectExam" onChange={(e) => Getexamchange(e)}>
-              <option id="" value="none">
-                Select Exam
-              </option>
-
-              {getExamType?.map((getExamitems: GetExamListResult, index) => {
-                return (
-                  <option value={getExamitems.Id} key={index}>
-                    {getExamitems.Name}
-                  </option>
-                );
-              })}
-            </NativeSelect>
-          </FormControl>
-        ) : (
-          <ErrorMessages Error={'No exam has been scheduled'} />
-        )}
-      </Container>
       {ExamsList?.map((items: GetExamsListResult, i) => {
         return (
           <>
@@ -130,20 +131,27 @@ function Texamschedule() {
               <Icon4 Note={items.Instructions} />
             ) : null}
 
-            <List15
-              StartDate={items.StartDate}
-              StartTime={items.StartTime}
-              EndTime={items.EndTime}
-              SubjectName={items.SubjectName}
-              TestType={items.TestType}
-              Instruction={items.Instructions}
-              Description={items.Description}
-              index={i}
+            <Card1
+              header={
+                items.SubjectName +
+                ' ' +
+                (items.TestType !== '' ? '- ' + items.TestType : '')
+              }
+              text1=""
+              text2={items.StartTime + '-' + items.EndTime}
+              text5={items.Description}
+              text3={items.StartDate}
+              text4=""
+              text6=""
+              Color=""
+              margin=""
+              FileName=""
+              key=""
             />
           </>
         );
       })}
-    </div>
+    </Container>
   );
 }
 
