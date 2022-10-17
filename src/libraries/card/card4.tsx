@@ -68,7 +68,7 @@ function Card4({
                 <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     window.open(file_path);
-                  }}  color="primary"
+                  }}  color="#628def"
                   >
               
                   {Attachments}
