@@ -1,6 +1,7 @@
 import {  Grid, List, Typography, Container, useTheme, Grow, Checkbox } from "@mui/material"
 import PropTypes from 'prop-types';
 import { Styles } from "src/assets/style/student-style";
+import { CardDetail1, ListStyle } from "../styled/CardStyle";
 
 List16.propTypes = {
   Class: PropTypes.string,
@@ -13,20 +14,17 @@ function List16({ Class }) {
   const theme = useTheme();
 
   return (
-      <Container >
-        <List className={classes.ListStyle}
-          sx={{
-            background: `${theme.colors.gradients.listColor}`, justifyContent: 'center'
-          }}>
+     
+        <ListStyle>
           <Grid container >
             <Grid item xs={10}>
-              <Typography className={classes.Listfont1} >
+              <CardDetail1 >
                 {Class}
-              </Typography>
+              </CardDetail1>
             </Grid>
           </Grid>
-        </List>
-      </Container>
+        </ListStyle>
+    
   )
 }
 export default List16;
