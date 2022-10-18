@@ -25,7 +25,8 @@ const Item = styled(Paper)(({ theme, color }) => ({
     color === 'warning' ?
       theme.colors.gradients.selectedlistColor :
       theme.colors.gradients.listColor,
-  borderRadius: '4px'
+  borderRadius: '4px',
+  boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
 }));
 
 function DateSelector({ date, setCurrentDate, Close }) {

@@ -2,6 +2,7 @@ import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel'
 import ListCard3ColSel from '../card/ListCard3ColSel'
 import { Box, Card } from '@mui/material';
 
+
 const List3ColSelAll = ({ Itemlist, refreshData ,assignedDate}) => {
     
     let isCheckAll =
@@ -39,7 +40,7 @@ const List3ColSelAll = ({ Itemlist, refreshData ,assignedDate}) => {
            
             {
                 Itemlist.map((item, index) => (
-                    <Card sx={{mt:"10px"}}  key={index}>
+                    <Card sx={{mt:"10px", boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)"}}  key={index}>
                     <ListCard3ColSel 
                        assignedDate={assignedDate}
                         Item={item}

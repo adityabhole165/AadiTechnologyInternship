@@ -1,8 +1,4 @@
-import {
-  Typography,
-  useTheme,
-  Container,
-} from '@mui/material';
+import { Typography, useTheme, Container, Card,Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { Link as RouterLink } from 'react-router-dom';
@@ -13,7 +9,8 @@ import {
   ListStyle,
   CardDetail3,
   CardDetail1,
-  BoxWrapper
+  BoxWrapper,
+  CardDetail2
 } from '../styled/CardStyle';
 
 Card7.propTypes = {
@@ -68,42 +65,47 @@ function Card7({
 
   return (
     <>
-    
       <Container>
         <ListStyle>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
-            <CardDetail3>{From}</CardDetail3>
-
+            <CardDetail2>{From}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
             <CardDetail1> {ViewDetail.To}</CardDetail1>
 
-            <CardDetail3>{To}</CardDetail3>
+            <CardDetail2>{To}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
-            <CardDetail3>{Text}</CardDetail3>
+            <CardDetail2>{Text}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
             {attachmentObj.length === 0 ? null : (
               <>
                 {attachmentObj.map((item, i) => {
                   return (
-                    <Typography
+                    <CardDetail1
                       key={i}
-                      className={classes.Cardfont1}
                       onClick={(event: React.MouseEvent<HTMLElement>) => {
                         window.open(item.FilePath);
                       }}
+                      sx={{ color: '#628def' }}
                     >
-                      {item.FileName.slice(0,40) + "..."}
-                    </Typography>
+                      {item.FileName.slice(0, 40) + '...'}
+                    </CardDetail1>
                   );
                 })}
               </>
             )}
-
+          </BoxWrapper>
+          <BoxWrapper>
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
-            <CardDetail3
-              className={classes.CardBottomMargin}
-              dangerouslySetInnerHTML={{ __html: Body }}
-            />
+      
+           
+            <CardDetail2 dangerouslySetInnerHTML={{ __html: Body }} />
+         
           </BoxWrapper>
         </ListStyle>
         <CardWrapper>
