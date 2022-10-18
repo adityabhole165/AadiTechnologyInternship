@@ -102,11 +102,7 @@ const TView = () => {
       <PageHeader heading={'View Attendance'} subheading={''} />
 
       <Grid container direction="row" >
-        <span
-          onClick={() => navigate(-1)}
-        >
-          <BackButton />
-        </span>
+          <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
       </Grid>
 
       <Grid container direction="row">

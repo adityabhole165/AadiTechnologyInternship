@@ -44,6 +44,10 @@ const teacherRoutes = [
       path: 'smscenter',
       element: <SmsCenter/>
     },
+    {
+      path: 'TAttendance/:AssignedDate/:StandardId',
+      element: <TAttendance/>
+    },
     ];
   
   export default teacherRoutes;
