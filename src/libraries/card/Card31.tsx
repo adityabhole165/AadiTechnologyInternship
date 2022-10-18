@@ -23,7 +23,7 @@ function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
           <CardDetail4>{text3}</CardDetail4>
         </Grid>
         <Grid item xs={7}>
-          <CardDetail1 align={isMiddle ? 'left' : 'right'}  color= {color1 ? "primary" : null }>{Value}</CardDetail1>
+          <CardDetail1 align={isMiddle ? 'left' : 'right'}  color= {color1 ? "#628def" : null }>{Value}</CardDetail1>
         </Grid>
         {text1 !== '' && (
           <>
