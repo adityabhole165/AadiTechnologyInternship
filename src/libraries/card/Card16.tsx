@@ -300,9 +300,9 @@ function Card16({ Note, Heading }) {
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
             style={{textDecoration:'none'}}
           >
-            {FeesList.AmountPayable != 0 ? (
+            {/* {FeesList.AmountPayable != 0 ? (
               <ButtonPrimary color="secondary">Pay Internal Fees</ButtonPrimary>
-            ) : null}
+            ) : null} */}
           </RouterLink>
         </Stack>
       </>
