@@ -13,23 +13,23 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getDateFormatted } from '../Common/Util'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 
 const TAttendance = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-
+    const { AssignedDate, StandardId } = useParams();
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asTeacherId = sessionStorage.getItem('TeacherId');
-    const [Standardid, setStandardid] = useState();
+    const [Standardid, setStandardid] = useState<string>();
     const [assignedDate, setAssignedDate] = useState<string>();
+    const [onlySelectedClass, setOnlySelectedClass] = useState('none');
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
-    const [onlySelectedClass, setOnlySelectedClass] = useState('none');
 
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
@@ -84,6 +84,11 @@ const TAttendance = () => {
     useEffect(() => {
         dispatch(getStandard(body));
         getCurrentDate(new Date);
+        if(AssignedDate != undefined || StandardId!= undefined){
+            setStandardid(StandardId);
+            setAssignedDate(AssignedDate);
+            setOnlySelectedClass('');
+        }
     }, []);
 
     useEffect(() => {
