@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { useTheme, Grid, Checkbox, Stack, List, Box } from '@mui/material';
-import Typography from '@mui/material/Typography';
-import Button from '@mui/material/Button';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -13,15 +11,8 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
-import {
-  CardDetail1,
-  CardDetail2,
-  CardDetail3,
-  ListStyle
-} from '../styled/CardStyle';
-import { Header1 } from '../styled/AccordianStyled';
+import {CardDetail1,CardDetail3,ListStyle} from '../styled/CardStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -38,14 +29,10 @@ export interface Iprops {
 }
 
 function Card16({ Note, Heading }) {
-  const GetFeeDetails: any = useSelector(
-    (state: RootState) => state.Fees.FeesData2
-  );
-  const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
-
-  const LengthOfFeesList = FeesList.length; // For splicing operation
-
   const dispatch = useDispatch();
+  const GetFeeDetails: any = useSelector((state: RootState) => state.Fees.FeesData2);
+  const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
+  const LengthOfFeesList = FeesList.length; // For splicing operation
   const [ArrayOfPaymentGroup, setArrayOfPaymentGroup] = useState([]); // Check value and Background Color
   const [ArrayOfFees, setArrayOfFees] = useState<any>([]); // Fees group
   const [open, setOpen] = useState(false);
@@ -53,7 +40,6 @@ function Card16({ Note, Heading }) {
   const [change, setChange] = useState(true); // Unselect check box and change disability of checkboxes
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [newArrayOfFess, setnewArrayOfFess] = useState([]); // Associated Array
-  const classes = Styles();
   const theme = useTheme();
   const [dueDateArrayObj, setDueDateArrayObj] = useState([]);
   const selectedDueDate = dueDateArrayObj.toString();
@@ -72,6 +58,7 @@ function Card16({ Note, Heading }) {
   };
 
   const handleChange = (event) => {
+    debugger;
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
 
@@ -126,7 +113,6 @@ function Card16({ Note, Heading }) {
       setChange(false); // For Useeffect call
     }
     setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
-    console.log(ArrayOfPaymentGroup);
   };
 
   // Body and Dispatch
@@ -142,6 +128,7 @@ function Card16({ Note, Heading }) {
     dispatch(getFees(body));
   }, [CheckBoxPaymentGroup, change, ArrayOfPaymentGroup]);
 
+  console.log("FeesList",FeesList);
   return (
     <div>
       {GetFeeDetails.IsRTEstudent ? (
@@ -184,10 +171,7 @@ function Card16({ Note, Heading }) {
 
         <div style={{ marginTop: '10px', marginBottom: '20px' }}> 
         <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: 
-          {/* {FeesTotal > 0 ? 
-          <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/> : null}  */}
-          {FeesTotal} 
+          Total: {FeesTotal} 
         </div>
 
         <RouterLink
@@ -222,8 +206,6 @@ function Card16({ Note, Heading }) {
             const FeesCheckBoxBoolean = ArrayOfPaymentGroup.includes(
               item.PaymentGroup.toString()
             );
-            console.log(item.PaymentGroup.toString());
-
             return item.AmountPayable == '0' ? null : (
               <ListStyle
                 key={i}
@@ -244,8 +226,7 @@ function Card16({ Note, Heading }) {
                         name={item.PaymentGroup}
                         value={
                           // Payable Fees
-                          i < FeesList.length - 1 &&
-                          FeesList[i].PaymentGroup ==
+                          i < FeesList.length - 1 && FeesList[i].PaymentGroup ==
                             FeesList[i + 1].PaymentGroup
                             ? parseInt(FeesList[i].AmountPayable) +
                               parseInt(FeesList[i + 1].AmountPayable) +
@@ -253,8 +234,8 @@ function Card16({ Note, Heading }) {
                               FeesList[i].PaymentGroup
                             : i < FeesList.length - 1 &&
                               FeesList[i].PaymentGroup !==
-                                FeesList[i + 1].PaymentGroup
-                            ? parseInt(FeesList[i].AmountPayable) +
+                              FeesList[i + 1].PaymentGroup
+                            ? parseInt(FeesList[i].AmountPayable) + parseInt(FeesList[i].LateFeeAmount) +
                               ':' +
                               FeesList[i].PaymentGroup
                             : i == FeesList.length - 1
@@ -283,8 +264,7 @@ function Card16({ Note, Heading }) {
                   <Grid xs={2} />
                   <Grid xs={10} sx={{mt:"-20px"}}>
                     <CardDetail3>
-                      {Heading.Fee2}
-                      {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><strong>{item.Amount}</strong> */}
+                      {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount!='0'? <b> + {item.LateFeeAmount}</b> : null}
                     </CardDetail3>
                   </Grid>
                   <Grid xs={2} />

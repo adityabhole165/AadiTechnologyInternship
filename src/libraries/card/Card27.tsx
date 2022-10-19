@@ -1,29 +1,16 @@
 import { useTheme, Grid } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import Typography from '@mui/material/Typography';
-import { Container, Card } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Card16 from 'src/libraries/card/Card16';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import React, { useState } from 'react';
-// import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
-import { ListStyle } from '../styled/CardStyle';
-
 import Card5 from 'src/libraries/mainCard/Card5';
-import {
-  CardDetail,
-  CardDetail1,
-  CardDetail2,
-  CardDetail3
-} from '../styled/CardStyle';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 
 Card27.propTypes = {
@@ -43,13 +30,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const classes = Styles();
   const dispatch = useDispatch();
 
-  const FeesObject: any = useSelector(
-    (state: RootState) => state.Fees.FeesData2
-  );
-  const receiptFileName: any = useSelector(
-    (state: RootState) => state.Fees.ReceiptFileName
-  );
-
+  const FeesObject: any = useSelector((state: RootState) => state.Fees.FeesData2);
+  const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
@@ -60,7 +42,6 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   let downloadPathOfReceipt = sitePath + filePath;
 
   const downloadReceiptFile = (receiptNo) => {
-    console.log('ii -- ', receiptNo);
     const getReceiptFileName_body: any = {
       asSchoolId: schoolId,
       asReceiptNo: receiptNo,
@@ -98,8 +79,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           <Header1
           color={expanded === 'panel'? 'secondary':''}
           >
-            <b>{FeesType}</b> &nbsp;:&nbsp;
-            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><b>{FeesObject.TotalFeesPaid}</b> */}
+            <b>{FeesType}</b> &nbsp;:&nbsp;<b>{FeesObject.TotalFeesPaid}</b>
           </Header1>
         </Accordionsummary>
         {
@@ -143,8 +123,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           <Header1
           color={expanded === 'panel1'? 'secondary':''}
           >
-            <b>{'Payable Fees'}</b> &nbsp;:&nbsp;
-            {/* <CurrencyRupeeRoundedIcon  sx={{fontSize:'18px',position:'relative',top:'5px'}}/><b>{FeesObject.FeesTobePaid}</b> */}
+            <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
           </Header1>
         </Accordionsummary>
         <AccordionDetails>
