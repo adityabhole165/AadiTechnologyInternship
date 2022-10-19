@@ -164,36 +164,36 @@ const DashboardData = {
       ModulesPermission: 'EnableProgressReport'
     },
 
-    {
-      Text1: 'O-Exam ',
-      Text2: 'Schedule',
-      Color: '#90a4ae',
-      iconColor: '#f0483e',
-      Icon: BorderColorOutlinedIcon,
-      ImageUrl: "/imges/onlineExam.png",
-      Link: 'Student/OnlineExam',
-      index: 14
-    },
-    {
-      Text1: ' O-Progress',
-      Text2: 'Report',
-      Color: '#90a4ae',
-      iconColor: '#35abd9',
-      Icon: AssessmentOutlinedIcon,
-      ImageUrl: "/imges/progressreport.png",
-      Link: 'Student/OnlineExamProgressReport',
-      index: 15
-    },
-    {
-      Text1: ' Library ',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#424242',
-      Icon: HistoryEduOutlinedIcon,
-      ImageUrl: "/imges/library.png",
-      Link: 'Student/Library',
-      index: 16
-    },
+    // {
+    //   Text1: 'O-Exam ',
+    //   Text2: 'Schedule',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e',
+    //   Icon: BorderColorOutlinedIcon,
+    //   ImageUrl: "/imges/onlineExam.png",
+    //   Link: 'Student/OnlineExam',
+    //   index: 14
+    // },
+    // {
+    //   Text1: ' O-Progress',
+    //   Text2: 'Report',
+    //   Color: '#90a4ae',
+    //   iconColor: '#35abd9',
+    //   Icon: AssessmentOutlinedIcon,
+    //   ImageUrl: "/imges/progressreport.png",
+    //   Link: 'Student/OnlineExamProgressReport',
+    //   index: 15
+    // },
+    // {
+    //   Text1: ' Library ',
+    //   Text2: '',
+    //   Color: '#90a4ae',
+    //   iconColor: '#424242',
+    //   Icon: HistoryEduOutlinedIcon,
+    //   ImageUrl: "/imges/library.png",
+    //   Link: 'Student/Library',
+    //   index: 16
+    // },
     {
       Text1: 'Message ',
       Text2: 'Center',
