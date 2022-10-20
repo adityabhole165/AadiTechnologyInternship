@@ -7,9 +7,8 @@ import {
   Grid,
 } from '@mui/material';
 
-import { useDispatch } from 'react-redux';
 import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import CheckboxImg from '../card/CheckboxImg';
@@ -24,26 +23,18 @@ List3.propTypes = {
   Id: PropTypes?.any
 };
 
-function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,Id }) {
-  const dispatch = useDispatch();
+function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent, Id }) {
 
   const [checked, setChecked] = useState(false);
 
   const checkedbox = (event) => {
     setChecked(event.checked);
-    // setChecked(event.target.checked);
     handleChange(event);
   };
 
   const location = useLocation();
-  const pathname = location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/',
-    ''
-  );
-  // console.log(pathname.slice(-7,))
-  const PageName = pageName.slice(0,7);
-  console.log(pageName.slice(0,7))
+  const PageName = location.pathname.split('/')[2]
+
 
   const theme = useTheme();
   const classes = Styles();
@@ -57,35 +48,26 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
 
   return (
     <>
-    <Container>
+      <Container>
         <List
           className={classes.ListStyle}
-          sx={{ 
-            background: checked ? 
-            `${theme.colors.gradients.selectedlistColor}`:
-            `${theme.colors.gradients.listColor}`
+          sx={{
+            background: checked ?
+              `${theme.colors.gradients.selectedlistColor}` :
+              `${theme.colors.gradients.listColor}`
           }}
         >
           <Box>
             <Grid container>
               <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
 
-                {/* <Checkbox
-                  checked={checked}
-                  onChange={(event) => checkedbox(event)}
-                  inputProps={{ 'aria-label': 'controlled' }}
-                  value={data.DetailsId}
-                  name={data.ReceiverDetailsId}
-                /> */}
-                
-                <CheckboxImg 
-                  checked={PageName == "Compose" ? check : checked}
-                  onChange={(event) => checkedbox(event)}
-                  // inputProps={{ 'aria-label': 'controlled' }}
-                  value={PageName == "Compose" ? data.Id : data.DetailsId}
-                  name={PageName == "Compose" ? data.Name : data.ReceiverDetailsId}
-                />
 
+                <CheckboxImg
+                  checked={PageName == "SMSCenter" ? check : checked}
+                  onChange={(event) => checkedbox(event)}
+                  value={data.Id}
+                  name={data.Name}
+                />
               </Grid>
 
               <Grid item xs={10}>
@@ -96,7 +78,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
                     }/MessageCenter/viewMSg/` + data.DetailsId + FromRoute
                   }
                   color="primary"
-                  style={{ textDecoration: 'none',pointerEvents:pointerEvent }}
+                  style={{ textDecoration: 'none', pointerEvents: pointerEvent }}
                 >
                   <Grid item xs={12}>
                     <Typography
@@ -144,7 +126,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute,pointerEvent,
           </Box>
         </List>
       </Container>
-      
+
     </>
   );
 }
