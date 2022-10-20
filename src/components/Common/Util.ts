@@ -10,6 +10,14 @@ export function isTodaysDate(date) {
     === 
     (new Date().toLocaleDateString())
 }
+//date='02 Oct 2022'
+export function isBetweenDate(date, dayCount) {
+    var fromDate = new Date(new Date().toLocaleDateString())
+    var toDate = getNextDate(fromDate,dayCount)
+    var compareDate = new Date(new Date(date).toLocaleDateString())
+    return ((compareDate  >= fromDate) && 
+    (compareDate <= toDate))
+}
 
 export function ReturnTimeOrDateYear(date){
     var dateFormat = new Date(date);
