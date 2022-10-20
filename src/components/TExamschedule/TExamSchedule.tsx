@@ -22,6 +22,7 @@ import { IExamList } from 'src/interfaces/Student/ExamSchedule';
 import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card1 from 'src/libraries/mainCard/Card1';
+import DotLegend from 'src/libraries/summary/DotLegend';
 
 function Texamschedule() {
   const dispatch = useDispatch();
@@ -82,7 +83,7 @@ function Texamschedule() {
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
-
+      <DotLegend color="success" text="Description" />
       <FormControl
         sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
       >
