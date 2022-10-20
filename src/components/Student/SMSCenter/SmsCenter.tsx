@@ -6,13 +6,13 @@ import { ISmsList, IMobileNumber } from 'src/interfaces/Student/SMSCenter';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container } from '@mui/material';
+import { Container, Typography, Box } from '@mui/material';
 
 const PageNumber = 1;
 
 function SmsCenter() {
-  const [state,setstate] = useState([]);
-  const [page,setpage] = useState(PageNumber);
+  const [state, setstate] = useState([]);
+  const [page, setpage] = useState(PageNumber);
 
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
@@ -22,7 +22,6 @@ function SmsCenter() {
   );
   const Note: string =
     'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.';
-  const Mobilenumber: string = 'Mobile Number(s) :';
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -44,10 +43,10 @@ function SmsCenter() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem("url", window.location.pathname)
     dispatch(getSmsList(SmsList_body));
     dispatch(getMobileNumber(MobileNumber_body));
-      
+
   }, [page]);
 
   const Data = SmsList.map((item, index) => {
@@ -67,11 +66,15 @@ function SmsCenter() {
   return (
     <Container>
       <PageHeader heading={'Recieved SMS'} subheading={''} />
-  
 
-      <Icon1 Title={Mobilenumber} Subtitle={MobileNumber} Note={Note} />
-    
-      
+      <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+
+        <Typography variant="body2" fontSize='0.8rem'>
+          <b>Mobile Number(s) :</b>  {MobileNumber}
+        </Typography>
+        <Icon1 Note={Note} />
+      </Box>
+
       {<List1 items={Data} />}
     </Container>
   );
