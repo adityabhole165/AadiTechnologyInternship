@@ -240,8 +240,6 @@ const MessageList = () => {
     }, 10);
   };
 
-  console.log(inboxListData);
-
   return (
     <>
       <Container>

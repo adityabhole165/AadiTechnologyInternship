@@ -28,7 +28,6 @@ const Item = styled(Paper)(({ theme }) => ({
 function Buttons({ date, PrevDate, NextDate, Close }) {
   const location = useLocation();
   const pathname = location.pathname;
-  console.log(pathname.slice(-13,))
 
   const classes = Styles();
   const [dateClickDependent, setdateClickDependent] = useState('none');

@@ -15,13 +15,13 @@ const ListCard4ColSel = ({ Item, onChange }) => {
     <>
       <ListStyle>
         <Grid container>
-          <Grid xs={1} sx={{ mt: '5px' }}>
+          <Grid item xs={1} sx={{ mt: '5px' }}>
             <CheckboxImg
               name={Item.Id} value={Item.Id}
               checked={Item.isActive} onChange={onChange}
             />
           </Grid>
-          <Grid xs={11} onClick={() => clickNav(Item.NavPath)}>
+          <Grid item xs={11} onClick={() => clickNav(Item.NavPath)}>
             <Card4
               header={Item.text1} text1={Item.text2} text4=""
               text2={Item.text3} text3={''}

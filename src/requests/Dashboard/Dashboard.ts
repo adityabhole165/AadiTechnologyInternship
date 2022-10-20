@@ -78,7 +78,6 @@ export const getEventsList =
             FileName: ''
           };
         });
-        console.log(Data.length, "res - ",response.data.length)
         dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
       };
 
