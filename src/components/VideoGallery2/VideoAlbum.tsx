@@ -41,11 +41,11 @@ const VideoAlbum = () => {
   const RoleId = sessionStorage.getItem('RoleId');
 
 
-  const handleChange = (event) => {
-    setMonth(event.target.value);
+  const changeMonth = (value) => {
+    setMonth(value);
   };
-  const handleClick = (event) => {
-    setYear(event.target.value);
+  const changeYear = (value) => {
+    setYear(value);
   };
 
   const VideoList_body: IVideoList = {
@@ -67,7 +67,7 @@ const VideoAlbum = () => {
   return (
     <Container>
       <PageHeader heading='Video Album' subheading={''} />
-      <MonthYearselector month={month} onChange={handleChange} year={year} YearData={YearList} newChange={handleClick} />
+      <MonthYearselector month={month} onChange={changeMonth} year={year} YearData={YearList} newChange={changeYear} />
       <List1 items={VideoList} />
     </Container>
   )
