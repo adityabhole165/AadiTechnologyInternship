@@ -131,11 +131,11 @@ function Basenav() {
                </NavLink>
               </IconButton>:  (RoleId == "6")?
               <IconButton>
-                <NavLink to={`/${location.pathname.split('/')[1]}/Student/AstaffBirthday`} className={classes.root}
+                <NavLink to={`/${location.pathname.split('/')[1]}/Common/EventOverview`} className={classes.root}
                   activeStyle={
                     { color: '#9e9e9e' }
                   }>
-                  <DateRangeIcon />
+                  <EventIcon />
                 </NavLink>
               </IconButton>: null
             }
