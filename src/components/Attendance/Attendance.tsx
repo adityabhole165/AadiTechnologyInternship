@@ -16,15 +16,6 @@ import { Calender1 } from 'src/components/Attendance/Calender';
 function Attendance() {
   const dispatch = useDispatch();
 
-  const Attendance = useSelector(
-    (state: RootState) => state.Attendance.DailyAttendanceList
-  );
-  const attendance = {
-    Title1: 'Total present days ',
-    Title2: 'School working days ',
-    Title3: ' Total absent days'
-  };
-
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStandardId = sessionStorage.getItem('StandardId');
@@ -81,17 +72,17 @@ function Attendance() {
         {AttendanceData === undefined ? null : (
           <>
             <Card1
-              header={attendance.Title2}
+              header='School working days '
               text3={AttendanceData.TotalAttendanceDays}
               text2="" text1="" text4="" text5="" text6="" Color="" margin=""
             />
             <Card1
-              header={attendance.Title1}
+              header='Total present days '
               text3={AttendanceData.PresentDays}
               text2="" text1="" text4="" text5="" text6="" Color="" margin=""
             />
             <Card1
-              header={attendance.Title3}
+              header=' Total absent days'
               text3={
                 Number(AttendanceData.TotalAttendanceDays) -
                 Number(AttendanceData.PresentDays)
