@@ -261,15 +261,15 @@ function Card16({ Note, Heading }) {
                     <CardDetail1>{item.FeeType}</CardDetail1>
                   </Grid>
 
-                  <Grid xs={2} />
-                  <Grid xs={10} sx={{mt:"-20px"}}>
+                  <Grid item xs={2} />
+                  <Grid item xs={10} sx={{mt:"-20px"}}>
                     <CardDetail3>
                       {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount!='0'? <b> + {item.LateFeeAmount}</b> : null}
                     </CardDetail3>
                   </Grid>
-                  <Grid xs={2} />
+                  <Grid item xs={2} />
 
-                  <Grid xs={10}>
+                  <Grid item xs={10}>
                     <CardDetail3>Due On :{item.DueDateFormat}</CardDetail3>
                   </Grid>
                 </Grid>

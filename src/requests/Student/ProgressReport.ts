@@ -52,7 +52,6 @@ export const GetExamResultList =
   (data:IGetAcademicYearsOfStudent): AppThunk =>
   async (dispatch) => {
     const response = await GetExamResultApi.GetAcademicYears(data);
-    console.log("here is your res :", response);
     dispatch(GetExamResultslice.actions.getAcademicYears(response.data));
   };
 

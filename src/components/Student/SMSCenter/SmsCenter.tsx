@@ -16,7 +16,6 @@ function SmsCenter() {
 
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
-  console.log(SmsList)
   const MobileNumber = useSelector(
     (state: RootState) => state.SmsCenter.MobileNumber
   );

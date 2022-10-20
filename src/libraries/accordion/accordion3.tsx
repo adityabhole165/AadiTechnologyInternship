@@ -59,7 +59,6 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
               {Data.map((list: GetStudentExamResult, index) => {
                 if (Exam === list.Exam) {
                   return (
-                    <>
                       <Block
                         Data={Data}
                         ExamId={list.ExamId}
@@ -68,8 +67,8 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
                         GrandTotal={list.GrandTotal}
                         SubjectTotalMarks={list.SubjectTotalMarks}
                         Grade={list.Grade}
+                        key={index}
                       />
-                    </>
                   );
                 }
               })}
