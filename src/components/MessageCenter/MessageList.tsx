@@ -184,7 +184,6 @@ const MessageList = () => {
   };
 
   const refreshData = (value) => {
-    setIsDeleteActive(value.some((obj) => obj.isActive === true));
     setInboxListData(value);
   };
 
@@ -283,7 +282,7 @@ const MessageList = () => {
               />
             </Grid>
           )}
-          {isDeleteActive && (
+          {inboxListData.some((obj) => obj.isActive === true) && (
           
             <Grid container spacing={1} sx={{mb:"10px"}}>
               <Grid item xs={4}/>
