@@ -1,5 +1,4 @@
-import React from 'react'
-import { CardDetail2, CardDetail3 } from '../styled/CardStyle';
+import { CardDetail3 } from '../styled/CardStyle';
 import { NoteStyle } from '../styled/NoteStyle'
 
 function Note({NoteDetail}) {
@@ -8,17 +7,10 @@ function Note({NoteDetail}) {
       <NoteStyle>
         <CardDetail3>
         <b>Note :</b>
-        {
-               
-                NoteDetail == undefined || NoteDetail.length == 0
-                ?
-                null
-                :
-                NoteDetail.map((elm)=>{
+        { NoteDetail == undefined || NoteDetail.length == 0  ? null :
+                NoteDetail.map((elm,i)=>{
                       return(
-                          <>
-                          <br/>{elm}
-                          </>
+                          <div key={i}> {elm} </div>
                       )
                   })
               }
