@@ -37,7 +37,7 @@ const teacherRoutes = [
       element: <TExamschedule/>
     },
     {
-      path: 'TAttendance/MissingAttandence/:assignedDate',
+      path: 'TAttendance/MissingAttandence/:assignedDate/:StandardId',
       element: <MissingAttandence/>
     },
     {

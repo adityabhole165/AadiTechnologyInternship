@@ -82,7 +82,6 @@ function LoginSchoolNotice() {
                                     to={
                                         "/LoginViewSchoolNotice/" + items.Id
                                     }>
-                                    {/* <List2 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} /> */}
                                     <List1 Date={items.Date} Name={items.Name} FileName={items.FileName} key={i} />
                                 </Link>
                         )

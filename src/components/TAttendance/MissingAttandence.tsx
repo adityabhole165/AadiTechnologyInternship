@@ -17,7 +17,7 @@ import BackButton from 'src/libraries/button/BackButton';
 
 function MissingAttandence() {
   // USE PARAMS FOR PREVIOUS PAGES DATE
-  const { assignedDate } = useParams();
+  const { assignedDate,StandardId } = useParams();
 
   // VARIABLES
   const dispatch = useDispatch();
@@ -63,18 +63,8 @@ function MissingAttandence() {
     <>
       <Container>
         <PageHeader heading={'Missing Attendance'} subheading={''} />
-        <Grid
-          container
-          direction="row"
-          sx={{ mt: '-40px', marginLeft: '33px' }}
-        >
-          <span
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            <BackButton />
-          </span>
+        <Grid container direction="row" >
+          <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
         </Grid>
         <br />
         <br />

@@ -195,7 +195,7 @@ const TAttendance = () => {
                             </ButtonPrimary>
                         </Grid><Grid item xs={5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate)} fullWidth>
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth>
                                 Missing Attendance
                             </ButtonPrimary>
                         </Grid>

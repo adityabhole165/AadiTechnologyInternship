@@ -1,27 +1,9 @@
 import { useDispatch } from 'react-redux';
-import {
-  GetExamResultList,
-  GetAcademicYears,
-  GetReasonforBlockingProgressReport,
-  Getpendingfees,
-  GetProgressReportFileName
-} from 'src/requests/Student/ProgressReport';
+import {GetExamResultList,GetAcademicYears,GetReasonforBlockingProgressReport,Getpendingfees,GetProgressReportFileName} from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {
-  styled,
-  Grid,
-  Box,
-  Typography,
-  debounce,
-  Card,
-  List,
-  useTheme
-} from '@mui/material';
-import IExamResult, {
-  GetStudentExamResult,
-  IGetReasonforBlockingProgressReportResult
-} from 'src/interfaces/Student/ProgressReport';
+import {styled,Box,List,useTheme} from '@mui/material';
+import IExamResult, { GetStudentExamResult,IGetReasonforBlockingProgressReportResult} from 'src/interfaces/Student/ProgressReport';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
@@ -34,12 +16,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import Note from 'src/libraries/Note/Note';
-import {
-  IIsPendingFeesForStudent,
-  IGetAcademicYears,
-  IGetTerms,
-  IGetReasonforBlockingProgressReport
-} from 'src/interfaces/Student/ProgressReport';
+import {IIsPendingFeesForStudent,IGetAcademicYears,IGetTerms,IGetReasonforBlockingProgressReport} from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
 
@@ -60,8 +37,6 @@ function Progressreport() {
   let downloadPathOfProgressReport = sitePath + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
-  const [block, setBlock] = useState('none');
-  const [termId, setSetTermId] = useState(0);
   const [academicYearId, setAcademicYearId] = useState('');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
