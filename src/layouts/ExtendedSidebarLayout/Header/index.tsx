@@ -213,6 +213,10 @@ function Header() {
 
   }
 
+  const Notification=()=>{
+    navigate('Student/Notification')
+  }
+
   return (
     <HeaderWrapper
       display="flex"
@@ -387,7 +391,7 @@ function Header() {
           </Box>
         </Popover>
         <Avatar sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="medium" />
+          <NotificationsIcon fontSize="medium" onClick={Notification} />
         </Avatar>
         <ThemeSettings />
       </Stack>

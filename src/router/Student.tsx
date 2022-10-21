@@ -37,6 +37,7 @@ const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 const TeacherAttendance = Loader(lazy(() => import('src/components/TeacherAttendance/TeacherAttendance')))
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 // const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
+const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
 
 const studentRoutes = [
   {
@@ -150,6 +151,10 @@ const studentRoutes = [
   {
     path: 'TeacherAttendance',
     element: <TeacherAttendance/>
+  },
+  {
+    path: 'Notification',
+    element: <Notification/>
   },
   // {
   //   path: 'AnnualPlanner2',
