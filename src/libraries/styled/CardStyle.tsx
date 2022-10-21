@@ -40,6 +40,14 @@ export const CardDetail4 = styled(Typography)`
   margin-top: 5px;
   font-family: Roboto;
 `;
+export const CardDetail6 = styled(Typography)`
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 5px;
+  color: black;
+  font-family: Roboto;
+ 
+`;
 
 export const CardDetail = styled(Box)(
   ({ theme }) => `
