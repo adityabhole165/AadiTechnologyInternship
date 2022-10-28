@@ -99,3 +99,5 @@ export const monthArray = [
       }
     }
   };
+
+  export const sitePath = 'https://192.168.1.80';

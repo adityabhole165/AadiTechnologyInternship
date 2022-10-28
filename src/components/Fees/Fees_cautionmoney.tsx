@@ -5,6 +5,7 @@ import { IPayOnline } from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { payOnline } from 'src/requests/Fees/Fees';
 import Card26 from 'src/libraries/card/card26';
+import { sitePath } from '../Common/Util';
 
 
 function Fees_cautionmoney() {
@@ -22,9 +23,9 @@ function Fees_cautionmoney() {
     asUserLogin: userLoginId,
     asQueryString: 'StudentId='+ studentId +'&DueDates=M&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=1',
     asSchoolSiteUrl:
-      'https://192.168.1.80/RITeSchool/SingleSignOnPage.aspx?',
+      sitePath+'/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-      'https://192.168.1.80/RITeSchool/Accountant/PayFeeOnline.aspx?'
+      sitePath+'/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
 
   useEffect(() => {

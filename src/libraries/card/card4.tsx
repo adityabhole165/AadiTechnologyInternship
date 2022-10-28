@@ -12,6 +12,7 @@ import {
   ListStyle,
   BoxWrapper
 } from '../styled/CardStyle';
+import { sitePath } from 'src/components/Common/Util';
 
 Card4.propTypes = {
   Title: PropTypes.string,
@@ -34,7 +35,7 @@ function Card4({
 }) {
   const theme = useTheme();
   const file_path =
-    'https://192.168.1.80/RITeSchool' +
+    sitePath+'/RITeSchool' +
     '/DOWNLOADS/Homework/' +
     Attachments;
 

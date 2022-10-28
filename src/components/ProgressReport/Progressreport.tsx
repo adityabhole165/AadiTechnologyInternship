@@ -19,6 +19,7 @@ import Note from 'src/libraries/Note/Note';
 import {IIsPendingFeesForStudent,IGetAcademicYears,IGetTerms,IGetReasonforBlockingProgressReport} from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
+import { sitePath } from '../Common/Util';
 
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
@@ -33,7 +34,7 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
-  let sitePath = 'https://192.168.1.80';
+  //let sitePath = 'https://192.168.1.80';
   let downloadPathOfProgressReport = sitePath + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');

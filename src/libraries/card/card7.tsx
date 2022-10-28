@@ -12,6 +12,7 @@ import {
   BoxWrapper,
   CardDetail2
 } from '../styled/CardStyle';
+import { sitePath } from 'src/components/Common/Util';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -40,7 +41,7 @@ function Card7({
 
   let attachment = Attachments;
   let attachmentObj: any = [];
-  let file_path = 'https://192.168.1.80' + '/RITeSchool/Uploads/';
+  let file_path = sitePath+'/RITeSchool/Uploads/';
 
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
 
