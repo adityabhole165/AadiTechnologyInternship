@@ -11,10 +11,10 @@ export const AccordianHeader = styled(Box)(
 
 export const Header1 = styled(Typography)(
   ({ theme, color }) => `
-
-  margin-left: 8px;
+  margin-left: 5px;
+  margin-top: 5px;
   align-items: center;
-  font-size:16px;
+  font-size:14px;
   font-weight:bold;
   font-family: Roboto;
   color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
@@ -32,9 +32,10 @@ export const Header2 = styled(Typography)(
 export const CardDetail1 = styled(Typography)(
   ({ theme, align }) => `
   margin-top: 1px;
-  margin-left: 10px;
+  margin-left: 5px;
   margin-bottom: 2px;
-  font-family: Roboto;
+  font-family: Roboto
+  font-size:12px;
   float:${align}
 `);
 export const CardDetail2 = styled(Typography)`
@@ -42,18 +43,21 @@ export const CardDetail2 = styled(Typography)`
   margin-bottom: 4px;
   margin-right: 10px;
   font-family: Roboto;
+  font-size:12px;
 `;
 export const CardDetail3 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-left: 20px;
   font-family: Roboto;
+  font-size:12px;
 `;
 export const CardDetail4 = styled(Typography)`
 margin-top: 1px;
 margin-left: 10px;
 margin-bottom: 2px;
 font-family: Roboto;
+font-size:12px;
 font-weight:bold;
 
 
@@ -66,6 +70,12 @@ export const CardWrapper1 = styled(Typography)`
 `;
 export const CardDetail = styled(Box)`
   border-top: 0.1px solid gray;
+  display: flex;
+  justify-content: space-between;
+  font-family: Roboto;
+`;
+export const CardDetailB = styled(Box)`
+  border-bottom: 0.1px solid gray;
   display: flex;
   justify-content: space-between;
   font-family: Roboto;
