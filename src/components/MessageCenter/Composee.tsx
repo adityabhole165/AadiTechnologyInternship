@@ -36,6 +36,7 @@ import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import ChooseFile from 'src/libraries/Choose File/ChooseFile';
+import { sitePath } from '../Common/Util';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -274,7 +275,7 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = 'https://192.168.1.80/' + '/RITeSchool/Uploads/';
+  const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
 
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');

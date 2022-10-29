@@ -18,10 +18,11 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import { getDateFormatted } from '../Common/Util'
+import { useParams } from 'react-router-dom';
 
 function Homework() {
   const dispatch = useDispatch();
-
+  const {DateFromHomework } = useParams();
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedDate, setAssignedDate] = useState<string>();
   const [calanderSelected, setcalanderSelected] = useState(false);
@@ -80,11 +81,16 @@ function Homework() {
   }, []);
 
   useEffect(() => {
-
     if (homeworkSubject_Body.asDate != "undefined")
       dispatch(getHomeworkSubject(homeworkSubject_Body));
   }, [assignedDate, CalanderDate]);
 
+  useEffect(() => {
+    if(DateFromHomework != undefined){
+      setAssignedDate(DateFromHomework);
+    }
+  }, [DateFromHomework]);
+  
   const DotLegend = styled('span')(
     ({ theme }) => `
         border-radius: 10px;
@@ -136,13 +142,6 @@ function Homework() {
         <br />
         <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
 
-        
-        {/* <Buttons
-        date={`${calanderSelected ? CalanderDate : date.selectedDate}`}
-        PrevDate={getNextDate}
-        NextDate={getNextDate}
-        Close={CalenderDateHandler}
-      /> */}
         {loading ? (
           <SuspenseLoader />
         ) : HomeworkSubjectList.length === 0 ? (

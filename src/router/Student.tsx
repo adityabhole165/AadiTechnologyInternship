@@ -88,6 +88,10 @@ const studentRoutes = [
     element: <Homework/>
   },
   {
+    path: 'Homework/:DateFromHomework',
+    element: <Homework/>
+  },
+  {
     path: 'Fees',
     element: <Fees />
   },
@@ -95,9 +99,8 @@ const studentRoutes = [
     path: 'Fees_cautionmoney',
     element: <Fees_cautionmoney />
   },
- 
   {  
-    path: 'Viewhomework/:Id',
+    path: 'Viewhomework/:Id/:SelectedDate',
     element: <ViewHomework />
   },
   {

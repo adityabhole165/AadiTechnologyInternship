@@ -11,6 +11,7 @@ import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import PictureAsPdfRoundedIcon from '@mui/icons-material/PictureAsPdfRounded';
 import { AttachmentFile } from 'src/interfaces/MessageCenter/MessageCenter';
+import { sitePath } from 'src/components/Common/Util';
 
 interface RenderItemOptions {
   item: string;
@@ -21,7 +22,7 @@ interface RenderItemOptions {
 function renderItem({ item, handleRemoveListItems,list2OfItemsInArray }: RenderItemOptions) {
 	const IndexOfExtension = item.lastIndexOf(".");
 	const Extension = item.slice(IndexOfExtension,);
-  const AttachmentFilePath = 'https://192.168.1.80/' + '/RITeSchool/Uploads/';
+  const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
 
   return (
     <ListItem

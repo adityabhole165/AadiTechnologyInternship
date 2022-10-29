@@ -10,7 +10,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
 
 function ViewHomework() {
-  const { Id } = useParams();
+  const { Id,SelectedDate } = useParams();
 
   const [viewHomework, setViewhomework] = useState<IViewHomeworkResponse>();
   const ViewDetail = {
@@ -48,7 +48,7 @@ function ViewHomework() {
     <>
       <PageHeader heading={'View Homework'} subheading={''} />
    
-        <BackButton FromRoute={"/Student/Homework"} />
+        <BackButton FromRoute={"/Student/Homework/"+SelectedDate} />
     
       {viewHomework === undefined ? null : (
         <Card4

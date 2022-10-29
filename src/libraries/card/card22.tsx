@@ -9,6 +9,7 @@ import SimpleReactLightbox from 'simple-react-lightbox';
 import 'src/assets/style/Homework_Calci.css';
 import BackButton from '../button/BackButton';
 import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
+import { sitePath } from 'src/components/Common/Util';
 
 Card22.propTypes = {
   pic: PropTypes.array,
@@ -92,7 +93,7 @@ function Card22({ pic, imgId }) {
                     <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
                       <img
                         src={
-                          'https://192.168.1.80/RITeSchool/' + items.ImagePath
+                          sitePath+'/RITeSchool/' + items.ImagePath
                         }
                         width="100"
                         height="100"

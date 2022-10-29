@@ -5,7 +5,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled } from '@mui/material';
+import { Card, styled, TextField } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container } from '@mui/material';
@@ -68,7 +68,7 @@ function Fees() {
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
 
-    
+      <TextField type="text" inputProps={{maxlength:'10'}}  name="country_code" title="Error Message"/>
         
         <DotLegend
           className={classes.border}
