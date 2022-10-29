@@ -66,7 +66,7 @@ function Card5({ Content, FileName, Name }) {
           <CardDetail
             sx={{
               mt: 1,
-              ml: 2
+              ml: 0.5,
             }}
           >
             {FileName}
