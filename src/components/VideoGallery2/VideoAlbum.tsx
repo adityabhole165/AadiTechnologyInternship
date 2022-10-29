@@ -66,7 +66,7 @@ const VideoAlbum = () => {
 
   return (
     <Container>
-      <PageHeader heading='Video Album' subheading={''} />
+      <PageHeader heading='Video Gallery' subheading={''} />
       <MonthYearselector month={month} onChange={changeMonth} year={year} YearData={YearList} newChange={changeYear} />
       <List1 items={VideoList} />
     </Container>
