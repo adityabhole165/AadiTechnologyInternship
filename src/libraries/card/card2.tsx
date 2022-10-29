@@ -37,17 +37,17 @@ function Card2({
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Title}</CardDetail1>
 
-            <CardDetail3>{Title}</CardDetail3>
+            <CardDetail2>{Title}</CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Start_Date}</CardDetail1>
 
-            <CardDetail3>{StartDate}</CardDetail3>
+            <CardDetail2>{StartDate}</CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Standards}</CardDetail1>
 
-            <CardDetail3>{Standard}</CardDetail3>
+            <CardDetail2>{Standard}</CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Description}</CardDetail1>
