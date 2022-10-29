@@ -31,7 +31,7 @@ function Card2({ items, heading, rowsCol }) {
           mt: '10px',
 
           boxShadow:
-            ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)'
+            ' 0px 8px 15px rgba(0, 0, 0, 0.1)'
         }}
       >
         <Typography
@@ -42,7 +42,7 @@ function Card2({ items, heading, rowsCol }) {
             fontSize: '14px',
             fontWeight: '600',
             textShadow:
-              ' 9px 9px 16px rgb(163,177,198,0.6), -9px -9px 16px    rgba(255,255,255, 0.5)'
+              '  0px 8px 15px rgba(0, 0, 0, 0.1)'
           }}
         >
           {heading}
