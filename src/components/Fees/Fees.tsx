@@ -81,6 +81,8 @@ function Fees() {
         <small>
           <b>Refunded Fees </b>
         </small>
+        <br/>
+        
       </Box>
 
       <ListStyle sx={{ mb: 2 }} color="info">
