@@ -1,11 +1,11 @@
-import { CardDetail3 } from '../styled/CardStyle';
+import { CardDetail2 } from '../styled/CardStyle';
 import { NoteStyle } from '../styled/NoteStyle'
 
 function Note({NoteDetail}) {
   return (
     <div>
       <NoteStyle>
-        <CardDetail3>
+        <CardDetail2>
         <b>Note :</b>
         { NoteDetail == undefined || NoteDetail.length == 0  ? null :
                 NoteDetail.map((elm,i)=>{
@@ -14,7 +14,7 @@ function Note({NoteDetail}) {
                       )
                   })
               }
-        </CardDetail3>
+        </CardDetail2>
       </NoteStyle>
     </div>
   )
