@@ -47,7 +47,7 @@ function Card2({ items, heading, rowsCol }) {
         >
           {heading}
         </Typography>
-        <Grid container spacing={{}}>
+        <Grid container spacing={-0.1}>
           {items.map(({ Icon, ...item }, index) => (
             <Grid item xs={width} key={index}>
               <Card3

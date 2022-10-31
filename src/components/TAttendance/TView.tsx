@@ -116,7 +116,7 @@ const TView = () => {
           </small>
           <br />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <DotLegend
             className={classes.border}
         

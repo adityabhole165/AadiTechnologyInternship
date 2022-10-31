@@ -8,16 +8,13 @@ function Card7({header,text1, text2}) {
     <>
     <ListStyle>
       <Grid container>
-        <Grid item xs={9}>
+        <Grid item xs={8}>
        <CardDetail6>{header}</CardDetail6>    
             </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
         <CardDetail2 sx={{float:"right"}}>{text1}<br/>{text2}</CardDetail2>  
         </Grid>
-        <Grid item xs={9}/>
-        <Grid item xs={3}>
-       
-        </Grid>
+      
       </Grid>
       </ListStyle>
     </>
