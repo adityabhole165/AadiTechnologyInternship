@@ -18,11 +18,11 @@ function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
   return (
     <div>
       <Grid container sx={{ borderTop: '1px solid gray' }}>
-        <Grid item xs={5}>
+        <Grid item xs={pageName === 'Student/Homework'? 8 :4}>
           <CardDetail1>{Name}</CardDetail1>
           <CardDetail4>{text3}</CardDetail4>
         </Grid>
-        <Grid item xs={7}>
+        <Grid item xs={pageName === 'Student/Homework'? 4:8}>
           <CardDetail1 align={isMiddle ? 'left' : 'right'}  color= {color1 ? "#628def" : null }>{Value}</CardDetail1>
         </Grid>
         {text1 !== '' && (

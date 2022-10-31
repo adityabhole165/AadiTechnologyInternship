@@ -74,7 +74,7 @@ function Holidays() {
       <PageHeader heading={'Holidays'} subheading={''} />
       <Grid container>
         <Grid item xs={6}>
-          <DotLegend color='secondary' text='Todays Holiday' />
+          <DotLegend color='secondary' text="Today's Holiday" />
         </Grid><Grid item xs={6}>
           <DotLegend color='warning' text='Upcoming Holidays' />
         </Grid>

@@ -76,7 +76,7 @@ export const getTimetable =
       }
       let header2 = {
         Id: 1,
-        Name: 'Additional Lecture',
+        Name: 'Additional Lectures',
         Child: child2()
       };
       dispatch(TMTimetableslice.actions.getAdditionalLectures(header2));

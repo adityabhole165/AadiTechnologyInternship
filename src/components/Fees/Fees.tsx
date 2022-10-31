@@ -8,13 +8,12 @@ import { RootState } from 'src/store';
 import { Card, styled, TextField } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container } from '@mui/material';
+import { Container, Box } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { CardDetail1, ListStyle } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 
 function Fees() {
-
   const dispatch = useDispatch();
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector(
@@ -33,11 +32,11 @@ function Fees() {
     Sum4: 'Applicable Fees'
   };
   const Note2: string = '*RITE student (100% Consession on school fees)';
- 
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
 
-  const body: IFees = { 
+  const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId
   };
@@ -60,36 +59,39 @@ function Fees() {
     `
   );
   const classes = Styles();
-  const note1 = [
-    '1) *RTE student (100% Consession on school fees)',
-   
-  ];
+  const note1 = ['1) *RTE student (100% Consession on school fees)'];
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
 
-      <TextField type="text" inputProps={{maxlength:'10'}}  name="country_code" title="Error Message"/>
-        
+      {/* <TextField type="text" inputProps={{maxlength:'10'}}  name="country_code" title="Error Message"/> */}
+
+      <Box sx={{ display: 'flex' }}>
         <DotLegend
           className={classes.border}
-          style={{ background: 'red', display: 'inline-block',marginLeft:1 }}
+          style={{ background: 'red', marginRight: '3px' }}
         />
         <small>
           <b>Bounced cheque Transaction </b>
         </small>
         <DotLegend
           className={classes.border}
-          sx={{ background: '#64b5f6', display: 'inline-block', ml: '5px' }}
+          sx={{ background: '#64b5f6', mr: '8px', ml: '2px' }}
         />
         <small>
           <b>Refunded Fees </b>
         </small>
-        <br />
-        <br />
+        <br/>
+        <br/>
+        
+      </Box>
 
-        <ListStyle sx={{mb:2}} color="info">
-          <CardDetail1  sx={{textAlign: 'center'}}> <b>Applicable Fees:</b> {FeesList2.TotalFee}</CardDetail1>
-        </ListStyle>
+      <ListStyle sx={{ mb: 2 }} color="info">
+        <CardDetail1 sx={{ textAlign: 'center' }}>
+          {' '}
+          <b>Applicable Fees:</b> {FeesList2.TotalFee}
+        </CardDetail1>
+      </ListStyle>
 
       <Card27
         FeesType={'Paid Fees'}
@@ -98,7 +100,6 @@ function Fees() {
         Note={Note2}
       />
       <Note NoteDetail={note1} />
-   
     </Container>
   );
 }

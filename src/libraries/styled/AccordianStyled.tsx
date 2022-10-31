@@ -34,7 +34,7 @@ export const CardDetail1 = styled(Typography)(
   margin-top: 1px;
   margin-left: 5px;
   margin-bottom: 2px;
-  font-family: Roboto
+  font-family: Roboto;
   font-size:12px;
   float:${align}
 `);
@@ -54,7 +54,7 @@ export const CardDetail3 = styled(Typography)`
 `;
 export const CardDetail4 = styled(Typography)`
 margin-top: 1px;
-margin-left: 10px;
+margin-left: 5px;
 margin-bottom: 2px;
 font-family: Roboto;
 font-size:12px;

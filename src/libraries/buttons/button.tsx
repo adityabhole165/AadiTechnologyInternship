@@ -22,7 +22,8 @@ const Item = styled(Paper)(({ theme }) => ({
   textAlign: 'center',
   color: 'black',
   background: 'rgb(36 66 175 / 0.4)',
-  borderRadius: '4px'
+  borderRadius: '4px',
+  boxShadow : "0px 8px 15px rgba(0, 0, 0, 0.1)"
 }));
 
 function Buttons({ date, PrevDate, NextDate, Close }) {
