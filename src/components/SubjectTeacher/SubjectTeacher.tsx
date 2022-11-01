@@ -53,9 +53,9 @@ function SubjectTeacher() {
       <PageHeader heading={'Subject  Teachers'} subheading={''} />
 
       {ClassTeachers.map((items: GetSubjectTeacherResult, i) => (
-        <Header1 marginBottom="1rem" key={i}>
+        <CardDetail1 marginBottom="1rem" key={i}>
           {'Class Teacher'} : {items.TeacherName}
-        </Header1>
+        </CardDetail1>
       ))}
 
       {<List1 items={Data}></List1>}

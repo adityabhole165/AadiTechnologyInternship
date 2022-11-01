@@ -18,6 +18,40 @@ export const CardDetail2 = styled(Typography)`
   margin-left: 5px;
  
 `;
+export const CardDetail7 = styled(Typography)`
+  font-size: 12px;
+  color: black;
+  font-family: Roboto;
+  margin-left:5px;
+
+   
+  @media (max-width: 320px) {
+    font-size: 11px;
+  };
+ 
+
+  @media (max-width: 280px) {
+    font-size: 10px;
+  };
+ 
+`;
+export const CardDetail8 = styled(Typography)`
+  font-size: 12px;
+  color: black;
+  font-family: Roboto;
+ 
+
+   
+  @media (max-width: 320px) {
+    font-size: 11px;
+  };
+ 
+
+  @media (max-width: 280px) {
+    font-size: 10px;
+  };
+ 
+`;
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;

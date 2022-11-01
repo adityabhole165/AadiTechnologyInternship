@@ -43,6 +43,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
                 width: 60,
                 height: 65,
               },
+              '@media (max-width: 280px)' : {
+                width: 50,
+                height: 55,
+              },
               background: `${theme.colors.gradients.pink1}`,
               
               borderRadius: '10px',
@@ -86,6 +90,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
                 '@media (max-width: 320px)' : {
                   fontSize: '10px',
                 },
+                '@media (max-width: 280px)' : {
+                  fontSize: '9px',
+                  mt: '-8px',
+                },
                 textDecoration:"none",
                 color:'black',
                 lineHeight: '1rem',
@@ -101,6 +109,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
                 fontSize: '12px',
                 '@media (max-width: 320px)' : {
                   fontSize: '10px',
+                },
+                '@media (max-width: 280px)' : {
+                  fontSize: '9px',
+                  mt: '-8px',
                 },
                 lineHeight: '1.3rem',
                 textDecoration:"none",

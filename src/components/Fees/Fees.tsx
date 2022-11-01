@@ -10,7 +10,7 @@ import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { CardDetail1, ListStyle } from 'src/libraries/styled/CardStyle';
+import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 
 function Fees() {
@@ -63,24 +63,19 @@ function Fees() {
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
-
-      {/* <TextField type="text" inputProps={{maxlength:'10'}}  name="country_code" title="Error Message"/> */}
-
-      <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' }}>
         <DotLegend
           className={classes.border}
-          style={{ background: 'red', marginRight: '3px' }}
+          style={{ background: 'red', marginRight: '3px' ,marginTop:"1px" }}
         />
-        <small>
-          <b>Bounced cheque Transaction </b>
-        </small>
+       
+        <CardDetail8>Bounced cheque Transaction</CardDetail8>
         <DotLegend
           className={classes.border}
-          sx={{ background: '#64b5f6', mr: '8px', ml: '2px' }}
+          sx={{ background: '#64b5f6', mr: '8px', ml: '6px',mt:"1px" }}
         />
-        <small>
-          <b>Refunded Fees </b>
-        </small>
+       
+        <CardDetail8>Refunded Fees</CardDetail8>
         <br/>
         <br/>
         

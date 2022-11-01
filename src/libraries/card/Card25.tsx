@@ -5,6 +5,14 @@ import { useNavigate } from 'react-router-dom';
 import ReplyIcon from '@mui/icons-material/Reply';
 import BackButton from '../button/BackButton';
 
+import {
+  CardDetail3,
+  CardDetail1,
+  CardDetail2,
+  ListStyle,
+  BoxWrapper
+} from '../styled/CardStyle';
+
 Card25.propTypes = {
   From: PropTypes.string,
   To: PropTypes.string,
@@ -21,40 +29,29 @@ function Card25({ ViewDetail, From, To, Date, Text }) {
   return (
     <>
       <Container>
-        <Card
+        <BackButton FromRoute={'/SMSCenter/smsCenter'}/>
+        <ListStyle
           sx={{
             background: `${theme.colors.gradients.pink1}`
           }}
         >
-          <BackButton />
-          <Box
-            display="flex"
-            justifyContent="space-between"
-            p={3}
-            alignItems="flex-start"
-            flexDirection="column"
-          >
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.From}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{From}</Typography>
-
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.To}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{To}</Typography>
-
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.Scheduled_Date}
-            </Typography>
-            <Typography className={classes.Cardfont2}>{Date}</Typography>
-
-            <Typography className={classes.Cardfont1}>
-              {ViewDetail.SMS_Text}
-            </Typography>
-            <Typography className={classes.CardBottomMargin}>{Text}</Typography>
-          </Box>
-        </Card>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.From}</CardDetail1>
+            <CardDetail2>{From}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.To}</CardDetail1>
+            <CardDetail2>{To}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.Scheduled_Date}</CardDetail1>
+            <CardDetail2>{Date}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.SMS_Text}</CardDetail1>
+            <CardDetail2>{Text}</CardDetail2>
+          </BoxWrapper>
+        </ListStyle>
       </Container>
     </>
   );

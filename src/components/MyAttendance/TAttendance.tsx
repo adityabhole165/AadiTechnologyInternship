@@ -152,7 +152,7 @@ const TAttendance = () => {
     }, [saveResponseMessage]);
 
     const SaveMsg = () => {
-        debugger;
+ 
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
             if (!confirm('Are you sure to mark Attendance on selected weekend/ holiday?')) {
                 setAbsentRollNos('');
@@ -185,15 +185,15 @@ const TAttendance = () => {
                         label='Absent Roll Number'
                         value={StudentAbsent}></TextField><br></br>
                     <br></br>
-                    <Grid container spacing={1}>
-                        <Grid item xs={3}>
+                    <Grid container spacing={0.5}>
+                        <Grid item xs={4}>
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
                         </Grid><Grid item xs={4}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon />}>
+                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 90 ,ml:"-8px"}} />}>
                                 Attendance 
                             </ButtonPrimary>
-                        </Grid><Grid item xs={5}>
+                        </Grid><Grid item xs={4}>
                             <ButtonPrimary color='secondary'
                                 onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth>
                                 Missing Attendance

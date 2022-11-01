@@ -81,7 +81,9 @@ const UserBoxLabel = styled(Typography)(
     font-weight: ${theme.typography.fontWeightBold};
     color: ${theme.sidebar.menuItemColor};
     display: block;
-
+    @media (max-width: 280px) {
+      font-size: 11px;
+    };
     &.popoverTypo {
       color: ${theme.palette.secondary.main};
     }
@@ -94,7 +96,10 @@ const UserBoxDescription = styled(Typography)(
 
     &.popoverTypo {
       color: ${theme.palette.secondary.light};
-    }
+    };
+    @media (max-width: 280px) {
+      font-size: 11px;
+    };
 `
 );
 
@@ -279,13 +284,13 @@ function Header() {
           >
             <Avatar variant="rounded" alt="user.name" src={`data:image/png;base64,${studnetprofile}`} />
             <UserBoxText>
-              <UserBoxLabel className="popoverTypo" variant="h4">
+              <UserBoxLabel className="popoverTypo">
                 {Name}
               </UserBoxLabel>
               {
                 (RollNo != undefined ? <>
 
-                  <UserBoxDescription className="popoverTypo" variant="body2">
+                  <UserBoxDescription className="popoverTypo" >
                     {Class}
                   </UserBoxDescription> </>
                   : null)

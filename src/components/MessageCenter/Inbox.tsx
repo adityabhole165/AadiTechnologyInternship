@@ -119,7 +119,7 @@ function Inbox() {
   );
 
   const handleChange = (event) => {
-    // debugger;
+
 
     setChecked(true);
     const { value, name, checked } = event;

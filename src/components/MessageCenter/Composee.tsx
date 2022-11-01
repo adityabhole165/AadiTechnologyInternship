@@ -364,8 +364,8 @@ function Form13() {
                 onChange={formik.handleChange}
                 style={{ scrollBehavior: 'auto' }}
                 sx={{
-                  marginLeft: '-5px',
-                  width: '19.5rem',
+        
+          
                   maxHeight: '60px',
                   overflow: 'auto'
                 }}

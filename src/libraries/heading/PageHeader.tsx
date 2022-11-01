@@ -36,6 +36,12 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading }) => {
           textShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
           fontFamily: 'roboto',
          
+          '@media (min-width: 280px) and (max-width: 320px)' : {
+            fontSize: '18px',
+        
+          }
+       
+         
         }}
       >
         {heading}

@@ -58,7 +58,7 @@ function Card16({ Note, Heading }) {
   };
 
   const handleChange = (event) => {
-    debugger;
+
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
 

@@ -91,4 +91,9 @@ export const Accordionsummary = styled(AccordionSummary)`
  margin-bottom: 10px;
  height:40px;
  min-height:40px;
+ font-size:14px;
+ @media (max-width: 280px) {
+  font-size: 12px;
+};
+
 `;
