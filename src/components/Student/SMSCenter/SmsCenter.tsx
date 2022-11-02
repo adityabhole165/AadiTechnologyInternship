@@ -7,6 +7,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container, Typography, Box } from '@mui/material';
+import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 
 const PageNumber = 1;
 
@@ -64,13 +65,13 @@ function SmsCenter() {
 
   return (
     <Container>
-      <PageHeader heading={'Recieved SMS'} subheading={''} />
+      <PageHeader heading={' Received SMS'} subheading={''} />
 
       <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
 
-        <Typography variant="body2" fontSize='0.8rem'>
+        <CardDetail2>
           <b>Mobile Number(s) :</b>  {MobileNumber}
-        </Typography>
+        </CardDetail2>
         <Icon1 Note={Note} />
       </Box>
 

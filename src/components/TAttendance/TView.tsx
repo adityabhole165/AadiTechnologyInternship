@@ -106,7 +106,7 @@ const TView = () => {
       </Grid>
 
       <Grid container direction="row">
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <DotLegend
             className={classes.border}
             style={{ background: '#f33737', }}
@@ -116,7 +116,7 @@ const TView = () => {
           </small>
           <br />
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           <DotLegend
             className={classes.border}
         

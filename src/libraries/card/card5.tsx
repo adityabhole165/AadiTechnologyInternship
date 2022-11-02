@@ -21,6 +21,7 @@ import {
   CardDetail3,
   CardDetail2
 } from '../styled/CardStyle';
+import { sitePath } from 'src/components/Common/Util';
 
 Card5.propTypes = {
   Content: PropTypes.string,
@@ -41,14 +42,14 @@ function Card5({ Content, FileName, Name }) {
 
   const download = (e) => {
     saveAs(
-      'https://192.168.1.80/RITeSchool/' +
+        sitePath+'/RITeSchool/' +
         '/DOWNLOADS/School%20Notices/' +
         FileName
     );
   };
 
   const file_path =
-    'https://192.168.1.80/RITeSchool/' +
+    sitePath+'/RITeSchool/' +
     '/DOWNLOADS/School%20Notices/' +
     FileName;
 
@@ -65,7 +66,7 @@ function Card5({ Content, FileName, Name }) {
           <CardDetail
             sx={{
               mt: 1,
-              ml: 2
+              ml: 0.5,
             }}
           >
             {FileName}

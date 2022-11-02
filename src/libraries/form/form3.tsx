@@ -30,6 +30,7 @@ function Form() {
     try {
       sessionStorage.clear();
       localStorage.removeItem("auth")
+      localStorage.removeItem("url");
       navigate('/');
     } catch (err) {
       console.error(err);

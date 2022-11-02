@@ -7,6 +7,8 @@ import { RootState } from 'src/store';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import List19 from 'src/libraries/list/List19';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import Card1 from 'src/libraries/mainCard/Card1';
+import { Container } from '@mui/system';
 
 function Sent() {
   const dispatch = useDispatch();
@@ -28,7 +30,7 @@ function Sent() {
     dispatch(getSentListt(body));
   }, []);
   return (
-    <>
+    <Container>
       {Sent == undefined ? null : Sent.length === 0 ? (
         <ErrorMessages Error={'No message has been sent'} />
       ) : (
@@ -43,18 +45,20 @@ function Sent() {
               color="primary"
               style={{ textDecoration: 'none' }}
             >
-              <List19
-                Subject={item.Subject}
-                UserName={item.UserName.slice(0, 20) + ' ...'}
-                Time={item.Time}
-                Date={item.Date}
-                key={i}
-              />
+              
+                <Card1
+                    header={item.Subject}
+                    text1={item.UserName.slice(0, 20) + ' ...'} text2={item.Time + " " + item.Date   } text3={''} text4={''} text5={''} text6={''}
+                    Color={''}
+                    margin={''}
+                    FileName={''}
+                    key={i}
+                  />
             </RouterLink>
           );
         })
       )}
-    </>
+    </Container>
   );
 }
 

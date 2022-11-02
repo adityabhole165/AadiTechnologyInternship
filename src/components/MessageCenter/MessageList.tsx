@@ -134,7 +134,7 @@ const MessageList = () => {
     setShowSearch(!showSearch);
   };
   const clickDelete = () => {
-    // debugger;
+
     let arrDetails = [];
     let arrReciever = [];
     inboxListData.map((obj) => {

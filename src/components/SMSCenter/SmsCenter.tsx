@@ -20,13 +20,23 @@ import ISent, {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
+import { CardDetail1, CardDetail2, CardDetail7 } from 'src/libraries/styled/CardStyle';
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  color: theme.palette.text.secondary
+  height: '61px',
+  color:'black',
+  fontSize: '10px',
+  boxShadow:
+  '0px 8px 15px rgba(0, 0, 0, 0.1)',
+  '@media (max-width: 280px)' : {
+    fontSize: '8px',
+  },
+  
+  
 }));
 
 SMSCenter.PropTypes = {
@@ -66,22 +76,22 @@ function SMSCenter() {
     <>
       <Container>
         <PageHeader heading={'SMS Center'} subheading={''} />
-        <Box sx={{ ml: '5px' }}>
+      
           <Grid container>
-            <Typography sx={{ fontSize: '13px', color: 'green' }}>
+            <CardDetail7 sx={{  color: 'green' }}>
               <b>{'Free SMS'}:</b>
               {SentSMSData.AllowedSMSCount}
-            </Typography>
-            <Typography sx={{ ml: '6px', fontSize: '13px', color: 'blue' }}>
+            </CardDetail7> 
+            <CardDetail7 sx={{  color: 'blue' }}>
               <b>{'Sent SMS'}:</b>
               {SentSMSData.SentSMSCount}
-            </Typography>
-            <Typography sx={{ ml: '6px', fontSize: '13px', color: 'red' }}>
+            </CardDetail7>
+            <CardDetail7 sx={{  color: 'red' }}>
               <b>{'Exceeded SMS'}:</b>
               {SentSMSData.ExceededSMSCount}
-            </Typography>
+            </CardDetail7>
           </Grid>
-        </Box>
+       <br/>
         <Box sx={{ width: '100%', mt: 'px', ml: '2px', mb: '10px' }}>
           <Grid
             container
@@ -95,7 +105,7 @@ function SMSCenter() {
                 className={classes.TextDecoration}
               >
                 <Item
-                  sx={{ fontSize: '10px', marginLeft: '-2px', color: 'black' }}
+                  sx={{  marginLeft: '-2px', color: 'black' }}
                 >
                   <AddCircleIcon />
                   <br />
@@ -114,16 +124,16 @@ function SMSCenter() {
                     pageName == '/extended-sidebar/SMSCenter/smsCenter' ||
                     pageName == 'Received'
                       ? {
-                          fontSize: '10px',
+                         
                           backgroundColor: 'black',
                           color: 'white'
                         }
-                      : { fontSize: '10px', color: 'black' }
+                      : {  color: 'black' }
                   }
                 >
                   <InboxIcon />
                   <br />
-                  <b>Recevied</b>
+                  <b>Received</b>
                 </Item>
               </Link>
             </Grid>
@@ -137,11 +147,11 @@ function SMSCenter() {
                   sx={
                     pageName == 'Sent'
                       ? {
-                          fontSize: '10px',
+                        
                           backgroundColor: 'black',
                           color: 'white'
                         }
-                      : { fontSize: '10px', color: 'black' }
+                      : {  color: 'black' }
                   }
                 >
                   <SendIcon />
@@ -160,12 +170,12 @@ function SMSCenter() {
                   sx={
                     pageName == 'Scheduled'
                       ? {
-                          fontSize: '10px',
+                         
                           backgroundColor: 'black',
                           color: 'white',
-                          mr: '2px'
+                          ml: '-6px'
                         }
-                      : { fontSize: '10px', color: 'black' }
+                      : {  color: 'black',    ml: '-6px' }
                   }
                 >
                   <AlarmIcon />

@@ -15,7 +15,7 @@ function ForgotPassword() {
   const schoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
-    debugger;
+  
     const getPasswordAPIBody: IGetPassword = {
       asSchoolId: schoolId,
       asLogin: formik.values.Login,

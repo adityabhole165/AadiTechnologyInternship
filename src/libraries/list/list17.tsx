@@ -116,12 +116,12 @@ const useStyles = makeStyles({
            
               <Grid container>
                 
-              <Grid xs={10} item>
+              <Grid xs={9} item>
                 <CardDetail2 >
                   {Name}
                 </CardDetail2>
                 </Grid>
-                <Grid xs={2} item justifyContent="flex-end">
+                <Grid xs={3} item justifyContent="flex-end">
                 <CardDetail2>
                   {BirthDate}
                 </CardDetail2>

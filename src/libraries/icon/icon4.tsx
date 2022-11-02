@@ -47,7 +47,7 @@ function Icon4({ Note }) {
 
 
 
-            <Container>
+         
                 <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2, marginTop: '-22px' }}>
                     <Typography variant="body2" fontSize='15px'>
                         {/* <DotLegend className={classes.Listfont1}
@@ -91,7 +91,7 @@ function Icon4({ Note }) {
 
                     </ClickAwayListener>
                 </Box>
-            </Container>
+          
         </>
     );
 }

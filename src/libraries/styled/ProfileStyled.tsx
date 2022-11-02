@@ -20,7 +20,7 @@ export const ProfileDetail3 = styled(Typography)`
 `;
 export const ProfileDetail4 = styled(Typography)`
   margin-top: 10px;
-  margin-left: 10px;
+  margin-left: 3px;
   font-size:12px;
   
 `;

@@ -22,6 +22,7 @@ import ExpandLess from '@mui/material/Icon/Icon';
 import ExpandMore from '@mui/material/Icon/Icon';
 import { makeStyles } from '@mui/styles';
 import { display } from '@mui/system';
+import { CardDetail2, ListStyle } from '../styled/CardStyle';
 
 Card21.propTypes = {
   subject: PropTypes.any,
@@ -49,7 +50,7 @@ function Card21({ subjectgrade, subject, indexval }) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-      marginTop: '-14px'
+    
     }
   });
 
@@ -60,58 +61,46 @@ function Card21({ subjectgrade, subject, indexval }) {
     <div>
       <>
         {subjectgrade?.length === 0 && subject?.length === 0 ? null : (
-          <Container>
+     
             <Grow
               in={checked}
               style={{ transformOrigin: '0 0 1' }}
               {...(checked ? { timeout: 1500 } : {})}
             >
-              <List
-                sx={{
-                  boxShadow: '8px 4px 5px grey !important',
-                  borderRadius: 1,
-                  background: `${theme.colors.gradients.pink1}`,
-                  mb: 1,
-                  margin: '4px -19px'
-                }}
-              >
-                <Box
-                  sx={{
-                    mt: 2
-                  }}
-                >
+              <ListStyle>
+                <Box>
                   <Box className={clas.timesx}>
-                    <Typography
-                      className={classes.Listfont2}
-                      sx={{ marginTop: '-2px', color: '#5C3317' }}
+                    <CardDetail2
+                   
+                      sx={{ color: '#5C3317' }}
                     >
                       {subject.map((sub, index) => {
                         return (
                           <div key={index}>
-                            <h3>{sub}</h3>
+                            <div>{sub}</div>
                           </div>
                         );
                       })}
-                    </Typography>
-                    <Typography
-                      className={classes.Listfont2}
-                      sx={{ marginTop: '-2px', color: 'blueviolet' }}
+                    </CardDetail2>
+                    <CardDetail2
+                  
+                      sx={{  color: 'blueviolet' }}
                     >
                       {subjectgrade.map((subgrade, index) => {
                         return (
                           <div key={index}>
-                            <h3 key={index}>{subgrade}</h3>
+                            <div key={index}>{subgrade}</div>
                           </div>
                         );
                       })}
-                    </Typography>
+                    </CardDetail2>
                   </Box>
-                  <Divider />
+                
                 </Box>
-                <br></br>
-              </List>
+           
+              </ListStyle>
             </Grow>
-          </Container>
+        
         )}
       </>
     </div>

@@ -118,7 +118,7 @@ function SentMessage() {
 
 
   const handleChange = (event) => {
-    // debugger;
+
     setChecked(true);
     const { value, name, checked } = event;
     // const { value, name } = event.target;

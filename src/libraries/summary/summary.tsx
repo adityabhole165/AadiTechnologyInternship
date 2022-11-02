@@ -21,7 +21,7 @@ function summary() {
     <>
     
         <Grid container item xs={12}  >
-          <Grid item xs={6}>
+          <Grid item xs={7}>
               <DotLegend 
               className={classes.border}
                 
@@ -36,12 +36,10 @@ function summary() {
                 style={{ background: '#ebbb0b', marginBottom: "-2px" }}
               /><small><b>Holiday</b></small><br />
 
-              <DotLegend className={classes.border}
-                style={{ background: '#bdbdbd',  marginBottom: "-2px" }}
-              /><small><b>Outside Academic Year</b></small><br />
+            
             </Grid>
 
-            <Grid item xs={6} >
+            <Grid item xs={5} >
               <DotLegend className={classes.border}
                 style={{ background: '#f33737',  marginBottom: "-2px" }}
               /><small><b>Absent</b></small><br />
@@ -54,6 +52,11 @@ function summary() {
                 style={{ background: '#00b8d4',  marginBottom: "-2px" }}
               /><small><b style={{ marginTop: "5px" }}>Late Join</b></small><br />
             </Grid>
+            <Grid item xs={12} >
+            <DotLegend className={classes.border}
+                style={{ background: '#bdbdbd',  marginBottom: "-2px"}}
+              /><small><b>Outside Academic Year</b></small><br />
+                 </Grid>
           </Grid>
   
      

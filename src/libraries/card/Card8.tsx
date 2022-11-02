@@ -11,6 +11,7 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
 import ReplyIcon from '@mui/icons-material/Reply';
+import { sitePath } from 'src/components/Common/Util';
 
 Card8.propTypes = {
   From: PropTypes.string,
@@ -26,7 +27,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
-    'https://192.168.1.80' +
+    sitePath+
     '/RITeSchool/Uploads/' +
     Attachments;
 

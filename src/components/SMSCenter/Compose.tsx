@@ -15,6 +15,9 @@ import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
+import BackButton from 'src/libraries/button/BackButton';
 
 
 const Compose = () => {
@@ -147,7 +150,7 @@ const handleChangeForTemplate = (e) => {
        submitResult(); 
     },
     validate:(values) =>{
-      // debugger;
+
       const errors: any = {};
       if (RecipientsArray.RecipientName.toString().length == 0) {
           errors.To = 'Atleast one recipient should be selected.';
@@ -161,7 +164,7 @@ const handleChangeForTemplate = (e) => {
 
   // Send SMS
   const submitResult = () =>{
-    debugger;
+
     const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
       aoMessage: {
@@ -227,34 +230,19 @@ const handleChangeForTemplate = (e) => {
   };
 
   return (
-    <>
+    <Container>
       <PageHeader heading={'Compose SMS'} subheading={''} />
 
       <Box style={{ display: displayOfCompose_Page }}>
-        <Grid
-          container
-          direction="row"
-          sx={{ mt: '-35px', marginLeft: '35px' }}
-        >
-          <Box
-            onClick={() => navigate('/extended-sidebar/SMSCenter/smsCenter')}
-          >
-            <Fab
-              className={classes.backArrow}
-              sx={{
-                background: `${theme.colors.gradients.blue2}`,
-                position: 'absolute'
-              }}
-            >
-              <ReplyIcon />
-            </Fab>
-          </Box>
-        </Grid>
+      
+        
+          <BackButton FromRoute={'/SMSCenter/smsCenter'}/>
+      
         <br />
-        <br />
+     
         <>
-        <br />
-          <Container>
+      
+        
             <Box >
               <ClickAwayListener onClickAway={handleClickAway}>
                 <Tooltip
@@ -288,7 +276,7 @@ const handleChangeForTemplate = (e) => {
                 </Tooltip>
               </ClickAwayListener>
             </Box>
-            <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+            <ListStyle sx={{}}>
               <form onSubmit={formik.handleSubmit}>
                 <FormControl fullWidth>
                   <TextField
@@ -323,19 +311,13 @@ const handleChangeForTemplate = (e) => {
                 </FormControl>
                 
                 <Grid container style={{ marginTop: '15px' }}>
-                  <Grid md={3} style={{ flexDirection: 'row' }}>
-                    <Button
-                      sx={{
-                        background: 'blue'
-                      }}
-                      color="primary"
-                      fullWidth
-                      size="large"
-                      variant="contained"
-                      onClick={To_Recipients_Page}
+                  <Grid md={3} >
+                    <ButtonPrimary
+                     fullWidth
+                     onClick={To_Recipients_Page}
                     >
                       Add Recipients
-                    </Button>
+                    </ButtonPrimary>
                   </Grid>
                 </Grid>
 
@@ -368,7 +350,7 @@ const handleChangeForTemplate = (e) => {
                   </Grid>
                 </Grid>
 
-                <Typography
+                <CardDetail2
                   sx={{
                     color: 'blue',
                     marginTop: 1,
@@ -378,7 +360,7 @@ const handleChangeForTemplate = (e) => {
                 >
                   {' '}
                   Letters = {initialCount} Message = {initialMessage}{' '}
-                </Typography>
+                </CardDetail2>
 
                 <TextField
                   fullWidth
@@ -400,25 +382,22 @@ const handleChangeForTemplate = (e) => {
                 </div>
                 <br/>
                 <Grid container>
-                  <Grid xs={12} style={{ flexDirection: 'row' }}>
-                    <Button
-                      sx={{
-                        background: 'blue'
-                      }}
-                      color="primary"
+                  <Grid xs={12} >
+                    <ButtonPrimary
+                     
+                    
                       type="submit"
                       fullWidth
-                      size="large"
-                      variant="contained"
+                   
                       onClick={formik.handleChange}
                     >
                      Send
-                    </Button>
+                    </ButtonPrimary>
                   </Grid>
                 </Grid>
               </form>
-            </Card>
-          </Container>
+            </ListStyle>
+      
         </>
       </Box>
 
@@ -427,7 +406,7 @@ const handleChangeForTemplate = (e) => {
       <div style={{ display: displayOfTo_RecipientsPage }}>
         <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} />
       </div>
-    </>
+    </Container>
   );
 };
 export default Compose;

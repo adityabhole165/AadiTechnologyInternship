@@ -12,6 +12,7 @@ import React, { useState } from 'react';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
+import { sitePath } from 'src/components/Common/Util';
 
 Card27.propTypes = {
   FeesType: PropTypes.string,
@@ -38,8 +39,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
-  let sitePath = 'https://192.168.1.80';
-  let downloadPathOfReceipt = sitePath + filePath;
+  let sitePathURL = sitePath;
+  let downloadPathOfReceipt = sitePathURL + filePath;
 
   const downloadReceiptFile = (receiptNo) => {
     const getReceiptFileName_body: any = {
