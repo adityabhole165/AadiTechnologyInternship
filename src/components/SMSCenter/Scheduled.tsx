@@ -7,8 +7,10 @@ import { GetScheduledSMSResult } from 'src/interfaces/AdminSMSCenter/AScheduledS
 import List18 from 'src/libraries/list/List18';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import {styled,useTheme} from '@mui/material';
+import {Container, styled,useTheme} from '@mui/material';
 import {Styles} from 'src/assets/style/student-style';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 
 function Scheduled() {   
 
@@ -31,23 +33,23 @@ function Scheduled() {
         dispatch(getScheduledSMSList(body));
     },[])
 
-    const DotLegend = styled('span')(
-        ({ theme }) => `
-          border-radius: 22px;
-          width: ${theme.spacing(1.5)};
-          height: ${theme.spacing(1.5)};
-          display: inline-block;
-          margin-right: ${theme.spacing(1)};
-          margin-top: -${theme.spacing(0.1)};
-      `
-    );
+   
 
     return(
         <>
-        <DotLegend  className={classes.border}
-                        style={{ background: '#e9a69a',marginLeft: '1.5rem',marginBottom:"-2px" }}
-                      /><small><b style={{color:"black"}}> Upcoming Scheduled Messages </b></small><br />
-                     <br/>
+        <Container>
+        <br />
+           <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#e9a69a' }}
+            />
+                   
+
+            <CardDetail7>Upcoming Scheduled Messages</CardDetail7>
+          </DotLegend1>
+          </Container>
+        
             {
                 (list == undefined ) 
                 ?

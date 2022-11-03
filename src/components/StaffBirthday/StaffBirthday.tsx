@@ -12,6 +12,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import List17 from 'src/libraries/list/list17';
 import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 
 function StaffBirthday() {
   const dispatch = useDispatch();
@@ -64,16 +66,7 @@ function StaffBirthday() {
     asSchoolId: '120'
   };
 
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-      border-radius: 22px;
-      width: ${theme.spacing(1.5)};
-      height: ${theme.spacing(1.5)};
-      display: inline-block;
-      margin-right: ${theme.spacing(1)};
-      margin-top: -${theme.spacing(0.1)};
-  `
-  );
+ 
   useEffect(() => {
     dispatch(getstaffBirthday(body));
   }, [assignedMonth]);
@@ -84,20 +77,18 @@ function StaffBirthday() {
   return (
     <Container>
       <PageHeader heading={'Staff Birthdays'} subheading={''} />
-      <DotLegend
-        className={classes.border}
-        style={{
-          background: '#e9a69a',
-     
-          marginBottom: '-2px'
-        }}
-      />
-      <small>
-        <b> Upcoming Birthday </b>
-      </small>
-      <br />
-      <br />
-<Buttons
+      
+        <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#e9a69a' }}
+            />
+                   
+
+            <CardDetail7>Upcoming Birthday</CardDetail7>
+          </DotLegend1>
+          <br />
+       <Buttons
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
