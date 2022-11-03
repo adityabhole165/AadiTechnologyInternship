@@ -131,22 +131,14 @@ if (RoleId === '3') {
   if (RoleId === '6') {
     items1 = DashboardData.Admin.items1.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && (el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
     items2 = DashboardData.Admin.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && (el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
+        (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
   }
@@ -154,38 +146,26 @@ if (RoleId === '3') {
   if (RoleId === '2') {
     items1 = DashboardData.Teacher.items1.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && (el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
     items2 = DashboardData.Teacher.items2.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && (el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
+        (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
     items3 = DashboardData.Teacher.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName ===
-          (el.ScreenPermission === undefined
-            ? f.ScreenName
-            : el.ScreenPermission) && (el.ScreenPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
+        (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
   }
 
   let header2 = RoleId === '3' ? 'Student' : 'Teacher';
-  let header3 = RoleId === '6' ? 'Communication' : 'Exam & Communication';
+  let header3 = RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
   
   return (
     <>
