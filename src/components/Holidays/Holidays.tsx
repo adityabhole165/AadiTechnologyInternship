@@ -56,16 +56,14 @@ function Holidays() {
         text1: item.StartDate,
         text2: 'Total Days: ' + item.ToatalDays,
         subtitle: 'Total Days: ' + item.ToatalDays,
-        isSelected: 1,
-        backgroundColor: (isTodaysDate(item.StartDate)) ? 'secondary' : 'warning'
+        backgroundColor:'secondary'
       }
       : {
         id: index,
         header: item.Name,
         text1: item.StartDate,
         text2: 'Total Days: ' + item.ToatalDays,
-        isSelected: 0,
-        backgroundColor: (isTodaysDate(item.StartDate)) ? 'secondary' : 'primary'
+        backgroundColor:  'primary'
       };
   });
 
@@ -74,12 +72,10 @@ function Holidays() {
       <PageHeader heading={'Holidays'} subheading={''} />
       <Grid container>
         <Grid item xs={6}>
-          <DotLegend color='secondary' text="Today's Holiday" />
-        </Grid><Grid item xs={6}>
-          <DotLegend color='warning' text='Upcoming Holidays' />
+          <DotLegend color='secondary' text='Upcoming Holidays' />
         </Grid>
       </Grid>
-      <br/>
+  
 
       <List1 items={Data} />
     </Container>

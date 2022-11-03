@@ -8,10 +8,17 @@ import { RootState } from 'src/store';
 import { Card, styled, TextField } from '@mui/material';
 import IFees from 'src/interfaces/Student/Fees';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container, Box } from '@mui/material';
+import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
+import {
+  CardDetail1,
+  CardDetail7,
+  CardDetail8,
+  ListStyle
+} from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
+import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
+import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
 
 function Fees() {
   const dispatch = useDispatch();
@@ -48,38 +55,36 @@ function Fees() {
 
   const theme = useTheme();
 
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-        border-radius: 22px;
-        width: ${theme.spacing(1.5)};
-        height: ${theme.spacing(1.5)};
-        display: inline-block;
-        margin-right: ${theme.spacing(1)};
-        margin-top: -${theme.spacing(0.1)};
-    `
-  );
+ 
   const classes = Styles();
   const note1 = ['1) *RTE student (100% Consession on school fees)'];
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
-        <Box sx={{ display: 'flex' }}>
-        <DotLegend
-          className={classes.border}
-          style={{ background: 'red', marginRight: '3px' ,marginTop:"1px" }}
-        />
-       
-        <CardDetail8>Bounced cheque Transaction</CardDetail8>
-        <DotLegend
-          className={classes.border}
-          sx={{ background: '#64b5f6', mr: '8px', ml: '6px',mt:"1px" }}
-        />
-       
-        <CardDetail8>Refunded Fees</CardDetail8>
-        <br/>
-        <br/>
-        
-      </Box>
+      <Grid container>
+        <Grid item xs={7.5}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+
+            <CardDetail7>Bounced cheque Transaction</CardDetail7>
+          </DotLegend1>
+        </Grid>
+
+        <Grid item xs={4.5}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              sx={{ background: '#64b5f6' }}
+            />
+
+            <CardDetail7>Refunded Fees</CardDetail7>
+          </DotLegend1>
+        </Grid>
+      </Grid>
+      <br />
 
       <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>

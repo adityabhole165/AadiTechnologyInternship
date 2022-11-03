@@ -87,17 +87,7 @@ function ExamSchedule() {
 
   const theme = useTheme();
   const classes = Styles();
-  // const DotLegend = styled('span')(
-  //   ({ theme }) => `
-  //         border-radius: 22px;
-  //         width: ${theme.spacing(1.5)};
-  //         height: ${theme.spacing(1.5)};
-  //         display: inline-block;
-  //         margin-right: ${theme.spacing(1)};
-  //         margin-top: -${theme.spacing(0.1)};
-  //     `
-  // );
-  console.log(ExamsList);
+ 
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />

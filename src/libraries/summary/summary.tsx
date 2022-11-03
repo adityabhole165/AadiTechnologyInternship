@@ -1,66 +1,80 @@
-import { Styles } from 'src/assets/style/student-style'
+import { Styles } from 'src/assets/style/student-style';
 import { styled, useTheme, Grid, Container } from '@mui/material';
 import { Box } from '@mui/material';
+import { CardDetail7 } from '../styled/CardStyle';
+import { DotLegend1, DotLegendStyled1 } from '../styled/DotLegendStyled';
 
 function summary() {
-
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-          border-radius: 22px;
-          width: ${theme.spacing(1.5)};
-          height: ${theme.spacing(1.5)};
-          display: inline-block;
-          margin-right: ${theme.spacing(1)};
-          margin-top: -${theme.spacing(0.1)};
-      `
-  );
+ 
   const theme = useTheme();
   const classes = Styles();
 
   return (
     <>
-    
-        <Grid container item xs={12}  >
-          <Grid item xs={7}>
-              <DotLegend 
+      <Grid container item xs={12}>
+        <Grid item xs={7}>
+          <DotLegend1>
+            <DotLegendStyled1
               className={classes.border}
-                
-              style={{ background: '#2abf2a', marginBottom: "-2px" }}
-              /><small><b>Present</b></small><br />
+              style={{ background: '#2abf2a' }}
+            />
+            <CardDetail7>Present</CardDetail7>
+          </DotLegend1>
+          
 
-              <DotLegend className={classes.border}
-                style={{ background: 'yellow',  marginBottom: "-2px" }}
-              /><small><b>Weekend</b></small><br />
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'yellow' }}
+            />
+            <CardDetail7>Weekend</CardDetail7>
+          </DotLegend1>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#ebbb0b' }}
+            />
+            <CardDetail7>Holiday</CardDetail7>
+          </DotLegend1>
+        </Grid>
 
-              <DotLegend className={classes.border}
-                style={{ background: '#ebbb0b', marginBottom: "-2px" }}
-              /><small><b>Holiday</b></small><br />
-
-            
-            </Grid>
-
-            <Grid item xs={5} >
-              <DotLegend className={classes.border}
-                style={{ background: '#f33737',  marginBottom: "-2px" }}
-              /><small><b>Absent</b></small><br />
-
-              <DotLegend className={classes.border}
-                style={{ background: '#b2a4dd',  marginBottom: "-2px" }}
-              /><small><b>Not Available</b></small><br />
-
-              <DotLegend className={classes.border}
-                style={{ background: '#00b8d4',  marginBottom: "-2px" }}
-              /><small><b style={{ marginTop: "5px" }}>Late Join</b></small><br />
-            </Grid>
-            <Grid item xs={12} >
-            <DotLegend className={classes.border}
-                style={{ background: '#bdbdbd',  marginBottom: "-2px"}}
-              /><small><b>Outside Academic Year</b></small><br />
-                 </Grid>
-          </Grid>
-  
+        <Grid item xs={5}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#f33737' }}
+            />
+            <CardDetail7>Absent</CardDetail7>
+          </DotLegend1>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#b2a4dd' }}
+            />
+        
+            <CardDetail7>Not Available</CardDetail7>
+          </DotLegend1>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#00b8d4' }}
+            />
+            <CardDetail7>Late Join</CardDetail7>
+           
+          </DotLegend1>
+        </Grid>
+        <Grid item xs={12}>
+        <DotLegend1>
+          <DotLegendStyled1
+            className={classes.border}
+            style={{ background: '#bdbdbd' }}
+          />
+          <CardDetail7>Outside Academic Year</CardDetail7>
+          </DotLegend1>
      
+        </Grid>
+      </Grid>
     </>
-  )
+  );
 }
-export default summary
+export default summary;
