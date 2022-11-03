@@ -9,6 +9,7 @@ import {
 import { CardDetail2 } from '../styled/CardStyle';
 import { ListStyle } from '../styled/CardStyle';
 
+
 Card20.propTypes = {
   percentage: PropTypes.any,
   subjecttotalmarks: PropTypes.string,
@@ -33,7 +34,7 @@ function Card20({
 {
   return (
     <>
-      <ListStyle>
+      <ListStyle sx={{backgroundColor:"pink"}}>
         <CardDetailB>
           <CardDetail2> Total</CardDetail2>
           <CardDetail2>{grandTotal + "/" + subjectTotalMarks}</CardDetail2>
