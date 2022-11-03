@@ -1,5 +1,6 @@
+
 import React from 'react';
-import {Paper,Grid,useTheme,Container,IconButton,Typography,Box,Card,Avatar} from '@mui/material';
+import {useTheme,Container,IconButton,Typography,Box} from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -8,17 +9,17 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-import AssessmentIcon from '@mui/icons-material/Assessment';
+
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
-import { iteratorSymbol } from 'immer/dist/internal';
-import { makeStyles } from '@mui/styles';
+import { IconCard, IconCardSize, Text1, Text2 } from '../styled/DashboardStyled';
+
 
 function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl}) {
   const theme = useTheme();
@@ -27,36 +28,9 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
   return (
     <>
       <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{textDecoration:'none'}}>
-      <Box
-        sx={{
-          mb: '10px',
-          mt: '-8px',
-          textAlign:"center"
-        }}
-      >
+      <IconCard>
         <IconButton>
-          <Box
-            sx={{
-              width: 70,
-              height: 70,
-              '@media (max-width: 320px)' : {
-                width: 60,
-                height: 65,
-              },
-              '@media (max-width: 280px)' : {
-                width: 50,
-                height: 55,
-              },
-              background: `${theme.colors.gradients.pink1}`,
-              
-              borderRadius: '10px',
-              mb: '5px',
-              textAlign: 'center',
-              textDecoration:"none",
-              boxShadow:
-                ' 1px 4px 5px 2px rgba(0,0,0,0.3)'
-            }}
-          >
+          <IconCardSize>
             {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
             {icon === 3 && <DateRangeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
@@ -82,49 +56,15 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 22 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
            
-            <Typography
-              sx={{
-                mt: '-3px',
-                textAlign: 'center',
-                fontSize: '12px',
-                '@media (max-width: 320px)' : {
-                  fontSize: '10px',
-                },
-                '@media (max-width: 280px)' : {
-                  fontSize: '9px',
-                  mt: '-8px',
-                },
-                textDecoration:"none",
-                color:'black',
-                lineHeight: '1rem',
-              
-              }}
-            >
+            <Text1>
               {text1}
-            </Typography>
-            <Typography
-              sx={{
-                mt: '-5px',
-                textAlign: 'center',
-                fontSize: '12px',
-                '@media (max-width: 320px)' : {
-                  fontSize: '10px',
-                },
-                '@media (max-width: 280px)' : {
-                  fontSize: '9px',
-                  mt: '-8px',
-                },
-                lineHeight: '1.3rem',
-                textDecoration:"none",
-                color:'black',
-            
-              }}
-            >
+            </Text1>
+            <Text2>
               {text2}
-            </Typography>
-          </Box>
+            </Text2>
+          </IconCardSize>
           </IconButton>
-      </Box>
+      </IconCard>
       </Link>
  
     </>

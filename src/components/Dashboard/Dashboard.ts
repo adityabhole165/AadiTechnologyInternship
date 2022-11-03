@@ -273,7 +273,6 @@ const DashboardData = {
         Icon: PhotoIcon,
         Link: 'Common/PhotoGallery',
         index: 4,
-        ScreenPermission: ''
       },
       {
         Text1: 'Video  ',
@@ -283,7 +282,6 @@ const DashboardData = {
         Icon: VideoLibraryIcon,
         Link: 'Common/VideoGallery',
         index: 5,
-        ScreenPermission: ''
       },
     ],
     items2:[
@@ -393,7 +391,6 @@ const DashboardData = {
       Icon: PhotoIcon,
       Link: 'Common/PhotoGallery',
       index: 4,
-      ScreenPermission: ''
     },
     
     {
@@ -404,7 +401,6 @@ const DashboardData = {
       Icon: VideoLibraryIcon,
       Link: 'Common/VideoGallery',
       index: 5,
-      ScreenPermission: ''
     },
      
      ],
@@ -418,7 +414,6 @@ const DashboardData = {
         Icon: ForwardToInboxIcon,
         Link: 'MessageCenter/msgCenter',
         index: 21,
-        ScreenPermission: 'MessageCenter'
       },
       {
         Text1: 'SMS ',
@@ -427,7 +422,7 @@ const DashboardData = {
         iconColor: '#35abd9',
         Link: 'SMSCenter/smsCenter',
         index: 22,
-        ScreenPermission: 'SMSCenter'
+        ScreenPermission: 'SMS Center'
       },
     ]
    }

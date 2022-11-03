@@ -15,10 +15,13 @@ import { Container, styled } from '@mui/material';
 import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-
+import { Styles } from 'src/assets/style/student-style';
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import { getDateFormatted } from '../Common/Util'
 import { useParams } from 'react-router-dom';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
+import DotLegend from 'src/libraries/summary/DotLegend';
 
 function Homework() {
   const dispatch = useDispatch();
@@ -91,16 +94,7 @@ function Homework() {
     }
   }, [DateFromHomework]);
   
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-        border-radius: 10px;
-        width: ${theme.spacing(1.5)};
-        height: ${theme.spacing(1.5)};
-        display: inline-block;
-        margin-right: ${theme.spacing(1)};
-        margin-top: -${theme.spacing(0.1)};
-    `
-  );
+
 
   const getNextDate = (dayMultiple) => {
     const { selectedDate } = date;
@@ -122,22 +116,22 @@ function Homework() {
     setCalanderDate(NewDateFormat);
     setcalanderSelected(true);
   }
-
+  const classes = Styles();
   return (
     <>
       <Container>
         <PageHeader heading={'Homework'} subheading={''} />
         <div>
-          <DotLegend
-            sx={{
-              backgroundColor: '#8896FF',
-              marginBottom: '-2px',
-              border: '1px black solid'
-            }}
-          />
-          <small>
-            <b> Completed By Date </b>
-          </small>
+        <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#8896FF' }}
+            />
+                   
+
+            <CardDetail7>Completed By Date</CardDetail7>
+          </DotLegend1>
+        
         </div>{' '}
         <br />
         <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>

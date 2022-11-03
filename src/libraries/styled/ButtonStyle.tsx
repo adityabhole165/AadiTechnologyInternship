@@ -1,4 +1,4 @@
-import { styled, Button } from '@mui/material';
+import { styled, Button, Box } from '@mui/material';
 
 export const ButtonPrimary = styled(Button)(
   ({ theme, color }) => `
@@ -42,5 +42,33 @@ border-radius: 3px;
 
 box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 
+`
+);
+
+export const Buttontab = styled(Box)(
+  ({ theme, color }) => `
+
+  background: ${
+    color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+      ? theme.colors.gradients.HighlightedlistColor
+      : color === 'warning'
+      ? theme.colors.gradients.selectedlistColor
+      : color === 'info'
+      ? theme.colors.gradients.pageBackground
+      : theme.colors.gradients.listColor
+  };
+ text-align:center;
+  font-size: 10px;
+  color:black;
+  @media (max-width: 280px) {
+    font-size: 9px;
+  };
+ padding:4px;
+border-radius: 6px;
+   margin-bottom: 8px;
+   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+};
 `
 );

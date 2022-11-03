@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import PropTypes from 'prop-types';
+import { HeadingStyle } from '../styled/HeadingStyled';
 import {
   styled,
   Typography,
@@ -26,26 +27,7 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading }) => {
 
   return (
     <RootWrapper display="flex" alignItems="center">
-      <Typography
-        variant="h3"
-        sx={{
-          fontWeight: '500',
-          fontSize: '25px',
-          color: 'black',
-          margin: 'auto',
-          textShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-          fontFamily: 'roboto',
-         
-          '@media (min-width: 280px) and (max-width: 320px)' : {
-            fontSize: '18px',
-        
-          }
-       
-         
-        }}
-      >
-        {heading}
-      </Typography>
+      <HeadingStyle>{heading}</HeadingStyle>
       {subheading && (
         <Typography
           variant="subtitle2"

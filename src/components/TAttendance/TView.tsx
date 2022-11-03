@@ -16,6 +16,13 @@ import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance
 import ReplyIcon from '@mui/icons-material/Reply';
 import { getDateFormatted } from '../Common/Util'
 import DateSelector from 'src/libraries/buttons/DateSelector';
+import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
+import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
+import {
+
+  CardDetail7,
+
+} from 'src/libraries/styled/CardStyle';
 
 
 const TView = () => {
@@ -105,29 +112,31 @@ const TView = () => {
           <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
       </Grid>
 
-      <Grid container direction="row">
-        <Grid item xs={4}>
-          <DotLegend
-            className={classes.border}
-            style={{ background: '#f33737', }}
-          />
-          <small>
-            <b>Absent</b>
-          </small>
-          <br />
+      <Grid container>
+        <Grid item xs={6}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+
+            <CardDetail7>Absent</CardDetail7>
+          </DotLegend1>
         </Grid>
-        <Grid item xs={4}>
-          <DotLegend
-            className={classes.border}
-        
-            style={{ background: '#00b8d4', }}
-          />
-          <small>
-            <b>Late Join</b>
-          </small>
-          <br />
+
+        <Grid item xs={6}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              sx={{ background: '#64b5f6' }}
+            />
+
+            <CardDetail7>Late Join</CardDetail7>
+          </DotLegend1>
         </Grid>
       </Grid>
+
+      
       <>
         <>
           <FormControl

@@ -318,7 +318,7 @@ function Header() {
               component={NavLink}
             >
               <AccountBoxTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Profile</Typography>} />
+              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Profile</UserBoxLabel>} />
             </ListItem>
             <ListItem
               onClick={() => {
@@ -329,7 +329,7 @@ function Header() {
               component={NavLink}
             >
               <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</Typography>} />
+              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</UserBoxLabel>} />
             </ListItem>
             {siblingList.length == 0 ? (
               <>
@@ -345,11 +345,11 @@ function Header() {
                   >
                     <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
                     <ListItemText
-                      primary={<Typography sx={{ color: "blue", fontWeight: "bold" }}
+                      primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}
                         onClick={() => {
                           loginToSibling(siblingList[0].UserName, siblingList[0].Password);
                         }}
-                      >Sibling Login</Typography>} />
+                      >Sibling Login</UserBoxLabel>} />
                   </ListItem>
                 </>
               ) :
@@ -391,7 +391,7 @@ function Header() {
                   color: "#053082"
                 }}
               />
-              <Typography sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</Typography>
+              <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
             </Button>
           </Box>
         </Popover>
