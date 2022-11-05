@@ -353,5 +353,34 @@ export const Styles = makeStyles({
     fontSize: '12px !important',
     color: 'black',
    
-  }
+  },
+
+ iIconExamSchedule : {
+
+  fontSize: "20px !important",  
+  marginTop: '-93px', 
+  backgroundColor: "#e8a0e7", 
+  borderRadius: "50px", 
+  marginRight: "-10px",
+  '@media (max-width: 280px)': {
+    fontSize: "15px !important",
+    marginTop: '-95px',  
+  },
+ },
+
+ iIconTExamSchedule : {
+
+  fontSize: "20px !important", 
+  marginTop: '20px', 
+  backgroundColor: "#e8a0e7", 
+  borderRadius: "50px", 
+  marginRight: "8px",
+  '@media (max-width: 280px)': {
+    fontSize: "15px !important", 
+    marginRight: "10px",
+  },
+ },
+
+
+
 });

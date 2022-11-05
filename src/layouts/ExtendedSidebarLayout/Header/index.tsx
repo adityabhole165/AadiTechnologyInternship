@@ -398,7 +398,7 @@ function Header() {
         <Avatar sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add">
           <NotificationsIcon fontSize="medium" onClick={Notification} />
         </Avatar>
-        <ThemeSettings />
+        {/* <ThemeSettings /> */}
       </Stack>
 
     </HeaderWrapper>
