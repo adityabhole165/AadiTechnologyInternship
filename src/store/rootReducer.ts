@@ -37,10 +37,12 @@ import AdminSentSlice from 'src/requests/AdminSMSCenter/Sent';
 import GetuserSlice from 'src/requests/AdminSMSCenter/To';
 import AComposeSMSSlice from 'src/requests/AdminSMSCenter/AComposeSMS';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
-import Feedbackslice from 'src/requests/Feedback/Feedback'
+import Feedbackslice from 'src/requests/Feedback/Feedback';
+import Notificationslice from "../requests/Notification/Notification";
 
 const rootReducer = combineReducers({
     Holidays:Holidaysslice,
+    Notification:Notificationslice,
     staffBirthday:staffBirthdayslice,
     Timetable:Timetableslice,
     Schoolnotice:Schoolnoticeslice,

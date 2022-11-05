@@ -241,7 +241,6 @@ const DashboardData = {
         Icon: AssignmentIcon,
         Link: 'Common/SchoolNotice',
         index: 1,
-        ScreenPermission: 'EnableSchoolNotices'
       },
       {
         Text1: 'Annual  ',
