@@ -27,190 +27,190 @@ const Item = styled(Card)(({ theme }) => ({
 
 function MessaageCenter() {
 
-  useEffect(() => {
-    localStorage.setItem('url', window.location.pathname);
-  }, []);
+  // useEffect(() => {
+  //   localStorage.setItem('url', window.location.pathname);
+  // }, []);
 
-  const classes = Styles();
+  // const classes = Styles();
 
-  const pathname = window.location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/MessageCenter/msgCenter/',
-    ''
-  );
+  // const pathname = window.location.pathname;
+  // const pageName = pathname.replace(
+  //   '/extended-sidebar/MessageCenter/msgCenter/',
+  //   ''
+  // );
 
-  const [FilterData,setFilterData] = useState<boolean>(false);
+  // const [FilterData,setFilterData] = useState<boolean>(false);
 
-  const SearchData = (e) => {
-    // setShow(!e.Apply);
-    setFilterData(!e.Apply);
-  }
-  const [show, setShow] = useState(false);
-  const handleClick = (e) => {
-    setShow(!show);
-  };
+  // const SearchData = (e) => {
+  //   // setShow(!e.Apply);
+  //   setFilterData(!e.Apply);
+  // }
+  // const [show, setShow] = useState(false);
+  // const handleClick = (e) => {
+  //   setShow(!show);
+  // };
 
-  //  Close icon
-  const closeIconClicked = (e) =>{
-    setShow(!e)
-  }
-
-  const iii = document.getElementById('mainDiv2');
-  // console.log(iii);
-
-
-  const scrolling = () => {
-  // console.log(window.scrollY)
-
-    // console.log(iii);
-    // console.log(window.innerHeight - document.documentElement.scrollTop);
-    // console.log(document.documentElement.offsetHeight);
-    // console.log(iii.scrollTop )
-    // console.log(iii.offsetHeight)
-  }
-
-  // document.onscroll = function(){
-  //   console.log("hello");
-    
+  // //  Close icon
+  // const closeIconClicked = (e) =>{
+  //   setShow(!e)
   // }
 
+  // const iii = document.getElementById('mainDiv2');
+  // // console.log(iii);
 
-  return (
-    <>
+
+  // const scrolling = () => {
+  // // console.log(window.scrollY)
+
+  //   // console.log(iii);
+  //   // console.log(window.innerHeight - document.documentElement.scrollTop);
+  //   // console.log(document.documentElement.offsetHeight);
+  //   // console.log(iii.scrollTop )
+  //   // console.log(iii.offsetHeight)
+  // }
+
+  // // document.onscroll = function(){
+  // //   console.log("hello");
+    
+  // // }
 
 
-      <Container >
-        <PageHeader heading={'Message Center'} subheading={''} />
-        {!show && (
-          <Box sx={{ width: 'auto', marginBottom: '10px'}}>
-            <Grid
-              container
-              rowSpacing={1}
-              columnSpacing={{ xs: 1, sm: 2, md: 3 }}
-            >
-              <Grid item xs={3.5}>
-                <Link
-                  to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
-                  className={classes.TextDecoration}
-                >
-                  <Item
-                    sx={
-                      pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
-                      pageName == 'Inbox'
-                        ? {
-                            fontSize: '10px',
-                            backgroundColor: 'gray',
-                            color: 'white',
+  // return (
+  //   <>
+
+
+  //     <Container >
+  //       <PageHeader heading={'Message Center'} subheading={''} />
+  //       {!show && (
+  //         <Box sx={{ width: 'auto', marginBottom: '10px'}}>
+  //           <Grid
+  //             container
+  //             rowSpacing={1}
+  //             columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+  //           >
+  //             <Grid item xs={3.5}>
+  //               <Link
+  //                 to="/extended-sidebar/MessageCenter/msgCenter/Inbox"
+  //                 className={classes.TextDecoration}
+  //               >
+  //                 <Item
+  //                   sx={
+  //                     pageName == '/extended-sidebar/MessageCenter/msgCenter' ||
+  //                     pageName == 'Inbox'
+  //                       ? {
+  //                           fontSize: '10px',
+  //                           backgroundColor: 'gray',
+  //                           color: 'white',
                           
-                          }
-                        : { fontSize: '10px' }
-                    }
-                  >
-                    <InboxIcon />
-                    <br />
-                    <b>Inbox</b>
-                  </Item>
-                </Link>
-              </Grid>
+  //                         }
+  //                       : { fontSize: '10px' }
+  //                   }
+  //                 >
+  //                   <InboxIcon />
+  //                   <br />
+  //                   <b>Inbox</b>
+  //                 </Item>
+  //               </Link>
+  //             </Grid>
 
-              <Grid item xs={3.5}>
-                <Link
-                  to="/extended-sidebar/MessageCenter/msgCenter/Sent"  //FilterData
-                  className={classes.TextDecoration}
-                >
-                  <Item
-                    sx={
-                      pageName == 'Sent'
-                        ? {
-                            fontSize: '10px',
-                            backgroundColor: 'gray',
-                            color: 'white'
-                          }
-                        : { fontSize: '10px' }
-                    }
-                  >
-                    <SendIcon />
-                    <br />
-                    <b>Sent</b>
-                  </Item>
-                </Link>
-              </Grid>
+  //             <Grid item xs={3.5}>
+  //               <Link
+  //                 to="/extended-sidebar/MessageCenter/msgCenter/Sent"  //FilterData
+  //                 className={classes.TextDecoration}
+  //               >
+  //                 <Item
+  //                   sx={
+  //                     pageName == 'Sent'
+  //                       ? {
+  //                           fontSize: '10px',
+  //                           backgroundColor: 'gray',
+  //                           color: 'white'
+  //                         }
+  //                       : { fontSize: '10px' }
+  //                   }
+  //                 >
+  //                   <SendIcon />
+  //                   <br />
+  //                   <b>Sent</b>
+  //                 </Item>
+  //               </Link>
+  //             </Grid>
 
-              <Grid item xs={3.5}>
-                <Link
-                  to="/extended-sidebar/MessageCenter/msgCenter/Trash"
-                  className={classes.TextDecoration}
-                >
-                  <Item
-                    sx={
-                      pageName == 'Trash'
-                        ? {
-                            fontSize: '10px',
-                            backgroundColor: 'gray',
-                            color: 'white'
-                          }
-                        : { fontSize: '10px' }
-                    }
-                  >
-                    <DeleteIcon />
-                    <br />
-                    <b>Trash</b>
-                  </Item>
-                </Link>
-              </Grid>
+  //             <Grid item xs={3.5}>
+  //               <Link
+  //                 to="/extended-sidebar/MessageCenter/msgCenter/Trash"
+  //                 className={classes.TextDecoration}
+  //               >
+  //                 <Item
+  //                   sx={
+  //                     pageName == 'Trash'
+  //                       ? {
+  //                           fontSize: '10px',
+  //                           backgroundColor: 'gray',
+  //                           color: 'white'
+  //                         }
+  //                       : { fontSize: '10px' }
+  //                   }
+  //                 >
+  //                   <DeleteIcon />
+  //                   <br />
+  //                   <b>Trash</b>
+  //                 </Item>
+  //               </Link>
+  //             </Grid>
 
-              <Grid item xs={1.5}>
-                <SearchIcon
-                  sx={{
-                    fontSize: '40px',
-                    marginTop: '10px',
-                    cursor: 'pointer'
-                  }}
-                  onClick={handleClick}
-                />
-              </Grid>
+  //             <Grid item xs={1.5}>
+  //               <SearchIcon
+  //                 sx={{
+  //                   fontSize: '40px',
+  //                   marginTop: '10px',
+  //                   cursor: 'pointer'
+  //                 }}
+  //                 onClick={handleClick}
+  //               />
+  //             </Grid>
 
-              <Grid
-                item
-                xs={3}
-                sx={{
-                  position: 'fixed',
-                  bottom: '85px',
-                  zIndex: '2',
-                  width: '25vw',
-                  marginLeft: '10px',
-                  right: '20px'
-                }}
-              >
-                <RouterLink
-                  style={{ textDecoration: 'none' }}
-                  to={
-                    `/${
-                      location.pathname.split('/')[1]
-                    }/MessageCenter/Compose`
-                  }
-                >
-                  <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
-                    <AddCircleIcon />
-                    <br />
-                    <b>Compose</b>
-                  </Item>
-                </RouterLink>
-              </Grid>
-            </Grid>
-          </Box>
-        )}
-        {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
-      </Container>
-      {/* <div
-        id='mainDiv2'
-        // onScroll={scrolling}
-        // style={{ position: 'absolute', width: '100%', paddingBottom: '100px',height:'570px' ,overflow:'auto'}}
-      > */}
-        <Outlet />
-      {/* </div> */}
-    </>
-  );
+  //             <Grid
+  //               item
+  //               xs={3}
+  //               sx={{
+  //                 position: 'fixed',
+  //                 bottom: '85px',
+  //                 zIndex: '2',
+  //                 width: '25vw',
+  //                 marginLeft: '10px',
+  //                 right: '20px'
+  //               }}
+  //             >
+  //               <RouterLink
+  //                 style={{ textDecoration: 'none' }}
+  //                 to={
+  //                   `/${
+  //                     location.pathname.split('/')[1]
+  //                   }/MessageCenter/Compose`
+  //                 }
+  //               >
+  //                 <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
+  //                   <AddCircleIcon />
+  //                   <br />
+  //                   <b>Compose</b>
+  //                 </Item>
+  //               </RouterLink>
+  //             </Grid>
+  //           </Grid>
+  //         </Box>
+  //       )}
+  //       {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
+  //     </Container>
+  //     {/* <div
+  //       id='mainDiv2'
+  //       // onScroll={scrolling}
+  //       // style={{ position: 'absolute', width: '100%', paddingBottom: '100px',height:'570px' ,overflow:'auto'}}
+  //     > */}
+  //       <Outlet />
+  //     {/* </div> */}
+  //   </>
+  // );
 }
 
 export default MessaageCenter;
