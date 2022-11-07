@@ -2,8 +2,8 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IGetAllStandards  from "src/interfaces/Teacher/TExamSchedule";
-import IGetExamsList from "src/interfaces/Teacher/TExamSchedule";
-import IExamList from "src/interfaces/Teacher/TExamSchedule";
+import {IGetExamsList} from "src/interfaces/Teacher/TExamSchedule";
+import {IExamList} from "src/interfaces/Teacher/TExamSchedule";
 
 import GetTExamResultListApi from "src/api/Texamschedule/Texamschedule";
 
@@ -49,8 +49,10 @@ export const GetSelectStandardRes =
   export const GetSelectExamRes =
   (data:IGetExamsList): AppThunk =>
   async (dispatch) => {
+    
+    console.log('here')
     const response = await GetTExamResultListApi.IGetExams(data);
-    const itemlist = response?.data.GetAllStandardsResult.map((item)=>{
+    const itemlist = response?.data.GetExamsForStandardResult.map((item)=>{
       return{
         id:item.Id,
         Name:item.Name,

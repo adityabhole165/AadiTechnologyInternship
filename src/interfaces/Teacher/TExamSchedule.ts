@@ -19,6 +19,13 @@ export interface GetStandardListResult{
     }]
     
 }
+export interface GetExamsForStandardResult{
+    GetExamsForStandardResult:[{
+        Id:     string;
+        Name:   string;
+    }]
+    
+}
 
 
 export interface GetExamListResult{
