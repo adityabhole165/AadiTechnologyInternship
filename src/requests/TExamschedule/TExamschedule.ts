@@ -17,10 +17,10 @@ const SelectStandardExamslice = createSlice({
     },
     reducers:{
         getSelectStandardRes(state,action){
-            state.SelectStandard = action.payload?.GetAllStandardsResult;
+            state.SelectStandard = action.payload;
         },
         getSelectExamRes(state,action){
-            state.SelectExam = action.payload?.GetExamsForStandardResult; 
+            state.SelectExam = action.payload; 
         },
         ViewExamDataRes(state, action){
           state.ExamData = action.payload?.GetExamSchedulesResult;
@@ -35,7 +35,13 @@ export const GetSelectStandardRes =
   (data:IGetAllStandards): AppThunk =>
   async (dispatch) => {
     const response = await GetTExamResultListApi.GetAllStandards(data);
-    dispatch(SelectStandardExamslice.actions.getSelectStandardRes(response?.data));
+    const itemlist = response?.data.GetAllStandardsResult.map((item)=>{
+    return{
+      id:item.Id,
+      Name:item.Name,
+      Value:item.Id
+    }})
+    dispatch(SelectStandardExamslice.actions.getSelectStandardRes(itemlist));
     console.log("Response standard :",response);
   };
 
@@ -44,7 +50,13 @@ export const GetSelectStandardRes =
   (data:IGetExamsList): AppThunk =>
   async (dispatch) => {
     const response = await GetTExamResultListApi.IGetExams(data);
-    dispatch(SelectStandardExamslice.actions.getSelectExamRes(response?.data));
+    const itemlist = response?.data.GetAllStandardsResult.map((item)=>{
+      return{
+        id:item.Id,
+        Name:item.Name,
+        Value:item.Id
+      }})
+    dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
     console.log("Response Exam Type :",response);
   };
 

@@ -1,15 +1,15 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IGetAllStandards from "src/interfaces/Teacher/TExamSchedule"
+import IGetAllStandards,{GetStandardListResult} from "src/interfaces/Teacher/TExamSchedule"
 import IGetExamsList from "src/interfaces/Teacher/TExamSchedule"
 import IExamList from "src/interfaces/Teacher/TExamSchedule"
 
 
 const GetAllStandards  =  (data:IGetAllStandards) =>{
-    return http.post<IGetAllStandards>('School/GetAllStandards',data);
+    return http.post<GetStandardListResult>('School/GetAllStandards',data);
 };
 
 const IGetExams =  (data:IGetExamsList) =>{
-    return http.post<IGetExamsList>('School/GetExamsForStandard',data);
+    return http.post<GetStandardListResult>('School/GetExamsForStandard',data);
 };
 
 const GetExamsList  = (data: IExamList) => {
