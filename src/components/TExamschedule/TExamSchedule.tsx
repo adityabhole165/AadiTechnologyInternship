@@ -90,7 +90,7 @@ function Texamschedule() {
         <NativeSelect onChange={(e) => handleChange(e)}>
           <option value={0}>Select Standard</option>
 
-          {getstandard?.map((getstandarditems: GetStandardListResult, i) => {
+          {getstandard?.map((getstandarditems, i) => {
             return (
               <option value={getstandarditems.Id} key={getstandarditems.Id}>
                 {getstandarditems.Name}
