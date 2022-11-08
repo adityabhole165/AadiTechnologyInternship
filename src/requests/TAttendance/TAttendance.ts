@@ -152,6 +152,7 @@ export const GetStudentList =
                 })
             }
             forInvalidAY = message =='There are no students in the class.' ? 'none':''
+            forInvalidAY = message =='Attendance date should be within the current academic year' ? 'none':''
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
             dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
