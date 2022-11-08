@@ -125,7 +125,7 @@ function Texamschedule() {
         <ErrorMessages Error={'No exam has been scheduled'} />
       )}
 
-      {ExamsList?.map((items: GetExamsListResult, i) => {
+      {/* {ExamsList?.map((items: GetExamsListResult, i) => {
         return (
           <>
             {i == 0 && items.Instructions !== '' ? (
@@ -151,7 +151,7 @@ function Texamschedule() {
             />
           </>
         );
-      })}
+      })} */}
     </Container>
   );
 }

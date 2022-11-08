@@ -14,7 +14,7 @@ const IGetExams =  (data:IGetExamsList) =>{
 
 const GetExamsList  = (data: IExamList) => {
 
-    return http.post<GetExamsListResult[]>('School/GetExamScheduleForStandard',data);
+    return http.post<GetExamsListResult>('School/GetExamScheduleForStandard',data);
 };
 
 
