@@ -278,8 +278,9 @@ function Form13() {
   const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
 
   const RecipientButton = (e) => {
-    setdisplayOfRecipients('block');
-    setdisplayOfComposePage('none');
+    navigate("/MessageCenter/Add")
+    // setdisplayOfRecipients('block');
+    // setdisplayOfComposePage('none');
   };
 
   const displayPropertyFun = (e) => {
