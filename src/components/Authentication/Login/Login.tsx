@@ -26,6 +26,8 @@ import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
+import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
+import { CardDetail1, CardDetail10, CardDetail11,  InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
 
 
 function SelectSchool() {
@@ -325,26 +327,16 @@ function SelectSchool() {
                             </Grid>
                         </Box>
 
-                        <Box sx={{ pb: 5 }} style={{ textShadow: "7px 7px 10px gray", fontSize: "12px" }}>
-                            <h1>{SchoolName}</h1>
+                        <Box>
+                            <HeadingStyle>{SchoolName}</HeadingStyle>
                         </Box>
 
                         <Box sx={{ maxWidth: '90%' }}>
                             <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
                                 <Grid item xs={12}>
                                     <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
-                                        <InputLabel htmlFor="username"
-                                            sx={{
-                                                color: "#362b32cf",
-                                                fontSize: "16px",
-                                                fontWeight: "bold",
-                                            }}
-                                        >Username</InputLabel>
-                                        <Input
-                                            sx={{
-                                                marginTop: '20px !important',
-                                                fontSize: "15px !important",
-                                            }}
+                                        <UsernameStyle htmlFor="username">Username</UsernameStyle>
+                                        <InputStyle
                                             id="username"
                                             color="secondary"
                                             name="userName"
@@ -359,18 +351,9 @@ function SelectSchool() {
                                     </FormControl>
 
                                     <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
-                                        <InputLabel htmlFor="standard-adornment-password"
-                                            sx={{
-                                                color: "#362b32cf",
-                                                fontSize: "16px",
-                                                fontWeight: "bold",
-                                            }}
-                                        >Password</InputLabel>
-                                        <Input
-                                            sx={{
-                                                marginTop: '20px !important',
-                                                fontSize: "15px !important",
-                                            }}
+                                        <UsernameStyle htmlFor="standard-adornment-password">Password</UsernameStyle>
+                                        <InputStyle
+                                          
                                             color="secondary"
                                             id="standard-adornment-password"
                                             type={formValues.showPassword ? 'text' : 'password'}
@@ -396,15 +379,13 @@ function SelectSchool() {
                                         formik.touched.password && formik.errors.password ? (<div className={classes.error}>{formik.errors.password}</div>) : null
                                     }
 
-                                    <Grid sx={{ mr: "auto", pt: 1, pb: 3 }}>
-                                        <ButtonPrimary color="primary"  sx={{ ml: "auto"
-                                        // ,pointerEvents:LoginButtonDisabled
-                                        }} type="submit" onChange={formik.handleChange} 
-                                        // onClick={clearLocal} 
+                                    <Grid sx={{  pt: 1, pb: 3 }}>
+                                        <ButtonPrimary color="primary"  type="submit" onChange={formik.handleChange} 
+                                       
                                         > 
                                             Login
                                         </ButtonPrimary>
-                                        <span style={{ color: "blue", float: "right", marginTop: "14px" }} onClick={forgotPassword}> Forgot Password </span>
+                                        <CardDetail11 onClick={forgotPassword}> Forgot Password </CardDetail11>
 
                                     </Grid>
 
@@ -412,10 +393,10 @@ function SelectSchool() {
                             </form>
                         </Box>
                         <Grid>
-                            <span style={{ color: "blue", textDecorationLine: "none", paddingTop: 3 }} onClick={changeschool}>Change School For Login</span>
+                            <CardDetail10  onClick={changeschool}>Change School For Login</CardDetail10>
                         </Grid>
                         <Grid>
-                            <span style={{ color: "blue ", marginTop: '-0.7rem', textDecorationLine: 'none' }} onClick={schoolNotice}>School Notices</span>
+                            <CardDetail10   onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                     </Grid>
             }

@@ -1,4 +1,4 @@
-import { Box, Typography, styled } from '@mui/material';
+import { Box, Typography, styled,InputLabel,Input } from '@mui/material';
 
 export const CardDetail1 = styled(Typography)`
   font-weight: bold;
@@ -84,6 +84,13 @@ export const CardDetail6 = styled(Typography)`
  
 `;
 
+export const CardDetail9 = styled(Typography)`
+  font-size: 12px;
+  margin-left: 5px;
+  font-family: Roboto;
+  
+`;
+
 export const CardDetail = styled(Box)(
   ({ theme }) => `
  display:flex;
@@ -139,3 +146,35 @@ export const BoxStyle = styled(Box)(
     transform: rotateZ(-36deg);
   `
 );
+export const UsernameStyle= styled(InputLabel)(
+  ({ theme }) => `
+  color: #362b32cf;
+  font-size: 16px;
+  font-weight: bold;
+  `
+);
+export const InputStyle= styled(Input)(
+  ({ theme }) => `
+  margin-top: 20px;
+  font-size: 15px;
+  `
+);
+export const CardDetail10= styled(Typography)(
+  ({ theme }) => `
+  color: blue; 
+  font-size: 15px;
+  padding-top: 3 ;
+  `
+);
+
+export const  CardDetail11= styled(Typography)(
+  ({ theme }) => `
+  color: blue; 
+  font-size: 15px;
+  float: right; 
+  marginTop: 14px;
+  `
+);
+
+
+

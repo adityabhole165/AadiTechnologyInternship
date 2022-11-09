@@ -136,7 +136,6 @@ const TView = () => {
         </Grid>
       </Grid>
 
-      
       <>
         <>
           <FormControl
@@ -159,11 +158,8 @@ const TView = () => {
           </FormControl>
         </>
         <br></br>
-        <br></br>
         <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
       </>
-
-
       {getAttendanceData.length > 1 ? (
         getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
           <List14
@@ -186,11 +182,9 @@ const TView = () => {
             <div key={i}>
               {i === 0 && items.Status == 'O' ? (
                 <>
-                  <ErrorMessages
-                    Error={
-                      'Attendance date should be within current academic year.'
-                    }
-                  />
+                <div style={{marginTop:'120px !important'}}>
+                  <ErrorMessages Error={'Attendance date should be within current academic year.'}/>
+                </div>
                 </>
               ) : i === 0 && items.Status == 'W' ? (
                 <>
@@ -208,7 +202,7 @@ const TView = () => {
                 </>
               ) : i === 0 && items.Status == 'N' ? (
                 <>
-                  <ErrorMessages Error={'Attendance not yet marked.'} />
+                <ErrorMessages Error={'Attendance not yet marked.'} />
                 </>
               ) : new Date(getDate) > currentDate ? (
                 <>

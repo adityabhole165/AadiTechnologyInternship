@@ -78,7 +78,7 @@ function Icon3({ Note }) {
 
                         >
 
-                            <InfoTwoToneIcon type="button" onClick={handleClick} sx={{ fontSize: 20, marginTop: '-94px', backgroundColor: "#e8a0e7", borderRadius: "50px",marginRight:"-10px" }} />
+                            <InfoTwoToneIcon type="button" onClick={handleClick} className={classes.iIconExamSchedule} />
                         </Tooltip>
 
 

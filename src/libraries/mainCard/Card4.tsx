@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardDetail,CardDetail1,CardDetail2,CardDetail3,CardDetail5} from '../styled/CardStyle';
+import { CardDetail,CardDetail1,CardDetail2,CardDetail3,CardDetail5, CardDetail7, CardDetail9} from '../styled/CardStyle';
 import { useLocation } from 'react-router-dom';
 
 function Card4({ header, text1, text2, text3, text5 ,text4,text6}) {
@@ -21,7 +21,7 @@ function Card4({ header, text1, text2, text3, text5 ,text4,text6}) {
           
           <CardDetail>
           {pageName == "PTA" ? <CardDetail2 color="primary">{text6}</CardDetail2> : null } 
-          {pageName == "Feedback" ? null : <CardDetail3 color="primary">{text5}</CardDetail3>} 
+          {pageName == "Feedback" ? null : <CardDetail9 color="primary">{text5}</CardDetail9>} 
           {pageName == "Feedback" ? null : <CardDetail2>{text4}</CardDetail2> }
           </CardDetail>
         

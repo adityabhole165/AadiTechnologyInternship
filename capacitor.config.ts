@@ -8,6 +8,7 @@ const config: CapacitorConfig = {
   server:{
     androidScheme:"http",
     cleartext: true,
+    //allowNavigation:["https://schooltempapi.riteschool.com/"]
     allowNavigation:["http://schoolappapi.aaditechnology.com/"]
   }
 };

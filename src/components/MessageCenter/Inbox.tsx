@@ -126,7 +126,6 @@ function Inbox() {
     // const { value, name } = event.target;
 
     const { DetailInfo, recieverInfo } = Id;
-    console.log(name)
 
     if (checked) {
       setId({
@@ -145,9 +144,6 @@ function Inbox() {
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
-    console.log(joinReciever)
-
-
     const trashbody: any = {
       asSchoolId: asSchoolId,
       asMessageRecieverDetailsId: joinReciever,
@@ -221,7 +217,6 @@ function Inbox() {
         })
         .catch((err) => {
           alert('error network');
-          console.log(err);
         });
       PageIndexIncrement();
     }
@@ -233,8 +228,6 @@ function Inbox() {
       setdisplayMoveToTop('none');
     }, 10);
   };
-  console.log(Id.DetailInfo)
-
 
   return (
     <>

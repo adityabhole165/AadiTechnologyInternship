@@ -304,7 +304,6 @@ function Form13() {
 
   const handleRemoveListItems = (e,c) =>{
     finalBase642New.length = 0;
-    console.log(FileNameOfAttachment)
 
     for(let key in FileNameOfAttachment){
       let indOfFileName = FileNameOfAttachment.indexOf(e)
@@ -354,23 +353,14 @@ function Form13() {
             <FormControl fullWidth>
               <TextField
                 multiline
-                placeholder="To"
                 value={RecipientsObject.RecipientName}
-                // variant="outlined"
-                id="body"
-                label={'To'}
+                id=""
+                label='To :'
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
                 style={{ scrollBehavior: 'auto' }}
-                sx={{
-        
-          
-                  maxHeight: '60px',
-                  overflow: 'auto'
-                }}
               />
-
               <p style={{ color: 'red', marginTop: 2 }}>
                 {RecipientsList.length == 0 ? (
                   <div className={classes.error}>{formik.errors.To}</div>
@@ -385,10 +375,11 @@ function Form13() {
                 </ButtonPrimary>
               </span>
             </FormControl>
+
             <TextField
               fullWidth
               margin="normal"
-              label={'Subject'}
+              label='Subject :'
               name="Subject"
               type="text"
               autoComplete="off"
@@ -396,7 +387,6 @@ function Form13() {
               value={formik.values.Subject}
               onChange={formik.handleChange}
             />
-
             <p style={{ color: 'red', marginTop: -10, marginBottom: '-10px' }}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <div className={classes.error}>{formik.errors.Subject}</div>
@@ -448,29 +438,12 @@ function Form13() {
                 </Box>
               </div>
             )}
-
-            {PageName === 'Reply' || PageName === 'Forwa' ? (
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                margin="normal"
-                label={'Content'}
-                name="Content"
-                type="text"
-                variant="standard"
-                value={BODY}
-                disabled={true}
-                sx={{ mt: '10px' }}
-              />
-            ) : null}
-
             <TextField
               fullWidth
               multiline
               rows={4}
               margin="normal"
-              label={'Content'}
+              label='Content :'
               name="Content"
               type="text"
               variant="standard"
@@ -483,6 +456,21 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Content}</div>
               ) : null}
             </p>
+            {PageName === 'Reply' || PageName === 'Forwa' ? (
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+                label='Content :'
+                name="Content"
+                type="text"
+                variant="standard"
+                value={BODY}
+                disabled={true}
+                sx={{ mt: '10px' }}
+              />
+            ) : null}
 
             <Grid item xs={12}>
               <ButtonPrimary

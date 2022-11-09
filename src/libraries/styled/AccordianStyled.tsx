@@ -32,7 +32,7 @@ export const Header2 = styled(Typography)(
 export const CardDetail1 = styled(Typography)(
   ({ theme, align }) => `
   margin-top: 1px;
-  margin-left: 5px;
+  margin-left: 6px;
   margin-bottom: 2px;
   font-family: Roboto;
   font-size:12px;
