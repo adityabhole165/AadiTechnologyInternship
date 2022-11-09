@@ -19,6 +19,7 @@ const Sent = Loader(lazy(() => import('src/components/MessageCenter/Sent')));
 const ViewMsg = Loader(lazy(() => import('src/components/MessageCenter/ViewMessage')));
 const Search=Loader(lazy(()=>import('src/components/MessageCenter/Search')));
 const Recipients = Loader(lazy(() => import('src/components/MessageCenter/Recipients')));
+const AddRecipients = Loader(lazy(() => import('src/components/MessageCenter/AddReciepents')));
 
 
 
@@ -82,6 +83,10 @@ const messageCenterRoutes :PartialRouteObject[] = [
     {
       path:'Search',
       element:<Search/>
+    },
+    {
+      path:'AddRecipients',
+      element:<AddRecipients/>
     },
    
 ]

@@ -37,6 +37,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 import { sitePath } from '../Common/Util';
+import AddReciepents from './AddReciepents';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -257,7 +258,6 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
-      console.log(values);
       setdisabledStateOfSend(true);
     },
     validate: (values) => {
@@ -278,9 +278,8 @@ function Form13() {
   const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
 
   const RecipientButton = (e) => {
-    navigate("/MessageCenter/Add")
-    // setdisplayOfRecipients('block');
-    // setdisplayOfComposePage('none');
+    setdisplayOfRecipients('block');
+    setdisplayOfComposePage('none');
   };
 
   const displayPropertyFun = (e) => {
@@ -292,6 +291,8 @@ function Form13() {
 
   const RecipientsListFun = (e) => {
     setRecipientsObject(e);
+    setdisplayOfRecipients('none');
+    setdisplayOfComposePage('block');
   };
 
   useEffect(() => {
@@ -313,7 +314,6 @@ function Form13() {
         let spl = FileNameOfAttachment.splice(indOfFileName,1);
         let spl2 = Base64URLOfAttachment.splice(indOfFileName2,1);
       }
-      console.log(FileNameOfAttachment)
     }
     
     for(let key in FileNameOfAttachment){
@@ -323,7 +323,6 @@ function Form13() {
   }
 
   const ObjectOfFileNameAndBase64Function = (e) => {
-    console.log(e)
     setFinalBase642New(e.FileBaseandNameObject)
     setFileNameOfAttachment(e.NameOFFile)
     setBase64URLOfAttachment(e.Base64UrlOfFile)
@@ -489,12 +488,13 @@ function Form13() {
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AdminTeacherRecipientsList
+        {/* <AdminTeacherRecipientsList
           displayProperty={displayPropertyFun}
           RecipientsListDetails={RecipientsListFun}
           ReplyRecipient={ReplyRecipientNameId}
           PageName={'MessageCenter'}
-        />
+        /> */}
+        <AddReciepents recipientListClick={RecipientsListFun}/>
       </div>
     </>
   );

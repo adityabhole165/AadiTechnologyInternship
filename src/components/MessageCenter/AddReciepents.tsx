@@ -1,7 +1,8 @@
-import { Box, TextField, Container  } from '@mui/material'
+import { Box, TextField, Container } from '@mui/material'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
+import { useNavigate } from 'react-router';
+import { Link as RouterLink, Navigate } from 'react-router-dom'
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
@@ -18,11 +19,13 @@ import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
-const AddReciepents = () => {
- 
+const AddReciepents = ({recipientListClick}) => {
+
   let PageName = 'MessageCenter'
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([])
+  const [selectedRecipentsId, setSelectedRecipentsId] = useState([])
   const [entireSchool, setEntireSchool] = useState([{
     Id: "0",
     Name: "EntireSchool",
@@ -34,10 +37,10 @@ const AddReciepents = () => {
   const [staffAndAdmin, setStaffAndAdmin] = useState()
   const [list, setList] = useState([])
   const [studentlist, setStudentlist] = useState()
-  const [dropdownlist, setDropdownlist] = useState([])
+  // const [dropdownlist, setDropdownlist] = useState([])
   const [techerStudent, setTecherStudent] = useState([])
-  const [show,setShow]= useState(true);
-  const[dropdownshow, setDropdownshow]=useState(true)
+  const [show, setShow] = useState(true);
+ 
 
 
 
@@ -48,7 +51,7 @@ const AddReciepents = () => {
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
-    (state: RootState) => state.getuser.GetUser
+    (state: RootState) => state.getuser1.GetUser
   );
 
   // Api for Teacher list ,Student list ,Other staff and admin staff
@@ -58,7 +61,7 @@ const AddReciepents = () => {
 
 
   const getstudentlist: any = useSelector(
-    (state: RootState) => state.getuser.getStudent
+    (state: RootState) => state.getuser1.getStudent
   );
   // const Student = getstudentlist.GetStudentsUserResult;
 
@@ -93,10 +96,11 @@ const AddReciepents = () => {
 
 
   useEffect(() => {
+    console.log("[]")
     if (sessionStorage.getItem('RoleId') === "3") {
       setTecherStudent([
-        {Id: "2", Name: "Teacher", isActive: false},
-        {Id: "6", Name: "Admin Staff", isActive: false},
+        { Id: "2", Name: "Teacher", isActive: false },
+        { Id: "6", Name: "Admin Staff", isActive: false },
       ])
     }
     else {
@@ -124,37 +128,48 @@ const AddReciepents = () => {
 
   }, [])
   useEffect(() => {
+    console.log("getuserlist")
+
     setList(getuserlist)
   }, [getuserlist]);
 
+  // useEffect(() => {
+  //   console.log("getClass")
+
+  //   setDropdownlist(getClass)
+  // }, [getClass]);
   useEffect(() => {
-    setDropdownlist(getClass)
-  }, [getClass]);
-  useEffect(() => {
+    console.log("studentlist")
+
     if (studentlist !== undefined)
       dispatch(GetStudent(getStudentsUserAPIBody));
   }, [studentlist]);
 
   useEffect(() => {
+    console.log("adminandSW")
+
     dispatch(GetGetAdminAndprincipalUsers(adminAndprincipalUsersApiBody));
   }, [adminandSW]);
   useEffect(() => {
+    console.log("getGetAdminAndprincipalUsers")
+
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
   }, [getGetAdminAndprincipalUsers]);
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
+    console.log("techerStudent1")
     dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
 
   const classChange = (value) => {
-    setDropdownshow(!dropdownshow)
+    
     setStudentlist(value)
   }
   const onChange = (value) => {
     setEntireSchool(value)
-     mergeToList(value, adminandSW, list)
-     setShow(!show)
+    mergeToList(value ,staffAndAdmin,list )
+    setShow(!show)
   }
   const techerStudentChange = (value) => {
     setList([])
@@ -171,69 +186,77 @@ const AddReciepents = () => {
 
   const onChangeTeacher = (value) => {
     setList(value)
-    mergeToList(value, entireSchool, list)
+    mergeToList(entireSchool ,staffAndAdmin,value )
   }
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value)
-    mergeToList( value, list,entireSchool)
+    mergeToList(entireSchool ,value,list )
   }
   const mergeToList = (itemList, adminandSW, list) => {
     setSelectedRecipents([])
     itemList?.map((obj) => {
       if (obj.isActive) {
         setSelectedRecipents(prevState => ([...prevState, obj.Value]))
+        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
       }
     })
     adminandSW?.map((obj) => {
       if (obj.isActive) {
         setSelectedRecipents(prevState => ([...prevState, obj.Value]))
+        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
       }
     })
     list?.map((obj) => {
       if (obj.isActive) {
         setSelectedRecipents(prevState => ([...prevState, obj.Value]))
+        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
       }
     })
+
+  }
+  const clickOkay = () => {
+    recipientListClick({RecipientName:selectedRecipents,RecipientId:selectedRecipentsId})
+    // navigate("/extended-sidebar/MessageCenter/msgCenter")
 
   }
   return (
     <>
       <Container>
         <TextField
-            multiline
-            placeholder="Selected Recipient"
-            value={selectedRecipents}
-            variant="outlined"
-            id="body"
-            fullWidth
-            margin="normal"
-            style={{ scrollBehavior: 'auto' }}
-            sx={{
-              marginLeft: 1,
-              width: '19.5rem',
-              // 19rem
-              maxHeight: '60px',
-              overflow: 'auto'
-            }}
-          />
-        <RouterLink to={`/${location.pathname.split('/')[1]}/MessageCenter/msgCenter/` + selectedRecipents}>
-          <ButtonPrimary >Okay</ButtonPrimary>
-        </RouterLink>
+          multiline
+          placeholder="Selected Recipient"
+          value={selectedRecipents}
+          variant="outlined"
+          id="body"
+          fullWidth
+          margin="normal"
+          style={{ scrollBehavior: 'auto' }}
+          sx={{
+            marginLeft: 1,
+            width: '19.5rem',
+            // 19rem
+            maxHeight: '60px',
+            overflow: 'auto'
+          }}
+        />
+        {/* <RouterLink to={`/${location.pathname.split('/')[1]}/MessageCenter/msgCenter/` + selectedRecipents}> */}
+          <ButtonPrimary onClick={clickOkay}>Okay</ButtonPrimary>
+        {/* </RouterLink> */}
         <>
-        
-         {RoleId === "6"  && <ListSelect Itemlist={entireSchool} onChange={onChange} />}
-         { show=== true?
-         <>
-        <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
-         <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true} />
-        <ListSelect Itemlist={list} onChange={onChangeTeacher} />
-        </>:null}
-        { dropdownshow=== true?
-        <>
-        {techerStudent1 === "3" && <DropdownofAddrecipent Array={dropdownlist} label="Select Class" handleChange={classChange} />}
-        </>:null}
-          </>
+
+          {RoleId === "6" && <ListSelect Itemlist={entireSchool} onChange={onChange} />}
+          {show === true ?
+            <>
+              <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
+              <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true} />
+              <ListSelect Itemlist={list} onChange={onChangeTeacher} />
+            </> : null}
          
+            <>
+              {techerStudent1 === "3" && <DropdownofAddrecipent Array={getClass} label="Select Class" handleChange={classChange} />}
+            </> 
+        </>
+
       </Container>
     </>
   )
