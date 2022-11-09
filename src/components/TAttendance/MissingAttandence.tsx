@@ -66,9 +66,7 @@ function MissingAttandence() {
         <Grid container direction="row" >
           <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
         </Grid>
-        <br />
-       
-
+        
         <DateSelector
           date={getDate}
           setCurrentDate={getCurrentDate}

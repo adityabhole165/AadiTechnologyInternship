@@ -90,7 +90,7 @@ function Texamschedule() {
         <NativeSelect onChange={(e) => handleChange(e)}>
           <option value={0}>Select Standard</option>
 
-          {getstandard?.map((getstandarditems: GetStandardListResult, i) => {
+          {getstandard?.map((getstandarditems, i) => {
             return (
               <option value={getstandarditems.Id} key={getstandarditems.Id}>
                 {getstandarditems.Name}
@@ -125,7 +125,7 @@ function Texamschedule() {
         <ErrorMessages Error={'No exam has been scheduled'} />
       )}
 
-      {ExamsList?.map((items: GetExamsListResult, i) => {
+      {/* {ExamsList?.map((items: GetExamsListResult, i) => {
         return (
           <>
             {i == 0 && items.Instructions !== '' ? (
@@ -151,7 +151,7 @@ function Texamschedule() {
             />
           </>
         );
-      })}
+      })} */}
     </Container>
   );
 }
