@@ -19,6 +19,8 @@ import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox } from 'src/libraries/styled/CardStyle';
+import SelectallAddrecipents from './SelectallAddrecipents';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 const AddReciepents = ({ recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -36,6 +38,7 @@ const AddReciepents = ({ recipientListClick }) => {
   ]);
   const [techerStudent1, setTecherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
+  const [selectallhide,setSelectallhide]=useState(false);
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState();
@@ -173,6 +176,7 @@ const AddReciepents = ({ recipientListClick }) => {
       }
     });
     setTecherStudent(value);
+    setSelectallhide(!selectallhide)
     // mergeToList(value,entireSchool,adminandSW)
   };
 
@@ -272,7 +276,12 @@ const AddReciepents = ({ recipientListClick }) => {
             </Container>
           </>
                 <Grid item xs={12}>
-                  <ListSelect Itemlist={list} onChange={onChangeTeacher} />
+                
+                 {selectallhide===true&&
+                  <>
+                  <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher}/>
+                  </>}
+                  {/* <ListSelect Itemlist={list} onChange={onChangeTeacher} /> */}
                 </Grid>
               </Grid>
             </>
