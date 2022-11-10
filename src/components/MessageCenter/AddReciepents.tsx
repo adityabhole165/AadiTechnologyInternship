@@ -1,8 +1,8 @@
-import { Box, TextField, Container } from '@mui/material'
+import { Box, TextField, Container, Grid } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link as RouterLink, Navigate } from 'react-router-dom'
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
@@ -14,35 +14,34 @@ import {
   IGetStudentsUser,
   GetStudentsUserResult
 } from 'src/interfaces/AdminSMSCenter/To1';
-import { RootState } from 'src/store'
+import { RootState } from 'src/store';
 import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { BorderBox } from 'src/libraries/styled/CardStyle';
 
-const AddReciepents = ({recipientListClick}) => {
-
-  let PageName = 'MessageCenter'
+const AddReciepents = ({ recipientListClick }) => {
+  let PageName = 'MessageCenter';
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [selectedRecipents, setSelectedRecipents] = useState([])
-  const [selectedRecipentsId, setSelectedRecipentsId] = useState([])
-  const [entireSchool, setEntireSchool] = useState([{
-    Id: "0",
-    Name: "EntireSchool",
-    Value: "EntireSchool",
-    isActive: false
-  }])
-  const [techerStudent1, setTecherStudent1] = useState('')
-  const [adminandSW, setAdminandSW] = useState()
-  const [staffAndAdmin, setStaffAndAdmin] = useState()
-  const [list, setList] = useState([])
-  const [studentlist, setStudentlist] = useState()
+  const [selectedRecipents, setSelectedRecipents] = useState([]);
+  const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
+  const [entireSchool, setEntireSchool] = useState([
+    {
+      Id: '0',
+      Name: 'EntireSchool',
+      Value: 'EntireSchool',
+      isActive: false
+    }
+  ]);
+  const [techerStudent1, setTecherStudent1] = useState('');
+  const [adminandSW, setAdminandSW] = useState();
+  const [staffAndAdmin, setStaffAndAdmin] = useState();
+  const [list, setList] = useState([]);
+  const [studentlist, setStudentlist] = useState();
   // const [dropdownlist, setDropdownlist] = useState([])
-  const [techerStudent, setTecherStudent] = useState([])
+  const [techerStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
- 
-
-
 
   // Api for Admin principle and Software co-ordinator
   const getGetAdminAndprincipalUsers: any = useSelector(
@@ -59,12 +58,10 @@ const AddReciepents = ({recipientListClick}) => {
     (state: RootState) => state.getuser1.getClass
   );
 
-
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );
   // const Student = getstudentlist.GetStudentsUserResult;
-
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
@@ -94,43 +91,42 @@ const AddReciepents = ({recipientListClick}) => {
     abIsSMSCenter: PageName == 'SMSCenter' ? true : false
   };
 
-
   useEffect(() => {
-    console.log("[]")
-    if (sessionStorage.getItem('RoleId') === "3") {
+    // console.log('[]');
+    if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
-        { Id: "2", Name: "Teacher", isActive: false },
-        { Id: "6", Name: "Admin Staff", isActive: false },
-      ])
+        { Id: '2', Name: 'Teacher', isActive: false },
+        { Id: '6', Name: 'Admin Staff', isActive: false }
+      ]);
+    } else {
+      setTecherStudent([
+        {
+          Id: '2',
+          Name: 'Teacher',
+          isActive: false
+        },
+        {
+          Id: '3',
+          Name: 'Student',
+          isActive: false
+        },
+        {
+          Id: '7',
+          Name: 'Other Staff',
+          isActive: false
+        },
+        {
+          Id: '6',
+          Name: 'Admin Staff',
+          isActive: false
+        }
+      ]);
     }
-    else {
-      setTecherStudent([{
-        Id: "2",
-        Name: "Teacher",
-        isActive: false
-      },
-      {
-        Id: "3",
-        Name: "Student",
-        isActive: false
-      },
-      {
-        Id: "7",
-        Name: "Other Staff",
-        isActive: false
-      },
-      {
-        Id: "6",
-        Name: "Admin Staff",
-        isActive: false
-      },])
-    }
-
-  }, [])
+  }, []);
   useEffect(() => {
-    console.log("getuserlist")
+    console.log('getuserlist');
 
-    setList(getuserlist)
+    setList(getuserlist);
   }, [getuserlist]);
 
   // useEffect(() => {
@@ -139,86 +135,83 @@ const AddReciepents = ({recipientListClick}) => {
   //   setDropdownlist(getClass)
   // }, [getClass]);
   useEffect(() => {
-    console.log("studentlist")
+    console.log('studentlist');
 
-    if (studentlist !== undefined)
-      dispatch(GetStudent(getStudentsUserAPIBody));
+    if (studentlist !== undefined) dispatch(GetStudent(getStudentsUserAPIBody));
   }, [studentlist]);
 
   useEffect(() => {
-    console.log("adminandSW")
+    console.log('adminandSW');
 
     dispatch(GetGetAdminAndprincipalUsers(adminAndprincipalUsersApiBody));
   }, [adminandSW]);
   useEffect(() => {
-    console.log("getGetAdminAndprincipalUsers")
+    console.log('getGetAdminAndprincipalUsers');
 
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
   }, [getGetAdminAndprincipalUsers]);
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    console.log("techerStudent1")
+    console.log('techerStudent1');
     dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
-
   const classChange = (value) => {
-    
-    setStudentlist(value)
-  }
+    setStudentlist(value);
+  };
   const onChange = (value) => {
-    setEntireSchool(value)
-    mergeToList(value ,staffAndAdmin,list )
-    setShow(!show)
-  }
+    setEntireSchool(value);
+    mergeToList(value, staffAndAdmin, list);
+    setShow(!show);
+  };
   const techerStudentChange = (value) => {
-    setList([])
-    setTecherStudent1('')
+    setList([]);
+    setTecherStudent1('');
     value?.map((obj) => {
       if (obj.isActive) {
-        setTecherStudent1(obj.Id)
+        setTecherStudent1(obj.Id);
       }
-    })
-    setTecherStudent(value)
+    });
+    setTecherStudent(value);
     // mergeToList(value,entireSchool,adminandSW)
-  }
-
+  };
 
   const onChangeTeacher = (value) => {
-    setList(value)
-    mergeToList(entireSchool ,staffAndAdmin,value )
-  }
+    setList(value);
+    mergeToList(entireSchool, staffAndAdmin, value);
+  };
   const adminandSWChange = (value) => {
-    setStaffAndAdmin(value)
-    mergeToList(entireSchool ,value,list )
-  }
+    setStaffAndAdmin(value);
+    mergeToList(entireSchool, value, list);
+  };
   const mergeToList = (itemList, adminandSW, list) => {
-    setSelectedRecipents([])
+    setSelectedRecipents([]);
     itemList?.map((obj) => {
       if (obj.isActive) {
-        setSelectedRecipents(prevState => ([...prevState, obj.Value]))
-        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
+        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
+        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
-    })
+    });
     adminandSW?.map((obj) => {
       if (obj.isActive) {
-        setSelectedRecipents(prevState => ([...prevState, obj.Value]))
-        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
+        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
+        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
-    })
+    });
     list?.map((obj) => {
       if (obj.isActive) {
-        setSelectedRecipents(prevState => ([...prevState, obj.Value]))
-        setSelectedRecipentsId(prevState => ([...prevState, obj.Id]))
+        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
+        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
-    })
-
-  }
+    });
+  };
   const clickOkay = () => {
-    recipientListClick({RecipientName:selectedRecipents,RecipientId:selectedRecipentsId})
+    recipientListClick({
+      RecipientName: selectedRecipents,
+      RecipientId: selectedRecipentsId
+    });
     // navigate("/extended-sidebar/MessageCenter/msgCenter")
-
-  }
+  };
   return (
     <>
       <Container>
@@ -232,34 +225,62 @@ const AddReciepents = ({recipientListClick}) => {
           margin="normal"
           style={{ scrollBehavior: 'auto' }}
           sx={{
-            marginLeft: 1,
-            width: '19.5rem',
+          
+       
             // 19rem
             maxHeight: '60px',
             overflow: 'auto'
           }}
         />
         {/* <RouterLink to={`/${location.pathname.split('/')[1]}/MessageCenter/msgCenter/` + selectedRecipents}> */}
-          <ButtonPrimary onClick={clickOkay}>Okay</ButtonPrimary>
+        <ButtonPrimary onClick={clickOkay} sx={{mb:"10px"}}>Okay</ButtonPrimary>
         {/* </RouterLink> */}
         <>
-
-          {RoleId === "6" && <ListSelect Itemlist={entireSchool} onChange={onChange} />}
-          {show === true ?
+          {RoleId === '6' && (
+            <ListSelect Itemlist={entireSchool} onChange={onChange} />
+          )}
+          {show === true ? (
             <>
-              <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
-              <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true} />
-              <ListSelect Itemlist={list} onChange={onChangeTeacher} />
-            </> : null}
-         
-            <>
-              {techerStudent1 === "3" && <DropdownofAddrecipent Array={getClass} label="Select Class" handleChange={classChange} />}
-            </> 
+              <Grid container spacing={2}>
+                <Grid item xs={6}>
+                  <BorderBox>
+                    <ListSelect
+                      Itemlist={staffAndAdmin}
+                      onChange={adminandSWChange}
+                    />
+                  </BorderBox>
+                </Grid>
+                <Grid item xs={6}>
+                  <BorderBox>
+                    <ListSelect
+                      Itemlist={techerStudent}
+                      onChange={techerStudentChange}
+                      isSingleSelect={true}
+                    />
+                  </BorderBox>
+                </Grid>
+                
+          <>
+          <Container>
+            {techerStudent1 === '3' && (
+              <DropdownofAddrecipent
+                Array={getClass}
+                label="Select Class"
+                handleChange={classChange}
+              />
+            )}
+            </Container>
+          </>
+                <Grid item xs={12}>
+                  <ListSelect Itemlist={list} onChange={onChangeTeacher} />
+                </Grid>
+              </Grid>
+            </>
+          ) : null}
         </>
-
       </Container>
     </>
-  )
-}
+  );
+};
 
-export default AddReciepents
+export default AddReciepents;
