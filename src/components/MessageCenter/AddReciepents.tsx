@@ -101,7 +101,28 @@ const AddReciepents = ({ recipientListClick }) => {
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false }
       ]);
-    } else {
+    } 
+    else if (sessionStorage.getItem('RoleId') === '2') {
+      setTecherStudent([
+        {
+          Id: '2',
+          Name: 'Teacher',
+          isActive: false
+        },
+        {
+          Id: '3',
+          Name: 'Student',
+          isActive: false
+        },
+        {
+          Id: '6',
+          Name: 'Admin Staff',
+          isActive: false
+        }
+      ]);
+    }
+    
+    else {
       setTecherStudent([
         {
           Id: '2',
@@ -247,7 +268,7 @@ const AddReciepents = ({ recipientListClick }) => {
             <>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <BorderBox>
+                  <BorderBox height={RoleId === '3' ? "600px" :"160px"} >
                     <ListSelect
                       Itemlist={staffAndAdmin}
                       onChange={adminandSWChange}
@@ -255,7 +276,7 @@ const AddReciepents = ({ recipientListClick }) => {
                   </BorderBox>
                 </Grid>
                 <Grid item xs={6}>
-                  <BorderBox>
+                  <BorderBox height={RoleId === '3' ? "100px" :"200px"}>
                     <ListSelect
                       Itemlist={techerStudent}
                       onChange={techerStudentChange}
@@ -264,8 +285,8 @@ const AddReciepents = ({ recipientListClick }) => {
                   </BorderBox>
                 </Grid>
                 
-          <>
-          <Container>
+      
+                <Grid item xs={12}>
             {techerStudent1 === '3' && (
               <DropdownofAddrecipent
                 Array={getClass}
@@ -273,8 +294,8 @@ const AddReciepents = ({ recipientListClick }) => {
                 handleChange={classChange}
               />
             )}
-            </Container>
-          </>
+         </Grid>
+         
                 <Grid item xs={12}>
                 
                  {selectallhide===true&&
