@@ -8,7 +8,7 @@ import { Link as RouterLink, useLocation } from 'react-router-dom';
 import List19 from 'src/libraries/list/List19';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card1 from 'src/libraries/mainCard/Card1';
-import { Container } from '@mui/system';
+import { Container } from '@mui/material';
 
 function Sent() {
   const dispatch = useDispatch();
