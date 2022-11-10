@@ -68,12 +68,13 @@ export const ViewExamDataRess =
     async (dispatch) => {
       const response = await GetTExamResultListApi.GetExamsList(data);
 
-      const itemlist = response?.data.GetExamSchedulesResult.map((item) => {
+      const itemlist = response?.data?.GetExamSchedulesResult.map((item) => {
         return {
           header: item.SubjectName + ' ' + (item.TestType !== '' ? '- ' + item.TestType : ''),
           text2: item.StartTime + '-' + item.EndTime,
           text5: item.Description,
-          text3: item.StartDate
+          text3: item.StartDate,
+          Instructions: item.Instructions
         }
       })
       dispatch(SelectStandardExamslice.actions.ViewExamDataRes(itemlist));

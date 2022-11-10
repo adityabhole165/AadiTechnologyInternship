@@ -1,7 +1,7 @@
-import { Box, TextField, Container  } from '@mui/material'
+import { TextField,Grid,Card } from '@mui/material'
+import { Container,Box} from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
-import { Link as RouterLink } from 'react-router-dom'
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
@@ -17,9 +17,13 @@ import { RootState } from 'src/store'
 import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { ListStyle, BorderBox } from 'src/libraries/styled/CardStyle';
+import { Styles } from "src/assets/style/student-style";
+
+
 
 const AddReciepents = () => {
- 
+  const classes = Styles();
   let PageName = 'MessageCenter'
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([])
@@ -29,18 +33,35 @@ const AddReciepents = () => {
     Value: "EntireSchool",
     isActive: false
   }])
-  const [techerStudent1, setTecherStudent1] = useState('')
+  const [techerStudent1,setTecherStudent1]=useState('')
   const [adminandSW, setAdminandSW] = useState()
   const [staffAndAdmin, setStaffAndAdmin] = useState()
   const [list, setList] = useState([])
-  const [studentlist, setStudentlist] = useState()
-  const [dropdownlist, setDropdownlist] = useState([])
-  const [techerStudent, setTecherStudent] = useState([])
-  const [show,setShow]= useState(true);
-  const[dropdownshow, setDropdownshow]=useState(true)
+  const [studentlist,setStudentlist]=useState()
+  const [dropdownlist,setDropdownlist]=useState([])
+  const [techerStudent, setTecherStudent] = useState([
+    {
+      Id: "2",
+      Name: "Teacher",
+      isActive: false
+    },
+    {
+      Id: "3",
+      Name: "Student",
+      isActive: false
+    },
+    {
+      Id: "7",
+      Name: "Other Staff",  
+      isActive: false
+    },
+    {
+      Id: "6",
+      Name: "Admin Staff",
+      isActive: false
+    },
 
-
-
+  ])
   // Api for Admin principle and Software co-ordinator
   const getGetAdminAndprincipalUsers: any = useSelector(
     (state: RootState) =>
@@ -50,23 +71,21 @@ const AddReciepents = () => {
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser.GetUser
   );
-
+  
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
   );
 
-
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser.getStudent
   );
   // const Student = getstudentlist.GetStudentsUserResult;
-
+  
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
   const RoleName = localStorage.getItem('RoleName');
-  const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
 
@@ -74,8 +93,8 @@ const AddReciepents = () => {
     asAcademicYearId: academicYearId,
     asSchoolId: schoolId
   };
-  // Standared List
-  const getStudentsUserAPIBody: IGetStudentsUser = {
+   // Standared List
+   const getStudentsUserAPIBody: IGetStudentsUser = {
     asStdDivId: studentlist,
     asAcadmeicYearId: academicYearId,
     asSchoolId: schoolId
@@ -87,52 +106,20 @@ const AddReciepents = () => {
     asSchoolId: schoolId,
     asStdDivId: stdDivId,
     asUserId: asUserId,
-    asSelectedUserGroup: techerStudent1,
+    asSelectedUserGroup:techerStudent1,
     abIsSMSCenter: PageName == 'SMSCenter' ? true : false
   };
+  
 
-
-  useEffect(() => {
-    if (sessionStorage.getItem('RoleId') === "3") {
-      setTecherStudent([
-        {Id: "2", Name: "Teacher", isActive: false},
-        {Id: "6", Name: "Admin Staff", isActive: false},
-      ])
-    }
-    else {
-      setTecherStudent([{
-        Id: "2",
-        Name: "Teacher",
-        isActive: false
-      },
-      {
-        Id: "3",
-        Name: "Student",
-        isActive: false
-      },
-      {
-        Id: "7",
-        Name: "Other Staff",
-        isActive: false
-      },
-      {
-        Id: "6",
-        Name: "Admin Staff",
-        isActive: false
-      },])
-    }
-
-  }, [])
   useEffect(() => {
     setList(getuserlist)
   }, [getuserlist]);
 
   useEffect(() => {
-    setDropdownlist(getClass)
+   setDropdownlist(getClass)
   }, [getClass]);
   useEffect(() => {
-    if (studentlist !== undefined)
-      dispatch(GetStudent(getStudentsUserAPIBody));
+    dispatch(GetStudent(getStudentsUserAPIBody));
   }, [studentlist]);
 
   useEffect(() => {
@@ -147,37 +134,34 @@ const AddReciepents = () => {
   }, [techerStudent1]); //SendSMS
 
 
-  const classChange = (value) => {
-    setDropdownshow(!dropdownshow)
+   const classChange=(value)=>{
     setStudentlist(value)
-  }
+    console.log(value,"value")
+   }
   const onChange = (value) => {
     setEntireSchool(value)
-     mergeToList(value, adminandSW, list)
-     setShow(!show)
+    mergeToList(value, adminandSW,list)
   }
-  const techerStudentChange = (value) => {
+  const techerStudentChange =(value)=>{
     setList([])
     setTecherStudent1('')
     value?.map((obj) => {
       if (obj.isActive) {
         setTecherStudent1(obj.Id)
-      }
-    })
+      }   
+    })   
     setTecherStudent(value)
-    // mergeToList(value,entireSchool,adminandSW)
+    mergeToList(value,entireSchool,adminandSW)
   }
-
-
-  const onChangeTeacher = (value) => {
-    setList(value)
-    mergeToList(value, entireSchool, list)
-  }
+   const onChangeTeacher =(value)=>{
+     setList(value)
+    mergeToList(value,entireSchool,list)
+   }
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value)
-    mergeToList( value, list,entireSchool)
+    mergeToList(entireSchool, value,list)
   }
-  const mergeToList = (itemList, adminandSW, list) => {
+  const mergeToList = (itemList, adminandSW,list) => {
     setSelectedRecipents([])
     itemList?.map((obj) => {
       if (obj.isActive) {
@@ -196,9 +180,10 @@ const AddReciepents = () => {
     })
 
   }
+
   return (
     <>
-      <Container>
+  
         <TextField
             multiline
             placeholder="Selected Recipient"
@@ -207,34 +192,36 @@ const AddReciepents = () => {
             id="body"
             fullWidth
             margin="normal"
-            style={{ scrollBehavior: 'auto' }}
             sx={{
-              marginLeft: 1,
-              width: '19.5rem',
-              // 19rem
-              maxHeight: '60px',
-              overflow: 'auto'
+               maxHeight: '60px',
+              overflow: 'auto',
             }}
           />
-        <RouterLink to={`/${location.pathname.split('/')[1]}/MessageCenter/msgCenter/` + selectedRecipents}>
-          <ButtonPrimary >Okay</ButtonPrimary>
-        </RouterLink>
-        <>
-        
-         {RoleId === "6"  && <ListSelect Itemlist={entireSchool} onChange={onChange} />}
-         { show=== true?
-         <>
-        <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
-         <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true} />
+          <ButtonPrimary sx={{mb:"5px"}}>Okay</ButtonPrimary>
+         <Box sx={{mb:"10px"}}>
+        <ListSelect Itemlist={entireSchool} onChange={onChange} />
+        </Box> 
+        <Grid container spacing={2} >
+       <Grid item xs={6} >
+        <BorderBox>
+       <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
+       </BorderBox>
+       </Grid>
+      <Grid item xs={6} >
+      <BorderBox>
+       <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true}/>
+       </BorderBox>
+      </Grid>
+      </Grid>
+       <Box sx={{mb:"20px",mt:"10px"}}>
+       {techerStudent1==="3" && <DropdownofAddrecipent Array={dropdownlist} label="Select Class" handleChange={classChange}/> }
+       </Box>
+    
         <ListSelect Itemlist={list} onChange={onChangeTeacher} />
-        </>:null}
-        { dropdownshow=== true?
-        <>
-        {techerStudent1 === "3" && <DropdownofAddrecipent Array={dropdownlist} label="Select Class" handleChange={classChange} />}
-        </>:null}
-          </>
-         
-      </Container>
+  
+       
+       
+    
     </>
   )
 }

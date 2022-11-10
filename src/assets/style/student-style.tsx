@@ -216,7 +216,12 @@ export const Styles = makeStyles({
     marginBottom: -2,
     marginTop: -2,
     color: 'red',
-    fontWeight: 'bold'
+    fontWeight: 'bold',
+    fontSize: '12px !important',
+    '@media (max-width: 280px)': {
+      fontSize: "10px !important", 
+  
+    },
   },
   Autocomplete: {
     background: 'black'
@@ -361,7 +366,7 @@ export const Styles = makeStyles({
   marginTop: '-93px', 
   backgroundColor: "#e8a0e7", 
   borderRadius: "50px", 
-  marginRight: "-10px",
+  marginRight: "-15px",
   '@media (max-width: 280px)': {
     fontSize: "15px !important",
     marginTop: '-95px',  

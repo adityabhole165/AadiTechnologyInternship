@@ -176,5 +176,27 @@ export const  CardDetail11= styled(Typography)(
   `
 );
 
+export const BorderBox= styled(Box)(
+  ({ theme }) => `
+  border:2px solid gray;
+  padding:4px;
+  border-radius:10px;
+ 
+  `
+);
+export const ItemSize= styled(Box)(
+  ({ theme }) => `
+  font-size: 12px;
+  color: black;
+ font-family: Roboto;
+ cursor: pointer;
+ margin-top:3px;
+ @media (max-width: 280px) {
+  font-size: 10px;
+  margin-top:3px;
+};
+  `
+);
+
 
 
