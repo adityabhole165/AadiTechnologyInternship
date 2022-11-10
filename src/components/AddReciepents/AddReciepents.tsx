@@ -1,5 +1,5 @@
-import { TextField } from '@mui/material'
-import { Container } from '@mui/system';
+import { TextField,Grid,Card } from '@mui/material'
+import { Container,Box} from '@mui/system';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux'
 import {
@@ -16,10 +16,14 @@ import {
 import { RootState } from 'src/store'
 import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { ListStyle, BorderBox } from 'src/libraries/styled/CardStyle';
+import { Styles } from "src/assets/style/student-style";
 
 
 
 const AddReciepents = () => {
+  const classes = Styles();
   let PageName = 'MessageCenter'
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([])
@@ -179,14 +183,45 @@ const AddReciepents = () => {
 
   return (
     <>
-      <Container>
-        <TextField value={selectedRecipents} />
+  
+        <TextField
+            multiline
+            placeholder="Selected Recipient"
+            value={selectedRecipents}
+            variant="outlined"
+            id="body"
+            fullWidth
+            margin="normal"
+            sx={{
+               maxHeight: '60px',
+              overflow: 'auto',
+            }}
+          />
+          <ButtonPrimary sx={{mb:"5px"}}>Okay</ButtonPrimary>
+         <Box sx={{mb:"10px"}}>
         <ListSelect Itemlist={entireSchool} onChange={onChange} />
-        <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
-        <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true}/>
+        </Box> 
+        <Grid container spacing={2} >
+       <Grid item xs={6} >
+        <BorderBox>
+       <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
+       </BorderBox>
+       </Grid>
+      <Grid item xs={6} >
+      <BorderBox>
+       <ListSelect Itemlist={techerStudent} onChange={techerStudentChange} isSingleSelect={true}/>
+       </BorderBox>
+      </Grid>
+      </Grid>
+       <Box sx={{mb:"20px",mt:"10px"}}>
+       {techerStudent1==="3" && <DropdownofAddrecipent Array={dropdownlist} label="Select Class" handleChange={classChange}/> }
+       </Box>
+    
         <ListSelect Itemlist={list} onChange={onChangeTeacher} />
-        {techerStudent1==="3" && <DropdownofAddrecipent Array={dropdownlist} label="Select Class" handleChange={classChange}/>}
-      </Container>
+  
+       
+       
+    
     </>
   )
 }
