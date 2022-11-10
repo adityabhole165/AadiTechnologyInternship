@@ -21,7 +21,7 @@ import Icon3 from 'src/libraries/icon/icon3';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 import Card1 from 'src/libraries/mainCard/Card1';
-import { Typography } from '@mui/material';
+import { Typography ,Box} from '@mui/material';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 
 const TExamScheduleNew = () => {
@@ -33,6 +33,7 @@ const TExamScheduleNew = () => {
   const getExamlist: any = useSelector(
     (state: RootState) => state.StandardAndExamList.SelectExam
   );
+
 
   const SubList = useSelector(
     (state: RootState) => state.StandardAndExamList.ExamData
@@ -93,11 +94,9 @@ const TExamScheduleNew = () => {
         Array={getstandard}
         handleChange={stdChange}
         label={'Select Std'}
-        defaultValue={std}
+        defaultValue={std} 
       />}
-
-      <br />
-      <br />
+     <Box sx={{mt:"10px"}}>
       {getExamlist.length === 0 ? (<ErrorMessages Error={'No exam has been scheduled'} />):
      ( <Dropdown
         Array={getExamlist}
@@ -106,8 +105,9 @@ const TExamScheduleNew = () => {
         defaultValue={exam}
       />)
     }
+    </Box>
       <br />
-      <br />
+
       {SubList?.map((item, i) => {
         return (
           < >
