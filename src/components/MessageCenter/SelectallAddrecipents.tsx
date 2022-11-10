@@ -38,15 +38,15 @@ const SelectallAddrecipents = ({ Itemlist, onChange, isSingleSelect = false }) =
          {(Itemlist.length===0)?  <ErrorMessages Error={'No records found'} />
        :
             <>
-            <Box sx={{ mt: "10px" }}>
-                <ListStyle>
+            
+              
                 <ListHeaderCard3ColSel
                 
                     Item={{ text1: '', text2: 'SelectAll', isActive: isCheckAll }}
                     onChange={ClickAll}
                 />
-                 </ListStyle>
-            </Box>
+               
+         
             </>}
             </>
             {

@@ -268,7 +268,7 @@ const AddReciepents = ({ recipientListClick }) => {
             <>
               <Grid container spacing={2}>
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '3' ? "600px" :"160px"} >
+                  <BorderBox height={RoleId === '3' ? "60px" :"160px"} >
                     <ListSelect
                       Itemlist={staffAndAdmin}
                       onChange={adminandSWChange}
@@ -276,7 +276,7 @@ const AddReciepents = ({ recipientListClick }) => {
                   </BorderBox>
                 </Grid>
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '3' ? "100px" :"200px"}>
+                  <BorderBox height={RoleId === '6' ? "200px" :null || RoleId === '2' ? "150px" :"100px"  }>
                     <ListSelect
                       Itemlist={techerStudent}
                       onChange={techerStudentChange}
@@ -302,7 +302,7 @@ const AddReciepents = ({ recipientListClick }) => {
                   <>
                   <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher}/>
                   </>}
-                  {/* <ListSelect Itemlist={list} onChange={onChangeTeacher} /> */}
+              
                 </Grid>
               </Grid>
             </>

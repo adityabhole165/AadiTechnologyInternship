@@ -181,7 +181,7 @@ export const BorderBox= styled(Box)(
   border:2px solid gray;
   padding:4px;
   border-radius:10px;
-  height:200px;
+ 
   `
 );
 export const ItemSize= styled(Box)(
