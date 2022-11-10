@@ -35,7 +35,7 @@ function Card4({
 }) {
   const theme = useTheme();
   const file_path =
-    sitePath+'/RITeSchool' +
+    sitePath + '/RITeSchool' +
     '/DOWNLOADS/Homework/' +
     Attachments;
 
@@ -69,9 +69,9 @@ function Card4({
                 <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     window.open(file_path);
-                  }}  color="#628def"
-                  >
-              
+                  }} color="#628def"
+                >
+
                   {Attachments}
                 </CardDetail3>
               </BoxWrapper>
@@ -80,7 +80,16 @@ function Card4({
 
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
-            <CardDetail2>{Details}</CardDetail2>
+            <CardDetail2>  {
+              Details.split("\n").map(function (item, idx) {
+                return (
+                  <span key={idx}>
+                    {item}
+                    <br />
+                  </span>
+                )
+              })
+            }</CardDetail2>
           </BoxWrapper>
 
         </ListStyle>

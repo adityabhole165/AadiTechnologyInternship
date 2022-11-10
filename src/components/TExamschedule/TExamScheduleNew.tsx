@@ -13,7 +13,7 @@ import {
 } from 'src/requests/TExamschedule/TExamschedule';
 import { GetStandardListResult } from 'src/interfaces/Teacher/TExamSchedule';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { Container } from '@mui/system';
+import { Container } from '@mui/material';
 
 const TExamScheduleNew = () => {
   const dispatch = useDispatch();

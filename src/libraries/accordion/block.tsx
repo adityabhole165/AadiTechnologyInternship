@@ -8,7 +8,7 @@ Block.propTypes = {
   SubjectTotalMarks: PropTypes.string,
   GrandTotal: PropTypes.string,
   Rank: PropTypes.string,
-  Grade: PropTypes.string
+  Grade: PropTypes.string,
 };
 
 function Block({
@@ -19,12 +19,11 @@ function Block({
   GrandTotal,
   SubjectTotalMarks,
   Grade
-}) {
+}) {  
   const [options, setObject] = useState([]);
   const [series, setSeries] = useState([]);
   const [color, setColor] = useState([]);
   const [outof, setoutof] = useState([]);
-
   const min = 0;
   // console.log("here - ", Data)
   var subjectgrade: any = [];
@@ -36,11 +35,12 @@ function Block({
   const subject: any = [];
   const outofmarks: any = [];
   const grades: any = [];
+  const conideredTotal :any=[];
   const gradeormarks: any = [];
   const endingmarksrange: any = [];
   const examstatus: any = [];
   const IsAbsent: any = [];
-
+  const [data, setData] = useState([]);
   useEffect(() => {
     setObject(subject);
     setSeries(marks);
@@ -51,13 +51,8 @@ function Block({
 
 
   Data.map((list, index) => {
-    list.StudentMarksList.map((list1, index1) => {
+   list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
       if (ExamId == list1.ExamId) {
-        if (list1.ConsiderInTotal == 'N') {
-          subjectgrade.push(list1.Grade);
-          singlesubject.push(list1.Subject);
-          indexval = index1;
-        }
         if (list1.Marks == 0 && list1.Grade == 'Absent') {
           let Marks = '101'
           marks.push(Marks);
@@ -65,6 +60,10 @@ function Block({
         } else {
           colors.push('#0000FF')
           marks.push(list1.Marks);
+          // marks.push((list1.Marks/outofmarks)*100 );
+          // const percent = (list1.Marks / outofmarks[i]) * 100;
+          //     return percent.toFixed(i) + '%'
+         
         }
         subject.push(list1.Subject);
         outofmarks.push(list1.OutOf);
@@ -79,8 +78,23 @@ function Block({
       }
     });
   });
-  // console.log(color)
-  const dataLabel = (val) => {
+
+  Data.map((list, index) => {
+   list.StudentMarksList.map((list1, index1) => {
+      if (ExamId == list1.ExamId) {
+
+        if (list1.ConsiderInTotal == 'N' ) {
+          subjectgrade.push(list1.Grade);
+          singlesubject.push(list1.Subject);
+          indexval = index1;
+        }
+      }
+      else {
+      }
+    });
+  });
+
+  const dataLabel = (val,opts) => {
     let returnVal = val
     if (val >= '90' && val <= '100') {
       returnVal = 'A+';
@@ -109,12 +123,12 @@ function Block({
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return returnVal + (val===101?'': ' ('+val+')')
+    return returnVal + (val===101 ? '' : '(' + val + ')' )
   }
 
   return (
     <>
-      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel}></BarChart>
+      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} ></BarChart>
       <Card20
         percentage={Percentage}
         rank={Rank}
