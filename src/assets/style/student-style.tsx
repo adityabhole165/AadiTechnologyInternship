@@ -388,16 +388,13 @@ export const Styles = makeStyles({
 
  checkboxSize : {
 
-  fontSize: "22px !important", 
+  fontSize: "16px !important", 
 
   '@media (max-width: 280px)': {
-    fontSize: "12px !important", 
+    fontSize: "14px !important", 
  
   },
-  '@media (max-width: 320px)': {
-    fontSize: "18px !important", 
  
-  },
  
  },
 
