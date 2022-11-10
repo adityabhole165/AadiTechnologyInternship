@@ -40,7 +40,7 @@ const AddReciepents = ({ recipientListClick }) => {
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
-  const [studentlist, setStudentlist] = useState();
+  const [studentlist, setStudentlist] = useState('');
   // const [dropdownlist, setDropdownlist] = useState([])
   const [techerStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
@@ -146,13 +146,15 @@ const AddReciepents = ({ recipientListClick }) => {
     }
   }, []);
   useEffect(() => {
-
-    setList(getuserlist);
+    setList(getuserlist.map((obj) => {
+      return { ...obj, isActive: selectedRecipentsId.includes(obj.Id) ? true : false }
+    }))
   }, [getuserlist]);
 
   useEffect(() => {
-
-    if (studentlist !== undefined) dispatch(GetStudent(getStudentsUserAPIBody));
+    if (studentlist !== '') {
+      dispatch(GetStudent(getStudentsUserAPIBody));
+    }
   }, [studentlist]);
 
   useEffect(() => {
@@ -178,6 +180,7 @@ const AddReciepents = ({ recipientListClick }) => {
   };
   const techerStudentChange = (value) => {
     setList([]);
+    setStudentlist('');
     setTecherStudent1('');
     value?.map((obj) => {
       if (obj.isActive) {
@@ -211,6 +214,8 @@ const AddReciepents = ({ recipientListClick }) => {
     });
     list?.map((obj) => {
       if (obj.isActive) {
+        console.log("merge",list)
+
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
@@ -270,6 +275,7 @@ const AddReciepents = ({ recipientListClick }) => {
                       Array={getClass}
                       label="Select Class"
                       handleChange={classChange}
+                      defaultValue={studentlist}
                     />
                   )}
                 </Grid>
