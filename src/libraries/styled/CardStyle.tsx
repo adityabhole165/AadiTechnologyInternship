@@ -137,6 +137,28 @@ border-radius: 6px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
  `
 );
+export const ListStyle1 = styled(Box)(
+  ({ theme, color }) => `
+
+//  background: ${theme.colors.gradients.listColor}; 
+ background: ${
+   color === 'primary'
+     ? theme.colors.gradients.listColor
+     : color === 'secondary'
+     ? theme.colors.gradients.HighlightedlistColor
+     : color === 'warning'
+     ? theme.colors.gradients.selectedlistColor
+     : color === 'info'
+     ? theme.colors.gradients.pageBackground
+     : theme.colors.gradients.listColor
+ };
+    position:relative;
+ padding:8px;
+border-radius: 6px;
+   margin-bottom: 8px;
+   
+ `
+);
 
 export const BoxStyle = styled(Box)(
   ({ theme }) => `
@@ -180,7 +202,7 @@ export const BorderBox= styled(Box)(
   ({ theme }) => `
   border:2px solid gray;
   padding:4px;
-  border-radius:10px;
+  border-radius:6px;
  
   `
 );

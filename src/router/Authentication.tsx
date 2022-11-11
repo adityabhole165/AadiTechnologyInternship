@@ -14,7 +14,7 @@ const Loader = (Component) => (props) =>
 //const SchoolList = Loader(lazy(() => import('src/RITeSchool/authentication/schoolList/schoolList')));
 const Schoolnotice = Loader(lazy(() => import('src/components/SchoolNotice/Schoolnotice')));
 const ForgotPassword = Loader(lazy(() => import('src/components/Authentication/Login/ForgotPassword')));
-const ViewSchoolNotice = Loader(lazy(() => import('src/components/Authentication/SchoolNotice/LoginViewSchoolNotice')));
+const ViewSchoolNotice = Loader(lazy(() => import('src/components/SchoolNotice/Viewschoolnotice')));
 
 const SchoolList = Loader(lazy(() => import('src/components/Authentication/Login/Login')));
 
@@ -36,7 +36,7 @@ const AuthenticationRoute = [
     element: <ForgotPassword />
   },
   {
-    path: 'LoginViewSchoolNotice/:ID',
+    path: 'ViewSchoolNotice/:ID',
     element: <ViewSchoolNotice />
   }
 

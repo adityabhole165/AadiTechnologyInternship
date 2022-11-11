@@ -14,6 +14,7 @@ function Card1({
   Color,
   FileName = '',
   margin = '',
+  clickCard=undefined
 }) {
 
   return (
@@ -28,7 +29,7 @@ function Card1({
             <AttachmentIcon />
           </BoxStyle>
         )}
-        <Card4 header={header} text1={text1} text2={text2} text3={text3} text4={text4} text5={text5} text6={text6} />
+        <Card4 clickCard={clickCard} header={header} text1={text1} text2={text2} text3={text3} text4={text4} text5={text5} text6={text6} />
       </ListStyle>
     </Grow>
   );
