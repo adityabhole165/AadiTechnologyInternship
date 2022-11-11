@@ -2,14 +2,14 @@ import React from 'react';
 import { CardDetail,CardDetail1,CardDetail2,CardDetail3,CardDetail5, CardDetail7, CardDetail9} from '../styled/CardStyle';
 import { useLocation } from 'react-router-dom';
 
-function Card4({ header, text1, text2, text3, text5 ,text4,text6}) {
+function Card4({ header, text1, text2, text3, text5 ,text4,text6,clickCard=undefined}) {
   
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
   return (
     <>
-      <CardDetail>
+      <CardDetail onClick={clickCard}>
      <CardDetail1>{header}</CardDetail1> 
          <CardDetail2>{text3}</CardDetail2> 
         </CardDetail>
