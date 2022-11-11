@@ -72,8 +72,8 @@ function Form13() {
 
   const [finalBase642Duplicate, setFinalBase642Duplicate] = useState([]);
 
-  const [FileNameOfAttachment,setFileNameOfAttachment] = useState([]);
-  const [Base64URLOfAttachment,setBase64URLOfAttachment] = useState([]);
+  const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
+  const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
 
@@ -109,10 +109,10 @@ function Form13() {
         setFileNameOfAttachment((prev) => [...prev])
         setBase64URLOfAttachment((prev) => [...prev])
       }
-      for(let key in FileNameOfAttachment){
-        finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
+      for (let key in FileNameOfAttachment) {
+        finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
       }
-  
+
       setFinalBase642New((prev) => [...prev])
     }
   }, [AttachmentArray]);
@@ -206,7 +206,7 @@ function Form13() {
 
   const sendMessage = () => {
 
-    
+
 
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
@@ -276,7 +276,7 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
+  const AttachmentFilePath = sitePath + '/RITeSchool/Uploads/';
 
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');
@@ -306,21 +306,21 @@ function Form13() {
     }
   }, []);
 
-  const handleRemoveListItems = (e,c) =>{
+  const handleRemoveListItems = (e, c) => {
     finalBase642New.length = 0;
 
-    for(let key in FileNameOfAttachment){
+    for (let key in FileNameOfAttachment) {
       let indOfFileName = FileNameOfAttachment.indexOf(e)
       let indOfFileName2 = Base64URLOfAttachment.indexOf(c)
-      if(FileNameOfAttachment[key] == e){
-        let spl = FileNameOfAttachment.splice(indOfFileName,1);
-        let spl2 = Base64URLOfAttachment.splice(indOfFileName2,1);
+      if (FileNameOfAttachment[key] == e) {
+        let spl = FileNameOfAttachment.splice(indOfFileName, 1);
+        let spl2 = Base64URLOfAttachment.splice(indOfFileName2, 1);
       }
       console.log(FileNameOfAttachment)
     }
-    
-    for(let key in FileNameOfAttachment){
-      finalBase642New.push({FileName:FileNameOfAttachment[key],Base64URL:Base64URLOfAttachment[key]})
+
+    for (let key in FileNameOfAttachment) {
+      finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
     }
     setFinalBase642New((prev) => [...prev])
   }
@@ -358,12 +358,17 @@ function Form13() {
               <TextField
                 multiline
                 value={RecipientsObject.RecipientName}
+                variant="outlined"
                 id=""
                 label='To :'
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
                 style={{ scrollBehavior: 'auto' }}
+                sx={{
+                  maxHeight: '60px',
+                  overflow: 'auto'
+                }}
               />
               <p style={{ color: 'red', marginTop: 2 }}>
                 {RecipientsList.length == 0 ? (
@@ -397,11 +402,11 @@ function Form13() {
               ) : null}
             </p>
 
-            <ChooseFile ObjectOfFileNameAndBase64={ObjectOfFileNameAndBase64Function}/>
+            <ChooseFile ObjectOfFileNameAndBase64={ObjectOfFileNameAndBase64Function} />
 
             {finalBase642New == undefined ||
-            finalBase642New.length == 0 ||
-            PageName === 'Reply' ? null : (
+              finalBase642New.length == 0 ||
+              PageName === 'Reply' ? null : (
               <div style={{ marginTop: '10px' }}>
                 <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
                 <Box sx={{ mt: 1 }}>
@@ -411,17 +416,17 @@ function Form13() {
                         return (
                           <Collapse key={item.FileName}>
                             <ListItem
-                             secondaryAction={
-                              <IconButton
-                                edge="end"
-                                aria-label="delete"
-                                title="Delete"
-                                onClick={() => handleRemoveListItems(item.FileName,item.Base64URL)}
-                              >
-                                <DeleteIcon sx={{color:'red'}}/>
-                              </IconButton>
-                            }
-                        
+                              secondaryAction={
+                                <IconButton
+                                  edge="end"
+                                  aria-label="delete"
+                                  title="Delete"
+                                  onClick={() => handleRemoveListItems(item.FileName, item.Base64URL)}
+                                >
+                                  <DeleteIcon sx={{ color: 'red' }} />
+                                </IconButton>
+                              }
+
                             >
                               <FilePresentRoundedIcon
                                 sx={{

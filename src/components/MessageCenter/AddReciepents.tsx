@@ -1,4 +1,4 @@
-import { Box, TextField, Container, Grid } from '@mui/material';
+import { Box, TextField, Container, Grid, Card } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -233,31 +233,39 @@ const AddReciepents = ({ recipientListClick }) => {
             overflow: 'auto'
           }}
         />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Okay</ButtonPrimary>
+        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Add</ButtonPrimary>
         <>
           {RoleId === '6' && (
+  
             <ListSelect Itemlist={entireSchool} onChange={onChange} />
+            
           )}
           {show === true ? (
             <>
               <Grid container spacing={2}>
+                
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '3' ? "60px" : "160px"} >
+                <Card>
+                  <BorderBox height={RoleId === '3' ? "50px" : "160px"|| RoleId === '2' ? "130px" : "100px" } >
                     <ListSelect
                       Itemlist={staffAndAdmin}
                       onChange={adminandSWChange}
                     />
                   </BorderBox>
+                  </Card>
                 </Grid>
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '6' ? "200px" : null || RoleId === '2' ? "150px" : "100px"}>
+                  <Card>
+                  <BorderBox height={RoleId === '6' ? "170px" : null || RoleId === '2' ? "130px" : "100px" || RoleId==="3"? "90px":null}>
                     <ListSelect
                       Itemlist={techerStudent}
                       onChange={techerStudentChange}
                       isSingleSelect={true}
                     />
                   </BorderBox>
+                  </Card>
                 </Grid>
+                
                 <Grid item xs={12}>
                   {techerStudent1 === '3' && (
                     <DropdownofAddrecipent
