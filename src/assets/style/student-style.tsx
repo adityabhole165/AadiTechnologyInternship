@@ -363,13 +363,13 @@ export const Styles = makeStyles({
  iIconExamSchedule : {
 
   fontSize: "20px !important",  
-  marginTop: '-93px', 
+  marginTop: '10px', 
   backgroundColor: "#e8a0e7", 
   borderRadius: "50px", 
   marginRight: "-15px",
   '@media (max-width: 280px)': {
     fontSize: "15px !important",
-    marginTop: '-95px',  
+    marginTop: '10px',  
   },
  },
 
@@ -386,6 +386,16 @@ export const Styles = makeStyles({
   },
  },
 
+ checkboxSize : {
 
+  fontSize: "16px !important", 
+
+  '@media (max-width: 280px)': {
+    fontSize: "14px !important", 
+ 
+  },
+ 
+ 
+ },
 
 });
