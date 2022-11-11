@@ -1,3 +1,5 @@
+import { fontSize } from '@mui/system';
+import { options } from 'numeral';
 import React from 'react';
 import Chart from 'react-apexcharts';
 
@@ -8,28 +10,29 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
   //     return item===50?'#f48024':'#13d8aa'
   //   })
 
+
   const height =
     xData.length == 1
       ? '100rem'
       : xData.length == 2
-      ? '125rem'
-      : xData.length == 3
-      ? '150rem'
-      : xData.length == 4
-      ? '200rem'
-      : xData.length == 5
-      ? '225rem'
-      : xData.length == 6
-      ? '500rem'
-      : xData.length == 7
-      ? '400rem'
-      : xData.length == 8
-      ? '300rem'
-      : xData.length == 9
-      ? '400rem'
-      : xData.length == 10
-      ? '300rem'
-      : '200rem';
+        ? '125rem'
+        : xData.length == 3
+          ? '150rem'
+          : xData.length == 4
+            ? '200rem'
+            : xData.length == 5
+              ? '225rem'
+              : xData.length == 6
+                ? '225rem'
+                : xData.length == 7
+                  ? '400rem'
+                  : xData.length == 8
+                    ? '300rem'
+                    : xData.length == 9
+                      ? '400rem'
+                      : xData.length == 10
+                        ? '300rem'
+                        : '200rem';
   const data = {
     options: {
       tooltip: {
@@ -38,12 +41,18 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
       chart: {
         toolbar: { show: false },
         id: 'basic-bar',
-        background: '#FFFFFF'
+        background: '#FFFFFF',
+
       },
       legend: { show: false },
       dataLabels: {
         formatter: function (val, opts) {
           return dataLabel(val);
+        },
+        style: {
+          colors: ['white'],
+          fontSize: '11px',
+          fontWeight: 100
         }
       },
       plotOptions: {
@@ -55,12 +64,9 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
       colors: colors,
       xaxis: {
         categories: xData,
-        min: 0,
-        max: 100,
-        range: 0 - 100,
         labels: {
-          show: true
-        }
+          show: true,
+        },
       },
       yaxis: {
         labels: {
@@ -71,17 +77,20 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
             fontFamily: 'Roboto',
             fontWeight: 600
           }
-        }
-      }
+        },
+      }  
     },
-    series: [{ data: series }]
+    series: [
+      {
+        data: series
+      }
+    ]
   };
   return (
     <div className="app">
-      {/* style={{height:'100px'}} */}
       <div className="row">
         <div className="mixed-chart">
-          <Chart
+             <Chart
             options={data.options}
             series={data.series}
             type="bar"
@@ -94,3 +103,5 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
   );
 };
 export default BarChart;
+
+

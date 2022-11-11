@@ -1,21 +1,22 @@
 import { Grid } from '@mui/material';
+import { ListStyle } from '../styled/CardStyle';
 import HeaderCheckbox from './HeaderCheckbox';
 
 const ListHeaderCard3ColSel = ({ Item, onChange }) => {
   return (
-    <>
+    <ListStyle>
       <Grid container>
         <Grid
           item
           xs={1}
-          sx={{ mt: '15px', paddingLeft: '5px', fontWeight: 'bold' }}
+        
         >
           <HeaderCheckbox checked={Item.isActive} onChange={onChange} />
         </Grid>{' '}
         <Grid
           item
           xs={3}
-          sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold',mt: '15px',ml: '-5px',  }}
+          sx={{ textAlign: 'center', color: 'black', fontWeight: 'bold' }}
         >
           {Item.text1.split(' ')[0]}
           <br/>
@@ -25,16 +26,15 @@ const ListHeaderCard3ColSel = ({ Item, onChange }) => {
           item
           xs={8}
           sx={{
-            mt: '15px',
-            color: 'black',
-            paddingLeft: '25px',
-            fontWeight: 'bold'
+           color: 'black',
+          fontWeight: 'bold',
+          fontSize:"14px",
           }}
         >
           {Item.text2}
         </Grid>
       </Grid>
-    </>
+    </ListStyle>
   );
 };
 

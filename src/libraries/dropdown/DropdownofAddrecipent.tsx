@@ -6,10 +6,10 @@ DropdownofAddrecipent.propTypes = {
     handleChange: PropTypes.any,
     label: PropTypes?.string,
 };
-function DropdownofAddrecipent({ Array, handleChange, label  }) {
+function DropdownofAddrecipent({ Array, handleChange, label,defaultValue=''  }) {
     return (
         <>
-           <NativeSelect 
+           <NativeSelect value={defaultValue}
                 onChange={(e) => handleChange(e.target.value)} fullWidth >
                 <option>{label}</option>
                 {Array.map((items, i) => {

@@ -37,6 +37,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 import { sitePath } from '../Common/Util';
+import AddReciepents from './AddReciepents';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -291,6 +292,9 @@ function Form13() {
 
   const RecipientsListFun = (e) => {
     setRecipientsObject(e);
+    setdisplayOfRecipients('none');
+    setdisplayOfComposePage('block');
+
   };
 
   useEffect(() => {
@@ -488,12 +492,13 @@ function Form13() {
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AdminTeacherRecipientsList
+        {/* <AdminTeacherRecipientsList
           displayProperty={displayPropertyFun}
           RecipientsListDetails={RecipientsListFun}
           ReplyRecipient={ReplyRecipientNameId}
           PageName={'MessageCenter'}
-        />
+        /> */}
+        <AddReciepents recipientListClick={RecipientsListFun}></AddReciepents>
       </div>
     </>
   );

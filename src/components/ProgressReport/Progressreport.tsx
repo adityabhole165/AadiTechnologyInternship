@@ -20,6 +20,7 @@ import {IIsPendingFeesForStudent,IGetAcademicYears,IGetTerms,IGetReasonforBlocki
 import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { sitePath } from '../Common/Util';
+import DotLegend from 'src/libraries/summary/DotLegend';
 
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
@@ -47,19 +48,6 @@ function Progressreport() {
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
   const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
-
-  const classes = Styles();
-
-  const DotLegend = styled('span')(
-    ({ theme }) => `
-          border-radius: 22px;
-          width: ${theme.spacing(1.5)};
-          height: ${theme.spacing(1.5)};
-          display: inline-block;
-          margin-right: ${theme.spacing(1)};
-          margin-top: -${theme.spacing(0.1)};
-      `
-  );
 
   const Note1: string = '* Denotes subject marks are not considered in total marks.';
 
@@ -144,9 +132,30 @@ function Progressreport() {
 
   //  dropyear
 
+  const DotLegend = styled('span')(
+    ({ theme }) => `
+      border-radius: 22px;
+      width: ${theme.spacing(1.5)};
+      height: ${theme.spacing(1.5)};
+      display: inline-block;
+      margin-right: ${theme.spacing(1)};
+      margin-top: -${theme.spacing(0.1)};
+  `
+  );
+
+  const classes = Styles();
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
+      <DotLegend
+          sx={{
+            marginBottom: '-2px',
+            background: 'blueviolet'
+          }}
+        /> 
+       <small>   <b>Denotes subject marks not considered in total marks.</b>   </small> 
+        <br/>
+        <br/>
       <Box>
         {progressreportResult.length === 0 ?
           

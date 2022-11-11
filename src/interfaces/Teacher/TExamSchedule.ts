@@ -45,6 +45,7 @@ export interface IExamList{
 }
 
 export interface GetExamsListResult{
+    GetExamSchedulesResult:[{
     SubjectName: string,
     ExamStartDate: string,
     ExamEndDate: string,
@@ -57,4 +58,5 @@ export interface GetExamsListResult{
     TestType: string,
     Instructions: string,
     Description: string
+}]
 }

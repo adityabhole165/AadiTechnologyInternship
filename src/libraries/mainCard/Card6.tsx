@@ -23,7 +23,7 @@ function Card6() {
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
-        <UserPhoto ImgUrl={ImgUrl} alt={''} width={'150px'} height={'150px'} />
+        <UserPhoto ImgUrl={ImgUrl} alt={''} width={'106px'} height={'137px'} />
 
         {RoleName == 'Teacher' ? (
           <>
