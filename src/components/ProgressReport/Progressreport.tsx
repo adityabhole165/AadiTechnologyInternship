@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { GetExamResultList, GetAcademicYears, GetReasonforBlockingProgressReport, Getpendingfees, GetProgressReportFileName, GetStudentMarksList } from 'src/requests/Student/ProgressReport';
+import { GetExamResultList, GetAcademicYears, GetReasonforBlockingProgressReport, Getpendingfees, GetProgressReportFileName } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { styled, Box, List, useTheme } from '@mui/material';
@@ -30,7 +30,6 @@ function Progressreport() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
-  const StudentMarksList = useSelector((state: RootState) => state.Progressreport.StudentMarks);
   const academicyearResult = useSelector((state: RootState) => state.Progressreport.GetAcademicYears);
   const academictermsResult = useSelector((state: RootState) => state.Progressreport.GetTerms);
   const getreasonbprgrepres: any = useSelector((state: RootState) => state.Progressreport.GetReasonforBlocking);
@@ -38,7 +37,6 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
-  //let sitePath = 'https://192.168.1.80';
   let downloadPathOfProgressReport = sitePath + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
@@ -123,9 +121,7 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
-  // useEffect(() => {
-  //   dispatch(GetStudentMarksList(GetExamResultList_body));
-  // }, []);
+ 
 
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
