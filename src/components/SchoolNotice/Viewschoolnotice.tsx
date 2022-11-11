@@ -13,7 +13,7 @@ import BackButton from 'src/libraries/button/BackButton';
 
 function Viewschoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserId = sessionStorage.getItem('Id');
+  const asUserId = localStorage.getItem('UserId');
 
   const dispatch = useDispatch();
 
@@ -34,8 +34,10 @@ function Viewschoolnotice() {
   return (
     <>
       <PageHeader heading={'Notice Details'} subheading={''} />
+      {sessionStorage.getItem('Id')===null?
+        <BackButton FromRoute={"/schoolnotice"}/>:
         <BackButton FromRoute={"/Common/schoolnotice"}/>
-      <div>
+      }<div>
       {ViewSchoolnotice.map((items: GetSchoolNoticeListResult, i) => (
         <Card5
           FileName={items.FileName}

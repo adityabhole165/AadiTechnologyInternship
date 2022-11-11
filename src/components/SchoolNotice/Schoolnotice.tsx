@@ -7,10 +7,11 @@ import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
+import BackButton from 'src/libraries/button/BackButton';
 
 function Schoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserId = sessionStorage.getItem('Id');
+  const asUserId = localStorage.getItem('UserId');
 
   const dispatch = useDispatch();
   const SchoolnoticeList = useSelector(
@@ -24,6 +25,7 @@ function Schoolnotice() {
   };
 
   useEffect(() => {
+    if(sessionStorage.getItem("Id")!==null)
     localStorage.setItem("url",window.location.pathname)
     dispatch(getSchoolNotice(body));
   }, []);
@@ -42,6 +44,9 @@ function Schoolnotice() {
   return (
     <Container>
       <PageHeader heading={'School Notices'} subheading={''} />
+      {sessionStorage.getItem('Id')===null &&
+        <BackButton FromRoute={"/schoolList"}/>
+      }
       <List1 items={Data} />
     </Container>
   );
