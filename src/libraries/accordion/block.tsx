@@ -41,6 +41,8 @@ function Block({
   const gradeormarks: any = [];
   const endingmarksrange: any = [];
   const examstatus: any = [];
+  const exmstats:any=[];
+  const lateJoinee:any = [];
   const IsAbsent: any = [];
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -71,6 +73,8 @@ function Block({
         gradeormarks.push(list1.GradeOrMarks);
         endingmarksrange.push(list1.EndingMarksRange);
         examstatus.push(list1.ExamStatus);
+        exmstats.push(list1.ExamStatus);
+        lateJoinee.push(list1.ExamStatus);
         IsAbsent.push(list1.IsAbsent);
       }
 
@@ -130,6 +134,12 @@ function Block({
 
     if (IsAbsent[index] === 'Y') {
       return 'Absent'
+    }
+    if (exmstats[index] === 'Exempted') {
+      return 'Exempted'
+    }
+    if (lateJoinee[index] === 'Late Joinee') {
+      return 'Late Joinee'
     }
     else {
       return returnVal + '(' + val + ')'
