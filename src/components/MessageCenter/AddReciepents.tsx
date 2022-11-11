@@ -175,7 +175,7 @@ const AddReciepents = ({ recipientListClick }) => {
   };
   const onChange = (value) => {
     setEntireSchool(value);
-    mergeToList(value, staffAndAdmin, list);
+    populateRecipient(value);
     setShow(!show);
   };
   const techerStudentChange = (value) => {
@@ -192,35 +192,24 @@ const AddReciepents = ({ recipientListClick }) => {
 
   const onChangeTeacher = (value) => {
     setList(value);
-    mergeToList(entireSchool, staffAndAdmin, value);
+    populateRecipient(value);
   };
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value);
-    mergeToList(entireSchool, value, list);
+    populateRecipient(value);
   };
-  const mergeToList = (itemList, adminandSW, list) => {
-    setSelectedRecipents([]);
+  const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
-      if (obj.isActive) {
+      if (obj.isActive && !selectedRecipents.includes(obj.Value)) {
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
-    });
-    adminandSW?.map((obj) => {
-      if (obj.isActive) {
-        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
-        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
+      else if (!obj.isActive && selectedRecipents.includes(obj.Value)) {
+        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
       }
     });
-    list?.map((obj) => {
-      if (obj.isActive) {
-        console.log("merge",list)
-
-        setSelectedRecipents((prevState) => [...prevState, obj.Value]);
-        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
-      }
-    });
-  };
+  }
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,
