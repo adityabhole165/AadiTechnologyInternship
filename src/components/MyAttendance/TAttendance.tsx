@@ -154,7 +154,7 @@ const TAttendance = () => {
     const SaveMsg = () => {
  
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
-            if (!confirm('Are you sure to mark Attendance on selected weekend/ holiday?')) {
+            if (!confirm('Are you sure to mark Attendance on selected weekend/holiday?')) {
                 setAbsentRollNos('');
                 return null;
             }

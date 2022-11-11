@@ -151,8 +151,16 @@ export const GetStudentList =
                     forInvalidAY = item.AcademicYearMsg === '' ? '':'none'
                 })
             }
-            forInvalidAY = message =='There are no students in the class.' ? 'none':''
-            forInvalidAY = message =='Attendance date should be within the current academic year' ? 'none':''
+            if(message =='There are no students in the class.'){
+                forInvalidAY = 'none';
+            }
+            else if(message =='Attendance date should be within the current academic year'){
+                forInvalidAY = 'none';
+            }
+            else{
+                forInvalidAY = '';
+            }
+            
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
             dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
