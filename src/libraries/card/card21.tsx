@@ -32,7 +32,8 @@ Card21.propTypes = {
   Data: PropTypes.any
 };
 
-function Card21({ subjectgrade, subject, indexval, MarkScored, Data }) {
+function Card21({ subjectgrade, subject, indexval, MarkScored, Data, showonlyGrade }) {
+
   const [checked, setChecked] = useState(true);
   const [expand, setExpand] = useState(false);
   const onClick = () => {
@@ -81,20 +82,35 @@ function Card21({ subjectgrade, subject, indexval, MarkScored, Data }) {
                       );
                     })}
                   </CardDetail2>
-                
-                  <CardDetail2
-
-                    sx={{ color: 'blueviolet' }}
-                  >
-                    {subjectgrade.map((subgrade, index) => {
-                      return (
-                        <div key={index}>
-                          <div key={index}>{subgrade}</div>
-                          {/* {Data.StudentMarksList.ShowOnlyGrade === "true" ? <div key={index}>{subgrade}</div> : <div key={index}>{MarkScored}</div> }  */}
-                        </div>
-                      );
-                    })}
-                  </CardDetail2>
+                  
+                     
+                  { showonlyGrade === 'true' ?
+                          <CardDetail2
+                            sx={{ color: 'blueviolet' }}
+                          >
+                            {subjectgrade.map((subgrade, index) => {
+                              return (
+                                <div key={index}>
+                                  <div key={index}>{subgrade}</div>
+                                  </div>
+                              );
+                            })}
+                          </CardDetail2>
+                  :
+                          <CardDetail2
+                            sx={{ color: 'blueviolet' }}
+                          >
+                            {MarkScored.map((mark, indee) => {
+                              return (
+                                <div key={indee}>
+                                <div key={indee}>{mark}</div>
+                                </div>  
+                              );
+                            })}
+                          </CardDetail2>
+                  }
+                      
+                    
                 </Box>
               </Box>
 

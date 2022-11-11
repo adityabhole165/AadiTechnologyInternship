@@ -41,7 +41,6 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
               expandIcon={<ExpandMoreIcon />}
               sx={{
                 background: `${theme.colors.gradients.pink1}`,
-              
               }}
             >
               <Header1
