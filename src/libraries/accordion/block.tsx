@@ -145,6 +145,7 @@ console.log("marks",marks);
         MarkScored={Nmarks}
         Data={Data}
         showonlyGrade={showonlyGrade}
+        examstatus={examstatus}
       />
     </>
   );
