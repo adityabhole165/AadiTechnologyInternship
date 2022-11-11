@@ -237,7 +237,6 @@ const handleChangeForTemplate = (e) => {
     setdisplayOfCompose_Page('block');
 
   };
-  
 
   return (
     <Container>
@@ -398,6 +397,7 @@ const handleChangeForTemplate = (e) => {
                     
                       type="submit"
                       fullWidth
+                   
                       onClick={formik.handleChange}
                     >
                      Send
