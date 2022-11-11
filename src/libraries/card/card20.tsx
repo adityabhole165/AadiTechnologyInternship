@@ -34,7 +34,8 @@ function Card20({
   indexval,
   MarkScored,
   Data,
-  showonlyGrade
+  showonlyGrade,
+  examstatus
 })
 {
   return (
@@ -67,6 +68,7 @@ function Card20({
         MarkScored={MarkScored}
         Data={Data}
         showonlyGrade={showonlyGrade}
+        examstatus={examstatus}
       />
     </>
   );

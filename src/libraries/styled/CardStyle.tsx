@@ -22,7 +22,7 @@ export const CardDetail7 = styled(Typography)`
   font-size: 12px;
   color: black;
   font-family: Roboto;
- 
+ margin-left: 5px;
   margin-top:-3px;
 
    
