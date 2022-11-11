@@ -27,10 +27,13 @@ import { CardDetail2, ListStyle } from '../styled/CardStyle';
 Card21.propTypes = {
   subject: PropTypes.any,
   subjectgrade: PropTypes.any,
-  indexval: PropTypes.number
+  indexval: PropTypes.number,
+  MarkScored: PropTypes.any,
+  Data: PropTypes.any
 };
 
-function Card21({ subjectgrade, subject, indexval }) {
+function Card21({ subjectgrade, subject, indexval, MarkScored, Data, showonlyGrade }) {
+
   const [checked, setChecked] = useState(true);
   const [expand, setExpand] = useState(false);
   const onClick = () => {
@@ -50,7 +53,7 @@ function Card21({ subjectgrade, subject, indexval }) {
       flexDirection: 'row',
       alignItems: 'center',
       justifyContent: 'space-between',
-    
+
     }
   });
 
@@ -61,46 +64,59 @@ function Card21({ subjectgrade, subject, indexval }) {
     <div>
       <>
         {subjectgrade?.length === 0 && subject?.length === 0 ? null : (
-     
-            <Grow
-              in={checked}
-              style={{ transformOrigin: '0 0 1' }}
-              {...(checked ? { timeout: 1500 } : {})}
-            >
-              <ListStyle>
-                <Box>
-                  <Box className={clas.timesx}>
-                    <CardDetail2
-                   
-                      sx={{ color: '#5C3317' }}
-                    >
-                      {subject.map((sub, index) => {
-                        return (
-                          <div key={index}>
-                            <div>{sub}</div>
-                          </div>
-                        );
-                      })}
-                    </CardDetail2>
-                    <CardDetail2
+
+          <Grow
+            in={checked}
+            style={{ transformOrigin: '0 0 1' }}
+            {...(checked ? { timeout: 1500 } : {})}
+          >
+            <ListStyle>
+              <Box>
+                <Box className={clas.timesx}>
+                  <CardDetail2 >
+                    {subject.map((sub, index) => {
+                      return (
+                        <div key={index}>
+                          <div>{sub}</div>
+                        </div>
+                      );
+                    })}
+                  </CardDetail2>
                   
-                      sx={{  color: 'blueviolet' }}
-                    >
-                      {subjectgrade.map((subgrade, index) => {
-                        return (
-                          <div key={index}>
-                            <div key={index}>{subgrade}</div>
-                          </div>
-                        );
-                      })}
-                    </CardDetail2>
-                  </Box>
-                
+                     
+                  { showonlyGrade === 'true' ?
+                          <CardDetail2
+                            sx={{ color: 'blueviolet' }}
+                          >
+                            {subjectgrade.map((subgrade, index) => {
+                              return (
+                                <div key={index}>
+                                  <div key={index}>{subgrade}</div>
+                                  </div>
+                              );
+                            })}
+                          </CardDetail2>
+                  :
+                          <CardDetail2
+                            sx={{ color: 'blueviolet' }}
+                          >
+                            {MarkScored.map((mark, indee) => {
+                              return (
+                                <div key={indee}>
+                                <div key={indee}>{mark}</div>
+                                </div>  
+                              );
+                            })}
+                          </CardDetail2>
+                  }
+                      
+                    
                 </Box>
-           
-              </ListStyle>
-            </Grow>
-        
+              </Box>
+
+            </ListStyle>
+          </Grow>
+
         )}
       </>
     </div>

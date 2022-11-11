@@ -28,9 +28,11 @@ function Block({
   // console.log("here - ", Data)
   var subjectgrade: any = [];
   var singlesubject: any = [];
+  var showonlyGrade = ''
   var indexval;
   const [grade, setgrade] = useState([]);
   const marks: any = [];
+  const Nmarks:any = [];
   const colors: any = [];
   const subject: any = [];
   const outofmarks: any = [];
@@ -54,17 +56,15 @@ function Block({
    list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
       if (ExamId == list1.ExamId) {
         if (list1.Marks == 0 && list1.Grade == 'Absent') {
-          let Marks = '101'
+          let Marks = '99'
           marks.push(Marks);
           colors.push('#800000')
         } else {
           colors.push('#0000FF')
-          marks.push(list1.Marks);
-          // marks.push((list1.Marks/outofmarks)*100 );
-          // const percent = (list1.Marks / outofmarks[i]) * 100;
-          //     return percent.toFixed(i) + '%'
-         
+          marks.push(list1.Marks)
+          // marks.push((list1.Marks/outof[index])*100 );        
         }
+
         subject.push(list1.Subject);
         outofmarks.push(list1.OutOf);
         grades.push(list1.Grade);
@@ -86,6 +86,9 @@ function Block({
         if (list1.ConsiderInTotal == 'N' ) {
           subjectgrade.push(list1.Grade);
           singlesubject.push(list1.Subject);
+          showonlyGrade=list1.ShowOnlyGrade;
+          conideredTotal.push(list1.ConsiderInTotal);
+          Nmarks.push(list1.Marks)
           indexval = index1;
         }
       }
@@ -96,12 +99,10 @@ function Block({
 
   const dataLabel = (val,opts) => {
     let returnVal = val
-    if (val >= '90' && val <= '100') {
+    if (val >= '90' && val <= '100' && val != '99.99') {
       returnVal = 'A+';
     } else if (val >= 80 && val <= 89) {
       returnVal = 'A';
-    } else if (val === 101) {
-      returnVal = 'Absent';
     } else if (val >= 45 && val <= 49) {
       returnVal = 'D+';
     } else if (val >= 35 && val <= 44) {
@@ -123,9 +124,17 @@ function Block({
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return returnVal + (val===101 ? '' : '(' + val + ')' )
+    return (getIsAbsent(opts.dataPointIndex, val, returnVal))
   }
+  const getIsAbsent = (index,val, returnVal) => {
 
+    if (IsAbsent[index] === 'Y') {
+      return 'Absent'
+    }
+    else {
+      return returnVal + '(' + val + ')'
+    }
+  }
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} ></BarChart>
@@ -138,6 +147,9 @@ function Block({
         subjectgrade={subjectgrade}
         subject={singlesubject}
         indexval={indexval}
+        MarkScored={Nmarks}
+        Data={Data}
+        showonlyGrade={showonlyGrade}
       />
     </>
   );
