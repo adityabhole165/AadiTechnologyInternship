@@ -138,6 +138,8 @@ function Block({
         subjectgrade={subjectgrade}
         subject={singlesubject}
         indexval={indexval}
+        MarkScored={series}
+        Data={Data}
       />
     </>
   );

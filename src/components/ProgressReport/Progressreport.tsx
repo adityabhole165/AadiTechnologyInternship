@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
-import {GetExamResultList,GetAcademicYears,GetReasonforBlockingProgressReport,Getpendingfees,GetProgressReportFileName} from 'src/requests/Student/ProgressReport';
+import { GetExamResultList, GetAcademicYears, GetReasonforBlockingProgressReport, Getpendingfees, GetProgressReportFileName, GetStudentMarksList } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {styled,Box,List,useTheme} from '@mui/material';
-import IExamResult, { GetStudentExamResult,IGetReasonforBlockingProgressReportResult} from 'src/interfaces/Student/ProgressReport';
+import { styled, Box, List, useTheme } from '@mui/material';
+import IExamResult, { GetStudentExamResult, IGetReasonforBlockingProgressReportResult } from 'src/interfaces/Student/ProgressReport';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
@@ -16,11 +16,13 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import Note from 'src/libraries/Note/Note';
-import {IIsPendingFeesForStudent,IGetAcademicYears,IGetTerms,IGetReasonforBlockingProgressReport} from 'src/interfaces/Student/ProgressReport';
+import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport } from 'src/interfaces/Student/ProgressReport';
 import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { sitePath } from '../Common/Util';
 import DotLegend from 'src/libraries/summary/DotLegend';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
@@ -28,6 +30,7 @@ function Progressreport() {
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
+  const StudentMarksList = useSelector((state: RootState) => state.Progressreport.StudentMarks);
   const academicyearResult = useSelector((state: RootState) => state.Progressreport.GetAcademicYears);
   const academictermsResult = useSelector((state: RootState) => state.Progressreport.GetTerms);
   const getreasonbprgrepres: any = useSelector((state: RootState) => state.Progressreport.GetReasonforBlocking);
@@ -120,6 +123,9 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
+  // useEffect(() => {
+  //   dispatch(GetStudentMarksList(GetExamResultList_body));
+  // }, []);
 
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
@@ -147,45 +153,43 @@ function Progressreport() {
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
-      <DotLegend
-          sx={{
-            marginBottom: '-2px',
-            background: 'blueviolet'
-          }}
-        /> 
-       <small>   <b>Denotes subject marks not considered in total marks.</b>   </small> 
-        <br/>
-        <br/>
+      <DotLegend1>
+        <DotLegendStyled1
+          className={classes.border}
+          style={{ background: 'blueviolet' }}
+          />
+        <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
+      </DotLegend1>
       <Box>
         {progressreportResult.length === 0 ?
-          
-            <Note NoteDetail={note2} />
-     
+
+          <Note NoteDetail={note2} />
+
           :
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
-          
-              <Note NoteDetail={note} />
-         
+
+            <Note NoteDetail={note} />
+
             :
             getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
-            
-                <Note NoteDetail={[
-                  'You are prohibited to view the progress report due to the following reason:',
-                    Reason,
-                  'Please do the needful to view the progress report.']} />
-           
+
+              <Note NoteDetail={[
+                'You are prohibited to view the progress report due to the following reason:',
+                Reason,
+                'Please do the needful to view the progress report.']} />
+
               :
               (getreasonbprgrepres.GetReasonforBlockingProgressReport != ''
                 && BlockProgressReportIfFeesArePending == "Y"
                 && pendingfees.IsPendingFeesForStudentResult == true) ?
                 <>
-             
-                    <Note NoteDetail={[
-                      'Your school fees are pending. Please pay the dues to view progress report.',
-                      'You are prohibited to view the progress report due to the following reason:', 
-                       Reason,
-                      'Please do the needful to view the progress report.']} />
-               
+
+                  <Note NoteDetail={[
+                    'Your school fees are pending. Please pay the dues to view progress report.',
+                    'You are prohibited to view the progress report due to the following reason:',
+                    Reason,
+                    'Please do the needful to view the progress report.']} />
+
                 </>
                 :
                 <>
@@ -205,62 +209,62 @@ function Progressreport() {
                       )}
                     </>
                   </Box>
-            
-                    <Box>
-                      <FormControl
-                        sx={{
-                          marginTop: '50px',
-                          m: 1,
-                          width: '100%',
-                          marginLeft: '1px'
-                        }}
-                      >
-                        {
-                          <NativeSelect onChange={handledropyear}>
-                            <option value="0">
-                              {' '}
-                              Select Academic Year
-                            </option>
-                            {academicyearResult?.map(
-                              (getacademicyr: IGetAcademicYears, i) => {
+
+                  <Box>
+                    <FormControl
+                      sx={{
+                        marginTop: '50px',
+                        m: 1,
+                        width: '100%',
+                        marginLeft: '1px'
+                      }}
+                    >
+                      {
+                        <NativeSelect onChange={handledropyear}>
+                          <option value="0">
+                            {' '}
+                            Select Academic Year
+                          </option>
+                          {academicyearResult?.map(
+                            (getacademicyr: IGetAcademicYears, i) => {
+                              return (
+                                <option
+                                  value={getacademicyr.Id}
+                                  key={i}
+                                >
+                                  {getacademicyr.AcademicYear}
+                                </option>
+                              );
+                            }
+                          )}
+                        </NativeSelect>
+                      }
+                    </FormControl>
+                    {dropyear !== '0' ? (
+                      <>
+                        {showyear ? (
+                          <List>
+                            {academictermsResult?.map(
+                              (gettermsres: IGetTerms, i) => {
                                 return (
-                                  <option
-                                    value={getacademicyr.Id}
+                                  <Card5
                                     key={i}
-                                  >
-                                    {getacademicyr.AcademicYear}
-                                  </option>
+                                    text1={gettermsres.TermName}
+                                    text2=""
+                                    clickIcon={() => {
+                                      downloadProgress(gettermsres.Id);
+                                    }}
+                                  />
                                 );
                               }
                             )}
-                          </NativeSelect>
-                        }
-                      </FormControl>
-                      {dropyear !== '0' ? (
-                        <>
-                          {showyear ? (
-                            <List>
-                              {academictermsResult?.map(
-                                (gettermsres: IGetTerms, i) => {
-                                  return (
-                                    <Card5
-                                      key={i}
-                                      text1={gettermsres.TermName}
-                                      text2=""
-                                      clickIcon={() => {
-                                        downloadProgress(gettermsres.Id);
-                                      }}
-                                    />
-                                  );
-                                }
-                              )}
-                            </List>
-                          ) : null}
-                        </>
-                      ) :
-                        null}
-                    </Box>
-              
+                          </List>
+                        ) : null}
+                      </>
+                    ) :
+                      null}
+                  </Box>
+
                 </>
         }
       </Box>

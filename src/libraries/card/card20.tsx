@@ -18,7 +18,9 @@ Card20.propTypes = {
   grade: PropTypes.string,
   subject: PropTypes.any,
   subjectgrade: PropTypes.any,
-  indexval: PropTypes.any
+  indexval: PropTypes.any,
+  MarkScored: PropTypes.any,
+  Data:PropTypes.any
 };
 
 function Card20({
@@ -29,7 +31,9 @@ function Card20({
   grade,
   subjectgrade,
   subject,
-  indexval
+  indexval,
+  MarkScored,
+  Data
 })
 {
   return (
@@ -59,6 +63,8 @@ function Card20({
         subjectgrade={subjectgrade}
         subject={subject}
         indexval={indexval}
+        MarkScored={MarkScored}
+        Data={Data}
       />
     </>
   );

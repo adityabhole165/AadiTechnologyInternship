@@ -51,7 +51,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
         },
         style: {
           colors: ['white'],
-          fontSize: '11px',
+          fontSize: '10px',
           fontWeight: 100
         }
       },
@@ -72,7 +72,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
         labels: {
           style: {
             colors: ['#000000'],
-            fontSize: '12px',
+            fontSize: '10px',
             color: 'black',
             fontFamily: 'Roboto',
             fontWeight: 600
