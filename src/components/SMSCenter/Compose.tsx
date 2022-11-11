@@ -193,6 +193,7 @@ const handleChangeForTemplate = (e) => {
     .then((res: any) => {
       if (res.status === 200) {
         toast.success('SMS sent successfully');
+        navigate('/extended-sidebar/MessageCenter/msgCenter')
         formik.resetForm();
       }
     })
@@ -236,6 +237,7 @@ const handleChangeForTemplate = (e) => {
     setdisplayOfCompose_Page('block');
 
   };
+  
 
   return (
     <Container>
@@ -396,7 +398,6 @@ const handleChangeForTemplate = (e) => {
                     
                       type="submit"
                       fullWidth
-                   
                       onClick={formik.handleChange}
                     >
                      Send
