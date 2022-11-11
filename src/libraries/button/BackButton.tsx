@@ -13,13 +13,14 @@ function BackButton({ FromRoute }) {
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace('/schoolList', '');
-
   return (
     <>
       <RouterLink
         to={
           pageName == '/forgotPassword'
             ? '/schoolList'
+            : (FromRoute == '/schoolnotice' || FromRoute == '/schoolList' )
+            ? FromRoute
             : `/${location.pathname.split('/')[1]}` + FromRoute
         }
         color="primary"

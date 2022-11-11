@@ -18,6 +18,7 @@ import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSM
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
 import BackButton from 'src/libraries/button/BackButton';
+import AddReciepents from '../MessageCenter/AddReciepents';
 
 
 const Compose = () => {
@@ -192,6 +193,7 @@ const handleChangeForTemplate = (e) => {
     .then((res: any) => {
       if (res.status === 200) {
         toast.success('SMS sent successfully');
+        navigate('/extended-sidebar/MessageCenter/msgCenter')
         formik.resetForm();
       }
     })
@@ -223,10 +225,17 @@ const handleChangeForTemplate = (e) => {
     }
   };
 
+  // const RecipientsListFun = (e) => {
+  //   setRecipientsArray(() => {
+  //     return e
+  //   })
+  // };
   const RecipientsListFun = (e) => {
-    setRecipientsArray(() => {
-      return e
-    })
+    setRecipientsArray(e);
+    console.log(e)
+     setdisplayOfTo_RecipientsPage('none');
+    setdisplayOfCompose_Page('block');
+
   };
 
   return (
@@ -404,7 +413,8 @@ const handleChangeForTemplate = (e) => {
       {/* To Recipient Page */}
 
       <div style={{ display: displayOfTo_RecipientsPage }}>
-        <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} />
+        {/* <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} /> */}
+        <AddReciepents recipientListClick={RecipientsListFun}/>
       </div>
     </Container>
   );

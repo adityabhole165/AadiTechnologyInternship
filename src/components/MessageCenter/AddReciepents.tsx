@@ -1,8 +1,6 @@
-import { Box, TextField, Container, Grid } from '@mui/material';
+import { TextField, Container, Grid, Card, Fab,useTheme } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
@@ -12,7 +10,6 @@ import {
   GetAdminAndprincipalUsers,
   IUsergroup,
   IGetStudentsUser,
-  GetStudentsUserResult
 } from 'src/interfaces/AdminSMSCenter/To1';
 import { RootState } from 'src/store';
 import ListSelect from 'src/libraries/list/ListSelect';
@@ -20,11 +17,9 @@ import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 const AddReciepents = ({ recipientListClick }) => {
   let PageName = 'MessageCenter';
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([]);
   const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
@@ -67,7 +62,6 @@ const AddReciepents = ({ recipientListClick }) => {
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const schoolId = localStorage.getItem('localSchoolId');
-  const RoleName = localStorage.getItem('RoleName');
   const RoleId = sessionStorage.getItem('RoleId');
   const stdDivId = sessionStorage.getItem('StandardDivisionId');
   const asUserId = sessionStorage.getItem('Id');
@@ -233,31 +227,39 @@ const AddReciepents = ({ recipientListClick }) => {
             overflow: 'auto'
           }}
         />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Okay</ButtonPrimary>
+        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Add</ButtonPrimary>
         <>
           {RoleId === '6' && (
+  
             <ListSelect Itemlist={entireSchool} onChange={onChange} />
+            
           )}
           {show === true ? (
             <>
               <Grid container spacing={2}>
+                
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '3' ? "60px" : "160px"} >
+                <Card>
+                  <BorderBox height={RoleId === '3' ? "50px" : "160px"|| RoleId === '2' ? "130px" : "100px" } >
                     <ListSelect
                       Itemlist={staffAndAdmin}
                       onChange={adminandSWChange}
                     />
                   </BorderBox>
+                  </Card>
                 </Grid>
                 <Grid item xs={6}>
-                  <BorderBox height={RoleId === '6' ? "200px" : null || RoleId === '2' ? "150px" : "100px"}>
+                  <Card>
+                  <BorderBox height={RoleId === '6' ? "170px" : null || RoleId === '2' ? "130px" : "100px" || RoleId==="3"? "90px":null}>
                     <ListSelect
                       Itemlist={techerStudent}
                       onChange={techerStudentChange}
                       isSingleSelect={true}
                     />
                   </BorderBox>
+                  </Card>
                 </Grid>
+                
                 <Grid item xs={12}>
                   {techerStudent1 === '3' && (
                     <DropdownofAddrecipent

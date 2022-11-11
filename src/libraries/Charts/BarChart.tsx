@@ -47,7 +47,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
       legend: { show: false },
       dataLabels: {
         formatter: function (val, opts) {
-          return dataLabel(val);
+          return dataLabel(val,opts);
         },
         style: {
           colors: ['white'],

@@ -41,6 +41,8 @@ function Block({
   const gradeormarks: any = [];
   const endingmarksrange: any = [];
   const examstatus: any = [];
+  const exmstats:any=[];
+  const lateJoinee:any = [];
   const IsAbsent: any = [];
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -56,15 +58,13 @@ function Block({
    list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
       if (ExamId == list1.ExamId) {
         if (list1.Marks == 0 && list1.Grade == 'Absent') {
-          let Marks = '99.99'
+          let Marks = '99'
           marks.push(Marks);
           colors.push('#800000')
         } else {
           colors.push('#0000FF')
-          marks.push(list1.Marks)
-          // marks.push((list1.Marks/outof[index])*100 );        
+          marks.push((list1.Marks/Number(list1.OutOf))*100 );        
         }
-console.log("marks",marks);
 
         subject.push(list1.Subject);
         outofmarks.push(list1.OutOf);
@@ -72,6 +72,8 @@ console.log("marks",marks);
         gradeormarks.push(list1.GradeOrMarks);
         endingmarksrange.push(list1.EndingMarksRange);
         examstatus.push(list1.ExamStatus);
+        exmstats.push(list1.ExamStatus);
+        lateJoinee.push(list1.ExamStatus);
         IsAbsent.push(list1.IsAbsent);
       }
 
@@ -104,8 +106,6 @@ console.log("marks",marks);
       returnVal = 'A+';
     } else if (val >= 80 && val <= 89) {
       returnVal = 'A';
-    } else if (val == '99.99') {
-      returnVal = 'Absent';
     } else if (val >= 45 && val <= 49) {
       returnVal = 'D+';
     } else if (val >= 35 && val <= 44) {
@@ -127,9 +127,23 @@ console.log("marks",marks);
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return returnVal + (val=='99.99' ? '' : '(' + val + ')' )
+    return (getIsAbsent(opts.dataPointIndex, val, returnVal))
   }
+  const getIsAbsent = (index,val, returnVal) => {
 
+    if (IsAbsent[index] === 'Y') {
+      return 'Absent'
+    }
+    if (exmstats[index] === 'Exempted') {
+      return 'Exempted'
+    }
+    if (lateJoinee[index] === 'Late Joinee') {
+      return 'Late Joinee'
+    }
+    else {
+      return returnVal + '(' + val + ')'
+    }
+  }
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} ></BarChart>
@@ -145,6 +159,7 @@ console.log("marks",marks);
         MarkScored={Nmarks}
         Data={Data}
         showonlyGrade={showonlyGrade}
+        examstatus={examstatus}
       />
     </>
   );

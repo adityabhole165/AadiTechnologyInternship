@@ -121,7 +121,6 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
- 
 
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
