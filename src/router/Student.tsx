@@ -34,7 +34,6 @@ const OnlineExam = Loader(lazy(() => import('src/components/OnlineExam/OnlineExa
 const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/OnlineExamDetails')))
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
-const TeacherAttendance = Loader(lazy(() => import('src/components/TeacherAttendance/TeacherAttendance')))
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 // const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
 const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
@@ -150,10 +149,6 @@ const studentRoutes = [
   {
     path: 'PayOnline/:SelectedDueDate',
     element: <PayOnline/>
-  },
-  {
-    path: 'TeacherAttendance',
-    element: <TeacherAttendance/>
   },
   {
     path: 'Notification',
