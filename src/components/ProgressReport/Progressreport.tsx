@@ -37,7 +37,6 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
-  //let sitePath = 'https://192.168.1.80';
   let downloadPathOfProgressReport = sitePath + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
@@ -122,7 +121,6 @@ function Progressreport() {
       )
     );
   }, [academicYearId]);
- 
 
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
