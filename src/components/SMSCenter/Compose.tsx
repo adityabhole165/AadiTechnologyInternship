@@ -193,7 +193,7 @@ const handleChangeForTemplate = (e) => {
     .then((res: any) => {
       if (res.status === 200) {
         toast.success('SMS sent successfully');
-        navigate('/extended-sidebar/MessageCenter/msgCenter')
+        navigate('/extended-sidebar/SMSCenter/smsCenter')
         formik.resetForm();
       }
     })
