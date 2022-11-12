@@ -9,7 +9,8 @@ import { useParams } from 'react-router';
 import Card5 from 'src/libraries/card/card5';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
-
+import {Box} from '@mui/material';
+import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
 function Viewschoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -33,6 +34,7 @@ function Viewschoolnotice() {
 
   return (
     <>
+      <BoxStyle>
       <PageHeader heading={'Notice Details'} subheading={''} />
       {sessionStorage.getItem('Id')===null?
         <BackButton FromRoute={"/schoolnotice"}/>:
@@ -47,6 +49,7 @@ function Viewschoolnotice() {
         />
       ))}
     </div>
+    </BoxStyle>
     </>
     
   );

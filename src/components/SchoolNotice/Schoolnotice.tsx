@@ -8,6 +8,8 @@ import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
+import { Box } from '@mui/system';
+import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
 function Schoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -42,6 +44,7 @@ function Schoolnotice() {
   });
 
   return (
+    <BoxStyle>
     <Container>
       <PageHeader heading={'School Notices'} subheading={''} />
       {sessionStorage.getItem('Id')===null &&
@@ -49,6 +52,7 @@ function Schoolnotice() {
       }
       <List1 items={Data} />
     </Container>
+    </BoxStyle>
   );
 }
 export default Schoolnotice;
