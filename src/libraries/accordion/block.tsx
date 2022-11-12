@@ -63,8 +63,7 @@ function Block({
           colors.push('#800000')
         } else {
           colors.push('#0000FF')
-          marks.push(list1.Marks)
-          // marks.push((list1.Marks/outof[index])*100 );        
+          marks.push((list1.Marks/Number(list1.OutOf))*100 );        
         }
 
         subject.push(list1.Subject);

@@ -1,7 +1,7 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
 import GetPasswordApi from 'src/api/Authentication/GetPassword';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { TextField, Container, Grid, useTheme, Stack } from '@mui/material';
+import { TextField, Container, Grid, useTheme, Stack,Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
@@ -86,7 +86,7 @@ function ForgotPassword() {
   ];
 
   return (
-
+<Box sx={{backgroundColor:"#EAF1F5"}}>
      <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
      
@@ -176,6 +176,7 @@ function ForgotPassword() {
           <Note NoteDetail={note} />
         </ListStyle>
         </Container>
+        </Box>
    
   );
 }
