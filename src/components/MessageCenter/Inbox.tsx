@@ -142,7 +142,6 @@ function Inbox() {
   };
 
   const moveToTrash = () => {
-    debugger;
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
     const trashbody: any = {
