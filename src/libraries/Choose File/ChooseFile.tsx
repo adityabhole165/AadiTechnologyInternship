@@ -115,7 +115,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
                   disableFocusListener
                   disableHoverListener
                   disableTouchListener
-                  title={'Note'}
+                  title={'Supports only .BMP, .DOC, .DOCX, .JPG, .JPEG, .PDF, .PNG, .PPS, .PPSX, .PPT, .PPTX, .XLS, .XLSX files types with total size upto 20 MB.'}
                   arrow
                   placement="left"
                   componentsProps={{
@@ -130,7 +130,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
                 >
                   <InfoTwoToneIcon
                     type="button"
-                    // onClick={handleClick}
+                    onClick={handleClick}
                     sx={{
                       color: 'navy',
                       mt: 2,
