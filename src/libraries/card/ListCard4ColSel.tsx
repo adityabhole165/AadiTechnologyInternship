@@ -4,7 +4,7 @@ import { ListStyle } from '../styled/CardStyle';
 import { useNavigate } from 'react-router-dom';
 import Card4 from 'src/libraries/mainCard/Card4';
 
-const ListCard4ColSel = ({ Item, onChange }) => {
+const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
   const navigate = useNavigate();
 
   const clickNav = (value) => {
@@ -26,6 +26,8 @@ const ListCard4ColSel = ({ Item, onChange }) => {
               header={Item.text1} text1={Item.text2} text4=""
               text2={Item.text3} text3={''}
               text5={''} text6={''}
+              ActiveTab={ActiveTab}
+              IsRead={Item.IsRead}
             />
           </Grid>
         </Grid>

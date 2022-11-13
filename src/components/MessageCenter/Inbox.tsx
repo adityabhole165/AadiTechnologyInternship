@@ -142,6 +142,7 @@ function Inbox() {
   };
 
   const moveToTrash = () => {
+    debugger;
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
     const trashbody: any = {
@@ -155,11 +156,8 @@ function Inbox() {
 
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
-        if (
-          pageName == 'Inbox' ||
-          'pagename /extended-sidebar/MessageCenter/msgCenter'
-        ) {
-          toast.success('Message deleted successfully');
+        if (pageName == 'Inbox'){
+          toast.success('Message has been moved to the trash.');
           dispatch(getNextPageInboxList(getList));
         }
         setChecked(false);
@@ -196,9 +194,7 @@ function Inbox() {
       setdisplayMoveToTop('none');
     }
     if (
-      ScrollableDivRefference.scrollHeight -
-        ScrollableDivRefference.scrollTop <=
-      570
+      ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570
     ) {
       setpageIndexUpdated(true);
       const UpdatedBody: IgetList = {

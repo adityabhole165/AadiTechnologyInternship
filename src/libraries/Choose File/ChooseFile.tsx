@@ -24,7 +24,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
   };
 
   const fileChangedHandler = async (event) => {
-    // console.log(event.target.value = 0)
+    debugger;
     const multipleFiles = event.target.files;
     for (let i = 0; i < multipleFiles.length; i++) {
       const allowedFileTypes = 

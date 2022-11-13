@@ -12,7 +12,6 @@ import BackButton from 'src/libraries/button/BackButton';
 
 function ViewSms({}) {
   const dispatch = useDispatch();
-  // const ViewSent: any = useSelector((state: RootState) => state.Sent__Message.ViewSent)
   const ViewDetail = {
     From: 'From',
     Subject: 'Subject',

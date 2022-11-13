@@ -124,7 +124,6 @@ function SentMessage() {
     // const { value, name } = event.target;
 
     const { DetailInfo } = Id;
-    console.log(checked)
 
     if (checked) {
       setId({
@@ -145,8 +144,6 @@ function SentMessage() {
   const moveToTrash = () => {
   
     const joinDetails = Id.DetailInfo.join(';');
-    console.log(joinDetails)
-
     const trashbody: any = {
       asSchoolId: asSchoolId,
       asMessageRecieverDetailsId: joinDetails,
@@ -158,7 +155,7 @@ function SentMessage() {
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
         if (pageName == 'Sent') {
-          toast.success('Message deleted successfully');
+          toast.success('Message has been moved to the trash.');
           dispatch(getNextPageSentList(SentMessageBody));
         }
         setChecked(false);
