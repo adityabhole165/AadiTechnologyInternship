@@ -21,7 +21,7 @@ function Accordion1({ Parent, Teacher, headingg }) {
       header: item.TeacherName,
       text1: item.TeacherDesignation,
       text2: '',
-      backgroundColor: item.RealatedSection === '2' ? 'warning' : '',
+      backgroundColor: item.RealatedSection === '2' ? 'info' : '',
       RelatedSection: item.RealatedSection === '2' ? '2' : '0',
     }
   });

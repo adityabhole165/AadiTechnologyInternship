@@ -153,9 +153,9 @@ export const ListStyle1 = styled(Box)(
      : theme.colors.gradients.listColor
  };
     position:relative;
- padding:8px;
+ padding:5px;
 border-radius: 6px;
-   margin-bottom: 8px;
+   margin-bottom: 5px;
    
  `
 );
@@ -206,16 +206,26 @@ export const BorderBox= styled(Box)(
  
   `
 );
+
+export const BorderBox1= styled(Box)(
+  ({ theme }) => `
+  border:2px solid gray;
+ margin-bottom:10px;
+ width:10px;
+  border-radius:6px;
+ 
+  `
+);
 export const ItemSize= styled(Box)(
   ({ theme }) => `
   font-size: 12px;
   color: black;
  font-family: Roboto;
  cursor: pointer;
- margin-top:3px;
+
  @media (max-width: 280px) {
   font-size: 10px;
-  margin-top:3px;
+ 
 };
   `
 );

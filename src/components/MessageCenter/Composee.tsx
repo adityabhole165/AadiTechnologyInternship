@@ -1,22 +1,10 @@
-import {
-  Container,
-  TextField,
-  Box,
-  FormControl,
-  Grid,
-  Typography,
-  useTheme,
-  Fab,
-} from '@mui/material';
+import {Container,TextField,Box,FormControl,Grid,Typography,useTheme,Fab, ClickAwayListener, Tooltip,} from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import {
-  AttachmentFile,
-  ISendMessage
-} from '../../interfaces/MessageCenter/MessageCenter';
+import {AttachmentFile,ISendMessage} from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -25,7 +13,6 @@ import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
-import AdminTeacherRecipientsList from '../SMSCenter/AdminTeacherRecipientsList';
 import Collapse from '@mui/material/Collapse';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
@@ -38,6 +25,7 @@ import { ListStyle } from 'src/libraries/styled/CardStyle';
 import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -112,11 +100,17 @@ function Form13() {
       for (let key in FileNameOfAttachment) {
         finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
       }
-
       setFinalBase642New((prev) => [...prev])
     }
   }, [AttachmentArray]);
 
+  const handleClickAway = () => {
+    setOpen(false);
+  };
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
   const classes = Styles();
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
@@ -139,37 +133,33 @@ function Form13() {
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
+  const fileChangedHandler = async (event) => {
+    const multipleFiles = event.target.files;
+    for (let i = 0; i < multipleFiles.length; i++) {
+      const isValid = CheckValidation(multipleFiles[i]);
+      let fileName = multipleFiles[i].name;
+      let base64URL: any = '';
+      if (isValid) {
+        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+      }
+      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+
+      let AttachmentFile: AttachmentFile = {
+        FileName: fileName,
+        Base64URL: DataAttachment
+      };
+      finalBase642New.push(AttachmentFile);
+    }
+    setFinalBase642New((prev) => {
+      return [...prev];
+    });
+  };
+
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = [
-      'BMP',
-      'DOC',
-      'DOCX',
-      'JPG',
-      'JPEG',
-      'PDF',
-      'PNG',
-      'PPS',
-      'PPSX',
-      'PPT',
-      'PPTX',
-      'XLS',
-      'XLSX',
-      'bmp',
-      'doc',
-      'docx',
-      'jpg',
-      'jpeg',
-      'pdf',
-      'png',
-      'pps',
-      'ppsx',
-      'ppt',
-      'pptx',
-      'xls',
-      'xlsx'
-    ];
+    const allowedFileTypes = ['BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc',
+      'docx','jpg','jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -205,9 +195,6 @@ function Form13() {
   };
 
   const sendMessage = () => {
-
-
-
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -258,7 +245,6 @@ function Form13() {
     },
     onSubmit: (values) => {
       sendMessage();
-      console.log(values);
       setdisabledStateOfSend(true);
     },
     validate: (values) => {
@@ -316,20 +302,12 @@ function Form13() {
         let spl = FileNameOfAttachment.splice(indOfFileName, 1);
         let spl2 = Base64URLOfAttachment.splice(indOfFileName2, 1);
       }
-      console.log(FileNameOfAttachment)
     }
 
     for (let key in FileNameOfAttachment) {
       finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
     }
     setFinalBase642New((prev) => [...prev])
-  }
-
-  const ObjectOfFileNameAndBase64Function = (e) => {
-    console.log(e)
-    setFinalBase642New(e.FileBaseandNameObject)
-    setFileNameOfAttachment(e.NameOFFile)
-    setBase64URLOfAttachment(e.Base64UrlOfFile)
   }
 
   return (
@@ -364,7 +342,6 @@ function Form13() {
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
-                style={{ scrollBehavior: 'auto' }}
                 sx={{
                   maxHeight: '60px',
                   overflow: 'auto'
@@ -401,8 +378,65 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-
-            <ChooseFile ObjectOfFileNameAndBase64={ObjectOfFileNameAndBase64Function} />
+            
+            <TextField
+              fullWidth
+              id="fullWidth"
+              type="file"
+              name="Attachment"
+              variant="standard"
+              className={classes.InputField}
+              onChange={fileChangedHandler}
+              inputProps={{ multiple: true }}
+              InputProps={{
+                endAdornment: (
+                  <Box
+                    display="flex"
+                    flexDirection="row"
+                    alignItems="center"
+                    justifyContent="space-between"
+                    sx={{ mb: 2 }}
+                  >
+                    <ClickAwayListener onClickAway={handleClickAway}>
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true
+                        }}
+                        onClose={handleClick}
+                        open={open}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        title={Note}
+                        arrow
+                        placement="left"
+                        componentsProps={{
+                          tooltip: {
+                            sx: {
+                              marginLeft: '70px',
+                              mt: 0.5,
+                              transform:
+                                'translate3d(17px, 0.5px, 0px) !important'
+                            }
+                          }
+                        }}
+                      >
+                        <InfoTwoToneIcon
+                          type="button"
+                          onClick={handleClick}
+                          sx={{
+                            color: 'navy',
+                            mt: 2,
+                            fontSize: '17px',
+                            float: 'right'
+                          }}
+                        />
+                      </Tooltip>
+                    </ClickAwayListener>
+                  </Box>
+                )
+              }}
+            />
 
             {finalBase642New == undefined ||
               finalBase642New.length == 0 ||
@@ -497,12 +531,6 @@ function Form13() {
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        {/* <AdminTeacherRecipientsList
-          displayProperty={displayPropertyFun}
-          RecipientsListDetails={RecipientsListFun}
-          ReplyRecipient={ReplyRecipientNameId}
-          PageName={'MessageCenter'}
-        /> */}
         <AddReciepents recipientListClick={RecipientsListFun}></AddReciepents>
       </div>
     </>

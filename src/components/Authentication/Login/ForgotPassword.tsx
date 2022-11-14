@@ -1,7 +1,7 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
 import GetPasswordApi from 'src/api/Authentication/GetPassword';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { TextField, Container, Grid, useTheme, Stack } from '@mui/material';
+import { TextField, Container, Grid, useTheme, Stack,Box } from '@mui/material';
 import { useFormik } from 'formik';
 import { toast } from 'react-toastify';
 import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
 function ForgotPassword() {
   const theme = useTheme();
@@ -86,7 +87,7 @@ function ForgotPassword() {
   ];
 
   return (
-
+<BoxStyle>
      <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
      
@@ -176,6 +177,7 @@ function ForgotPassword() {
           <Note NoteDetail={note} />
         </ListStyle>
         </Container>
+        </BoxStyle>
    
   );
 }

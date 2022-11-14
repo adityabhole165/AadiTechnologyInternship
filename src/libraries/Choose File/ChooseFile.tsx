@@ -24,7 +24,6 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
   };
 
   const fileChangedHandler = async (event) => {
-    // console.log(event.target.value = 0)
     const multipleFiles = event.target.files;
     for (let i = 0; i < multipleFiles.length; i++) {
       const allowedFileTypes = 
@@ -116,7 +115,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
                   disableFocusListener
                   disableHoverListener
                   disableTouchListener
-                  title={'Note'}
+                  title={'Supports only .BMP, .DOC, .DOCX, .JPG, .JPEG, .PDF, .PNG, .PPS, .PPSX, .PPT, .PPTX, .XLS, .XLSX files types with total size upto 20 MB.'}
                   arrow
                   placement="left"
                   componentsProps={{
@@ -131,7 +130,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
                 >
                   <InfoTwoToneIcon
                     type="button"
-                    // onClick={handleClick}
+                    onClick={handleClick}
                     sx={{
                       color: 'navy',
                       mt: 2,

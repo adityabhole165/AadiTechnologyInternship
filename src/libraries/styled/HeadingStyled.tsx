@@ -12,3 +12,11 @@ font-family: roboto;
   font-size: 18px;
 };
 `);
+
+export const BoxStyle= styled(Box)( ({ theme }) =>`
+background-color:#EAF1F5; 
+height: 100%;
+    width: 100%;
+    position:fixed;
+};
+`);

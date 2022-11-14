@@ -2,22 +2,25 @@ import React from 'react';
 import { CardDetail,CardDetail1,CardDetail2,CardDetail3,CardDetail5, CardDetail7, CardDetail9} from '../styled/CardStyle';
 import { useLocation } from 'react-router-dom';
 
-function Card4({ header, text1, text2, text3, text5 ,text4,text6,clickCard=undefined}) {
+function Card4({ header, text1, text2, text3, text5 ,text4,text6,clickCard=undefined,ActiveTab=undefined,IsRead=undefined}) {
   
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
+  const IsReadColor = IsRead == 'N'?'blue':''
+
   return (
     <>
       <CardDetail onClick={clickCard}>
-     <CardDetail1>{header}</CardDetail1> 
+      
+      {ActiveTab == "Inbox" ? <CardDetail1 style={{color:IsReadColor}}>{header}</CardDetail1> : <CardDetail1>{header}</CardDetail1> }
          <CardDetail2>{text3}</CardDetail2> 
         </CardDetail>
         
         <CardDetail>
         {pageName == "Feedback" ? null :<CardDetail3>{text1}</CardDetail3>}
         <CardDetail2>{text2}</CardDetail2>
-          </CardDetail>
+        </CardDetail>
           
           <CardDetail>
           {pageName == "PTA" ? <CardDetail2 color="primary">{text6}</CardDetail2> : null } 
