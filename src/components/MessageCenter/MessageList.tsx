@@ -133,8 +133,8 @@ const MessageList = () => {
   const clickSearchIcon = () => {
     setShowSearch(!showSearch);
   };
-  const clickDelete = () => {
 
+  const clickDelete = () => {
     let arrDetails = [];
     let arrReciever = [];
     inboxListData.map((obj) => {
@@ -147,15 +147,19 @@ const MessageList = () => {
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId:
-        activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
+      asMessageRecieverDetailsId: activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
       asIsArchive: 'Y',
-      asIsCompeteDelete: 1,
+      asIsCompeteDelete: (activeTab == 'Inbox' || activeTab == 'Sent'? 0 : 1),
       asFlag: activeTab
     };
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
-        toast.success('Message deleted successfully');
+        if(activeTab == 'Inbox' || activeTab == 'Sent'){
+          toast.success('Message has been moved to the trash.');
+        }
+        else{
+          toast.success('Message deleted successfully');
+        }
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
@@ -239,7 +243,7 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
-
+console.log("inboxListData",inboxListData);
   return (
     <>
       <Container>
@@ -318,6 +322,7 @@ const MessageList = () => {
           >
             <SelectList3Col
               Itemlist={inboxListData}
+              ActiveTab={activeTab}
               refreshData={refreshData}
             />
           </div>

@@ -227,7 +227,7 @@ const AddReciepents = ({ recipientListClick }) => {
             overflow: 'auto'
           }}
         />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Add</ButtonPrimary>
+        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
         <>
           {RoleId === '6' && (
   <BorderBox1>

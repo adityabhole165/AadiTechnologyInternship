@@ -1,5 +1,5 @@
 import PageHeader from 'src/libraries/heading/PageHeader';
-import {Container,TextField,Button,FormControl,Tooltip,Typography,Grid,Card,Box,NativeSelect,ClickAwayListener,useTheme,Fab,} from '@mui/material';
+import { Container, TextField, Button, FormControl, Tooltip, Typography, Grid, Card, Box, NativeSelect, ClickAwayListener, useTheme, Fab, } from '@mui/material';
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -31,10 +31,10 @@ const Compose = () => {
 
   const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
   const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
-  const [RecipientsArray,setRecipientsArray] = useState(
-    { 
-      RecipientName : [],
-      RecipientId : []
+  const [RecipientsArray, setRecipientsArray] = useState(
+    {
+      RecipientName: [],
+      RecipientId: []
     }
   );
 
@@ -44,19 +44,19 @@ const Compose = () => {
   };
 
   // Tool Tip  =================================
-  const Note1: string = 
-  'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
+  const Note1: string =
+    'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
   const getAComposeSMSTemplate: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
   const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
-  const [TemplateRegistrationId,setTemplateRegistrationId] = useState();
+  const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
   let confirmationDone;
 
-const handleChangeForTemplate = (e) => {
+  const handleChangeForTemplate = (e) => {
     const indexValue = e.target.value.indexOf(',')
-    const templateId = e.target.value.slice(0,indexValue);
-    const templateText = e.target.value.slice(indexValue,).replace(',','');
+    const templateId = e.target.value.slice(0, indexValue);
+    const templateText = e.target.value.slice(indexValue,).replace(',', '');
 
     if (templateText.length >= 300) {
       toast.error('More than 300 characters not allowed');
@@ -67,7 +67,7 @@ const handleChangeForTemplate = (e) => {
       setTemplateRegistrationId(templateId)
     }
     if (templateText.length > 160) {
-       {
+      {
         confirmationDone = confirm(
           'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
         );
@@ -81,7 +81,7 @@ const handleChangeForTemplate = (e) => {
     }
     setCharacterCount(templateText.length);
   };
-  
+
   // Message counter  =================================
 
   const [contentError, setcontentError] = useState<any>(); // For content Error
@@ -142,19 +142,19 @@ const handleChangeForTemplate = (e) => {
   };
 
   const formik = useFormik({
-    initialValues:{
+    initialValues: {
       From: senderUserName,
       To: RecipientsArray.RecipientName.toString(),
       Content: ContentTemplateDependent
     },
-    onSubmit:()=>{
-       submitResult(); 
+    onSubmit: () => {
+      submitResult();
     },
-    validate:(values) =>{
+    validate: (values) => {
 
       const errors: any = {};
       if (RecipientsArray.RecipientName.toString().length == 0) {
-          errors.To = 'Atleast one recipient should be selected.';
+        errors.To = 'Atleast one recipient should be selected.';
       }
       if (ContentTemplateDependent.length == 0) {
         errors.Content = 'SMS content should not be blank please select SMS Template';
@@ -164,7 +164,7 @@ const handleChangeForTemplate = (e) => {
   });
 
   // Send SMS
-  const submitResult = () =>{
+  const submitResult = () => {
 
     const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
@@ -190,18 +190,18 @@ const handleChangeForTemplate = (e) => {
       asTemplateRegistrationId: TemplateRegistrationId
     }
     GetMessageTemplateAdminSMSListApi.SendSMS(sendSMSAPIBody)
-    .then((res: any) => {
-      if (res.status === 200) {
-        toast.success('SMS sent successfully');
-        navigate('/extended-sidebar/MessageCenter/msgCenter')
-        formik.resetForm();
-      }
-    })
-    .catch((err) => {
-      toast.error('SMS does not sent successfully');
-    });
+      .then((res: any) => {
+        if (res.status === 200) {
+          toast.success('SMS sent successfully');
+          navigate('/extended-sidebar/SMSCenter/smsCenter')
+          formik.resetForm();
+        }
+      })
+      .catch((err) => {
+        toast.error('SMS does not sent successfully');
+      });
   }
-  
+
 
   // SMS Template
   useMemo(() => {
@@ -233,7 +233,7 @@ const handleChangeForTemplate = (e) => {
   const RecipientsListFun = (e) => {
     setRecipientsArray(e);
     console.log(e)
-     setdisplayOfTo_RecipientsPage('none');
+    setdisplayOfTo_RecipientsPage('none');
     setdisplayOfCompose_Page('block');
 
   };
@@ -243,68 +243,69 @@ const handleChangeForTemplate = (e) => {
       <PageHeader heading={'Compose SMS'} subheading={''} />
 
       <Box style={{ display: displayOfCompose_Page }}>
-      
-        
-          <BackButton FromRoute={'/SMSCenter/smsCenter'}/>
-      
-        <br />
-     
-        <>
-      
-        
-            <Box >
-              <ClickAwayListener onClickAway={handleClickAway}>
-                <Tooltip
-                  PopperProps={{
-                    disablePortal: true,
-                  }}
-                  onClose={handleClick1}
-                  open={open1}
-                  disableFocusListener
-                  disableHoverListener
-                  disableTouchListener
-                  title={Note1}
-                  arrow
-                  placement="left"
-                  componentsProps={{
-                    tooltip: {
-                      sx: {
-                        transform: 'translate3d(20px, 0.5px, 0px) !important'
-                      }
-                    }
-                  }}
-                >
-                  <InfoTwoToneIcon type="button" onClick={handleClick1} sx={{
-                    color: 'navy',
-                    mt: -5,
-                    fontSize: '17px',
-                    float: 'right',
-                    position: 'relative',
-                    top: '17px'
-                  }} />
-                </Tooltip>
-              </ClickAwayListener>
-            </Box>
-            <ListStyle sx={{}}>
-              <form onSubmit={formik.handleSubmit}>
-                <FormControl fullWidth>
-                  <TextField
-                    sx={{ marginBottom: '-10px' }}
-                    variant="standard"
-                    name="From"
-                    label={'From'}
-                    id="from"
-                    InputProps={{
-                      readOnly: true
-                    }}
-                    value ={senderUserName}
-                  />
 
+
+        <BackButton FromRoute={'/SMSCenter/smsCenter'} />
+
+        <br />
+
+        <>
+
+
+          <Box >
+            <ClickAwayListener onClickAway={handleClickAway}>
+              <Tooltip
+                PopperProps={{
+                  disablePortal: true,
+                }}
+                onClose={handleClick1}
+                open={open1}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title={Note1}
+                arrow
+                placement="left"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      transform: 'translate3d(20px, 0.5px, 0px) !important'
+                    }
+                  }
+                }}
+              >
+                <InfoTwoToneIcon type="button" onClick={handleClick1} sx={{
+                  color: 'navy',
+                  mt: -5,
+                  fontSize: '17px',
+                  float: 'right',
+                  position: 'relative',
+                  top: '17px'
+                }} />
+              </Tooltip>
+            </ClickAwayListener>
+          </Box>
+          <ListStyle sx={{}}>
+            <form onSubmit={formik.handleSubmit}>
+              <FormControl fullWidth>
+                <TextField
+                  sx={{ marginBottom: '-10px' }}
+                  variant="standard"
+                  name="From"
+                  label={'From'}
+                  id="from"
+                  InputProps={{
+                    readOnly: true
+                  }}
+                  value={senderUserName}
+                />
+
+                <Box sx={{ mt: "15px" }}>
                   <TextField
-                    fullWidth
-                    variant="standard"
                     name="To"
-                    label={'To'}
+                    // label={'To'}
+                    placeholder='To'
+                    multiline
                     className={classes.InputField}
                     onChange={ToFieldChange}
                     onBlur={ToFieldOnBlur}
@@ -313,100 +314,110 @@ const handleChangeForTemplate = (e) => {
                       readOnly: true
                     }}
                     value={RecipientsArray.RecipientName}
+                    variant="outlined"
+                    id="body"
+                    fullWidth
+                    margin="normal"
+                    style={{ scrollBehavior: 'auto' }}
+                    sx={{
+                      maxHeight: '60px',
+                      overflow: 'auto'
+                    }}
                   />
-                <div style={{marginTop:'15px'}}>
+                </Box>
+                <div style={{ marginTop: '15px' }}>
                   <Errormessage Error={formik.errors.To} />
                 </div>
-                </FormControl>
-                
-                <Grid container style={{ marginTop: '15px' }}>
-                  <Grid md={3} >
-                    <ButtonPrimary
-                     fullWidth
-                     onClick={To_Recipients_Page}
-                    >
-                      Add Recipients
-                    </ButtonPrimary>
-                  </Grid>
-                </Grid>
+              </FormControl>
 
-                <Grid
-                  container
-                  style={{ marginTop: '12px', marginBottom: '17px' }}
-                >
-                  <Grid xs={12}>
-                    <FormControl fullWidth>
-                      {
-                        <NativeSelect
-                          onChange={handleChangeForTemplate}
-                          style={{ borderRadius: '2px solid black' }}
-                        >
-                          <option>Select a Message Template</option>
-                          {TemplateList == undefined || TemplateList.length == 0
-                            ? null
-                            : TemplateList?.map((items: GetSMSTemplates, i) => {
-                              return (
-                                <>
-                                  <option value={items.registration_Number + "," + items.Template} key={i}>
-                                    {items.Template}
-                                  </option>
-                                </>
-                              );
-                            })}
-                        </NativeSelect>
-                      }
-                    </FormControl>
-                  </Grid>
+              <Grid container style={{ marginTop: '15px' }}>
+                <Grid md={3} >
+                  <ButtonPrimary
+                    fullWidth
+                    onClick={To_Recipients_Page}
+                  >
+                    Add Recipients
+                  </ButtonPrimary>
                 </Grid>
+              </Grid>
 
-                <CardDetail2
-                  sx={{
-                    color: 'blue',
-                    marginTop: 1,
-                    marginBottom: 1.5,
-                    fontWeight: 'bold'
-                  }}
-                >
-                  {' '}
-                  Letters = {initialCount} Message = {initialMessage}{' '}
-                </CardDetail2>
-
-                <TextField
-                  fullWidth
-                  multiline
-                  rows={4}
-                  margin="normal"
-                  name="Content"
-                  type="text"
-                  value={ContentTemplateDependent}
-                  onBlur={ContentFieldBlur}
-                  sx={{ marginTop: '1px' }}
-                  id="content"
-                  InputProps={{
-                    readOnly: true
-                  }}
-                />
-                <div style={{marginTop:'8px'}}>
-                  <Errormessage Error={formik.errors.Content} />
-                </div>
-                <br/>
-                <Grid container>
-                  <Grid xs={12} >
-                    <ButtonPrimary
-                     
-                    
-                      type="submit"
-                      fullWidth
-                   
-                      onClick={formik.handleChange}
-                    >
-                     Send
-                    </ButtonPrimary>
-                  </Grid>
+              <Grid
+                container
+                style={{ marginTop: '12px', marginBottom: '17px' }}
+              >
+                <Grid xs={12}>
+                  <FormControl fullWidth>
+                    {
+                      <NativeSelect
+                        onChange={handleChangeForTemplate}
+                        style={{ borderRadius: '2px solid black' }}
+                      >
+                        <option>Select a Message Template</option>
+                        {TemplateList == undefined || TemplateList.length == 0
+                          ? null
+                          : TemplateList?.map((items: GetSMSTemplates, i) => {
+                            return (
+                              <>
+                                <option value={items.registration_Number + "," + items.Template} key={i}>
+                                  {items.Template}
+                                </option>
+                              </>
+                            );
+                          })}
+                      </NativeSelect>
+                    }
+                  </FormControl>
                 </Grid>
-              </form>
-            </ListStyle>
-      
+              </Grid>
+
+              <CardDetail2
+                sx={{
+                  color: 'blue',
+                  marginTop: 1,
+                  marginBottom: 1.5,
+                  fontWeight: 'bold'
+                }}
+              >
+                {' '}
+                Letters = {initialCount} Message = {initialMessage}{' '}
+              </CardDetail2>
+
+              <TextField
+                fullWidth
+                multiline
+                rows={4}
+                margin="normal"
+                name="Content"
+                type="text"
+                value={ContentTemplateDependent}
+                onBlur={ContentFieldBlur}
+                sx={{ marginTop: '1px' }}
+                id="content"
+                InputProps={{
+                  readOnly: true
+                }}
+              />
+              <div style={{ marginTop: '8px' }}>
+                <Errormessage Error={formik.errors.Content} />
+              </div>
+              <br />
+              <Grid container>
+                <Grid xs={12} >
+                  <ButtonPrimary
+
+
+                    type="submit"
+                    fullWidth
+
+                    onClick={formik.handleChange}
+                  >
+                    Send
+                  </ButtonPrimary>
+                </Grid>
+              </Grid>
+            </form>
+          </ListStyle>
+
         </>
       </Box>
 
@@ -414,7 +425,7 @@ const handleChangeForTemplate = (e) => {
 
       <div style={{ display: displayOfTo_RecipientsPage }}>
         {/* <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} /> */}
-        <AddReciepents recipientListClick={RecipientsListFun}/>
+        <AddReciepents recipientListClick={RecipientsListFun} />
       </div>
     </Container>
   );

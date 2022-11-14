@@ -54,7 +54,8 @@ const InboxMessageSlice = createSlice({
         NavPath:item.DetailsId + '/Inbox',
         isActive:false,
         DetailsId:item.DetailsId,
-        ReceiverDetailsId:item.ReceiverDetailsId
+        ReceiverDetailsId:item.ReceiverDetailsId,
+        IsRead: item.IsRead
       }
     })
     if(Pagination == true){

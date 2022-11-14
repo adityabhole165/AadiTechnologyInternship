@@ -27,6 +27,8 @@ const TAttendance = () => {
     const [Standardid, setStandardid] = useState<string>();
     const [assignedDate, setAssignedDate] = useState<string>();
     const [onlySelectedClass, setOnlySelectedClass] = useState('none');
+    const [singleStdName, setSingleStdName] = useState('');
+
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
@@ -34,6 +36,7 @@ const TAttendance = () => {
     const stdlist: any = useSelector(
         (state: RootState) => state.StandardAttendance.stdlist
     );
+
     const RollNoList = useSelector(
         (state: RootState) => state.AttendanceList.StudentList
     );
@@ -151,6 +154,15 @@ const TAttendance = () => {
         }
     }, [saveResponseMessage]);
 
+    useEffect(() =>{
+        if(stdlist.length == 1){
+            setSingleStdName(stdlist[0].Name);
+            setStandardid(stdlist[0].Value);
+            setOnlySelectedClass('');
+        }
+    },[stdlist]);
+
+
     const SaveMsg = () => {
  
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
@@ -170,8 +182,7 @@ const TAttendance = () => {
         <Container >
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
-
-            <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown>
+            {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown>:<span><b>Class : </b>{singleStdName}</span>}
             <br />
             <br />
 
