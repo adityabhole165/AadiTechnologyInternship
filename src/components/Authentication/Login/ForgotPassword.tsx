@@ -9,6 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
 function ForgotPassword() {
   const theme = useTheme();
@@ -86,7 +87,7 @@ function ForgotPassword() {
   ];
 
   return (
-<Box sx={{backgroundColor:"#EAF1F5"}}>
+<BoxStyle>
      <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
      
@@ -176,7 +177,7 @@ function ForgotPassword() {
           <Note NoteDetail={note} />
         </ListStyle>
         </Container>
-        </Box>
+        </BoxStyle>
    
   );
 }
