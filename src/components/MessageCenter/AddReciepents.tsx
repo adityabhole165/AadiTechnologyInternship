@@ -15,7 +15,7 @@ import { RootState } from 'src/store';
 import ListSelect from 'src/libraries/list/ListSelect';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { BorderBox } from 'src/libraries/styled/CardStyle';
+import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 
 const AddReciepents = ({ recipientListClick }) => {
@@ -230,9 +230,9 @@ const AddReciepents = ({ recipientListClick }) => {
         <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
         <>
           {RoleId === '6' && (
-  
+  <BorderBox1>
             <ListSelect Itemlist={entireSchool} onChange={onChange} />
-            
+            </BorderBox1>
           )}
           {show === true ? (
             <>
@@ -240,7 +240,7 @@ const AddReciepents = ({ recipientListClick }) => {
                 
                 <Grid item xs={6}>
                 <Card>
-                  <BorderBox height={RoleId === '3' ? "50px" : "160px"|| RoleId === '2' ? "130px" : "100px" } >
+                  <BorderBox height={RoleId === '3' ? "40px" : "180px"|| RoleId === '2' ? "110px" : "100px" } >
                     <ListSelect
                       Itemlist={staffAndAdmin}
                       onChange={adminandSWChange}
@@ -250,7 +250,7 @@ const AddReciepents = ({ recipientListClick }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <Card>
-                  <BorderBox height={RoleId === '6' ? "170px" : null || RoleId === '2' ? "130px" : "100px" || RoleId==="3"? "90px":null}>
+                  <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId==="3"? "80px":null}>
                     <ListSelect
                       Itemlist={techerStudent}
                       onChange={techerStudentChange}

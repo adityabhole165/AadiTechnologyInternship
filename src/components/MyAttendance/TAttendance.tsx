@@ -6,7 +6,7 @@ import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import { Box, Container, Grid } from '@mui/material'
-import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse, GetStudentDetailsList } from 'src/requests/TAttendance/TAttendance';
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse} from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -53,7 +53,8 @@ const TAttendance = () => {
         (state: RootState) => state.AttendanceList.AYStatus
     );
     
-
+    
+const [attanStatus,setAttenStatus] = useState();
     const body: ITAttendance = {
         asSchoolId: asSchoolId,
         asAcademicyearId: asAcademicYearId,
@@ -154,6 +155,9 @@ const TAttendance = () => {
         }
     }, [saveResponseMessage]);
 
+    const changeStatus = () =>{
+        dispatch(GetStudentList(GetStudentDetails));
+    }
     useEffect(() =>{
         if(stdlist.length == 1){
             setSingleStdName(stdlist[0].Name);
@@ -172,6 +176,7 @@ const TAttendance = () => {
             }
         }
         SaveAttendance()
+        changeStatus()
     }
 
     const clickNav = (value) => {
