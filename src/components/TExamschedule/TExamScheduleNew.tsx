@@ -51,6 +51,7 @@ const TExamScheduleNew = () => {
 
   const [std, setStd] = useState('');
   const [exam, setExam] = useState('');
+  const [isFirstTime, setIsFirstTime] = useState(true);
   
   const ExamList_body: IGetExamsList = {
     asSchoolId: asSchoolId,
@@ -69,6 +70,7 @@ const TExamScheduleNew = () => {
   const stdChange = (value) => {
     setStd(value);
     setExam('');
+    setIsFirstTime(false)
   };
 
   const examChange = (value) => {
@@ -100,20 +102,23 @@ const TExamScheduleNew = () => {
         defaultValue={std} 
       />}
      <Box sx={{mt:"10px"}}>
-      {getExamlist.length === 0 ? (<ErrorMessages Error={'No exam has been scheduled'} />):
+      {
+      (getExamlist.length > 0)?
      ( <Dropdown
         Array={getExamlist}
         handleChange={examChange}
         label={'Select Exam'}
         defaultValue={exam}
-      />)
+      />):
+      !isFirstTime &&
+      <ErrorMessages Error={'No exam has been scheduled'} />
     }
     </Box>
       <br />
 
       {SubList?.map((item, i) => {
         return (
-          < >
+          <div key={i} >
             {i == 0 && item.Instructions !== '' ? (
               <Icon3 Note={item.Instructions} />
             ) : null}
@@ -131,7 +136,7 @@ const TExamScheduleNew = () => {
               FileName={''}
               
             />
-          </>
+          </div>
         );
       })}
     </Container>

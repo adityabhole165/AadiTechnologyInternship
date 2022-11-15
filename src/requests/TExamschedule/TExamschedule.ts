@@ -51,7 +51,9 @@ export const GetSelectExamRes =
     async (dispatch) => {
 
       const response = await GetTExamResultListApi.IGetExams(data);
-      const itemlist = response?.data.GetExamsForStandardResult.map((item) => {
+      let itemlist = []
+      if(response.data!==null)
+      itemlist = response.data?.GetExamsForStandardResult.map((item) => {
         return {
           id: item.Id,
           Name: item.Name,
