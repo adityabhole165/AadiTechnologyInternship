@@ -1,10 +1,11 @@
-import { TextField, Container, Grid, Card, Fab,useTheme } from '@mui/material';
+import { TextField, Container, Grid, Card, Fab, useTheme } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
-  GetStudent
+  GetStudent,
+  StartLoading
 } from 'src/requests/AdminSMSCenter/To1';
 import {
   GetAdminAndprincipalUsers,
@@ -17,6 +18,7 @@ import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
 
 const AddReciepents = ({ recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -36,7 +38,7 @@ const AddReciepents = ({ recipientListClick }) => {
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
-  // const [dropdownlist, setDropdownlist] = useState([])
+  const [showErrorMsg, setShowErrorMsg] = useState(false)
   const [techerStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
 
@@ -49,7 +51,10 @@ const AddReciepents = ({ recipientListClick }) => {
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
   );
-
+  // Api for Teacher list ,Student list ,Other staff and admin staff
+  const userListLoading: any = useSelector(
+    (state: RootState) => state.getuser1.userListLoading
+  );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getClass: any = useSelector(
     (state: RootState) => state.getuser1.getClass
@@ -147,7 +152,9 @@ const AddReciepents = ({ recipientListClick }) => {
 
   useEffect(() => {
     if (studentlist !== '') {
+      dispatch(StartLoading());
       dispatch(GetStudent(getStudentsUserAPIBody));
+      setShowErrorMsg(true)
     }
   }, [studentlist]);
 
@@ -161,24 +168,30 @@ const AddReciepents = ({ recipientListClick }) => {
   }, [getGetAdminAndprincipalUsers]);
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
+    dispatch(StartLoading());
     dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
   const classChange = (value) => {
     setStudentlist(value);
+
   };
   const onChange = (value) => {
     setEntireSchool(value);
     populateRecipient(value);
     setShow(!show);
   };
+
   const techerStudentChange = (value) => {
+    setShowErrorMsg(false)
     setList([]);
     setStudentlist('');
     setTecherStudent1('');
-    value?.map((obj) => {
+    value?.map((obj, i) => {
       if (obj.isActive) {
         setTecherStudent1(obj.Id);
+        if (i !== 1)
+          setShowErrorMsg(true)
       }
     });
     setTecherStudent(value);
@@ -230,36 +243,36 @@ const AddReciepents = ({ recipientListClick }) => {
         <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
         <>
           {RoleId === '6' && (
-  <BorderBox1>
-            <ListSelect Itemlist={entireSchool} onChange={onChange} />
+            <BorderBox1>
+              <ListSelect Itemlist={entireSchool} onChange={onChange} />
             </BorderBox1>
           )}
           {show === true ? (
             <>
               <Grid container spacing={2}>
-                
+
                 <Grid item xs={6}>
-                <Card>
-                  <BorderBox height={RoleId === '3' ? "40px" : "180px"|| RoleId === '2' ? "110px" : "100px" } >
-                    <ListSelect
-                      Itemlist={staffAndAdmin}
-                      onChange={adminandSWChange}
-                    />
-                  </BorderBox>
+                  <Card>
+                    <BorderBox height={RoleId === '3' ? "40px" : "180px" || RoleId === '2' ? "110px" : "100px"} >
+                      <ListSelect
+                        Itemlist={staffAndAdmin}
+                        onChange={adminandSWChange}
+                      />
+                    </BorderBox>
                   </Card>
                 </Grid>
                 <Grid item xs={6}>
                   <Card>
-                  <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId==="3"? "80px":null}>
-                    <ListSelect
-                      Itemlist={techerStudent}
-                      onChange={techerStudentChange}
-                      isSingleSelect={true}
-                    />
-                  </BorderBox>
+                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "80px" : null}>
+                      <ListSelect
+                        Itemlist={techerStudent}
+                        onChange={techerStudentChange}
+                        isSingleSelect={true}
+                      />
+                    </BorderBox>
                   </Card>
                 </Grid>
-                
+
                 <Grid item xs={12}>
                   {techerStudent1 === '3' && (
                     <DropdownofAddrecipent
@@ -271,9 +284,12 @@ const AddReciepents = ({ recipientListClick }) => {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  <>
-                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} />
-                  </>
+                  {/* {(list.length === 0) ?  */}
+                  {list.length > 0 ?
+                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
+                    showErrorMsg && !userListLoading &&
+                    <ErrorMessages Error={'No records found'} />
+                  }
                 </Grid>
               </Grid>
             </>

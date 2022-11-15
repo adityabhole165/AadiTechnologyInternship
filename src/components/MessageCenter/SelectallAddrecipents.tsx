@@ -33,28 +33,15 @@ const SelectallAddrecipents = ({ Itemlist, onChange, isSingleSelect = false }) =
     }
     return (
         <>
-      
-      <>  
-         {(Itemlist.length===0)?  <ErrorMessages Error={'No records found'} />
-       :
-            <>
-            
-              
                 <ListHeaderCard3ColSel
-                
                     Item={{ text1: '', text2: 'SelectAll', isActive: isCheckAll }}
                     onChange={ClickAll}
                 />
-               
-         
-            </>}
-            </>
             {
                 Itemlist?.map((item, index) => (
                     <CheckboxCard Item={item} onClick={onClick} key={index} />
                 ))
             }
-       
         </>
     )
 }

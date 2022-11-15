@@ -12,15 +12,20 @@ const GetuserSlice1 = createSlice({
     GetUser: [],
     getStudent: [],
     getGetAdminAndprincipalUsers: [],
-    getClass: []
+    getClass: [],
+    userListLoading: false
 
   },
   reducers: {
     getClass(state, action) {
       state.getClass = action.payload
     },
+    startLoading(state, action) {
+      state.userListLoading = action.payload;
+    },
     getUser(state, action) {
       state.GetUser = action.payload
+      state.userListLoading = false;
     },
     getStudentDetails(state, action) {
       state.getStudent = action.payload
@@ -46,15 +51,22 @@ export const GetUser =
           Name: item.Name
         }
       })
-      if (data.asSelectedUserGroup === '3')
+      if (data.asSelectedUserGroup === '3') {
+        dispatch(GetuserSlice1.actions.startLoading(false));
         dispatch(GetuserSlice1.actions.getClass(userList));
-      else
+      } else
         dispatch(GetuserSlice1.actions.getUser(userList));
     };
 
+export const StartLoading =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(GetuserSlice1.actions.startLoading(true));
+    }
 export const GetStudent =
   (data: IGetStudentsUser): AppThunk =>
     async (dispatch) => {
+      // dispatch(GetuserSlice1.actions.startLoading(true));
       const response = await getuserlistapi.GetStudentGroup(data);
       const studentList = response.data.GetStudentsUserResult.map((item, index) => {
         return {
