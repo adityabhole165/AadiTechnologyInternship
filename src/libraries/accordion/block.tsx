@@ -134,12 +134,10 @@ function Block({
     if (IsAbsent[index] === 'Y') {
       return 'Absent'
     }
-    if (exmstats[index] === 'Exempted') {
-      return 'Exempted'
+    if (exmstats[index] != '') {
+      return exmstats
     }
-    if (lateJoinee[index] === 'Late Joinee') {
-      return 'Late Joinee'
-    }
+
     else {
       return returnVal + '(' + val + ')'
     }

@@ -9,7 +9,7 @@ function List1({ items }) {
   const clickCard = (path) => {
     if (location.pathname.split('/')[1].toLocaleLowerCase() === 'schoolnotice')
       navigate('../' + path.replace('/Common/', ''))
-    else
+    else if(path !==undefined)
       navigate('/extended-sidebar/' + path)
   }
   return (

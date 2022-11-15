@@ -27,12 +27,7 @@ function Card4({ header, text1, text2, text3, text5 ,text4,text6,clickCard=undef
           {pageName == "Feedback" ? null : <CardDetail9 color="primary">{text5}</CardDetail9>} 
           {pageName == "Feedback" ? null : <CardDetail2>{text4}</CardDetail2> }
           </CardDetail>
-        
 
-
-
-
-         {/* {pageName == "Feedback" ? null : <CardDetail5>{text4}</CardDetail5> } */}
     </>
   );
 }

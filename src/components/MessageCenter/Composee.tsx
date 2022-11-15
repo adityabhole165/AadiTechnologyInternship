@@ -338,7 +338,7 @@ function Form13() {
                 value={RecipientsObject.RecipientName}
                 variant="outlined"
                 id=""
-                label='To :'
+                placeholder='To :'
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
