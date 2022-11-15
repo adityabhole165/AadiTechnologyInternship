@@ -11,7 +11,6 @@ import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/Admin
 import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import AdminTeacherRecipientsList from './AdminTeacherRecipientsList';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
@@ -19,7 +18,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
 import BackButton from 'src/libraries/button/BackButton';
 import AddReciepents from '../MessageCenter/AddReciepents';
-
+import Note from 'src/libraries/Note/Note';
 
 const Compose = () => {
 
@@ -52,41 +51,47 @@ const Compose = () => {
   const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
   const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
   let confirmationDone;
-
-  const handleChangeForTemplate = (e) => {
-    const indexValue = e.target.value.indexOf(',')
-    const templateId = e.target.value.slice(0, indexValue);
-    const templateText = e.target.value.slice(indexValue,).replace(',', '');
-
-    if (templateText.length >= 300) {
-      toast.error('More than 300 characters not allowed');
-    }
-    if (templateText.length >= 1 && templateText.length <= 160) {
-      setinitialMessage(1);
-      setContentTemplateDependent(templateText);
-      setTemplateRegistrationId(templateId)
-    }
-    if (templateText.length > 160) {
-      {
-        confirmationDone = confirm(
-          'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
-        );
-      }
-      setinitialMessage(2);
-      setContentTemplateDependent(templateText);
-      setTemplateRegistrationId(templateId)
-    }
-    if (templateText.length == 0) {
-      setinitialMessage(0);
-    }
-    setCharacterCount(templateText.length);
-  };
-
-  // Message counter  =================================
-
   const [contentError, setcontentError] = useState<any>(); // For content Error
   const [initialMessage, setinitialMessage] = useState(0);
   const [initialCount, setCharacterCount] = useState(0);
+  
+  const handleChangeForTemplate = (e) => {
+    if(e.target.value != '')
+    {
+        const indexValue = e.target.value.indexOf(',')
+        const templateId = e.target.value.slice(0, indexValue);
+        const templateText = e.target.value.slice(indexValue,).replace(',', '');
+
+        if (templateText.length >= 300) {
+          toast.error('More than 300 characters not allowed');
+        }
+        if (templateText.length >= 1 && templateText.length <= 160) {
+          setinitialMessage(1);
+          setContentTemplateDependent(templateText);
+          setTemplateRegistrationId(templateId)
+        }
+        if (templateText.length > 160) {
+          {
+            confirmationDone = confirm(
+              'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
+            );
+          }
+          setinitialMessage(2);
+          setContentTemplateDependent(templateText);
+          setTemplateRegistrationId(templateId)
+        }
+        if (templateText.length == 0) {
+          setinitialMessage(0);
+        }
+        setCharacterCount(templateText.length);
+    }
+      else{
+        setContentTemplateDependent('');
+        setCharacterCount(0)
+        setinitialMessage(0);
+    }
+  };
+
 
   const ContentFieldBlur = (e) => {
     setcontentError(false);
@@ -151,12 +156,12 @@ const Compose = () => {
       submitResult();
     },
     validate: (values) => {
-
+      debugger;
       const errors: any = {};
       if (RecipientsArray.RecipientName.toString().length == 0) {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (ContentTemplateDependent.length == 0) {
+      if (ContentTemplateDependent == undefined || ContentTemplateDependent == '') {
         errors.Content = 'SMS content should not be blank please select SMS Template';
       }
       return errors;
@@ -208,8 +213,8 @@ const Compose = () => {
     dispatch(getAComposeSMSTemplateList(getTemplateAPIBody));
   }, []);
 
-  const Note: string =
-    'Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).';
+  const note =
+    ['Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).'];
   const [open1, setOpen1] = useState(false);
   const handleClick1 = () => {
     setOpen1((prev) => !prev);
@@ -225,66 +230,18 @@ const Compose = () => {
     }
   };
 
-  // const RecipientsListFun = (e) => {
-  //   setRecipientsArray(() => {
-  //     return e
-  //   })
-  // };
   const RecipientsListFun = (e) => {
     setRecipientsArray(e);
-    console.log(e)
     setdisplayOfTo_RecipientsPage('none');
     setdisplayOfCompose_Page('block');
-
   };
 
   return (
     <Container>
       <PageHeader heading={'Compose SMS'} subheading={''} />
-
       <Box style={{ display: displayOfCompose_Page }}>
-
-
         <BackButton FromRoute={'/SMSCenter/smsCenter'} />
-
-        <br />
-
         <>
-
-
-          <Box >
-            <ClickAwayListener onClickAway={handleClickAway}>
-              <Tooltip
-                PopperProps={{
-                  disablePortal: true,
-                }}
-                onClose={handleClick1}
-                open={open1}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title={Note1}
-                arrow
-                placement="left"
-                componentsProps={{
-                  tooltip: {
-                    sx: {
-                      transform: 'translate3d(20px, 0.5px, 0px) !important'
-                    }
-                  }
-                }}
-              >
-                <InfoTwoToneIcon type="button" onClick={handleClick1} sx={{
-                  color: 'navy',
-                  mt: -5,
-                  fontSize: '17px',
-                  float: 'right',
-                  position: 'relative',
-                  top: '17px'
-                }} />
-              </Tooltip>
-            </ClickAwayListener>
-          </Box>
           <ListStyle sx={{}}>
             <form onSubmit={formik.handleSubmit}>
               <FormControl fullWidth>
@@ -303,7 +260,6 @@ const Compose = () => {
                 <Box sx={{ mt: "15px" }}>
                   <TextField
                     name="To"
-                    // label={'To'}
                     placeholder='To'
                     multiline
                     className={classes.InputField}
@@ -330,7 +286,7 @@ const Compose = () => {
                 </div>
               </FormControl>
 
-              <Grid container style={{ marginTop: '15px' }}>
+              <Grid container>
                 <Grid md={3} >
                   <ButtonPrimary
                     fullWidth
@@ -352,14 +308,14 @@ const Compose = () => {
                         onChange={handleChangeForTemplate}
                         style={{ borderRadius: '2px solid black' }}
                       >
-                        <option>Select a Message Template</option>
+                        <option value=''>Select SMS Template Name</option>
                         {TemplateList == undefined || TemplateList.length == 0
                           ? null
                           : TemplateList?.map((items: GetSMSTemplates, i) => {
                             return (
                               <>
                                 <option value={items.registration_Number + "," + items.Template} key={i}>
-                                  {items.Template}
+                                  {items.Template_Name}
                                 </option>
                               </>
                             );
@@ -393,9 +349,6 @@ const Compose = () => {
                 onBlur={ContentFieldBlur}
                 sx={{ marginTop: '1px' }}
                 id="content"
-                InputProps={{
-                  readOnly: true
-                }}
               />
               <div style={{ marginTop: '8px' }}>
                 <Errormessage Error={formik.errors.Content} />
@@ -417,14 +370,10 @@ const Compose = () => {
               </Grid>
             </form>
           </ListStyle>
-
+          <Note NoteDetail={note} />
         </>
       </Box>
-
-      {/* To Recipient Page */}
-
       <div style={{ display: displayOfTo_RecipientsPage }}>
-        {/* <AdminTeacherRecipientsList displayProperty={displayPropertyFun}  RecipientsListDetails={RecipientsListFun} PageName={'SMSCenter'} /> */}
         <AddReciepents recipientListClick={RecipientsListFun} />
       </div>
     </Container>

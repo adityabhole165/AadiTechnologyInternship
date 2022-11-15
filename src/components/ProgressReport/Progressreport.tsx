@@ -50,8 +50,6 @@ function Progressreport() {
   const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
 
-  const Note1: string = '* Denotes subject marks are not considered in total marks.';
-
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
