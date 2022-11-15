@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid } from '@mui/material'
+import { Box, Container, Grid,Avatar } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse} from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -211,8 +211,12 @@ const [attanStatus,setAttenStatus] = useState();
                             </ButtonPrimary>
                         </Grid><Grid item xs={4}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth>
-                                Missing Attendance
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 22 }}
+                                    src={
+                                      "/imges/missingA.png"
+                                    }
+                                  />}>
+                                Missing 
                             </ButtonPrimary>
                         </Grid>
                     </Grid>

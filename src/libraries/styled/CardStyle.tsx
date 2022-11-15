@@ -222,6 +222,7 @@ export const ItemSize= styled(Box)(
   color: black;
  font-family: Roboto;
  cursor: pointer;
+ margin-left:5px;
 
  @media (max-width: 280px) {
   font-size: 10px;

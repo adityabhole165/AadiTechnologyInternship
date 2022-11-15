@@ -46,7 +46,7 @@ function pta() {
       <div>
         <Grid container>
           </Grid><Grid item xs={12}>
-            <DotLegend color='warning' text='PTA members associated with section and class' />
+            <DotLegend color='info' text='PTA members associated with section and class' />
         </Grid>
 
       </div>{' '}

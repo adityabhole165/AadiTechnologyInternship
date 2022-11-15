@@ -21,7 +21,7 @@ const Item = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(0.5),
   textAlign: 'center',
   color: 'black',
-  background: 'rgb(36 66 175 / 0.4)',
+  background: '',
   borderRadius: '4px',
   boxShadow : "0px 8px 15px rgba(0, 0, 0, 0.1)"
 }));
@@ -62,7 +62,7 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
             </Grid>
             <Grid item xs={8}>
               <Item
-                sx={{ p: 1.3, background: 'rgb(36 66 175 / 0.4)' }}
+                sx={{ p: 1.3, background: '' }}
                 className={classes.date}
                 onClick={dateClickHnadler}
               >
