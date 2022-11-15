@@ -12,7 +12,8 @@ import List1 from 'src/libraries/mainCard/List1';
 import {
   GetSelectStandardRes,
   GetSelectExamRes,
-  ViewExamDataRess
+  ViewExamDataRess,
+  EmptyExam
 } from 'src/requests/TExamschedule/TExamschedule';
 import { GetStandardListResult } from 'src/interfaces/Teacher/TExamSchedule';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
@@ -58,10 +59,12 @@ const TExamScheduleNew = () => {
   };
 
   useEffect(() => {
+    dispatch(EmptyExam());
     dispatch(GetSelectStandardRes(getstandardList_body));
     if(RoleId==="3"){
       setStd(asStandardId)
     }
+    
   }, []);
   const stdChange = (value) => {
     setStd(value);
