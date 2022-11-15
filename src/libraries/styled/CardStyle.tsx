@@ -211,7 +211,7 @@ export const BorderBox1= styled(Box)(
   ({ theme }) => `
   border:2px solid gray;
  margin-bottom:10px;
- width:10px;
+
   border-radius:6px;
  
   `

@@ -50,7 +50,6 @@ export const GetSelectExamRes =
   (data: IGetExamsList): AppThunk =>
     async (dispatch) => {
 
-      console.log('here')
       const response = await GetTExamResultListApi.IGetExams(data);
       const itemlist = response?.data.GetExamsForStandardResult.map((item) => {
         return {
@@ -62,7 +61,12 @@ export const GetSelectExamRes =
       dispatch(SelectStandardExamslice.actions.getSelectExamRes(itemlist));
     };
 
+export const EmptyExam =
+(): AppThunk =>
+  async (dispatch) => {
+    dispatch(SelectStandardExamslice.actions.getSelectExamRes([]));
 
+  };
 export const ViewExamDataRess =
   (data: IExamList): AppThunk =>
     async (dispatch) => {
