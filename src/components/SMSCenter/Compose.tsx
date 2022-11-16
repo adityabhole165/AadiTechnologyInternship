@@ -54,7 +54,7 @@ const Compose = () => {
   const [contentError, setcontentError] = useState<any>(); // For content Error
   const [initialMessage, setinitialMessage] = useState(0);
   const [initialCount, setCharacterCount] = useState(0);
-  
+
   const handleChangeForTemplate = (e) => {
     if(e.target.value != '')
     {
@@ -156,7 +156,6 @@ const Compose = () => {
       submitResult();
     },
     validate: (values) => {
-      debugger;
       const errors: any = {};
       if (RecipientsArray.RecipientName.toString().length == 0) {
         errors.To = 'Atleast one recipient should be selected.';
