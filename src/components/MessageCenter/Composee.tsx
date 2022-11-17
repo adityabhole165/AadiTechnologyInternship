@@ -21,7 +21,7 @@ import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { ListStyle } from 'src/libraries/styled/CardStyle';
+import { CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
 import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
@@ -413,7 +413,7 @@ function Form13() {
                         componentsProps={{
                           tooltip: {
                             sx: {
-                              marginLeft: '70px',
+                              marginLeft: '10px',
                               mt: 0.5,
                               transform:
                                 'translate3d(17px, 0.5px, 0px) !important'
@@ -443,42 +443,44 @@ function Form13() {
               PageName === 'Reply' ? null : (
               <div style={{ marginTop: '10px' }}>
                 <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
-                <Box sx={{ mt: 1 }}>
-                  <List>
+               
                     <TransitionGroup>
                       {finalBase642New.map((item, key) => {
                         return (
-                          <Collapse key={item.FileName}>
-                            <ListItem
-                              secondaryAction={
-                                <IconButton
-                                  edge="end"
-                                  aria-label="delete"
-                                  title="Delete"
-                                  onClick={() => handleRemoveListItems(item.FileName, item.Base64URL)}
-                                >
-                                  <DeleteIcon sx={{ color: 'red' }} />
-                                </IconButton>
-                              }
-
-                            >
-                              <FilePresentRoundedIcon
-                                sx={{
-                                  ml: '-20px',
-                                  mr: '15px',
-                                  color: 'blue'
-                                }}
-                              />
-                              <ListItemText
-                                primary={item.FileName.slice(0, 25)}
-                              />
-                            </ListItem>
-                          </Collapse>
+                          <Box key={item.FileName}>
+                          <Grid container>
+                            <Grid xs={2}>
+                              <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                            </Grid>
+                            <Grid xs={8}>
+                              <CardDetail8 sx={{ mt: '5px' }}>
+                                {item.FileName.slice(0, 25)}
+                              </CardDetail8>
+                            </Grid>
+                            <Grid xs={2}>
+                              <IconButton
+                                edge="end"
+                                aria-label="delete"
+                                title="Delete"
+                                onClick={() =>
+                                  handleRemoveListItems(
+                                    item.FileName,
+                                    item.Base64URL
+                                  )
+                                }
+                              >
+                                <DeleteIcon
+                                  sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
+                                />
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        </Box>
                         );
                       })}
                     </TransitionGroup>
-                  </List>
-                </Box>
+               
+              
               </div>
             )}
             <TextField
