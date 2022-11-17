@@ -22,6 +22,7 @@ export interface IAuthenticateUserResult {
       ShowChangePasswordScreen: string,
       TermsAccepted: string,
       UserLogin: string,
+      DOB: string,
 }
 
 export interface IStudentDetails{
@@ -74,6 +75,7 @@ export interface IGetTeacherDetails {
       "IsClassTeacher": string,
       "IsPreprimary": string,
       "StandardDivisionId": number,
-      "TeacherId": number
+      "TeacherId": number,
+      "DOB": string,
 
 }
