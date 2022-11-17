@@ -83,6 +83,10 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
                   <ProfileDetail4> {newdate}</ProfileDetail4>
                 </ProfileWrapper>
               </>
@@ -102,6 +106,10 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
                   <ProfileDetail4> {newdate}</ProfileDetail4>
                 </ProfileWrapper>
               </>
@@ -129,6 +137,10 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
                   <ProfileDetail4> {newdate}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
