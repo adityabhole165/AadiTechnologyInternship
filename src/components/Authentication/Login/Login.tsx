@@ -138,7 +138,7 @@ function SelectSchool() {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
-        const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+      const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
         if (result.RoleName === "Student") {
@@ -168,6 +168,7 @@ function SelectSchool() {
             sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
+            localStorage.setItem('DOB', studentDetails.DOB);
             localStorage.setItem("UserId", result.Id);
             localStorage.setItem("RoleName", result.RoleName);
         }
@@ -187,6 +188,8 @@ function SelectSchool() {
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
             localStorage.setItem("RoleName", result.RoleName);
+            localStorage.setItem("DOB", teacherDetails.DOB);
+            
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -196,6 +199,7 @@ function SelectSchool() {
             sessionStorage.setItem('EndDate', adminDetails.EndDate);
             sessionStorage.setItem('StartDate', adminDetails.StartDate);
             localStorage.setItem("RoleName", result.RoleName);
+            localStorage.setItem("DOB", adminDetails.DOB);
             sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
 

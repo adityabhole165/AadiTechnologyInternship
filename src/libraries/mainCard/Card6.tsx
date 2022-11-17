@@ -15,10 +15,22 @@ function Card6() {
   const Address = sessionStorage.getItem('Address');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
+  const DOB = localStorage.getItem('DOB');
+
   const ResidencePhoneNumber = sessionStorage.getItem(
     'ResidencePhoneNumber'
   );
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+
+
+
+ const date = DOB;
+ const day = new Date(date).getDate();
+ const month = new Date(date).toLocaleString('default',{month:"long"});
+ const year = new Date(date).getFullYear();
+ const newdate= `${day} ${month} ${year}`
+
+
 
   return (
     <>
@@ -69,6 +81,10 @@ function Card6() {
                   <ProfileDetail1>Address:</ProfileDetail1>
                   <ProfileDetail4> {Address}</ProfileDetail4>
                 </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {newdate}</ProfileDetail4>
+                </ProfileWrapper>
               </>
             ) : RoleName == 'Admin Staff' ? (
               <>
@@ -83,6 +99,10 @@ function Card6() {
                 <ProfileWrapper>
                   <ProfileDetail1>Address:</ProfileDetail1>
                   <ProfileDetail4> {Address}</ProfileDetail4>
+                </ProfileWrapper>
+                <ProfileWrapper>
+                  <ProfileDetail1>Place of Birth:</ProfileDetail1>
+                  <ProfileDetail4> {newdate}</ProfileDetail4>
                 </ProfileWrapper>
               </>
             ) : (
@@ -109,7 +129,7 @@ function Card6() {
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Place of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
+                  <ProfileDetail4> {newdate}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
                   <ProfileDetail1>Nationality:</ProfileDetail1>
