@@ -25,7 +25,6 @@ function Block({
   const [color, setColor] = useState([]);
   const [outof, setoutof] = useState([]);
   const min = 0;
-  // console.log("here - ", Data)
   var subjectgrade: any = [];
   var singlesubject: any = [];
   var showonlyGrade = ''
@@ -45,6 +44,7 @@ function Block({
   const lateJoinee:any = [];
   const IsAbsent: any = [];
   const [data, setData] = useState([]);
+
   useEffect(() => {
     setObject(subject);
     setSeries(marks);
@@ -53,15 +53,27 @@ function Block({
     setgrade(grades);
   }, []);
 
+  console.log("Data Fo Barchart",Data);
 
   Data.map((list, index) => {
    list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
       if (ExamId == list1.ExamId) {
-        if (list1.Marks == 0 && list1.Grade == 'Absent') {
-          let Marks = '99'
+        if (list1.Marks == 0 && list1.ExamStatus == 'Absent') {
+          let Marks = '99.99'
           marks.push(Marks);
           colors.push('#800000')
-        } else {
+        } 
+        else if (list1.ExamStatus == 'Late Joinee'){
+          let Marks = '99.99'
+          marks.push(Marks);
+          colors.push('#800000')
+        }
+        else if (list1.ExamStatus == 'Exempted'){
+          let Marks = '99.99'
+          marks.push(Marks);
+          colors.push('#800000')
+        }
+        else {
           colors.push('#0000FF')
           marks.push((list1.Marks/Number(list1.OutOf))*100 );        
         }
@@ -134,10 +146,12 @@ function Block({
     if (IsAbsent[index] === 'Y') {
       return 'Absent'
     }
-    if (exmstats[index] != '') {
-      return exmstats
+    else if (exmstats[index] == 'Late Joinee') { 
+      return 'Late Joinee'
     }
-
+    else if (exmstats[index] == 'Exempted'){
+      return 'Exempted'
+    }
     else {
       return returnVal + '(' + val + ')'
     }

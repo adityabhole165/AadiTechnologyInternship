@@ -147,7 +147,7 @@ const MessageList = () => {
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: activeTab == 'Inbox' ? arrReciever.join(';') : arrDetails.join(';'),
+      asMessageRecieverDetailsId: arrReciever.join(';'),
       asIsArchive: 'Y',
       asIsCompeteDelete: (activeTab == 'Inbox' || activeTab == 'Sent'? 0 : 1),
       asFlag: activeTab
