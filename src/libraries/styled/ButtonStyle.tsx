@@ -6,7 +6,7 @@ color: white;
 font-size: 12px;
 font-family: 'Roboto';
 text-decoration: none;
-height:'40px';
+height:30px;
 @media (max-width: 280px) {
   font-size: 10px;
 };

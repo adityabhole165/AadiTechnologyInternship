@@ -253,7 +253,7 @@ const AddReciepents = ({ recipientListClick }) => {
 
                 <Grid item xs={6}>
                   <Card>
-                    <BorderBox height={RoleId === '3' ? "40px" : "180px" || RoleId === '2' ? "110px" : "100px"} >
+                    <BorderBox height={RoleId === '3' ? "50px" : "180px" || RoleId === '2' ? "110px" : "100px"} >
                       <ListSelect
                         Itemlist={staffAndAdmin}
                         onChange={adminandSWChange}

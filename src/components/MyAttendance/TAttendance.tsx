@@ -198,20 +198,20 @@ const [attanStatus,setAttenStatus] = useState();
                     <TextField
                         variant="standard"
                         fullWidth
-                        label='Absent Roll Number'
+                        label='Absent Roll Numbers'
                         value={StudentAbsent}></TextField><br></br>
                     <br></br>
                     <Grid container spacing={0.5}>
-                        <Grid item xs={4}>
+                        <Grid item xs={3.5}>
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
-                        </Grid><Grid item xs={4}>
+                        </Grid><Grid item xs={5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 90 ,ml:"-8px"}} />}>
+                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180 ,ml:"-6px"}} />}>
                                 Attendance 
                             </ButtonPrimary>
-                        </Grid><Grid item xs={4}>
+                        </Grid><Grid item xs={3.5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 22 }}
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 20 ,ml:"-8px" }}
                                     src={
                                       "/imges/missingA.png"
                                     }

@@ -5,6 +5,7 @@ import {
   Typography,
   useTheme,
   Container,
+  Grid,
   Fab
 } from '@mui/material';
 import PropTypes from 'prop-types';
@@ -19,7 +20,10 @@ import {
   ListStyle,
   CardDetail,
   CardDetail3,
-  CardDetail2
+  CardDetail2,
+  CardDetail8,
+  CardDetail9,
+  Wordbreak
 } from '../styled/CardStyle';
 import { sitePath } from 'src/components/Common/Util';
 
@@ -66,15 +70,16 @@ function Card5({ Content, FileName, Name }) {
           <CardDetail
             sx={{
               mt: 1,
-              ml: 0.5,
+           
             }}
           >
-            {FileName}
+            <Wordbreak>  {FileName}</Wordbreak>
+          
             <Box>
               {FileName === '' ? null : (
                 <>
                   <Box
-                    sx={{width: '40px',marginTop: '-5px'}}>
+                    sx={{marginTop: '3px'}}>
                     <a>
                       <FileDownloadOutlinedIcon onClick={download} />
                     </a>
@@ -83,6 +88,7 @@ function Card5({ Content, FileName, Name }) {
               )}
             </Box>
           </CardDetail>
+      
         </ListStyle>
       </Container>
     </>

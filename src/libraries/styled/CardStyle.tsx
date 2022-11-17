@@ -17,6 +17,7 @@ export const CardDetail2 = styled(Typography)`
   cursor: pointer;
   margin-left: 5px;
  
+ 
 `;
 export const CardDetail7 = styled(Typography)`
   font-size: 12px;
@@ -50,6 +51,31 @@ export const CardDetail8 = styled(Typography)`
 
   @media (max-width: 280px) {
     font-size: 10px;
+  };
+ 
+`;
+
+export const Wordbreak = styled(Typography)`
+  font-size: 12px;
+  color: black;
+  font-family: Roboto;
+  margin-left:5px;
+ 
+
+   
+  @media (max-width: 320px) {
+    width:230px ; word-wrap:break-word; 
+  };
+ 
+
+  @media (max-width: 280px) {
+    width:190px ; word-wrap:break-word; 
+  };
+  @media (min-width: 322px) and (max-width: 360px) {
+    width:270px ; word-wrap:break-word; 
+  };
+  @media (min-width: 362px) and (max-width: 416px) {
+    width:300px ; word-wrap:break-word; 
   };
  
 `;
