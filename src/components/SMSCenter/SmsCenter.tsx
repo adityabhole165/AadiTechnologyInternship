@@ -13,7 +13,7 @@ import ISent, {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
-import { CardDetail7 } from 'src/libraries/styled/CardStyle';
+import { CardDetail7, CardDetailB } from 'src/libraries/styled/CardStyle';
 import ButtonTab from 'src/libraries/button/ButtonTab';
 
 SMSCenter.PropTypes = {
@@ -58,18 +58,18 @@ function SMSCenter() {
         <PageHeader heading={'SMS Center'} subheading={''} />
 
         <Grid container>
-          <CardDetail7 sx={{ color: 'green' }}>
+          <CardDetailB sx={{ color: 'green' }}>
             <b>{'Free SMS'}:</b>
             {SentSMSData.AllowedSMSCount}
-          </CardDetail7>
-          <CardDetail7 sx={{ color: 'blue' }}>
+          </CardDetailB>
+          <CardDetailB sx={{ color: 'blue' }}>
             <b>{'Sent SMS'}:</b>
             {SentSMSData.SentSMSCount}
-          </CardDetail7>
-          <CardDetail7 sx={{ color: 'red' }}>
+          </CardDetailB>
+          <CardDetailB sx={{ color: 'red' }}>
             <b>{'Exceeded SMS'}:</b>
             {SentSMSData.ExceededSMSCount}
-          </CardDetail7>
+          </CardDetailB>
         </Grid>
         <br />
        

@@ -18,8 +18,48 @@ export const CardDetail2 = styled(Typography)`
   margin-left: 5px;
  
  
+ 
+`;
+export const DateWidth = styled(Typography)`
+  font-size: 12px;
+   color: black;
+  font-family: Roboto;
+  cursor: pointer;
+margin-right:-5px;
+  width:75px;
+ 
+ 
+`;
+export const DateWidth1 = styled(Typography)`
+  font-size: 12px;
+   color: black;
+  font-family: Roboto;
+  cursor: pointer;
+margin-right:-5px;
+  width:40px;
+
+ 
+ 
 `;
 export const CardDetail7 = styled(Typography)`
+  font-size: 12px;
+  color: black;
+  font-family: Roboto;
+  margin-left: -5px;
+  margin-top:-3px;
+
+   
+  @media (max-width: 320px) {
+    font-size: 11px;
+  };
+ 
+
+  @media (max-width: 280px) {
+    font-size: 10px;
+  };
+ 
+`;
+export const CardDetailB = styled(Typography)`
   font-size: 12px;
   color: black;
   font-family: Roboto;
@@ -86,6 +126,18 @@ export const CardDetail3 = styled(Typography)`
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  
+`;
+
+export const CardD = styled(Typography)`
+  font-size: 12px;
+  margin-left: 5px;
+  font-family: Roboto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width:100px ; word-wrap:break-word;
+ 
 `;
 export const CardDetail5 = styled(Typography)`
   font-size: 12px;
