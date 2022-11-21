@@ -88,7 +88,6 @@ function Block({
         lateJoinee.push(list1.ExamStatus);
         IsAbsent.push(list1.IsAbsent);
       }
-
       else {
       }
     });
@@ -152,8 +151,11 @@ function Block({
     else if (exmstats[index] == 'Exempted'){
       return 'Exempted'
     }
-    else {
-      return returnVal + '(' + val + ')'
+    else if (showonlyGrade === 'true'){
+      return returnVal
+    }
+    else{
+      return val
     }
   }
   return (
