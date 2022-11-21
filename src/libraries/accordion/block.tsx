@@ -31,7 +31,6 @@ function Block({
   var indexval;
   const [grade, setgrade] = useState([]);
   const marks: any = [];
-  const Nmarks:any = [];
   const colors: any = [];
   const subject: any = [];
   const outofmarks: any = [];
@@ -43,6 +42,7 @@ function Block({
   const exmstats:any=[];
   const lateJoinee:any = [];
   const IsAbsent: any = [];
+  const gradeormark: any = [];
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -98,11 +98,15 @@ function Block({
       if (ExamId == list1.ExamId) {
 
         if (list1.ConsiderInTotal == 'N' ) {
-          subjectgrade.push(list1.Grade);
+          if(list1.GradeOrMarks == 'G'){
+            gradeormark.push(list1.Grade);
+          }
+          if(list1.GradeOrMarks == 'M'){
+            gradeormark.push(list1.Marks)
+          }
           singlesubject.push(list1.Subject);
           showonlyGrade=list1.ShowOnlyGrade;
           conideredTotal.push(list1.ConsiderInTotal);
-          Nmarks.push(list1.Marks)
           indexval = index1;
         }
       }
@@ -167,12 +171,10 @@ function Block({
         grandTotal={GrandTotal}
         subjectTotalMarks={SubjectTotalMarks}
         grade={Grade}
-        subjectgrade={subjectgrade}
         subject={singlesubject}
         indexval={indexval}
-        MarkScored={Nmarks}
+        Gradeormarks={gradeormark}
         Data={Data}
-        showonlyGrade={showonlyGrade}
         examstatus={examstatus}
       />
     </>
