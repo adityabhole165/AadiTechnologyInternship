@@ -145,11 +145,25 @@ const AddReciepents = ({ recipientListClick }) => {
     }
   }, []);
   useEffect(() => {
+    
     setList(getuserlist.map((obj) => {
-      return { ...obj, isActive: selectedRecipentsId.includes(obj.Id) ? true : false }
+      return {
+        ...obj, isActive:
+          (selectedRecipentsId.includes(obj.Id) || isClassSelect()) ?
+            true :
+            false
+      }
     }))
-  }, [getuserlist]);
 
+  }, [getuserlist]);
+  const isClassSelect = () => {
+    let selectedClass = getClass
+    .filter((obj)=>obj.Id===Number(studentlist))
+    .map((item)=>{
+      return item.Name
+    })
+    return selectedRecipents.includes(selectedClass[0]);
+  }
   useEffect(() => {
     if (studentlist !== '') {
       dispatch(StartLoading());
@@ -199,8 +213,28 @@ const AddReciepents = ({ recipientListClick }) => {
 
   const onChangeTeacher = (value) => {
     setList(value);
-    populateRecipient(value);
+    if (techerStudent[1].isActive) {
+      if ((!value.some(obj => obj.isActive === false))) {
+        removeAllRecipient(value)
+        setSelectedRecipents((prevState) => [...prevState, getSelectedClassName[0]]);
+        setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
+      }
+      else {
+        setSelectedRecipents((prevState) => prevState.filter(item => item !== getSelectedClassName[0]));
+        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== getSelectedClassId[0]));
+        populateRecipient(value);
+      }
+    }
+    else {
+      populateRecipient(value);
+    }
+
   };
+  const getSelectedClassName =
+    getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Name; })
+
+  const getSelectedClassId =
+    getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Id; })
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value);
     populateRecipient(value);
@@ -216,6 +250,12 @@ const AddReciepents = ({ recipientListClick }) => {
         setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
       }
     });
+  }
+  const removeAllRecipient = (itemList) => {
+      itemList?.map((obj) => {
+        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+      })
   }
   const clickOkay = () => {
     recipientListClick({
