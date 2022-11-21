@@ -211,7 +211,7 @@ const [attanStatus,setAttenStatus] = useState();
                             </ButtonPrimary>
                         </Grid><Grid item xs={3.5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 20 ,ml:"-8px" }}
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 20 ,ml:"-8px" ,filter:" brightness(0) invert(1) "}}
                                     src={
                                       "/imges/missingA.png"
                                     }
