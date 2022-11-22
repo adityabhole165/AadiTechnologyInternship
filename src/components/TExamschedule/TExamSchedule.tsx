@@ -41,9 +41,6 @@ function Texamschedule() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStandardId = sessionStorage.getItem('StandardId');
 
-  console.log('asAcademicYearId', asAcademicYearId);
-  console.log('asSchoolId', asSchoolId);
-
   const handleChange = (event: any) => {
     setstandardid(event?.target.value);
     setexamid(0);

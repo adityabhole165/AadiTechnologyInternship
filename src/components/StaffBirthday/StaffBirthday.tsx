@@ -72,7 +72,6 @@ function StaffBirthday() {
   }, [assignedMonth]);
 
   const classes = Styles();
-  console.log('staffBirthdayList', staffBirthdayList);
 
   return (
     <Container>

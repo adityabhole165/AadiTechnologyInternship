@@ -28,14 +28,12 @@ const issuedate = new Date(issue);
 		const Month = issuedate.toLocaleString("default", { month: 'short'});
 		const Year = issuedate.getFullYear();
 		const NewDateFormat = `${Day}/${Month}/${Year}`;
-   console.log(issue.slice(9,-6))
 
    const returndate = new Date(returnn);
    const Days = returndate.getDate();
    const Months = returndate.toLocaleString("default", { month: 'short'});
    const Years = returndate.getFullYear();
    const NewDateFormats = `${Days}/${Months}/${Years}`;
-  console.log(issue.slice(9,-6))
 
 
     return (

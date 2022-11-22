@@ -74,7 +74,6 @@ export default function TransitionGroupExample({OriginalListOfItems,FinalListOfI
   const handleAddFruit = () => {
     const nextHiddenItem = a.find((i) => !list1OfItemsInArray.includes(i));
     const nextHiddenItem2 = c.find((i) => !l.includes(i));
-		console.log(nextHiddenItem2)
 
     if (nextHiddenItem) {
       setlistOfItemsInArray((prev) =>{ 

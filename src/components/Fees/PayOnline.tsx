@@ -29,7 +29,6 @@ function PayOnline() {
     asRedirectPageUrl:
       'http://localhost:65222/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
-  console.log("PayOnline Body",body);
   useEffect(() => {
     dispatch(payOnline(body));
   }, []);

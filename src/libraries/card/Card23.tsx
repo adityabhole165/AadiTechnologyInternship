@@ -8,7 +8,6 @@ Card23.propTypes = {
 };
 
 function Card23({ pic }) {
-  console.log('https://www.youtube.com/embed/', pic);
 
   return (
     <>

@@ -28,7 +28,7 @@ const ViewReceiveSMS = () => {
             resp.data.GetSMSDetailsResult
           )
           .then((data) => {
-            setViewSms(data);console.log(data);
+            setViewSms(data);
             
           })
       }
@@ -36,8 +36,6 @@ const ViewReceiveSMS = () => {
       useEffect(() => {
         GetViewMessageResult()
       }, [])
-
-      console.log(viewSms);
 
   return (
       <>

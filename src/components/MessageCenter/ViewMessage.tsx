@@ -46,7 +46,6 @@ function ViewSms({}) {
   useEffect(() => {
     GetViewEventResult();
   }, []);
-  console.log(viewSent)
 
   return (
     <>

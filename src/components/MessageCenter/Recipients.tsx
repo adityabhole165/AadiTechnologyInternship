@@ -36,7 +36,6 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const TeacherList: any = useSelector(
     (state: RootState) => state.MessageCenter.TeacherList
   );
-  console.log(TeacherList)
   const AdminStaffList: any = useSelector(
     (state: RootState) => state.MessageCenter.AdminStaffList
   );
@@ -55,7 +54,6 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const [selectedUserGroup, setselectedUserGroup] = useState<number>(0);
   const [RadioButtonDependent, setRadioButtonDependent] =
     useState<string>('none');
-    console.log(asUserId)
 
   const teacherList: IUserGroupList = {
     asAcademicYearId: asAcademicYearId,

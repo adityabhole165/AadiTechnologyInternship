@@ -12,7 +12,6 @@ function Messagefrom() {
   const GetmsgFrom: any = useSelector(
     (state: RootState) => state.Dashboard.Msgfrom
   );
-  console.log('Today', GetmsgFrom);
 
   const MsgfroM_body: IMsgfrom = {
     aiSchoolId: 120

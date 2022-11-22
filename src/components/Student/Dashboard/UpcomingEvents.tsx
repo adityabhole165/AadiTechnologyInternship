@@ -13,7 +13,6 @@ function UpcomingEvents() {
   const GetUpcomingEventsList: any = useSelector(
     (state: RootState) => state.UpcomingEventss.UpcomingEventsList
   );
-  console.log('okbyeeee', GetUpcomingEventsList);
   const data3 = { Standard: 'Standard(s):' };
 
   const SchoolId = sessionStorage.getItem('SchoolId');

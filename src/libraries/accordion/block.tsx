@@ -53,7 +53,6 @@ function Block({
     setgrade(grades);
   }, []);
 
-  console.log("Data Fo Barchart",Data);
 
   Data.map((list, index) => {
    list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {

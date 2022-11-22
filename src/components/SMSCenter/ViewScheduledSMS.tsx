@@ -28,7 +28,7 @@ const ViewScheduledSMS = () => {
             resp.data.GetSMSDetailsResult
           )
           .then((data) => {
-            setViewSms(data);console.log(data);
+            setViewSms(data);
             
           })
       }
@@ -36,8 +36,6 @@ const ViewScheduledSMS = () => {
       useEffect(() => {
         GetViewMessageResult()
       }, [])
-
-      console.log(viewSms);
 
   return (
       <>

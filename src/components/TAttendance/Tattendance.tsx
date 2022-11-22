@@ -82,7 +82,6 @@ function Attendance() {
   const SaveAttendanceStatus = useSelector(
     (state: RootState) => state.AttendanceList.SaveAttendanceStatus
   );
-  // console.log(RollNoList == null)
 
   const [AllPresentOrAllAbsent,setAllPresentOrAllAbsent] = useState("");
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
@@ -257,7 +256,6 @@ function Attendance() {
     onSubmit: (values) => {
       if(selectedRollNo.length !== 0){
         setselectedValues(selectedRollNo);
-        console.log(SaveAttendance)
         GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
         .then((resp) => {
           if(resp.status == 200) {
