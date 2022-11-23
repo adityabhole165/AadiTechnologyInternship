@@ -1,9 +1,9 @@
-import { Box, Typography, styled,InputLabel,Input } from '@mui/material';
+import { Box, Typography, styled,InputLabel,Input, Card } from '@mui/material';
 
 export const CardDetail1 = styled(Typography)`
   font-weight: bold;
   font-size: 12px;
-  margin-left: 5px;
+  // margin-left: 5px;
   color: black;
   font-family: Roboto;
   white-space: nowrap;
@@ -16,6 +16,7 @@ export const CardDetail2 = styled(Typography)`
   font-family: Roboto;
   cursor: pointer;
   margin-left: 5px;
+  
  
  
  
@@ -121,12 +122,31 @@ export const Wordbreak = styled(Typography)`
 `;
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
-  margin-left: 5px;
+
   font-family: Roboto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   
+`;
+export const BoxDetail1 = styled(Typography)`
+  font-size: 12px;
+  
+  font-family: Roboto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+`;
+export const BoxDetail2 = styled(Typography)`
+  font-weight: bold;
+  font-size: 12px;
+
+  color: black;
+  font-family: Roboto;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 export const CardD = styled(Typography)`
@@ -291,6 +311,21 @@ export const BorderBox1= styled(Box)(
  margin-bottom:10px;
 
   border-radius:6px;
+ 
+  `
+);
+export const BoxDetail= styled(Box)(
+  ({ theme }) => `
+  margin-left:10px;
+  margin-top:5px;
+  margin-bottom:7px;
+ 
+  `
+);
+export const CardStyle1= styled(Card)(
+  ({ theme }) => `
+  margin-bottom: 10px; 
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
  
   `
 );

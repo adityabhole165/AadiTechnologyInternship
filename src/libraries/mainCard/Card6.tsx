@@ -1,4 +1,4 @@
-import {  Stack, Grid,} from '@mui/material';
+import {  Stack, Grid,Avatar,Box} from '@mui/material';
 import { ListStyle } from '../styled/CardStyle';
 import {ProfileDetail1,ProfileDetail2,ProfileDetail3,ProfileDetail4,ProfileWrapper} from '../styled/ProfileStyled';
 
@@ -35,8 +35,9 @@ function Card6() {
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
-        <UserPhoto ImgUrl={ImgUrl} alt={''} width={'106px'} height={'137px'} />
-
+      
+        <UserPhoto ImgUrl={ImgUrl} alt={'user.name'} width={'106px'} height={'137px'}  />
+    
         {RoleName == 'Teacher' ? (
           <>
             <ProfileDetail3><b>{UserName}</b></ProfileDetail3>

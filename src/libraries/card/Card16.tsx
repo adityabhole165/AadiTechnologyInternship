@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useTheme, Grid, Checkbox, Stack, List, Box } from '@mui/material';
+import { useTheme, Grid, Checkbox, Stack, List, Box, Typography, Card } from '@mui/material';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -12,7 +12,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import { ButtonPrimary } from '../styled/ButtonStyle';
-import {CardDetail1,CardDetail3,ListStyle} from '../styled/CardStyle';
+import {BoxDetail, BoxDetail1, BoxDetail2, CardDetail1,CardDetail2,CardDetail3,CardStyle1,ListStyle} from '../styled/CardStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -207,7 +207,7 @@ function Card16({ Note, Heading }) {
               item.PaymentGroup.toString()
             );
             return item.AmountPayable == '0' ? null : (
-              <ListStyle
+              <CardStyle1
                 key={i}
                 sx={{
                   background: ArrayOfPaymentGroup.includes(
@@ -215,13 +215,13 @@ function Card16({ Note, Heading }) {
                   )
                     ? `${theme.colors.gradients.selectedlistColor}`
                     : `${theme.colors.gradients.pink1}`,
-                  mb: 1
+               
                 }}
               >
                 <Grid container>
-                  <Grid item xs={2}>
+                  <Grid item xs={1}>
                     {item.AmountPayable != '0' && item.RowNumber == '1' ? (
-                      <Checkbox
+                      <Checkbox sx={{ml:"-5px"}}
                         disabled={disabledStateCheckBox}
                         name={item.PaymentGroup}
                         value={
@@ -256,29 +256,31 @@ function Card16({ Note, Heading }) {
                       />
                     ) : null}
                   </Grid>
+                <BoxDetail>
+               
+                    <BoxDetail2>{item.FeeType}</BoxDetail2>
+                  
+                    <Grid item xs={1} />
 
-                  <Grid item xs={10}>
-                    <CardDetail1>{item.FeeType}</CardDetail1>
-                  </Grid>
-
-                  <Grid item xs={2} />
-                  <Grid item xs={10} sx={{mt:"-20px"}}>
-                    <CardDetail3>
-                      {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount!='0'? <b> + {item.LateFeeAmount}</b> : null}
-                    </CardDetail3>
-                  </Grid>
-                  <Grid item xs={2} />
-
-                  <Grid item xs={10}>
-                    <CardDetail3>Due On :{item.DueDateFormat}</CardDetail3>
-                  </Grid>
+                    <BoxDetail1>
+                    {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount!='0'?<b>+{item.LateFeeAmount}</b> : null}
+                    </BoxDetail1>
+                 
+                    <Grid item xs={1} />
+                  
+                    <BoxDetail1>Due On :{item.DueDateFormat}</BoxDetail1>
+              
+             
+                  </BoxDetail>
                 </Grid>
-              </ListStyle>
+
+   
+              </CardStyle1>
             );
           })}
         </>
       )}
-
+           
       <>
         <Stack direction="row" spacing={2}>
           {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
