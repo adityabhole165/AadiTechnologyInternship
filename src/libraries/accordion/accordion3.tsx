@@ -57,6 +57,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
             >
               {Data.map((list: GetStudentExamResult, index) => {
                 if (Exam === list.Exam) {
+                  console.log("list.SubjectTotalMarks[0]['ShowOnlyGrade']",Data[0]['StudentMarksList'][0]['ShowOnlyGrade'])
                   return (
                       <Block
                         Data={Data}
@@ -67,6 +68,7 @@ function Accordions3({ Exam, Data, index, Collapse, expand }) {
                         SubjectTotalMarks={list.SubjectTotalMarks}
                         Grade={list.Grade}
                         key={index}
+                        showonlyGrade = {Data[0]['StudentMarksList'][0]['ShowOnlyGrade']}
                       />
                   );
                 }

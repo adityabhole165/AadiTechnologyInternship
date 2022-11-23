@@ -9,6 +9,7 @@ Block.propTypes = {
   GrandTotal: PropTypes.string,
   Rank: PropTypes.string,
   Grade: PropTypes.string,
+  showonlyGrade: PropTypes.any
 };
 
 function Block({
@@ -18,16 +19,16 @@ function Block({
   Rank,
   GrandTotal,
   SubjectTotalMarks,
-  Grade
+  Grade,
+  showonlyGrade
 }) {  
   const [options, setObject] = useState([]);
   const [series, setSeries] = useState([]);
   const [color, setColor] = useState([]);
   const [outof, setoutof] = useState([]);
   const min = 0;
-  var subjectgrade: any = [];
+  let IsGrade = showonlyGrade;
   var singlesubject: any = [];
-  var showonlyGrade = ''
   var indexval;
   const [grade, setgrade] = useState([]);
   const marks: any = [];
@@ -60,23 +61,22 @@ function Block({
         if (list1.Marks == 0 && list1.ExamStatus == 'Absent') {
           let Marks = '99.99'
           marks.push(Marks);
-          colors.push('#800000')
+          colors.push('#cf352e')
         } 
         else if (list1.ExamStatus == 'Late Joinee'){
           let Marks = '99.99'
           marks.push(Marks);
-          colors.push('#800000')
+          colors.push('#cf352e')
         }
         else if (list1.ExamStatus == 'Exempted'){
           let Marks = '99.99'
           marks.push(Marks);
-          colors.push('#800000')
+          colors.push('#cf352e')
         }
         else {
-          colors.push('#0000FF')
+          colors.push('#6699CC')
           marks.push((list1.Marks/Number(list1.OutOf))*100 );        
         }
-
         subject.push(list1.Subject);
         outofmarks.push(list1.OutOf);
         grades.push(list1.Grade);
@@ -104,7 +104,6 @@ function Block({
             gradeormark.push(list1.Marks)
           }
           singlesubject.push(list1.Subject);
-          showonlyGrade=list1.ShowOnlyGrade;
           conideredTotal.push(list1.ConsiderInTotal);
           indexval = index1;
         }
@@ -144,7 +143,6 @@ function Block({
     return (getIsAbsent(opts.dataPointIndex, val, returnVal))
   }
   const getIsAbsent = (index,val, returnVal) => {
-
     if (IsAbsent[index] === 'Y') {
       return 'Absent'
     }
@@ -154,11 +152,8 @@ function Block({
     else if (exmstats[index] == 'Exempted'){
       return 'Exempted'
     }
-    else if (showonlyGrade === 'true'){
-      return returnVal
-    }
     else{
-      return val
+      return (IsGrade == 'true'? returnVal : val)
     }
   }
   return (
