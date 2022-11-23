@@ -72,7 +72,6 @@ const MessageList = () => {
   const NextInboxList = useSelector(
     (state: RootState) => state.InboxMessage.NextPageList
   );
-  //   console.log(NextInboxList)
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );

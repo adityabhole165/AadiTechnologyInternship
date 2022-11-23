@@ -5,7 +5,8 @@ import {
   Typography,
   useTheme,
   Divider,
-  getBottomNavigationUtilityClass
+  getBottomNavigationUtilityClass,
+  TextField
 } from '@mui/material';
 import { useState, useEffect } from 'react';
 import {
@@ -32,8 +33,7 @@ Card21.propTypes = {
   Data: PropTypes.any
 };
 
-function Card21({ subjectgrade, subject, indexval, MarkScored, Data, showonlyGrade, examstatus }) {
-  console.log("examstatus", examstatus);
+function Card21({ Gradeormarks, subject }) {
 
   const [checked, setChecked] = useState(true);
   const [expand, setExpand] = useState(false);
@@ -64,7 +64,7 @@ function Card21({ subjectgrade, subject, indexval, MarkScored, Data, showonlyGra
   return (
     <div>
       <>
-        {subjectgrade?.length === 0 && subject?.length === 0 ? null : (
+        {Gradeormarks?.length === 0 && subject?.length === 0 ? null : (
 
           <Grow
             in={checked}
@@ -83,35 +83,22 @@ function Card21({ subjectgrade, subject, indexval, MarkScored, Data, showonlyGra
                       );
                     })}
                   </CardDetail2>
-
-
-                  {showonlyGrade === 'true' ?
+                  <Box>
+                  { 
+                    Gradeormarks.length != 0 &&
                     <CardDetail2
-                      sx={{ color: 'blueviolet' }}
+                    sx={{ color: 'blueviolet' }}
                     >
-                      {subjectgrade.map((subgrade, index) => {
-                        return (
-                          <div key={index}>
-                            <div key={index}>{subgrade}</div>
+                    {Gradeormarks.map((mark, index1) => {
+                      return (
+                          <div key={index1}>
+                            <div >{mark == 'Exempt'? 'Exempted' :mark}</div>
                           </div>
-                        );
-                      })}
-                    </CardDetail2>
-                    :
-                    <CardDetail2
-                      sx={{ color: 'blueviolet' }}
-                    > 
-                      {MarkScored.map((mark, indee) => {
-                              return (
-                                <div key={indee}>
-                             <div key={indee}>{mark}</div> 
-                                </div>  
-                              );
-                            })}       
+                      );
+                    })}
                     </CardDetail2>
                   }
-
-
+                  </Box>
                 </Box>
               </Box>
 

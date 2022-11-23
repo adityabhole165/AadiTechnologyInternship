@@ -25,10 +25,8 @@ Accordion7.propTypes = {
 };
 
 function Accordion7({ Data, additional, AddLectures }) {
-  // console.log('data', AddLectures);
   const classes = Styles();
 
-  console.log('AddLecturesAddLectures', AddLectures);
   const [expanded, setExpanded] = React.useState<string | false>(false);
 
   const handleChange = (panel) => (event, isExpanded) => {

@@ -32,7 +32,6 @@ export const getSentList =
     dispatch(SentMessageSlice.actions.getLoading(true));
     dispatch(SentMessageSlice.actions.getFilterData(false));
     const response = await SentMessageApi.GetSentMessageList(data);
-    console.log('send sms list called');
     dispatch(SentMessageSlice.actions.getSentList(response.data));
   };
 

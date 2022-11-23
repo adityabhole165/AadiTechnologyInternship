@@ -57,12 +57,10 @@ function Card7({
       attachmentObj.push(AttachmentFile);
     }
   }
-  // console.log(Object.keys(Attachments).length)
 
   const classes = Styles();
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
-  console.log(FromUserID);
 
   return (
     <>

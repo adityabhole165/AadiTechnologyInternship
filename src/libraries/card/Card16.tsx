@@ -128,7 +128,6 @@ function Card16({ Note, Heading }) {
     dispatch(getFees(body));
   }, [CheckBoxPaymentGroup, change, ArrayOfPaymentGroup]);
 
-  console.log("FeesList",FeesList);
   return (
     <div>
       {GetFeeDetails.IsRTEstudent ? (

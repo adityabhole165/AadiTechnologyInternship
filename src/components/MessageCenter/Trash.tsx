@@ -145,7 +145,6 @@ function Trash() {
   const moveToTrash = () => {
     const joinDetails = Id.DetailInfo.join(';');
     const joinReciever = Id.recieverInfo.join(';');
-    console.log(joinDetails)
     const trashbody: any = {
       asSchoolId: asSchoolId,
       asMessageRecieverDetailsId: joinReciever,
@@ -213,7 +212,6 @@ function Trash() {
       MessageCenterApi.GetTrashList(UpdatedBody)
         .then((response) => {
           setNextPageData(response.data); // Next page data setter
-          console.log(response.data);
         })
         .catch((err) => {
           alert('error network');

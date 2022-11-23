@@ -19,7 +19,6 @@ const RadioButton = ({ Array }) => {
                         ml:"10px"
                     }}>
                         {Array.map((items, i) => {
-                            console.log("items.Name", items.Value);
 
                             return (
                                 <FormControlLabel key={i} value={items.Value}

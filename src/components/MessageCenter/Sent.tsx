@@ -223,7 +223,6 @@ function SentMessage() {
     }, 10);
   }
 
-  console.log(Id.DetailInfo)
   return (
     <>
       {Id.DetailInfo.length !== 0 ? (
