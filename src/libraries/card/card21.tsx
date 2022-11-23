@@ -90,13 +90,10 @@ function Card21({ Gradeormarks, subject }) {
                     sx={{ color: 'blueviolet' }}
                     >
                     {Gradeormarks.map((mark, index1) => {
-                      debugger;
                       return (
-                        <>
-                          <div>
-                            <div key={index1}>{mark == 'Exempt'? 'Exempted' :mark}</div>
+                          <div key={index1}>
+                            <div >{mark == 'Exempt'? 'Exempted' :mark}</div>
                           </div>
-                        </>
                       );
                     })}
                     </CardDetail2>

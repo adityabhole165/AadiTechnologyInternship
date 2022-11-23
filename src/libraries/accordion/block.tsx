@@ -21,7 +21,8 @@ function Block({
   SubjectTotalMarks,
   Grade,
   showonlyGrade
-}) {  
+}) {
+  
   const [options, setObject] = useState([]);
   const [series, setSeries] = useState([]);
   const [color, setColor] = useState([]);
@@ -47,12 +48,72 @@ function Block({
   const [data, setData] = useState([]);
 
   useEffect(() => {
+    Data.map((list, index) => {
+      list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
+         if (ExamId == list1.ExamId) {
+           if (list1.Marks == 0 && list1.ExamStatus == 'Absent') {
+             let Marks = '99.99'
+             marks.push(Marks);
+             colors.push('#800000')
+           } 
+           else if (list1.ExamStatus == 'Late Joinee'){
+             let Marks = '99.99'
+             marks.push(Marks);
+             colors.push('#800000')
+           }
+           else if (list1.ExamStatus == 'Exempted'){
+             let Marks = '99.99'
+             marks.push(Marks);
+             colors.push('#800000')
+           }
+           else {
+             colors.push('#0000FF')
+             marks.push((list1.Marks/Number(list1.OutOf))*100 );        
+           }
+   
+           subject.push(list1.Subject);
+           outofmarks.push(list1.OutOf);
+           grades.push(list1.Grade);
+           gradeormarks.push(list1.GradeOrMarks);
+           endingmarksrange.push(list1.EndingMarksRange);
+           examstatus.push(list1.ExamStatus);
+           exmstats.push(list1.ExamStatus);
+           lateJoinee.push(list1.ExamStatus);
+           IsAbsent.push(list1.IsAbsent);
+         }
+         else {
+         }
+       });
+     });
+   
+     Data.map((list, index) => {
+      list.StudentMarksList.map((list1, index1) => {
+         if (ExamId == list1.ExamId) {
+   
+           if (list1.ConsiderInTotal == 'N' ) {
+             if(list1.GradeOrMarks == 'G'){
+               gradeormark.push(list1.Grade);
+             }
+             if(list1.GradeOrMarks == 'M'){
+               gradeormark.push(list1.Marks)
+             }
+             singlesubject.push(list1.Subject);
+             showonlyGrade=list1.ShowOnlyGrade;
+             conideredTotal.push(list1.ConsiderInTotal);
+             indexval = index1;
+           }
+         }
+         else {
+         }
+       });
+     });
+
     setObject(subject);
     setSeries(marks);
     setColor(colors);
     setoutof(outofmarks);
     setgrade(grades);
-  }, []);
+  }, [Data]);
 
 
   Data.map((list, index) => {
@@ -113,6 +174,7 @@ function Block({
     });
   });
 
+  
   const dataLabel = (val,opts) => {
     let returnVal = val
     if (val >= '90' && val <= '100' && val != '99.99') {
