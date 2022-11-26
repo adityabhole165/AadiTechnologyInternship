@@ -1,10 +1,10 @@
-import {Container,TextField,Box,FormControl,Grid,Typography,useTheme,Fab, ClickAwayListener, Tooltip,} from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
-import {AttachmentFile,ISendMessage} from '../../interfaces/MessageCenter/MessageCenter';
+import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/MessageCenter';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -13,16 +13,10 @@ import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
-import Collapse from '@mui/material/Collapse';
-import List from '@mui/material/List';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import { TransitionGroup } from 'react-transition-group';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
-import ChooseFile from 'src/libraries/Choose File/ChooseFile';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -64,7 +58,8 @@ function Form13() {
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
-
+  useEffect(() => {
+  }, [finalBase642New])
   useEffect(() => {
     if (PageName == 'Reply') {
       const PayLoadObject = {
@@ -100,7 +95,9 @@ function Form13() {
       for (let key in FileNameOfAttachment) {
         finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
       }
+      //console.log("finalBase642New--",finalBase642New);
       setFinalBase642New((prev) => [...prev])
+      //setFinalBase642New(prev => [...prev, finalBase642New])
     }
   }, [AttachmentArray]);
 
@@ -119,7 +116,7 @@ function Form13() {
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
-
+  let dataShow: any = [];
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
 
@@ -133,33 +130,51 @@ function Form13() {
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
+  const [emp, setEmp] = useState([{ name: 'Ajit', addres: 'wakad' },
+  { name: 'Mayur', addres: 'Sector 16' }])
+
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
-    for (let i = 0; i < multipleFiles.length; i++) {
-      const isValid = CheckValidation(multipleFiles[i]);
-      let fileName = multipleFiles[i].name;
-      let base64URL: any = '';
-      if (isValid) {
-        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-      }
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+    if (finalBase642New.length == 0) {
+      for (let i = 0; i < multipleFiles.length; i++) {
+        const isValid = CheckValidation(multipleFiles[i]);
+        let fileName = multipleFiles[i].name;
+        let base64URL: any = '';
+        if (isValid) {
+          base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+        }
+        let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
 
-      let AttachmentFile: AttachmentFile = {
-        FileName: fileName,
-        Base64URL: DataAttachment
-      };
-      finalBase642New.push(AttachmentFile);
+        let AttachmentFile: AttachmentFile = {
+          FileName: fileName,
+          Base64URL: DataAttachment
+        };
+        setFinalBase642New(prev => [...prev, AttachmentFile])
+      }
+    } else {
+      for (let i = 0; i < multipleFiles.length; i++) {
+        const isValid = CheckValidation(multipleFiles[i]);
+        let fileName = multipleFiles[i].name;
+        let base64URL: any = '';
+        if (isValid) {
+          base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+        }
+        let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+
+        let AttachmentFile: AttachmentFile = {
+          FileName: fileName,
+          Base64URL: DataAttachment
+        };
+        setFinalBase642New(array => [...array, AttachmentFile])
+      }
     }
-    setFinalBase642New((prev) => {
-      return [...prev];
-    });
   };
 
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = ['BMP','DOC','DOCX','JPG','JPEG','PDF','PNG','PPS','PPSX','PPT','PPTX','XLS','XLSX','bmp','doc',
-      'docx','jpg','jpeg','pdf','png','pps','ppsx','ppt','pptx','xls','xlsx'];
+    const allowedFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc',
+      'docx', 'jpg', 'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx'];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -292,22 +307,10 @@ function Form13() {
     }
   }, []);
 
-  const handleRemoveListItems = (e, c) => {
-    finalBase642New.length = 0;
-
-    for (let key in FileNameOfAttachment) {
-      let indOfFileName = FileNameOfAttachment.indexOf(e)
-      let indOfFileName2 = Base64URLOfAttachment.indexOf(c)
-      if (FileNameOfAttachment[key] == e) {
-        let spl = FileNameOfAttachment.splice(indOfFileName, 1);
-        let spl2 = Base64URLOfAttachment.splice(indOfFileName2, 1);
-      }
-    }
-
-    for (let key in FileNameOfAttachment) {
-      finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
-    }
-    setFinalBase642New((prev) => [...prev])
+  const handleRemoveListItems = (fileName, fileData) => {
+    setFinalBase642New((current) =>
+      current.filter((obj) => obj.FileName !== fileName)
+    )
   }
 
   return (
@@ -378,7 +381,7 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-            
+
             <TextField
               fullWidth
               id="fullWidth"
@@ -440,49 +443,47 @@ function Form13() {
 
             {finalBase642New == undefined ||
               finalBase642New.length == 0 ||
-              PageName === 'Reply' ? null : (
-              <div style={{ marginTop: '10px' }}>
-                <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
-               
-                    <TransitionGroup>
-                      {finalBase642New.map((item, key) => {
-                        return (
-                          <Box key={item.FileName}>
-                          <Grid container>
-                            <Grid xs={2}>
-                              <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                            </Grid>
-                            <Grid xs={8}>
-                              <CardDetail8 sx={{ mt: '5px' }}>
-                                {item.FileName.slice(0, 25)}
-                              </CardDetail8>
-                            </Grid>
-                            <Grid xs={2}>
-                              <IconButton
-                                edge="end"
-                                aria-label="delete"
-                                title="Delete"
-                                onClick={() =>
-                                  handleRemoveListItems(
-                                    item.FileName,
-                                    item.Base64URL
-                                  )
-                                }
-                              >
-                                <DeleteIcon
-                                  sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
-                                />
-                              </IconButton>
-                            </Grid>
-                          </Grid>
-                        </Box>
-                        );
-                      })}
-                    </TransitionGroup>
-               
-              
-              </div>
-            )}
+              PageName === 'Reply' ? null :
+              (
+                <div style={{ marginTop: '10px' }}>
+                  <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
+                  {
+                    finalBase642New.map((obj, i) => {
+                      return (
+                        <Box key={obj.FileName}>
+                         <Grid container>
+                           <Grid xs={2}>
+                             <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                           </Grid>
+                           <Grid xs={8}>
+                             <CardDetail8 sx={{ mt: '5px' }}>
+                               {obj.FileName.slice(0, 25)}
+                             </CardDetail8>
+                           </Grid>
+                           <Grid xs={2}>
+                             <IconButton
+                               edge="end"
+                               aria-label="delete"
+                               title="Delete"
+                               onClick={() =>
+                                 handleRemoveListItems(
+                                   obj.FileName,
+                                   obj.Base64URL
+                                 )
+                               }
+                             >
+                               <DeleteIcon
+                                 sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
+                               />
+                             </IconButton>
+                           </Grid>
+                         </Grid>
+                       </Box>
+                      )
+                    })
+                  }
+                </div>
+              )}
             <TextField
               fullWidth
               multiline

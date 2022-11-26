@@ -146,7 +146,7 @@ const MessageList = () => {
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: arrReciever.join(';'),
+      asMessageRecieverDetailsId: (activeTab == 'Inbox'? arrReciever.join(';') : arrDetails.join(';')),
       asIsArchive: 'Y',
       asIsCompeteDelete: (activeTab == 'Inbox' || activeTab == 'Sent'? 0 : 1),
       asFlag: activeTab
@@ -242,7 +242,6 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
-console.log("inboxListData",inboxListData);
   return (
     <>
       <Container>
