@@ -9,6 +9,7 @@ Block.propTypes = {
   GrandTotal: PropTypes.string,
   Rank: PropTypes.string,
   Grade: PropTypes.string,
+  showonlyGrade: PropTypes.any
 };
 
 function Block({
@@ -18,17 +19,17 @@ function Block({
   Rank,
   GrandTotal,
   SubjectTotalMarks,
-  Grade
+  Grade,
+  showonlyGrade
 }) {
-  
+
   const [options, setObject] = useState([]);
   const [series, setSeries] = useState([]);
   const [color, setColor] = useState([]);
   const [outof, setoutof] = useState([]);
   const min = 0;
-  var subjectgrade: any = [];
+  let IsGrade = showonlyGrade;
   var singlesubject: any = [];
-  var showonlyGrade = ''
   var indexval;
   const [grade, setgrade] = useState([]);
   const marks: any = [];
@@ -36,77 +37,72 @@ function Block({
   const subject: any = [];
   const outofmarks: any = [];
   const grades: any = [];
-  const conideredTotal :any=[];
+  const conideredTotal: any = [];
   const gradeormarks: any = [];
   const endingmarksrange: any = [];
   const examstatus: any = [];
-  const exmstats:any=[];
-  const lateJoinee:any = [];
+  const exmstats: any = [];
+  const lateJoinee: any = [];
   const IsAbsent: any = [];
   const gradeormark: any = [];
   const [data, setData] = useState([]);
 
-  useEffect(() => {
-    Data.map((list, index) => {
-      list.StudentMarksList.filter((item)=>item.ConsiderInTotal==="Y" ).map((list1, i) => {
-         if (ExamId == list1.ExamId) {
-           if (list1.Marks == 0 && list1.ExamStatus == 'Absent') {
-             let Marks = '99.99'
-             marks.push(Marks);
-             colors.push('#800000')
-           } 
-           else if (list1.ExamStatus == 'Late Joinee'){
-             let Marks = '99.99'
-             marks.push(Marks);
-             colors.push('#800000')
-           }
-           else if (list1.ExamStatus == 'Exempted'){
-             let Marks = '99.99'
-             marks.push(Marks);
-             colors.push('#800000')
-           }
-           else {
-             colors.push('#0000FF')
-             marks.push((list1.Marks/Number(list1.OutOf))*100 );        
-           }
-   
-           subject.push(list1.Subject);
-           outofmarks.push(list1.OutOf);
-           grades.push(list1.Grade);
-           gradeormarks.push(list1.GradeOrMarks);
-           endingmarksrange.push(list1.EndingMarksRange);
-           examstatus.push(list1.ExamStatus);
-           exmstats.push(list1.ExamStatus);
-           lateJoinee.push(list1.ExamStatus);
-           IsAbsent.push(list1.IsAbsent);
-         }
-         else {
-         }
-       });
-     });
-   
-     Data.map((list, index) => {
-      list.StudentMarksList.map((list1, index1) => {
-         if (ExamId == list1.ExamId) {
-   
-           if (list1.ConsiderInTotal == 'N' ) {
-             if(list1.GradeOrMarks == 'G'){
-               gradeormark.push(list1.Grade);
-             }
-             if(list1.GradeOrMarks == 'M'){
-               gradeormark.push(list1.Marks)
-             }
-             singlesubject.push(list1.Subject);
-             showonlyGrade=list1.ShowOnlyGrade;
-             conideredTotal.push(list1.ConsiderInTotal);
-             indexval = index1;
-           }
-         }
-         else {
-         }
-       });
-     });
+  Data.map((list, index) => {
+    list.StudentMarksList.filter((item) => item.ConsiderInTotal === "Y").map((list1, i) => {
+      if (ExamId == list1.ExamId) {
+        if (list1.Marks == 0 && list1.ExamStatus == 'Absent') {
+          let Marks = '99.99'
+          marks.push(Marks);
+          colors.push('#cf352e')
+        }
+        else if (list1.ExamStatus == 'Late Joinee') {
+          let Marks = '99.99'
+          marks.push(Marks);
+          colors.push('#cf352e')
+        }
+        else if (list1.ExamStatus == 'Exempted') {
+          let Marks = '99.99'
+          marks.push(Marks);
+          colors.push('#cf352e')
+        }
+        else {
+          colors.push('#6699CC')
+          marks.push((list1.Marks / Number(list1.OutOf)) * 100);
+        }
+        subject.push(list1.Subject);
+        outofmarks.push(list1.OutOf);
+        grades.push(list1.Grade);
+        gradeormarks.push(list1.GradeOrMarks);
+        endingmarksrange.push(list1.EndingMarksRange);
+        examstatus.push(list1.ExamStatus);
+        exmstats.push(list1.ExamStatus);
+        lateJoinee.push(list1.ExamStatus);
+        IsAbsent.push(list1.Marks == 0?list1.IsAbsent:"N");
+      }
+    });
+  });
 
+  Data.map((list, index) => {
+    list.StudentMarksList.map((list1, index1) => {
+      if (ExamId == list1.ExamId) {
+
+        if (list1.ConsiderInTotal == 'N') {
+          if (list1.GradeOrMarks == 'G') {
+            gradeormark.push(list1.Grade);
+          }
+          if (list1.GradeOrMarks == 'M') {
+            gradeormark.push(list1.Marks)
+          }
+          singlesubject.push(list1.Subject);
+          showonlyGrade = list1.ShowOnlyGrade;
+          conideredTotal.push(list1.ConsiderInTotal);
+          indexval = index1;
+        }
+      }
+    });
+  });
+  
+  useEffect(() => {
     setObject(subject);
     setSeries(marks);
     setColor(colors);
@@ -115,8 +111,7 @@ function Block({
   }, [Data]);
 
 
-  
-  const dataLabel = (val,opts) => {
+  const dataLabel = (val, opts) => {
     let returnVal = val
     if (val >= '90' && val <= '100' && val != '99.99') {
       returnVal = 'A+';
@@ -145,22 +140,19 @@ function Block({
     }
     return (getIsAbsent(opts.dataPointIndex, val, returnVal))
   }
-  const getIsAbsent = (index,val, returnVal) => {
+  const getIsAbsent = (index, val, returnVal) => {
 
     if (IsAbsent[index] === 'Y') {
       return 'Absent'
     }
-    else if (exmstats[index] == 'Late Joinee') { 
+    else if (exmstats[index] == 'Late Joinee') {
       return 'Late Joinee'
     }
-    else if (exmstats[index] == 'Exempted'){
+    else if (exmstats[index] == 'Exempted') {
       return 'Exempted'
     }
-    else if (showonlyGrade === 'true'){
-      return returnVal
-    }
-    else{
-      return val
+    else {
+      return (IsGrade == 'true' ? returnVal : val)
     }
   }
   return (

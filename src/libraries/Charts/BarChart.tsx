@@ -50,9 +50,9 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
           return dataLabel(val,opts);
         },
         style: {
-          colors: ['white'],
+          colors: ['black'],
           fontSize: '10px',
-          fontWeight: 100
+          fontWeight: 110,
         }
       },
       plotOptions: {
