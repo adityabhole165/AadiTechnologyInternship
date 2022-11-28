@@ -1,4 +1,5 @@
 import { Box, Grid, useTheme } from '@mui/material'
+import { CardDetail2, CardDetail4, CardDetailA, CardDetailR } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg'
 
 const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
@@ -38,11 +39,15 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
                     }
                     
                 </Grid> 
-                <Grid item xs={2}  sx={{ textAlign: "center", mt: "7px", mb:'7px', color: "black", }}>
+                <Grid item xs={2}>
+                    <CardDetailR>
                     {Item.text1}
+                    </CardDetailR>
                 </Grid> 
-                <Grid item xs={9} sx={{ mt: "7px", color: "black" }} >
+                <Grid item xs={9}  >
+                <CardDetailA>
                     {Item.text2} 
+                    </CardDetailA>
                 </Grid> 
             </Grid>
             </Box>
