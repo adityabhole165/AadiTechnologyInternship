@@ -67,7 +67,7 @@ function Block({
         }
         else {
           colors.push('#6699CC')
-          marks.push((list1.Marks / Number(list1.OutOf)) * 100);
+          marks.push(((list1.Marks / Number(list1.OutOf)) * 100).toFixed(2));
         }
         subject.push(list1.Subject);
         outofmarks.push(list1.OutOf);

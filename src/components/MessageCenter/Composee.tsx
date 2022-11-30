@@ -20,6 +20,9 @@ import { CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { textAlign } from '@mui/system';
+import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -77,10 +80,9 @@ function Form13() {
         for (let i = 0; i < a.length; i++) {
           ArrayOfAttachment.push(a[i]);
           const filename = a[i];
-          const encode = window.btoa(a[i]);
           let AttachmentFile: AttachmentFile = {
             FileName: filename,
-            Base64URL: encode
+            Base64URL: ''
           };
           finalBase642.push(AttachmentFile);
           finalBase642Duplicate.push(AttachmentFile);
@@ -130,9 +132,6 @@ function Form13() {
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
 
-  const [emp, setEmp] = useState([{ name: 'Ajit', addres: 'wakad' },
-  { name: 'Mayur', addres: 'Sector 16' }])
-
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
     if (finalBase642New.length == 0) {
@@ -142,14 +141,15 @@ function Form13() {
         let base64URL: any = '';
         if (isValid) {
           base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-        }
-        let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+          let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
 
-        let AttachmentFile: AttachmentFile = {
-          FileName: fileName,
-          Base64URL: DataAttachment
-        };
-        setFinalBase642New(prev => [...prev, AttachmentFile])
+          let AttachmentFile: AttachmentFile = {
+            FileName: fileName,
+            Base64URL: DataAttachment
+          };
+          setFinalBase642New(prev => [...prev, AttachmentFile])
+        }
+
       }
     } else {
       for (let i = 0; i < multipleFiles.length; i++) {
@@ -158,14 +158,14 @@ function Form13() {
         let base64URL: any = '';
         if (isValid) {
           base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
-        }
-        let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+          let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
 
-        let AttachmentFile: AttachmentFile = {
-          FileName: fileName,
-          Base64URL: DataAttachment
-        };
-        setFinalBase642New(array => [...array, AttachmentFile])
+          let AttachmentFile: AttachmentFile = {
+            FileName: fileName,
+            Base64URL: DataAttachment
+          };
+          setFinalBase642New(array => [...array, AttachmentFile])
+        }
       }
     }
   };
@@ -440,7 +440,9 @@ function Form13() {
                 )
               }}
             />
-
+            <Box sx={{mt:'15px'}}>
+              <Errormessages Error={fileerror}/>
+            </Box>
             {finalBase642New == undefined ||
               finalBase642New.length == 0 ||
               PageName === 'Reply' ? null :
@@ -451,34 +453,34 @@ function Form13() {
                     finalBase642New.map((obj, i) => {
                       return (
                         <Box key={obj.FileName}>
-                         <Grid container>
-                           <Grid xs={2}>
-                             <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                           </Grid>
-                           <Grid xs={8}>
-                             <CardDetail8 sx={{ mt: '5px' }}>
-                               {obj.FileName.slice(0, 25)}
-                             </CardDetail8>
-                           </Grid>
-                           <Grid xs={2}>
-                             <IconButton
-                               edge="end"
-                               aria-label="delete"
-                               title="Delete"
-                               onClick={() =>
-                                 handleRemoveListItems(
-                                   obj.FileName,
-                                   obj.Base64URL
-                                 )
-                               }
-                             >
-                               <DeleteIcon
-                                 sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
-                               />
-                             </IconButton>
-                           </Grid>
-                         </Grid>
-                       </Box>
+                          <Grid container>
+                            <Grid xs={2}>
+                              <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                            </Grid>
+                            <Grid xs={8}>
+                              <CardDetail8 sx={{ mt: '5px' }}>
+                                {obj.FileName.slice(0, 25)}
+                              </CardDetail8>
+                            </Grid>
+                            <Grid xs={2}>
+                              <IconButton
+                                edge="end"
+                                aria-label="delete"
+                                title="Delete"
+                                onClick={() =>
+                                  handleRemoveListItems(
+                                    obj.FileName,
+                                    obj.Base64URL
+                                  )
+                                }
+                              >
+                                <DeleteIcon
+                                  sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
+                                />
+                              </IconButton>
+                            </Grid>
+                          </Grid>
+                        </Box>
                       )
                     })
                   }
