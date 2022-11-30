@@ -15,7 +15,7 @@ export const CardDetail2 = styled(Typography)`
    color: black;
   font-family: Roboto;
   cursor: pointer;
-  margin-left: 5px;
+
   
  
  
@@ -100,7 +100,7 @@ export const Wordbreak = styled(Typography)`
   font-size: 12px;
   color: black;
   font-family: Roboto;
-  margin-left:5px;
+
  
 
    
@@ -151,7 +151,6 @@ export const BoxDetail2 = styled(Typography)`
 
 export const CardD = styled(Typography)`
   font-size: 12px;
-  margin-left: 5px;
   font-family: Roboto;
   white-space: nowrap;
   overflow: hidden;
@@ -173,6 +172,19 @@ export const CardDetail4 = styled(Typography)`
   margin-top: 5px;
   font-family: Roboto;
 `;
+export const CardDetailA = styled(Typography)`
+  font-size: 12px;
+  margin-left: 10px;
+  margin-top: 6px;
+  font-family: Roboto;
+`;
+export const CardDetailR= styled(Typography)`
+  font-size: 12px;
+  margin-left: 16px;
+  margin-top: 6px;
+  font-family: Roboto;
+`;
+
 export const CardDetail6 = styled(Typography)`
   font-weight: bold;
   font-size: 12px;
@@ -184,7 +196,7 @@ export const CardDetail6 = styled(Typography)`
 
 export const CardDetail9 = styled(Typography)`
   font-size: 12px;
-  margin-left: 5px;
+  // margin-left: 5px;
   font-family: Roboto;
   
 `;

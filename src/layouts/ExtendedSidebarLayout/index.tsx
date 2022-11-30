@@ -1,7 +1,7 @@
 import { FC, ReactNode } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import ThemeSettings from 'src/layouts/Components/ThemeSettings';
+import ThemeSettings from 'src/layouts/components/ThemeSettings';
 import school5 from 'src/assets/img/school5.jpg';
 import Sidebar from './Sidebar';
 import Header from './Header';

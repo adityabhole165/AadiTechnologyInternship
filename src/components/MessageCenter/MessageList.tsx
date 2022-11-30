@@ -18,7 +18,7 @@ import { Grid, Card, Container } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
-import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';

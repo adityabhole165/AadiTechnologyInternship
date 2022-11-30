@@ -40,7 +40,12 @@ function DateSelector({ date, setCurrentDate, Close }) {
   }
 
   const clickClose=(selectDate)=>{
-    Close(selectDate)
+    const separatedDate = selectDate.split(',')[0].split('/')
+    const updatedDateFormat = separatedDate[1] + '/' +
+      separatedDate[0] + '/' +
+      separatedDate[2] + ',' +
+      selectDate.split(',')[1]
+    Close(updatedDateFormat)
   }
 
   const dateClickHnadler = (e) => {
