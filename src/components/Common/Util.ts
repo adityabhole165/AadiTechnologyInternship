@@ -4,12 +4,31 @@ export function isFutureDate(date) {
         (new Date(new Date().toLocaleDateString())))
 }
 
+export function changeDateFormat(date) {
+    const dateValues = date?.split("-")
+    if (Array.isArray(dateValues)) {
+        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+        return {
+            day: Number(dateValues[0]),
+            month: Number((months.indexOf(dateValues[1]) + 1)),
+            year: Number(dateValues[2])
+        }
+    } else {
+        return {
+            day: 0,
+            month: 0,
+            year: 0
+        }
+    }
+}
+
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
-    return (new Date(date)).toLocaleDateString() 
-    === 
-    (new Date().toLocaleDateString())
+    const dateValue = changeDateFormat(date).day + '/' + changeDateFormat(date).month + '/' + changeDateFormat(date).year
+    return dateValue === new Date().toLocaleDateString()
 }
+
 //date='02 Oct 2022'
 export function isBetweenDate(date, dayCount) {
     var fromDate = new Date(new Date().toLocaleDateString())
@@ -26,21 +45,25 @@ export function ReturnTimeOrDateYear(date){
     return date;
 
 }
+
 export const isValueInArrayContains = (value,validarray) => {
     return validarray.some((a) => {
         return (a.includes(value))
     })
 }
+
 export const isValueInArray = (value,validarray) => {
     return validarray.some((a) => {
         return (a === value)
     })
 }
+
 export const isRepeat = (value, arr) => {
     return !arr.slice(0, -2).some((a) => {
         return (a === value)
     })
 }
+
 export const checkIsNumber = (value) => {
     const re = /^[0-9\b]+$/;
     return re.test(value)
@@ -66,10 +89,10 @@ export const getDateFormatted = (date) => {
     return `${Day}-${Month}-${Year}`;
 }
 export const getNextDate = (date,prevNext) => {
-    const currentDayInMilli = new Date(date).getTime();
-    const oneDay = prevNext * 1000 * 60 * 60 * 24;
-    const nextDayInMilli = currentDayInMilli + oneDay;
-    return new Date(nextDayInMilli);
+    return new Date(
+        changeDateFormat(date).year,
+        changeDateFormat(date).month - 1,
+        changeDateFormat(date).day + prevNext)
 }
 export const monthArray = [
     { Value: 1, Name: "January" },
