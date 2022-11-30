@@ -41,7 +41,7 @@ import { useTranslation } from 'react-i18next';
 import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login';
 import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
-import ThemeSettings from 'src/layouts/Components/ThemeSettings';
+import ThemeSettings from 'src/layouts/components/ThemeSettings';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `

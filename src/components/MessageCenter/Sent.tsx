@@ -13,7 +13,7 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SentMessageApi from 'src/api/Student/SentMessage';
-import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import { Avatar } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';

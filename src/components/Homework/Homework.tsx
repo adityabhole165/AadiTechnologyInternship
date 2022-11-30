@@ -12,7 +12,7 @@ import {
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, styled } from '@mui/material';
-import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Styles } from 'src/assets/style/student-style';

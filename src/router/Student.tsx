@@ -1,7 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
-import SuspenseLoader from 'src/layouts/Components/SuspenseLoader/index';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader/index';
 
 
 const Loader = (Component) => (props) =>

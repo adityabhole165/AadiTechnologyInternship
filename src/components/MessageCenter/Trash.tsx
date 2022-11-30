@@ -14,7 +14,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { toast } from 'react-toastify';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import SuspenseLoader from 'src/layouts/Components/SuspenseLoader';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import {
