@@ -10,7 +10,8 @@ import {
   CardDetail3,
   CardDetail1,
   BoxWrapper,
-  CardDetail2
+  CardDetail2,
+  Wordbreak
 } from '../styled/CardStyle';
 import { sitePath } from 'src/components/Common/Util';
 
@@ -102,8 +103,7 @@ function Card7({
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
       
-           
-            <CardDetail2 dangerouslySetInnerHTML={{ __html: Body }} />
+            <Wordbreak dangerouslySetInnerHTML={{ __html: Body }} />
          
           </BoxWrapper>
         </ListStyle>

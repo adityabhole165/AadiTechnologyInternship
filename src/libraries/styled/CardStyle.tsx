@@ -1,4 +1,4 @@
-import { Box, Typography, styled,InputLabel,Input, Card } from '@mui/material';
+import { Box, Typography, styled,InputLabel,Input, Card ,FormHelperText} from '@mui/material';
 
 export const CardDetail1 = styled(Typography)`
   font-weight: bold;
@@ -41,6 +41,12 @@ margin-right:-5px;
 
  
  
+`;
+export const HelperText = styled(FormHelperText)`
+font-weight:normal;
+margin-left:2px;
+color: rgba(34, 51, 84, 0.7);
+font-size:11px;
 `;
 export const CardDetail7 = styled(Typography)`
   font-size: 12px;
@@ -105,18 +111,18 @@ export const Wordbreak = styled(Typography)`
 
    
   @media (max-width: 320px) {
-    width:230px ; word-wrap:break-word; 
+    width:250px ; word-wrap:break-word; 
   };
  
 
   @media (max-width: 280px) {
-    width:190px ; word-wrap:break-word; 
+    width:200px ; word-wrap:break-word; 
   };
   @media (min-width: 322px) and (max-width: 360px) {
     width:270px ; word-wrap:break-word; 
   };
   @media (min-width: 362px) and (max-width: 416px) {
-    width:300px ; word-wrap:break-word; 
+    width:330px ; word-wrap:break-word; 
   };
  
 `;
