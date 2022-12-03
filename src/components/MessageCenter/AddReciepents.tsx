@@ -25,6 +25,7 @@ const AddReciepents = ({ recipientListClick }) => {
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([]);
   const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
+  const [classId, setClassId] = useState([]);
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: '0',
@@ -144,8 +145,8 @@ const AddReciepents = ({ recipientListClick }) => {
       ]);
     }
   }, []);
+
   useEffect(() => {
-    
     setList(getuserlist.map((obj) => {
       return {
         ...obj, isActive:
@@ -154,32 +155,31 @@ const AddReciepents = ({ recipientListClick }) => {
             false
       }
     }))
-
   }, [getuserlist]);
+
   const isClassSelect = () => {
     let selectedClass = getClass
-    .filter((obj)=>obj.Id===Number(studentlist))
-    .map((item)=>{
-      return item.Name
-    })
+      .filter((obj) => obj.Id === Number(studentlist))
+      .map((item) => {
+        return item.Name
+      })
     return selectedRecipents.includes(selectedClass[0]);
   }
+
   useEffect(() => {
-    if (studentlist !== '') {
-      dispatch(StartLoading());
-      dispatch(GetStudent(getStudentsUserAPIBody));
-      setShowErrorMsg(true)
-    }
+    dispatch(StartLoading());
+    dispatch(GetStudent(getStudentsUserAPIBody));
+    setShowErrorMsg(true)
   }, [studentlist]);
 
   useEffect(() => {
-
     dispatch(GetGetAdminAndprincipalUsers(adminAndprincipalUsersApiBody));
   }, [adminandSW]);
-  useEffect(() => {
 
+  useEffect(() => {
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
   }, [getGetAdminAndprincipalUsers]);
+
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
     dispatch(StartLoading());
@@ -213,32 +213,37 @@ const AddReciepents = ({ recipientListClick }) => {
 
   const onChangeTeacher = (value) => {
     setList(value);
+    //if student is selected
     if (techerStudent[1].isActive) {
       if ((!value.some(obj => obj.isActive === false))) {
         removeAllRecipient(value)
+        setClassId(getSelectedClassId[0]);
         setSelectedRecipents((prevState) => [...prevState, getSelectedClassName[0]]);
-        setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
+        // setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
       }
       else {
+        setClassId([])
         setSelectedRecipents((prevState) => prevState.filter(item => item !== getSelectedClassName[0]));
         setSelectedRecipentsId((prevState) => prevState.filter(item => item !== getSelectedClassId[0]));
         populateRecipient(value);
       }
     }
+    //teacher or staff is selected, student is not
     else {
       populateRecipient(value);
     }
-
   };
   const getSelectedClassName =
     getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Name; })
 
   const getSelectedClassId =
     getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Id; })
+
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value);
     populateRecipient(value);
   };
+
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
       if (obj.isActive && !selectedRecipents.includes(obj.Value)) {
@@ -252,15 +257,16 @@ const AddReciepents = ({ recipientListClick }) => {
     });
   }
   const removeAllRecipient = (itemList) => {
-      itemList?.map((obj) => {
-        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
-        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
-      })
+    itemList?.map((obj) => {
+      setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+      setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+    })
   }
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,
-      RecipientId: selectedRecipentsId
+      RecipientId: selectedRecipentsId,
+      ClassId: classId,
     });
   };
   return (
