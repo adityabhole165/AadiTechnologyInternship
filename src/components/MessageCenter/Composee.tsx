@@ -50,7 +50,8 @@ function Form13() {
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
   const [RecipientsObject, setRecipientsObject] = useState<any>({
     RecipientName: [],
-    RecipientId: []
+    RecipientId: [],
+    ClassId: []
   });
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
@@ -228,7 +229,7 @@ function Form13() {
       asIsSoftwareCordinator: 0,
       asMessageId: 0,
       asSchoolName: SchoolName,
-      asSelectedStDivId: `${RoleId == '3' ? DivisionId : ''}`,
+      asSelectedStDivId: RoleId == '3' ? DivisionId : RoleId == '6' ? RecipientsObject.ClassId.toString() : '',
       asSelectedUserIds: RecipientsObject.RecipientId.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
@@ -440,8 +441,8 @@ function Form13() {
                 )
               }}
             />
-            <Box sx={{mt:'15px'}}>
-              <Errormessages Error={fileerror}/>
+            <Box sx={{ mt: '15px' }}>
+              <Errormessages Error={fileerror} />
             </Box>
             {finalBase642New == undefined ||
               finalBase642New.length == 0 ||
