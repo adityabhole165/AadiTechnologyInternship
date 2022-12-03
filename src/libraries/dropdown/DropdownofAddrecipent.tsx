@@ -11,7 +11,7 @@ function DropdownofAddrecipent({ Array, handleChange, label,defaultValue=''  }) 
         <>
            <NativeSelect value={defaultValue}
                 onChange={(e) => handleChange(e.target.value)} fullWidth >
-                <option>{label}</option>
+                <option value=''>{label}</option>
                 {Array.map((items, i) => {
                     return (
                         <option value={items.Id} key={i}>

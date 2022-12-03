@@ -167,11 +167,9 @@ const AddReciepents = ({ recipientListClick }) => {
   }
 
   useEffect(() => {
-    if (studentlist !== '') {
-      dispatch(StartLoading());
-      dispatch(GetStudent(getStudentsUserAPIBody));
-      setShowErrorMsg(true)
-    }
+    dispatch(StartLoading());
+    dispatch(GetStudent(getStudentsUserAPIBody));
+    setShowErrorMsg(true)
   }, [studentlist]);
 
   useEffect(() => {

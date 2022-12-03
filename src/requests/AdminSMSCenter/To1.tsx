@@ -66,9 +66,10 @@ export const StartLoading =
 export const GetStudent =
   (data: IGetStudentsUser): AppThunk =>
     async (dispatch) => {
-      // dispatch(GetuserSlice1.actions.startLoading(true));
+      let studentList = [];
+      if(data.asStdDivId!=''){
       const response = await getuserlistapi.GetStudentGroup(data);
-      const studentList = response.data.GetStudentsUserResult.map((item, index) => {
+      studentList = response.data.GetStudentsUserResult.map((item, index) => {
         return {
           Id: item.Id,
           Value: item.Name,
@@ -76,6 +77,7 @@ export const GetStudent =
           Name: item.Name
         }
       })
+    }
       dispatch(GetuserSlice1.actions.getUser(studentList));
       // dispatch(GetuserSlice.actions.getStudentDetails(response?.data));
     };
