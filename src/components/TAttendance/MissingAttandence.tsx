@@ -95,7 +95,7 @@ function MissingAttandence() {
                     </>
                   ) : i === 0 && items.Status == 'H' ? (
                     <>
-                      <ErrorMessages Error={'Selected date is holidays.'} />
+                      <ErrorMessages Error={'Selected date is holiday.'} />
                     </>
                   ) : i === 0 && items.Status == 'F' ? (
                     <>
