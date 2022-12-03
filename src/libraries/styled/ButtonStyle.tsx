@@ -1,4 +1,4 @@
-import { styled, Button, Box } from '@mui/material';
+import { styled, Button, Box,Paper } from '@mui/material';
 
 export const ButtonPrimary = styled(Button)(
   ({ theme, color }) => `
@@ -70,5 +70,23 @@ border-radius: 6px;
    margin-bottom: 8px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 };
+`
+);
+
+
+
+
+
+export const Item= styled(Paper)(
+  ({ theme, color }) => `
+  padding: 8px;
+  text-align: center;
+  text-align:center;
+
+  color: black;
+  border-radius: 4px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  height:40px;
+ 
 `
 );

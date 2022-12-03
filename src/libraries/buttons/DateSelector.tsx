@@ -7,6 +7,7 @@ import 'react-calendar/dist/Calendar.css';
 import { useState } from 'react';
 import 'src/assets/style/Homework_Calci.css';
 import { isTodaysDate, getNextDate } from '../../components/Common/Util'
+import { Item } from '../styled/ButtonStyle';
 
 DateSelector.propTypes = {
   Date: PropTypes.any,
@@ -16,18 +17,7 @@ DateSelector.propTypes = {
   Array: PropTypes.array
 };
 
-const Item = styled(Paper)(({ theme, color }) => ({
-  padding: theme.spacing(0.5),
-  textAlign: 'center',
-  color: 'black',
-  background: color === 'secondary' ?//'rgb(36 66 175 / 0.4)',
-    theme.colors.gradients.HighlightedlistColor :
-    color === 'warning' ?
-      theme.colors.gradients.selectedlistColor :
-      theme.colors.gradients.listColor,
-  borderRadius: '4px',
-  boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)",
-}));
+
 
 function DateSelector({ date, setCurrentDate, Close }) {
   const [dateClickDependent, setdateClickDependent] = useState('none');
@@ -40,12 +30,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
   }
 
   const clickClose=(selectDate)=>{
-    const separatedDate = selectDate.split(',')[0].split('/')
-    const updatedDateFormat = separatedDate[1] + '/' +
-      separatedDate[0] + '/' +
-      separatedDate[2] + ',' +
-      selectDate.split(',')[1]
-    Close(updatedDateFormat)
+    Close(selectDate)
   }
 
   const dateClickHnadler = (e) => {
@@ -71,7 +56,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
           </Grid>
 
           <Grid item xs={8} >
-            <Item sx={{ p: 1 }} onClick={dateClickHnadler}>
+            <Item  onClick={dateClickHnadler}>
               <Typography sx={{ fontWeight: 'bold' }}> {date} </Typography>
             </Item>
             <div onClick={ChangeCapture}

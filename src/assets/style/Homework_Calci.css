@@ -123,3 +123,8 @@
         margin-left: -35px;
        }
    }
+   @media screen and (max-width:280px){
+    .react-calendar { 
+        margin-left: -52px;
+       }
+   }

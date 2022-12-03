@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
 import { useNavigate } from 'react-router-dom';
 import Note from 'src/libraries/Note/Note';
-import { ListStyle } from 'src/libraries/styled/CardStyle';
+import { HelperText, ListStyle } from 'src/libraries/styled/CardStyle';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
@@ -125,6 +125,7 @@ function ForgotPassword() {
               <Errormessage Error={formik.errors.Login} />
             ) : null
             }
+            <HelperText >{'Birth Date'}</HelperText>
             <TextField
               fullWidth
               margin="normal"
