@@ -36,6 +36,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
+  
+  
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
@@ -93,7 +95,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                 return item.AmountPayable == 0 ? (
                   <Card5
                     key={i}
-                    text1={item.OriginalFeeType}
+                    text1={item.FeeType}
                     text2={item.Amount}
                     clickIcon={() => {
                       downloadReceiptFile(item.ReceiptNo);
