@@ -11,7 +11,7 @@ const List23 = ({ data }) => {
   }
   return (<>
 
-  {data.length == 0 ? <ErrorMessages Error={'Not configured yet'} /> :
+  {data.length == 0 ? <ErrorMessages Error={'Timetable not yet configured'} /> :
   <>
   {
       data.map((Detail, index) => (
