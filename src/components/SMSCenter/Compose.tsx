@@ -348,6 +348,7 @@ const Compose = () => {
                 onBlur={ContentFieldBlur}
                 sx={{ marginTop: '1px' }}
                 id="content"
+                onChange={(e) => setContentTemplateDependent(e.target.value)}
               />
               <div style={{ marginTop: '8px' }}>
                 <Errormessage Error={formik.errors.Content} />
