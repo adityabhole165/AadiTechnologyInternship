@@ -78,7 +78,7 @@ const PrevNextNav = ({ maxLength, index, clickClose, clickPhotoIndex }) => {
                     }
                 </Grid><Grid item xs={1}>
                     {isPause && <SkipNextIcon onClick={() => setPrevNext(1)}></SkipNextIcon>}
-                </Grid><Grid item xs={1} justifyContent="right" display="flex">
+                </Grid><Grid item xs={1} justifyContent="center" display="flex">
                     <HighlightOffIcon onClick={onClickClose} ></HighlightOffIcon>
                 </Grid>
             </Grid>

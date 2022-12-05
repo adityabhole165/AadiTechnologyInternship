@@ -15,7 +15,7 @@ const PhotoCarausel = ({ item, maxLength, index, clickClose, clickPhotoIndex }) 
                         clickPhotoIndex={clickPhotoIndex}></PrevNextNav>
                 </Grid><Grid item xs={12}>
                     <Box justifyContent="center" display="flex" alignItems="center"
-                        sx={{ bgcolor: 'black', maxHeight: screenWidth * 0.7, minHeight: screenWidth * 0.7 }} >
+                        sx={{ bgcolor: 'black', maxHeight: screenWidth * 0.65, minHeight: screenWidth * 0.65 }} >
                         <PhotoCard item={item}></PhotoCard>
                     </Box>
                 </Grid>
