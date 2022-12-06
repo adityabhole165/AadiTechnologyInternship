@@ -70,7 +70,7 @@ function SmsCenter() {
       <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
 
         <CardDetail2>
-          <b>Mobile Number(s) :</b>  {MobileNumber}
+          <b>Mobile Number(s) : </b> {MobileNumber.replace(";",", ")}
         </CardDetail2>
         <Icon1 Note={Note} />
       </Box>
