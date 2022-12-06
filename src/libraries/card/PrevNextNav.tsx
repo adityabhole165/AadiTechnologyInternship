@@ -34,7 +34,6 @@ const PrevNextNav = ({ maxLength, index, clickClose, clickPhotoIndex }) => {
             setCurrentIndex(a => a + value)
         }
         clickPhotoIndex(CurrentIndex)
-        console.log(CurrentIndex, "-", currentIndex)
     }
 
     const startTimer = () => {
@@ -48,14 +47,14 @@ const PrevNextNav = ({ maxLength, index, clickClose, clickPhotoIndex }) => {
         const timer = setInterval(() => {
 
             if (!isPause) {
-                setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 50));
+                setProgress((prevProgress) => (prevProgress >= 100 ? 0 : prevProgress + 25));
                 count += 1;
             }
-            if (count === 2) {
+            if (count === 5) {
                 setPrevNext(1);
                 count = 0
             }
-        }, 1000)
+        }, 400)
         return () => {
             clearInterval(timer);
         };
@@ -67,9 +66,7 @@ const PrevNextNav = ({ maxLength, index, clickClose, clickPhotoIndex }) => {
     return (
         <div>
             <Grid container>
-                <Grid item xs={12}>
-                    <LinearWithValueLabel progress={progress}></LinearWithValueLabel>
-                </Grid><Grid item xs={2} justifyContent="right" display="flex">
+                <Grid item xs={2} justifyContent="right" display="flex">
                     {isPause && <SkipPreviousIcon onClick={() => setPrevNext(-1)} ></SkipPreviousIcon>}
                 </Grid><Grid item xs={8} justifyContent="center" display="flex" alignItems="center">
                     {isPause ?
@@ -81,6 +78,9 @@ const PrevNextNav = ({ maxLength, index, clickClose, clickPhotoIndex }) => {
                 </Grid><Grid item xs={1} justifyContent="center" display="flex">
                     <HighlightOffIcon onClick={onClickClose} ></HighlightOffIcon>
                 </Grid>
+                {!isPause && <Grid item xs={12}>
+                    <LinearWithValueLabel progress={progress}></LinearWithValueLabel>
+                </Grid>}
             </Grid>
         </div>
     )

@@ -3,6 +3,7 @@ import { AppThunk } from 'src/store';
 import { IPics, Iimg } from "src/interfaces/Common/PhotoGallery";
 import { IYearList, AllAcademicYearsForSchoolResult } from 'src/interfaces/Student/PhotoGallary';
 import PhotoGallaryApi from 'src/api/PhotoGallery/PhotoGallary';
+import { sitePath } from 'src/components/Common/Util';
 
 const GallerySlice = createSlice({
   name: 'Gallery',
@@ -16,7 +17,7 @@ const GallerySlice = createSlice({
       state.PicsList = action.payload.GetAlbumsResult;
     },
     getimgList(state, action) {
-      state.imgList = action.payload.GetImagesResult;
+      state.imgList = action.payload;
     },
     getYearList(state, action) {
       state.YearList = action.payload;
@@ -34,7 +35,16 @@ export const getimgs =
   (data: Iimg): AppThunk =>
     async (dispatch) => {
       const response = await PhotoGallaryApi.GetimgList(data)
-      dispatch(GallerySlice.actions.getimgList(response.data));
+      const responseData = response.data.GetImagesResult.map((obj)=>{
+        return {
+          Id:obj.ImageId,
+          Name:obj.Description,
+          Value:sitePath+'/RITeSchool/' + obj.ImagePath
+        }
+
+      })
+
+      dispatch(GallerySlice.actions.getimgList(responseData));
     };
 
 export const getYearList =

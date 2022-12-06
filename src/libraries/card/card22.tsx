@@ -86,18 +86,16 @@ function Card22({ pic, imgId }) {
                     :
                    <>
                   
-            {pic.map((items: GetPhotoAlbum, i) => {
+            {pic.map((items, i) => {
               return (
                 <>
                   <Grid>
                     <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
                       <img
-                        src={
-                          sitePath+'/RITeSchool/' + items.ImagePath
-                        }
+                        src={items.Value}
                         width="100"
                         height="100"
-                        alt={items.Description}
+                        alt={items.Name}
                       />
                     </Box>
                   </Grid>

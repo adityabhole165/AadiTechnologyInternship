@@ -11,11 +11,6 @@ function LinearProgressWithLabel(props) {
       <Box sx={{ width: '100%', mr: 1 }}>
         <LinearProgress variant="determinate" {...props} />
       </Box>
-      {/* <Box sx={{ minWidth: 35 }}>
-        <Typography variant="body2" color="text.secondary">{`${Math.round(
-          props.value,
-        )}%`}</Typography>
-      </Box> */}
     </Box>
   );
 }
@@ -27,7 +22,7 @@ LinearProgressWithLabel.propTypes = {
 export default function LinearWithValueLabel({progress}) {
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%',pl: 2 , pr:1}}>
       <LinearProgressWithLabel value={progress} />
     </Box>
   );
