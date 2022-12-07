@@ -102,10 +102,9 @@ const InboxMessageSlice = createSlice({
         NavPath:item.DetailsId + '/Trash',
         isActive:false,
         DetailsId:item.DetailsId,
-        ReceiverDetailsId:item.ReceiverDetailsId
+        ReceiverDetailsId:item.ReceiverDetailsId==="0"?item.DetailsId:item.ReceiverDetailsId
       }
     })
-
     if(Pagination == true){
       dispatch(InboxMessageSlice.actions.NextMessages(data))
     }
