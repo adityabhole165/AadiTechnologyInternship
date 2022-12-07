@@ -192,8 +192,14 @@ const AddReciepents = ({ recipientListClick }) => {
   };
   const onChange = (value) => {
     setEntireSchool(value);
+    setSelectedRecipents([])
+    setSelectedRecipentsId([]);
+    setStaffAndAdmin(getGetAdminAndprincipalUsers);
+    setTecherStudent(techerStudent.map((obj)=> {return {...obj,isActive:false}}));
+    setTecherStudent1('');
     populateRecipient(value);
     setShow(!show);
+    
   };
 
   const techerStudentChange = (value) => {
