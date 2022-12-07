@@ -78,11 +78,15 @@ const commonRoutes = [
         element: <Holidays />
     },
     {
+        path: 'EventOverview/:DateFrommon/:DateFromyear',
+        element: <EventOverview />
+    },
+    {
         path: 'EventOverview',
         element: <EventOverview />
     },
     {
-        path: 'viewevent/:Id',
+        path: 'viewevent/:Id/:AssigMonth/:AssigYear',
         element: <ViewEvent />
     },
     {

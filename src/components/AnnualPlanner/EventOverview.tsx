@@ -12,8 +12,12 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
+import { useParams } from 'react-router-dom';
 
 function EventOverview() {
+  const { DateFrommon , DateFromyear } = useParams();
+  const BackMonth = new Date(DateFrommon).getMonth() + 1;
+  
   const dispatch = useDispatch();
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
@@ -28,20 +32,22 @@ function EventOverview() {
 
   const location = useLocation();
 
-  const [date, setDate] = useState({ selectedDate: '' });
-  const [assignedYear, setAssignedYear] = useState<number>();
+  const [date, setDate] = useState<any>({ selectedDate: null });
+  const [assignedYear, setAssignedYear] = useState<any>();
+  const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
 
-  const [assignedMonth_num, SetassignedMonth_num] = useState<number>();
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();
-    const Year = new Date(date).getFullYear();
+    const Year = new Date(date).getFullYear()
     const NewDateFormat = `${Month}-${Year}`;
     setDate({
       selectedDate: NewDateFormat
     });
+    SetassignedMonth_num(BackMonth)
+    setAssignedYear(DateFromyear)
     setAssignedYear(Year);
     SetassignedMonth_num(Month_num + 1);
   }
@@ -49,7 +55,17 @@ function EventOverview() {
   useEffect(() => {
     localStorage.setItem("url",window.location.pathname)
     setCurrentDate();
+    setDate({
+      selectedDate: `${new Date(BackMonth+'/01/'+DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
+    });
   }, []);
+
+  useEffect(() => {
+    if(DateFrommon || DateFromyear != undefined){
+      SetassignedMonth_num( DateFrommon );
+      setAssignedYear( DateFromyear )
+    }
+  }, [DateFrommon,DateFromyear]);
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
@@ -66,7 +82,7 @@ function EventOverview() {
   };
 
   const body: IEventList = {
-    asMonth: assignedMonth_num,
+    asMonth: assignedMonth_num ,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId,
     asYear: assignedYear,
@@ -91,7 +107,7 @@ function EventOverview() {
       header: item.Description,
       text1: 'Standard : ' + item.StandardList,
       text3: item.StartDate,
-      linkPath: '/Common/viewevent/' + item.Id
+      linkPath: '/Common/viewevent/' + item.Id + '/' + assignedMonth_num + '/' + assignedYear
     };
   });
 
