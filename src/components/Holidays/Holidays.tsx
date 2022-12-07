@@ -49,7 +49,7 @@ function Holidays() {
   const classes = Styles();
 
   const Data = holidaysList.map((item, index) => {
-    return index === 0 && item.ToatalDays > 1
+    return index === 0 
       ? {
         id: index,
         header: item.Name,

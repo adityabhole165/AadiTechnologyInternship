@@ -32,7 +32,7 @@ function Schoolnotice() {
     dispatch(getSchoolNotice(body));
   }, []);
 
-  const Data = SchoolnoticeList.map((item, index) => {
+  const Data = SchoolnoticeList.map((item, index) => {   
     return {
       id: index,
       header: item.Name,

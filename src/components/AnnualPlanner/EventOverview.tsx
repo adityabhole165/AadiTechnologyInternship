@@ -55,9 +55,11 @@ function EventOverview() {
   useEffect(() => {
     localStorage.setItem("url",window.location.pathname)
     setCurrentDate();
-    setDate({
-      selectedDate: `${new Date(BackMonth+'/01/'+DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
-    });
+    if (DateFrommon !=  undefined){
+      setDate({
+        selectedDate: `${new Date(BackMonth+'/01/'+DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
+      });
+    }
   }, []);
 
   useEffect(() => {
