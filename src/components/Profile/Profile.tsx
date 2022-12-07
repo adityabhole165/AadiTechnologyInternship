@@ -8,7 +8,6 @@ function Profile() {
     <Box
       sx={{
         backgroundColor: '#bbdefb',
-        Top: 0,
         position: 'fixed',
         width: '100%',
         overflow: "scroll",
