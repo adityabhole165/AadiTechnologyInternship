@@ -68,7 +68,8 @@ const InboxMessageSlice = createSlice({
   if(ActiveTab==='Sent')
   {
     const response = await SentMessageApi.GetSentMessageList(body);
-    const data =response.data.GetScheduledSMSResult.map((item)=>{
+    let data = []
+    data = response.data.GetScheduledSMSResult?.map((item)=>{
       return {
         Id:item.DetailsId,
         text1:item.Subject,
@@ -80,6 +81,7 @@ const InboxMessageSlice = createSlice({
         ReceiverDetailsId:item.ReceiverDetailsId
       }
     })
+    data = data === undefined ? [] : data;
 
     if(Pagination == true){
       dispatch(InboxMessageSlice.actions.NextMessages(data))
@@ -100,10 +102,9 @@ const InboxMessageSlice = createSlice({
         NavPath:item.DetailsId + '/Trash',
         isActive:false,
         DetailsId:item.DetailsId,
-        ReceiverDetailsId:item.ReceiverDetailsId
+        ReceiverDetailsId:item.ReceiverDetailsId==="0"?item.DetailsId:item.ReceiverDetailsId
       }
     })
-
     if(Pagination == true){
       dispatch(InboxMessageSlice.actions.NextMessages(data))
     }

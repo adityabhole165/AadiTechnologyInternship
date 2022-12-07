@@ -79,10 +79,20 @@ border-radius: 6px;
 
 export const Item= styled(Paper)(
   ({ theme, color }) => `
+  background: ${
+    color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+      ? theme.colors.gradients.HighlightedlistColor
+      : color === 'warning'
+      ? theme.colors.gradients.selectedlistColor
+      : color === 'info'
+      ? theme.colors.gradients.pageBackground
+      : theme.colors.gradients.listColor
+  };
+  
   padding: 8px;
   text-align: center;
-  text-align:center;
-
   color: black;
   border-radius: 4px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);

@@ -1,5 +1,5 @@
 
-import { Iimg, IPics } from "src/interfaces/Common/PhotoGallery";
+import { Iimg, GetImagesResult, IPics } from "src/interfaces/Common/PhotoGallery";
 import http from "../../requests/SchoolService/schoolServices";
 import {IYearList,AllAcademicYearsForSchoolResult} from "../../interfaces/Student/PhotoGallary"
 
@@ -14,7 +14,7 @@ const GetPICSList = (data: IPics) => {
 };
 
 const GetimgList = (data: Iimg) => {
-  return http.post<Iimg>('User/GetImages',data);
+  return http.post<GetImagesResult>('User/GetImages',data);
 };
 
 const PhotoGallaryApi  ={

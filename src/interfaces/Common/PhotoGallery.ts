@@ -14,7 +14,10 @@ export interface Iimg {
     asSchoolId:string,
     asGalleryName:string
 }
+export interface GetImagesResult{
+    GetImagesResult:[Getimg]
 
+}
 export interface Getimg {
     Description: string,
     ImageId: number,

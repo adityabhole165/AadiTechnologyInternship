@@ -5,7 +5,7 @@ import { Grow, useTheme } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import List1 from '../mainCard/List1';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-
+import ErrorMessages from '../ErrorMessages/ErrorMessages';
 const AccordionPTA = ({ name, header, Data, isExpanded, handleChange }) => {
 
     const theme = useTheme();
@@ -42,8 +42,9 @@ const AccordionPTA = ({ name, header, Data, isExpanded, handleChange }) => {
                         </Accordionsummary>
 
                         <AccordionDetails sx={{ borderRadius: 1, mb: -1 }}>
-                            {Data?.length > 0 && <List1 items={Data} />}
-                        </AccordionDetails>
+                       {(Data?.length == 0)?<ErrorMessages Error={'No records found'} />
+                         : <List1 items={Data} />}
+                           </AccordionDetails>
                     </Accordion>
             </Grow>
 

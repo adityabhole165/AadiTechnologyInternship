@@ -179,7 +179,7 @@ function Form13() {
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
-        setFilerror('File does not support. Please cheked Note');
+        setFilerror('File does not support. Please check note');
         return false;
       } else if (allowedFileTypes.includes(fileExtension)) {
         setFilerror(null);
