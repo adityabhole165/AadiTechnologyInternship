@@ -32,11 +32,16 @@ function Schoolnotice() {
     dispatch(getSchoolNotice(body));
   }, []);
 
-  const Data = SchoolnoticeList.map((item, index) => {   
+  const Data = SchoolnoticeList.map((item, index) => { 
+    const date = item.Date;
+    const day = new Date(date).getDate();
+    const month = new Date(date).toLocaleString('default',{month:"short"});
+    const year = new Date(date).getFullYear();
+    const newdate= `${day} - ${month} - ${year}`
     return {
       id: index,
       header: item.Name,
-      text1: item.Date,
+      text1: newdate,
       text2: '',
       linkPath: '/Common/Viewschoolnotice/' + item.Id,
       FileName: item.FileName
