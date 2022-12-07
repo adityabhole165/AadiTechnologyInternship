@@ -68,18 +68,15 @@ function Card5({ Content, FileName, Name }) {
           <CardDetail2 dangerouslySetInnerHTML={{ __html: Content }}></CardDetail2>
 
           <CardDetail
-            sx={{
-              mt: 1,
-           
-            }}
+          
           >
-            <Wordbreak>  {FileName}</Wordbreak>
+            <Wordbreak sx={{mt:"5px"}}>  {FileName}</Wordbreak>
           
             <Box>
               {FileName === '' ? null : (
                 <>
                   <Box
-                    sx={{marginTop: '3px'}}>
+                    sx={{marginTop: '1px'}}>
                     <a>
                       <FileDownloadOutlinedIcon onClick={download} />
                     </a>
