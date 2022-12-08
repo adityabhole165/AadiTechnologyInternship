@@ -49,11 +49,11 @@ function Holidays() {
   const classes = Styles();
 
   const Data = holidaysList.map((item, index) => {
-    return index === 0 && item.ToatalDays > 1
+    return index === 0 
       ? {
         id: index,
         header: item.Name,
-        text1: item.ToatalDays == 1 ?  item.StartDate  :item.StartDate + ' - '+ item.EndDate,
+        text1: item.ToatalDays == 1 ?  item.StartDate  :item.StartDate + ' To '+ item.EndDate,
         text2: 'Total Days: ' + item.ToatalDays,
         subtitle: 'Total Days: ' + item.ToatalDays,
         backgroundColor:'secondary'
@@ -61,7 +61,7 @@ function Holidays() {
       : {
         id: index,
         header: item.Name,
-        text1: item.ToatalDays > 1 ?  item.StartDate + ' - '+ item.EndDate :item.StartDate ,
+        text1: item.ToatalDays > 1 ?  item.StartDate + ' To '+ item.EndDate :item.StartDate ,
         text2: 'Total Days: ' + item.ToatalDays,
         backgroundColor:  'primary'
       };
