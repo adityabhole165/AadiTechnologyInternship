@@ -3,7 +3,14 @@ export function isFutureDate(date) {
         >
         (new Date(new Date().toLocaleDateString())))
 }
-
+export function getMonthYear(){
+    const date =  new Date();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Month_num = new Date(date).getMonth();
+    const Year = new Date(date).getFullYear()
+    const NewDateFormat = `${Month}-${Year}`;
+    
+}
 export function changeDateFormat(date) {
     const dateValues = date?.split("-")
     if (Array.isArray(dateValues)) {
