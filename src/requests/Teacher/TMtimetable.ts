@@ -63,15 +63,16 @@ export const getTimetable =
           };
         })
       let child2 = () => {
-        return response.data.GetTimeTableResult.AdditionalLecture.map((item, index) => {
-          return {
+        return response.data.GetTimeTableResult.AdditionalLecture.map((item, index) => {       
+          return item == null ? null : {
             Id: index,
             Name: '',
             Value: item.ClassName,
             text1: 'Lec. No.:' + item.Number,
             text2: item.Name,
             text3: item.Day
-          };
+          } 
+         
         })
       }
       let header2 = {
