@@ -19,6 +19,7 @@ import AddPhotoAlternateIcon from '@mui/icons-material/AddPhotoAlternate';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import CakeIcon from '@mui/icons-material/Cake';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 const DashboardData = {
   Student:{
@@ -98,7 +99,7 @@ const DashboardData = {
       Text2: '',
       Color: '#90a4ae',
       iconColor: ' #35abd9',
-      Icon: MonetizationOnIcon,
+      Icon: CurrencyRupeeIcon,
       Link: 'Student/Fees',
       index: 8,
       ModulesPermission: 'EnableStudentFeesModule'
