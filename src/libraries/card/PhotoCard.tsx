@@ -1,5 +1,5 @@
 import { Box, Card, CardMedia, Grid } from '@mui/material'
-import { Container } from '@mui/system'
+import { Container } from '@mui/material'
 import React from 'react'
 
 const PhotoCard = ({ item, columns=1, rows=1 }) => {

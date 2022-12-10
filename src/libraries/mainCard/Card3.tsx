@@ -9,7 +9,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import EventNoteIcon from '@mui/icons-material/EventNote';
-
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
@@ -38,7 +38,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 5 && <VideoLibraryIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 6 && <EventNoteIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 7 && <AccessTimeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 8 && <MonetizationOnIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 8 && <CurrencyRupeeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 9 && <MenuBookIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 10 && <LockOpenIcon sx={{color: iconColor,mt:"7px"}}  fontSize="medium" />}
             {icon === 11 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}

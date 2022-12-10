@@ -6,6 +6,11 @@ font-size:12px;
   margin-top: 10px;
   margin-left: 10px;
 `;
+export const ProfileDetailHeader = styled(Typography)`
+  font-weight: 600;
+font-size:16px;
+  margin-left: 10px;
+`;
 export const ProfileDetail2 = styled(Typography)`
   margin-bottom: 10px;
   margin-top: -7px;

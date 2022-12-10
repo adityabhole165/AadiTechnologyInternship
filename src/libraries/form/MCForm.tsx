@@ -45,7 +45,7 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                     <Dropdown Array={MonthYearList} handleChange={clickMY} label={'Month'} defaultValue={monthYear}/>
                 </Grid>
                 <Grid item xs={2}>
-                    <ArrowCircleRightRoundedIcon onClick={onClick}
+                     <ArrowCircleRightRoundedIcon onClick={onClick}
                     fontSize='large' color='success'></ArrowCircleRightRoundedIcon>
                 </Grid>
             </Grid>

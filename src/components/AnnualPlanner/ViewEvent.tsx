@@ -13,7 +13,7 @@ function ViewEvent() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
 
-  const { Id } = useParams();
+  const { Id , AssigMonth,AssigYear } = useParams();
   const [viewEvent, setViewEvent] = useState<GetEventsDetailsResult>();
   const ViewDetail = {
     Title: 'Event Title',
@@ -45,7 +45,7 @@ function ViewEvent() {
     <>
       <PageHeader heading={'View Event'} subheading={''} />
 
-      <BackButton FromRoute={'/Common/EventOverview'} />
+      <BackButton FromRoute={'/Common/EventOverview' + '/' + AssigMonth + '/' + AssigYear} />
 
       {viewEvent === undefined ? null : (
         <Card2

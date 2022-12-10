@@ -2,7 +2,7 @@ export interface IEventList  {
     asMonth : number,
     asAcademicYearId : string,
     asSchoolId: string,
-    asYear: number,
+    asYear: string,
     asUserId : string
 }
 

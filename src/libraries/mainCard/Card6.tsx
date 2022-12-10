@@ -1,6 +1,6 @@
 import {  Stack, Grid,Avatar,Box} from '@mui/material';
 import { ListStyle } from '../styled/CardStyle';
-import {ProfileDetail1,ProfileDetail2,ProfileDetail3,ProfileDetail4,ProfileWrapper} from '../styled/ProfileStyled';
+import {ProfileDetail1,ProfileDetail2,ProfileDetail3,ProfileDetail4,ProfileWrapper,ProfileDetailHeader} from '../styled/ProfileStyled';
 
 import UserPhoto from '../UserPhoto/UserPhoto';
 function Card6() {
@@ -48,7 +48,7 @@ function Card6() {
           </>
         ) : (
           <>
-            <ProfileDetail1><b>{UserName}</b></ProfileDetail1>
+            <ProfileDetailHeader><b>{UserName}</b></ProfileDetailHeader>
             <ProfileDetail2>Roll No: {RollNo}</ProfileDetail2>
           </>
         )}

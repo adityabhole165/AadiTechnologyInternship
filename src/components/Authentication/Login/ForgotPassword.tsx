@@ -112,7 +112,7 @@ function ForgotPassword() {
             <TextField
               fullWidth
               margin="normal"
-              label={'User Name'}
+              label={'User Name or Mobile Number'}
               name="Login"
               type="number"
               variant="standard"
@@ -125,7 +125,7 @@ function ForgotPassword() {
               <Errormessage Error={formik.errors.Login} />
             ) : null
             }
-            <HelperText >{'Birth Date'}</HelperText>
+            <HelperText >{'Date of Birth'}</HelperText>
             <TextField
               fullWidth
               margin="normal"
