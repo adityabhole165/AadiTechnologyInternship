@@ -118,8 +118,6 @@ function Card7({
               '/' +
               Text +
               '/' +
-              AttachmentArray +
-              '/' +
               BODY +
               '/' +
               FromUserID
