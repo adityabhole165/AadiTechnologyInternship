@@ -29,8 +29,8 @@ const AddReciepents = ({ recipientListClick }) => {
   const [entireSchool, setEntireSchool] = useState([
     {
       Id: '0',
-      Name: 'EntireSchool',
-      Value: 'EntireSchool',
+      Name: 'Entire School',
+      Value: 'Entire School',
       isActive: false
     }
   ]);
