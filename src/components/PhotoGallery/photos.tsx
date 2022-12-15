@@ -11,7 +11,7 @@ import BackButton from 'src/libraries/button/BackButton';
 
 
 function Photos() {
-  const { imgId,FromRoute } = useParams();
+  const { imgId,FromRoute,Month,Year} = useParams();
 
   const dispatch = useDispatch();
   const img: any = useSelector((state: RootState) => state.Gallery.imgList);
@@ -29,7 +29,7 @@ function Photos() {
     <div>
       <PageHeader heading={'Album'} subheading={''} />
      
-          <BackButton FromRoute={"/Common/"+ FromRoute} />
+          <BackButton FromRoute={"/Common/"+ FromRoute +'/'+ Month +'/'+ Year} />
     
       <Card22 pic={img} imgId={imgId} />
     </div>

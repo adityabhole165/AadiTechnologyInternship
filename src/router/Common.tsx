@@ -40,12 +40,12 @@ const commonRoutes = [
         path: 'SiblingLogin',
         element: <SiblingLogin />
     },
+    // {
+    //     path: 'VideoGallery',
+    //     element: <VideoGallery />
+    // },
     {
-        path: 'VideoGallery',
-        element: <VideoGallery />
-    },
-    {
-        path: 'VideoGallery2/VideoAlbum',
+        path: 'VideoGallery/VideoAlbum',
         element: <VideoGallery2/>
     },
     {
@@ -61,7 +61,11 @@ const commonRoutes = [
         element: <Albums />
     },
     {
-        path: 'Photos/:imgId/:FromRoute',
+        path: 'PhotoGallery/:Month/:Year',
+        element: <Albums />
+    },
+    {
+        path: 'Photos/:imgId/:FromRoute/:Month/:Year',
         element: <Photos />
     },
     ,

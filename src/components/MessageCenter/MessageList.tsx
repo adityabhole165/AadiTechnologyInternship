@@ -87,6 +87,19 @@ const MessageList = () => {
     asMonthId: monthYear
   };
 
+  const getMsgBody = (searchtext,monthyear) => {
+    return {
+    asSchoolId: SchoolId,
+    asAcademicYearId: academicYear,
+    asUserId: sessionStorage.getItem('Id'),
+    asUserRoleId: sessionStorage.getItem('RoleId'),
+    abIsSMSCenter: '0',
+    asFilter: searchtext,
+    asPageIndex: 1,
+    asMonthId: monthyear
+  };
+  }
+  
   const body: Iyears = {
     asSchoolId: SchoolId
   };
@@ -233,7 +246,7 @@ const MessageList = () => {
     setAcademicYear(AcademicYearId);
     setMonthYear('');
     setSearchText('');
-    dispatch(getListOfMessages(getListBody, activeTab, false));
+    dispatch(getListOfMessages(getMsgBody('',''), activeTab, false));
   };
 
   const MoveToTop = (e) => {

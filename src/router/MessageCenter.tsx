@@ -71,7 +71,7 @@ const messageCenterRoutes :PartialRouteObject[] = [
       element: <Composee />
   },
     {
-      path:'Compose/Reply/:From/:Text/:AttachmentArray/:BODY/:FromUserID', // Reply
+      path:'Compose/Reply/:From/:Text/:BODY/:FromUserID', // Reply
       element: <Composee />
   },
 

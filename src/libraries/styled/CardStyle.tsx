@@ -271,7 +271,7 @@ export const ListStyle1 = styled(Box)(
     position:relative;
  padding:5px;
 border-radius: 6px;
-   margin-bottom: 5px;
+  //  margin-bottom: 5px;
    
  `
 );
