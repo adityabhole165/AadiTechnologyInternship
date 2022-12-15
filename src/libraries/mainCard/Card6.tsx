@@ -15,7 +15,8 @@ function Card6() {
   const Address = sessionStorage.getItem('Address');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
-  const DOB = localStorage.getItem('DOB');
+  const authData = JSON.parse(localStorage.getItem('auth'));
+  const DOB = authData.data.StudentDetails.DOB;
 
   const ResidencePhoneNumber = sessionStorage.getItem(
     'ResidencePhoneNumber'
