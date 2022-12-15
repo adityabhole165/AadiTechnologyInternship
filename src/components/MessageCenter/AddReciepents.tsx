@@ -30,7 +30,7 @@ const AddReciepents = ({ recipientListClick }) => {
     {
       Id: '0',
       Name: 'Entire School',
-      Value: 'EntireSchool',
+      Value: 'Entire School',
       isActive: false
     }
   ]);
