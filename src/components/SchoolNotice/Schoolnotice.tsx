@@ -37,7 +37,7 @@ function Schoolnotice() {
     const day = new Date(date).getDate();
     const month = new Date(date).toLocaleString('default',{month:"short"});
     const year = new Date(date).getFullYear();
-    const newdate= `${day} - ${month} - ${year}`
+    const newdate= `${day} ${month} ${year}`
     return {
       id: index,
       header: item.Name,
