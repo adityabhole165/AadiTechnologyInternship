@@ -55,8 +55,8 @@ function ViewHomework() {
           ViewDetail={ViewDetail}
           Title={viewHomework.Title}
           SubjectName={viewHomework.SubjectName}
-          Assignedate={viewHomework.AssignedDate}
-          CompletedDate={viewHomework.CompleteByDate}
+          Assignedate={viewHomework.AssignedDate.replace("-"," ").replace("-"," ")}
+          CompletedDate={viewHomework.CompleteByDate.replace("-"," ").replace("-"," ")}
           Details={viewHomework.Details}
           Attachments={viewHomework.AttachmentPath}
         />

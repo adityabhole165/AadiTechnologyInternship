@@ -79,7 +79,7 @@ export const ViewExamDataRess =
           header: item.SubjectName + ' ' + (item.TestType !== '' ? '- ' + item.TestType : ''),
           text2: item.StartTime + '-' + item.EndTime,
           text5: item.Description,
-          text3: item.StartDate,
+          text3: item.StartDate.replace("-"," ").replace("-"," "),
           Instructions: item.Instructions
         }
       })
