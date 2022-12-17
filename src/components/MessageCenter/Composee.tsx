@@ -450,8 +450,9 @@ function Form13() {
               <Errormessages Error={fileerror} />
             </Box>
             {finalBase642New == undefined ||
-              finalBase642New.length == 0 ||
-              PageName === 'Reply' ? null :
+              finalBase642New.length == 0 
+              // || PageName === 'Reply' 
+              ? null :
               (
                 <div style={{ marginTop: '10px' }}>
                   <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
