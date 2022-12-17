@@ -58,7 +58,7 @@ export const getHomework =
               return {
                 Id: item.Id,
                 Name: item.Title,
-                Value: item.CompleteByDate,
+                Value: item.CompleteByDate.replace("-"," ").replace("-"," "),  
                 navPath: '/extended-sidebar/Student/viewHomework/' + item.Id +'/'+ item.AssignedDate
               };
             })

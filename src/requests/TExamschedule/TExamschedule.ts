@@ -77,9 +77,9 @@ export const ViewExamDataRess =
       const itemlist = response?.data?.GetExamSchedulesResult.map((item) => {
         return {
           header: item.SubjectName + ' ' + (item.TestType !== '' ? '- ' + item.TestType : ''),
-          text2: item.StartTime + '-' + item.EndTime,
+          text2: item.StartTime + ' - ' + item.EndTime,
           text5: item.Description,
-          text3: item.StartDate,
+          text3: item.StartDate.replace("-"," ").replace("-"," "),
           Instructions: item.Instructions
         }
       })
