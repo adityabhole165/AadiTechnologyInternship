@@ -63,6 +63,10 @@ function Card7({
   const BODY = Body.replace(/(<([^>]+)>)/gi, '');
   const FromUserID = ViewSentObject.SenderUserId;
 
+  const saveMessageBody= ()=>{
+    localStorage.setItem("messageBody",Body);
+  }
+  
   return (
     <>
       <Container>
@@ -118,14 +122,12 @@ function Card7({
               '/' +
               Text +
               '/' +
-              BODY +
-              '/' +
               FromUserID+
               '/' +
               ID
             }
           >
-            <ButtonPrimary> Reply</ButtonPrimary>&nbsp;&nbsp;
+            <ButtonPrimary onClick={saveMessageBody}> Reply</ButtonPrimary>&nbsp;&nbsp;
           </RouterLink>
           <RouterLink
             style={{ textDecoration: 'none' }}
@@ -137,12 +139,10 @@ function Card7({
               '/' +
               AttachmentArray +
               '/' +
-              BODY+
-              '/' +
               ID
             }
           >
-            <ButtonPrimary> Forward</ButtonPrimary>
+            <ButtonPrimary onClick={saveMessageBody}> Forward</ButtonPrimary>
           </RouterLink>
         </CardWrapper>
       </Container>

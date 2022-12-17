@@ -62,6 +62,7 @@ function Form13() {
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
+  const originalMessageBody = localStorage.getItem("messageBody")
   useEffect(() => {
   }, [finalBase642New])
   useEffect(() => {
@@ -241,14 +242,18 @@ function Form13() {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
             toast.success('Message scheduled successfully');
+            localStorage.setItem("messageBody",'');
           } else {
             toast.success('Message sent successfully');
+            localStorage.setItem("messageBody",'');
           }
           setTimeout(RediretToSentPage, 100);
+          localStorage.setItem("messageBody",'');
         }
       })
       .catch((err) => {
         toast.error('Message does not sent successfully');
+        localStorage.setItem("messageBody",'');
       });
   };
 
@@ -507,20 +512,20 @@ function Form13() {
               ) : null}
             </p>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                margin="normal"
-                label='Content :'
-                name="Content"
-                type="text"
-                variant="standard"
-                value={BODY}
-                disabled={true}
-                sx={{ mt: '10px' }}
-              />
-              //<Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
+              // <TextField
+              //   fullWidth
+              //   multiline
+              //   rows={4}
+              //   margin="normal"
+              //   label='Original Content :'
+              //   name="Content"
+              //   type="text"
+              //   variant="standard"
+              //   value={BODY}
+              //   disabled={true}
+              //   sx={{ mt: '10px' }}
+              // />
+              <Wordbreak dangerouslySetInnerHTML={{ __html: originalMessageBody }} />
             ) : null}
 
             <Grid item xs={12}>
