@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
-import {
-  IEventList,
-} from 'src/interfaces/Common/AnnualPlanner';
+import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
 import Buttons from 'src/libraries/buttons/button';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
@@ -31,8 +28,6 @@ function EventOverview() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
-
-  const location = useLocation();
 
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedYear, setAssignedYear] = useState<any>();
@@ -71,6 +66,13 @@ function EventOverview() {
     }
   }, [DateFrommon, DateFromyear]);
 
+
+  useEffect(() => {
+    if (assignedMonth_num !== undefined) {
+      dispatch(getEventList(body));
+    }
+  }, [assignedMonth_num]);
+
   const getPreviousDate = () => {
     const { selectedDate } = date;
     const currentDayInMilli = new Date(selectedDate);
@@ -101,20 +103,6 @@ function EventOverview() {
   );
   const date1 = new Date(moment(date.selectedDate).format('YYYY-MM'));
 
-  useEffect(() => {
-    dispatch(getEventList(body));
-  }, [assignedMonth_num]);
-
-  const Data = eventList.map((item, index) => {
-    return {
-      id: index,
-      header: item.Description,
-      text1: 'Standard : ' + item.StandardList,
-      text3: item.StartDate,
-      linkPath: '/Common/viewevent/' + item.Id + '/' + assignedMonth_num + '/' + assignedYear
-    };
-  });
-
   return (
     <Container>
       <PageHeader heading={'Events Overview'} subheading={''} />
@@ -124,21 +112,20 @@ function EventOverview() {
         NextDate={getNextDate}
         Close={undefined}
       />
-      <>
-        {
-          StartDate.getTime() <= date1.getTime() &&
-            EndDate.getTime() >= date1.getTime() ? (
-            <>
-              {loading ? (
-                <SuspenseLoader />
-              ) : (
-                <List1 items={Data}></List1>
-              )}  </>
-          ) : (
-            <ErrorMessages Error={'Selected date is outside academic year'} />
+      {loading ? 
+        <SuspenseLoader />
+       : 
+       (<>
+          {StartDate.getTime() <= date1.getTime() && EndDate.getTime() >= date1.getTime() ?
+            (<>
 
-          )}
-      </>
+              <List1 items={eventList}></List1>
+
+            </>) :
+            <ErrorMessages Error={'Selected date is outside academic year'} />
+          }
+        </>)
+      }
 
     </Container>
   );
