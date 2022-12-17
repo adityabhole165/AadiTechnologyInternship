@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import DashboardApi from "../../api/dashboard/dashboard";
 
 import { AppThunk } from 'src/store';
-import { IUnreadMessages, IUpcomingEventsList, IBirthdays, IPhotoAlbum ,IFeedbackList,IMsgfrom} from 'src/interfaces/Student/dashboard';
+import { IUnreadMessages, IUpcomingEventsList, IBirthdays, IPhotoAlbum ,IFeedbackList,IMsgfrom,INewMessageCount} from 'src/interfaces/Student/dashboard';
 
 const Dashboardlice = createSlice({
   name: 'Dashboard',
@@ -12,7 +12,8 @@ const Dashboardlice = createSlice({
     UpcomingEventsList: [],
     PhotoAlbumList: [],
     FeedbackList:[],
-    Msgfrom:[]
+    Msgfrom:[],
+    MessageCount:{}
   },
   reducers: {
     getBirthdayList(state, action) {
@@ -36,6 +37,9 @@ const Dashboardlice = createSlice({
     },
     getmsgfrom(state, action) {
       state.Msgfrom = action.payload.GetSchoolNoticeData;
+    },
+    getMessageCount(state, action) {
+      state.MessageCount = action.payload.GetNewMessageCountResult
     },
   }
 });
@@ -94,4 +98,10 @@ export const getEventsList =
             const response = await DashboardApi.GetMessageFromList(data)
             dispatch(Dashboardlice.actions.getmsgfrom(response.data));
           };
-export default Dashboardlice.reducer
+          export const getMessageCount =
+          (data: INewMessageCount): AppThunk =>
+            async (dispatch) => {
+              const response = await DashboardApi. GetMessagesCount(data)
+              dispatch(Dashboardlice.actions.getMessageCount(response.data));
+            };
+ export default Dashboardlice.reducer

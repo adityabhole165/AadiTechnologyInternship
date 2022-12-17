@@ -2,7 +2,8 @@ import { useState } from 'react';
 import { Grid, useTheme, Container } from '@mui/material';
 import Card3 from 'src/libraries/mainCard/Card3';
 import { CardHeading, CardStyle } from '../styled/DashboardStyled';
-function Card2({ items, heading, rowsCol }) {
+
+function Card2({ items, heading, rowsCol,Messagecount }) {
   //rowsCol
   const width = 12 / rowsCol;
 
@@ -23,6 +24,7 @@ function Card2({ items, heading, rowsCol }) {
                 Link1={item.Link}
                 ImageUrl={item.ImageUrl}
                 iconColor={item.iconColor}
+                Messagecount={Messagecount}
                 isAvtar="true"
                 opacityLevel="1"
               />

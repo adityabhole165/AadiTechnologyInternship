@@ -69,7 +69,8 @@ const DashboardData = {
       Color: '#ef5350',
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
-      Link: 'Student/VideoGallery2/VideoAlbum',
+      Link: 'Common/VideoGallery/VideoAlbum',
+      //Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
     }
   ],
@@ -280,7 +281,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#35abd9',
         Icon: VideoLibraryIcon,
-        Link: 'Common/VideoGallery',
+        Link: 'Common/VideoGallery/VideoAlbum',
         index: 5,
       },
     ],
@@ -399,7 +400,7 @@ const DashboardData = {
       Color: '#ef5350',
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
-      Link: 'Common/VideoGallery',
+      Link: 'Common/VideoGallery/VideoAlbum',
       index: 5,
     },
      

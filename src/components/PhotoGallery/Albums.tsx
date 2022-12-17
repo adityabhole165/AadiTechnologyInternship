@@ -9,8 +9,11 @@ import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import MonthYearselector from './MonthYearselector';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
+import { useParams } from 'react-router-dom';
 function Photos() {
   const dispatch = useDispatch();
+  const {Month,Year} = useParams();
+
   const PhotoAlbum: any = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
   );
@@ -27,16 +30,24 @@ function Photos() {
   const [year, setYear] = useState(0);
 
   useEffect(() => {
+    debugger
+    console.log("Month--",Month);
     localStorage.setItem("url", window.location.pathname)
+    if(Month !== undefined ){
+      setMonth(Number(Month))
+      setYear(Number(Year))
+    }else{
     setMonth(new Date().getMonth() + 1)
     setYear(new Date().getFullYear())
-    const YearBody: IYearList = {
+  }
+  const YearBody: IYearList = {
       asSchoolId: asSchoolId,
       asUserId: asUserId,
       asUserRoleId: RoleId
     };
     dispatch(getYearList(YearBody));
   }, [])
+
   const handleChange = (value) => {
     setMonth(value);
   };
@@ -63,7 +74,7 @@ function Photos() {
 
       <MonthYearselector month={month} onChange={handleChange} year={year} YearData={YearList} newChange={handleClick} />
 
-      <List1 items={PhotoAlbum} />
+      <List1 items={PhotoAlbum} SelectedMonth={month} SelectedYear={year}/>
 
     </Container>
   );

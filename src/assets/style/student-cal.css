@@ -77,9 +77,33 @@
   height: 28px;
   width: 51px;
 }
+@media (min-width:323px) and ( max-width:416px){
+.css-w36a57-MuiBadge-badge {
+  margin-top: -5px;
+  margin-right: -10px;
+  padding: 4px 3px;
+  height: 15px;
+  border-radius: 13px;
+ }}
 
-
-
+ @media (min-width:301px) and ( max-width:322px){
+  .css-w36a57-MuiBadge-badge {
+    margin-top: -5px;
+    margin-right: -6px;
+    padding: 4px 1px;
+    height: 14px;
+    border-radius: 13px;
+   }}
+  
+     @media (min-width:417px) and ( max-width:643px){
+      .css-w36a57-MuiBadge-badge {
+        margin-top: -5px;
+        margin-right: -11px;
+        padding: 4px 3px;
+        height: 15px;
+        border-radius: 13px;
+       }}
+      
 }
 
   /* .rmdp-wrapper {

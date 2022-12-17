@@ -374,7 +374,9 @@ const Compose = () => {
         </>
       </Box>
       <div style={{ display: displayOfTo_RecipientsPage }}>
-        <AddReciepents recipientListClick={RecipientsListFun} />
+        <AddReciepents RecipientName={RecipientsArray.RecipientName} 
+        RecipientId={RecipientsArray.RecipientId}
+        recipientListClick={RecipientsListFun}></AddReciepents>
       </div>
     </Container>
   );

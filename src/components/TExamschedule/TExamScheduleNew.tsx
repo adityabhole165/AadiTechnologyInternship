@@ -98,7 +98,7 @@ const TExamScheduleNew = () => {
       <Dropdown
         Array={getstandard}
         handleChange={stdChange}
-        label={'Select Std'}
+        label={'Select Standard'}
         defaultValue={std} 
       />}
      <Box sx={{mt:"10px"}}>

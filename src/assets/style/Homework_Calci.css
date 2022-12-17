@@ -128,3 +128,19 @@
         margin-left: -52px;
        }
    }
+
+   @media  (min-width: 712px) ,(max-width:912px){
+       
+    .css-w36a57-MuiBadge-badge {
+        margin-top: -5px;
+     margin-right: -11px;
+    
+     }}
+     @media (min-width:280px) and ( max-width:300px){
+        .css-w36a57-MuiBadge-badge {
+          margin-top: -5px;
+          margin-right: -1px;
+          padding: 4px 3px;
+          height: 15px;
+          border-radius: 13px;
+         }}

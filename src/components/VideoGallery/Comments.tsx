@@ -29,7 +29,7 @@ function Comments() {
   return (
     <div>
      
-        <BackButton FromRoute={"/Common/"+FromRoute}/>
+        <BackButton FromRoute={"/Common/VideoGallery/VideoAlbum"}/>
     
       <Container>
         <PageHeader heading={'Comments'} subheading={''} />
