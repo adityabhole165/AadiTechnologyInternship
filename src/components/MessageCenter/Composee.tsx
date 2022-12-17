@@ -511,7 +511,7 @@ function Form13() {
                 multiline
                 rows={4}
                 margin="normal"
-                label='Content :'
+                label='Original Content :'
                 name="Content"
                 type="text"
                 variant="standard"

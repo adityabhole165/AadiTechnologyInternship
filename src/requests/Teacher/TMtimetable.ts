@@ -64,7 +64,7 @@ export const getTimetable =
         })
       let child2 = () => {
         return response.data.GetTimeTableResult.AdditionalLecture.map((item, index) => {       
-          return item == null ? null : {
+          return  {
             Id: index,
             Name: '',
             Value: item.ClassName,
