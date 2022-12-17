@@ -13,7 +13,8 @@ const Dashboardlice = createSlice({
     PhotoAlbumList: [],
     FeedbackList:[],
     Msgfrom:[],
-    MessageCount:{}
+    MessageCount:{},
+    Loading : true
   },
   reducers: {
     getBirthdayList(state, action) {
@@ -29,7 +30,12 @@ const Dashboardlice = createSlice({
     },
 
     getPhotoAlbum(state, action) {
+      state.Loading = false
       state.PhotoAlbumList = action.payload;
+    },
+    getLoading (state,action) {
+        state.Loading = true
+        state.PhotoAlbumList = [];
     },
 
     getFeedback(state, action) {
@@ -69,6 +75,8 @@ export const getEventsList =
     export const getPhotoAlbum =
     (data: IPhotoAlbum): AppThunk =>
       async (dispatch) => {
+    dispatch(Dashboardlice.actions.getLoading(true));
+
         const response = await DashboardApi.PhotoAlbumData(data)
 
        const Data=response.data[0].Name===null?[]:

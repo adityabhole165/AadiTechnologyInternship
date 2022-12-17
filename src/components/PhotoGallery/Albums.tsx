@@ -10,12 +10,17 @@ import MonthYearselector from './MonthYearselector';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function Photos() {
   const dispatch = useDispatch();
-  const {Month,Year} = useParams();
+  const { Month, Year } = useParams();
 
   const PhotoAlbum: any = useSelector(
     (state: RootState) => state.Dashboard.PhotoAlbumList
+  );
+
+  const loading = useSelector(
+    (state: RootState) => state.Dashboard.Loading
   );
 
   const YearList: any = useSelector(
@@ -30,17 +35,15 @@ function Photos() {
   const [year, setYear] = useState(0);
 
   useEffect(() => {
-    debugger
-    console.log("Month--",Month);
     localStorage.setItem("url", window.location.pathname)
-    if(Month !== undefined ){
+    if (Month !== undefined) {
       setMonth(Number(Month))
       setYear(Number(Year))
-    }else{
-    setMonth(new Date().getMonth() + 1)
-    setYear(new Date().getFullYear())
-  }
-  const YearBody: IYearList = {
+    } else {
+      setMonth(new Date().getMonth() + 1)
+      setYear(new Date().getFullYear())
+    }
+    const YearBody: IYearList = {
       asSchoolId: asSchoolId,
       asUserId: asUserId,
       asUserRoleId: RoleId
@@ -57,14 +60,16 @@ function Photos() {
   };
 
   useEffect(() => {
-    const PhotoAlbumBody: IPhotoAlbum = {
-      aiSchoolId: asSchoolId,
-      aiMonth: month,
-      aiYear: year,
-      abSetPreviousMonth: 'true',
-      aiUserId: asUserId
-    };
+    if (month > 0) {
+      const PhotoAlbumBody: IPhotoAlbum = {
+        aiSchoolId: asSchoolId,
+        aiMonth: month,
+        aiYear: year,
+        abSetPreviousMonth: 'true',
+        aiUserId: asUserId
+      };
       dispatch(getPhotoAlbum(PhotoAlbumBody));
+    }
   }, [year, month]);
 
 
@@ -73,9 +78,10 @@ function Photos() {
       <PageHeader heading={'Photo Gallery'} subheading={''} />
 
       <MonthYearselector month={month} onChange={handleChange} year={year} YearData={YearList} newChange={handleClick} />
-
-      <List1 items={PhotoAlbum} SelectedMonth={month} SelectedYear={year}/>
-
+      {loading ?
+        <SuspenseLoader /> :
+        <List1 items={PhotoAlbum} SelectedMonth={month} SelectedYear={year} />
+      }
     </Container>
   );
 }
