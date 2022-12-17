@@ -11,6 +11,7 @@ import List1 from 'src/libraries/mainCard/List1';
 import { isTodaysDate } from '../Common/Util'
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Grid from '@mui/material/Grid';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -20,6 +21,10 @@ function Holidays() {
   const dispatch = useDispatch();
   const holidaysList = useSelector(
     (state: RootState) => state.Holidays.HolidaysData
+  );
+
+  const loading = useSelector(
+    (state: RootState) => state.Holidays.Loading
   );
 
   const body: IHolidays = {
@@ -49,21 +54,21 @@ function Holidays() {
   const classes = Styles();
 
   const Data = holidaysList.map((item, index) => {
-    return index === 0 
+    return index === 0
       ? {
         id: index,
         header: item.Name,
-        text1: item.ToatalDays == 1 ?  item.StartDate  :item.StartDate + ' To '+ item.EndDate,
+        text1: item.ToatalDays == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
         text2: 'Total Days: ' + item.ToatalDays,
         subtitle: 'Total Days: ' + item.ToatalDays,
-        backgroundColor:'secondary'
+        backgroundColor: 'secondary'
       }
       : {
         id: index,
         header: item.Name,
-        text1: item.ToatalDays > 1 ?  item.StartDate + ' To '+ item.EndDate :item.StartDate ,
+        text1: item.ToatalDays > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
         text2: 'Total Days: ' + item.ToatalDays,
-        backgroundColor:  'primary'
+        backgroundColor: 'primary'
       };
   });
 
@@ -75,7 +80,11 @@ function Holidays() {
           <DotLegend color='secondary' text='Upcoming Holidays' />
         </Grid>
       </Grid>
-      <List1 items={Data} />
+      {loading ? (
+        <SuspenseLoader />
+      ) : (
+        <List1 items={Data}></List1>
+      )}
     </Container>
   );
 }
