@@ -1,13 +1,14 @@
-import {  Stack, Grid,Avatar,Box} from '@mui/material';
+import { Stack, Grid, Avatar, Box } from '@mui/material';
 import { ListStyle } from '../styled/CardStyle';
-import {ProfileDetail1,ProfileDetail2,ProfileDetail3,ProfileDetail4,ProfileWrapper,ProfileDetailHeader} from '../styled/ProfileStyled';
+import { ProfileDetail1, ProfileDetail2, ProfileDetail3, ProfileDetail4, ProfileWrapper, ProfileDetailHeader } from '../styled/ProfileStyled';
 
 import UserPhoto from '../UserPhoto/UserPhoto';
+import ProfileComponent from './ProfileComponent';
 function Card6() {
   const UserName = sessionStorage.getItem('StudentName');
   const RoleName = localStorage.getItem('RoleName');
   const DesignationName = sessionStorage.getItem('DesignationName');
-  const ClassTeacher = sessionStorage.getItem('IsClassTeacher');
+  const ClassTeacher = sessionStorage.getItem('ClassName');
   const RollNo = sessionStorage.getItem('RollNo');
   const UDISENumber = sessionStorage.getItem('UDISENumber');
   const BirthPlace = sessionStorage.getItem('BirthPlace');
@@ -16,43 +17,35 @@ function Card6() {
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
   const authData = JSON.parse(localStorage.getItem('auth'));
-  const DOB = authData.data.StudentDetails.DOB;
+  const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB : 
+              RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
+              RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB :''
 
-  const ResidencePhoneNumber = sessionStorage.getItem(
-    'ResidencePhoneNumber'
-  );
+
+  const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
 
+  const getDateFormate = (date) => {
 
-
- const date = DOB;
- const day = new Date(date).getDate();
- const month = new Date(date).toLocaleString('default',{month:"long"});
- const year = new Date(date).getFullYear();
- const newdate= `${day} ${month} ${year}`
-
+    const day = new Date(date).getDate();
+    const month = new Date(date).toLocaleString('default', { month: "long" });
+    const year = new Date(date).getFullYear();
+    return `${day} ${month} ${year}`
+  }
+  const newdate = (DOB === undefined || DOB === "") ? "" : getDateFormate(DOB)
 
 
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
-      
-        <UserPhoto ImgUrl={ImgUrl} alt={'user.name'} width={'106px'} height={'137px'}  />
-    
-        {RoleName == 'Teacher' ? (
-          <>
-            <ProfileDetail3><b>{UserName}</b></ProfileDetail3>
-          </>
-        ) : RoleName == 'Admin Staff' ? (
-          <>
-            <ProfileDetail3><b>{UserName}</b></ProfileDetail3>
-          </>
-        ) : (
-          <>
-            <ProfileDetailHeader><b>{UserName}</b></ProfileDetailHeader>
-            <ProfileDetail2>Roll No: {RollNo}</ProfileDetail2>
-          </>
-        )}
+
+        <UserPhoto ImgUrl={ImgUrl} alt={'user.name'} width={'106px'} height={'137px'} />
+
+        <ProfileDetailHeader><b>{UserName}</b></ProfileDetailHeader>
+
+        {RoleName == 'Student' &&
+          <ProfileDetail2>Roll No: {RollNo}</ProfileDetail2>
+        }
       </Stack>
 
       <ListStyle
@@ -65,101 +58,43 @@ function Card6() {
       >
         <Grid container>
           <Grid item xs={12}>
-            {RoleName == 'Teacher' ? (
+            {RoleName == 'Teacher' || RoleName == 'Admin Staff' ? (
               <>
-                <ProfileWrapper>
-                  <ProfileDetail1>Designation:</ProfileDetail1>
-                  <ProfileDetail4>{DesignationName}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Class Teacher:</ProfileDetail1>
-                  <ProfileDetail4> {ClassTeacher}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Mobile Number:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Address:</ProfileDetail1>
-                  <ProfileDetail4> {Address}</ProfileDetail4>
-                </ProfileWrapper>
-              
-                <ProfileWrapper>
-                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {newdate}</ProfileDetail4>
-                </ProfileWrapper>
+                <ProfileComponent Name='Designation:' Value={DesignationName}></ProfileComponent>
+
+                {RoleName == 'Teacher' &&
+                  <ProfileComponent Name='Class Teacher:' Value={ClassTeacher}></ProfileComponent>}
+
+                <ProfileComponent Name='Mobile Number:' Value=''></ProfileComponent>
+
+                <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
+
+                <ProfileComponent Name='Date of Birth:' Value={newdate}></ProfileComponent>
               </>
-            ) : RoleName == 'Admin Staff' ? (
+            ) : RoleName == 'Student' ? (
               <>
-                <ProfileWrapper>
-                  <ProfileDetail1>Designation:</ProfileDetail1>
-                  <ProfileDetail4> {DesignationName}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Mobile Number:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Address:</ProfileDetail1>
-                  <ProfileDetail4> {Address}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Place of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {newdate}</ProfileDetail4>
-                </ProfileWrapper>
+                <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
+                <ProfileComponent Name='Residence Phone No:' Value={ResidencePhoneNumber}></ProfileComponent>
+
+                {/* <ProfileComponent Name='Religion:' Value=''></ProfileComponent> */}
+                {/* <ProfileComponent Name='Caste & sub-Caste:' Value={''}></ProfileComponent> */}
+
+                <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
+
+                <ProfileComponent Name='Place of Birth:' Value={BirthPlace}></ProfileComponent>
+
+                <ProfileComponent Name='Date of Birth:' Value={newdate}></ProfileComponent>
+
+                <ProfileComponent Name='Nationality:' Value={Nationality}></ProfileComponent>
+
+                <ProfileComponent Name='Mother Tongue:' Value={MotherTongue}></ProfileComponent>
+
+                <ProfileComponent Name='Blood Group:' Value={Blood_Group}></ProfileComponent>
+
+                {/* <ProfileComponent Name='Family Photo:' Value={Blood_Group}></ProfileComponent> */}
+
               </>
-            ) : (
-              <>
-                <ProfileWrapper>
-                  <ProfileDetail1>Address:</ProfileDetail1>
-                  <ProfileDetail4> {Address}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Residence Phone No:</ProfileDetail1>
-                  <ProfileDetail4> {ResidencePhoneNumber}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Religion:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Caste & sub-Caste:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>UDISEnumber:</ProfileDetail1>
-                  <ProfileDetail4> {UDISENumber}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Place of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {BirthPlace}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Date of Birth:</ProfileDetail1>
-                  <ProfileDetail4> {newdate}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Nationality:</ProfileDetail1>
-                  <ProfileDetail4>{Nationality}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Mother Tongue:</ProfileDetail1>
-                  <ProfileDetail4> {MotherTongue}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Blood Group:</ProfileDetail1>
-                  <ProfileDetail4> {Blood_Group}</ProfileDetail4>
-                </ProfileWrapper>
-                <ProfileWrapper>
-                  <ProfileDetail1>Family Photo:</ProfileDetail1>
-                  <ProfileDetail4> {}</ProfileDetail4>
-                </ProfileWrapper>
-              </>
-            )}
+            ) : (<></>)}
           </Grid>
         </Grid>
       </ListStyle>
