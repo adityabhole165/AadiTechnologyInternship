@@ -46,7 +46,6 @@ function ViewSms({}) {
   useEffect(() => {
     GetViewEventResult();
   }, []);
-
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -58,7 +57,7 @@ function ViewSms({}) {
         <Card7
           ViewDetail={ViewDetail}
           From={viewSent.UserName}
-          To={viewSent.RecieverName}
+          To={viewSent.DisplayText}
           Body={viewSent.Body}
           Text={viewSent.Subject}
           Attachments={viewSent.Attachments}

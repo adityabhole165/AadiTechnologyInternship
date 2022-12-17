@@ -138,7 +138,7 @@ function Block({
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return (getIsAbsent(opts.dataPointIndex, val, returnVal))
+    return (getIsAbsent(opts.dataPointIndex, val+' %', returnVal))
   }
   const getIsAbsent = (index, val, returnVal) => {
 

@@ -28,7 +28,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [classId, setClassId] = useState([]);
   const [entireSchool, setEntireSchool] = useState([
     {
-      Id: '0',
+      Id: 'Entire School',
       Name: 'Entire School',
       Value: 'Entire School',
       isActive: false
@@ -269,9 +269,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
       else if (!obj.isActive && selectedRecipentsId.includes(obj.Id)) {
-        const itemIndex = selectedRecipentsId.findIndex((item) => item === obj.Id);
-        setSelectedRecipents((prevState) => prevState.filter((item, index) => index !== itemIndex));
-        setSelectedRecipentsId((prevState) => prevState.filter((item, index) => index !== itemIndex));
+        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
       }
     });
   }
@@ -295,7 +294,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents}
+          value={selectedRecipents.map(obj=>obj.trim()).join('; ')}
           variant="outlined"
           id="body"
           fullWidth

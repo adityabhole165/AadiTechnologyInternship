@@ -344,7 +344,7 @@ function Form13() {
             <FormControl fullWidth>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName}
+                value={RecipientsObject.RecipientName.map(obj=>obj.trim()).join('; ')}
                 variant="outlined"
                 id=""
                 placeholder='To :'

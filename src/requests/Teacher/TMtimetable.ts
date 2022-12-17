@@ -62,8 +62,8 @@ export const getTimetable =
             Child: child(item.WeekDay)
           };
         })
-      let child2 = () => {
-        return response.data.GetTimeTableResult.AdditionalLecture.map((item, index) => {       
+        let child2 = () => {   
+        return response.data.GetTimeTableResult.AdditionalLecture?.map((item, index) => {        
           return  {
             Id: index,
             Name: '',
@@ -74,7 +74,7 @@ export const getTimetable =
           } 
          
         })
-      }
+      }      
       let header2 = {
         Id: 1,
         Name: 'Additional Lectures',
