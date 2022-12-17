@@ -24,7 +24,7 @@ function Card6() {
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
-
+  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,'+ImgUrl : '/imges/defualtUser.jpg'
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -39,7 +39,7 @@ function Card6() {
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
 
-        <UserPhoto ImgUrl={ImgUrl} alt={'user.name'} width={'106px'} height={'137px'} />
+        <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
 
         <ProfileDetailHeader><b>{UserName}</b></ProfileDetailHeader>
 
