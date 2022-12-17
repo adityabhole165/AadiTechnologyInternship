@@ -20,7 +20,7 @@ import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
 
-const AddReciepents = ({ RecipientName,RecipientId, recipientListClick }) => {
+const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([]);
@@ -148,21 +148,22 @@ const AddReciepents = ({ RecipientName,RecipientId, recipientListClick }) => {
     setSelectedRecipentsId(RecipientId)
     //from reply, any recipients need to be selected
     SelectUsersInRecipients(RecipientId);
+
   }, []);
 
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
-const SelectUsersInRecipients = (RecipentsIds) =>{
-  setList(getuserlist.map((obj) => {
-    return {
-      ...obj, isActive:
-        (RecipentsIds.includes(obj.Id) || isClassSelect()) ?
-          true :
-          false
-    }
-  }))
-}
+  const SelectUsersInRecipients = (RecipentsIds) => {
+    setList(getuserlist.map((obj) => {
+      return {
+        ...obj, isActive:
+          (RecipentsIds.includes(obj.Id) || isClassSelect()) ?
+            true :
+            false
+      }
+    }))
+  }
   const isClassSelect = () => {
     let selectedClass = getClass
       .filter((obj) => obj.Id === Number(studentlist))
@@ -175,7 +176,12 @@ const SelectUsersInRecipients = (RecipentsIds) =>{
   useEffect(() => {
     dispatch(StartLoading());
     dispatch(GetStudent(getStudentsUserAPIBody));
-    setShowErrorMsg(true)
+    techerStudent?.map((obj, i) => {
+      if (obj.isActive && i !== 1) {
+          setShowErrorMsg(true)
+      }
+    });
+
   }, [studentlist]);
 
   useEffect(() => {
@@ -201,11 +207,11 @@ const SelectUsersInRecipients = (RecipentsIds) =>{
     setSelectedRecipents([])
     setSelectedRecipentsId([]);
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
-    setTecherStudent(techerStudent.map((obj)=> {return {...obj,isActive:false}}));
+    setTecherStudent(techerStudent.map((obj) => { return { ...obj, isActive: false } }));
     setTecherStudent1('');
     populateRecipient(value);
     setShow(!show);
-    
+
   };
 
   const techerStudentChange = (value) => {
@@ -258,20 +264,22 @@ const SelectUsersInRecipients = (RecipentsIds) =>{
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
-      if (obj.isActive && !selectedRecipents.includes(obj.Value)) {
+      if (obj.isActive && !selectedRecipentsId.includes(obj.Id)) {
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
       }
-      else if (!obj.isActive && selectedRecipents.includes(obj.Value)) {
-        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
-        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+      else if (!obj.isActive && selectedRecipentsId.includes(obj.Id)) {
+        const itemIndex = selectedRecipentsId.findIndex((item) => item === obj.Id);
+        setSelectedRecipents((prevState) => prevState.filter((item, index) => index !== itemIndex));
+        setSelectedRecipentsId((prevState) => prevState.filter((item, index) => index !== itemIndex));
       }
     });
   }
   const removeAllRecipient = (itemList) => {
     itemList?.map((obj) => {
-      setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+      const itemIndex = selectedRecipentsId.findIndex((item) => item === obj.Id);
       setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+      setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
     })
   }
   const clickOkay = () => {
