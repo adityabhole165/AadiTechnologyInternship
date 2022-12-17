@@ -17,16 +17,12 @@ function Card6() {
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
   const authData = JSON.parse(localStorage.getItem('auth'));
-  const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB :
-    RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
-      RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB :
-        ''
+  const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB : 
+              RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
+              RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB :''
 
 
-  console.log(authData.data)
-  const ResidencePhoneNumber = sessionStorage.getItem(
-    'ResidencePhoneNumber'
-  );
+  const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
 
   const getDateFormate = (date) => {
