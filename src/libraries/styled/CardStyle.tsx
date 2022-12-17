@@ -106,25 +106,57 @@ export const Wordbreak = styled(Typography)`
   font-size: 12px;
   color: black;
   font-family: Roboto;
+   @media (max-width: 320px) {
+    width:250px ; word-wrap:break-word; 
+    };
+   @media (max-width: 280px) {
+    width:200px ; word-wrap:break-word;
+   
+  };
+  @media (min-width: 322px) and (max-width: 360px) {
+    width:270px ; word-wrap:break-word;
+  };
+  @media (min-width: 362px) and (max-width: 416px) {
+    width:300px ; word-wrap:break-word; 
+    
+  };
+ 
+`;
 
+export const Wordbreak1 = styled(Typography)`
+  font-size: 12px;
+  color: black;
+  font-family: Roboto;
+padding:10px;
  
 
    
   @media (max-width: 320px) {
     width:250px ; word-wrap:break-word; 
+    padding:10px;
   };
  
 
   @media (max-width: 280px) {
-    width:200px ; word-wrap:break-word; 
+    width:200px ; word-wrap:break-word;
+    padding:10px; 
   };
   @media (min-width: 322px) and (max-width: 360px) {
-    width:270px ; word-wrap:break-word; 
+    width:270px ; word-wrap:break-word;
+    padding:10px; 
   };
   @media (min-width: 362px) and (max-width: 416px) {
-    width:330px ; word-wrap:break-word; 
+    width:300px ; word-wrap:break-word; 
+    padding:10px;
   };
  
+`;
+export const BoxContent = styled(Box)`
+height:150px;
+overflow:scroll; 
+border:1px solid gray;
+margin-bottom:10px;
+  
 `;
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
@@ -271,7 +303,7 @@ export const ListStyle1 = styled(Box)(
     position:relative;
  padding:5px;
 border-radius: 6px;
-  //  margin-bottom: 5px;
+   margin-bottom: 5px;
    
  `
 );

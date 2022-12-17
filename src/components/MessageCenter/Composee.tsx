@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography, useTheme,TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -16,7 +16,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CardDetail8, ListStyle, Wordbreak } from 'src/libraries/styled/CardStyle';
+import { BoxContent, CardDetail8, ListStyle, Wordbreak, Wordbreak1 } from 'src/libraries/styled/CardStyle';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -62,6 +62,7 @@ function Form13() {
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
+  const originalMessageBody = localStorage.getItem("messageBody")
   useEffect(() => {
   }, [finalBase642New])
   useEffect(() => {
@@ -241,14 +242,18 @@ function Form13() {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
             toast.success('Message scheduled successfully');
+            localStorage.setItem("messageBody",'');
           } else {
             toast.success('Message sent successfully');
+            localStorage.setItem("messageBody",'');
           }
           setTimeout(RediretToSentPage, 100);
+          localStorage.setItem("messageBody",'');
         }
       })
       .catch((err) => {
         toast.error('Message does not sent successfully');
+        localStorage.setItem("messageBody",'');
       });
   };
 
@@ -445,8 +450,9 @@ function Form13() {
               <Errormessages Error={fileerror} />
             </Box>
             {finalBase642New == undefined ||
-              finalBase642New.length == 0 ||
-              PageName === 'Reply' ? null :
+              finalBase642New.length == 0 
+              // || PageName === 'Reply' 
+              ? null :
               (
                 <div style={{ marginTop: '10px' }}>
                   <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
@@ -506,20 +512,10 @@ function Form13() {
               ) : null}
             </p>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
-              <TextField
-                fullWidth
-                multiline
-                rows={4}
-                margin="normal"
-                label='Content :'
-                name="Content"
-                type="text"
-                variant="standard"
-                value={BODY}
-                disabled={true}
-                sx={{ mt: '10px' }}
-              />
-              //<Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
+              
+             <BoxContent>
+              <Wordbreak1 dangerouslySetInnerHTML={{ __html: originalMessageBody }} />
+              </BoxContent>
             ) : null}
 
             <Grid item xs={12}>

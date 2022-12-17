@@ -83,11 +83,6 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
                   <Grid item xs={12}>
                     <Typography
                       className={classes.Listfont1}
-                      sx={{
-                        whiteSpace: 'nowrap',
-                        textOverflow: 'ellipsis',
-                        overflow: 'hidden'
-                      }}
                     >
                       {data.Subject}
                       {data.Name}
@@ -95,13 +90,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
                   </Grid>
                   <Grid container xs={12}>
                     <Grid item xs={6}>
-                      <Typography
-                        sx={{
-                          whiteSpace: 'nowrap',
-                          textOverflow: 'ellipsis',
-                          overflow: 'hidden'
-                        }}
-                      >
+                      <Typography >
                         {data.UserName}
                       </Typography>
                     </Grid>

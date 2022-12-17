@@ -8,10 +8,10 @@ const List23 = ({ data }) => {
     if (navPath !== undefined) {
         navigate(navPath);
     }
-  }
+  } 
   return (<>
 
-  {data.length == 0 ? <ErrorMessages Error={'Timetable not yet configured'} /> :
+  { data == undefined || data.length == 0 ? <ErrorMessages Error={'Timetable not yet configured'} /> :
   <>
   {
       data.map((Detail, index) => (
