@@ -1,7 +1,7 @@
 
 import http from "../../requests/SchoolService/schoolServices";
 import {IUnreadMessages,IUpcomingEventsList, IBirthdays, 
-  IPhotoAlbum,IFeedbackList,IMsgfrom, IPhotoAlbumResult} from "../../interfaces/Student/dashboard"
+  IPhotoAlbum,IFeedbackList,IMsgfrom, IPhotoAlbumResult,INewMessageCount} from "../../interfaces/Student/dashboard"
 
 //Unread messages
 
@@ -31,6 +31,9 @@ const Feedback  = (data: IFeedbackList) => {
 const GetMessageFromList = (data: IMsgfrom) => {
   return http.post<IMsgfrom>('Dashboard/Messagefrom',data);
 };
+const GetMessagesCount = (data: INewMessageCount) => {
+  return http.post<INewMessageCount>('MessageCenter/GetNewMessageCount',data);
+};
 
   
 const DashboardApi ={
@@ -39,7 +42,8 @@ const DashboardApi ={
      BirthdayDetailsData,
      PhotoAlbumData,
      Feedback,
-     GetMessageFromList
+     GetMessageFromList,
+     GetMessagesCount
 }
 
 export default DashboardApi;

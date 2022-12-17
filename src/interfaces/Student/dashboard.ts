@@ -97,4 +97,14 @@ export interface GetFMsgfromResult {
     ConfigureMenuContent:string,
    
 }
+export interface INewMessageCount {
+    asSchoolId:string,
+    asUserId:string,
+    asAcademicYearId:string,
+}
+export interface GetNewMessageCountResult {
+   
+    MESSAGECOUNT: number,
+   
+}
 

@@ -20,7 +20,7 @@ import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
 
-const AddReciepents = ({ recipientListClick }) => {
+const AddReciepents = ({ RecipientName,RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
   const [selectedRecipents, setSelectedRecipents] = useState([]);
@@ -144,19 +144,25 @@ const AddReciepents = ({ recipientListClick }) => {
         }
       ]);
     }
+    setSelectedRecipents(RecipientName)
+    setSelectedRecipentsId(RecipientId)
+    //from reply, any recipients need to be selected
+    SelectUsersInRecipients(RecipientId);
   }, []);
 
   useEffect(() => {
-    setList(getuserlist.map((obj) => {
-      return {
-        ...obj, isActive:
-          (selectedRecipentsId.includes(obj.Id) || isClassSelect()) ?
-            true :
-            false
-      }
-    }))
+    SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
-
+const SelectUsersInRecipients = (RecipentsIds) =>{
+  setList(getuserlist.map((obj) => {
+    return {
+      ...obj, isActive:
+        (RecipentsIds.includes(obj.Id) || isClassSelect()) ?
+          true :
+          false
+    }
+  }))
+}
   const isClassSelect = () => {
     let selectedClass = getClass
       .filter((obj) => obj.Id === Number(studentlist))

@@ -304,7 +304,7 @@ function Form13() {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
-      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID);
+      RecipientsObject.RecipientId.push(Number(ReplyRecipientNameId.ReplyRecipientID))
     }
   }, []);
 
@@ -538,7 +538,9 @@ function Form13() {
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AddReciepents recipientListClick={RecipientsListFun}></AddReciepents>
+        <AddReciepents RecipientName={RecipientsObject.RecipientName} 
+        RecipientId={RecipientsObject.RecipientId}
+        recipientListClick={RecipientsListFun}></AddReciepents>
       </div>
     </>
   );

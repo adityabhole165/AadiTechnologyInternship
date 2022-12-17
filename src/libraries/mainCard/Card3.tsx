@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useTheme,Container,IconButton,Typography,Box} from '@mui/material';
+import {useTheme,Container,IconButton,Typography,Box, Badge} from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -15,21 +15,25 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+import 'src/assets/style/student-cal.css';
+import 'src/assets/style/Homework_Calci.css';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
-import { IconCard, IconCardSize, Text1, Text2 } from '../styled/DashboardStyled';
+import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
 
 
-function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl}) {
+function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
   const theme = useTheme();
   if (theme.colors.gradients.pink1 !== 'linear-gradient(135deg, white 0%, white 100%);')
     iconColor = 'white';
   return (
     <>
       <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{textDecoration:'none'}}>
+     
       <IconCard>
         <IconButton>
+          
           <IconCardSize>
             {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
@@ -49,7 +53,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 15 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter:"invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) contrast(94%)  brightness(92%) "}}/>}
             {icon === 16 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}}/>}
 
-            {icon === 17 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 17 &&  <BadgeStyle badgeContent={Messagecount} color="success"  anchorOrigin={{vertical: 'top',horizontal: 'right',}}>  
+            <ForwardToInboxIcon sx={{color: iconColor}} fontSize="medium" />  </BadgeStyle>}
+         
+ 
             {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
@@ -63,8 +70,12 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
               {text2}
             </Text2>
           </IconCardSize>
+         
+            
+      
           </IconButton>
       </IconCard>
+      
       </Link>
  
     </>

@@ -8,7 +8,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {getModulesPermission,getModulesPermissionsResultt,} from 'src/requests/SchoolSetting/schoolSetting';
 import {IgetModulesPermission,IGetScreensAccessPermissions} from 'src/interfaces/SchoolSetting/schoolSettings';
-
+import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
+import { INewMessageCount } from 'src/interfaces/Student/dashboard';
 const Text = styled(Box)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -29,13 +30,16 @@ function LandingPage() {
     (state: RootState) =>
       state.getModulesPermissionsResult.ModulesPermissionsResult
   );
+  const Messagecount: any = useSelector(
+    (state: RootState) => state.Dashboard.MessageCount
+  );
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 
-  const body1: IgetModulesPermission = {
+  const getModulePermissionBody: IgetModulesPermission = {
     asSchoolId: asSchoolId,
     asAcademicYearId: AcademicYearId,
     asUserId: userId,
@@ -43,25 +47,34 @@ function LandingPage() {
     abXseedApplicable: false
   };
 
-  const body2: IGetScreensAccessPermissions = {
+  const getScreensAccessPermissions: IGetScreensAccessPermissions = {
     asSchoolId: asSchoolId,
     asAcademicYearId: AcademicYearId,
     asUserId: userId,
     asUserRoleId: RoleId,
     abIsPreprimaryTeacher: false
   };
+  const getNewMessageCount: INewMessageCount = {
+  asSchoolId:asSchoolId,
+  asUserId: userId,
+  asAcademicYearId: AcademicYearId,
+};
 
   useEffect(() => {
     if (RoleId == '3') {
-      dispatch(getModulesPermission(body1));
+      dispatch(getModulesPermission(getModulePermissionBody));
     }
   }, []);
 
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
-    dispatch(getModulesPermissionsResultt(body2));
+    dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
   }, []);
-
+  useEffect(() => {
+     {
+      dispatch(getMessageCount(getNewMessageCount));
+    }
+  }, []);
   let items1 = [];
   let items2 = [];
   let items3 = [];
@@ -169,12 +182,14 @@ if (RoleId === '3') {
   
   return (
     <>
-      <Card2 items={items1} heading={'School'} rowsCol="4"></Card2>
-      {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" />}
-      {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4" />}
-      {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"></Card2>}
-    
-    </>
+     <Card2 items={items1} heading={'School'} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>
+    {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
+      {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
+
+      
+     {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}></Card2>}</> 
+     
+ 
   );
 }
 
