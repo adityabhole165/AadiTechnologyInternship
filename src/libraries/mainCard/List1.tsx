@@ -3,15 +3,18 @@ import Card1 from 'src/libraries/mainCard/Card1';
 import { Link } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useNavigate } from 'react-router-dom';
-function List1({ items,SelectedMonth=null, SelectedYear=null}) {
+function List1({ items, SelectedMonth = null, SelectedYear = null }) {
 
   const navigate = useNavigate()
   const clickCard = (path) => {
-    console.log("path--",path);
     if (location.pathname.split('/')[1].toLocaleLowerCase() === 'schoolnotice')
       navigate('../' + path.replace('/Common/', ''))
-    else if(path !==undefined)
-      navigate('/extended-sidebar/' + path +'/'+SelectedMonth+'/'+SelectedYear)
+    else if (path !== undefined) {
+      if (SelectedMonth === null)
+        navigate('/extended-sidebar/' + path)
+      else
+        navigate('/extended-sidebar/' + path + '/' + SelectedMonth + '/' + SelectedYear)
+    }
   }
   return (
     <>
