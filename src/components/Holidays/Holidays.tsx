@@ -1,14 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { getHolidays } from 'src/requests/Holiday/Holiday';
-import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Container, styled, useTheme } from '@mui/material';
+import { Container } from '@mui/material';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
-import { isTodaysDate } from '../Common/Util'
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Grid from '@mui/material/Grid';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -31,46 +29,19 @@ function Holidays() {
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId,
     asStandardId:
-      asStandardId == null
-        ? '0'
-        : asStandardId == 'undefined'
-          ? '0'
-          : asStandardId,
+      (asStandardId == null || asStandardId == 'undefined')
+        ? '0' : asStandardId,
     asDivisionId:
-      asDivisionId == null
-        ? '0'
-        : asDivisionId == 'undefined'
-          ? '0'
-          : asDivisionId
+      (asDivisionId == null || asDivisionId == 'undefined')
+        ? '0' : asDivisionId
   };
 
   useEffect(() => {
+
     localStorage.setItem('url', window.location.pathname);
     dispatch(getHolidays(body));
+  
   }, []);
-
-
-  const theme = useTheme();
-  const classes = Styles();
-
-  const Data = holidaysList.map((item, index) => {
-    return index === 0
-      ? {
-        id: index,
-        header: item.Name,
-        text1: item.ToatalDays == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
-        text2: 'Total Days: ' + item.ToatalDays,
-        subtitle: 'Total Days: ' + item.ToatalDays,
-        backgroundColor: 'secondary'
-      }
-      : {
-        id: index,
-        header: item.Name,
-        text1: item.ToatalDays > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
-        text2: 'Total Days: ' + item.ToatalDays,
-        backgroundColor: 'primary'
-      };
-  });
 
   return (
     <Container>
@@ -83,7 +54,7 @@ function Holidays() {
       {loading ? (
         <SuspenseLoader />
       ) : (
-        <List1 items={Data}></List1>
+        <List1 items={holidaysList}></List1>
       )}
     </Container>
   );
