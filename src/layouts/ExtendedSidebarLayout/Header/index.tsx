@@ -115,7 +115,9 @@ function Header() {
   const Name = sessionStorage.getItem("StudentName");
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
-  const studnetprofile = sessionStorage.getItem("PhotoFilePath")
+  const ImgUrl = sessionStorage.getItem("PhotoFilePath")
+  const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,'+ ImgUrl : '/imges/defualtUser.jpg'
+
   const authData = JSON.parse(localStorage.getItem("auth"));
   let siblingList: any = []; 
   if(authData.data.AuthenticateUserResult.RoleName === 'Student'){
@@ -260,7 +262,7 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={`data:image/png;base64,${studnetprofile}`} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add" />
         </IconButton>
         <Popover
           disableScrollLock
@@ -282,7 +284,7 @@ function Header() {
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={`data:image/png;base64,${studnetprofile}`} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
