@@ -13,15 +13,17 @@ import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function EventOverview() {
-  const { DateFrommon , DateFromyear } = useParams();
+  const { DateFrommon, DateFromyear } = useParams();
   const BackMonth = new Date(DateFrommon).getMonth() + 1;
-  
+
   const dispatch = useDispatch();
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
   );
+
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
@@ -53,21 +55,21 @@ function EventOverview() {
   }
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem("url", window.location.pathname)
     setCurrentDate();
-    if (DateFrommon !=  undefined){
+    if (DateFrommon != undefined) {
       setDate({
-        selectedDate: `${new Date(BackMonth+'/01/'+DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
+        selectedDate: `${new Date(BackMonth + '/01/' + DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
       });
     }
   }, []);
 
   useEffect(() => {
-    if(DateFrommon || DateFromyear != undefined){
-      SetassignedMonth_num( DateFrommon );
-      setAssignedYear( DateFromyear )
+    if (DateFrommon || DateFromyear != undefined) {
+      SetassignedMonth_num(DateFrommon);
+      setAssignedYear(DateFromyear)
     }
-  }, [DateFrommon,DateFromyear]);
+  }, [DateFrommon, DateFromyear]);
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
@@ -84,7 +86,7 @@ function EventOverview() {
   };
 
   const body: IEventList = {
-    asMonth: assignedMonth_num ,
+    asMonth: assignedMonth_num,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId,
     asYear: assignedYear,
@@ -123,18 +125,21 @@ function EventOverview() {
         Close={undefined}
       />
       <>
-        { 
-        StartDate.getTime() <= date1.getTime() &&
-          EndDate.getTime() >= date1.getTime() ? (
-          <>
-            <List1 items={Data}></List1>
-          </>
-        ) : (
-          <ErrorMessages Error={'Selected date is outside academic year'} />
+        {
+          StartDate.getTime() <= date1.getTime() &&
+            EndDate.getTime() >= date1.getTime() ? (
+            <>
+              {loading ? (
+                <SuspenseLoader />
+              ) : (
+                <List1 items={Data}></List1>
+              )}  </>
+          ) : (
+            <ErrorMessages Error={'Selected date is outside academic year'} />
 
-        ) }
+          )}
       </>
-      
+
     </Container>
   );
 }
