@@ -36,7 +36,7 @@ function Card7({
   Attachments,
   ID,
   Viewsent,
-  ViewSentObject
+  ViewSentObject,
 }) {
   const theme = useTheme();
 
@@ -120,7 +120,9 @@ function Card7({
               '/' +
               BODY +
               '/' +
-              FromUserID
+              FromUserID+
+              '/' +
+              ID
             }
           >
             <ButtonPrimary> Reply</ButtonPrimary>&nbsp;&nbsp;
@@ -135,7 +137,9 @@ function Card7({
               '/' +
               AttachmentArray +
               '/' +
-              BODY
+              BODY+
+              '/' +
+              ID
             }
           >
             <ButtonPrimary> Forward</ButtonPrimary>

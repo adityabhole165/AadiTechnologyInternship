@@ -16,7 +16,7 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
+import { CardDetail8, ListStyle, Wordbreak } from 'src/libraries/styled/CardStyle';
 import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
@@ -40,7 +40,7 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
 
-  const { From, Text, AttachmentArray, BODY, FromUserID } = useParams();
+  const { From, Text, AttachmentArray, BODY, FromUserID,ID } = useParams();
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -227,7 +227,7 @@ function Form13() {
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
-      asMessageId: 0,
+      asMessageId: ID != undefined ||  ID !="" ? parseInt(ID) :0,
       asSchoolName: SchoolName,
       asSelectedStDivId: RoleId == '3' ? DivisionId : RoleId == '6' ? RecipientsObject.ClassId.toString() : '',
       asSelectedUserIds: RecipientsObject.RecipientId.toString(),
@@ -519,6 +519,7 @@ function Form13() {
                 disabled={true}
                 sx={{ mt: '10px' }}
               />
+              //<Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
             ) : null}
 
             <Grid item xs={12}>
