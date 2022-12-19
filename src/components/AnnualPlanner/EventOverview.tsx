@@ -39,7 +39,7 @@ function EventOverview() {
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();
     const Year = new Date(date).getFullYear()
-    const NewDateFormat = `${Month}-${Year}`;
+    const NewDateFormat = `${Month} ${Year}`;
     setDate({
       selectedDate: NewDateFormat
     });
