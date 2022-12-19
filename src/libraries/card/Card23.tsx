@@ -12,8 +12,8 @@ function Card23({ pic }) {
   return (
     <>
       <Container sx={{mt:"60px"}}>
-        <Grid container xs={12} justifyContent="center" >
-          <Grid xs={11} >
+        <Grid container item xs={12} justifyContent="center" >
+          <Grid item xs={11} >
             <a>
               <iframe
                 width="100% "

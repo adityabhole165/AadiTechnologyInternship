@@ -8,6 +8,7 @@ import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
 import { Container, Typography, Box } from '@mui/material';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const PageNumber = 1;
 
@@ -17,6 +18,7 @@ function SmsCenter() {
 
   const dispatch = useDispatch();
   const SmsList = useSelector((state: RootState) => state.SmsCenter.SmsList);
+  const loading = useSelector((state: RootState) => state.SmsCenter.Loading);
   const MobileNumber = useSelector(
     (state: RootState) => state.SmsCenter.MobileNumber
   );
@@ -75,7 +77,10 @@ function SmsCenter() {
         <Icon1 Note={Note} />
       </Box>
 
-      {<List1 items={Data} />}
+      
+      {loading ? 
+        <SuspenseLoader />
+       :<List1 items={Data} />}
     </Container>
   );
 }

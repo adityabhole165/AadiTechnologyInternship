@@ -11,6 +11,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
 import { CardDetail1 } from 'src/libraries/styled/CardStyle';
 import { Header1 } from 'src/libraries/styled/AccordianStyled';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function SubjectTeacher() {
   const dispatch = useDispatch();
@@ -26,6 +27,9 @@ function SubjectTeacher() {
   );
   const SubjectTeachers = useSelector(
     (state: RootState) => state.SubjectTeacher.SubjectTeachers
+  );
+  const loading = useSelector(
+    (state: RootState) => state.SubjectTeacher.Loading
   );
 
   const body: ISubjectTeacher = {
@@ -58,7 +62,11 @@ function SubjectTeacher() {
         </CardDetail1>
       ))}
 
-      {<List1 items={Data}></List1>}
+      {loading ?
+        <SuspenseLoader />
+        :
+        <List1 items={Data}></List1>
+      }
     </Container>
   );
 }
