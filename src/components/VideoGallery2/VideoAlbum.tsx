@@ -12,6 +12,7 @@ import {
 } from 'src/interfaces/Common/VideoGallery';
 import { RootState } from 'src/store';
 import { Container } from '@mui/material';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 const VideoAlbum = () => {
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
@@ -35,6 +36,7 @@ const VideoAlbum = () => {
   }, [month, year]);
 
   const VideoList = useSelector((state: RootState) => state.Video.VideoList);
+  const loading = useSelector((state: RootState) => state.Video.Loading);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
@@ -60,15 +62,15 @@ const VideoAlbum = () => {
     asUserRoleId: RoleId
   };
 
-
-
-
-
   return (
     <Container>
       <PageHeader heading='Video Gallery' subheading={''} />
       <MonthYearselector month={month} onChange={changeMonth} year={year} YearData={YearList} newChange={changeYear} />
-      <List1 items={VideoList} />
+      {loading ?
+        <SuspenseLoader />
+        :
+        <List1 items={VideoList} />
+      }
     </Container>
   )
 }

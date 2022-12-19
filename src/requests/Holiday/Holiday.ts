@@ -7,11 +7,17 @@ import HolidaysApi from 'src/api/Holiday/Holiday';
 const Holidaysslice = createSlice({
   name: 'holidays',
   initialState:{
-    HolidaysData:[]
+    HolidaysData:[],
+    Loading:true
   },
   reducers: {
     getHolidays(state,action){
-      state.HolidaysData=action.payload.GetHolidayListResult;
+      state.Loading = false;
+      state.HolidaysData=action.payload;
+    },
+    getLoading (state,action) {
+        state.Loading = true
+        state.HolidaysData = [];
     }
   }   
 });
@@ -20,8 +26,29 @@ const Holidaysslice = createSlice({
 export const getHolidays =
   (data:IHolidays): AppThunk =>
   async (dispatch) => {
+    dispatch(Holidaysslice.actions.getLoading(true));
     const response = await HolidaysApi.GetHolidayList(data);
-    dispatch(Holidaysslice.actions.getHolidays(response.data));
+    let Data = [];
+    Data = response.data.GetHolidayListResult?.map((item, index) => {
+      return index === 0
+        ? {
+          id: index,
+          header: item.Name,
+          text1: Number(item.ToatalDays) == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
+          text2: 'Total Days: ' + item.ToatalDays,
+          subtitle: 'Total Days: ' + item.ToatalDays,
+          backgroundColor: 'secondary'
+        }
+        : {
+          id: index,
+          header: item.Name,
+          text1: Number(item.ToatalDays) > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
+          text2: 'Total Days: ' + item.ToatalDays,
+          backgroundColor: 'primary'
+        };
+    });
+  
+    dispatch(Holidaysslice.actions.getHolidays(Data));
   };
 
 

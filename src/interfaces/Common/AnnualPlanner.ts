@@ -1,31 +1,35 @@
-export interface IEventList  {
-    asMonth : number,
-    asAcademicYearId : string,
+export interface IEventList {
+    asMonth: number,
+    asAcademicYearId: string,
     asSchoolId: string,
     asYear: string,
-    asUserId : string
+    asUserId: string
 }
 
 export interface GetEventsInMonthResult {
-    Description:    string;
-    StartDate:       string;
-    StandardList:  string;
-    Id: string;
+    GetEventsInMonthResult: [{
+        Description: string;
+        StartDate: string;
+        EndDate: string;
+        StandardList: string;
+        Id: string;
+        EventComment: string
+    }]
 }
 
 //Event details
 
-export interface IEventDetails{
-    asAcademicYearId : string,
-    asSchoolId :string,
-    asEventId :string
+export interface IEventDetails {
+    asAcademicYearId: string,
+    asSchoolId: string,
+    asEventId: string
 }
 
 export interface GetEventsDetailsResult {
-    Description : string,
-    EndDate : string,
-    StartDate : string,
-    StandardList : string,
-    EventImage : string,
-    EventComment : string
+    Description: string,
+    EndDate: string,
+    StartDate: string,
+    StandardList: string,
+    EventImage: string,
+    EventComment: string
 }
