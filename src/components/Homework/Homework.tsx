@@ -64,7 +64,8 @@ function Homework() {
     const Day = new Date(date).getDate();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Year = new Date(date).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
+    const NewDateFormat = `${Day} ${Month} ${Year}`;
+   
     setDate({
       selectedDate: NewDateFormat
     });
@@ -73,7 +74,7 @@ function Homework() {
   };
 
   const getCurrentDate = (newDate?: Date) => {
-    setAssignedDate(getDateFormatted(newDate));
+    setAssignedDate(getDateFormatted(newDate).replace("-"," ").replace("-"," "));
     setcalanderSelected(false);
   };
 
