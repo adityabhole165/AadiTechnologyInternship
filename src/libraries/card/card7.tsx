@@ -37,7 +37,7 @@ function Card7({
   ID,
   Viewsent,
   ViewSentObject,
-}) {
+}) { 
   const theme = useTheme();
 
   let attachment = Attachments;
@@ -60,7 +60,7 @@ function Card7({
   }
 
   const classes = Styles();
-  const BODY = Body.replace(/(<([^>]+)>)/gi, '');
+  const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
 
   const saveMessageBody= ()=>{
@@ -106,8 +106,8 @@ function Card7({
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
-      
-            <Wordbreak dangerouslySetInnerHTML={{ __html: Body }} />
+
+            <Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
          
           </BoxWrapper>
         </ListStyle>

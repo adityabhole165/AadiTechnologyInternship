@@ -63,6 +63,7 @@ function Form13() {
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
   const originalMessageBody = localStorage.getItem("messageBody")
+  const MSGBody = originalMessageBody.replace(/(\r\n|\r|\n)/g, '<br>');
   useEffect(() => {
   }, [finalBase642New])
   useEffect(() => {
@@ -514,7 +515,7 @@ function Form13() {
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               
              <BoxContent>
-              <Wordbreak1 dangerouslySetInnerHTML={{ __html: originalMessageBody }} />
+              <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
               </BoxContent>
             ) : null}
 
