@@ -414,7 +414,7 @@ const DashboardData = {
         iconColor: '#f0483e',
         Icon: ForwardToInboxIcon,
         Link: 'MessageCenter/msgCenter',
-        index: 21,
+        index: 17,
       },
       {
         Text1: 'SMS ',
