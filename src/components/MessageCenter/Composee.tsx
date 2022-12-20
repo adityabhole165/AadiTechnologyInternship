@@ -231,12 +231,13 @@ function Form13() {
       asIsSoftwareCordinator: 0,
       asMessageId: ID != undefined ||  ID !="" ? parseInt(ID) :0,
       asSchoolName: SchoolName,
-      asSelectedStDivId: RoleId == '3' ? DivisionId : RoleId == '6' ? RecipientsObject.ClassId.toString() : '',
+      asSelectedStDivId: RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString(),
       asSelectedUserIds: RecipientsObject.RecipientId.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName
     };
+    
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
