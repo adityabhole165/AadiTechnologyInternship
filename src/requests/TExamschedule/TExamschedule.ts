@@ -13,19 +13,26 @@ const SelectStandardExamslice = createSlice({
   initialState: {
     SelectStandard: [],
     SelectExam: [],
-    ExamData: []
+    ExamData: [],
+    Loading:true
   },
   reducers: {
     getSelectStandardRes(state, action) {
       state.SelectStandard = action.payload;
     },
     getSelectExamRes(state, action) {
+ 
       state.SelectExam = action.payload;
     },
     ViewExamDataRes(state, action) {
+      state.Loading = false;
       state.ExamData = action.payload;
 
-    }
+    },
+    getLoading (state,action) {
+      state.Loading = true
+      state.ExamData = [];
+  }
   }
 })
 
@@ -49,7 +56,7 @@ export const GetSelectStandardRes =
 export const GetSelectExamRes =
   (data: IGetExamsList): AppThunk =>
     async (dispatch) => {
-
+      
       const response = await GetTExamResultListApi.IGetExams(data);
       let itemlist = []
       if(response.data!==null)
@@ -72,6 +79,7 @@ export const EmptyExam =
 export const ViewExamDataRess =
   (data: IExamList): AppThunk =>
     async (dispatch) => {
+      dispatch(SelectStandardExamslice.actions.getLoading(true));
       const response = await GetTExamResultListApi.GetExamsList(data);
 
       const itemlist = response?.data?.GetExamSchedulesResult.map((item) => {
