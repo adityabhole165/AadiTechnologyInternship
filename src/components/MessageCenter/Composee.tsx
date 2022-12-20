@@ -63,7 +63,7 @@ function Form13() {
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
 
   const originalMessageBody = localStorage.getItem("messageBody")
-  const MSGBody = originalMessageBody.replace(/(\r\n|\r|\n)/g, '<br>');
+  const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
   useEffect(() => {
   }, [finalBase642New])
   useEffect(() => {
