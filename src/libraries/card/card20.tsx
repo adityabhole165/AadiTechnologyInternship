@@ -54,12 +54,13 @@ function Card20({
           <CardDetail2>Grade</CardDetail2>
           <CardDetail2>{grade}</CardDetail2>
         </CardDetailB>
+        { rank <= 3 ? 
         <CardDetailB>
           <CardDetail2> Rank</CardDetail2>
-          {
-              (rank != "999" &&  rank != "-99") ? <CardDetail2> {rank}</CardDetail2> : <CardDetail2> </CardDetail2>
-          }
+          <CardDetail2> {rank}</CardDetail2>
         </CardDetailB>
+        : null
+}
       </ListStyle>
 
       <Card21

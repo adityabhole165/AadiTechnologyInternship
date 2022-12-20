@@ -90,6 +90,7 @@ const BarChart = ({ xData, series, colors, dataLabel,formatToolTip }) => {
     },
     series: [
       {
+        name: 'Marks',
         data: series
       }
     ]
