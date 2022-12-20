@@ -33,6 +33,7 @@ function Block({
   var indexval;
   const [grade, setgrade] = useState([]);
   const marks: any = [];
+  const actualMarks: any = [];
   const colors: any = [];
   const subject: any = [];
   const outofmarks: any = [];
@@ -70,6 +71,7 @@ function Block({
           marks.push(((list1.Marks / Number(list1.OutOf)) * 100).toFixed(2));
         }
         subject.push(list1.Subject);
+        actualMarks.push(list1.Marks)
         outofmarks.push(list1.OutOf);
         grades.push(list1.Grade);
         gradeormarks.push(list1.GradeOrMarks);
@@ -111,6 +113,21 @@ function Block({
   }, [Data]);
 
 
+  const formatToolTip = (val, opts) => {
+    const index = opts.dataPointIndex;
+    if (IsAbsent[index] === 'Y') {
+      return 'Absent'
+    }
+    else if (exmstats[index] == 'Late Joinee') {
+      return 'Late Joinee'
+    }
+    else if (exmstats[index] == 'Exempted') {
+      return 'Exempted'
+    }
+    else {
+      return (actualMarks[index] + '/' + outof[index])
+    }
+  }
   const dataLabel = (val, opts) => {
     let returnVal = val
     if (val >= '90' && val <= '100' && val != '99.99') {
@@ -138,7 +155,7 @@ function Block({
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return (getIsAbsent(opts.dataPointIndex, val+' %', returnVal))
+    return (getIsAbsent(opts.dataPointIndex, val+'%', returnVal))
   }
   const getIsAbsent = (index, val, returnVal) => {
 
@@ -157,7 +174,7 @@ function Block({
   }
   return (
     <>
-      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} ></BarChart>
+      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} formatToolTip={formatToolTip}></BarChart>
       <Card20
         percentage={Percentage}
         rank={Rank}
