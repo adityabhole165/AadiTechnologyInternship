@@ -210,7 +210,7 @@ const DashboardData = {
       Text1: 'SMS ',
       Text2: 'Center',
       Color: '#90a4ae',
-      iconColor: '#f0483e',
+      iconColor: ' #424242',
       Icon: SmsIcon,
       Link: 'Student/SmsCenter',
       index: 18,
@@ -220,7 +220,7 @@ const DashboardData = {
       Text1: 'PTA',
       Text2: '',
       Color: '#90a4ae',
-      iconColor: '#424242',
+      iconColor: '#f0483e ',
       Icon: PeopleIcon,
       Link: 'Common/PTA',
       index: 19,
@@ -334,8 +334,7 @@ const DashboardData = {
         Text1: 'SMS ',
         Text2: 'Center',
         Color: '#90a4ae',
-        iconColor: '#f0483e',
-      
+        iconColor: ' #424242',
         Link: 'Teacher/SmsCenter',
         index: 22,
         ScreenPermission: 'SMSCenter'
@@ -420,7 +419,7 @@ const DashboardData = {
         Text1: 'SMS ',
         Text2: 'Center',
         Color: '#90a4ae',
-        iconColor: '#f0483e',
+        iconColor: ' #424242',
         Link: 'SMSCenter/smsCenter',
         index: 22,
         ScreenPermission: 'SMS Center'
