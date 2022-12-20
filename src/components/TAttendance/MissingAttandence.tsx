@@ -78,7 +78,7 @@ function MissingAttandence() {
         ) : MissingAttandenceList.length < 1 ||
           MissingAttandenceList == undefined ||
           MissingAttandenceList.daywiseAttendanceStatusResult.length < 1 ? ( // FOR UNDEFINED VALUE OR EMPTY ARRAY
-          <ErrorMessages Error={'No missing attandence found.'} />
+          <ErrorMessages Error={'No missing attendence found.'} />
         ) : (
           MissingAttandenceList.daywiseAttendanceStatusResult.map(
             (items: GetMissingAttandenceData, i) => {
@@ -106,7 +106,7 @@ function MissingAttandence() {
                   ) : MissingAttandenceList.daywiseAttendanceStatusResult
                       .length < 1 ? (
                     <>
-                      <ErrorMessages Error={'No missing attandance found.'} />
+                      <ErrorMessages Error={'No missing attendance found.'} />
                     </>
                   ) : (
                     <>
