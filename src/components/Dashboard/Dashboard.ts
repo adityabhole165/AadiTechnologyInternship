@@ -200,7 +200,7 @@ const DashboardData = {
       Text1: 'Message ',
       Text2: 'Center',
       Color: '#90a4ae',
-      iconColor: ' #f0483e',
+      iconColor: '#35abd9',
       Icon: ForwardToInboxIcon,
       Link: 'MessageCenter/msgCenter',
       index: 17,
