@@ -3,7 +3,7 @@ import { options } from 'numeral';
 import React from 'react';
 import Chart from 'react-apexcharts';
 
-const BarChart = ({ xData, series, colors, dataLabel }) => {
+const BarChart = ({ xData, series, colors, dataLabel,formatToolTip }) => {
   //     const xData = [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999];
   //   const seriesData = [30, 40, 45, 50, 49, 60, 70, 91]
   //   const colors = seriesData.map((item)=>{
@@ -36,7 +36,13 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
   const data = {
     options: {
       tooltip: {
-        enabled: false
+        enabled: true,
+        y: {
+          formatter: function (val,opts) {
+            console.log(val)
+            return  formatToolTip(val,opts);
+          }
+        }
       },
       chart: {
         toolbar: { show: false },
@@ -84,6 +90,7 @@ const BarChart = ({ xData, series, colors, dataLabel }) => {
     },
     series: [
       {
+        name: 'Marks',
         data: series
       }
     ]
