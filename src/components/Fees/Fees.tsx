@@ -57,7 +57,7 @@ function Fees() {
 
  
   const classes = Styles();
-  const note1 = ['1) *RTE student (100% Consession on school fees)'];
+  const note1 = ['1) *RTE student (100% concession on school fees)'];
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
