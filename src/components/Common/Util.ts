@@ -67,7 +67,7 @@ export const getDateFormatted = (date) => {
     const Day = new Date(date).getDate();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Year = new Date(date).getFullYear();
-    return `${Day}-${Month}-${Year}`;
+    return `${Day} ${Month} ${Year}`;
 }
 
 export const getNextDate = (date, prevNext) => {

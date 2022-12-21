@@ -109,7 +109,7 @@ function Basenav() {
 
             <Fab aria-label="add" size="small" sx={{ textAlign: "center", boxShadow: "1px 1px 20px black" }}>
               <NavLink to="/extended-sidebar/landing/landing" className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
-                <HomeIcon sx={{ color: "${theme.colors.gradients.pink1}" }} />
+              <HomeIcon sx={{ color: "${theme.colors.gradients.pink1}",mt:'5px' }} /> 
               </NavLink>
             </Fab>
           </Grid>
