@@ -9,11 +9,13 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import BackButton from 'src/libraries/button/BackButton';
 import { Container } from '@mui/material';
 import List11 from 'src/libraries/list/List11';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function Comments() {
   const { VideoID, FromRoute } = useParams();
   const dispatch = useDispatch();
   const comment: any = useSelector((state: RootState) => state.Video.Comments);
+  const loading = useSelector((state: RootState) => state.Video.Loading);
   const asSchoolId = localStorage.getItem('localSchoolId');
 
   const comment_body: Icomments = {
@@ -28,27 +30,24 @@ function Comments() {
 
   return (
     <div>
-     
-        <BackButton FromRoute={"/Common/VideoGallery/VideoAlbum"}/>
-    
+      <BackButton FromRoute={"/Common/VideoGallery/VideoAlbum"} />
       <Container>
         <PageHeader heading={'Comments'} subheading={''} />
-
-        {comment.length === 0 ? (
-          <ErrorMessages Error={'No records found'} />
-        ) : (
-          <>
-            {comment.map((items: Getcomments, i) => (
-              <List11
-                key={i}
-                VideoID={items.VideoId}
-                Title={items.VideoComment}
-                VideoUrl={items.VideoUrl}
-                FromRoute={"/Comments"}
-              />
-            ))}
-          </>
-        )}
+        {loading ?
+          <SuspenseLoader /> :
+          comment.length === 0 ?
+            <ErrorMessages Error={'No records found'} /> :
+            (<>
+              {
+                comment.map((items: Getcomments, i) => (
+                  <List11 key={i} VideoID={items.VideoId}
+                    Title={items.VideoComment} VideoUrl={items.VideoUrl}
+                    FromRoute={"/Comments"}
+                  />
+                ))
+              }
+            </>)
+        }
       </Container>
     </div>
   );

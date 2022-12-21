@@ -1,9 +1,9 @@
 
 import http from "../../requests/SchoolService/schoolServices";
-import {IEventList} from "../../interfaces/Common/AnnualPlanner"
+import {IEventList,GetEventsInMonthResult} from "../../interfaces/Common/AnnualPlanner"
 
   const GetEventOverviewList = (data: IEventList) => {
-    return http.post<IEventList>('School/GetEventsInMonth',data);
+    return http.post<GetEventsInMonthResult>('School/GetEventsInMonth',data);
   };
   
 const AnnualPlannerApi  ={

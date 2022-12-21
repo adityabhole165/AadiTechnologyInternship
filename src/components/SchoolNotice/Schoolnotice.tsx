@@ -10,6 +10,7 @@ import { Container } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
 import { Box } from '@mui/system';
 import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function Schoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -18,6 +19,9 @@ function Schoolnotice() {
   const dispatch = useDispatch();
   const SchoolnoticeList = useSelector(
     (state: RootState) => state.Schoolnotice.SchoolNoticeData
+  );
+  const loading = useSelector(
+    (state: RootState) => state.Schoolnotice.Loading
   );
 
   const body: ISchoolnotice = {
@@ -55,7 +59,11 @@ function Schoolnotice() {
       {sessionStorage.getItem('Id')===null &&
         <BackButton FromRoute={"/schoolList"}/>
       }
-      <List1 items={Data} />
+            {loading ? 
+        <SuspenseLoader />
+       : 
+<List1 items={Data} />
+}
     </Container>
     </BoxStyle>
   );

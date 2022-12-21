@@ -7,12 +7,19 @@ const SubjectTeacherSlice = createSlice({
   name: 'SubjectTeacher',
   initialState: {
     ClassTeachers: [],
-    SubjectTeachers: []
+    SubjectTeachers: [],
+    Loading : true
   },
   reducers: {
     getSubjectTeachersList(state, action) {
       state.ClassTeachers = action.payload.GetSubjectTeacherResult.ClassTeachers;
       state.SubjectTeachers = action.payload.GetSubjectTeacherResult.SubjectTeachers;
+      state.Loading = false
+    },
+    getLoading (state,action) {
+        state.Loading = true
+        state.ClassTeachers = [];
+        state.SubjectTeachers = [];
     }
   }
 });
@@ -20,7 +27,8 @@ const SubjectTeacherSlice = createSlice({
 export const getSubjectList =
   (data: ISubjectTeacher): AppThunk =>
     async (dispatch) => {
-      const response = await SubjectTeacherApi.GetSubjectTeacherList(data);
+    dispatch(SubjectTeacherSlice.actions.getLoading(true));
+    const response = await SubjectTeacherApi.GetSubjectTeacherList(data);
       dispatch(SubjectTeacherSlice.actions.getSubjectTeachersList(response.data));
     };
 

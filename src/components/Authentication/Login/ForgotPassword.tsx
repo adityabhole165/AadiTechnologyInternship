@@ -131,13 +131,14 @@ function ForgotPassword() {
               margin="normal"
               name="DOB"
               type="date"
-              variant="standard"
+              variant="standard" 
+              placeholder='DD/MM/YYYY'
               value={formik.values.DOB}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               sx={{ mt: '-0.3rem' }}
             />
-            {formik.touched.DOB && formik.errors.DOB ? (
+            {formik.touched.DOB && formik.errors.DOB ? (  
               <Errormessage Error={formik.errors.DOB} />
             ) : null
             }

@@ -8,6 +8,7 @@ import IGetAllStandards, {
   IExamList
 } from 'src/interfaces/Teacher/TExamSchedule';
 import List1 from 'src/libraries/mainCard/List1';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 // import { IGetExamsList } from 'src/interfaces/Student/ExamSchedule';
 import {
   GetSelectStandardRes,
@@ -22,7 +23,7 @@ import Icon3 from 'src/libraries/icon/icon3';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 import Card1 from 'src/libraries/mainCard/Card1';
-import { Typography ,Box} from '@mui/material';
+import { Typography, Box } from '@mui/material';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 
 const TExamScheduleNew = () => {
@@ -35,11 +36,13 @@ const TExamScheduleNew = () => {
     (state: RootState) => state.StandardAndExamList.SelectExam
   );
 
-
   const SubList = useSelector(
     (state: RootState) => state.StandardAndExamList.ExamData
   );
 
+  const loading = useSelector(
+    (state: RootState) => state.StandardAndExamList.Loading
+  );
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -52,7 +55,7 @@ const TExamScheduleNew = () => {
   const [std, setStd] = useState('');
   const [exam, setExam] = useState('');
   const [isFirstTime, setIsFirstTime] = useState(true);
-  
+
   const ExamList_body: IGetExamsList = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -62,10 +65,10 @@ const TExamScheduleNew = () => {
   useEffect(() => {
     dispatch(EmptyExam());
     dispatch(GetSelectStandardRes(getstandardList_body));
-    if(RoleId==="3"){
+    if (RoleId === "3") {
       setStd(asStandardId)
     }
-    
+
   }, []);
   const stdChange = (value) => {
     setStd(value);
@@ -94,51 +97,56 @@ const TExamScheduleNew = () => {
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
-     {RoleId!=='3' &&
-      <Dropdown
-        Array={getstandard}
-        handleChange={stdChange}
-        label={'Select Standard'}
-        defaultValue={std} 
-      />}
-     <Box sx={{mt:"10px"}}>
-      {
-      (getExamlist.length > 0)?
-     ( <Dropdown
-        Array={getExamlist}
-        handleChange={examChange}
-        label={'Select Exam'}
-        defaultValue={exam}
-      />):
-      !isFirstTime &&
-      <ErrorMessages Error={'No exam has been scheduled'} />
-    }
-    </Box>
+      {RoleId !== '3' &&
+        <Dropdown
+          Array={getstandard}
+          handleChange={stdChange}
+          label={'Select Standard'}
+          defaultValue={std}
+        />}
+      <Box sx={{ mt: "10px" }}>
+        {
+          (getExamlist.length > 0) ?
+            (<Dropdown
+              Array={getExamlist}
+              handleChange={examChange}
+              label={'Select Exam'}
+              defaultValue={exam}
+            />) :
+            !isFirstTime &&
+            <ErrorMessages Error={'No exam has been scheduled'} />
+        }
+      </Box>
       <br />
-
+       {loading ? (
+              <SuspenseLoader />
+            ) : (
+      <>
       {SubList?.map((item, i) => {
         return (
           <div key={i} >
             {i == 0 && item.Instructions !== '' ? (
               <Icon3 Note={item.Instructions} />
             ) : null}
+           
+              <Card1 key={i}
+                header={item.header}
+                text1={''}
+                text2={item.text2}
+                text3={item.text3}
+                text4={''}
+                text5={item.text5}
+                text6={''}
+                Color={''}
+                margin={''}
+                FileName={''}
 
-            <Card1 key={i}
-              header={item.header}
-              text1={''}
-              text2={item.text2}
-              text3={item.text3}
-              text4={''}
-              text5={item.text5}   
-              text6={''}
-              Color={''}
-              margin={''}
-              FileName={''}
-              
-            />
+              />
           </div>
         );
       })}
+      </>
+       )}
     </Container>
   );
 };

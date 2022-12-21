@@ -30,7 +30,8 @@ function DateSelector({ date, setCurrentDate, Close }) {
   }
 
   const clickClose=(selectDate)=>{
-    Close(selectDate)
+    const dateArray = selectDate.toString().split("/");
+    Close(`${dateArray[1]}/${dateArray[0]}/${dateArray[2]}`)
   }
 
   const dateClickHnadler = (e) => {

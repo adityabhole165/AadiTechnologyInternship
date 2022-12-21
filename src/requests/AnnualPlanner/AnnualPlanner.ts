@@ -11,25 +11,34 @@ const AnnualPlannerSlice = createSlice({
   },
   reducers: {
     getEventList (state,action){
+      state.EventList=action.payload;
       state.Loading = false
-      state.EventList=action.payload.GetEventsInMonthResult;
     },
     getLoading (state,action) {
         state.Loading = true
         state.EventList = [];
-
     }
   }   
 });
 
-
 export const getEventList =
   (data:IEventList): AppThunk =>
   async (dispatch) => {
+
     dispatch(AnnualPlannerSlice.actions.getLoading(true));
     const response = await AnnualPlannerApi.GetEventOverviewList(data);
-    dispatch(AnnualPlannerSlice.actions.getEventList(response.data));
-  };
+    let Data = []
+    Data = response.data.GetEventsInMonthResult?.map((item, index) => {
+    return {
+      id: index,
+      header: item.Description,
+      text1: 'Standard : ' + item.StandardList,
+      text3: item.StartDate,
+      linkPath: '/Common/viewevent/' + item.Id + '/' + data.asMonth + '/' + data.asYear
+    };
+  });
+    dispatch(AnnualPlannerSlice.actions.getEventList(Data));
 
+  };
 
 export default AnnualPlannerSlice.reducer

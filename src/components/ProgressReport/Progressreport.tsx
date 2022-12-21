@@ -24,6 +24,9 @@ import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 
+const BarGraphNote = [
+  'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
+
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
   const note2 = ['No exam of this class has been published for the current academic year.'];
@@ -153,6 +156,7 @@ function Progressreport() {
           />
         <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
       </DotLegend1>
+      <Note NoteDetail={BarGraphNote} />
       <Box>
         {progressreportResult.length === 0 ?
 

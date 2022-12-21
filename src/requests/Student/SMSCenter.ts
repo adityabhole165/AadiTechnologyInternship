@@ -9,16 +9,22 @@ const SmsCenterSlice = createSlice({
     SmsList: [],
     MobileNumber: "",
     ViewSms: {},
+    Loading : true
   },
   reducers: {
     getSmsList(state, action) {
       state.SmsList = action.payload.GetSMSListResult;
+      state.Loading = false
     },
     getMobileNumber(state, action) {
       state.MobileNumber = action.payload.GetUserMobileNumberResult;
     },
     getSmsDetails(state, action) {
       state.ViewSms = action.payload.GetSMSDetailsResult;
+    },
+    getLoading (state,action) {
+        state.Loading = true
+        state.SmsList = [];
     }
   }
 })
@@ -26,6 +32,7 @@ const SmsCenterSlice = createSlice({
 export const getSmsList =
   (data: ISmsList): AppThunk =>
     async (dispatch) => {
+      dispatch(SmsCenterSlice.actions.getLoading(true));
       const response = await SmsCenterApi.GetSmsCenterList(data)
       dispatch(SmsCenterSlice.actions.getSmsList(response.data));
     };

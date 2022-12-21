@@ -6,9 +6,10 @@ export default interface IHolidays {
 }
 
 export interface GetHolidayListResult {
-    EndDate:    string;
+    GetHolidayListResult:[{EndDate:    string;
     Name:       string;
     Standards:  string;
     StartDate:  string;
     ToatalDays: string;
+    }]
 }

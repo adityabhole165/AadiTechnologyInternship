@@ -10,8 +10,9 @@
   "private": true,
   "dependencies": {
     "@auth0/auth0-spa-js": "1.19.2",
-    "@capacitor/android": "^4.4.0",
-    "@capacitor/core": "^4.4.0",
+    "@capacitor/android": "^4.6.1",
+    "@capacitor/app": "^4.1.1",
+    "@capacitor/core": "^4.6.1",
     "@emotion/react": "11.6.0",
     "@emotion/styled": "11.6.0",
     "@fullcalendar/core": "5.10.1",
@@ -104,7 +105,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build --openssl-legacy-provider",
+    "build": "react-scripts build ",
     "eject": "react-scripts eject",
     "lint": "eslint .",
     "lint:fix": "eslint --fix",
@@ -123,7 +124,7 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "^4.4.0",
+    "@capacitor/cli": "^4.6.1",
     "@typescript-eslint/eslint-plugin": "^5.4.0",
     "@typescript-eslint/parser": "^5.4.0",
     "eslint": "^7.11.0",
