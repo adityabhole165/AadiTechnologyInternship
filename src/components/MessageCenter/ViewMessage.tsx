@@ -61,7 +61,7 @@ function ViewSms({}) {
           Body={viewSent.Body}
           Text={viewSent.Subject}
           Attachments={viewSent.Attachments}
-          ID={UserId}
+          ID={ID}
           ViewSentObject={viewSent}
         />
       )}
