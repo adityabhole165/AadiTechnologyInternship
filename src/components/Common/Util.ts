@@ -3,63 +3,37 @@ export function isFutureDate(date) {
         >
         (new Date(new Date().toLocaleDateString())))
 }
-export function getMonthYear(){
-    const date =  new Date();
+
+export function getMonthYear() {
+    const date = new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();
     const Year = new Date(date).getFullYear()
     const NewDateFormat = `${Month}-${Year}`;
-    
-}
-export function changeDateFormat(date) {
-    const dateValues = date?.split("-")
-    if (Array.isArray(dateValues)) {
-        const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-        return {
-            day: Number(dateValues[0]),
-            month: Number((months.indexOf(dateValues[1]) + 1)),
-            year: Number(dateValues[2])
-        }
-    } else {
-        return {
-            day: 0,
-            month: 0,
-            year: 0
-        }
-    }
 }
 
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
-    const dateValue = changeDateFormat(date).day + '/' + changeDateFormat(date).month + '/' + changeDateFormat(date).year
-    return dateValue === new Date().toLocaleDateString()
+    const todaysDate = new Date().toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
+    return date === todaysDate
 }
 
-//date='02 Oct 2022'
-export function isBetweenDate(date, dayCount) {
-    var fromDate = new Date(new Date().toLocaleDateString())
-    var toDate = getNextDate(fromDate,dayCount)
-    var compareDate = new Date(new Date(date).toLocaleDateString())
-    return ((compareDate  >= fromDate) && 
-    (compareDate <= toDate))
-}
-
-export function ReturnTimeOrDateYear(date){
+export function ReturnTimeOrDateYear(date) {
     var dateFormat = new Date(date);
-    if(new Date(dateFormat.toLocaleDateString()) === new Date(new Date().toLocaleDateString()))
-    return formatAMPM(dateFormat)
+    if (new Date(dateFormat.toLocaleDateString()) === new Date(new Date().toLocaleDateString()))
+        return formatAMPM(dateFormat)
     return date;
 
 }
 
-export const isValueInArrayContains = (value,validarray) => {
+export const isValueInArrayContains = (value, validarray) => {
     return validarray.some((a) => {
         return (a.includes(value))
     })
 }
 
-export const isValueInArray = (value,validarray) => {
+export const isValueInArray = (value, validarray) => {
     return validarray.some((a) => {
         return (a === value)
     })
@@ -95,12 +69,13 @@ export const getDateFormatted = (date) => {
     const Year = new Date(date).getFullYear();
     return `${Day}-${Month}-${Year}`;
 }
-export const getNextDate = (date,prevNext) => {
-    return new Date(
-        changeDateFormat(date).year,
-        changeDateFormat(date).month - 1,
-        changeDateFormat(date).day + prevNext)
+
+export const getNextDate = (date, prevNext) => {
+    var nextDate = new Date(date);
+    nextDate.setDate(nextDate.getDate() + prevNext);
+    return nextDate.toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
 }
+
 export const monthArray = [
     { Value: 1, Name: "January" },
     { Value: 2, Name: "February" },
@@ -114,20 +89,20 @@ export const monthArray = [
     { Value: 10, Name: "October" },
     { Value: 11, Name: "November" },
     { Value: 12, Name: "December" },
-  ]
+]
 
-  export const CheckFileValidation = (fileData,allowedFileTypes, fileSize) => {
+export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {
-      if (!allowedFileTypes.includes(fileExtension)) {
-        return 'File does not support. Please cheked Note';
-      } else if (allowedFileTypes.includes(fileExtension)) {
-        return null;
-      }
-      if (fileData?.size > fileSize) {
-        return 'Please upload a file smaller than 20 MB';
-      }
+        if (!allowedFileTypes.includes(fileExtension)) {
+            return 'File does not support. Please cheked Note';
+        } else if (allowedFileTypes.includes(fileExtension)) {
+            return null;
+        }
+        if (fileData?.size > fileSize) {
+            return 'Please upload a file smaller than 20 MB';
+        }
     }
-  };
+};
 
-  export const sitePath = 'https://192.168.1.80';
+export const sitePath = 'https://192.168.1.80';
