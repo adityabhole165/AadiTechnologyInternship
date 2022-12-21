@@ -155,7 +155,13 @@ function Block({
     } else if (val >= 90 && val <= 92) {
       returnVal = 'A-';
     }
-    return (getIsAbsent(opts.dataPointIndex, val+'%', returnVal))
+    {
+     if (val == 0 ){
+      return (getIsAbsent(opts.dataPointIndex, val='', returnVal))
+     } else {
+      return (getIsAbsent(opts.dataPointIndex, val+'%', returnVal))
+     }
+    }   
   }
   const getIsAbsent = (index, val, returnVal) => {
 
@@ -167,7 +173,7 @@ function Block({
     }
     else if (exmstats[index] == 'Exempted') {
       return 'Exempted'
-    }
+    }   
     else {
       return (IsGrade == 'true' ? returnVal : val)
     }
