@@ -22,6 +22,9 @@ function StaffBirthday() {
     (state: RootState) => state.staffBirthday.staffBirthdayData
   );
 
+
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
   const [date, setDate] = useState({ selectedDate: '' });
   const [assignedYear, setAssignedYear] = useState<number>();
 
@@ -41,7 +44,6 @@ function StaffBirthday() {
     setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
-
   useEffect(() => {
     setCurrentDate();
   }, []);
@@ -62,8 +64,8 @@ function StaffBirthday() {
 
   const body: IstaffBirthday = {
     asMonth: assignedMonth_num,
-    asAcademicyearId: '9',
-    asSchoolId: '120'
+    asAcademicyearId: asAcademicYearId,
+    asSchoolId: asSchoolId
   };
 
  
