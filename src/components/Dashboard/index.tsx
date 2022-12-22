@@ -10,6 +10,7 @@ import {getModulesPermission,getModulesPermissionsResultt,} from 'src/requests/S
 import {IgetModulesPermission,IGetScreensAccessPermissions} from 'src/interfaces/SchoolSetting/schoolSettings';
 import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
+import NewRelease from '../Authentication/NewRelease/NewRelease';
 const Text = styled(Box)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -182,6 +183,7 @@ if (RoleId === '3') {
 
   return (
     <>
+    {/* <NewRelease/> */}
      <Card2 items={items1} heading={'School'} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>
     {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
     {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
