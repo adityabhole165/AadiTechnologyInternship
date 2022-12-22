@@ -175,8 +175,7 @@ function Card16({ Note, Heading }) {
 
         <RouterLink
           to={
-            `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate
+            `/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate.replace("/","-").replace("/","-")
           }
           style={mystyle}
         >
