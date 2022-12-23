@@ -175,8 +175,7 @@ function Card16({ Note, Heading }) {
 
         <RouterLink
           to={
-            `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate
+            `/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate.replace("/","-").replace("/","-")
           }
           style={mystyle}
         >
@@ -282,7 +281,8 @@ function Card16({ Note, Heading }) {
            
       <>
         <Stack direction="row" spacing={2}>
-          {GetFeeDetails.AllowCautionMoneyOnlinePayment === true ? (
+          {GetFeeDetails.AllowCautionMoneyOnlinePayment === false ? (
+            <>
             <RouterLink
               to={`/${
                 location.pathname.split('/')[1]
@@ -291,10 +291,19 @@ function Card16({ Note, Heading }) {
             >
               <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
             </RouterLink>
+
+            <RouterLink
+              to={`/${
+                location.pathname.split('/')[1]
+              }/Student/Fees_cautionmoney`}
+              style={{textDecoration:'none'}}
+            >
+              <ButtonPrimary color="secondary">Caution Money Receipt</ButtonPrimary>
+            </RouterLink>
+            </>
+            
           ) : (
-            <ButtonPrimary color="secondary">
-              Caution Money Receipt{' '}
-            </ButtonPrimary>
+            null
           )}
 
           <RouterLink
