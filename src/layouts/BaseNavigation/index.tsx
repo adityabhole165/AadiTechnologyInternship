@@ -54,16 +54,10 @@ function Basenav() {
   const RoleId=sessionStorage.getItem("RoleId");
   const classes = useStyles();
 
-
-
-
-
-
-
-  return (
-    <Paper square sx={{ py: 0.5, borderTop: "1px solid gray",zIndex:"9999"}}>
-        <Grid container textAlign="center" sx={{ mx: "-5px" }} >
-          <Grid item xs={2.4} lg={2.5} xl={2}  >
+return (
+    <Paper square sx={{pb:"5px",pt:"5px", borderTop: "1px solid gray",zIndex:"9999"}}>
+        <Grid container textAlign="center" >
+          <Grid item xs={2.4}  >
             { 
              (RoleId == "3" )?
              <IconButton>
@@ -84,7 +78,7 @@ function Basenav() {
             }
           </Grid>
 
-          <Grid item xs={2.4} lg={2.5} xl={2}>
+          <Grid item xs={2.4}>
             { 
               (RoleId == "3")?
               <IconButton>
@@ -105,16 +99,16 @@ function Basenav() {
            }
           </Grid>
 
-          <Grid item xs={2.4} lg={2.5} xl={2} sx={{ py: 0.5 }}>
+          <Grid item xs={2.4}>
 
-            <Fab aria-label="add" size="small" sx={{ textAlign: "center", boxShadow: "1px 1px 20px black" }}>
+            <Fab aria-label="add" size="small" sx={{ textAlign: "center", boxShadow: "0px 8px 15px rgba(0, 0, 0, 0.1)" }}>
               <NavLink to="/extended-sidebar/landing/landing" className={classes.root} activeStyle={{ color: '#9e9e9e' }} >
-                <HomeIcon sx={{ color: "${theme.colors.gradients.pink1}" }} />
+                <HomeIcon sx={{mt:"5px", color: "${theme.colors.gradients.pink1}"}} />
               </NavLink>
             </Fab>
           </Grid>
 
-          <Grid item xs={2.4} lg={2.5} xl={2}>
+          <Grid item xs={2.4} >
             { 
               (RoleId == "3")?
               <IconButton>
@@ -141,7 +135,7 @@ function Basenav() {
             }
           </Grid>
 
-          <Grid item xs={2.4} lg={1.7} xl={2}>
+          <Grid item xs={2.4} >
           { 
              (RoleId == "3")?
             <IconButton>
