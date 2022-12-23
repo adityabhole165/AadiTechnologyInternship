@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.example.riteschool',
+  appId: 'com.regulus.riteschool',
   appName: 'RITeSchool',
   webDir: 'build',
   bundledWebRuntime: false,
