@@ -20,7 +20,6 @@ const MobileSiteURL = localStorage.getItem("SiteURL");
 console.log("MobileSiteURL",MobileSiteURL);
 
     const newVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
-    console.log("ReleaseNew",newVersionDetails);
 
     const releaseBody: INewRelease = {
       "asDeviceType":"Android",
