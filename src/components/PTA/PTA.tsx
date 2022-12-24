@@ -42,7 +42,7 @@ function pta() {
 
   return (
     <Container>
-      <PageHeader heading={'PTA'} subheading={''} />
+      <PageHeader heading={'Parent Teacher Association'} subheading={''} />
       <div>
         <Grid container>
           </Grid><Grid item xs={12}>
