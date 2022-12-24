@@ -104,7 +104,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 
-const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
 
 function Header() {

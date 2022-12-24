@@ -41,6 +41,8 @@ import AComposeSMSSlice from 'src/requests/AdminSMSCenter/AComposeSMS';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
 import Feedbackslice from 'src/requests/Feedback/Feedback';
 import Notificationslice from "../requests/Notification/Notification";
+import NewReleaseslice from 'src/requests/Authentication/NewRelease';
+
 
 const rootReducer = combineReducers({
     Holidays:Holidaysslice,
@@ -91,7 +93,8 @@ const rootReducer = combineReducers({
     getASendSMS:AComposeSMSSlice,
     getModulesPermissionsResult:schoolSettingSlice,
     SchoolSettings:SchoolListslice,
-    Feedback : Feedbackslice
+    Feedback : Feedbackslice,
+    NewRelease: NewReleaseslice,
 });
 
 export default rootReducer;
