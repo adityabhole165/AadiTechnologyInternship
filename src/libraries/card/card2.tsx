@@ -24,7 +24,7 @@ function Card2({
   ViewDetail,
   Title,
   StartDate,
-
+  EndDate,
   Standard,
   Description
 }) {
@@ -43,6 +43,11 @@ function Card2({
             <CardDetail1>{ViewDetail.Start_Date}</CardDetail1>
 
             <CardDetail2>{StartDate}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>{ViewDetail.End_Date}</CardDetail1>
+
+            <CardDetail2>{EndDate}</CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Standards}</CardDetail1>

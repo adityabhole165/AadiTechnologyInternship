@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LoginApi from 'src/api/Authentication/Login';
 import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login'
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -59,6 +59,10 @@ function SelectSchool() {
     const schoolNotice = () => {
         navigate('/schoolNotice');
     }
+    const PrivacyPolicy = () => {
+        window.location.href = "http://riteschool.com/PrivacyPolicy.aspx";
+         //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
+    }
 
     //   select School
     const dispatch = useDispatch();
@@ -74,11 +78,13 @@ function SelectSchool() {
         localStorage.setItem("localSchoolId", value.SchoolId);
         localStorage.setItem("SchoolName", value.SchoolName);
         localStorage.setItem("SiteURL", value.SiteURL);
+        localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
     }
     const Id = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
     const SchoolName = localStorage.getItem('SchoolName')
-    const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+    //const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+    const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const schoolId = localStorage.getItem('localSchoolId')
     if((schoolId != null && schoolId != undefined)){
         localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
@@ -401,6 +407,9 @@ function SelectSchool() {
                         </Grid>
                         <Grid>
                             <CardDetail10   onClick={schoolNotice}>School Notices</CardDetail10>
+                        </Grid>
+                        <Grid>
+                            <CardDetail10   onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
                         </Grid>
                     </Grid>
             }

@@ -347,9 +347,9 @@ function Form13() {
               <TextField
                 multiline
                 value={RecipientsObject.RecipientName.map(obj=>obj.trim()).join('; ')}
-                variant="outlined"
+                variant="standard"
+                label='To :'
                 id=""
-                placeholder='To :'
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
