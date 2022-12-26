@@ -21,6 +21,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
+import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
@@ -277,10 +278,10 @@ function SelectSchool() {
 
 
     return (
-        <Grid style={styles.paperContainer}>
-
+        <Grid style={styles.paperContainer} >
+             
             {
-                !show ?
+                show ?
                     <Grid>
                         <Grid
                             container
@@ -292,10 +293,10 @@ function SelectSchool() {
                             columns={{ xs: 12, md: 12 }}
                         >
                             <Grid alignItems="center" >
-                                <img src={school2} />
+                                <img src={school2}  />
                             </Grid>
 
-                            <Box component="form" sx={{ maxWidth: '75%' }} >
+                            <Box component="form">
 
                                 <Grid item xs={12}>
                                     <Autocomplete
@@ -321,6 +322,8 @@ function SelectSchool() {
                                 </Grid>
                             </Box>
                         </Grid>
+                    
+                  
                     </Grid>
                     :
 
@@ -335,13 +338,13 @@ function SelectSchool() {
                     >
 
                         <Grid item xs={12}>
-                            <img src={img_src} className={styleroot.logo} />
+                            <img src={img_src} width="200" height="200" />
                         </Grid>
                         <Grid item xs={12}>
 
                             <HeadingStyle>{SchoolName}</HeadingStyle>
                         </Grid>
-                        <Grid item xs={12}>
+                        <Box sx={{ maxWidth: '90%' }}>
 
                             <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
                                 <Grid item xs={12}>
@@ -402,7 +405,7 @@ function SelectSchool() {
 
                                 </Grid>
                             </form>
-                        </Grid>
+                            </Box>
 
                         <Grid>
                             <CardDetail10 onClick={changeschool}>Change School For Login</CardDetail10>
@@ -412,27 +415,24 @@ function SelectSchool() {
                         </Grid>
                     </Grid>
             }
-                    {/* <Grid item xs={12}> */}
-            {/* <Box  display='flex' justifyContent="flex-start" alignItems="flex-end">
-                <Grid container> */}
-                    <Grid item xs={12}>
+               
+            <Box sx={{ position: "fixed", bottom: 0, width: "100%",}}>
+                <Grid item xs={12} textAlign="center">
                         <CardDetail10 onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
                     </Grid>
-                    <Grid item xs={12}>
-                        <Paper square sx={{ width: '100%' }} >
-                            <Grid item xs={4} container display="flex" justifyContent="flex-start" alignItems="flex-end">
-                                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-                                    <img src={school2} height={25}></img>
-                                </a>
+                        <Paper square >
+                        <Grid container>
+                       <Grid item xs={3} display="flex" justifyContent="flex-start" alignItems="center" >
+                          <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas} height={25}/>
+                          </a>
                             </Grid>
-                            <Grid item xs={8} container display="flex" justifyContent="flex-start" alignItems="center">
-                                <Typography fontSize={10} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+                            <Grid item xs={9} display="flex" justifyContent="flex-start" alignItems="center" >
+                                <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+                            </Grid>
                             </Grid>
                         </Paper>
-                    </Grid>
-                {/* </Grid>
-            </Box> */}
-            {/* </Grid> */}
+                        </Box>
         </Grid >
     )
 

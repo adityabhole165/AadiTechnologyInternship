@@ -56,7 +56,7 @@ function Basenav() {
   const classes = useStyles();
 
   return (
-    <Paper square sx={{ pb: "5px", pt: "5px", borderTop: "1px solid gray", zIndex: "9999" }}>
+    <Paper square sx={{ pb: "3px", pt: "3px", borderTop: "1px solid gray", zIndex: "9999" }}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -165,13 +165,15 @@ function Basenav() {
                   </IconButton> : null
           }
         </Grid>
-        <Grid item xs={4} container display="flex" justifyContent="flex-start" alignItems="flex-end">
+        <Grid container>
+        <Grid item xs={4} display="flex"  justifyContent="flex-start">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-            <img src={school2} height={25}></img>
+            <img src={school2} height={25}/>
           </a>
         </Grid>
-        <Grid item xs={8} container display="flex" justifyContent="flex-start" alignItems="center">
-          <Typography fontSize={10} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+        <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
+          <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+        </Grid>
         </Grid>
         </Grid>
     </Paper>
