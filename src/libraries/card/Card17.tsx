@@ -228,10 +228,8 @@ function Card17({ data, YearData }) {
                                         // mx: 'auto'
                                       }}
                                       alt={slide.Name}
-                                      src={
-                                        'http://riteschool_old.aaditechnology.com/RITeSchool/' +
-                                        slide.ImageList[0].ImagePath
-                                      }
+                                      src={ localStorage.getItem("siteURL") + slide.ImageList[0].ImagePath}
+                                        // 'http://riteschool_old.aaditechnology.com/RITeSchool/' +
                                     />
                                   </Slide>
 
