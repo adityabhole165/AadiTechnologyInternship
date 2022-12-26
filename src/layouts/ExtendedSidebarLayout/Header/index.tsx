@@ -262,7 +262,7 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9",height: 50 }} variant="rounded" aria-label="add" />
         </IconButton>
         <Popover
           disableScrollLock
@@ -397,8 +397,8 @@ function Header() {
             </Button>
           </Box>
         </Popover>
-        <Avatar sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="medium" onClick={Notification} />
+        <Avatar sx={{ backgroundColor: "#90caf9", height: 40 }} variant="rounded" aria-label="add">
+          <NotificationsIcon fontSize="large" onClick={Notification} />
         </Avatar>
         {/* <ThemeSettings /> */}
       </Stack>
