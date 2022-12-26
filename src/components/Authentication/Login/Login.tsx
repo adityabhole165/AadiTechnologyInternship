@@ -27,8 +27,10 @@ import { useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
 import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
-import { CardDetail1, CardDetail10, CardDetail11,  InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
-
+import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
+import { Paper, Typography } from '@mui/material';
+import { textAlign } from '@mui/system';
+import { logoURL } from 'src/components/Common/Util';
 
 function SelectSchool() {
     const styleroot = Styles();
@@ -42,7 +44,7 @@ function SelectSchool() {
 
     };
     const [show, setShow] = useState(true);
-    const [LoginButtonDisabled,setLoginButtonDisabled] = useState("auto");
+    const [LoginButtonDisabled, setLoginButtonDisabled] = useState("auto");
 
     const changeschool = () => {
         setShow(true);
@@ -61,7 +63,7 @@ function SelectSchool() {
     }
     const PrivacyPolicy = () => {
         window.location.href = "http://riteschool.com/PrivacyPolicy.aspx";
-         //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
+        //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
     }
 
     //   select School
@@ -71,7 +73,7 @@ function SelectSchool() {
 
     const [value, setValue] = React.useState<GetAllSchoolsResult>();
     const [inputValue, setInputValue] = React.useState('');
-  
+
     if ((value !== undefined) && (value !== null)) {
         window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
         sessionStorage.setItem("SchoolId", value.SchoolId);
@@ -84,14 +86,15 @@ function SelectSchool() {
     const RoleId = sessionStorage.getItem('RoleId');
     const SchoolName = localStorage.getItem('SchoolName')
     //const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
-    const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    // const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const schoolId = localStorage.getItem('localSchoolId')
-    if((schoolId != null && schoolId != undefined)){
+    if ((schoolId != null && schoolId != undefined)) {
         localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
     }
 
-    let schoolSettingAPIBody:ISchoolSettings = null;
-    if((schoolId != null && schoolId != undefined)){
+    let schoolSettingAPIBody: ISchoolSettings = null;
+    if ((schoolId != null && schoolId != undefined)) {
         schoolSettingAPIBody = {
             asSchoolId: schoolId
         }
@@ -144,7 +147,7 @@ function SelectSchool() {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
-      const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+        const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
         if (result.RoleName === "Student") {
@@ -195,7 +198,7 @@ function SelectSchool() {
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
             localStorage.setItem("RoleName", result.RoleName);
             localStorage.setItem("DOB", teacherDetails.DOB);
-            
+
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -256,10 +259,10 @@ function SelectSchool() {
     const ListData: ISchoolList = {
         "asSchoolId": "Default"
     }
-    
+
     useEffect(() => {
         dispatch(getSchoolList(ListData))
-        if((schoolId != null && schoolId != undefined)){
+        if ((schoolId != null && schoolId != undefined)) {
             dispatch(getSchoolSettingsValue(schoolSettingAPIBody))
         }
         if (schoolId !== null) {
@@ -277,7 +280,7 @@ function SelectSchool() {
         <Grid style={styles.paperContainer}>
 
             {
-                show ?
+                !show ?
                     <Grid>
                         <Grid
                             container
@@ -331,21 +334,19 @@ function SelectSchool() {
                         columns={{ xs: 12, md: 12 }}
                     >
 
-                        <Box>
-                            <Grid alignItems="" >
-                                <img src={img_src} className={styleroot.logo} />
-                            </Grid>
-                        </Box>
+                        <Grid item xs={12}>
+                            <img src={img_src} className={styleroot.logo} />
+                        </Grid>
+                        <Grid item xs={12}>
 
-                        <Box>
                             <HeadingStyle>{SchoolName}</HeadingStyle>
-                        </Box>
+                        </Grid>
+                        <Grid item xs={12}>
 
-                        <Box sx={{ maxWidth: '90%' }}>
                             <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
                                 <Grid item xs={12}>
                                     <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
-                                        <UsernameStyle htmlFor="username">Username</UsernameStyle>
+                                        <UsernameStyle htmlFor="username">User Name</UsernameStyle>
                                         <InputStyle
                                             id="username"
                                             color="secondary"
@@ -363,7 +364,7 @@ function SelectSchool() {
                                     <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
                                         <UsernameStyle htmlFor="standard-adornment-password">Password</UsernameStyle>
                                         <InputStyle
-                                          
+
                                             color="secondary"
                                             id="standard-adornment-password"
                                             type={formValues.showPassword ? 'text' : 'password'}
@@ -389,10 +390,10 @@ function SelectSchool() {
                                         formik.touched.password && formik.errors.password ? (<div className={classes.error}>{formik.errors.password}</div>) : null
                                     }
 
-                                    <Grid sx={{  pt: 1, pb: 3 }}>
-                                        <ButtonPrimary color="primary"  type="submit" onChange={formik.handleChange} 
-                                       
-                                        > 
+                                    <Grid sx={{ pt: 1, pb: 3 }}>
+                                        <ButtonPrimary color="primary" type="submit" onChange={formik.handleChange}
+
+                                        >
                                             Login
                                         </ButtonPrimary>
                                         <CardDetail11 onClick={forgotPassword}> Forgot Password </CardDetail11>
@@ -401,21 +402,38 @@ function SelectSchool() {
 
                                 </Grid>
                             </form>
-                        </Box>
+                        </Grid>
+
                         <Grid>
-                            <CardDetail10  onClick={changeschool}>Change School For Login</CardDetail10>
+                            <CardDetail10 onClick={changeschool}>Change School For Login</CardDetail10>
                         </Grid>
                         <Grid>
-                            <CardDetail10   onClick={schoolNotice}>School Notices</CardDetail10>
-                        </Grid>
-                        <Grid>
-                            <CardDetail10   onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
+                            <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                     </Grid>
             }
-
-        </Grid>
-
+                    {/* <Grid item xs={12}> */}
+            {/* <Box  display='flex' justifyContent="flex-start" alignItems="flex-end">
+                <Grid container> */}
+                    <Grid item xs={12}>
+                        <CardDetail10 onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Paper square sx={{ width: '100%' }} >
+                            <Grid item xs={4} container display="flex" justifyContent="flex-start" alignItems="flex-end">
+                                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                    <img src={school2} height={25}></img>
+                                </a>
+                            </Grid>
+                            <Grid item xs={8} container display="flex" justifyContent="flex-start" alignItems="center">
+                                <Typography fontSize={10} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+                            </Grid>
+                        </Paper>
+                    </Grid>
+                {/* </Grid>
+            </Box> */}
+            {/* </Grid> */}
+        </Grid >
     )
 
 }
