@@ -281,7 +281,7 @@ function Card16({ Note, Heading }) {
            
       <>
         <Stack direction="row" spacing={2}>
-          {GetFeeDetails.AllowCautionMoneyOnlinePayment === false ? (
+          {(GetFeeDetails.AllowCautionMoneyOnlinePayment === true && !(asSchoolId==="18")) ? (
             <>
             <RouterLink
               to={`/${

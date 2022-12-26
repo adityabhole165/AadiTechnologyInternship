@@ -16,7 +16,7 @@ export const Styles = makeStyles({
   },
 
   smalllogo: {
-    width: '50px',
+    width: '120px',
     margin: 'auto'
   },
   check: {
