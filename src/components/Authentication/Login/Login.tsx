@@ -21,6 +21,7 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
+import bf from 'src/assets/img/stuff/Bright Future School_logo.png';
 import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
@@ -39,8 +40,8 @@ function SelectSchool() {
 
     const styles = {
         paperContainer: {
-            backgroundImage: `url(${school5})`,
-            backgroundColor: "#2c171738"
+            // backgroundImage: `url(${school5})`,
+            backgroundColor: "white"
         },
 
     };
@@ -282,23 +283,23 @@ function SelectSchool() {
              
             {
                 show ?
-                    <Grid>
-                        <Grid
+                    <>
+
+                         <Grid
                             container
                             spacing={0}
                             direction="column"
-                            alignItems="center"
-                            justifyContent="center"
-                            style={{ minHeight: '100vh', backgroundColor: "#fff5f582" }}
+                         
+                            textAlign="center"
+                            style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            <Grid alignItems="center" >
+                            <Grid item xs={12} alignItems="center"sx={{mt:"30px"}} >
                                 <img src={school2}  />
                             </Grid>
 
-                            <Box component="form">
-
-                                <Grid item xs={12}>
+                          
+                                <Grid item xs={12} sx={{mx:"30px"}}>
                                     <Autocomplete
                                         value={value}
                                         onChange={(event, newValue) => {
@@ -315,16 +316,30 @@ function SelectSchool() {
                                         options={schoolListData}
                                         getOptionLabel={(Option: any) => Option.SchoolName}
                                         // key={schoolListData.SchoolId}
-                                        sx={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard" fullWidth
+                                       renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard" 
                                         />}
                                     />
                                 </Grid>
-                            </Box>
-                        </Grid>
-                    
-                  
-                    </Grid>
+                           
+                                <Box sx={{ position: "fixed", bottom: 0, width: "100%",mb:"30px"}}>
+             
+                     
+                               <Grid container textAlign="center">
+                               <Grid item xs={12}  >
+                               <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas}/>
+                                   </a>
+                                 </Grid>
+                                <Grid item xs={12}  >
+                                <Typography fontSize={12} >Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                            </Grid>
+                            </Grid>
+               
+                        </Box>
+
+                             </Grid>
+                          
+                     </>
                     :
 
                     <Grid
@@ -332,13 +347,14 @@ function SelectSchool() {
                         spacing={0}
                         direction="column"
                         alignItems="center"
-                        justifyContent="center"
-                        style={{ minHeight: '100vh', backgroundColor: "#fff5f582" }}
+                        // justifyContent="center"
+                        style={{ minHeight: '100vh'}}
                         columns={{ xs: 12, md: 12 }}
                     >
 
-                        <Grid item xs={12}>
-                            <img src={img_src} width="200" height="200" />
+                        <Grid item xs={12} sx={{mt:"30px"}}>
+                          
+                            <img src={img_src} width='250' />
                         </Grid>
                         <Grid item xs={12}>
 
@@ -413,26 +429,30 @@ function SelectSchool() {
                         <Grid>
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
-                    </Grid>
-            }
-               
-            <Box sx={{ position: "fixed", bottom: 0, width: "100%",}}>
-                <Grid item xs={12} textAlign="center">
+                            
+                        <Box sx={{ position: "fixed", bottom: 0, width: "100%",mb:"30px"}}>
+                         <Grid item xs={12} textAlign="center">
                         <CardDetail10 onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
-                    </Grid>
-                        <Paper square >
-                        <Grid container>
-                       <Grid item xs={3} display="flex" justifyContent="flex-start" alignItems="center" >
+                        </Grid>
+                     
+                        <Grid container textAlign="center">
+                       <Grid item xs={12}  >
                           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-                                <img src={regulas} height={25}/>
+                                <img src={regulas}/>
                           </a>
                             </Grid>
-                            <Grid item xs={9} display="flex" justifyContent="flex-start" alignItems="center" >
-                                <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+                            <Grid item xs={12}  >
+                                <Typography fontSize={12} >Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
                             </Grid>
-                        </Paper>
+               
                         </Box>
+                    </Grid>
+                    
+            }
+
+
+           
         </Grid >
     )
 

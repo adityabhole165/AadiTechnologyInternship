@@ -113,7 +113,7 @@ const TExamScheduleNew = () => {
               label={'Select Exam'}
               defaultValue={exam}
             />) :
-            !isFirstTime &&
+            ((!isFirstTime && RoleId === "2") || (RoleId !== "2")) &&
             <ErrorMessages Error={'No exam has been scheduled'} />
         }
       </Box>
