@@ -280,7 +280,7 @@ function SelectSchool() {
         <Grid style={styles.paperContainer}>
 
             {
-                !show ?
+                show ?
                     <Grid>
                         <Grid
                             container
