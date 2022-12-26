@@ -105,7 +105,6 @@ const UserBoxDescription = styled(Typography)(
 );
 
 
-const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
@@ -117,6 +116,7 @@ function Header() {
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
   const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,'+ ImgUrl : '/imges/defualtUser.jpg'
+  const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
   const authData = JSON.parse(localStorage.getItem("auth"));
   let siblingList: any = []; 
