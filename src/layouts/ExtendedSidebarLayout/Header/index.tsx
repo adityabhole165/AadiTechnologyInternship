@@ -42,6 +42,7 @@ import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authe
 import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
+import { logoURL } from 'src/components/Common/Util';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -104,8 +105,7 @@ const UserBoxDescription = styled(Typography)(
 );
 
 
-const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
-
+const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
