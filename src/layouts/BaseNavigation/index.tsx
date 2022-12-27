@@ -166,13 +166,13 @@ function Basenav() {
           }
         </Grid>
         <Grid container>
-        <Grid item xs={3} display="flex"  justifyContent="flex-start">
+        <Grid item xs={4} display="flex"  justifyContent="flex-start">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
             <img src={school2} height={25}/>
           </a>
         </Grid>
-        <Grid item xs={9} display="flex" justifyContent="flex-end" alignItems="center">
-          <Typography fontSize={10} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+        <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
+          <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
         </Grid>
