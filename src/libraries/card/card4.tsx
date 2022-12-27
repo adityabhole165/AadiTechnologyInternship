@@ -21,7 +21,8 @@ Card4.propTypes = {
   Assignedate: PropTypes.string,
   CompletedDate: PropTypes.string,
   Attachments: PropTypes.string,
-  Details: PropTypes.string
+  Details: PropTypes.string,
+  MoreAttachments: [PropTypes.string],
 };
 
 function Card4({
@@ -31,13 +32,12 @@ function Card4({
   Assignedate,
   CompletedDate,
   Attachments,
-  Details
+  Details,
+  MoreAttachments
 }) {
+  console.log(MoreAttachments)
   const theme = useTheme();
-  const file_path =
-    sitePath + '/RITeSchool' +
-    '/DOWNLOADS/Homework/' +
-    Attachments;
+  const file_path = sitePath + '/RITeSchool/DOWNLOADS/Homework/';
 
   const classes = Styles();
   return (
@@ -68,12 +68,28 @@ function Card4({
                 <CardDetail1> {ViewDetail.AttachmentPath}</CardDetail1>
                 <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
-                    window.open(file_path);
+                    window.open(file_path + Attachments);
                   }} color="#628def"
                 >
 
                   {Attachments}
                 </CardDetail3>
+                {
+                  // MoreAttachments.length === 0 ? null : 
+                  MoreAttachments.map((Attachments) => {
+                    return (<>
+                      <CardDetail3
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          window.open(file_path + Attachments);
+                        }} color="#628def"
+                      >
+
+                        {Attachments}
+                      </CardDetail3>
+                    </>)
+                  }
+                  )
+                }
               </BoxWrapper>
             </>
           )}

@@ -34,7 +34,8 @@ export interface IViewHomeworkResponse {
     SubjectName: string,
     Title: string,
     Details: string,
-    AttachmentPath: string
+    AttachmentPath: string,
+    MoreAttachments:string[]
 }
 
 export interface Homework {
