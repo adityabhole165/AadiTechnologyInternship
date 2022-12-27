@@ -256,7 +256,7 @@ function Card16({ Note, Heading }) {
                   </Grid>
                 <BoxDetail>
                
-                    <BoxDetail2>{item.FeeType}</BoxDetail2>
+                    <BoxDetail2>{item.FeeType} ({item.PayableFor})</BoxDetail2>
                   
                     <Grid item xs={1} />
 
