@@ -321,7 +321,7 @@ function SelectSchool() {
                                     />
                                 </Grid>
                            
-                                <Box sx={{ position: "fixed", bottom: 0, width: "100%",mb:"30px"}}>
+                                <Box sx={{ position: "fixed !important", bottom: 0}}>
              
                      
                                <Grid container textAlign="center">
@@ -331,7 +331,7 @@ function SelectSchool() {
                                    </a>
                                  </Grid>
                                 <Grid item xs={12}  >
-                                <Typography fontSize={12} >Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
                             </Grid>
                
@@ -430,7 +430,7 @@ function SelectSchool() {
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                             
-                        <Box sx={{ position: "fixed", bottom: 0, width: "100%",mb:"30px"}}>
+                        <Box sx={{ position: "fixed !important" , bottom: 0, flex: 1, zIndex: 9999,}}>
                          <Grid item xs={12} textAlign="center">
                         <CardDetail10 onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
                         </Grid>
@@ -442,7 +442,7 @@ function SelectSchool() {
                           </a>
                             </Grid>
                             <Grid item xs={12}  >
-                                <Typography fontSize={12} >Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
                             </Grid>
                
