@@ -95,7 +95,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                 return item.AmountPayable == 0 ? (
                   <Card5
                     key={i}
-                    text1={item.FeeType}
+                    text1={item.FeeType + ' (' + item.PayableFor + ')'}
                     text2={item.Amount}
                     clickIcon={() => {
                       downloadReceiptFile(item.ReceiptNo);

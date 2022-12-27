@@ -206,7 +206,8 @@ function Progressreport() {
                       )}
                     </>
                   </Box>
-
+{/* remove false condition in 2nd phase of development */}
+{false&&
                   <Box>
                     <FormControl
                       sx={{
@@ -261,7 +262,7 @@ function Progressreport() {
                     ) :
                       null}
                   </Box>
-
+                }
                 </>
         }
       </Box>

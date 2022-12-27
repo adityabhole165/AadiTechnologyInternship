@@ -105,4 +105,6 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     }
 };
 
-export const sitePath = 'https://192.168.1.80';
+export const sitePath = localStorage.getItem('SiteURL');
+export const logoURL = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" ;
+// export const sitePath = 'https://192.168.1.80';

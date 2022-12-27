@@ -42,6 +42,7 @@ import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authe
 import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
+import { logoURL } from 'src/components/Common/Util';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -104,8 +105,6 @@ const UserBoxDescription = styled(Typography)(
 );
 
 
-const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
-
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
@@ -117,6 +116,7 @@ function Header() {
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
   const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,'+ ImgUrl : '/imges/defualtUser.jpg'
+  const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
   const authData = JSON.parse(localStorage.getItem("auth"));
   let siblingList: any = []; 
@@ -262,7 +262,7 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9",height: 50 }} variant="rounded" aria-label="add" />
         </IconButton>
         <Popover
           disableScrollLock
@@ -397,8 +397,8 @@ function Header() {
             </Button>
           </Box>
         </Popover>
-        <Avatar sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="medium" onClick={Notification} />
+        <Avatar sx={{ backgroundColor: "#90caf9", height: 40 }} variant="rounded" aria-label="add">
+          <NotificationsIcon fontSize="large" onClick={Notification} />
         </Avatar>
         {/* <ThemeSettings /> */}
       </Stack>
