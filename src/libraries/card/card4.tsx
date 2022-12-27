@@ -75,20 +75,20 @@ function Card4({
                   {Attachments}
                 </CardDetail3>
                 {
-                // MoreAttachments.length === 0 ? null : 
-                MoreAttachments.map((Attachments)=>{
-                  return (<>
-                    <CardDetail3
-                    onClick={(event: React.MouseEvent<HTMLElement>) => {
-                      window.open(file_path + Attachments);
-                    }} color="#628def"
-                  >
-  
-                    {Attachments}
-                  </CardDetail3>
-                  </>)
-                }
-                )
+                  // MoreAttachments.length === 0 ? null : 
+                  MoreAttachments.map((Attachments) => {
+                    return (<>
+                      <CardDetail3
+                        onClick={(event: React.MouseEvent<HTMLElement>) => {
+                          window.open(file_path + Attachments);
+                        }} color="#628def"
+                      >
+
+                        {Attachments}
+                      </CardDetail3>
+                    </>)
+                  }
+                  )
                 }
               </BoxWrapper>
             </>
