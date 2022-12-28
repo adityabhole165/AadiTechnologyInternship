@@ -248,7 +248,7 @@ function Header() {
       >
         <img src={img_src} className={classes.smalllogo} />
       </Stack>
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} alignItems="center">
         <IconButton
           size="small"
           sx={{
@@ -397,12 +397,12 @@ function Header() {
             </Button>
           </Box>
         </Popover>
-        <Avatar sx={{ backgroundColor: "#90caf9", height: 40 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="large" onClick={Notification} />
+        <Avatar sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add">
+          <NotificationsIcon fontSize="large" onClick={Notification}  sx={{height: 50}}/>
         </Avatar>
         {/* <ThemeSettings /> */}
       </Stack>
-
+    
     </HeaderWrapper>
   );
 }
