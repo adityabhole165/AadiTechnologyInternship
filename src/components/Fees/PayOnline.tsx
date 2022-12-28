@@ -25,9 +25,9 @@ function PayOnline() {
     asQueryString:
     'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
-    sitePath+ '/SingleSignOnPage.aspx?',
+    localStorage.getItem('SiteURL')+ '/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-    sitePath + '/Accountant/PayFeeOnline.aspx?'
+    localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
   useEffect(() => {
     dispatch(payOnline(body));
