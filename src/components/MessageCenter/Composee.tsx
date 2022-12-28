@@ -41,7 +41,7 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
 
-  const { From, Text, AttachmentArray, BODY, FromUserID,ID } = useParams();
+  const { From, Text, AttachmentArray, BODY, FromUserID,ID } = useParams(); 
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -263,7 +263,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
+      Subject: PageName == 'Forwa' ? "FW: "+Text : ''|| PageName == 'Reply' ? "RE: "+Text : '',
       Content: '',
       Attachment: ''
     },
@@ -352,6 +352,7 @@ function Form13() {
                 variant="outlined"
                 id=""
                 fullWidth
+                disabled
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{

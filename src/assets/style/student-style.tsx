@@ -17,7 +17,9 @@ export const Styles = makeStyles({
 
   smalllogo: {
     width: '120px',
-    margin: 'auto'
+    margin: 'auto',
+    height:70,
+
   },
   check: {
     fontWeight: 'bold !important',

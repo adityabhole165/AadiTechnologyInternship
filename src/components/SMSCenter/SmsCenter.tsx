@@ -16,16 +16,23 @@ import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
 import { CardDetail7, CardDetailB } from 'src/libraries/styled/CardStyle';
 import ButtonTab from 'src/libraries/button/ButtonTab';
 
+import { useParams } from 'react-router';
 SMSCenter.PropTypes = {
   FreeSMS: PropTypes.string
 };
 
 function SMSCenter() {
   const dispatch = useDispatch();
-
+  const { FromURL } = useParams();
   const SentSMSData: any = useSelector(
     (state: RootState) => state.SentSMSAdmin.SentSMS
   );
+
+  const pathname = window.location.pathname;
+  const pageName =
+    pathname.indexOf('/extended-sidebar/SMSCenter/smsCenter/') === -1 ?
+      pathname.replace('/extended-sidebar/SMSCenter/smsCenter', '') :
+      pathname.replace('/extended-sidebar/SMSCenter/smsCenter/', '');
 
   const body: ISent = {
     asUserId: '659',
@@ -34,8 +41,9 @@ function SMSCenter() {
   };
 
   useEffect(() => {
+
     dispatch(getSMSListt(body));
-    setActiveTab('Received');
+    setActiveTab(pageName === '' ? 'Received' : pageName);
   }, []);
 
   const classes = Styles();
@@ -46,11 +54,6 @@ function SMSCenter() {
     setActiveTab(value);
   };
 
-  const pathname = window.location.pathname;
-  const pageName = pathname.replace(
-    '/extended-sidebar/SMSCenter/smsCenter/',
-    ''
-  );
 
   return (
     <>
@@ -72,7 +75,7 @@ function SMSCenter() {
           </CardDetailB>
         </Grid>
         <br />
-       
+
         <Grid container spacing={1}>
           <Grid item xs={3}>
             <Link

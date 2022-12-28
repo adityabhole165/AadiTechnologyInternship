@@ -1,7 +1,7 @@
 import { Typography, useTheme, Container, Card,Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import {
@@ -14,6 +14,7 @@ import {
   Wordbreak
 } from '../styled/CardStyle';
 import { sitePath } from 'src/components/Common/Util';
+import { useNavigate } from 'react-router-dom';
 
 Card7.propTypes = {
   From: PropTypes.string,
@@ -62,15 +63,24 @@ function Card7({
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
+  const navigate = useNavigate();
 
-  const saveMessageBody= ()=>{
+  const saveMessageBody= (replyFwd)=>{
+    const path =
+    replyFwd==="Reply"? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply/` +
+      From + "/" +Text +'/' + FromUserID+ '/' + ID:
+      replyFwd==="Forward"?
+      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + "/" +
+      AttachmentArray + '/' +ID
+      :"";
+      navigate(path)
     localStorage.setItem("messageBody",Body);
   }
   
   return (
     <>
       <Container>
-        <ListStyle>
+        <ListStyle sx={{height:"300px",overflow: "auto"}}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
@@ -112,7 +122,7 @@ function Card7({
           </BoxWrapper>
         </ListStyle>
         <CardWrapper>
-          <RouterLink
+          {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
               `/${
@@ -126,10 +136,10 @@ function Card7({
               '/' +
               ID
             }
-          >
-            <ButtonPrimary onClick={saveMessageBody}> Reply</ButtonPrimary>&nbsp;&nbsp;
-          </RouterLink>
-          <RouterLink
+          > */}
+            <ButtonPrimary onClick={()=>{saveMessageBody("Reply")}}> Reply</ButtonPrimary>&nbsp;&nbsp;
+          {/* </RouterLink> */}
+          {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
               `/${
@@ -141,9 +151,9 @@ function Card7({
               '/' +
               ID
             }
-          >
-            <ButtonPrimary onClick={saveMessageBody}> Forward</ButtonPrimary>
-          </RouterLink>
+          > */}
+            <ButtonPrimary onClick={()=>{saveMessageBody("Forward")}}> Forward</ButtonPrimary>
+          {/* </RouterLink> */}
         </CardWrapper>
       </Container>
     </>

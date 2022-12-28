@@ -42,6 +42,12 @@ const Item = styled(Card)(({ theme }) => ({
 const NextPageIndex = 2; // Initial page index
 
 const MessageList = () => {
+  const pathname = window.location.pathname;
+  const pageName =
+  pathname.indexOf('/extended-sidebar/MessageCenter/msgCenter/') === -1 ?
+  pathname.replace('/extended-sidebar/MessageCenter/msgCenter', '') :
+  pathname.replace('/extended-sidebar/MessageCenter/msgCenter/', '');
+  
   const dispatch = useDispatch();
 
   const SchoolId = localStorage.getItem('localSchoolId');
@@ -111,7 +117,7 @@ const MessageList = () => {
 
   useEffect(() => {
     dispatch(getAcademicYearList(body));
-    setActiveTab('Inbox');
+    setActiveTab(pageName === '' ? 'Inbox' : pageName);
     setAcademicYear(AcademicYearId);
   }, []);
 
@@ -178,6 +184,14 @@ const MessageList = () => {
         alert('error network');
       });
   };
+
+  const TrashDelete = () => {
+    if (confirm('Are you sure you want to delete the message permanently?')) {
+      clickDelete()
+} else { 
+
+}
+}
 
   const clickReset = () => {
     setInboxListData(
@@ -301,7 +315,7 @@ const MessageList = () => {
               <Grid item xs={4}/>
               <Grid item xs={4}>
                 <ButtonPrimary
-                  onClick={() => clickDelete()}
+                  onClick={activeTab == 'Trash' ?  TrashDelete : clickDelete}
                   endIcon={<DeleteIcon />} fullWidth
                 >
                   Delete
