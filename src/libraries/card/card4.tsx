@@ -22,7 +22,7 @@ Card4.propTypes = {
   CompletedDate: PropTypes.string,
   Attachments: PropTypes.string,
   Details: PropTypes.string,
-  MoreAttachments: [PropTypes.string],
+  MoreAttachments: PropTypes.arrayOf(PropTypes.string),
 };
 
 function Card4({
@@ -35,7 +35,6 @@ function Card4({
   Details,
   MoreAttachments
 }) {
-  console.log(MoreAttachments)
   const theme = useTheme();
   const file_path = sitePath + '/RITeSchool/DOWNLOADS/Homework/';
 
@@ -75,18 +74,18 @@ function Card4({
                   {Attachments}
                 </CardDetail3>
                 {
-                  // MoreAttachments.length === 0 ? null : 
-                  MoreAttachments.map((Attachments) => {
-                    return (<>
+                  MoreAttachments.map((Attachments,i) => {
+                    return (
                       <CardDetail3
                         onClick={(event: React.MouseEvent<HTMLElement>) => {
                           window.open(file_path + Attachments);
                         }} color="#628def"
+                        key={i}
                       >
 
                         {Attachments}
                       </CardDetail3>
-                    </>)
+                    )
                   }
                   )
                 }
@@ -97,9 +96,9 @@ function Card4({
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
             <CardDetail2>  {
-              Details.split("\n").map(function (item, idx) {
+              Details.split("\n").map(function (item, i) {
                 return (
-                  <span key={idx}>
+                  <span key={i}>
                     {item}
                     <br />
                   </span>
