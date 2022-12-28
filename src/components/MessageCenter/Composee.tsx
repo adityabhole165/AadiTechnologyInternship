@@ -262,7 +262,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: PageName == 'Forwa' || PageName == 'Reply' ? Text : '',
+      Subject: PageName == 'Forwa' ? "FW: "+Text : ''|| PageName == 'Reply' ? "RE: "+Text : '',
       Content: '',
       Attachment: ''
     },
@@ -351,6 +351,7 @@ function Form13() {
                 label='To :'
                 id=""
                 fullWidth
+                disabled
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{
