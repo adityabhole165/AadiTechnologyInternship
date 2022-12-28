@@ -51,7 +51,7 @@ function Received() {
                     <>
                     <RouterLink key={i} to={
                             `/${location.pathname.split('/')[1]
-                            }/SMSCenter/ViewReceiveSMS/` + item.DetailsId
+                            }/SMSCenter/ViewReceiveSMS/` + item.DetailsId + `/Received`
                           }
                             color="primary"
                             style={{ textDecoration: 'none' }}>

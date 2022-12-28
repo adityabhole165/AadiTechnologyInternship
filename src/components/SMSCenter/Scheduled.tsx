@@ -63,7 +63,7 @@ function Scheduled() {
                     return(
                         <RouterLink key={i} to={
                             `/${location.pathname.split('/')[1]
-                            }/SMSCenter/ViewScheduledSMS/` + item.DetailsId
+                            }/SMSCenter/ViewScheduledSMS/` + item.DetailsId + `/Scheduled`
                           }
                             color="primary"
                             style={{ textDecoration: 'none' }}>
