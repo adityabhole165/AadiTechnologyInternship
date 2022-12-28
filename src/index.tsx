@@ -10,7 +10,6 @@ import { SidebarProvider } from 'src/contexts/SidebarContext';
 import * as serviceWorker from 'src/serviceWorker';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-import PushNotification from './libraries/PushNotification/PushNotification';
 
 ReactDOM.render(
   <HelmetProvider>
@@ -19,7 +18,6 @@ ReactDOM.render(
         <BrowserRouter>
           <ScrollTop />
             <App />
-            <PushNotification/>
         </BrowserRouter>
       </SidebarProvider>
     </Provider>

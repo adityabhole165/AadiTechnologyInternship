@@ -1,39 +1,24 @@
 import {
   ActionPerformed,
-  PushNotificationSchema,
   PushNotifications,
   Token,
 } from '@capacitor/push-notifications';
+import { Device } from '@capacitor/device';
 
 function PushNotification() {
-  console.log('! Push Notification !');
-  // Request permission to use push notifications
   PushNotifications.requestPermissions().then(result => {
     if (result.receive === 'granted') {
-      console.log('Register with FCM');
       PushNotifications.register();
-    } else {
-      console.log('Dont register');
     }
   });
 
   PushNotifications.addListener('registration', (token: Token) => {
-    //alert('Push registration success, token: ' + token.value);
-    console.log('Push registration success, token: ' + token.value);
+    window.localStorage.setItem("FCMdeviceToken", token.value);
   });
 
   PushNotifications.addListener('registrationError', (error: any) => {
-    //alert('Error on registration: ' + JSON.stringify(error));
-    console.log('Error on registration: ' + JSON.stringify(error));
+    alert("Registration Error. Re-install the App.");
   });
-
-  PushNotifications.addListener(
-    'pushNotificationReceived',
-    (notification: PushNotificationSchema) => {
-      //alert('Push received: ' + JSON.stringify(notification));
-      console.log('Push received: ' + JSON.stringify(notification));
-    },
-  );
 
   PushNotifications.addListener(
     'pushNotificationActionPerformed',
@@ -41,9 +26,21 @@ function PushNotification() {
       window.addEventListener('load', function () {
         window.location.href = '/extended-sidebar/Student/Notification';
       })
-
     },
   );
+
+  const getDeviceInfo = async () => {
+    const info = await Device.getInfo();
+    window.localStorage.setItem("deviceType", info.platform.toString());
+  };
+
+  const getDeviceId = async () => {
+    const Id = await Device.getId();
+    window.localStorage.setItem("deviceId", Id.uuid.toString());
+  };
+
+  getDeviceInfo();
+  getDeviceId();
 
   return (<div />);
 }

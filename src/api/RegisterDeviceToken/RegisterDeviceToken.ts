@@ -1,11 +1,12 @@
 import http from "../../requests/SchoolService/schoolServices";
+import {IPushNotificationFCM}  from "../../interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
 
-  const GetDeviceToken = () => {
-    return 
+  const RegisterFCMToken = (data: IPushNotificationFCM) => {
+    return http.post<IPushNotificationFCM>('PushNotification/RegisterDevice',data);
   };
 
 const RegisterDeviceTokenApi ={
-    GetDeviceToken
+  RegisterFCMToken
 }
 
 export default RegisterDeviceTokenApi;
