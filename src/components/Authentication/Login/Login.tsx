@@ -320,11 +320,7 @@ function SelectSchool() {
                                         />}
                                     />
                                 </Grid>
-                           
-                                <Box sx={{ position: "fixed !important", bottom: 0}}>
-             
-                     
-                               <Grid container textAlign="center">
+                            <Grid container sx={{position: "fixed ", bottom: 0,disply:"flex",alignItems:"center",justifyContent:"center"}}>
                                <Grid item xs={12}  >
                                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
                                 <img src={regulas}/>
@@ -334,10 +330,7 @@ function SelectSchool() {
                                 <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
                             </Grid>
-               
-                        </Box>
-
-                             </Grid>
+                          </Grid>
                           
                      </>
                     :

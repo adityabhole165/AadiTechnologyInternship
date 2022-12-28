@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container } from '@mui/material';
+import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container,Card } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import { makeStyles } from '@mui/styles';
 import { Styles } from 'src/assets/style/student-style'
@@ -56,7 +56,8 @@ function Basenav() {
   const classes = useStyles();
 
   return (
-    <Paper square sx={{ pb: "3px", pt: "3px", borderTop: "1px solid gray", zIndex: "9999" }}>
+    <>
+    <Card sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -165,6 +166,9 @@ function Basenav() {
                   </IconButton> : null
           }
         </Grid>
+        </Grid>
+        </Card>
+        <Paper square>
         <Grid container>
         <Grid item xs={4} display="flex"  justifyContent="flex-start">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
@@ -175,8 +179,10 @@ function Basenav() {
           <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
-        </Grid>
-    </Paper>
+        </Paper>
+      
+    
+    </>
   )
 }
 
