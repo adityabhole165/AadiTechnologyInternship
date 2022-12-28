@@ -149,6 +149,8 @@ function Progressreport() {
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
+     { Reason == undefined || Reason == '' && 
+      <>
       <DotLegend1>
         <DotLegendStyled1
           className={classes.border}
@@ -157,6 +159,8 @@ function Progressreport() {
         <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
       </DotLegend1>
       <Note NoteDetail={BarGraphNote} />
+     </> 
+     }
       <Box>
         {progressreportResult.length === 0 ?
 

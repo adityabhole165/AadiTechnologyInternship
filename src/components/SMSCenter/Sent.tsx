@@ -40,7 +40,7 @@ function Sent() {
               key={i}
               to={
                 `/${location.pathname.split('/')[1]}/SMSCenter/ViewSent/` +
-                item.DetailsId
+                item.DetailsId + '/Sent'
               }
               color="primary"
               style={{ textDecoration: 'none' }}

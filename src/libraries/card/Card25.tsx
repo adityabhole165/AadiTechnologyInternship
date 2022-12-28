@@ -21,7 +21,7 @@ Card25.propTypes = {
   ViewDetail: PropTypes.object
 };
 
-function Card25({ ViewDetail, From, To, Date, Text }) {
+function Card25({ ViewDetail, From, To, Date, Text, FromURL='Received' }) {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ function Card25({ ViewDetail, From, To, Date, Text }) {
   return (
     <>
       <Container>
-        <BackButton FromRoute={'/SMSCenter/smsCenter'}/>
+        <BackButton FromRoute={'/SMSCenter/smsCenter/'+FromURL}/>
         <ListStyle
           sx={{
             background: `${theme.colors.gradients.pink1}`

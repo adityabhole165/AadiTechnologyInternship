@@ -234,7 +234,10 @@ const Compose = () => {
     setdisplayOfTo_RecipientsPage('none');
     setdisplayOfCompose_Page('block');
   };
-
+const onContentChange = (value) => {
+  setContentTemplateDependent(value)
+  setCharacterCount(value.length)
+}
   return (
     <Container>
       <PageHeader heading={'Compose SMS'} subheading={''} />
@@ -286,7 +289,7 @@ const Compose = () => {
               </FormControl>
 
               <Grid container>
-                <Grid md={3} >
+                <Grid item md={3} >
                   <ButtonPrimary
                     fullWidth
                     onClick={To_Recipients_Page}
@@ -300,7 +303,7 @@ const Compose = () => {
                 container
                 style={{ marginTop: '12px', marginBottom: '17px' }}
               >
-                <Grid xs={12}>
+                <Grid item xs={12}>
                   <FormControl fullWidth>
                     {
                       <NativeSelect
@@ -312,11 +315,9 @@ const Compose = () => {
                           ? null
                           : TemplateList?.map((items: GetSMSTemplates, i) => {
                             return (
-                              <>
                                 <option value={items.registration_Number + "," + items.Template} key={i}>
                                   {items.Template_Name}
                                 </option>
-                              </>
                             );
                           })}
                       </NativeSelect>
@@ -348,14 +349,14 @@ const Compose = () => {
                 onBlur={ContentFieldBlur}
                 sx={{ marginTop: '1px' }}
                 id="content"
-                onChange={(e) => setContentTemplateDependent(e.target.value)}
+                onChange={(e) => onContentChange(e.target.value)}
               />
               <div style={{ marginTop: '8px' }}>
                 <Errormessage Error={formik.errors.Content} />
               </div>
               <br />
               <Grid container>
-                <Grid xs={12} >
+                <Grid item xs={12} >
                   <ButtonPrimary
 
 

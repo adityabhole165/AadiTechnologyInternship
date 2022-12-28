@@ -30,7 +30,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
 import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
 import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
-import { Paper, Typography } from '@mui/material';
+import { Divider, Paper, Typography } from '@mui/material';
 import { textAlign } from '@mui/system';
 import { logoURL } from 'src/components/Common/Util';
 
@@ -320,11 +320,7 @@ function SelectSchool() {
                                         />}
                                     />
                                 </Grid>
-                           
-                                <Box sx={{ position: "fixed !important", bottom: 0}}>
-             
-                     
-                               <Grid container textAlign="center">
+                            <Grid container sx={{position: "absolute ", bottom: 0,disply:"flex",alignItems:"center",justifyContent:"center"}}>
                                <Grid item xs={12}  >
                                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
                                 <img src={regulas}/>
@@ -334,10 +330,7 @@ function SelectSchool() {
                                 <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
                             </Grid>
-               
-                        </Box>
-
-                             </Grid>
+                          </Grid>
                           
                      </>
                     :
@@ -430,11 +423,11 @@ function SelectSchool() {
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                             
-                        <Box sx={{ position: "fixed !important" , bottom: 0, flex: 1, zIndex: 9999,}}>
+                        <Box sx={{ position: "absolute" , bottom: 0, flex: 1, zIndex: 9999,}}>
                          <Grid item xs={12} textAlign="center">
-                        <CardDetail10 onClick={PrivacyPolicy}>Privacy Policy</CardDetail10>
+                        <CardDetail10 onClick={PrivacyPolicy}sx={{pb:"10px"}}>Privacy Policy</CardDetail10>
                         </Grid>
-                     
+                     <Divider sx={{ background: '#5b5258' ,mx:"30px"}}/>
                         <Grid container textAlign="center">
                        <Grid item xs={12}  >
                           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">

@@ -59,6 +59,7 @@ function ViewHomework() {
           CompletedDate={viewHomework.CompleteByDate.replace("-"," ").replace("-"," ")}
           Details={viewHomework.Details}
           Attachments={viewHomework.AttachmentPath}
+          MoreAttachments={viewHomework.MoreAttachments}
         />
       )}
     </>
