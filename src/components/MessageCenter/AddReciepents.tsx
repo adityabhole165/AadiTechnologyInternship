@@ -178,7 +178,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     dispatch(GetStudent(getStudentsUserAPIBody));
     techerStudent?.map((obj, i) => {
       if (obj.isActive && i !== 1) {
-          setShowErrorMsg(true)
+        setShowErrorMsg(true)
       }
     });
 
@@ -229,10 +229,18 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     setTecherStudent(value);
   };
 
+  const isStudentSelected = () => {
+    let returnValue = false
+    techerStudent.map((item) => {
+      if (item.Name === 'Student' && item.isActive)
+        returnValue = true
+    })
+    return returnValue
+  }
   const onChangeTeacher = (value) => {
     setList(value);
     //if student is selected
-    if (techerStudent[1].isActive) {
+    if (isStudentSelected()) {
       if ((!value.some(obj => obj.isActive === false))) {
         removeAllRecipient(value)
         setClassId(getSelectedClassId[0]);
@@ -294,7 +302,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents.map(obj=>obj!==undefined?obj.trim():'').join('; ')}
+          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
           variant="outlined"
           id="body"
           fullWidth

@@ -12,7 +12,7 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import LoginApi from 'src/api/Authentication/Login';
 import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login'
-import { useNavigate } from 'react-router-dom';
+import { Route, useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
@@ -21,14 +21,18 @@ import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import Input from '@mui/material/Input';
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
+import bf from 'src/assets/img/stuff/Bright Future School_logo.png';
+import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
 import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
-import { CardDetail1, CardDetail10, CardDetail11,  InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
-
+import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
+import { Divider, Paper, Typography } from '@mui/material';
+import { textAlign } from '@mui/system';
+import { logoURL } from 'src/components/Common/Util';
 
 function SelectSchool() {
     const styleroot = Styles();
@@ -36,13 +40,13 @@ function SelectSchool() {
 
     const styles = {
         paperContainer: {
-            backgroundImage: `url(${school5})`,
-            backgroundColor: "#2c171738"
+            // backgroundImage: `url(${school5})`,
+            backgroundColor: "white"
         },
 
     };
     const [show, setShow] = useState(true);
-    const [LoginButtonDisabled,setLoginButtonDisabled] = useState("auto");
+    const [LoginButtonDisabled, setLoginButtonDisabled] = useState("auto");
 
     const changeschool = () => {
         setShow(true);
@@ -59,6 +63,10 @@ function SelectSchool() {
     const schoolNotice = () => {
         navigate('/schoolNotice');
     }
+    const PrivacyPolicy = () => {
+        window.location.href = "http://riteschool.com/PrivacyPolicy.aspx";
+        //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
+    }
 
     //   select School
     const dispatch = useDispatch();
@@ -67,25 +75,28 @@ function SelectSchool() {
 
     const [value, setValue] = React.useState<GetAllSchoolsResult>();
     const [inputValue, setInputValue] = React.useState('');
-  
+
     if ((value !== undefined) && (value !== null)) {
         window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
         sessionStorage.setItem("SchoolId", value.SchoolId);
         localStorage.setItem("localSchoolId", value.SchoolId);
         localStorage.setItem("SchoolName", value.SchoolName);
         localStorage.setItem("SiteURL", value.SiteURL);
+        localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
     }
     const Id = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
     const SchoolName = localStorage.getItem('SchoolName')
-    const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+    //const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+    // const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const schoolId = localStorage.getItem('localSchoolId')
-    if((schoolId != null && schoolId != undefined)){
+    if ((schoolId != null && schoolId != undefined)) {
         localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
     }
 
-    let schoolSettingAPIBody:ISchoolSettings = null;
-    if((schoolId != null && schoolId != undefined)){
+    let schoolSettingAPIBody: ISchoolSettings = null;
+    if ((schoolId != null && schoolId != undefined)) {
         schoolSettingAPIBody = {
             asSchoolId: schoolId
         }
@@ -138,7 +149,7 @@ function SelectSchool() {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
-      const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+        const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
         if (result.RoleName === "Student") {
@@ -189,7 +200,7 @@ function SelectSchool() {
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
             localStorage.setItem("RoleName", result.RoleName);
             localStorage.setItem("DOB", teacherDetails.DOB);
-            
+
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -250,10 +261,10 @@ function SelectSchool() {
     const ListData: ISchoolList = {
         "asSchoolId": "Default"
     }
-    
+
     useEffect(() => {
         dispatch(getSchoolList(ListData))
-        if((schoolId != null && schoolId != undefined)){
+        if ((schoolId != null && schoolId != undefined)) {
             dispatch(getSchoolSettingsValue(schoolSettingAPIBody))
         }
         if (schoolId !== null) {
@@ -268,27 +279,27 @@ function SelectSchool() {
 
 
     return (
-        <Grid style={styles.paperContainer}>
-
+        <Grid style={styles.paperContainer} >
+             
             {
                 show ?
-                    <Grid>
-                        <Grid
+                    <>
+
+                         <Grid
                             container
                             spacing={0}
                             direction="column"
-                            alignItems="center"
-                            justifyContent="center"
-                            style={{ minHeight: '100vh', backgroundColor: "#fff5f582" }}
+                         
+                            textAlign="center"
+                            style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            <Grid alignItems="center" >
-                                <img src={school2} />
+                            <Grid item xs={12} alignItems="center"sx={{mt:"30px"}} >
+                                <img src={school2}  />
                             </Grid>
 
-                            <Box component="form" sx={{ maxWidth: '75%' }} >
-
-                                <Grid item xs={12}>
+                          
+                                <Grid item xs={12} sx={{mx:"30px"}}>
                                     <Autocomplete
                                         value={value}
                                         onChange={(event, newValue) => {
@@ -305,14 +316,30 @@ function SelectSchool() {
                                         options={schoolListData}
                                         getOptionLabel={(Option: any) => Option.SchoolName}
                                         // key={schoolListData.SchoolId}
-                                        sx={{ width: 300 }}
-                                        renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard" fullWidth
+                                       renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard" 
                                         />}
                                     />
                                 </Grid>
-                            </Box>
-                        </Grid>
-                    </Grid>
+                           
+                                <Box sx={{ position: "fixed !important", bottom: 0}}>
+             
+                     
+                               <Grid container textAlign="center">
+                               <Grid item xs={12}  >
+                               <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas}/>
+                                   </a>
+                                 </Grid>
+                                <Grid item xs={12}  >
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                            </Grid>
+                            </Grid>
+               
+                        </Box>
+
+                             </Grid>
+                          
+                     </>
                     :
 
                     <Grid
@@ -320,26 +347,25 @@ function SelectSchool() {
                         spacing={0}
                         direction="column"
                         alignItems="center"
-                        justifyContent="center"
-                        style={{ minHeight: '100vh', backgroundColor: "#fff5f582" }}
+                        // justifyContent="center"
+                        style={{ minHeight: '100vh'}}
                         columns={{ xs: 12, md: 12 }}
                     >
 
-                        <Box>
-                            <Grid alignItems="" >
-                                <img src={img_src} className={styleroot.logo} />
-                            </Grid>
-                        </Box>
+                        <Grid item xs={12} sx={{mt:"30px"}}>
+                          
+                            <img src={img_src} width='250' />
+                        </Grid>
+                        <Grid item xs={12}>
 
-                        <Box>
                             <HeadingStyle>{SchoolName}</HeadingStyle>
-                        </Box>
-
+                        </Grid>
                         <Box sx={{ maxWidth: '90%' }}>
+
                             <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
                                 <Grid item xs={12}>
                                     <FormControl fullWidth sx={{ mr: 1 }} variant="standard">
-                                        <UsernameStyle htmlFor="username">Username</UsernameStyle>
+                                        <UsernameStyle htmlFor="username">User Name</UsernameStyle>
                                         <InputStyle
                                             id="username"
                                             color="secondary"
@@ -357,7 +383,7 @@ function SelectSchool() {
                                     <FormControl fullWidth sx={{ mr: 1, mt: 1 }} variant="standard">
                                         <UsernameStyle htmlFor="standard-adornment-password">Password</UsernameStyle>
                                         <InputStyle
-                                          
+
                                             color="secondary"
                                             id="standard-adornment-password"
                                             type={formValues.showPassword ? 'text' : 'password'}
@@ -383,10 +409,10 @@ function SelectSchool() {
                                         formik.touched.password && formik.errors.password ? (<div className={classes.error}>{formik.errors.password}</div>) : null
                                     }
 
-                                    <Grid sx={{  pt: 1, pb: 3 }}>
-                                        <ButtonPrimary color="primary"  type="submit" onChange={formik.handleChange} 
-                                       
-                                        > 
+                                    <Grid sx={{ pt: 1, pb: 3 }}>
+                                        <ButtonPrimary color="primary" type="submit" onChange={formik.handleChange}
+
+                                        >
                                             Login
                                         </ButtonPrimary>
                                         <CardDetail11 onClick={forgotPassword}> Forgot Password </CardDetail11>
@@ -395,18 +421,39 @@ function SelectSchool() {
 
                                 </Grid>
                             </form>
+                            </Box>
+
+                        <Grid>
+                            <CardDetail10 onClick={changeschool}>Change School For Login</CardDetail10>
+                        </Grid>
+                        <Grid>
+                            <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
+                        </Grid>
+                            
+                        <Box sx={{ position: "fixed !important" , bottom: 0, flex: 1, zIndex: 9999,}}>
+                         <Grid item xs={12} textAlign="center">
+                        <CardDetail10 onClick={PrivacyPolicy}sx={{pb:"10px"}}>Privacy Policy</CardDetail10>
+                        </Grid>
+                     <Divider sx={{ background: '#5b5258' ,mx:"30px"}}/>
+                        <Grid container textAlign="center">
+                       <Grid item xs={12}  >
+                          <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas}/>
+                          </a>
+                            </Grid>
+                            <Grid item xs={12}  >
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                            </Grid>
+                            </Grid>
+               
                         </Box>
-                        <Grid>
-                            <CardDetail10  onClick={changeschool}>Change School For Login</CardDetail10>
-                        </Grid>
-                        <Grid>
-                            <CardDetail10   onClick={schoolNotice}>School Notices</CardDetail10>
-                        </Grid>
                     </Grid>
+                    
             }
 
-        </Grid>
 
+           
+        </Grid >
     )
 
 }

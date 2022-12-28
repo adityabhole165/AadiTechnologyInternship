@@ -69,7 +69,7 @@ function Fees() {
               style={{ background: 'red' }}
             />
 
-            <CardDetail7>Bounced cheque Transaction</CardDetail7>
+            <CardDetail7>Bounced Cheque Transaction</CardDetail7>
           </DotLegend1>
         </Grid>
 

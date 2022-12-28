@@ -23,6 +23,7 @@ import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
+import { FormHelperText } from '@mui/material';
 
 function Form13() {
   const RecipientsList: any = useSelector(
@@ -344,11 +345,11 @@ function Form13() {
         <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
+            <FormHelperText sx={{mb:'-15px'}}>To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj=>obj.trim()).join('; ')}
-                variant="standard"
-                label='To :'
+                value={RecipientsObject.RecipientName.map(obj=>obj?.trim()).join('; ')}
+                variant="outlined"
                 id=""
                 fullWidth
                 disabled
@@ -504,7 +505,7 @@ function Form13() {
               label='Content :'
               name="Content"
               type="text"
-              variant="standard"
+              variant="outlined"
               value={formik.values.Content}
               onChange={formik.handleChange}
               sx={{ pt: '1px' }}

@@ -10,7 +10,7 @@ import {GetSMSDetailsResult} from "src/interfaces/AdminSMSCenter/AReceiveSMS";
 const ViewReceiveSMS = () => {
 
     const ViewDetail = { From: "From", Scheduled_Date: "Received Date", To: "To", SMS_Text: "SMS Text" }
-    const {DetailsId} = useParams();
+    const {DetailsId, FromURL} = useParams();
     const [viewSms, setViewSms] = useState<GetSMSDetailsResult>()
 
     const body : GetReceiveSMSDetails= {
@@ -41,7 +41,8 @@ const ViewReceiveSMS = () => {
       <>
         <PageHeader heading={"View Received SMS"} subheading={""} />
         { (viewSms == undefined) ? null :
-            <Card25 ViewDetail={ViewDetail} From={viewSms.UserName} To={viewSms.DisplayText} Date={viewSms.Date} Text={viewSms.Subject} />
+            <Card25 ViewDetail={ViewDetail} From={viewSms.UserName} 
+            To={viewSms.DisplayText} Date={viewSms.Date} Text={viewSms.Subject} FromURL={FromURL}/>
         }
     </>
   )

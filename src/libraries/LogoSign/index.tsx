@@ -23,7 +23,7 @@ const LogoSignWrapper = styled(Box)(
 
 function Logo() {
 
-  const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
+  const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
   const SchoolName =  localStorage.getItem('SchoolName');
 
 

@@ -6,7 +6,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { payOnline } from 'src/requests/Fees/Fees';
 import Card26 from 'src/libraries/card/card26';
 import { useParams } from 'react-router';
-
+import { sitePath } from '../Common/Util';
 function PayOnline() {
   const {SelectedDueDate} = useParams();
   const dispatch = useDispatch();
@@ -25,9 +25,9 @@ function PayOnline() {
     asQueryString:
     'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
-      'http://localhost:65222/RITeSchool/SingleSignOnPage.aspx?',
+    sitePath+ '/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-      'http://localhost:65222/RITeSchool/Accountant/PayFeeOnline.aspx?'
+    sitePath + '/Accountant/PayFeeOnline.aspx?'
   };
   useEffect(() => {
     dispatch(payOnline(body));

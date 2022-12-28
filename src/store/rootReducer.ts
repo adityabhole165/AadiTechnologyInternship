@@ -4,6 +4,7 @@ import staffBirthdayslice from "../requests/StaffBirthday/StaffBirthday";
 import Feesslice from "../requests/Fees/Fees";
 import PtaSlice from "../requests/PTA/PTA";
 import SchoolListslice from "src/requests/Authentication/SchoolList";
+import NewRelease from "src/requests/Authentication/NewRelease";
 import Timetableslice from "../requests/Student/Timetable";
 import Schoolnoticeslice  from "../requests/Schoolnotice/Schoolnotice";
 import SmsCenterSlice from "../requests/Student/SMSCenter";
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
     SmsCenter : SmsCenterSlice,
     SubjectTeacher: SubjectTeacherSlice,
     SchoolList : SchoolListslice,
+    NewRelease : NewRelease,
     Sent__Message : SentMessageSlice,
     InboxMessage : InboxMessageSlice,
     Fees :Feesslice,
@@ -90,8 +92,7 @@ const rootReducer = combineReducers({
     getASendSMS:AComposeSMSSlice,
     getModulesPermissionsResult:schoolSettingSlice,
     SchoolSettings:SchoolListslice,
-    Feedback : Feedbackslice,
-    NewRelease:NewReleaseslice
+    Feedback : Feedbackslice
 });
 
 export default rootReducer;

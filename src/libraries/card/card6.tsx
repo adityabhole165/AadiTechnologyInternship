@@ -26,10 +26,11 @@ Card6.propTypes = {
 function Card6({ Content, FileName, Name }) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const file_path =
-    'http://riteschool_old.aaditechnology.com/RITeSchool' +
-    '/DOWNLOADS/School%20Notices/' +
-    FileName;
+  const file_path = localStorage.getItem("siteURL") + '/DOWNLOADS/School%20Notices/' + FileName;
+  
+    // 'http://riteschool_old.aaditechnology.com/RITeSchool' +
+    
+    
 
   const classes = Styles();
   return (
