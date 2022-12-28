@@ -80,7 +80,7 @@ function Card7({
   return (
     <>
       <Container>
-        <ListStyle>
+        <ListStyle sx={{height:"300px",overflow: "auto"}}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
