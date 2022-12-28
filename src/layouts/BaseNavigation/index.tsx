@@ -57,7 +57,7 @@ function Basenav() {
 
   return (
     <>
-    <Card sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9"}}>
+    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -167,16 +167,16 @@ function Basenav() {
           }
         </Grid>
         </Grid>
-        </Card>
+        </Box>
         <Paper square>
-        <Grid container>
-        <Grid item xs={4} display="flex"  justifyContent="flex-start">
+        <Grid container >
+        <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
             <img src={school2} height={25}/>
           </a>
         </Grid>
         <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
-          <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+          <Typography fontSize={8} sx={{mb:0.5}}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
         </Paper>
