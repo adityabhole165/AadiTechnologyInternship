@@ -185,6 +185,14 @@ const MessageList = () => {
       });
   };
 
+  const TrashDelete = () => {
+    if (confirm('Are you sure you want to delete the message permanently?')) {
+      clickDelete()
+} else { 
+
+}
+}
+
   const clickReset = () => {
     setInboxListData(
       inboxListData.map((obj) => {
@@ -307,7 +315,7 @@ const MessageList = () => {
               <Grid item xs={4}/>
               <Grid item xs={4}>
                 <ButtonPrimary
-                  onClick={() => clickDelete()}
+                  onClick={activeTab == 'Trash' ?  TrashDelete : clickDelete}
                   endIcon={<DeleteIcon />} fullWidth
                 >
                   Delete
