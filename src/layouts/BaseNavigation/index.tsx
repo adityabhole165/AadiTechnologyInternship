@@ -44,9 +44,14 @@ const useStyles = makeStyles(theme => ({
       color: "black",
 
     }
-  }
+  },
+  FontFooter:{
+    fontSize: "9px !important", 
 
-
+    '@media (min-width: 270px) and ( max-width:300px)': {
+      marginLeft:"10px!important",
+      fontSize: "7px !important", 
+  }}
 }));
 
 
@@ -54,7 +59,7 @@ function Basenav() {
   const theme = useTheme();
   const RoleId = sessionStorage.getItem("RoleId");
   const classes = useStyles();
-
+  
   return (
     <>
     <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
@@ -176,7 +181,7 @@ function Basenav() {
           </a>
         </Grid>
         <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
-          <Typography fontSize={8} sx={{mb:0.5}}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+          <Typography className={classes.FontFooter} sx={{mb:0.5}}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
         </Paper>
