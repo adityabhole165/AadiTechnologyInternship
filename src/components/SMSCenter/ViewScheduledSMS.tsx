@@ -10,7 +10,7 @@ import {GetSMSDetailsResult} from "src/interfaces/AdminSMSCenter/AScheduledSMS";
 const ViewScheduledSMS = () => {
 
     const ViewDetail = { From: "From", Scheduled_Date: "Scheduled Date", To: "To", SMS_Text: "SMS Text" }
-    const {DetailsId} = useParams();
+    const {DetailsId, FromURL} = useParams();
     const [viewSms, setViewSms] = useState<GetSMSDetailsResult>()
 
     const body : GetScheduledSMSDetails= {
@@ -41,7 +41,8 @@ const ViewScheduledSMS = () => {
       <>
         <PageHeader heading={"View Scheduled SMS"} subheading={""} />
         { (viewSms == undefined) ? null :
-            <Card25 ViewDetail={ViewDetail} From={viewSms.UserName} To={viewSms.DisplayText} Date={viewSms.Date} Text={viewSms.Subject} />
+            <Card25 ViewDetail={ViewDetail} From={viewSms.UserName} To={viewSms.DisplayText} 
+            Date={viewSms.Date} Text={viewSms.Subject} FromURL={FromURL}/>
         }
     </>
   )
