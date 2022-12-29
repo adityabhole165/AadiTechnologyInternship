@@ -12,18 +12,18 @@ const NewRelease = ({ onChangeVersion }) => {
     const [showUpgrade, setShowUpgrade] = useState(false)
     const androidCurrentAppVersion = "1.3.4";
     const appleCurrentAppVersion = "1.3.3";
-    let currentAppVersion = "";
     let deviceType = "Android";
+    let currentAppVersion = androidCurrentAppVersion;
     const userAgent = navigator.userAgent
     // || navigator.bendo || window.opera;
-    if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
-        deviceType = 'Apple';
-        currentAppVersion = appleCurrentAppVersion;
-    }
-    else if (userAgent.match(/Android/i)) {
-        deviceType = 'Android';
-        currentAppVersion = androidCurrentAppVersion;
-    }
+    // if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
+    //     deviceType = 'Apple';
+    //     currentAppVersion = appleCurrentAppVersion;
+    // }
+    // else if (userAgent.match(/Android/i)) {
+    //     deviceType = 'Android';
+    //     currentAppVersion = androidCurrentAppVersion;
+    // }
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
     const newVersionDetails = JSON.parse(localStorage.getItem("NewVersionDetails"));
