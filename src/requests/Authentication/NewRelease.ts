@@ -7,7 +7,7 @@ import { INewRelease } from "src/interfaces/Authentication/NewRelease"
 const NewReleaseslice = createSlice({
   name: 'NewRelease',
   initialState: {
-    Release: [],
+    Release: null,
 
   },
   reducers: {

@@ -4,7 +4,7 @@ export interface INewRelease {
 }
 
 export interface GetNewRelease {
-    
+    GetNewAppVersionDetailsResult:{
     ReleaseNotes:string
     Version: string,
     AppStoreUrl: string,
@@ -12,5 +12,5 @@ export interface GetNewRelease {
     IsForceUpdate: string,
     IsRefreshSchoolSettings: boolean,
     LastFetchDate: string,
-
+}
 }

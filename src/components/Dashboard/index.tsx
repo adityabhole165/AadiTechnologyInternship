@@ -1,6 +1,6 @@
 import {useTheme,Box,} from '@mui/material';
 import 'src/assets/style/Bday.css';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material/styles';
 import DashboardData from './Dashboard';
 import Card2 from 'src/libraries/mainCard/Card2';
@@ -180,14 +180,20 @@ if (RoleId === '3') {
 
   let header2 = RoleId === '3' ? 'Student' : 'Teacher';
   let header3 = RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
-
+const [forceUpdate, setForceUpdate] = useState(false)
+  const onChangeVersion = () => {
+    setForceUpdate(true)
+  }
   return (
     <>
-    {/* <NewRelease/> */}
+    <NewRelease onChangeVersion={onChangeVersion}/>
+    {!forceUpdate && (<>
      <Card2 items={items1} heading={'School'} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>
     {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
     {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
-    {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}></Card2>}</> 
+    {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}></Card2>}
+  </>)}
+    </> 
   );
 }
 
