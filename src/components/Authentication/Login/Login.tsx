@@ -423,7 +423,7 @@ function SelectSchool() {
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                             
-                        <Box sx={{ position: "absolute" , bottom: 0, flex: 1, zIndex: 9999,}}>
+                        <Box sx={{ position: "absolute" , bottom: 0, flex: 1, zIndex: 9999,}} className={classes.footer}>
                          <Grid item xs={12} textAlign="center">
                         <CardDetail10 onClick={PrivacyPolicy}sx={{pb:"10px"}}>Privacy Policy</CardDetail10>
                         </Grid>

@@ -384,7 +384,7 @@ const MessageList = () => {
             style={{ textDecoration: 'none' }}
             to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
           >
-            <Item sx={{ fontSize: '10px', marginLeft: '-7px' }}>
+            <Item sx={{ fontSize: '10px', marginLeft: '-7px',mb:"10px" }}>
               <AddCircleIcon />
               <br />
               <b>Compose</b>

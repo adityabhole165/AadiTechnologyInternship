@@ -16,7 +16,7 @@ export function getMonthYear() {
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
     const todaysDate = new Date().toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
-    return date === todaysDate
+    return date === getDateFormatted(todaysDate)
 }
 
 export function ReturnTimeOrDateYear(date) {
@@ -107,4 +107,7 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
 
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" ;
+export const androidCurrentAppVersion = "1.0.0";
+export const appleCurrentAppVersion = "1.0.0";
+export const deviceType = "Android";
 // export const sitePath = 'https://192.168.1.80';

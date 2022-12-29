@@ -4,30 +4,21 @@ import { getNewRelease } from 'src/requests/Authentication/NewRelease';
 import { useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { INewRelease } from 'src/interfaces/Authentication/NewRelease';
-import { Wordbreak1 } from "src/libraries/styled/CardStyle";
+import { CardDetail2, ListStyle1, ListStyle, Wordbreak1, NewCard, NewStyle } from "src/libraries/styled/CardStyle";
+import { Card, Container, Grid, Typography, Box } from "@mui/material";
+import school2 from 'src/assets/img/Shool_Logo/school2.png';
+import { androidCurrentAppVersion, appleCurrentAppVersion, deviceType } from "../../Common/Util"
+import UpgradeApp from "./UpgradeApp";
 
 const NewRelease = ({ onChangeVersion }) => {
 
     const dispatch = useDispatch();
-    const [showUpgrade, setShowUpgrade] = useState(false)
-    const androidCurrentAppVersion = "1.3.4";
-    const appleCurrentAppVersion = "1.3.3";
-    let deviceType = "Android";
+
     let currentAppVersion = androidCurrentAppVersion;
-    const userAgent = navigator.userAgent
-    // || navigator.bendo || window.opera;
-    // if (userAgent.match(/iPad/i) || userAgent.match(/iPhone/i) || userAgent.match(/iPod/i)) {
-    //     deviceType = 'Apple';
-    //     currentAppVersion = appleCurrentAppVersion;
-    // }
-    // else if (userAgent.match(/Android/i)) {
-    //     deviceType = 'Android';
-    //     currentAppVersion = androidCurrentAppVersion;
-    // }
+    const [showUpgrade, setShowUpgrade] = useState(false);
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
-    const newVersionDetails = JSON.parse(localStorage.getItem("NewVersionDetails"));
-    const installedVersion = parseInt(currentAppVersion.replace(/[.]/g, ""));
+     
     let lastFetchDateTimeValue = null;
     useEffect(() => {
 
@@ -48,32 +39,50 @@ const NewRelease = ({ onChangeVersion }) => {
         }
     }, [latestVersionDetails])
 
-    const checkForNewAppVersion = () => {
-        let appAvailableVersion = 0;
-        let checkForNewAppVersion = false
-        if ((localStorage.getItem("NewVersionDetails") != null) &&
-            (newVersionDetails != null) && (newVersionDetails.Version != null) &&
-            (newVersionDetails.Version != "")) {
-            /*Here we can set our available version on store */
-            appAvailableVersion = parseInt(newVersionDetails.Version.replace(/[.]/g, ""));
-            lastFetchDateTimeValue = new Date((newVersionDetails.LastFetchDate).replace(/-/g, '\/')).getTime();
-            const currentDateTimeValue = new Date().getTime();
-            checkForNewAppVersion = ((((currentDateTimeValue - lastFetchDateTimeValue) % (24 * 60 * 60 * 1000)) % 3600000) / 60000) > 5 ? true : false;
-        }
-        return checkForNewAppVersion;
-    }
+    // const checkForNewAppVersion = () => {
+    //     let appAvailableVersion = 0;
+    //     let checkForNewAppVersion = false
+    //     if ((localStorage.getItem("NewVersionDetails") != null) &&
+    //         (newVersionDetails != null) && (newVersionDetails.Version != null) &&
+    //         (newVersionDetails.Version != "")) {
+    //         /*Here we can set our available version on store */
+    //         appAvailableVersion = parseInt(newVersionDetails.Version.replace(/[.]/g, ""));
+    //         lastFetchDateTimeValue = new Date((newVersionDetails.LastFetchDate).replace(/-/g, '\/')).getTime();
+    //         const currentDateTimeValue = new Date().getTime();
+    //         checkForNewAppVersion = ((((currentDateTimeValue - lastFetchDateTimeValue) % (24 * 60 * 60 * 1000)) % 3600000) / 60000) > 5 ? true : false;
+    //     }
+    //     return checkForNewAppVersion;
+    // }
     return (
-        <div>
+        <>
             {showUpgrade &&
-                (<><div >
-                    A new version of app is available.<br />
-                    <a href={latestVersionDetails.AppStoreUrl}>Click here to upgrade.</a>
-                </div>
-                    {latestVersionDetails.IsForceUpdate === 'True' &&
-                        <Wordbreak1 dangerouslySetInnerHTML={{ __html: latestVersionDetails.ReleaseNotes }} />
-                    }
-                </>)}
-        </div>
+                (<><UpgradeApp IsForceUpdate={latestVersionDetails.IsForceUpdate}
+                    AppStoreUrl={latestVersionDetails.AppStoreUrl}
+                    ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
+            }</>
+        // <Container>
+        //     {showUpgrade &&
+        //         (<>
+        //          <Grid  textAlign="center">
+        //         <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+        //            <img src={school2} height={70}/>
+        //          </a>
+        //         </Grid>
+        //         <ListStyle sx={{textAlign:"center",backgroundColor:"#80cbc4"}} >
+        //            <NewCard><b>A new version of app is available.</b><br /></NewCard> 
+        //             <a href={latestVersionDetails.AppStoreUrl}><NewCard>Click here to upgrade.</NewCard></a>
+        //         </ListStyle>
+        //         <Box >
+
+        //         </Box>
+        //             {latestVersionDetails.IsForceUpdate === 'True' &&
+        //              <NewStyle sx={{backgroundColor:"#e0f2f1"}}>
+        //                     <Typography sx={{ml:"10px",mt:"10px"}}><b>What's New?</b></Typography>
+        //              <NewCard dangerouslySetInnerHTML={{ __html: latestVersionDetails.ReleaseNotes }} />
+        //              </NewStyle>
+        //             }
+        //         </>)}
+        // </Container>
     )
 }
 
