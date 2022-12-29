@@ -68,9 +68,9 @@ function Card7({
   const saveMessageBody= (replyFwd)=>{
     const path =
     replyFwd==="Reply"? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply/` +
-      From + '/' + FromUserID+ '/' + ID:
+      From + "/" +Text +'/' + FromUserID+ '/' + ID:
       replyFwd==="Forward"?
-      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` +
+      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + "/" +
       AttachmentArray + '/' +ID
       :"";
       navigate(path)

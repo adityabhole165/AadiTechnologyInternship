@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container } from '@mui/material';
+import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container,Card } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import { makeStyles } from '@mui/styles';
 import { Styles } from 'src/assets/style/student-style'
@@ -44,9 +44,14 @@ const useStyles = makeStyles(theme => ({
       color: "black",
 
     }
-  }
+  },
+  FontFooter:{
+    fontSize: "9px !important", 
 
-
+    '@media (min-width: 270px) and ( max-width:300px)': {
+      marginLeft:"10px!important",
+      fontSize: "7px !important", 
+  }}
 }));
 
 
@@ -54,9 +59,10 @@ function Basenav() {
   const theme = useTheme();
   const RoleId = sessionStorage.getItem("RoleId");
   const classes = useStyles();
-
+  
   return (
-    <Paper square sx={{ pb: "3px", pt: "3px", borderTop: "1px solid gray", zIndex: "9999" }}>
+    <>
+    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -165,18 +171,23 @@ function Basenav() {
                   </IconButton> : null
           }
         </Grid>
-        <Grid container>
-        <Grid item xs={4} display="flex"  justifyContent="flex-start">
+        </Grid>
+        </Box>
+        <Paper square>
+        <Grid container >
+        <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
             <img src={school2} height={25}/>
           </a>
         </Grid>
         <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
-          <Typography fontSize={8} ><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+          <Typography className={classes.FontFooter} sx={{mb:0.5}}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
-        </Grid>
-    </Paper>
+        </Paper>
+      
+    
+    </>
   )
 }
 
