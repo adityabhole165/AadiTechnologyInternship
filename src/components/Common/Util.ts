@@ -16,7 +16,7 @@ export function getMonthYear() {
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
     const todaysDate = new Date().toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
-    return date === todaysDate
+    return date === getDateFormatted(todaysDate)
 }
 
 export function ReturnTimeOrDateYear(date) {
