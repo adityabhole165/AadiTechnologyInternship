@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "218464451705",
-    "project_id": "riteschoolapp",
-    "storage_bucket": "riteschoolapp.appspot.com"
+    "project_number": "381035817573",
+    "project_id": "vast-hash-103611",
+    "storage_bucket": "vast-hash-103611.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:218464451705:android:c0f63fffa3e190f536e8a8",
+        "mobilesdk_app_id": "1:381035817573:android:0a17c9e2357cd9ebb6b48c",
         "android_client_info": {
-          "package_name": "com.regulus.riteschool"
+          "package_name": "www.riteschool.net"
         }
       },
       "oauth_client": [
         {
-          "client_id": "218464451705-5mmc875pte00q2gb4g06lkprmoc979co.apps.googleusercontent.com",
+          "client_id": "381035817573-6jaoogbkf1pavj66us5fna6lqh85ts2c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDwM-cL6qN-v4Qgt_kxXRoocsOnml32MDQ"
+          "current_key": "AIzaSyApg1OX3zo2jYPe5jebEHth-_0H6rFTZ8U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "218464451705-5mmc875pte00q2gb4g06lkprmoc979co.apps.googleusercontent.com",
+              "client_id": "381035817573-6jaoogbkf1pavj66us5fna6lqh85ts2c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

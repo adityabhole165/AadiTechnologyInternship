@@ -1,4 +1,4 @@
-package com.regulus.riteschool;
+package www.riteschool.net;
 
 import com.getcapacitor.BridgeActivity;
 

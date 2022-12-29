@@ -271,9 +271,7 @@ function SelectSchool() {
             asDeviceId: localStorage.getItem('deviceId'),
             asDeviceType: localStorage.getItem('deviceType')
         }
-        console.log("datObject!!! - " + JSON.stringify(data))
         const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
-        console.log("My device is successfully registered !!! " + response.toString())
     }
 
     // End Login form
