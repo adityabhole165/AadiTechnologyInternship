@@ -4,8 +4,9 @@ import { getNewRelease } from 'src/requests/Authentication/NewRelease';
 import { useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { INewRelease } from 'src/interfaces/Authentication/NewRelease';
-import { Wordbreak1 } from "src/libraries/styled/CardStyle";
-
+import { CardDetail2, ListStyle1,ListStyle, Wordbreak1, NewCard, NewStyle } from "src/libraries/styled/CardStyle";
+import { Card ,Container,Grid, Typography,Box } from "@mui/material";
+import school2 from 'src/assets/img/Shool_Logo/school2.png';
 const NewRelease = ({ onChangeVersion }) => {
 
     const dispatch = useDispatch();
@@ -63,17 +64,29 @@ const NewRelease = ({ onChangeVersion }) => {
         return checkForNewAppVersion;
     }
     return (
-        <div>
+        <Container>
             {showUpgrade &&
-                (<><div >
-                    A new version of app is available.<br />
-                    <a href={latestVersionDetails.AppStoreUrl}>Click here to upgrade.</a>
-                </div>
+                (<>
+                 <Grid  textAlign="center">
+                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                   <img src={school2} height={70}/>
+                 </a>
+                </Grid>
+                <ListStyle sx={{textAlign:"center",backgroundColor:"#80cbc4"}} >
+                   <NewCard><b>A new version of app is available.</b><br /></NewCard> 
+                    <a href={latestVersionDetails.AppStoreUrl}><NewCard>Click here to upgrade.</NewCard></a>
+                </ListStyle>
+                <Box >
+                
+                </Box>
                     {latestVersionDetails.IsForceUpdate === 'True' &&
-                        <Wordbreak1 dangerouslySetInnerHTML={{ __html: latestVersionDetails.ReleaseNotes }} />
+                     <NewStyle sx={{backgroundColor:"#e0f2f1"}}>
+                            <Typography sx={{ml:"10px",mt:"10px"}}><b>What's New?</b></Typography>
+                     <NewCard dangerouslySetInnerHTML={{ __html: latestVersionDetails.ReleaseNotes }} />
+                     </NewStyle>
                     }
                 </>)}
-        </div>
+        </Container>
     )
 }
 
