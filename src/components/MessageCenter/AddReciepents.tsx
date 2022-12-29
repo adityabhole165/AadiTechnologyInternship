@@ -303,14 +303,17 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           multiline
           placeholder="Selected Recipient"
           value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
-          variant="outlined"
+  
           id="body"
           fullWidth
           margin="normal"
           style={{ scrollBehavior: 'auto' }}
           sx={{
-            maxHeight: '60px',
-            overflow: 'auto'
+            height:"50px",
+            overflow: 'auto',
+            border:"0.1px solid #c4c5c5",
+            borderRadius:"5.3px",
+            
           }}
         />
         <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
