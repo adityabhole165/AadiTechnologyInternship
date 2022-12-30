@@ -8,7 +8,6 @@ import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/Mes
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -40,8 +39,14 @@ function Form13() {
     ''
   );
   const PageName = pageName.slice(0, 5);
-
-  const { From, Text, AttachmentArray, BODY, FromUserID,ID } = useParams(); 
+  const ViewData = localStorage.getItem("ViewMessageData");
+  const View = JSON.parse(ViewData)
+  
+const From = View.From;
+const Text = View.Text;
+const AttachmentArray = View.Attachment.join(',');
+const ID = View.ID;
+const FromUserID = View.FromUserID;
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -457,7 +462,7 @@ function Form13() {
             </Box>
             {finalBase642New == undefined ||
               finalBase642New.length == 0 
-              // || PageName === 'Reply' 
+              || PageName == 'Reply' 
               ? null :
               (
                 <div style={{ marginTop: '10px' }}>
