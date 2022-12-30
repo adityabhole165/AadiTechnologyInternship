@@ -130,6 +130,7 @@ export const Wordbreak1 = styled(Typography)`
   color: black;
   font-family: Roboto;
 padding:10px;
+overflow: scroll;
  
 
    

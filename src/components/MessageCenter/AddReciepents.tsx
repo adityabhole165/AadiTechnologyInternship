@@ -243,7 +243,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (isStudentSelected()) {
       if ((!value.some(obj => obj.isActive === false))) {
         removeAllRecipient(value)
-        setClassId(getSelectedClassId[0]);
+        setClassId((prevState) => [...prevState, getSelectedClassId[0]]);
         setSelectedRecipents((prevState) => [...prevState, getSelectedClassName[0]]);
         // setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
       }
