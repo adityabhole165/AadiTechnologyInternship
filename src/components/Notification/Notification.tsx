@@ -40,7 +40,7 @@ const Notification = () => {
        :   NotificationList.map((items, i) => (
           <Card7
             key={i}
-            header={items.header}
+            header={items.MessageString}
             text1={items.text1}
             text2={items.text2}
           />
