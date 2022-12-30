@@ -58,7 +58,7 @@ function ForgotPassword() {
 
       const errors: any = {};
       if (!values.Login) {
-        errors.Login = 'Please enter the user name or mobile Number.';
+        errors.Login = 'Please enter the user name.';
       }
       if (!values.DOB) {
         errors.DOB = 'Date of Birth should not be blank.';
@@ -82,8 +82,7 @@ function ForgotPassword() {
   const note = [
     '1) Parents need to enter the date of birth of their child.',
     '2) Please enter the user name and date of birth, the system will SMS you the password on the mobile number registered with the  RITeSchool account.',
-    ' 3) If you dont remember the user then enter mobile number that is currently registered with the RITeSchool account and date of birth.',
-    '4) Please enter email id to receive the login details through email.'
+    '3) Please enter email id to receive the login details through email.'
   ];
 
   return (
@@ -112,9 +111,9 @@ function ForgotPassword() {
             <TextField
               fullWidth
               margin="normal"
-              label={'User Name or Mobile Number'}
+              label={'User Name'}
               name="Login"
-              type="number"
+              type="text"
               variant="standard"
               value={formik.values.Login}
               onChange={formik.handleChange}
