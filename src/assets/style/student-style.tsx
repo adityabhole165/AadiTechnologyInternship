@@ -400,7 +400,7 @@ export const Styles = makeStyles({
  
  },
 footer: {
-'@media (max-height: 300px)': {
+'@media (max-height: 400px)': {
       display: "none",
   }},
 });
