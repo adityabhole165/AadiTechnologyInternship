@@ -516,10 +516,12 @@ function Form13() {
               ) : null}
             </p>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
-              
-             <BoxContent>
-              <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
-              </BoxContent>
+              <>
+              <FormHelperText >Original message</FormHelperText>
+              <BoxContent>
+               <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
+               </BoxContent>
+              </>  
             ) : null}
 
             <Grid item xs={12}>
