@@ -43,7 +43,7 @@ function Card16({ Note, Heading }) {
   const theme = useTheme();
   const [dueDateArrayObj, setDueDateArrayObj] = useState([]);
   const selectedDueDate = dueDateArrayObj.toString();
-
+  const [feeId, setFeeId] = useState(0)
   const mystyle = {
     pointerEvents: `${FeesTotal > 0 ? 'auto' : 'none'}` as 'none', // For Payonline Pointer
     textDecoration: 'none' as 'none'
@@ -57,12 +57,12 @@ function Card16({ Note, Heading }) {
     setOpen(false);
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event,FeeId) => {
 
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
-
     if (event.target.checked) {
+      setFeeId(FeeId)
       ArrayOfPaymentGroup.push(event.target.name);
       let indexOfComma = valueOfCheckBox.indexOf(':');
       let newValue = valueOfCheckBox.slice(indexOfComma);
@@ -81,6 +81,7 @@ function Card16({ Note, Heading }) {
       setChange(true); // For Useeffect call
     }
     if (!event.target.checked) {
+      FeeId(0)
       let indexOfArrayOfPaymentGroup = ArrayOfPaymentGroup.indexOf(
         event.target.name
       );
@@ -175,7 +176,9 @@ function Card16({ Note, Heading }) {
 
         <RouterLink
           to={
-            `/${location.pathname.split('/')[1]}/Student/PayOnline/` + selectedDueDate.replace("/","-").replace("/","-")
+            `/${location.pathname.split('/')[1]}/Student/PayOnline/` + 
+            selectedDueDate.replace("/","-").replace("/","-") + 
+            `/` + feeId
           }
           style={mystyle}
         >
@@ -249,7 +252,7 @@ function Card16({ Note, Heading }) {
                         size="small"
                         id={item.DueDateString}
                         onChange={(event) => {
-                          handleChange(event);
+                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry? FeesList[i].FeeId:0);
                         }}
                       />
                     ) : null}
