@@ -8,7 +8,7 @@ import Card16 from 'src/libraries/card/Card16';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { getReceiptFileName } from 'src/requests/Fees/Fees';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
@@ -36,8 +36,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-  
-  
+
+
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
@@ -56,11 +56,13 @@ function Card27({ FeesType, Fee, Heading, Note }) {
       asLoginUserId: userLoginId
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
-    setTimeout(() => {
-      window.open(downloadPathOfReceipt);
-    }, 1000);
+    // setTimeout(() => {
+    //   window.open(downloadPathOfReceipt);
+    // }, 10000);
   };
-
+  useEffect(() => {
+    window.open(downloadPathOfReceipt);
+  }, [receiptFileName])
   return (
     <>
 
@@ -80,7 +82,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           }}
         >
           <Header1
-          color={expanded === 'panel'? 'secondary':''}
+            color={expanded === 'panel' ? 'secondary' : ''}
           >
             <b>{FeesType}</b> &nbsp;:&nbsp;<b>{FeesObject.TotalFeesPaid}</b>
           </Header1>
@@ -124,7 +126,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
           color="primary"
         >
           <Header1
-          color={expanded === 'panel1'? 'secondary':''}
+            color={expanded === 'panel1' ? 'secondary' : ''}
           >
             <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
           </Header1>

@@ -349,17 +349,18 @@ function Form13() {
               <TextField
                 multiline
                 value={RecipientsObject.RecipientName.map(obj=>obj?.trim()).join('; ')}
-                variant="outlined"
                 id=""
                 fullWidth
-                disabled
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{
-                  maxHeight: '60px',
-                  overflow: 'auto'
-                }}
+                  height:"50px",
+                  overflow: 'auto',
+                  border:"0.1px solid #c4c5c5",
+                  borderRadius:"5.3px",
+                   }}
               />
+             
               <p style={{ color: 'red', marginTop: 2 }}>
                 {RecipientsList.length == 0 ? (
                   <div className={classes.error}>{formik.errors.To}</div>
@@ -372,6 +373,7 @@ function Form13() {
                 >
                   Add Recipients
                 </ButtonPrimary>
+             
               </span>
             </FormControl>
 
