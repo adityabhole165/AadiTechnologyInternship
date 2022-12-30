@@ -4,7 +4,6 @@ import { CardDetail1, CardDetail2, CardDetail6, ListStyle } from '../styled/Card
 import { Header1 } from '../styled/AccordianStyled';
 
 function Card7({header,text1}) {
-  console.log({header,text1})
   return (
     <>
     <ListStyle>
