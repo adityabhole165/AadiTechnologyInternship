@@ -8,7 +8,7 @@ import Card26 from 'src/libraries/card/card26';
 import { useParams } from 'react-router';
 import { sitePath } from '../Common/Util';
 function PayOnline() {
-  const {SelectedDueDate} = useParams();
+  const {SelectedDueDate, feeId} = useParams();
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
@@ -23,7 +23,8 @@ function PayOnline() {
     asSchoolId: schoolId,
     asUserLogin: userLoginId,
     asQueryString:
-    'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=0',
+    'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
     localStorage.getItem('SiteURL')+ '/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
