@@ -9,11 +9,11 @@ function Card7({header,text1}) {
     <>
     <ListStyle>
       <Grid container>
-        <Grid item xs={8}>
-       <CardDetail6>{header}</CardDetail6>    
+        <Grid item xs={12}>
+       <CardDetail2>{header}</CardDetail2>    
             </Grid>
-        <Grid item xs={4}>
-        <CardDetail2 sx={{float:"right"}}>{text1}</CardDetail2>  
+        <Grid item xs={12} >
+        <CardDetail2 >{text1}</CardDetail2>  
         </Grid>
       
       </Grid>
