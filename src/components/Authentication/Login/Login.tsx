@@ -320,7 +320,7 @@ function SelectSchool() {
                                         />}
                                     />
                                 </Grid>
-                            <Grid container sx={{position: "absolute ", bottom: 0,disply:"flex",alignItems:"center",justifyContent:"center"}}>
+                            <Grid container sx={{position: "absolute ",mt:"200px", disply:"flex",alignItems:"center",justifyContent:"center"}}>
                                <Grid item xs={12}  >
                                <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
                                 <img src={regulas}/>
@@ -423,7 +423,7 @@ function SelectSchool() {
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
                             
-                        <Box sx={{ position: "absolute" , bottom: 0, flex: 1, zIndex: 9999,}} className={classes.footer}>
+                        <Box sx={{flex: 1, zIndex: 9999,}} className={classes.footer}>
                          <Grid item xs={12} textAlign="center">
                         <CardDetail10 onClick={PrivacyPolicy}sx={{pb:"10px"}}>Privacy Policy</CardDetail10>
                         </Grid>
