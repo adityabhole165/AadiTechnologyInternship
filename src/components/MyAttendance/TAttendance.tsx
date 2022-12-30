@@ -155,9 +155,6 @@ const [attanStatus,setAttenStatus] = useState();
         }
     }, [saveResponseMessage]);
 
-    const changeStatus = () =>{
-        dispatch(GetStudentList(GetStudentDetails));
-    }
     useEffect(() =>{
         if(stdlist.length == 1){
             setSingleStdName(stdlist[0].Name);
@@ -176,7 +173,6 @@ const [attanStatus,setAttenStatus] = useState();
             }
         }
         SaveAttendance()
-        changeStatus()
     }
 
     const clickNav = (value) => {
