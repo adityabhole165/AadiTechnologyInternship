@@ -356,6 +356,7 @@ function Form13() {
                 value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
                 id=""
                 fullWidth
+                disabled
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{

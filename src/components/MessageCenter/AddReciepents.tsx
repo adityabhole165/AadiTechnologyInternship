@@ -303,7 +303,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           multiline
           placeholder="Selected Recipient"
           value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';','')}
-  
+          disabled
           id="body"
           fullWidth
           margin="normal"
