@@ -12,7 +12,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import { ButtonPrimary } from '../styled/ButtonStyle';
-import {BoxDetail, BoxDetail1, BoxDetail2, CardDetail1,CardDetail2,CardDetail3,CardStyle1,ListStyle} from '../styled/CardStyle';
+import { BoxDetail, BoxDetail1, BoxDetail2, CardDetail1, CardDetail2, CardDetail3, CardStyle1, ListStyle } from '../styled/CardStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -57,23 +57,32 @@ function Card16({ Note, Heading }) {
     setOpen(false);
   };
 
-  const handleChange = (event,FeeId) => {
+  const handleChange = (event, FeeId, ShowOptionButtonForAllEntry) => {
 
     let ArrayOfFees_To_Number;
     let valueOfCheckBox = event.target.value;
+    let indexOfComma = valueOfCheckBox.indexOf(':');
+    let newValue = valueOfCheckBox.slice(indexOfComma);
+    let newValue2 = valueOfCheckBox.slice(0, indexOfComma);
     if (event.target.checked) {
       setFeeId(FeeId)
-      ArrayOfPaymentGroup.push(event.target.name);
-      let indexOfComma = valueOfCheckBox.indexOf(':');
-      let newValue = valueOfCheckBox.slice(indexOfComma);
-      let newValue2 = valueOfCheckBox.slice(0, indexOfComma);
-      newArrayOfFess.push(event.target.value);
-      ArrayOfFees.push(newValue2); // Payment Group
+      if (ShowOptionButtonForAllEntry) {
+        setArrayOfPaymentGroup([event.target.name])
+        setnewArrayOfFess([event.target.value]);
+        setArrayOfFees([newValue2]);
+        setDueDateArrayObj([event.target.id])
+      }
+      else {
+        ArrayOfPaymentGroup.push(event.target.name);
+        newArrayOfFess.push(event.target.value);
+        ArrayOfFees.push(newValue2); // Payment Group
+        dueDateArrayObj.push(event.target.id);
+
+      }
+      console.log(ArrayOfFees,"ArrayOfFees",dueDateArrayObj,"dueDateArrayObj")
       ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
       let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
-      dueDateArrayObj.push(event.target.id);
-
       setCheckBoxPaymentGroup([
         ...CheckBoxPaymentGroup,
         NextPaymentGroup_ToString
@@ -81,7 +90,7 @@ function Card16({ Note, Heading }) {
       setChange(true); // For Useeffect call
     }
     if (!event.target.checked) {
-      FeeId(0)
+      setFeeId(0)
       let indexOfArrayOfPaymentGroup = ArrayOfPaymentGroup.indexOf(
         event.target.name
       );
@@ -115,6 +124,7 @@ function Card16({ Note, Heading }) {
     }
     setFeesTotal(ArrayOfFees_To_Number.reduce((pre, cur) => pre + cur, 0)); // Sum of the Fees
   };
+
 
   // Body and Dispatch
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -169,16 +179,15 @@ function Card16({ Note, Heading }) {
         </ClickAwayListener>
       ) : null}
 
-        <div style={{ marginTop: '10px', marginBottom: '20px' }}> 
-        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight:'bold' }}>
-          Total: {FeesTotal} 
+      <div style={{ marginTop: '10px', marginBottom: '20px' }}>
+        <div style={{ display: 'inline-block', marginTop: '10px', fontWeight: 'bold' }}>
+          Total: {FeesTotal}
         </div>
 
         <RouterLink
           to={
-            `/${location.pathname.split('/')[1]}/Student/PayOnline/` + 
-            selectedDueDate.replace("/","-").replace("/","-") + 
-            `/` + feeId
+            `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+            selectedDueDate.replaceAll("/", "-") + `/` + feeId
           }
           style={mystyle}
         >
@@ -216,13 +225,13 @@ function Card16({ Note, Heading }) {
                   )
                     ? `${theme.colors.gradients.selectedlistColor}`
                     : `${theme.colors.gradients.pink1}`,
-               
+
                 }}
               >
                 <Grid container>
                   <Grid item xs={1}>
                     {item.AmountPayable != '0' && item.RowNumber == '1' ? (
-                      <Checkbox sx={{ml:"-5px"}}
+                      <Checkbox sx={{ ml: "-5px" }}
                         disabled={disabledStateCheckBox}
                         name={item.PaymentGroup}
                         value={
@@ -230,88 +239,86 @@ function Card16({ Note, Heading }) {
                           i < FeesList.length - 1 && FeesList[i].PaymentGroup ==
                             FeesList[i + 1].PaymentGroup
                             ? parseInt(FeesList[i].AmountPayable) +
-                              parseInt(FeesList[i + 1].AmountPayable) +
-                              ':' +
-                              FeesList[i].PaymentGroup
+                            parseInt(FeesList[i + 1].AmountPayable) +
+                            ':' +
+                            FeesList[i].PaymentGroup
                             : i < FeesList.length - 1 &&
                               FeesList[i].PaymentGroup !==
                               FeesList[i + 1].PaymentGroup
-                            ? parseInt(FeesList[i].AmountPayable) + parseInt(FeesList[i].LateFeeAmount) +
+                              ? parseInt(FeesList[i].AmountPayable) + parseInt(FeesList[i].LateFeeAmount) +
                               ':' +
                               FeesList[i].PaymentGroup
-                            : i == FeesList.length - 1
-                            ? parseInt(
-                                FeesList[FeesList.length - 1].AmountPayable
-                              ) +
-                              ':' +
-                              FeesList[FeesList.length - 1].PaymentGroup
-                            : null
+                              : i == FeesList.length - 1
+                                ? parseInt(
+                                  FeesList[FeesList.length - 1].AmountPayable
+                                ) +
+                                ':' +
+                                FeesList[FeesList.length - 1].PaymentGroup
+                                : null
                         }
                         checked={FeesCheckBoxBoolean}
                         className="check serial"
                         size="small"
                         id={item.DueDateString}
                         onChange={(event) => {
-                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry? FeesList[i].FeeId:0);
+                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ? FeesList[i].FeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
                         }}
                       />
                     ) : null}
                   </Grid>
-                <BoxDetail>
-               
+                  <BoxDetail>
+
                     <BoxDetail2>{item.FeeType} ({item.PayableFor})</BoxDetail2>
-                  
+
                     <Grid item xs={1} />
 
                     <BoxDetail1>
-                    {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount!='0'?<b>+{item.LateFeeAmount}</b> : null}
+                      {Heading.Fee2}<b>{item.AmountPayable}</b>{item.LateFeeAmount != '0' ? <b>+{item.LateFeeAmount}</b> : null}
                     </BoxDetail1>
-                 
+
                     <Grid item xs={1} />
-                  
+
                     <BoxDetail1>Due On :{item.DueDateFormat}</BoxDetail1>
-              
-             
+
+
                   </BoxDetail>
                 </Grid>
 
-   
+
               </CardStyle1>
             );
           })}
         </>
       )}
-           
+
       <>
         <Stack direction="row" spacing={2}>
-          {(GetFeeDetails.AllowCautionMoneyOnlinePayment === true && !(asSchoolId==="18")) ? (
+          {(GetFeeDetails.AllowCautionMoneyOnlinePayment === true && !(asSchoolId === "18")) ? (
             <>
-            <RouterLink
-              to={`/${
-                location.pathname.split('/')[1]
-              }/Student/Fees_cautionmoney`}
-              style={{textDecoration:'none'}}
-            >
-              <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
-            </RouterLink>
+              <RouterLink
+                to={`/${location.pathname.split('/')[1]
+                  }/Student/Fees_cautionmoney`}
+                style={{ textDecoration: 'none' }}
+              >
+                <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
+              </RouterLink>
 
-            <RouterLink
-              to={`/${
-                location.pathname.split('/')[1]
-              }/Student/Fees_cautionmoney`}
-              style={{textDecoration:'none'}}
-            >
-              <ButtonPrimary color="secondary">Caution Money Receipt</ButtonPrimary>
-            </RouterLink>
+              <RouterLink
+                to={`/${location.pathname.split('/')[1]
+                  }/Student/Fees_cautionmoney`}
+                style={{ textDecoration: 'none' }}
+              >
+                <ButtonPrimary color="secondary">Caution Money Receipt</ButtonPrimary>
+              </RouterLink>
             </>
-            
+
           ) : (
             null
           )}
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}
-            style={{textDecoration:'none'}}
+            style={{ textDecoration: 'none' }}
           >
             {/* {FeesList.AmountPayable != 0 ? (
               <ButtonPrimary color="secondary">Pay Internal Fees</ButtonPrimary>
