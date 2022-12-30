@@ -63,7 +63,7 @@ function Basenav() {
   return (
     <>
     <Paper square>
-    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
+    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
