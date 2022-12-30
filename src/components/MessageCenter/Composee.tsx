@@ -47,7 +47,6 @@ function Form13() {
   const AttachmentArray = ViewData===""?"null":View.Attachment.join(',');
   const ID = ViewData===""?"":View.ID;
   const FromUserID = ViewData===""?"": View.FromUserID;
-  console.log("From", From);
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
