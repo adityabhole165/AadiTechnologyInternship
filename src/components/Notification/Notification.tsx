@@ -61,8 +61,7 @@ const Notification = () => {
           <Card7
             key={i}
             header={items.MessageString}
-            text1={items.text1}
-            text2={items.text2}
+            text1={items.Date}
           />
           </div>
         ))}
