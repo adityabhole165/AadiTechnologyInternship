@@ -63,7 +63,7 @@ function Basenav() {
   return (
     <>
     <Paper square>
-    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
+    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -174,7 +174,7 @@ function Basenav() {
         </Grid>
         </Grid>
         </Box>
-        <Divider  sx={{ mx:"8px",my:"4px",background: '#bdbdbd'}}/>
+     
         <Grid container >
         <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
