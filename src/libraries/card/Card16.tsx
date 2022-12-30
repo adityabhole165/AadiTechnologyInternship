@@ -71,16 +71,16 @@ function Card16({ Note, Heading }) {
         setnewArrayOfFess([event.target.value]);
         setArrayOfFees([newValue2]);
         setDueDateArrayObj([event.target.id])
+        ArrayOfFees_To_Number = [Number(newValue2)]
       }
       else {
         ArrayOfPaymentGroup.push(event.target.name);
         newArrayOfFess.push(event.target.value);
         ArrayOfFees.push(newValue2); // Payment Group
         dueDateArrayObj.push(event.target.id);
-
+        ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       }
       console.log(ArrayOfFees,"ArrayOfFees",dueDateArrayObj,"dueDateArrayObj")
-      ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
       let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
       setCheckBoxPaymentGroup([
