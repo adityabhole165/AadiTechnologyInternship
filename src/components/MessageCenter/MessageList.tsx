@@ -269,6 +269,9 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
+  const clickClear =()=>{
+    localStorage.setItem('ViewMessageData',"")
+  }
   return (
     <>
       <Container>
@@ -384,8 +387,8 @@ const MessageList = () => {
             style={{ textDecoration: 'none' }}
             to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
           >
-            <Item sx={{ fontSize: '10px', marginLeft: '-7px',mb:"10px" }}>
-              <AddCircleIcon />
+            <Item sx={{ fontSize: '10px', marginLeft: '-7px',mb:"10px" }} >
+              <AddCircleIcon onClick={clickClear} />
               <br />
               <b>Compose</b>
             </Item>

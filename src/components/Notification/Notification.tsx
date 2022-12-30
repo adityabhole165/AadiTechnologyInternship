@@ -12,6 +12,7 @@ import {INotification} from 'src/interfaces/Notification/Notification';
 import {useEffect} from 'react';
 import { getNotification } from 'src/requests/Notification/Notification';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { useNavigate } from 'react-router-dom';
 
 const Notification = () => {
   const dispatch = useDispatch();
@@ -29,8 +30,26 @@ const Notification = () => {
       asSchoolId: schoolId,
       asUserId:userId
     }
+
    dispatch(getNotification(body))
   }, []);
+
+  const navigate = useNavigate();
+  const onClick = (value) => {
+    if(value == 'MessageInbox.htm'){
+      navigate('/extended-sidebar/MessageCenter/msgCenter')
+    }if(value == 'SchoolNotices.htm'){
+      navigate('/extended-sidebar/Common/SchoolNotice')
+    }if(value == 'ProgressReport.htm'){
+      navigate('/extended-sidebar/Student/Progressreport')
+    }if(value == 'StudentFees.htm'){
+      navigate('/extended-sidebar/Student/Fees')
+    }if(value == 'Homework.htm'){
+      navigate('/extended-sidebar/Student/Homework')
+    }if(value == 'Home.htm'){
+      navigate('/extended-sidebar/landing/landing')
+    }
+  };
   return (
     <>
       <Container>
@@ -38,12 +57,14 @@ const Notification = () => {
         
        {(NotificationList.length===0)?  <ErrorMessages Error={'No records found'} />
        :   NotificationList.map((items, i) => (
+        <div onClick={()=>{onClick(items.RedirectPageURL)}}  key={i}>
           <Card7
             key={i}
             header={items.MessageString}
             text1={items.text1}
             text2={items.text2}
           />
+          </div>
         ))}
 
       </Container>

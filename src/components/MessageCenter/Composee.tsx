@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography, useTheme,TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -8,7 +8,6 @@ import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/Mes
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { useParams } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -40,8 +39,14 @@ function Form13() {
     ''
   );
   const PageName = pageName.slice(0, 5);
+  const ViewData = localStorage.getItem("ViewMessageData");
 
-  const { From, Text, AttachmentArray, BODY, FromUserID,ID } = useParams(); 
+  const View = ViewData===""?"": JSON.parse(ViewData)
+  const From = ViewData===""?"":View.From;
+  const Text = ViewData===""?"":View.Text;
+  const AttachmentArray = ViewData===""?"null":View.Attachment.join(',');
+  const ID = ViewData===""?"":View.ID;
+  const FromUserID = ViewData===""?"": View.FromUserID;
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -230,7 +235,7 @@ function Form13() {
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
-      asMessageId: ID != undefined ||  ID !="" ? parseInt(ID) :0,
+      asMessageId: ID != undefined || ID != "" ? parseInt(ID) : 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString(),
       asSelectedUserIds: RecipientsObject.RecipientId.toString(),
@@ -238,32 +243,32 @@ function Form13() {
       attachmentFile: finalBase642New,
       asFileName: fileName
     };
-    
+
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
             toast.success('Message scheduled successfully');
-            localStorage.setItem("messageBody",'');
+            localStorage.setItem("messageBody", '');
           } else {
             toast.success('Message sent successfully');
-            localStorage.setItem("messageBody",'');
+            localStorage.setItem("messageBody", '');
           }
           setTimeout(RediretToSentPage, 100);
-          localStorage.setItem("messageBody",'');
+          localStorage.setItem("messageBody", '');
         }
       })
       .catch((err) => {
         toast.error('Message does not sent successfully');
-        localStorage.setItem("messageBody",'');
+        localStorage.setItem("messageBody", '');
       });
   };
 
   const formik = useFormik({
     initialValues: {
       To: '',
-      Subject: PageName == 'Forwa' ? "FW: "+Text : ''|| PageName == 'Reply' ? "RE: "+Text : '',
+      Subject: PageName == 'Forwa' ? "FW: " + Text : '' || PageName == 'Reply' ? "RE: " + Text : '',
       Content: '',
       Attachment: ''
     },
@@ -345,22 +350,22 @@ function Form13() {
         <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
-            <FormHelperText sx={{mb:'-15px'}}>To</FormHelperText>
+              <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj=>obj?.trim()).join('; ')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
                 id=""
                 fullWidth
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{
-                  height:"50px",
+                  height: "50px",
                   overflow: 'auto',
-                  border:"0.1px solid #c4c5c5",
-                  borderRadius:"5.3px",
-                   }}
+                  border: "0.1px solid #c4c5c5",
+                  borderRadius: "5.3px",
+                }}
               />
-             
+
               <p style={{ color: 'red', marginTop: 2 }}>
                 {RecipientsList.length == 0 ? (
                   <div className={classes.error}>{formik.errors.To}</div>
@@ -373,7 +378,7 @@ function Form13() {
                 >
                   Add Recipients
                 </ButtonPrimary>
-             
+
               </span>
             </FormControl>
 
@@ -456,8 +461,8 @@ function Form13() {
               <Errormessages Error={fileerror} />
             </Box>
             {finalBase642New == undefined ||
-              finalBase642New.length == 0 
-              // || PageName === 'Reply' 
+              finalBase642New.length == 0
+              || PageName == 'Reply'
               ? null :
               (
                 <div style={{ marginTop: '10px' }}>
@@ -518,10 +523,12 @@ function Form13() {
               ) : null}
             </p>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
-              
-             <BoxContent>
-              <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
-              </BoxContent>
+              <>
+                <FormHelperText >Original message</FormHelperText>
+                <BoxContent>
+                  <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
+                </BoxContent>
+              </>
             ) : null}
 
             <Grid item xs={12}>
@@ -540,9 +547,9 @@ function Form13() {
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AddReciepents RecipientName={RecipientsObject.RecipientName} 
-        RecipientId={RecipientsObject.RecipientId}
-        recipientListClick={RecipientsListFun}></AddReciepents>
+        <AddReciepents RecipientName={RecipientsObject.RecipientName}
+          RecipientId={RecipientsObject.RecipientId}
+          recipientListClick={RecipientsListFun}></AddReciepents>
       </div>
     </>
   );
