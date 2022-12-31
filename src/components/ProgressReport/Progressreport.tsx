@@ -178,7 +178,7 @@ function Progressreport() {
       }
       <Box>
         {hideExamNote ? null :
-          <Note NoteDetail={note2} />
+         (Reason == undefined || Reason == '' ) && <Note NoteDetail={note2} />
         }
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
