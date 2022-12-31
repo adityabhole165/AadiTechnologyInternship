@@ -56,12 +56,10 @@ function Card27({ FeesType, Fee, Heading, Note }) {
       asLoginUserId: userLoginId
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
-    // setTimeout(() => {
-    //   window.open(downloadPathOfReceipt);
-    // }, 10000);
   };
   useEffect(() => {
-    window.open(downloadPathOfReceipt);
+    if (receiptFileName !== "")
+      window.open(downloadPathOfReceipt);
   }, [receiptFileName])
   return (
     <>
