@@ -133,9 +133,9 @@ function Progressreport() {
     if (progressreportResult.length > 0) {
       if (progressreportResult[0].StudentMarksList.length > 0) {
         setHidePercentNote((progressreportResult[0].StudentMarksList[0].ShowOnlyGrade.trim() === "true"))
-        setHideExamNote(progressreportResult.length > 0)
       }
     }
+    setHideExamNote(progressreportResult.length > 0)
 
   }, [progressreportResult])
 
@@ -178,7 +178,8 @@ function Progressreport() {
       }
       <Box>
         {hideExamNote ? null :
-         (Reason == undefined || Reason == '' ) && <Note NoteDetail={note2} />
+        //  (Reason == undefined || Reason == '' ) && 
+         <Note NoteDetail={note2} />
         }
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
