@@ -53,16 +53,16 @@ function TeacherAttendance() {
   };
 
   const GetStudentDetails: IStudentsDetails = {
-    asStdDivId: "86",
+    asStdDivId: sessionStorage.getItem('StandardDivisionId'),
     asDate: assignedDate,
-    asAcademicYearId: "8",
-    asSchoolId: "120"
+    asAcademicYearId:sessionStorage.getItem('AcademicYearId'),
+    asSchoolId: localStorage.getItem('localSchoolId')
   };
 
   const TeacherStandard: StandardAttendance = {
-    asSchoolId: "120",
-    asAcademicyearId: "9",  
-    asTeacherId: 659
+    asSchoolId: localStorage.getItem('localSchoolId'),
+    asAcademicyearId: sessionStorage.getItem('AcademicYearId'),  
+    asTeacherId: sessionStorage.getItem('TeacherId')
   };
 
   const SaveAttendance: ISaveAttendance = {

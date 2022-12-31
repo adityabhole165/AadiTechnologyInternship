@@ -35,9 +35,9 @@ function SMSCenter() {
       pathname.replace('/extended-sidebar/SMSCenter/smsCenter/', '');
 
   const body: ISent = {
-    asUserId: '659',
-    asAcademicYearId: '9',
-    asSchoolId: '120'
+    asUserId: sessionStorage.getItem('Id'),
+    asAcademicYearId: sessionStorage.getItem('AcademicYearId'),
+    asSchoolId: localStorage.getItem('localSchoolId')
   };
 
   useEffect(() => {
