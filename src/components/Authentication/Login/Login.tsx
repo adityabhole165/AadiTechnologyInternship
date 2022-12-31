@@ -439,14 +439,15 @@ function SelectSchool() {
                         <Grid>
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
+                        <br/>
                             
                         <Box sx={{flex: 1, zIndex: 9999,}} className={classes.footer}>
                          <Grid item xs={12} textAlign="center">
                         <CardDetail10>
-                            <a href = 'http://riteschool.com/PrivacyPolicy.aspx'>
-                            Privacy Policy</a>
+                            <a href = 'http://riteschool.com/PrivacyPolicy.aspx'>Privacy Policy</a>
                             </CardDetail10>
                         </Grid>
+                        <br/>
                      <Divider sx={{ background: '#5b5258' ,mx:"30px"}}/>
                         <Grid container textAlign="center">
                        <Grid item xs={12}  >
