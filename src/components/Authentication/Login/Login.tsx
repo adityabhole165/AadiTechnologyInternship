@@ -425,7 +425,10 @@ function SelectSchool() {
                             
                         <Box sx={{flex: 1, zIndex: 9999,}} className={classes.footer}>
                          <Grid item xs={12} textAlign="center">
-                        <CardDetail10 onClick={PrivacyPolicy}sx={{pb:"10px"}}>Privacy Policy</CardDetail10>
+                        <CardDetail10>
+                            <a href = 'http://riteschool.com/PrivacyPolicy.aspx'>
+                            Privacy Policy</a>
+                            </CardDetail10>
                         </Grid>
                      <Divider sx={{ background: '#5b5258' ,mx:"30px"}}/>
                         <Grid container textAlign="center">
