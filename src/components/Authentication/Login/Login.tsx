@@ -33,6 +33,9 @@ import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } fr
 import { Divider, Paper, Typography } from '@mui/material';
 import { textAlign } from '@mui/system';
 import { logoURL } from 'src/components/Common/Util';
+import PushNotification from '../../../libraries/PushNotification/PushNotification';
+import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
+import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 
 function SelectSchool() {
     const styleroot = Styles();
@@ -235,6 +238,7 @@ function SelectSchool() {
         else if (result.RoleName == "Admin Staff") {
             navigate('/extended-sidebar/landing/landing');
         }
+        deviceRegistrationFCM(result.Id)
     }
 
     const loginform = async () => {
@@ -257,6 +261,18 @@ function SelectSchool() {
             }, 3000);
         }
     };
+
+    const deviceRegistrationFCM = async (userId) => {
+        const data: IPushNotificationFCM = {
+            asSchoolId: schoolId,
+            asUserId: userId.toString(),
+            asRegistrationId: localStorage.getItem('FCMdeviceToken'),
+            asDeviceId: localStorage.getItem('deviceId'),
+            asDeviceType: localStorage.getItem('deviceType')
+        }
+        const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
+    }
+
     // End Login form
     const ListData: ISchoolList = {
         "asSchoolId": "Default"
@@ -294,6 +310,7 @@ function SelectSchool() {
                             style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
+                             <PushNotification />
                             <Grid item xs={12} alignItems="center"sx={{mt:"30px"}} >
                                 <img src={school2}  />
                             </Grid>
