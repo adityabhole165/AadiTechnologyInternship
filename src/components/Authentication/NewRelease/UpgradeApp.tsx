@@ -14,7 +14,7 @@ const UpgradeApp = ({ IsForceUpdate = 'True', AppStoreUrl = '', ReleaseNotes = '
         <Container sx={{backgroundColor:"white",height:"100%"}}>
             <>
                 <Grid textAlign="center">
-                    <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                    <a href='http://riteschool.com' target="_blank" rel="noreferrer">
                         <img src={school2} height={70} />
                     </a>
                 </Grid>

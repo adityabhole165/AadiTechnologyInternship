@@ -177,7 +177,7 @@ function Basenav() {
      
         <Grid container >
         <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
-          <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+          <a href='http://riteschool.com' target="_blank" rel="noreferrer">
             <img src={school2} height={25}/>
           </a>
         </Grid>
