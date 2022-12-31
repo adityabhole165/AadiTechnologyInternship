@@ -9,7 +9,7 @@ import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import React, { useEffect, useState } from 'react';
-import { getReceiptFileName } from 'src/requests/Fees/Fees';
+import { getReceiptFileName, resetReciept } from 'src/requests/Fees/Fees';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 import { sitePath } from 'src/components/Common/Util';
@@ -57,9 +57,12 @@ function Card27({ FeesType, Fee, Heading, Note }) {
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
   };
+  // 
   useEffect(() => {
     if (receiptFileName !== "")
       window.open(downloadPathOfReceipt);
+    dispatch(resetReciept());
+
   }, [receiptFileName])
   return (
     <>
