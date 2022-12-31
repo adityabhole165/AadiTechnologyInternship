@@ -16,10 +16,10 @@ function Sent() {
   const location = useLocation();
 
   const body: ISentMsg = {
-    asUserId: '695',
-    asAcademicYearId: '9',
-    asUserRoleId: '6',
-    asSchoolId: '120',
+    asUserId: sessionStorage.getItem('Id'),
+    asAcademicYearId: sessionStorage.getItem('AcademicYearId'),
+    asUserRoleId: sessionStorage.getItem('RoleId'),
+    asSchoolId: localStorage.getItem('localSchoolId'),
     abIsSMSCenter: 'true',
     asPageIndex: '1',
     asFilter: '',
