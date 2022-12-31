@@ -4,7 +4,7 @@ import HomeIcon from '@mui/icons-material/Home';
 import EventNoteIcon from '@mui/icons-material/EventNote';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container,Card } from '@mui/material';
+import { Box, Grid, Fab, Typography, IconButton, Paper, useTheme, Avatar, Container,Card, Divider } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import { makeStyles } from '@mui/styles';
 import { Styles } from 'src/assets/style/student-style'
@@ -48,7 +48,7 @@ const useStyles = makeStyles(theme => ({
   FontFooter:{
     fontSize: "9px !important", 
 
-    '@media (min-width: 270px) and ( max-width:300px)': {
+    '@media (min-width: 270px) and ( max-width:380px)': {
       marginLeft:"10px!important",
       fontSize: "7px !important", 
   }}
@@ -62,7 +62,8 @@ function Basenav() {
   
   return (
     <>
-    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9",borderTopLeftRadius:"5px",borderTopRightRadius:"5px"}}>
+    <Paper square>
+    <Box sx={{ pb: "3px", pt: "3px",  zIndex: "9999" ,backgroundColor:"#90caf9"}}>
       <Grid container textAlign="center" >
         <Grid item xs={2.4}  >
           {
@@ -173,7 +174,7 @@ function Basenav() {
         </Grid>
         </Grid>
         </Box>
-        <Paper square>
+     
         <Grid container >
         <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
           <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">

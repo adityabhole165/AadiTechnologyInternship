@@ -20,8 +20,8 @@ Card20.propTypes = {
   subjectgrade: PropTypes.any,
   indexval: PropTypes.any,
   MarkScored: PropTypes.any,
-  Data:PropTypes.any,
-  Gradeormarks:PropTypes.any
+  Data: PropTypes.any,
+  Gradeormarks: PropTypes.any
 };
 
 function Card20({
@@ -36,31 +36,41 @@ function Card20({
   MarkScored,
   Data,
   examstatus,
-  Gradeormarks
-})
-{
+  Gradeormarks,
+  showonlyGrade
+}) {
+console.log("showonlyGrade",showonlyGrade);
+
   return (
     <>
-      <ListStyle sx={{backgroundColor:"pink"}}>
-        <CardDetailB>
-          <CardDetail2> Total</CardDetail2>
-          <CardDetail2>{grandTotal + "/" + subjectTotalMarks}</CardDetail2>
-        </CardDetailB>
-        <CardDetailB>
-          <CardDetail2> Percentage</CardDetail2>
-          <CardDetail2> {percentage}</CardDetail2>
-        </CardDetailB>
+      <ListStyle sx={{ backgroundColor: "pink" }}>
+        {showonlyGrade.trim() == 'false' &&
+          <>
+            <CardDetailB>
+              <CardDetail2> Total</CardDetail2>
+              <CardDetail2>{grandTotal + "/" + subjectTotalMarks}</CardDetail2>
+            </CardDetailB>
+            <CardDetailB>
+              <CardDetail2> Percentage</CardDetail2>
+              <CardDetail2> {percentage}</CardDetail2>
+            </CardDetailB>
+          </>   
+        }
         <CardDetailB>
           <CardDetail2>Grade</CardDetail2>
           <CardDetail2>{grade}</CardDetail2>
         </CardDetailB>
-        { rank <= 3 ? 
-        <CardDetailB>
-          <CardDetail2> Rank</CardDetail2>
-          <CardDetail2> {rank}</CardDetail2>
-        </CardDetailB>
-        : null
-}
+        {showonlyGrade.trim() == 'false' &&
+          <>
+            {rank <= 3 ?
+              <CardDetailB>
+                <CardDetail2> Rank</CardDetail2>
+                <CardDetail2> {rank}</CardDetail2>
+              </CardDetailB>
+              : null
+            }
+          </>
+          }  
       </ListStyle>
 
       <Card21

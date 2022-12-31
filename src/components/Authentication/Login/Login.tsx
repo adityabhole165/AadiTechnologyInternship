@@ -33,10 +33,9 @@ import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } fr
 import { Divider, Paper, Typography } from '@mui/material';
 import { textAlign } from '@mui/system';
 import { logoURL } from 'src/components/Common/Util';
-import { JsonWebTokenError } from 'jsonwebtoken';
 import PushNotification from '../../../libraries/PushNotification/PushNotification';
-import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration"
-import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken'
+import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
+import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 
 function SelectSchool() {
     const styleroot = Styles();
@@ -297,67 +296,60 @@ function SelectSchool() {
 
     return (
         <Grid style={styles.paperContainer} >
-
+             
             {
                 show ?
                     <>
 
-                        <Grid
+                         <Grid
                             container
                             spacing={0}
                             direction="column"
-
+                         
                             textAlign="center"
                             style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            <PushNotification />
-                            <Grid item xs={12} alignItems="center" sx={{ mt: "30px" }} >
-                                <img src={school2} />
+                             <PushNotification />
+                            <Grid item xs={12} alignItems="center"sx={{mt:"30px"}} >
+                                <img src={school2}  />
                             </Grid>
 
-
-                            <Grid item xs={12} sx={{ mx: "30px" }}>
-                                <Autocomplete
-                                    value={value}
-                                    onChange={(event, newValue) => {
-                                        setValue(newValue);
-                                        if (value == null) {
-                                            setShow(false)
-                                        }
-                                    }}
-                                    inputValue={inputValue}
-                                    onInputChange={(event, newInputValue) => {
-                                        setInputValue(newInputValue);
-                                    }}
-                                    id="controllable-states-demo"
-                                    options={schoolListData}
-                                    getOptionLabel={(Option: any) => Option.SchoolName}
-                                    // key={schoolListData.SchoolId}
-                                    renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard"
-                                    />}
-                                />
-                            </Grid>
-
-                            <Box sx={{ position: "fixed !important", bottom: 0 }}>
-
-
-                                <Grid container textAlign="center">
-                                    <Grid item xs={12}  >
-                                        <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-                                            <img src={regulas} />
-                                        </a>
-                                    </Grid>
-                                    <Grid item xs={12}  >
-                                        <Typography fontSize={12} sx={{ pb: "8px" }}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
-                                    </Grid>
+                          
+                                <Grid item xs={12} sx={{mx:"30px"}}>
+                                    <Autocomplete
+                                        value={value}
+                                        onChange={(event, newValue) => {
+                                            setValue(newValue);
+                                            if (value == null) {
+                                                setShow(false)
+                                            }
+                                        }}
+                                        inputValue={inputValue}
+                                        onInputChange={(event, newInputValue) => {
+                                            setInputValue(newInputValue);
+                                        }}
+                                        id="controllable-states-demo"
+                                        options={schoolListData}
+                                        getOptionLabel={(Option: any) => Option.SchoolName}
+                                        // key={schoolListData.SchoolId}
+                                       renderInput={(params) => <TextField {...params} className={styleroot.root} label="Select School" required variant="standard" 
+                                        />}
+                                    />
                                 </Grid>
-
-                            </Box>
-
-                        </Grid>
-
-                    </>
+                            <Grid container sx={{position: "absolute ",mt:"200px", disply:"flex",alignItems:"center",justifyContent:"center"}}>
+                               <Grid item xs={12}  >
+                               <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas}/>
+                                   </a>
+                                 </Grid>
+                                <Grid item xs={12}  >
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
+                            </Grid>
+                            </Grid>
+                          </Grid>
+                          
+                     </>
                     :
 
                     <Grid
@@ -366,12 +358,12 @@ function SelectSchool() {
                         direction="column"
                         alignItems="center"
                         // justifyContent="center"
-                        style={{ minHeight: '100vh' }}
+                        style={{ minHeight: '100vh'}}
                         columns={{ xs: 12, md: 12 }}
                     >
 
-                        <Grid item xs={12} sx={{ mt: "30px" }}>
-
+                        <Grid item xs={12} sx={{mt:"30px"}}>
+                          
                             <img src={img_src} width='250' />
                         </Grid>
                         <Grid item xs={12}>
@@ -439,7 +431,7 @@ function SelectSchool() {
 
                                 </Grid>
                             </form>
-                        </Box>
+                            </Box>
 
                         <Grid>
                             <CardDetail10 onClick={changeschool}>Change School For Login</CardDetail10>
@@ -447,30 +439,33 @@ function SelectSchool() {
                         <Grid>
                             <CardDetail10 onClick={schoolNotice}>School Notices</CardDetail10>
                         </Grid>
-
-                        <Box sx={{ position: "fixed !important", bottom: 0, flex: 1, zIndex: 9999, }}>
-                            <Grid item xs={12} textAlign="center">
-                                <CardDetail10 onClick={PrivacyPolicy} sx={{ pb: "10px" }}>Privacy Policy</CardDetail10>
+                            
+                        <Box sx={{flex: 1, zIndex: 9999,}} className={classes.footer}>
+                         <Grid item xs={12} textAlign="center">
+                        <CardDetail10>
+                            <a href = 'http://riteschool.com/PrivacyPolicy.aspx'>
+                            Privacy Policy</a>
+                            </CardDetail10>
+                        </Grid>
+                     <Divider sx={{ background: '#5b5258' ,mx:"30px"}}/>
+                        <Grid container textAlign="center">
+                       <Grid item xs={12}  >
+                          <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
+                                <img src={regulas}/>
+                          </a>
                             </Grid>
-                            <Divider sx={{ background: '#5b5258', mx: "30px" }} />
-                            <Grid container textAlign="center">
-                                <Grid item xs={12}  >
-                                    <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-                                        <img src={regulas} />
-                                    </a>
-                                </Grid>
-                                <Grid item xs={12}  >
-                                    <Typography fontSize={12} sx={{ pb: "8px" }}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
-                                </Grid>
+                            <Grid item xs={12}  >
+                                <Typography fontSize={12} sx={{pb:"8px"}}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                             </Grid>
-
+                            </Grid>
+               
                         </Box>
                     </Grid>
-
+                    
             }
 
 
-
+           
         </Grid >
     )
 

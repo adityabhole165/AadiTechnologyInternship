@@ -5,14 +5,22 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useTheme, Fab } from '@mui/material';
+import { Browser } from '@capacitor/browser';
+import { ErrorDetail, ShowMessage } from '../styled/ErrormessageStyled';
 
 Card26.propTypes = {
   paymentPageLink: PropTypes.string
 };
 
 function Card26({ paymentPageLink }) {
+  console.log(paymentPageLink)
   const theme = useTheme();
-  return (
+  const openCapacitorSite = async (url) => {
+    await Browser.open({ url: url });
+  };
+  
+  openCapacitorSite(paymentPageLink)
+    return (
     <Container>
       <div>
         <RouterLink
@@ -36,15 +44,15 @@ function Card26({ paymentPageLink }) {
             <ReplyIcon />
           </Fab>
         </RouterLink>
-
-        <iframe
+        <ShowMessage>On completion of payment, use back button to see fee details.</ShowMessage>
+        {/* <iframe
           width="100%"
           height="600px"
           allowFullScreen
           src={paymentPageLink}
           title="Online Payment"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        ></iframe>
+        ></iframe> */}
       </div>
     </Container>
   );

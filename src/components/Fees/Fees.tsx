@@ -22,7 +22,7 @@ import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
 
 function Fees() {
   const dispatch = useDispatch();
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
@@ -93,13 +93,9 @@ function Fees() {
         </CardDetail1>
       </ListStyle>
 
-      <Card27
-        FeesType={'Paid Fees'}
-        Fee={FeesList}
-        Heading={Feedata}
-        Note={Note2}
-      />
-      <Note NoteDetail={note1} />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}/>
+      
+      {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
     </Container>
   );
 }

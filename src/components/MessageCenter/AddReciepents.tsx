@@ -243,7 +243,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (isStudentSelected()) {
       if ((!value.some(obj => obj.isActive === false))) {
         removeAllRecipient(value)
-        setClassId(getSelectedClassId[0]);
+        setClassId((prevState) => [...prevState, getSelectedClassId[0]]);
         setSelectedRecipents((prevState) => [...prevState, getSelectedClassName[0]]);
         // setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
       }
@@ -302,15 +302,18 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
-          variant="outlined"
+          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';','')}
+          disabled
           id="body"
           fullWidth
           margin="normal"
           style={{ scrollBehavior: 'auto' }}
           sx={{
-            maxHeight: '60px',
-            overflow: 'auto'
+            height:"50px",
+            overflow: 'auto',
+            border:"0.1px solid #c4c5c5",
+            borderRadius:"5.3px",
+            
           }}
         />
         <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>

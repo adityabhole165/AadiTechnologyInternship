@@ -16,11 +16,13 @@ export const CardDetail2 = styled(Typography)`
   font-family: Roboto;
   cursor: pointer;
 
-  
- 
- 
- 
-`;
+  `;
+
+  export const NewCard = styled(Typography)`
+  font-size: 12px;
+  font-family: Roboto;
+  margin-left:-20px;
+  `;
 export const DateWidth = styled(Typography)`
   font-size: 12px;
    color: black;
@@ -128,6 +130,7 @@ export const Wordbreak1 = styled(Typography)`
   color: black;
   font-family: Roboto;
 padding:10px;
+overflow: scroll;
  
 
    
@@ -283,6 +286,15 @@ export const ListStyle = styled(Box)(
 border-radius: 6px;
    margin-bottom: 8px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+ `
+);
+export const NewStyle = styled(Box)(
+  ({ theme, color }) => `
+  background: ${theme.colors.gradients.listColor}; 
+  position:relative;
+  padding:1px;
+  border-radius: 6px;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
  `
 );
 export const ListStyle1 = styled(Box)(

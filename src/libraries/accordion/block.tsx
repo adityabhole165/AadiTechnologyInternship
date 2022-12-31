@@ -22,7 +22,6 @@ function Block({
   Grade,
   showonlyGrade
 }) {
-
   const [options, setObject] = useState([]);
   const [series, setSeries] = useState([]);
   const [color, setColor] = useState([]);
@@ -159,7 +158,7 @@ function Block({
      if (val == 0 ){
       return (getIsAbsent(opts.dataPointIndex, val='', returnVal))
      } else {
-      return (getIsAbsent(opts.dataPointIndex, val+'%', returnVal))
+      return (getIsAbsent(opts.dataPointIndex, val+'%', returnVal))     
      }
     }   
   }
@@ -175,12 +174,12 @@ function Block({
       return 'Exempted'
     }   
     else {
-      return (IsGrade == 'true' ? returnVal : val)
+      return (IsGrade.trim() == 'true' ? returnVal : val)
     }
   }
   return (
     <>
-      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} formatToolTip={formatToolTip}></BarChart>
+      <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} formatToolTip={formatToolTip} Isgrade={showonlyGrade} ></BarChart>
       <Card20
         percentage={Percentage}
         rank={Rank}
@@ -192,6 +191,7 @@ function Block({
         Gradeormarks={gradeormark}
         Data={Data}
         examstatus={examstatus}
+        showonlyGrade={showonlyGrade}
       />
     </>
   );

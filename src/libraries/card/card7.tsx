@@ -67,16 +67,16 @@ function Card7({
 
   const saveMessageBody= (replyFwd)=>{
     const path =
-    replyFwd==="Reply"? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply/` +
-      From + "/" +Text +'/' + FromUserID+ '/' + ID:
+    replyFwd==="Reply"? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply`:
       replyFwd==="Forward"?
-      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward/` + Text + "/" +
-      AttachmentArray + '/' +ID
+      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward` 
       :"";
       navigate(path)
     localStorage.setItem("messageBody",Body);
   }
-  
+ localStorage.setItem("ViewMessageData",JSON.stringify({From:From,FromUserID:FromUserID,Text:Text,Attachment:AttachmentArray,ID:ID}))
+
+ 
   return (
     <>
       <Container>

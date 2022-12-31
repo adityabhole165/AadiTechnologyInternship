@@ -125,6 +125,19 @@ function Progressreport() {
 
   const [dropyear, setDropyear] = useState();
   const [showyear, setShowyear] = useState(false);
+  const [hidePercentNote, setHidePercentNote] = useState(true);
+  const [hideExamNote, setHideExamNote] = useState(true);
+
+
+  useEffect(() => {
+    if (progressreportResult.length > 0) {
+      if (progressreportResult[0].StudentMarksList.length > 0) {
+        setHidePercentNote((progressreportResult[0].StudentMarksList[0].ShowOnlyGrade.trim() === "true"))
+        setHideExamNote(progressreportResult.length > 0)
+      }
+    }
+
+  }, [progressreportResult])
 
   const handledropyear = (e) => {
     setDropyear(e.target.value);
@@ -149,24 +162,25 @@ function Progressreport() {
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
-     { Reason == undefined || Reason == '' && 
-      <>
-      <DotLegend1>
-        <DotLegendStyled1
-          className={classes.border}
-          style={{ background: 'blueviolet' }}
-          />
-        <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
-      </DotLegend1>
-      <Note NoteDetail={BarGraphNote} />
-     </> 
-     }
+      {Reason == undefined || Reason == '' &&
+        <>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'blueviolet' }}
+            />
+            <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
+          </DotLegend1>
+          {hidePercentNote ? null :
+            <Note NoteDetail={BarGraphNote} />
+          }
+        </>
+      }
       <Box>
-        {progressreportResult.length === 0 ?
-
-          <Note NoteDetail={note2} />
-
-          :
+        {hideExamNote ? null :
+         (Reason == undefined || Reason == '' ) && <Note NoteDetail={note2} />
+        }
+        {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
 
             <Note NoteDetail={note} />
@@ -210,63 +224,63 @@ function Progressreport() {
                       )}
                     </>
                   </Box>
-{/* remove false condition in 2nd phase of development */}
-{false&&
-                  <Box>
-                    <FormControl
-                      sx={{
-                        marginTop: '50px',
-                        m: 1,
-                        width: '100%',
-                        marginLeft: '1px'
-                      }}
-                    >
-                      {
-                        <NativeSelect onChange={handledropyear}>
-                          <option value="0">
-                            {' '}
-                            Select Academic Year
-                          </option>
-                          {academicyearResult?.map(
-                            (getacademicyr: IGetAcademicYears, i) => {
-                              return (
-                                <option
-                                  value={getacademicyr.Id}
-                                  key={i}
-                                >
-                                  {getacademicyr.AcademicYear}
-                                </option>
-                              );
-                            }
-                          )}
-                        </NativeSelect>
-                      }
-                    </FormControl>
-                    {dropyear !== '0' ? (
-                      <>
-                        {showyear ? (
-                          <List>
-                            {academictermsResult?.map(
-                              (gettermsres: IGetTerms, i) => {
+                  {/* remove false condition in 2nd phase of development */}
+                  {false &&
+                    <Box>
+                      <FormControl
+                        sx={{
+                          marginTop: '50px',
+                          m: 1,
+                          width: '100%',
+                          marginLeft: '1px'
+                        }}
+                      >
+                        {
+                          <NativeSelect onChange={handledropyear}>
+                            <option value="0">
+                              {' '}
+                              Select Academic Year
+                            </option>
+                            {academicyearResult?.map(
+                              (getacademicyr: IGetAcademicYears, i) => {
                                 return (
-                                  <Card5
+                                  <option
+                                    value={getacademicyr.Id}
                                     key={i}
-                                    text1={gettermsres.TermName}
-                                    text2=""
-                                    clickIcon={() => {
-                                      downloadProgress(gettermsres.Id);
-                                    }}
-                                  />
+                                  >
+                                    {getacademicyr.AcademicYear}
+                                  </option>
                                 );
                               }
                             )}
-                          </List>
-                        ) : null}
-                      </>
-                    ) :
-                      null}
-                  </Box>
-                }
+                          </NativeSelect>
+                        }
+                      </FormControl>
+                      {dropyear !== '0' ? (
+                        <>
+                          {showyear ? (
+                            <List>
+                              {academictermsResult?.map(
+                                (gettermsres: IGetTerms, i) => {
+                                  return (
+                                    <Card5
+                                      key={i}
+                                      text1={gettermsres.TermName}
+                                      text2=""
+                                      clickIcon={() => {
+                                        downloadProgress(gettermsres.Id);
+                                      }}
+                                    />
+                                  );
+                                }
+                              )}
+                            </List>
+                          ) : null}
+                        </>
+                      ) :
+                        null}
+                    </Box>
+                  }
                 </>
         }
       </Box>

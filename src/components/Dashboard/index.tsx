@@ -11,6 +11,7 @@ import {IgetModulesPermission,IGetScreensAccessPermissions} from 'src/interfaces
 import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
 import NewRelease from '../Authentication/NewRelease/NewRelease';
+import { useNavigate } from 'react-router-dom';
 const Text = styled(Box)(({ theme }) => ({
   //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
@@ -21,7 +22,7 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function LandingPage() {
-  const theme = useTheme();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
@@ -182,17 +183,15 @@ if (RoleId === '3') {
   let header3 = RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
 const [forceUpdate, setForceUpdate] = useState(false)
   const onChangeVersion = () => {
-    setForceUpdate(true)
+    navigate('../../../UpgradeApp');
   }
   return (
     <>
     <NewRelease onChangeVersion={onChangeVersion}/>
-    {!forceUpdate && (<>
      <Card2 items={items1} heading={'School'} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>
     {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
     {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
     {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}></Card2>}
-  </>)}
     </> 
   );
 }
