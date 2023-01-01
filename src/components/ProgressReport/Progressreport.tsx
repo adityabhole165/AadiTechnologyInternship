@@ -162,25 +162,8 @@ function Progressreport() {
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
-      {Reason == undefined || Reason == '' &&
-        <>
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'blueviolet' }}
-            />
-            <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
-          </DotLegend1>
-          {hidePercentNote ? null :
-            <Note NoteDetail={BarGraphNote} />
-          }
-        </>
-      }
+
       <Box>
-        {hideExamNote ? null :
-        //  (Reason == undefined || Reason == '' ) && 
-         <Note NoteDetail={note2} />
-        }
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
 
@@ -208,7 +191,20 @@ function Progressreport() {
 
                 </>
                 :
+                !hideExamNote ? 
+                  <Note NoteDetail={note2} />
+                :
                 <>
+                  <DotLegend1>
+                    <DotLegendStyled1
+                      className={classes.border}
+                      style={{ background: 'blueviolet' }}
+                    />
+                    <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
+                  </DotLegend1>
+                  {hidePercentNote ? null :
+                    <Note NoteDetail={BarGraphNote} />
+                  }
                   <Box>
                     <>
                       {progressreportResult?.map(
