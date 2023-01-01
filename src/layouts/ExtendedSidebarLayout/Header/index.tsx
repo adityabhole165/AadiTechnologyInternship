@@ -43,7 +43,8 @@ import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
 import { logoURL } from 'src/components/Common/Util';
-
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import { App } from '@capacitor/app';
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
         height: ${theme.header.height};
@@ -115,12 +116,12 @@ function Header() {
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
-  const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,'+ ImgUrl : '/imges/defualtUser.jpg'
+  const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
   const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
 
   const authData = JSON.parse(localStorage.getItem("auth"));
-  let siblingList: any = []; 
-  if(authData.data.AuthenticateUserResult.RoleName === 'Student'){
+  let siblingList: any = [];
+  if (authData.data.AuthenticateUserResult.RoleName === 'Student') {
     siblingList = authData.data.StudentDetails.StudentSiblingList
   }
   const schoolId = localStorage.getItem("localSchoolId");
@@ -137,7 +138,14 @@ function Header() {
   const handleClose = (): void => {
     setOpen(false);
   };
-
+  const handleCloseApp = async (): Promise<void> => {
+    try {
+      handleClose();
+      App.exitApp();
+    } catch (err) {
+      console.error(err);
+    }
+  };
   const handleLogout = async (): Promise<void> => {
     try {
       handleClose();
@@ -220,7 +228,7 @@ function Header() {
 
   }
 
-  const Notification=()=>{
+  const Notification = () => {
     navigate('Student/Notification')
   }
 
@@ -262,7 +270,7 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9",height: 50 }} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add" />
         </IconButton>
         <Popover
           disableScrollLock
@@ -386,7 +394,7 @@ function Header() {
           <Divider />
           <Box m={1}>
             <Button color="primary" fullWidth onClick={handleLogout}>
-              <PowerSettingsNewTwoToneIcon fontSize="small"
+              <ExitToAppIcon fontSize="small"
                 sx={{
                   mr: 1,
                   fontWeight: "bold",
@@ -396,13 +404,25 @@ function Header() {
               <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
             </Button>
           </Box>
+          <Box m={1}>
+            <Button color="primary" fullWidth onClick={handleCloseApp}>
+              <PowerSettingsNewTwoToneIcon fontSize="small"
+                sx={{
+                  mr: 1,
+                  fontWeight: "bold",
+                  color: "#053082"
+                }}
+              />
+              <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Exit</UserBoxLabel>
+            </Button>
+          </Box>
         </Popover>
         <Avatar sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="large" onClick={Notification}  sx={{height: 50}}/>
+          <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 50 }} />
         </Avatar>
         {/* <ThemeSettings /> */}
       </Stack>
-    
+
     </HeaderWrapper>
   );
 }
