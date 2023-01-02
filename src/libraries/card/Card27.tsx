@@ -44,12 +44,12 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   let sitePathURL = sitePath;
   let downloadPathOfReceipt = sitePathURL + filePath;
 
-  const downloadReceiptFile = (receiptNo) => {
+  const downloadReceiptFile = (receiptNo, accountHeaderId) => {
     const getReceiptFileName_body: any = {
       asSchoolId: schoolId,
       asReceiptNo: receiptNo,
       asAcademicYearId: academicYearId,
-      asAccountHeaderId: '0',
+      asAccountHeaderId: accountHeaderId,
       asIsRefundFee: '0',
       asStudentId: studentId,
       asSerialNo: '0',
@@ -101,7 +101,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                     text1={item.FeeType + ' (' + item.PayableFor + ')'}
                     text2={item.Amount}
                     clickIcon={() => {
-                      downloadReceiptFile(item.ReceiptNo);
+                      downloadReceiptFile(item.ReceiptNo, item.AccountHeaderId);
                     }}
                   />
                 ) : null;
