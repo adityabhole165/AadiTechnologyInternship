@@ -41,7 +41,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
-  let sitePathURL = sitePath;
+  let sitePathURL = localStorage.getItem('SiteURL');
   let downloadPathOfReceipt = sitePathURL + filePath;
 
   const downloadReceiptFile = (receiptNo, accountHeaderId) => {
