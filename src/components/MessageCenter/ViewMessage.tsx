@@ -59,7 +59,7 @@ function ViewSms({}) {
           From={viewSent.UserName}
           // To={(viewSent.RecieverName != null && viewSent.RecieverName != '')?
           //     viewSent.RecieverName: viewSent.DisplayText}
-          To={viewSent.DisplayText}
+          To={RoleId === "3" ? sessionStorage.getItem("StudentName") : viewSent.DisplayText}
           Body={viewSent.Body}
           Text={viewSent.Subject}
           Attachments={viewSent.Attachments}
