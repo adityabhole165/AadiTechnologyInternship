@@ -93,12 +93,8 @@ function Fees() {
         </CardDetail1>
       </ListStyle>
 
-      <Card27
-        FeesType={'Paid Fees'}
-        Fee={FeesList}
-        Heading={Feedata}
-        Note={Note2}
-      />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}/>
+      
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
     </Container>
   );

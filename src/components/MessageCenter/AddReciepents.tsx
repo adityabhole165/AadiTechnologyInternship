@@ -302,8 +302,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
-  
+          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';','')}
+          disabled
           id="body"
           fullWidth
           margin="normal"

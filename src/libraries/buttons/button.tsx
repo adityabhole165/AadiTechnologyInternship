@@ -34,15 +34,16 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
   const [dateClickDependent, setdateClickDependent] = useState('none');
 
   const dateClickHnadler = (e) => {
-    if (dateClickDependent == 'none' && pathname.slice(-13,) != "StaffBirthday" && pathname.slice(-13,) != "EventOverview") {
+    if (dateClickDependent == 'none' && pathname.includes("StaffBirthday") && pathname.includes("EventOverview")) {
       setdateClickDependent('flex');
     }
-    if (dateClickDependent == 'flex' && pathname.slice(-13,) != "StaffBirthday" && pathname.slice(-13,) != "EventOverview") {
+    if (dateClickDependent == 'flex' && pathname.includes("StaffBirthday") && pathname.includes("EventOverview")) {
       setdateClickDependent('none');
     }
   };
 
   const ChangeCapture = (e) => {
+    console.log(e.target.type)
     if(e.target.type != 'button'){
       setTimeout(() => {
         setdateClickDependent('none');

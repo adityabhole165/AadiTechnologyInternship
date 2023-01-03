@@ -4,7 +4,6 @@ import { CardDetail1, CardDetail2, CardDetail6, ListStyle } from '../styled/Card
 import { Header1 } from '../styled/AccordianStyled';
 
 function Card7({header,text1}) {
-  console.log({header,text1})
   return (
     <>
     <ListStyle>
@@ -13,7 +12,7 @@ function Card7({header,text1}) {
        <CardDetail2>{header}</CardDetail2>    
             </Grid>
         <Grid item xs={12} >
-        <CardDetail2 >{text1}</CardDetail2>  
+        <CardDetail2 ><b>{text1}</b></CardDetail2>  
         </Grid>
       
       </Grid>

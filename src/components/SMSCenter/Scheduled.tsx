@@ -22,10 +22,10 @@ function Scheduled() {
 
     // BODY FOR API
     const body: AScheduledSMSListInterface = {
-        asUserId:"695",
-        asAcademicYearId:"9",
-        asUserRoleId:"6",
-        asSchoolId:"120"
+        asUserId:sessionStorage.getItem('Id'),
+        asAcademicYearId:sessionStorage.getItem('AcademicYearId'),
+        asUserRoleId:sessionStorage.getItem('RoleId'),
+        asSchoolId:localStorage.getItem('localSchoolId')
     };
 
     // CALL FOR API 

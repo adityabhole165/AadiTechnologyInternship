@@ -9,7 +9,7 @@ import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import React, { useEffect, useState } from 'react';
-import { getReceiptFileName } from 'src/requests/Fees/Fees';
+import { getReceiptFileName, resetReciept } from 'src/requests/Fees/Fees';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 import { sitePath } from 'src/components/Common/Util';
@@ -41,27 +41,28 @@ function Card27({ FeesType, Fee, Heading, Note }) {
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
-  let sitePathURL = sitePath;
+  let sitePathURL = localStorage.getItem('SiteURL');
   let downloadPathOfReceipt = sitePathURL + filePath;
 
-  const downloadReceiptFile = (receiptNo) => {
+  const downloadReceiptFile = (receiptNo, accountHeaderId) => {
     const getReceiptFileName_body: any = {
       asSchoolId: schoolId,
       asReceiptNo: receiptNo,
       asAcademicYearId: academicYearId,
-      asAccountHeaderId: '0',
+      asAccountHeaderId: accountHeaderId,
       asIsRefundFee: '0',
       asStudentId: studentId,
       asSerialNo: '0',
       asLoginUserId: userLoginId
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
-    // setTimeout(() => {
-    //   window.open(downloadPathOfReceipt);
-    // }, 10000);
   };
+  // 
   useEffect(() => {
-    window.open(downloadPathOfReceipt);
+    if (receiptFileName !== "")
+      window.open(downloadPathOfReceipt);
+    dispatch(resetReciept());
+
   }, [receiptFileName])
   return (
     <>
@@ -100,7 +101,7 @@ function Card27({ FeesType, Fee, Heading, Note }) {
                     text1={item.FeeType + ' (' + item.PayableFor + ')'}
                     text2={item.Amount}
                     clickIcon={() => {
-                      downloadReceiptFile(item.ReceiptNo);
+                      downloadReceiptFile(item.ReceiptNo, item.AccountHeaderId);
                     }}
                   />
                 ) : null;

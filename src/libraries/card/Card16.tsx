@@ -230,7 +230,7 @@ function Card16({ Note, Heading }) {
               >
                 <Grid container>
                   <Grid item xs={1}>
-                    {item.AmountPayable != '0' && item.RowNumber == '1' ? (
+                    {((item.AmountPayable != '0' && item.RowNumber == '1') || FeesList[i].ShowOptionButtonForAllEntry) ? (
                       <Checkbox sx={{ ml: "-5px" }}
                         disabled={disabledStateCheckBox}
                         name={item.PaymentGroup}
@@ -249,20 +249,19 @@ function Card16({ Note, Heading }) {
                               ':' +
                               FeesList[i].PaymentGroup
                               : i == FeesList.length - 1
-                                ? parseInt(
-                                  FeesList[FeesList.length - 1].AmountPayable
-                                ) +
+                                ? parseInt(FeesList[FeesList.length - 1].AmountPayable) +
+                                (FeesList[i].ShowOptionButtonForAllEntry? parseInt(FeesList[i].LateFeeAmount) : 0) +
                                 ':' +
                                 FeesList[FeesList.length - 1].PaymentGroup
                                 : null
                         }
                         checked={FeesCheckBoxBoolean}
-                        className="check serial"
-                        size="small"
-                        id={item.DueDateString}
+                        className="check serial" size="small" id={item.DueDateString}
                         onChange={(event) => {
-                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ? FeesList[i].FeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
-                        }}
+                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ? 
+                            FeesList[i].StudentFeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
+                        }
+                      }
                       />
                     ) : null}
                   </Grid>

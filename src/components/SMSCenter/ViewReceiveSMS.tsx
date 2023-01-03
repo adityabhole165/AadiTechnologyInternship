@@ -14,11 +14,11 @@ const ViewReceiveSMS = () => {
     const [viewSms, setViewSms] = useState<GetSMSDetailsResult>()
 
     const body : GetReceiveSMSDetails= {
-        asSchoolId: "120",
+        asSchoolId: localStorage.getItem('localSchoolId'),
         asSMSId: `${DetailsId}`,
-        asUserRoleId: "6",
-        asUserId: "695",
-        asAcademicYearId: "9"
+        asUserRoleId: sessionStorage.getItem('RoleId'),
+        asUserId: sessionStorage.getItem('Id'),
+        asAcademicYearId: sessionStorage.getItem('AcademicYearId')
     };
 
     const GetViewMessageResult = () => {

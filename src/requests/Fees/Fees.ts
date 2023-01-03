@@ -28,6 +28,10 @@ const Feesslice = createSlice({
 
     getReceiptFileName (state,action) {
       state.ReceiptFileName =action.payload
+    }  , 
+
+    resetReciept (state,action) {
+      state.ReceiptFileName =""
     }  
   }   
 });
@@ -52,6 +56,11 @@ export const getFees =
   async (dispatch) => {
     const response = await FeesApi.getReceiptFileName(data);
     dispatch(Feesslice.actions.getReceiptFileName(response.data));
+  };
+  export const resetReciept =
+  (): AppThunk =>
+  async (dispatch) => {
+    dispatch(Feesslice.actions.resetReciept(""));
   };
 
 export default Feesslice.reducer

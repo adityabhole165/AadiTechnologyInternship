@@ -353,9 +353,10 @@ function Form13() {
               <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
                 id=""
                 fullWidth
+                disabled
                 margin="normal"
                 onChange={formik.handleChange}
                 sx={{
