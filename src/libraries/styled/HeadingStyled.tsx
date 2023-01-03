@@ -3,7 +3,7 @@ import { Box, Typography, styled} from '@mui/material';
 export const HeadingStyle= styled(Typography)( ({ theme }) =>`
 
 font-weight: 500;
-font-size: 25px;
+font-size: 20px;
 color: black;
 margin: auto;
 text-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);

@@ -321,7 +321,7 @@ const DashboardData = {
     items3:[
      
       {
-        Text1: 'Massege  ',
+        Text1: 'Messege  ',
         Text2: 'Center',
         Color: '#90a4ae',
         iconColor: '#35abd9',
@@ -407,7 +407,7 @@ const DashboardData = {
 
      items3:[
       {
-        Text1: 'Massege  ',
+        Text1: 'Messege  ',
         Text2: 'Center',
         Color: '#90a4ae',
         iconColor: '#35abd9',
