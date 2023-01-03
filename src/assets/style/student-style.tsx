@@ -16,9 +16,9 @@ export const Styles = makeStyles({
   },
 
   smalllogo: {
-    width: '120px',
+    // width: '100%',
     margin: 'auto',
-    height:70,
+    maxHeight:70,
 
   },
   check: {

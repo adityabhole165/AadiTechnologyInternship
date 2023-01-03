@@ -373,7 +373,7 @@ function SelectSchool() {
                     >
 
                         <Grid item xs={12} sx={{ mt: "30px" }}>
-                        <img src={img_src} width='100%' height='200'/>
+                        <img src={img_src} width='100%' style={{maxHeight:200}}/>
                         </Grid>
                         <Grid item xs={12}>
 
