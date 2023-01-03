@@ -24,7 +24,6 @@ import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/Dash
 
 
 function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
-  const IsClassTeacher = localStorage.getItem('IsClassTeacher');
   const theme = useTheme();
   if (theme.colors.gradients.pink1 !== 'linear-gradient(135deg, white 0%, white 100%);')
     iconColor = 'white';
@@ -42,7 +41,6 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 4 && <PhotoIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 5 && <VideoLibraryIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 6 && <EventNoteIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {/* {icon === 6 || IsClassTeacher !== "Y" ?<EventNoteIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" /> : null} */}
             {icon === 7 && <AccessTimeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 8 && <CurrencyRupeeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 9 && <MenuBookIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
