@@ -14,6 +14,7 @@ const SchoolSettingSlice = createSlice({
             state.ModulesPermission=action.payload.GetModulesPermissionsResult
         },
         getModulesPermissionsResult(state,action){
+            sessionStorage.setItem("ScreensAccessPermission",JSON.stringify(action.payload))
             state.ModulesPermissionsResult=action.payload
         }
 
