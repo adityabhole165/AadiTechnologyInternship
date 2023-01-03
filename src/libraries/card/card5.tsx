@@ -46,14 +46,14 @@ function Card5({ Content, FileName, Name }) {
 
   const download = (e) => {
     saveAs(
-        sitePath+'/RITeSchool/' +
+      localStorage.getItem('SiteURL') + '/RITeSchool/' +
         '/DOWNLOADS/School%20Notices/' +
         FileName
     );
   };
 
   const file_path =
-    sitePath+'/RITeSchool/' +
+  localStorage.getItem('SiteURL')+'/RITeSchool/' +
     '/DOWNLOADS/School%20Notices/' +
     FileName;
 

@@ -43,7 +43,7 @@ function Card7({
 
   let attachment = Attachments;
   let attachmentObj: any = [];
-  let file_path = sitePath+'/RITeSchool/Uploads/';
+  let file_path = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
 

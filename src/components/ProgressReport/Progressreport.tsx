@@ -40,7 +40,7 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
-  let downloadPathOfProgressReport = sitePath + filePath;
+  let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
   const [feependingres, setfeependingres] = useState('');
   const [academicYearId, setAcademicYearId] = useState('');
