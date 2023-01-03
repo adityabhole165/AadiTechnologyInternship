@@ -74,8 +74,8 @@ function Basenav() {
                 </NavLink>
               </IconButton> : (RoleId == "2") ?
                 <IconButton>
-                  <NavLink to={`/${location.pathname.split('/')[1]}/Teacher/TAttendance`} className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
-                    <EventNoteIcon />
+                  <NavLink to={`/${location.pathname.split('/')[1]}/Teacher/Texamschedule`} className={classes.root} activeStyle={{ color: '#9e9e9e' }}>
+                  <img src={'/imges/onlineExam.png'}  style={{  width:"20px", height:"22px"}}/> 
                   </NavLink>
                 </IconButton> : (RoleId == "6") ?
                   <IconButton>
