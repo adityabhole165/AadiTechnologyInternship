@@ -259,7 +259,7 @@ function Card16({ Note, Heading }) {
                         className="check serial" size="small" id={item.DueDateString}
                         onChange={(event) => {
                           handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ? 
-                            FeesList[i].FeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
+                            FeesList[i].StudentFeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
                         }
                       }
                       />
