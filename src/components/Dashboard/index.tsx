@@ -167,10 +167,13 @@ if (RoleId === '3') {
     });
     items2 = DashboardData.Teacher.items2.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return (el.Text1.trim() === "Attendance" && sessionStorage.getItem("IsClassTeacher") === "N") ? false : 
-        f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) && 
-        (el.ScreenPermission === undefined ?           
-          true : f.IsEnabled === true);
+        return (el.Text1.trim() === "Attendance" && 
+        sessionStorage.getItem("IsClassTeacher") === "N" && f.IsFullAccess==="N") ? 
+          false :
+          f.ScreenName === (el.ScreenPermission === undefined ? 
+            f.ScreenName : el.ScreenPermission) && (el.ScreenPermission === undefined ?           
+              true : 
+              f.IsEnabled === true);
       });
     });
     items3 = DashboardData.Teacher.items3.filter((el) => {
