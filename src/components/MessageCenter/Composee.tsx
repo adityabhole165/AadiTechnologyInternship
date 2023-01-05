@@ -41,12 +41,12 @@ function Form13() {
   const PageName = pageName.slice(0, 5);
   const ViewData = localStorage.getItem("ViewMessageData");
 
-  const View = ViewData===""?"": JSON.parse(ViewData)
-  const From = ViewData===""?"":View.From;
-  const Text = ViewData===""?"":View.Text;
-  const AttachmentArray = ViewData===""?"null":View.Attachment.join(',');
-  const ID = ViewData===""?"":View.ID;
-  const FromUserID = ViewData===""?"": View.FromUserID;
+  const View = (ViewData===null || ViewData==="") ? "": JSON.parse(ViewData)
+  const From = (ViewData===null || ViewData==="")?"":View.From;
+  const Text = (ViewData===null || ViewData==="")?"":View.Text;
+  const AttachmentArray = (ViewData===null || ViewData==="")?"null":View.Attachment.join(',');
+  const ID = (ViewData===null || ViewData==="")?"":View.ID;
+  const FromUserID = (ViewData===null || ViewData==="")?"": View.FromUserID;
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -291,7 +291,7 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = sitePath + '/RITeSchool/Uploads/';
+  const AttachmentFilePath = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');

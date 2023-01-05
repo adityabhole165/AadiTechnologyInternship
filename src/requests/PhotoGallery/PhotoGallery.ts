@@ -39,7 +39,7 @@ export const getimgs =
         return {
           Id:obj.ImageId,
           Name:obj.Description,
-          Value:sitePath+'/RITeSchool/' + obj.ImagePath
+          Value: localStorage.getItem('SiteURL') + '/RITeSchool/' + obj.ImagePath
         }
 
       })

@@ -5,8 +5,8 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid,Avatar } from '@mui/material'
-import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse} from 'src/requests/TAttendance/TAttendance';
+import { Box, Container, Grid, Avatar } from '@mui/material'
+import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -23,7 +23,8 @@ const TAttendance = () => {
     const { AssignedDate, StandardId } = useParams();
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const asTeacherId = sessionStorage.getItem('TeacherId');
+    let asTeacherId = "0"
+    let IsClassTeacher = sessionStorage.getItem("IsClassTeacher")
     const [Standardid, setStandardid] = useState<string>();
     const [assignedDate, setAssignedDate] = useState<string>();
     const [onlySelectedClass, setOnlySelectedClass] = useState('none');
@@ -52,14 +53,10 @@ const TAttendance = () => {
     let AYStatus = useSelector(
         (state: RootState) => state.AttendanceList.AYStatus
     );
-    
-    
-const [attanStatus,setAttenStatus] = useState();
-    const body: ITAttendance = {
-        asSchoolId: asSchoolId,
-        asAcademicyearId: asAcademicYearId,
-        asTeacherId: asTeacherId
-    };
+
+
+    const [attanStatus, setAttenStatus] = useState();
+
 
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
@@ -67,6 +64,7 @@ const [attanStatus,setAttenStatus] = useState();
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
+
 
     const getAttendanceStatus: IGetAttendanceStatus = {
         asStanardDivisionId: Standardid,
@@ -86,9 +84,26 @@ const [attanStatus,setAttenStatus] = useState();
     };
 
     useEffect(() => {
+        const ScreensAccessPermission = JSON.parse(sessionStorage.getItem("ScreensAccessPermission"))
+        let IsFullAccess = "N"
+
+        let teacherId = sessionStorage.getItem('TeacherId')
+        let className = sessionStorage.getItem('ClassName')
+        ScreensAccessPermission.map((item) => {
+            if (item.ScreenName === "Attendance")
+                IsFullAccess = item.IsFullAccess
+        })
+        if ((IsClassTeacher == "Y") && className.length > 1 && (IsFullAccess != "Y"))
+            asTeacherId = teacherId != null && teacherId != "" ? teacherId : "0";
+        const body: ITAttendance = {
+            asSchoolId: asSchoolId,
+            asAcademicyearId: asAcademicYearId,
+            asTeacherId: asTeacherId
+        };
+        console.log(body)
         dispatch(getStandard(body));
         getCurrentDate(new Date);
-        if(AssignedDate != undefined || StandardId!= undefined){
+        if (AssignedDate != undefined || StandardId != undefined) {
             setStandardid(StandardId);
             setAssignedDate(AssignedDate);
             setOnlySelectedClass('');
@@ -155,17 +170,17 @@ const [attanStatus,setAttenStatus] = useState();
         }
     }, [saveResponseMessage]);
 
-    useEffect(() =>{
-        if(stdlist.length == 1){
+    useEffect(() => {
+        if (stdlist.length == 1) {
             setSingleStdName(stdlist[0].Name);
             setStandardid(stdlist[0].Value);
             setOnlySelectedClass('');
         }
-    },[stdlist]);
+    }, [stdlist]);
 
 
     const SaveMsg = () => {
- 
+
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
             if (!confirm('Are you sure to mark Attendance on selected weekend/holiday?')) {
                 setAbsentRollNos('');
@@ -183,7 +198,7 @@ const [attanStatus,setAttenStatus] = useState();
         <Container >
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
-            {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown>:<span><b>Class : </b>{singleStdName}</span>}
+            {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown> : <span><b>Class : </b>{singleStdName}</span>}
             <br />
             <br />
 
@@ -202,17 +217,17 @@ const [attanStatus,setAttenStatus] = useState();
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
                         </Grid><Grid item xs={5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180 ,ml:"-6px"}} />}>
-                                Attendance 
+                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180, ml: "-6px" }} />}>
+                                Attendance
                             </ButtonPrimary>
                         </Grid><Grid item xs={3.5}>
                             <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate +'/' + Standardid)} fullWidth  endIcon={ <Avatar  sx={{ width: 22, height: 20 ,ml:"-8px" ,filter:" brightness(0) invert(1) "}}
+                                onClick={() => clickNav('MissingAttandence/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<Avatar sx={{ width: 22, height: 20, ml: "-8px", filter: " brightness(0) invert(1) " }}
                                     src={
-                                      "/imges/missingA.png"
+                                        "/imges/missingA.png"
                                     }
-                                  />}>
-                                Missing 
+                                />}>
+                                Missing
                             </ButtonPrimary>
                         </Grid>
                     </Grid>

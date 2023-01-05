@@ -23,9 +23,9 @@ function Fees_cautionmoney() {
     asUserLogin: userLoginId,
     asQueryString: 'StudentId='+ studentId +'&DueDates=M&Remarks=&SchoolwiseStudentFeeId=0&IsOnlineCautionMoneyPayment=1',
     asSchoolSiteUrl:
-      sitePath+'/RITeSchool/SingleSignOnPage.aspx?',
+    localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-      sitePath+'/RITeSchool/Accountant/PayFeeOnline.aspx?'
+    localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
 
   useEffect(() => {

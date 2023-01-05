@@ -22,7 +22,7 @@ interface RenderItemOptions {
 function renderItem({ item, handleRemoveListItems,list2OfItemsInArray }: RenderItemOptions) {
 	const IndexOfExtension = item.lastIndexOf(".");
 	const Extension = item.slice(IndexOfExtension,);
-  const AttachmentFilePath = sitePath+'/RITeSchool/Uploads/';
+  const AttachmentFilePath = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
   return (
     <ListItem

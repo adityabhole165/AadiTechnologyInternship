@@ -36,7 +36,7 @@ function Card4({
   MoreAttachments
 }) {
   const theme = useTheme();
-  const file_path = sitePath + '/RITeSchool/DOWNLOADS/Homework/';
+  const file_path = localStorage.getItem('SiteURL') + '/RITeSchool/DOWNLOADS/Homework/';
 
   const classes = Styles();
   return (

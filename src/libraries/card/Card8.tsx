@@ -27,7 +27,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const theme = useTheme();
   const navigate = useNavigate();
   const file_path =
-    sitePath+
+  localStorage.getItem('SiteURL') +
     '/RITeSchool/Uploads/' +
     Attachments;
 

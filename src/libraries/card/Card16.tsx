@@ -13,6 +13,7 @@ import { getFees } from 'src/requests/Fees/Fees';
 import IFees from 'src/interfaces/Student/Fees';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import { BoxDetail, BoxDetail1, BoxDetail2, CardDetail1, CardDetail2, CardDetail3, CardStyle1, ListStyle } from '../styled/CardStyle';
+import { NoteStyle } from '../styled/NoteStyle';
 
 Card16.propTypes = {
   Fee: PropTypes?.array,
@@ -80,7 +81,6 @@ function Card16({ Note, Heading }) {
         dueDateArrayObj.push(event.target.id);
         ArrayOfFees_To_Number = ArrayOfFees.map(Number); // String to Number
       }
-      console.log(ArrayOfFees,"ArrayOfFees",dueDateArrayObj,"dueDateArrayObj")
       let NextPaymentGroup = parseInt(event.target.name) + 1; // Next payment group
       let NextPaymentGroup_ToString = NextPaymentGroup.toString(); // Type conversion as value != name
       setCheckBoxPaymentGroup([
@@ -250,7 +250,7 @@ function Card16({ Note, Heading }) {
                               FeesList[i].PaymentGroup
                               : i == FeesList.length - 1
                                 ? parseInt(FeesList[FeesList.length - 1].AmountPayable) +
-                                (FeesList[i].ShowOptionButtonForAllEntry? parseInt(FeesList[i].LateFeeAmount) : 0) +
+                                (FeesList[i].ShowOptionButtonForAllEntry ? parseInt(FeesList[i].LateFeeAmount) : 0) +
                                 ':' +
                                 FeesList[FeesList.length - 1].PaymentGroup
                                 : null
@@ -258,10 +258,10 @@ function Card16({ Note, Heading }) {
                         checked={FeesCheckBoxBoolean}
                         className="check serial" size="small" id={item.DueDateString}
                         onChange={(event) => {
-                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ? 
+                          handleChange(event, FeesList[i].ShowOptionButtonForAllEntry ?
                             FeesList[i].StudentFeeId : 0, FeesList[i].ShowOptionButtonForAllEntry);
                         }
-                      }
+                        }
                       />
                     ) : null}
                   </Grid>
@@ -292,28 +292,29 @@ function Card16({ Note, Heading }) {
 
       <>
         <Stack direction="row" spacing={2}>
-          {(GetFeeDetails.AllowCautionMoneyOnlinePayment === true && !(asSchoolId === "18")) ? (
-            <>
-              <RouterLink
-                to={`/${location.pathname.split('/')[1]
-                  }/Student/Fees_cautionmoney`}
-                style={{ textDecoration: 'none' }}
-              >
-                <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
-              </RouterLink>
+          {GetFeeDetails.AllowCautionMoneyOnlinePayment ?
+            (
+              <>
+                {!GetFeeDetails.IsCautionMoneyPaid ?
+                  (<RouterLink
+                    to={`/${location.pathname.split('/')[1]
+                      }/Student/Fees_cautionmoney`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
+                  </RouterLink>)
+                  : (GetFeeDetails.IsCautionMoneyPaid && GetFeeDetails.TPSLTransactionID != "")?
+                  <NoteStyle>
+                    Please collect caution money receipt from school account department. Transaction No. : {GetFeeDetails.TPSLTransactionID}
+                  </NoteStyle>
+                  :
+                  null
+                }
+              </>
 
-              <RouterLink
-                to={`/${location.pathname.split('/')[1]
-                  }/Student/Fees_cautionmoney`}
-                style={{ textDecoration: 'none' }}
-              >
-                <ButtonPrimary color="secondary">Caution Money Receipt</ButtonPrimary>
-              </RouterLink>
-            </>
-
-          ) : (
-            null
-          )}
+            ) : (
+              null
+            )}
 
           <RouterLink
             to={`/${location.pathname.split('/')[1]}/Student/PayOnline`}

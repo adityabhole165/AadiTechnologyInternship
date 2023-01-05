@@ -1,4 +1,4 @@
-import { Typography, useTheme, Container, Card,Grid } from '@mui/material';
+import { Typography, useTheme, Container, Card, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { Link as RouterLink, Navigate } from 'react-router-dom';
@@ -38,12 +38,12 @@ function Card7({
   ID,
   Viewsent,
   ViewSentObject,
-}) { 
+}) {
   const theme = useTheme();
 
   let attachment = Attachments;
   let attachmentObj: any = [];
-  let file_path = sitePath+'/RITeSchool/Uploads/';
+  let file_path = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
 
@@ -65,22 +65,30 @@ function Card7({
   const FromUserID = ViewSentObject.SenderUserId;
   const navigate = useNavigate();
 
-  const saveMessageBody= (replyFwd)=>{
+  const saveMessageBody = (replyFwd) => {
     const path =
-    replyFwd==="Reply"? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply`:
-      replyFwd==="Forward"?
-      `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward` 
-      :"";
-      navigate(path)
-    localStorage.setItem("messageBody",Body);
-  }
- localStorage.setItem("ViewMessageData",JSON.stringify({From:From,FromUserID:FromUserID,Text:Text,Attachment:AttachmentArray,ID:ID}))
+      replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
+        replyFwd === "Forward" ?
+          `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
+          : "";
+    navigate(path)
+    localStorage.setItem("messageBody", Body);
 
- 
+    localStorage.setItem("ViewMessageData", JSON.stringify(
+      {
+        From: replyFwd === "Reply" ? From : "",
+        FromUserID: replyFwd === "Reply" ? FromUserID : "",
+        Text: Text,
+        Attachment: AttachmentArray,
+        ID: ID
+      }))
+  }
+
+
   return (
     <>
       <Container>
-        <ListStyle sx={{height:"300px",overflow: "auto"}}>
+        <ListStyle sx={{ height: "300px", overflow: "auto" }}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
@@ -118,7 +126,7 @@ function Card7({
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
 
             <Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
-         
+
           </BoxWrapper>
         </ListStyle>
         <CardWrapper>
@@ -137,7 +145,7 @@ function Card7({
               ID
             }
           > */}
-            <ButtonPrimary onClick={()=>{saveMessageBody("Reply")}}> Reply</ButtonPrimary>&nbsp;&nbsp;
+          <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>&nbsp;&nbsp;
           {/* </RouterLink> */}
           {/* <RouterLink
             style={{ textDecoration: 'none' }}
@@ -152,7 +160,7 @@ function Card7({
               ID
             }
           > */}
-            <ButtonPrimary onClick={()=>{saveMessageBody("Forward")}}> Forward</ButtonPrimary>
+          <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward</ButtonPrimary>
           {/* </RouterLink> */}
         </CardWrapper>
       </Container>
