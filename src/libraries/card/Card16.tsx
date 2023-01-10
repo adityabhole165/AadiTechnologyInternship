@@ -210,7 +210,7 @@ function Card16({ Note, Heading }) {
           {FeesList.map((item: GetFeeDetailsResult, i) => {
             // Checked Box Disability
             const disabledStateCheckBox =
-              FeesList.filter((item) => item.FeesPaid === "0").length === 1 ?
+              FeesList.filter((item) => item.FeesPaid === "0" && parseInt(item.PaymentGroup)>0).length === 0 ?
                 false :
                 !CheckBoxPaymentGroup.includes(item.PaymentGroup.toString()
                 );
