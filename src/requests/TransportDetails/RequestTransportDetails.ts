@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import ApiTransportDetails from 'src/api/TransportDetails/ApiTransportDetails'
 import { AppThunk } from 'src/store';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
+import { string } from 'prop-types';
 
 const SliceTransportDetails = createSlice({
   name: 'TransportDetails',
@@ -9,6 +10,7 @@ const SliceTransportDetails = createSlice({
     RouteDetails: [],
     StopDetails: [],
     Loading: true,
+    TrackingURL:""
   },
   reducers: {
 
@@ -17,6 +19,9 @@ const SliceTransportDetails = createSlice({
     },
     getStopDetails(state, action) {
       state.StopDetails = action.payload;
+    },
+    getTrackingURL(state, action) {
+      state.TrackingURL = action.payload;
     }
 
   }
@@ -50,6 +55,7 @@ export const getTransportDetails =
 
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
+      dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.LinkUrl));
     };
 
 
