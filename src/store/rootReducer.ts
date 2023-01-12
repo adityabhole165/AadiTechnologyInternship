@@ -1,3 +1,4 @@
+
 import { combineReducers } from '@reduxjs/toolkit';
 import Holidaysslice from "../requests/Holiday/Holiday";
 import staffBirthdayslice from "../requests/StaffBirthday/StaffBirthday";
@@ -39,11 +40,18 @@ import GetuserSlice from 'src/requests/AdminSMSCenter/To';
 import GetuserSlice1 from 'src/requests/AdminSMSCenter/To1';
 import AComposeSMSSlice from 'src/requests/AdminSMSCenter/AComposeSMS';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
-import Feedbackslice from 'src/requests/Feedback/Feedback';
 import Notificationslice from "../requests/Notification/Notification";
-import NewReleaseslice from 'src/requests/Authentication/NewRelease'
+import NewReleaseslice from 'src/requests/Authentication/NewRelease';
+import Jsonholderslice from 'src/requests/Student/Jsonholder'
+import SliceFeedback from 'src/requests/Feedback/RequestFeedback'
+import InsuranceSlice from 'src/requests/Insurance/Requestinsurance'
+
+import Feedbackslice from 'src/requests/Feedbacks/Feedback';
+import SliceTransportDetails from 'src/requests/TransportDetails/RequestTransportDetails'
 
 const rootReducer = combineReducers({
+    FeedBack:SliceFeedback,
+    Jsonholder : Jsonholderslice,
     Holidays:Holidaysslice,
     Notification:Notificationslice,
     staffBirthday:staffBirthdayslice,
@@ -92,7 +100,9 @@ const rootReducer = combineReducers({
     getASendSMS:AComposeSMSSlice,
     getModulesPermissionsResult:schoolSettingSlice,
     SchoolSettings:SchoolListslice,
-    Feedback : Feedbackslice
+    Feedback : Feedbackslice,
+    insurance : InsuranceSlice,
+    TransportDetails : SliceTransportDetails
 });
 
 export default rootReducer;
