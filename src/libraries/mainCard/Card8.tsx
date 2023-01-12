@@ -3,15 +3,14 @@ import { Box, Paper, Typography } from '@mui/material';
 import Card9 from 'src/libraries/mainCard/Card9';
 
 function Card8({ itemList }) {
-
   return (
-    <div>
-        {itemList.map((item,i)=>(
-      <Paper  component={Box} p={1} my={1} key={i}>
-       <Card9 item={item}   />
-      </Paper>
-        ))}
-    </div>
+    <Paper component={Box} p={1} my={1}>
+      {itemList.map((item, i) => (
+        <Card9 item={item} key={i}
+          variant={i === 0 ? "h5" : "body2"}
+        />
+      ))}
+    </Paper>
   )
 }
 
