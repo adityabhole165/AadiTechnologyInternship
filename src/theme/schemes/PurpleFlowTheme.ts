@@ -757,11 +757,11 @@ export const PurpleFlowTheme = createTheme({
     },
     MuiPaper: {
       styleOverrides: {
-        root: {
-          padding: 0
-        },
+        // root: {
+        //   padding: 0
+        // },
         elevation0: {
-          boxShadow: 'none'
+          boxShadow: ' 0px 8px 15px rgba(0, 0, 0, 0.1)'
         },
         elevation: {
           boxShadow: colors.shadows.card
