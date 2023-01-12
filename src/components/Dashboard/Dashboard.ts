@@ -20,6 +20,7 @@ import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import CakeIcon from '@mui/icons-material/Cake';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import { color } from '@mui/system';
 
 const DashboardData = {
   Student:{
@@ -216,6 +217,8 @@ const DashboardData = {
       index: 18,
       ModulesPermission: 'EnableSMSCenter'
     },
+   
+
     {
       Text1: 'PTA',
       Text2: '',
@@ -226,6 +229,53 @@ const DashboardData = {
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
     },
+    
+   
+
+    // {
+    //   Text1: 'Json',
+    //   Text2: 'Holder',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e ',
+    //   Icon: PeopleIcon,
+    //   Link: 'Student/Jsonholder',
+    //   index: 27,
+     
+    // },
+    // {
+    //   Text1: 'Feedback',
+    //   Text2: '',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e ',
+    //   Icon: PeopleIcon,
+    //   Link: 'Student/Feedback',
+    //   index: 28,
+     
+    // },
+
+    // {
+    //   Text1: 'Insurance',
+    //   Text2: '',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e ',
+    //   Icon: PeopleIcon,
+    //   Link: 'Student/Insurance',
+    //   index: 29,
+     
+    // },
+
+    {
+      Text1: 'Transport',
+      Text2: 'Details',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: PeopleIcon,
+      Link: 'Student/TransportDetails',
+      index: 23,
+     
+    },
+
+
     // {
     //   Text1: 'AttendenceNew',
     //   Text2: '',

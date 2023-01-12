@@ -1,6 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader/index';
 
 
@@ -37,6 +38,18 @@ const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 // const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
 const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
+// const Jsonholder = Loader(lazy(()=> import ('src/components/Jsonholder/Jsonholder')))
+// const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
+// const Insurance = Loader(lazy(()=> import ('src/components/Insurance/Insurance')))
+const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
+
+
+
+
+
+
+
+
 
 const studentRoutes = [
   {
@@ -155,9 +168,22 @@ const studentRoutes = [
     element: <Notification/>
   },
   // {
-  //   path: 'AnnualPlanner2',
-  //   element: <AnnualPlanner2/>
+  //   path: 'Jsonholder',
+  //   element: <Jsonholder/>
   // },
+  // {
+  //   path: 'Feedback',
+  //   element: <Feedback/>
+  // },
+  // {
+  //   path: 'Insurance',
+  //   element: <Insurance/>
+  // },
+  
+  {
+    path: 'TransportDetails',
+    element: <TransportDetails/>
+  },
   ];
 
 export default studentRoutes;

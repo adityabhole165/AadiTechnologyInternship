@@ -15,6 +15,7 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
+
 import 'src/assets/style/student-cal.css';
 import 'src/assets/style/Homework_Calci.css';
 
@@ -62,7 +63,14 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 22 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {/* {icon === 27 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 28 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 29 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />} */}
+            {icon === 23 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
            
+            
+           
+
             <Text1>
               {text1}
             </Text1>
