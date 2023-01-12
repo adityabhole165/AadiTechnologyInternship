@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -7,6 +7,7 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
+import { Button } from '@mui/material';
 function TransportDetails() {
 
   const dispatch = useDispatch();
@@ -17,8 +18,11 @@ function TransportDetails() {
   const StopDetails: any = useSelector(
     (state: RootState) => state.TransportDetails.StopDetails
   );
-
-
+  const TrackingURI: any = useSelector(
+    (state: RootState) => state.TransportDetails.TrackingURL
+  );
+  let screenWidth = window.innerWidth * 0.9;
+  const [showMyStop, setShowMyStop] = useState(true)
   useEffect(() => {
     // const TransportBody: GetStudentTransportDetailsBody = {
     //   aiUserId: parseInt(sessionStorage.getItem('Id')),
@@ -35,15 +39,27 @@ function TransportDetails() {
     dispatch(getTransportDetails(TransportBody));
   }, []);
 
-
   return (
     <div>
       <PageHeader heading={'Transport Details'} subheading={''} />
-      <Card8 itemList={RouteDetails}/>
+      <Card8 itemList={RouteDetails} />
       {
-        StopDetails?.map((item,i)=>{
-          return (<Card8 itemList={item.StopDetail} key={i}/>)
+        StopDetails?.map((item, i) => {
+          return (
+            (showMyStop ? item.IsMyStop : true) &&
+            <Card8 itemList={item.StopDetail} key={i} />)
         })
+      }
+      <Button onClick={() => { setShowMyStop(!showMyStop) }}>
+        {showMyStop ? "Show All Stop" : "Show My Stop"}
+      </Button>
+      <br></br>
+      {showMyStop &&
+        (<iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
+          src={TrackingURI}
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        >
+        </iframe>)
       }
     </div>
   )
