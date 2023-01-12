@@ -11,6 +11,7 @@ import AppInit from './libraries/AppInit';
 import ExtendedSidebarLayout from './layouts/ExtendedSidebarLayout';
 
 function App() {
+
   const content = useRoutes(router);
 
   return (

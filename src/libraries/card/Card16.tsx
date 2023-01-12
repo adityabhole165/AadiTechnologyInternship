@@ -209,9 +209,11 @@ function Card16({ Note, Heading }) {
         <>
           {FeesList.map((item: GetFeeDetailsResult, i) => {
             // Checked Box Disability
-            const disabledStateCheckBox = !CheckBoxPaymentGroup.includes(
-              item.PaymentGroup.toString()
-            );
+            const disabledStateCheckBox =
+              FeesList.filter((item) => item.FeesPaid === "0" && parseInt(item.PaymentGroup)>0).length === 0 ?
+                false :
+                !CheckBoxPaymentGroup.includes(item.PaymentGroup.toString()
+                );
             // Checked Value Boolean
             const FeesCheckBoxBoolean = ArrayOfPaymentGroup.includes(
               item.PaymentGroup.toString()
@@ -303,12 +305,12 @@ function Card16({ Note, Heading }) {
                   >
                     <ButtonPrimary color="secondary">Pay Caution Money</ButtonPrimary>
                   </RouterLink>)
-                  : (GetFeeDetails.IsCautionMoneyPaid && GetFeeDetails.TPSLTransactionID != "")?
-                  <NoteStyle>
-                    Please collect caution money receipt from school account department. Transaction No. : {GetFeeDetails.TPSLTransactionID}
-                  </NoteStyle>
-                  :
-                  null
+                  : (GetFeeDetails.IsCautionMoneyPaid && GetFeeDetails.TPSLTransactionID != "") ?
+                    <NoteStyle>
+                      Please collect caution money receipt from school account department. Transaction No. : {GetFeeDetails.TPSLTransactionID}
+                    </NoteStyle>
+                    :
+                    null
                 }
               </>
 
