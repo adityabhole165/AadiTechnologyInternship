@@ -55,7 +55,7 @@ export const getTransportDetails =
 
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
-      dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.LinkUrl));
+      dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.TrackingURL));
     };
 
 
