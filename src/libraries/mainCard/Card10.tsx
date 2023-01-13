@@ -6,9 +6,9 @@ import { ListStyle } from '../styled/CardStyle'
 function Card10({ item, selected }) {
   return (
     <ListStyle color={selected?'secondary':'primary'}>
-      <Grid container >
-        <Grid item xs={1.5}>
-          <Avatar sx={{ width: 24, height: 24 }}>{item.Text1}</Avatar>
+      <Grid container alignItems="center">
+        <Grid item xs={1.5} >
+          <Avatar sx={{ width: 24, height: 24,color:"#5c6981",backgroundColor:"white",border:"2px solid #5c6981" }}>{item.Text1}</Avatar>
         </Grid>
         <Grid item xs={6.5}>
           <Typography variant={"h5"} >

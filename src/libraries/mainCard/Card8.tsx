@@ -10,8 +10,8 @@ function Card8({ itemList , Selected=false}) {
       {itemList.map((item, i) => (
         <Card9 item={item} key={i}
           variant={i === 0 ? "h5" : "body2"}
+          IsDivider={i === 0 }
         />
-   
       ))}
 
   

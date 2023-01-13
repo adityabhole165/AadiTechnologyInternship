@@ -15,10 +15,10 @@ import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import MenuBookIcon from '@mui/icons-material/MenuBook';
-
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import 'src/assets/style/student-cal.css';
 import 'src/assets/style/Homework_Calci.css';
-
+import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
 import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
@@ -66,9 +66,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {/* {icon === 27 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 28 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 29 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />} */}
-            {icon === 23 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-           
             
+           
+            {icon === 23 &&  <Badge badgeContent="New" color="error"  anchorOrigin={{vertical: 'top',horizontal: 'right',}}>  
+            <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" />  </Badge>}
            
 
             <Text1>
