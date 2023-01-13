@@ -10,7 +10,8 @@ const SliceTransportDetails = createSlice({
     RouteDetails: [],
     StopDetails: [],
     Loading: true,
-    TrackingURL: ""
+    TrackingURL: "",
+    TrackingMessage:""
   },
   reducers: {
 
@@ -23,6 +24,9 @@ const SliceTransportDetails = createSlice({
     },
     getTrackingURL(state, action) {
       state.TrackingURL = action.payload;
+    },
+    getTrackingMessage(state, action) {
+      state.TrackingMessage = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true
@@ -38,7 +42,7 @@ export const getTransportDetails =
       const response = await ApiTransportDetails.TransportDetailsapi(data)
       let RouteDetails = []
       let StopDetails = [];
-      console.log(response?.data?.RouteName,response?.data)
+      // console.log(response?.data?.RouteName,response?.data)
       if (response?.data?.RouteName !== null) {
 
         RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
@@ -63,6 +67,7 @@ export const getTransportDetails =
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
       dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.TrackingURL));
+      dispatch(SliceTransportDetails.actions.getTrackingMessage(response?.data?.TrackingMessage));
     };
 
 

@@ -26,6 +26,9 @@ function TransportDetails() {
   const TrackingURI: any = useSelector(
     (state: RootState) => state.TransportDetails.TrackingURL
   );
+  const TrackingMessage: any = useSelector(
+    (state: RootState) => state.TransportDetails.TrackingMessage
+  );
   const loading = useSelector(
     (state: RootState) => state.TransportDetails.Loading
   );
@@ -41,7 +44,6 @@ function TransportDetails() {
     if (newAlignment != null)
       setAlignment(newAlignment);
   };
-
   useEffect(() => {
     const TransportBody: GetStudentTransportDetailsBody = {
       aiUserId: parseInt(sessionStorage.getItem('Id')),
@@ -83,7 +85,7 @@ function TransportDetails() {
                   return (
                     (showMyStop ? item.IsMyStop : true) &&
                     // <Card8 itemList={item.StopDetail} Selected={showMyStop ? false : item.IsMyStop} key={i} />)
-                    <Card10 item={item.StopDetail} selected={showMyStop?false:item.IsMyStop} />)
+                    <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} />)
                 })
               }
               <ButtonPrimary color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
@@ -94,11 +96,13 @@ function TransportDetails() {
               </ButtonPrimary>
               <br></br>
               <br></br>
-              <iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
-                src={TrackingURI}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              >
-              </iframe>
+              {TrackingURI !== "" && TrackingMessage == "" ?
+                <iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
+                  src={TrackingURI}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                > </iframe>
+                : null
+              }
             </>)}
       </div>
     </Container>
