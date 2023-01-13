@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useTheme,Container,IconButton,Typography,Box, Badge} from '@mui/material';
+import {useTheme,Container,IconButton,Typography,Box, Badge,keyframes} from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -28,6 +28,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
   const theme = useTheme();
   if (theme.colors.gradients.pink1 !== 'linear-gradient(135deg, white 0%, white 100%);')
     iconColor = 'white';
+    const blink = keyframes`
+  from { opacity: 0; }
+  to { opacity: 1; }
+`;
   return (
     <>
       <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{textDecoration:'none'}}>
@@ -54,7 +58,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 15 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter:"invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) contrast(94%)  brightness(92%) "}}/>}
             {icon === 16 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}}/>}
 
-            {icon === 17 &&  <BadgeStyle badgeContent={Messagecount} color="error"  anchorOrigin={{vertical: 'top',horizontal: 'right',}}>  
+            {icon === 17 &&  <BadgeStyle badgeContent={Messagecount} color="error"  anchorOrigin={{vertical: 'top',horizontal: 'right'}}>  
             <ForwardToInboxIcon sx={{color: iconColor}} fontSize="medium" />  </BadgeStyle>}
          
  
@@ -68,8 +72,8 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 29 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />} */}
             
            
-            {icon === 23 &&  <Badge badgeContent="New" color="error"  anchorOrigin={{vertical: 'top',horizontal: 'right',}}>  
-            <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" />  </Badge>}
+            {icon === 23 &&<> <Badge badgeContent="New" color="error" sx={{animation: `${blink} 1s linear infinite`,float:"right",mr:"15px"}} >  
+             </Badge>  <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" /> </>}
            
 
             <Text1>
