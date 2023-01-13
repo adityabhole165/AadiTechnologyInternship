@@ -684,10 +684,12 @@ export const PurpleFlowTheme = createTheme({
           background: colors.alpha.white[100],
           transition: 'all .2s',
           height:"30px",
+          textTransform: "capitalize",
 
           '&:hover, &.Mui-selected, &.Mui-selected:hover': {
             color: colors.alpha.black[100],
-            background: colors.info.main
+            background: colors.info.main,
+          
           }
         }
       }
