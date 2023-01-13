@@ -1163,6 +1163,15 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
+    MuiBadge: {
+      styleOverrides: {
+        root: {
+          '.css-17fkmjm-MuiBadge-badge': {
+            height: "14px",
+          }
+        }
+      }
+    },
     MuiTypography: {
       defaultProps: {
         variantMapping: {
@@ -1189,6 +1198,7 @@ export const PurpleFlowTheme = createTheme({
       }
     }
   },
+  
   shape: {
     borderRadius: 6
   },
