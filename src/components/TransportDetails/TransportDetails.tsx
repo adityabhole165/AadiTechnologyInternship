@@ -7,7 +7,11 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
-import { Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, Container, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 function TransportDetails() {
 
   const dispatch = useDispatch();
@@ -21,6 +25,10 @@ function TransportDetails() {
   const TrackingURI: any = useSelector(
     (state: RootState) => state.TransportDetails.TrackingURL
   );
+  const loading = useSelector(
+    (state: RootState) => state.TransportDetails.Loading
+  );
+
   let screenWidth = window.innerWidth * 0.9;
   const [showMyStop, setShowMyStop] = useState(true)
   const [alignment, setAlignment] = React.useState('1');
@@ -29,7 +37,8 @@ function TransportDetails() {
     event: React.MouseEvent<HTMLElement>,
     newAlignment: string,
   ) => {
-    setAlignment(newAlignment);
+    if (newAlignment != null)
+      setAlignment(newAlignment);
   };
 
   useEffect(() => {
@@ -47,9 +56,9 @@ function TransportDetails() {
     }
     dispatch(getTransportDetails(TransportBody));
   }, [alignment]);
-  
+
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Transport Details'} subheading={''} />
       <ToggleButtonGroup
         color="primary"
@@ -58,29 +67,40 @@ function TransportDetails() {
         onChange={handleChange}
         aria-label="Platform"
       >
-        <ToggleButton value="1">Pickup</ToggleButton>
+        <ToggleButton value="1">Pick-up</ToggleButton>
         <ToggleButton value="2">Drop</ToggleButton>
       </ToggleButtonGroup>
-      <Card8 itemList={RouteDetails} />
-      {
-        StopDetails?.map((item, i) => {
-          return (
-            (showMyStop ? item.IsMyStop : true) &&
-            <Card8 itemList={item.StopDetail} Selected={item.IsMyStop} key={i} />)
-        })
-      }
-      <Button onClick={() => { setShowMyStop(!showMyStop) }}>
-        {showMyStop ? "Show All Stop" : "Show My Stop"}
-      </Button>
-      <br></br>
-      {showMyStop &&
-        (<iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
-          src={TrackingURI}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        >
-        </iframe>)
-      }
-    </div>
+      <div>
+        {loading ? <SuspenseLoader /> :
+          RouteDetails.length === 0 ?
+            <ErrorMessages Error={(alignment === "1" ? "Pick-up" : "Drop") + " is not associated yet"} /> :
+
+            (<>
+              <Card8 itemList={RouteDetails} />
+
+              {
+                StopDetails?.map((item, i) => {
+                  return (
+                    (showMyStop ? item.IsMyStop : true) &&
+                    <Card8 itemList={item.StopDetail} Selected={showMyStop ? false : item.IsMyStop} key={i} />)
+                })
+              }
+              <ButtonPrimary color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(!showMyStop) }}>
+                {showMyStop ? "Show All Stop" : "Show My Stop"}
+              </ButtonPrimary>
+              <ButtonPrimary color={showMyStop ? 'warning' : 'secondary'} onClick={() => { setShowMyStop(!showMyStop) }}>
+                Show My Stop
+              </ButtonPrimary>
+              <br></br>
+              <br></br>
+              (<iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
+                src={TrackingURI}
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              >
+              </iframe>)
+            </>)}
+      </div>
+    </Container>
   )
 }
 
