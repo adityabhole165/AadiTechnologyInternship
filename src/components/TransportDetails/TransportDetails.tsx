@@ -7,7 +7,7 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
-import { Button, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, Container, ToggleButton, ToggleButtonGroup } from '@mui/material';
 function TransportDetails() {
 
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ function TransportDetails() {
   }, [alignment]);
   
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Transport Details'} subheading={''} />
       <ToggleButtonGroup
         color="primary"
@@ -80,7 +80,7 @@ function TransportDetails() {
         >
         </iframe>)
       }
-    </div>
+    </Container>
   )
 }
 
