@@ -88,12 +88,18 @@ function TransportDetails() {
                     <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} />)
                 })
               }
-              <ButtonPrimary color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
-                Show All Stop
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+              <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
+                Show All Stops
               </ButtonPrimary>
-              <ButtonPrimary color={showMyStop ? 'warning' : 'primary'} onClick={() => { setShowMyStop(true) }}>
+              </Grid>
+              <Grid item xs={6}>
+              <ButtonPrimary fullWidth color={showMyStop ? 'warning' : 'primary'} onClick={() => { setShowMyStop(true) }}>
                 Show My Stop
               </ButtonPrimary>
+              </Grid>
+              </Grid>
               <br></br>
               <br></br>
               {TrackingURI !== "" && TrackingMessage == "" ?
