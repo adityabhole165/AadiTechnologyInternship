@@ -41,18 +41,16 @@ export const getTransportDetails =
         })
       })
       RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
-
       let StopDetails = [];
       response?.data?.StopDetails.map((item) => {
         let StopDetail = []
         StopDetail.push({ Text1: "Shift - " + response?.data?.TransportShiftName, Text2:"" })
         StopDetail.push({ Text1: "Stop Number - " + item.StopNumber, Text2:"" })
-        StopDetail.push({ Text1: item.StopName + " - " + item.PickupTime, Text2:"" })
+        StopDetail.push({ Text1: item.StopName + " - " + ((data.aiTypeId===1)?item.PickupTime:item.DropTime), Text2:"" })
         StopDetails.push({ StopDetail: StopDetail, 
           IsMyStop:  response?.data?.StopName === item.StopName 
         })
       })
-
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
       dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.TrackingURL));

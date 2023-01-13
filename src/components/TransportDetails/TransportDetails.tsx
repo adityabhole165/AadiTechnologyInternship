@@ -32,7 +32,6 @@ function TransportDetails() {
     setAlignment(newAlignment);
   };
 
-  console.log(TrackingURI,"-")
   useEffect(() => {
     // const TransportBody: GetStudentTransportDetailsBody = {
     //   aiUserId: parseInt(sessionStorage.getItem('Id')),
