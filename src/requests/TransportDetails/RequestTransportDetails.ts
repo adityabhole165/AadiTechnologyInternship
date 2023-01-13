@@ -10,7 +10,7 @@ const SliceTransportDetails = createSlice({
     RouteDetails: [],
     StopDetails: [],
     Loading: true,
-    TrackingURL:""
+    TrackingURL: ""
   },
   reducers: {
 
@@ -24,10 +24,10 @@ const SliceTransportDetails = createSlice({
     getTrackingURL(state, action) {
       state.TrackingURL = action.payload;
     },
-    getLoading (state,action) {
+    getLoading(state, action) {
       state.Loading = true
       state.RouteDetails = [];
-  }
+    }
   }
 });
 
@@ -38,27 +38,28 @@ export const getTransportDetails =
       const response = await ApiTransportDetails.TransportDetailsapi(data)
       let RouteDetails = []
       let StopDetails = [];
-      if(response?.data?.RouteName!==null){
+      console.log(response?.data?.RouteName,response?.data)
+      if (response?.data?.RouteName !== null) {
 
-      RouteDetails = [{ Text1: response?.data?.RouteName, Text2: "" }]
-      let staffDetails = response?.data?.TransportStaffDetails.map((item) => {
-        RouteDetails.push({
-          Text1: item.TransportStaffName + '(' + item.Designation + ')',
-          Text2: item.MobileNo
+        RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
+        let staffDetails = response?.data?.TransportStaffDetails.map((item) => {
+          RouteDetails.push({
+            Text1: item.TransportStaffName + '(' + item.Designation + ')',
+            Text2: item.MobileNo
+          })
         })
-      })
-      RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
-      
-      response?.data?.StopDetails.map((item) => {
-        let StopDetail = []
-        StopDetail.push({ Text1: "Shift - " + response?.data?.TransportShiftName, Text2:"" })
-        StopDetail.push({ Text1: "Stop Number - " + item.StopNumber, Text2:"" })
-        StopDetail.push({ Text1: item.StopName + " - " + ((data.aiTypeId===1)?item.PickupTime:item.DropTime), Text2:"" })
-        StopDetails.push({ StopDetail: StopDetail, 
-          IsMyStop:  response?.data?.StopName === item.StopName 
+        RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
+
+        response?.data?.StopDetails.map((item) => {
+          let StopDetail = {
+            Text1: item.StopNumber,
+            Text2: item.StopName,
+            Text3: ((data.aiTypeId === 1) ? item.PickupTime : item.DropTime)
+          }
+          StopDetails.push({ StopDetail: StopDetail, IsMyStop: response?.data?.StopName === item.StopName }
+          )
         })
-      })
-    }
+      }
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
       dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.TrackingURL));

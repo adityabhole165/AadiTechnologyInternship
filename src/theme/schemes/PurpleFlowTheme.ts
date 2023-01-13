@@ -9,7 +9,8 @@ const themeColors = {
   success: '#57CA22',
   warning: '#FFA319',
   error: '#FF1943',
-  info: '#90caf9',
+  // info: '#90caf9',
+  info: '#c2dbff',
   black: '#223354',
   white: '#ffffff',
   primaryAlt: '#000C57'
@@ -680,12 +681,12 @@ export const PurpleFlowTheme = createTheme({
       styleOverrides: {
         root: {
           color: colors.alpha.black[100],
-          background: colors.alpha.white[600],
+          background: colors.alpha.white[100],
           transition: 'all .2s',
           height:"30px",
 
           '&:hover, &.Mui-selected, &.Mui-selected:hover': {
-            color: colors.alpha.white[100],
+            color: colors.alpha.black[100],
             background: colors.info.main
           }
         }
