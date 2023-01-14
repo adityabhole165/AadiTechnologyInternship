@@ -106,12 +106,9 @@ function TransportDetails() {
         
               {TrackingURI !== "" ?
                 <>
+              <Typography variant='h5' sx={{textAlign:"center",mb:1}}>{alignment === "1"?"Pick-up":"Drop"} Vehicle Tracking</Typography>
                   {TrackingMessage == "" ?
                     <>
-                   
-                   
-                   <Typography variant='h5' sx={{textAlign:"center",mb:1}}>{alignment === "1"?"Pick-up":"Drop"} Vehicle Tracking</Typography>
-                   
                       <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
                         src={TrackingURI}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
