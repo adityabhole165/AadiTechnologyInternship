@@ -13,6 +13,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card10 from 'src/libraries/mainCard/Card10';
+import Note from 'src/libraries/Note/Note';
 function TransportDetails() {
 
   const dispatch = useDispatch();
@@ -103,12 +104,18 @@ function TransportDetails() {
               </Grid>
               </Grid>
            
-              {TrackingURI !== "" && TrackingMessage !== "" ?
-                <iframe allowFullScreen style={{border:"none"}} width="100%" height="385px" title="Vehicle Tracking"
-                  src={TrackingURI}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                > </iframe>
-                : null
+              {TrackingURI !== "" ?
+                <>
+                  {TrackingMessage == "" ?
+                    <>
+                      <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
+                        src={TrackingURI}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      > </iframe>
+                    </>
+                    : <Note NoteDetail={[TrackingMessage]}></Note> 
+                  }
+                </> : null
               }
           
             </>
