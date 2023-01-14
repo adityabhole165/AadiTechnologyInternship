@@ -74,7 +74,8 @@ function TransportDetails() {
         <ToggleButton value="2">Drop</ToggleButton>
       </ToggleButtonGroup>
       <div>
-        {loading ? <SuspenseLoader /> :
+        {loading ? <SuspenseLoader /> 
+        :
           RouteDetails.length === 0 ?
             <ErrorMessages Error={(alignment === "1" ? "Pick-up" : "Drop") + " is not associated yet"} /> :
 
