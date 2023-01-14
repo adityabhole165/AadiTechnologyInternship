@@ -1163,15 +1163,7 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
-    MuiBadge: {
-      styleOverrides: {
-        root: {
-          '.css-17fkmjm-MuiBadge-badge': {
-            height: "14px",
-          }
-        }
-      }
-    },
+ 
     MuiTypography: {
       defaultProps: {
         variantMapping: {
@@ -1234,7 +1226,7 @@ export const PurpleFlowTheme = createTheme({
       fontSize: 14
     },
     body2: {
-      fontSize: 14
+      fontSize: 12
     },
     button: {
       fontWeight: 600

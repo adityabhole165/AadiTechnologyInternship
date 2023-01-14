@@ -15,7 +15,8 @@ function Card9({ item, variant = "body2", IsDivider=false  }) {
           {item.Text2}
         </Typography>
       </Box>
-      {IsDivider && <Divider/>}
+      {IsDivider && <Divider sx={{background: '#5b5258',my:"3px",height:"0.5px"}}/>}
+     
     </div>
   )
 }

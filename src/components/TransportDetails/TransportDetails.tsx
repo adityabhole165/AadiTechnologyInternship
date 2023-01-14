@@ -67,6 +67,7 @@ function TransportDetails() {
         value={alignment}
         exclusive
         onChange={handleChange}
+        sx={{mb:0.5}}
       >
         <ToggleButton value="1"
         >Pick-up</ToggleButton>
@@ -88,7 +89,7 @@ function TransportDetails() {
                     <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} />)
                 })
               }
-            <Grid container spacing={2}>
+            <Grid container spacing={2} sx={{mb:"10px"}}>
               <Grid item xs={6}>
               <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
                 Show All Stops
@@ -100,8 +101,6 @@ function TransportDetails() {
               </ButtonPrimary>
               </Grid>
               </Grid>
-              <br></br>
-              <br></br>
               {TrackingURI !== "" && TrackingMessage !== "" ?
                 <iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
                   src={TrackingURI}
