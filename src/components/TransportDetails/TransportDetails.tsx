@@ -7,7 +7,7 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
-import { Button, Container, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Button, Container, Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
@@ -103,11 +103,15 @@ function TransportDetails() {
               </ButtonPrimary>
               </Grid>
               </Grid>
-           
+        
               {TrackingURI !== "" ?
                 <>
                   {TrackingMessage == "" ?
                     <>
+                   
+                   
+                   <Typography variant='h5' sx={{textAlign:"center",mb:1}}>{alignment === "1"?"Pick-up":"Drop"} Vehicle Tracking</Typography>
+                   
                       <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
                         src={TrackingURI}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
