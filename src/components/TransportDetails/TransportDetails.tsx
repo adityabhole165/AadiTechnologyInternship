@@ -7,13 +7,14 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
-import { Button, Container, Grid, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material';
+import { Button, Container, Grid, ToggleButton,Box, ToggleButtonGroup, Typography ,IconButton, Avatar} from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card10 from 'src/libraries/mainCard/Card10';
 import Note from 'src/libraries/Note/Note';
+import RefreshIcon from '@mui/icons-material/Refresh';
 function TransportDetails() {
 
   const dispatch = useDispatch();
@@ -60,10 +61,11 @@ function TransportDetails() {
     // }
     dispatch(getTransportDetails(TransportBody));
   }, [alignment]);
-
+  const refresh = () => window.location.reload()
   return (
     <Container>
       <PageHeader heading={'Transport Details'} subheading={''} />
+      <Box sx={{display:"flex",justifyContent:"space-between"}}>
       <ToggleButtonGroup
         value={alignment}
         exclusive
@@ -74,6 +76,8 @@ function TransportDetails() {
         >Pick-up</ToggleButton>
         <ToggleButton value="2">Drop</ToggleButton>
       </ToggleButtonGroup>
+      <Avatar  onClick={refresh}  sx={{height:25,width:25,color:"black"}}><RefreshIcon fontSize='small'/></Avatar>
+      </Box>
       <div>
         {loading ? <SuspenseLoader /> 
         :
