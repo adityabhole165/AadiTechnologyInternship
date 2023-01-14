@@ -60,3 +60,12 @@ export interface GetScreensAccessPermissions {
     IsViewAvailable: string,
     IsEnabled: boolean
 }
+export interface IGetSettingValueResult {
+    GetSettingValueResult:string   
+}
+export interface IGetSettingValueBody {
+
+    asSchoolId: number,
+    aiAcademicYearId: number,
+    asKey: string
+}

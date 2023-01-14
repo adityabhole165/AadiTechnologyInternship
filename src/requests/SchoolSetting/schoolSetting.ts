@@ -1,13 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SchoolSettingApi from "src/api/SchoolSetting";
-import { ISchoolId,IgetModulesPermission, IGetScreensAccessPermissions } from "src/interfaces/SchoolSetting/schoolSettings";
+import { ISchoolId,IgetModulesPermission, IGetScreensAccessPermissions,IGetSettingValueBody } from "src/interfaces/SchoolSetting/schoolSettings";
 import { AppThunk } from "src/store";
 
 const SchoolSettingSlice = createSlice({
     name:'SchoolSetting',
     initialState:{
         ModulesPermission:[],
-        ModulesPermissionsResult:[],    
+        ModulesPermissionsResult:[],
+        SchoolTrasnportIsEnabled: false
     },
     reducers:{
         getModulesPermission(state,action){
@@ -16,6 +17,9 @@ const SchoolSettingSlice = createSlice({
         getModulesPermissionsResult(state,action){
             sessionStorage.setItem("ScreensAccessPermission",JSON.stringify(action.payload))
             state.ModulesPermissionsResult=action.payload
+        },
+        getSchoolTrasnportIsEnabled(state, action) {
+          state.SchoolTrasnportIsEnabled = action.payload;;
         }
 
     }
@@ -36,4 +40,21 @@ async (dispatch) =>{
 };
 
 
+export const getGetSettingValue =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let trasnportIsEnabled = false
+      data.asKey = "EnableTransportModule";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+      if (response.data.GetSettingValueResult) {
+        data.asKey = "EnableTransportLinkForStudentLogin";
+        response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            trasnportIsEnabled = true;
+          }
+        }
+      }
+      dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(trasnportIsEnabled));
+    }
 export default SchoolSettingSlice.reducer
