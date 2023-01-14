@@ -102,7 +102,7 @@ function TransportDetails() {
               </Grid>
               <br></br>
               <br></br>
-              {TrackingURI !== "" && TrackingMessage == "" ?
+              {TrackingURI !== "" && TrackingMessage !== "" ?
                 <iframe allowFullScreen width={screenWidth} height="385px" title="Vehicle Tracking"
                   src={TrackingURI}
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
