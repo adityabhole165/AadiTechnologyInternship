@@ -515,6 +515,14 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          boxShadow:"0px 8px 15px rgba(0, 0, 0, 0.1)",
+       
+}
+      }
+    },
     MuiRadio: {
       styleOverrides: {
         root: {
