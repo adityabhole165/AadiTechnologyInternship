@@ -42,6 +42,7 @@ const Notification= Loader(lazy(() => import('src/components/Notification/Notifi
 const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
 // const Insurance = Loader(lazy(()=> import ('src/components/Insurance/Insurance')))
 const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
+const Support = Loader (lazy(() => import ('src/components/Support/Support')))
 
 
 
@@ -183,6 +184,10 @@ const studentRoutes = [
   {
     path: 'TransportDetails',
     element: <TransportDetails/>
+  },
+  {
+    path: 'Support',
+    element: <Support/>
   },
   ];
 
