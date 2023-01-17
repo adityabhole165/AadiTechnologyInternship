@@ -39,7 +39,7 @@ const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/Vid
 // const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
 const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
 // const Jsonholder = Loader(lazy(()=> import ('src/components/Jsonholder/Jsonholder')))
-// const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
+const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
 // const Insurance = Loader(lazy(()=> import ('src/components/Insurance/Insurance')))
 const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
 
@@ -171,10 +171,10 @@ const studentRoutes = [
   //   path: 'Jsonholder',
   //   element: <Jsonholder/>
   // },
-  // {
-  //   path: 'Feedback',
-  //   element: <Feedback/>
-  // },
+  {
+    path: 'Feedback',
+    element: <Feedback/>
+  },
   // {
   //   path: 'Insurance',
   //   element: <Insurance/>
