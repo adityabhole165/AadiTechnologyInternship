@@ -85,7 +85,17 @@ const DashboardData = {
       Link: 'Common/VideoGallery/VideoAlbum',
       //Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
-    }
+    },
+    {
+      Text1: 'Feedback',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: FeedbackIcon,
+      Link: 'Student/Feedback',
+      index: 24,
+     
+    },
   ],
   items2 : [
     {
@@ -254,16 +264,7 @@ const DashboardData = {
     //   index: 27,
      
     // },
-    {
-      Text1: 'Feedback',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: FeedbackIcon,
-      Link: 'Student/Feedback',
-      index: 24,
-     
-    },
+ 
 
     // {
     //   Text1: 'Insurance',
