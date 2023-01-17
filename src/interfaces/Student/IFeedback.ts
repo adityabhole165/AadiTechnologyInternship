@@ -21,3 +21,7 @@ export interface IGetUserFeedbackResult{
     Date: string
     IsSelected: boolean
 }
+
+export interface IGetUserFeedbackDetails{
+    GetUserFeedbackDetails:IGetUserFeedbackResult[]
+}

@@ -12,8 +12,6 @@ function Feedback() {
   const Feedback: any = useSelector(
     (state: RootState) => state.FeedBack.FeedbackList
   );
-  
-  console.log("Feedback", Feedback);
 
   const FeedbackBody =
   {

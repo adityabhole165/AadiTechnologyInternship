@@ -1,8 +1,8 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IGetUserFeedbackBody, IGetUserFeedbackResult} from "src/interfaces/Student/IFeedback";
+import { IGetUserFeedbackBody, IGetUserFeedbackDetails} from "src/interfaces/Student/IFeedback";
 
 const Feedbackapi = (data: IGetUserFeedbackBody) => {
-    return http.post<IGetUserFeedbackResult>('Dashboard/GetUserFeedback',data);
+    return http.post<IGetUserFeedbackDetails>('Dashboard/GetUserFeedback',data);
   };
   const APIFeedback ={
     Feedbackapi
