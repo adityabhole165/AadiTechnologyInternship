@@ -1,9 +1,9 @@
-export interface GetStudentTransportDetailsBody{
+export interface GetStudentTransportDetailsBody {
 
     aiUserId: number,
-    aiSchoolId:number,
-    aiAcademicYearId:number,
-    aiTypeId:number
+    aiSchoolId: number,
+    aiAcademicYearId: number,
+    aiTypeId: number
 }
 
 export interface GetStudentTransportDetailsResult {
@@ -15,21 +15,23 @@ export interface GetStudentTransportDetailsResult {
     DropTime: string,
     TransportShiftName: string,
     StopName: string,
-    StopNumber: number,
     RouteName: string,
-   
     LinkUrl: string,
-    TrackingURL:string,
+    TrackingURL: string,
     TrackingMessage: string,
-    TransportStaffName:string,
-     MobileNo: string,
-   Designation: string,
-}  
-           
-            
-        
-    
-    
-        
-            
-    
+    TransportStaffDetails: [TransportStaffDetails]
+    StopDetails: [StopDetails]
+}
+
+export interface TransportStaffDetails {
+    TransportStaffName: string,
+    MobileNo: string,
+    Designation: string
+}
+
+export interface StopDetails {
+    StopNumber: number,
+    StopName: string,
+    PickupTime: string,
+    DropTime: string
+}

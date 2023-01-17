@@ -9,7 +9,8 @@ const themeColors = {
   success: '#57CA22',
   warning: '#FFA319',
   error: '#FF1943',
-  info: '#33C2FF',
+  // info: '#90caf9',
+  info: '#c2dbff',
   black: '#223354',
   white: '#ffffff',
   primaryAlt: '#000C57'
@@ -679,13 +680,16 @@ export const PurpleFlowTheme = createTheme({
       },
       styleOverrides: {
         root: {
-          color: colors.primary.main,
+          color: colors.alpha.black[100],
           background: colors.alpha.white[100],
           transition: 'all .2s',
+          height:"30px",
+          textTransform: "capitalize",
 
           '&:hover, &.Mui-selected, &.Mui-selected:hover': {
-            color: colors.alpha.white[100],
-            background: colors.primary.main
+            color: colors.alpha.black[100],
+            background: colors.info.main,
+          
           }
         }
       }
@@ -757,11 +761,11 @@ export const PurpleFlowTheme = createTheme({
     },
     MuiPaper: {
       styleOverrides: {
-        root: {
-          padding: 0
-        },
+        // root: {
+        //   padding: 0
+        // },
         elevation0: {
-          boxShadow: 'none'
+          boxShadow: ' 0px 8px 15px rgba(0, 0, 0, 0.1)'
         },
         elevation: {
           boxShadow: colors.shadows.card
@@ -1159,6 +1163,7 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
+ 
     MuiTypography: {
       defaultProps: {
         variantMapping: {
@@ -1185,6 +1190,7 @@ export const PurpleFlowTheme = createTheme({
       }
     }
   },
+  
   shape: {
     borderRadius: 6
   },
@@ -1220,7 +1226,7 @@ export const PurpleFlowTheme = createTheme({
       fontSize: 14
     },
     body2: {
-      fontSize: 14
+      fontSize: 12
     },
     button: {
       fontWeight: 600

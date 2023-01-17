@@ -21,7 +21,7 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import CakeIcon from '@mui/icons-material/Cake';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { color } from '@mui/system';
-
+import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 const DashboardData = {
   Student:{
     items1:[
@@ -54,6 +54,17 @@ const DashboardData = {
       Link: 'Common/Holidays',
       index: 3,
       ModulesPermission: 'EnableHoliday'
+    },
+    {
+      Text1: 'Transport',
+      Text2: 'Details',
+      Color: '#90a4ae',
+      iconColor: '#fecf1f ',
+      Icon: DirectionsBusIcon,
+      Link: 'Student/TransportDetails',
+      ImageUrl: "/imges/New.png",
+      index: 23,
+     
     },
     {
       Text1: 'Photo ',
@@ -264,18 +275,9 @@ const DashboardData = {
      
     // },
 
-    {
-      Text1: 'Transport',
-      Text2: 'Details',
-      Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: PeopleIcon,
-      Link: 'Student/TransportDetails',
-      index: 23,
-     
-    },
+  
 
-
+   
     // {
     //   Text1: 'AttendenceNew',
     //   Text2: '',

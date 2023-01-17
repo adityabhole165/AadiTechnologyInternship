@@ -6,8 +6,8 @@ import DashboardData from './Dashboard';
 import Card2 from 'src/libraries/mainCard/Card2';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {getModulesPermission,getModulesPermissionsResultt,} from 'src/requests/SchoolSetting/schoolSetting';
-import {IgetModulesPermission,IGetScreensAccessPermissions} from 'src/interfaces/SchoolSetting/schoolSettings';
+import {getModulesPermission,getModulesPermissionsResultt,getGetSettingValue} from 'src/requests/SchoolSetting/schoolSetting';
+import {IgetModulesPermission,IGetScreensAccessPermissions, IGetSettingValueBody} from 'src/interfaces/SchoolSetting/schoolSettings';
 import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
 import NewRelease from '../Authentication/NewRelease/NewRelease';
@@ -26,6 +26,9 @@ function LandingPage() {
   const dispatch = useDispatch();
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
+  );
+  const SchoolTrasnportIsEnabled: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.SchoolTrasnportIsEnabled
   );
 
   const GetScreensAccessPermissions: any = useSelector(
@@ -56,27 +59,29 @@ function LandingPage() {
     asUserRoleId: RoleId,
     abIsPreprimaryTeacher: false
   };
-  const getNewMessageCount: INewMessageCount = {
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(AcademicYearId),
+    asKey: "",
+};
+
+const getNewMessageCount: INewMessageCount = {
   asSchoolId:asSchoolId,
   asUserId: userId,
   asAcademicYearId: AcademicYearId,
 };
 
+
   useEffect(() => {
     if (RoleId == '3') {
       dispatch(getModulesPermission(getModulePermissionBody));
+      dispatch(getGetSettingValue(GetSettingValueBody));
     }
-  }, []);
-
-  useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
+    dispatch(getMessageCount(getNewMessageCount));
   }, []);
-  useEffect(() => {
-     {
-      dispatch(getMessageCount(getNewMessageCount));
-    }
-  }, []);
+  
   let items1 = [];
   let items2 = [];
   let items3 = [];
@@ -84,14 +89,16 @@ function LandingPage() {
   if (RoleId === '3') {
     items1 = DashboardData.Student.items1.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName ===
-          (el.ModulesPermission === undefined
-            ? f.ModuleName
-            : el.ModulesPermission) && (el.ModulesPermission === undefined
-          ? true
-          : f.IsEnabled === true);
+        return f.ModuleName === (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission) && 
+            (el.ModulesPermission === undefined ? true : f.IsEnabled === true);
       });
     });
+    console.log(items1,"before")
+    items1 = items1.filter((el) => {
+      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
+    })
+    console.log(items1,"after")
+
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
         return f.ModuleName ===
@@ -125,6 +132,9 @@ if (RoleId === '3') {
           : f.IsEnabled === true);
       });
     });
+    items1 = items1.filter((el) => {
+      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
+    })
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
         return f.ModuleName ===
