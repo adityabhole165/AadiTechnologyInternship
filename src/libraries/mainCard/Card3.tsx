@@ -22,6 +22,7 @@ import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Link } from 'react-router-dom';
 import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 
 
 function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
@@ -67,13 +68,10 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 22 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {/* {icon === 27 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 28 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 29 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />} */}
-            
-           
             {icon === 23 &&<> <Badge badgeContent="New" color="error" sx={{animation: `${blink} 1s linear infinite`,float:"right",mr:"15px"}} >  
              </Badge>  <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" /> </>}
+            {icon === 24 && <FeedbackIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+           
            
 
             <Text1>
