@@ -23,6 +23,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { color } from '@mui/system';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import FeedbackIcon from '@mui/icons-material/Feedback';
+import HelpIcon from '@mui/icons-material/Help';
 const DashboardData = {
   Student:{
     items1:[
@@ -254,28 +255,29 @@ const DashboardData = {
     
    
 
-    // {
-    //   Text1: 'Json',
-    //   Text2: 'Holder',
-    //   Color: '#90a4ae',
-    //   iconColor: '#f0483e ',
-    //   Icon: PeopleIcon,
-    //   Link: 'Student/Jsonholder',
-    //   index: 27,
+    
+    {
+      Text1: 'Feedback',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: FeedbackIcon,
+      Link: 'Student/Feedback',
+      index: 24,
      
-    // },
- 
+    },
 
-    // {
-    //   Text1: 'Insurance',
-    //   Text2: '',
-    //   Color: '#90a4ae',
-    //   iconColor: '#f0483e ',
-    //   Icon: PeopleIcon,
-    //   Link: 'Student/Insurance',
-    //   index: 29,
+    {
+      Text1: 'Support',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: HelpIcon,
+      Link: 'Student/Support',
+      index: 25,
      
-    // },
+    },
+    
 
   
 

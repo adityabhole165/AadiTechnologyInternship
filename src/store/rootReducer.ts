@@ -44,9 +44,12 @@ import Notificationslice from "../requests/Notification/Notification";
 import NewReleaseslice from 'src/requests/Authentication/NewRelease';
 import SliceFeedback from 'src/requests/Feedback/RequestFeedback'
 import SliceTransportDetails from 'src/requests/TransportDetails/RequestTransportDetails'
+import SliceSupport from 'src/requests/Support/RequestSupport'
+
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
+    Support: SliceSupport,
     Holidays:Holidaysslice,
     Notification:Notificationslice,
     staffBirthday:staffBirthdayslice,

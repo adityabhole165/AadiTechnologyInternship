@@ -36,19 +36,11 @@ const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/On
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
-// const AnnualPlanner2 = Loader(lazy(() => import('src/components/AnnualPlanner2/AnnualPlanner2')))
 const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
-// const Jsonholder = Loader(lazy(()=> import ('src/components/Jsonholder/Jsonholder')))
 const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
-// const Insurance = Loader(lazy(()=> import ('src/components/Insurance/Insurance')))
+const AddFeedback =  Loader(lazy(() => import('src/components/Feedback/AddFeedback')))
 const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
-
-
-
-
-
-
-
+const Support = Loader (lazy(() => import ('src/components/Support/Support')))
 
 
 const studentRoutes = [
@@ -175,14 +167,17 @@ const studentRoutes = [
     path: 'Feedback',
     element: <Feedback/>
   },
-  // {
-  //   path: 'Insurance',
-  //   element: <Insurance/>
-  // },
-  
+  {
+    path: 'AddFeedback',
+    element: <AddFeedback />
+},
   {
     path: 'TransportDetails',
     element: <TransportDetails/>
+  },
+  {
+    path: 'Support',
+    element: <Support/>
   },
   ];
 

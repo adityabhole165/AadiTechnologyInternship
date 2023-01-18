@@ -9,9 +9,9 @@ import { IGetUserFeedbackBody } from 'src/interfaces/Student/IFeedback';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import CardListText3 from 'src/libraries/card/CardListText3';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-
-const Feedback = () => {
-
+import { useNavigate } from 'react-router-dom';
+function Feedback() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
  
   const Feedback: any = useSelector(
@@ -48,11 +48,14 @@ const Feedback = () => {
     dispatch(getuserFeedback(FeedbackBody));
   }, []);
 
+   const clickNav = (value) => {
+    navigate(`/${location.pathname.split('/')[1]}/Student/AddFeedback`)
+}
   return (
     <Container>
     <div ref={myRef}></div>
     <PageHeader heading={'Feedback'} subheading={''} />
-    <ButtonPrimary sx={{float:"right",mt:-1}}>Add Feedback</ButtonPrimary>
+    <ButtonPrimary sx={{float:"right",mt:-1}}  onClick={() => clickNav('AddFeedback/')}>Add Feedback</ButtonPrimary>
     <br/>
 
     {loading ? (
