@@ -1,18 +1,23 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import ApiFeedback from 'src/api/Feedback/ApiFeedback'
-import { IGetUserFeedbackBody } from 'src/interfaces/Student/IFeedback';
+import { IGetUserFeedbackBody,ISaveFeedbackDetailsBody } from 'src/interfaces/Student/IFeedback';
 
 const SliceFeedback = createSlice({
   name: 'Feedback',
   initialState: {
     FeedbackList: [],
+    AddFeedbackList: [],
     Loading: true,
   },
   reducers: {
     GetuserFeedback(state, action) {
       state.Loading = false;
       state.FeedbackList = action.payload;
+    },
+    SaveFeedbackDetails(state, action) {
+      state.Loading = false;
+      state.AddFeedbackList = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true
@@ -21,6 +26,13 @@ const SliceFeedback = createSlice({
   }
 });
 
+export const saveFeedbackdetails =
+(data: ISaveFeedbackDetailsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiFeedback.AddFeedbackapi(data)
+    dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data));
+  };
+  
 export const getuserFeedback =
   (data: IGetUserFeedbackBody): AppThunk =>
     async (dispatch) => {
@@ -44,5 +56,7 @@ export const getuserFeedback =
         })
       dispatch(SliceFeedback.actions.GetuserFeedback(FeedbackList));
     };
+
+  
 
 export default SliceFeedback.reducer

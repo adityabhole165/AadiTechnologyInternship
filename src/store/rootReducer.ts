@@ -47,6 +47,7 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceSupport from 'src/requests/Support/RequestSupport'
 
 
+
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -97,7 +98,8 @@ const rootReducer = combineReducers({
     getASendSMS:AComposeSMSSlice,
     getModulesPermissionsResult:schoolSettingSlice,
     SchoolSettings:SchoolListslice,
-    TransportDetails : SliceTransportDetails
+    TransportDetails : SliceTransportDetails,
+
 });
 
 export default rootReducer;
