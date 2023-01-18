@@ -12,7 +12,7 @@ const AddFeedback = () => {
     (state: RootState) => state.FeedBack.AddFeedbackList
   );
 
-  console.log("AddFeedback", AddFeedback);
+  // console.log("AddFeedback", AddFeedback);
 
   const AddFeedbackBody = {
 

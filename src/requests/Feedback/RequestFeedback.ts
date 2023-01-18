@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
-import ApiFeedback from 'src/api/Feedback/ApiFeedback'
+import APIFeedback from 'src/api/Feedback/ApiFeedback'
 import { IGetUserFeedbackBody,ISaveFeedbackDetailsBody } from 'src/interfaces/Student/IFeedback';
 
 const SliceFeedback = createSlice({
@@ -29,7 +29,7 @@ const SliceFeedback = createSlice({
 export const saveFeedbackdetails =
 (data: ISaveFeedbackDetailsBody): AppThunk =>
   async (dispatch) => {
-    const response = await ApiFeedback.AddFeedbackapi(data)
+    const response = await APIFeedback.AddFeedbackapi(data)
     dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data));
   };
   
@@ -37,7 +37,7 @@ export const getuserFeedback =
   (data: IGetUserFeedbackBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceFeedback.actions.getLoading(true));
-      const response = await ApiFeedback.Feedbackapi(data);
+      const response = await APIFeedback.Feedbackapi(data);
       const FeedbackList =
         response.data.GetUserFeedbackDetails.map((item, index) => {
           let date = item.Date.split(" ")[0];
