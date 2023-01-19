@@ -1,9 +1,9 @@
 export interface IGetUserFeedbackBody{
     
-        aiUserRoleId: number,
+        aiUserRoleId: string,
         aiFeedbackTypeId:number,
         asFeedBackFor: string,
-        aiSchoolId: number
+        aiSchoolId: string
         sortDirection: string,
         asStartDate: string,
         asEndDate: string,

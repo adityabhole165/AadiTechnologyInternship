@@ -13,7 +13,8 @@ import { useNavigate } from 'react-router-dom';
 function Feedback() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
- 
+  const RoleId = sessionStorage.getItem('RoleId');
+  const SchoolId = localStorage.getItem('localSchoolId');
   const Feedback: any = useSelector(
     (state: RootState) => state.FeedBack.FeedbackList
   );
@@ -29,10 +30,10 @@ function Feedback() {
 
   const FeedbackBody:IGetUserFeedbackBody =
   {
-    "aiUserRoleId": 6,
+    "aiUserRoleId": RoleId,
     "aiFeedbackTypeId": 0,
     "asFeedBackFor": "School",
-    "aiSchoolId": 120,
+    "aiSchoolId": SchoolId,
     "sortDirection": "desc",
     "asStartDate": "",
     "asEndDate": "",

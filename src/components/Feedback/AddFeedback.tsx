@@ -1,4 +1,4 @@
-import { Container, TextField, TextareaAutosize, Grid, Box,Button, Typography } from '@mui/material';
+import { Container, TextField, TextareaAutosize, Grid, Box, Button, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import RadioButton from 'src/libraries/RadioButton/RadioButton';
@@ -9,9 +9,9 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import BackButton from 'src/libraries/button/BackButton';
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
-import { saveFeedbackdetails } from 'src/requests/Feedback/RequestFeedback'
+import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
 
 const AddFeedback = () => {
   const dispatch = useDispatch();
@@ -23,10 +23,10 @@ const AddFeedback = () => {
   const [type, setType] = useState('1');
   const [message, setMessage] = useState(''); //enter only alphabets
 
- const AddFeedback: any = useSelector(
+  const AddFeedbackList: any = useSelector(
     (state: RootState) => state.FeedBack.AddFeedbackList
   );
-  
+
   const lstFeedbackFor = [
     { Name: "School", Value: "1" },
     { Name: "Software", Value: "2" }
@@ -43,12 +43,12 @@ const AddFeedback = () => {
 
   const ClickDropdown = (value) => {
     setType(value);
-  
-    
+
+
   }
   const ClickRadio = (value) => {
     setRadioBtn(value);
- 
+
   }
   //enter only alphabets
   const alphabetsOnly = event => {
@@ -62,14 +62,15 @@ const AddFeedback = () => {
       EmailId: '',
       Name: '',
       Comments: '',
-      SchoolSoftware:'1',
+      SchoolSoftware: '1',
     },
-    onReset:()=>{
+    onReset: () => {
       setRadioBtn("1")
       setType("1")
     },
-    onSubmit: (values) => {
-  submit()
+    onSubmit: (values, { resetForm }) => {
+      submit();
+      resetForm()
     },
     validate: (values) => {
       const emailRegExp = /^\S+@\S+\.\S+$/;
@@ -106,14 +107,13 @@ const AddFeedback = () => {
     "asLogin": ""
   }
   useEffect(() => {
-    dispatch(saveFeedbackdetails(AddFeedbackBody));
-  }, []);
 
+    dispatch(removeSuccessMessage());
+  }, [])
   const [showMsg, setShowMsg] = useState();
   const submit = () => {
-    if(formik.values.Name !== "" ||formik.values.Comments !== "" ||formik.values.EmailId !== "" ){
-    setShowMsg(AddFeedback.Message)
-    dispatch(saveFeedbackdetails(AddFeedbackBody));
+    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
+      dispatch(saveFeedbackdetails(AddFeedbackBody));
     }
 
   }
@@ -121,50 +121,50 @@ const AddFeedback = () => {
   return (
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
-      <BackButton FromRoute={"/Student/Feedback"}/>
+      <BackButton FromRoute={"/Student/Feedback"} />
       <Container>
-        <Typography sx={{textAlign:"center"}}>{showMsg}</Typography>
+        <Typography sx={{ textAlign: "center" }}>{AddFeedbackList.Message}</Typography>
         <ListStyle>
           <Note NoteDetail={note} />
           <form onSubmit={formik.handleSubmit}>
-            <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio } defaultValue={radioBtn} Label={"Feedback for :"} /> 
-            <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type}/>
-            <TextField  id="standard-basic" name="Name" variant="standard" fullWidth label="Name"
+            <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={"Feedback for :"} />
+            <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type} />
+            <TextField id="standard-basic" name="Name" variant="standard" fullWidth label="Name"
               onBlur={formik.handleBlur}
               value={message && formik.values.Name}
               onChangeCapture={alphabetsOnly}
-              onChange={formik.handleChange }
-              sx={{mt:"5px"}}
+              onChange={formik.handleChange}
+              sx={{ mt: "5px" }}
             />
-           <Box sx={{mt:"10px"}}>{formik.touched.Name && formik.errors.Name ? (<Errormessage Error={formik.errors.Name} />) : null}</Box> 
+            <Box sx={{ mt: "10px" }}>{formik.touched.Name && formik.errors.Name ? (<Errormessage Error={formik.errors.Name} />) : null}</Box>
             <TextField fullWidth margin="normal" label={'Email Id'} name="EmailId" type="text" variant="standard"
-              value={formik.values.EmailId }
-              onChange={formik.handleChange }
+              value={formik.values.EmailId}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              sx={{mt:"5px"}}
+              sx={{ mt: "5px" }}
             />
-           <Box sx={{mt:"3px"}}> {formik.touched.EmailId && formik.errors.EmailId ? (<Errormessage Error={formik.errors.EmailId} />) : null}</Box>
+            <Box sx={{ mt: "3px" }}> {formik.touched.EmailId && formik.errors.EmailId ? (<Errormessage Error={formik.errors.EmailId} />) : null}</Box>
 
-            <TextareaAutosize 
+            <TextareaAutosize
               name='Comments'
-              value={formik.values.Comments }
-              onChange={formik.handleChange }
+              value={formik.values.Comments}
+              onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               aria-label="empty textarea"
               placeholder="Comments"
               minRows={4}
-              style={{ width: "100%",marginTop:"5px"}}
+              style={{ width: "100%", marginTop: "5px" }}
             />
-          <Box sx={{mt:"3px"}}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
+            <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
             <Grid container spacing={2} >
-              <Grid item xs={6}sx={{marginTop:"4px"}}>
-                <ButtonPrimary  onChange={formik.handleChange} onClick={submit}
-                type="submit" fullWidth color='primary'>
+              <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                <ButtonPrimary onChange={formik.handleChange} onClick={submit}
+                  type="submit" fullWidth color='primary'>
                   Submit
                 </ButtonPrimary>
               </Grid>
-              <Grid item xs={6} sx={{marginTop:"4px"}}>
-                <ButtonPrimary fullWidth color='secondary' type='reset'  onClick={formik.handleReset} >
+              <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                <ButtonPrimary fullWidth color='secondary' type='reset' onClick={formik.handleReset} >
                   Reset
                 </ButtonPrimary>
               </Grid>

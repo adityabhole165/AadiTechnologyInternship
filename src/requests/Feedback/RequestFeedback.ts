@@ -22,6 +22,9 @@ const SliceFeedback = createSlice({
     getLoading(state, action) {
       state.Loading = true
       state.FeedbackList = [];
+    },
+    removeSuccessMessage(state){
+      state.AddFeedbackList = {};
     }
   }
 });
@@ -33,6 +36,11 @@ export const saveFeedbackdetails =
     dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data)); 
   };
   
+export const removeSuccessMessage =
+(): AppThunk =>
+  async (dispatch) => {
+    dispatch(SliceFeedback.actions.removeSuccessMessage()); 
+  };
 export const getuserFeedback =
   (data: IGetUserFeedbackBody): AppThunk =>
     async (dispatch) => {
