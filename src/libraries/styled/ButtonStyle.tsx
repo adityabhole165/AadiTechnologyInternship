@@ -1,4 +1,4 @@
-import { styled, Button, Box,Paper } from '@mui/material';
+import { styled, Button, Box,Paper,FormControlLabel } from '@mui/material';
 
 export const ButtonPrimary = styled(Button)(
   ({ theme, color }) => `
@@ -97,6 +97,12 @@ export const Item= styled(Paper)(
   border-radius: 4px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
   height:40px;
+ 
+`
+);
+export const FormControlLabel1= styled(FormControlLabel)(
+  ({ theme, color }) => `
+font-size:10px;
  
 `
 );

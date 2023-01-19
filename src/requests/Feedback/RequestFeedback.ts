@@ -7,7 +7,7 @@ const SliceFeedback = createSlice({
   name: 'Feedback',
   initialState: {
     FeedbackList: [],
-    AddFeedbackList: [],
+    AddFeedbackList: {},
     Loading: true,
   },
   reducers: {
@@ -16,7 +16,7 @@ const SliceFeedback = createSlice({
       state.FeedbackList = action.payload;
     },
     SaveFeedbackDetails(state, action) {
-      state.Loading = false;
+      state.Loading = false;    
       state.AddFeedbackList = action.payload;
     },
     getLoading(state, action) {
@@ -29,8 +29,8 @@ const SliceFeedback = createSlice({
 export const saveFeedbackdetails =
 (data: ISaveFeedbackDetailsBody): AppThunk =>
   async (dispatch) => {
-    const response = await APIFeedback.AddFeedbackapi(data)
-    dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data));
+    const response = await APIFeedback.AddFeedbackapi(data) 
+    dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data)); 
   };
   
 export const getuserFeedback =

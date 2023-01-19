@@ -30,13 +30,13 @@ export interface IGetUserFeedbackDetails{
 //Add Feedback
 export interface  ISaveFeedbackDetailsBody{
 
-    aiSchoolId: number, 
-    aiAcademicYrId: number, 
+    aiSchoolId: string, 
+    aiAcademicYrId: string, 
     aiFeedbackfor: string, 
-    aiUserId: number, 
+    aiUserId: string, 
     aiFeedbackDescription: string, 
-    aiFeedbackTypeId: number, 
-    aiInsertedById: number, 
+    aiFeedbackTypeId: string, 
+    aiInsertedById: string, 
     aiemail: string, 
      aiUserName: string, 
     asMailSubject: string, 

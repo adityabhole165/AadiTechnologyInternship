@@ -387,6 +387,18 @@ export const Styles = makeStyles({
     marginRight: "10px",
   },
  },
+ 
+ iIconSupport : {
+
+  fontSize: "20px !important",  
+  marginTop: '20px', 
+  borderRadius: "50px", 
+  marginRight: "-15px",
+  '@media (max-width: 280px)': {
+    fontSize: "15px !important",
+    marginTop: '20px',  
+  },
+ },
 
  checkboxSize : {
 
