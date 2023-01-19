@@ -121,7 +121,7 @@ const AddFeedback = () => {
   return (
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
-      <BackButton FromRoute={"/Common/Feedback"}/>
+      <BackButton FromRoute={"/Student/Feedback"}/>
       <Container>
         <Typography sx={{textAlign:"center"}}>{showMsg}</Typography>
         <ListStyle>
