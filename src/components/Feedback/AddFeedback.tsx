@@ -11,6 +11,7 @@ import { ListStyle } from 'src/libraries/styled/CardStyle';
 import BackButton from 'src/libraries/button/BackButton';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
+import { toast } from 'react-toastify';
 import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
 
 const AddFeedback = () => {
@@ -26,6 +27,7 @@ const AddFeedback = () => {
   const AddFeedbackList: any = useSelector(
     (state: RootState) => state.FeedBack.AddFeedbackList
   );
+console.log("AddFeedbackList",AddFeedbackList.Message);
 
   const lstFeedbackFor = [
     { Name: "School", Value: "1" },
@@ -110,18 +112,20 @@ const AddFeedback = () => {
     dispatch(removeSuccessMessage());
   }, [])
   const submit = () => {
-    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
       dispatch(saveFeedbackdetails(AddFeedbackBody));
-    }
-
   }
-
+  const showToastMessage = () => {
+    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
+    toast.success(AddFeedbackList.Message);
+    }
+  }
+ 
   return (
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
       <BackButton FromRoute={"/Student/Feedback"} />
+      <Typography sx={{textAlign:"center"}}>{AddFeedbackList.Message}</Typography>
       <Container>
-        <Typography sx={{ textAlign: "center" }}>{AddFeedbackList.Message}</Typography>
         <ListStyle>
           <Note NoteDetail={note} />
           <form onSubmit={formik.handleSubmit}>
@@ -156,7 +160,7 @@ const AddFeedback = () => {
             <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
             <Grid container spacing={2} >
               <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                <ButtonPrimary onChange={formik.handleChange} 
+                <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
                   type="submit" fullWidth color='primary'>
                   Submit
                 </ButtonPrimary>

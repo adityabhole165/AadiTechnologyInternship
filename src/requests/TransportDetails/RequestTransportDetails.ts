@@ -10,8 +10,7 @@ const SliceTransportDetails = createSlice({
     RouteDetails: [],
     StopDetails: [],
     Loading: true,
-    TrackingURL: "",
-    TrackingMessage:""
+    OtherTrackingDetails: "",
   },
   reducers: {
 
@@ -22,11 +21,8 @@ const SliceTransportDetails = createSlice({
     getStopDetails(state, action) {
       state.StopDetails = action.payload;
     },
-    getTrackingURL(state, action) {
-      state.TrackingURL = action.payload;
-    },
-    getTrackingMessage(state, action) {
-      state.TrackingMessage = action.payload;
+    getOtherTrackingDetails(state, action) {
+      state.OtherTrackingDetails = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true
@@ -46,13 +42,25 @@ export const getTransportDetails =
       if (response?.data?.RouteName !== null) {
 
         RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
-        let staffDetails = response?.data?.TransportStaffDetails.map((item) => {
-          RouteDetails.push({
-            Text1: item.TransportStaffName + '(' + item.Designation + ')',
-            Text2: item.MobileNo
+        if (response?.data?.ShowStaffContactDetails) {
+          response?.data?.TransportStaffDetails.map((item) => {
+            RouteDetails.push({
+              Text1: item.TransportStaffName + '(' + item.Designation + ')',
+              Text2: item.MobileNo
+            })
           })
-        })
+        } else {
+          response?.data?.TransportStaffDetails.map((item) => {
+            RouteDetails.push({
+              Text1: item.TransportStaffName,
+              Text2: item.Designation
+            })
+          })
+        }
         RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
+        if (response?.data?.ShowVehicleOfficialContactNo) {
+          RouteDetails.push({ Text1: "Emergency Contact Number", Text2: response?.data?.VehicleOfficialContactNo })
+        }
 
         response?.data?.StopDetails.map((item) => {
           let StopDetail = {
@@ -66,8 +74,7 @@ export const getTransportDetails =
       }
       dispatch(SliceTransportDetails.actions.getRouteDetails(RouteDetails));
       dispatch(SliceTransportDetails.actions.getStopDetails(StopDetails));
-      dispatch(SliceTransportDetails.actions.getTrackingURL(response?.data?.TrackingURL));
-      dispatch(SliceTransportDetails.actions.getTrackingMessage(response?.data?.TrackingMessage));
+      dispatch(SliceTransportDetails.actions.getOtherTrackingDetails(response?.data));
     };
 
 
