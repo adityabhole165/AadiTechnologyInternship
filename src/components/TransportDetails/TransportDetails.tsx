@@ -89,7 +89,7 @@ function TransportDetails() {
                   return (
                     (showMyStop ? item.IsMyStop : true) &&
                     // <Card8 itemList={item.StopDetail} Selected={showMyStop ? false : item.IsMyStop} key={i} />)
-                    <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} />)
+                    <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} key={i} />)
                 })
               }
               {OtherTrackingDetails.ShowStops &&
