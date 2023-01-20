@@ -24,6 +24,7 @@ import { color } from '@mui/system';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import FeedbackIcon from '@mui/icons-material/Feedback';
 import HelpIcon from '@mui/icons-material/Help';
+
 const DashboardData = {
   Student:{
     items1:[
@@ -138,6 +139,16 @@ const DashboardData = {
       Link: 'Student/Homework',
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
+    },
+    {
+      Text1: 'Birthdays',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: CakeIcon ,
+      Link: 'Student/Birthdays',
+      index: 26,
+     
     },
     // {
     //   Text1: 'Teacher',
@@ -264,7 +275,8 @@ const DashboardData = {
      
     },
     
-
+   
+    
   
 
    
