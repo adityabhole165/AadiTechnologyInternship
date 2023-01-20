@@ -405,6 +405,11 @@ export const ItemSize= styled(Box)(
 };
   `
 );
+export const Detail1 = styled(Typography)(
+  ({ theme }) => `
+  color: blue;
+  font-weight: bold ;  `
+);
 
 
 

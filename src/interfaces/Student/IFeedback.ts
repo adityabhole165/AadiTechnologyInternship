@@ -1,9 +1,9 @@
 export interface IGetUserFeedbackBody{
     
-        aiUserRoleId: number,
+        aiUserRoleId: string,
         aiFeedbackTypeId:number,
         asFeedBackFor: string,
-        aiSchoolId: number
+        aiSchoolId: string
         sortDirection: string,
         asStartDate: string,
         asEndDate: string,
@@ -30,13 +30,13 @@ export interface IGetUserFeedbackDetails{
 //Add Feedback
 export interface  ISaveFeedbackDetailsBody{
 
-    aiSchoolId: number, 
-    aiAcademicYrId: number, 
+    aiSchoolId: string, 
+    aiAcademicYrId: string, 
     aiFeedbackfor: string, 
-    aiUserId: number, 
+    aiUserId: string, 
     aiFeedbackDescription: string, 
-    aiFeedbackTypeId: number, 
-    aiInsertedById: number, 
+    aiFeedbackTypeId: string, 
+    aiInsertedById: string, 
     aiemail: string, 
      aiUserName: string, 
     asMailSubject: string, 

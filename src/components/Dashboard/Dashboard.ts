@@ -22,7 +22,6 @@ import CakeIcon from '@mui/icons-material/Cake';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { color } from '@mui/system';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
-import FeedbackIcon from '@mui/icons-material/Feedback';
 import HelpIcon from '@mui/icons-material/Help';
 
 const DashboardData = {
@@ -87,16 +86,6 @@ const DashboardData = {
       Link: 'Common/VideoGallery/VideoAlbum',
       //Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
-    },
-    {
-      Text1: 'Feedback',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: FeedbackIcon,
-      Link: 'Student/Feedback',
-      index: 24,
-     
     },
   ],
   items2 : [

@@ -24,6 +24,7 @@ import {
   NativeSelect
 } from '@mui/material';
 import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
+import FeedbackIcon from '@mui/icons-material/Feedback';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 import GroupIcon from '@mui/icons-material/Group';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
@@ -45,6 +46,9 @@ import ThemeSettings from 'src/layouts/components/ThemeSettings';
 import { logoURL } from 'src/components/Common/Util';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { App } from '@capacitor/app';
+import { Detail1 } from 'src/libraries/styled/CardStyle';
+import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
         height: ${theme.header.height};
@@ -340,6 +344,17 @@ function Header() {
             >
               <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</UserBoxLabel>} />
+            </ListItem>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/Student/Feedback"}
+              component={NavLink}
+            >
+              <FeedbackTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
+              <ListItemText primary={<Detail1>Feedback</Detail1 >} />
             </ListItem>
             {siblingList.length == 0 ? (
               <>
