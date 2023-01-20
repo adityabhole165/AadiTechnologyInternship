@@ -68,6 +68,7 @@ const AddFeedback = () => {
       setType("1")
     },
     onSubmit: (values, { resetForm }) => {
+      submit();
       resetForm()
     },
     validate: (values) => {
@@ -108,6 +109,12 @@ const AddFeedback = () => {
 
     dispatch(removeSuccessMessage());
   }, [])
+  const submit = () => {
+    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
+      dispatch(saveFeedbackdetails(AddFeedbackBody));
+    }
+
+  }
 
   return (
     <>
