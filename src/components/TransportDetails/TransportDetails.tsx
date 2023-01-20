@@ -25,11 +25,8 @@ function TransportDetails() {
   const StopDetails: any = useSelector(
     (state: RootState) => state.TransportDetails.StopDetails
   );
-  const TrackingURI: any = useSelector(
-    (state: RootState) => state.TransportDetails.TrackingURL
-  );
-  const TrackingMessage: any = useSelector(
-    (state: RootState) => state.TransportDetails.TrackingMessage
+  const OtherTrackingDetails: any = useSelector(
+    (state: RootState) => state.TransportDetails.OtherTrackingDetails
   );
   const loading = useSelector(
     (state: RootState) => state.TransportDetails.Loading
@@ -95,6 +92,7 @@ function TransportDetails() {
                     <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} />)
                 })
               }
+              {OtherTrackingDetails.ShowStops &&
             <Grid container spacing={2} sx={{mb:"10px"}}>
               <Grid item xs={6}>
               <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
@@ -107,18 +105,19 @@ function TransportDetails() {
               </ButtonPrimary>
               </Grid>
               </Grid>
+              }
         
-              {TrackingURI !== "" ?
+              {OtherTrackingDetails.TrackingURI !== "" ?
                 <>
               <Typography variant='h5' sx={{textAlign:"center",mb:1}}>{alignment === "1"?"Pick-up":"Drop"} Vehicle Tracking</Typography>
-                  {TrackingMessage == "" ?
+                  {OtherTrackingDetails.TrackingMessage == "" ?
                     <>
                       <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
-                        src={TrackingURI}
+                        src={OtherTrackingDetails.TrackingURI}
                         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       > </iframe>
                     </>
-                    : <Note NoteDetail={[TrackingMessage]}></Note> 
+                    : <Note NoteDetail={[OtherTrackingDetails.TrackingMessage]}></Note> 
                   }
                 </> : null
               }

@@ -20,7 +20,11 @@ export interface GetStudentTransportDetailsResult {
     TrackingURL: string,
     TrackingMessage: string,
     TransportStaffDetails: [TransportStaffDetails]
-    StopDetails: [StopDetails]
+    StopDetails: [StopDetails],
+    ShowStaffContactDetails: boolean,
+    ShowStops: boolean,
+    ShowVehicleOfficialContactNo: boolean,
+    VehicleOfficialContactNo: string
 }
 
 export interface TransportStaffDetails {
