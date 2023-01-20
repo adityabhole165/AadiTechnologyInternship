@@ -26,7 +26,6 @@ function Support() {
   const Support: any = useSelector(
     (state: RootState) => state.Support.SaveSupport
   );
-  console.log("Support",Support.Message);
   
   const SupportPageNote = [
     "1) Dear Student / Parent, Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible.",
@@ -51,13 +50,11 @@ function Support() {
     onReset: (values) => {
       setValue(null)
       setError(null)
-      aRef.current.value = null;
     },
     validate: (values) => {
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Email address
       const phoneRegExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
       const re = /^[0-9\b]+$/;
-
 
       const errors: any = {};
       if (!values.EmailId) {
@@ -118,6 +115,7 @@ function Support() {
           type="text"
           variant="standard"
           value={formik.values.EmailId}
+          onBlur={formik.handleBlur}
           onChange={formik.handleChange} />
         {formik.touched.EmailId && formik.errors.EmailId ? (
           <ErrorMessage1 Error={formik.errors.EmailId} />
@@ -131,6 +129,7 @@ function Support() {
           variant="standard"
           inputProps={{ maxLength: 10 }}
           value={formik.values.MobileNumber}
+          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
         />
         {formik.touched.MobileNumber && formik.errors.MobileNumber ? (
@@ -147,6 +146,7 @@ function Support() {
           type="text"
           variant="standard"
           value={formik.values.ProblemsSubject}
+          onBlur={formik.handleBlur}
           onChange={formik.handleChange}
         />
         {formik.touched.ProblemsSubject && formik.errors.ProblemsSubject ? (
@@ -184,7 +184,7 @@ function Support() {
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
+            <ButtonPrimary onChange={formik.handleChange} 
               type="submit" fullWidth color='primary'>
               Submit
             </ButtonPrimary>
