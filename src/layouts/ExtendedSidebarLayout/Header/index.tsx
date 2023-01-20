@@ -48,6 +48,7 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { App } from '@capacitor/app';
 import { Detail1 } from 'src/libraries/styled/CardStyle';
 import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
         height: ${theme.header.height};
@@ -352,7 +353,7 @@ function Header() {
               to={"/extended-sidebar/Student/Feedback"}
               component={NavLink}
             >
-              <FeedbackIcon fontSize="small" />
+              <FeedbackTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
               <ListItemText primary={<Detail1>Feedback</Detail1 >} />
             </ListItem>
             {siblingList.length == 0 ? (
