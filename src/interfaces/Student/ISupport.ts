@@ -1,12 +1,18 @@
-export interface IGetSupportDetailsBody{
 
-    aiUserID:string,
-    aiSchoolId: string,
-    aiAcademicYrId: string,
+export interface ISaveStudentDetailsForSupportBody{
+    asUserId: string,
+    asSchoolId: string,
+    asAcademicYearId: string,
+    asFileName: null,
+    asServerFilePath: string,
+    asDescription: string,
+    asEmailAddress: string,
+    asSubject: string,
+    asMobileNo:string,
+    asadminmailaddress:string
 }
 
-export interface IGetSupportDetailsResult{
+export interface ISaveStudentDetailsForSupportResult{
+    Message: string,
 
-    EmailId: string,
-    MobileNo: string
 }

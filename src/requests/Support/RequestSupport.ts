@@ -1,32 +1,32 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import ApiSupport from 'src/api/Support/ApiSupport'
-import { IGetSupportDetailsBody } from 'src/interfaces/Student/ISupport';
+import {ISaveStudentDetailsForSupportBody } from 'src/interfaces/Student/ISupport';
 
 const SliceSupport = createSlice({
     name: 'Support',
     initialState: {
-      SupportList: [],
+      SaveSupport:{},
       Loading: true,
     },
     reducers: {
-        GetSupportDetails(state, action) {
+        GetSaveSupport(state, action) {
           state.Loading = false;
-          state.SupportList = action.payload;
+          state.SaveSupport = action.payload;
         },
         getLoading (state,action) {
             state.Loading = true
-            state.SupportList = [];
+            state.SaveSupport = {};
         }
         }
       });
 
-      export const getSupportDetails =
-  (data: IGetSupportDetailsBody): AppThunk =>
+    export const getSaveSupport =
+  (data: ISaveStudentDetailsForSupportBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceSupport.actions.getLoading(true));
-      const response = await ApiSupport.Supportapi(data)
-      dispatch(SliceSupport.actions.GetSupportDetails(response.data));
+      const response = await ApiSupport.SaveSupportapi(data)
+      dispatch(SliceSupport.actions.GetSaveSupport(response.data));
     };
 
 export default SliceSupport.reducer
