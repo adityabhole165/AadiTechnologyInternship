@@ -53,7 +53,6 @@ const AddFeedback = () => {
   //enter only alphabets
   const alphabetsOnly = event => {
     const result = event.target.value.replace(/[^a-z]/gi, '');
-
     setMessage(result);
   };
 
@@ -69,7 +68,6 @@ const AddFeedback = () => {
       setType("1")
     },
     onSubmit: (values, { resetForm }) => {
-      submit();
       resetForm()
     },
     validate: (values) => {
@@ -110,13 +108,6 @@ const AddFeedback = () => {
 
     dispatch(removeSuccessMessage());
   }, [])
-  const [showMsg, setShowMsg] = useState();
-  const submit = () => {
-    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
-      dispatch(saveFeedbackdetails(AddFeedbackBody));
-    }
-
-  }
 
   return (
     <>
@@ -158,7 +149,7 @@ const AddFeedback = () => {
             <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
             <Grid container spacing={2} >
               <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                <ButtonPrimary onChange={formik.handleChange} onClick={submit}
+                <ButtonPrimary onChange={formik.handleChange} 
                   type="submit" fullWidth color='primary'>
                   Submit
                 </ButtonPrimary>
