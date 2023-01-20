@@ -345,7 +345,7 @@ function Header() {
               <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</UserBoxLabel>} />
             </ListItem>
-            {/* <ListItem
+            <ListItem
               onClick={() => {
                 handleClose();
               }}
@@ -355,7 +355,7 @@ function Header() {
             >
               <FeedbackTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
               <ListItemText primary={<Detail1>Feedback</Detail1 >} />
-            </ListItem> */}
+            </ListItem>
             {siblingList.length == 0 ? (
               <>
               </>
