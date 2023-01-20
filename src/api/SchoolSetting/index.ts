@@ -17,7 +17,7 @@ const GetScreensAccessPermission=(data:IGetScreensAccessPermissions)=>{
 }
 
 const GetSettingValueapi = (data: IGetSettingValueBody) => {
-    return http.post<IGetSettingValueResult>('School/GetSettingValue',data);
+    return http.post<IGetSettingValueResult>('School/GetSettingValues',data);
   };
 const SchoolSettingApi ={
     GetSchoolSettings,
