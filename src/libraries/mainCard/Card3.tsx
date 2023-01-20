@@ -24,6 +24,7 @@ import { Link } from 'react-router-dom';
 import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
 import HelpIcon from '@mui/icons-material/Help';
 
+
 function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
   const theme = useTheme();
   if (theme.colors.gradients.pink1 !== 'linear-gradient(135deg, white 0%, white 100%);')
@@ -70,6 +71,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 23 &&<> <Badge badgeContent="New" color="error" sx={{animation: `${blink} 1s linear infinite`,float:"right",mr:"15px"}} >  
              </Badge>  <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" /> </>}
             {icon === 25 && <HelpIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 26 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
            
            
 

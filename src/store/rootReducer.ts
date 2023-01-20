@@ -42,10 +42,10 @@ import AComposeSMSSlice from 'src/requests/AdminSMSCenter/AComposeSMS';
 import schoolSettingSlice from 'src/requests/SchoolSetting/schoolSetting';
 import Notificationslice from "../requests/Notification/Notification";
 import NewReleaseslice from 'src/requests/Authentication/NewRelease';
-import SliceFeedback from 'src/requests/Feedback/RequestFeedback'
-import SliceTransportDetails from 'src/requests/TransportDetails/RequestTransportDetails'
-import SliceSupport from 'src/requests/Support/RequestSupport'
-
+import SliceFeedback from 'src/requests/Feedback/RequestFeedback';
+import SliceTransportDetails from 'src/requests/TransportDetails/RequestTransportDetails';
+import SliceSupport from 'src/requests/Support/RequestSupport';
+import SliceBirthdays from 'src/requests/Birthdays/RequestBirthdays';
 
 
 const rootReducer = combineReducers({
@@ -99,7 +99,7 @@ const rootReducer = combineReducers({
     getModulesPermissionsResult:schoolSettingSlice,
     SchoolSettings:SchoolListslice,
     TransportDetails : SliceTransportDetails,
-
+     Birthdays : SliceBirthdays,
 });
 
 export default rootReducer;

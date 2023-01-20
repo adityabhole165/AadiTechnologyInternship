@@ -41,6 +41,7 @@ const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
 const AddFeedback =  Loader(lazy(() => import('src/components/Feedback/AddFeedback')))
 const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
 const Support = Loader (lazy(() => import ('src/components/Support/Support')))
+const Birthdays= Loader (lazy(() => import ('src/components/Birthdays/Birthdays')))
 
 
 const studentRoutes = [
@@ -178,6 +179,11 @@ const studentRoutes = [
   {
     path: 'Support',
     element: <Support/>
+  },
+
+  {
+    path: 'Birthdays',
+    element: <Birthdays/>
   },
   ];
 

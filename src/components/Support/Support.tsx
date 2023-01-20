@@ -11,6 +11,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import IconFile from 'src/libraries/icon/IconFile';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 function Support() {
   const [error, setError] = useState('')
   const [mobileerror, setMobileerror] = useState('')
@@ -90,23 +91,7 @@ const formik = useFormik({
       return errors; 
   }
 }); 
-// const handleChange1 = (event) => {
-//   const re = /^[0-9\b]+$/;
-//   const phoneRegExp = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/
-//   // setValue1(event.target.value)
 
-//   if (event.target.value === '' || re.test(event.target.value)) {
-//       setValue1(event.target.value)
-//   }
-//   if(event.target.value=''){
-//       setMobileerror('Please enter the valid mobile number');
-//   }
-
-//   else if (!phoneRegExp.test(event.target.value)) {
-//       setMobileerror('Please enter the valid mobile number');
-//   }
-  
-//   }
 return (
     <Container>
       <PageHeader heading={'Support'}  subheading={''} />
@@ -120,13 +105,10 @@ return (
         type="text"
         variant="standard"
         value={formik.values.EmailId}
-        onChange={formik.handleChange} 
-       error={Boolean(formik.touched.EmailId || formik.errors.EmailId)}
-        helperText={formik.touched.EmailId || formik.errors.EmailId ? (
-         formik.errors.EmailId
-          ) : null}
-        />
-        
+        onChange={formik.handleChange} />
+            {formik.touched.EmailId && formik.errors.EmailId ? (
+              <ErrorMessage1 Error={formik.errors.EmailId} />
+            ) : null}
       <TextField
         margin="dense"
         fullWidth
@@ -137,14 +119,15 @@ return (
         inputProps={{ maxLength: 10 }}
         value={formik.values.MobileNumber}
         onChange={formik.handleChange} 
-       error={Boolean(formik.touched.MobileNumber || formik.errors.MobileNumber)}
-        helperText={formik.touched.MobileNumber || formik.errors.MobileNumber ? (
-         formik.errors.MobileNumber
-          ) : null}
+    
         />
               
      
-
+    {/* {mobileerror && <Errormessage Error={mobileerror} />} */}
+    {formik.touched.MobileNumber && formik.errors.MobileNumber ? (
+        <ErrorMessage1 Error={formik.errors.MobileNumber} />
+      ) : null
+    }
                          
         
        <TextField
@@ -157,13 +140,14 @@ return (
         variant="standard"
         value={formik.values.ProblemsSubject}
         onChange={formik.handleChange}
-        
+     
         />
      
              {formik.touched.ProblemsSubject && formik.errors.ProblemsSubject ? (
-                            <Errormessage Error={formik.errors.ProblemsSubject} />
+           <ErrorMessage1 Error={formik.errors.ProblemsSubject} />
                         ) : null
                         }
+                    
                      <TextareaAutosize
                             aria-label="empty textarea"
                             placeholder="Description"
@@ -177,7 +161,7 @@ return (
                         />
                  
                         {formik.touched.Description && formik.errors.Description ? (
-                            <Errormessage Error={formik.errors.Description} />
+                            <ErrorMessage1 Error={formik.errors.Description} />
                         ) : null}
          <TextField
           margin="normal"
