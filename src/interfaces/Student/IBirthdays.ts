@@ -7,9 +7,15 @@ export interface IGetUpcomingStaffBdayListBody {
 }
 
 export interface IGetUpcomingStaffBdayListResult {
-
+ 
     Date: string,
     UserName: string,
     PhotoPath: string,
     Classes: null
+}
+
+
+
+export interface IGetUpcomingStaffBdayList{
+    BirthdayDetailsData:IGetUpcomingStaffBdayListResult[]
 }

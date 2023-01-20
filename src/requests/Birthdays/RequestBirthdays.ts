@@ -12,7 +12,7 @@ const SliceBirthdays = createSlice({
     reducers: {
         GetUpcomingStaffBdayList(state, action) {
           state.Loading = false;
-          state.BirthdaysList = action.payload.BirthdayDetailsData;
+          state.BirthdaysList = action.payload;
         },
         getLoading (state,action) {
             state.Loading = true
@@ -26,7 +26,17 @@ const SliceBirthdays = createSlice({
         async (dispatch) => {
           dispatch(SliceBirthdays.actions.getLoading(true));
           const response = await ApiBirthdays.Birthdaysapi(data)
-          dispatch(SliceBirthdays.actions.GetUpcomingStaffBdayList(response.data));
+          const BirthdaysL =
+          response.data.BirthdayDetailsData.map((item, index) => {
+            return {
+             id:index,
+             Header:item.UserName,
+             Text1:item.Date,
+             Text2:item.PhotoPath,
+            
+            }
+          })
+          dispatch(SliceBirthdays.actions.GetUpcomingStaffBdayList(BirthdaysL));
         };
     
     export default SliceBirthdays.reducer
