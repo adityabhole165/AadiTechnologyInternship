@@ -42,24 +42,20 @@ export const getTransportDetails =
       if (response?.data?.RouteName !== null) {
 
         RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
-        if (response?.data?.ShowStaffContactDetails) {
-          response?.data?.TransportStaffDetails.map((item) => {
-            RouteDetails.push({
-              Text1: item.TransportStaffName + '(' + item.Designation + ')',
-              Text2: item.MobileNo
-            })
+        response?.data?.TransportStaffDetails.map((item) => {
+          RouteDetails.push({
+            Text1: item.TransportStaffName 
+            + (response?.data?.ShowStaffContactDetails ? '(' + item.Designation + ')' : ''),
+            Text2: response?.data?.ShowStaffContactDetails ? item.MobileNo : item.Designation
           })
-        } else {
-          response?.data?.TransportStaffDetails.map((item) => {
-            RouteDetails.push({
-              Text1: item.TransportStaffName,
-              Text2: item.Designation
-            })
-          })
-        }
+        })
         RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
         if (response?.data?.ShowVehicleOfficialContactNo) {
-          RouteDetails.push({ Text1: "Emergency Contact Number", Text2: response?.data?.VehicleOfficialContactNo })
+          RouteDetails.push({
+            Text1: "Emergency Contact Number",
+            Text2: response?.data?.VehicleOfficialContactNo,
+            IsDial: true
+          })
         }
 
         response?.data?.StopDetails.map((item) => {
