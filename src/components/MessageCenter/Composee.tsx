@@ -8,7 +8,7 @@ import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/Mes
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { useLocation } from 'react-router-dom';
+import { useLocation,useParams } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -25,6 +25,7 @@ import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 
 function Form13() {
+  const {header} = useParams();
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -353,7 +354,7 @@ function Form13() {
               <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
+                value={header == undefined ? RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','') : header}
                 id=""
                 fullWidth
                 disabled
