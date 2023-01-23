@@ -4,14 +4,14 @@ import Grid from '@mui/material/Grid';
 const MCButtons = ({activeTab,clickTab}) => {
     return (
         <div>
-            <Grid container>
-                <Grid item xs={3.7} sx={{marginRight:'5px',textAlign:'center'}}>
+            <Grid container spacing={1}>
+                <Grid item xs={4} sx={{textAlign:'center'}}>
                     <MCButton ButtonType='Inbox' clickTab={clickTab} activeTab={activeTab}></MCButton>
                 </Grid>
-                <Grid item xs={3.7} sx={{marginRight:'5px',textAlign:'center'}}>
+                <Grid item xs={4} sx={{textAlign:'center'}}>
                     <MCButton ButtonType='Sent' clickTab={clickTab} activeTab={activeTab}></MCButton>
                 </Grid>
-                <Grid item xs={3.7} sx={{textAlign:'center'}}>
+                <Grid item xs={4} sx={{textAlign:'center'}}>
                     <MCButton ButtonType='Trash' clickTab={clickTab} activeTab={activeTab}></MCButton>
                 </Grid>
             </Grid>
