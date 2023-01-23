@@ -304,7 +304,6 @@ const MessageList = () => {
                     marginTop: '10px',
                     cursor: 'pointer',
                       }}
-                  onClick={clickSearchIcon}
                 />
               </Grid>
               </Grid>
