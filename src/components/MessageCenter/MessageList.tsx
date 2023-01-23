@@ -280,33 +280,33 @@ const MessageList = () => {
         <Grid container>
           {!showSearch ? (
             <>
-              <Grid item xs={10}>
+            <Grid container spacing={2} >
+              <Grid item xs={8}>
                 <MCButtons
                   activeTab={activeTab}
                   clickTab={clickTab}
                 ></MCButtons>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2} sx={{textAlign:'center'}}>
                 <SearchIcon
                   sx={{
                     fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
+                      }}
                   onClick={clickSearchIcon}
                 />
               </Grid>
-               <Grid item xs={1}>
+               <Grid item xs={2} sx={{textAlign:'center'}}>
                 <MoreVertIcon
                   sx={{
                     fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
+                      }}
                   onClick={clickSearchIcon}
                 />
+              </Grid>
               </Grid>
             </>
           ) : (
