@@ -74,6 +74,10 @@ const messageCenterRoutes: PartialRouteObject[] = [
     path: 'Compose/Reply', // Reply
     element: <Composee />
   },
+  {
+    path:'Compose/:header', //from subject teacher
+    element: <Composee />
+},
 
   {
     path: 'viewMSg/:ID/:FromRoute',

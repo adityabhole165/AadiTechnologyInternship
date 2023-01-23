@@ -26,6 +26,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -279,22 +280,32 @@ const MessageList = () => {
         <Grid container>
           {!showSearch ? (
             <>
-              <Grid item xs={11}>
+            <Grid container spacing={2} >
+              <Grid item xs={8}>
                 <MCButtons
                   activeTab={activeTab}
                   clickTab={clickTab}
                 ></MCButtons>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2} sx={{textAlign:'center'}}>
                 <SearchIcon
                   sx={{
                     fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
+                      }}
                   onClick={clickSearchIcon}
                 />
+              </Grid>
+               <Grid item xs={2} sx={{textAlign:'center'}}>
+                <MoreVertIcon
+                  sx={{
+                    fontSize: '40px',
+                    marginTop: '10px',
+                    cursor: 'pointer',
+                      }}
+                />
+              </Grid>
               </Grid>
             </>
           ) : (
