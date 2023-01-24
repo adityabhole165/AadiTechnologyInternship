@@ -3,6 +3,7 @@ import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
+import { IGetUserEmailSettingsBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
@@ -20,7 +21,8 @@ const MessageCenterSlice = createSlice({
     YearsList:[],
     AllMonthList:[],
     PageIndex:0,
-    Loading:true
+    Loading:true,
+    EmailSettings:{}
 
   },
   reducers: {
@@ -66,7 +68,11 @@ const MessageCenterSlice = createSlice({
     sePageIndex (state,action){
       state.PageIndex=action.payload;
     },
-    getLoading (state,action) {
+ 
+    GetEmailSettings(state,action){
+      state.EmailSettings = action.payload;
+    },
+    getLoading (state,action) {   
       state.Loading = true
       state.TrashList=[];
   }
@@ -144,10 +150,14 @@ export const getTrashList =
     const response = await MessageCenterApi.GetUsegroupList(data);
     dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
   };
-  
-  // export const getPageINdex = () => {
-  //   dispatch(MessageCenterSlice.actions.sePageIndex(1))
-  // }
+ 
+   export const GetEmailSettings =
+  (data :IGetUserEmailSettingsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await MessageCenterApi.EmailSettingsapi(data);
+    console.log(response,"Email213")
+    dispatch(MessageCenterSlice.actions.GetEmailSettings(response.data));
+  };
 
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;
 

@@ -27,7 +27,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-
+import { useNavigate } from 'react-router';
+import SettingsIcon from '@mui/icons-material/Settings';
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -273,6 +274,10 @@ const MessageList = () => {
   const clickClear =()=>{
     localStorage.setItem('ViewMessageData',"")
   }
+  let navigate = useNavigate();
+  function handleClick() {
+    navigate('/extended-sidebar/MessageCenter/EmailSetting')
+  }
   return (
     <>
       <Container>
@@ -289,21 +294,23 @@ const MessageList = () => {
               </Grid>
               <Grid item xs={2} sx={{textAlign:'center'}}>
                 <SearchIcon
+                fontSize="large"
                   sx={{
-                    fontSize: '40px',
-                    marginTop: '10px',
+                   
+                    marginTop: '8px',
                     cursor: 'pointer',
                       }}
                   onClick={clickSearchIcon}
                 />
               </Grid>
                <Grid item xs={2} sx={{textAlign:'center'}}>
-                <MoreVertIcon
+                <SettingsIcon 
+                  fontSize="medium"
                   sx={{
-                    fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
                       }}
+                      onClick={handleClick}
                 />
               </Grid>
               </Grid>
