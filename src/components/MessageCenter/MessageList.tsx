@@ -27,6 +27,8 @@ import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { getDeleteMessagePermantely } from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
+import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -36,7 +38,7 @@ const Item = styled(Card)(({ theme }) => ({
   height: '61px',
   color:'black',
   boxShadow:
-  '0px 8px 15px rgba(0, 0, 0, 0.1)',
+    '0px 8px 15px rgba(0, 0, 0, 0.1)',
 
 }));
 
@@ -45,14 +47,15 @@ const NextPageIndex = 2; // Initial page index
 const MessageList = () => {
   const pathname = window.location.pathname;
   const pageName =
-  pathname.indexOf('/extended-sidebar/MessageCenter/msgCenter/') === -1 ?
-  pathname.replace('/extended-sidebar/MessageCenter/msgCenter', '') :
-  pathname.replace('/extended-sidebar/MessageCenter/msgCenter/', '');
-  
+    pathname.indexOf('/extended-sidebar/MessageCenter/msgCenter/') === -1 ?
+      pathname.replace('/extended-sidebar/MessageCenter/msgCenter', '') :
+      pathname.replace('/extended-sidebar/MessageCenter/msgCenter/', '');
+
   const dispatch = useDispatch();
 
   const SchoolId = localStorage.getItem('localSchoolId');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asUserid = sessionStorage.getItem("Id");
 
   const [pageIndex, setpageIndex] = useState<number>(NextPageIndex); // Page index
   const [activeTab, setActiveTab] = useState('');
@@ -82,6 +85,13 @@ const MessageList = () => {
   const loading: boolean = useSelector(
     (state: RootState) => state.InboxMessage.Loading
   );
+  const DeletePermanently = useSelector(
+    (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
+  );
+console.log("DeletePermanently",DeletePermanently);
+console.log("asUserid",asUserid);
+
+
 
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
@@ -96,17 +106,17 @@ const MessageList = () => {
 
   const getMsgBody = (searchtext,monthyear) => {
     return {
-    asSchoolId: SchoolId,
-    asAcademicYearId: academicYear,
-    asUserId: sessionStorage.getItem('Id'),
-    asUserRoleId: sessionStorage.getItem('RoleId'),
-    abIsSMSCenter: '0',
-    asFilter: searchtext,
-    asPageIndex: 1,
-    asMonthId: monthyear
-  };
+      asSchoolId: SchoolId,
+      asAcademicYearId: academicYear,
+      asUserId: sessionStorage.getItem('Id'),
+      asUserRoleId: sessionStorage.getItem('RoleId'),
+      abIsSMSCenter: '0',
+      asFilter: searchtext,
+      asPageIndex: 1,
+      asMonthId: monthyear
+    };
   }
-  
+
   const body: Iyears = {
     asSchoolId: SchoolId
   };
@@ -153,30 +163,55 @@ const MessageList = () => {
     setShowSearch(!showSearch);
   };
 
-  const clickDelete = () => {
-    let arrDetails = [];
-    let arrReciever = [];
+  const permanentDelete = () => {
+    let DetailsId = [];
     inboxListData.map((obj) => {
       if (obj.isActive) {
-        arrDetails.push(obj.DetailsId);
-        arrReciever.push(obj.ReceiverDetailsId);
+        DetailsId.push(obj.DetailsId);
       }
     });
+      const delPermanentBody =
+      {
+        asSchoolId:SchoolId,
+        asAcademicYearId: AcademicYearId,
+        asUserId: asUserid,
+        asMessageIds:DetailsId.join(',')
+      }
+      ApiDeleteMessagePermanently.DeleteMessagePermanentlyapi(delPermanentBody)
+      .then((data) => {
+          toast.success('Message deleted successfully'); 
+          dispatch(getDeleteMessagePermantely(delPermanentBody))
+          
+        dispatch(getListOfMessages(getListBody, activeTab, false));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+  };
 
+      const clickDelete = () => {
+        let arrDetails = [];
+        let arrReciever = [];
+        inboxListData.map((obj) => {
+          if (obj.isActive) {
+            arrDetails.push(obj.DetailsId);
+            arrReciever.push(obj.ReceiverDetailsId);
+          }
+        });
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
-      asMessageRecieverDetailsId: (activeTab == 'Inbox' ||activeTab == 'Trash') ? arrReciever.join(';') : arrDetails.join(';'),
+      asMessageRecieverDetailsId: (activeTab == 'Inbox' || activeTab == 'Trash') ? arrReciever.join(';') : arrDetails.join(';'),
       asIsArchive: 'Y',
-      asIsCompeteDelete: (activeTab == 'Inbox' || activeTab == 'Sent'? 0 : 1),
+      asIsCompeteDelete: (activeTab == 'Inbox' || activeTab == 'Sent' ? 0 : 1),
       asFlag: activeTab
     };
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
-        if(activeTab == 'Inbox' || activeTab == 'Sent'){
+        if (activeTab == 'Inbox' || activeTab == 'Sent') {
           toast.success('Message has been moved to the trash.');
         }
-        else{
+        else {
           toast.success('Message deleted successfully');
         }
         dispatch(getListOfMessages(getListBody, activeTab, false));
@@ -189,11 +224,18 @@ const MessageList = () => {
   const TrashDelete = () => {
     if (confirm('Are you sure you want to delete the message permanently?')) {
       clickDelete()
-} else { 
+    } else {
 
-}
-}
+    }
+  }
 
+  const DeletePermanent = () => {
+    if (confirm('This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?')) {
+      permanentDelete()
+    } else {
+
+    }
+  }
   const clickReset = () => {
     setInboxListData(
       inboxListData.map((obj) => {
@@ -235,7 +277,7 @@ const MessageList = () => {
     }
     if (
       scrollableDivRefference.scrollHeight -
-        scrollableDivRefference.scrollTop <=
+      scrollableDivRefference.scrollTop <=
       570
     ) {
       const getListBody: IgetList = {
@@ -261,7 +303,7 @@ const MessageList = () => {
     setAcademicYear(AcademicYearId);
     setMonthYear('');
     setSearchText('');
-    dispatch(getListOfMessages(getMsgBody('',''), activeTab, false));
+    dispatch(getListOfMessages(getMsgBody('', ''), activeTab, false));
   };
 
   const MoveToTop = (e) => {
@@ -270,8 +312,8 @@ const MessageList = () => {
       setdisplayMoveToTop('none');
     }, 10);
   };
-  const clickClear =()=>{
-    localStorage.setItem('ViewMessageData',"")
+  const clickClear = () => {
+    localStorage.setItem('ViewMessageData', "")
   }
   return (
     <>
@@ -280,32 +322,33 @@ const MessageList = () => {
         <Grid container>
           {!showSearch ? (
             <>
-            <Grid container spacing={2} >
-              <Grid item xs={8}>
+              <Grid item xs={10}>
                 <MCButtons
                   activeTab={activeTab}
                   clickTab={clickTab}
                 ></MCButtons>
               </Grid>
-              <Grid item xs={2} sx={{textAlign:'center'}}>
+              <Grid item xs={1}>
                 <SearchIcon
                   sx={{
                     fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                      }}
+                    marginLeft: '-5px'
+                  }}
                   onClick={clickSearchIcon}
                 />
               </Grid>
-               <Grid item xs={2} sx={{textAlign:'center'}}>
+              <Grid item xs={1}>
                 <MoreVertIcon
                   sx={{
                     fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                      }}
+                    marginLeft: '-5px'
+                  }}
+                  onClick={clickSearchIcon}
                 />
-              </Grid>
               </Grid>
             </>
           ) : (
@@ -324,22 +367,27 @@ const MessageList = () => {
             </Grid>
           )}
           {inboxListData.some((obj) => obj.isActive === true) && (
-          
-            <Grid container spacing={1} sx={{mb:"10px"}}>
-              <Grid item xs={4}/>
-              <Grid item xs={4}>
+
+            <Grid container spacing={1} sx={{ mb: "10px" }}>
+              <Grid item xs={6} >
+                <ButtonPrimary 
+                onClick={activeTab == 'Sent' && DeletePermanent}
+                endIcon={<DeleteIcon />} fullWidth
+                >Delete from everyone</ButtonPrimary>
+                </Grid>
+              <Grid item xs={3}>
                 <ButtonPrimary
-                  onClick={activeTab == 'Trash' ?  TrashDelete : clickDelete}
-                  endIcon={<DeleteIcon />} fullWidth
+                  onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
+                  endIcon={<DeleteIcon />} 
                 >
                   Delete
                 </ButtonPrimary>
               </Grid>
-              <Grid item xs={4}>
+              <Grid item xs={3}>
                 <ButtonPrimary
                   onClick={clickReset}
                   endIcon={<ReplayIcon />}
-                  color="secondary" fullWidth
+                  color="secondary" 
                 >
                   Reset
                 </ButtonPrimary>
@@ -398,7 +446,7 @@ const MessageList = () => {
             style={{ textDecoration: 'none' }}
             to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
           >
-            <Item sx={{ fontSize: '10px', marginLeft: '-7px',mb:"10px" }} >
+            <Item sx={{ fontSize: '10px', marginLeft: '-7px', mb: "10px" }} >
               <AddCircleIcon onClick={clickClear} />
               <br />
               <b>Compose</b>
