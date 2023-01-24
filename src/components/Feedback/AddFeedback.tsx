@@ -19,7 +19,7 @@ const AddFeedback = () => {
   const SchoolName = localStorage.getItem("SchoolName");
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserid = localStorage.getItem("UserId");
+  const asUserid = sessionStorage.getItem("Id");
   const [radioBtn, setRadioBtn] = useState('1');
   const [type, setType] = useState('1');
   const [message, setMessage] = useState(''); //enter only alphabets

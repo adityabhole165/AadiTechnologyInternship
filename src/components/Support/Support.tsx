@@ -22,7 +22,7 @@ function Support() {
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserid = localStorage.getItem("UserId");
+  const asUserid = sessionStorage.getItem("Id");
   const Support: any = useSelector(
     (state: RootState) => state.Support.SaveSupport
   );
