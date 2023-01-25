@@ -13,49 +13,64 @@ import { Container,ToggleButton,ToggleButtonGroup,Card,CardHeader,Box,Badge } fr
 
 function Birthdays() {
   const dispatch = useDispatch();
-
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const DOB = localStorage.getItem('DOB');
+  const [view, setView] = React.useState('T');
+  
   const Birthdays: any = useSelector(
     (state: RootState) => state.Birthdays.BirthdaysList
   );
+
 
   console.log("Birthdays", Birthdays);
 
   const BirthdaysBody ={
     
-    "aiSchoolId":"120",
-    "aiAcademicYrId":"8",
-    "aiUserRoleId":"3",
-    "asView":"W"
+    aiSchoolId: asSchoolId,
+    aiAcademicYrId: asAcademicYearId,
+    aiUserRoleId: "3",
+    asView: view
     
   }
   
   useEffect(() => {
     dispatch(getUpcomingStaffBdayList(BirthdaysBody));
-  }, []);
-  const [view, setView] = React.useState('1');
+  }, [view]);
+ 
 
   const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
     setView(nextView);
   };
 
+  const clickRefresh = () => {
+    dispatch(getUpcomingStaffBdayList(BirthdaysBody));
+  }
   return (
     <Container>
       <PageHeader heading={'Birthdays'}  subheading={''} />
-      <Card component={Box} my={2} p={1} pr={3}>
-     <Box sx={{float:"right"}}>
+      <Card component={Box} my={2} pr={3}>
+     <Box sx={{float:"right",my:1}}>
      <ToggleButtonGroup
         value={view}
         exclusive
         onChange={handleChange}>
-        <ToggleButton value="1">T</ToggleButton>
-        <ToggleButton value="2">W</ToggleButton>
+        <ToggleButton value="T">T</ToggleButton>
+        <ToggleButton value="W">W</ToggleButton>
       </ToggleButtonGroup>
-           <RefreshIcon  />
-         <Badge sx={{ml:2}}
+    
+      <RefreshIcon  onClick={clickRefresh} sx={{ml:1}}/>
+ 
+        
+         <Badge sx={{ml:2,mt:-0.5}}
           badgeContent={Birthdays.length !== 0 ?  Birthdays.length :'0' }
            color="secondary"/>
         </Box>
       </Card>
+      {Birthdays.length >0 &&
+      <Carousel itemlist={Birthdays} />
+    }
     </Container>
   )
 }

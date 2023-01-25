@@ -35,7 +35,7 @@ const Carousel = ({ itemlist }) => {
   return (
     <div>
    
-      <Grid container alignItems="center">
+   <Grid container alignItems="center">
       <Grid item xs={1}>
       <ArrowLeft onClick={() => arrowClick(-1)}/>
       </Grid>

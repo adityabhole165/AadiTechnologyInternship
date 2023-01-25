@@ -411,5 +411,15 @@ export const Detail1 = styled(Typography)(
   font-weight: bold ;  `
 );
 
+export const Cardbday = styled(Card)`
+background-image: url(${`/imges/school1.jpg`});
+flex: 1;
+width: 100%;
+background-size: cover;
+margin-bottom:10px;
+`;
+
+
+
 
 

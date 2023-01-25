@@ -67,13 +67,13 @@ const EmailSettings = () => {
             <BackButton FromRoute={"/MessageCenter/msgCenter"} />
             <PageHeader heading={'Email Setting'} subheading={''} />
             {Loading && (<SuspenseLoader />)}
-            <Card component={Box} p={0.5} sx={{ display: "flex" }}>
+            <Card component={Box}  sx={{ display: "flex" }}>
                 <Checkbox size="small"
                     name="IsChecked"
                     checked={isChecked}
                     onChange={() => setIsChecked(!isChecked)}
                 />
-                <Typography variant='body2'>Yes I want to receive message on below Email address.</Typography>
+                <Typography variant='body2' component={Box} p={1}>Yes I want to receive message on below Email address.</Typography>
             </Card>
             <TextField fullWidth margin="dense" size="small"
                 id="EmailId" name="EmailId"

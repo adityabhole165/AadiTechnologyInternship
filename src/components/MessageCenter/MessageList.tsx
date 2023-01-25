@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container } from '@mui/material';
+import { Grid, Card, Container,Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -31,6 +31,7 @@ import { getDeleteMessagePermantely } from 'src/requests/MessageCenter/RequestDe
 import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router';
+import RefreshIcon from '@mui/icons-material/Refresh';
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -324,7 +325,15 @@ console.log("asUserid",asUserid);
   return (
     <>
       <Container>
+      
         <PageHeader heading="Message Center" subheading=""></PageHeader>
+        <Box sx={{float:"right",mt:"-45px"}}>
+        <SettingsIcon  onClick={handleClick} fontSize="medium"/>
+         <RefreshIcon fontSize="medium"/>
+        </Box>
+     
+       
+        
         <Grid container>
           {!showSearch ? (
             <>
@@ -347,14 +356,14 @@ console.log("asUserid",asUserid);
                 />
               </Grid>
                <Grid item xs={2} sx={{textAlign:'center'}}>
-                <SettingsIcon 
-                  fontSize="medium"
+                {/* <SettingsIcon 
+                  fontSize="large"
                   sx={{
-                    marginTop: '10px',
+                    marginTop: '8px',
                     cursor: 'pointer',
                       }}
                       onClick={handleClick}
-                />
+                /> */}
               </Grid>
               </Grid>
             </>
