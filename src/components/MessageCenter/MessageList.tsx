@@ -228,7 +228,7 @@ console.log("asUserid",asUserid);
 
     }
   }
-
+//Delete from everyone function
   const DeletePermanent = () => {
     if (confirm('This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?')) {
       permanentDelete()

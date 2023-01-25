@@ -3,6 +3,7 @@ import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
+import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
@@ -20,7 +21,9 @@ const MessageCenterSlice = createSlice({
     YearsList:[],
     AllMonthList:[],
     PageIndex:0,
-    Loading:true
+    Loading:true,
+    EmailSettings:null,
+    UpdationMessage:''
 
   },
   reducers: {
@@ -66,7 +69,20 @@ const MessageCenterSlice = createSlice({
     sePageIndex (state,action){
       state.PageIndex=action.payload;
     },
-    getLoading (state,action) {
+ 
+    GetEmailSettings(state,action){
+      state.EmailSettings = action.payload.EmailSetting;
+      state.Loading = false
+    },
+    UpdateUserEmailSetting(state,action){
+      state.UpdationMessage = action.payload.UpdationMessage;
+      state.Loading = false
+    },
+    ResetUpdateUserEmailSetting(state){
+      state.UpdationMessage = '';
+    },
+    
+    getLoading (state,action) {   
       state.Loading = true
       state.TrashList=[];
   }
@@ -144,11 +160,29 @@ export const getTrashList =
     const response = await MessageCenterApi.GetUsegroupList(data);
     dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
   };
-  
-  // export const getPageINdex = () => {
-  //   dispatch(MessageCenterSlice.actions.sePageIndex(1))
-  // }
+ 
+  export const GetEmailSettings =
+ (data :IGetUserEmailSettingsBody): AppThunk =>
+ async (dispatch) => {
+  dispatch(MessageCenterSlice.actions.getLoading(true));
+  const response = await MessageCenterApi.EmailSettingsapi(data);
+   dispatch(MessageCenterSlice.actions.GetEmailSettings(response.data));
+ };
 
+ 
+ export const UpdateUserEmailSetting =
+ (data :IUpdateUserEmailSettingBody): AppThunk =>
+ async (dispatch) => {
+  dispatch(MessageCenterSlice.actions.getLoading(true));
+   const response = await MessageCenterApi.UpdateUserEmailSettingapi(data);
+   dispatch(MessageCenterSlice.actions.UpdateUserEmailSetting(response.data));
+ };
+ export const ResetUpdateUserEmailSetting =
+ (): AppThunk =>
+ async (dispatch) => {
+   dispatch(MessageCenterSlice.actions.ResetUpdateUserEmailSetting());
+ };
+ 
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;
 
 export default MessageCenterSlice.reducer

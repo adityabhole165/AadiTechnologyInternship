@@ -26,17 +26,17 @@ function ForgotPassword() {
     GetPasswordApi.GetPasswordResult(getPasswordAPIBody)
       .then((res: any) => {
         if (res.status === 200 && res.data == null) {
-          toast.success('SMS has been Sent');
+          toast.success('SMS has been Sent', { toastId: 'success1'});
           formik.resetForm();
         }
         if(res.data == 'Provided details are not valid.'){
-          toast.error('Provided details are not valid.');
+          toast.error('Provided details are not valid.', { toastId: 'error1'});
         }
         if(res.data == 'Login details have already been sent to you. Please try after 24 Hrs.'){
-          toast.error('Login details have already been sent to you. Please try after 24 Hrs.');
+          toast.error('Login details have already been sent to you. Please try after 24 Hrs.', { toastId: 'error2'});
         }
         if(res.data == 'Failed to send the SMS.'){
-          toast.error('Failed to send the SMS.');
+          toast.error('Failed to send the SMS.', { toastId: 'error3'});
         }
       })
       .catch((err) => {

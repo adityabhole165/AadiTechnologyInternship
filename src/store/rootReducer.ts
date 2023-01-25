@@ -47,8 +47,7 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceSupport from 'src/requests/Support/RequestSupport';
 import SliceBirthdays from 'src/requests/Birthdays/RequestBirthdays';
 import SliceDeleteMessagePermanetly  from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
-import SliceEmailSettings from 'src/requests/MessageCenter/RequestEmailSetting';
-// import SliceUpdateUserEmailSetting from 'src/requests/MessageCenter/RequestUpdateEmailSetting'
+
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -103,8 +102,8 @@ const rootReducer = combineReducers({
     TransportDetails : SliceTransportDetails,
      Birthdays : SliceBirthdays,
      DeleteMessagePermanetly: SliceDeleteMessagePermanetly,
-     EmailSettings: SliceEmailSettings,
-    //  UpdateUserEmailSetting: SliceUpdateUserEmailSetting,
+  
+    
 });
 
 export default rootReducer;
