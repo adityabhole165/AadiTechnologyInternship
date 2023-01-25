@@ -29,7 +29,8 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDeleteMessagePermantely } from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
 import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
-
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useNavigate } from 'react-router';
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -315,6 +316,11 @@ console.log("asUserid",asUserid);
   const clickClear = () => {
     localStorage.setItem('ViewMessageData', "")
   }
+  let navigate = useNavigate();
+  
+  function handleClick() {
+    navigate('/extended-sidebar/MessageCenter/EmailSetting')
+  }
   return (
     <>
       <Container>
@@ -322,33 +328,34 @@ console.log("asUserid",asUserid);
         <Grid container>
           {!showSearch ? (
             <>
-              <Grid item xs={10}>
+              <Grid container spacing={2} >
+              <Grid item xs={8}>
                 <MCButtons
                   activeTab={activeTab}
                   clickTab={clickTab}
                 ></MCButtons>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2} sx={{textAlign:'center'}}>
                 <SearchIcon
+                fontSize="large"
                   sx={{
-                    fontSize: '40px',
-                    marginTop: '10px',
+                   
+                    marginTop: '8px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
+                      }}
                   onClick={clickSearchIcon}
                 />
               </Grid>
-              <Grid item xs={1}>
-                <MoreVertIcon
+               <Grid item xs={2} sx={{textAlign:'center'}}>
+                <SettingsIcon 
+                  fontSize="medium"
                   sx={{
-                    fontSize: '40px',
                     marginTop: '10px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
-                  onClick={clickSearchIcon}
+                      }}
+                      onClick={handleClick}
                 />
+              </Grid>
               </Grid>
             </>
           ) : (
