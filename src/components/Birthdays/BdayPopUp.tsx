@@ -9,7 +9,7 @@ const BdayPopUp = () => {
     const StudentName = sessionStorage.getItem("StudentName");
     const navigate = useNavigate();
     const clickNav = () => {
-        navigate(`/${location.pathname.split('/')[1]}/Student/Birthdays/`)
+        navigate(`/${location.pathname.split('/')[1]}/Student/Birthdays`)
     }
     return (
         <div id="balloon-container" onClick={clickNav}>
