@@ -71,6 +71,7 @@ const MessageList = () => {
   const [nextPageData, setNextPageData] = useState<any>();
   const [ToolTip, setToolTip] = useState<boolean>(true);
   const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
+  const [isRefresh, setIsRefresh] = useState(false)
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -148,7 +149,7 @@ console.log("asUserid",asUserid);
     if (academicYear !== '') {
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
-  }, [activeTab, isSearchClicked]);
+  }, [activeTab, isSearchClicked, isRefresh]);
 
   const clickTab = (value) => {
     setActiveTab(value);
@@ -319,7 +320,7 @@ console.log("asUserid",asUserid);
   }
   let navigate = useNavigate();
   
-  function handleClick() {
+  const clickSetting = () =>  {
     navigate('/extended-sidebar/MessageCenter/EmailSetting')
   }
   return (
@@ -328,8 +329,8 @@ console.log("asUserid",asUserid);
       
         <PageHeader heading="Message Center" subheading=""></PageHeader>
         <Box sx={{float:"right",mt:"-45px"}}>
-        <SettingsIcon  onClick={handleClick} fontSize="medium"/>
-         <RefreshIcon fontSize="medium"/>
+        <SettingsIcon  onClick={clickSetting} fontSize="medium"/>
+         <RefreshIcon  onClick={() => {setIsRefresh(!isRefresh)}} fontSize="medium"/>
         </Box>
      
        
