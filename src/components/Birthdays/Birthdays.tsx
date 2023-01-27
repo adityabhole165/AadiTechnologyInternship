@@ -51,7 +51,7 @@ function Birthdays() {
   return (
     <Container>
       <PageHeader heading={'Birthdays'} subheading={''} />
-      <Card component={Box} my={2} pr={3}>
+      <Card component={Box} my={1} pr={3}>
         <Box sx={{ float: "right", my: 1 }}>
           <ToggleButtonGroup
             value={view}
@@ -69,6 +69,7 @@ function Birthdays() {
             color="secondary" />
         </Box>
       </Card>
+      <Card>
       {
         loading ? (
           <SuspenseLoader />
@@ -80,6 +81,7 @@ function Birthdays() {
       )
        
       }
+      </Card>
     </Container>
   )
 }

@@ -161,5 +161,17 @@ export  interface IUpdateUserEmailSettingResult{
     UpdationMessage:string,
 }
 
+//Show PTA option
+export interface IShowPTAOptionBody{
+    asSchoolId: string,
+    asUserId: string,
+    asAcademicYearId:string
+}
+
+export  interface IShowPTAOptionResult{
+    ShowPTAOption:string,
+    IsPTAMember:string,
+    HideStudentOption:string
+}
 
 

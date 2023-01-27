@@ -11,7 +11,7 @@ const Carouselcard = ({ item }) => {
   return (
     <div>
 
-      <Cardbday>
+      <Cardbday sx={{mt:1}}>
          <Stack justifyContent="center" alignItems="center" sx={{textAlign:"center"}} >
          <Avatar alt="user.name" src={ item.Text2 != 0 ? `data:image/png;base64,${item.Text2}`:
          '/imges/defualtUser.jpg'} sx={{ mt:"10px" ,backgroundColor: "#90caf9", height: "100%" ,width:100}} variant="rounded" aria-label="add" />  

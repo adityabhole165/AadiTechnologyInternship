@@ -3,7 +3,7 @@ import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
-import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody } from 'src/interfaces/MessageCenter/MessageCenter';
+import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IShowPTAOptionBody } from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
@@ -23,7 +23,8 @@ const MessageCenterSlice = createSlice({
     PageIndex:0,
     Loading:true,
     EmailSettings:null,
-    UpdationMessage:''
+    UpdationMessage:'',
+    PTAOption:{}
 
   },
   reducers: {
@@ -81,11 +82,14 @@ const MessageCenterSlice = createSlice({
     ResetUpdateUserEmailSetting(state){
       state.UpdationMessage = '';
     },
-    
+    getShowPTAOption (state,action){
+      state.PTAOption=action.payload.PTAOptionStatusResult;
+    },
     getLoading (state,action) {   
       state.Loading = true
       state.TrashList=[];
-  }
+  },
+  
   }   
 });
 
@@ -160,6 +164,13 @@ export const getTrashList =
     const response = await MessageCenterApi.GetUsegroupList(data);
     dispatch(MessageCenterSlice.actions.getAdminstaffList(response.data));
   };
+
+  export const getShowPTA =
+  (data :IShowPTAOptionBody): AppThunk =>
+  async (dispatch) => {
+    const response = await MessageCenterApi.ShowPTAOption(data);
+    dispatch(MessageCenterSlice.actions.getShowPTAOption(response.data));
+  };
  
   export const GetEmailSettings =
  (data :IGetUserEmailSettingsBody): AppThunk =>
@@ -182,6 +193,7 @@ export const getTrashList =
  async (dispatch) => {
    dispatch(MessageCenterSlice.actions.ResetUpdateUserEmailSetting());
  };
+
  
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;
 

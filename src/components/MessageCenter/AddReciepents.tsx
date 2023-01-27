@@ -19,6 +19,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
+import { getShowPTA } from 'src/requests/MessageCenter/MessaageCenter';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -64,6 +65,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const getstudentlist: any = useSelector(
     (state: RootState) => state.getuser1.getStudent
   );
+  const getPTAOption: any = useSelector(
+    (state: RootState) => state.MessageCenter.PTAOption
+  );
+  console.log("getPTAOption",getPTAOption);
+  
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -92,12 +98,22 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asSelectedUserGroup: techerStudent1,
     abIsSMSCenter: PageName == 'SMSCenter' ? true : false
   };
+  const showPTA =
+  {
+    asSchoolId:schoolId,
+    asUserId: asUserId,
+    asAcademicYearId:academicYearId
+}
 
+  useEffect(() => {
+    dispatch(getShowPTA(showPTA));
+  }, []);
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false }
+        { Id: '6', Name: 'Admin Staff', isActive: false },
+        { Id: '11', Name: 'PTA', isActive: false }
       ]);
     }
     else if (sessionStorage.getItem('RoleId') === '2') {
@@ -115,6 +131,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         {
           Id: '6',
           Name: 'Admin Staff',
+          isActive: false
+        },
+        {
+          Id: '11',
+          Name: 'PTA',
           isActive: false
         }
       ]);
@@ -140,6 +161,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         {
           Id: '6',
           Name: 'Admin Staff',
+          isActive: false
+        },
+        {
+          Id: '11',
+          Name: 'PTA',
           isActive: false
         }
       ]);

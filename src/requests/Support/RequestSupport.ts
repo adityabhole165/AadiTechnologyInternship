@@ -7,6 +7,7 @@ const SliceSupport = createSlice({
     name: 'Support',
     initialState: {
       SaveSupport:{},
+      SubmitSupport:'',
       Loading: true,
     },
     reducers: {
@@ -17,7 +18,10 @@ const SliceSupport = createSlice({
         getLoading (state,action) {
             state.Loading = true
             state.SaveSupport = {};
-        }
+        },
+        ResetSubmitSupport(state){
+          state.SubmitSupport = '';
+        },
         }
       });
 
@@ -27,6 +31,12 @@ const SliceSupport = createSlice({
       dispatch(SliceSupport.actions.getLoading(true));
       const response = await ApiSupport.SaveSupportapi(data)
       dispatch(SliceSupport.actions.GetSaveSupport(response.data));
+    };
+
+    export const SubmitSupport =
+    (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceSupport.actions.ResetSubmitSupport());
     };
 
 export default SliceSupport.reducer
