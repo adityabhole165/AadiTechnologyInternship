@@ -5,34 +5,43 @@ import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getSaveSupport } from 'src/requests/Support/RequestSupport';
 import Note from "src/libraries/Note/Note"
-import { Container, TextField, TextareaAutosize, Grid, Typography } from '@mui/material';
-
+import { Container, TextField, TextareaAutosize, Grid, Typography, Box } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import IconFile from 'src/libraries/icon/IconFile';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import { CheckFileValidation } from '../Common/Util'
 import { toast } from 'react-toastify';
+import Icon3 from "src/libraries/icon/icon3";
+import { Styles } from 'src/assets/style/student-style'
 function Support() {
+  const classes = Styles();
+  const dispatch = useDispatch();
   const [error, setError] = useState('')
   const [mobileerror, setMobileerror] = useState('')
   const [value, setValue] = useState()
   const [value1, setValue1] = useState('');
 
-  const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserid = sessionStorage.getItem("Id");
+
   const Support: any = useSelector(
     (state: RootState) => state.Support.SaveSupport
   );
-  
+
   const SupportPageNote = [
     "1) Dear Student / Parent, Mention the Subject for your Support Request and Description of the problem in detail with exact steps if possible.",
     "2) You may attach a file as a supporting document.",
     "3) It will help our support member to understand the problem in full and speed up the resolution of your request."
   ]
 
+  const changeFile = (e) => {
+    setValue(e.target.files)
+    console.log(e.target.files, "e.target.files")
+    setError(CheckFileValidation(e.target.files[0], ['jpg', 'xls', 'xlsx', 'doc', 'docx', 'pdf', 'jpg', 'jpeg'], 2000000))
+  }
   const FileValidationNote = "(Supports only XLS, XLSX, DOC, DOCX, PDF, JPG, JPEG files types up to 200 KB)"
   const aRef = useRef(null);
   const formik = useFormik({
@@ -43,6 +52,8 @@ function Support() {
       Description: '',
     },
     onSubmit: (values, { resetForm }) => {
+      console.log("value",value);
+      
       setValue(value)
       submit()
       resetForm()
@@ -81,7 +92,7 @@ function Support() {
       return errors;
     }
   });
-  const SupportBody ={
+  const SupportBody = {
     "asUserId": asUserid,
     "asSchoolId": asSchoolId,
     "asAcademicYearId": asAcademicYearId,
@@ -90,18 +101,18 @@ function Support() {
     "asDescription": formik.values.Description,
     "asEmailAddress": formik.values.EmailId,
     "asSubject": formik.values.ProblemsSubject,
-    "asMobileNo":formik.values.MobileNumber,
-    "asadminmailaddress":"ca.chetanoswal@gmail.com"
-}
+    "asMobileNo": formik.values.MobileNumber,
+    "asadminmailaddress": "ca.chetanoswal@gmail.com"
+  }
 
   const submit = () => {
-      dispatch(getSaveSupport(SupportBody));
+    dispatch(getSaveSupport(SupportBody));
   }
   const showToastMessage = () => {
-    if(formik.values.MobileNumber!== "" || formik.values.ProblemsSubject!=="" ||formik.values.EmailId!== "" ||formik.values.Description!== ""){
-    toast.success(Support.Message);
+    if (formik.values.MobileNumber !== "" || formik.values.ProblemsSubject !== "" || formik.values.EmailId !== "" || formik.values.Description !== "") {
+      toast.success(Support.Message);
     }
-};
+  };
   return (
     <Container>
       <PageHeader heading={'Support'} subheading={''} />
@@ -167,7 +178,7 @@ function Support() {
         {formik.touched.Description && formik.errors.Description ? (
           <ErrorMessage1 Error={formik.errors.Description} />
         ) : null}
-        <TextField
+        {/* <TextField
           margin="normal"
           fullWidth
           id="fullWidth"
@@ -180,11 +191,18 @@ function Support() {
               <IconFile FileValidationNote={FileValidationNote} />
             )
           }}
-        />
+        /> */}
+        <Box className={classes.iIconSupport} sx={{mb:"-35px",mr:"0px"}}>
+          <Icon3 Note={FileValidationNote} />
+        </Box>
+        <Box sx={{ my: "20px" }}>
+          <input ref={aRef} type="file" onChange={changeFile}/>
+        </Box>
+        {error && <Errormessage Error={error} />}
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary onChange={formik.handleChange} 
+            <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
               type="submit" fullWidth color='primary'>
               Submit
             </ButtonPrimary>
