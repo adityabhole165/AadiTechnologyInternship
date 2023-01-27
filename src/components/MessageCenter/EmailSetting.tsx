@@ -25,7 +25,7 @@ const EmailSettings = () => {
     );
 
     const [emailAddress, setEmailAddress] = useState('')
-    const [submitButtonDisabled, setsubmitButtonDisabled] = useState<boolean>(false);
+    const [submitButtonDisabled, setsubmitButtonDisabled] = useState<boolean>(true);
     const [isChecked, setIsChecked] = useState(false)
     const EmailSettingbody = {
         "asSchoolId": localStorage.getItem('localSchoolId'),
@@ -49,7 +49,7 @@ const EmailSettings = () => {
 
     useEffect(() => {
         if (UpdationMessage !== '')
-            toast(UpdationMessage, { toastId: 'success1'})
+            toast.success(UpdationMessage, { toastId: 'success1'})
         dispatch(ResetUpdateUserEmailSetting());
 
     }, [UpdationMessage])
@@ -80,7 +80,7 @@ const EmailSettings = () => {
                 <Checkbox size="small"
                     name="IsChecked"
                     // checked={isChecked}
-                    defaultChecked={true}
+                    // defaultChecked={true}
                     onChange={(e) => checkBoxHandler(e)}
                 />
                 <Typography variant='body2' component={Box} p={1}>Yes I want to receive message on below Email address.</Typography>

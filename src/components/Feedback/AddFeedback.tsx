@@ -109,7 +109,7 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
   }
   useEffect(() => {
     if (AddFeedbackList.Message !== '')
-        toast(AddFeedbackList.Message, { toastId: 'success1'})
+        toast.success(AddFeedbackList.Message, { toastId: 'success1'})
     dispatch(SubmitFeedBack());
 
 }, [AddFeedbackList.Message])
