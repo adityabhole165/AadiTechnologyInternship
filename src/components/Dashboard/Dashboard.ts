@@ -253,16 +253,16 @@ const DashboardData = {
       ModulesPermission: 'EnablePTAModuleforStudents'
     },
 
-    {
-      Text1: 'Support',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: HelpIcon,
-      Link: 'Student/Support',
-      index: 25,
+    // {
+    //   Text1: 'Support',
+    //   Text2: '',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e ',
+    //   Icon: HelpIcon,
+    //   Link: 'Student/Support',
+    //   index: 25,
      
-    },
+    // },
     
    
     

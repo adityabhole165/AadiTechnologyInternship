@@ -95,7 +95,7 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {
         if (!allowedFileTypes.includes(fileExtension)) {
-            return 'File does not support. Please cheked Note';
+            return 'File does not support. Please cheke Note';
         } else if (allowedFileTypes.includes(fileExtension)) {
             return null;
         }
@@ -104,6 +104,14 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
         }
     }
 };
+
+export function isBetweenDate(date, dayCount) {
+    var fromDate = new Date(new Date().toLocaleDateString())
+    var toDate = getNextDate(fromDate,dayCount)
+    var compareDate = new Date(new Date(date).toLocaleDateString())
+    return ((compareDate  >= fromDate) && 
+    (compareDate <= new Date(toDate)))
+}
 
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" ;

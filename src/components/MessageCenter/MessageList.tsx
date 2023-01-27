@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container } from '@mui/material';
+import { Grid, Card, Container,Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -29,7 +29,9 @@ import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRound
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDeleteMessagePermantely } from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
 import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
-
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useNavigate } from 'react-router';
+import RefreshIcon from '@mui/icons-material/Refresh';
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -69,6 +71,7 @@ const MessageList = () => {
   const [nextPageData, setNextPageData] = useState<any>();
   const [ToolTip, setToolTip] = useState<boolean>(true);
   const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
+  const [isRefresh, setIsRefresh] = useState(false)
 
   const AcademicYearList = useSelector(
     (state: RootState) => state.MessageCenter.YearsList
@@ -146,7 +149,7 @@ console.log("asUserid",asUserid);
     if (academicYear !== '') {
       dispatch(getListOfMessages(getListBody, activeTab, false));
     }
-  }, [activeTab, isSearchClicked]);
+  }, [activeTab, isSearchClicked, isRefresh]);
 
   const clickTab = (value) => {
     setActiveTab(value);
@@ -315,42 +318,44 @@ console.log("asUserid",asUserid);
   const clickClear = () => {
     localStorage.setItem('ViewMessageData', "")
   }
+  let navigate = useNavigate();
+  
+  const clickSetting = () =>  {
+    navigate('/extended-sidebar/MessageCenter/EmailSetting')
+  }
   return (
     <>
       <Container>
+      
         <PageHeader heading="Message Center" subheading=""></PageHeader>
+        <Box sx={{float:"right",mt:"-45px"}}>
+        <SettingsIcon  onClick={clickSetting} fontSize="medium"/>
+         <RefreshIcon  onClick={() => {setIsRefresh(!isRefresh)}} fontSize="medium"/>
+        </Box>
+     
+       
+        
         <Grid container>
           {!showSearch ? (
             <>
+              <Grid container spacing={2} >
               <Grid item xs={10}>
                 <MCButtons
                   activeTab={activeTab}
                   clickTab={clickTab}
                 ></MCButtons>
               </Grid>
-              <Grid item xs={1}>
+              <Grid item xs={2} sx={{textAlign:'center'}}>
                 <SearchIcon
+                fontSize="large"
                   sx={{
-                    fontSize: '40px',
-                    marginTop: '10px',
+                   
+                    marginTop: '8px',
                     cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
+                      }}
                   onClick={clickSearchIcon}
                 />
-              </Grid>
-              <Grid item xs={1}>
-                <MoreVertIcon
-                  sx={{
-                    fontSize: '40px',
-                    marginTop: '10px',
-                    cursor: 'pointer',
-                    marginLeft: '-5px'
-                  }}
-                  onClick={clickSearchIcon}
-
-                />
-              </Grid>
+              </Grid></Grid>
             </>
           ) : (
             <Grid item xs={12}>
@@ -374,7 +379,7 @@ console.log("asUserid",asUserid);
                 <ButtonPrimary 
                 onClick={activeTab == 'Sent' && DeletePermanent}
                 endIcon={<DeleteIcon />} fullWidth
-                >Delete from everyone</ButtonPrimary> 
+                >Delete from everyone</ButtonPrimary>
                 </Grid>
               <Grid item xs={3}>
                 <ButtonPrimary

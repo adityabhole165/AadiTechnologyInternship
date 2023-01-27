@@ -47,7 +47,7 @@ import { logoURL } from 'src/components/Common/Util';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import { App } from '@capacitor/app';
 import { Detail1 } from 'src/libraries/styled/CardStyle';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
+import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone';
 import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -355,6 +355,18 @@ function Header() {
             >
               <FeedbackTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
               <ListItemText primary={<Detail1>Feedback</Detail1 >} />
+            </ListItem>
+            
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/Student/Support"}
+              component={NavLink}
+            >
+              <ContactSupportTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
+              <ListItemText primary={<Detail1>Support</Detail1 >} />
             </ListItem>
             {siblingList.length == 0 ? (
               <>

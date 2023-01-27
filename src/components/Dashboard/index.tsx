@@ -11,9 +11,10 @@ import {IgetModulesPermission,IGetScreensAccessPermissions, IGetSettingValueBody
 import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
 import NewRelease from '../Authentication/NewRelease/NewRelease';
+import BdayPopUp from '../Birthdays/BdayPopUp';
+import { isBetweenDate } from '../Common/Util';
 import { useNavigate } from 'react-router-dom';
 const Text = styled(Box)(({ theme }) => ({
-  //  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
   Rightpadding: theme.spacing(1),
@@ -24,6 +25,7 @@ const Text = styled(Box)(({ theme }) => ({
 function LandingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [showBday, setShowBday]= useState(true);
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
   );
@@ -43,6 +45,7 @@ function LandingPage() {
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const DOB = localStorage.getItem('DOB');
 
   const getModulePermissionBody: IgetModulesPermission = {
     asSchoolId: asSchoolId,
@@ -70,7 +73,12 @@ const getNewMessageCount: INewMessageCount = {
   asUserId: userId,
   asAcademicYearId: AcademicYearId,
 };
-
+const curYear = new Date().getFullYear();
+  const date = DOB;
+  const day = new Date(date).getDate();
+  const month = new Date(date).toLocaleString('default',{month:"short"});
+  const year = new Date(date).getFullYear();
+  const newdate= `${day} ${month} ${curYear}`
 
   useEffect(() => {
     if (RoleId == '3') {
@@ -80,6 +88,18 @@ const getNewMessageCount: INewMessageCount = {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
     dispatch(getMessageCount(getNewMessageCount));
+    if (isBetweenDate(newdate,6)){
+
+      if(localStorage.getItem('DOB')==newdate){
+      setShowBday(false)
+      } 
+      else {
+        setShowBday(true)
+        localStorage.setItem('DOB',newdate)
+      }
+    }
+       else
+       setShowBday(false)
   }, []);
   
   let items1 = [];
@@ -203,6 +223,7 @@ const [forceUpdate, setForceUpdate] = useState(false)
   return (
     <>
     <NewRelease onChangeVersion={onChangeVersion}/>
+    {showBday && <BdayPopUp/> }
      <Card2 items={items1} heading={'School'} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>
     {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}
     {RoleId == '6' && <Card2 items={items2} heading={header3} rowsCol="4"  Messagecount={Messagecount.MESSAGECOUNT}/>}

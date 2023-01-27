@@ -12,14 +12,14 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { toast } from 'react-toastify';
-import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
+import { saveFeedbackdetails, removeSuccessMessage ,SubmitFeedBack} from 'src/requests/Feedback/RequestFeedback'
 
 const AddFeedback = () => {
   const dispatch = useDispatch();
   const SchoolName = localStorage.getItem("SchoolName");
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserid = localStorage.getItem("UserId");
+  const asUserid = sessionStorage.getItem("Id");
   const [radioBtn, setRadioBtn] = useState('1');
   const [type, setType] = useState('1');
   const [message, setMessage] = useState(''); //enter only alphabets
@@ -108,7 +108,12 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     "asLogin": ""
   }
   useEffect(() => {
+    if (AddFeedbackList.Message !== '')
+        toast.success(AddFeedbackList.Message, { toastId: 'success1'})
+    dispatch(SubmitFeedBack());
 
+}, [AddFeedbackList.Message])
+  useEffect(() => {
     dispatch(removeSuccessMessage());
   }, [])
   const submit = () => {
@@ -124,7 +129,6 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
       <BackButton FromRoute={"/Student/Feedback"} />
-      <Typography sx={{textAlign:"center"}}>{AddFeedbackList.Message}</Typography>
       <Container>
         <ListStyle>
           <Note NoteDetail={note} />
