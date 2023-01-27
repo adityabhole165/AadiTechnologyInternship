@@ -8,7 +8,7 @@ import { getUpcomingStaffBdayList } from 'src/requests/Birthdays/RequestBirthday
 import Carousel from 'src/libraries/card/Carousel';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Container, Stack, ToggleButton, ToggleButtonGroup, Card, CardHeader, Box, Badge } from '@mui/material';
+import { Container,Stack, ToggleButton, ToggleButtonGroup, Card, CardHeader, Box, Badge } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import BdayCard from './BdayCard';
 
@@ -64,26 +64,26 @@ function Birthdays() {
       <PageHeader heading={'Birthdays'} subheading={''} />
       {newdate == ToDay ? <BdayCard /> : null}
       <Card component={Box} my={1} pr={3}>
-
-        <Stack sx={{ display: "flex", flexDirection: "row", float: "right", my: 1 }}>
+      
+          <Stack sx={{display:"flex",flexDirection:"row",float:"right",my:1}}>
           <ToggleButtonGroup
             value={view}
             exclusive
             onChange={handleChange}
-
-          >
+     
+            >
             <ToggleButton value="T">T</ToggleButton>
             <ToggleButton value="W">W</ToggleButton>
           </ToggleButtonGroup>
 
-          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} sx={{ ml: 1 }} />
+          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} sx={{ ml: 1 ,mt:0.2}}  />
 
 
-          <Badge sx={{ ml: 2, mt: 1.5 }}
+          <Badge sx={{ ml: 2,mt:1.5}}
             badgeContent={Birthdays.length !== 0 ? Birthdays.length : '0'}
             color="secondary" />
-        </Stack>
-
+            </Stack>
+      
       </Card>
       <Card>
         {
