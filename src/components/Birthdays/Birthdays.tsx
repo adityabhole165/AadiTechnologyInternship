@@ -76,7 +76,7 @@ function Birthdays() {
             <ToggleButton value="W">W</ToggleButton>
           </ToggleButtonGroup>
 
-          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} sx={{ ml: 1 }}  />
+          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} sx={{ ml: 1 ,mt:0.2}}  />
 
 
           <Badge sx={{ ml: 2,mt:1.5}}
