@@ -10,6 +10,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import RefreshIcon from '@mui/icons-material/Refresh';
 import { Container,Stack, ToggleButton, ToggleButtonGroup, Card, CardHeader, Box, Badge } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import BdayCard from './BdayCard';
 
 
 function Birthdays() {
@@ -27,15 +28,24 @@ function Birthdays() {
   const loading = useSelector(
     (state: RootState) => state.Birthdays.Loading
   );
+  //Birth date of student
+  const curYear = new Date().getFullYear();
+  const date = DOB;
+  const day = new Date(date).getDate();
+  const month = new Date(date).toLocaleString('default', { month: "short" });
+  const newdate = `${day} ${month} ${curYear}`
 
+  // Todays date
+  const d = new Date().getDate();
+  const m = new Date().toLocaleString('default', { month: "short" });
+  const y = new Date().getFullYear();
+  const ToDay = `${d} ${m} ${y}`
 
   const BirthdaysBody = {
-
     aiSchoolId: asSchoolId,
     aiAcademicYrId: asAcademicYearId,
     aiUserRoleId: "3",
     asView: view
-
   }
 
   useEffect(() => {
@@ -48,9 +58,11 @@ function Birthdays() {
   };
 
 
+
   return (
     <Container>
       <PageHeader heading={'Birthdays'} subheading={''} />
+      {newdate == ToDay ? <BdayCard /> : null}
       <Card component={Box} my={1} pr={3}>
       
           <Stack sx={{display:"flex",flexDirection:"row",float:"right",my:1}}>
@@ -74,17 +86,17 @@ function Birthdays() {
       
       </Card>
       <Card>
-      {
-        loading ? (
-          <SuspenseLoader />
-        ) :
-        (<>
-          {Birthdays.length !==0 ?  <Carousel itemlist={Birthdays} /> :
-        <ErrorMessages Error={'No records found'} />}
-        </>
-      )
-       
-      }
+        {
+          loading ? (
+            <SuspenseLoader />
+          ) :
+            (<>
+              {Birthdays.length !== 0 ? <Carousel itemlist={Birthdays} /> :
+                <ErrorMessages Error={'No records found'} />}
+            </>
+            )
+
+        }
       </Card>
     </Container>
   )
