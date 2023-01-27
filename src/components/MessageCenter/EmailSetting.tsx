@@ -25,6 +25,7 @@ const EmailSettings = () => {
     );
 
     const [emailAddress, setEmailAddress] = useState('')
+    const [submitButtonDisabled, setsubmitButtonDisabled] = useState<boolean>(false);
     const [isChecked, setIsChecked] = useState(false)
     const EmailSettingbody = {
         "asSchoolId": localStorage.getItem('localSchoolId'),
@@ -60,6 +61,14 @@ const EmailSettings = () => {
     const clickSubmit = () => {
         dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
     }
+    const checkBoxHandler = (e) => {
+        if (e.target.checked) {
+          setsubmitButtonDisabled(false);
+        }
+        if (!e.target.checked) {
+          setsubmitButtonDisabled(true);
+        }
+      };
 
     return (
 
@@ -70,8 +79,9 @@ const EmailSettings = () => {
             <Card component={Box}  sx={{ display: "flex" }}>
                 <Checkbox size="small"
                     name="IsChecked"
-                    checked={isChecked}
-                    onChange={() => setIsChecked(!isChecked)}
+                    // checked={isChecked}
+                    defaultChecked={true}
+                    onChange={(e) => checkBoxHandler(e)}
                 />
                 <Typography variant='body2' component={Box} p={1}>Yes I want to receive message on below Email address.</Typography>
             </Card>
@@ -84,7 +94,7 @@ const EmailSettings = () => {
             <Grid container spacing={2}>
           <Grid item xs={6}>
             <ButtonPrimary onClick={clickSubmit}
-              type="submit" fullWidth color='primary'>
+              type="submit" fullWidth color='primary' disabled={submitButtonDisabled}>
               Submit
             </ButtonPrimary>
           </Grid>

@@ -12,7 +12,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { toast } from 'react-toastify';
-import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
+import { saveFeedbackdetails, removeSuccessMessage ,SubmitFeedBack} from 'src/requests/Feedback/RequestFeedback'
 
 const AddFeedback = () => {
   const dispatch = useDispatch();
@@ -108,7 +108,12 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     "asLogin": ""
   }
   useEffect(() => {
+    if (AddFeedbackList.Message !== '')
+        toast(AddFeedbackList.Message, { toastId: 'success1'})
+    dispatch(SubmitFeedBack());
 
+}, [AddFeedbackList.Message])
+  useEffect(() => {
     dispatch(removeSuccessMessage());
   }, [])
   const submit = () => {
@@ -124,7 +129,6 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
       <BackButton FromRoute={"/Student/Feedback"} />
-      <Typography sx={{textAlign:"center"}}>{AddFeedbackList.Message}</Typography>
       <Container>
         <ListStyle>
           <Note NoteDetail={note} />

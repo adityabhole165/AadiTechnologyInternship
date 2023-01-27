@@ -1,13 +1,14 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import APIFeedback from 'src/api/Feedback/ApiFeedback'
-import { IGetUserFeedbackBody,ISaveFeedbackDetailsBody } from 'src/interfaces/Student/IFeedback';
+import { IGetUserFeedbackBody, ISaveFeedbackDetailsBody } from 'src/interfaces/Student/IFeedback';
 
 const SliceFeedback = createSlice({
   name: 'Feedback',
   initialState: {
     FeedbackList: [],
     AddFeedbackList: {},
+    SubmitFeedback: '',
     Loading: true,
   },
   reducers: {
@@ -16,31 +17,34 @@ const SliceFeedback = createSlice({
       state.FeedbackList = action.payload;
     },
     SaveFeedbackDetails(state, action) {
-      state.Loading = false;    
+      state.Loading = false;
       state.AddFeedbackList = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true
       state.FeedbackList = [];
     },
-    removeSuccessMessage(state){
+    removeSuccessMessage(state) {
       state.AddFeedbackList = {};
-    }
+    },
+    ResetSubmitFeedback(state) {
+      state.SubmitFeedback = '';
+    },
   }
 });
 
 export const saveFeedbackdetails =
-(data: ISaveFeedbackDetailsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await APIFeedback.AddFeedbackapi(data) 
-    dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data)); 
-  };
-  
+  (data: ISaveFeedbackDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await APIFeedback.AddFeedbackapi(data)
+      dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data));
+    };
+
 export const removeSuccessMessage =
-(): AppThunk =>
-  async (dispatch) => {
-    dispatch(SliceFeedback.actions.removeSuccessMessage()); 
-  };
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceFeedback.actions.removeSuccessMessage());
+    };
 export const getuserFeedback =
   (data: IGetUserFeedbackBody): AppThunk =>
     async (dispatch) => {
@@ -49,22 +53,28 @@ export const getuserFeedback =
       const FeedbackList =
         response.data.GetUserFeedbackDetails.map((item, index) => {
           let date = item.Date.split(" ")[0];
-          let time = item.Date.replace(date+" ","");
+          let time = item.Date.replace(date + " ", "");
           const day = new Date(date).getDate();
-          const month = new Date(date).toLocaleString('default',{month:"short"});
+          const month = new Date(date).toLocaleString('default', { month: "short" });
           const year = new Date(date).getFullYear();
-          const newdate= `${day} ${month} ${year}`
+          const newdate = `${day} ${month} ${year}`
           return {
-           id:index,
-           Header:item.UserName,
-           Text1:time,
-           Text2:newdate,
-           Text3:item.Text
+            id: index,
+            Header: item.UserName,
+            Text1: time,
+            Text2: newdate,
+            Text3: item.Text
           }
         })
       dispatch(SliceFeedback.actions.GetuserFeedback(FeedbackList));
     };
 
-  
+export const SubmitFeedBack =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceFeedback.actions.ResetSubmitFeedback());
+    };
+
+
 
 export default SliceFeedback.reducer
