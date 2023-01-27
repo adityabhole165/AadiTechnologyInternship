@@ -9,6 +9,7 @@ import { RootState } from 'src/store';
 import { GetEmailSettings, UpdateUserEmailSetting, ResetUpdateUserEmailSetting } from 'src/requests/MessageCenter/MessaageCenter';
 import { toast } from 'react-toastify';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 
 const EmailSettings = () => {
     const dispatch = useDispatch();
@@ -25,6 +26,8 @@ const EmailSettings = () => {
     );
 
     const [emailAddress, setEmailAddress] = useState('')
+    const [emailAddressErrorFlag, setemailAddressErrorFlag] = useState<boolean>(false);
+    const validEMailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
     const [submitButtonDisabled, setsubmitButtonDisabled] = useState<boolean>(true);
     const [isChecked, setIsChecked] = useState(false)
     const EmailSettingbody = {
@@ -49,7 +52,7 @@ const EmailSettings = () => {
 
     useEffect(() => {
         if (UpdationMessage !== '')
-            toast.success(UpdationMessage, { toastId: 'success1'})
+            toast.success(UpdationMessage, { toastId: 'success1' })
         dispatch(ResetUpdateUserEmailSetting());
 
     }, [UpdationMessage])
@@ -59,16 +62,30 @@ const EmailSettings = () => {
         setIsChecked(EmailSettings?.CanReceiveMail === "Y")
     }
     const clickSubmit = () => {
+        if(emailAddressErrorFlag == false){
         dispatch(UpdateUserEmailSetting(UpdateUserEmailSettingbody));
+        }
     }
     const checkBoxHandler = (e) => {
         if (e.target.checked) {
-          setsubmitButtonDisabled(false);
+            setsubmitButtonDisabled(false);
         }
         if (!e.target.checked) {
-          setsubmitButtonDisabled(true);
+            setsubmitButtonDisabled(true);
         }
-      };
+    };
+    const inputFiledBlur = (event) => {
+        const EmailErrorFlag = validEMailFormat.test(event.target.value);
+        if (EmailErrorFlag == false && event.target.value.length !== 0) {
+            setemailAddressErrorFlag(true);
+        }
+        if (EmailErrorFlag == true) {
+            setemailAddressErrorFlag(false);
+        }
+    };
+    const inputFiledFocus = (e) => {
+        setemailAddressErrorFlag(false);
+    };
 
     return (
 
@@ -76,7 +93,7 @@ const EmailSettings = () => {
             <BackButton FromRoute={"/MessageCenter/msgCenter"} />
             <PageHeader heading={'Email Setting'} subheading={''} />
             {Loading && (<SuspenseLoader />)}
-            <Card component={Box}  sx={{ display: "flex" }}>
+            <Card component={Box} sx={{ display: "flex" }}>
                 <Checkbox size="small"
                     name="IsChecked"
                     // checked={isChecked}
@@ -89,22 +106,27 @@ const EmailSettings = () => {
                 id="EmailId" name="EmailId"
                 label={emailAddress === undefined ? "EmailId" : ''}
                 value={emailAddress}
-                onChange={(e)=>{setEmailAddress(e.target.value)}}
+                onChange={(e) => { setEmailAddress(e.target.value) }}
+                onBlur={(e) => inputFiledBlur(e)}
+                onFocus={(e) => inputFiledFocus(e)}
             />
+             {emailAddressErrorFlag ? (
+                  <Box sx={{my:1}}><Errormessage Error={'Please enter valid email address'} /></Box>
+                ) : null}
             <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <ButtonPrimary onClick={clickSubmit}
-              type="submit" fullWidth color='primary' disabled={submitButtonDisabled}>
-              Submit
-            </ButtonPrimary>
-          </Grid>
-          <Grid item xs={6}>
-            <ButtonPrimary fullWidth color='secondary' type='reset'
-              onClick={clickReset} >
-              Reset
-            </ButtonPrimary>
-          </Grid>
-        </Grid>
+                <Grid item xs={6}>
+                    <ButtonPrimary onClick={clickSubmit}
+                        type="submit" fullWidth color='primary' disabled={submitButtonDisabled}>
+                        Submit
+                    </ButtonPrimary>
+                </Grid>
+                <Grid item xs={6}>
+                    <ButtonPrimary fullWidth color='secondary' type='reset'
+                        onClick={clickReset} >
+                        Reset
+                    </ButtonPrimary>
+                </Grid>
+            </Grid>
         </Container>
     )
 }
