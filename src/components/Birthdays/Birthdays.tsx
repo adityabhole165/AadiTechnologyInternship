@@ -73,8 +73,12 @@ function Birthdays() {
         loading ? (
           <SuspenseLoader />
         ) :
-        Birthdays.length > 0 && 
-        <Carousel itemlist={Birthdays} />
+        (<>
+          {Birthdays.length !==0 ?  <Carousel itemlist={Birthdays} /> :
+        <ErrorMessages Error={'No records found'} />}
+        </>
+      )
+       
       }
     </Container>
   )
