@@ -112,8 +112,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '11', Name: 'PTA', isActive: false }
+        { Id: '6', Name: 'Admin Staff', isActive: false }
       ]);
     }
     else if (sessionStorage.getItem('RoleId') === '2') {
@@ -133,11 +132,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        }
       ]);
     }
 
@@ -163,11 +157,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        }
       ]);
     }
     setSelectedRecipents(RecipientName)
