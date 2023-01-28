@@ -134,7 +134,7 @@ const AddFeedback = () => {
         <ListStyle>
           <Note NoteDetail={note} />
           {loading && <SuspenseLoader />}
-      )
+      
           <form onSubmit={formik.handleSubmit}>
             <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={"Feedback for :"} />
             <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type} />
