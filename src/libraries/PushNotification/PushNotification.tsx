@@ -23,9 +23,7 @@ function PushNotification() {
   PushNotifications.addListener(
     'pushNotificationActionPerformed',
     (notification: ActionPerformed) => {
-      window.addEventListener('load', function () {
-        window.location.href = '/extended-sidebar/Student/Notification';
-      })
+      window.location.href = '/extended-sidebar/Student/Notification';
     },
   );
 
