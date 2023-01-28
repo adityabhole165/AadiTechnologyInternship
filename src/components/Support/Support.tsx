@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { getSaveSupport } from 'src/requests/Support/RequestSupport';
+import { getSaveSupport, ResetMessage } from 'src/requests/Support/RequestSupport';
 import Note from "src/libraries/Note/Note"
 import { Container, TextField, TextareaAutosize, Grid, Typography, Box } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -96,23 +96,21 @@ function Support() {
     "asUserId": asUserid,
     "asSchoolId": asSchoolId,
     "asAcademicYearId": asAcademicYearId,
-    "asFileName": null,
-    "asServerFilePath": "",
+    "asFileName": "",
     "asDescription": formik.values.Description,
     "asEmailAddress": formik.values.EmailId,
     "asSubject": formik.values.ProblemsSubject,
     "asMobileNo": formik.values.MobileNumber,
-    "asadminmailaddress": "ca.chetanoswal@gmail.com"
+    "Attachment": ""
   }
 
   const submit = () => {
     dispatch(getSaveSupport(SupportBody));
   }
-  const showToastMessage = () => {
-    if (formik.values.MobileNumber !== "" || formik.values.ProblemsSubject !== "" || formik.values.EmailId !== "" || formik.values.Description !== "") {
+  useEffect(() => {
       toast.success(Support.Message);
-    }
-  };
+      dispatch(ResetMessage());
+  },[Support]);
   return (
     <Container>
       <PageHeader heading={'Support'} subheading={''} />
@@ -202,7 +200,7 @@ function Support() {
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
+            <ButtonPrimary onChange={formik.handleChange} 
               type="submit" fullWidth color='primary'>
               Submit
             </ButtonPrimary>
