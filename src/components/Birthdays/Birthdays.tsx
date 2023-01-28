@@ -53,9 +53,16 @@ function Birthdays() {
   }, [view, isRefresh]);
 
 
-  const handleChange = (event: React.MouseEvent<HTMLElement>, nextView: string) => {
-    setView(nextView);
+ 
+ 
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newView: string,
+  ) => {
+    if (newView != null)
+    setView(newView);
   };
+  
 
 
 
@@ -85,19 +92,19 @@ function Birthdays() {
             </Stack>
       
       </Card>
-      <Card>
+      <>
         {
           loading ? (
             <SuspenseLoader />
           ) :
             (<>
-              {Birthdays.length !== 0 ? <Carousel itemlist={Birthdays} /> :
+              {Birthdays.length == 0 ? <Card> <Carousel itemlist={Birthdays} /></Card>  :
                 <ErrorMessages Error={'No records found'} />}
             </>
             )
 
         }
-      </Card>
+      </>
     </Container>
   )
 }
