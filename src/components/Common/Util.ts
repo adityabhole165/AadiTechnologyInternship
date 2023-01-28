@@ -95,7 +95,7 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {
         if (!allowedFileTypes.includes(fileExtension)) {
-            return 'File does not support. Please cheke Note';
+            return 'File does not support. Please check Note';
         } else if (allowedFileTypes.includes(fileExtension)) {
             return null;
         }
