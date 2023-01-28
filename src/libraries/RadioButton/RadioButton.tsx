@@ -25,13 +25,11 @@ const RadioButton = ({ Array, ClickRadio, defaultValue = '1', Label }) => {
                         }}>
                             {Array.map((items, i) => {
                                 return (
-                                    <>
                                         <FormControlLabel1 key={i} value={items.Value}
                                             control={<Radio size="small" />}
                                             label={items.Name}
                                         />
 
-                                    </>
                                 );
                             })}
                         </Box>

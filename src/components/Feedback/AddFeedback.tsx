@@ -12,7 +12,8 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { toast } from 'react-toastify';
-import { saveFeedbackdetails, removeSuccessMessage ,SubmitFeedBack} from 'src/requests/Feedback/RequestFeedback'
+import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const AddFeedback = () => {
   const dispatch = useDispatch();
@@ -27,8 +28,10 @@ const AddFeedback = () => {
   const AddFeedbackList: any = useSelector(
     (state: RootState) => state.FeedBack.AddFeedbackList
   );
-console.log("AddFeedbackList",AddFeedbackList.Message);
-
+  const loading = useSelector(
+    (state: RootState) => state.FeedBack.Loading
+  );
+  
   const lstFeedbackFor = [
     { Name: "School", Value: "1" },
     { Name: "Software", Value: "2" }
@@ -108,14 +111,12 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     "asLogin": ""
   }
   useEffect(() => {
-    if (AddFeedbackList.Message !== '')
+    if (AddFeedbackList !== null)
         toast.success(AddFeedbackList.Message, { toastId: 'success1'})
-    dispatch(SubmitFeedBack());
+    dispatch(removeSuccessMessage());
 
 }, [AddFeedbackList.Message])
-  useEffect(() => {
-    dispatch(removeSuccessMessage());
-  }, [])
+
   const submit = () => {
       dispatch(saveFeedbackdetails(AddFeedbackBody));
   }
@@ -132,6 +133,8 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
       <Container>
         <ListStyle>
           <Note NoteDetail={note} />
+          {loading && <SuspenseLoader />}
+      )
           <form onSubmit={formik.handleSubmit}>
             <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={"Feedback for :"} />
             <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type} />
@@ -164,7 +167,7 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
             <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
             <Grid container spacing={2} >
               <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
+                <ButtonPrimary onChange={formik.handleChange} 
                   type="submit" fullWidth color='primary'>
                   Submit
                 </ButtonPrimary>

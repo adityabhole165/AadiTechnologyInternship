@@ -8,8 +8,7 @@ const SliceFeedback = createSlice({
   initialState: {
     FeedbackList: [],
     AddFeedbackList: {},
-    SubmitFeedback: '',
-    Loading: true,
+    Loading: false,
   },
   reducers: {
     GetuserFeedback(state, action) {
@@ -27,15 +26,13 @@ const SliceFeedback = createSlice({
     removeSuccessMessage(state) {
       state.AddFeedbackList = {};
     },
-    ResetSubmitFeedback(state) {
-      state.SubmitFeedback = '';
-    },
   }
 });
 
 export const saveFeedbackdetails =
   (data: ISaveFeedbackDetailsBody): AppThunk =>
     async (dispatch) => {
+      dispatch(SliceFeedback.actions.getLoading(true));
       const response = await APIFeedback.AddFeedbackapi(data)
       dispatch(SliceFeedback.actions.SaveFeedbackDetails(response.data));
     };
@@ -68,13 +65,6 @@ export const getuserFeedback =
         })
       dispatch(SliceFeedback.actions.GetuserFeedback(FeedbackList));
     };
-
-export const SubmitFeedBack =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceFeedback.actions.ResetSubmitFeedback());
-    };
-
 
 
 export default SliceFeedback.reducer
