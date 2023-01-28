@@ -374,23 +374,23 @@ console.log("asUserid",asUserid);
           )}
           {inboxListData.some((obj) => obj.isActive === true) && (
 
-            <Grid container spacing={1} sx={{ mb: "10px" }}>
-              <Grid item xs={6} >
+            <Grid container spacing={0.5} sx={{ mb: "10px" }}>
+              <Grid item xs={5.5} >
                 <ButtonPrimary 
                 onClick={activeTab == 'Sent' && DeletePermanent}
                 endIcon={<DeleteIcon />} fullWidth
-                >Delete from everyone</ButtonPrimary>
+                >Delete From Everyone</ButtonPrimary>
                 </Grid>
-              <Grid item xs={3}>
-                <ButtonPrimary
+              <Grid item xs={3.2}>
+                <ButtonPrimary  fullWidth
                   onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
                   endIcon={<DeleteIcon />} 
                 >
                   Delete
                 </ButtonPrimary>
               </Grid>
-              <Grid item xs={3}>
-                <ButtonPrimary
+              <Grid item xs={3.3}>
+                <ButtonPrimary  fullWidth
                   onClick={clickReset}
                   endIcon={<ReplayIcon />}
                   color="secondary" 

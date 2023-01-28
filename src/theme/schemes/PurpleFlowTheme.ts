@@ -630,6 +630,7 @@ export const PurpleFlowTheme = createTheme({
           textTransform: 'none',
           paddingLeft: 16,
           paddingRight: 16,
+          lineHeight: 1.2,
 
           '.MuiSvgIcon-root': {
             transition: 'all .2s'
@@ -678,7 +679,8 @@ export const PurpleFlowTheme = createTheme({
       },
       styleOverrides: {
         root: {
-          borderRadius: 6
+          borderRadius: 6,
+          
         }
       }
     },
