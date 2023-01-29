@@ -7,10 +7,9 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 import Card8 from 'src/libraries/mainCard/Card8';
-import { Button, Container, Grid, ToggleButton, Box, ToggleButtonGroup, Typography, IconButton, Avatar } from '@mui/material';
+import { Container, Grid, ToggleButton, Box, ToggleButtonGroup, Typography, Avatar, Grow } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card10 from 'src/libraries/mainCard/Card10';
 import Note from 'src/libraries/Note/Note';
@@ -32,7 +31,6 @@ function TransportDetails() {
     (state: RootState) => state.TransportDetails.Loading
   );
 
-  let screenWidth = window.innerWidth * 0.9;
   const [showMyStop, setShowMyStop] = useState(true)
   const [alignment, setAlignment] = React.useState('1');
   const [isRefresh, setIsRefresh] = React.useState(false);
@@ -71,59 +69,63 @@ function TransportDetails() {
           <ToggleButton value="2">Drop</ToggleButton>
         </ToggleButtonGroup>
       </Box>
-      <div>
-        {loading ? <SuspenseLoader />
-          :
-          RouteDetails.length === 0 ?
-            <ErrorMessages Error={(alignment === "1" ? "Pick-up" : "Drop") + " is not associated yet"} /> :
+      <Grow in={true}
+        style={{ transformOrigin: '0 0 0' }}
+        {...(true ? { timeout: 1500 } : {})}
+      >
+        <Box>
+          {loading ? <SuspenseLoader />
+            :
+            RouteDetails.length === 0 ?
+              <ErrorMessages Error={(alignment === "1" ? "Pick-up" : "Drop") + " is not associated yet"} /> :
 
-            (<>
-              <Card8 itemList={RouteDetails} />
-              {OtherTrackingDetails.ShowStops ?
-                <>
-                  {StopDetails?.map((item, i) => {
-                    return (
-                      (showMyStop ? item.IsMyStop : true) &&
-                      <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} key={i} />)
-                  })
+              (<>
+                <Card8 itemList={RouteDetails} />
+                {OtherTrackingDetails.ShowStops ?
+                  <>
+                    {StopDetails?.map((item, i) => {
+                      return (
+                        (showMyStop ? item.IsMyStop : true) &&
+                        <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} key={i} />)
+                    })
 
-                  }
-                  <Grid container spacing={2} sx={{ mb: "10px" }}>
-                    <Grid item xs={6}>
-                      <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
-                        Show All Stops
-                      </ButtonPrimary>
+                    }
+                    <Grid container spacing={2} sx={{ mb: "10px" }}>
+                      <Grid item xs={6}>
+                        <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
+                          Show All Stops
+                        </ButtonPrimary>
+                      </Grid>
+                      <Grid item xs={6}>
+                        <ButtonPrimary fullWidth color={showMyStop ? 'warning' : 'primary'} onClick={() => { setShowMyStop(true) }}>
+                          Show My Stop
+                        </ButtonPrimary>
+                      </Grid>
                     </Grid>
-                    <Grid item xs={6}>
-                      <ButtonPrimary fullWidth color={showMyStop ? 'warning' : 'primary'} onClick={() => { setShowMyStop(true) }}>
-                        Show My Stop
-                      </ButtonPrimary>
-                    </Grid>
-                  </Grid>
-                </> : null}
+                  </> : null}
 
-              {OtherTrackingDetails.TrackingURI !== "" ?
-                <><Grid container>
-                  <Grid item xs={11}>
-                  <Typography variant='h5' sx={{ textAlign: "center", mb: 1 }}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</Typography>
-                  </Grid><Grid item xs={1}>
-                  <Avatar onClick={()=>{setIsRefresh(!isRefresh)}} sx={{ height: 25, width: 25, color: "black" }}><RefreshIcon fontSize='small' /></Avatar>
-                  </Grid></Grid>
-                  {OtherTrackingDetails.TrackingMessage == "" ?
-                    <>
-                      <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
-                        src={OtherTrackingDetails.TrackingURI}
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      > </iframe>
-                    </>
-                    : <Note NoteDetail={[OtherTrackingDetails.TrackingMessage]}></Note>
-                  }
-                </> : null
-              }
+                {OtherTrackingDetails.TrackingURI !== "" ?
+                  <><Grid container>
+                    <Grid item xs={11}>
+                      <Typography variant='h5' sx={{ textAlign: "center", mb: 1 }}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</Typography>
+                    </Grid><Grid item xs={1}>
+                      <Avatar onClick={() => { setIsRefresh(!isRefresh) }} sx={{ height: 25, width: 25, color: "black" }}><RefreshIcon fontSize='small' /></Avatar>
+                    </Grid></Grid>
+                    {OtherTrackingDetails.TrackingMessage == "" ?
+                      <>
+                        <iframe allowFullScreen style={{ border: "none" }} width="100%" height="385px" title="Vehicle Tracking"
+                          src={OtherTrackingDetails.TrackingURI}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        > </iframe>
+                      </>
+                      : <Note NoteDetail={[OtherTrackingDetails.TrackingMessage]}></Note>
+                    }
+                  </> : null
+                }
 
-            </>
-            )}
-      </div>
+              </>
+              )}
+        </Box></Grow>
     </Container>
   )
 }
