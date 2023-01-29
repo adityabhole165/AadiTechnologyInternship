@@ -1,8 +1,11 @@
-import { Box, Paper, Typography, Card } from '@mui/material';
+import { Box, Paper, Typography, Card, Grow } from '@mui/material';
 
 function CardText3({item}) {
   return (
-    <div>
+    <Grow in={true}
+      // style={{ transformOrigin: '0 0 0' }}
+      {...(true ? { timeout: 1000 } : {})}
+    >
         <Card  component={Box}  my={1} >
          <Box display={"flex"} justifyContent={'space-between'} sx={{backgroundColor:"#c5cae9"}}  p={0.8}>
          <Typography variant="h5">{item.Header}</Typography>
@@ -10,7 +13,7 @@ function CardText3({item}) {
          </Box>
          <Typography variant="body2" p={0.8}>{item.Text3}</Typography>
          </Card>
-    </div>
+    </Grow>
   )
 }
 
