@@ -12,7 +12,9 @@ import List1 from 'src/libraries/mainCard/List1';
 import { CardDetail1 } from 'src/libraries/styled/CardStyle';
 import { Header1 } from 'src/libraries/styled/AccordianStyled';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-
+import List2 from 'src/libraries/mainCard/List2';
+import MailOutlineIcon from '@mui/icons-material/MailOutline';
+import { useNavigate } from 'react-router';
 function SubjectTeacher() {
   const dispatch = useDispatch();
 
@@ -43,21 +45,32 @@ function SubjectTeacher() {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getSubjectList(body));
   }, []);
+  let navigate = useNavigate();
+  const clickItem = (value) =>  {
+    value.map((item)=>{
+      if(item.IsActive){
+        navigate(item.NavPath)
+      }
+    })
+  }
 
   const Data = SubjectTeachers.map((item, index) => {
     return {
-      id: index,
+      Id: index,
       header: item.TeacherName,
-      text1: item.Subject
+      text1: item.Subject,
+      Icon: < MailOutlineIcon/>,
+      color: "#35abd9",
+      NavPath:'/extended-sidebar/MessageCenter/Compose/'+ item.TeacherName, 
+      IsActive: false
     };
   });
-
   return (
     <Container>
       <PageHeader heading={'Subject  Teachers'} subheading={''} />
 
       {ClassTeachers.map((items: GetSubjectTeacherResult, i) => (
-        <CardDetail1 marginBottom="1rem" key={i}>
+        <CardDetail1  key={i}>
           {'Class Teacher'} : {items.TeacherName}
         </CardDetail1>
       ))}
@@ -65,7 +78,8 @@ function SubjectTeacher() {
       {loading ?
         <SuspenseLoader />
         :
-        <List1 items={Data}></List1>
+        <List2 itemList={Data} clickItem={clickItem}/>
+        
       }
     </Container>
   );
