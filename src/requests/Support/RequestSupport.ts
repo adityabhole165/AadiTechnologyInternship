@@ -33,7 +33,7 @@ const SliceSupport = createSlice({
       dispatch(SliceSupport.actions.GetSaveSupport(response.data));
     };
 
-    export const SubmitSupport =
+    export const ResetMessage =
     (): AppThunk =>
     async (dispatch) => {
       dispatch(SliceSupport.actions.ResetSubmitSupport());

@@ -1,5 +1,5 @@
-import { Container, TextField, TextareaAutosize, Grid, Box, Button, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react'
+import { Container, TextField, TextareaAutosize, Grid, Box, Fade } from '@mui/material';
+import { useEffect, useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import RadioButton from 'src/libraries/RadioButton/RadioButton';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
@@ -12,7 +12,8 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from 'src/store';
 import { toast } from 'react-toastify';
-import { saveFeedbackdetails, removeSuccessMessage ,SubmitFeedBack} from 'src/requests/Feedback/RequestFeedback'
+import { saveFeedbackdetails, removeSuccessMessage } from 'src/requests/Feedback/RequestFeedback'
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const AddFeedback = () => {
   const dispatch = useDispatch();
@@ -27,7 +28,9 @@ const AddFeedback = () => {
   const AddFeedbackList: any = useSelector(
     (state: RootState) => state.FeedBack.AddFeedbackList
   );
-console.log("AddFeedbackList",AddFeedbackList.Message);
+  const loading = useSelector(
+    (state: RootState) => state.FeedBack.Loading
+  );
 
   const lstFeedbackFor = [
     { Name: "School", Value: "1" },
@@ -108,75 +111,79 @@ console.log("AddFeedbackList",AddFeedbackList.Message);
     "asLogin": ""
   }
   useEffect(() => {
-    if (AddFeedbackList.Message !== '')
-        toast.success(AddFeedbackList.Message, { toastId: 'success1'})
-    dispatch(SubmitFeedBack());
-
-}, [AddFeedbackList.Message])
-  useEffect(() => {
+    if (AddFeedbackList !== null)
+      toast.success(AddFeedbackList.Message, { toastId: 'success1' })
     dispatch(removeSuccessMessage());
-  }, [])
+
+  }, [AddFeedbackList.Message])
+
   const submit = () => {
-      dispatch(saveFeedbackdetails(AddFeedbackBody));
+    dispatch(saveFeedbackdetails(AddFeedbackBody));
   }
   const showToastMessage = () => {
-    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== ""){
-    toast.success(AddFeedbackList.Message);
+    if (formik.values.Name !== "" || formik.values.Comments !== "" || formik.values.EmailId !== "") {
+      toast.success(AddFeedbackList.Message);
     }
   }
- 
+
   return (
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
       <BackButton FromRoute={"/Student/Feedback"} />
       <Container>
-        <ListStyle>
-          <Note NoteDetail={note} />
-          <form onSubmit={formik.handleSubmit}>
-            <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={"Feedback for :"} />
-            <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type} />
-            <TextField id="standard-basic" name="Name" variant="standard" fullWidth label="Name"
-              onBlur={formik.handleBlur}
-              value={message && formik.values.Name}
-              onChangeCapture={alphabetsOnly}
-              onChange={formik.handleChange}
-              sx={{ mt: "5px" }}
-            />
-            <Box sx={{ mt: "10px" }}>{formik.touched.Name && formik.errors.Name ? (<Errormessage Error={formik.errors.Name} />) : null}</Box>
-            <TextField fullWidth margin="normal" label={'Email Id'} name="EmailId" type="text" variant="standard"
-              value={formik.values.EmailId}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: "5px" }}
-            />
-            <Box sx={{ mt: "3px" }}> {formik.touched.EmailId && formik.errors.EmailId ? (<Errormessage Error={formik.errors.EmailId} />) : null}</Box>
+        <Fade in={true}
+          {...(true ? { timeout: 1500 } : {})}
+        >
+          <ListStyle>
+            <Note NoteDetail={note} />
+            {loading && <SuspenseLoader />}
 
-            <TextareaAutosize
-              name='Comments'
-              value={formik.values.Comments}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              aria-label="empty textarea"
-              placeholder="Comments"
-              minRows={4}
-              style={{ width: "100%", marginTop: "5px" }}
-            />
-            <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
-            <Grid container spacing={2} >
-              <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                <ButtonPrimary onChange={formik.handleChange} onClick={showToastMessage}
-                  type="submit" fullWidth color='primary'>
-                  Submit
-                </ButtonPrimary>
+            <form onSubmit={formik.handleSubmit}>
+              <RadioButton Array={lstFeedbackFor} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={"Feedback for :"} />
+              <Dropdown Array={lstFeedbackType} handleChange={ClickDropdown} defaultValue={type} />
+              <TextField id="standard-basic" name="Name" variant="standard" fullWidth label="Name"
+                onBlur={formik.handleBlur}
+                value={message && formik.values.Name}
+                onChangeCapture={alphabetsOnly}
+                onChange={formik.handleChange}
+                sx={{ mt: "5px" }}
+              />
+              <Box sx={{ mt: "10px" }}>{formik.touched.Name && formik.errors.Name ? (<Errormessage Error={formik.errors.Name} />) : null}</Box>
+              <TextField fullWidth margin="normal" label={'Email Id'} name="EmailId" type="text" variant="standard"
+                value={formik.values.EmailId}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                sx={{ mt: "5px" }}
+              />
+              <Box sx={{ mt: "3px" }}> {formik.touched.EmailId && formik.errors.EmailId ? (<Errormessage Error={formik.errors.EmailId} />) : null}</Box>
+
+              <TextareaAutosize
+                name='Comments'
+                value={formik.values.Comments}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                aria-label="empty textarea"
+                placeholder="Comments"
+                minRows={4}
+                style={{ width: "100%", marginTop: "5px" }}
+              />
+              <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
+              <Grid container spacing={2} >
+                <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                  <ButtonPrimary onChange={formik.handleChange}
+                    type="submit" fullWidth color='primary'>
+                    Submit
+                  </ButtonPrimary>
+                </Grid>
+                <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                  <ButtonPrimary fullWidth color='secondary' type='reset' onClick={formik.handleReset} >
+                    Reset
+                  </ButtonPrimary>
+                </Grid>
               </Grid>
-              <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                <ButtonPrimary fullWidth color='secondary' type='reset' onClick={formik.handleReset} >
-                  Reset
-                </ButtonPrimary>
-              </Grid>
-            </Grid>
-          </form>
-        </ListStyle>
+            </form>
+          </ListStyle>
+        </Fade>
       </Container>
     </>
   )
