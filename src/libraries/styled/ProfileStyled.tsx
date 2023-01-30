@@ -10,6 +10,7 @@ export const ProfileDetailHeader = styled(Typography)`
   font-weight: 600;
 font-size:16px;
   margin-left: 10px;
+font-family: Roboto;
 `;
 export const ProfileDetail2 = styled(Typography)`
   margin-bottom: 10px;
