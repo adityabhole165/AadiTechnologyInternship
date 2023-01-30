@@ -36,31 +36,6 @@ export interface IAdminStaffList {
     Id:string
 }
 
-export interface  ISendMessage {
-    asSchoolId: string,
-    aoMessage: {
-        Body: string,
-        Subject: string,
-        SenderName: string,
-        DisplayText: string,
-        SenderUserId: string,
-        SenderUserRoleId:string,
-        AcademicYearId: string,
-        SchoolId: string,
-        InsertedById: string,
-        Attachment: string,
-      
-    }
-    asSelectedUserIds: string,
-    asSelectedStDivId: string,
-    asIsSoftwareCordinator: number,
-    asMessageId: number,
-    asSchoolName: string,
-    asIsForward:string,
-    sIsReply:string,
-    attachmentFile:AttachmentFile[],
-    asFileName:string
-}
 
 export interface AttachmentFile {
     FileName : string,
@@ -115,7 +90,7 @@ export interface IGetUsersInGroupResult {
 }
 
 export interface IAdminStaffList {
-    Name:string
+    Name:string,
     Id:string
 }
 
@@ -132,7 +107,7 @@ export interface  ISendMessage {
         SchoolId: string,
         InsertedById: string,
         Attachment: string,
-      
+        ScheduleDateTime:string
     }
     asSelectedUserIds: string,
     asSelectedStDivId: string,
@@ -142,7 +117,11 @@ export interface  ISendMessage {
     asIsForward:string,
     sIsReply:string,
     attachmentFile:AttachmentFile[],
-    asFileName:string
+    asFileName:string,
+    asSelectedUserIdsCc:string,
+    asSelectedStDivIdCc:string,
+    asIsSoftwareCordinatorCc:string,
+    asDisplayTextCc:string
 }
 
 export interface AttachmentFile {

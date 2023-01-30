@@ -112,7 +112,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false }
+        { Id: '6', Name: 'Admin Staff', isActive: false },
+        { Id: '11', Name: 'PTA', isActive: false }
       ]);
     }
     else if (sessionStorage.getItem('RoleId') === '2') {
@@ -130,6 +131,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         {
           Id: '6',
           Name: 'Admin Staff',
+          isActive: false
+        },
+        {
+          Id: '11',
+          Name: 'PTA',
           isActive: false
         },
       ]);
@@ -157,6 +163,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
+        {
+          Id: '11',
+          Name: 'PTA',
+          isActive: false
+        },
+
       ]);
     }
     setSelectedRecipents(RecipientName)
@@ -354,7 +366,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <Card>
-                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "80px" : null}>
+                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "110px" : null}>
                       <ListSelect
                         Itemlist={techerStudent}
                         onChange={techerStudentChange}
