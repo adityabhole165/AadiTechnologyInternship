@@ -1227,16 +1227,20 @@ export const PurpleFlowTheme = createTheme({
     },
     h5: {
       fontWeight: 700,
-      fontSize: 14
+      fontSize: 14,
+      color: "black"
     },
     h6: {
       fontSize: 15
     },
     body1: {
-      fontSize: 14
+      fontSize: 12,
+      fontWeight: 700,
+      color: "black"
     },
     body2: {
-      fontSize: 12
+      fontSize: 12,
+      color: "black"
     },
     button: {
       fontWeight: 600

@@ -84,8 +84,17 @@ const DashboardData = {
       iconColor: '#35abd9',
       Icon: VideoLibraryIcon,
       Link: 'Common/VideoGallery/VideoAlbum',
-      //Link: 'Student/VideoGallery2/VideoAlbum',
       index: 5
+    },
+    {
+      Text1: 'Birthdays',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: CakeIcon ,
+      Link: 'Student/Birthdays',
+      index: 26,
+     
     },
   ],
   items2 : [
@@ -129,33 +138,8 @@ const DashboardData = {
       index: 9,
       ModulesPermission: 'EnableHomeworkModule'
     },
-    {
-      Text1: 'Birthdays',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: CakeIcon ,
-      Link: 'Student/Birthdays',
-      index: 26,
-     
-    },
-    // {
-    //   Text1: 'Teacher',
-    //   Text2: 'Attendance',
-    //   Color: '#81c784',
-    //   iconColor: '#424242',
-    //   Icon: EventNoteIcon,
-    //   Link: 'Student/TeacherAttendance',
-    //   index: 10,
-    // },
-    // {
-    //   Text: 'Change Password',
-    //   Color: '#90a4ae',
-    //   iconColor: '#ef5350',
-    //   Icon: LockOpenIcon,
-    //   Link: 'Student/changePassword',
-    //   index: 10
-    // }
+  
+    
   ],
   items3: [
     {
@@ -190,36 +174,7 @@ const DashboardData = {
       ModulesPermission: 'EnableProgressReport'
     },
 
-    // {
-    //   Text1: 'O-Exam ',
-    //   Text2: 'Schedule',
-    //   Color: '#90a4ae',
-    //   iconColor: '#f0483e',
-    //   Icon: BorderColorOutlinedIcon,
-    //   ImageUrl: "/imges/onlineExam.png",
-    //   Link: 'Student/OnlineExam',
-    //   index: 14
-    // },
-    // {
-    //   Text1: ' O-Progress',
-    //   Text2: 'Report',
-    //   Color: '#90a4ae',
-    //   iconColor: '#35abd9',
-    //   Icon: AssessmentOutlinedIcon,
-    //   ImageUrl: "/imges/progressreport.png",
-    //   Link: 'Student/OnlineExamProgressReport',
-    //   index: 15
-    // },
-    // {
-    //   Text1: ' Library ',
-    //   Text2: '',
-    //   Color: '#90a4ae',
-    //   iconColor: '#424242',
-    //   Icon: HistoryEduOutlinedIcon,
-    //   ImageUrl: "/imges/library.png",
-    //   Link: 'Student/Library',
-    //   index: 16
-    // },
+ 
     {
       Text1: 'Message ',
       Text2: 'Center',
@@ -251,31 +206,7 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
-    },
-
-    // {
-    //   Text1: 'Support',
-    //   Text2: '',
-    //   Color: '#90a4ae',
-    //   iconColor: '#f0483e ',
-    //   Icon: HelpIcon,
-    //   Link: 'Student/Support',
-    //   index: 25,
-     
-    // },
-    
-   
-    
-  
-
-   
-    // {
-    //   Text1: 'AttendenceNew',
-    //   Text2: '',
-    //   Link: 'Student/AttendenceNew',
-    //   index: 20,
-    // }
-  ]},
+    },]},
   Teacher:{
     items1:[
       {
