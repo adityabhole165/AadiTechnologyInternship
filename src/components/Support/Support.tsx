@@ -176,20 +176,6 @@ function Support() {
         {formik.touched.Description && formik.errors.Description ? (
           <ErrorMessage1 Error={formik.errors.Description} />
         ) : null}
-        {/* <TextField
-          margin="normal"
-          fullWidth
-          id="fullWidth"
-          type="file"
-          name="Attachment"
-          variant="standard"
-          inputProps={{ multiple: false }}
-          InputProps={{
-            endAdornment: (
-              <IconFile FileValidationNote={FileValidationNote} />
-            )
-          }}
-        /> */}
         <Box className={classes.iIconSupport} sx={{mb:"-35px",mr:"0px"}}>
           <Icon3 Note={FileValidationNote} />
         </Box>
