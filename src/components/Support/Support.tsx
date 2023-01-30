@@ -52,11 +52,10 @@ function Support() {
       Description: '',
     },
     onSubmit: (values, { resetForm }) => {
-      console.log("value",value);
-      
       setValue(value)
       submit()
       resetForm()
+      aRef.current.value = null;
     },
     onReset: (values) => {
       setValue(null)
