@@ -60,6 +60,7 @@ function Support() {
     onReset: (values) => {
       setValue(null)
       setError(null)
+      aRef.current.value = null;
     },
     validate: (values) => {
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Email address
