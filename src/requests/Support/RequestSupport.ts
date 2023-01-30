@@ -7,7 +7,6 @@ const SliceSupport = createSlice({
     name: 'Support',
     initialState: {
       SaveSupport:{},
-      SubmitSupport:'',
       Loading: true,
     },
     reducers: {
@@ -20,7 +19,7 @@ const SliceSupport = createSlice({
             state.SaveSupport = {};
         },
         ResetSubmitSupport(state){
-          state.SubmitSupport = '';
+          state.SaveSupport = '';
         },
         }
       });
