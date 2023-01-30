@@ -91,9 +91,6 @@ const MessageList = () => {
   const DeletePermanently = useSelector(
     (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
   );
-  console.log("DeletePermanently", DeletePermanently);
-  console.log("asUserid", asUserid);
-
 
 
   const getListBody: IgetList = {
