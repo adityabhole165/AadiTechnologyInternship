@@ -42,10 +42,10 @@ function Library() {
       <PageHeader heading={'Library'} subheading={''} />
        <Grid container spacing={1}>
         <Grid item xs={5.2}>
-          <ButtonPrimary fullWidth>Claim</ButtonPrimary>
+          <ButtonPrimary fullWidth>Claimed Book Details</ButtonPrimary>
         </Grid>
         <Grid item xs={5.2}>
-          <ButtonPrimary fullWidth onClick={clickBookwithme}>Book With Me</ButtonPrimary>
+          <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
         </Grid>  
         <Grid item xs={1.6}>
   <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}}/>

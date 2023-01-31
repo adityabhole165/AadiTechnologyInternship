@@ -68,7 +68,7 @@ function Accordion4({
           id="panel1bh-header"
           sx={{background: `${theme.colors.gradients.pink1}`}} >
          <Header3 variant="body2" color={expanded === 'panel' ? 'secondary' : ''}>
-         <b style={{fontSize:"14px"}}>Accession No :{no} </b> <br/>
+         <b style={{fontSize:"14px"}}>Accession No : {no} </b> <br/>
           Book Title : {title}
           </Header3 >
        </Accordionsummary1>
