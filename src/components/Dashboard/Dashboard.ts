@@ -68,16 +68,16 @@ const DashboardData = {
       index: 23,
      
     },
-    {
-      Text1: ' Library ',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#424242',
-      Icon: HistoryEduOutlinedIcon,
-      ImageUrl: "/imges/library.png",
-      Link: 'Student/Library',
-      index: 27
-    },
+    // {
+    //   Text1: ' Library ',
+    //   Text2: '',
+    //   Color: '#90a4ae',
+    //   iconColor: '#424242',
+    //   Icon: HistoryEduOutlinedIcon,
+    //   ImageUrl: "/imges/library.png",
+    //   Link: 'Student/Library',
+    //   index: 27
+    // },
     {
       Text1: 'Photo ',
       Text2: 'Gallery',
