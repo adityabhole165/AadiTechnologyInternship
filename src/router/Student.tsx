@@ -27,6 +27,7 @@ const Attendance = Loader(lazy(() => import('src/components/Attendance/Attendanc
 const Dashboard = Loader(lazy(() => import('src/components/Student/Dashboard/dashboard')));
 const Progressreport = Loader(lazy(() => import('src/components/ProgressReport/Progressreport')));
 const Library = Loader(lazy(() => import('src/components/Library/Library')));
+const Bookswithme = Loader(lazy(()=> import('src/components/Library/Bookswithme')))
 const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
  const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
 const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Online Exam Progress Report/OnlineExamProgressReport')))
@@ -115,6 +116,10 @@ const studentRoutes = [
   {
     path: 'Library',
     element: <Library/>
+  },
+  {
+    path: 'Library/Bookswithme',
+    element: <Bookswithme/>
   },
   {
     path: 'Claim',

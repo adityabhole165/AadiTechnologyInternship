@@ -52,15 +52,15 @@ function Support() {
       Description: '',
     },
     onSubmit: (values, { resetForm }) => {
-      console.log("value",value);
-      
       setValue(value)
       submit()
       resetForm()
+      aRef.current.value = null;
     },
     onReset: (values) => {
       setValue(null)
       setError(null)
+      aRef.current.value = null;
     },
     validate: (values) => {
       const emailRegExp = /^\S+@\S+\.\S+$/; // for Email address
@@ -176,20 +176,6 @@ function Support() {
         {formik.touched.Description && formik.errors.Description ? (
           <ErrorMessage1 Error={formik.errors.Description} />
         ) : null}
-        {/* <TextField
-          margin="normal"
-          fullWidth
-          id="fullWidth"
-          type="file"
-          name="Attachment"
-          variant="standard"
-          inputProps={{ multiple: false }}
-          InputProps={{
-            endAdornment: (
-              <IconFile FileValidationNote={FileValidationNote} />
-            )
-          }}
-        /> */}
         <Box className={classes.iIconSupport} sx={{mb:"-35px",mr:"0px"}}>
           <Icon3 Note={FileValidationNote} />
         </Box>

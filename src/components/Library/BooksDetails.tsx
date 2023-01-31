@@ -9,6 +9,7 @@ import {
   GetBooksDetailsResult,
   IBooksDetails
 } from 'src/interfaces/Student/Library';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function BooksDetails() {
   const dispatch = useDispatch();
@@ -48,7 +49,7 @@ function BooksDetails() {
     <>
       <div>
         {GetBookList.length === 0 ? (
-          <ErrorMessages2 Error={'No record found'} />
+          <ErrorMessages Error={'No records found'} />
         ) : (
           <>
             {GetBookList.map((items: GetBooksDetailsResult, i) => {

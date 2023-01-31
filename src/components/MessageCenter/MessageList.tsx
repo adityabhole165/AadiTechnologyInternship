@@ -14,7 +14,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container,Box } from '@mui/material';
+import { Grid, Card, Container, Box } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -38,7 +38,7 @@ const Item = styled(Card)(({ theme }) => ({
   padding: theme.spacing(1),
   textAlign: 'center',
   height: '61px',
-  color:'black',
+  color: 'black',
   boxShadow:
     '0px 8px 15px rgba(0, 0, 0, 0.1)',
 
@@ -91,9 +91,6 @@ const MessageList = () => {
   const DeletePermanently = useSelector(
     (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
   );
-console.log("DeletePermanently",DeletePermanently);
-console.log("asUserid",asUserid);
-
 
 
   const getListBody: IgetList = {
@@ -107,7 +104,7 @@ console.log("asUserid",asUserid);
     asMonthId: monthYear
   };
 
-  const getMsgBody = (searchtext,monthyear) => {
+  const getMsgBody = (searchtext, monthyear) => {
     return {
       asSchoolId: SchoolId,
       asAcademicYearId: academicYear,
@@ -173,18 +170,18 @@ console.log("asUserid",asUserid);
         DetailsId.push(obj.DetailsId);
       }
     });
-      const delPermanentBody =
-      {
-        asSchoolId:SchoolId,
-        asAcademicYearId: AcademicYearId,
-        asUserId: asUserid,
-        asMessageIds:DetailsId.join(',')
-      }
-      ApiDeleteMessagePermanently.DeleteMessagePermanentlyapi(delPermanentBody)
+    const delPermanentBody =
+    {
+      asSchoolId: SchoolId,
+      asAcademicYearId: AcademicYearId,
+      asUserId: asUserid,
+      asMessageIds: DetailsId.join(',')
+    }
+    ApiDeleteMessagePermanently.DeleteMessagePermanentlyapi(delPermanentBody)
       .then((data) => {
-          toast.success('Message deleted successfully'); 
-          dispatch(getDeleteMessagePermantely(delPermanentBody))
-          
+        toast.success('Message deleted successfully');
+        dispatch(getDeleteMessagePermantely(delPermanentBody))
+
         dispatch(getListOfMessages(getListBody, activeTab, false));
       })
       .catch((err) => {
@@ -192,15 +189,15 @@ console.log("asUserid",asUserid);
       });
   };
 
-      const clickDelete = () => {
-        let arrDetails = [];
-        let arrReciever = [];
-        inboxListData.map((obj) => {
-          if (obj.isActive) {
-            arrDetails.push(obj.DetailsId);
-            arrReciever.push(obj.ReceiverDetailsId);
-          }
-        });
+  const clickDelete = () => {
+    let arrDetails = [];
+    let arrReciever = [];
+    inboxListData.map((obj) => {
+      if (obj.isActive) {
+        arrDetails.push(obj.DetailsId);
+        arrReciever.push(obj.ReceiverDetailsId);
+      }
+    });
     const trashbody: any = {
       asSchoolId: SchoolId,
       asMessageDetailsId: arrDetails.join(';'),
@@ -231,7 +228,7 @@ console.log("asUserid",asUserid);
 
     }
   }
-//Delete from everyone function
+  //Delete from everyone function
   const DeletePermanent = () => {
     if (confirm('This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?')) {
       permanentDelete()
@@ -319,43 +316,43 @@ console.log("asUserid",asUserid);
     localStorage.setItem('ViewMessageData', "")
   }
   let navigate = useNavigate();
-  
-  const clickSetting = () =>  {
+
+  const clickSetting = () => {
     navigate('/extended-sidebar/MessageCenter/EmailSetting')
   }
   return (
     <>
       <Container>
-      
+
         <PageHeader heading="Message Center" subheading=""></PageHeader>
-        <Box sx={{float:"right",mt:"-45px"}}>
-        <SettingsIcon  onClick={clickSetting} fontSize="medium"/>
-         <RefreshIcon  onClick={() => {setIsRefresh(!isRefresh)}} fontSize="medium"/>
+        <Box sx={{ float: "right", mt: "-45px" }}>
+          <SettingsIcon onClick={clickSetting} fontSize="medium" />
+          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} fontSize="medium" />
         </Box>
-     
-       
-        
+
+
+
         <Grid container>
           {!showSearch ? (
             <>
               <Grid container spacing={2} >
-              <Grid item xs={10}>
-                <MCButtons
-                  activeTab={activeTab}
-                  clickTab={clickTab}
-                ></MCButtons>
-              </Grid>
-              <Grid item xs={2} sx={{textAlign:'center'}}>
-                <SearchIcon
-                fontSize="large"
-                  sx={{
-                   
-                    marginTop: '8px',
-                    cursor: 'pointer',
-                      }}
-                  onClick={clickSearchIcon}
-                />
-              </Grid></Grid>
+                <Grid item xs={10}>
+                  <MCButtons
+                    activeTab={activeTab}
+                    clickTab={clickTab}
+                  ></MCButtons>
+                </Grid>
+                <Grid item xs={2} sx={{ textAlign: 'center' }}>
+                  <SearchIcon
+                    fontSize="large"
+                    sx={{
+
+                      marginTop: '8px',
+                      cursor: 'pointer',
+                    }}
+                    onClick={clickSearchIcon}
+                  />
+                </Grid></Grid>
             </>
           ) : (
             <Grid item xs={12}>
@@ -376,24 +373,25 @@ console.log("asUserid",asUserid);
 
             <Grid container spacing={0.5} sx={{ mb: "10px" }}>
               <Grid item xs={5.5} >
-                <ButtonPrimary 
-                onClick={activeTab == 'Sent' && DeletePermanent}
-                endIcon={<DeleteIcon />} fullWidth
-                >Delete From Everyone</ButtonPrimary>
-                </Grid>
+               {activeTab == 'Sent' ?  <ButtonPrimary
+                  onClick={activeTab == 'Sent' && DeletePermanent}
+                  endIcon={<DeleteIcon />} fullWidth
+                >Delete From Everyone
+                </ButtonPrimary> : null }
+              </Grid>
               <Grid item xs={3.2}>
-                <ButtonPrimary  fullWidth
+                <ButtonPrimary fullWidth
                   onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
-                  endIcon={<DeleteIcon />} 
+                  endIcon={<DeleteIcon />}
                 >
                   Delete
                 </ButtonPrimary>
               </Grid>
               <Grid item xs={3.3}>
-                <ButtonPrimary  fullWidth
+                <ButtonPrimary fullWidth
                   onClick={clickReset}
                   endIcon={<ReplayIcon />}
-                  color="secondary" 
+                  color="secondary"
                 >
                   Reset
                 </ButtonPrimary>

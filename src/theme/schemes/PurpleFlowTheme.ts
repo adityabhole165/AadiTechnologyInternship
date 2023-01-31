@@ -1206,7 +1206,7 @@ export const PurpleFlowTheme = createTheme({
   },
   typography: {
     fontFamily:
-      '"Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji"',
+      'Roboto',
     h1: {
       fontWeight: 700,
       fontSize: 35
@@ -1227,16 +1227,20 @@ export const PurpleFlowTheme = createTheme({
     },
     h5: {
       fontWeight: 700,
-      fontSize: 14
+      fontSize: 14,
+ 
     },
     h6: {
       fontSize: 15
     },
     body1: {
-      fontSize: 14
+      fontSize: 14,
+    
+    
     },
     body2: {
-      fontSize: 12
+      fontSize: 12,
+   
     },
     button: {
       fontWeight: 600

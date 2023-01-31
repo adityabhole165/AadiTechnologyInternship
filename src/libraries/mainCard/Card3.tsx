@@ -20,6 +20,7 @@ import 'src/assets/style/student-cal.css';
 import 'src/assets/style/Homework_Calci.css';
 import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import { Link } from 'react-router-dom';
 import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
 import HelpIcon from '@mui/icons-material/Help';
@@ -72,7 +73,8 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
              </Badge>  <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" /> </>}
             {icon === 25 && <HelpIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 26 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-           
+            {icon === 27 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}} />}
+            
            
 
             <Text1>
