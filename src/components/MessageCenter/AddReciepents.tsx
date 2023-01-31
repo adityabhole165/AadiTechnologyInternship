@@ -104,9 +104,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asAcademicYearId: academicYearId
   }
 
-  useEffect(() => {
-    dispatch(getShowPTA(showPTA));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getShowPTA(showPTA));
+  // }, []);
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
@@ -186,7 +186,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
   const SelectUsersInRecipients = (RecipentsIds) => {
-    setList(getuserlist.map((obj) => {
+    
+    setList(getuserlist?.map((obj) => {
       return {
         ...obj, isActive:
           (RecipentsIds.includes(obj.Id) || isClassSelect()) ?

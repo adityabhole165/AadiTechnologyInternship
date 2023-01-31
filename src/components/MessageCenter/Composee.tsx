@@ -41,11 +41,10 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
   const ViewData = localStorage.getItem("ViewMessageData");
-
   const View = (ViewData === null || ViewData === "") ? "" : JSON.parse(ViewData)
   const From = (ViewData === null || ViewData === "") ? "" : View.From;
   const Text = (ViewData === null || ViewData === "") ? "" : View.Text;
-  const AttachmentArray = (ViewData === null || ViewData === "") ? "null" : View.Attachment.join(',');
+  const AttachmentArray = (ViewData === null || ViewData === "" ||View.Attachment=="") ? "null" : View.Attachment.join(',');
   const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
   const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
 
@@ -107,7 +106,6 @@ function Form13() {
       for (let key in FileNameOfAttachment) {
         finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
       }
-      //console.log("finalBase642New--",finalBase642New);
       setFinalBase642New((prev) => [...prev])
       //setFinalBase642New(prev => [...prev, finalBase642New])
     }
@@ -227,7 +225,7 @@ function Form13() {
         Subject: formik.values.Subject,
         SenderName: StudentName,
         // DisplayText: RecipientsObject.RecipientName.toString(),
-        DisplayText: header == undefined ? RecipientsObject.RecipientName.toString() : header + "" + RecipientsObject.RecipientName.toString(),
+        DisplayText: RecipientsObject.RecipientName.toString(),
         SenderUserId: UserId,
         SenderUserRoleId: RoleId,
         AcademicYearId: AcademicYearId,
@@ -360,7 +358,7 @@ function Form13() {
               <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={header == undefined ? RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '') : header + "" + RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
                 id=""
                 fullWidth
                 disabled
