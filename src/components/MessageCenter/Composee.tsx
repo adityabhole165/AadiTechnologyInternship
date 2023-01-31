@@ -388,14 +388,14 @@ function Form13() {
                   </ButtonPrimary>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                  <ButtonPrimary fullWidth
+                  {/* <ButtonPrimary fullWidth
                     color="primary" >
                     Add Cc
-                  </ButtonPrimary>
+                  </ButtonPrimary> */}
                 </Grid>
               </Grid>
               <>
-                <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
+                {/* <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
                   value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
@@ -410,8 +410,8 @@ function Form13() {
                     border: "0.1px solid #c4c5c5",
                     borderRadius: "5.3px",
                   }}
-                />
-                <Grid container spacing={2} >
+                /> */}
+                {/* <Grid container spacing={2} >
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
                     <ButtonPrimary fullWidth
                       onClick={(e) => RecipientButton(e)}
@@ -422,7 +422,7 @@ function Form13() {
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
 
                   </Grid>
-                </Grid>
+                </Grid> */}
               </>
             </FormControl>
 
