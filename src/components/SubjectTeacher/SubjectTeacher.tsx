@@ -95,7 +95,7 @@ const Data = SubjectTeachers.map((item, index) => {
       text1: item.Subject,
       Icon: < MailOutlineIcon/>,
       color: "#35abd9",
-      NavPath:'/extended-sidebar/MessageCenter/Compose/'+ item.TeacherName, 
+      NavPath:'/extended-sidebar/MessageCenter/Compose/', 
       IsActive: false
     };
   });
