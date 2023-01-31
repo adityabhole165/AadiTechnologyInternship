@@ -96,6 +96,16 @@ const DashboardData = {
       index: 26,
      
     },
+    {
+      Text1: 'Library',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: HistoryEduOutlinedIcon ,
+      Link: 'Student/Library',
+      index: 27,
+     
+    },
   ],
   items2 : [
     {
