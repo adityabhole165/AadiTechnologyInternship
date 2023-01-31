@@ -69,6 +69,16 @@ const DashboardData = {
      
     },
     {
+      Text1: 'Library',
+      Text2: '',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: HistoryEduOutlinedIcon ,
+      Link: 'Student/Library',
+      index: 27,
+     
+    },
+    {
       Text1: 'Photo ',
       Text2: 'Gallery',
       Color: '#81c784',
@@ -94,16 +104,6 @@ const DashboardData = {
       Icon: CakeIcon ,
       Link: 'Student/Birthdays',
       index: 26,
-     
-    },
-    {
-      Text1: 'Library',
-      Text2: '',
-      Color: '#90a4ae',
-      iconColor: '#424242 ',
-      Icon: "/imges/onlineExam.png" ,
-      Link: 'Student/Library',
-      index: 27,
      
     },
   ],
