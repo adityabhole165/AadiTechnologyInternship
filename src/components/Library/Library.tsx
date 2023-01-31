@@ -5,10 +5,13 @@ import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
 import { Styles } from 'src/assets/style/student-style';
 import LibraryToggle from 'src/libraries/buttons/LibraryToggle';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Box, Typography, Container } from '@mui/material';
+import { Box, Typography, Container,Grid } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
-
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useNavigate } from 'react-router';
+import PlagiarismTwoToneIcon from '@mui/icons-material/PlagiarismTwoTone';
 function Library() {
+  const navigate = useNavigate();
   const [showForm, setshowForm] = useState(false);
 
   const [link, setLink] = useState('Books with me ');
@@ -30,26 +33,28 @@ function Library() {
 
   const classes = Styles();
 
-  return (
-    <>
-      <PageHeader heading={'Library'} subheading={''} />
-      <Container>
-        <RouterLink to={`/${location.pathname.split('/')[1]}/Student/Claim`}>
-          <Box display="flex" flexDirection="row" justifyContent="right">
-            <Typography
-              className={classes.Listfont1}
-              sx={{ textDecoration: 'underline', color: 'blue' }}
-            >
-              Claim
-            </Typography>
-            <ArrowForwardTwoToneIcon fontSize="small" />
-          </Box>
-        </RouterLink>
-      </Container>
 
-      <LibraryToggle title1={link} title2={text} toggleClick={toggleClick} />
-      {showForm ? <Bookswithme /> : <BooksDetails />}
-    </>
+  const clickBookwithme = () => {
+    navigate('/extended-sidebar/Student/Library/Bookswithme')
+  }
+  return (
+    <Container>
+      <PageHeader heading={'Library'} subheading={''} />
+       <Grid container spacing={1}>
+        <Grid item xs={5.2}>
+          <ButtonPrimary fullWidth>Claim</ButtonPrimary>
+        </Grid>
+        <Grid item xs={5.2}>
+          <ButtonPrimary fullWidth onClick={clickBookwithme}>Book With Me</ButtonPrimary>
+        </Grid>  
+        <Grid item xs={1.6}>
+  <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}}/>
+        </Grid>
+      </Grid>
+    <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
+      <BooksDetails />
+  
+    </Container>
   );
 }
 export default Library;

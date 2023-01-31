@@ -9,6 +9,8 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
 import { Box, Container, Grow, Grid, List, useTheme } from '@mui/material';
 import {CardDetail1,CardDetail3,ListStyle,CardWrapper} from '../styled/CardStyle';
+import { Accordionsummary1, Header3 } from '../styled/AccordianStyled';
+import Card14 from '../mainCard/Card14';
 
 Accordion4.propTypes = {
   Bookk: PropTypes.array,
@@ -45,76 +47,40 @@ function Accordion4({
   const classes = Styles();
   return (
     <>
-      <Grid item xs={12} container>
-        <Container>
+    
+ 
           <Grow
             in={checked}
             style={{ transformOrigin: '0 0 0' }}
             {...(checked ? { timeout: 1000 } : {})}
           >
-            <div>
-              <Accordion
-                className={classes.background}
-                expanded={expanded === 'panel1'}
-                onChange={handleChange('panel1')}
-              >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
-                  aria-controls="panel1bh-content"
-                  id="panel1bh-header"
-                  sx={{
-                    background: `${theme.colors.gradients.pink1}`,
-                    boxShadow: '6px 6px 8px  gray !important',
-                    mb: 1,
-                    color: 'black',
-                    fontWeight: 'bold'
-                  }}
-                >
-                  Accession No : {no}
-                  <br />
-                  Book Title : {title}
-                </AccordionSummary>
-
-                <AccordionDetails
-                  sx={{
-                    borderRadius: 1,
-                    
-                    mb: 1
-                  }}
-                >
-                  <ListStyle>
-                    <CardWrapper>
-                      <CardDetail1> Author:</CardDetail1>
-                      <CardDetail3>{author}</CardDetail3>
-                    </CardWrapper>
-                    <CardWrapper>
-                      <CardDetail1> Publisher:</CardDetail1>
-                      <CardDetail3>{publisher}</CardDetail3>
-                    </CardWrapper>
-                    <CardWrapper>
-                      <CardDetail1> Standards:</CardDetail1>
-                      <CardDetail3> {standard}</CardDetail3>
-                    </CardWrapper>
-                    <CardWrapper>
-                      <CardDetail1> Standards:</CardDetail1>
-                      <CardDetail3> {language}</CardDetail3>
-                    </CardWrapper>
-                    <CardWrapper>
-                      <CardDetail1> Available:</CardDetail1>
-                      <CardDetail3> {available}</CardDetail3>
-                    </CardWrapper>
-                    <CardWrapper>
-                      <CardDetail1> Total:</CardDetail1>
-                      <CardDetail3> {total}</CardDetail3>
-                    </CardWrapper>
-                   
-                  </ListStyle>
-                </AccordionDetails>
-              </Accordion>
-            </div>
+        
+        <Accordion
+        className={classes.background}
+        expanded={expanded === 'panel'}
+        onChange={handleChange('panel')}
+        elevation={0}
+        disableGutters sx={{mb:"10px"}}
+      >
+        <Accordionsummary1
+          expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
+          aria-controls="panel1bh-content"
+          id="panel1bh-header"
+          sx={{background: `${theme.colors.gradients.pink1}`}} >
+         <Header3 variant="body2" color={expanded === 'panel' ? 'secondary' : ''}>
+         <b style={{fontSize:"14px"}}>Accession No :{no} </b> <br/>
+          Book Title : {title}
+          </Header3 >
+       </Accordionsummary1>
+       <AccordionDetails>
+      <Card14 Text1={author} Text2={publisher} 
+      Text3={standard} Text4={language} Text5={available} Text6={total}/>
+      </AccordionDetails>
+      </Accordion>
+           
           </Grow>
-        </Container>
-      </Grid>
+       
+     
     </>
   );
 }

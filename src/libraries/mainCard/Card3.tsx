@@ -74,7 +74,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 25 && <HelpIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 26 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 27 && <HistoryEduOutlinedIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-           
+            
            
 
             <Text1>

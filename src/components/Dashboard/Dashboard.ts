@@ -100,8 +100,8 @@ const DashboardData = {
       Text1: 'Library',
       Text2: '',
       Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: HistoryEduOutlinedIcon ,
+      iconColor: '#424242 ',
+      Icon: "/imges/onlineExam.png" ,
       Link: 'Student/Library',
       index: 27,
      
