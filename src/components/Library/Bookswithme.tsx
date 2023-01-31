@@ -11,6 +11,7 @@ import {
 } from 'src/interfaces/Student/Library';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function Bookswithme() {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ function Bookswithme() {
         <PageHeader heading={'Books with me'} subheading={''}/>
         <BackButton FromRoute={'/Student/Library'}/>
         {GetBook.length === 0 ? (
-          <ErrorMessages2 Error={'No record found'} />
+      <ErrorMessages Error={'No records found'} />
         ) : (
           <>
             {GetBook.map((items: GetBookswithmeResult, i) => {

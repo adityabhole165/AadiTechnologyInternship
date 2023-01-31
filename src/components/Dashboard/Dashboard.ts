@@ -69,14 +69,14 @@ const DashboardData = {
      
     },
     {
-      Text1: 'Library',
+      Text1: ' Library ',
       Text2: '',
       Color: '#90a4ae',
-      iconColor: '#f0483e ',
-      Icon: HistoryEduOutlinedIcon ,
+      iconColor: '#424242',
+      Icon: HistoryEduOutlinedIcon,
+      ImageUrl: "/imges/library.png",
       Link: 'Student/Library',
-      index: 27,
-     
+      index: 27
     },
     {
       Text1: 'Photo ',
