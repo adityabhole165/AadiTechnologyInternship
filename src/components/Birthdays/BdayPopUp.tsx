@@ -12,9 +12,9 @@ const BdayPopUp = () => {
         navigate(`/${location.pathname.split('/')[1]}/Student/Birthdays`)
     }
     return (
-        <div id="balloon-container" onClick={clickNav}>
-            <Typography className='header'>Happy Birthday</Typography>
-            <Typography className='subheader'>{StudentName}</Typography>
+        <div id="balloon-container" onClick={clickNav} >
+            <Typography className='header' >Happy Birthday</Typography>
+            <Typography className='subheader' >{StudentName}</Typography>
             <canvas id="birthday"></canvas>
         </div>
     )
@@ -29,8 +29,8 @@ function getRandomStyles() {
     var g = random(255);
     var b = random(255);
     var mt = random(200);
-    var ml = random(50);
-    var dur = random(5) + 5;
+    var ml = random(600);
+    var dur = random(4) + 4;
     return `
     background-color: rgba(${r},${g},${b},0.7);
     color: rgba(${r},${g},${b},0.7); 
