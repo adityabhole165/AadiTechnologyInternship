@@ -58,7 +58,7 @@ const EmailSettings = () => {
     }, [UpdationMessage])
 
     const clickReset = () => {
-        setEmailAddress(EmailSettings?.EmailAddress);
+    inputFiledBlur(EmailSettings?.EmailAddress);
         setIsChecked(EmailSettings?.CanReceiveMail === "Y")
     }
     const clickSubmit = () => {
@@ -74,15 +74,16 @@ const EmailSettings = () => {
             setsubmitButtonDisabled(true);
         }
     };
-    const inputFiledBlur = (event) => {
-        const EmailErrorFlag = validEMailFormat.test(event.target.value);
-        if (EmailErrorFlag == false && event.target.value.length !== 0) {
+    const inputFiledBlur = (value) => {
+        setEmailAddress(value)
+        const EmailErrorFlag = validEMailFormat.test(value);
+        if (EmailErrorFlag == false && value.length !== 0) {
             setemailAddressErrorFlag(true);
         }
         if (EmailErrorFlag == true) {
             setemailAddressErrorFlag(false);
         }
-    };
+    };  
     const inputFiledFocus = (e) => {
         setemailAddressErrorFlag(false);
     };
@@ -106,9 +107,7 @@ const EmailSettings = () => {
                 id="EmailId" name="EmailId"
                 label={emailAddress === undefined ? "EmailId" : ''}
                 value={emailAddress}
-                onChange={(e) => { setEmailAddress(e.target.value) }}
-                onBlur={(e) => inputFiledBlur(e)}
-                onFocus={(e) => inputFiledFocus(e)}
+                onChange={(e) => { inputFiledBlur(e.target.value) }}
             />
              {emailAddressErrorFlag ? (
                   <Box sx={{my:1}}><Errormessage Error={'Please enter valid email address'} /></Box>
