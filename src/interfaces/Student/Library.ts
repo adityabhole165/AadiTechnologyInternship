@@ -79,3 +79,11 @@ export interface GetClaimResult {
             ReservationDate: string,
             StandardDivisionId: number,      
 }
+
+export interface ICancelBookReservation {
+    aiUserId:string,
+    aiBookid:string,
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+}
+

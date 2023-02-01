@@ -1,5 +1,5 @@
 import Accordion4 from 'src/libraries/accordion/accordion4';
-import { getBookDetailslist } from 'src/requests/Library/Library';
+import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -7,9 +7,11 @@ import { RootState } from 'src/store';
 import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 import {
   GetBooksDetailsResult,
-  IBooksDetails
+  IBooksDetails,
+  ICancelBookReservation
 } from 'src/interfaces/Student/Library';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { Typography } from '@mui/material';
 
 function BooksDetails() {
   const dispatch = useDispatch();
@@ -17,6 +19,10 @@ function BooksDetails() {
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
   );
+  const GetCancelBookReservation = useSelector(
+    (state: RootState) => state.library.CancelBookReservation
+  );
+console.log("GetCancelBookReservation",GetCancelBookReservation);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asLanguage = sessionStorage.getItem('Language');
@@ -40,22 +46,43 @@ function BooksDetails() {
     aiStartRowIndex: "0",
     asSortExpression: ""
   };
+  const CancelBookReservationbody:ICancelBookReservation = {
+    aiUserId:"362",
+    aiBookid:"139",
+    aiSchoolId:"120",
+    aiAcademicYearId:"8"
+
+  }
 
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
   }, []);
+  // useEffect(() => {
+  //   dispatch(getCancelBookReservation(CancelBookReservationbody));
+  // }, []);
 
-  const conformMsg = () => {
-    if (confirm('Do you want to claim this book for Parent?')) {
-          console.log('Book claimed successfully!!');
-    } else {
-      console.log('Book claimed successfully!!');
-    }
+//   const conformMsg = () => {
+//     if (confirm('Do you want to claim this book for Parent?')) {
+//           console.log('');
+//     } else {
+//       console.log(GetCancelBookReservation)
+//     }
+// }
+const confirmsg = () =>{
+  if (confirm('Do you want to claim this book for Parent?')) {
+              console.log('');
+        } else {
+          dispatch(getCancelBookReservation(CancelBookReservationbody));
+          console.log("v",GetCancelBookReservation);
+          
+        }
+ 
 }
-
   return (
     <>
+     <Typography>{GetCancelBookReservation}</Typography>
       <div>
+     
         {GetBookList.length === 0 ? (
           <ErrorMessages Error={'No records found'} />
         ) : (
@@ -72,7 +99,7 @@ function BooksDetails() {
                   available={items.Available_Books}
                   total={items.Total_Book_Quantity}
                   title={items.Book_Title}
-                  conformMsg={conformMsg}
+                  conformMsg={confirmsg}
                   no={items.Book_No}
                 />
               );
