@@ -22,23 +22,30 @@ b{
   -webkit-perspective: 1200px;
   perspective: 800px;
   transition: 1s;
-  margin-left: -160px;
+  text-align: center;
+  /* margin-left: -160px;
   display: flex;
   flex-wrap: wrap;
-  overflow: hidden;
+  overflow: hidden; */
   margin-top: -5px;
 }
 
-@media  (min-width: 282px) and (max-width : 320px){
+@media (max-width : 280px) and (max-width : 320px){
   .cardd {
 
-    margin-left: -200px;
+    margin-left: -180px;
 }}
 
-@media  (max-width: 280px) {
+/* @media   (min-width : 280px){
   .cardd {
 
-    margin-left: -220px;
+    margin-left: -100px;
+}} */
+
+@media  (max-width: 540px) {
+  .cardd {
+
+    margin-left: -100px;
 }}
 
 @media (min-width: 362px) and (max-width: 415px){
@@ -46,7 +53,7 @@ b{
    
     margin-left: -160px;
 }}
-@media (min-width: 322px) and (max-width: 360px){
+@media  (max-width: 360px){
   .cardd {
    
     margin-left: -170px;
