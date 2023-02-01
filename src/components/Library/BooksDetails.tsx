@@ -80,7 +80,7 @@ const confirmsg = () =>{
 }
   return (
     <>
-     <Typography>{GetCancelBookReservation}</Typography>
+ 
       <div>
      
         {GetBookList.length === 0 ? (
