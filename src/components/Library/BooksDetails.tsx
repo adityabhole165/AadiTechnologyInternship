@@ -45,6 +45,14 @@ function BooksDetails() {
     dispatch(getBookDetailslist(BooksDetails_body));
   }, []);
 
+  const conformMsg = () => {
+    if (confirm('Do you want to claim this book for Parent?')) {
+          console.log('Book claimed successfully!!');
+    } else {
+      console.log('Book claimed successfully!!');
+    }
+}
+
   return (
     <>
       <div>
@@ -64,6 +72,7 @@ function BooksDetails() {
                   available={items.Available_Books}
                   total={items.Total_Book_Quantity}
                   title={items.Book_Title}
+                  conformMsg={conformMsg}
                   no={items.Book_No}
                 />
               );
