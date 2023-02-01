@@ -33,6 +33,7 @@ function Accordion4({
   available,
   total,
   title,
+  conformMsg,
   no
 }) {
   const theme = useTheme();
@@ -74,7 +75,7 @@ function Accordion4({
        </Accordionsummary1>
        <AccordionDetails>
       <Card14 Text1={author} Text2={publisher} 
-      Text3={standard} Text4={language} Text5={available} Text6={total}/>
+      Text3={standard} Text4={language} Text5={available} Text6={total} conformMsg={conformMsg}/>
       </AccordionDetails>
       </Accordion>
            
