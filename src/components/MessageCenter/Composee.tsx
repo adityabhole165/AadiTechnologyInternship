@@ -8,7 +8,7 @@ import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/Mes
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
-import { useLocation, useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
@@ -25,7 +25,7 @@ import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 
 function Form13() {
-  const { header } = useParams();
+  
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -41,11 +41,10 @@ function Form13() {
   );
   const PageName = pageName.slice(0, 5);
   const ViewData = localStorage.getItem("ViewMessageData");
-
   const View = (ViewData === null || ViewData === "") ? "" : JSON.parse(ViewData)
   const From = (ViewData === null || ViewData === "") ? "" : View.From;
   const Text = (ViewData === null || ViewData === "") ? "" : View.Text;
-  const AttachmentArray = (ViewData === null || ViewData === "") ? "null" : View.Attachment.join(',');
+  const AttachmentArray = (ViewData === null || ViewData === "" ||View.Attachment=="") ? "null" : View.Attachment.join(',');
   const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
   const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
 
@@ -107,7 +106,6 @@ function Form13() {
       for (let key in FileNameOfAttachment) {
         finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
       }
-      //console.log("finalBase642New--",finalBase642New);
       setFinalBase642New((prev) => [...prev])
       //setFinalBase642New(prev => [...prev, finalBase642New])
     }
@@ -227,7 +225,7 @@ function Form13() {
         Subject: formik.values.Subject,
         SenderName: StudentName,
         // DisplayText: RecipientsObject.RecipientName.toString(),
-        DisplayText: header == undefined ? RecipientsObject.RecipientName.toString() : header + "" + RecipientsObject.RecipientName.toString(),
+        DisplayText: RecipientsObject.RecipientName.toString(),
         SenderUserId: UserId,
         SenderUserRoleId: RoleId,
         AcademicYearId: AcademicYearId,
@@ -360,7 +358,7 @@ function Form13() {
               <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={header == undefined ? RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '') : header + "" + RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
                 id=""
                 fullWidth
                 disabled
@@ -388,14 +386,14 @@ function Form13() {
                   </ButtonPrimary>
                 </Grid>
                 <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                  <ButtonPrimary fullWidth
+                  {/* <ButtonPrimary fullWidth
                     color="primary" >
                     Add Cc
-                  </ButtonPrimary>
+                  </ButtonPrimary> */}
                 </Grid>
               </Grid>
               <>
-                <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
+                {/* <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
                   value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
@@ -410,8 +408,8 @@ function Form13() {
                     border: "0.1px solid #c4c5c5",
                     borderRadius: "5.3px",
                   }}
-                />
-                <Grid container spacing={2} >
+                /> */}
+                {/* <Grid container spacing={2} >
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
                     <ButtonPrimary fullWidth
                       onClick={(e) => RecipientButton(e)}
@@ -422,7 +420,7 @@ function Form13() {
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
 
                   </Grid>
-                </Grid>
+                </Grid> */}
               </>
             </FormControl>
 

@@ -68,8 +68,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const getPTAOption: any = useSelector(
     (state: RootState) => state.MessageCenter.PTAOption
   );
-  console.log("getPTAOption",getPTAOption);
-  
+
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -100,22 +99,27 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
   const showPTA =
   {
-    asSchoolId:schoolId,
+    asSchoolId: schoolId,
     asUserId: asUserId,
-    asAcademicYearId:academicYearId
-}
+    asAcademicYearId: academicYearId
+  }
 
-  useEffect(() => {
-    dispatch(getShowPTA(showPTA));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getShowPTA(showPTA));
+  // }, []);
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '11', Name: 'PTA', isActive: false }
-      ]);
-    }
+        // { Id: '11', Name: 'PTA', isActive: false }
+      ]);  
+    }  
+    //  if ( getPTAOption.IsPTAMember == true && getPTAOption.HideStudentOption == false){
+    //   setTecherStudent([
+    //     {Id: '3', Name: 'Student', isActive: false },
+    //   ]);
+    // } 
     else if (sessionStorage.getItem('RoleId') === '2') {
       setTecherStudent([
         {
@@ -133,11 +137,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        },
+        // {
+        //   Id: '11',
+        //   Name: 'PTA',
+        //   isActive: false
+        // },
       ]);
     }
 
@@ -163,11 +167,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        },
+        // {
+        //   Id: '11',
+        //   Name: 'PTA',
+        //   isActive: false
+        // },
 
       ]);
     }
@@ -182,7 +186,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
   const SelectUsersInRecipients = (RecipentsIds) => {
-    setList(getuserlist.map((obj) => {
+    
+    setList(getuserlist?.map((obj) => {
       return {
         ...obj, isActive:
           (RecipentsIds.includes(obj.Id) || isClassSelect()) ?
@@ -329,18 +334,17 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';','')}
+          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';', '')}
           disabled
           id="body"
           fullWidth
           margin="normal"
           style={{ scrollBehavior: 'auto' }}
           sx={{
-            height:"50px",
+            height: "50px",
             overflow: 'auto',
-            border:"0.1px solid #c4c5c5",
-            borderRadius:"5.3px",
-            
+            border: "0.1px solid #c4c5c5",
+            borderRadius: "5.3px",
           }}
         />
         <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
@@ -366,7 +370,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <Card>
-                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "110px" : null}>
+                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "80px" : null}>
                       <ListSelect
                         Itemlist={techerStudent}
                         onChange={techerStudentChange}
