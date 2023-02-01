@@ -10,7 +10,7 @@ export interface GetSubjectTeacherResult {
     ClassTeacher: string;
     Subject: string;
     TeacherName: string;
-    
+    UserId: string;
 }
 
 

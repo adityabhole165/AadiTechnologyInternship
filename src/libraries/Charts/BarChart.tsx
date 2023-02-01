@@ -39,7 +39,6 @@ const BarChart = ({ xData, series, colors, dataLabel,formatToolTip,Isgrade }) =>
         enabled: Isgrade.trim() !== 'true' ,
         y: {
           formatter: function (val,opts) {
-            console.log(val)
             return  formatToolTip(val,opts);
           }
         }

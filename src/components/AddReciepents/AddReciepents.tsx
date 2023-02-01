@@ -136,7 +136,6 @@ const AddReciepents = () => {
 
    const classChange=(value)=>{
     setStudentlist(value)
-    console.log(value,"value")
    }
   const onChange = (value) => {
     setEntireSchool(value)

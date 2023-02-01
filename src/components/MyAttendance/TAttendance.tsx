@@ -100,7 +100,6 @@ const TAttendance = () => {
             asAcademicyearId: asAcademicYearId,
             asTeacherId: asTeacherId
         };
-        console.log(body)
         dispatch(getStandard(body));
         getCurrentDate(new Date);
         if (AssignedDate != undefined || StandardId != undefined) {

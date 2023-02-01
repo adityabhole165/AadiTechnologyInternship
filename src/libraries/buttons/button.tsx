@@ -43,7 +43,6 @@ function Buttons({ date, PrevDate, NextDate, Close }) {
   };
 
   const ChangeCapture = (e) => {
-    console.log(e.target.type)
     if(e.target.type != 'button'){
       setTimeout(() => {
         setdateClickDependent('none');

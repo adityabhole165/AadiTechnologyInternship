@@ -47,7 +47,6 @@ function TeacherAttendance() {
   const handleClick = value => {
     if (value.length !== 0) {
       setCount(value);
-      console.log("SaveAttendance",SaveAttendance)
       GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
     }
   };

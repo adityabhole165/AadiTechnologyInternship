@@ -113,11 +113,9 @@ const curYear = new Date().getFullYear();
             (el.ModulesPermission === undefined ? true : f.IsEnabled === true);
       });
     });
-    console.log(items1,"before")
     items1 = items1.filter((el) => {
       return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
     })
-    console.log(items1,"after")
 
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
