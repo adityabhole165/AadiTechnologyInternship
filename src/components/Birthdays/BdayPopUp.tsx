@@ -1,5 +1,5 @@
 import { Container, Typography } from '@mui/material'
-import React from 'react'
+import React, {useEffect} from 'react'
 import 'src/assets/style/Bday.css';
 import { useNavigate } from 'react-router-dom';
 
@@ -8,6 +8,10 @@ var colors = ["#8b5642", "#6a696b"];
 const BdayPopUp = () => {
     const StudentName = sessionStorage.getItem("StudentName");
     const navigate = useNavigate();
+    useEffect(() => {
+    createBalloons(100);
+    
+    }, [])
     const clickNav = () => {
         navigate(`/${location.pathname.split('/')[1]}/Student/Birthdays`)
     }
@@ -51,6 +55,8 @@ function createBalloons(num) {
     }
 }
 window.onload = function () {
+    var balloonContainer = document.getElementById("balloon-container")
+
     createBalloons(100);
 
 }
