@@ -26,7 +26,8 @@ function Support() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserid = sessionStorage.getItem("Id");
-
+  const [fileName, setFileName] = useState('')
+  const [base64URL, setBase64URL] = useState('')
   const Support: any = useSelector(
     (state: RootState) => state.Support.SaveSupport
   );
@@ -37,11 +38,34 @@ function Support() {
     "3) It will help our support member to understand the problem in full and speed up the resolution of your request."
   ]
 
-  const changeFile = (e) => {
+  const changeFile = async (e) => {
     setValue(e.target.files)
-    console.log(e.target.files, "e.target.files")
-    setError(CheckFileValidation(e.target.files[0], ['jpg', 'xls', 'xlsx', 'doc', 'docx', 'pdf', 'jpg', 'jpeg'], 2000000))
+    const multipleFiles = e.target.files;
+    let base64URL: any = '';
+    let DataAttachment: any = '';
+    let fileName: any = '';
+    for (let i = 0; i < multipleFiles.length; i++) {
+      const isValid = CheckFileValidation(multipleFiles[i], ['jpg', 'xls', 'xlsx', 'doc', 'docx', 'pdf', 'jpg', 'jpeg'], 2000000);
+      if (isValid == null) {
+        setFileName(multipleFiles[i].name);
+        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+        setBase64URL(base64URL.slice(base64URL.indexOf(',') + 1));
+      }
+    }
   }
+  const ChangeFileIntoBase64 = (fileData) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(fileData);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (err) => {
+        reject(err);
+      };
+    });
+  };
   const FileValidationNote = "(Supports only XLS, XLSX, DOC, DOCX, PDF, JPG, JPEG files types up to 200 KB)"
   const aRef = useRef(null);
   const formik = useFormik({
@@ -96,21 +120,21 @@ function Support() {
     "asUserId": asUserid,
     "asSchoolId": asSchoolId,
     "asAcademicYearId": asAcademicYearId,
-    "asFileName": "",
+    "asFileName": fileName,
     "asDescription": formik.values.Description,
     "asEmailAddress": formik.values.EmailId,
     "asSubject": formik.values.ProblemsSubject,
     "asMobileNo": formik.values.MobileNumber,
-    "Attachment": ""
+    "asBase64URLString": base64URL
   }
 
   const submit = () => {
     dispatch(getSaveSupport(SupportBody));
   }
   useEffect(() => {
-      toast.success(Support.Message);
-      dispatch(ResetMessage());
-  },[Support]);
+    toast.success(Support.Message);
+    dispatch(ResetMessage());
+  }, [Support]);
   return (
     <Container>
       <PageHeader heading={'Support'} subheading={''} />
@@ -176,17 +200,17 @@ function Support() {
         {formik.touched.Description && formik.errors.Description ? (
           <ErrorMessage1 Error={formik.errors.Description} />
         ) : null}
-        <Box className={classes.iIconSupport} sx={{mb:"-35px",mr:"0px"}}>
+        <Box className={classes.iIconSupport} sx={{ mb: "-35px", mr: "0px" }}>
           <Icon3 Note={FileValidationNote} />
         </Box>
         <Box sx={{ my: "20px" }}>
-          <input ref={aRef} type="file" onChange={changeFile}/>
+          <input ref={aRef} type="file" onChange={changeFile} />
         </Box>
         {error && <Errormessage Error={error} />}
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary onChange={formik.handleChange} 
+            <ButtonPrimary onChange={formik.handleChange}
               type="submit" fullWidth color='primary'>
               Submit
             </ButtonPrimary>
