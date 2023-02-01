@@ -6,7 +6,7 @@ import DashboardData from './Dashboard';
 import Card2 from 'src/libraries/mainCard/Card2';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {getModulesPermission,getModulesPermissionsResultt,getGetSettingValue} from 'src/requests/SchoolSetting/schoolSetting';
+import {getModulesPermission,getModulesPermissionsResultt,getGetSettingValue,getGetSettingSubTeacher} from 'src/requests/SchoolSetting/schoolSetting';
 import {IgetModulesPermission,IGetScreensAccessPermissions, IGetSettingValueBody} from 'src/interfaces/SchoolSetting/schoolSettings';
 import {getMessageCount} from 'src/requests/Dashboard/Dashboard'
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
@@ -32,6 +32,10 @@ function LandingPage() {
   const SchoolTrasnportIsEnabled: any = useSelector(
     (state: RootState) => state.getSchoolSettings.SchoolTrasnportIsEnabled
   );
+const SubTeacherEnabled: any = useSelector(
+  (state: RootState) => state.getSchoolSettings.SubTeacher
+);
+console.log("SubTeacherEnabled",SubTeacherEnabled);
 
   const GetScreensAccessPermissions: any = useSelector(
     (state: RootState) =>
@@ -84,6 +88,7 @@ const curYear = new Date().getFullYear();
     if (RoleId == '3') {
       dispatch(getModulesPermission(getModulePermissionBody));
       dispatch(getGetSettingValue(GetSettingValueBody));
+      dispatch(getGetSettingSubTeacher(GetSettingValueBody))
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
@@ -169,7 +174,11 @@ if (RoleId === '3') {
         (el.ModulesPermission === undefined ? true : f.IsEnabled === true);
       });
     });
+    items3 = items3.filter((el) => {
+      return el.Text1 == 'Subject ' ? SubTeacherEnabled : true
+    })
   }
+
 
   if (RoleId === '6') {
     items1 = DashboardData.Admin.items1.filter((el) => {
