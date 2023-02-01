@@ -39,7 +39,6 @@ function Card20({
   Gradeormarks,
   showonlyGrade
 }) {
-console.log("showonlyGrade",showonlyGrade);
 
   return (
     <>

@@ -13,7 +13,6 @@ Card26.propTypes = {
 };
 
 function Card26({ paymentPageLink }) {
-  console.log(paymentPageLink)
   const theme = useTheme();
   const openCapacitorSite = async (url) => {
     await Browser.open({ url: url });

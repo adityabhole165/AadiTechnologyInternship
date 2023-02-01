@@ -38,7 +38,6 @@ export const getTransportDetails =
       const response = await ApiTransportDetails.TransportDetailsapi(data)
       let RouteDetails = []
       let StopDetails = [];
-      // console.log(response?.data?.RouteName,response?.data)
       if (response?.data?.RouteName !== null) {
 
         RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
