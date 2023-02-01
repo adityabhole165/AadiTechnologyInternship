@@ -93,6 +93,11 @@ b{
       margin-left: -20px;
      }
  }
+ @media screen and (min-width:912px) {
+  .cardd { 
+      margin-left: 80px;
+     }
+ }
 
 
  
