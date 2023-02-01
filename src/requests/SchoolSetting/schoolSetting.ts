@@ -8,7 +8,8 @@ const SchoolSettingSlice = createSlice({
     initialState:{
         ModulesPermission:[],
         ModulesPermissionsResult:[],
-        SchoolTrasnportIsEnabled: false
+        SchoolTrasnportIsEnabled: false,
+        SubTeacher:false
     },
     reducers:{
         getModulesPermission(state,action){
@@ -20,6 +21,9 @@ const SchoolSettingSlice = createSlice({
         },
         getSchoolTrasnportIsEnabled(state, action) {
           state.SchoolTrasnportIsEnabled = action.payload;;
+        },
+        getSubTeacherIsEnabled(state, action) {
+          state.SubTeacher = action.payload;;
         }
 
     }
@@ -56,5 +60,18 @@ export const getGetSettingValue =
         }
       }
       dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(trasnportIsEnabled));
+    }
+    export const getGetSettingSubTeacher =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let subTeacherIsEnabled = false
+      data.asKey = "IsEnableSubjecTeacherScreen";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            subTeacherIsEnabled = true;
+          }
+        }
+      dispatch(SchoolSettingSlice.actions.getSubTeacherIsEnabled(subTeacherIsEnabled));
     }
 export default SchoolSettingSlice.reducer
