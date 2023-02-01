@@ -46,40 +46,19 @@ function SubjectTeacher() {
     asDivisionId: asDivisionId,
     asUserId: asUserId
   };
-
-  const getTeacherList = () => {
-    // Teacher / Students / Other Staff / Admin Staff Body
-  const getUsersInGroupAPIBody: IUsergroup = {
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId,
-    asStdDivId: sessionStorage.getItem("StandardDivisionId"),
-    asUserId: asUserId,
-    asSelectedUserGroup: "2",
-    abIsSMSCenter: false
-  };
-  dispatch(GetUser(getUsersInGroupAPIBody));
-  }
-  
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getSubjectList(body));
-    getTeacherList();
   }, []);
 
   let navigate = useNavigate();
   const clickItem = (value) =>  {
     value.map((item)=>{
       if(item.IsActive){
-         const userArr = getuserlist.filter((obj)=>obj.Name.includes(item.header))
-         let FromUserID = 0;
-         if(userArr.length>0)
-         {
-          FromUserID = userArr[0].Id;
-         }
          localStorage.setItem("ViewMessageData", JSON.stringify(
           {
             From: item.header,
-            FromUserID: FromUserID,
+            FromUserID: item.UserId,
             Text: "",
             Attachment: "",
             ID: ""
@@ -91,6 +70,7 @@ function SubjectTeacher() {
 const Data = SubjectTeachers.map((item, index) => {
     return {
       Id: index,
+      UserId: item.UserId,
       header: item.TeacherName,
       text1: item.Subject,
       Icon: < MailOutlineIcon/>,
