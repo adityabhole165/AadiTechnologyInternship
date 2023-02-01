@@ -8,7 +8,7 @@ export interface ISaveStudentDetailsForSupportBody{
     asEmailAddress: string,
     asSubject: string,
     asMobileNo:string,
-    Attachment:string
+    asBase64URLString:string
 }
 
 export interface ISaveStudentDetailsForSupportResult{

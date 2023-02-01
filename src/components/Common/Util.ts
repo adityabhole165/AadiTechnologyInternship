@@ -94,13 +94,14 @@ export const monthArray = [
 export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {
+        
+        if (fileData?.size > fileSize) {
+            return 'Please upload a file smaller than 20 MB';
+        }
         if (!allowedFileTypes.includes(fileExtension)) {
             return 'File does not support. Please check Note';
         } else if (allowedFileTypes.includes(fileExtension)) {
             return null;
-        }
-        if (fileData?.size > fileSize) {
-            return 'Please upload a file smaller than 20 MB';
         }
     }
 };
