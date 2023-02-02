@@ -238,6 +238,7 @@ function SelectSchool() {
         else if (result.RoleName == "Admin Staff") {
             navigate('/extended-sidebar/landing/landing');
         }
+        console.log("$$$ Result ID to backend $$$ - " + result.Id)
         deviceRegistrationFCM(result.Id)
     }
 
@@ -280,7 +281,9 @@ function SelectSchool() {
             asDeviceId: localStorage.getItem('deviceId'),
             asDeviceType: localStorage.getItem('deviceType')
         }
+        console.log("$$$ Data to backend $$$ - " + JSON.stringify(data))
         const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
+        console.log("$$$ Device registration Response $$$ - " + response)
     }
 
     // End Login form
