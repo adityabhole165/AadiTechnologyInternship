@@ -34,32 +34,24 @@ function Accordion4({
   total,
   title,
   conformMsg,
-  no
+  no,
+  index,
+  Collapse, expand
 }) {
   const theme = useTheme();
-
-  const [expanded, setExpanded] = React.useState<string | false>(false);
   const [checked, setChecked] = useState(true);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
-
   const classes = Styles();
   return (
     <>
-    
- 
-          <Grow
-            in={checked}
-            style={{ transformOrigin: '0 0 0' }}
-            {...(checked ? { timeout: 1000 } : {})}
-          >
-        
-        <Accordion
+    <Grow
+      in={checked}
+      style={{ transformOrigin: '0 0 0' }}
+      {...(checked ? { timeout: 1000 } : {})}
+      >
+      <Accordion
         className={classes.background}
-        expanded={expanded === 'panel'}
-        onChange={handleChange('panel')}
+        expanded={expand === index}
+        onChange={Collapse(index)}
         elevation={0}
         disableGutters sx={{mb:"10px"}}
       >
@@ -68,7 +60,7 @@ function Accordion4({
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           sx={{background: `${theme.colors.gradients.pink1}`}} >
-         <Header3 variant="body2" color={expanded === 'panel' ? 'secondary' : ''}>
+         <Header3 variant="body2" color={expand === index ? 'secondary' : ''}>
          <b style={{fontSize:"14px"}}>Accession No : {no} </b> <br/>
           Book Title : {title}
           </Header3 >
