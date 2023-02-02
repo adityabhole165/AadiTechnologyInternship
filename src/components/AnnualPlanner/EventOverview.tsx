@@ -4,7 +4,7 @@ import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import Buttons from 'src/libraries/buttons/button';
+import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
@@ -110,7 +110,7 @@ function EventOverview() {
   return (
     <Container>
       <PageHeader heading={'Events Overview'} subheading={''} />
-      <Buttons
+      <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}

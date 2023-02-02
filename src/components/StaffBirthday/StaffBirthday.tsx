@@ -10,7 +10,7 @@ import IstaffBirthday, {
 } from 'src/interfaces/Common/StaffBirthday';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List17 from 'src/libraries/list/list17';
-import Buttons from 'src/libraries/buttons/button';
+import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
@@ -89,7 +89,7 @@ function StaffBirthday() {
             <CardDetail7>Upcoming Birthday</CardDetail7>
           </DotLegend1>
           <br />
-       <Buttons
+       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
