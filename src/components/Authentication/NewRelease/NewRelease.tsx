@@ -18,7 +18,8 @@ const NewRelease = ({ onChangeVersion }) => {
     const [showUpgrade, setShowUpgrade] = useState(false);
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
-     
+    const iOSAppStoreUrl = 'https://apps.apple.com/in/app/riteschool/id1036759360'
+    
     let lastFetchDateTimeValue = null;
     useEffect(() => {
 
@@ -57,7 +58,7 @@ const NewRelease = ({ onChangeVersion }) => {
         <>
             {showUpgrade &&
                 (<><UpgradeApp IsForceUpdate={latestVersionDetails.IsForceUpdate}
-                    AppStoreUrl={latestVersionDetails.AppStoreUrl}
+                    AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.AppStoreUrl}
                     ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
             }</>
         // <Container>

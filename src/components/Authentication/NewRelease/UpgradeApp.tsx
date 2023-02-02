@@ -7,7 +7,7 @@ const UpgradeApp = ({ IsForceUpdate = 'True', AppStoreUrl = '', ReleaseNotes = '
     if (ReleaseNotes === '') {
         latestVersionDetails = JSON.parse(localStorage.getItem("NewVersionDetails"))
         IsForceUpdate = latestVersionDetails.IsForceUpdate
-        AppStoreUrl = (typeof(localStorage.getItem('deviceType'))!= undefined && window.localStorage.getItem('deviceType') === 'android')? latestVersionDetails.AppStoreUrl : 'https://apps.apple.com/in/app/riteschool/id1036759360'
+        AppStoreUrl = latestVersionDetails.AppStoreUrl
         ReleaseNotes = latestVersionDetails.ReleaseNotes
     }
     return (
