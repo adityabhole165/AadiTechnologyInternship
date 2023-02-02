@@ -17,8 +17,8 @@ const BdayPopUp = () => {
     }
     return (
         <div id="balloon-container" onClick={clickNav} >
-            <Typography className='header' >Happy Birthday</Typography>
-            <Typography className='subheader' >{StudentName}</Typography>
+            <Typography className='header'style={{fontFamily:'Dancing Script,cursive'}} >Happy Birthday</Typography>
+            <Typography className='subheader' style={{fontFamily:'Dancing Script,cursive'}}>{StudentName}</Typography>
             <canvas id="birthday"></canvas>
         </div>
     )
