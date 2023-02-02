@@ -1,3 +1,4 @@
+import * as React from 'react';
 import Accordion4 from 'src/libraries/accordion/accordion4';
 import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
 import { useEffect } from 'react';
@@ -22,7 +23,10 @@ function BooksDetails() {
   const GetCancelBookReservation = useSelector(
     (state: RootState) => state.library.CancelBookReservation
   );
-console.log("GetCancelBookReservation",GetCancelBookReservation);
+  const [expanded, setExpanded] = React.useState<string | false>(false);
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asLanguage = sessionStorage.getItem('Language');
@@ -57,17 +61,7 @@ console.log("GetCancelBookReservation",GetCancelBookReservation);
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
   }, []);
-  // useEffect(() => {
-  //   dispatch(getCancelBookReservation(CancelBookReservationbody));
-  // }, []);
-
-//   const conformMsg = () => {
-//     if (confirm('Do you want to claim this book for Parent?')) {
-//           console.log('');
-//     } else {
-//       console.log(GetCancelBookReservation)
-//     }
-// }
+ 
 const confirmsg = () =>{
   if (confirm('Do you want to claim this book for Parent?')) {
               console.log('');
@@ -91,6 +85,7 @@ const confirmsg = () =>{
               return (
                 <Accordion4
                   key={i}
+                  index={i}
                   Bookk={GetBookList}
                   author={items.Author_Name}
                   publisher={items.Published_By}
@@ -101,6 +96,8 @@ const confirmsg = () =>{
                   title={items.Book_Title}
                   conformMsg={confirmsg}
                   no={items.Book_No}
+                  Collapse={handleChange}
+                  expand={expanded}
                 />
               );
             })}

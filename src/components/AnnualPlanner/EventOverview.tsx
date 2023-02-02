@@ -75,14 +75,18 @@ function EventOverview() {
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
-    const currentDayInMilli = new Date(selectedDate);
+    const dateValues = selectedDate.split(" ");
+    const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
+    const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() - 1);
     setCurrentDate(currentDayInMilli);
   };
 
   const getNextDate = () => {
     const { selectedDate } = date;
-    const currentDayInMilli = new Date(selectedDate);
+    const dateValues = selectedDate.split(" ");
+    const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
+    const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
   };
