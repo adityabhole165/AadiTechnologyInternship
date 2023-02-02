@@ -9,11 +9,9 @@
 body {
   background-color: #fdbf00;
 }
-p{
-  font-family: 'Dancing Script', cursive;
-}
+
 b{
-   font-family: 'Dancing Script', cursive;
+
   color: #000046;
 }
 .cardd {
@@ -102,34 +100,7 @@ b{
 
  
 
-/* @media (max-width : 280px) and (max-width : 320px){
-  .cardd {
 
-    margin-left: -180px;
-}} */
-
-/* @media   (min-width : 280px){
-  .cardd {
-
-    margin-left: -100px;
-}} */
-
-/* @media  (max-width: 540px) {
-  .cardd {
-
-    margin-left: -100px;
-}}
-
-@media (min-width: 362px) and (max-width: 415px){
-  .cardd {
-   
-    margin-left: -160px;
-}}
-@media  (max-width: 360px){
-  .cardd {
-   
-    margin-left: -170px;
-}} */
 .cardd:hover {
   transform: rotate(-5deg);
 }
@@ -278,7 +249,7 @@ b{
   right: -3px;
   background: #d38673;
   color: #FFF;
-  font-family: 'Nobile', sans-serif;
+
   font-style: italic;
   font-weight: bold;
   font-size: 1.5em;

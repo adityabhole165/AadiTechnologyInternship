@@ -8,11 +8,11 @@ const BdayCard = () => {
   return (
     <>
       <Box >
-        <div className="cardd">
+        <div className="cardd" >
           <div id="card-front">
             <div className="outside">
               <div className="front">
-                <p>Happy Birthday</p>
+                <p style={{fontFamily:'Dancing Script,cursive'}}>Happy Birthday</p>
                 <div className="cake">
                   <div className="middle-layer"></div>
                   <div className="bottom-layer"></div>
@@ -25,8 +25,8 @@ const BdayCard = () => {
             </div>
             <div className="inside">
               <h2>&#127872;</h2>
-              <p>Wishing you another wonderful year of happiness, fun, and success. Happy Birthday !!!
-                - From all of us at <b>{SchoolName}</b>!!!</p>  
+              <p style={{fontFamily:'Dancing Script,cursive'}}>Wishing you another wonderful year of happiness, fun, and success. Happy Birthday !!!
+                - From all of us at <b style={{fontFamily:'Dancing Script,cursive'}}>{SchoolName}</b>!!!</p>  
             </div>
           </div>
         </div>
