@@ -13,8 +13,11 @@ import ExtendedSidebarLayout from './layouts/ExtendedSidebarLayout';
 function App() {
 
   const content = useRoutes(router);
+  const deviceType = window.localStorage.getItem('deviceType') 
+  const iOSMarginTop = ((typeof deviceType != undefined && deviceType == 'ios') ? '8px' : '0px')
 
   return (
+    <div style={{marginTop: iOSMarginTop}}>
     <ThemeProvider>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <SnackbarProvider
@@ -29,6 +32,7 @@ function App() {
         </SnackbarProvider>
       </LocalizationProvider>
     </ThemeProvider>
+    </div>
   );
 }
 export default App;
