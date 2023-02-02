@@ -28,12 +28,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
     const nextDate = getNextDate(date, prevNext)
     setCurrentDate(nextDate);
   }
-
-  const clickClose=(selectDate)=>{
-    const dateArray = selectDate.toString().split("/");
-    Close(`${dateArray[1]}/${dateArray[0]}/${dateArray[2]}`)
-  }
-
+  
   const dateClickHnadler = (e) => {
     setdateClickDependent(dateClickDependent === 'none' ? 'flex' : 'none')
   };
@@ -69,7 +64,7 @@ function DateSelector({ date, setCurrentDate, Close }) {
                
               }}
             >
-              <Calendar onChange={(e) => clickClose(e.toLocaleString())} maxDate={new Date()}/>
+              <Calendar onChange={(e) => Close(e)} maxDate={new Date()}/>
             </div>
           </Grid>
 
