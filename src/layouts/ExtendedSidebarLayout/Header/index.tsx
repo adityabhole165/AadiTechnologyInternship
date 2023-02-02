@@ -431,6 +431,7 @@ function Header() {
               <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
             </Button>
           </Box>
+          {window.localStorage.getItem('deviceType') === 'android' ? (
           <Box m={1}>
             <Button color="primary" fullWidth onClick={handleCloseApp}>
               <PowerSettingsNewTwoToneIcon fontSize="small"
@@ -442,7 +443,7 @@ function Header() {
               />
               <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Exit</UserBoxLabel>
             </Button>
-          </Box>
+          </Box>):<div/>}
         </Popover>
         <Avatar sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add">
           <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 50 }} />
