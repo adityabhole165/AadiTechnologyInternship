@@ -25,7 +25,7 @@ const Text = styled(Box)(({ theme }) => ({
 function LandingPage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [showBday, setShowBday]= useState(true);
+  const [showBday, setShowBday]= useState(false);
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
   );
