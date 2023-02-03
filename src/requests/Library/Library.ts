@@ -1,7 +1,8 @@
 import { createSlice} from '@reduxjs/toolkit'
 import LibraryApi from 'src/api/Library/Library';
+import ClaimBookDetails from 'src/api/Library/Library';
 import { AppThunk } from 'src/store';
-import { IBooksDetails,IBookswithmeList,IClaimList,ICancelBookReservation } from 'src/interfaces/Student/Library';
+import { IBooksDetails,IBookswithmeList,IClaimDetail,IClaimDetailResult,ICancelBookReservation } from 'src/interfaces/Student/Library';
 
 const LibrarySlicee = createSlice({
 
@@ -25,7 +26,7 @@ reducers:{
       state.BookswithmeList=action.payload.GetIssuedBookDetails;
   },
 
-  getClaimListList(state,action){
+  getClaimBookDetails(state,action){
     state.ClaimList=action.payload.GetClaimBookDetails;
 },
   getCancelBookReservation(state,action){
@@ -51,11 +52,12 @@ async (dispatch) => {
 
 };
 
-export const getClaimlist=
-(data:IClaimList):AppThunk=>
+export const getClaimBookDetails=
+(data:IClaimDetail):AppThunk=>
 async (dispatch) => {
-  const response = await LibraryApi.GetClaim(data);
-  dispatch(LibrarySlicee.actions.getClaimListList(response.data));
+  const response = await LibraryApi.ClaimBookDetails(data);
+  console.log(response.data,"response.data")
+  dispatch(LibrarySlicee.actions.getClaimBookDetails(response.data));
 
 };
 export const getCancelBookReservation=
