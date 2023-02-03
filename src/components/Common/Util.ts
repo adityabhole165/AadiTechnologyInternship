@@ -118,5 +118,6 @@ export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" ;
 export const androidCurrentAppVersion = "2.0.1";
 export const appleCurrentAppVersion = "1.0.0";
-export const deviceType = "Android";
+export const deviceType = ((typeof window.localStorage.getItem('deviceType') != undefined &&
+window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");
 // export const sitePath = 'https://192.168.1.80';
