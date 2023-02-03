@@ -278,7 +278,7 @@ function SelectSchool() {
             asUserId: userId.toString(),
             asRegistrationId: localStorage.getItem('FCMdeviceToken'),
             asDeviceId: localStorage.getItem('deviceId'),
-            asDeviceType: localStorage.getItem('deviceType')
+            asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' :  localStorage.getItem('deviceType'))
         }
         const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
     }
