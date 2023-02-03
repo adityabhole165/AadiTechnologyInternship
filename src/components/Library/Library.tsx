@@ -10,6 +10,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import PlagiarismTwoToneIcon from '@mui/icons-material/PlagiarismTwoTone';
+
 function Library() {
   const navigate = useNavigate();
   const [showForm, setshowForm] = useState(false);
@@ -37,12 +38,15 @@ function Library() {
   const clickBookwithme = () => {
     navigate('/extended-sidebar/Student/Library/Bookswithme')
   }
+  const clickClaimedBook = () => {
+    navigate('/extended-sidebar/Student/Library/ClaimedBook')
+  }
   return (
     <Container>
       <PageHeader heading={'Library'} subheading={''} />
        <Grid container spacing={1}>
         <Grid item xs={5.2}>
-          <ButtonPrimary fullWidth>Claimed Book Details</ButtonPrimary>
+          <ButtonPrimary fullWidth onClick={clickClaimedBook}>Claimed Book Details</ButtonPrimary>
         </Grid>
         <Grid item xs={5.2}>
           <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
@@ -53,7 +57,7 @@ function Library() {
       </Grid>
     <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
       <BooksDetails />
-  
+ 
     </Container>
   );
 }

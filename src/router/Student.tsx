@@ -31,7 +31,7 @@ const Bookswithme = Loader(lazy(()=> import('src/components/Library/Bookswithme'
 const Fees_cautionmoney = Loader(lazy(() => import('src/components/Fees/Fees_cautionmoney')));
  const PayOnline = Loader(lazy(()=>import('src/components/Fees/PayOnline')))
 const OnlineExamProgressReport=Loader(lazy(() => import('src/components/Online Exam Progress Report/OnlineExamProgressReport')))
-const ViewClaim = Loader(lazy(() => import('src/components/Library/Claim')))
+const ClaimedBook = Loader(lazy(() => import('src/components/Library/ClaimedBook')))
 const OnlineExam = Loader(lazy(() => import('src/components/OnlineExam/OnlineExam')))
 const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/OnlineExamDetails')))
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
@@ -122,8 +122,8 @@ const studentRoutes = [
     element: <Bookswithme/>
   },
   {
-    path: 'Claim',
-    element: <ViewClaim/>
+    path: 'Library/ClaimedBook',
+    element: <ClaimedBook/>
   },
   {
     path: 'Progressreport',

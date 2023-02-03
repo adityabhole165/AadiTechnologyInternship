@@ -13,7 +13,6 @@ function PushNotification() {
   });
 
   PushNotifications.addListener('registration', (token: Token) => {
-    console.log("$$$ Hello $$$ ",token.value);
     window.localStorage.setItem("FCMdeviceToken", token.value);
   });
 

@@ -52,7 +52,7 @@ export interface GetBookswithmeResult {
 }
 
 //Claim Books
-export interface IClaimList {
+export interface IClaimDetail {
     aiSchoolId:string,
     aiAcademicYearId:string,
     aiUserId:string,
@@ -64,20 +64,25 @@ export interface IClaimList {
     aiAllUser:number
 }
 
-export interface GetClaimResult {
-    UserId: number,
-            UserName: string,
-            UserRoleId: number,
-            ClassNameDesignation: string,
-            Designation: string,
-            Book_Id: number,
-            Book_Title: string,
-            Issue_Date: string,
-            Return_Date: string,
-            RollNo: number,         
-            IsForParent: string,
-            ReservationDate: string,
-            StandardDivisionId: number,      
+export interface IClaimDetailResult {
+    UserId:number,
+    UserName: string,
+    RegNo: null,
+    UserRoleId: number,
+    ClassNameDesignation: string,
+    Designation: string,
+    Book_Id: number,
+    Book_No: null,
+    Book_Title: string,
+    Issue_Date:string,
+    Return_Date: string,
+    IsActive: null,
+    RollNo: number,
+    EmployeeNo: null,
+    IsForParent: false,
+    ReservationDate: string,
+    StandardDivisionId: number,
+    EnrollmentNo: null     
 }
 
 export interface ICancelBookReservation {

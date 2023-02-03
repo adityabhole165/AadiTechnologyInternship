@@ -94,7 +94,7 @@ export const monthArray = [
 export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {
-        
+
         if (fileData?.size > fileSize) {
             return 'Please upload a file smaller than 20 MB';
         }
@@ -108,16 +108,16 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
 
 export function isBetweenDate(date, dayCount) {
     var fromDate = new Date(new Date().toLocaleDateString())
-    var toDate = getNextDate(fromDate,dayCount)
+    var toDate = getNextDate(fromDate, dayCount)
     var compareDate = new Date(new Date(date).toLocaleDateString())
-    return ((compareDate  >= fromDate) && 
-    (compareDate <= new Date(toDate)))
+    return ((compareDate >= fromDate) &&
+        (compareDate <= new Date(toDate)))
 }
 
 export const sitePath = localStorage.getItem('SiteURL');
-export const logoURL = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" ;
-export const androidCurrentAppVersion = "2.0.1";
-export const appleCurrentAppVersion = "1.0.0";
+export const logoURL = "https://riteschoolmobileservicehttps.riteschool.com/images/";
+export const androidCurrentAppVersion = "2.0.4";
+export const appleCurrentAppVersion = "2.0.0";
 export const deviceType = ((typeof window.localStorage.getItem('deviceType') != undefined &&
-window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");
+    window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");
 // export const sitePath = 'https://192.168.1.80';

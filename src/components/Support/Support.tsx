@@ -66,7 +66,7 @@ function Support() {
       };
     });
   };
-  const FileValidationNote = "(Supports only XLS, XLSX, DOC, DOCX, PDF, JPG, JPEG files types up to 200 KB)"
+  const FileValidationNote = "(Supports only XLS, XLSX, DOC, DOCX, PDF, JPG, JPEG files types up to 1 MB)"
   const aRef = useRef(null);
   const formik = useFormik({
     initialValues: {
