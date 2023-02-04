@@ -105,7 +105,9 @@ function EventOverview() {
   const EndDate = new Date(
     moment(sessionStorage.getItem('EndDate')).format('YYYY-MM')
   );
-  const date1 = new Date(moment(date.selectedDate).format('YYYY-MM'));
+  const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
+  const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] +"01," + selectedDateList[1]) : date.selectedDate)
+  const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
 
   return (
     <Container>
