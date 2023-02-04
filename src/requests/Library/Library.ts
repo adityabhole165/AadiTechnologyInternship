@@ -12,7 +12,7 @@ initialState:{
   BooksDetaiLs:[],
   BookswithmeList:[],
   ClaimList:[],
-  CancelBookReservation:{}
+  CancelBookReservation:''
 },
 
 reducers:{
@@ -29,9 +29,13 @@ reducers:{
   getClaimBookDetails(state,action){
     state.ClaimList=action.payload.GetClaimBookDetails;
 },
-  getCancelBookReservation(state,action){
-  state.CancelBookReservation=action.payload;
+getCancelBookReservation(state,action){
+state.CancelBookReservation=action.payload;
 },
+resetCancelMessage(state){
+state.CancelBookReservation='';
+},
+
 }
 
 });
@@ -67,4 +71,11 @@ async (dispatch) => {
   dispatch(LibrarySlicee.actions.getCancelBookReservation(response.data));
 
 };
+
+export const resetMessage=
+():AppThunk=>
+async (dispatch) => {
+  dispatch(LibrarySlicee.actions.resetCancelMessage());
+
+}
 export default LibrarySlicee.reducer
