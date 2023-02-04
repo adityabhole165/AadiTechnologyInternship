@@ -20,9 +20,7 @@ function BooksDetails() {
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
   );
-  const GetCancelBookReservation = useSelector(
-    (state: RootState) => state.library.CancelBookReservation
-  );
+
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -50,13 +48,7 @@ function BooksDetails() {
     aiStartRowIndex: "0",
     asSortExpression: ""
   };
-  const CancelBookReservationbody:ICancelBookReservation = {
-    aiUserId:"362",
-    aiBookid:"139",
-    aiSchoolId:"120",
-    aiAcademicYearId:"8"
 
-  }
 
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
@@ -66,8 +58,7 @@ const confirmsg = () =>{
   if (confirm('Do you want to claim this book for Parent?')) {
               console.log('');
         } else {
-          dispatch(getCancelBookReservation(CancelBookReservationbody));
-          console.log("v",GetCancelBookReservation);
+      
           
         }
  
