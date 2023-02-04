@@ -14,7 +14,7 @@ function App() {
 
   const content = useRoutes(router);
   const deviceType = window.localStorage.getItem('deviceType') 
-  const iOSMarginTop = ((typeof deviceType != undefined && deviceType == 'ios') ? '8px' : '0px')
+  const iOSMarginTop = ((typeof deviceType != undefined && deviceType == 'ios') ? '10px' : '0px')
 
   return (
     <div style={{marginTop: iOSMarginTop}}>
