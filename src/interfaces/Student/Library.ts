@@ -1,10 +1,10 @@
 //books details
 export interface IBooksDetails {
         aiSchoolId:string,
-         asBookName:null,
-         asAccessionNumber:null,
-         asAuthorName:null,
-         asPublisher:null,
+         asBookName:string,
+         asAccessionNumber:string,
+         asAuthorName:string,
+         asPublisher:string,
          asLanguage:string,
          aiStandardId:string,
          aiMediaType:number,

@@ -10,37 +10,73 @@ import { Link as RouterLink } from 'react-router-dom';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import PlagiarismTwoToneIcon from '@mui/icons-material/PlagiarismTwoTone';
+import {
+  GetBooksDetailsResult,
+  IBooksDetails,
+  ICancelBookReservation
+} from 'src/interfaces/Student/Library';
+import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
+import SearchForm from 'src/libraries/card/SearchForm';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
 
 function Library() {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [showForm, setshowForm] = useState(false);
-
-  const [link, setLink] = useState('Books with me ');
-  const [text, setText] = useState(' Books Details');
-
-  function toggleClick() {
-    setshowForm(!showForm);
-    if (showForm) {
-      setLink('Books with me');
-      setText('Books Details');
-    } else {
-      setLink('Books Details');
-      setText('Books with me');
-    }
-  }
-  useEffect(() => {
+  const [showFilter, setShowFilter] = useState(false);
+  const [bookTitle, setBookTitle] = useState('');
+  const [accessionNo, setAccessionNo] = useState('');
+  const [author, setAuthor] = useState('');
+  const [publisher, setPublisher] = useState('');
+   useEffect(() => {
     localStorage.setItem("url",window.location.pathname)
   },[])
-
-  const classes = Styles();
-
-
-  const clickBookwithme = () => {
+   const clickBookwithme = () => {
     navigate('/extended-sidebar/Student/Library/Bookswithme')
   }
   const clickClaimedBook = () => {
     navigate('/extended-sidebar/Student/Library/ClaimedBook')
   }
+
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asLanguage = sessionStorage.getItem('Language');
+  const asStandardID = sessionStorage.getItem('StandardId');
+  const asParentStaffID = sessionStorage.getItem('ParentStaffID');
+  const asStartRowIndex = sessionStorage.getItem('StartRowIndex');
+  const asSortRowIndexExpression = sessionStorage.getItem('SortRowIndexExpression');
+
+  const BooksDetails_body: IBooksDetails = {
+    aiSchoolId: asSchoolId,
+    asBookName: bookTitle,
+    asAccessionNumber: accessionNo,
+    asAuthorName: author,
+    asPublisher: publisher,
+    asLanguage: "0",
+    aiStandardId: asStandardID,
+    aiMediaType: 2,
+    aiBookId: 0,
+    aiParentStaffId: "0",
+    aiEndIndex: 20,
+    aiStartRowIndex: "0",
+    asSortExpression: ""
+  };
+
+  useEffect(() => {
+    dispatch(getBookDetailslist(BooksDetails_body));
+   }, [ bookTitle, accessionNo,author,publisher]);
+ 
+   const clickFilter=({bookTitle,accessionNo,author,publisher})=>{
+     setBookTitle(bookTitle)
+     setAccessionNo(accessionNo)
+     setAuthor(author)
+     setPublisher(publisher)
+     
+   }
+  const clickSearch= () => {
+    setShowFilter(!showFilter)
+      }
   return (
     <Container>
       <PageHeader heading={'Library'} subheading={''} />
@@ -49,15 +85,16 @@ function Library() {
           <ButtonPrimary fullWidth onClick={clickClaimedBook}>Claimed Book Details</ButtonPrimary>
         </Grid>
         <Grid item xs={5.2}>
-          <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
+        <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
         </Grid>  
         <Grid item xs={1.6}>
-  <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}}/>
+        <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}} onClick={clickSearch}/>
         </Grid>
-      </Grid>
-    <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
+       </Grid>
+       <SearchForm clickFilter={clickFilter}/>
+      <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
       <BooksDetails />
- 
+
     </Container>
   );
 }

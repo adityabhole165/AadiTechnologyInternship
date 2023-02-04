@@ -1,4 +1,4 @@
-import * as React from 'react';
+import  React,{useState} from 'react';
 import Accordion4 from 'src/libraries/accordion/accordion4';
 import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
 import { useEffect } from 'react';
@@ -13,6 +13,7 @@ import {
 } from 'src/interfaces/Student/Library';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Typography } from '@mui/material';
+import SearchForm from 'src/libraries/card/SearchForm';
 
 function BooksDetails() {
   const dispatch = useDispatch();
@@ -20,7 +21,11 @@ function BooksDetails() {
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
   );
-
+  const [bookTitle, setBookTitle] = useState('');
+  const [accessionNo, setAccessionNo] = useState('');
+  const [author, setAuthor] = useState('');
+  const [publisher, setPublisher] = useState('');
+ 
   const [expanded, setExpanded] = React.useState<string | false>(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -35,10 +40,10 @@ function BooksDetails() {
 
   const BooksDetails_body: IBooksDetails = {
     aiSchoolId: asSchoolId,
-    asBookName: null,
-    asAccessionNumber: null,
-    asAuthorName: null,
-    asPublisher: null,
+    asBookName: bookTitle,
+    asAccessionNumber: accessionNo,
+    asAuthorName: author,
+    asPublisher: publisher,
     asLanguage: "0",
     aiStandardId: asStandardID,
     aiMediaType: 2,
@@ -53,6 +58,8 @@ function BooksDetails() {
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
   }, []);
+
+
  
 const confirmsg = () =>{
   if (confirm('Do you want to claim this book for Parent?')) {
@@ -94,6 +101,7 @@ const confirmsg = () =>{
             })}
           </>
         )}
+
       </div>
     </>
   );
