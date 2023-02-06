@@ -59,6 +59,12 @@ function Form13() {
     RecipientId: [],
     ClassId: []
   });
+  
+  const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
+    RecipientName: [],
+    RecipientId: [],
+    ClassId: []
+  });
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
 
@@ -124,6 +130,7 @@ function Form13() {
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
+  const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
   let dataShow: any = [];
@@ -243,10 +250,10 @@ function Form13() {
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
-      asSelectedUserIdsCc:"",
-      asSelectedStDivIdCc:"",
+      asSelectedUserIdsCc:RecipientsCCObject.RecipientId.toString(),
+      asSelectedStDivIdCc: RoleId == '3' ? DivisionId : RecipientsCCObject.ClassId.toString(),
       asIsSoftwareCordinatorCc:"",
-      asDisplayTextCc:""
+      asDisplayTextCc:RecipientsCCObject.RecipientName.toString()
     };
 
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
@@ -273,6 +280,7 @@ function Form13() {
   const formik = useFormik({
     initialValues: {
       To: '',
+      Cc: '',
       Subject: PageName == 'Forwa' ? "FW: " + Text : '' || PageName == 'Reply' ? "RE: " + Text : '',
       Content: '',
       Attachment: ''
@@ -303,6 +311,11 @@ function Form13() {
     setdisplayOfComposePage('none');
   };
 
+  const RecipientCCButton = (e) => {
+    setdisplayOfCCRecipients('block');
+    setdisplayOfComposePage('none');
+  };
+
   const displayPropertyFun = (e) => {
     if (e == 'none') {
       setdisplayOfRecipients(e);
@@ -313,6 +326,12 @@ function Form13() {
   const RecipientsListFun = (e) => {
     setRecipientsObject(e);
     setdisplayOfRecipients('none');
+    setdisplayOfComposePage('block');
+
+  };
+  const RecipientsCCListFun = (e) => {
+    setRecipientsCCObject(e);
+    setdisplayOfCCRecipients('none');
     setdisplayOfComposePage('block');
 
   };
@@ -393,10 +412,10 @@ function Form13() {
                 </Grid>
               </Grid>
               <>
-                {/* <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
+                <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
-                  value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
                   id=""
                   fullWidth
                   disabled
@@ -408,19 +427,19 @@ function Form13() {
                     border: "0.1px solid #c4c5c5",
                     borderRadius: "5.3px",
                   }}
-                /> */}
-                {/* <Grid container spacing={2} >
+                />
+                <Grid container spacing={2} >
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
                     <ButtonPrimary fullWidth
-                      onClick={(e) => RecipientButton(e)}
+                      onClick={(e) => RecipientCCButton(e)}
                       color="primary">
-                      Add Recipients
+                      Add Cc Recipients
                     </ButtonPrimary>
                   </Grid>
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
 
                   </Grid>
-                </Grid> */}
+                </Grid>
               </>
             </FormControl>
 
@@ -592,6 +611,11 @@ function Form13() {
         <AddReciepents RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
           recipientListClick={RecipientsListFun}></AddReciepents>
+          </div>
+      <div style={{ display: displayOfCCRecipients }}>
+        <AddReciepents RecipientName={RecipientsCCObject.RecipientName}
+          RecipientId={RecipientsCCObject.RecipientId}
+          recipientListClick={RecipientsCCListFun}></AddReciepents>
       </div>
     </>
   );

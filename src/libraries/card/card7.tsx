@@ -1,25 +1,22 @@
 import { Typography, useTheme, Container, Card, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import { Link as RouterLink, Navigate } from 'react-router-dom';
 import { useState } from 'react';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import {
   CardWrapper,
   ListStyle,
-  CardDetail3,
   CardDetail1,
   BoxWrapper,
   CardDetail2,
   Wordbreak
 } from '../styled/CardStyle';
-import { sitePath } from 'src/components/Common/Util';
 import { useNavigate } from 'react-router-dom';
 
 Card7.propTypes = {
   From: PropTypes.string,
   To: PropTypes.string,
-  Date: PropTypes.string,
+  Cc: PropTypes.string,
   Text: PropTypes.string,
   ViewDetail: PropTypes.object,
   Body: PropTypes.string,
@@ -32,6 +29,7 @@ function Card7({
   ViewDetail,
   From,
   To,
+  Cc,
   Body,
   Text,
   Attachments,
@@ -98,6 +96,11 @@ function Card7({
             <CardDetail1> {ViewDetail.To}</CardDetail1>
 
             <CardDetail2>{To}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1> {ViewDetail.Cc}</CardDetail1>
+
+            <CardDetail2>{Cc}</CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>

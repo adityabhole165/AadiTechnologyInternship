@@ -40,7 +40,11 @@ export interface GetSentListResult {
             SenderUserRoleId: string,
             Subject: string,
             Time: string,
-            UserName: string
+            UserName: string,
+            DisplayTextCc: string,
+            ReceiverUserIdCc:string,
+            ScheduleDateTime: string,
+            ReceiverNameCc: string
 }
 
 // view sent
