@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import Bookswithme from './Bookswithme';
 import BooksDetails from './BooksDetails';
-import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
-import { Styles } from 'src/assets/style/student-style';
-import LibraryToggle from 'src/libraries/buttons/LibraryToggle';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Box, Typography, Container,Grid } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import {  Typography, Container,Grid } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
-import PlagiarismTwoToneIcon from '@mui/icons-material/PlagiarismTwoTone';
 import {
   GetBooksDetailsResult,
   IBooksDetails,
   ICancelBookReservation
 } from 'src/interfaces/Student/Library';
+import { RootState } from 'src/store';
 import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
 import SearchForm from 'src/libraries/card/SearchForm';
 import { useDispatch } from 'react-redux';
@@ -24,15 +19,16 @@ import { useSelector } from 'react-redux';
 function Library() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [showForm, setshowForm] = useState(false);
   const [showFilter, setShowFilter] = useState(false);
   const [bookTitle, setBookTitle] = useState('');
   const [accessionNo, setAccessionNo] = useState('');
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
-   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
+  
+  const GetBookList = useSelector(
+    (state: RootState) => state.library.BooksDetaiLs
+  );
+ 
    const clickBookwithme = () => {
     navigate('/extended-sidebar/Student/Library/Bookswithme')
   }
@@ -62,6 +58,9 @@ function Library() {
     aiStartRowIndex: "0",
     asSortExpression: ""
   };
+  useEffect(() => {
+    dispatch(getBookDetailslist(BooksDetails_body));
+  }, []);
 
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
@@ -74,28 +73,30 @@ function Library() {
      setPublisher(publisher)
      
    }
-  const clickSearch= () => {
+  const clickCloseIcon= () => {
     setShowFilter(!showFilter)
       }
+
+    
   return (
     <Container>
       <PageHeader heading={'Library'} subheading={''} />
-       <Grid container spacing={1}>
+      {!showFilter ?
+      (<Grid container spacing={1}>
         <Grid item xs={5.2}>
           <ButtonPrimary fullWidth onClick={clickClaimedBook}>Claimed Book Details</ButtonPrimary>
         </Grid>
         <Grid item xs={5.2}>
         <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
-        </Grid>  
+        </Grid> 
         <Grid item xs={1.6}>
-        <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}} onClick={clickSearch}/>
+        <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}} onClick={()=>{setShowFilter(!showFilter)}}/>
         </Grid>
-       </Grid>
-       <SearchForm clickFilter={clickFilter}/>
+       </Grid>):
+     (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon}/>)}
       <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
-      <BooksDetails />
-
-    </Container>
+      <BooksDetails GetBookList={GetBookList}/>
+   </Container>
   );
 }
 export default Library;

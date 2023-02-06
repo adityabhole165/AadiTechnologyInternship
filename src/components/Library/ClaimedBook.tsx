@@ -8,9 +8,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { IClaimDetail,IClaimDetailResult, ICancelBookReservation } from 'src/interfaces/Student/Library';
 import Accordian1 from 'src/libraries/mainCard/Accordian1';
 import { Container,Box,Checkbox } from '@mui/material';
-import MCForm from 'src/libraries/form/MCForm';
 import Filter from 'src/libraries/mainCard/Filter';
-import SearchIcon from '@mui/icons-material/Search';
 import { toast } from 'react-toastify';
 function ClaimedBook() {
     const dispatch = useDispatch();
@@ -22,15 +20,11 @@ function ClaimedBook() {
       );
       const [expanded, setExpanded] = React.useState<string | false>(false);
       const [checked, setChecked] = useState(false);
-      const [value, setValue] = useState(0);
-      const [showFilter, setShowFilter] = useState(false);
       const [userName, setUserName] = useState('');
       const [bookTitle, setBookTitle] = useState('');
       const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
       };
-   
-     
       const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
       const asSchoolId = localStorage.getItem('localSchoolId');
       const UserId = sessionStorage.getItem('Id');
@@ -90,8 +84,8 @@ function ClaimedBook() {
       }
   return (
     <Container >
-      <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
-      <BackButton FromRoute={'/Student/Library'}/>
+    <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
+    <BackButton FromRoute={'/Student/Library'}/>
     <Filter  clickSearch={ clickSearch} clickAllUser={clickAllUser}/>
     {ClaimedBook .map((items: IClaimDetailResult,i) => {
       return (
