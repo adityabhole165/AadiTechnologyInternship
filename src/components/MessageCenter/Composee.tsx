@@ -262,17 +262,19 @@ function Form13() {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
-            toast.success('Message scheduled successfully');
+            toast.success('Message scheduled successfully', { toastId: 'success1'});
           } else {
-            toast.success('Message sent successfully');
+            toast.success('Message sent successfully', { toastId: 'success1'});
           }
           localStorage.setItem("messageBody", '');
           setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
-        toast.error('Message does not sent successfully');
+        toast.error('Message does not sent successfully', { toastId: 'error1'});
         localStorage.setItem("messageBody", '');
+        setdisabledStateOfSend(false);
+
       });
   };
 
