@@ -71,10 +71,15 @@ function Library() {
      setAccessionNo(accessionNo)
      setAuthor(author)
      setPublisher(publisher)
-     
    }
-  const clickCloseIcon= () => {
-    setShowFilter(!showFilter)
+
+  const clickCloseIcon= ({bookTitle,accessionNo,author,publisher}) => {
+    setShowFilter(!showFilter);
+    setBookTitle(bookTitle)
+    setAccessionNo(accessionNo)
+    setAuthor(author)
+    setPublisher(publisher)
+    console.log(bookTitle,"bookTitle")
       }
 
     
@@ -93,7 +98,7 @@ function Library() {
         <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}} onClick={()=>{setShowFilter(!showFilter)}}/>
         </Grid>
        </Grid>):
-     (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon}/>)}
+     (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />)}
       <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
       <BooksDetails GetBookList={GetBookList}/>
    </Container>

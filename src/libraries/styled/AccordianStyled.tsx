@@ -112,7 +112,7 @@ export const Accordionsummary = styled(AccordionSummary)`
 export const Accordionsummary1 = styled(AccordionSummary)`
 
  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
- height:50px;
+ height:60px;
  font-size:14px;
  @media (max-width: 280px) {
   font-size: 12px;

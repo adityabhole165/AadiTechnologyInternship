@@ -9,6 +9,7 @@ import { IClaimDetail,IClaimDetailResult, ICancelBookReservation } from 'src/int
 import Accordian1 from 'src/libraries/mainCard/Accordian1';
 import { Container,Box,Checkbox } from '@mui/material';
 import Filter from 'src/libraries/mainCard/Filter';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { toast } from 'react-toastify';
 function ClaimedBook() {
     const dispatch = useDispatch();
@@ -38,7 +39,7 @@ function ClaimedBook() {
       aiStartRowIndex:'0',
       aiEndIndex:20,
       asSortExpression:'Order by Book_Title asc',
-      aiAllUser:checked ? 1:0
+      aiAllUser:1
       }
       useEffect(() => {
         dispatch(getClaimBookDetails(ClaimDetailbody));
@@ -46,7 +47,7 @@ function ClaimedBook() {
       useEffect(() => {
         console.log(ClaimDetailbody,checked ? 1:0,checked)
         dispatch(getClaimBookDetails(ClaimDetailbody));
-      }, [checked, bookTitle, userName]);
+      }, [ bookTitle, userName]);
 
       
       useEffect(() => {
@@ -87,11 +88,18 @@ function ClaimedBook() {
     <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
     <BackButton FromRoute={'/Student/Library'}/>
     <Filter  clickSearch={ clickSearch} clickAllUser={clickAllUser}/>
-    {ClaimedBook .map((items: IClaimDetailResult,i) => {
+    {ClaimedBook
+    .filter((obj)=>{
+      return checked?true:
+      obj.UserId===Number(sessionStorage.getItem('Id'))
+    }
+      )
+    .map((items: IClaimDetailResult,i) => {
       return (
     <Box key={i}  my={1}>
+    {ClaimedBook.length == 0 ? (<ErrorMessages Error={'No claimed has been claimed'} />) :(
     <Accordian1 expanded={expanded} handleChange={handleChange} 
-    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>
+    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>)}
     </Box>
       );
     })}

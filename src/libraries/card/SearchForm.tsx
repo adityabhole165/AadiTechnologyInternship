@@ -1,36 +1,58 @@
-import { TextField,Grid,Checkbox,Radio,FormControl,FormLabel,RadioGroup,Box,FormControlLabel,Avatar } from '@mui/material'
-import React,{useState} from 'react'
+import { TextField,Grid,Checkbox,Radio,FormControl,FormLabel,RadioGroup,Box,FormControlLabel,Avatar, Typography } from '@mui/material'
+import React,{useState,useEffect} from 'react'
 import { ListStyle } from '../styled/CardStyle'
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import CloseIcon from '@mui/icons-material/Close';
-function SearchForm({clickFilter,clickCloseIcon}) {
-   
+import {getLanguagesDetails} from "src/requests/Library/Library";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import {ILanguagesDetails} from 'src/interfaces/Student/Library'
+import Dropdown from '../dropdown/Dropdown';
+function SearchForm({clickFilter, clickCloseIcon}) {
+  const dispatch = useDispatch();
+  const [Language,setLanguage] = useState('')
+  const GetLanguageList = useSelector(
+    (state: RootState) => state.library.LanguageList
+  );
+  console.log(GetLanguageList,"GetLanguageList")
     const [ bookTitle, setBookTitle] = useState('');
     const [accessionNo, setAccessionNo] = useState('');
     const [author, setAuthor] = useState('');
     const [publisher, setPublisher] = useState('');
-   const [checked, setChecked] = useState(false);
-  
-    const SearchClaimed = {
-        asBookTitle:bookTitle,
-        asAccessionNo:accessionNo,
-        asAuthor:author,
-        asPublisher:publisher,
-        aschecked:checked
-    }
+   const asSchoolId = localStorage.getItem('localSchoolId');
+   
     const onClick = () => {
-    console.log(SearchClaimed,"SearchClaimed")
      clickFilter({bookTitle,accessionNo,author,publisher})
       }
+const clickClose = () => {
+  clickReset()
+  clickCloseIcon({bookTitle:'',accessionNo:'',author:'',publisher:''})
 
+}
+      const Languagesbody: ILanguagesDetails = {
+        aiSchoolId: asSchoolId,
+     };
+      useEffect(() => {
+        dispatch(getLanguagesDetails(Languagesbody));
+      }, []);
       
-    
+      const clickLanguage = (value) => {
+        setLanguage(value);
+      };
+      
+   const clickReset=()=>{
+    setBookTitle('')
+    setAccessionNo('')
+    setAuthor('')
+    setPublisher('')
+  }
   return (
     <div>
- 
+
       <ListStyle>
-      <Avatar onClick={clickCloseIcon}
+      <Avatar onClick={clickClose}
         sx={{ position: 'absolute', top: '-10px', zIndex: '4', right: '-5px',p:'2px',width: 25, height: 25,backgroundColor:"white",boxShadow:
         '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
       >   
@@ -67,22 +89,10 @@ function SearchForm({clickFilter,clickCloseIcon}) {
              value={''}/>
             </Grid>
             <Grid item xs={12}>
-            <FormControl >
-            <Box sx={{display:"flex"}}>
-           <FormLabel id="demo-controlled-radio-buttons-group">Languge</FormLabel>
-           <RadioGroup sx={{ml:2,mt:-1}}
-             row aria-labelledby="demo-row-radio-buttons-group-label"
-                 name="row-radio-buttons-group">
-
-        <FormControlLabel value={checked}  control={<Radio  size="small"/>} label="English" />
-          <FormControlLabel value={checked}  control={<Radio size="small"/>} label="Hindi" />
-           <FormControlLabel value={checked}  control={<Radio size="small"/>} label="Marathi" />
-           </RadioGroup>
-          </Box>
-           </FormControl>
+          <Dropdown Array={GetLanguageList} handleChange={clickLanguage} label={'Select Language'} defaultValue ={Language}/>
           </Grid>
         <Grid item xs={6} >
-       <ButtonPrimary  fullWidth color="secondary" >Cancel</ButtonPrimary>
+       <ButtonPrimary  fullWidth color="secondary" onClick={() => clickReset()}>Recet</ButtonPrimary>
       </Grid>
       <Grid item xs={6} >
       <ArrowCircleRightRoundedIcon onClick={onClick}
