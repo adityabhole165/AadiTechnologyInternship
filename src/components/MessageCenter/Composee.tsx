@@ -1,5 +1,5 @@
 import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector, useDispatch } from 'react-redux';
@@ -59,6 +59,12 @@ function Form13() {
     RecipientId: [],
     ClassId: []
   });
+  
+  const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
+    RecipientName: [],
+    RecipientId: [],
+    ClassId: []
+  });
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
 
@@ -67,6 +73,7 @@ function Form13() {
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
+  const aRef = useRef(null);
 
   const originalMessageBody = localStorage.getItem("messageBody")
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
@@ -124,6 +131,7 @@ function Form13() {
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
+  const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
   let dataShow: any = [];
@@ -243,10 +251,10 @@ function Form13() {
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
-      asSelectedUserIdsCc:"",
-      asSelectedStDivIdCc:"",
+      asSelectedUserIdsCc:RecipientsCCObject.RecipientId.toString(),
+      asSelectedStDivIdCc: RoleId == '3' ? DivisionId : RecipientsCCObject.ClassId.toString(),
       asIsSoftwareCordinatorCc:"",
-      asDisplayTextCc:""
+      asDisplayTextCc:RecipientsCCObject.RecipientName.toString()
     };
 
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
@@ -254,25 +262,26 @@ function Form13() {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
-            toast.success('Message scheduled successfully');
-            localStorage.setItem("messageBody", '');
+            toast.success('Message scheduled successfully', { toastId: 'success1'});
           } else {
-            toast.success('Message sent successfully');
-            localStorage.setItem("messageBody", '');
+            toast.success('Message sent successfully', { toastId: 'success1'});
           }
-          setTimeout(RediretToSentPage, 100);
           localStorage.setItem("messageBody", '');
+          setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
-        toast.error('Message does not sent successfully');
+        toast.error('Message does not sent successfully', { toastId: 'error1'});
         localStorage.setItem("messageBody", '');
+        setdisabledStateOfSend(false);
+
       });
   };
 
   const formik = useFormik({
     initialValues: {
       To: '',
+      Cc: '',
       Subject: PageName == 'Forwa' ? "FW: " + Text : '' || PageName == 'Reply' ? "RE: " + Text : '',
       Content: '',
       Attachment: ''
@@ -303,6 +312,11 @@ function Form13() {
     setdisplayOfComposePage('none');
   };
 
+  const RecipientCCButton = (e) => {
+    setdisplayOfCCRecipients('block');
+    setdisplayOfComposePage('none');
+  };
+
   const displayPropertyFun = (e) => {
     if (e == 'none') {
       setdisplayOfRecipients(e);
@@ -316,9 +330,17 @@ function Form13() {
     setdisplayOfComposePage('block');
 
   };
+  const RecipientsCCListFun = (e) => {
+    setRecipientsCCObject(e);
+    setdisplayOfCCRecipients('none');
+    setdisplayOfComposePage('block');
+
+  };
 
   useEffect(() => {
-    if (ReplyRecipientNameId.ReplyRecipientName != undefined) {
+    if (
+      !(ReplyRecipientNameId.ReplyRecipientName === undefined ||
+      ReplyRecipientNameId.ReplyRecipientName === "")) {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
@@ -330,6 +352,7 @@ function Form13() {
     setFinalBase642New((current) =>
       current.filter((obj) => obj.FileName !== fileName)
     )
+    aRef.current.value = null;
   }
 
   return (
@@ -393,10 +416,10 @@ function Form13() {
                 </Grid>
               </Grid>
               <>
-                {/* <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
+                <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
-                  value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
                   id=""
                   fullWidth
                   disabled
@@ -408,19 +431,19 @@ function Form13() {
                     border: "0.1px solid #c4c5c5",
                     borderRadius: "5.3px",
                   }}
-                /> */}
-                {/* <Grid container spacing={2} >
+                />
+                <Grid container spacing={2} >
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
                     <ButtonPrimary fullWidth
-                      onClick={(e) => RecipientButton(e)}
+                      onClick={(e) => RecipientCCButton(e)}
                       color="primary">
-                      Add Recipients
+                      Add Cc Recipients
                     </ButtonPrimary>
                   </Grid>
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
 
                   </Grid>
-                </Grid> */}
+                </Grid>
               </>
             </FormControl>
 
@@ -440,10 +463,48 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-
-            <TextField
+            <p></p>
+            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
+            <ClickAwayListener onClickAway={handleClickAway}>
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true
+                        }}
+                        onClose={handleClick}
+                        open={open}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        title={Note}
+                        arrow
+                        placement="left"
+                        componentsProps={{
+                          tooltip: {
+                            sx: {
+                              marginLeft: '10px',
+                              mt: 0.5,
+                              transform:
+                                'translate3d(17px, 0.5px, 0px) !important'
+                            }
+                          }
+                        }}
+                      >
+                        <InfoTwoToneIcon
+                          type="button"
+                          onClick={handleClick}
+                          sx={{
+                            color: 'navy',
+                            mt: 2,
+                            fontSize: '17px',
+                            float: 'right'
+                          }}
+                        />
+                      </Tooltip>
+                    </ClickAwayListener>
+            {/* <TextField
               fullWidth
               id="fullWidth"
+              ref={aRef}
               type="file"
               name="Attachment"
               variant="standard"
@@ -498,7 +559,7 @@ function Form13() {
                   </Box>
                 )
               }}
-            />
+            /> */}
             <Box sx={{ mt: '15px' }}>
               <Errormessages Error={fileerror} />
             </Box>
@@ -592,6 +653,11 @@ function Form13() {
         <AddReciepents RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
           recipientListClick={RecipientsListFun}></AddReciepents>
+          </div>
+      <div style={{ display: displayOfCCRecipients }}>
+        <AddReciepents RecipientName={RecipientsCCObject.RecipientName}
+          RecipientId={RecipientsCCObject.RecipientId}
+          recipientListClick={RecipientsCCListFun}></AddReciepents>
       </div>
     </>
   );

@@ -10,12 +10,13 @@ import Card7 from 'src/libraries/card/card7';
 import http from 'src/requests/SchoolService/schoolServices';
 import BackButton from 'src/libraries/button/BackButton';
 
-function ViewSms({}) {
+function ViewSms({ }) {
   const dispatch = useDispatch();
   const ViewDetail = {
     From: 'From',
     Subject: 'Subject',
     To: 'To',
+    Cc: 'Cc',
     Attachment: 'Attachment',
     Body: 'Content'
   };
@@ -51,14 +52,15 @@ function ViewSms({}) {
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-      
+
 
       {viewSent === undefined ? null : (
         <Card7
           ViewDetail={ViewDetail}
           From={viewSent.UserName}
-          To={(viewSent.RecieverName != null && viewSent.RecieverName != '')?
-              viewSent.RecieverName: viewSent.DisplayText}
+          To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+            viewSent.RecieverName : viewSent.DisplayText}
+          Cc={viewSent.DisplayTextCc}
           Body={viewSent.Body}
           Text={viewSent.Subject}
           Attachments={viewSent.Attachments}

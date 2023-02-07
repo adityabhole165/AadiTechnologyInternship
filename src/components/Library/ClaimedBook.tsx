@@ -8,9 +8,8 @@ import BackButton from 'src/libraries/button/BackButton';
 import { IClaimDetail,IClaimDetailResult, ICancelBookReservation } from 'src/interfaces/Student/Library';
 import Accordian1 from 'src/libraries/mainCard/Accordian1';
 import { Container,Box,Checkbox } from '@mui/material';
-import MCForm from 'src/libraries/form/MCForm';
 import Filter from 'src/libraries/mainCard/Filter';
-import SearchIcon from '@mui/icons-material/Search';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { toast } from 'react-toastify';
 function ClaimedBook() {
     const dispatch = useDispatch();
@@ -22,15 +21,11 @@ function ClaimedBook() {
       );
       const [expanded, setExpanded] = React.useState<string | false>(false);
       const [checked, setChecked] = useState(false);
-      const [value, setValue] = useState(0);
-      const [showFilter, setShowFilter] = useState(false);
       const [userName, setUserName] = useState('');
       const [bookTitle, setBookTitle] = useState('');
       const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
       };
-   
-     
       const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
       const asSchoolId = localStorage.getItem('localSchoolId');
       const UserId = sessionStorage.getItem('Id');
@@ -44,7 +39,7 @@ function ClaimedBook() {
       aiStartRowIndex:'0',
       aiEndIndex:20,
       asSortExpression:'Order by Book_Title asc',
-      aiAllUser:checked ? 1:0
+      aiAllUser:1
       }
       useEffect(() => {
         dispatch(getClaimBookDetails(ClaimDetailbody));
@@ -52,7 +47,7 @@ function ClaimedBook() {
       useEffect(() => {
         console.log(ClaimDetailbody,checked ? 1:0,checked)
         dispatch(getClaimBookDetails(ClaimDetailbody));
-      }, [checked, bookTitle, userName]);
+      }, [ bookTitle, userName]);
 
       
       useEffect(() => {
@@ -90,14 +85,21 @@ function ClaimedBook() {
       }
   return (
     <Container >
-      <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
-      <BackButton FromRoute={'/Student/Library'}/>
+    <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
+    <BackButton FromRoute={'/Student/Library'}/>
     <Filter  clickSearch={ clickSearch} clickAllUser={clickAllUser}/>
-    {ClaimedBook .map((items: IClaimDetailResult,i) => {
+    {ClaimedBook
+    .filter((obj)=>{
+      return checked?true:
+      obj.UserId===Number(sessionStorage.getItem('Id'))
+    }
+      )
+    .map((items: IClaimDetailResult,i) => {
       return (
     <Box key={i}  my={1}>
+    {ClaimedBook.length == 0 ? (<ErrorMessages Error={'No claimed has been claimed'} />) :(
     <Accordian1 expanded={expanded} handleChange={handleChange} 
-    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>
+    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>)}
     </Box>
       );
     })}

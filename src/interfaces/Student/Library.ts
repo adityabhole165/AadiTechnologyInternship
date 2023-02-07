@@ -92,3 +92,17 @@ export interface ICancelBookReservation {
     aiAcademicYearId:string,
 }
 
+export interface ILanguagesDetails {
+    aiSchoolId:string,
+}
+
+export interface ILanguagesDetailsResult {
+    Language:string,
+}
+
+export interface  ILanguagesDetailsList{
+    LanguagesDetails:ILanguagesDetailsResult[]
+}
+
+
+

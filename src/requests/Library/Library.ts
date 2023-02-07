@@ -2,7 +2,7 @@ import { createSlice} from '@reduxjs/toolkit'
 import LibraryApi from 'src/api/Library/Library';
 import ClaimBookDetails from 'src/api/Library/Library';
 import { AppThunk } from 'src/store';
-import { IBooksDetails,IBookswithmeList,IClaimDetail,IClaimDetailResult,ICancelBookReservation } from 'src/interfaces/Student/Library';
+import { IBooksDetails,IBookswithmeList,IClaimDetail,IClaimDetailResult,ICancelBookReservation,ILanguagesDetails } from 'src/interfaces/Student/Library';
 
 const LibrarySlicee = createSlice({
 
@@ -12,7 +12,8 @@ initialState:{
   BooksDetaiLs:[],
   BookswithmeList:[],
   ClaimList:[],
-  CancelBookReservation:''
+  CancelBookReservation:'',
+  LanguageList:[]
 },
 
 reducers:{
@@ -28,13 +29,16 @@ reducers:{
 
   getClaimBookDetails(state,action){
     state.ClaimList=action.payload.GetClaimBookDetails;
-},
-getCancelBookReservation(state,action){
-state.CancelBookReservation=action.payload;
-},
-resetCancelMessage(state){
-state.CancelBookReservation='';
-},
+  },
+   getCancelBookReservation(state,action){
+   state.CancelBookReservation=action.payload;
+  },
+  resetCancelMessage(state){
+    state.CancelBookReservation='';
+  },
+  getLanguagesDetails(state,action){
+  state.LanguageList=action.payload;
+  },
 
 }
 
@@ -69,6 +73,22 @@ export const getCancelBookReservation=
 async (dispatch) => {
   const response = await LibraryApi.GetCancelBookReservation(data);
   dispatch(LibrarySlicee.actions.getCancelBookReservation(response.data));
+
+};
+
+export const  getLanguagesDetails=
+(data:ILanguagesDetails):AppThunk=>
+async (dispatch) => {
+  const response = await LibraryApi.GetLanguage(data);
+  const Language =  response.data.LanguagesDetails.map((item, index) => {
+           return {
+            id:index,
+            Name:item.Language,
+          }
+         }) 
+
+  console.log(Language,"Languagerefdgddh")
+  dispatch(LibrarySlicee.actions.getLanguagesDetails(Language));
 
 };
 

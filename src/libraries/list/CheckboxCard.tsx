@@ -17,7 +17,7 @@ const CheckboxCard = ({Item, onClick}) => {
                         checked={Item.isActive}
                         onChange={onChange}
                     />
-                    <ItemSize>
+                    <ItemSize onClick={onChange}>
                     {Item.Name}
                     </ItemSize>
                  </Box>
