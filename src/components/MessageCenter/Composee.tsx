@@ -1,5 +1,5 @@
 import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector, useDispatch } from 'react-redux';
@@ -73,6 +73,7 @@ function Form13() {
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
+  const aRef = useRef(null);
 
   const originalMessageBody = localStorage.getItem("messageBody")
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
@@ -262,13 +263,11 @@ function Form13() {
           setdisabledStateOfSend(true);
           if (schedule_A_Message) {
             toast.success('Message scheduled successfully');
-            localStorage.setItem("messageBody", '');
           } else {
             toast.success('Message sent successfully');
-            localStorage.setItem("messageBody", '');
           }
-          setTimeout(RediretToSentPage, 100);
           localStorage.setItem("messageBody", '');
+          setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
@@ -337,7 +336,9 @@ function Form13() {
   };
 
   useEffect(() => {
-    if (ReplyRecipientNameId.ReplyRecipientName != undefined) {
+    if (
+      !(ReplyRecipientNameId.ReplyRecipientName === undefined ||
+      ReplyRecipientNameId.ReplyRecipientName === "")) {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
@@ -349,6 +350,7 @@ function Form13() {
     setFinalBase642New((current) =>
       current.filter((obj) => obj.FileName !== fileName)
     )
+    aRef.current.value = null;
   }
 
   return (
@@ -459,10 +461,48 @@ function Form13() {
                 <div className={classes.error}>{formik.errors.Subject}</div>
               ) : null}
             </p>
-
-            <TextField
+            <p></p>
+            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
+            <ClickAwayListener onClickAway={handleClickAway}>
+                      <Tooltip
+                        PopperProps={{
+                          disablePortal: true
+                        }}
+                        onClose={handleClick}
+                        open={open}
+                        disableFocusListener
+                        disableHoverListener
+                        disableTouchListener
+                        title={Note}
+                        arrow
+                        placement="left"
+                        componentsProps={{
+                          tooltip: {
+                            sx: {
+                              marginLeft: '10px',
+                              mt: 0.5,
+                              transform:
+                                'translate3d(17px, 0.5px, 0px) !important'
+                            }
+                          }
+                        }}
+                      >
+                        <InfoTwoToneIcon
+                          type="button"
+                          onClick={handleClick}
+                          sx={{
+                            color: 'navy',
+                            mt: 2,
+                            fontSize: '17px',
+                            float: 'right'
+                          }}
+                        />
+                      </Tooltip>
+                    </ClickAwayListener>
+            {/* <TextField
               fullWidth
               id="fullWidth"
+              ref={aRef}
               type="file"
               name="Attachment"
               variant="standard"
@@ -517,7 +557,7 @@ function Form13() {
                   </Box>
                 )
               }}
-            />
+            /> */}
             <Box sx={{ mt: '15px' }}>
               <Errormessages Error={fileerror} />
             </Box>
