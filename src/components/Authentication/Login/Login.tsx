@@ -354,7 +354,7 @@ function SelectSchool() {
                                     </a>
                                 </Grid>
                                 <Grid item xs={12}  >
-                                    <Typography fontSize={12} sx={{ pb: "8px" }}>Copyright © {new Date().getFullYear()} isulusIT.net. All rights reserved.</Typography>
+                                    <Typography fontSize={12} sx={{ pb: "8px" }}>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</Typography>
                                 </Grid>
                             </Grid>
                         </Grid>
