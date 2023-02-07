@@ -13,7 +13,8 @@ initialState:{
   BookswithmeList:[],
   ClaimList:[],
   CancelBookReservation:'',
-  LanguageList:[]
+  LanguageList:[],
+  Loading:true
 },
 
 reducers:{
@@ -39,6 +40,10 @@ reducers:{
   getLanguagesDetails(state,action){
   state.LanguageList=action.payload;
   },
+  getLoading (state,action) {
+    state.Loading = true
+    state.BooksDetaiLs = [];
+}
 
 }
 

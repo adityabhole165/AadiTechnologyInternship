@@ -3,22 +3,21 @@ import React from 'react';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import { ListStyle } from '../styled/CardStyle';
 
-function ClaimedCard({Text1,Text2,Text3,Text4,Text5}) {
-   
+function ClaimedCard({items}) {
+  const UserId = sessionStorage.getItem('Id');
   return (
     <div>
-      <ListStyle>
-      <Typography><b>UserName : </b> {Text3}</Typography>
-        <Box sx={{display:"flex", justifyContent:"space-between"}}>
-        <Typography> <b>Date : </b> {Text1}</Typography>
-        <Typography><b>Claimed by Parent : </b> {Text2 === true ? 'Yes' : 'No'}</Typography>
-        </Box>
+    <ListStyle>
+     <Box sx={{display:"flex", justifyContent:"space-between"}}>
+      <Typography> <b>Date : </b> {items.ReservationDate}</Typography>
+      <Typography><b>Claimed by Parent : </b> {items.IsForParent === true ? 'Yes' : 'No'}</Typography>
+      </Box>
       <Box sx={{display:"flex", justifyContent:"space-between"}} pb={1}>
-        <Typography> <b> Class : </b> {Text5}</Typography>
-        <Typography><b>Designation : </b> {Text4}</Typography>
+      {(items.ClassNameDesignation != '-')  ?
+       (<Typography> <b> Class : </b> {items.ClassNameDesignation}</Typography>) :
+       (<Typography><b>Designation : </b> {items.Designation}</Typography>) }
         </Box>
-     
-      </ListStyle>
+     </ListStyle>
     </div>
   )
 }

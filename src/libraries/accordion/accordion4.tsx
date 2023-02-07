@@ -7,9 +7,9 @@ import { Styles } from 'src/assets/style/student-style';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
-import { Box, Container, Grow, Grid, List, useTheme } from '@mui/material';
+import { Box, Container, Grow, Grid, List, useTheme , makeStyles} from '@mui/material';
 import {CardDetail1,CardDetail3,ListStyle,CardWrapper} from '../styled/CardStyle';
-import { Accordionsummary1, Header3 } from '../styled/AccordianStyled';
+import { Accordionsummary1, Header3, HeaderAcc } from '../styled/AccordianStyled';
 import Card14 from '../mainCard/Card14';
 
 Accordion4.propTypes = {
@@ -41,6 +41,8 @@ function Accordion4({
   const theme = useTheme();
   const [checked, setChecked] = useState(true);
   const classes = Styles();
+
+  
   return (
     <>
     <Grow
@@ -60,10 +62,17 @@ function Accordion4({
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           sx={{background: `${theme.colors.gradients.pink1}`}} >
-         <Header3 variant="body2" color={expand === index ? 'secondary' : ''}>
-         <b style={{fontSize:"14px"}}>Accession No : {no} </b> <br/>
-          Book Title : {title}
-          </Header3 >
+         <HeaderAcc  color={expand === index ? 'secondary' : ''}>
+      
+         <b>Book Title</b>  : {title}
+         < Box sx={{display:"flex"}}>
+         <b>language</b> : {language}
+         <Box sx={{ml:"10px"}}>
+         {available}/{total}
+         </Box>
+      <Box  onClick={conformMsg} sx={{color:"#628def",ml:"10px"}}> Claim </Box>
+         </Box>   
+       </HeaderAcc >
        </Accordionsummary1>
        <AccordionDetails>
       <Card14 Text1={author} Text2={publisher} 
