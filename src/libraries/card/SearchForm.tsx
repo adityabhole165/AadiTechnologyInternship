@@ -4,42 +4,66 @@ import { ListStyle } from '../styled/CardStyle'
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import CloseIcon from '@mui/icons-material/Close';
-import {getLanguagesDetails} from "src/requests/Library/Library";
+import {getLanguagesDetails,getStandards} from "src/requests/Library/Library";
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import {ILanguagesDetails} from 'src/interfaces/Student/Library'
+import {ILanguagesDetails,IStandardsBody} from 'src/interfaces/Student/Library'
 import Dropdown from '../dropdown/Dropdown';
 function SearchForm({clickFilter, clickCloseIcon}) {
   const dispatch = useDispatch();
-  const [Language,setLanguage] = useState('')
+
   const GetLanguageList = useSelector(
     (state: RootState) => state.library.LanguageList
   );
-  console.log(GetLanguageList,"GetLanguageList")
+  const Standards = useSelector(
+    (state: RootState) => state.library.Standards
+  );
+
+
+
+  console.log(Standards,"Standards")
+  const Class = sessionStorage.getItem('Class');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const [ bookTitle, setBookTitle] = useState('');
     const [accessionNo, setAccessionNo] = useState('');
     const [author, setAuthor] = useState('');
     const [publisher, setPublisher] = useState('');
-   const asSchoolId = localStorage.getItem('localSchoolId');
+    const [Language,setLanguage] = useState('');
+    const [Standard,setStandard] = useState( '');
    
+    
+     
     const onClick = () => {
-     clickFilter({bookTitle,accessionNo,author,publisher})
+     clickFilter({bookTitle,accessionNo,author,publisher,Standard,Language})
       }
-const clickClose = () => {
-  clickReset()
-  clickCloseIcon({bookTitle:'',accessionNo:'',author:'',publisher:''})
+      const clickClose = () => {
+         clickReset()
+        clickCloseIcon({bookTitle:'',accessionNo:'',author:'',publisher:'',Language:"",Standard:''})
 
-}
+      }
       const Languagesbody: ILanguagesDetails = {
         aiSchoolId: asSchoolId,
      };
+     const Standardsbody: IStandardsBody = {
+        aiSchoolId: asSchoolId,
+        aiAcademicYrId:asAcademicYearId,
+   };
       useEffect(() => {
         dispatch(getLanguagesDetails(Languagesbody));
+      }, []);
+
+      useEffect(() => {
+      dispatch(getStandards(Standardsbody));
+    
       }, []);
       
       const clickLanguage = (value) => {
         setLanguage(value);
+      };
+      const clickStandard= (value) => {
+        setStandard(value);
       };
       
    const clickReset=()=>{
@@ -47,6 +71,8 @@ const clickClose = () => {
     setAccessionNo('')
     setAuthor('')
     setPublisher('')
+    setLanguage('')
+    setStandard('')
   }
   return (
     <div>
@@ -83,24 +109,22 @@ const clickClose = () => {
              value={publisher}
              onChange={(e)=>{setPublisher(e.target.value)}}/>
             </Grid>
-            <Grid item xs={12}>
-            <TextField id="standard-basic" label="Standard:"
-             variant="standard" fullWidth   
-             value={''}/>
+            <Grid item xs={6}>
+            <Dropdown Array={ Standards} handleChange={clickStandard} label={'Select Standard'} defaultValue ={Standard}/>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={6}>
           <Dropdown Array={GetLanguageList} handleChange={clickLanguage} label={'Select Language'} defaultValue ={Language}/>
           </Grid>
-        <Grid item xs={6} >
-       <ButtonPrimary  fullWidth color="secondary" onClick={() => clickReset()}>Recet</ButtonPrimary>
-      </Grid>
-      <Grid item xs={6} >
-      <ArrowCircleRightRoundedIcon onClick={onClick}
-        fontSize='large' color='success' sx={{float:"right",mr:2}}></ArrowCircleRightRoundedIcon>
-      </Grid>
-        </Grid>
-     </ListStyle>
-    </div>
+          <Grid item xs={6} >
+          <ButtonPrimary  fullWidth color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
+          </Grid>
+          <Grid item xs={6} >
+          <ArrowCircleRightRoundedIcon onClick={onClick}
+         fontSize='large' color='success' sx={{float:"right",mr:2}}></ArrowCircleRightRoundedIcon>
+             </Grid>
+            </Grid>
+         </ListStyle>
+       </div>
   )
 }
 

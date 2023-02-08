@@ -19,7 +19,7 @@ function Card14({Text1,Text2,Text3,Text4,Text5,Text6,conformMsg}) {
     
     </Box>
     <Typography variant='body2'> <b>  Standards : </b> {Text3}</Typography>
-    <Typography variant='body2'> <b>Available/Total  : </b> {Text5}/{Text6}</Typography>
+   
    </Card>
     </div>
   )

@@ -24,7 +24,8 @@ function Library() {
   const [accessionNo, setAccessionNo] = useState('');
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
-  
+  const [Language,setLanguage] = useState('');
+  const [Standard,setStandard] = useState( '');
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
   );
@@ -46,14 +47,14 @@ function Library() {
   const asParentStaffID = sessionStorage.getItem('ParentStaffID');
   const asStartRowIndex = sessionStorage.getItem('StartRowIndex');
   const asSortRowIndexExpression = sessionStorage.getItem('SortRowIndexExpression');
-
+console.log(asStandardID,"asStandardIDdvd")
   const BooksDetails_body: IBooksDetails = {
     aiSchoolId: asSchoolId,
     asBookName: bookTitle,
     asAccessionNumber: accessionNo,
     asAuthorName: author,
     asPublisher: publisher,
-    asLanguage: "0",
+    asLanguage: Language,
     aiStandardId: asStandardID,
     aiMediaType: 2,
     aiBookId: 0,
@@ -68,21 +69,24 @@ function Library() {
 
   useEffect(() => {
     dispatch(getBookDetailslist(BooksDetails_body));
-   }, [ bookTitle, accessionNo,author,publisher]);
+   }, [ bookTitle, accessionNo,author,publisher,Standard,Language]);
  
-   const clickFilter=({bookTitle,accessionNo,author,publisher})=>{
+   const clickFilter=({bookTitle,accessionNo,author,publisher,Language,Standard})=>{
      setBookTitle(bookTitle)
      setAccessionNo(accessionNo)
      setAuthor(author)
      setPublisher(publisher)
+     setLanguage(Language)
    }
 
-  const clickCloseIcon= ({bookTitle,accessionNo,author,publisher}) => {
+  const clickCloseIcon= ({bookTitle,accessionNo,author,publisher,Language,Standard}) => {
     setShowFilter(!showFilter);
     setBookTitle(bookTitle)
     setAccessionNo(accessionNo)
     setAuthor(author)
     setPublisher(publisher)
+    setLanguage(Language)
+    
     console.log(bookTitle,"bookTitle")
       }
 
@@ -104,11 +108,11 @@ function Library() {
        </Grid>):
      (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />)}
       <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
-      {/* {loading ? (
+      {loading ? (
         <SuspenseLoader />
-      ) : ( */}
+      ) : (
       <BooksDetails GetBookList={GetBookList}/>
-      {/* )} */}
+       )}
    </Container>
   );
 }
