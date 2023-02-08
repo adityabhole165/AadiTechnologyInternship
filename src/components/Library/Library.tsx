@@ -4,17 +4,14 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import {  Typography, Container,Grid } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
-import {
-  GetBooksDetailsResult,
-  IBooksDetails,
-  ICancelBookReservation
-} from 'src/interfaces/Student/Library';
+import {IBooksDetails} from 'src/interfaces/Student/Library';
 import { RootState } from 'src/store';
-import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Library/Library';
+import { getBookDetailslist} from 'src/requests/Library/Library';
 import SearchForm from 'src/libraries/card/SearchForm';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { logoURL } from '../Common/Util';
 
 function Library() {
   const dispatch = useDispatch();
@@ -25,7 +22,6 @@ function Library() {
   const [author, setAuthor] = useState('');
   const [publisher, setPublisher] = useState('');
   const [Language,setLanguage] = useState('');
-  const [Standard,setStandard] = useState( '');
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
   );
@@ -40,14 +36,14 @@ function Library() {
   const clickClaimedBook = () => {
     navigate('/extended-sidebar/Student/Library/ClaimedBook')
   }
-
-  const asSchoolId = localStorage.getItem('localSchoolId');
+ const asSchoolId = localStorage.getItem('localSchoolId');
   const asLanguage = sessionStorage.getItem('Language');
   const asStandardID = sessionStorage.getItem('StandardId');
   const asParentStaffID = sessionStorage.getItem('ParentStaffID');
   const asStartRowIndex = sessionStorage.getItem('StartRowIndex');
   const asSortRowIndexExpression = sessionStorage.getItem('SortRowIndexExpression');
-console.log(asStandardID,"asStandardIDdvd")
+  const [Standard,setStandard] = useState(asStandardID);
+ console.log(asStandardID,"asStandardID")
   const BooksDetails_body: IBooksDetails = {
     aiSchoolId: asSchoolId,
     asBookName: bookTitle,
@@ -55,7 +51,7 @@ console.log(asStandardID,"asStandardIDdvd")
     asAuthorName: author,
     asPublisher: publisher,
     asLanguage: Language,
-    aiStandardId: asStandardID,
+    aiStandardId:Standard,
     aiMediaType: 2,
     aiBookId: 0,
     aiParentStaffId: "0",
@@ -64,19 +60,23 @@ console.log(asStandardID,"asStandardIDdvd")
     asSortExpression: ""
   };
   useEffect(() => {
+    setStandard(Standard)
     dispatch(getBookDetailslist(BooksDetails_body));
   }, []);
-
   useEffect(() => {
+ 
     dispatch(getBookDetailslist(BooksDetails_body));
    }, [ bookTitle, accessionNo,author,publisher,Standard,Language]);
  
    const clickFilter=({bookTitle,accessionNo,author,publisher,Language,Standard})=>{
+   
+    
      setBookTitle(bookTitle)
      setAccessionNo(accessionNo)
      setAuthor(author)
      setPublisher(publisher)
      setLanguage(Language)
+     setStandard(Standard)
    }
 
   const clickCloseIcon= ({bookTitle,accessionNo,author,publisher,Language,Standard}) => {
@@ -86,8 +86,8 @@ console.log(asStandardID,"asStandardIDdvd")
     setAuthor(author)
     setPublisher(publisher)
     setLanguage(Language)
-    
-    console.log(bookTitle,"bookTitle")
+    setStandard(Standard)
+
       }
 
     
@@ -97,7 +97,7 @@ console.log(asStandardID,"asStandardIDdvd")
       {!showFilter ?
       (<Grid container spacing={1}>
         <Grid item xs={5.2}>
-          <ButtonPrimary fullWidth onClick={clickClaimedBook}>Claimed Book Details</ButtonPrimary>
+          <ButtonPrimary fullWidth onClick={clickClaimedBook}>Claimed Book</ButtonPrimary>
         </Grid>
         <Grid item xs={5.2}>
         <ButtonPrimary fullWidth onClick={clickBookwithme}>Books With Me</ButtonPrimary>
@@ -106,7 +106,7 @@ console.log(asStandardID,"asStandardIDdvd")
         <img src={"/imges/SearchBook.png"} style={{width: 30, height: 27,}} onClick={()=>{setShowFilter(!showFilter)}}/>
         </Grid>
        </Grid>):
-     (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />)}
+     (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} Standard={Standard}/>)}
       <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
       {loading ? (
         <SuspenseLoader />

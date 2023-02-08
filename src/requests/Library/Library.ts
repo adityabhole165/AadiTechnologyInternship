@@ -35,6 +35,7 @@ reducers:{
 
   getClaimBookDetails(state,action){
     state.ClaimList=action.payload.GetClaimBookDetails;
+    state.Loading = false
   },
    getCancelBookReservation(state,action){
    state.CancelBookReservation=action.payload;
@@ -49,6 +50,7 @@ reducers:{
     state.Loading = true
     state.BooksDetaiLs = [];
     state.BookswithmeList=[];
+    state.ClaimList=[];
    },
  
     getStandards (state,action) {
@@ -80,8 +82,8 @@ async (dispatch) => {
 export const getClaimBookDetails=
 (data:IClaimDetail):AppThunk=>
 async (dispatch) => {
+  dispatch(LibrarySlicee.actions.getLoading(true));
   const response = await LibraryApi.ClaimBookDetails(data);
-  console.log(response.data,"response.data")
   dispatch(LibrarySlicee.actions.getClaimBookDetails(response.data));
 
 };
@@ -98,7 +100,7 @@ async (dispatch) => {
   const response = await LibraryApi.GetStandards(data);
   const StandardsList =  response.data.Standards.map((item, index) => {
     return {
-     id:index,
+     Value:item.standard_id,
      Name:item.standard_name,
    }
   }) 

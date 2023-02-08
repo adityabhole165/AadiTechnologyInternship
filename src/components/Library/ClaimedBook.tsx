@@ -11,6 +11,7 @@ import { Container,Box,Checkbox } from '@mui/material';
 import Filter from 'src/libraries/mainCard/Filter';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { toast } from 'react-toastify';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function ClaimedBook() {
     const dispatch = useDispatch();
     const ClaimedBook = useSelector(
@@ -19,6 +20,11 @@ function ClaimedBook() {
       const GetCancelBookReservation = useSelector(
         (state: RootState) => state.library.CancelBookReservation
       );
+      
+       const loading = useSelector(
+          (state: RootState) => state.library.Loading
+       );
+      const [claimedBookList, setClaimedBookList] = useState([]);
       const [expanded, setExpanded] = React.useState<string | false>(false);
       const [checked, setChecked] = useState(false);
       const [userName, setUserName] = useState('');
@@ -26,6 +32,14 @@ function ClaimedBook() {
       const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
       };
+      useEffect(()=>{
+        
+        setClaimedBookList(ClaimedBook
+          .filter((obj)=>{
+            return checked?true:
+            obj.UserId===Number(sessionStorage.getItem('Id'))
+          }))
+      },[ClaimedBook,checked])
       const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
       const asSchoolId = localStorage.getItem('localSchoolId');
       const UserId = sessionStorage.getItem('Id');
@@ -87,22 +101,25 @@ function ClaimedBook() {
     <Container >
     <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
     <BackButton FromRoute={'/Student/Library'}/>
+    {loading ? (
+    <SuspenseLoader />
+      ) : ( <>
     <Filter  clickSearch={ clickSearch} clickAllUser={clickAllUser}/>
-    {ClaimedBook
-    .filter((obj)=>{
-      return checked?true:
-      obj.UserId===Number(sessionStorage.getItem('Id'))
-    }
-      )
-    .map((items: IClaimDetailResult,i) => {
+    {claimedBookList.length === 0?
+  (<ErrorMessages Error={
+    checked?
+     'No books claimed':
+     'No book has been claimed yet '} />):
+      claimedBookList.map((items: IClaimDetailResult,i) => {
       return (
     <Box key={i}  my={1}>
-       
     <Accordian1 expanded={expanded} handleChange={handleChange} 
     index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>
     </Box>
       );
     })}
+    </>
+    )}
     </Container>
   )
 }
