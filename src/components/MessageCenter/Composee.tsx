@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -25,7 +25,7 @@ import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 
 function Form13() {
-  
+
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -44,7 +44,7 @@ function Form13() {
   const View = (ViewData === null || ViewData === "") ? "" : JSON.parse(ViewData)
   const From = (ViewData === null || ViewData === "") ? "" : View.From;
   const Text = (ViewData === null || ViewData === "") ? "" : View.Text;
-  const AttachmentArray = (ViewData === null || ViewData === "" ||View.Attachment=="") ? "null" : View.Attachment.join(',');
+  const AttachmentArray = (ViewData === null || ViewData === "" || View.Attachment == "") ? "null" : View.Attachment.join(',');
   const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
   const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
 
@@ -59,7 +59,7 @@ function Form13() {
     RecipientId: [],
     ClassId: []
   });
-  
+
   const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
     RecipientName: [],
     RecipientId: [],
@@ -133,7 +133,9 @@ function Form13() {
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
-  const [schedule_A_Message, setschedule_A_Message] = useState<boolean>(false);
+  const [scheduleMessage, setscheduleMessage] = useState('none');
+  const [scheduleDate, setscheduleDate] = useState<string>('');
+  const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -240,7 +242,7 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime:""
+        ScheduleDateTime: ""
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -251,27 +253,38 @@ function Form13() {
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
-      asSelectedUserIdsCc:RecipientsCCObject.RecipientId.toString(),
+      asSelectedUserIdsCc: RecipientsCCObject.RecipientId.toString(),
       asSelectedStDivIdCc: RoleId == '3' ? DivisionId : RecipientsCCObject.ClassId.toString(),
-      asIsSoftwareCordinatorCc:"",
-      asDisplayTextCc:RecipientsCCObject.RecipientName.toString()
+      asIsSoftwareCordinatorCc: "",
+      asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
+    console.log("localschoolId", localschoolId);
+    console.log("content", formik.values.Content);
+    console.log("subject", formik.values.Subject);
+    console.log("StudentName", StudentName);
+    console.log("displaytext", RecipientsObject.RecipientName.toString());
+    console.log("senderUserId", UserId);
+    console.log("msgID", ID != undefined || ID != "" ? parseInt(ID) : 0);
+    console.log("SchoolName", SchoolName);
+    console.log("selectedSTDId", RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString());
+    console.log("attachment", finalBase642New);
+
 
     MessageCenterApi.GetSendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (schedule_A_Message) {
-            toast.success('Message scheduled successfully', { toastId: 'success1'});
+          if (scheduleMessage) {
+            toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
-            toast.success('Message sent successfully', { toastId: 'success1'});
+            toast.success('Message sent successfully', { toastId: 'success1' });
           }
           localStorage.setItem("messageBody", '');
           setTimeout(RediretToSentPage, 100);
         }
       })
       .catch((err) => {
-        toast.error('Message does not sent successfully', { toastId: 'error1'});
+        toast.error('Message does not sent successfully', { toastId: 'error1' });
         localStorage.setItem("messageBody", '');
         setdisabledStateOfSend(false);
 
@@ -307,6 +320,52 @@ function Form13() {
 
   const AttachmentFilePath = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
+  const TodayDate = new Date();
+  const curTimeH = TodayDate.getHours() % 12 || 12;
+  const curTimeM = TodayDate.getMinutes();
+  const CurrTIME = curTimeH + ':' + curTimeM;
+  console.log("CurrTIME", CurrTIME);
+
+  const Day = TodayDate.getDate().toString().padStart(2, '0');
+  const Month = (TodayDate.getMonth() + 1).toString().padStart(2, '0');
+  const Year = TodayDate.getFullYear();
+  const MinDate = `${Year}-${Month}-${Day}`;
+
+  let maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 7);
+  const Day7FromToday = maxDate.getDate().toString().padStart(2, '0');
+  const Month7FromToday = (maxDate.getMonth() + 1).toString().padStart(2, '0');
+  const Year7FromToday = maxDate.getFullYear();
+  const MaxDate = `${Year7FromToday}-${Month7FromToday}-${Day7FromToday}`;
+  const scheduleMessageCheckBox = (e) => {
+    if (e.target.checked == true) {
+      setscheduleMessage('block');
+    } else {
+      setscheduleMessage('none');
+    }
+  };
+  let currentDate = new Date();
+  console.log("hours",currentDate.getHours);
+  
+  const scheduleDateAndTime = (e) => {
+    if (e.target.type == 'date') {
+      setscheduleDate(e.target.value);
+    }
+    if (e.target.type == 'time') {
+      // let time =
+      //   currentDate.getHours() +
+      //   ':' +
+      //   currentDate.getMinutes().toString().padStart(2, '0');
+      // let SelectedDate = new Date();
+      // SelectedDate.setTime(e.target.value);
+
+      // let time2 =
+      //   SelectedDate.getHours() +
+      //   ':' +
+      //   SelectedDate.getMinutes().toString().padStart(2, '0');
+      setscheduleTime(e.target.value);
+    }
+  };
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');
     setdisplayOfComposePage('none');
@@ -340,7 +399,7 @@ function Form13() {
   useEffect(() => {
     if (
       !(ReplyRecipientNameId.ReplyRecipientName === undefined ||
-      ReplyRecipientNameId.ReplyRecipientName === "")) {
+        ReplyRecipientNameId.ReplyRecipientName === "")) {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
@@ -381,7 +440,7 @@ function Form13() {
               <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';','')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
                 id=""
                 fullWidth
                 disabled
@@ -466,100 +525,41 @@ function Form13() {
             <p></p>
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
             <ClickAwayListener onClickAway={handleClickAway}>
-                      <Tooltip
-                        PopperProps={{
-                          disablePortal: true
-                        }}
-                        onClose={handleClick}
-                        open={open}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
-                        title={Note}
-                        arrow
-                        placement="left"
-                        componentsProps={{
-                          tooltip: {
-                            sx: {
-                              marginLeft: '10px',
-                              mt: 0.5,
-                              transform:
-                                'translate3d(17px, 0.5px, 0px) !important'
-                            }
-                          }
-                        }}
-                      >
-                        <InfoTwoToneIcon
-                          type="button"
-                          onClick={handleClick}
-                          sx={{
-                            color: 'navy',
-                            mt: 2,
-                            fontSize: '17px',
-                            float: 'right'
-                          }}
-                        />
-                      </Tooltip>
-                    </ClickAwayListener>
-            {/* <TextField
-              fullWidth
-              id="fullWidth"
-              ref={aRef}
-              type="file"
-              name="Attachment"
-              variant="standard"
-              className={classes.InputField}
-              onChange={fileChangedHandler}
-              inputProps={{ multiple: true }}
-              InputProps={{
-                endAdornment: (
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    sx={{ mb: 2 }}
-                  >
-                    <ClickAwayListener onClickAway={handleClickAway}>
-                      <Tooltip
-                        PopperProps={{
-                          disablePortal: true
-                        }}
-                        onClose={handleClick}
-                        open={open}
-                        disableFocusListener
-                        disableHoverListener
-                        disableTouchListener
-                        title={Note}
-                        arrow
-                        placement="left"
-                        componentsProps={{
-                          tooltip: {
-                            sx: {
-                              marginLeft: '10px',
-                              mt: 0.5,
-                              transform:
-                                'translate3d(17px, 0.5px, 0px) !important'
-                            }
-                          }
-                        }}
-                      >
-                        <InfoTwoToneIcon
-                          type="button"
-                          onClick={handleClick}
-                          sx={{
-                            color: 'navy',
-                            mt: 2,
-                            fontSize: '17px',
-                            float: 'right'
-                          }}
-                        />
-                      </Tooltip>
-                    </ClickAwayListener>
-                  </Box>
-                )
-              }}
-            /> */}
+              <Tooltip
+                PopperProps={{
+                  disablePortal: true
+                }}
+                onClose={handleClick}
+                open={open}
+                disableFocusListener
+                disableHoverListener
+                disableTouchListener
+                title={Note}
+                arrow
+                placement="left"
+                componentsProps={{
+                  tooltip: {
+                    sx: {
+                      marginLeft: '10px',
+                      mt: 0.5,
+                      transform:
+                        'translate3d(17px, 0.5px, 0px) !important'
+                    }
+                  }
+                }}
+              >
+                <InfoTwoToneIcon
+                  type="button"
+                  onClick={handleClick}
+                  sx={{
+                    color: 'navy',
+                    mt: 2,
+                    fontSize: '17px',
+                    float: 'right'
+                  }}
+                />
+              </Tooltip>
+            </ClickAwayListener>
             <Box sx={{ mt: '15px' }}>
               <Errormessages Error={fileerror} />
             </Box>
@@ -598,7 +598,7 @@ function Form13() {
                                 <DeleteIcon
                                   sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
                                 />
-                              </IconButton>
+                              </IconButton >
                             </Grid>
                           </Grid>
                         </Box>
@@ -607,6 +607,47 @@ function Form13() {
                   }
                 </div>
               )}
+            <Grid container>
+              <Grid item>
+              <Checkbox onChange={scheduleMessageCheckBox} size="small"/>
+                <Typography sx={{ display: 'inline-block' }}>
+                  Schedule Message at:
+                </Typography>
+              </Grid><br/>
+              <Grid item sx={{ mt: '8px', display: scheduleMessage }} >
+                <TextField
+                  type="date"
+                  required
+                  id="outlined-required"
+                  variant="standard"
+                  onChange={scheduleDateAndTime}
+                  inputProps={{
+                    min: MinDate,
+                    max: MaxDate
+                  }}
+                />
+                {/* <TextField
+                  sx={{ ml: '10px' }}
+                  type="time"
+                  required
+                  id="outlined-required"
+                  variant="standard"
+                onChange={scheduleDateAndTime}
+                inputProps={{
+                  min:curTime
+                  // max: 
+                }}
+                /> */}
+                <TextField
+                  id="time"
+                  type="time"
+                  variant="standard"
+                  inputProps={{
+                    min: CurrTIME
+                  }}
+                />
+              </Grid>
+            </Grid>
             <TextField
               fullWidth
               multiline
@@ -653,7 +694,7 @@ function Form13() {
         <AddReciepents RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
           recipientListClick={RecipientsListFun}></AddReciepents>
-          </div>
+      </div>
       <div style={{ display: displayOfCCRecipients }}>
         <AddReciepents RecipientName={RecipientsCCObject.RecipientName}
           RecipientId={RecipientsCCObject.RecipientId}
