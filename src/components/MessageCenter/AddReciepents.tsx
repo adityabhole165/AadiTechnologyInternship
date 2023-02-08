@@ -35,13 +35,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       isActive: false
     }
   ]);
-  const [techerStudent1, setTecherStudent1] = useState('');
+  const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
   const [showErrorMsg, setShowErrorMsg] = useState(false)
-  const [techerStudent, setTecherStudent] = useState([]);
+  const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
 
   // Api for Admin principle and Software co-ordinator
@@ -103,23 +103,20 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asUserId: asUserId,
     asAcademicYearId: academicYearId
   }
-
-  // useEffect(() => {
-  //   dispatch(getShowPTA(showPTA));
-  // }, []);
+  useEffect(() => {
+    dispatch(getShowPTA(showPTA));
+  }, []);
   useEffect(() => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
-        // { Id: '11', Name: 'PTA', isActive: false }
-      ]);  
-    }  
-    //  if ( getPTAOption.IsPTAMember == true && getPTAOption.HideStudentOption == false){
-    //   setTecherStudent([
-    //     {Id: '3', Name: 'Student', isActive: false },
-    //   ]);
-    // } 
+        { Id: '11', Name: 'PTA', isActive: false }
+      ]);
+     if ( !getPTAOption.HideStudentOption){
+      setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+    }
+  } 
     else if (sessionStorage.getItem('RoleId') === '2') {
       setTecherStudent([
         {
@@ -137,11 +134,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        // {
-        //   Id: '11',
-        //   Name: 'PTA',
-        //   isActive: false
-        // },
+        {
+          Id: '11',
+          Name: 'PTA',
+          isActive: false
+        },
       ]);
     }
 
@@ -167,11 +164,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Name: 'Admin Staff',
           isActive: false
         },
-        // {
-        //   Id: '11',
-        //   Name: 'PTA',
-        //   isActive: false
-        // },
+        {
+          Id: '11',
+          Name: 'PTA',
+          isActive: false
+        },
 
       ]);
     }
@@ -180,7 +177,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     //from reply, any recipients need to be selected
     SelectUsersInRecipients(RecipientId);
 
-  }, []);
+  }, [getPTAOption]);
 
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
@@ -208,7 +205,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   useEffect(() => {
     dispatch(StartLoading());
     dispatch(GetStudent(getStudentsUserAPIBody));
-    techerStudent?.map((obj, i) => {
+    teacherStudent?.map((obj, i) => {
       if (obj.isActive && i !== 1) {
         setShowErrorMsg(true)
       }
@@ -239,21 +236,21 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     setSelectedRecipents([])
     setSelectedRecipentsId([]);
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
-    setTecherStudent(techerStudent.map((obj) => { return { ...obj, isActive: false } }));
-    setTecherStudent1('');
+    setTecherStudent(teacherStudent.map((obj) => { return { ...obj, isActive: false } }));
+    setTeacherStudent1('');
     populateRecipient(value);
     setShow(!show);
 
   };
 
-  const techerStudentChange = (value) => {
+  const teacherStudentChange = (value) => {
     setShowErrorMsg(false)
     setList([]);
     setStudentlist('');
-    setTecherStudent1('');
+    setTeacherStudent1('');
     value?.map((obj, i) => {
       if (obj.isActive) {
-        setTecherStudent1(obj.Id);
+        setTeacherStudent1(obj.Id);
         if (i !== 1)
           setShowErrorMsg(true)
       }
@@ -263,7 +260,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
   const isStudentSelected = () => {
     let returnValue = false
-    techerStudent.map((item) => {
+    teacherStudent.map((item) => {
       if (item.Name === 'Student' && item.isActive)
         returnValue = true
     })
@@ -370,10 +367,10 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={6}>
                   <Card>
-                    <BorderBox height={RoleId === '6' ? "140px" : null || RoleId === '2' ? "110px" : "100px" || RoleId === "3" ? "80px" : null}>
+                    <BorderBox >
                       <ListSelect
-                        Itemlist={techerStudent}
-                        onChange={techerStudentChange}
+                        Itemlist={teacherStudent}
+                        onChange={teacherStudentChange}
                         isSingleSelect={true}
                       />
                     </BorderBox>
@@ -391,7 +388,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  {/* {(list.length === 0) ?  */}
                   {list.length > 0 ?
                     <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
                     showErrorMsg && !userListLoading &&
