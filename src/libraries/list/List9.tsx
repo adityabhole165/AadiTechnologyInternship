@@ -16,7 +16,8 @@ List9.propTypes = {
 
 function List9({Acc,title,issue,returnn,parentissue}) {
 const [checked, setChecked] = useState(true);
-const issuedate = new Date(issue);
+const issuedate = new Date('11/11/2022 12:09:23');
+console.log(issuedate,issue)
 		const Day = issuedate.getDate();
 		const Month = issuedate.toLocaleString("default", { month: 'short'});
 		const Year = issuedate.getFullYear();
@@ -35,8 +36,8 @@ const issuedate = new Date(issue);
           style={{ transformOrigin: '0 0 0' }}
           {...(checked ? { timeout: 1000 } : {})}>
          <Box>
-       <Card13 Text1={NewDateFormat}  Text2={ NewDateFormats} 
-       Text3={parentissue} Text4={Acc} Text5={title}/>
+       <Card13 Text1={title} Text3={NewDateFormat}  Text2={NewDateFormats} 
+       Text4={parentissue}  Text5={Acc}/>
         </Box>
       </Grow>
         </Container>

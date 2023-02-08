@@ -7,10 +7,11 @@ import { Styles } from 'src/assets/style/student-style';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
-import { Box, Container, Grow, Grid, List, useTheme , makeStyles} from '@mui/material';
+import { Box, Container, Grow, Grid, List, useTheme , makeStyles, Dialog, Button} from '@mui/material';
 import {CardDetail1,CardDetail3,ListStyle,CardWrapper} from '../styled/CardStyle';
 import { Accordionsummary1, Header3, HeaderAcc } from '../styled/AccordianStyled';
 import Card14 from '../mainCard/Card14';
+import { ButtonPrimary } from '../styled/ButtonStyle';
 
 Accordion4.propTypes = {
   Bookk: PropTypes.array,
@@ -41,8 +42,13 @@ function Accordion4({
   const theme = useTheme();
   const [checked, setChecked] = useState(true);
   const classes = Styles();
-
-  
+  const [open, setOpen] = React.useState(false);
+  const clickDialogOpen = () => {
+    setOpen(true);
+  };
+  const clickDialogClose = () => {
+    setOpen(false);
+  };
   return (
     <>
     <Grow
@@ -68,9 +74,26 @@ function Accordion4({
          < Box sx={{display:"flex"}}>
          <b>language</b> : {language}
          <Box sx={{ml:"10px"}}>
-         {available}/{total}
+         ({available}/{total})
          </Box>
-      <Box  onClick={conformMsg} sx={{color:"#628def",ml:"10px"}}> Claim </Box>
+         <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"10px"}}> Claim </Typography>
+         <Dialog
+          open={open}
+          onClose={clickDialogClose}
+          PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
+        >
+          <Typography>Do you want to claim this book for -- </Typography>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+            <ButtonPrimary fullWidth> Student</ButtonPrimary>
+            </Grid>
+            <Grid item xs={6}>
+            <ButtonPrimary fullWidth> Parent</ButtonPrimary>
+            </Grid>
+          </Grid>
+    
+   
+      </Dialog>
          </Box>   
        </HeaderAcc >
        </Accordionsummary1>

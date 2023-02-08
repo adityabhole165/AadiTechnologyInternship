@@ -11,7 +11,7 @@ import {
 import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function Bookswithme() {
   const dispatch = useDispatch();
 
@@ -24,6 +24,9 @@ function Bookswithme() {
     (state: RootState) => state.library.BookswithmeList
   );
 
+  const loading = useSelector(
+    (state: RootState) => state.library.Loading
+  );
   const Books_body: IBookswithmeList = {
     aiSchoolId: asSchoolId,
     aiAcademicYrId: asAcademicYearId,
@@ -35,12 +38,16 @@ function Bookswithme() {
   }, []);
   return (
     <>
-      <div>
+     
         <PageHeader heading={'Books with me'} subheading={''}/>
         <BackButton FromRoute={'/Student/Library'}/>
+        {loading ? (
+        <SuspenseLoader />
+      ) : (
+        <>
         {GetBook.length === 0 ? (
-      <ErrorMessages Error={'No records found'} />
-        ) : (
+         <ErrorMessages Error={'No records found'} />
+         ) : (
           <>
             {GetBook.map((items: GetBookswithmeResult, i) => {
               return (
@@ -56,8 +63,10 @@ function Bookswithme() {
             })}
           </>
         )}
-      </div>
+        </>
+      )}
     </>
+    
   );
 }
 

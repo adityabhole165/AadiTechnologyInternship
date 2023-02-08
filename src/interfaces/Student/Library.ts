@@ -105,4 +105,19 @@ export interface  ILanguagesDetailsList{
 }
 
 
+export interface IStandardsBody {
+    aiSchoolId: string,
+    aiAcademicYrId:string,
+}
+
+export interface IStandardsResult {
+    standard_id: string,
+    standard_name: string,
+}
+
+export interface  IStandardsList{
+    Standards:IStandardsResult[]
+}
+
+
 

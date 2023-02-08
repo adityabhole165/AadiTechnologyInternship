@@ -30,7 +30,7 @@ function Accordian1({expanded,handleChange,index,items,confirmsg}) {
           sx={{background: items.UserId == sessionStorage.getItem('Id') ? "#c2dbff": `${theme.colors.gradients.pink1}`}} >
          <HeaderAcc  color={expanded === index ? 'secondary' : ''}>
          <b>Book Title : </b> {items.Book_Title}
-         <Typography><b>UserName : </b> {items.UserName}</Typography>
+         <Typography><b>User Name : </b> {items.UserName}</Typography>
           </HeaderAcc >
        
        </Accordionsummary1>

@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import {IBooksDetails,IBookswithmeList,IClaimDetail,ICancelBookReservation,ILanguagesDetailsList,IClaimDetailResult,ILanguagesDetails,ILanguagesDetailsResult} from "../../interfaces/Student/Library"
+import {IBooksDetails,IBookswithmeList,IClaimDetail,IStandardsBody,IStandardsList,ICancelBookReservation,ILanguagesDetailsList,IClaimDetailResult,ILanguagesDetails,ILanguagesDetailsResult} from "../../interfaces/Student/Library"
 
 const GetBooksDetailsList = (data: IBooksDetails) => {
     return http.post<IBooksDetails>('Library/GetPagedBookList',data);
@@ -19,6 +19,9 @@ const GetBooksDetailsList = (data: IBooksDetails) => {
   const GetLanguage = (data: ILanguagesDetails) => {
     return http.post<ILanguagesDetailsList>('Library/GetLanguages',data);
   };
+  const GetStandards = (data: IStandardsBody) => {
+    return http.post<IStandardsList>('Library/GetAssociatedStandards',data);
+  };
  
 
     
@@ -27,6 +30,7 @@ const LibraryApi ={
     GetBookswithmeList,
     ClaimBookDetails,
     GetCancelBookReservation,
-    GetLanguage
+    GetLanguage,
+    GetStandards
 }
 export default LibraryApi;
