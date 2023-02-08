@@ -21,6 +21,18 @@ export const Header1 = styled(Typography)(
   `
 );
 
+export const HeaderAcc = styled(Typography)(
+  ({ theme, color }) => `
+  margin-left: 5px;
+  margin-top: 5px;
+  align-items: center;
+  font-size:14px;
+
+  font-family: Roboto;
+  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  `
+);
+
 export const Header3 = styled(Typography)(
   ({ theme, color }) => `
   margin-left: 5px;
@@ -112,7 +124,7 @@ export const Accordionsummary = styled(AccordionSummary)`
 export const Accordionsummary1 = styled(AccordionSummary)`
 
  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
- height:60px;
+//  height:60px;
  font-size:14px;
  @media (max-width: 280px) {
   font-size: 12px;

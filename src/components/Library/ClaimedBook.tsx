@@ -52,7 +52,7 @@ function ClaimedBook() {
       
       useEffect(() => {
         if(GetCancelBookReservation!=='')
-        toast.success(GetCancelBookReservation, { toastId: 'success1'});
+        toast.success(GetCancelBookReservation,{ toastId: 'success1'});
 
         dispatch(resetMessage());
         
@@ -97,9 +97,9 @@ function ClaimedBook() {
     .map((items: IClaimDetailResult,i) => {
       return (
     <Box key={i}  my={1}>
-    {ClaimedBook.length == 0 ? (<ErrorMessages Error={'No claimed has been claimed'} />) :(
+       
     <Accordian1 expanded={expanded} handleChange={handleChange} 
-    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>)}
+    index={i} items={items} confirmsg={()=>{confirmsg(items.Book_Id)}}/>
     </Box>
       );
     })}

@@ -1,12 +1,13 @@
 import React,{ useState} from 'react'
-import {  Container,useTheme,   Accordion, AccordionDetails, Grow} from "@mui/material";
-import {  Accordionsummary1,  Header1,  Header2,  Header3 } from "../styled/AccordianStyled";
+import {  Container,useTheme,   Accordion, AccordionDetails, Grow, Typography} from "@mui/material";
+import {  Accordionsummary1,  Header1,  Header2,  Header3, HeaderAcc } from "../styled/AccordianStyled";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Styles } from 'src/assets/style/student-style'
 import ClaimedCard from '../card/ClaimedCard';
 import ClaimedCard2 from "../card/ClaimedCard2";
 function Accordian1({expanded,handleChange,index,items,confirmsg}) {
     const [checked, setChecked] = useState(true);
+    const UserId = sessionStorage.getItem('Id');
     const classes = Styles();
     const theme = useTheme();
   return (
@@ -26,15 +27,17 @@ function Accordian1({expanded,handleChange,index,items,confirmsg}) {
           expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
           aria-controls="panel1bh-content"
           id="panel1bh-header"
-          sx={{background: `${theme.colors.gradients.pink1}`}} >
-         <Header1  color={expanded === index ? 'secondary' : ''}>
-          Book Title : {items.Book_Title}
-          </Header1 >
+          sx={{background: items.UserId == sessionStorage.getItem('Id') ? "#c2dbff": `${theme.colors.gradients.pink1}`}} >
+         <HeaderAcc  color={expanded === index ? 'secondary' : ''}>
+         <b>Book Title : </b> {items.Book_Title}
+         <Typography><b>UserName : </b> {items.UserName}</Typography>
+          </HeaderAcc >
+       
        </Accordionsummary1>
        <AccordionDetails>
         {items.UserId ==  sessionStorage.getItem('Id') ? 
         (<ClaimedCard Text1={items.ReservationDate} Text2={items.IsForParent} confirmsg={confirmsg}/>): 
-        (<ClaimedCard2 Text1={items.ReservationDate} Text2={items.IsForParent} Text3={items.UserName} Text4={items.Designation} Text5={items.ClassNameDesignation}/>)}
+        (<ClaimedCard2  items={items}/>)}
         </AccordionDetails>
         </Accordion>
         </Grow>

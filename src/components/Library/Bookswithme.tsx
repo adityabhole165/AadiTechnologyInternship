@@ -45,8 +45,7 @@ function Bookswithme() {
             {GetBook.map((items: GetBookswithmeResult, i) => {
               return (
                 <List9
-                  Title={GetBook}
-                  Acc={items.Book_No}
+                 Acc={items.Book_No}
                   title={items.Book_Title}
                   issue={items.Issue_Date}
                   returnn={items.Return_Date}

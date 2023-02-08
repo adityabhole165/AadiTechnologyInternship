@@ -14,7 +14,7 @@ import { getBookDetailslist,getCancelBookReservation } from 'src/requests/Librar
 import SearchForm from 'src/libraries/card/SearchForm';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function Library() {
   const dispatch = useDispatch();
@@ -27,6 +27,10 @@ function Library() {
   
   const GetBookList = useSelector(
     (state: RootState) => state.library.BooksDetaiLs
+  );
+
+  const loading = useSelector(
+    (state: RootState) => state.library.Loading
   );
  
    const clickBookwithme = () => {
@@ -100,7 +104,11 @@ function Library() {
        </Grid>):
      (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />)}
       <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
+      {/* {loading ? (
+        <SuspenseLoader />
+      ) : ( */}
       <BooksDetails GetBookList={GetBookList}/>
+      {/* )} */}
    </Container>
   );
 }
