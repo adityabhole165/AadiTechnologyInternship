@@ -23,6 +23,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function Form13() {
 
@@ -73,6 +74,7 @@ function Form13() {
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
   const aRef = useRef(null);
 
   const originalMessageBody = localStorage.getItem("messageBody")
@@ -228,6 +230,7 @@ function Form13() {
   };
 
   const sendMessage = () => {
+    setLoading(true)
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -270,7 +273,7 @@ function Form13() {
     console.log("attachment", finalBase642New);
 
 
-    MessageCenterApi.GetSendMessage(sendMessageAPIBody)
+    MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
@@ -281,6 +284,8 @@ function Form13() {
           }
           localStorage.setItem("messageBody", '');
           setTimeout(RediretToSentPage, 100);
+    setLoading(false)
+
         }
       })
       .catch((err) => {
@@ -459,6 +464,7 @@ function Form13() {
                   <div className={classes.error}>{formik.errors.To}</div>
                 ) : null}
               </p>
+              {loading && <SuspenseLoader/> }
               <Grid container spacing={2} >
                 <Grid item xs={6} sx={{ marginTop: "4px" }}>
                   <ButtonPrimary fullWidth
@@ -617,7 +623,7 @@ function Form13() {
               <Grid item sx={{ mt: '8px', display: scheduleMessage }} >
                 <TextField
                   type="date"
-                  required
+                  // required
                   id="outlined-required"
                   variant="standard"
                   onChange={scheduleDateAndTime}
