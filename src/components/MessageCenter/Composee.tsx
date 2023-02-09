@@ -16,7 +16,6 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BoxContent, CardDetail8, ListStyle, Wordbreak, Wordbreak1 } from 'src/libraries/styled/CardStyle';
-import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -24,7 +23,7 @@ import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-
+import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -245,7 +244,7 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: ""
+        ScheduleDateTime: scheduleDate + ' ' + value
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -277,14 +276,14 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage) {
+          if (scheduleMessage == 'block') {
             toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
           }
           localStorage.setItem("messageBody", '');
           setTimeout(RediretToSentPage, 100);
-    setLoading(false)
+          setLoading(false)
 
         }
       })
@@ -350,26 +349,13 @@ function Form13() {
     }
   };
   let currentDate = new Date();
-  console.log("hours",currentDate.getHours);
-  
+  console.log("hours", currentDate.getHours);
+
   const scheduleDateAndTime = (e) => {
     if (e.target.type == 'date') {
       setscheduleDate(e.target.value);
     }
-    if (e.target.type == 'time') {
-      // let time =
-      //   currentDate.getHours() +
-      //   ':' +
-      //   currentDate.getMinutes().toString().padStart(2, '0');
-      // let SelectedDate = new Date();
-      // SelectedDate.setTime(e.target.value);
 
-      // let time2 =
-      //   SelectedDate.getHours() +
-      //   ':' +
-      //   SelectedDate.getMinutes().toString().padStart(2, '0');
-      setscheduleTime(e.target.value);
-    }
   };
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');
@@ -418,6 +404,18 @@ function Form13() {
     )
     aRef.current.value = null;
   }
+  const [schTimeerror,setSchTimeerror] = useState('');
+  console.log("ss",schTimeerror)
+  const [value, setValue] = useState('');
+ const clickTime = (value) => {
+    if(isFutureDateTime( MinDate + " " + value)){
+    setSchTimeerror('')
+  }
+  else{
+    setSchTimeerror('Please select future time')
+  }
+  setValue(value)
+ }
 
   return (
     <>
@@ -464,7 +462,7 @@ function Form13() {
                   <div className={classes.error}>{formik.errors.To}</div>
                 ) : null}
               </p>
-              {loading && <SuspenseLoader/> }
+              {loading && <SuspenseLoader />}
               <Grid container spacing={2} >
                 <Grid item xs={6} sx={{ marginTop: "4px" }}>
                   <ButtonPrimary fullWidth
@@ -615,11 +613,11 @@ function Form13() {
               )}
             <Grid container>
               <Grid item>
-              <Checkbox onChange={scheduleMessageCheckBox} size="small"/>
+                <Checkbox onChange={scheduleMessageCheckBox} size="small" />
                 <Typography sx={{ display: 'inline-block' }}>
                   Schedule Message at:
                 </Typography>
-              </Grid><br/>
+              </Grid><br />
               <Grid item sx={{ mt: '8px', display: scheduleMessage }} >
                 <TextField
                   type="date"
@@ -632,26 +630,15 @@ function Form13() {
                     max: MaxDate
                   }}
                 />
-                {/* <TextField
-                  sx={{ ml: '10px' }}
-                  type="time"
-                  required
-                  id="outlined-required"
-                  variant="standard"
-                onChange={scheduleDateAndTime}
-                inputProps={{
-                  min:curTime
-                  // max: 
-                }}
-                /> */}
                 <TextField
+                  sx={{ ml: "10px" ,mb:'10px'}}
                   id="time"
                   type="time"
                   variant="standard"
-                  inputProps={{
-                    min: CurrTIME
-                  }}
+                  value={value}
+                  onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
+                <Errormessages Error={schTimeerror} />
               </Grid>
             </Grid>
             <TextField
