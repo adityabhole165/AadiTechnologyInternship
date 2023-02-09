@@ -82,7 +82,7 @@ function ClaimedBook() {
      }
 
       const confirmsg = (value) =>{
-        if (confirm('Do you want to Cancel Book?')) {
+        if (confirm('Are you sure you want to cancel the book claim?')) {
           
       const CancelBookReservationbody:ICancelBookReservation = {
         aiUserId:sessionStorage.getItem('Id'),

@@ -71,12 +71,10 @@ function Accordion4({
          <HeaderAcc  color={expand === index ? 'secondary' : ''}>
       
          <b>Book Title</b>  : {title}
-         < Box sx={{display:"flex"}}>
-         <b>language</b> : {language}
-         <Box sx={{ml:"10px"}}>
-         ({available}/{total})
-         </Box>
-         <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"10px"}}> Claim </Typography>
+         <Box sx={{display:"flex"}}>
+       
+         <b>available</b> : ({available}/{total})
+        <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
          <Dialog
           open={open}
           onClose={clickDialogClose}
