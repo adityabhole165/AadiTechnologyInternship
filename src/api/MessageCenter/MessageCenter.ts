@@ -12,7 +12,7 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
     return http.post<IUserGroupList>('User/GetUsersInGroup',data);
   };
   
-  const GetSendMessage = (data: ISendMessage) => {
+  const SendMessage = (data: ISendMessage) => {
     return http.post<ISendMessage>('MessageCenter/SendMessage',data);
   };
   
@@ -30,7 +30,7 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
 const MessageCenterApi  = {
     GetTrashList,
     GetUsegroupList,
-    GetSendMessage,
+    SendMessage,
     EmailSettingsapi,
     UpdateUserEmailSettingapi,
     ShowPTAOption
