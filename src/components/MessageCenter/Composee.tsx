@@ -404,19 +404,21 @@ function Form13() {
     )
     aRef.current.value = null;
   }
-  const [schTimeerror,setSchTimeerror] = useState('');
-  console.log("ss",schTimeerror)
+  const [schTimeerror, setSchTimeerror] = useState('');
   const [value, setValue] = useState('');
- const clickTime = (value) => {
-    if(isFutureDateTime( MinDate + " " + value)){
-    setSchTimeerror('')
+  const clickTime = (value) => {
+    if (isFutureDateTime(MinDate + " " + value)) {
+      setSchTimeerror('')
+    }
+    else {
+      setSchTimeerror('Please select future time')
+    }
+    setValue(value)
   }
-  else{
-    setSchTimeerror('Please select future time')
+  const [showCC, setShowCC] = useState(false)
+  const clickHide = () => {
+    setShowCC(!showCC)
   }
-  setValue(value)
- }
-
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -440,7 +442,7 @@ function Form13() {
         <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
-              <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
+              <FormHelperText >To</FormHelperText>
               <TextField
                 multiline
                 value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
@@ -463,22 +465,23 @@ function Form13() {
                 ) : null}
               </p>
               {loading && <SuspenseLoader />}
-              <Grid container spacing={2} >
-                <Grid item xs={6} sx={{ marginTop: "4px" }}>
+              <Grid container spacing={2} sx={{mt:'-30px'}} >
+                <Grid item xs={6} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientButton(e)}
                     color="primary">
                     Add Recipients
                   </ButtonPrimary>
                 </Grid>
-                <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                  {/* <ButtonPrimary fullWidth
+                <Grid item xs={6} >
+                  <ButtonPrimary fullWidth
+                    onClick={clickHide}
                     color="primary" >
                     Add Cc
-                  </ButtonPrimary> */}
+                  </ButtonPrimary>
                 </Grid>
               </Grid>
-              <>
+              {showCC && <>
                 <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
@@ -496,7 +499,7 @@ function Form13() {
                   }}
                 />
                 <Grid container spacing={2} >
-                  <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                  <Grid item xs={6} >
                     <ButtonPrimary fullWidth
                       onClick={(e) => RecipientCCButton(e)}
                       color="primary">
@@ -504,14 +507,14 @@ function Form13() {
                     </ButtonPrimary>
                   </Grid>
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
-
                   </Grid>
                 </Grid>
-              </>
+              </>}
             </FormControl>
 
             <TextField
               fullWidth
+              sx={{mt:'0px'}}
               margin="normal"
               label='Subject :'
               name="Subject"
@@ -557,7 +560,6 @@ function Form13() {
                   onClick={handleClick}
                   sx={{
                     color: 'navy',
-                    mt: 2,
                     fontSize: '17px',
                     float: 'right'
                   }}
@@ -579,7 +581,7 @@ function Form13() {
                       return (
                         <Box key={obj.FileName}>
                           <Grid container>
-                            <Grid xs={2}>
+                            <Grid xs={2} sx={{ mb: "-60px" }}>
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
                             <Grid xs={8}>
@@ -612,8 +614,8 @@ function Form13() {
                 </div>
               )}
             <Grid container>
-              <Grid item>
-                <Checkbox onChange={scheduleMessageCheckBox} size="small" />
+              <Grid item sx={{ml:'-11px',mt:'0px',mb:"-30px"}}>
+                <Checkbox onChange={scheduleMessageCheckBox} size="small"  />
                 <Typography sx={{ display: 'inline-block' }}>
                   Schedule Message at:
                 </Typography>
@@ -631,7 +633,7 @@ function Form13() {
                   }}
                 />
                 <TextField
-                  sx={{ ml: "10px" ,mb:'10px'}}
+                  sx={{ ml: "30px", mb: '10px' }}
                   id="time"
                   type="time"
                   variant="standard"
