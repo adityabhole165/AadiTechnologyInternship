@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import BooksDetails from './BooksDetails';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import {  Typography, Container,Grid } from '@mui/material';
+import {  Typography, Container,Grid , ToggleButton, ToggleButtonGroup,Box, Button, IconButton, Avatar} from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import {IBooksDetails} from 'src/interfaces/Student/Library';
@@ -12,7 +12,12 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { logoURL } from '../Common/Util';
-
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import ButtonSort from 'src/libraries/card/ButtonSort';
 function Library() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -43,8 +48,9 @@ function Library() {
   const asStartRowIndex = sessionStorage.getItem('StartRowIndex');
   const asSortRowIndexExpression = sessionStorage.getItem('SortRowIndexExpression');
   const [Standard,setStandard] = useState(asStandardID);
- console.log(asStandardID,"asStandardID")
-  const BooksDetails_body: IBooksDetails = {
+const [ascending, setAscending] = useState('asc');
+
+const BooksDetails_body: IBooksDetails = {
     aiSchoolId: asSchoolId,
     asBookName: bookTitle,
     asAccessionNumber: accessionNo,
@@ -57,7 +63,7 @@ function Library() {
     aiParentStaffId: "0",
     aiEndIndex: 20,
     aiStartRowIndex: "0",
-    asSortExpression: ""
+    asSortExpression: "Order by Book_Title " + ascending
   };
   useEffect(() => {
     setStandard(Standard)
@@ -66,7 +72,7 @@ function Library() {
   useEffect(() => {
  
     dispatch(getBookDetailslist(BooksDetails_body));
-   }, [ bookTitle, accessionNo,author,publisher,Standard,Language]);
+   }, [ bookTitle, accessionNo,author,publisher,Standard,Language,ascending]);
  
    const clickFilter=({bookTitle,accessionNo,author,publisher,Language,Standard})=>{
    
@@ -87,11 +93,25 @@ function Library() {
     setPublisher(publisher)
     setLanguage(Language)
     setStandard(Standard)
+}
+const handleChange = (event: React.MouseEvent<HTMLElement>,
+      newAscending: string,
+   ) => {
+  if (newAscending != null)
+  setAscending(newAscending);
+};
 
-      }
+const sortClick = () =>{
+  if(ascending=== "asc" ){
+  setAscending("desc") 
+}
+  else{
+  setAscending("asc") 
+}
+}
 
-    
-  return (
+
+return (
     <Container>
       <PageHeader heading={'Library'} subheading={''} />
       {!showFilter ?
@@ -107,11 +127,29 @@ function Library() {
         </Grid>
        </Grid>):
      (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} Standard={Standard}/>)}
-      <Typography sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
+
+      <Grid container sx={{m:1}}>
+      <Grid item xs={1.5}/>
+        <Grid item xs={9}>
+        <Typography  sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
+        </Grid>
+     <Grid item xs={1.5}>
+      <Avatar sx={{ height: 25, width: 25, color: "black" }}>
+      <IconButton onClick={()=>sortClick()}>
+      {ascending === 'asc' ?  <ArrowDropUpIcon/>  : 
+        <ArrowDropDownIcon/> }
+      </IconButton>
+      </Avatar>
+
+  
+       </Grid>
+    
+          </Grid>
       {loading ? (
         <SuspenseLoader />
       ) : (
       <BooksDetails GetBookList={GetBookList}/>
+     
        )}
    </Container>
   );

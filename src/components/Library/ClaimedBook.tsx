@@ -33,13 +33,13 @@ function ClaimedBook() {
         setExpanded(isExpanded ? panel : false);
       };
       useEffect(()=>{
-        
         setClaimedBookList(ClaimedBook
           .filter((obj)=>{
             return checked?true:
             obj.UserId===Number(sessionStorage.getItem('Id'))
           }))
       },[ClaimedBook,checked])
+      
       const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
       const asSchoolId = localStorage.getItem('localSchoolId');
       const UserId = sessionStorage.getItem('Id');

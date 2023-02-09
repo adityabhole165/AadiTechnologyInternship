@@ -81,14 +81,18 @@ function Accordion4({
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
           <Typography>Do you want to claim this book for -- </Typography>
-          <Grid container spacing={1}>
+         <Box px={2} pt={1}>
+         <Grid container>
             <Grid item xs={6}>
-            <ButtonPrimary fullWidth> Student</ButtonPrimary>
+            <ButtonPrimary > Student</ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-            <ButtonPrimary fullWidth> Parent</ButtonPrimary>
+            <ButtonPrimary> Parent</ButtonPrimary>
             </Grid>
           </Grid>
+          
+          </Box> 
+        
     
    
       </Dialog>
