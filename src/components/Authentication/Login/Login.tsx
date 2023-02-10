@@ -266,7 +266,7 @@ function SelectSchool() {
     };
     const errorOccur = (value) => {
 
-        toast.error(value);
+        toast.error(value,{ toastId: 'error1'});
         setTimeout(() => {
             setLoginButtonDisabled("auto");
         }, 3000);
