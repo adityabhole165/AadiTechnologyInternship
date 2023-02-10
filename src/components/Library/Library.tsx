@@ -129,10 +129,11 @@ return (
         <Typography  sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
         </Grid>
      <Grid item xs={1.5}>
-      <Avatar sx={{ height: 25, width: 25, color: "black" ,mt:"8px",float:"right",mr:"15px"}}>
+      <Avatar  variant="square" sx={{ height: 25, width: 55, color: "black" ,mt:"8px",float:"right",mr:"10px"}}>
       <IconButton onClick={()=>sortClick()}>
       {ascending === 'asc' ?  <ArrowDropUpIcon/>  : 
         <ArrowDropDownIcon/> }
+        {ascending === 'asc' ? (<Typography>A-Z</Typography>) :(<Typography>Z-A</Typography>)}
       </IconButton>
       </Avatar>
 
