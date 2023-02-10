@@ -16,14 +16,14 @@ import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { BoxContent, CardDetail8, ListStyle, Wordbreak, Wordbreak1 } from 'src/libraries/styled/CardStyle';
-import { sitePath } from '../Common/Util';
 import AddReciepents from './AddReciepents';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -73,6 +73,7 @@ function Form13() {
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
+  const [loading, setLoading] = useState(false);
   const aRef = useRef(null);
 
   const originalMessageBody = localStorage.getItem("messageBody")
@@ -228,6 +229,7 @@ function Form13() {
   };
 
   const sendMessage = () => {
+    setLoading(true)
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -242,7 +244,7 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: ""
+        ScheduleDateTime: scheduleDate + ' ' + value
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -270,17 +272,19 @@ function Form13() {
     console.log("attachment", finalBase642New);
 
 
-    MessageCenterApi.GetSendMessage(sendMessageAPIBody)
+    MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage) {
+          if (scheduleMessage == 'block') {
             toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
           }
           localStorage.setItem("messageBody", '');
           setTimeout(RediretToSentPage, 100);
+          setLoading(false)
+
         }
       })
       .catch((err) => {
@@ -345,26 +349,13 @@ function Form13() {
     }
   };
   let currentDate = new Date();
-  console.log("hours",currentDate.getHours);
-  
+  console.log("hours", currentDate.getHours);
+
   const scheduleDateAndTime = (e) => {
     if (e.target.type == 'date') {
       setscheduleDate(e.target.value);
     }
-    if (e.target.type == 'time') {
-      // let time =
-      //   currentDate.getHours() +
-      //   ':' +
-      //   currentDate.getMinutes().toString().padStart(2, '0');
-      // let SelectedDate = new Date();
-      // SelectedDate.setTime(e.target.value);
 
-      // let time2 =
-      //   SelectedDate.getHours() +
-      //   ':' +
-      //   SelectedDate.getMinutes().toString().padStart(2, '0');
-      setscheduleTime(e.target.value);
-    }
   };
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');
@@ -413,7 +404,21 @@ function Form13() {
     )
     aRef.current.value = null;
   }
-
+  const [schTimeerror, setSchTimeerror] = useState('');
+  const [value, setValue] = useState('');
+  const clickTime = (value) => {
+    if (isFutureDateTime(MinDate + " " + value)) {
+      setSchTimeerror('')
+    }
+    else {
+      setSchTimeerror('Please select future time')
+    }
+    setValue(value)
+  }
+  const [showCC, setShowCC] = useState(false)
+  const clickHide = () => {
+    setShowCC(!showCC)
+  }
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -437,7 +442,7 @@ function Form13() {
         <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
-              <FormHelperText sx={{ mb: '-15px' }}>To</FormHelperText>
+              <FormHelperText >To</FormHelperText>
               <TextField
                 multiline
                 value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
@@ -459,22 +464,24 @@ function Form13() {
                   <div className={classes.error}>{formik.errors.To}</div>
                 ) : null}
               </p>
-              <Grid container spacing={2} >
-                <Grid item xs={6} sx={{ marginTop: "4px" }}>
+              {loading && <SuspenseLoader />}
+              <Grid container spacing={2} sx={{mt:'-30px'}} >
+                <Grid item xs={6} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientButton(e)}
                     color="primary">
                     Add Recipients
                   </ButtonPrimary>
                 </Grid>
-                <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                  {/* <ButtonPrimary fullWidth
+                <Grid item xs={6} >
+                  <ButtonPrimary fullWidth
+                    onClick={clickHide}
                     color="primary" >
                     Add Cc
-                  </ButtonPrimary> */}
+                  </ButtonPrimary>
                 </Grid>
               </Grid>
-              <>
+              {showCC && <>
                 <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
@@ -492,7 +499,7 @@ function Form13() {
                   }}
                 />
                 <Grid container spacing={2} >
-                  <Grid item xs={6} sx={{ marginTop: "4px" }}>
+                  <Grid item xs={6} >
                     <ButtonPrimary fullWidth
                       onClick={(e) => RecipientCCButton(e)}
                       color="primary">
@@ -500,14 +507,14 @@ function Form13() {
                     </ButtonPrimary>
                   </Grid>
                   <Grid item xs={6} sx={{ marginTop: "4px" }}>
-
                   </Grid>
                 </Grid>
-              </>
+              </>}
             </FormControl>
 
             <TextField
               fullWidth
+              sx={{mt:'0px'}}
               margin="normal"
               label='Subject :'
               name="Subject"
@@ -553,7 +560,6 @@ function Form13() {
                   onClick={handleClick}
                   sx={{
                     color: 'navy',
-                    mt: 2,
                     fontSize: '17px',
                     float: 'right'
                   }}
@@ -575,7 +581,7 @@ function Form13() {
                       return (
                         <Box key={obj.FileName}>
                           <Grid container>
-                            <Grid xs={2}>
+                            <Grid xs={2} sx={{ mb: "-60px" }}>
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
                             <Grid xs={8}>
@@ -608,16 +614,16 @@ function Form13() {
                 </div>
               )}
             <Grid container>
-              <Grid item>
-              <Checkbox onChange={scheduleMessageCheckBox} size="small"/>
+              <Grid item sx={{ml:'-11px',mt:'0px',mb:"-30px"}}>
+                <Checkbox onChange={scheduleMessageCheckBox} size="small"  />
                 <Typography sx={{ display: 'inline-block' }}>
                   Schedule Message at:
                 </Typography>
-              </Grid><br/>
+              </Grid><br />
               <Grid item sx={{ mt: '8px', display: scheduleMessage }} >
                 <TextField
                   type="date"
-                  required
+                  // required
                   id="outlined-required"
                   variant="standard"
                   onChange={scheduleDateAndTime}
@@ -626,26 +632,15 @@ function Form13() {
                     max: MaxDate
                   }}
                 />
-                {/* <TextField
-                  sx={{ ml: '10px' }}
-                  type="time"
-                  required
-                  id="outlined-required"
-                  variant="standard"
-                onChange={scheduleDateAndTime}
-                inputProps={{
-                  min:curTime
-                  // max: 
-                }}
-                /> */}
                 <TextField
+                  sx={{ ml: "30px", mb: '10px' }}
                   id="time"
                   type="time"
                   variant="standard"
-                  inputProps={{
-                    min: CurrTIME
-                  }}
+                  value={value}
+                  onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
+                <Errormessages Error={schTimeerror} />
               </Grid>
             </Grid>
             <TextField

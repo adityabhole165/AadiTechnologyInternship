@@ -10,7 +10,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {ILanguagesDetails,IStandardsBody} from 'src/interfaces/Student/Library'
 import Dropdown from '../dropdown/Dropdown';
-function SearchForm({clickFilter, clickCloseIcon}) {
+import { logoURL } from 'src/components/Common/Util';
+function SearchForm({clickFilter, clickCloseIcon,Standard}) {
   const dispatch = useDispatch();
 
   const GetLanguageList = useSelector(
@@ -19,10 +20,8 @@ function SearchForm({clickFilter, clickCloseIcon}) {
   const Standards = useSelector(
     (state: RootState) => state.library.Standards
   );
+console.log("Standards",Standards);
 
-
-
-  console.log(Standards,"Standards")
   const Class = sessionStorage.getItem('Class');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -31,7 +30,7 @@ function SearchForm({clickFilter, clickCloseIcon}) {
     const [author, setAuthor] = useState('');
     const [publisher, setPublisher] = useState('');
     const [Language,setLanguage] = useState('');
-    const [Standard,setStandard] = useState( '');
+  
    
     
      
@@ -63,7 +62,9 @@ function SearchForm({clickFilter, clickCloseIcon}) {
         setLanguage(value);
       };
       const clickStandard= (value) => {
-        setStandard(value);
+        console.log("value",value);
+        
+        Standard=value;
       };
       
    const clickReset=()=>{
@@ -72,7 +73,7 @@ function SearchForm({clickFilter, clickCloseIcon}) {
     setAuthor('')
     setPublisher('')
     setLanguage('')
-    setStandard('')
+    Standard = ''
   }
   return (
     <div>
@@ -110,13 +111,14 @@ function SearchForm({clickFilter, clickCloseIcon}) {
              onChange={(e)=>{setPublisher(e.target.value)}}/>
             </Grid>
             <Grid item xs={6}>
-            <Dropdown Array={ Standards} handleChange={clickStandard} label={'Select Standard'} defaultValue ={Standard}/>
+            <Dropdown Array={ Standards} handleChange={clickStandard} 
+            label={'Select Standard'} defaultValue ={Standard}/>
             </Grid>
             <Grid item xs={6}>
           <Dropdown Array={GetLanguageList} handleChange={clickLanguage} label={'Select Language'} defaultValue ={Language}/>
           </Grid>
           <Grid item xs={6} >
-          <ButtonPrimary  fullWidth color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
+          <ButtonPrimary  color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
           </Grid>
           <Grid item xs={6} >
           <ArrowCircleRightRoundedIcon onClick={onClick}

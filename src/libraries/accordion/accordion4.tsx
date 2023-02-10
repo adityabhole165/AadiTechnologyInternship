@@ -71,26 +71,28 @@ function Accordion4({
          <HeaderAcc  color={expand === index ? 'secondary' : ''}>
       
          <b>Book Title</b>  : {title}
-         < Box sx={{display:"flex"}}>
-         <b>language</b> : {language}
-         <Box sx={{ml:"10px"}}>
-         ({available}/{total})
-         </Box>
-         <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"10px"}}> Claim </Typography>
+         <Box sx={{display:"flex"}}>
+       
+         <b>Available</b> : ({available}/{total})
+        <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
          <Dialog
           open={open}
           onClose={clickDialogClose}
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
           <Typography>Do you want to claim this book for -- </Typography>
-          <Grid container spacing={1}>
+         <Box px={2} pt={1}>
+         <Grid container>
             <Grid item xs={6}>
-            <ButtonPrimary fullWidth> Student</ButtonPrimary>
+            <ButtonPrimary > Student</ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-            <ButtonPrimary fullWidth> Parent</ButtonPrimary>
+            <ButtonPrimary> Parent</ButtonPrimary>
             </Grid>
           </Grid>
+          
+          </Box> 
+        
     
    
       </Dialog>
