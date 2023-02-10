@@ -23,6 +23,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { color } from '@mui/system';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import HelpIcon from '@mui/icons-material/Help';
+ import AddCardIcon from '@mui/icons-material/AddCard';
 
 const DashboardData = {
   Student:{
@@ -106,6 +107,17 @@ const DashboardData = {
       index: 26,
      
     },
+
+    // {
+    //   Text1: 'Add Adhar',
+    //   Text2: 'Card',
+    //   Color: '#90a4ae',
+    //   iconColor: '#f0483e ',
+    //   Icon: AddCardIcon ,
+    //   Link: 'Student/AdharCard',
+    //   index: 28,
+     
+    // },
   ],
   items2 : [
     {
@@ -216,7 +228,19 @@ const DashboardData = {
       Link: 'Common/PTA',
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
-    },]},
+    },
+  {
+    Text1: 'Upload',
+      Text2: 'ParentPhoto',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      Icon:PeopleIcon,
+      Link: 'Student/UploadParentPhoto',
+      index: 29,
+
+    },
+  
+  ]},
   Teacher:{
     items1:[
       {

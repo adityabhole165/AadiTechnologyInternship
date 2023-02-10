@@ -7,7 +7,7 @@ import PtaSlice from "../requests/PTA/PTA";
 import SchoolListslice from "src/requests/Authentication/SchoolList";
 import NewRelease from "src/requests/Authentication/NewRelease";
 import Timetableslice from "../requests/Student/Timetable";
-import Schoolnoticeslice  from "../requests/Schoolnotice/Schoolnotice";
+import Schoolnoticeslice from "../requests/Schoolnotice/Schoolnotice";
 import SmsCenterSlice from "../requests/Student/SMSCenter";
 import SubjectTeacherSlice from "../requests/Student/SubjectTeacher";
 import SentMessageSlice from "../requests/Student/Sentmessage";
@@ -19,7 +19,7 @@ import MessageCenterSlice from 'src/requests/MessageCenter/MessaageCenter';
 import InboxMessageSlice from 'src/requests/Student/InboxMessage';
 import UpcomingEventSlice from 'src/requests/Dashboard/Dashboard'
 import AttendanceSlice from 'src/requests/Attendance/Attendance';
-import  Dashboardlice from 'src/requests/Dashboard/Dashboard';
+import Dashboardlice from 'src/requests/Dashboard/Dashboard';
 import LibrarySlicee from 'src/requests/Library/Library';
 import GetExamResultslice from 'src/requests/Student/ProgressReport';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
@@ -31,7 +31,7 @@ import SelectOnlineExamSlice from 'src/requests/Student/OnlineExam';
 import TMTimetableslice from 'src/requests/Teacher/TMtimetable';
 import TAttendanceSlice from 'src/requests/TAttendance/TAttendance';
 import MissingAttandenceSlice from 'src/requests/Student/MissingAttandenceSlice';
-import SelectStandardExamslice from  'src/requests/TExamschedule/TExamschedule';
+import SelectStandardExamslice from 'src/requests/TExamschedule/TExamschedule';
 import AScheduledSMSSlice from 'src/requests/AdminSMSCenter/AScheduledSMS';
 import SentSlice from 'src/requests/AdminSMSCenter/SentSMS';
 import AReceiveSMSSlice from 'src/requests/AdminSMSCenter/AReceiveSMS';
@@ -46,64 +46,64 @@ import SliceFeedback from 'src/requests/Feedback/RequestFeedback';
 import SliceTransportDetails from 'src/requests/TransportDetails/RequestTransportDetails';
 import SliceSupport from 'src/requests/Support/RequestSupport';
 import SliceBirthdays from 'src/requests/Birthdays/RequestBirthdays';
-import SliceDeleteMessagePermanetly  from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
-
+import SliceDeleteMessagePermanetly from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
+import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
-    Holidays:Holidaysslice,
-    Notification:Notificationslice,
-    staffBirthday:staffBirthdayslice,
-    Timetable:Timetableslice,
-    Schoolnotice:Schoolnoticeslice,
-    Pta : PtaSlice,
-    SmsCenter : SmsCenterSlice,
+    Holidays: Holidaysslice,
+    Notification: Notificationslice,
+    staffBirthday: staffBirthdayslice,
+    Timetable: Timetableslice,
+    Schoolnotice: Schoolnoticeslice,
+    Pta: PtaSlice,
+    SmsCenter: SmsCenterSlice,
     SubjectTeacher: SubjectTeacherSlice,
-    SchoolList : SchoolListslice,
-    NewRelease : NewRelease,
-    Sent__Message : SentMessageSlice,
-    InboxMessage : InboxMessageSlice,
-    Fees :Feesslice,
-    UpcomingEventss:UpcomingEventSlice,
-    AnnualPlanner : AnnualPlannerSlice,
-    Homework :  HomeworkSlice,
-    ExamsList : SelectExamslice,
-    LoginList : LoginSchoolNoticeSlice,
-    MessageCenter : MessageCenterSlice,
+    SchoolList: SchoolListslice,
+    NewRelease: NewRelease,
+    Sent__Message: SentMessageSlice,
+    InboxMessage: InboxMessageSlice,
+    Fees: Feesslice,
+    UpcomingEventss: UpcomingEventSlice,
+    AnnualPlanner: AnnualPlannerSlice,
+    Homework: HomeworkSlice,
+    ExamsList: SelectExamslice,
+    LoginList: LoginSchoolNoticeSlice,
+    MessageCenter: MessageCenterSlice,
     Attendance: AttendanceSlice,
-    Dashboard : Dashboardlice,
-    library:LibrarySlicee,
-    Progressreport : GetExamResultslice,
-    ExamOnlineReport:OnlineExamProgressReportSlice,
-    PhotoGalllary : PhotoGallarySlice,
-    Gallery : GallerySlice,
-    Video : VideOGallerySlice,
-    OnlineExam : SelectOnlineExamSlice,
-    TAttendance:TAttendanceSlice,
-    AttendanceList:TAttendanceSlice,
-    StandardAndExamList:SelectStandardExamslice,
-    StandardAttendance:TAttendanceSlice,
-    TMTimetable:TMTimetableslice,
-    MissingAttandence:MissingAttandenceSlice,
-    AScheduledSMS:AScheduledSMSSlice,
-    AScheduledSMSDetails:AScheduledSMSSlice,
-    SentSMSAdmin:SentSlice,
-    AReceiveSMS:AReceiveSMSSlice,
-    Sent : AdminSentSlice,
-    getuser:GetuserSlice,
-    getuser1:GetuserSlice1,
-    getGetAdminAndprincipalUsers:GetuserSlice,
-    getAComposeSMS:AComposeSMSSlice,
-    getSchoolSettings:schoolSettingSlice,
-    getASendSMS:AComposeSMSSlice,
-    getModulesPermissionsResult:schoolSettingSlice,
-    SchoolSettings:SchoolListslice,
-    TransportDetails : SliceTransportDetails,
-     Birthdays : SliceBirthdays,
-     DeleteMessagePermanetly: SliceDeleteMessagePermanetly,
-  
-    
+    Dashboard: Dashboardlice,
+    library: LibrarySlicee,
+    Progressreport: GetExamResultslice,
+    ExamOnlineReport: OnlineExamProgressReportSlice,
+    PhotoGalllary: PhotoGallarySlice,
+    Gallery: GallerySlice,
+    Video: VideOGallerySlice,
+    OnlineExam: SelectOnlineExamSlice,
+    TAttendance: TAttendanceSlice,
+    AttendanceList: TAttendanceSlice,
+    StandardAndExamList: SelectStandardExamslice,
+    StandardAttendance: TAttendanceSlice,
+    TMTimetable: TMTimetableslice,
+    MissingAttandence: MissingAttandenceSlice,
+    AScheduledSMS: AScheduledSMSSlice,
+    AScheduledSMSDetails: AScheduledSMSSlice,
+    SentSMSAdmin: SentSlice,
+    AReceiveSMS: AReceiveSMSSlice,
+    Sent: AdminSentSlice,
+    getuser: GetuserSlice,
+    getuser1: GetuserSlice1,
+    getGetAdminAndprincipalUsers: GetuserSlice,
+    getAComposeSMS: AComposeSMSSlice,
+    getSchoolSettings: schoolSettingSlice,
+    getASendSMS: AComposeSMSSlice,
+    getModulesPermissionsResult: schoolSettingSlice,
+    SchoolSettings: SchoolListslice,
+    TransportDetails: SliceTransportDetails,
+    Birthdays: SliceBirthdays,
+    DeleteMessagePermanetly: SliceDeleteMessagePermanetly,
+    UploadParentPhoto: SliceUploadParentPhoto
+
 });
 
 export default rootReducer;
