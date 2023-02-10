@@ -73,7 +73,7 @@ function Accordion4({
          <b>Book Title</b>  : {title}
          <Box sx={{display:"flex"}}>
        
-         <b>available</b> : ({available}/{total})
+         <b>Available</b> : ({available}/{total})
         <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
          <Dialog
           open={open}

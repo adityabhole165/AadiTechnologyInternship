@@ -99,7 +99,7 @@ function ClaimedBook() {
       }
   return (
     <Container >
-    <PageHeader heading={'Claimed Books Detail'} subheading={''}/>
+    <PageHeader heading={'Claimed Books Details'} subheading={''}/>
     <BackButton FromRoute={'/Student/Library'}/>
     {loading ? (
     <SuspenseLoader />
@@ -108,7 +108,7 @@ function ClaimedBook() {
     {claimedBookList.length === 0?
   (<ErrorMessages Error={
     checked?
-     'No books claimed':
+     'No record found':
      'No book has been claimed yet '} />):
       claimedBookList.map((items: IClaimDetailResult,i) => {
       return (

@@ -118,7 +118,7 @@ console.log("Standards",Standards);
           <Dropdown Array={GetLanguageList} handleChange={clickLanguage} label={'Select Language'} defaultValue ={Language}/>
           </Grid>
           <Grid item xs={6} >
-          <ButtonPrimary  fullWidth color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
+          <ButtonPrimary  color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
           </Grid>
           <Grid item xs={6} >
           <ArrowCircleRightRoundedIcon onClick={onClick}

@@ -94,12 +94,7 @@ const BooksDetails_body: IBooksDetails = {
     setLanguage(Language)
     setStandard(Standard)
 }
-const handleChange = (event: React.MouseEvent<HTMLElement>,
-      newAscending: string,
-   ) => {
-  if (newAscending != null)
-  setAscending(newAscending);
-};
+
 
 const sortClick = () =>{
   if(ascending=== "asc" ){
@@ -128,20 +123,20 @@ return (
        </Grid>):
      (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} Standard={Standard}/>)}
 
-      <Grid container sx={{m:1}}>
+      <Grid container >
       <Grid item xs={1.5}/>
         <Grid item xs={9}>
         <Typography  sx={{textAlign:"center",padding:"10px",color:"black"}} variant="h4">Books Details</Typography>
         </Grid>
      <Grid item xs={1.5}>
-      <Avatar sx={{ height: 25, width: 25, color: "black" }}>
+      <Avatar sx={{ height: 25, width: 25, color: "black" ,mt:"8px",float:"right",mr:"15px"}}>
       <IconButton onClick={()=>sortClick()}>
       {ascending === 'asc' ?  <ArrowDropUpIcon/>  : 
         <ArrowDropDownIcon/> }
       </IconButton>
       </Avatar>
 
-  
+
        </Grid>
     
           </Grid>
