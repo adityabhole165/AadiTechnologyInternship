@@ -7,7 +7,6 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { IGetParentPhotosBody } from 'src/interfaces/Student/IUpoladParentPhoto';
 import { getParentphoto1 } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 
-import ActiveTab from 'src/libraries/card/ActiveTab';
 import { Container, TextField,Grid } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
@@ -47,7 +46,7 @@ function NewUploadphoto() {
     "aiUserId": sessionStorage.getItem('Id')
   }
   const SubmitParentPhotoDetailsBody ={
-    "aiUserId":2734,
+    "aiUserId":Number(asUserId),
     "aiSchoolId":asSchoolId,
     "aiAcademicYearId": asAcademicYearId,
     "abSubmitForSibling":false
@@ -69,18 +68,12 @@ useEffect(()=>{
   const clickItem= (value)=>{
     setItemList(value);
 }
-// const getFile = ()=>{
-//   let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
-//           let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-//           let AttachmentFile: AttachmentFile = {
-//             FileName: e.target.files[0],
-//             Base64URL: DataAttachment
-//           };
-// }
+
 
 const ChangeFileIntoBase64 = (fileData) => {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
+    if(fileData)
     fileReader.readAsDataURL(fileData);
 
     fileReader.onload = () => {
@@ -95,24 +88,24 @@ const setFiles= async()=>{
   setIsFileChanged(false)
   if(itemList[0].Value!==null){
   setFatherPhotoFileName(itemList[0].Value?.name)
-  // let base64URL:any = await ChangeFileIntoBase64(itemList[0].Value);
-  // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-  // setFatherImgPhoto(DataAttachment)
-  setFatherImgPhoto(itemList[0].Value)
+  let base64URL:any = await ChangeFileIntoBase64(itemList[0].Value);
+  let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+  setFatherImgPhoto(DataAttachment)
+  // setFatherImgPhoto(itemList[0].Value)
 }
 if(itemList[1].Value!==null){
   setMotherPhotoFileName(itemList[1].Value?.name)
-  // let base64URL:any = await ChangeFileIntoBase64(itemList[1].Value);
-  // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-  // setMotherImgPhoto(DataAttachment)
-  setMotherImgPhoto(itemList[1].Value)
+  let base64URL:any = await ChangeFileIntoBase64(itemList[1].Value);
+  let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+  setMotherImgPhoto(DataAttachment)
+  // setMotherImgPhoto(itemList[1].Value)
 }
 if(itemList[2].Value!==null){
   setRelativePhotoFileName(itemList[1].Value?.name)
-  // let base64URL:any = await ChangeFileIntoBase64(itemList[2].Value);
-  // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-  // setLocalGuardianPhoto(DataAttachment)
-  setMotherImgPhoto(itemList[2].Value)
+  let base64URL:any = await ChangeFileIntoBase64(itemList[2].Value);
+  let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
+  setLocalGuardianPhoto(DataAttachment)
+  // setMotherImgPhoto(itemList[2].Value)
 }
 }
 const onFileSelect= (value)=>{
