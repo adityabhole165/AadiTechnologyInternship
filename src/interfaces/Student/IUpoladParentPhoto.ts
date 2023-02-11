@@ -8,6 +8,7 @@ export interface IGetParentPhotosBody{
 
 
 export interface IGetParentPhotosResult{
+        ParentPhotoDetails: any
    
         FatherName: string,
         MotherName: string,

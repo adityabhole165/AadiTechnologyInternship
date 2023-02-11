@@ -19,8 +19,8 @@ const ChooseFiles = ({ validFiles, onChangeFiles, maxfileSize = 0, multipleAllow
     const fileChangedHandler = async (multipleFiles) => {
         for (let i = 0; i < multipleFiles.length; i++) {
             const isValid = CheckFileValidation(multipleFiles[i], validFiles, maxfileSize);
+            setFileError(isValid)
             if (isValid) {
-                setFileError(isValid)
                 aRef.current.value = null;
             }
             else {
