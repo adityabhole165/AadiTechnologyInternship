@@ -97,11 +97,11 @@ function Card7({
 
             <CardDetail2>{To}</CardDetail2>
           </BoxWrapper>
-          <BoxWrapper>
+          {Cc !== '' && <BoxWrapper>
             <CardDetail1> {ViewDetail.Cc}</CardDetail1>
 
             <CardDetail2>{Cc}</CardDetail2>
-          </BoxWrapper>
+          </BoxWrapper>}
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
             <CardDetail2>{Text}</CardDetail2>

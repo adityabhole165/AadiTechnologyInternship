@@ -125,21 +125,17 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           isActive: false
         },
         {
-          Id: '3',
-          Name: 'Student',
-          isActive: false
-        },
-        {
           Id: '6',
           Name: 'Admin Staff',
           isActive: false
         },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        },
       ]);
+      if ( !getPTAOption.HideStudentOption){
+        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+      }
+      if ( getPTAOption.ShowPTAOption){
+        setTecherStudent(myArr=>[...myArr, {Id: '11', Name: 'PTA', isActive: false }])
+      }
     }
 
     else {

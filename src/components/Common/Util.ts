@@ -82,6 +82,19 @@ export const getNextDate = (date, prevNext) => {
     return nextDate.toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
 }
 
+export const CheckFileValidationUploadPic = (fileData, allowedFileTypes, fileSize) => {
+    const fileExtension = fileData.name.split('.').at(-1);
+    if (fileExtension != undefined || null) {
+        if (!allowedFileTypes.includes(fileExtension)) {
+            return 'Please attach the file in the valid or supportive format';
+        } else
+            if (fileData.size > fileSize) {
+                return 'Please upload a file smaller than 80 kb';
+            } else if (allowedFileTypes.includes(fileExtension)) {
+                return null;
+            }
+    }
+};
 export const monthArray = [
     { Value: 1, Name: "January" },
     { Value: 2, Name: "February" },
