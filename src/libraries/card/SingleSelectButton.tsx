@@ -11,7 +11,7 @@ const SingleSelectButton=({item, clickItem})=> {
 return (
     <div>
   
-      <ListStyle color={item.IsActive?'secondary':null} onClick={onClick}>
+      <ListStyle color={item.IsActive?'info':null} onClick={onClick}>
       <Typography>{item.Name}</Typography>
       </ListStyle>
    
