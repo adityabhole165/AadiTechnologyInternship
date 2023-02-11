@@ -6,8 +6,6 @@ import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { IGetParentPhotosBody } from 'src/interfaces/Student/IUpoladParentPhoto';
 import { getParentphoto1 } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
-
-import ActiveTab from 'src/libraries/card/ActiveTab';
 import { Container, TextField,Grid } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
