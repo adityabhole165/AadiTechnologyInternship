@@ -3,21 +3,29 @@ import { CardD, CardDetail, CardDetail1, CardDetail2, CardDetail3, CardDetail5, 
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import { isFutureDateTime} from 'src/components/Common/Util';
 
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined }) {
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined }) {
 
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
-  const IsReadColor = IsRead == 'N' ? 'blue' : ''
+
+  const msgDateArr = text2.split(' ')
+  let msgDate = text2
+  if (msgDateArr.length === 4)
+    msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
+  const IsScheduleColor = isFutureDateTime(msgDate) ? 'blue' : ''
+  const IsReadColor = ActiveTab == "Inbox" ?IsRead == 'N' ? 'blue' : '':
+  ActiveTab == "Sent" ? isFutureDateTime(msgDate) ? 'blue' : '':''
 
   return (
     <>
       <CardDetail onClick={clickCard}>
 
-        {ActiveTab == "Inbox" ? <CardDetail1 style={{ color: IsReadColor }}>{header}</CardDetail1> : <CardDetail1>{header}</CardDetail1>}
+        <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
 
         {pageNameStudent == 'SubjectTeacher' ?
           <>

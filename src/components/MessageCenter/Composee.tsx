@@ -260,16 +260,6 @@ function Form13() {
       asIsSoftwareCordinatorCc: "",
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
-    console.log("localschoolId", localschoolId);
-    console.log("content", formik.values.Content);
-    console.log("subject", formik.values.Subject);
-    console.log("StudentName", StudentName);
-    console.log("displaytext", RecipientsObject.RecipientName.toString());
-    console.log("senderUserId", UserId);
-    console.log("msgID", ID != undefined || ID != "" ? parseInt(ID) : 0);
-    console.log("SchoolName", SchoolName);
-    console.log("selectedSTDId", RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString());
-    console.log("attachment", finalBase642New);
 
 
     MessageCenterApi.SendMessage(sendMessageAPIBody)
@@ -349,7 +339,6 @@ function Form13() {
     }
   };
   let currentDate = new Date();
-  console.log("hours", currentDate.getHours);
 
   const scheduleDateAndTime = (e) => {
     if (e.target.type == 'date') {
