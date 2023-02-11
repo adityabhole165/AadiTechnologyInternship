@@ -28,6 +28,7 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               text5={''} text6={''}
               ActiveTab={ActiveTab}
               IsRead={Item.IsRead}
+              IsSchedule={Item.IsSchedule}
             />
           </Grid>
         </Grid>

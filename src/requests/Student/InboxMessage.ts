@@ -4,6 +4,7 @@ import { AppThunk } from 'src/store';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+import { isFutureDateTime } from 'src/components/Common/Util';
 
 const InboxMessageSlice = createSlice({
   name: 'Message Center',
@@ -55,7 +56,7 @@ const InboxMessageSlice = createSlice({
         isActive:false,
         DetailsId:item.DetailsId,
         ReceiverDetailsId:item.ReceiverDetailsId,
-        IsRead: item.IsRead
+        IsRead: item.IsRead,
       }
     })
     if(Pagination == true){
@@ -78,7 +79,8 @@ const InboxMessageSlice = createSlice({
         NavPath:item.DetailsId + '/Sent',
         isActive:false,
         DetailsId:item.DetailsId,
-        ReceiverDetailsId:item.ReceiverDetailsId
+        ReceiverDetailsId:item.ReceiverDetailsId,
+        IsSchedule:isFutureDateTime(item.Date + "" + item.Time)
       }
     })
     data = data === undefined ? [] : data;
