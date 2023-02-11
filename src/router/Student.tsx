@@ -43,8 +43,8 @@ const AddFeedback =  Loader(lazy(() => import('src/components/Feedback/AddFeedba
 const TransportDetails = Loader(lazy(()=> import ('src/components/TransportDetails/TransportDetails')))
 const Support = Loader (lazy(() => import ('src/components/Support/Support')))
 const Birthdays= Loader (lazy(() => import ('src/components/Birthdays/Birthdays')))
-// const AdharCard= Loader (lazy(() => import ('src/components/AdharCard/AdharCard')))
 const UploadParentPhoto= Loader (lazy(() => import ('src/components/UploadParentPhoto/UploadParentPhoto')))
+const AadharCardDetails= Loader (lazy(() => import ('src/components/AadharCardDetails/AadharCardDetails')))
 
 
 const studentRoutes = [
@@ -193,15 +193,17 @@ const studentRoutes = [
     element: <Birthdays/>
   },
 
-  // {
-  //   path: 'AdharCard',
-  //   element: < AdharCard/>
-  // },
-
+ 
 {
   path: "UploadParentPhoto",
   element: <UploadParentPhoto/>
 },
+
+{
+  path: "AadharCardDetails",
+  element: <AadharCardDetails/>
+},
+
   ];
 
 export default studentRoutes;

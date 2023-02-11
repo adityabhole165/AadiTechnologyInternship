@@ -48,6 +48,7 @@ import SliceSupport from 'src/requests/Support/RequestSupport';
 import SliceBirthdays from 'src/requests/Birthdays/RequestBirthdays';
 import SliceDeleteMessagePermanetly from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
+import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadharCard'
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -102,8 +103,8 @@ const rootReducer = combineReducers({
     TransportDetails: SliceTransportDetails,
     Birthdays: SliceBirthdays,
     DeleteMessagePermanetly: SliceDeleteMessagePermanetly,
-    UploadParentPhoto: SliceUploadParentPhoto
-
+    UploadParentPhoto: SliceUploadParentPhoto,
+    AadharCardDetails: SliceAadharCardDetails
 });
 
 export default rootReducer;

@@ -108,16 +108,7 @@ const DashboardData = {
      
     },
 
-    // {
-    //   Text1: 'Add Adhar',
-    //   Text2: 'Card',
-    //   Color: '#90a4ae',
-    //   iconColor: '#f0483e ',
-    //   Icon: AddCardIcon ,
-    //   Link: 'Student/AdharCard',
-    //   index: 28,
-     
-    // },
+    
   ],
   items2 : [
     {
@@ -229,6 +220,17 @@ const DashboardData = {
       index: 19,
       ModulesPermission: 'EnablePTAModuleforStudents'
     },
+
+    {
+      Text1: 'Adhar Card',
+      Text2: 'Details',
+      Color: '#90a4ae',
+      iconColor: '#f0483e ',
+      Icon: AddCardIcon ,
+      Link: 'Student/AadharCardDetails',
+      index: 28,
+     
+    },
   {
     Text1: 'Upload',
       Text2: 'ParentPhoto',
@@ -239,6 +241,8 @@ const DashboardData = {
       index: 29,
 
     },
+
+    
   
   ]},
   Teacher:{
