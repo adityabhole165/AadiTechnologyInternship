@@ -104,6 +104,7 @@ function AadharCardDetails() {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(sessionStorage.getItem('Id'));
+    const asUserRoleId = sessionStorage.getItem('RoleId');
 
     const GetUserAadharCardDetailsBody =
     {
@@ -117,10 +118,10 @@ function AadharCardDetails() {
     {
         "aiUserId": asUserId,
         "asSchoolId": asSchoolId,
-        "asAadharCardNo": "121332",
-        "asAadharCardFileName": "a.jpg",
-        "asUserRoleId": "2",
-        "asAadharCardBase64String": ""
+        "asAadharCardNo": aadharNumber,
+        "asAadharCardFileName": fileName,
+        "asUserRoleId": asUserRoleId,
+        "asAadharCardBase64String": base64URL
     }
 
 
