@@ -11,16 +11,17 @@ import { CheckFileValidation } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 
+import { Styles } from 'src/assets/style/student-style'
+import Icon3 from "src/libraries/icon/icon3"
 
 function AadharCardDetails() {
 
     const SchoolName = localStorage.getItem("SchoolName");
     const aRef = useRef(null);
     const [fileName, setFileName] = useState('')
-    console.log("fileName",fileName)
     const [aadharNumber, setAadharNumber] = useState('')
     const dispatch = useDispatch();
-    const [base64URL, setBase64URL] = useState('')
+    const [base64URL, setBase64URL] = useState()
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
 
@@ -56,28 +57,34 @@ function AadharCardDetails() {
     }, [GetUserAadharCardDetails])
 
     useEffect(() => {
+        if(SaveUserAadharCardDetails.Message!==undefined){
         toast.success(SaveUserAadharCardDetails.Message, { toastId: 'success1' })
         dispatch(resetMessage());
-
+    }
 
     }, [SaveUserAadharCardDetails])
-
+    const classes = Styles();
+    const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
+    const maxfileSize = 3000000
+    const [selectedFile, setSelectedFile]= useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
         let base64URL: any = '';
         let DataAttachment: any = '';
         let fileName: any = '';
         for (let i = 0; i < multipleFiles.length; i++) {
-            const isValid = CheckFileValidation(multipleFiles[i], ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'], 3000000);
+            const isValid = CheckFileValidation(multipleFiles[i], validFiles, maxfileSize);
             if (isValid == null) {
                 setFileName(multipleFiles[i].name);
+                setSelectedFile(e.target.files[i])
                 base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
                 setBase64URL(base64URL.slice(base64URL.indexOf(',') + 1));
-            } else{
+                setFileError('')
+            } else {
                 setFileError(isValid)
-                aRef.current.value=null;
+                aRef.current.value = null;
+            }
         }
-    }
     }
     const ChangeFileIntoBase64 = (fileData) => {
         return new Promise((resolve, reject) => {
@@ -103,7 +110,7 @@ function AadharCardDetails() {
         "aiSchoolId": asSchoolId,
         "aiAcademicYrId": asAcademicYearId
     }
-   
+
 
     const SaveUserAadharCardDetailsBody =
     {
@@ -114,7 +121,7 @@ function AadharCardDetails() {
         "asUserRoleId": "2",
         "asAadharCardBase64String": ""
     }
-  
+
 
 
 
@@ -125,12 +132,18 @@ function AadharCardDetails() {
     const clickSubmit = () => {
         if (aadharNumber.length === 0) {
             setError(true);
-        } 
-        if(fileName===''){
+        }
+        if (fileName === '') {
             setFileError('Please Upload the file"')
-        }else
-            if (fileError !== '' || !error)
+        } else{
+            if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
+                setFileName('')
+                setAadharNumber('')
+                aRef.current.value = null
+                setSelectedFile(null)
+            }
+        }
     }
 
 
@@ -147,12 +160,12 @@ function AadharCardDetails() {
                         fullWidth
                         variant="standard"
                         value={GetUserAadharCardDetails.Name}
-                    /> </div>
-
+                    />
+                     </div>
                 <div>
                     <TextField
                         fullWidth
-                        inputProps={{ maxlength: 12 }}
+                        inputProps={{ maxLength: 12 }}
                         type="text"
                         variant="standard"
                         label="Aadhar Number"
@@ -166,8 +179,14 @@ function AadharCardDetails() {
                 </div>
 
                 <Box sx={{ mt: '0.9rem' }}>
-                    <input ref={aRef} type="file" onChange={changeFile} /></Box>
-                    <Box sx={{ mt: '0.9rem' }} >{fileError && <Errormessage Error={fileError} />} </Box>
+                {/* src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'} */}
+                 {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
+                    <input ref={aRef} type="file" onChange={changeFile} />
+                    </Box>
+                <Box className={classes.iIconSupport} sx={{ mb: "-35px", mr: "0px" }}>
+                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to " + maxfileSize} />
+                </Box>
+                <Box sx={{ mt: '0.9rem' }} >{fileError && <Errormessage Error={fileError} />} </Box>
                 <div>
                     <ButtonPrimary onClick={clickSubmit} fullWidth sx={{ mt: '0.9rem' }} >Submit</ButtonPrimary>
                 </div>
