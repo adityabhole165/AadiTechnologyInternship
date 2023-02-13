@@ -162,6 +162,7 @@ function AadharCardDetails() {
                         fullWidth
                         inputProps={{ maxLength: 12 }}
                         type="text"
+                        margin="dense"
                         variant="standard"
                         label="Aadhar Number"
                         value={aadharNumber}
