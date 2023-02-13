@@ -24,7 +24,6 @@ function ClaimedBook() {
        const loading = useSelector(
           (state: RootState) => state.library.Loading
        );
-      const [claimedBookList, setClaimedBookList] = useState([]);
       const [expanded, setExpanded] = React.useState<string | false>(false);
       const [checked, setChecked] = useState(false);
       const [userName, setUserName] = useState('');
@@ -32,14 +31,11 @@ function ClaimedBook() {
       const handleChange = (panel) => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);
       };
-      useEffect(()=>{
-        setClaimedBookList(ClaimedBook
+      let claimedBookList = ClaimedBook
           .filter((obj)=>{
             return checked?true:
             obj.UserId===Number(sessionStorage.getItem('Id'))
-          }))
-      },[ClaimedBook,checked])
-      
+          })
       const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
       const asSchoolId = localStorage.getItem('localSchoolId');
       const UserId = sessionStorage.getItem('Id');
@@ -71,12 +67,13 @@ function ClaimedBook() {
         dispatch(resetMessage());
         
       },[GetCancelBookReservation])
+      
       const clickSearch=({bookTitle,userName})=>{
         setBookTitle(bookTitle)
         setUserName(userName)
       }
 
-     const clickAllUser=(AllUser)=>{
+    const clickAllUser=(AllUser)=>{
       setChecked(AllUser)
 
      }
@@ -101,11 +98,10 @@ function ClaimedBook() {
     <Container >
     <PageHeader heading={'Claimed Books Details'} subheading={''}/>
     <BackButton FromRoute={'/Student/Library'}/>
-    {loading ? (
-    <SuspenseLoader />
-      ) : ( <>
+    
     <Filter  clickSearch={ clickSearch} clickAllUser={clickAllUser}/>
-    {claimedBookList.length === 0?
+    {loading ? (<SuspenseLoader />):
+    claimedBookList.length === 0?
   (<ErrorMessages Error={
     checked?
      'No record found':
@@ -118,8 +114,7 @@ function ClaimedBook() {
     </Box>
       );
     })}
-    </>
-    )}
+    
     </Container>
   )
 }

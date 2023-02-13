@@ -11,7 +11,7 @@ import { RootState } from 'src/store';
 import {ILanguagesDetails,IStandardsBody} from 'src/interfaces/Student/Library'
 import Dropdown from '../dropdown/Dropdown';
 import { logoURL } from 'src/components/Common/Util';
-function SearchForm({clickFilter, clickCloseIcon,Standard}) {
+function SearchForm({clickFilter, clickCloseIcon}) {
   const dispatch = useDispatch();
 
   const GetLanguageList = useSelector(
@@ -20,17 +20,18 @@ function SearchForm({clickFilter, clickCloseIcon,Standard}) {
   const Standards = useSelector(
     (state: RootState) => state.library.Standards
   );
-console.log("Standards",Standards);
+
 
   const Class = sessionStorage.getItem('Class');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asStandardID = sessionStorage.getItem('StandardId');
     const [ bookTitle, setBookTitle] = useState('');
     const [accessionNo, setAccessionNo] = useState('');
     const [author, setAuthor] = useState('');
     const [publisher, setPublisher] = useState('');
     const [Language,setLanguage] = useState('');
-  
+    const [Standard,setStandard] = useState( asStandardID);
    
     
      
@@ -63,8 +64,8 @@ console.log("Standards",Standards);
       };
       const clickStandard= (value) => {
         console.log("value",value);
-        
-        Standard=value;
+        setStandard(value)
+        // Standard=value;
       };
       
    const clickReset=()=>{
@@ -73,7 +74,7 @@ console.log("Standards",Standards);
     setAuthor('')
     setPublisher('')
     setLanguage('')
-    Standard = ''
+  
   }
   return (
     <div>

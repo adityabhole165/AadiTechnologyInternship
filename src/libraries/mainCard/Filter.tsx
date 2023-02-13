@@ -15,11 +15,15 @@ function Filter({clickSearch, clickAllUser}) {
   const [userName, setUserName] = useState('')
   const [checked, setChecked] = useState(false)
   const onClick = () => {
-   clickSearch({bookTitle:bookTitle,userName:userName, AllUser:checked})
+   clickSearch({bookTitle ,userName, AllUser:checked})
   }
   const onChange=(value)=>{
     setChecked(value)
     clickAllUser(value)
+  }
+  const onReset=()=>{
+    setUserName('')
+    setBookTitle('')
   }
   return (
     <div>
@@ -30,6 +34,7 @@ function Filter({clickSearch, clickAllUser}) {
        variant="standard" fullWidth   
        value={bookTitle}
        onChange={(e)=>{setBookTitle(e.target.value)}}/>
+       
       </Grid>
       <Grid item xs={6} > 
       <TextField id="standard-basic" label="User Name :"
@@ -39,7 +44,7 @@ function Filter({clickSearch, clickAllUser}) {
       />
       </Grid>
       <Grid item xs={11} > 
-    <ButtonPrimary color="secondary">Cancel</ButtonPrimary>
+    <ButtonPrimary color="secondary" onClick={onReset}>Reset</ButtonPrimary>
      </Grid>
       <Grid item xs={1} >
       <ArrowCircleRightRoundedIcon onClick={onClick}
