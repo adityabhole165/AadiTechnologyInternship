@@ -140,10 +140,7 @@ function AadharCardDetails() {
         } else{
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
-                setFileName('')
-                setAadharNumber('')
                 aRef.current.value = null
-                setSelectedFile(null)
             }
         }
     }
@@ -174,7 +171,7 @@ function AadharCardDetails() {
                   {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
                     <input ref={aRef} type="file" onChange={changeFile}/>
                     <Box className={classes.iIconSupport}>
-                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to " + maxfileSize} />
+                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>
                     </Box>
                {fileError && <Errormessage Error={fileError} />}
