@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 function AadharCardDetails() {
 
@@ -149,21 +150,15 @@ function AadharCardDetails() {
 
 
     return (
-        <>
+        <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
-
-            <Container>
-
-                <div>
-                    <Typography>Name</Typography>
+            <Typography variant='caption'>Name</Typography>
                     <TextField
                         fullWidth
                         variant="standard"
-                        value={GetUserAadharCardDetails.Name}
-                    />
-                     </div>
-                <div>
-                    <TextField
+                        value={GetUserAadharCardDetails.Name}/>
+                      
+                      <TextField
                         fullWidth
                         inputProps={{ maxLength: 12 }}
                         type="text"
@@ -171,32 +166,19 @@ function AadharCardDetails() {
                         label="Aadhar Number"
                         value={aadharNumber}
                         onChange={(e) => { setAadharNumber(e.target.value) }}
-                        onBlur={clickOnBlur}
-                        // onChange={clickError}
-                        sx={{ mt: '0.5rem' }} />
-                    <p style={{ color: "red" }}>{error ? "Adhar card number textbox should not be blank" : " "}</p>
-
-                </div>
-
-                <Box sx={{ mt: '0.9rem' }}>
-                {/* src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'} */}
-                 {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
-                    <input ref={aRef} type="file" onChange={changeFile} />
-                    </Box>
-                <Box className={classes.iIconSupport} sx={{ mb: "-35px", mr: "0px" }}>
+                        onBlur={clickOnBlur}/>
+                    
+                  <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "}/>
+                  <Box sx={{my:"10px",textAlign:"center"}}>
+                  {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
+                    <input ref={aRef} type="file" onChange={changeFile}/>
+                    <Box className={classes.iIconSupport}>
                     <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to " + maxfileSize} />
-                </Box>
-                <Box sx={{ mt: '0.9rem' }} >{fileError && <Errormessage Error={fileError} />} </Box>
-                <div>
-                    <ButtonPrimary onClick={clickSubmit} fullWidth sx={{ mt: '0.9rem' }} >Submit</ButtonPrimary>
-                </div>
-
-
-            </Container>
-
-
-
-        </>
+                    </Box>
+                    </Box>
+               {fileError && <Errormessage Error={fileError} />}
+            <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+</Container>
     )
 }
 

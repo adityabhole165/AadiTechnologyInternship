@@ -1246,8 +1246,8 @@ export const PurpleFlowTheme = createTheme({
       fontWeight: 600
     },
     caption: {
-      fontSize: 13,
-      textTransform: 'uppercase',
+      fontSize: 12,
+      textTransform: 'capitalize',
       color: colors.alpha.black[50]
     },
     subtitle1: {
