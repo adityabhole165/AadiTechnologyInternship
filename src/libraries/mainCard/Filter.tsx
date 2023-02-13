@@ -6,6 +6,7 @@ import { BoxStyle, ListStyle } from '../styled/CardStyle';
 import CloseIcon from '@mui/icons-material/Close';
 import { Avatar,Box ,FormControlLabel} from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
+import { ButtonPrimary } from '../styled/ButtonStyle';
 
 function Filter({clickSearch, clickAllUser}) {
   const [showFilter, setShowFilter] = useState(true);
@@ -14,22 +15,26 @@ function Filter({clickSearch, clickAllUser}) {
   const [userName, setUserName] = useState('')
   const [checked, setChecked] = useState(false)
   const onClick = () => {
-    console.log({bookTitle:bookTitle,userName:userName, AllUser:checked})
-    clickSearch({bookTitle:bookTitle,userName:userName, AllUser:checked})
+   clickSearch({bookTitle ,userName, AllUser:checked})
   }
   const onChange=(value)=>{
     setChecked(value)
     clickAllUser(value)
   }
+  const onReset=()=>{
+    setUserName('')
+    setBookTitle('')
+  }
   return (
     <div>
      <ListStyle>
-     <Grid container spacing={2}>
+     <Grid container spacing={1}>
       <Grid item xs={6} > 
       <TextField id="standard-basic" label="Book Title :"
        variant="standard" fullWidth   
        value={bookTitle}
        onChange={(e)=>{setBookTitle(e.target.value)}}/>
+       
       </Grid>
       <Grid item xs={6} > 
       <TextField id="standard-basic" label="User Name :"
@@ -39,17 +44,19 @@ function Filter({clickSearch, clickAllUser}) {
       />
       </Grid>
       <Grid item xs={11} > 
-     <FormControlLabel control={
-     
-     <Checkbox checked={checked} onChange={()=>{onChange(!checked)}} />} label="Show all claimed books by all users" />
+    <ButtonPrimary color="secondary" onClick={onReset}>Reset</ButtonPrimary>
      </Grid>
       <Grid item xs={1} >
       <ArrowCircleRightRoundedIcon onClick={onClick}
         fontSize='large' color='success' sx={{float:"right"}} ></ArrowCircleRightRoundedIcon>
       </Grid>
+      <Grid item xs={12} sx={{mt:"-10px"}}>
+      <FormControlLabel control={
+     <Checkbox checked={checked} onChange={()=>{onChange(!checked)}} />} label="Show all claimed books by all users" />
+      </Grid>
       </Grid>
      </ListStyle>
-
+   
     </div>
   )
 }
