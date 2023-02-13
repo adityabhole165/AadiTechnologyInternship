@@ -10,7 +10,6 @@ import {
 } from 'src/interfaces/Student/Library';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function Bookswithme() {
   const dispatch = useDispatch();
@@ -23,6 +22,7 @@ function Bookswithme() {
   const GetBook = useSelector(
     (state: RootState) => state.library.BookswithmeList
   );
+
 
   const loading = useSelector(
     (state: RootState) => state.library.Loading
@@ -38,35 +38,14 @@ function Bookswithme() {
   }, []);
   return (
     <>
-     
-        <PageHeader heading={'Books with me'} subheading={''}/>
-        <BackButton FromRoute={'/Student/Library'}/>
+    <PageHeader heading={'Books with me'} subheading={''}/>
+      <BackButton FromRoute={'/Student/Library'}/>
         {loading ? (
         <SuspenseLoader />
       ) : (
-        <>
-        {GetBook.length === 0 ? (
-         <ErrorMessages Error={'No records found'} />
-         ) : (
-          <>
-            {GetBook.map((items: GetBookswithmeResult, i) => {
-              return (
-                <List9
-                 Acc={items.Book_No}
-                  title={items.Book_Title}
-                  issue={items.Issue_Date}
-                  returnn={items.Return_Date}
-                  parentissue={items.IsForParent}
-                  key={i}
-                />
-              );
-            })}
-          </>
-        )}
-        </>
-      )}
+     <List9 itemList={GetBook}/>
+       )}
     </>
-    
   );
 }
 
