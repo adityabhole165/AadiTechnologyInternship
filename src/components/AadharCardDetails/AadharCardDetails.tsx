@@ -104,6 +104,7 @@ function AadharCardDetails() {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(sessionStorage.getItem('Id'));
+    const asUserRoleId = sessionStorage.getItem('RoleId');
 
     const GetUserAadharCardDetailsBody =
     {
@@ -117,10 +118,10 @@ function AadharCardDetails() {
     {
         "aiUserId": asUserId,
         "asSchoolId": asSchoolId,
-        "asAadharCardNo": "121332",
-        "asAadharCardFileName": "a.jpg",
-        "asUserRoleId": "2",
-        "asAadharCardBase64String": ""
+        "asAadharCardNo": aadharNumber,
+        "asAadharCardFileName": fileName,
+        "asUserRoleId": asUserRoleId,
+        "asAadharCardBase64String": base64URL
     }
 
 
@@ -139,10 +140,7 @@ function AadharCardDetails() {
         } else{
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
-                setFileName('')
-                setAadharNumber('')
                 aRef.current.value = null
-                setSelectedFile(null)
             }
         }
     }
@@ -174,7 +172,7 @@ function AadharCardDetails() {
                   {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
                     <input ref={aRef} type="file" onChange={changeFile}/>
                     <Box className={classes.iIconSupport}>
-                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to " + maxfileSize} />
+                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>
                     </Box>
                {fileError && <Errormessage Error={fileError} />}
