@@ -156,10 +156,6 @@ const studentRoutes = [
     element: <OnlineExamDetails/>
   },
   {
-    path: 'QueAns/:ExamId/:SubjectId',
-    element:<QueAns/>
-  },
-  {
     path: 'QueAns',
     element:<QueAns/>
   },
