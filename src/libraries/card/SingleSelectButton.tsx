@@ -1,7 +1,7 @@
 import React from 'react'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import OfflinePinIcon from '@mui/icons-material/OfflinePin';
-import {IconButton, Typography,Grid} from "@mui/material";
+import {IconButton, Typography,Grid, Avatar,Box} from "@mui/material";
 import { ListStyle } from '../styled/CardStyle';
 const SingleSelectButton=({item, clickItem})=> {
   
@@ -11,8 +11,13 @@ const SingleSelectButton=({item, clickItem})=> {
 return (
     <div>
   
-      <ListStyle color={item.IsActive?'info':null} onClick={onClick}>
-      <Typography>{item.Name}</Typography>
+      <ListStyle color={item.IsActive?'info':null} onClick={onClick} >
+     
+  
+      <Avatar src={item.ImgUrl}  />
+      <Typography >{item.Name}</Typography>
+      
+   
       </ListStyle>
    
      
