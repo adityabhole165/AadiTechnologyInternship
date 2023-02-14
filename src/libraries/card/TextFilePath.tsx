@@ -12,7 +12,7 @@ function TextFilePath({item, onFileSelect, onTextChange}) {
   const aRef = useRef(null);
 
     const changeFile = async (e) => {
-      let isValid = CheckFileValidationUploadPic(e.target.files[0], ['jpg','jpeg','png','bmp'], 8000000000)
+      let isValid = CheckFileValidationUploadPic(e.target.files[0], ['jpg','jpeg','png','bmp'], 80000)
       setError(isValid)
       if(isValid === null){
       if (e.target.files && e.target.files.length > 0) {

@@ -1,25 +1,18 @@
 import React from 'react';
 import { Typography,Box,Card, IconButton } from '@mui/material'
 
-function Card14({Text1,Text2,Text3,Text4,Text5,Text6,conformMsg}) {
+function Card14({Text1,Text2,Text3,Text4,Text5,Text6,Text7,conformMsg}) {
 
   return (
     <div>
       <Card  component={Box} p={1}>
-    <Box display={"flex"} justifyContent={'space-between'} >
       <Typography variant='body2'> <b>Author : </b> {Text1}</Typography>
-      {/* <Typography variant='body2'> <b>Available  : </b> {Text5}</Typography> */}
-    </Box>
-    <Box display={"flex"} justifyContent={'space-between'} >
       <Typography variant='body2'> <b> Publisher : </b> {Text2}</Typography>
-      {/* <Typography variant='body2'> <b> Total : </b> {Text6}</Typography> */}
-    </Box>
-    <Box display={"flex"} justifyContent={'space-between'} >
-    <Typography variant='body2'> <b> Language : </b>{Text4}</Typography>
+      <Typography variant='body2'> <b> Accession No. : </b> {Text7}</Typography>
     
-    </Box>
-    <Typography variant='body2'> <b>  Standards : </b> {Text3}</Typography>
-   
+     <Typography variant='body2'> <b> Language : </b>{Text4}</Typography>
+     <Typography variant='body2'> <b>  Standards : </b> {Text3}</Typography>
+     <Typography variant='body2'> <b> Total : </b> {Text6}</Typography>
    </Card>
     </div>
   )

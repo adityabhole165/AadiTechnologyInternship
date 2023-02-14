@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 
 function AadharCardDetails() {
 
@@ -103,6 +104,7 @@ function AadharCardDetails() {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(sessionStorage.getItem('Id'));
+    const asUserRoleId = sessionStorage.getItem('RoleId');
 
     const GetUserAadharCardDetailsBody =
     {
@@ -116,10 +118,10 @@ function AadharCardDetails() {
     {
         "aiUserId": asUserId,
         "asSchoolId": asSchoolId,
-        "asAadharCardNo": "121332",
-        "asAadharCardFileName": "a.jpg",
-        "asUserRoleId": "2",
-        "asAadharCardBase64String": ""
+        "asAadharCardNo": aadharNumber,
+        "asAadharCardFileName": fileName,
+        "asUserRoleId": asUserRoleId,
+        "asAadharCardBase64String": base64URL
     }
 
 
@@ -138,10 +140,7 @@ function AadharCardDetails() {
         } else{
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
-                setFileName('')
-                setAadharNumber('')
                 aRef.current.value = null
-                setSelectedFile(null)
             }
         }
     }
@@ -149,54 +148,36 @@ function AadharCardDetails() {
 
 
     return (
-        <>
+        <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
-
-            <Container>
-
-                <div>
-                    <Typography>Name</Typography>
+            <Typography variant='caption'>Name</Typography>
                     <TextField
                         fullWidth
                         variant="standard"
-                        value={GetUserAadharCardDetails.Name}
-                    />
-                     </div>
-                <div>
-                    <TextField
+                        value={GetUserAadharCardDetails.Name}/>
+                      
+                      <TextField
                         fullWidth
                         inputProps={{ maxLength: 12 }}
                         type="text"
+                        margin="dense"
                         variant="standard"
                         label="Aadhar Number"
                         value={aadharNumber}
                         onChange={(e) => { setAadharNumber(e.target.value) }}
-                        onBlur={clickOnBlur}
-                        // onChange={clickError}
-                        sx={{ mt: '0.5rem' }} />
-                    <p style={{ color: "red" }}>{error ? "Adhar card number textbox should not be blank" : " "}</p>
-
-                </div>
-
-                <Box sx={{ mt: '0.9rem' }}>
-                {/* src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'} */}
-                 {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
-                    <input ref={aRef} type="file" onChange={changeFile} />
+                        onBlur={clickOnBlur}/>
+                    
+                  <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "}/>
+                  <Box sx={{my:"10px",textAlign:"center"}}>
+                  {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
+                    <input ref={aRef} type="file" onChange={changeFile}/>
+                    <Box className={classes.iIconSupport}>
+                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>
-                <Box className={classes.iIconSupport} sx={{ mb: "-35px", mr: "0px" }}>
-                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to " + maxfileSize} />
-                </Box>
-                <Box sx={{ mt: '0.9rem' }} >{fileError && <Errormessage Error={fileError} />} </Box>
-                <div>
-                    <ButtonPrimary onClick={clickSubmit} fullWidth sx={{ mt: '0.9rem' }} >Submit</ButtonPrimary>
-                </div>
-
-
-            </Container>
-
-
-
-        </>
+                    </Box>
+               {fileError && <Errormessage Error={fileError} />}
+            <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+</Container>
     )
 }
 
