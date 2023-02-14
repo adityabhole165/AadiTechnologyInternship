@@ -6,7 +6,7 @@ import { ListStyle, NewStyle } from '../styled/CardStyle';
 const SingleSelectButton=({item, clickItem})=> {
   
     const onClick=()=>{
-    item = {...item,IsActive:!item.IsActive}
+    item = {...item,IsActive:item.IsActive?item.IsActive:!item.IsActive}
     clickItem(item)}
 return (
     <div>

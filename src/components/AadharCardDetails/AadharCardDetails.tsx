@@ -151,7 +151,7 @@ function AadharCardDetails() {
     return (
         <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
-      
+      <ListStyle>
             <Typography variant='caption'>Name</Typography>
                     <TextField
                         fullWidth
@@ -184,7 +184,7 @@ function AadharCardDetails() {
                     </Box>
                {fileError && <Errormessage Error={fileError} />}
             <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
-          
+            </ListStyle>
 </Container>
     )
 }

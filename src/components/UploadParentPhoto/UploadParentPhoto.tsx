@@ -13,6 +13,7 @@ import {getSaveParentPhotos} from 'src/requests/UploadParentPhoto/RequestUploadP
 import {getSubmitParentPhotoDetails} from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import { toast } from 'react-toastify';
 import Note from 'src/libraries/Note/Note';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 
 const note = [
@@ -144,7 +145,7 @@ const onTextChange= (value)=>{
       setIsFileChanged(true)
 
     }
-
+let activeItem = itemList.filter((obj)=>obj.IsActive)[0]
     const SaveFile =()=>{
       if(GetParentphoto.IsSiblingPresent == true ){
         if (!confirm('Do You want to save details for sibling?')) {
@@ -179,11 +180,15 @@ const onTextChange= (value)=>{
     <Container>
        <PageHeader heading={'Upload Parent Photo'} subheading={''}/>
        <Note NoteDetail={note} />
+      <ListStyle>
+
       {itemList.length>0 &&
       (<><ButtonList itemList={itemList} clickItem={clickItem} />
-      <TextFilePath item={itemList.filter((obj)=>obj.IsActive)[0]} 
+      {activeItem !== undefined &&
+      <TextFilePath item={activeItem} 
       onFileSelect={onFileSelect}
       onTextChange={onTextChange}/>
+}
       </>)}
 
       <Grid container spacing={2} sx={{mt:"30px"}}>
@@ -207,7 +212,7 @@ const onTextChange= (value)=>{
               </ButtonPrimary>
             </Grid>
           </Grid>
-         
+          </ListStyle>
     </Container>
   )
 }

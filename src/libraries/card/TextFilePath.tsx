@@ -52,17 +52,10 @@ return (
   (<TextField value={item.Text} fullWidth  variant="standard" />)}
   <Box sx={{textAlign:"center",mt:"20px"}}>
     {item.Value ?
-     (<img 
+     (<img width="150" height="150" 
          src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'+item.Value}
-         width="150"
-         height="150"
-        />):
-         
-         (<img
-          src={item.Value}
-          width="150"
-          height="150"/>)
-          
+         />):
+         (<img src={item.Value} width="150" height="150"/>)
      }
     
     <input  ref={aRef} type="file" onChange={changeFile} />
