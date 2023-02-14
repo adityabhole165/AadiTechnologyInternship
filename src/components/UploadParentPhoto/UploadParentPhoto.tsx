@@ -4,10 +4,8 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { IGetParentPhotosBody } from 'src/interfaces/Student/IUpoladParentPhoto';
 import { getParentphoto, resetMessage } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
-
-import { Container, TextField,Grid } from '@mui/material';
+import { Container,Grid } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -22,7 +20,11 @@ const note = [
   '2) Image size should not exceed 80 kb. Supported file formats are JPG, JPEG '
 
 ];
+
+
+
 function UploadParentPhoto() {
+ 
   const dispatch = useDispatch();
   const GetParentphoto: any = useSelector(
    (state: RootState) => state.UploadParentPhoto.GetParentphoto
@@ -189,7 +191,7 @@ const onTextChange= (value)=>{
               <ButtonPrimary
                type="submit"
                fullWidth
-               color='primary'
+               color={isPhotosSubmitted?'warning':'primary'}
                disabled={isPhotosSubmitted}
                onClick={SaveFile}
               >
@@ -197,12 +199,15 @@ const onTextChange= (value)=>{
               </ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-              <ButtonPrimary  fullWidth
-                disabled={isPhotosSubmitted || (!isPhotosSubmitted && isAllPhotoSaved)}  onClick={SubmitFile}  >
+              <ButtonPrimary  fullWidth 
+              color={(isPhotosSubmitted || (!isPhotosSubmitted && isAllPhotoSaved))?"warning":"primary"}  
+                disabled={isPhotosSubmitted || (!isPhotosSubmitted && isAllPhotoSaved)}  
+                onClick={SubmitFile}  >
                 Submit
               </ButtonPrimary>
             </Grid>
           </Grid>
+         
     </Container>
   )
 }
