@@ -18,13 +18,14 @@ import Attachments from 'src/libraries/buttons/Attachments';
 const QueAns = () => {
 
     const dispatch = useDispatch();
-    const { ExamId, SubjectId } = useParams();
     const [currentIndex, setCurrentIndex] = useState(0)
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asStandardId = sessionStorage.getItem('StandardId');
     const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
     const asStudentId = sessionStorage.getItem('StudentId');
+    const EXAMid = localStorage.getItem('Examid')
+    const Subjectid = localStorage.getItem('SubjectId')
     const [itemlist, setItemlist] = useState([]);
     const [listCardItems, setListCardItems] = useState([])
     const [seconds, setSeconds] = useState(0);
@@ -34,15 +35,13 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
-    console.log("GetAllAnswerQueListtt",GetAllAnswerQueListtt);
-    
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
         asStandardId: asStandardId,
         asStdDivId: asStandardDivisionId,
-        asSubjectId: SubjectId,
-        asSchoolwiseTestId: ExamId,
+        asSubjectId: Subjectid,
+        asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
 
@@ -71,21 +70,21 @@ const QueAns = () => {
                 else return obj
             })
         )
-        setListCardItems((prev) =>       
-            listCardItems.map((obj, i) => {  
+        setListCardItems((prev) =>
+            listCardItems.map((obj, i) => {
                 if (i == currentIndex) {
                     return { ...obj, IsAnswered: getIsAnswer(value) }
                 }
                 else
                     return obj
-                    
+
             })
         )
     }
 
-    
+
     const getIsAnswer = (value) => {
-        let returnValue = false; 
+        let returnValue = false;
         value.map((obj) => {
             if (obj.isActive) {
                 returnValue = true
@@ -94,8 +93,6 @@ const QueAns = () => {
         return returnValue;
     }
     const clickPrevNext = (counter) => {
-        console.log("counter",counter);
-        
         if (counter == 1) {
             if (currentIndex == maxIndex) {
                 setCurrentIndex(0)
@@ -148,17 +145,17 @@ const QueAns = () => {
                     <>
                         <Grid container xs={12} flexDirection='row'>
                             <Grid xs={10} >
-                              {itemlist.map((itemm,i)=>{  return  (<Typography key={i}>{itemm[currentIndex].Parent.SerialNo} </Typography>)})}
-                              {/* <Typography> {itemlist[currentIndex].Parent.Name}</Typography> */}
+                                {/* {itemlist.map((itemm, i) => { return (<Typography key={i}>{itemm[currentIndex].Parent.SerialNo} </Typography>) })} */}
+                                <Typography> {itemlist[currentIndex].Parent.Name}</Typography>
                             </Grid>
                             <Grid xs={2} >
-                                <Typography sx={{ textAlign: 'end'}}><b>Marks: </b>{itemlist[currentIndex].Parent.Marks}</Typography>
+                                <Typography sx={{ textAlign: 'end' }}><b>Marks: </b>{itemlist[currentIndex].Parent.Marks}</Typography>
                             </Grid>
                         </Grid>
                         <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
-                        </> }
-                        {currentIndex == maxIndex &&  <Box sx={{mt:'-20px'}}><Attachments/></Box> }
-                <Grid container spacing={2} sx={{mt:'-10px'}}>
+                    </>}
+                {currentIndex == maxIndex && <Box sx={{ mt: '-20px' }}><Attachments /></Box>}
+                <Grid container spacing={2} sx={{ mt: '-10px' }}>
                     <Grid item xs={6}>
                         <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
                             Previous

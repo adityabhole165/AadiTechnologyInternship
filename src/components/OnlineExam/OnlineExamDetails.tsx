@@ -60,6 +60,8 @@ const onlineExamDetails = () => {
     dispatch(GetAnswerDetailsList(QuestionsForOnlineExam));
     dispatch(GetExamSchedulesListList(QuestionsForOnlineExam));
   }, []);
+const EXAMid = localStorage.setItem('Examid',ExamId)
+const Subjectid = localStorage.setItem('SubjectId',SubjectId)
 
   return (
     <>
@@ -105,7 +107,7 @@ const onlineExamDetails = () => {
               to={
                 `/${
                   location.pathname.split('/')[1]
-                }/Student/QueAns/`  + ExamId + '/' + SubjectId 
+                }/Student/QueAns`
               }
               style={{ textDecoration: 'none' }}
             >
