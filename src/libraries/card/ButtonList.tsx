@@ -16,7 +16,7 @@ function ButtonList({itemList,clickItem}) {
     <div>
         <Grid container spacing={2}>
            {itemList.map((item, i)=>(
-            <Grid item xs={4}  key={i}>
+            <Grid item xs={4} sx={{textAlign:"center"}} key={i}>
               <SingleSelectButton item={item} clickItem={onClick} />
             </Grid>
             ))}
