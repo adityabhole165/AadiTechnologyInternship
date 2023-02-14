@@ -6,19 +6,19 @@ const CardQA = ({header,text1,text2,text3}) => {
     <div>
         <ListStyle>
         <ProfileWrapper >
-                  <ProfileDetail1 >Exam:</ProfileDetail1>
+                  <ProfileDetail1 >Exam :</ProfileDetail1>
                   <ProfileDetail4>{header}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
-                  <ProfileDetail1>Subject:</ProfileDetail1>
+                  <ProfileDetail1>Subject :</ProfileDetail1>
                   <ProfileDetail4> {text1}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
-                  <ProfileDetail1>Date:</ProfileDetail1>
+                  <ProfileDetail1>Date :</ProfileDetail1>
                   <ProfileDetail4> {text3}</ProfileDetail4>
                 </ProfileWrapper>
                 <ProfileWrapper>
-                  <ProfileDetail1>Time:</ProfileDetail1>
+                  <ProfileDetail1>Time :</ProfileDetail1>
                   <ProfileDetail4> {text2}</ProfileDetail4>
                 </ProfileWrapper>
         </ListStyle>

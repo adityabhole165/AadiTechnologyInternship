@@ -110,11 +110,22 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false },
-        { Id: '11', Name: 'PTA', isActive: false }
+        { Id: '6', Name: 'Admin Staff', isActive: false }      
       ]);
-     if ( !getPTAOption.HideStudentOption){
-      setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+    //  if ( !getPTAOption.HideStudentOption){
+    //   setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+    // }
+    if (getPTAOption.ShowPTAOption) 
+    {  
+      setTecherStudent(myArr=>[...myArr,  { Id: '11', Name: 'PTA', isActive: false }])
+
+      if (!getPTAOption.HideStudentOption){
+        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+      }
+    }else{
+      if(getPTAOption.HideStudentOption == true){
+        
+      }
     }
   } 
     else if (sessionStorage.getItem('RoleId') === '2') {
@@ -130,12 +141,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           isActive: false
         },
       ]);
-      if ( !getPTAOption.HideStudentOption){
-        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
-      }
       if ( getPTAOption.ShowPTAOption){
         setTecherStudent(myArr=>[...myArr, {Id: '11', Name: 'PTA', isActive: false }])
       }
+      if ( !getPTAOption.HideStudentOption){
+        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+      }  
     }
 
     else {
@@ -174,6 +185,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(RecipientId);
 
   }, [getPTAOption]);
+console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
 
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
