@@ -248,6 +248,7 @@ const DashboardData = {
         iconColor: '#35abd9',
         Icon:PeopleIcon,
         Link: 'Student/OnlineExam',
+        ImageUrl: "/imges/OExamSchedule.png",
         index: 30,
   
       },

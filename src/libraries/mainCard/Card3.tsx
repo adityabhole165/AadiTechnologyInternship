@@ -77,7 +77,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 27 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}} />}
             {icon === 28 && <AddCardIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
             {icon === 29 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 30 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 30 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
 
             <Text1>
               {text1}
