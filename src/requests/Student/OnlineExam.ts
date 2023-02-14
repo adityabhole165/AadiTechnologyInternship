@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import GetOnlineExamListApi from "../../api/Student/OnlineExam";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IOnlineTest, { AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/interfaces/Student/OnlineExam';
+import IOnlineTest, {IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/interfaces/Student/OnlineExam';
 
 const SelectOnlineExamSlice = createSlice({
     name: 'selectOnlineExam',
@@ -11,7 +11,8 @@ const SelectOnlineExamSlice = createSlice({
         SubjectList: [],
         QuestionDetailsList: [],
         AnswerDetailsList: [],
-        ExamSchedulesList: []
+        ExamSchedulesList: [],
+        ExamData: []
     },
     reducers: {
         getOnlineExam(state, action) {
@@ -28,10 +29,50 @@ const SelectOnlineExamSlice = createSlice({
         },
         getExamSchedules(state, action) {
             state.ExamSchedulesList = action.payload.ExamSchedules;
+        },
+        getExamData(state, action) {
+            state.ExamData = action.payload;
         }
     }
 });
 
+export const AllExamData =
+    (data: IExamData): AppThunk =>
+        async (dispatch) => {
+            const response = await GetOnlineExamListApi.AllExamData(data);
+            const response1 = await GetOnlineExamListApi.GetOnlineExamQuestionsDetail(data);
+            const getChild = (QuestionId) => {
+                return (
+                    response1.data.AnswerDetails
+                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer!=="")
+                        .map((item, i) => {
+                            return {
+                                Id: item.AnswerId,
+                                Value: item.AnswerId,
+                                Name: item.Answer,
+                                isActive: false
+                            }
+
+                        })
+                )
+            };
+
+            const questions =
+                response?.data?.QuestionDetails.map((item) => {
+                    return {
+                        Parent: {
+                            Id: item.QuestionId,
+                            Name: item.Question,
+                            Marks:item.Marks,
+                            SerialNo:item.SerialNo,
+                            isSingleSelect: true,
+                        },
+                        Child: getChild(item.QuestionId)
+                    }
+
+                })
+            dispatch(SelectOnlineExamSlice.actions.getExamData(questions));
+        }
 export const GetOnlineExamList =
     (data: IOnlineTest): AppThunk =>
         async (dispatch) => {

@@ -1,4 +1,4 @@
-import { Typography, styled } from '@mui/material';
+import { Typography, styled ,Box} from '@mui/material';
 
 export const ProfileDetail1 = styled(Typography)`
   font-weight: 600;
@@ -33,4 +33,16 @@ export const ProfileDetail4 = styled(Typography)`
 export const ProfileWrapper = styled(Typography)`
   display: flex;
 `;
+
+export const ListStyle = styled(Box)(
+  ({ theme, color }) => `
+    position:relative;
+    padding:8px;
+    border-radius: 6px;
+
+    margin-bottom: 8px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+ 
+ `
+);
 

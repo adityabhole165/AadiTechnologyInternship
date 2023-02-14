@@ -45,7 +45,7 @@ const Support = Loader (lazy(() => import ('src/components/Support/Support')))
 const Birthdays= Loader (lazy(() => import ('src/components/Birthdays/Birthdays')))
 const UploadParentPhoto= Loader (lazy(() => import ('src/components/UploadParentPhoto/UploadParentPhoto')))
 const AadharCardDetails= Loader (lazy(() => import ('src/components/AadharCardDetails/AadharCardDetails')))
-
+const QueAns = Loader(lazy(() => import('src/components/OnlineExam/QueAns')))
 
 const studentRoutes = [
   {
@@ -154,6 +154,14 @@ const studentRoutes = [
   {
     path: 'OnlineExamDetails/:ExamId/:SubjectId',
     element: <OnlineExamDetails/>
+  },
+  {
+    path: 'QueAns/:ExamId/:SubjectId',
+    element:<QueAns/>
+  },
+  {
+    path: 'QueAns',
+    element:<QueAns/>
   },
   {
     path: 'layout',

@@ -17,6 +17,10 @@ import BackButton from 'src/libraries/button/BackButton';
 import { useParams } from 'react-router-dom';
 import { Container } from '@mui/material';
 import Card1 from 'src/libraries/mainCard/Card1';
+import CardQA from './CardQA';
+import { Link as RouterLink } from 'react-router-dom';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import Note from 'src/libraries/Note/Note';
 
 const onlineExamDetails = () => {
   const dispatch = useDispatch();
@@ -30,7 +34,11 @@ const onlineExamDetails = () => {
   const ExamSchedules = useSelector(
     (state: RootState) => state.OnlineExam.ExamSchedulesList
   );
-
+  const note = [
+    '1) After clicking on the start exam button exam will start.' ,
+    '2) Save given answers continuously after some time interval.',
+    '3) On time out system will auto-save and submit the given answers.' 
+  ];
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardId = sessionStorage.getItem('StandardId');
@@ -71,7 +79,7 @@ const onlineExamDetails = () => {
               EndTime={examSchedules.EndTime}
               SubjectName={examSchedules.Subject}
             /> */}
-              <Card1
+              {/* <Card1
                 header={examSchedules.Exam}
                 text1={examSchedules.Subject}
                 text2={examSchedules.StartTime + '-' + examSchedules.EndTime}
@@ -83,10 +91,30 @@ const onlineExamDetails = () => {
                 margin=""
                 FileName=""
                 key=""
-              />
+              /> */}
+               <CardQA key={i}
+              header={examSchedules.Exam}
+              text1={examSchedules.Subject}
+              text2={examSchedules.StartTime + '-' + examSchedules.EndTime}
+              text3={examSchedules.StartDate}
+              /> 
             </>
           );
         })}
+         <RouterLink
+              to={
+                `/${
+                  location.pathname.split('/')[1]
+                }/Student/QueAns/`  + ExamId + '/' + SubjectId 
+              }
+              style={{ textDecoration: 'none' }}
+            >
+        <ButtonPrimary
+          fullWidth color='primary'>
+          Start Exam
+        </ButtonPrimary>
+        </RouterLink>
+        <Note NoteDetail={note} />
       </Container>
     </>
   );
