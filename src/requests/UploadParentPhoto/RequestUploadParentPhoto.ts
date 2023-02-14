@@ -51,14 +51,16 @@ export const getParentphoto =
         Name:'Father',
         Text:response?.data?.ParentPhotoDetails.FatherName,
         Value: response.data.ParentPhotoDetails.FatherPhoto,
-        IsActive:true
+        IsActive:true,
+        ImgUrl:"/imges/father.png"
         },
         { 
           Id:'2',
           Name:'Mother',
           Text:response.data.ParentPhotoDetails.MotherName,
           Value:  response.data.ParentPhotoDetails.MotherPhoto,
-          IsActive:false
+          IsActive:false,
+          ImgUrl:"/imges/mom.png"
            },
            {
           
@@ -66,7 +68,8 @@ export const getParentphoto =
             Name:'Relative',
             Text: response.data.ParentPhotoDetails.RelativeName,  
             Value: response.data.ParentPhotoDetails.RelativePhoto,
-            IsActive:false
+            IsActive:false,
+            ImgUrl:"/imges/relative.png"
            },
         ];
       

@@ -15,8 +15,13 @@ import {getSaveParentPhotos} from 'src/requests/UploadParentPhoto/RequestUploadP
 import {getSubmitParentPhotoDetails} from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import { toast } from 'react-toastify';
 import Note from 'src/libraries/Note/Note';
+
+
 const note = [
-  '1) (Max Height: 151px and Max Width: 112px) (Image size should not exceed 80 kb. Supported file formats are JPG, JPEG)',];
+  '1) Max Height: 151px and Max Width: 112px.',
+  '2) Image size should not exceed 80 kb. Supported file formats are JPG, JPEG '
+
+];
 function UploadParentPhoto() {
   const dispatch = useDispatch();
   const GetParentphoto: any = useSelector(
