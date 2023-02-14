@@ -56,7 +56,7 @@ return (
          src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'+item.Value}
          width="150"
          height="150"
-         alt="hi"/>):
+        />):
          
          (<img
           src={item.Value}

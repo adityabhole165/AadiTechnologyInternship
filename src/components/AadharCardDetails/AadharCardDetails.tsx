@@ -6,7 +6,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Errormessage from "src/libraries/ErrorMessages/Errormessage";
 import { getUserAadharCardDetails, resetMessage } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { getsaveUserAadharCardDetails } from 'src/requests/AadharCardDetails/RequestAadharCard';
-import { Box, Container, TextField, Typography } from '@mui/material';
+import { Box, Container, Paper, TextField, Typography } from '@mui/material';
 import { CheckFileValidation } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 function AadharCardDetails() {
 
@@ -150,6 +151,7 @@ function AadharCardDetails() {
     return (
         <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
+      
             <Typography variant='caption'>Name</Typography>
                     <TextField
                         fullWidth
@@ -169,14 +171,20 @@ function AadharCardDetails() {
                     
                   <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "}/>
                   <Box sx={{my:"10px",textAlign:"center"}}>
-                  {selectedFile?<img src={URL.createObjectURL(selectedFile)} />:null}
-                    <input ref={aRef} type="file" onChange={changeFile}/>
+                  {selectedFile?<img src={URL.createObjectURL(selectedFile)} width="150"
+                             height="150"/>: 
+                             <img src={GetUserAadharCardDetails.PhotoFilePath}
+                             width="150"
+                             height="150"
+                             />}
+                  <input ref={aRef} type="file" onChange={changeFile}/>
                     <Box className={classes.iIconSupport}>
                     <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>
                     </Box>
                {fileError && <Errormessage Error={fileError} />}
             <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+          
 </Container>
     )
 }
