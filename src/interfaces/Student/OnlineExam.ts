@@ -81,3 +81,18 @@ export interface ExamSchedules {
     Exam: string,
 }
 
+export interface IExamData {
+    aiSchoolId: string,
+    aiAcademicYrId: string,
+    asStandardId: string,
+    asStdDivId: string,
+    asSubjectId: string,
+    asSchoolwiseTestId: string,
+    asStudentId: string
+}
+
+export  interface GetQuestionsForOnlineExamResult{
+    AnswerDetails:AnswerDetails[],
+    ExamSchedules:ExamSchedules[],
+    QuestionDetails:QuestionDetails[]
+}

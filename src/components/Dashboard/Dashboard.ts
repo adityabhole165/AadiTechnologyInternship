@@ -241,6 +241,16 @@ const DashboardData = {
       index: 29,
 
     },
+    {
+      Text1: 'Online',
+        Text2: 'Exam',
+        Color: '#81c784',
+        iconColor: '#35abd9',
+        Icon:PeopleIcon,
+        Link: 'Student/OnlineExam',
+        index: 30,
+  
+      },
 
     
   
