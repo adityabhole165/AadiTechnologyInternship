@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { getParentphoto, resetMessage } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
+import { getParentphoto, resetMessage, resetMessage1 } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import { Container, Grid } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
@@ -35,6 +35,9 @@ function UploadParentPhoto() {
   );
   const SaveParentPhotos: any = useSelector(
     (state: RootState) => state.UploadParentPhoto.SaveParentPhotos
+  );
+  const SubmitParentPhotos: any = useSelector(
+    (state: RootState) => state.UploadParentPhoto.SubmitParentPhotoDetails
   );
 
   const [relative, setRelative] = useState('')
@@ -94,6 +97,12 @@ function UploadParentPhoto() {
       dispatch(resetMessage())
     }
   }, [SaveParentPhotos])
+
+  useEffect(() => {
+      toast.success(SubmitParentPhotos.Message, { toastId: 'success1' });
+      dispatch(resetMessage1())
+    }, [SubmitParentPhotos])
+
   const ChangeFileIntoBase64 = (fileData) => {
 
     return new Promise((resolve, reject) => {
@@ -191,14 +200,14 @@ function UploadParentPhoto() {
             }
           </>)}
 
-        <Grid container spacing={2} sx={{ mt: "30px" }}>
+        <Grid container spacing={2} sx={{ mt: "10px" }}>
           <Grid item xs={6}>
             <ButtonPrimary
               type="submit"
               fullWidth
               color={(isPhotosSubmitted ||
-                (fatherPhotoFileName ==""  || motherPhotoFileName == "" || relativePhotoFileName =="" ))? 'warning' : 'primary'}
-              disabled={isPhotosSubmitted || (fatherPhotoFileName ==""  || motherPhotoFileName == "" || relativePhotoFileName =="" )}
+                (fatherPhotoFileName ==""  &&  motherPhotoFileName == "" && relativePhotoFileName =="" ))? 'warning' : 'primary'}
+              disabled={isPhotosSubmitted || (fatherPhotoFileName ==""  && motherPhotoFileName == "" && relativePhotoFileName =="" )}
               onClick={SaveFile}
             >
               Save
