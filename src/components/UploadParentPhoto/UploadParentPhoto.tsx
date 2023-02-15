@@ -176,7 +176,6 @@ function UploadParentPhoto() {
   const SubmitFile = () => {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
-console.log("here",(!isPhotosSubmitted && isAllPhotoSaved))
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
@@ -206,8 +205,8 @@ console.log("here",(!isPhotosSubmitted && isAllPhotoSaved))
           </Grid>
           <Grid item xs={6}>
             <ButtonPrimary fullWidth
-              color={(isPhotosSubmitted || (!isPhotosSubmitted && isAllPhotoSaved)) ? "warning" : "primary"}
-              disabled={isPhotosSubmitted || (!isPhotosSubmitted && isAllPhotoSaved)}
+              color={(isPhotosSubmitted || !isAllPhotoSaved) ? "warning" : "primary"}
+              disabled={isPhotosSubmitted || !isAllPhotoSaved}
               onClick={SubmitFile}  >
               Submit
             </ButtonPrimary>
