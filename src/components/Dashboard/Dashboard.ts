@@ -233,10 +233,10 @@ const DashboardData = {
     },
   {
     Text1: 'Upload',
-      Text2: 'Parent Photo',
+      Text2: 'Photo',
       Color: '#81c784',
       iconColor: '#35abd9',
-      ImageUrl:'/imges/relative.png',
+      ImageUrl:'/imges/parenticon.png',
       Link: 'Student/UploadParentPhoto',
       index: 29,
 
@@ -244,7 +244,7 @@ const DashboardData = {
 
     {
       Text1: 'Income',
-      Text2: 'TaxReport',
+      Text2: 'Tax Report',
       Color: '#81c784',
       iconColor: '#35abd9',
       ImageUrl: "/imges/incometax.png",

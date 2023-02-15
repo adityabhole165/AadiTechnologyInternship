@@ -57,8 +57,7 @@ return (
          />):
          (<img src={item.Value} width="150" height="150"/>)
      }
-    
-    <input  ref={aRef} type="file" onChange={changeFile} />
+    <input  ref={aRef} type="file" onChange={changeFile}  disabled={item.choosefileDisable}  />
      {error && <ErrorMessages Error={error} />}
     </Box>
     </div>
