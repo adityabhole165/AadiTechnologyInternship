@@ -330,6 +330,26 @@ border-radius: 6px;
  `
 );
 
+export const TabStyle = styled(Box)(
+  ({ theme, color }) => `
+  background: ${
+    color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+      ? theme.colors.gradients.HighlightedlistColor
+      : color === 'warning'
+      ? theme.colors.gradients.selectedlistColor
+      : color === 'info'
+      ? theme.colors.gradients.pageBackground
+      : theme.colors.gradients.listColor
+  };
+  position:relative;
+  padding:1px;
+  border-radius: 6px;
+  box-shadow: 1px 4px 5px 2px rgba(0, 0, 0, 0.3);
+ `
+);
+
 export const BoxStyle = styled(Box)(
   ({ theme }) => `
   position:absolute;
