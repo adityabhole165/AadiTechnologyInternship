@@ -111,19 +111,19 @@ function UploadParentPhoto() {
   };
   const setFiles = async () => {
     setIsFileChanged(false)
-    if (itemList[0].Value !== null) {
+    if (itemList[0].Value !== null && activeItem.Id === itemList[0].Id) {
       setFatherPhotoFileName(itemList[0].Value?.name)
       let base64URL: any = await ChangeFileIntoBase64(itemList[0].Value);
       let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
       setFatherImgPhoto(DataAttachment)
     }
-    if (itemList[1].Value !== null) {
+    if (itemList[1].Value !== null && activeItem.Id === itemList[1].Id) {
       setMotherPhotoFileName(itemList[1].Value?.name)
       let base64URL: any = await ChangeFileIntoBase64(itemList[1].Value);
       let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
       setMotherImgPhoto(DataAttachment)
     }
-    if (itemList[2].Value !== null) {
+    if (itemList[2].Value !== null && activeItem.Id === itemList[2].Id) {
       setRelativePhotoFileName(itemList[1].Value?.name)
       let base64URL: any = await ChangeFileIntoBase64(itemList[2].Value);
       let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
@@ -176,7 +176,7 @@ function UploadParentPhoto() {
   const SubmitFile = () => {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
-
+console.log("here",(!isPhotosSubmitted && isAllPhotoSaved))
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />

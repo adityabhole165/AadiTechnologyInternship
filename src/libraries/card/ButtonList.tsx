@@ -4,7 +4,6 @@ import SingleSelectButton from './SingleSelectButton';
 function ButtonList({ itemList, clickItem }) {
 
   const onClick = (value) => {
-    console.log(value, "value")
     itemList = itemList.map((item) => {
       return item.Id === value.Id ?
         value :
