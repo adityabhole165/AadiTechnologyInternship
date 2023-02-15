@@ -72,6 +72,9 @@ const SaveParentPhotos: any = useSelector(
     if(GetParentphotos.IsPhotosSubmitted!==undefined){
       setIsPhotosSubmitted(GetParentphotos.IsPhotosSubmitted)
       setIsAllPhotoSaved(GetParentphotos.IsAllPhotoSaved)
+      setFatherImgPhoto(GetParentphotos.FatherPhoto)
+      setMotherImgPhoto(GetParentphotos.MotherPhoto)
+      setLocalGuardianPhoto(GetParentphotos.RelativePhoto)
     }
    } , [GetParentphotos])
    useEffect(() => {
@@ -92,6 +95,7 @@ useEffect(()=>{
 }
 },[SaveParentPhotos])
 const ChangeFileIntoBase64 = (fileData) => {
+  
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader();
     if(fileData)
@@ -112,21 +116,18 @@ const setFiles= async()=>{
   let base64URL:any = await ChangeFileIntoBase64(itemList[0].Value);
   let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
   setFatherImgPhoto(DataAttachment)
-  // setFatherImgPhoto(itemList[0].Value)
 }
 if(itemList[1].Value!==null){
   setMotherPhotoFileName(itemList[1].Value?.name)
   let base64URL:any = await ChangeFileIntoBase64(itemList[1].Value);
   let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
   setMotherImgPhoto(DataAttachment)
-  // setMotherImgPhoto(itemList[1].Value)
 }
 if(itemList[2].Value!==null){
   setRelativePhotoFileName(itemList[1].Value?.name)
   let base64URL:any = await ChangeFileIntoBase64(itemList[2].Value);
   let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
   setLocalGuardianPhoto(DataAttachment)
-  // setMotherImgPhoto(itemList[2].Value)
 }
 }
 const onTextChange= (value)=>{
