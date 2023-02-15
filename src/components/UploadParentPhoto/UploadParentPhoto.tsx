@@ -196,8 +196,9 @@ function UploadParentPhoto() {
             <ButtonPrimary
               type="submit"
               fullWidth
-              color={isPhotosSubmitted ? 'warning' : 'primary'}
-              disabled={isPhotosSubmitted}
+              color={(isPhotosSubmitted ||
+                (fatherPhotoFileName ==""  || motherPhotoFileName == "" || relativePhotoFileName =="" ))? 'warning' : 'primary'}
+              disabled={isPhotosSubmitted || (fatherPhotoFileName ==""  || motherPhotoFileName == "" || relativePhotoFileName =="" )}
               onClick={SaveFile}
             >
               Save
