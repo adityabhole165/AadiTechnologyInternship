@@ -46,6 +46,8 @@ const Birthdays= Loader (lazy(() => import ('src/components/Birthdays/Birthdays'
 const UploadParentPhoto= Loader (lazy(() => import ('src/components/UploadParentPhoto/UploadParentPhoto')))
 const AadharCardDetails= Loader (lazy(() => import ('src/components/AadharCardDetails/AadharCardDetails')))
 const QueAns = Loader(lazy(() => import('src/components/OnlineExam/QueAns')))
+const IncomeTaxReport = Loader(lazy(()=> import('src/components/IncomeTaxReport/IncomeTaxReport')))
+
 
 const studentRoutes = [
   {
@@ -207,6 +209,12 @@ const studentRoutes = [
   path: "AadharCardDetails",
   element: <AadharCardDetails/>
 },
+
+{
+  path: "IncomeTaxReport",
+  element: <IncomeTaxReport/>
+},
+
 
   ];
 
