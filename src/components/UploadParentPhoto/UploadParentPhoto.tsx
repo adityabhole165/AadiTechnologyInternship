@@ -14,6 +14,7 @@ import { getSubmitParentPhotoDetails } from 'src/requests/UploadParentPhoto/Requ
 import { toast } from 'react-toastify';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 
 const note = [
@@ -21,6 +22,10 @@ const note = [
   '2) Image size should not exceed 80 kb. Supported file formats are JPG, JPEG '
 
 ];
+
+const submittedNote = [
+  'Photo update is restricted once uploaded. Please contact school admin for any changes.',
+ ];
 
 
 
@@ -39,8 +44,11 @@ function UploadParentPhoto() {
   const SubmitParentPhotos: any = useSelector(
     (state: RootState) => state.UploadParentPhoto.SubmitParentPhotoDetails
   );
+  const loading = useSelector(
+    (state: RootState) => state.UploadParentPhoto.Loading
+  );
 
-  const [relative, setRelative] = useState('')
+
   const [isPhotosSubmitted, setIsPhotosSubmitted] = useState(false)
   const [isAllPhotoSaved, setIsAllPhotoSaved] = useState(false)
   const [issaveForSibling, setIsSaveForSibling] = useState("0")
@@ -188,17 +196,21 @@ function UploadParentPhoto() {
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
-      <Note NoteDetail={note} />
-      <ListStyle>
-
-        {itemList.length > 0 &&
-          (<><ButtonList itemList={itemList} clickItem={clickItem} />
+      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
+      
+      {loading ? (<SuspenseLoader />) :(
+       <ListStyle>
+         {itemList.length > 0 &&
+          (<> 
+          <ButtonList itemList={itemList} clickItem={clickItem} />
             {activeItem !== undefined &&
               <TextFilePath item={activeItem}
                 onFileSelect={onFileSelect}
                 onTextChange={onTextChange} />
             }
           </>)}
+
+          
 
         <Grid container spacing={2} sx={{ mt: "10px" }}>
           <Grid item xs={6}>
@@ -222,7 +234,7 @@ function UploadParentPhoto() {
             </ButtonPrimary>
           </Grid>
         </Grid>
-      </ListStyle>
+      </ListStyle>)}
     </Container>
   )
 }

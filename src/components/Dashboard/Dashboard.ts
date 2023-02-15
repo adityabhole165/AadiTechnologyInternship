@@ -236,7 +236,7 @@ const DashboardData = {
       Text2: 'Parent Photo',
       Color: '#81c784',
       iconColor: '#35abd9',
-      ImageUrl:'/imges/relative.png',
+      ImageUrl:'/imges/parenticon.png',
       Link: 'Student/UploadParentPhoto',
       index: 29,
 
