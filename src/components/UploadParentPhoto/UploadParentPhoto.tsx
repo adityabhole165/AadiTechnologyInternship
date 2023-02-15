@@ -198,7 +198,7 @@ function UploadParentPhoto() {
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
       {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
       
-      {loading ? (<SuspenseLoader />) :(
+      
        <ListStyle>
          {itemList.length > 0 &&
           (<> 
@@ -209,12 +209,9 @@ function UploadParentPhoto() {
                 onTextChange={onTextChange} />
             }
           </>)}
-
-          
-
-        <Grid container spacing={2} sx={{ mt: "10px" }}>
+       <Grid container spacing={2} sx={{ mt: "10px" }}>
           <Grid item xs={6}>
-            <ButtonPrimary
+           <ButtonPrimary
               type="submit"
               fullWidth
               color={(isPhotosSubmitted ||
@@ -234,7 +231,8 @@ function UploadParentPhoto() {
             </ButtonPrimary>
           </Grid>
         </Grid>
-      </ListStyle>)}
+        
+      </ListStyle>
     </Container>
   )
 }
