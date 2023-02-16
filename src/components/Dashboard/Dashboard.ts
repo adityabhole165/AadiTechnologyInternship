@@ -252,6 +252,15 @@ const DashboardData = {
       index: 30,
 
     },
+    {
+      Text1: 'O-Exam',
+      Text2: 'Schedule',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      ImageUrl: "/imges/OExamSchedule.png",
+      Link: 'Student/OnlineExam',
+      index: 31,
+    },
 
     
   
