@@ -4,6 +4,7 @@ import ClaimBookDetails from 'src/api/Library/Library';
 import { AppThunk } from 'src/store';
 import { IBooksDetails,IBookswithmeList,IClaimDetail,IClaimDetailResult,
   ICancelBookReservation,ILanguagesDetails, IStandardsBody,IStandardsResult } from 'src/interfaces/Student/Library';
+import { useState } from 'react';
 
 const LibrarySlicee = createSlice({
 
@@ -98,12 +99,14 @@ export const getStandards=
 (data:IStandardsBody):AppThunk=>
 async (dispatch) => {
   const response = await LibraryApi.GetStandards(data);
-  const StandardsList =  response.data.Standards.map((item, index) => {
+  let StandardsList =  response.data.Standards.map((item, index) => {
     return {
+
      Value:item.standard_id,
      Name:item.standard_name,
    }
   }) 
+  StandardsList = [{Value:"",Name:"All Standards"},...StandardsList]
   dispatch(LibrarySlicee.actions. getStandards(StandardsList ));
 
 };
@@ -112,14 +115,13 @@ export const  getLanguagesDetails=
 (data:ILanguagesDetails):AppThunk=>
 async (dispatch) => {
   const response = await LibraryApi.GetLanguage(data);
-  const Language =  response.data.LanguagesDetails.map((item, index) => {
+  let Language =  response.data.LanguagesDetails.map((item, index) => {
            return {
-            id:index,
-            Name:item.Language,
+           Name:item.Language,
           }
          }) 
 
-  
+  Language =[{Name:"All Language"} , ...Language]
   dispatch(LibrarySlicee.actions.getLanguagesDetails(Language));
 
 };
