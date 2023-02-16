@@ -198,7 +198,7 @@ function UploadParentPhoto() {
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
       {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
       
-      
+      {loading && <SuspenseLoader/> }
        <ListStyle>
          {itemList.length > 0 &&
           (<> 
@@ -233,6 +233,7 @@ function UploadParentPhoto() {
         </Grid>
         
       </ListStyle>
+
     </Container>
   )
 }
