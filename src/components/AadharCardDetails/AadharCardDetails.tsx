@@ -59,16 +59,16 @@ function AadharCardDetails() {
     }, [GetUserAadharCardDetails])
 
     useEffect(() => {
-        if(SaveUserAadharCardDetails.Message!==undefined){
-        toast.success(SaveUserAadharCardDetails.Message, { toastId: 'success1' })
-        dispatch(resetMessage());
-    }
+        if (SaveUserAadharCardDetails.Message !== undefined) {
+            toast.success(SaveUserAadharCardDetails.Message, { toastId: 'success1' })
+            dispatch(resetMessage());
+        }
 
     }, [SaveUserAadharCardDetails])
     const classes = Styles();
     const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
     const maxfileSize = 3000000
-    const [selectedFile, setSelectedFile]= useState()
+    const [selectedFile, setSelectedFile] = useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
         let base64URL: any = '';
@@ -106,7 +106,6 @@ function AadharCardDetails() {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(sessionStorage.getItem('Id'));
     const asUserRoleId = sessionStorage.getItem('RoleId');
-
     const GetUserAadharCardDetailsBody =
     {
         "aiUserId": asUserId,
@@ -138,7 +137,7 @@ function AadharCardDetails() {
         }
         if (fileName === '') {
             setFileError('Please Upload the file"')
-        } else{
+        } else {
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
                 aRef.current.value = null
@@ -146,46 +145,44 @@ function AadharCardDetails() {
         }
     }
 
-
-
     return (
         <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
-      
-            <Typography variant='caption'>Name</Typography>
-                    <TextField
-                        fullWidth
-                        variant="standard"
-                        value={GetUserAadharCardDetails.Name}/>
-                      
-                      <TextField
-                        fullWidth
-                        inputProps={{ maxLength: 12 }}
-                        type="text"
-                        margin="dense"
-                        variant="standard"
-                        label="Aadhar Number"
-                        value={aadharNumber}
-                        onChange={(e) => { setAadharNumber(e.target.value) }}
-                        onBlur={clickOnBlur}/>
-                    
-                  <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "}/>
-                  <Box sx={{my:"10px",textAlign:"center"}}>
-                  {selectedFile?<img src={URL.createObjectURL(selectedFile)} width="150"
-                             height="150"/>: 
-                             <img src={GetUserAadharCardDetails.PhotoFilePath}
-                             width="150"
-                             height="150"
-                             />}
-                  <input ref={aRef} type="file" onChange={changeFile}/>
+            <ListStyle>
+                <Typography variant='caption'>Name</Typography>
+                <TextField
+                    fullWidth
+                    variant="standard"
+                    value={GetUserAadharCardDetails.Name} />
+
+                <TextField
+                    fullWidth
+                    inputProps={{ maxLength: 12 }}
+                    type="text"
+                    margin="dense"
+                    variant="standard"
+                    label="Aadhar Number"
+                    value={aadharNumber}
+                    onChange={(e) => { setAadharNumber(e.target.value) }}
+                    onBlur={clickOnBlur} />
+
+                <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "} />
+                <Box sx={{ my: "10px", textAlign: "center" }}>
+                    {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
+                        height="150" /> :
+                        <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
+                            width="150"
+                            height="150"
+                        />}
+                    <input ref={aRef} type="file" onChange={changeFile} />
                     <Box className={classes.iIconSupport}>
-                    <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                        <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>
-                    </Box>
-               {fileError && <Errormessage Error={fileError} />}
-            <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
-          
-</Container>
+                </Box>
+                {fileError && <Errormessage Error={fileError} />}
+                <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+            </ListStyle>
+        </Container>
     )
 }
 

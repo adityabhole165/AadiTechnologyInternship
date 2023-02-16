@@ -52,7 +52,8 @@ export const getParentphoto =
         Text:response?.data?.ParentPhotoDetails.FatherName,
         Value: response.data.ParentPhotoDetails.FatherPhoto,
         IsActive:true,
-        ImgUrl:"/imges/father.png"
+        ImgUrl:"/imges/father.png",
+        choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
         },
         { 
           Id:'2',
@@ -60,7 +61,8 @@ export const getParentphoto =
           Text:response.data.ParentPhotoDetails.MotherName,
           Value:  response.data.ParentPhotoDetails.MotherPhoto,
           IsActive:false,
-          ImgUrl:"/imges/mom.png"
+          ImgUrl:"/imges/mom.png",
+          choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
            },
            {
           
@@ -69,7 +71,8 @@ export const getParentphoto =
             Text: response.data.ParentPhotoDetails.RelativeName,  
             Value: response.data.ParentPhotoDetails.RelativePhoto,
             IsActive:false,
-            ImgUrl:"/imges/relative.png"
+            ImgUrl:"/imges/relative.png",
+            choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
            },
         ];
       
@@ -98,6 +101,12 @@ export const getSubmitParentPhotoDetails =
       const response = await ApiUploadParentPhoto.SubmitParentPhotoDetailsApi(data)
       dispatch(SliceUploadParentPhoto.actions.getSubmitParentPhotoDetails(response.data));
     };
+
+    export const resetMessage1 =
+    (): AppThunk =>
+      async (dispatch) => {
+      dispatch(SliceUploadParentPhoto.actions.resetMessage());
+    }
 
 
 export default SliceUploadParentPhoto.reducer

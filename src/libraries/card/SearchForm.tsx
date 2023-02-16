@@ -11,6 +11,8 @@ import { RootState } from 'src/store';
 import {ILanguagesDetails,IStandardsBody} from 'src/interfaces/Student/Library'
 import Dropdown from '../dropdown/Dropdown';
 import { logoURL } from 'src/components/Common/Util';
+import DropdownNew from '../dropdown/DropdownNew';
+import DropdownAllSelect from '../dropdown/DropdownAllSelect';
 function SearchForm({clickFilter, clickCloseIcon}) {
   const dispatch = useDispatch();
 
@@ -112,11 +114,11 @@ function SearchForm({clickFilter, clickCloseIcon}) {
              onChange={(e)=>{setPublisher(e.target.value)}}/>
             </Grid>
             <Grid item xs={6}>
-            <Dropdown Array={ Standards} handleChange={clickStandard} 
-            label={'Select Standard'} defaultValue ={Standard}/>
+            <DropdownAllSelect Array={ Standards} handleChange={clickStandard} 
+            label={''} defaultValue ={Standard}/>
             </Grid>
             <Grid item xs={6}>
-          <Dropdown Array={GetLanguageList} handleChange={clickLanguage} label={'Select Language'} defaultValue ={Language}/>
+          <DropdownAllSelect Array={GetLanguageList} handleChange={clickLanguage} label={''} defaultValue ={Language}/>
           </Grid>
           <Grid item xs={6} >
           <ButtonPrimary  color="secondary" onClick={() => clickReset()}>Reset</ButtonPrimary>
