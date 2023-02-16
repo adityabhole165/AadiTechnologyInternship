@@ -339,7 +339,8 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
         <TextField
           multiline
           placeholder="Selected Recipient"
-          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ').replace(';', '')}
+          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
+          //.replace(';', '')
           disabled
           id="body"
           fullWidth

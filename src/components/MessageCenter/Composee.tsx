@@ -434,7 +434,8 @@ function Form13() {
               <FormHelperText >To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
+                // .replace(';', '')
                 id=""
                 fullWidth
                 disabled
@@ -474,7 +475,8 @@ function Form13() {
                 <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
                 <TextField
                   multiline
-                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ')}
+                  // .replace(';', '')
                   id=""
                   fullWidth
                   disabled
