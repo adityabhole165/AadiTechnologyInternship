@@ -105,7 +105,7 @@ const Attachments = () => {
               }}
             />
 
-      {fileerror ? <Errormessage Error={fileerror} /> : null}
+     <Box sx={{mt:"10px"}}> {fileerror ? <Errormessage Error={fileerror} /> : null}</Box>
     </div>
   )
 }

@@ -278,7 +278,7 @@ function Form13() {
         }
       })
       .catch((err) => {
-        toast.error('Message does not sent successfully', { toastId: 'error1' });
+        toast.error('Message did not sent successfully', { toastId: 'error1' });
         localStorage.setItem("messageBody", '');
         setdisabledStateOfSend(false);
 
