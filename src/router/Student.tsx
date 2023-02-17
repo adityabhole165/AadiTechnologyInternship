@@ -47,7 +47,7 @@ const UploadParentPhoto= Loader (lazy(() => import ('src/components/UploadParent
 const AadharCardDetails= Loader (lazy(() => import ('src/components/AadharCardDetails/AadharCardDetails')))
 const QueAns = Loader(lazy(() => import('src/components/OnlineExam/QueAns')))
 const IncomeTaxReport = Loader(lazy(()=> import('src/components/IncomeTaxReport/IncomeTaxReport')))
-
+const AttendanceTopper= Loader(lazy(() => import ('src/components/Attendance/AttendanceTopper')))
 
 const studentRoutes = [
   {
@@ -116,6 +116,10 @@ const studentRoutes = [
   {
     path: 'attendance',
     element: <Attendance />
+  },
+  {
+    path: 'Attendance/AttendanceTopper',
+    element: <AttendanceTopper />
   },
   {
     path: 'Library',
