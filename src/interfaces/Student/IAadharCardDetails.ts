@@ -6,8 +6,8 @@ export interface IGetUserAadharCardDetailsBody {
 }
 
 export interface IGetUserAadharCardDetailsResult {
-
-    RoleId: number,
+        User:any,
+        RoleId: number,
         RoleName: string,
         AadharCardNo: string,
         AadharCardFileName: string,

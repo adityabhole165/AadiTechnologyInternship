@@ -12,7 +12,7 @@ const SliceAadharCardDetails = createSlice({
     },
     reducers: {
         getUserAadharCardDetails(state, action) {
-            state.GetUserAadharCardDetails = action.payload.User;
+            state.GetUserAadharCardDetails = action.payload;
             state.Loading = false;
         },
 
@@ -33,8 +33,18 @@ export const getUserAadharCardDetails =
   (data: IGetUserAadharCardDetailsBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceAadharCardDetails.actions.getLoading(true));
+     
       const response = await ApiAadharCardDetails.GetUserAadharCardDetailsApi(data)
-      dispatch(SliceAadharCardDetails.actions.getUserAadharCardDetails(response.data));
+      
+      const AadharCardList =  
+         {
+        Name:response.data.User.Name,
+        AadharCardNo:response.data.User.AadharCardNo,
+        AadharCardFileName:response.data.User.AadharCardFileName
+
+       }
+      
+      dispatch(SliceAadharCardDetails.actions.getUserAadharCardDetails( AadharCardList ));
     };
 
     export const getsaveUserAadharCardDetails =
