@@ -107,9 +107,10 @@ function UploadParentPhoto() {
   }, [SaveParentPhotos])
 
   useEffect(() => {
-      toast.success(SubmitParentPhotos.Message, { toastId: 'success1' });
+    if (SubmitParentPhotos.Message !== undefined) {
+      toast.success(SubmitParentPhotos.Message, { toastId: 'success2' });
       dispatch(resetMessage1())
-    }, [SubmitParentPhotos])
+    }}, [SubmitParentPhotos])
 
   const ChangeFileIntoBase64 = (fileData) => {
 
@@ -196,9 +197,9 @@ function UploadParentPhoto() {
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
-      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
+      {!isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
       
-      
+      {loading && <SuspenseLoader/> }
        <ListStyle>
          {itemList.length > 0 &&
           (<> 
@@ -233,6 +234,7 @@ function UploadParentPhoto() {
         </Grid>
         
       </ListStyle>
+
     </Container>
   )
 }

@@ -278,7 +278,7 @@ function Form13() {
         }
       })
       .catch((err) => {
-        toast.error('Message does not sent successfully', { toastId: 'error1' });
+        toast.error('Message did not sent successfully', { toastId: 'error1' });
         localStorage.setItem("messageBody", '');
         setdisabledStateOfSend(false);
 
@@ -428,17 +428,17 @@ function Form13() {
             <ReplyIcon />
           </Fab>
         </span>
-        <ListStyle sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
+        <ListStyle>
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <FormHelperText >To</FormHelperText>
               <TextField
                 multiline
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
                 id=""
                 fullWidth
                 disabled
-                margin="normal"
+              
                 onChange={formik.handleChange}
                 sx={{
                   height: "50px",
@@ -448,13 +448,13 @@ function Form13() {
                 }}
               />
 
-              <p style={{ color: 'red', marginTop: 2 }}>
+              <p style={{ color: 'red', fontSize:"12px"}}>
                 {RecipientsList.length == 0 ? (
-                  <div className={classes.error}>{formik.errors.To}</div>
+                  <div>{formik.errors.To}</div>
                 ) : null}
               </p>
               {loading && <SuspenseLoader />}
-              <Grid container spacing={2} sx={{mt:'-30px'}} >
+              <Grid container spacing={1} mt={-2} >
                 <Grid item xs={6} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientButton(e)}
@@ -471,14 +471,15 @@ function Form13() {
                 </Grid>
               </Grid>
               {showCC && <>
-                <FormHelperText sx={{ mb: '-15px' }}>Cc</FormHelperText>
+                <FormHelperText >Cc</FormHelperText>
                 <TextField
                   multiline
-                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ').replace(';', '')}
+                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ')}
+                  // .replace(';', '')
                   id=""
                   fullWidth
                   disabled
-                  margin="normal"
+                
                   onChange={formik.handleChange}
                   sx={{
                     height: "50px",
@@ -487,23 +488,23 @@ function Form13() {
                     borderRadius: "5.3px",
                   }}
                 />
-                <Grid container spacing={2} >
-                  <Grid item xs={6} >
-                    <ButtonPrimary fullWidth
+         
+              <Box mt={1}>
+              <ButtonPrimary 
                       onClick={(e) => RecipientCCButton(e)}
                       color="primary">
                       Add Cc Recipients
                     </ButtonPrimary>
-                  </Grid>
-                  <Grid item xs={6} sx={{ marginTop: "4px" }}>
-                  </Grid>
-                </Grid>
+              </Box>
+                  
+                 
+                
               </>}
             </FormControl>
 
             <TextField
               fullWidth
-              sx={{mt:'10px'}}
+             
               margin="normal"
               label='Subject :'
               name="Subject"
@@ -512,13 +513,14 @@ function Form13() {
               variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
+              sx={{mt:"-0.1px"}}
             />
-            <p style={{ color: 'red', marginTop: -10, marginBottom: '-10px' }}>
+            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px" }}>
               {formik.touched.Subject && formik.errors.Subject ? (
-                <div className={classes.error}>{formik.errors.Subject}</div>
+                <div >{formik.errors.Subject}</div>
               ) : null}
             </p>
-            <p></p>
+         
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
             <ClickAwayListener onClickAway={handleClickAway}>
               <Tooltip
@@ -555,7 +557,7 @@ function Form13() {
                 />
               </Tooltip>
             </ClickAwayListener>
-            <Box sx={{ mt: '15px' }}>
+            <Box >
               <Errormessages Error={fileerror} />
             </Box>
             {finalBase642New == undefined ||
@@ -563,18 +565,18 @@ function Form13() {
               || PageName == 'Reply'
               ? null :
               (
-                <div style={{ marginTop: '10px' }}>
-                  <Typography sx={{ mb: '10px' }}>Attachment(s):</Typography>
+                <div >
+                  <Typography component={Box} mt={2}>Attachment(s):</Typography>
                   {
                     finalBase642New.map((obj, i) => {
                       return (
                         <Box key={obj.FileName}>
                           <Grid container>
-                            <Grid xs={2} sx={{ mb: "-60px" }}>
+                            <Grid xs={2} >
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
                             <Grid xs={8}>
-                              <CardDetail8 sx={{ mt: '5px' }}>
+                              <CardDetail8 sx={{mt:'1px'}}>
                                 {obj.FileName.slice(0, 25)}
                               </CardDetail8>
                             </Grid>
@@ -591,7 +593,7 @@ function Form13() {
                                 }
                               >
                                 <DeleteIcon
-                                  sx={{ color: 'red', mr: '-50px', mt: '-8px' }}
+                                  sx={{ color: 'red',mt:"-6px"}}
                                 />
                               </IconButton >
                             </Grid>
@@ -602,14 +604,15 @@ function Form13() {
                   }
                 </div>
               )}
-            <Grid container>
-              <Grid item sx={{ml:'-11px',mt:'0px',mb:"-30px"}}>
-                <Checkbox onChange={scheduleMessageCheckBox} size="small"  />
-                <Typography sx={{ display: 'inline-block' }}>
-                  Schedule Message at:
-                </Typography>
-              </Grid><br />
-              <Grid item sx={{ mt: '8px', display: scheduleMessage }} >
+           
+            
+         <Box mt={1}>
+          <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ml:"-10px"}}  />
+              <Typography  sx={{ display: 'inline-block' }}>
+            Schedule Message at:
+            </Typography>
+            </Box>
+              <Grid  sx={{display: scheduleMessage }} >
                 <TextField
                   type="date"
                   // required
@@ -622,7 +625,7 @@ function Form13() {
                   }}
                 />
                 <TextField
-                  sx={{ ml: "30px", mb: '10px' }}
+                  
                   id="time"
                   type="time"
                   variant="standard"
@@ -630,8 +633,8 @@ function Form13() {
                   onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
                 <Errormessages Error={schTimeerror} />
-              </Grid>
-            </Grid>
+                </Grid>
+          
             <TextField
               fullWidth
               multiline
@@ -643,11 +646,11 @@ function Form13() {
               variant="outlined"
               value={formik.values.Content}
               onChange={formik.handleChange}
-              sx={{ pt: '1px' }}
+           
             />
-            <p style={{ color: 'red', marginTop: -10 }}>
+            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px"}}>
               {formik.touched.Content && formik.errors.Content ? (
-                <div className={classes.error}>{formik.errors.Content}</div>
+                <div >{formik.errors.Content}</div>
               ) : null}
             </p>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
@@ -667,7 +670,7 @@ function Form13() {
                 type="submit"
                 fullWidth
               >
-                {' '}
+        
                 Send
               </ButtonPrimary>
             </Grid>

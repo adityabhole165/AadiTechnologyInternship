@@ -1,9 +1,15 @@
-import { Typography,Box,Card } from '@mui/material'
-import React from 'react'
+import { Typography,Box,Card, Grow } from '@mui/material'
+import React, { useState } from 'react'
 
 
 function Card13({Text1, Text2,Text3,Text4,Text5}) {
-  return (
+  
+  const [checked, setChecked] = useState(true);
+  return (<Grow
+    in={checked}
+    style={{ transformOrigin: '0 0 0' }}
+    {...(checked ? { timeout: 1000 } : {})}
+    >
     <Card  component={Box} p={1}>
     <Typography variant='body2'> <b>Book Title :</b> {Text1}</Typography>
     <Typography variant='body2'> <b>Issue Date :</b> {Text3}</Typography>
@@ -11,6 +17,7 @@ function Card13({Text1, Text2,Text3,Text4,Text5}) {
     <Typography variant='body2'> <b>Accession No. :</b> {Text5}</Typography>
     <Typography variant='body2'><b>Issued To Parent :</b> {Text4 === true ? "Yes" : "No"}</Typography>
     </Card>
+    </Grow>
   )
 }
 
