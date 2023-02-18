@@ -38,7 +38,7 @@ export const getUserAadharCardDetails =
       
       const AadharCardList =  
          {
-        Name:response.data.User.Name,
+        Name:response.data.User.Name.split('(')[0],
         AadharCardNo:response.data.User.AadharCardNo,
         AadharCardFileName:response.data.User.AadharCardFileName
 
