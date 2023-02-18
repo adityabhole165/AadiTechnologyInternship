@@ -107,7 +107,8 @@ export interface  ISendMessage {
         SchoolId: string,
         InsertedById: string,
         Attachment: string,
-        ScheduleDateTime:string
+        ScheduleDateTime:string,
+        RequestReadReceipt:string
     }
     asSelectedUserIds: string,
     asSelectedStDivId: string,

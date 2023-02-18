@@ -43,7 +43,8 @@ export interface GetMessagesResult{
         DateOfBirth:string,
         IsLockedUser: Boolean,
         Id:number,
-        PageLabel:string
+        PageLabel:string,
+      
     }]
 }
 export interface GetScheduledSMSResult{
@@ -80,5 +81,6 @@ export interface GetScheduledSMSResult{
         IsLockedUser: Boolean,
         Id:number,
         PageLabel:string
+       
     }]
 }
