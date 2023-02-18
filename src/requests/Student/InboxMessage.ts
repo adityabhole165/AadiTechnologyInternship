@@ -57,6 +57,7 @@ const InboxMessageSlice = createSlice({
         DetailsId:item.DetailsId,
         ReceiverDetailsId:item.ReceiverDetailsId,
         IsRead: item.IsRead,
+        IsAttachmentExist:item.IsAttachmentExist,
       }
     })
     if(Pagination == true){

@@ -30,6 +30,7 @@ export interface GetMessagesResult{
         AcademicYearId:string,
         InsertedById:string,
         IsRead:string,
+        IsAttachmentExist:boolean,
         IsNew:string,
         ReceiverUserRoleId:string,
         ReceiverUserId:string,
