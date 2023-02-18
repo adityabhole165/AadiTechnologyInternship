@@ -6,6 +6,7 @@ import { GetAdminAndprincipalUsers } from "src/interfaces/AdminSMSCenter/To1";
 import { AppThunk } from "src/store";
 import { getStudentDetails } from "../Student/OnlineExamProgressReport";
 
+import { IShowPTAOptionBody } from 'src/interfaces/MessageCenter/MessageCenter';
 const GetuserSlice1 = createSlice({
   name: 'GetUser',
   initialState: {
@@ -13,7 +14,9 @@ const GetuserSlice1 = createSlice({
     getStudent: [],
     getGetAdminAndprincipalUsers: [],
     getClass: [],
-    userListLoading: false
+    userListLoading: false,
+    Loading:false,
+    PTAOption:{}
 
   },
   reducers: {
@@ -26,15 +29,23 @@ const GetuserSlice1 = createSlice({
     getUser(state, action) {
       state.GetUser = action.payload
       state.userListLoading = false;
+      state.Loading = false
     },
     getStudentDetails(state, action) {
       state.getStudent = action.payload
 
     },
+    stopLoading(state) {
+      state.Loading = false
+
+    },
     getGetAdminAndprincipalUsers(state, action) {
       state.getGetAdminAndprincipalUsers = action.payload
-    }
-
+    },
+    getShowPTAOption (state,action){
+      state.PTAOption=action.payload.PTAOptionStatusResult;
+    },
+    
   }
 });
 const RoleId = sessionStorage.getItem('RoleId');
@@ -56,6 +67,7 @@ export const GetUser =
         dispatch(GetuserSlice1.actions.getClass(userList));
       } else
         dispatch(GetuserSlice1.actions.getUser(userList));
+        dispatch(GetuserSlice1.actions.stopLoading());
     };
 
 export const StartLoading =
@@ -115,4 +127,10 @@ export const GetGetAdminAndprincipalUsers =
       dispatch(GetuserSlice1.actions.getGetAdminAndprincipalUsers(AddResipent));
     };
 
+    export const getShowPTA =
+    (data :IShowPTAOptionBody): AppThunk =>
+    async (dispatch) => {
+      const response = await getuserlistapi.ShowPTAOption(data);
+      dispatch(GetuserSlice1.actions.getShowPTAOption(response.data));
+    };
 export default GetuserSlice1.reducer;
