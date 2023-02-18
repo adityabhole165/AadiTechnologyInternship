@@ -44,6 +44,7 @@ export interface GetMessagesResult{
         IsLockedUser: Boolean,
         Id:number,
         PageLabel:string,
+        RequestReadReceipt:string,
       
     }]
 }
@@ -83,4 +84,14 @@ export interface GetScheduledSMSResult{
         PageLabel:string
        
     }]
+}
+export interface IUpdateReadReceiptStatusBody{
+    asSchoolId:string,
+    asAcademicYearId:string,
+    asReceiverId:string,
+    asRequestReadReceipt:string
+}
+
+export interface IUpdateReadReceiptStatusResult{
+    Message:string,
 }

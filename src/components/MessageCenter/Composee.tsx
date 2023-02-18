@@ -613,7 +613,7 @@ function Form13() {
             </Typography>
             </Box>
           
-         <Box mt={1}>
+         <Box >
           <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ml:"-10px"}}  />
               <Typography  sx={{ display: 'inline-block' }}>
             Schedule Message at:
