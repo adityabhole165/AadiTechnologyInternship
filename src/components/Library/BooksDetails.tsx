@@ -41,6 +41,7 @@ const [expanded, setExpanded] = React.useState<string | false>(false);
                   title={items.Book_Title}
                   conformMsg={confirmsg}
                   no={items.Book_No}
+                  IsForIssue={items.IsForIssue}
                   Collapse={handleChange}
                   expand={expanded}
                 />

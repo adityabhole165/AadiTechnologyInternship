@@ -29,6 +29,7 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               ActiveTab={ActiveTab}
               IsRead={Item.IsRead}
               IsSchedule={Item.IsSchedule}
+              IsAttachmentExist={Item.IsAttachmentExist}
             />
           </Grid>
         </Grid>

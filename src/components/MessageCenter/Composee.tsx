@@ -135,6 +135,7 @@ function Form13() {
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
+  const [requestReadReceipt,setRequestReadReceipt] = useState(false)
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
@@ -244,7 +245,8 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: scheduleDate + ' ' + value
+        ScheduleDateTime: scheduleDate + ' ' + value,
+        RequestReadReceipt: requestReadReceipt? "1": "0"
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -604,9 +606,14 @@ function Form13() {
                   }
                 </div>
               )}
-           
-            
-         <Box mt={1}>
+              <Box mt={1}>
+          <Checkbox onChange={()=> setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ml:"-10px"}}  />
+              <Typography  sx={{ display: 'inline-block' }}>
+              Request Read Receipt? :
+            </Typography>
+            </Box>
+          
+         <Box >
           <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ml:"-10px"}}  />
               <Typography  sx={{ display: 'inline-block' }}>
             Schedule Message at:
