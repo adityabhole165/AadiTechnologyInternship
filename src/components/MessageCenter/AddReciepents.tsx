@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
-  GetStudent,
-  StartLoading
+  getShowPTA,
+  GetStudent
 } from 'src/requests/AdminSMSCenter/To1';
 import {
   GetAdminAndprincipalUsers,
@@ -19,7 +19,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
-import { getShowPTA } from 'src/requests/MessageCenter/MessaageCenter';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -54,8 +54,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     (state: RootState) => state.getuser1.GetUser
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const userListLoading: any = useSelector(
-    (state: RootState) => state.getuser1.userListLoading
+  const Loading: any = useSelector(
+    (state: RootState) => state.MessageCenter.Loading
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getClass: any = useSelector(
@@ -211,7 +211,6 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
   }
 
   useEffect(() => {
-    dispatch(StartLoading());
     dispatch(GetStudent(getStudentsUserAPIBody));
     teacherStudent?.map((obj, i) => {
       if (obj.isActive && i !== 1) {
@@ -231,7 +230,6 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
 
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    dispatch(StartLoading());
     dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
@@ -397,10 +395,11 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
                   )}
                 </Grid>
                 <Grid item xs={12}>
-                  {list.length > 0 ?
-                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
-                    showErrorMsg && !userListLoading &&
-                    <ErrorMessages Error={'No records found'} />
+                  {Loading?<SuspenseLoader/>:
+                  list.length === 0 ? showErrorMsg &&
+                  <ErrorMessages Error={'No records found'} />:
+                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> 
+                    
                   }
                 </Grid>
               </Grid>

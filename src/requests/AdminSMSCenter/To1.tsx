@@ -14,7 +14,6 @@ const GetuserSlice1 = createSlice({
     getStudent: [],
     getGetAdminAndprincipalUsers: [],
     getClass: [],
-    userListLoading: false,
     Loading:false,
     PTAOption:{}
 
@@ -22,28 +21,23 @@ const GetuserSlice1 = createSlice({
   reducers: {
     getClass(state, action) {
       state.getClass = action.payload
-    },
-    startLoading(state, action) {
-      state.userListLoading = action.payload;
+      state.Loading = false
     },
     getUser(state, action) {
       state.GetUser = action.payload
-      state.userListLoading = false;
       state.Loading = false
     },
     getStudentDetails(state, action) {
       state.getStudent = action.payload
 
     },
-    stopLoading(state) {
-      state.Loading = false
-
-    },
     getGetAdminAndprincipalUsers(state, action) {
       state.getGetAdminAndprincipalUsers = action.payload
+      state.Loading = false
     },
     getShowPTAOption (state,action){
       state.PTAOption=action.payload.PTAOptionStatusResult;
+      state.Loading = false
     },
     
   }
@@ -63,18 +57,11 @@ export const GetUser =
         }
       })
       if (data.asSelectedUserGroup === '3') {
-        dispatch(GetuserSlice1.actions.startLoading(false));
         dispatch(GetuserSlice1.actions.getClass(userList));
       } else
         dispatch(GetuserSlice1.actions.getUser(userList));
-        dispatch(GetuserSlice1.actions.stopLoading());
     };
 
-export const StartLoading =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(GetuserSlice1.actions.startLoading(true));
-    }
 export const GetStudent =
   (data: IGetStudentsUser): AppThunk =>
     async (dispatch) => {
