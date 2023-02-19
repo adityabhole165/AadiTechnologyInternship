@@ -4,8 +4,6 @@ import { IUsergroup } from "src/interfaces/AdminSMSCenter/To1";
 import { IGetStudentsUser } from "src/interfaces/AdminSMSCenter/To1"
 import { GetAdminAndprincipalUsers } from "src/interfaces/AdminSMSCenter/To1";
 import { AppThunk } from "src/store";
-import { getStudentDetails } from "../Student/OnlineExamProgressReport";
-
 import { IShowPTAOptionBody } from 'src/interfaces/MessageCenter/MessageCenter';
 const GetuserSlice1 = createSlice({
   name: 'GetUser',
@@ -29,6 +27,7 @@ const GetuserSlice1 = createSlice({
     },
     getStudentDetails(state, action) {
       state.getStudent = action.payload
+      state.Loading = false
 
     },
     getGetAdminAndprincipalUsers(state, action) {
@@ -40,6 +39,10 @@ const GetuserSlice1 = createSlice({
       state.Loading = false
     },
     
+    getLoading (state){
+      state.Loading = true
+    },
+    
   }
 });
 const RoleId = sessionStorage.getItem('RoleId');
@@ -47,6 +50,7 @@ const RoleId = sessionStorage.getItem('RoleId');
 export const GetUser =
   (data: IUsergroup): AppThunk =>
     async (dispatch) => {
+      dispatch(GetuserSlice1.actions.getLoading());
       const response = await getuserlistapi.GetUsersInGroup(data);
       const userList = response.data.GetUsersInGroupResult.map((item, index) => {
         return {
@@ -67,6 +71,7 @@ export const GetStudent =
     async (dispatch) => {
       let studentList = [];
       if(data.asStdDivId!=''){
+      dispatch(GetuserSlice1.actions.getLoading());
       const response = await getuserlistapi.GetStudentGroup(data);
       studentList = response.data.GetStudentsUserResult.map((item, index) => {
         return {
@@ -84,6 +89,7 @@ export const GetStudent =
 export const GetGetAdminAndprincipalUsers =
   (data: GetAdminAndprincipalUsers): AppThunk =>
     async (dispatch) => {
+      dispatch(GetuserSlice1.actions.getLoading());
       const response = await getuserlistapi.GetGetAdminAndprincipalUsers(data);
       let AddResipent = []
       if (sessionStorage.getItem('RoleId') === "3") {
@@ -117,6 +123,7 @@ export const GetGetAdminAndprincipalUsers =
     export const getShowPTA =
     (data :IShowPTAOptionBody): AppThunk =>
     async (dispatch) => {
+      dispatch(GetuserSlice1.actions.getLoading());
       const response = await getuserlistapi.ShowPTAOption(data);
       dispatch(GetuserSlice1.actions.getShowPTAOption(response.data));
     };

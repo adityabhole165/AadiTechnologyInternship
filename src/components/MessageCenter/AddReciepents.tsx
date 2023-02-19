@@ -40,7 +40,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
-  const [showErrorMsg, setShowErrorMsg] = useState(false)
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
 
@@ -55,7 +54,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
-    (state: RootState) => state.MessageCenter.Loading
+    (state: RootState) => state.getuser1.Loading
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getClass: any = useSelector(
@@ -185,8 +184,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(RecipientId);
 
   }, [getPTAOption]);
-console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
-
+  
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
@@ -212,11 +210,6 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
 
   useEffect(() => {
     dispatch(GetStudent(getStudentsUserAPIBody));
-    teacherStudent?.map((obj, i) => {
-      if (obj.isActive && i !== 1) {
-        setShowErrorMsg(true)
-      }
-    });
 
   }, [studentlist]);
 
@@ -250,15 +243,12 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
   };
 
   const teacherStudentChange = (value) => {
-    setShowErrorMsg(false)
     setList([]);
     setStudentlist('');
     setTeacherStudent1('');
     value?.map((obj, i) => {
       if (obj.isActive) {
         setTeacherStudent1(obj.Id);
-        if (i !== 1)
-          setShowErrorMsg(true)
       }
     });
     setTecherStudent(value);
@@ -396,7 +386,7 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
                 </Grid>
                 <Grid item xs={12}>
                   {Loading?<SuspenseLoader/>:
-                  list.length === 0 ? showErrorMsg &&
+                  list.length === 0 ? !isStudentSelected &&
                   <ErrorMessages Error={'No records found'} />:
                     <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> 
                     
