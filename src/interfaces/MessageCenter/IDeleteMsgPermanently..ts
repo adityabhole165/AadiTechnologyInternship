@@ -10,3 +10,12 @@ export interface IDeleteMessagePermanentlyResult {
 
     DeletionMessage: string
 }
+export interface IUnDeleteMessagesBody {
+    asSchoolId : string ,
+    asMessageRecieverDetailsIds : string ,
+    asMessageDetailsIds : string ,
+}
+
+export interface IUnDeleteMessagesResult {
+    Message: string
+}

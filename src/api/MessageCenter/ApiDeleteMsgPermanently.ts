@@ -1,10 +1,18 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IDeleteMessagePermanentlyBody, IDeleteMessagePermanentlyResult} from "src/interfaces/MessageCenter/IDeleteMsgPermanently.";
+import { IDeleteMessagePermanentlyBody, IDeleteMessagePermanentlyResult,
+  IUnDeleteMessagesBody, IUnDeleteMessagesResult} from "src/interfaces/MessageCenter/IDeleteMsgPermanently.";
 
 const DeleteMessagePermanentlyapi = (data: IDeleteMessagePermanentlyBody) => {
-    return http.post<IDeleteMessagePermanentlyResult>('MessageCenter/DeleteMessagePermanently',data);
+  return http.post<IDeleteMessagePermanentlyResult>('MessageCenter/DeleteMessagePermanently',data);
+};
+const UnDeleteMessagesapi = (data: IUnDeleteMessagesBody) => {
+    return http.post<IUnDeleteMessagesResult>('MessageCenter/UnDeleteMessages',data);
   };
   const ApiDeleteMessagePermanently ={
+    DeleteMessagePermanentlyapi,
+    UnDeleteMessagesapi
+  }
+  const ApiUnDeleteMessages ={
     DeleteMessagePermanentlyapi
   }
   export default ApiDeleteMessagePermanently;
