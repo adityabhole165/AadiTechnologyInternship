@@ -167,7 +167,7 @@ function UploadParentPhoto() {
   let activeItem = itemList.filter((obj) => obj.IsActive)[0]
   const SaveFile = () => {
     if (GetParentphoto.IsSiblingPresent == true) {
-      if (!confirm('Do You want to save details for sibling?')) {
+      if (!confirm('Do you want to save same details for sibling login')) {
         setIsSaveForSibling("1")
       }
     }
