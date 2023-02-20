@@ -197,7 +197,7 @@ function UploadParentPhoto() {
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
-      {!isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
+      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
       
       {loading && <SuspenseLoader/> }
        <ListStyle>
