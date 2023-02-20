@@ -1,4 +1,5 @@
-import {  Grid } from '@mui/material';
+import { useState } from 'react';
+import {  Grid, Grow } from '@mui/material';
 import {
   CardDetail1, CardDetail4,
 } from '../styled/AccordianStyled';
@@ -9,11 +10,18 @@ import { useLocation } from 'react-router-dom';
 function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
   const location = useLocation();
   const pathname = location.pathname;
+  const [checked, setChecked] = useState(true)
+
   const pageName = pathname.replace('/extended-sidebar/', '');
   const isMiddle =
     pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable';
   return (
     <div>
+    <Grow
+      in={checked}
+      style={{ transformOrigin: '0 0 0' }}
+      {...(checked ? { timeout: 1000 } : {})}
+      >
       <Grid container sx={{ borderTop: '1px solid gray' }}>
         <Grid item xs={isMiddle ? 4:8}>
           <CardDetail1>{Name}</CardDetail1>
@@ -34,7 +42,7 @@ function Card31({ Name, Value, text1 = '', text2 = '' ,text3}) {
             </Grid>
           </>
         )}
-      </Grid>
+      </Grid></Grow>
     </div>
   );
 }

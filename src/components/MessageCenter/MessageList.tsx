@@ -228,7 +228,32 @@ const MessageList = () => {
 
     }
   }
-  //Delete from everyone function
+  //Un Delete from everyone function
+  const clickUnDelete = () => {
+    
+    let DetailsId = [];
+    let RecieverDetailsId = [];
+    inboxListData.map((obj) => {
+      if (obj.isActive) {
+        DetailsId.push(obj.DetailsId);
+        RecieverDetailsId.push(obj.ReceiverDetailsId);
+      }
+    });
+    const UnDeleteMessagesBody =
+    {
+      asSchoolId: SchoolId,
+      asMessageRecieverDetailsIds: RecieverDetailsId.join(','),
+      asMessageDetailsIds: DetailsId.join(',')
+    }
+    ApiDeleteMessagePermanently.UnDeleteMessagesapi(UnDeleteMessagesBody)
+      .then((data) => {
+        toast.success('Message(s) Undeleted successfully!!');
+        dispatch(getListOfMessages(getListBody, activeTab, false));
+      })
+      .catch((err) => {
+        alert('error network');
+      });
+  }
   const DeletePermanent = () => {
     if (confirm('This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?')) {
       permanentDelete()
@@ -373,11 +398,19 @@ const MessageList = () => {
 
             <Grid container spacing={0.5} sx={{ mb: "10px" }}>
               <Grid item xs={5.5} >
-               {activeTab == 'Sent' ?  <ButtonPrimary
+                {activeTab == 'Sent' ? <ButtonPrimary
                   onClick={activeTab == 'Sent' && DeletePermanent}
                   endIcon={<DeleteIcon />} fullWidth
                 >Delete From Everyone
-                </ButtonPrimary> : null }
+                </ButtonPrimary> :
+                  activeTab == 'Trash' &&
+                  <ButtonPrimary
+                    onClick={clickUnDelete}
+                    endIcon={<DeleteIcon />} fullWidth
+                  >UnDelete
+                  </ButtonPrimary>
+                }
+
               </Grid>
               <Grid item xs={3.2}>
                 <ButtonPrimary fullWidth

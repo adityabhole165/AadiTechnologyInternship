@@ -2,7 +2,7 @@ import { createSlice} from '@reduxjs/toolkit'
 import InboxMessageApi from "../../api/MessageCenter/InboxMessage";
 import { AppThunk } from 'src/store';
 import SentMessageApi from 'src/api/Student/SentMessage';
-import { IgetList } from 'src/interfaces/MessageCenter/GetList';
+import { IgetList, IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { isFutureDateTime } from 'src/components/Common/Util';
 
@@ -12,7 +12,9 @@ const InboxMessageSlice = createSlice({
     InboxList:[],
     NextPageList:[],
     FilterData: false,
-    Loading:true
+    Loading:true,
+    ReadReceiptMessage:"",
+
   },
   reducers: {
     getInboxList (state,action){
@@ -28,6 +30,10 @@ const InboxMessageSlice = createSlice({
     },
     getFilterData(state, action) {
       state.FilterData = action.payload;
+    },
+    getReadReceiptMessage(state, action) {
+      state.ReadReceiptMessage = action.payload;
+      state.Loading=false
     },
     getLoading (state,action) {
       state.Loading = true;
@@ -57,6 +63,8 @@ const InboxMessageSlice = createSlice({
         DetailsId:item.DetailsId,
         ReceiverDetailsId:item.ReceiverDetailsId,
         IsRead: item.IsRead,
+        IsAttachmentExist:item.IsAttachmentExist,
+        RequestReadReceipt:item.RequestReadReceipt
       }
     })
     if(Pagination == true){
@@ -127,13 +135,21 @@ export const getInboxList =
     dispatch(InboxMessageSlice.actions.getInboxList(response.data));
   };
 
-export const getNextPageInboxList =
-(data: IgetList): AppThunk =>
-async (dispatch) => {
-  dispatch(InboxMessageSlice.actions.getLoading(true));
-  dispatch(InboxMessageSlice.actions.getFilterData(true));
-  const response = await InboxMessageApi.GetInboxList(data);
-  dispatch(InboxMessageSlice.actions.getInboxList(response.data));
-};
+  export const getNextPageInboxList =
+  (data: IgetList): AppThunk =>
+  async (dispatch) => {
+    dispatch(InboxMessageSlice.actions.getLoading(true));
+    dispatch(InboxMessageSlice.actions.getFilterData(true));
+    const response = await InboxMessageApi.GetInboxList(data);
+    dispatch(InboxMessageSlice.actions.getInboxList(response.data));
+  };
 
+  export const getUpdateReadReceiptStatus =
+  (data: IUpdateReadReceiptStatusBody): AppThunk =>
+  async (dispatch) => {
+    dispatch(InboxMessageSlice.actions.getLoading(true));
+    const response = await InboxMessageApi.UpdateReadReceiptStatus(data);
+    dispatch(InboxMessageSlice.actions.getReadReceiptMessage(response.data));
+  };
+    
 export default InboxMessageSlice.reducer;

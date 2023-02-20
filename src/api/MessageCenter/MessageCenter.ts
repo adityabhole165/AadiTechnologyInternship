@@ -2,7 +2,8 @@ import http from "../../requests/SchoolService/schoolServices";
 import { IUserGroupList,ISendMessage} from "../../interfaces/MessageCenter/MessageCenter";
 import { IgetList } from "src/interfaces/MessageCenter/GetList";
 import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
-  IUpdateUserEmailSettingBody,IUpdateUserEmailSettingResult,IShowPTAOptionBody,IShowPTAOptionResult} from "src/interfaces/MessageCenter/MessageCenter";
+  IUpdateUserEmailSettingBody,IUpdateUserEmailSettingResult} 
+  from "src/interfaces/MessageCenter/MessageCenter";
 
   const GetTrashList = (data: IgetList) => {
     return http.post('MessageCenter/GetTrashMessages',data);
@@ -23,17 +24,13 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
   const UpdateUserEmailSettingapi = (data: IUpdateUserEmailSettingBody) => {
     return http.post<IUpdateUserEmailSettingResult>('MessageCenter/UpdateUserEmailSetting',data);
   }
-  const ShowPTAOption = (data: IShowPTAOptionBody) => {
-    return http.post<IShowPTAOptionResult>('MessageCenter/ShowPTAOption',data);
-  }
-  
-const MessageCenterApi  = {
+
+  const MessageCenterApi  = {
     GetTrashList,
     GetUsegroupList,
     SendMessage,
     EmailSettingsapi,
     UpdateUserEmailSettingapi,
-    ShowPTAOption
 }
 
 export default MessageCenterApi ;

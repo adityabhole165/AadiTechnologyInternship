@@ -136,7 +136,7 @@ function AadharCardDetails() {
             setError(true);
         }
         if (fileName === '') {
-            setFileError('Please Upload the file"')
+            setFileError('Please Upload the file')
         } else {
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
@@ -169,12 +169,12 @@ function AadharCardDetails() {
                 <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "} />
                 <Box sx={{ my: "10px", textAlign: "center" }}>
                     {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
-                        height="150" /> :
+                        height="150" style={{border:"1px solid gray",padding:"1px"}}/> :
                         <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
                             width="150"
-                            height="150"
+                            height="150" style={{border:"1px solid gray",padding:"1px"}}
                         />}
-                    <input ref={aRef} type="file" onChange={changeFile} />
+                    <input ref={aRef} type="file" onChange={changeFile}  />
                     <Box className={classes.iIconSupport}>
                         <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                     </Box>

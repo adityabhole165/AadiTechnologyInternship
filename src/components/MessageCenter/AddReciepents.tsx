@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
   GetGetAdminAndprincipalUsers,
   GetUser,
-  GetStudent,
-  StartLoading
+  getShowPTA,
+  GetStudent
 } from 'src/requests/AdminSMSCenter/To1';
 import {
   GetAdminAndprincipalUsers,
@@ -19,7 +19,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
-import { getShowPTA } from 'src/requests/MessageCenter/MessaageCenter';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -40,7 +40,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [staffAndAdmin, setStaffAndAdmin] = useState();
   const [list, setList] = useState([]);
   const [studentlist, setStudentlist] = useState('');
-  const [showErrorMsg, setShowErrorMsg] = useState(false)
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
 
@@ -54,8 +53,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     (state: RootState) => state.getuser1.GetUser
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const userListLoading: any = useSelector(
-    (state: RootState) => state.getuser1.userListLoading
+  const Loading: any = useSelector(
+    (state: RootState) => state.getuser1.Loading
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getClass: any = useSelector(
@@ -184,8 +183,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(RecipientId);
 
   }, [getPTAOption]);
-  console.log("getPTAOption.ShowPTAOption", getPTAOption.ShowPTAOption);
-
+  
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
@@ -210,13 +208,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   }
 
   useEffect(() => {
-    dispatch(StartLoading());
     dispatch(GetStudent(getStudentsUserAPIBody));
-    teacherStudent?.map((obj, i) => {
-      if (obj.isActive && i !== 1) {
-        setShowErrorMsg(true)
-      }
-    });
 
   }, [studentlist]);
 
@@ -230,7 +222,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    dispatch(StartLoading());
     dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
@@ -251,15 +242,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
 
   const teacherStudentChange = (value) => {
-    setShowErrorMsg(false)
     setList([]);
     setStudentlist('');
     setTeacherStudent1('');
     value?.map((obj, i) => {
       if (obj.isActive) {
         setTeacherStudent1(obj.Id);
-        if (i !== 1)
-          setShowErrorMsg(true)
       }
     });
     setTecherStudent(value);
@@ -395,7 +383,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                     />
                   )}
                 </Grid>
-                <Grid item xs={12}>
                   {/* {list.length > 0 ?
                     <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
                    null
@@ -405,10 +392,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                  <ErrorMessages Error={'No records found'} /> :
                  null  
                 } */}
-                  {list.length > 0 ?
-                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
-                    showErrorMsg && !userListLoading &&
-                    <ErrorMessages Error={'No records found'} />
+                <Grid item xs={12}>
+                  {Loading?<SuspenseLoader/>:
+                  list.length === 0 ? !isStudentSelected &&
+                  <ErrorMessages Error={'No records found'} />:
+                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> 
+                    
                   }
                 </Grid>
               </Grid>

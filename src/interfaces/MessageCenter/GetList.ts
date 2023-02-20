@@ -30,6 +30,7 @@ export interface GetMessagesResult{
         AcademicYearId:string,
         InsertedById:string,
         IsRead:string,
+        IsAttachmentExist:boolean,
         IsNew:string,
         ReceiverUserRoleId:string,
         ReceiverUserId:string,
@@ -42,7 +43,9 @@ export interface GetMessagesResult{
         DateOfBirth:string,
         IsLockedUser: Boolean,
         Id:number,
-        PageLabel:string
+        PageLabel:string,
+        RequestReadReceipt:string,
+      
     }]
 }
 export interface GetScheduledSMSResult{
@@ -79,5 +82,16 @@ export interface GetScheduledSMSResult{
         IsLockedUser: Boolean,
         Id:number,
         PageLabel:string
+       
     }]
+}
+export interface IUpdateReadReceiptStatusBody{
+    asSchoolId:string,
+    asAcademicYearId:string,
+    asReceiverId:string,
+    asRequestReadReceipt:string
+}
+
+export interface IUpdateReadReceiptStatusResult{
+    Message:string,
 }

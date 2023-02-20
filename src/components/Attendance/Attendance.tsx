@@ -12,10 +12,13 @@ import http from 'src/requests/SchoolService/schoolServices';
 import { useState } from 'react';
 import Card1 from 'src/libraries/mainCard/Card1';
 import { Calender1 } from 'src/components/Attendance/Calender';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useNavigate } from 'react-router-dom';
+
 
 function Attendance() {
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStandardId = sessionStorage.getItem('StandardId');
@@ -56,9 +59,17 @@ function Attendance() {
     GetAttendanceresult(body);
   }, [month, year]);
 
+  const AttendanceTopper=()=>{
+    navigate ('AttendanceTopper')
+  }
+  
+
   return (
     <Container>
       <PageHeader heading={'Attendance'} subheading={''} />
+      <Box sx={{mt:"6px"}}>
+      <ButtonPrimary onClick={AttendanceTopper} sx={{float:"right"}}>Attendance Toppers </ButtonPrimary>
+      </Box>
       <DotLegend />
       <br />
       <Box sx={{ marginTop: '-10px' ,marginBottom:"10px"}}>

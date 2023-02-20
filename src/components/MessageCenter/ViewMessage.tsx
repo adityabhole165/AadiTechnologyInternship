@@ -9,6 +9,8 @@ import { useParams } from 'react-router-dom';
 import Card7 from 'src/libraries/card/card7';
 import http from 'src/requests/SchoolService/schoolServices';
 import BackButton from 'src/libraries/button/BackButton';
+import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
+import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -24,6 +26,7 @@ function ViewSms({ }) {
   const { ID, FromRoute } = useParams();
   const [viewSent, setViewSent] = useState<GetSentListResult>();
 
+  const [showMessage, setShowMessage] = useState(false)
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -43,10 +46,33 @@ function ViewSms({ }) {
         setViewSent(data);
       });
   };
-
+  const SchoolId = localStorage.getItem('localSchoolId')
+  
   useEffect(() => {
     GetViewEventResult();
   }, []);
+  useEffect(() => {
+    if(viewSent !== undefined){
+    if(viewSent.RequestReadReceipt==="True")
+    {
+      let readRecipient = "0"
+      if(confirm("do you want to allow read")){
+        readRecipient = "1"
+      }
+      
+  const body: IUpdateReadReceiptStatusBody = {
+    asSchoolId: SchoolId,
+    asAcademicYearId:asAcademicYearId,
+    asReceiverId:viewSent.ReceiverDetailsId,
+    asRequestReadReceipt:readRecipient
+  };
+    dispatch(getUpdateReadReceiptStatus(body));
+
+    }
+    setShowMessage(true)
+  }
+  }, [viewSent]);
+  
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -54,7 +80,9 @@ function ViewSms({ }) {
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
 
 
-      {viewSent === undefined ? null : (
+      {
+      
+      viewSent === undefined ? null : showMessage && (
         <Card7
           ViewDetail={ViewDetail}
           From={viewSent.UserName}

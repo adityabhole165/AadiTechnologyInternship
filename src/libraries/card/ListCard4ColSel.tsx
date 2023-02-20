@@ -1,12 +1,13 @@
-import { Grid } from '@mui/material';
+import { Grid, Grow } from '@mui/material';
 import CheckboxImg from './CheckboxImg';
 import { ListStyle } from '../styled/CardStyle';
 import { useNavigate } from 'react-router-dom';
 import Card4 from 'src/libraries/mainCard/Card4';
+import { useState } from 'react';
 
 const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
   const navigate = useNavigate();
-
+  const [checked, setChecked] = useState(true)
   const clickNav = (value) => {
     navigate('/'+ location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + value
     );
@@ -14,6 +15,10 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
   return (
     <>
       <ListStyle>
+      <Grow in={checked}
+            style={{ transformOrigin: '0 0 1' }}
+            {...(checked ? { timeout: 1500 } : {})}
+          >
         <Grid container>
           <Grid item xs={1} sx={{ mt: '5px' }}>
             <CheckboxImg
@@ -29,9 +34,11 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               ActiveTab={ActiveTab}
               IsRead={Item.IsRead}
               IsSchedule={Item.IsSchedule}
+              IsAttachmentExist={Item.IsAttachmentExist}
             />
           </Grid>
         </Grid>
+        </Grow>
       </ListStyle>
     </>
   );

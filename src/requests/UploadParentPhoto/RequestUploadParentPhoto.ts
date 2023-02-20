@@ -22,6 +22,9 @@ const SliceUploadParentPhoto = createSlice({
     resetMessage(state) {
       state.SaveParentPhotos = {};
     },
+    resetMessage1(state) {
+      state.SubmitParentPhotoDetails = {};
+    },
     getParentphotos(state, action) {
       state.GetParentphotos = action.payload.ParentPhotoDetails;
       state.Loading = false;
@@ -105,7 +108,7 @@ export const getSubmitParentPhotoDetails =
     export const resetMessage1 =
     (): AppThunk =>
       async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.resetMessage());
+      dispatch(SliceUploadParentPhoto.actions.resetMessage1());
     }
 
 

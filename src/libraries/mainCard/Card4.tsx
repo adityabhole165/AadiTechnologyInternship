@@ -1,11 +1,12 @@
 import React from 'react';
 import { CardD, CardDetail, CardDetail1, CardDetail2, CardDetail3, CardDetail5, CardDetail7, CardDetail9, DateWidth, DateWidth1 } from '../styled/CardStyle';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
-import { Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime} from 'src/components/Common/Util';
-
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined }) {
+import AttachmentIcon from '@mui/icons-material/Attachment';
+import { BoxStyle} from '../styled/CardStyle';
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined,IsAttachmentExist=undefined }) {
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -23,6 +24,10 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
 
   return (
     <>
+      {IsAttachmentExist &&  
+      <BoxStyle>
+      <AttachmentIcon/>
+      </BoxStyle>}
       <CardDetail onClick={clickCard}>
 
         <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
