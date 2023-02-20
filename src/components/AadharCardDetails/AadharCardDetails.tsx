@@ -136,7 +136,7 @@ function AadharCardDetails() {
             setError(true);
         }
         if (fileName === '') {
-            setFileError('Please Upload the file"')
+            setFileError('Please Upload the file')
         } else {
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
