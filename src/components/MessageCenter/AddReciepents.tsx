@@ -110,24 +110,23 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false }      
+        { Id: '6', Name: 'Admin Staff', isActive: false }
       ]);
-    //  if ( !getPTAOption.HideStudentOption){
-    //   setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
-    // }
-    if (getPTAOption.ShowPTAOption) 
-    {  
-      setTecherStudent(myArr=>[...myArr,  { Id: '11', Name: 'PTA', isActive: false }])
+      //  if ( !getPTAOption.HideStudentOption){
+      //   setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
+      // }
+      if (getPTAOption.ShowPTAOption) {
+        setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
 
-      if (!getPTAOption.HideStudentOption){
-        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
-      }
-    }else{
-      if(getPTAOption.HideStudentOption == true){
-        
+        if (!getPTAOption.HideStudentOption) {
+          setTecherStudent(myArr => [...myArr, { Id: '3', Name: 'Student', isActive: false }])
+        }
+      } else {
+        if (getPTAOption.HideStudentOption == true) {
+
+        }
       }
     }
-  } 
     else if (sessionStorage.getItem('RoleId') === '2') {
       setTecherStudent([
         {
@@ -141,12 +140,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           isActive: false
         },
       ]);
-      if ( getPTAOption.ShowPTAOption){
-        setTecherStudent(myArr=>[...myArr, {Id: '11', Name: 'PTA', isActive: false }])
+      if (getPTAOption.ShowPTAOption) {
+        setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
       }
-      if ( !getPTAOption.HideStudentOption){
-        setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
-      }  
+      if (!getPTAOption.HideStudentOption) {
+        setTecherStudent(myArr => [...myArr, { Id: '3', Name: 'Student', isActive: false }])
+      }
     }
 
     else {
@@ -185,13 +184,13 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(RecipientId);
 
   }, [getPTAOption]);
-console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
+  console.log("getPTAOption.ShowPTAOption", getPTAOption.ShowPTAOption);
 
   useEffect(() => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
   const SelectUsersInRecipients = (RecipentsIds) => {
-    
+
     setList(getuserlist?.map((obj) => {
       return {
         ...obj, isActive:
@@ -397,6 +396,15 @@ console.log("getPTAOption.ShowPTAOption",getPTAOption.ShowPTAOption);
                   )}
                 </Grid>
                 <Grid item xs={12}>
+                  {/* {list.length > 0 ?
+                    <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
+                   null
+                  }
+                  {list.length == 0 ? 
+                 showErrorMsg  &&
+                 <ErrorMessages Error={'No records found'} /> :
+                 null  
+                } */}
                   {list.length > 0 ?
                     <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} /> :
                     showErrorMsg && !userListLoading &&
