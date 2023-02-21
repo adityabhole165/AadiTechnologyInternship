@@ -56,7 +56,7 @@ function ViewSms({ }) {
     if(viewSent.RequestReadReceipt==="True")
     {
       let readRecipient = "0"
-      if(confirm("do you want to allow read")){
+      if(confirm("The Sender of this message has requested 'Read Receipt'. Do you want to send it")){
         readRecipient = "1"
       }
       
