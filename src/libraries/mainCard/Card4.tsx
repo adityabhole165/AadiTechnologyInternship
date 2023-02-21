@@ -1,5 +1,5 @@
 import React from 'react';
-import { CardD, CardDetail, CardDetail1, CardDetail2, CardDetail3, CardDetail5, CardDetail7, CardDetail9, DateWidth, DateWidth1 } from '../styled/CardStyle';
+import { AttachmentIcon1, CardD, CardDetail, CardDetail1, CardDetail2, CardDetail3, CardDetail5, CardDetail7, CardDetail9, DateWidth, DateWidth1 } from '../styled/CardStyle';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
@@ -24,14 +24,12 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
 
   return (
     <>
-      {IsAttachmentExist &&  
-      <BoxStyle>
-      <AttachmentIcon/>
-      </BoxStyle>}
+     
       <CardDetail onClick={clickCard}>
 
         <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
-
+        
+   
         {pageNameStudent == 'SubjectTeacher' ?
           <>
             <RouterLink
@@ -44,13 +42,24 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
               <ForwardToInboxIcon sx={{ cursor: 'pointer', color: '#f0483e', height: "18px" }} fontSize="small" />
             </RouterLink>
           </> : <>
-            {pageName1 == "Teacher/Texamschedule" ? <DateWidth>{text3}</DateWidth> : pageName == "EventOverview" ? <DateWidth1>{text3}</DateWidth1> : <CardDetail2>{text3}</CardDetail2>}
+            {pageName1 == "Teacher/Texamschedule" ? <DateWidth>{text3}</DateWidth> : pageName == "EventOverview" ? <DateWidth1>{text3}</DateWidth1> : 
+            <CardDetail2>{text3}  {IsAttachmentExist &&  
+      <AttachmentIcon1 >
+           <AttachmentIcon/>
+      </AttachmentIcon1>
+   
+     }</CardDetail2>}
           </>}
       </CardDetail>
 
       <CardDetail>
         {pageName1 == "MessageCenter/msgCenter" ? <CardD>{text1}</CardD> : <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2>{text2}</CardDetail2>
+        <CardDetail2>{text2} </CardDetail2>
+        {/* {IsAttachmentExist &&  
+      
+      <AttachmentIcon/>
+     
+      } */}
       </CardDetail>
 
       <CardDetail>
