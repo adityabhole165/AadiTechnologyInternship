@@ -1,4 +1,4 @@
-import { FormControl, FormControlLabel, InputLabel, Container, Box, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
+import { FormControl, FormControlLabel, InputLabel, Select,MenuItem, Container, Box, Typography, Accordion, AccordionSummary, AccordionDetails } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -8,7 +8,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { IGetAcademicYearsForOldAttendanceBody, IGetAttendanceToppersBody } from 'src/interfaces/Student/Attendance';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
-
+// import Card35 from 'src/libraries/card/Card35';
 
 function AttendanceTopper() {
   const dispatch = useDispatch()
@@ -16,10 +16,12 @@ function AttendanceTopper() {
   const GetStudentAttendance: any = useSelector(
     (state: RootState) => state.Attendance.GetStudentAttendance
   );
+ 
+  
   const GetAttendanceDetails: any = useSelector(
     (state: RootState) => state.Attendance.GetAttendanceDetails
   );
-console.log("GetAttendanceDetails",GetAttendanceDetails);
+
 
   const GetAcademicYearsForOldAttendance: any = useSelector(
     (state: RootState) => state.Attendance.GetAcademicYearsForOldAttendance
@@ -43,7 +45,7 @@ console.log("GetAttendanceDetails",GetAttendanceDetails);
   }, []);
 
 
-  const IGetAttendanceToppersBody: IGetAttendanceToppersBody = {
+  const GetAttendanceToppersBody: IGetAttendanceToppersBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYear,
     StandardDivisionId: asStandardDivision,
@@ -51,42 +53,43 @@ console.log("GetAttendanceDetails",GetAttendanceDetails);
     aiStudentId: asStudentId
   }
   useEffect(() => {
-    dispatch(getStudentAttendance(IGetAttendanceToppersBody));
-    dispatch(getAttendanceDetails(IGetAttendanceToppersBody));
+    dispatch(getStudentAttendance(GetAttendanceToppersBody));
+    dispatch(getAttendanceDetails(GetAttendanceToppersBody));
   }, []);
-  console.log("GetAttendanceDetails", GetAttendanceDetails)
+
 
  
-
-
-  const standlist = [{ Name: "All", Value: 1 }, { Name: "2022-2023", Value: 2 }, { Name: "2021-2022", Value: 3 }, { Name: "2020-2021", Value: 4 }]
   const [academicyear,setAcademicYear]= useState("");
 
   const ClickAcademicYear =(value)=>{
     setAcademicYear(value);
   };
 
-
+  
 
   return (
     <div>
       <Container>
         <PageHeader heading={'Attendance Toppers'} subheading={''} />
         <BackButton FromRoute={"/Student/Attendance"} />
+        
         <FormControl fullWidth>
-          <InputLabel variant="standard">Select Academic Year</InputLabel>
-          <Dropdown
-            Array={standlist}
-            handleChange={ClickAcademicYear}
-            defaultValue={academicyear}
-          />
-          <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Your Attendance
-          </Box>
+                    <InputLabel variant="standard">Select Academic Year</InputLabel>
+                    <Dropdown
+                        Array={GetAcademicYearsForOldAttendance}
+                        handleChange={ClickAcademicYear}
+                        defaultValue={academicyear}
+                    />
+                </FormControl>
+                
+          <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Your Attendance</Box>
+          
+          
 
 
 
 
-        </FormControl>
+    
 
       </Container>
     </div>

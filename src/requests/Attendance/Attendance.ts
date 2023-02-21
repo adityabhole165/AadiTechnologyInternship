@@ -29,6 +29,9 @@ const AttendanceSlice = createSlice({
             state.GetAcademicYearsForOldAttendance = action.payload;
             state.Loading = false;
         },
+        getLoading(state) {
+            state.Loading = true;
+        },
     }
 });
 
@@ -42,7 +45,7 @@ export const getAttendanceList =
         export const getStudentAttendance =
         (data: IGetAttendanceToppersBody): AppThunk =>
           async (dispatch) => {
-            dispatch(AttendanceSlice.actions.getStudentAttendance(true));
+            dispatch(AttendanceSlice.actions.getLoading());
             const response = await AttendanceApi.AttendanceToppersApi(data)
             dispatch(AttendanceSlice.actions.getStudentAttendance(response.data));
           };
@@ -50,7 +53,7 @@ export const getAttendanceList =
           export const getAttendanceDetails =
         (data: IGetAttendanceToppersBody): AppThunk =>
           async (dispatch) => {
-            dispatch(AttendanceSlice.actions.getAttendanceDetails(true));
+            dispatch(AttendanceSlice.actions.getLoading());
             const response = await AttendanceApi.AttendanceToppersApi(data)
             dispatch(AttendanceSlice.actions.getAttendanceDetails(response.data));
           };
@@ -58,7 +61,7 @@ export const getAttendanceList =
           export const getAcademicYearsForOldAttendance =
           (data: IGetAcademicYearsForOldAttendanceBody): AppThunk =>
             async (dispatch) => {
-              dispatch(AttendanceSlice.actions.getAcademicYearsForOldAttendance(true));
+              dispatch(AttendanceSlice.actions.getLoading());
               const response = await AttendanceApi.AcademicYearsForOldAttendanceApi(data)
               const AcademicYearList =  response.data.AcademicYearDetails.map((item, index) => {
                 return {
