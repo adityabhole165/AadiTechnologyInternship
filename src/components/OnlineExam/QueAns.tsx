@@ -161,11 +161,11 @@ const QueAns = () => {
                             Previous
                         </ButtonPrimary>
                     </Grid>
-                    <Grid item xs={6}>
+                   {currentIndex == maxIndex ? null : <Grid item xs={6}>
                         <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
                             Next
                         </ButtonPrimary>
-                    </Grid>
+                    </Grid>}
                 </Grid>
                 {currentIndex == maxIndex ?
                     <ButtonPrimary sx={{ mt: '5px' }} fullWidth color='primary' onClick={msg}>
