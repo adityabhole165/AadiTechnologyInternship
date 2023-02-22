@@ -446,11 +446,11 @@ function Form13() {
                   height: "50px",
                   overflow: 'auto',
                   border: "0.1px solid #c4c5c5",
-                  borderRadius: "5.3px",
+                  borderRadius: "5.3px"
                 }}
               />
 
-              <p style={{ color: 'red', fontSize:"12px"}}>
+              <p style={{ color: 'red', fontSize:"12px",marginTop:"2px"}}>
                 {RecipientsList.length == 0 ? (
                   <div>{formik.errors.To}</div>
                 ) : null}
@@ -515,7 +515,7 @@ function Form13() {
               variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
-              sx={{mt:"-0.1px"}}
+              sx={{mt:"5px"}}
             />
             <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px" }}>
               {formik.touched.Subject && formik.errors.Subject ? (
@@ -639,9 +639,11 @@ function Form13() {
                   value={value}
                   onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
-                <Errormessages Error={schTimeerror} />
                 </Grid>
-          
+                <Box mt={1.5}>
+                <Errormessages Error={schTimeerror} />
+                </Box>
+              
             <TextField
               fullWidth
               multiline

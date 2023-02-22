@@ -8,9 +8,9 @@ const ListCard = ({itemList, clickItem, selectedItem}) => {
        <Box sx={{height:'95px',overflow:'scroll',}}>
       {
         itemList?.map((item,index)=> ( 
-            <Button key={index} sx={{ml:'5px',mt:'5px'}}
+            <Button key={index} sx={{ml:'5px',mt:'5px' , color:item.IsAnswered == '' ? 'red' : 'black'}}
              variant={selectedItem==item.Name?'contained':'outlined'} 
-             startIcon={item.IsAnswered && <CheckCircleIcon sx={{color:'green'}}/>}
+            //  startIcon={item.IsAnswered && <CheckCircleIcon sx={{color:'green'}}/>}
              onClick={()=>{clickItem(item.Name)}}>
                 {item.SerialNo}
             </Button>
