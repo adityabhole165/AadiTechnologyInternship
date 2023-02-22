@@ -3,7 +3,7 @@ import LibraryApi from 'src/api/Library/Library';
 import ClaimBookDetails from 'src/api/Library/Library';
 import { AppThunk } from 'src/store';
 import { IBooksDetails,IBookswithmeList,IClaimDetail,IClaimDetailResult,
-  ICancelBookReservation,ILanguagesDetails, IStandardsBody,IStandardsResult } from 'src/interfaces/Student/Library';
+  ICancelBookReservation,ILanguagesDetails, IStandardsBody,IStandardsResult ,IReserveBook} from 'src/interfaces/Student/Library';
 import { useState } from 'react';
 
 const LibrarySlicee = createSlice({
@@ -17,6 +17,7 @@ initialState:{
   CancelBookReservation:'',
   LanguageList:[],
   Standards:[],
+  ReserveBook:'',
   Loading:true
 },
 
@@ -47,6 +48,9 @@ reducers:{
   getLanguagesDetails(state,action){
   state.LanguageList=action.payload;
   },
+  getReserveBook(state,action){
+    state.CancelBookReservation=action.payload;
+   },
   getLoading (state,action) {
     state.Loading = true
     state.BooksDetaiLs = [];
@@ -93,6 +97,13 @@ export const getCancelBookReservation=
 async (dispatch) => {
   const response = await LibraryApi.GetCancelBookReservation(data);
   dispatch(LibrarySlicee.actions.getCancelBookReservation(response.data));
+
+};
+export const getReserveBook=
+(data:IReserveBook):AppThunk=>
+async (dispatch) => {
+  const response = await LibraryApi.GetReserveBook(data);
+  dispatch(LibrarySlicee.actions.getReserveBook(response.data));
 
 };
 export const getStandards=
