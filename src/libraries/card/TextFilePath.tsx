@@ -51,9 +51,11 @@ return (
   fullWidth  variant="standard"/>):
   (<TextField value={item.Text} fullWidth  variant="standard" />)}
   <Box sx={{textAlign:"center",mt:"10px"}}>
-  {((item.Value === "") || (selectedFile === "")) ? 
+  {
+  
+  ((item.Value === "") || (selectedFile === "")) ? 
   (<img src={'/imges/defualtUser.jpg'} width="112" height="151" style={{border:"1px solid gray"}}/>) :
-   (item.Value ?
+   (item.Value !== "" ?
      (<img width="112" height="151" style={{border:"1px solid gray",padding:"1px"}}
          src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'+item.Value}
          />):
