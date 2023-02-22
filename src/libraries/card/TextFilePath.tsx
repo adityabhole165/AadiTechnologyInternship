@@ -51,11 +51,13 @@ return (
   fullWidth  variant="standard"/>):
   (<TextField value={item.Text} fullWidth  variant="standard" />)}
   <Box sx={{textAlign:"center",mt:"10px"}}>
-    {item.Value ?
+  {((item.Value === "") || (selectedFile === "")) ? 
+  (<img src={'/imges/defualtUser.jpg'} width="112" height="151" style={{border:"1px solid gray"}}/>) :
+   (item.Value ?
      (<img width="112" height="151" style={{border:"1px solid gray",padding:"1px"}}
          src={selectedFile? URL.createObjectURL(selectedFile) :'data:image/png;base64,'+item.Value}
          />):
-         (<img src={item.Value} width="112" height="151" style={{border:"1px solid gray"}}/>)
+         (<img src={item.Value} width="112" height="151" style={{border:"1px solid gray"}}/>))
      }
     <input  ref={aRef} type="file" onChange={changeFile}  disabled={item.choosefileDisable}  />
      {error && <ErrorMessages Error={error} />}
