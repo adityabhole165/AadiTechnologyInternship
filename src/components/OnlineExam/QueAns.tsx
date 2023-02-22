@@ -143,7 +143,7 @@ const QueAns = () => {
                 <br />
                 {itemlist.length > 0 &&
                     <>
-                        <Grid container xs={12} flexDirection='row'>
+                        <Grid container xs={12} flexDirection='row' sx={{mb:"10px"}}>
                             <Grid xs={10} >
                                 {/* {itemlist.map((itemm, i) => { return (<Typography key={i}>{itemm[currentIndex].Parent.SerialNo} </Typography>) })} */}
                                 <Typography> {itemlist[currentIndex].Parent.Name}</Typography>

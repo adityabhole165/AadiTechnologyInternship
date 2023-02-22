@@ -65,9 +65,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     (state: RootState) => state.getuser1.getStudent
   );
   const getPTAOption: any = useSelector(
-    (state: RootState) => state.MessageCenter.PTAOption
+    (state: RootState) => state.getuser1.PTAOption
   );
-
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -95,7 +94,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asUserId: asUserId,
     asSelectedUserGroup: techerStudent1,
     abIsSMSCenter: PageName == 'SMSCenter' ? true : false
-  };
+  }; 
   const showPTA =
   {
     asSchoolId: schoolId,
