@@ -14,11 +14,12 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
   };
   return (
     <>
-      <ListStyle>
       <Grow in={checked}
             style={{ transformOrigin: '0 0 1' }}
             {...(checked ? { timeout: 1500 } : {})}
           >
+      <ListStyle>
+    
         <Grid container>
           <Grid item xs={1} sx={{ mt: '5px' }}>
             <CheckboxImg
@@ -38,8 +39,9 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
             />
           </Grid>
         </Grid>
-        </Grow>
+      
       </ListStyle>
+      </Grow>
     </>
   );
 };

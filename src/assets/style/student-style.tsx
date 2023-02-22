@@ -391,8 +391,8 @@ export const Styles = makeStyles({
  iIconSupport : {
 
   fontSize: "20px !important",  
-  marginTop: '-30px', 
-  borderRadius: "50px", 
+
+  
 
   '@media (max-width: 280px)': {
     fontSize: "15px !important",

@@ -75,7 +75,7 @@ function Accordion4({
          <Box sx={{display:"flex"}}>
        
          <b>Available</b> : ({available}/{total})
-         {IsForIssue === 1 &&
+         {available === 0 &&
          <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
          }
         

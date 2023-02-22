@@ -200,11 +200,14 @@ function Support() {
         {formik.touched.Description && formik.errors.Description ? (
           <ErrorMessage1 Error={formik.errors.Description} />
         ) : null}
-        <Box className={classes.iIconSupport} sx={{ mb: "-35px", mr: "0px" }}>
-          <Icon3 Note={FileValidationNote} />
+        <Box sx={{display:"flex",justifyContent:"space-between"}}>
+        <Box className={classes.iIconSupport} >
+        <input ref={aRef} type="file" onChange={changeFile} />
         </Box>
-        <Box sx={{ my: "20px" }}>
-          <input ref={aRef} type="file" onChange={changeFile} />
+        <Box mt={2}>
+        <Icon3  Note={FileValidationNote} />
+        </Box>
+    
         </Box>
         {error && <Errormessage Error={error} />}
 

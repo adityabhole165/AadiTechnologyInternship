@@ -29,6 +29,9 @@ export interface GetStudentAttendaceForMonthResult {
     DailyAttendanceList: any;
 }
 
+
+
+
 //////Attendance topper
 export interface IGetAttendanceToppersBody {
 
@@ -55,7 +58,10 @@ export interface IGetAttendanceToppersResult{
                     MonthName: string,
                     Days: string
                 }]
+            
             }
+            
+
 
             ///// Old Attendance
             export interface IGetAcademicYearsForOldAttendanceBody{

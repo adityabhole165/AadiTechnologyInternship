@@ -407,7 +407,7 @@ const MessageList = () => {
                   <ButtonPrimary
                     onClick={clickUnDelete}
                     endIcon={<DeleteIcon />} fullWidth
-                  >UnDelete
+                  >Un-Delete
                   </ButtonPrimary>
                 }
 

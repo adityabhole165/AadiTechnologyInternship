@@ -358,6 +358,12 @@ export const BoxStyle = styled(Box)(
     transform: rotateZ(-36deg);
   `
 );
+
+export const AttachmentIcon1 = styled(Box)(
+  ({ theme }) => `
+ margin-top:-10px;
+  `
+);
 export const UsernameStyle= styled(InputLabel)(
   ({ theme }) => `
   color: #362b32cf;

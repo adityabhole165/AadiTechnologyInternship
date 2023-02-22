@@ -157,7 +157,7 @@ function UploadParentPhoto() {
   }
   const onFileSelect = (value) => {
     setItemList(itemList.map((item) => {
-      return item.Id === value.Id ?
+     return item.Id === value.Id ?
         value :
         item
     }))
@@ -179,9 +179,9 @@ function UploadParentPhoto() {
       "asFatherPhotoFileName": fatherPhotoFileName,
       "asMotherPhotoFileName": motherPhotoFileName,
       "asRelativePhotoFileName": relativePhotoFileName,
-      "asFatherImgPhoto": fatherImgPhoto,
-      "asMotherImgPhoto": motherImgPhoto,
-      "asLocalGuardianPhoto": localGuardianPhoto,
+      "asFatherImgPhoto": fatherImgPhoto===null?"":fatherImgPhoto,
+      "asMotherImgPhoto": motherImgPhoto===null?"":motherImgPhoto,
+      "asLocalGuardianPhoto": localGuardianPhoto===null?"":localGuardianPhoto,
       "aiUserId": asUserId,
       "aiIsSubmit": "0",
       "asRelativeName": itemList[2].Text,
