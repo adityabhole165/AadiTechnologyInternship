@@ -140,7 +140,7 @@ function AadharCardDetails() {
         } else {
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
-                aRef.current.value = null
+                // aRef.current.value = null
             }
         }
     }
