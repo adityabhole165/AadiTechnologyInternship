@@ -1,8 +1,6 @@
-import { Avatar, TextField, Box } from '@mui/material'
-import { isValid } from 'date-fns';
-import React, { useRef, useState } from 'react'
-import { CheckFileValidationUploadPic } from 'src/components/Common/Util';
-import { AttachmentFile } from '../../interfaces/MessageCenter/MessageCenter';
+import { TextField, Box } from '@mui/material'
+import { useRef, useState } from 'react'
+import { ChangeFileIntoBase64, CheckFileValidationUploadPic } from 'src/components/Common/Util';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function TextFilePath({ item, onFileSelect, onTextChange }) {
@@ -29,20 +27,6 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
     }
   }
 
-  const ChangeFileIntoBase64 = (fileData) => {
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(fileData);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
-    });
-  };
-
   return (
     <div>
       {(item.Id == 3) ?
@@ -53,7 +37,8 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
       <Box sx={{ textAlign: "center", mt: "10px" }}>
       
         <img width="112" height="151" style={{ border: "1px solid gray" }}
-          src={item.Value === "" ? item.ImgUrl : 'data:image/png;base64,' + item.Value} />
+          src={(item.Value === "" || item.Value === null) ? 
+          item.ImgUrl : 'data:image/png;base64,' + item.Value} />
       
         <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} />
         {error && <ErrorMessages Error={error} />}

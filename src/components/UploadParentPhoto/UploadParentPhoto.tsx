@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getParentphoto, resetMessage, resetMessage1 } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Grow } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -66,15 +66,15 @@ function UploadParentPhoto() {
   const [itemList, setItemList] = useState([]);
   const GetParentphotoBody =
   {
-    "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
-    "aiUserId": sessionStorage.getItem('Id')
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiUserId: sessionStorage.getItem('Id')
   }
   const SubmitParentPhotoDetailsBody = {
-    "aiUserId": Number(asUserId),
-    "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
-    "abSubmitForSibling": false
+    aiUserId: Number(asUserId),
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    abSubmitForSibling: false
   }
   useEffect(() => {
     dispatch(getParentphoto(GetParentphotoBody));
@@ -161,6 +161,7 @@ function UploadParentPhoto() {
     }
     dispatch(getSaveParentPhotos(SaveParentPhotosBody));
   }
+  const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
@@ -168,9 +169,13 @@ function UploadParentPhoto() {
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
+      {loading && <SuspenseLoader />}
       {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
 
-      {loading && <SuspenseLoader />}
+      <Grow in={checked}
+            style={{ transformOrigin: '0 0 1' }}
+            {...(checked ? { timeout: 1500 } : {})}
+          >
       <ListStyle>
         {itemList.length > 0 &&
           (<>
@@ -204,7 +209,7 @@ function UploadParentPhoto() {
         </Grid>
 
       </ListStyle>
-
+</Grow>
     </Container>
   )
 }
