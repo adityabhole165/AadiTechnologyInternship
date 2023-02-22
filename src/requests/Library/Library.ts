@@ -106,7 +106,7 @@ async (dispatch) => {
      Name:item.standard_name,
    }
   }) 
-  StandardsList = [{Value:"",Name:"All Standards"},...StandardsList]
+  StandardsList = [{Value:"0",Name:"All Standards"},...StandardsList]
   dispatch(LibrarySlicee.actions. getStandards(StandardsList ));
 
 };
