@@ -16,29 +16,42 @@ function IncomeTaxReport() {
 
     const [acadamicYear, setAcadamicYear] = useState('');
     const [financialYear, setFinancialYear] = useState('');
-    const [category, setCategory] = useState("");
+    const [parentName ,setParentName] = useState('');
 
-    const ClickAcademicYear = (value) => {
+   
+    const clickAcadamicYear = (value) => {
         setAcadamicYear(value);
-        setAcadamicYear("All")
-    };
-    const ClickFinancialYear = (value) => {
+        setFinancialYear("All")};
+  
+      
+      const clickFinacialYear = (value) => {
         setFinancialYear(value);
-    };
-    const ClickCategory = (value) => {
-        setCategory(value);
-    };
+        setAcadamicYear("All")
+        };
 
-    // useEffect(() => {
-    //     new Date().getFullYear();
-    //     setCurrentAcadamicYear("Apr 2022 - Apr 2023")
-    //   }, []);
+    const clickParentName = (value) => {
+      setParentName(value);
+      
+      };
+    useEffect(() => {
+        new Date().getFullYear();
+        setFinancialYear("Apr 2022 - Apr 2023");
+        setAcadamicYear("All");
+        setParentName("All")
+      }, []);
+
+     
 
     // const handleChange = (event) => {
     //     setAcadamicYear(event.target.value);
     // }
 
+    
     const UserArray = [
+        {
+            Name: "All",
+            Id: "1"
+        },
 
         {
             Name: "Apr 2022 - Apr 2023",
@@ -65,6 +78,10 @@ function IncomeTaxReport() {
 
 
     const UserArray1 = [
+        {
+            Name: "All",
+            Id: "1"
+        },
 
         {
             Name: "Apr 2022 - Apr 2023",
@@ -90,6 +107,10 @@ function IncomeTaxReport() {
     ];
 
     const UserArray2 = [
+        {
+            Name: "All",
+            Id: "1"
+        },
         {
             Name: "Father",
             Id: "2"
@@ -126,27 +147,27 @@ function IncomeTaxReport() {
                     <InputLabel variant="standard">Select Academic Year</InputLabel>
                     <Dropdown
                         Array={UserArray}
-                        handleChange={ClickAcademicYear}
+                        handleChange={clickAcadamicYear}
                         defaultValue={acadamicYear}
                     />
                 </FormControl>
              
 
-                <FormControl fullWidth>
+                <FormControl fullWidth sx={{mt:"2px"}}>
                     <InputLabel variant="standard">Select Financial Year</InputLabel>
                     <Dropdown
                         Array={UserArray1}
-                        handleChange={ClickFinancialYear}
+                        handleChange={clickFinacialYear}
                         defaultValue={financialYear}
                     />
                 </FormControl>
             
-                <FormControl fullWidth>
+                <FormControl fullWidth sx={{mt:"2px"}}>
                     <InputLabel variant="standard">Select Category</InputLabel>
                     <Dropdown
                         Array={UserArray2}
-                        handleChange={ClickCategory}
-                        defaultValue={category}
+                        handleChange={clickParentName}
+                        defaultValue={parentName}
                     />
                 </FormControl>
                 <br /><br />

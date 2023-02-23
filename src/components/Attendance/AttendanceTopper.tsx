@@ -91,17 +91,21 @@ function AttendanceTopper() {
           />
         </FormControl>
         <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Your Attendance</Box>
+        <Box sx={{mt:"2px"}}>
         {(
           GetStudentAttendance !== undefined &&
           GetStudentAttendance.length > 0) && 
           <Card35 header={{ Header: GetStudentAttendance }} />}
+        </Box>
 
         <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Attendance Topper</Box>
-
-         {(
+        <Box sx={{mt:"2px"}}>
+        {(
           GetAttendanceDetails !== undefined &&
           GetAttendanceDetails.length > 0) && 
           <Card35 header={{ Header: GetAttendanceDetails }} />}
+        </Box>
+       
 
       </Container>
     </div>
