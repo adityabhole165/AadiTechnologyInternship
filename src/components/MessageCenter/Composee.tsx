@@ -24,6 +24,7 @@ import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -449,12 +450,14 @@ function Form13() {
                   borderRadius: "5.3px"
                 }}
               />
-
-                {RecipientsList.length == 0 ? (
-                  <Errormessages Error={formik.errors.To} />
+                 <Box mt={0.5}>
+                 {RecipientsList.length == 0 ? (
+                  <ErrorMessage1 Error={formik.errors.To} />
                 ) : null}
+                 </Box>
+               
               {loading && <SuspenseLoader />}
-              <Grid container spacing={1} mt={-2} >
+              <Grid container spacing={1}  >
                 <Grid item xs={6} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientButton(e)}
@@ -515,10 +518,12 @@ function Form13() {
               onChange={formik.handleChange}
               sx={{mt:"5px"}}
             />
-            
+              <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
-                <Errormessages Error={formik.errors.Subject} />
+                <ErrorMessage1 Error={formik.errors.Subject} />
               ) : null}
+              </Box>
+             
             
          
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
@@ -639,7 +644,7 @@ function Form13() {
                 />
                 </Grid>
                 <Box mt={1.5}>
-                <Errormessages Error={schTimeerror} />
+                <ErrorMessage1 Error={schTimeerror} />
                 </Box>
               
             <TextField
@@ -655,11 +660,11 @@ function Form13() {
               onChange={formik.handleChange}
            
             />
-            
+             <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
-                <Errormessages Error={formik.errors.Content} />
+                <ErrorMessage1 Error={formik.errors.Content} />
               ) : null}
-            
+            </Box>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               <>
                 <FormHelperText >Original message</FormHelperText>
