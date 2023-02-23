@@ -45,11 +45,14 @@ reducers:{
   resetCancelMessage(state){
     state.CancelBookReservation='';
   },
+  resetClaimMessage(state){
+    state.ReserveBook='';
+  },
   getLanguagesDetails(state,action){
   state.LanguageList=action.payload;
   },
   getReserveBook(state,action){
-    state.CancelBookReservation=action.payload;
+    state.ReserveBook=action.payload;
    },
   getLoading (state,action) {
     state.Loading = true
@@ -103,6 +106,7 @@ export const getReserveBook=
 (data:IReserveBook):AppThunk=>
 async (dispatch) => {
   const response = await LibraryApi.GetReserveBook(data);
+ 
   dispatch(LibrarySlicee.actions.getReserveBook(response.data));
 
 };
@@ -137,6 +141,12 @@ async (dispatch) => {
 
 };
 
+export const resetClaimMessage=
+():AppThunk=>
+async (dispatch) => {
+  dispatch(LibrarySlicee.actions.resetClaimMessage());
+
+}
 export const resetMessage=
 ():AppThunk=>
 async (dispatch) => {
