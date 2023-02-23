@@ -49,7 +49,7 @@ function Library() {
       asAuthorName: author,
       asPublisher: publisher,
       asLanguage: Language,
-      aiStandardId: Standard,
+      aiStandardId: Standard===""?asStandardID:Standard,
       aiMediaType: 2,
       aiBookId: 0,
       aiParentStaffId: "0",
