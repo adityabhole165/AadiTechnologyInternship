@@ -89,7 +89,7 @@ const clickParentStudent = (value) =>{
           onClose={()=>{setOpen(false)}}
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
-          <Typography>Do you want to claim this book for -- </Typography>
+          <Typography>Claim this book for -- </Typography>
          <Box px={2} pt={1}>
          <Grid container>
             <Grid item xs={6}>
