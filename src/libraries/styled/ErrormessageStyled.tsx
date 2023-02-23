@@ -32,7 +32,7 @@ export const ErrorDetail1 = styled(Typography)`
 export const ErrorDetail2 = styled(Typography)`
   font-size: 12px;
   color: red;
-
+  
   font-family: 'Roboto';
   @media (max-width: 280px) {
     font-size: 10px;

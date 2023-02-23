@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getParentphoto, resetMessage, resetMessage1 } from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
-import { Container, Grid } from '@mui/material';
+import { Container, Grid, Grow } from '@mui/material';
 import ButtonList from 'src/libraries/card/ButtonList';
 import TextFilePath from 'src/libraries/card/TextFilePath';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -25,7 +25,7 @@ const note = [
 
 const submittedNote = [
   'Photo update is restricted once uploaded. Please contact school admin for any changes.',
- ];
+];
 
 
 
@@ -58,7 +58,7 @@ function UploadParentPhoto() {
   const [motherImgPhoto, setMotherImgPhoto] = useState("")
   const [relativePhotoFileName, setRelativePhotoFileName] = useState("")
   const [localGuardianPhoto, setLocalGuardianPhoto] = useState("")
-  const [isFileChanged, setIsFileChanged] = useState(false)
+  const [isSaveDisable, setIsSaveDisable] = useState(true)
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -66,15 +66,15 @@ function UploadParentPhoto() {
   const [itemList, setItemList] = useState([]);
   const GetParentphotoBody =
   {
-    "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
-    "aiUserId": sessionStorage.getItem('Id')
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiUserId: sessionStorage.getItem('Id')
   }
   const SubmitParentPhotoDetailsBody = {
-    "aiUserId": Number(asUserId),
-    "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
-    "abSubmitForSibling": false
+    aiUserId: Number(asUserId),
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    abSubmitForSibling: false
   }
   useEffect(() => {
     dispatch(getParentphoto(GetParentphotoBody));
@@ -91,11 +91,7 @@ function UploadParentPhoto() {
   useEffect(() => {
     setItemList(GetParentphoto);
   }, [GetParentphoto]);
-  useEffect(() => {
-    if (itemList.length > 0 && isFileChanged)
-      setFiles()
 
-  }, [itemList])
   const clickItem = (value) => {
     setItemList(value);
   }
@@ -110,7 +106,8 @@ function UploadParentPhoto() {
     if (SubmitParentPhotos.Message !== undefined) {
       toast.success(SubmitParentPhotos.Message, { toastId: 'success2' });
       dispatch(resetMessage1())
-    }}, [SubmitParentPhotos])
+    }
+  }, [SubmitParentPhotos])
 
   const ChangeFileIntoBase64 = (fileData) => {
 
@@ -127,43 +124,17 @@ function UploadParentPhoto() {
       };
     });
   };
-  const setFiles = async () => {
-    setIsFileChanged(false)
-    if (itemList[0].Value !== null && activeItem.Id === itemList[0].Id) {
-      setFatherPhotoFileName(itemList[0].Value?.name)
-      let base64URL: any = await ChangeFileIntoBase64(itemList[0].Value);
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-      setFatherImgPhoto(DataAttachment)
-    }
-    if (itemList[1].Value !== null && activeItem.Id === itemList[1].Id) {
-      setMotherPhotoFileName(itemList[1].Value?.name)
-      let base64URL: any = await ChangeFileIntoBase64(itemList[1].Value);
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-      setMotherImgPhoto(DataAttachment)
-    }
-    if (itemList[2].Value !== null && activeItem.Id === itemList[2].Id) {
-      setRelativePhotoFileName(itemList[1].Value?.name)
-      let base64URL: any = await ChangeFileIntoBase64(itemList[2].Value);
-      let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-      setLocalGuardianPhoto(DataAttachment)
-    }
-  }
-  const onTextChange = (value) => {
+
+  const onFileTextChange = (value) => {
     setItemList(itemList.map((item) => {
       return item.Id === value.Id ?
         value :
         item
     }))
+    if (!isPhotosSubmitted)
+      setIsSaveDisable(false)
   }
-  const onFileSelect = (value) => {
-    setItemList(itemList.map((item) => {
-     return item.Id === value.Id ?
-        value :
-        item
-    }))
-    setIsFileChanged(true)
 
-  }
   let activeItem = itemList.filter((obj) => obj.IsActive)[0]
   const SaveFile = () => {
     if (GetParentphoto.IsSiblingPresent == true) {
@@ -174,22 +145,23 @@ function UploadParentPhoto() {
 
     const SaveParentPhotosBody =
     {
-      "aiSchoolId": asSchoolId,
-      "aiAcademicYearId": asAcademicYearId,
-      "asFatherPhotoFileName": fatherPhotoFileName,
-      "asMotherPhotoFileName": motherPhotoFileName,
-      "asRelativePhotoFileName": relativePhotoFileName,
-      "asFatherImgPhoto": fatherImgPhoto===null?"":fatherImgPhoto,
-      "asMotherImgPhoto": motherImgPhoto===null?"":motherImgPhoto,
-      "asLocalGuardianPhoto": localGuardianPhoto===null?"":localGuardianPhoto,
-      "aiUserId": asUserId,
-      "aiIsSubmit": "0",
-      "asRelativeName": itemList[2].Text,
-      "abSaveForSibling": issaveForSibling
+      aiSchoolId: asSchoolId,
+      aiAcademicYearId: asAcademicYearId,
+      aiUserId: asUserId,
+      aiIsSubmit: "0",
+      asFatherPhotoFileName: itemList[0].fileName,
+      asMotherPhotoFileName: itemList[1].fileName,
+      asRelativePhotoFileName: itemList[2].fileName,
+      asFatherImgPhoto: itemList[0].Value===null?"":itemList[0].Value,
+      asMotherImgPhoto: itemList[1].Value===null?"":itemList[1].Value,
+      asLocalGuardianPhoto: itemList[2].Value===null?"":itemList[2].Value,
+      asRelativeName: itemList[2].Text,
+      abSaveForSibling: issaveForSibling
 
     }
     dispatch(getSaveParentPhotos(SaveParentPhotosBody));
   }
+  const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
@@ -197,27 +169,30 @@ function UploadParentPhoto() {
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
-      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) :(<Note NoteDetail={note } />)}
-      
-      {loading && <SuspenseLoader/> }
-       <ListStyle>
-         {itemList.length > 0 &&
-          (<> 
-          <ButtonList itemList={itemList} clickItem={clickItem} />
+      {loading && <SuspenseLoader />}
+      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
+
+      <Grow in={checked}
+            style={{ transformOrigin: '0 0 1' }}
+            {...(checked ? { timeout: 1500 } : {})}
+          >
+      <ListStyle>
+        {itemList.length > 0 &&
+          (<>
+            <ButtonList itemList={itemList} clickItem={clickItem} />
             {activeItem !== undefined &&
               <TextFilePath item={activeItem}
-                onFileSelect={onFileSelect}
-                onTextChange={onTextChange} />
+                onFileSelect={onFileTextChange}
+                onTextChange={onFileTextChange} />
             }
           </>)}
-       <Grid container spacing={2} sx={{ mt: "10px" }}>
+        <Grid container spacing={2} sx={{ mt: "10px" }}>
           <Grid item xs={6}>
-           <ButtonPrimary
+            <ButtonPrimary
               type="submit"
               fullWidth
-              color={(isPhotosSubmitted ||
-                (fatherPhotoFileName ==""  &&  motherPhotoFileName == "" && relativePhotoFileName =="" ))? 'warning' : 'primary'}
-              disabled={isPhotosSubmitted || (fatherPhotoFileName ==""  && motherPhotoFileName == "" && relativePhotoFileName =="" )}
+              color={isSaveDisable ? 'warning' : 'primary'}
+              disabled={isSaveDisable}
               onClick={SaveFile}
             >
               Save
@@ -232,9 +207,9 @@ function UploadParentPhoto() {
             </ButtonPrimary>
           </Grid>
         </Grid>
-        
-      </ListStyle>
 
+      </ListStyle>
+</Grow>
     </Container>
   )
 }

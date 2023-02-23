@@ -56,6 +56,7 @@ export const getParentphoto =
         Value: response.data.ParentPhotoDetails.FatherPhoto,
         IsActive:true,
         ImgUrl:"/imges/father.png",
+        fileName:"",
         choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
         },
         { 
@@ -65,6 +66,7 @@ export const getParentphoto =
           Value:  response.data.ParentPhotoDetails.MotherPhoto,
           IsActive:false,
           ImgUrl:"/imges/mom.png",
+          fileName:"",
           choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
            },
            {
@@ -75,6 +77,7 @@ export const getParentphoto =
             Value: response.data.ParentPhotoDetails.RelativePhoto,
             IsActive:false,
             ImgUrl:"/imges/relative.png",
+            fileName:"",
             choosefileDisable:response?.data?.ParentPhotoDetails.IsPhotosSubmitted
            },
         ];
