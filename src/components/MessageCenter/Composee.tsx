@@ -450,11 +450,9 @@ function Form13() {
                 }}
               />
 
-              <p style={{ color: 'red', fontSize:"12px",marginTop:"2px"}}>
                 {RecipientsList.length == 0 ? (
-                  <div>{formik.errors.To}</div>
+                  <Errormessages Error={formik.errors.To} />
                 ) : null}
-              </p>
               {loading && <SuspenseLoader />}
               <Grid container spacing={1} mt={-2} >
                 <Grid item xs={6} >
@@ -517,11 +515,11 @@ function Form13() {
               onChange={formik.handleChange}
               sx={{mt:"5px"}}
             />
-            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px" }}>
+            
               {formik.touched.Subject && formik.errors.Subject ? (
-                <div >{formik.errors.Subject}</div>
+                <Errormessages Error={formik.errors.Subject} />
               ) : null}
-            </p>
+            
          
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
             <ClickAwayListener onClickAway={handleClickAway}>
@@ -657,11 +655,11 @@ function Form13() {
               onChange={formik.handleChange}
            
             />
-            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px"}}>
+            
               {formik.touched.Content && formik.errors.Content ? (
-                <div >{formik.errors.Content}</div>
+                <Errormessages Error={formik.errors.Content} />
               ) : null}
-            </p>
+            
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               <>
                 <FormHelperText >Original message</FormHelperText>
