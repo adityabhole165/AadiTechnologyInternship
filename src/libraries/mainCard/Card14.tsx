@@ -12,7 +12,7 @@ function Card14({Text1,Text2,Text3,Text4,Text5,Text6,Text7}) {
     
      <Typography variant='body2'> <b> Language : </b>{Text4}</Typography>
      <Typography variant='body2'> <b>  Standards : </b> {Text3}</Typography>
-     <Typography variant='body2'> <b> Total : </b> {Text6}</Typography>
+     {/* <Typography variant='body2'> <b> Total : </b> {Text6}</Typography> */}
    </Card>
     </div>
   )
