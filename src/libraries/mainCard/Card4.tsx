@@ -5,7 +5,7 @@ import { Box, Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BoxStyle } from '../styled/CardStyle';
+import ScheduleIcon from '@mui/icons-material/Schedule';
 function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined, IsAttachmentExist = undefined }) {
 
   const location = useLocation();
@@ -16,9 +16,9 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
 
   let msgDateArr = []
   let IsReadColor = ''
+  let msgDate = text2
   if (text2 !== undefined) {
     msgDateArr = text2.split(' ')
-    let msgDate = text2
     if (msgDateArr.length === 4)
       msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
       IsReadColor = ActiveTab == "Inbox" ? IsRead == 'N' ? 'blue' : '' :
@@ -57,7 +57,10 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
 
       <CardDetail>
         {pageName1 == "MessageCenter/msgCenter" ? <CardD>{text1}</CardD> : <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2>{text2} </CardDetail2>
+        <CardDetail2>{text2} 
+        {(ActiveTab == "Sent" && isFutureDateTime(msgDate)) &&
+        <ScheduleIcon fontSize="small" color="primary"/>}
+        </CardDetail2>
       </CardDetail>
 
       <CardDetail>
