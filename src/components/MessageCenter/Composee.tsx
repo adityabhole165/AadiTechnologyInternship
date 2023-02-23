@@ -643,7 +643,7 @@ function Form13() {
                   onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
                 </Grid>
-                <Box mt={1.5}>
+                <Box mt={0.5}>
                 <ErrorMessage1 Error={schTimeerror} />
                 </Box>
               
@@ -658,7 +658,7 @@ function Form13() {
               variant="outlined"
               value={formik.values.Content}
               onChange={formik.handleChange}
-           
+              sx={{mt:"-0.5px"}}
             />
              <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
