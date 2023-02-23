@@ -13,21 +13,10 @@ function BooksDetails({GetBookList}) {
   const ReserveBook = useSelector(
     (state: RootState) => state.library.ReserveBook
   );
-  console.log(ReserveBook,"ReserveBook")
 const [expanded, setExpanded] = React.useState<string | false>(false);
    const handleChange = (panel) => (event, isExpanded) => {
      setExpanded(isExpanded ? panel : false);
    };
-
- const confirmsg = () =>{
-  if (confirm('Do you want to claim this book for Parent?')) {
-              console.log('');
-        } else {
-      
-  }
- 
-}
-
 
 useEffect(() => {
   if(ReserveBook!==''){
@@ -50,11 +39,7 @@ const ClickReserve = (value)=> {
   dispatch(getReserveBook(ReserveBookbody));
  }
 
-console.log(GetBookList,"items")
-
   return (
-    <>
- 
       <div>
      
         {GetBookList.length === 0 ? (
@@ -75,7 +60,6 @@ console.log(GetBookList,"items")
                   available={items.Available_Books}
                   total={items.Total_Book_Quantity}
                   title={items.Book_Title}
-                  conformMsg={confirmsg}
                   no={items.Book_No}
                   IsForIssue={items.IsForIssue}
                   Collapse={handleChange}
@@ -88,7 +72,6 @@ console.log(GetBookList,"items")
         )}
 
       </div>
-    </>
   );
 }
 export default BooksDetails;

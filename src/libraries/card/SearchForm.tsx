@@ -42,7 +42,7 @@ function SearchForm({clickFilter, clickCloseIcon}) {
       }
       const clickClose = () => {
          clickReset()
-        clickCloseIcon({bookTitle:'',accessionNo:'',author:'',publisher:'',Language:"",Standard:''})
+        clickCloseIcon()
 
       }
       const Languagesbody: ILanguagesDetails = {
