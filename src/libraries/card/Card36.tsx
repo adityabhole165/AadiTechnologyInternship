@@ -3,7 +3,6 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { AccordianHeader, Header1, Header2 } from '../styled/AccordianStyled';
 
-
 const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentdays }) => {
 
 
@@ -11,7 +10,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
   return (
     <AccordianHeader onClick={() => expand(Id)}>
       {/* <Medale Rank={Rank} /> */}
-      <img src={Rank} width={25} height={35} />
+      <img src={localStorage.getItem('SiteURL') + '/' + Rank.replace('~/','')} width={25} height={35} />
       <Grid container>
         <Grid item xs={12}>
          
