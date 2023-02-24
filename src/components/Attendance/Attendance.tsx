@@ -67,9 +67,10 @@ function Attendance() {
   return (
     <Container>
       <PageHeader heading={'Attendance'} subheading={''} />
-      <Box sx={{mt:"6px"}}>
-      <ButtonPrimary onClick={AttendanceTopper} sx={{float:"right"}}>Attendance Toppers </ButtonPrimary>
+      <Box sx={{mb:"15px" , float:"right"}} >
+      <ButtonPrimary onClick={AttendanceTopper} >Attendance Toppers </ButtonPrimary>
       </Box>
+      
       <DotLegend />
       <br />
       <Box sx={{ marginTop: '-10px' ,marginBottom:"10px"}}>

@@ -6,7 +6,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Errormessage from "src/libraries/ErrorMessages/Errormessage";
 import { getUserAadharCardDetails, resetMessage } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { getsaveUserAadharCardDetails } from 'src/requests/AadharCardDetails/RequestAadharCard';
-import { Box, Container, Paper, TextField, Typography } from '@mui/material';
+import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/material';
 import { CheckFileValidation } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
@@ -18,6 +18,7 @@ import { ListStyle } from 'src/libraries/styled/CardStyle';
 
 function AadharCardDetails() {
 
+    const [checked, setChecked] = useState(true);
     const SchoolName = localStorage.getItem("SchoolName");
     const aRef = useRef(null);
     const [fileName, setFileName] = useState('')
@@ -140,7 +141,7 @@ function AadharCardDetails() {
         } else {
             if (fileName !== '' && aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
-                aRef.current.value = null
+                // aRef.current.value = null
             }
         }
     }
@@ -148,6 +149,10 @@ function AadharCardDetails() {
     return (
         <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
+            <Grow in={checked}
+            style={{ transformOrigin: '0 0 1' }}
+            {...(checked ? { timeout: 1500 } : {})}
+          >
             <ListStyle>
                 <Typography variant='caption'>Name</Typography>
                 <TextField
@@ -182,7 +187,9 @@ function AadharCardDetails() {
                 {fileError && <Errormessage Error={fileError} />}
                 <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
             </ListStyle>
-        </Container>
+
+            </Grow>
+                    </Container>
     )
 }
 

@@ -24,6 +24,7 @@ import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -320,8 +321,7 @@ function Form13() {
   const curTimeH = TodayDate.getHours() % 12 || 12;
   const curTimeM = TodayDate.getMinutes();
   const CurrTIME = curTimeH + ':' + curTimeM;
-  console.log("CurrTIME", CurrTIME);
-
+  
   const Day = TodayDate.getDate().toString().padStart(2, '0');
   const Month = (TodayDate.getMonth() + 1).toString().padStart(2, '0');
   const Year = TodayDate.getFullYear();
@@ -446,17 +446,17 @@ function Form13() {
                   height: "50px",
                   overflow: 'auto',
                   border: "0.1px solid #c4c5c5",
-                  borderRadius: "5.3px",
+                  borderRadius: "5.3px"
                 }}
               />
-
-              <p style={{ color: 'red', fontSize:"12px"}}>
-                {RecipientsList.length == 0 ? (
-                  <div>{formik.errors.To}</div>
+                 <Box mt={0.5}>
+                 {RecipientsList.length == 0 ? (
+                  <ErrorMessage1 Error={formik.errors.To} />
                 ) : null}
-              </p>
+                 </Box>
+               
               {loading && <SuspenseLoader />}
-              <Grid container spacing={1} mt={-2} >
+              <Grid container spacing={1}  >
                 <Grid item xs={6} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientButton(e)}
@@ -515,13 +515,15 @@ function Form13() {
               variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
-              sx={{mt:"-0.1px"}}
+              sx={{mt:"5px"}}
             />
-            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px" }}>
+              <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
-                <div >{formik.errors.Subject}</div>
+                <ErrorMessage1 Error={formik.errors.Subject} />
               ) : null}
-            </p>
+              </Box>
+             
+            
          
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
             <ClickAwayListener onClickAway={handleClickAway}>
@@ -574,15 +576,15 @@ function Form13() {
                       return (
                         <Box key={obj.FileName}>
                           <Grid container>
-                            <Grid xs={2} >
+                            <Grid item xs={2} >
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
-                            <Grid xs={8}>
+                            <Grid item xs={8}>
                               <CardDetail8 sx={{mt:'1px'}}>
                                 {obj.FileName.slice(0, 25)}
                               </CardDetail8>
                             </Grid>
-                            <Grid xs={2}>
+                            <Grid item xs={2}>
                               <IconButton
                                 edge="end"
                                 aria-label="delete"
@@ -639,9 +641,11 @@ function Form13() {
                   value={value}
                   onChange={(e) => { clickTime(e.currentTarget.value) }}
                 />
-                <Errormessages Error={schTimeerror} />
                 </Grid>
-          
+                <Box mt={0.5}>
+                <ErrorMessage1 Error={schTimeerror} />
+                </Box>
+              
             <TextField
               fullWidth
               multiline
@@ -653,13 +657,13 @@ function Form13() {
               variant="outlined"
               value={formik.values.Content}
               onChange={formik.handleChange}
-           
+              sx={{mt:"-0.5px"}}
             />
-            <p style={{ color: 'red',fontSize:"12px",marginTop:"-2px"}}>
+             <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
-                <div >{formik.errors.Content}</div>
+                <ErrorMessage1 Error={formik.errors.Content} />
               ) : null}
-            </p>
+            </Box>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               <>
                 <FormHelperText >Original message</FormHelperText>

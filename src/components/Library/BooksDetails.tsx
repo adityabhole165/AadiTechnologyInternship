@@ -1,25 +1,45 @@
-import  React from 'react';
+import  React,{useState, useEffect} from 'react';
 import Accordion4 from 'src/libraries/accordion/accordion4';
 import {GetBooksDetailsResult,} from 'src/interfaces/Student/Library';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import {IReserveBook} from "src/interfaces/Student/Library";
+import {getReserveBook, resetClaimMessage} from "src/requests/Library/Library";
+import { toast } from 'react-toastify';
 function BooksDetails({GetBookList}) {
+  const dispatch = useDispatch();
+  const ReserveBook = useSelector(
+    (state: RootState) => state.library.ReserveBook
+  );
 const [expanded, setExpanded] = React.useState<string | false>(false);
    const handleChange = (panel) => (event, isExpanded) => {
      setExpanded(isExpanded ? panel : false);
    };
 
- const confirmsg = () =>{
-  if (confirm('Do you want to claim this book for Parent?')) {
-              console.log('');
-        } else {
-      
+useEffect(() => {
+  if(ReserveBook!==''){
+    toast.success(ReserveBook,{ toastId: 'success1'});
+    dispatch(resetClaimMessage());
   }
- 
-}
+},[ReserveBook])
+
+const ClickReserve = (value)=> {
+  const ReserveBookbody:IReserveBook = {
+    aiSchoolId:localStorage.getItem('localSchoolId'),
+    aiAcademicYearId:sessionStorage.getItem('AcademicYearId'),
+    aiUserId:sessionStorage.getItem('Id'),
+    aiUserRoleId:sessionStorage.getItem('RoleId'),
+    aiBookId:value.aiBookId,
+    ReservedByParent:"0",
+    InsertedById:sessionStorage.getItem('Id'),
+    aiFlag:value.aiFlag
+  }
+  dispatch(getReserveBook(ReserveBookbody));
+ }
 
   return (
-    <>
- 
       <div>
      
         {GetBookList.length === 0 ? (
@@ -32,6 +52,7 @@ const [expanded, setExpanded] = React.useState<string | false>(false);
                   key={i}
                   index={i}
                   Bookk={GetBookList}
+                  Book_Id = {items.Book_Id}
                   author={items.Author_Name}
                   publisher={items.Published_By}
                   standard={items.Standards}
@@ -39,11 +60,11 @@ const [expanded, setExpanded] = React.useState<string | false>(false);
                   available={items.Available_Books}
                   total={items.Total_Book_Quantity}
                   title={items.Book_Title}
-                  conformMsg={confirmsg}
                   no={items.Book_No}
                   IsForIssue={items.IsForIssue}
                   Collapse={handleChange}
                   expand={expanded}
+                  ClickReserve={ClickReserve}
                 />
               );
             })}
@@ -51,7 +72,6 @@ const [expanded, setExpanded] = React.useState<string | false>(false);
         )}
 
       </div>
-    </>
   );
 }
 export default BooksDetails;

@@ -43,38 +43,38 @@ export interface IGetAttendanceToppersBody {
 
 }
 
-export interface IGetAttendanceToppersResult{
+export interface IGetAttendanceToppersResult {
+    StudentAttendance: IStudentAttendance,
+    AttendanceDetails: [IStudentAttendance]
+}
+export interface IStudentAttendance {
+    RankImagePath: string,
+    RollNo: number,
+    StudentName: string,
+    PresentDays: string,
+    TotalDays: string,
+    Percentage: string,
+    MonthwiseDays: [IMonthwiseDays]
+}
 
+export interface IMonthwiseDays {
+    MonthIndex: number,
+    MonthName: string,
+    Days: string
+}
 
-            RankImagePath: string,
-            RollNo: number,
-            StudentName: string,
-            PresentDays: string,
-            TotalDays: string,
-            Percentage: string,
-            MonthwiseDays: [
-                {
-                    MonthIndex: number,
-                    MonthName: string,
-                    Days: string
-                }]
-            
-            }
-            
+///// Old Attendance
+export interface IGetAcademicYearsForOldAttendanceBody {
 
+    aiSchoolId: string,
+    aiStudentId: string,
+    abIncludeCurrentYear: string
+}
+export interface IGetAcademicYearsForOldAttendanceResult {
 
-            ///// Old Attendance
-            export interface IGetAcademicYearsForOldAttendanceBody{
-
-                aiSchoolId: string,
-                aiStudentId: string,
-                    abIncludeCurrentYear: string
-            }
-            export interface IGetAcademicYearsForOldAttendanceResult{
-
-                AcademicYearId: string,
-            AcademicYearName: string
-            }
-            export interface  IAcademicYearData{
-                AcademicYearDetails:IGetAcademicYearsForOldAttendanceResult[]
-            }
+    AcademicYearId: string,
+    AcademicYearName: string
+}
+export interface IAcademicYearData {
+    AcademicYearDetails: IGetAcademicYearsForOldAttendanceResult[]
+}

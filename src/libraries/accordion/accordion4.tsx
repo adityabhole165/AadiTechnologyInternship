@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect} from 'react';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
@@ -12,6 +12,7 @@ import {CardDetail1,CardDetail3,ListStyle,CardWrapper} from '../styled/CardStyle
 import { Accordionsummary1, Header3, HeaderAcc } from '../styled/AccordianStyled';
 import Card14 from '../mainCard/Card14';
 import { ButtonPrimary } from '../styled/ButtonStyle';
+
 
 Accordion4.propTypes = {
   Bookk: PropTypes.array,
@@ -27,6 +28,7 @@ Accordion4.propTypes = {
 
 function Accordion4({
   Bookk,
+  Book_Id,
   author,
   publisher,
   standard,
@@ -34,24 +36,27 @@ function Accordion4({
   available,
   total,
   title,
-  conformMsg,
   no,
   index,
   IsForIssue,
-  Collapse, expand
+  Collapse, expand, ClickReserve
 }) {
+  
+
+ 
   const theme = useTheme();
   const [checked, setChecked] = useState(true);
   const classes = Styles();
   const [open, setOpen] = React.useState(false);
-  const clickDialogOpen = () => {
-    setOpen(true);
-  };
-  const clickDialogClose = () => {
-    setOpen(false);
-  };
+
+const clickParentStudent = (value) =>{
+  ClickReserve({aiBookId:Book_Id,aiFlag:value})
+  setOpen(false);
+}
+
   return (
     <>
+   
     <Grow
       in={checked}
       style={{ transformOrigin: '0 0 0' }}
@@ -76,22 +81,22 @@ function Accordion4({
        
          <b>Available</b> : ({available}/{total})
          {available === 0 &&
-         <Typography  onClick={clickDialogOpen} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
+         <Typography  onClick={()=>{setOpen(true)}} sx={{color:"#628def",ml:"70px"}}> Claim </Typography>
          }
         
          <Dialog
           open={open}
-          onClose={clickDialogClose}
+          onClose={()=>{setOpen(false)}}
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
-          <Typography>Do you want to claim this book for -- </Typography>
+          <Typography>Claim this book for -- </Typography>
          <Box px={2} pt={1}>
          <Grid container>
             <Grid item xs={6}>
-            <ButtonPrimary > Student</ButtonPrimary>
+            <ButtonPrimary onClick={()=>{clickParentStudent(0)}}> Student</ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-            <ButtonPrimary> Parent</ButtonPrimary>
+            <ButtonPrimary onClick={()=>{clickParentStudent(1)}}> Parent</ButtonPrimary>
             </Grid>
           </Grid>
           
@@ -105,7 +110,7 @@ function Accordion4({
        </Accordionsummary1>
        <AccordionDetails>
       <Card14 Text1={author} Text2={publisher} 
-      Text3={standard} Text4={language} Text5={available} Text6={total} Text7={no} conformMsg={conformMsg}/>
+      Text3={standard} Text4={language} Text5={available} Text6={total} Text7={no} />
       </AccordionDetails>
       </Accordion>
            
