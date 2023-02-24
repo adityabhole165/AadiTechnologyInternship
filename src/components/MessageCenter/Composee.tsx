@@ -321,8 +321,7 @@ function Form13() {
   const curTimeH = TodayDate.getHours() % 12 || 12;
   const curTimeM = TodayDate.getMinutes();
   const CurrTIME = curTimeH + ':' + curTimeM;
-  console.log("CurrTIME", CurrTIME);
-
+  
   const Day = TodayDate.getDate().toString().padStart(2, '0');
   const Month = (TodayDate.getMonth() + 1).toString().padStart(2, '0');
   const Year = TodayDate.getFullYear();
@@ -577,15 +576,15 @@ function Form13() {
                       return (
                         <Box key={obj.FileName}>
                           <Grid container>
-                            <Grid xs={2} >
+                            <Grid item xs={2} >
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
-                            <Grid xs={8}>
+                            <Grid item xs={8}>
                               <CardDetail8 sx={{mt:'1px'}}>
                                 {obj.FileName.slice(0, 25)}
                               </CardDetail8>
                             </Grid>
-                            <Grid xs={2}>
+                            <Grid item xs={2}>
                               <IconButton
                                 edge="end"
                                 aria-label="delete"

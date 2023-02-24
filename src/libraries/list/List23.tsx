@@ -1,6 +1,7 @@
 import Card31 from '../card/Card31'
 import { useLocation, useNavigate } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import CardAttendance from '../card/CardAttendance';
 
 const List23 = ({ data }) => {
   const navigate = useNavigate();
@@ -16,12 +17,9 @@ const List23 = ({ data }) => {
   {
       data.map((Detail, index) => (
         <div onClick={() => onClick(Detail.navPath)} key={index}>
-          <Card31
+          <CardAttendance
             Name={Detail.Name}
-            Value={Detail.Value}
-            text1={Detail.text1}
-            text2={Detail.text2}
-            text3={Detail.text3}
+         
           />
         </div>
       ))

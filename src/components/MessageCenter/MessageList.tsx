@@ -23,6 +23,8 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
+import RestoreIcon from '@mui/icons-material/Restore';
 import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
@@ -230,7 +232,7 @@ const MessageList = () => {
   }
   //Un Delete from everyone function
   const clickUnDelete = () => {
-    
+
     let DetailsId = [];
     let RecieverDetailsId = [];
     inboxListData.map((obj) => {
@@ -397,21 +399,23 @@ const MessageList = () => {
           {inboxListData.some((obj) => obj.isActive === true) && (
 
             <Grid container spacing={0.5} sx={{ mb: "10px" }}>
-              <Grid item xs={5.5} >
-                {activeTab == 'Sent' ? <ButtonPrimary
-                  onClick={activeTab == 'Sent' && DeletePermanent}
-                  endIcon={<DeleteIcon />} fullWidth
-                >Delete From Everyone
-                </ButtonPrimary> :
-                  activeTab == 'Trash' &&
+              {activeTab == 'Sent' ?
+                <Grid item xs={5.5} >
+                  <ButtonPrimary
+                    onClick={activeTab == 'Sent' && DeletePermanent}
+                    endIcon={<HighlightOffIcon />} fullWidth
+                  >Delete From Everyone
+                  </ButtonPrimary>
+                </Grid> :
+                activeTab == 'Trash' &&
+                <Grid item xs={3.5} >
                   <ButtonPrimary
                     onClick={clickUnDelete}
-                    endIcon={<DeleteIcon />} fullWidth
+                    endIcon={<RestoreIcon />} fullWidth
                   >Un-Delete
-                  </ButtonPrimary>
-                }
+                  </ButtonPrimary></Grid>
+              }
 
-              </Grid>
               <Grid item xs={3.2}>
                 <ButtonPrimary fullWidth
                   onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}

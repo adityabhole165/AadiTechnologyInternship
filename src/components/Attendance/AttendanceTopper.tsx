@@ -90,16 +90,22 @@ function AttendanceTopper() {
             defaultValue={academicyear}
           />
         </FormControl>
-        <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Your Attendance</Box>
-        <Box sx={{mt:"2px"}}>
+        <Box my={1}>
+          <Typography sx={{ textAlign: "center" }} variant="h5">   Your Attendance</Typography>
+       </Box>
+        <Box >
         {(
           GetStudentAttendance !== undefined &&
           GetStudentAttendance.length > 0) && 
           <Card35 header={{ Header: GetStudentAttendance }} />}
         </Box>
 
-        <Box sx={{ paddingTop: "25px", textAlign: "center" }}>Attendance Topper</Box>
-        <Box sx={{mt:"2px"}}>
+        <Box my={1}>
+          <Typography sx={{ textAlign: "center" }} variant="h5">Attendance Topper</Typography>
+          
+          </Box>
+
+        <Box >
         {(
           GetAttendanceDetails !== undefined &&
           GetAttendanceDetails.length > 0) && 

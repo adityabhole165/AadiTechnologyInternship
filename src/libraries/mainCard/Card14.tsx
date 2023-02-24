@@ -1,7 +1,7 @@
 import React from 'react';
 import { Typography,Box,Card, IconButton } from '@mui/material'
 
-function Card14({Text1,Text2,Text3,Text4,Text5,Text6,Text7,conformMsg}) {
+function Card14({Text1,Text2,Text3,Text4,Text5,Text6,Text7}) {
 
   return (
     <div>
@@ -12,7 +12,7 @@ function Card14({Text1,Text2,Text3,Text4,Text5,Text6,Text7,conformMsg}) {
     
      <Typography variant='body2'> <b> Language : </b>{Text4}</Typography>
      <Typography variant='body2'> <b>  Standards : </b> {Text3}</Typography>
-     <Typography variant='body2'> <b> Total : </b> {Text6}</Typography>
+     {/* <Typography variant='body2'> <b> Total : </b> {Text6}</Typography> */}
    </Card>
     </div>
   )

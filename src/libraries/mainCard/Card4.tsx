@@ -3,10 +3,10 @@ import { AttachmentIcon1, CardD, CardDetail, CardDetail1, CardDetail2, CardDetai
 import { useLocation, Link as RouterLink } from 'react-router-dom';
 import { Box, Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import { isFutureDateTime} from 'src/components/Common/Util';
+import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
-import { BoxStyle} from '../styled/CardStyle';
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined,IsAttachmentExist=undefined }) {
+import ScheduleIcon from '@mui/icons-material/Schedule';
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined, IsAttachmentExist = undefined }) {
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -14,22 +14,25 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
 
-  const msgDateArr = text2.split(' ')
+  let msgDateArr = []
+  let IsReadColor = ''
   let msgDate = text2
-  if (msgDateArr.length === 4)
-    msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
-  const IsScheduleColor = isFutureDateTime(msgDate) ? 'blue' : ''
-  const IsReadColor = ActiveTab == "Inbox" ?IsRead == 'N' ? 'blue' : '':
-  ActiveTab == "Sent" ? isFutureDateTime(msgDate) ? 'blue' : '':''
-
+  if (text2 !== undefined) {
+    msgDateArr = text2.split(' ')
+    if (msgDateArr.length === 4)
+      msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
+      IsReadColor = ActiveTab == "Inbox" ? IsRead == 'N' ? 'blue' : '' :
+      ActiveTab == "Sent" ? isFutureDateTime(msgDate) ? 'blue' : '' : ''
+  }
+  
   return (
     <>
-     
+
       <CardDetail onClick={clickCard}>
 
         <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
-        
-   
+
+
         {pageNameStudent == 'SubjectTeacher' ?
           <>
             <RouterLink
@@ -42,24 +45,22 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
               <ForwardToInboxIcon sx={{ cursor: 'pointer', color: '#f0483e', height: "18px" }} fontSize="small" />
             </RouterLink>
           </> : <>
-            {pageName1 == "Teacher/Texamschedule" ? <DateWidth>{text3}</DateWidth> : pageName == "EventOverview" ? <DateWidth1>{text3}</DateWidth1> : 
-            <CardDetail2>{text3}  {IsAttachmentExist &&  
-      <AttachmentIcon1 >
-           <AttachmentIcon/>
-      </AttachmentIcon1>
-   
-     }</CardDetail2>}
+            {pageName1 == "Teacher/Texamschedule" ? <DateWidth>{text3}</DateWidth> : pageName == "EventOverview" ? <DateWidth1>{text3}</DateWidth1> :
+              <CardDetail2>{text3}  {IsAttachmentExist &&
+                <AttachmentIcon1 >
+                  <AttachmentIcon />
+                </AttachmentIcon1>
+
+              }</CardDetail2>}
           </>}
       </CardDetail>
 
       <CardDetail>
         {pageName1 == "MessageCenter/msgCenter" ? <CardD>{text1}</CardD> : <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2>{text2} </CardDetail2>
-        {/* {IsAttachmentExist &&  
-      
-      <AttachmentIcon/>
-     
-      } */}
+        <CardDetail2>{text2} 
+        {(ActiveTab == "Sent" && isFutureDateTime(msgDate)) &&
+        <ScheduleIcon fontSize="small" color="primary"/>}
+        </CardDetail2>
       </CardDetail>
 
       <CardDetail>

@@ -36,7 +36,6 @@ function Accordion4({
   available,
   total,
   title,
-  conformMsg,
   no,
   index,
   IsForIssue,
@@ -90,7 +89,7 @@ const clickParentStudent = (value) =>{
           onClose={()=>{setOpen(false)}}
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
-          <Typography>Do you want to claim this book for -- </Typography>
+          <Typography>Claim this book for -- </Typography>
          <Box px={2} pt={1}>
          <Grid container>
             <Grid item xs={6}>
@@ -111,7 +110,7 @@ const clickParentStudent = (value) =>{
        </Accordionsummary1>
        <AccordionDetails>
       <Card14 Text1={author} Text2={publisher} 
-      Text3={standard} Text4={language} Text5={available} Text6={total} Text7={no} conformMsg={conformMsg}/>
+      Text3={standard} Text4={language} Text5={available} Text6={total} Text7={no} />
       </AccordionDetails>
       </Accordion>
            
