@@ -26,7 +26,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
       <Grid container>
         <Grid item xs={12}>
 
-          <Header1 color={isActive ? 'secondary' : ''}>{Rollno + " "}{Name} </Header1>
+          <Header1 color={isActive ? 'secondary' : ''}>{Rollno + ":"+ " "}{Name} </Header1>
 
 
         </Grid>
@@ -35,7 +35,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
           Present days: {Presentdays}
         </Grid>
         <Grid item xs={6}>
-          Percentage: {Percentage}
+          Percentage: {Percentage + "%"}
 
 
 
