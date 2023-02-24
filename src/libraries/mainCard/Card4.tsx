@@ -57,7 +57,7 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
 
       <CardDetail>
         {pageName1 == "MessageCenter/msgCenter" ? <CardD>{text1}</CardD> : <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2>{text2} 
+        <CardDetail2 sx={{color:"#628def"}}>{text2} 
         {(ActiveTab == "Sent" && isFutureDateTime(msgDate)) &&
         <ScheduleIcon fontSize="small" color="primary"/>}
         </CardDetail2>
