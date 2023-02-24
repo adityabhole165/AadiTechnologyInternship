@@ -18,7 +18,12 @@ export function getMonthYear() {
     const NewDateFormat = `${Month}-${Year}`;
 
 }
-
+export function compareStringWithoutSpace (value1, value2){
+    if (value1.replace(/ /g, '') === value2.replace(/ /g, ''))
+        return true
+    else
+        return false
+}
 //date='02 Oct 2022'
 export function isTodaysDate(date) {
     const todaysDate = new Date().toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
@@ -112,17 +117,17 @@ export const monthArray = [
 
 export const ChangeFileIntoBase64 = (fileData) => {
     return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      fileReader.readAsDataURL(fileData);
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(fileData);
 
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
+        fileReader.onload = () => {
+            resolve(fileReader.result);
+        };
+        fileReader.onerror = (err) => {
+            reject(err);
+        };
     });
-  };
+};
 export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     if (fileExtension != undefined || null) {

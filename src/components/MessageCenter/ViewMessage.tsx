@@ -11,6 +11,7 @@ import http from 'src/requests/SchoolService/schoolServices';
 import BackButton from 'src/libraries/button/BackButton';
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
+import { compareStringWithoutSpace } from '../Common/Util';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -47,32 +48,42 @@ function ViewSms({ }) {
       });
   };
   const SchoolId = localStorage.getItem('localSchoolId')
-  
+
   useEffect(() => {
     GetViewEventResult();
   }, []);
   useEffect(() => {
-    if(viewSent !== undefined){
-    if(viewSent.RequestReadReceipt==="True")
-    {
-      let readRecipient = "0"
-      if(confirm("The Sender of this message has requested 'Read Receipt'. Do you want to send it")){
-        readRecipient = "1"
-      }
-      
-  const body: IUpdateReadReceiptStatusBody = {
-    asSchoolId: SchoolId,
-    asAcademicYearId:asAcademicYearId,
-    asReceiverId:viewSent.ReceiverDetailsId,
-    asRequestReadReceipt:readRecipient
-  };
-    dispatch(getUpdateReadReceiptStatus(body));
+    if (viewSent !== undefined) {
+      if (viewSent.RequestReadReceipt === "True") {
+        let readRecipient = "0"
+        if (confirm("The Sender of this message has requested 'Read Receipt'. Do you want to send it")) {
+          readRecipient = "1"
+        }
 
+        const body: IUpdateReadReceiptStatusBody = {
+          asSchoolId: SchoolId,
+          asAcademicYearId: asAcademicYearId,
+          asReceiverId: viewSent.ReceiverDetailsId,
+          asRequestReadReceipt: readRecipient
+        };
+        dispatch(getUpdateReadReceiptStatus(body));
+
+      }
+      setShowMessage(true)
     }
-    setShowMessage(true)
-  }
   }, [viewSent]);
-  
+  const isSame = (value1, value2) => {
+    let arr1 = value1.split('(')
+    let arr2 = value2.split('(')
+    if (arr1[0] === arr1[0]) {
+      if (arr1.length > 1 && arr2.length > 1) {
+        if (compareStringWithoutSpace(arr1[1],arr2[1]) )
+          return true
+      }
+    }
+    else
+      return false
+  }
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -81,21 +92,22 @@ function ViewSms({ }) {
 
 
       {
-      
-      viewSent === undefined ? null : showMessage && (
-        <Card7
-          ViewDetail={ViewDetail}
-          From={viewSent.UserName}
-          To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-            viewSent.RecieverName : viewSent.DisplayText}
-          Cc={viewSent.DisplayTextCc}
-          Body={viewSent.Body}
-          Text={viewSent.Subject}
-          Attachments={viewSent.Attachments}
-          ID={ID}
-          ViewSentObject={viewSent}
-        />
-      )}
+
+        viewSent === undefined ? null : showMessage && (
+          <Card7
+            ViewDetail={ViewDetail}
+            From={viewSent.UserName}
+            To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+              (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
+                viewSent.RecieverName : viewSent.DisplayText}
+            Cc={viewSent.DisplayTextCc}
+            Body={viewSent.Body}
+            Text={viewSent.Subject}
+            Attachments={viewSent.Attachments}
+            ID={ID}
+            ViewSentObject={viewSent}
+          />
+        )}
     </>
   );
 }
