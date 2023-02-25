@@ -33,7 +33,7 @@ function AttendanceTopper() {
   const asAcademicYear = (sessionStorage.getItem('AcademicYearId'));
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
 
-  const [academicyear, setAcademicYear] = useState("");
+  const [academicyear, setAcademicYear] = useState(asAcademicYear);
 
 
   useEffect(() => {
@@ -42,10 +42,11 @@ function AttendanceTopper() {
       aiStudentId: asStudentId,
       abIncludeCurrentYear: academicyear
     }
+    
     dispatch(getAcademicYearsForOldAttendance(GetAcademicYearsForOldAttendanceBody));
   }, []);
 
-  console.log("asStudentId",asStudentId)
+  
 
   useEffect(() => {
     setAcademicYear(asAcademicYear);
@@ -54,7 +55,7 @@ function AttendanceTopper() {
 
   useEffect(() => {
     if (academicyear !== "") {
-      const GetAttendanceToppersBody: IGetAttendanceToppersBody = {
+      const GetAttendanceToppersBody= {
         aiSchoolId: asSchoolId,
         aiAcademicYearId: academicyear,
         StandardDivisionId: asStandardDivision,

@@ -6,7 +6,7 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = undefined, IsAttachmentExist = undefined }) {
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined }) {
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -14,17 +14,11 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
 
-  let msgDateArr = []
-  let IsReadColor = ''
-  let msgDate = text2
-  if (text2 !== undefined) {
-    msgDateArr = text2.split(' ')
-    if (msgDateArr.length === 4)
-      msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
-      IsReadColor = ActiveTab == "Inbox" ? IsRead == 'N' ? 'blue' : '' :
-      ActiveTab == "Sent" ? isFutureDateTime(msgDate) ? 'blue' : '' : ''
-  }
-  
+  let IsReadColor = (ActiveTab == "Inbox" && IsRead == 'N') ?
+    'blue' :
+    (ActiveTab == "Sent" && IsSchedule) ? 'blue' :
+      ''
+
   return (
     <>
 
@@ -56,10 +50,12 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
       </CardDetail>
 
       <CardDetail>
-        {pageName1 == "MessageCenter/msgCenter" ? <CardD>{text1}</CardD> : <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2 sx={{color:"#628def"}}>{text2} 
-        {(ActiveTab == "Sent" && isFutureDateTime(msgDate)) &&
-        <ScheduleIcon fontSize="small" color="primary"/>}
+        {pageName1 == "MessageCenter/msgCenter" ?
+          <CardD>{text1}</CardD> :
+          <CardDetail3>{text1}</CardDetail3>}
+        <CardDetail2 sx={{ color: "#628def" }}>{text2}
+          {IsSchedule &&
+            <ScheduleIcon fontSize="small" color="primary" />}
         </CardDetail2>
       </CardDetail>
 
