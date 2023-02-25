@@ -25,6 +25,8 @@ import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -136,7 +138,7 @@ function Form13() {
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
-  const [requestReadReceipt,setRequestReadReceipt] = useState(false)
+  const [requestReadReceipt, setRequestReadReceipt] = useState(false)
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
@@ -247,7 +249,7 @@ function Form13() {
         InsertedById: UserId,
         Attachment: '',
         ScheduleDateTime: scheduleDate + ' ' + value,
-        RequestReadReceipt: requestReadReceipt? "1": "0"
+        RequestReadReceipt: requestReadReceipt ? "1" : "0"
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -321,7 +323,7 @@ function Form13() {
   const curTimeH = TodayDate.getHours() % 12 || 12;
   const curTimeM = TodayDate.getMinutes();
   const CurrTIME = curTimeH + ':' + curTimeM;
-  
+
   const Day = TodayDate.getDate().toString().padStart(2, '0');
   const Month = (TodayDate.getMonth() + 1).toString().padStart(2, '0');
   const Year = TodayDate.getFullYear();
@@ -410,6 +412,11 @@ function Form13() {
   const clickHide = () => {
     setShowCC(!showCC)
   }
+
+  const [showMore, setShowMore] = useState(false)
+  const clickMore = () => {
+    setShowMore(!showMore)
+  }
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -440,7 +447,7 @@ function Form13() {
                 id=""
                 fullWidth
                 disabled
-              
+
                 onChange={formik.handleChange}
                 sx={{
                   height: "50px",
@@ -449,12 +456,12 @@ function Form13() {
                   borderRadius: "5.3px"
                 }}
               />
-                 <Box mt={0.5}>
-                 {RecipientsList.length == 0 ? (
+              <Box mt={0.5}>
+                {RecipientsList.length == 0 ? (
                   <ErrorMessage1 Error={formik.errors.To} />
                 ) : null}
-                 </Box>
-               
+              </Box>
+
               {loading && <SuspenseLoader />}
               <Grid container spacing={1}  >
                 <Grid item xs={6} >
@@ -481,7 +488,7 @@ function Form13() {
                   id=""
                   fullWidth
                   disabled
-                
+
                   onChange={formik.handleChange}
                   sx={{
                     height: "50px",
@@ -490,23 +497,23 @@ function Form13() {
                     borderRadius: "5.3px",
                   }}
                 />
-         
-              <Box mt={1}>
-              <ButtonPrimary 
-                      onClick={(e) => RecipientCCButton(e)}
-                      color="primary">
-                      Add Cc Recipients
-                    </ButtonPrimary>
-              </Box>
-                  
-                 
-                
+
+                <Box mt={1}>
+                  <ButtonPrimary
+                    onClick={(e) => RecipientCCButton(e)}
+                    color="primary">
+                    Add Cc Recipients
+                  </ButtonPrimary>
+                </Box>
+
+
+
               </>}
             </FormControl>
 
             <TextField
               fullWidth
-             
+
               margin="normal"
               label='Subject :'
               name="Subject"
@@ -515,16 +522,16 @@ function Form13() {
               variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
-              sx={{mt:"5px"}}
+              sx={{ mt: "5px" }}
             />
-              <Box mb={0.4}>
+            <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <ErrorMessage1 Error={formik.errors.Subject} />
               ) : null}
-              </Box>
-             
-            
-         
+            </Box>
+
+
+
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
             <ClickAwayListener onClickAway={handleClickAway}>
               <Tooltip
@@ -580,7 +587,7 @@ function Form13() {
                               <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                             </Grid>
                             <Grid item xs={8}>
-                              <CardDetail8 sx={{mt:'1px'}}>
+                              <CardDetail8 sx={{ mt: '1px' }}>
                                 {obj.FileName.slice(0, 25)}
                               </CardDetail8>
                             </Grid>
@@ -597,7 +604,7 @@ function Form13() {
                                 }
                               >
                                 <DeleteIcon
-                                  sx={{ color: 'red',mt:"-6px"}}
+                                  sx={{ color: 'red', mt: "-6px" }}
                                 />
                               </IconButton >
                             </Grid>
@@ -608,44 +615,51 @@ function Form13() {
                   }
                 </div>
               )}
+              <br/>
+             <ButtonPrimary sx={{float:'right',mb:"10px"}} onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon/>Less</> : <><KeyboardArrowDownIcon/>More</>}</ButtonPrimary> 
+              <Box sx={{mb:"12px"}}>
+              {showMore &&
+            <Box sx={{mt:"-18px",mb:"-10px"}}>
               <Box mt={1}>
-          <Checkbox onChange={()=> setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ml:"-10px"}}  />
-              <Typography  sx={{ display: 'inline-block' }}>
-              Request Read Receipt? :
-            </Typography>
+                <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
+                <Typography sx={{ display: 'inline-block' }}>
+                  Request Read Receipt? :
+                </Typography>
+              </Box>
+
+              <Box mt={-1}>
+                <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ ml: "-10px" }} />
+                <Typography sx={{ display: 'inline-block' }}>
+                  Schedule Message at:
+                </Typography>
+              </Box>
+            </Box> }
             </Box>
-          
-         <Box mt={-1}>
-          <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ml:"-10px"}}  />
-              <Typography  sx={{ display: 'inline-block' }}>
-            Schedule Message at:
-            </Typography>
+            <Grid sx={{ display: scheduleMessage }} >
+              <TextField
+                type="date"
+                // required
+                id="outlined-required"
+                variant="standard"
+                onChange={scheduleDateAndTime}
+                inputProps={{
+                  min: MinDate,
+                  max: MaxDate
+                }}
+              />
+              <TextField
+
+                id="time"
+                type="time"
+                variant="standard"
+                value={value}
+                onChange={(e) => { clickTime(e.currentTarget.value) }}
+              />
+            </Grid>
+            <Box mt={0.5}>
+              <ErrorMessage1 Error={schTimeerror} />
             </Box>
-              <Grid  sx={{display: scheduleMessage }} >
-                <TextField
-                  type="date"
-                  // required
-                  id="outlined-required"
-                  variant="standard"
-                  onChange={scheduleDateAndTime}
-                  inputProps={{
-                    min: MinDate,
-                    max: MaxDate
-                  }}
-                />
-                <TextField
-                  
-                  id="time"
-                  type="time"
-                  variant="standard"
-                  value={value}
-                  onChange={(e) => { clickTime(e.currentTarget.value) }}
-                />
-                </Grid>
-                <Box mt={0.5}>
-                <ErrorMessage1 Error={schTimeerror} />
-                </Box>
-              
+
             <TextField
               fullWidth
               multiline
@@ -657,9 +671,9 @@ function Form13() {
               variant="outlined"
               value={formik.values.Content}
               onChange={formik.handleChange}
-              sx={{mt:"-0.5px"}}
+              sx={{ mt: "-0.5px" }}
             />
-             <Box mb={0.4}>
+            <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
                 <ErrorMessage1 Error={formik.errors.Content} />
               ) : null}
@@ -681,7 +695,7 @@ function Form13() {
                 type="submit"
                 fullWidth
               >
-        
+
                 Send
               </ButtonPrimary>
             </Grid>

@@ -35,6 +35,7 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
+    // console.log("GetAllAnswerQueListtt",GetAllAnswerQueListtt);
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
@@ -44,6 +45,14 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
+// console.log("asSchoolId",asSchoolId);
+// console.log("asAcademicYearId",asAcademicYearId);
+// console.log("asStandardId",asStandardId);
+// console.log("asStandardDivisionId",asStandardDivisionId);
+// console.log("Subjectid",Subjectid);
+// console.log("asSchoolwiseTestId",EXAMid);
+// console.log("asStudentId",asStudentId);
+
 
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
