@@ -36,8 +36,7 @@ const onlineExamDetails = () => {
   );
   const note = [
     '1) After clicking on the start exam button exam will start.' ,
-    '2) Save given answers continuously after some time interval.',
-    '3) On time out system will auto-save and submit the given answers.' 
+    '2) On time out system will auto-save and submit the given answers.' 
   ];
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
