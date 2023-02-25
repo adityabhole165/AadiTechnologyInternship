@@ -8,6 +8,7 @@ import { useLocation } from 'react-router-dom';
 
 
 function  CardAttendace({ Name}) {
+  console.log("Name",Name)
   const location = useLocation();
   const pathname = location.pathname;
   const [checked, setChecked] = useState(true)
@@ -18,8 +19,9 @@ function  CardAttendace({ Name}) {
   return (
     <div>
  
-     <Grid container sx={{borderTop:"1px solid gray"}}>
+     <Grid container sx={{borderTop:"1px solid gray", display:"flex", direction:"row",justifyContent:"space-between"}}>
         <Grid item xs={12}>
+        
         {Name}
         </Grid>
       

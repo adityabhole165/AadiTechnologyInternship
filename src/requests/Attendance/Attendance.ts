@@ -51,20 +51,22 @@ export const getStudentAttendance =
       const studentChild = (obj) => {
         
         let studentChild = obj.MonthwiseDays.map((item) => {
+        
+          
           return {
-            Name: (item.MonthName + 'Total:' + item.Days),
+            Name: (item.MonthName + item.Days),
             Value: "",
             isAttendanceTopper: true
           }
         })
-        studentChild.push({
-          Name: "Total:" + obj.PresentDays + "/" + obj.TotalDays
-          , Value: "", isAttendanceTopper: true
-        })
-        studentChild.push({
-          Name: "Percentage:" + obj.Percentage
-          , Value: "", isAttendanceTopper: true
-        })
+        // studentChild.push({
+        //   Name: "Total:" + obj.PresentDays + "/" + obj.TotalDays
+        //   , Value: "", isAttendanceTopper: true
+        // })
+        // studentChild.push({
+        //   Name: "Percentage:" + obj.Percentage
+        //   , Value: "", isAttendanceTopper: true
+        // })
         return studentChild
       }
       const getDetails = (StudentAttendance) => {

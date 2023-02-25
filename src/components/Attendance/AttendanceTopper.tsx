@@ -56,7 +56,7 @@ function AttendanceTopper() {
     if (academicyear !== "") {
       const GetAttendanceToppersBody: IGetAttendanceToppersBody = {
         aiSchoolId: asSchoolId,
-        aiAcademicYearId: asAcademicYear,
+        aiAcademicYearId: academicyear,
         StandardDivisionId: asStandardDivision,
         TopRanker: "3",
 
@@ -69,6 +69,7 @@ function AttendanceTopper() {
 
 
   const ClickAcademicYear = (value) => {
+   
     setAcademicYear(value);
   };
 
