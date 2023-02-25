@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import {  Grid, Grow } from '@mui/material';
+import {  Grid, Grow, Typography } from '@mui/material';
 import {
   CardDetail1, CardDetail4,
 } from '../styled/AccordianStyled';
 
 import { useLocation } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 
 function  CardAttendace({ Name}) {
@@ -21,8 +22,13 @@ function  CardAttendace({ Name}) {
  
      <Grid container sx={{borderTop:"1px solid gray", display:"flex", direction:"row",justifyContent:"space-between"}}>
         <Grid item xs={12}>
-        
-        {Name}
+       
+        <Typography>
+                <Box
+                
+                  dangerouslySetInnerHTML={{ __html: Name }}
+                ></Box>
+              </Typography>
         </Grid>
       
        
