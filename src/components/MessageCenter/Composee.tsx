@@ -616,9 +616,10 @@ function Form13() {
                 </div>
               )}
               <br/>
-             <ButtonPrimary onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon/>Less</> : <><KeyboardArrowDownIcon/>More</>}</ButtonPrimary> 
+             <ButtonPrimary sx={{float:'right',mb:"10px"}} onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon/>Less</> : <><KeyboardArrowDownIcon/>More</>}</ButtonPrimary> 
+              <Box sx={{mb:"12px"}}>
               {showMore &&
-            <>
+            <Box sx={{mt:"-18px",mb:"-10px"}}>
               <Box mt={1}>
                 <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                 <Typography sx={{ display: 'inline-block' }}>
@@ -632,7 +633,8 @@ function Form13() {
                   Schedule Message at:
                 </Typography>
               </Box>
-            </> }
+            </Box> }
+            </Box>
             <Grid sx={{ display: scheduleMessage }} >
               <TextField
                 type="date"
