@@ -1,15 +1,15 @@
 import { useState } from 'react';
-import {  Grid, Grow, Typography } from '@mui/material';
+import { Grid, Grow, Typography } from '@mui/material';
 import {
-  CardDetail1, CardDetail4,
+  CardDetail1, CardDetail4, CardDetail
 } from '../styled/AccordianStyled';
 
 import { useLocation } from 'react-router-dom';
 import { Box } from '@mui/material';
 
 
-function  CardAttendace({ Name}) {
-  console.log("Name",Name)
+function CardAttendace({ Name }) {
+  
   const location = useLocation();
   const pathname = location.pathname;
   const [checked, setChecked] = useState(true)
@@ -19,21 +19,12 @@ function  CardAttendace({ Name}) {
     pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable';
   return (
     <div>
- 
-     <Grid container sx={{borderTop:"1px solid gray", display:"flex", direction:"row",justifyContent:"space-between"}}>
-        <Grid item xs={12}>
-       
-        <Typography>
-                <Box
-                
-                  dangerouslySetInnerHTML={{ __html: Name }}
-                ></Box>
-              </Typography>
-        </Grid>
-      
-       
-      
-     </Grid>
+
+
+          <CardDetail>
+            <CardDetail1 dangerouslySetInnerHTML={{ __html: Name }} ></CardDetail1>
+          </CardDetail>
+   
     </div>
   );
 }
