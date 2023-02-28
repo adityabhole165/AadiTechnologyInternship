@@ -18,14 +18,16 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
     isThirdAbove = true
 
   const theme = useTheme();
+  
+  
   return (
-    <AccordianHeader onClick={() => expand(Id)} >
-      <Grid container>
+    <AccordianHeader  onClick={()=>{expand(Id)}}>
+      <Grid container >
       {isThirdAbove &&
         <Grid item xs={1}>
           <img src={localStorage.getItem('SiteURL') + '/' + Rank.replace('~/', '')} width={25} height={30} />
           </Grid>
-        }
+         } 
    
         <Grid item xs={9}>
        <Header1 color={isActive ? 'secondary' : ''}>{Rollno + "." + " "+ " "} {Name} </Header1>

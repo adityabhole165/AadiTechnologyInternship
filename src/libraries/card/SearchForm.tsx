@@ -101,17 +101,17 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
               value={accessionNo}
               onChange={(e) => { setAccessionNo(e.target.value) }} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{mt:"-8px"}}>
             <TextField id="standard-basic" label="Author:"
               variant="standard" fullWidth
               value={author}
-              onChange={(e) => { setAuthor(e.target.value) }} />
+              onChange={(e) => {setAuthor(e.target.value) }} />
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{mt:"-8px"}}>
             <TextField id="standard-basic" label="Publisher:"
               variant="standard" fullWidth
               value={publisher}
-              onChange={(e) => { setPublisher(e.target.value) }} />
+              onChange={(e) => {setPublisher(e.target.value) }} />
           </Grid>
           <Grid item xs={6}>
             <DropdownAllSelect Array={Standards} handleChange={clickStandard}
