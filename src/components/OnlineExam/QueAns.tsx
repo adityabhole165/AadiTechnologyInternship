@@ -45,13 +45,13 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
-// console.log("asSchoolId",asSchoolId);
-// console.log("asAcademicYearId",asAcademicYearId);
-// console.log("asStandardId",asStandardId);
-// console.log("asStandardDivisionId",asStandardDivisionId);
-// console.log("Subjectid",Subjectid);
-// console.log("asSchoolwiseTestId",EXAMid);
-// console.log("asStudentId",asStudentId);
+    // console.log("asSchoolId",asSchoolId);
+    // console.log("asAcademicYearId",asAcademicYearId);
+    // console.log("asStandardId",asStandardId);
+    // console.log("asStandardDivisionId",asStandardDivisionId);
+    // console.log("Subjectid",Subjectid);
+    // console.log("asSchoolwiseTestId",EXAMid);
+    // console.log("asStudentId",asStudentId);
 
 
     useEffect(() => {
@@ -147,12 +147,12 @@ const QueAns = () => {
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
-                <Typography><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
+                <Typography sx={{textAlign:'center'}}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
                 <Box sx={{ textAlign: 'center' }}> <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} /></Box>
-                <br />
+                 <br />
                 {itemlist.length > 0 &&
                     <>
-                        <Grid container xs={12} flexDirection='row' sx={{mb:"10px"}}>
+                        <Grid container xs={12} flexDirection='row' sx={{ mb: "10px" }}>
                             <Grid xs={10} >
                                 {/* {itemlist.map((itemm, i) => { return (<Typography key={i}>{itemm[currentIndex].Parent.SerialNo} </Typography>) })} */}
                                 <Typography> {itemlist[currentIndex].Parent.Name}</Typography>
@@ -170,16 +170,19 @@ const QueAns = () => {
                             Previous
                         </ButtonPrimary>
                     </Grid>
-                   {currentIndex == maxIndex ? null : <Grid item xs={6}>
-                        <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
-                            Next
-                        </ButtonPrimary>
-                    </Grid>}
+
+                    <Grid item xs={6}>
+                        {currentIndex == maxIndex ?
+                            <ButtonPrimary fullWidth color='primary' onClick={msg}>
+                                Submit
+                            </ButtonPrimary>
+                            :
+                            <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
+                                Next
+                            </ButtonPrimary>
+                              }
+                        </Grid> 
                 </Grid>
-                {currentIndex == maxIndex ?
-                    <ButtonPrimary sx={{ mt: '5px' }} fullWidth color='primary' onClick={msg}>
-                        Submit
-                    </ButtonPrimary> : null}
             </Container>
 
         </>
