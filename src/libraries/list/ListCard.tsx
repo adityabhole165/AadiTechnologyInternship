@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import FileSelectall from 'src/components/OnlineExam/FileSelectall';
+// import FileSelectall from 'src/components/OnlineExam/FileSelectall';
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import CircleIcon from '@mui/icons-material/Circle';
 import { BadgeStyle } from '../styled/DashboardStyled';
