@@ -46,15 +46,17 @@ const ListCard = ({ itemList, clickItem, selectedItem }) => {
             //  ------------------------------------------------------------------------------------     
             <>
               {selectedItem == item.Name ?
-                <BadgeStyle badgeContent={item.SerialNo}>
+                // <BadgeStyle badgeContent={item.SerialNo}>
                   <CircleIcon key={index}
                     sx={{ color: selectedItem == item.Name ? item.IsAnswered ? 'green' : 'blue' : '', mr: '2px' }}
-                    onClick={() => { clickItem(item.Name) }}></CircleIcon></BadgeStyle>
+                    onClick={() => { clickItem(item.Name) }}></CircleIcon>
+                    // </BadgeStyle>
                 :
-                <BadgeStyle badgeContent={item.SerialNo}>
-                  <CircleIcon key={index}
+                // <BadgeStyle badgeContent={item.SerialNo} >
+                  <CircleIcon key={index} 
                     sx={{ color: item.IsAnswered ? 'green' : 'white', border: '3px solid grey', borderRadius: '20px', mr: '2px' }}
-                    onClick={() => { clickItem(item.Name) }} ></CircleIcon> </BadgeStyle>
+                    onClick={() => { clickItem(item.Name) }} ></CircleIcon>
+                    //  </BadgeStyle>
               }
             </>
           ))
