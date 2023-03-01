@@ -1,10 +1,13 @@
 import { Stack, Grid, Avatar, Box } from '@mui/material';
+import { ButtonPrimary } from '../styled/ButtonStyle';
 import { ListStyle } from '../styled/CardStyle';
 import { ProfileDetail1, ProfileDetail2, ProfileDetail3, ProfileDetail4, ProfileWrapper, ProfileDetailHeader } from '../styled/ProfileStyled';
-
+import EditIcon from '@mui/icons-material/Edit';
 import UserPhoto from '../UserPhoto/UserPhoto';
 import ProfileComponent from './ProfileComponent';
+import { useNavigate } from 'react-router-dom';
 function Card6() {
+  const navigate = useNavigate();
   const UserName = sessionStorage.getItem('StudentName');
   const RoleName = localStorage.getItem('RoleName');
   const DesignationName = sessionStorage.getItem('DesignationName');
@@ -34,7 +37,9 @@ function Card6() {
   }
   const newdate = (DOB === undefined || DOB === "") ? "" : getDateFormate(DOB)
 
-
+  const EditProfile=()=>{
+    navigate ('EditProfile')
+  }
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
@@ -91,7 +96,7 @@ function Card6() {
 
                 <ProfileComponent Name='Blood Group:' Value={Blood_Group}></ProfileComponent>
 
-                {/* <ProfileComponent Name='Family Photo:' Value={Blood_Group}></ProfileComponent> */}
+                <ButtonPrimary onClick={EditProfile}>Edit <EditIcon fontSize="small" /></ButtonPrimary>
 
               </>
             ) : (<></>)}
