@@ -416,23 +416,31 @@ const MessageList = () => {
                   </ButtonPrimary>
                 </Grid> :
                 activeTab == 'Trash' &&
-                <Grid item xs={3.5} >
+                <Grid item xs={5} >
                   <ButtonPrimary
                     onClick={ConfirmUndelete}
-                    endIcon={<RestoreIcon />} fullWidth
+                    endIcon={<Avatar sx={{ width: 25, height: 20, ml: "-8px", filter: " brightness(0) invert(1) " }}
+                    src={
+                        "/imges/unDelete.png"
+                    }
+                />} fullWidth
                   >Un-Delete
                   </ButtonPrimary></Grid>
               }
 
-              <Grid item xs={3.2}>
+              <Grid item xs={3.5}>
                 <ButtonPrimary fullWidth
                   onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
-                  endIcon={<DeleteIcon />}
+                  endIcon={<img height={20} width={20}
+                  src={
+                      "/imges/delete.png"
+                  }
+              />}
                 >
                   Delete
                 </ButtonPrimary>
               </Grid>
-              <Grid item xs={3.3}>
+              <Grid item xs={3.5}>
                 <ButtonPrimary fullWidth
                   onClick={clickReset}
                   endIcon={<ReplayIcon />}
