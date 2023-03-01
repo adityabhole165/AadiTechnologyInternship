@@ -256,6 +256,14 @@ const MessageList = () => {
         alert('error network');
       });
   }
+
+  const ConfirmUndelete = () => {
+    if(confirm('Are you sure you want to undelete selected message(s)')){
+      clickUnDelete()
+    }else {
+
+    }
+  }
   const DeletePermanent = () => {
     if (confirm('This action will permanently delete selected message(s) from the Sent message list of the current user as well as from the inbox of all related recipients (if unread). If any recipient reads the message, then that message will be visible in the sent message list of the current user. Do you want to continue?')) {
       permanentDelete()
@@ -410,7 +418,7 @@ const MessageList = () => {
                 activeTab == 'Trash' &&
                 <Grid item xs={3.5} >
                   <ButtonPrimary
-                    onClick={clickUnDelete}
+                    onClick={ConfirmUndelete}
                     endIcon={<RestoreIcon />} fullWidth
                   >Un-Delete
                   </ButtonPrimary></Grid>
