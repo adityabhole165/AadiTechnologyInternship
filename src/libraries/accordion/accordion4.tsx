@@ -90,8 +90,8 @@ const clickParentStudent = (value) =>{
           PaperProps={{ sx: { position: 'fixed', top: 190, m: 0 ,p:1} }}
         >
           <Typography>Claim this book for -- </Typography>
-         <Box px={2} pt={1}>
-         <Grid container>
+
+         <Grid container spacing={2}>
             <Grid item xs={6}>
             <ButtonPrimary onClick={()=>{clickParentStudent(0)}}> Student</ButtonPrimary>
             </Grid>
@@ -100,7 +100,7 @@ const clickParentStudent = (value) =>{
             </Grid>
           </Grid>
           
-          </Box> 
+         
         
     
    

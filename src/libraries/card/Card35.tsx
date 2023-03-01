@@ -13,6 +13,7 @@ export const Card35 = ({ header}) => {
     
     const [enableRow, setEnableRow] = useState(-1)
     const expand = (index) => {
+        console.log(index)
         if (enableRow === index)
             setEnableRow(-1)  
         else
@@ -29,13 +30,13 @@ export const Card35 = ({ header}) => {
         
       
             {header.Header!= undefined ?
-                header.Header.map((Header) => (
+                header.Header.map((Header, index) => (
                 
-                    <ListStyle key={Header.Id}>
+                    <ListStyle key={index}>
                         
                      
                         <Card36
-                            Id={Header.Id}
+                            Id={index}
                             Rank={Header.Rank}
                             Name={Header.Name}
                             Rollno={Header.Rollno}
@@ -45,7 +46,7 @@ export const Card35 = ({ header}) => {
                             isActive={enableRow === Header.Id}/>
 
                         {
-                            enableRow === Header.Id &&
+                            enableRow === index &&
                             <List23 data={Header.Child}/>
                         }
                     </ListStyle>

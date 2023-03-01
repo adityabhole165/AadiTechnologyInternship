@@ -66,6 +66,7 @@ export const AllExamData =
                             Marks:item.Marks,
                             SerialNo:item.SerialNo,
                             isSingleSelect: true,
+                            isActive:false
                         },
                         Child: getChild(item.QuestionId)
                     }

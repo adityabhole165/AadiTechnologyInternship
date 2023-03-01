@@ -99,16 +99,16 @@ function UploadParentPhoto() {
     if (SaveParentPhotos.Message !== undefined) {
       toast.success(SaveParentPhotos.Message, { toastId: 'success1' });
       dispatch(resetMessage())
+      dispatch(getParentphoto(GetParentphotoBody));
     }
-  }, [SaveParentPhotos])
+  },[SaveParentPhotos])
 
   useEffect(() => {
     if (SubmitParentPhotos.Message !== undefined) {
       toast.success(SubmitParentPhotos.Message, { toastId: 'success2' });
-      dispatch(resetMessage1())
-    }
+      dispatch(resetMessage1())}
   }, [SubmitParentPhotos])
-
+        
   const ChangeFileIntoBase64 = (fileData) => {
 
     return new Promise((resolve, reject) => {
@@ -173,7 +173,7 @@ function UploadParentPhoto() {
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
       {loading && <SuspenseLoader />}
-      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
+      {isPhotosSubmitted ?(<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
 
       <Grow in={checked}
             style={{ transformOrigin: '0 0 1' }}
@@ -205,14 +205,13 @@ function UploadParentPhoto() {
             <ButtonPrimary fullWidth
               color={(isPhotosSubmitted || !isAllPhotoSaved) ? "warning" : "primary"}
               disabled={isPhotosSubmitted || !isAllPhotoSaved}
-              onClick={SubmitFile}  >
+              onClick={SubmitFile}>
               Submit
             </ButtonPrimary>
           </Grid>
         </Grid>
-
-      </ListStyle>
-</Grow>
+       </ListStyle>
+      </Grow>
     </Container>
   )
 }

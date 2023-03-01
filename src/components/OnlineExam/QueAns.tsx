@@ -45,13 +45,13 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
-// console.log("asSchoolId",asSchoolId);
-// console.log("asAcademicYearId",asAcademicYearId);
-// console.log("asStandardId",asStandardId);
-// console.log("asStandardDivisionId",asStandardDivisionId);
-// console.log("Subjectid",Subjectid);
-// console.log("asSchoolwiseTestId",EXAMid);
-// console.log("asStudentId",asStudentId);
+    // console.log("asSchoolId",asSchoolId);
+    // console.log("asAcademicYearId",asAcademicYearId);
+    // console.log("asStandardId",asStandardId);
+    // console.log("asStandardDivisionId",asStandardDivisionId);
+    // console.log("Subjectid",Subjectid);
+    // console.log("asSchoolwiseTestId",EXAMid);
+    // console.log("asStudentId",asStudentId);
 
 
     useEffect(() => {
@@ -147,22 +147,22 @@ const QueAns = () => {
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
-                <Typography><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
+                <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
                 <Box sx={{ textAlign: 'center' }}> <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} /></Box>
-                <br />
                 {itemlist.length > 0 &&
                     <>
-                        <Grid container xs={12} flexDirection='row' sx={{mb:"10px"}}>
-                            <Grid xs={10} >
-                                {/* {itemlist.map((itemm, i) => { return (<Typography key={i}>{itemm[currentIndex].Parent.SerialNo} </Typography>) })} */}
-                                <Typography> {itemlist[currentIndex].Parent.Name}</Typography>
-                            </Grid>
-                            <Grid xs={2} >
-                                <Typography sx={{ textAlign: 'end' }}><b>Marks: </b>{itemlist[currentIndex].Parent.Marks}</Typography>
+                        <Grid container xs={12} flexDirection='row'>
+                            <Grid xs={10} />
+                            <Grid xs={2}>
+                                <Typography sx={{ textAlign: 'end', border: '1px solid grey' }}><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography>
                             </Grid>
                         </Grid>
+                        <Grid container xs={12}>
+                            <Typography> {itemlist[currentIndex].Parent.Name}</Typography>
+                        </Grid>
                         <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
-                    </>}
+                    </>
+                }
                 {currentIndex == maxIndex && <Box sx={{ mt: '-20px' }}><Attachments /></Box>}
                 <Grid container spacing={2} sx={{ mt: '-10px' }}>
                     <Grid item xs={6}>
@@ -170,16 +170,19 @@ const QueAns = () => {
                             Previous
                         </ButtonPrimary>
                     </Grid>
-                   {currentIndex == maxIndex ? null : <Grid item xs={6}>
-                        <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
-                            Next
-                        </ButtonPrimary>
-                    </Grid>}
+
+                    <Grid item xs={6}>
+                        {currentIndex == maxIndex ?
+                            <ButtonPrimary fullWidth color='primary' onClick={msg}>
+                                Submit
+                            </ButtonPrimary>
+                            :
+                            <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
+                                Next
+                            </ButtonPrimary>
+                        }
+                    </Grid>
                 </Grid>
-                {currentIndex == maxIndex ?
-                    <ButtonPrimary sx={{ mt: '5px' }} fullWidth color='primary' onClick={msg}>
-                        Submit
-                    </ButtonPrimary> : null}
             </Container>
 
         </>
