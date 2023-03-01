@@ -83,7 +83,7 @@ function ViewSms({ }) {
     }
     else
       return false
-  }
+  } 
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -97,8 +97,11 @@ function ViewSms({ }) {
           <Card7
             ViewDetail={ViewDetail}
             From={viewSent.UserName}
+            // To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+            //   (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
+            //     viewSent.RecieverName : viewSent.DisplayText}
             To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-              (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
+              // (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
                 viewSent.RecieverName : viewSent.DisplayText}
             Cc={viewSent.DisplayTextCc}
             Body={viewSent.Body}
@@ -106,6 +109,7 @@ function ViewSms({ }) {
             Attachments={viewSent.Attachments}
             ID={ID}
             ViewSentObject={viewSent}
+            LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
           />
         )}
     </>

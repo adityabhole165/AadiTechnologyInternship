@@ -22,7 +22,8 @@ Card7.propTypes = {
   Body: PropTypes.string,
   Attachments: PropTypes.any,
   ID: PropTypes.string,
-  Viewsent: PropTypes.array
+  Viewsent: PropTypes.array,
+  LoggedInUserNameForMessage: PropTypes.array
 };
 
 function Card7({
@@ -36,6 +37,7 @@ function Card7({
   ID,
   Viewsent,
   ViewSentObject,
+  LoggedInUserNameForMessage = ''
 }) {
   const theme = useTheme();
 
@@ -82,7 +84,6 @@ function Card7({
       }))
   }
 
-
   return (
     <>
       <Container>
@@ -97,11 +98,18 @@ function Card7({
 
             <CardDetail2>{To}</CardDetail2>
           </BoxWrapper>
-          {Cc !== '' && <BoxWrapper>
-            <CardDetail1> {ViewDetail.Cc}</CardDetail1>
+          {Cc !== '' && 
+          <>
+          { To === LoggedInUserNameForMessage ?
+              null :
+            <BoxWrapper>
+              <CardDetail1> {ViewDetail.Cc}</CardDetail1>
+              <CardDetail2>{Cc}</CardDetail2>
+            </BoxWrapper>
+          }
+          </>
+}
 
-            <CardDetail2>{Cc}</CardDetail2>
-          </BoxWrapper>}
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
             <CardDetail2>{Text}</CardDetail2>
