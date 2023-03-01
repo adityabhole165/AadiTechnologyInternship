@@ -53,10 +53,13 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
         {pageName1 == "MessageCenter/msgCenter" ?
           <CardD>{text1}</CardD> :
           <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2 sx={{ color: "#628def" }}>{text2}
+        <CardDetail2 sx={{ color: "#628def" ,display:"flex"}}>
+        <>{text2}</> 
+          <>
           {IsSchedule &&
             <ScheduleIcon fontSize="small" color="primary" />}
-        </CardDetail2>
+          </>
+       </CardDetail2>
       </CardDetail>
 
       <CardDetail>
