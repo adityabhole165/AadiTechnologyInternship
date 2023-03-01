@@ -423,7 +423,7 @@ const MessageList = () => {
               <Grid item xs={3.5}>
                 <ButtonPrimary fullWidth
                   onClick={activeTab == 'Trash' ? TrashDelete : clickDelete}
-                  endIcon={<img height={20} width={20}
+                  endIcon={<Avatar sx={{ width: 20, height: 20, ml: "-8px", filter: " brightness(0) invert(1) " }}
                   src={
                       "/imges/delete.png"
                   }
