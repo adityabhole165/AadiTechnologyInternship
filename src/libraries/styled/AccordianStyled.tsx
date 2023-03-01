@@ -11,10 +11,10 @@ export const AccordianHeader = styled(Box)(
 
 export const Header1 = styled(Typography)(
   ({ theme, color }) => `
-  margin-left: 5px;
+  margin-left: 7px;
   margin-top: 5px;
   align-items: center;
-  font-size:14px;
+  font-size:12px;
   font-weight:bold;
   font-family: Roboto;
   color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}

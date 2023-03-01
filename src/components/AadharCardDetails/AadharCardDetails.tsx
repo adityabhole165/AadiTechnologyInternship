@@ -150,46 +150,47 @@ function AadharCardDetails() {
         <Container>
             <PageHeader heading={'Aadhar Card Details'} subheading={''} />
             <Grow in={checked}
-            style={{ transformOrigin: '0 0 1' }}
-            {...(checked ? { timeout: 1500 } : {})}
-          >
-            <ListStyle>
-                <Typography variant='caption'>Name</Typography>
-                <TextField
-                    fullWidth
-                    variant="standard"
-                    value={GetUserAadharCardDetails.Name} />
+                style={{ transformOrigin: '0 0 1' }}
+                {...(checked ? { timeout: 1500 } : {})}
+            >
+                <ListStyle>
+                    <Typography variant='caption'>Name</Typography>
+                    <TextField
+                        fullWidth
+                        variant="standard"
+                        value={GetUserAadharCardDetails.Name} />
 
-                <TextField
-                    fullWidth
-                    inputProps={{ maxLength: 12 }}
-                    type="text"
-                    margin="dense"
-                    variant="standard"
-                    label="Aadhar Number"
-                    value={aadharNumber}
-                    onChange={(e) => { setAadharNumber(e.target.value) }}
-                    onBlur={clickOnBlur} />
+                    <Typography variant='caption'>Aadhar Number</Typography>
+                    <TextField
+                        fullWidth
+                        inputProps={{ maxLength: 12 }}
+                        type="text"
+                        // margin="dense"
+                        variant="standard"
+                        // label="Aadhar Number"
+                        value={aadharNumber}
+                        onChange={(e) => { setAadharNumber(e.target.value) }}
+                        onBlur={clickOnBlur} />
 
-                <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "} />
-                <Box sx={{ my: "10px", textAlign: "center" }}>
-                    {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
-                        height="150" style={{border:"1px solid gray",padding:"1px"}}/> :
-                        <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
-                            width="150"
-                            height="150" style={{border:"1px solid gray",padding:"1px"}}
-                        />}
-                    <input ref={aRef} type="file" onChange={changeFile}  />
-                    <Box className={classes.iIconSupport}>
-                        <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                    <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "} />
+                    <Box sx={{ my: "10px", textAlign: "center" }}>
+                        {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
+                            height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
+                            <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
+                                width="150"
+                                height="150" style={{ border: "1px solid gray", padding: "1px" }}
+                            />}
+                        <input ref={aRef} type="file" onChange={changeFile} />
+                        <Box  className={classes.iIconSupport}>
+                            <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                        </Box>
                     </Box>
-                </Box>
-                {fileError && <Errormessage Error={fileError} />}
-                <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
-            </ListStyle>
+                    {fileError && <Errormessage Error={fileError} />}
+                    <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+                </ListStyle>
 
             </Grow>
-                    </Container>
+        </Container>
     )
 }
 
