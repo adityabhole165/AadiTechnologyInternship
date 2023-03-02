@@ -36,6 +36,7 @@ const OnlineExam = Loader(lazy(() => import('src/components/OnlineExam/OnlineExa
 const OnlineExamDetails = Loader(lazy(() => import('src/components/OnlineExam/OnlineExamDetails')))
 const Layout = Loader(lazy(() => import('src/components/layout/layout')))
 const Profile = Loader(lazy(() => import('src/components/Profile/Profile')))
+
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 const Notification= Loader(lazy(() => import('src/components/Notification/Notification')))
 const Feedback = Loader(lazy(()=> import ('src/components/Feedback/Feedback')))
@@ -48,7 +49,7 @@ const AadharCardDetails= Loader (lazy(() => import ('src/components/AadharCardDe
 const QueAns = Loader(lazy(() => import('src/components/OnlineExam/QueAns')))
 const IncomeTaxReport = Loader(lazy(()=> import('src/components/IncomeTaxReport/IncomeTaxReport')))
 const AttendanceTopper= Loader(lazy(() => import ('src/components/Attendance/AttendanceTopper')))
-
+const EditProfile = Loader (lazy(()=> import ('src/components/Profile/EditProfile')))
 const studentRoutes = [
   {
     path: '/',
@@ -67,6 +68,10 @@ const studentRoutes = [
   {
     path: 'Profile',
     element: <Profile/>
+  },
+  {
+    path: 'Profile/EditProfile',
+    element: <EditProfile/>
   },
   {
     path: 'SubjectTeacher',

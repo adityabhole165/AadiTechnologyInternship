@@ -92,19 +92,17 @@ const curYear = new Date().getFullYear();
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
     dispatch(getMessageCount(getNewMessageCount));
     if (isBetweenDate(newdate,6)){
-
-      if(localStorage.getItem('DOB')==newdate){
+      if(localStorage.getItem('DOBSeen')==newdate){
       setShowBday(false)
       } 
       else {
         setShowBday(true)
-        localStorage.setItem('DOB',newdate)
+        localStorage.setItem('DOBSeen',newdate)
       }
     }
        else
        setShowBday(false)
   }, []);
-  
   let items1 = [];
   let items2 = [];
   let items3 = [];
