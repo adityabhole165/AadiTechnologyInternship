@@ -41,7 +41,7 @@ function Icon3({ Note }) {
     return (
         <>
             <Container>
-                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2, marginTop: '-22px' }}>
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2, marginTop: '-30px' }}>
                     <Typography variant="body2" fontSize='15px'>
                         {/* <DotLegend className={classes.Listfont1}
                             style={{ background: 'darkmagenta', marginLeft: '9px', marginBottom: "-2px" }}
