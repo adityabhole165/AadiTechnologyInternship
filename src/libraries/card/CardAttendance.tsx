@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Grid, Grow, Typography } from '@mui/material';
 import {
-  CardDetail1, CardDetail4, CardDetail
+  CardDetailTopper, CardDetail
 } from '../styled/AccordianStyled';
 
 import { useLocation } from 'react-router-dom';
@@ -19,12 +19,9 @@ function CardAttendace({ Name }) {
     pageName === 'Student/Timetable' || pageName === 'Teacher/TeacherTimeTable';
   return (
     <div>
-
-
           <CardDetail>
-            <CardDetail1 dangerouslySetInnerHTML={{ __html: Name }} ></CardDetail1>
+            <CardDetailTopper dangerouslySetInnerHTML={{ __html: Name }} ></CardDetailTopper>
           </CardDetail>
-   
     </div>
   );
 }
