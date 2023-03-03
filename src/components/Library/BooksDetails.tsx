@@ -14,19 +14,29 @@ function BooksDetails({GetBookList}) {
     (state: RootState) => state.library.ReserveBook
   );
 const [expanded, setExpanded] = React.useState<string | false>(false);
+const [aiFlag,setAiFlag] = useState('')
    const handleChange = (panel) => (event, isExpanded) => {
      setExpanded(isExpanded ? panel : false);
    };
 
 useEffect(() => {
   if(ReserveBook!==''){
-    toast.success(ReserveBook,{ toastId: 'success1'});
+    if(aiFlag==="0"){
+    toast.success('',{ toastId: 'success1'}); 
+    }
+    else{
+      toast.success('',{ toastId: 'success1'}); 
+    }
+
     dispatch(resetClaimMessage());
   }
+  
+
 },[ReserveBook])
 
 const ClickReserve = (value)=> {
-  const ReserveBookbody:IReserveBook = {
+  setAiFlag(value.aiFlag)
+   const ReserveBookbody:IReserveBook = {
     aiSchoolId:localStorage.getItem('localSchoolId'),
     aiAcademicYearId:sessionStorage.getItem('AcademicYearId'),
     aiUserId:sessionStorage.getItem('Id'),
