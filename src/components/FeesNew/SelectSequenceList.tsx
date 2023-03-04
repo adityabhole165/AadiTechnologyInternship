@@ -1,10 +1,10 @@
 import { useState } from 'react'
 import PaidFeesDetailsCard from './PaidFeesDetailsCard'
 
-const SelectSequenceList = ({ Itemlist, RefreshData,
+const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
     isSingleSelect = false, IsSequenceSelect = false }) => {
     const [isFirstTime, setIsFirstTime] = useState(true)
-    if(isFirstTime) {
+    if (isFirstTime) {
         Itemlist = Itemlist.map((Item, Index) => (
             { ...Item, IsEnabled: (IsSequenceSelect && Index === 0 || !IsSequenceSelect) ? true : false }
         ))
@@ -49,7 +49,7 @@ const SelectSequenceList = ({ Itemlist, RefreshData,
         <div>
             {
                 Itemlist.map((item, index) =>
-                    (<PaidFeesDetailsCard item={item} onChange={onChange} key={index} />)
+                    (<PaidFeesDetailsCard FeesCard={FeesCard} item={item} onChange={onChange} key={index} />)
                 )}
         </div>
     )

@@ -7,6 +7,7 @@ import { getFees } from 'src/requests/Fees/Fees';
 import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
+import FeesCard from './FeesCard';
 
 const PaidFeesDetails = () => {
   const navigate = useNavigate()
@@ -85,7 +86,8 @@ const PaidFeesDetails = () => {
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
-              IsSequenceSelect={false} isSingleSelect={true}/>
+            FeesCard ={FeesCard}
+              IsSequenceSelect={true}/>
           }
         </Grid>
       </Grid>
