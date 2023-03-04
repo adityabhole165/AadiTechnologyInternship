@@ -265,13 +265,11 @@ function Form13() {
       asIsSoftwareCordinatorCc: "",
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
-
-
     MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage == 'block') {
+          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== '' ) {
             toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
@@ -289,6 +287,7 @@ function Form13() {
 
       });
   };
+  
 
   const formik = useFormik({
     initialValues: {
@@ -635,7 +634,7 @@ function Form13() {
               </Box>
             </Box> }
             </Box>
-            <Grid sx={{ display: scheduleMessage,mb:"15px",mt:"-20px" }} >
+            <Grid sx={{ display: scheduleMessage,mb:"15px",mt:"-20px" }}>
               <TextField
                 type="date"
                 // required
