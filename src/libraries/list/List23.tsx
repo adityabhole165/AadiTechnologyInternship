@@ -14,7 +14,7 @@ const List23 = ({ data }) => {
     }
   }
     let xsWidth = data.length === 0 ? 12 :
-    data[0].isAttendanceTopper == true  ? 6 : 12
+    data[0].isAttendanceTopper == true  ? 4 : 12
   return (<>
  <Grid container   >
   { data == undefined || data.length == 0 ? <ErrorMessages Error={'Timetable not yet configured'} /> :
