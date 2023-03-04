@@ -103,7 +103,7 @@ function AttendanceTopper() {
         </Box>
 
         <Box my={1}>
-          <Typography sx={{ textAlign: "center" }} variant="h5">Attendance Topper</Typography>
+          <Typography sx={{ textAlign: "center" }} variant="h5">Attendance Toppers</Typography>
           
           </Box>
 
