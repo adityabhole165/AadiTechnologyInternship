@@ -152,9 +152,12 @@ function UploadParentPhoto() {
       asFatherPhotoFileName: itemList[0].fileName,
       asMotherPhotoFileName: itemList[1].fileName,
       asRelativePhotoFileName: itemList[2].fileName,
-      asFatherImgPhoto: itemList[0].Value===null?"":itemList[0].Value,
-      asMotherImgPhoto: itemList[1].Value===null?"":itemList[1].Value,
-      asLocalGuardianPhoto: itemList[2].Value===null?"":itemList[2].Value,
+      asFatherImgPhoto: itemList[0].Value,
+      asMotherImgPhoto: itemList[1].Value,
+      asLocalGuardianPhoto: itemList[2].Value,
+      // asFatherImgPhoto: itemList[0].Value===null?"":itemList[0].Value,
+      // asMotherImgPhoto: itemList[1].Value===null?"":itemList[1].Value,
+      // asLocalGuardianPhoto: itemList[2].Value===null?"":itemList[2].Value,
       asRelativeName: itemList[2].Text,
       abSaveForSibling: issaveForSibling
 
