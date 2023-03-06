@@ -103,6 +103,7 @@ function UploadParentPhoto() {
       toast.success(SaveParentPhotos.Message, { toastId: 'success1' });
       dispatch(resetMessage())
       dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
+      setIsSaveDisable(true)
     }
   }, [SaveParentPhotos])
 
@@ -119,6 +120,7 @@ function UploadParentPhoto() {
     if (SubmitParentPhotos.Message !== undefined) {
       toast.success(SubmitParentPhotos.Message, { toastId: 'success2' });
       dispatch(resetMessage1())
+      dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
     }
   }, [SubmitParentPhotos])
 
