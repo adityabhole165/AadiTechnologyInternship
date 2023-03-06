@@ -47,7 +47,7 @@ function EditProfile() {
       <Note NoteDetail={note} />
       <ListStyle>
         <ProfileDetailHeader sx={{ textAlign: "center" }}> <b>Name : </b><b>{UserName}</b></ProfileDetailHeader>
-        <br></br>
+       
         <Box sx={{ textAlign: "center" }}>
           <img src={value} width="112" height="151" style={{ border: "1px solid gray" }} />
           <Grid container spacing={2}>
@@ -56,11 +56,11 @@ function EditProfile() {
             </Grid>
             <Grid item xs={6} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} sx={{mt:"-3px",mb:"3px"}}>
           {error && <ErrorMessages Error={error} />}
           </Grid>
         </Box>
-        <br></br>
+     
         <Grid container sx={{ textAlign: "center" }}>
           <Grid item xs={3} />
           <Grid item xs={3}>
