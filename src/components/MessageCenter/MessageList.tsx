@@ -34,6 +34,7 @@ import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPerma
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useNavigate } from 'react-router';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
@@ -463,12 +464,15 @@ const MessageList = () => {
               height: '570px',
               overflow: 'auto'
             }}
-          >
+          >{InboxList?.length === 0 ? (
+            <ErrorMessages Error="No records found"></ErrorMessages>
+          ) : (
             <SelectList3Col
               Itemlist={inboxListData}
               ActiveTab={activeTab}
               refreshData={refreshData}
             />
+            )}
           </div>
         )}
 
