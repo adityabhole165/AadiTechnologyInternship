@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Card,Box } from '@mui/material';
+import { Container, Card,Box,Grow } from '@mui/material';
 
 import Card36 from './Card36';
 import List23 from '../list/List23';
@@ -51,9 +51,15 @@ export const Card35 = ({ header}) => {
 
                         {
                             enableRow === index &&
+                            <Grow
+                            in={checked}
+                            style={{ transformOrigin: '0 0 0' }}
+                            {...(checked ? { timeout: 1000 } : {})}
+                            >
                             <ListStyle>
                                  <CardAtt data={Header.Child}/>
                             </ListStyle>
+                            </Grow>
                            
                         }
                     </Box>
