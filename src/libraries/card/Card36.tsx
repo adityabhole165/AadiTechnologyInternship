@@ -1,9 +1,10 @@
 
-import { Divider, Grid, useTheme } from '@mui/material';
+import { Divider, Grid, useTheme ,Avatar } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import { AccordianHeader, Header1, Header2 } from '../styled/AccordianStyled';
 import { Box } from '@mui/system';
+import { ListStyle } from '../styled/CardStyle';
 
 const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentdays }) => {
   let isThirdAbove = false
@@ -21,16 +22,20 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
   
   
   return (
-    <AccordianHeader  onClick={()=>{expand(Id)}} >
+    <ListStyle color={isActive ? 'info' : ''}>
+    <AccordianHeader onClick={()=>{expand(Id)}}>
       <Grid container >
-      {isThirdAbove &&
-        <Grid item xs={1} >
-          <img src={localStorage.getItem('SiteURL') + '/' + Rank.replace('~/', '')} width={25} height={30} />
-          </Grid>
+      {isThirdAbove ?
+        (<Grid item xs={1} >
+          <img src={localStorage.getItem('SiteURL') + '/' + Rank.replace('~/', '')} width={25} height={30} style={{marginTop:"10px"}}/>
+          </Grid>) :
+           (<Grid item xs={1} >
+           <Avatar variant="square" sx={{width:25,height:33,mt:"8px",border:"1px solid orange"}}></Avatar>
+           </Grid>)
          } 
    
         <Grid item xs={9} sx={{color:"black"}}>
-       <Header1 color={isActive ? 'secondary' : ''}>{Rollno + "." + " "+ " "} {Name} </Header1>
+       <Header1 >{Rollno + "." + " "+ " "} {Name} </Header1>
         </Grid>
         <Grid item xs={1} sx={{ml:'20px'}}>
         {isActive ?
@@ -38,12 +43,12 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
           <ExpandMoreIcon />}
           </Grid>
     
-          <Grid item xs={1.5}/>
+          <Grid item xs={1}/>
         <Grid item xs={5} sx={{color:"black"}}>
-         <Box sx={{mr:"5px"}} fontSize={'12px'}><b> Present days:</b> {Presentdays}</Box> 
+         <Box sx={{mr:"5px",mt:"-15px",ml:"6px"}} fontSize={'12px'}><b> Present days:</b> {Presentdays}</Box> 
           
         </Grid>
-        <Grid item xs={5} sx={{float:"right",fontSize:'12px',color:"black"}}>
+        <Grid item xs={5} sx={{float:"right",fontSize:'12px',color:"black",mt:"-15px",ml:"20px"}}>
           <b>Percentage:</b> {Percentage + "%"}
           </Grid>
       
@@ -53,6 +58,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
 
 
     </AccordianHeader>
+    </ListStyle>
   );
 };
 export default Card36;
