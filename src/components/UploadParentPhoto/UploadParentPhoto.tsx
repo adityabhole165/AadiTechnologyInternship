@@ -122,6 +122,7 @@ function UploadParentPhoto() {
       dispatch(resetMessage1())
       dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
     }
+    
   }, [SubmitParentPhotos])
 
   const ChangeFileIntoBase64 = (fileData) => {
@@ -182,8 +183,13 @@ function UploadParentPhoto() {
   const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
+    if(confirm("Updates to submitted photos is prohibited. Contact school admin for required changes."))
+  {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
+  }
+   
+    
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
