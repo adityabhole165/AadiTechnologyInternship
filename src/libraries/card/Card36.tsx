@@ -22,7 +22,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
   
   
   return (
-    <ListStyle color={isActive ? 'info' : ''}>
+    <ListStyle color={isActive ? 'red' : ''}>
     <AccordianHeader onClick={()=>{expand(Id)}}>
       <Grid container >
       {isThirdAbove ?

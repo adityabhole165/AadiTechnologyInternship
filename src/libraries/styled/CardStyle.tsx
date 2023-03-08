@@ -279,7 +279,10 @@ export const ListStyle = styled(Box)(
      ? theme.colors.gradients.selectedlistColor
      : color === 'info'
      ? theme.colors.gradients.pageBackground
+     : color === 'red'
+     ? theme.colors.gradients.red
      : theme.colors.gradients.listColor
+     
  };
     position:relative;
  padding:8px;
