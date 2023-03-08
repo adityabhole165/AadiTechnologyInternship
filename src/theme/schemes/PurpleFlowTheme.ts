@@ -44,7 +44,7 @@ const colors = {
     green2: 'linear-gradient(to bottom, #00b09b, #96c93d)',
     black1: 'linear-gradient(100.66deg, #434343 6.56%, #000000 93.57%)',
     black2: 'linear-gradient(60deg, #29323c 0%, #485563 100%)',
-    red:'linear-gradient(65deg, #12c2e9 0%, #c471ed, #f64f59 100%)',
+    red:'#EACAFF',
     pink:'linear-gradient(65deg, #D3CCE3 0%, #E9E4F0, #f64f59 50%)',
   },
   shadows: {
