@@ -7,7 +7,7 @@ function CardAttendace({ Name,Text1}) {
  return (
     <div>
           <CardDetaiAtt>
-           <CardDetailTopper>{Name}</CardDetailTopper>
+           <CardDetailTopper>{Name} :</CardDetailTopper>
            <CardDetailTopper  dangerouslySetInnerHTML={{ __html: Text1 }}></CardDetailTopper>
           </CardDetaiAtt>
     </div>
