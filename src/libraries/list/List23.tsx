@@ -24,6 +24,7 @@ const List23 = ({ data }) => {
           <Grid xs={xsWidth} onClick={() => onClick(Detail.navPath)} key={index}>
           <CardAttendance
             Name={Detail.Name}
+            Text1={''}
           />
           </Grid>
 
