@@ -140,7 +140,7 @@ export const Accordionsummary1 = styled(AccordionSummary)`
 `;
 export const CardDetailTopper = styled(Typography)`
   margin-top: 8px;
-  margin-left: 30px;
+  margin-left: 10px;
   margin-bottom: 4px;
   font-family: Roboto;
 `;
