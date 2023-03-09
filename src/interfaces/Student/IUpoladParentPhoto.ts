@@ -39,7 +39,7 @@ export interface IsaveParentPhotosBody{
     aiUserId: string,
     aiIsSubmit: string,
     asRelativeName: string,
-    abSaveForSibling: string
+    abSaveForSibling: boolean,
 }
 
 export interface IsaveParentPhotosResult{
