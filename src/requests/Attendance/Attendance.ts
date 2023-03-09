@@ -54,8 +54,9 @@ export const getStudentAttendance =
         
           
           return {
-            Name: (item.MonthName + item.Days),
+            Name: (item.MonthName),
             Value: "",
+            Text1:item.Days,
             isAttendanceTopper: true
           }
         })

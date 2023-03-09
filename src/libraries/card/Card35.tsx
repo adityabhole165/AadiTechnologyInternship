@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Container, Card } from '@mui/material';
+import { Container, Card,Box,Grow } from '@mui/material';
 
 import Card36 from './Card36';
 import List23 from '../list/List23';
@@ -7,11 +7,14 @@ import { Styles } from 'src/assets/style/student-style';
 import Card28 from './Card28';
 
 import { ListStyle } from '../styled/CardStyle';
+import CardAtt from '../accordion/CardAtt';
 
 export const Card35 = ({ header}) => {
    
     
+    
     const [enableRow, setEnableRow] = useState(-1)
+    const [checked, setChecked] = useState(true)
     const expand = (index) => {
         console.log(index)
         if (enableRow === index)
@@ -32,7 +35,7 @@ export const Card35 = ({ header}) => {
             {header.Header!= undefined ?
                 header.Header.map((Header, index) => (
                 
-                    <ListStyle key={index}>
+                    <Box key={index}>
                         
                      
                         <Card36
@@ -42,14 +45,24 @@ export const Card35 = ({ header}) => {
                             Rollno={Header.Rollno}
                             Presentdays= {Header.PresentDays}
                             Percentage={Header.Percentage}
-                            expand={expand} 
-                            isActive={enableRow === Header.Id}/>
+                            expand={() => setEnableRow(enableRow === index ? -1 : index)}
+                            isActive={enableRow === index}
+                            />
 
                         {
                             enableRow === index &&
-                            <List23 data={Header.Child}/>
+                            <Grow
+                            in={checked}
+                            style={{ transformOrigin: '0 0 0' }}
+                            {...(checked ? { timeout: 1000 } : {})}
+                            >
+                            <ListStyle>
+                                 <CardAtt data={Header.Child}/>
+                            </ListStyle>
+                            </Grow>
+                           
                         }
-                    </ListStyle>
+                    </Box>
                 ))
             :null}
 

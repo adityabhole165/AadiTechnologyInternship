@@ -100,6 +100,19 @@ export const CheckFileValidationUploadPic = (fileData, allowedFileTypes, fileSiz
             }
     }
 };
+export const CheckFileValidationEditeProfile = (fileData, allowedFileTypes, fileSize) => {
+    const fileExtension = fileData.name.split('.').at(-1);
+    if (fileExtension != undefined || null) {
+        if (!allowedFileTypes.includes(fileExtension)) {
+            return 'Please attach the file in the valid or supportive format';
+        } else
+            if (fileData.size > fileSize) {
+                return 'Please upload a file smaller than 1 Mb';
+            } else if (allowedFileTypes.includes(fileExtension)) {
+                return null;
+            }
+    }
+};
 export const monthArray = [
     { Value: 1, Name: "January" },
     { Value: 2, Name: "February" },

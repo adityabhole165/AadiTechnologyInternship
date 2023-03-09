@@ -21,13 +21,15 @@ const List23 = ({ data }) => {
   <>
   {
       data.map((Detail, index) => (
-        // <div onClick={() => onClick(Detail.navPath)} key={index}>
-          <Grid xs={(data.length - 2 == index || data.length - 1 == index)? 12 : xsWidth} onClick={() => onClick(Detail.navPath)} key={index}>
-          <CardAttendance
-            Name={Detail.Name}
-          />
+          <Grid xs={xsWidth} onClick={() => onClick(Detail.navPath)} key={index}>
+           <Card31
+                  Name={Detail.Name}
+                  Value={Detail.Value}
+                  text1={Detail.text1}
+                  text2={Detail.text2}
+                  text3={Detail.text3}
+                />
           </Grid>
-        //  </div>
 
       ))
     }

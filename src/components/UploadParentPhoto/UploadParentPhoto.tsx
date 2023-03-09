@@ -79,6 +79,7 @@ function UploadParentPhoto() {
   useEffect(() => {
     dispatch(getParentphoto(GetParentphotoBody));
   }, []);
+
   useEffect(() => {
     if (GetParentphotos.IsPhotosSubmitted !== undefined) {
       setIsPhotosSubmitted(GetParentphotos.IsPhotosSubmitted)
@@ -88,6 +89,7 @@ function UploadParentPhoto() {
       setLocalGuardianPhoto(GetParentphotos.RelativePhoto)
     }
   }, [GetParentphotos])
+
   useEffect(() => {
     setItemList(GetParentphoto);
   }, [GetParentphoto]);
@@ -95,20 +97,34 @@ function UploadParentPhoto() {
   const clickItem = (value) => {
     setItemList(value);
   }
+
   useEffect(() => {
     if (SaveParentPhotos.Message !== undefined) {
       toast.success(SaveParentPhotos.Message, { toastId: 'success1' });
       dispatch(resetMessage())
-      dispatch(getParentphoto(GetParentphotoBody));
+      dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
+      setIsSaveDisable(true)
     }
-  },[SaveParentPhotos])
+  }, [SaveParentPhotos])
+
+  const getActiveTable = () => {
+    let activeTab = '1'
+    itemList.map((item) => {
+      if (item.IsActive)
+        activeTab = item.Id
+    })
+    return activeTab
+  }
 
   useEffect(() => {
     if (SubmitParentPhotos.Message !== undefined) {
       toast.success(SubmitParentPhotos.Message, { toastId: 'success2' });
-      dispatch(resetMessage1())}
+      dispatch(resetMessage1())
+      dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
+    }
+    
   }, [SubmitParentPhotos])
-        
+
   const ChangeFileIntoBase64 = (fileData) => {
 
     return new Promise((resolve, reject) => {
@@ -167,50 +183,55 @@ function UploadParentPhoto() {
   const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
+    if(confirm("Updates to submitted photos is prohibited. Contact school admin for required changes."))
+  {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
+  }
+   
+    
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
       {loading && <SuspenseLoader />}
-      {isPhotosSubmitted ?(<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
+      {isPhotosSubmitted ? (<Note NoteDetail={submittedNote} />) : (<Note NoteDetail={note} />)}
 
       <Grow in={checked}
-            style={{ transformOrigin: '0 0 1' }}
-            {...(checked ? { timeout: 1500 } : {})}
-          >
-      <ListStyle>
-        {itemList.length > 0 &&
-          (<>
-            <ButtonList itemList={itemList} clickItem={clickItem} />
-            {activeItem !== undefined &&
-              <TextFilePath item={activeItem}
-                onFileSelect={onFileTextChange}
-                onTextChange={onFileTextChange} />
-            }
-          </>)}
-        <Grid container spacing={2} sx={{ mt: "10px" }}>
-          <Grid item xs={6}>
-            <ButtonPrimary
-              type="submit"
-              fullWidth
-              color={isSaveDisable ? 'warning' : 'primary'}
-              disabled={isSaveDisable}
-              onClick={SaveFile}
-            >
-              Save
-            </ButtonPrimary>
+        style={{ transformOrigin: '0 0 1' }}
+        {...(checked ? { timeout: 1500 } : {})}
+      >
+        <ListStyle>
+          {itemList.length > 0 &&
+            (<>
+              <ButtonList itemList={itemList} clickItem={clickItem} />
+              {activeItem !== undefined &&
+                <TextFilePath item={activeItem}
+                  onFileSelect={onFileTextChange}
+                  onTextChange={onFileTextChange} />
+              }
+            </>)}
+          <Grid container spacing={2} sx={{ mt: "10px" }}>
+            <Grid item xs={6}>
+              <ButtonPrimary
+                type="submit"
+                fullWidth
+                color={isSaveDisable ? 'warning' : 'primary'}
+                disabled={isSaveDisable}
+                onClick={SaveFile}
+              >
+                Save
+              </ButtonPrimary>
+            </Grid>
+            <Grid item xs={6}>
+              <ButtonPrimary fullWidth
+                color={(isPhotosSubmitted || !isAllPhotoSaved) ? "warning" : "primary"}
+                disabled={isPhotosSubmitted || !isAllPhotoSaved}
+                onClick={SubmitFile}>
+                Submit
+              </ButtonPrimary>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <ButtonPrimary fullWidth
-              color={(isPhotosSubmitted || !isAllPhotoSaved) ? "warning" : "primary"}
-              disabled={isPhotosSubmitted || !isAllPhotoSaved}
-              onClick={SubmitFile}>
-              Submit
-            </ButtonPrimary>
-          </Grid>
-        </Grid>
-       </ListStyle>
+        </ListStyle>
       </Grow>
     </Container>
   )

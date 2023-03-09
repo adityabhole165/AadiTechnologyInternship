@@ -10,7 +10,7 @@ import { SidebarProvider } from 'src/contexts/SidebarContext';
 import * as serviceWorker from 'src/serviceWorker';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
-
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={store}>
@@ -36,6 +36,8 @@ ReactDOM.render(
   </HelmetProvider>,
   
   document.getElementById('root')
+  
 );
+defineCustomElements(window);
 
 serviceWorker.unregister();

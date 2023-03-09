@@ -97,6 +97,13 @@ export const CardDetail = styled(Box)`
   justify-content: space-between;
   font-family: Roboto;
 `;
+
+export const CardDetaiAtt = styled(Box)`
+  border-bottom: 0.1px solid gray;
+  display: flex;
+
+  font-family: Roboto;
+`;
 export const CardDetailB = styled(Box)`
   border-bottom: 0.1px solid gray;
   display: flex;
@@ -132,6 +139,12 @@ export const Accordionsummary1 = styled(AccordionSummary)`
 
 `;
 export const CardDetailTopper = styled(Typography)`
+  margin-top: 8px;
+  margin-left: 30px;
+  margin-bottom: 4px;
+  font-family: Roboto;
+`;
+export const CardDetailTopper1 = styled(Typography)`
   margin-top: 8px;
   margin-left: 10px;
   margin-bottom: 4px;

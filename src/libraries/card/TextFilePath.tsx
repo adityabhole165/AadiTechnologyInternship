@@ -1,11 +1,15 @@
 import { TextField, Box } from '@mui/material'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { ChangeFileIntoBase64, CheckFileValidationUploadPic } from 'src/components/Common/Util';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 
 function TextFilePath({ item, onFileSelect, onTextChange }) {
   const [error, setError] = useState('')
   const aRef = useRef(null);
+  
+  useEffect(()=>{
+    setError('')
+  },[item.Value])
 
   const changeFile = async (e) => {
     let isValid = CheckFileValidationUploadPic(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 80000)
@@ -38,7 +42,7 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
       
         <img width="112" height="151" style={{ border: "1px solid gray" }}
           src={(item.Value === "" || item.Value === null) ? 
-          item.ImgUrl : 'data:image/png;base64,' + item.Value} />
+          '/imges/defualtUser.jpg' : 'data:image/png;base64,' + item.Value} />
       
         <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} />
         {error && <ErrorMessages Error={error} />}
