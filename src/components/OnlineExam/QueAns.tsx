@@ -35,7 +35,6 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
-    // console.log("GetAllAnswerQueListtt",GetAllAnswerQueListtt);
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
@@ -45,15 +44,6 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
-    // console.log("asSchoolId",asSchoolId);
-    // console.log("asAcademicYearId",asAcademicYearId);
-    // console.log("asStandardId",asStandardId);
-    // console.log("asStandardDivisionId",asStandardDivisionId);
-    // console.log("Subjectid",Subjectid);
-    // console.log("asSchoolwiseTestId",EXAMid);
-    // console.log("asStudentId",asStudentId);
-
-
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
@@ -148,7 +138,9 @@ const QueAns = () => {
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
                 <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
-                <Box sx={{ textAlign: 'center' }}> <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} /></Box>
+                <Box sx={{ textAlign: 'center' }}> 
+                <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
+                </Box>
                 {itemlist.length > 0 &&
                     <>
                         <Grid container xs={12} flexDirection='row'>
