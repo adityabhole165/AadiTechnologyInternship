@@ -140,6 +140,7 @@ function Form13() {
   const [scheduleMessage, setscheduleMessage] = useState('none');
   const [requestReadReceipt, setRequestReadReceipt] = useState(false)
   const [scheduleDate, setscheduleDate] = useState<string>('');
+  const [requestSchedule, setRequestSchedule] = useState(false);
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
   const Note: string =
@@ -269,7 +270,7 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== '' ) {
+          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== '') {
             toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
@@ -287,7 +288,7 @@ function Form13() {
 
       });
   };
-  
+
 
   const formik = useFormik({
     initialValues: {
@@ -298,8 +299,19 @@ function Form13() {
       Attachment: ''
     },
     onSubmit: (values) => {
-      sendMessage();
-      setdisabledStateOfSend(true);
+      let valid = false;
+      if (requestSchedule) {
+        if (scheduleDate + value) {
+          valid = true
+        }
+      }
+      else {
+        valid = true
+      }
+      if (valid) {
+        sendMessage();
+        setdisabledStateOfSend(true);
+      }
     },
     validate: (values) => {
       const errors: any = {};
@@ -416,6 +428,7 @@ function Form13() {
   const clickMore = () => {
     setShowMore(!showMore)
   }
+
   return (
     <>
       <Container sx={{ display: displayOfComposePage }}>
@@ -614,27 +627,27 @@ function Form13() {
                   }
                 </div>
               )}
-              <br/>
-             <ButtonPrimary sx={{float:'right',mb:"10px"}} onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon/>Less</> : <><KeyboardArrowDownIcon/>More</>}</ButtonPrimary> 
-              <Box sx={{mb:"12px"}}>
+            <br />
+            <ButtonPrimary sx={{ float: 'right', mb: "10px" }} onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon />Less</> : <><KeyboardArrowDownIcon />More</>}</ButtonPrimary>
+            <Box sx={{ mb: "12px" }}>
               {showMore &&
-            <Box sx={{mt:"-18px",mb:"-10px"}}>
-              <Box mt={1}>
-                <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
-                <Typography sx={{ display: 'inline-block' }}>
-                  Request Read Receipt? :
-                </Typography>
-              </Box>
+                <Box sx={{ mt: "-18px", mb: "-10px" }}>
+                  <Box mt={1}>
+                    <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
+                    <Typography sx={{ display: 'inline-block' }}>
+                      Request Read Receipt? :
+                    </Typography>
+                  </Box>
 
-              <Box mt={-1}>
-                <Checkbox onChange={scheduleMessageCheckBox} size="small" sx={{ ml: "-10px" }} />
-                <Typography sx={{ display: 'inline-block' }}>
-                  Schedule Message at:
-                </Typography>
-              </Box>
-            </Box> }
+                  <Box mt={-1}>
+                    <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
+                    <Typography sx={{ display: 'inline-block' }}>
+                      Schedule Message at:
+                    </Typography>
+                  </Box>
+                </Box>}
             </Box>
-            <Grid sx={{ display: scheduleMessage,mb:"15px",mt:"-20px" }}>
+            <Grid sx={{ display: scheduleMessage, mb: "15px", mt: "-20px" }}>
               <TextField
                 type="date"
                 // required

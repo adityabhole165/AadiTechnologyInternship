@@ -11,13 +11,9 @@ import { BadgeStyle } from '../styled/DashboardStyled';
 const ListCard = ({ itemList, clickItem, selectedItem }) => {
   return (
     <div>
-      <Grid container>
-       <Grid xs={12}>
-      <Box 
-      sx={{ display: 'flex', flexDirection: 'row', mb: '10px' }}
-      >
-        {
-          itemList?.map((item, index) => (
+      <Grid container spacing={1} >
+        {itemList?.map((item, index) => (
+          <Grid item xs={1} key={index}>
             <>
               {selectedItem == item.Name ?
                 <Avatar sx={{
@@ -40,10 +36,8 @@ const ListCard = ({ itemList, clickItem, selectedItem }) => {
                     onClick={() => { clickItem(item.Name) }} >{item.SerialNo}</Avatar>
               }
             </>
-          ))
-        }
-      </Box>
-      </Grid>
+          </Grid>
+        ))}
       </Grid>
     </div>
   )

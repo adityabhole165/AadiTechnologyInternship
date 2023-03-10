@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import Note from 'src/libraries/Note/Note';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { IsaveParentPhotosBody } from 'src/interfaces/Student/IUpoladParentPhoto';
 
 
 const note = [
@@ -51,7 +52,7 @@ function UploadParentPhoto() {
 
   const [isPhotosSubmitted, setIsPhotosSubmitted] = useState(false)
   const [isAllPhotoSaved, setIsAllPhotoSaved] = useState(false)
-  const [issaveForSibling, setIsSaveForSibling] = useState("0")
+  const [issaveForSibling, setIsSaveForSibling] = useState("")
   const [fatherPhotoFileName, setFatherPhotoFileName] = useState("")
   const [fatherImgPhoto, setFatherImgPhoto] = useState("")
   const [motherPhotoFileName, setMotherPhotoFileName] = useState("")
@@ -150,16 +151,20 @@ function UploadParentPhoto() {
     if (!isPhotosSubmitted)
       setIsSaveDisable(false)
   }
+  
 
   let activeItem = itemList.filter((obj) => obj.IsActive)[0]
+  
   const SaveFile = () => {
-    if (GetParentphoto.IsSiblingPresent == true) {
-      if (!confirm('Do you want to save same details for sibling login')) {
-        setIsSaveForSibling("1")
+    let IsSaveForSibling = false
+    if (GetParentphoto.IsSiblingPresent === true) {
+      if (confirm('Do you want to save same details for sibling login')) {
+        IsSaveForSibling=true
+        
       }
     }
 
-    const SaveParentPhotosBody =
+    const SaveParentPhotosBody : IsaveParentPhotosBody=
     {
       aiSchoolId: asSchoolId,
       aiAcademicYearId: asAcademicYearId,
@@ -175,7 +180,7 @@ function UploadParentPhoto() {
       // asMotherImgPhoto: itemList[1].Value===null?"":itemList[1].Value,
       // asLocalGuardianPhoto: itemList[2].Value===null?"":itemList[2].Value,
       asRelativeName: itemList[2].Text,
-      abSaveForSibling: issaveForSibling
+      abSaveForSibling: IsSaveForSibling 
 
     }
     dispatch(getSaveParentPhotos(SaveParentPhotosBody));

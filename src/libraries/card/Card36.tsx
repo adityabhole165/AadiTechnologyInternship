@@ -39,8 +39,8 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
         </Grid>
         <Grid item xs={1} sx={{ml:'20px'}}>
         {isActive ?
-          <ExpandLessIcon /> :
-          <ExpandMoreIcon />}
+          <ExpandLessIcon  sx={{color:"black"}}/> :
+          <ExpandMoreIcon sx={{color:"black"}}/>}
           </Grid>
     
           <Grid item xs={1}/>
