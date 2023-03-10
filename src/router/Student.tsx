@@ -1,6 +1,7 @@
 
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+import PayinternalFees from 'src/components/Fees/PayinternalFees';
 
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader/index';
 
@@ -51,7 +52,7 @@ const IncomeTaxReport = Loader(lazy(()=> import('src/components/IncomeTaxReport/
 const AttendanceTopper= Loader(lazy(() => import ('src/components/Attendance/AttendanceTopper')))
 const EditProfile = Loader (lazy(()=> import ('src/components/Profile/EditProfile')))
 const TransportCommittee = Loader (lazy(()=> import ('src/components/TransportCommittee/TransportCommittee')))
-
+const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/PayinternalFees')))
 
 const studentRoutes = [
   {
@@ -112,6 +113,10 @@ const studentRoutes = [
   {
     path: 'Fees',
     element: <Fees />
+  },
+  {
+    path: 'Fees/PayinternalFees',
+    element: <PayinternalFees/>
   },
   {
     path: 'Fees_cautionmoney',
