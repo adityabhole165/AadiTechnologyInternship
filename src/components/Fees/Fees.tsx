@@ -1,12 +1,13 @@
-import { useEffect } from 'react';
+import { useEffect ,useState} from 'react';
 import { useDispatch } from 'react-redux';
-import { getFees } from 'src/requests/Fees/Fees';
+import { getFees,getYearList  } from 'src/requests/Fees/Fees';
+import IFees, { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { Card, styled, TextField } from '@mui/material';
-import IFees from 'src/interfaces/Student/Fees';
+import { useNavigate } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -19,12 +20,18 @@ import {
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 function Fees() {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
+  );
+  const AcadamicYear: any = useSelector(
+    (state: RootState) => state.Fees.YearList
   );
 
   const Feedata = {
@@ -42,7 +49,11 @@ function Fees() {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
-
+  const body1: GetAllAcademicYearsApiBody = {
+    aiSchoolId: asSchoolId,
+    aiYearwiseStudentId: asStudentId
+  };
+  const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId
@@ -52,12 +63,22 @@ function Fees() {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
+  useEffect(() => {
+    dispatch(getYearList(body1));
+    }, []);
+
+    const clickYear = (value) => {
+      setCurrentyear(value);
+    };
 
   const theme = useTheme();
 
  
   const classes = Styles();
   const note1 = ['1) *RTE student (100% concession on school fees)'];
+  const PayInternalFees =()=>{
+    navigate('PayinternalFees')
+  };
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -84,18 +105,33 @@ function Fees() {
           </DotLegend1>
         </Grid>
       </Grid>
-      <br />
-
+   
+      <Dropdown
+        Array={ AcadamicYear}
+        handleChange={clickYear}
+        label={'Select Year'}
+        defaultValue={currentYear} 
+      />
+      <br></br>
+      <br></br>
       <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {FeesList2.TotalFee}
         </CardDetail1>
       </ListStyle>
-
+     
       <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}/>
       
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
+      <Grid container spacing={1}>
+        <Grid item xs={6}>
+          <ButtonPrimary fullWidth  onClick={PayInternalFees}>Pay internal Fees</ButtonPrimary>
+        </Grid>
+        <Grid item xs={6}>
+          <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>
+        </Grid>
+      </Grid>
     </Container>
   );
 }

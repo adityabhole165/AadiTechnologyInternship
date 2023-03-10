@@ -69,6 +69,18 @@ const DashboardData = {
       index: 23,
      
     },
+
+   
+    {
+      Text1: ' Transport ',
+      Text2: 'Committee',
+      Color: '#90a4ae',
+      iconColor: '#35abd9',
+      Icon: PeopleIcon,
+      Link: 'Student/TransportCommittee',
+      index: 32
+    },
+
     {
       Text1: ' Library ',
       Text2: '',
