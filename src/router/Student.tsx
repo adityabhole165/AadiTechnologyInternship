@@ -50,6 +50,9 @@ const QueAns = Loader(lazy(() => import('src/components/OnlineExam/QueAns')))
 const IncomeTaxReport = Loader(lazy(()=> import('src/components/IncomeTaxReport/IncomeTaxReport')))
 const AttendanceTopper= Loader(lazy(() => import ('src/components/Attendance/AttendanceTopper')))
 const EditProfile = Loader (lazy(()=> import ('src/components/Profile/EditProfile')))
+const TransportCommittee = Loader (lazy(()=> import ('src/components/TransportCommittee/TransportCommittee')))
+
+
 const studentRoutes = [
   {
     path: '/',
@@ -224,6 +227,10 @@ const studentRoutes = [
   element: <IncomeTaxReport/>
 },
 
+{
+  path: "TransportCommittee",
+  element: <TransportCommittee/>
+},
 
   ];
 
