@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline,GetAllAcademicYearsApiBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 
 const Feesslice = createSlice({
@@ -11,6 +11,7 @@ const Feesslice = createSlice({
     FeesData:[],
     FeesData2:[],
     paymentUrl:[],
+    YearList: [],
     ReceiptFileName:""
   },
     
@@ -32,7 +33,10 @@ const Feesslice = createSlice({
 
     resetReciept (state,action) {
       state.ReceiptFileName =""
-    }  
+    },
+    getAllAcademicYears(state, action) {
+      state.YearList = action.payload;
+    },
   }   
 });
 
@@ -57,6 +61,20 @@ export const getFees =
     const response = await FeesApi.getReceiptFileName(data);
     dispatch(Feesslice.actions.getReceiptFileName(response.data));
   };
+
+  export const getYearList =
+  (data: GetAllAcademicYearsApiBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.getAllAcademicYears(data);
+      const itemlist = response?.data.GetAllAcademicYears.map((item) => {
+        return {
+          id: item.Academic_Year_Id,
+          Name: item.AcademicYear,
+          Value: item.Academic_Year_Id
+        }
+      })
+    dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
+    };
   export const resetReciept =
   (): AppThunk =>
   async (dispatch) => {

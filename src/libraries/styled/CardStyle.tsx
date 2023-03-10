@@ -282,6 +282,7 @@ export const ListStyle = styled(Box)(
       : color === 'red'
      ? theme.colors.gradients.red
      : theme.colors.gradients.listColor
+     
  };
     position:relative;
  padding:8px;
