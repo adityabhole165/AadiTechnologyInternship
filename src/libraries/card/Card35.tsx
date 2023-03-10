@@ -1,58 +1,37 @@
 import { useState } from 'react';
-import { Container, Card } from '@mui/material';
-
 import Card36 from './Card36';
-import List23 from '../list/List23';
-import { Styles } from 'src/assets/style/student-style';
 import Card28 from './Card28';
-
 import { ListStyle } from '../styled/CardStyle';
+import AttendanceCard from '../mainCard/AttendanceCard';
 
-export const Card35 = ({ header}) => {
-   
-    
+export const Card35 = ({ header }) => {
     const [enableRow, setEnableRow] = useState(-1)
-    const expand = (index) => {
-        console.log(index)
-        if (enableRow === index)
-            setEnableRow(-1)  
-        else
-            setEnableRow(index)
-    }
-    
 
-    const classes = Styles();
+    const expand = (index) => {
+        setEnableRow(enableRow === index ? -1 : index)
+    }
+
     return (
         <>
-        {header.Students===undefined?null:
-            <Card28 Student={header.Students}/>}
+            {header.Students !== undefined &&
+                <Card28 Student={header.Students} />}
 
-        
-      
-            {header.Header!= undefined ?
+            {
+                header.Header != undefined &&
                 header.Header.map((Header, index) => (
-                
                     <ListStyle key={index}>
-                        
-                     
-                        <Card36
-                            Id={index}
-                            Rank={Header.Rank}
-                            Name={Header.Name}
-                            Rollno={Header.Rollno}
-                            Presentdays= {Header.PresentDays}
-                            Percentage={Header.Percentage}
-                            expand={expand} 
-                            isActive={enableRow === Header.Id}/>
-
-                        {
-                            enableRow === index &&
-                            <List23 data={Header.Child}/>
+                        <Card36 Id={index} Rank={Header.Rank}
+                            Name={Header.Name} Rollno={Header.Rollno}
+                            Presentdays={Header.PresentDays} Percentage={Header.Percentage}
+                            expand={expand} isActive={enableRow === Header.Id} />
+                        {enableRow === index && (
+                            Header.Child.map((Item, index) =>
+                                <AttendanceCard Item={Item} key={index} />
+                            ))
                         }
                     </ListStyle>
                 ))
-            :null}
-
+            }
         </>
     )
 }

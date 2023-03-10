@@ -49,29 +49,24 @@ export const getStudentAttendance =
       let response = await AttendanceApi.AttendanceToppersApi(data)
 
       const studentChild = (obj) => {
-        
-        let studentChild = obj.MonthwiseDays.map((item) => {
-        
-          
-          return {
-            Name: (item.MonthName + "- "+ item.Days),
-            Value: "",
-            isAttendanceTopper: true
+        let Text1, Text2, Text3, Text4 = ""
+        let studentChild = []
+        obj.MonthwiseDays.map((item, index) => {
+          if (index % 2 === 0) {
+            Text1 = item.MonthName
+            Text2 = item.Days
+          }
+          else {
+            Text3 = item.MonthName
+            Text4 = item.Days
+            studentChild.push( { Text1: Text1, Text2: Text2, Text3: Text3, Text4: Text4, })
           }
         })
-        // studentChild.push({
-        //   Name: "Total:" + obj.PresentDays + "/" + obj.TotalDays
-        //   , Value: "", isAttendanceTopper: true
-        // })
-        // studentChild.push({
-        //   Name: "Percentage:" + obj.Percentage
-        //   , Value: "", isAttendanceTopper: true
-        // })
         return studentChild
       }
-      const getDetails = (StudentAttendance) => {
+      const getDetails = (StudentAttendance, index) => {
         return {
-          Id: 1,
+          Id: index,
           Name: StudentAttendance.StudentName,
           Rank: StudentAttendance.RankImagePath,
           Rollno: StudentAttendance.RollNo,
@@ -83,11 +78,11 @@ export const getStudentAttendance =
         }
       }
 
-      dispatch(AttendanceSlice.actions.getStudentAttendance([getDetails(response.data.StudentAttendance)]));
+      dispatch(AttendanceSlice.actions.getStudentAttendance([getDetails(response.data.StudentAttendance, 1)]));
 
-      let  arrAttendanceDetails = [];
-      response.data.AttendanceDetails.map((item)=>{
-        arrAttendanceDetails.push(getDetails(item))
+      let arrAttendanceDetails = [];
+      response.data.AttendanceDetails.map((item, index) => {
+        arrAttendanceDetails.push(getDetails(item, index))
       })
       dispatch(AttendanceSlice.actions.getAttendanceDetails(arrAttendanceDetails));
 
@@ -100,29 +95,7 @@ export const getAttendanceDetails =
       const response = await AttendanceApi.AttendanceToppersApi(data)
       const AttendanceDetails = response.data.AttendanceDetails
 
-      //   const studentChild = () => {
-      //     let studentChild= AttendanceDetails.MonthwiseDays.map((item)=>{
-      //      return {Name: (item.MonthName + 'Total:' + item.Days),
-      //        Value:"",
-      //        isAttendanceTopper:true}
-      //    })
-      //    studentChild.push({Name:"Total:"+AttendanceDetails.PresentDays+"/"+AttendanceDetails.TotalDays
-      //    , Value:"",isAttendanceTopper:true})
-      //    studentChild.push({Name:"Percentage:"+AttendanceDetails.Percentage
-      //    , Value:"",isAttendanceTopper:true})
-      //    return studentChild
-      //  }
       const TopperAttendance = []
-      //    Id:1,
-      //    Name:AttendanceDetails.StudentName,
-      //    Rank:AttendanceDetails.RankImagePath,
-      //    Rollno: AttendanceDetails.RollNo,
-      //    isActive:false,
-      //    Child:studentChild()
-
-      //  }]
-
-
       dispatch(AttendanceSlice.actions.getAttendanceDetails(TopperAttendance));
     };
 
@@ -139,8 +112,5 @@ export const getAcademicYearsForOldAttendance =
       })
       dispatch(AttendanceSlice.actions.getAcademicYearsForOldAttendance(AcademicYearList));
     };
-
-
-
 
 export default AttendanceSlice.reducer
