@@ -141,6 +141,7 @@ function Form13() {
   const [requestReadReceipt, setRequestReadReceipt] = useState(false)
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
   const Note: string =
@@ -304,8 +305,13 @@ function Form13() {
         if (scheduleDate + value) {
           valid = true
         }
-      }
-      else {
+        if(scheduleDate == '' && value == ''){
+          setRequestScheduleMsg('Schedule Date and Time should not be blank') 
+        }else{
+          setRequestScheduleMsg('')
+        }
+      }  
+      else { 
         valid = true
       }
       if (valid) {
@@ -647,7 +653,7 @@ function Form13() {
                   </Box>
                 </Box>}
             </Box>
-            <Grid sx={{ display: scheduleMessage, mb: "15px", mt: "-20px" }}>
+            <Grid sx={{ display: scheduleMessage, mb:'10px',mt: "-20px" }}>
               <TextField
                 type="date"
                 // required
@@ -668,9 +674,11 @@ function Form13() {
                 onChange={(e) => { clickTime(e.currentTarget.value) }}
               />
             </Grid>
-            <Box mt={0.5}>
+            <Box sx={{mb:'20px',mt:'-5px'}}>
               <ErrorMessage1 Error={schTimeerror} />
+              <ErrorMessage1 Error={requestScheduleMsg} />
             </Box>
+           
 
             <TextField
               fullWidth
