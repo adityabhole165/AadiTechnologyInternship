@@ -23,6 +23,7 @@ import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 import { color } from '@mui/system';
 import DirectionsBusIcon from '@mui/icons-material/DirectionsBus';
 import HelpIcon from '@mui/icons-material/Help';
+import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
  import AddCardIcon from '@mui/icons-material/AddCard';
 
 const DashboardData = {
@@ -274,6 +275,16 @@ const DashboardData = {
       index: 31,
     },
 
+    {
+      Text1: ' O-Progress ',
+      Text2: 'Report',
+      Color: '#90a4ae',
+      iconColor: '#35abd9',
+      Icon: DownloadForOfflineIcon,
+      Link: 'Student/OnlineExamProgressReport',
+      index: 33
+    },
+    
     
   
   ]},
