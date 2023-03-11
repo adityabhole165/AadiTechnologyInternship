@@ -25,7 +25,7 @@ import { Link } from 'react-router-dom';
 import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
 import HelpIcon from '@mui/icons-material/Help';
 import AddCardIcon from '@mui/icons-material/AddCard';
-import DownloadForOfflineIcon from '@mui/icons-material/DownloadForOffline';
+
 
 function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
   const theme = useTheme();
@@ -80,7 +80,7 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 30 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
             {icon === 31 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
             {icon === 32 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 33 && <DownloadForOfflineIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 33 && <img src={ImageUrl} alt="" style={{  width:"36px", height:"35px",marginTop:"3px"}}/>}
 
             <Text1>
               {text1}
