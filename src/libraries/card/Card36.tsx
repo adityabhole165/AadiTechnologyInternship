@@ -22,8 +22,8 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
   
   
   return (
-    <ListStyle color={isActive ? 'red' : ''}>
-    <AccordianHeader onClick={()=>{expand(Id)}}>
+    // <ListStyle color={isActive ? 'red' : ''}>
+    <AccordianHeader onClick={()=>{expand(Id)}} color={isActive ? 'red' : ''} p={isActive ? 1 : null} >
       <Grid container >
       {isThirdAbove ?
         (<Grid item xs={1} >
@@ -58,7 +58,7 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
 
 
     </AccordianHeader>
-    </ListStyle>
+    // </ListStyle>
   );
 };
 export default Card36;
