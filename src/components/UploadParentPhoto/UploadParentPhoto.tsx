@@ -157,7 +157,7 @@ function UploadParentPhoto() {
   
   const SaveFile = () => {
     let IsSaveForSibling = false
-    if (GetParentphoto.IsSiblingPresent === true) {
+    if (GetParentphotos.IsSiblingPresent === true) {
       if (confirm('Do you want to save same details for sibling login')) {
         IsSaveForSibling=true
         
