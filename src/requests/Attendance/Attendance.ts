@@ -51,7 +51,7 @@ export const getStudentAttendance =
       const studentChild = (obj) => {
         let Text1, Text2, Text3, Text4 = ""
         let studentChild = []
-        obj.MonthwiseDays.map((item, index) => {
+        obj.MonthwiseDays?.map((item, index) => {
           if (index % 2 === 0) {
             Text1 = item.MonthName
             Text2 = item.Days
