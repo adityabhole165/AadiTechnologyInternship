@@ -188,7 +188,7 @@ function UploadParentPhoto() {
   const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
-    if(confirm("Updates to submitted photos is prohibited. Contact school admin for required changes."))
+    if(confirm("Make sure the uploaded photos are final before submission. Contact the School admin for any changes in submitted photos."))
   {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
