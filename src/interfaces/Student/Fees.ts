@@ -59,3 +59,16 @@ export interface IGetReceiptFileName {
         asSerialNo:string,
         asLoginUserId:string
 };
+
+export interface GetAllAcademicYearsApiBody {
+         aiSchoolId: string,
+        aiYearwiseStudentId: string,
+        };
+        
+        export interface GetAllAcademicYears {
+                GetAllAcademicYears:[{
+                AcademicYear: string,
+                Academic_Year_Id: string,
+        
+        }]
+};

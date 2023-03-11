@@ -157,7 +157,7 @@ function UploadParentPhoto() {
   
   const SaveFile = () => {
     let IsSaveForSibling = false
-    if (GetParentphoto.IsSiblingPresent === true) {
+    if (GetParentphotos.IsSiblingPresent === true) {
       if (confirm('Do you want to save same details for sibling login')) {
         IsSaveForSibling=true
         
@@ -188,7 +188,7 @@ function UploadParentPhoto() {
   const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
-    if(confirm("Updates to submitted photos is prohibited. Contact school admin for required changes."))
+    if(confirm("Make sure the uploaded photos are final before submission. Contact the School admin for any changes in submitted photos."))
   {
     dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }

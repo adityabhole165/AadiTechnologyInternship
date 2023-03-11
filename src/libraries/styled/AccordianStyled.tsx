@@ -1,11 +1,25 @@
 import { Box, Typography, styled, AccordionSummary } from '@mui/material';
 
 export const AccordianHeader = styled(Box)(
-  ({ theme }) => `
+  ({ theme,color }) => `
   
     cursor: pointer;
     display:flex;
     justify-content:space-between;
+    background-color: ${
+      color === 'primary'
+        ? theme.colors.gradients.listColor
+        : color === 'secondary'
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+        ? theme.colors.gradients.selectedlistColor
+        : color === 'info'
+        ? theme.colors.gradients.pageBackground
+         : color === 'red'
+        ? theme.colors.gradients.red
+        : theme.colors.gradients.listColor
+        
+    };
   `
 );
 
