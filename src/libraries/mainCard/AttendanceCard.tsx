@@ -6,11 +6,12 @@ const AttendanceCard = ({ Item }) => {
     return (
         <Grid container>
             <Grid item xs={5}>
-                <CardDetail>
+                <CardDetail >
                     <CardDetailTopper dangerouslySetInnerHTML={{ __html: Item.Text1 + " " + Item.Text2 }} ></CardDetailTopper>
                 </CardDetail>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={0.5}/>
+          <Grid item xs={1} sx={{mt:"-7px"}}>
                 <ArrowForwardIosIcon />
             </Grid>
             <Grid item xs={5}>
