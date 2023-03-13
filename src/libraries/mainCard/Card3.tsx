@@ -80,6 +80,8 @@ function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,Imag
             {icon === 30 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
             {icon === 31 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
             {icon === 32 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+            {icon === 33 && <img src={ImageUrl} alt="" style={{  width:"36px", height:"35px",marginTop:"3px"}}/>}
+
             <Text1>
               {text1}
             </Text1>
