@@ -20,7 +20,7 @@ export const Card35 = ({ header }) => {
                         <Card36 Id={index} Rank={Header.Rank}
                             Name={Header.Name} Rollno={Header.Rollno}
                             Presentdays={Header.PresentDays} Percentage={Header.Percentage}
-                            expand={expand} isActive={enableRow === Header.Id} />
+                            expand={expand} isActive={enableRow === index} />
                           <Box sx={{mt:"10px"}}>
                           {enableRow === index && (
                             Header.Child.map((Item, index) =>
