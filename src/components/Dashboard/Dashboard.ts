@@ -90,7 +90,8 @@ const DashboardData = {
       Icon: HistoryEduOutlinedIcon,
       ImageUrl: "/imges/library.png",
       Link: 'Student/Library',
-      index: 27
+      index: 27,
+      ModulesPermission: "EnableLibraryModule"
     },
     {
       Text1: 'Photo ',
