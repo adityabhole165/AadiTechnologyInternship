@@ -11,8 +11,8 @@ const AttendanceCard = ({ Item }) => {
                 </CardDetail>
             </Grid>
             <Grid item xs={0.5}/>
-          <Grid item xs={1} sx={{mt:"-7px"}}>
-                <ArrowForwardIosIcon />
+          <Grid item xs={1} sx={{mt:"-10px"}}>
+                <ArrowForwardIosIcon  fontSize='small'/>
             </Grid>
             <Grid item xs={5}>
                 <CardDetail>
