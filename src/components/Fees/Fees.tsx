@@ -6,7 +6,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField } from '@mui/material';
+import { Card, styled, TextField ,ToggleButton, ToggleButtonGroup, Typography,} from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
@@ -70,6 +70,14 @@ function Fees() {
     const clickYear = (value) => {
       setCurrentyear(value);
     };
+    const [view, setView] = useState('S');
+    const handleChange = (
+      event: React.MouseEvent<HTMLElement>,
+      newView: string,
+    ) => {
+      if (newView != null)
+      setView(newView);
+    };
 
   const theme = useTheme();
 
@@ -82,6 +90,28 @@ function Fees() {
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
+      <Dropdown
+        Array={ AcadamicYear}
+        handleChange={clickYear}
+        label={'Select Year'}
+        defaultValue={currentYear} 
+      />
+     
+  
+      <br></br>
+      <br></br>
+      <ToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={handleChange}
+     
+            >
+            <ToggleButton value="S">School Fees</ToggleButton>
+            <ToggleButton value="I">Internal Fees</ToggleButton>
+          </ToggleButtonGroup>
+         
+          <br></br>
+          <br></br>
       <Grid container>
         <Grid item xs={7.5}>
           <DotLegend1>
@@ -105,15 +135,10 @@ function Fees() {
           </DotLegend1>
         </Grid>
       </Grid>
-   
-      <Dropdown
-        Array={ AcadamicYear}
-        handleChange={clickYear}
-        label={'Select Year'}
-        defaultValue={currentYear} 
-      />
       <br></br>
-      <br></br>
+         
+    
+     
       <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
@@ -121,17 +146,13 @@ function Fees() {
         </CardDetail1>
       </ListStyle>
      
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}/>
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
       
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
-      <Grid container spacing={1}>
-        <Grid item xs={6}>
-          <ButtonPrimary fullWidth  onClick={PayInternalFees}>Pay internal Fees</ButtonPrimary>
-        </Grid>
-        <Grid item xs={6}>
+    
           <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>
-        </Grid>
-      </Grid>
+      
+     
     </Container>
   );
 }
