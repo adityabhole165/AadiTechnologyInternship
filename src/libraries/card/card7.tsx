@@ -23,7 +23,7 @@ Card7.propTypes = {
   Attachments: PropTypes.any,
   ID: PropTypes.string,
   Viewsent: PropTypes.array,
-  LoggedInUserNameForMessage: PropTypes.array
+  LoggedInUserNameForMessage: PropTypes.string
 };
 
 function Card7({
