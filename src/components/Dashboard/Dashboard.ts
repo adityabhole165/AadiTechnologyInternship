@@ -280,7 +280,7 @@ const DashboardData = {
       Text2: 'Report',
       Color: '#90a4ae',
       iconColor: '#35abd9',
-      Icon: DownloadForOfflineIcon,
+      ImageUrl: "/imges/progress.png",
       Link: 'Student/OnlineExamProgressReport',
       index: 33
     },
