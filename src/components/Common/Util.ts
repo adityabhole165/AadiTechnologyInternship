@@ -84,7 +84,7 @@ export const getDateFormatted = (date) => {
 export const getNextDate = (date, prevNext) => {
     var nextDate = new Date(date);
     nextDate.setDate(nextDate.getDate() + prevNext);
-    return nextDate.toLocaleString('default', { day: '2-digit', month: 'short', year: 'numeric' })
+    return getDateFormatted(nextDate)
 }
 
 export const CheckFileValidationUploadPic = (fileData, allowedFileTypes, fileSize) => {
@@ -157,9 +157,9 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
 };
 
 export function isBetweenDate(date, dayCount) {
-    var fromDate = new Date(new Date().toLocaleDateString())
+    var fromDate = new Date(getDateFormatted(new Date()));
     var toDate = getNextDate(fromDate, dayCount)
-    var compareDate = new Date(new Date(date).toLocaleDateString())
+    var compareDate = new Date(new Date(date))
     return ((compareDate >= fromDate) &&
         (compareDate <= new Date(toDate)))
 }
