@@ -89,7 +89,7 @@ export const getLibrarySchoolSetting =
         data.asKey = "EnableLibraryLinkForStudentLogin";
         response = await SchoolSettingApi.GetSettingValueapi(data)
         if (sessionStorage.getItem('RoleId') === "3")
-          isLibrarySchoolSetting = response.data.GetSettingValueResult === 'true'
+          isLibrarySchoolSetting = response.data.GetSettingValueResult.toString() === 'true'
         else
           isLibrarySchoolSetting = true;
 
