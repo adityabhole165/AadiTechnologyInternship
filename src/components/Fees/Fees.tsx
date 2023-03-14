@@ -22,10 +22,16 @@ import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import PayCautionMoney from './PayCautionMoney';
+const note = [
+  '1) If the user has paid caution money then Display "Show Caution Money receipt" instead of " Pay caution Money"',
+ 
 
+];
 function Fees() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [ispaidCautionMoney, setIspaidCautionMoney] =useState('false')
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
@@ -70,13 +76,13 @@ function Fees() {
     const clickYear = (value) => {
       setCurrentyear(value);
     };
-    const [view, setView] = useState('S');
+    const [showCaution, setShowCaution] = useState('School');
     const handleChange = (
       event: React.MouseEvent<HTMLElement>,
-      newView: string,
+      newshowCaution: string,
     ) => {
-      if (newView != null)
-      setView(newView);
+      if (newshowCaution != null)
+      setShowCaution(newshowCaution);
     };
 
   const theme = useTheme();
@@ -96,20 +102,15 @@ function Fees() {
         label={'Select Year'}
         defaultValue={currentYear} 
       />
-     
-  
-      <br></br>
+       <br></br>
       <br></br>
       <ToggleButtonGroup
-            value={view}
+            value={PayCautionMoney}
             exclusive
-            onChange={handleChange}
-     
-            >
-            <ToggleButton value="S">School Fees</ToggleButton>
-            <ToggleButton value="I">Internal Fees</ToggleButton>
+            onChange={handleChange}>
+            <ToggleButton value="School">School Fees</ToggleButton>
+            <ToggleButton value="Internal">Internal Fees</ToggleButton>
           </ToggleButtonGroup>
-         
           <br></br>
           <br></br>
       <Grid container>
@@ -119,7 +120,6 @@ function Fees() {
               className={classes.border}
               style={{ background: 'red' }}
             />
-
             <CardDetail7>Bounced Cheque Transaction</CardDetail7>
           </DotLegend1>
         </Grid>
@@ -136,25 +136,16 @@ function Fees() {
         </Grid>
       </Grid>
       <br></br>
-         
-    
-     
-      <ListStyle sx={{ mb: 2 }} color="info">
+       <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {FeesList2.TotalFee}
         </CardDetail1>
       </ListStyle>
-     
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
-      
-      {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
-    { view === "I" && 
-    <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>}
-         
-      
-     
-    </Container>
+     <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
+     {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
+     <PayCautionMoney ShowCaution={showCaution}  IspaidCautionMoney={ispaidCautionMoney} note={note}/>   
+     </Container>
   );
 }
 
