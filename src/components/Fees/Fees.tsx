@@ -149,8 +149,9 @@ function Fees() {
       <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
       
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
-    
-          <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>
+    { view === "I" && 
+    <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>}
+         
       
      
     </Container>
