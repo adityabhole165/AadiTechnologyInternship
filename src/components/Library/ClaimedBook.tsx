@@ -28,9 +28,7 @@ function ClaimedBook() {
   const [checked, setChecked] = useState(false);
   const [userName, setUserName] = useState('');
   const [bookTitle, setBookTitle] = useState('');
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+
   let claimedBookList = ClaimedBook
     .filter((obj) => {
       return checked ? true :
@@ -40,38 +38,35 @@ function ClaimedBook() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
 
+  const ClaimDetailbody: IClaimDetail = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiUserId: UserId,
+    asBookTitle: bookTitle,
+    asUserName: userName,
+    aiStartRowIndex: '0',
+    aiEndIndex: 20,
+    asSortExpression: 'Order by Book_Title asc',
+    aiAllUser: 1
+  }
   useEffect(() => {
-    const ClaimDetailbody: IClaimDetail = {
-      aiSchoolId: asSchoolId,
-      aiAcademicYearId: asAcademicYearId,
-      aiUserId: UserId,
-      asBookTitle: bookTitle,
-      asUserName: userName,
-      aiStartRowIndex: '0',
-      aiEndIndex: 20,
-      asSortExpression: 'Order by Book_Title asc',
-      aiAllUser: 1
-    }
     dispatch(getClaimBookDetails(ClaimDetailbody));
   }, [bookTitle, userName]);
-
 
   useEffect(() => {
     if (GetCancelBookReservation !== '')
       toast.success(GetCancelBookReservation, { toastId: 'success1' });
-
+    dispatch(getClaimBookDetails(ClaimDetailbody));
     dispatch(resetMessage());
-
   }, [GetCancelBookReservation])
 
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
+  
   const clickSearch = ({ bookTitle, userName }) => {
     setBookTitle(bookTitle)
     setUserName(userName)
-  }
-
-  const clickAllUser = (AllUser) => {
-    setChecked(AllUser)
-
   }
 
   const confirmsg = (value) => {
@@ -82,20 +77,17 @@ function ClaimedBook() {
         aiBookid: value,
         aiSchoolId: localStorage.getItem('localSchoolId'),
         aiAcademicYrId: sessionStorage.getItem('AcademicYearId')
-
       }
       dispatch(getCancelBookReservation(CancelBookReservationbody));
-      // dispatch(getClaimBookDetails(ClaimDetailbody));
     }
-
-
   }
+
   return (
     <Container >
       <PageHeader heading={'Claimed Books Details'} subheading={''} />
       <BackButton FromRoute={'/Student/Library'} />
 
-      <Filter clickSearch={clickSearch} clickAllUser={clickAllUser} />
+      <Filter clickSearch={clickSearch} clickAllUser={(AllUser) => { setChecked(AllUser) }} />
       {loading ? (<SuspenseLoader />) :
         claimedBookList.length === 0 ?
           (<ErrorMessages Error={
