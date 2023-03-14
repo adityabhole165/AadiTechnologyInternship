@@ -89,11 +89,11 @@ export interface ICancelBookReservation {
     aiUserId:string,
     aiBookid:string,
     aiSchoolId:string,
-    aiAcademicYearId:string,
+    aiAcademicYrId:string,
 }
 export interface IReserveBook {
     aiSchoolId:string,
-    aiAcademicYearId:string,
+    aiAcademicYrId:string,
     aiUserId:string,
     aiUserRoleId:string,
     aiBookId:string,

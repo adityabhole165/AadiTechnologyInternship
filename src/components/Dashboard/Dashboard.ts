@@ -83,7 +83,7 @@ const DashboardData = {
     },
 
     {
-      Text1: ' Library ',
+      Text1: 'Library',
       Text2: '',
       Color: '#90a4ae',
       iconColor: '#424242',

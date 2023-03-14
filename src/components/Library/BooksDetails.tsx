@@ -39,7 +39,7 @@ const ClickReserve = (value)=> {
   setAiFlag(value.aiFlag)
    const ReserveBookbody:IReserveBook = {
     aiSchoolId:localStorage.getItem('localSchoolId'),
-    aiAcademicYearId:sessionStorage.getItem('AcademicYearId'),
+    aiAcademicYrId:sessionStorage.getItem('AcademicYearId'),
     aiUserId:sessionStorage.getItem('Id'),
     aiUserRoleId:sessionStorage.getItem('RoleId'),
     aiBookId:value.aiBookId,
