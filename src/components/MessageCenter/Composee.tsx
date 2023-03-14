@@ -23,10 +23,11 @@ import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { isFutureDateTime, logoURL, sitePath } from '../Common/Util';
+import { isFutureDateTime, formatAMPM } from '../Common/Util';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
+import TimePicker from '@mui/lab/TimePicker';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -250,7 +251,7 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: scheduleDate + ' ' + value,
+        ScheduleDateTime: scheduleDate + ' ' + strTime,
         RequestReadReceipt: requestReadReceipt ? "1" : "0"
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
@@ -271,7 +272,7 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== '') {
+          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== undefined) {
             toast.success('Message scheduled successfully', { toastId: 'success1' });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
@@ -305,7 +306,7 @@ function Form13() {
         if (scheduleDate + value) {
           valid = true
         }
-        if(scheduleDate == '' && value == ''){
+        if(scheduleDate == '' && strTime == undefined){
           setRequestScheduleMsg('Schedule Date and Time should not be blank') 
         }else{
           setRequestScheduleMsg('')
@@ -415,7 +416,17 @@ function Form13() {
     aRef.current.value = null;
   }
   const [schTimeerror, setSchTimeerror] = useState('');
-  const [value, setValue] = useState('');
+  const [value, setValue] = React.useState(new Date());
+  let hours = value.getHours();
+  let minutes = value.getMinutes();
+  let ampm = hours >= 12 ? 'PM' : 'AM';
+  hours = hours % 12;
+  hours = hours ? hours : 12;
+  let strTime = hours + ':' + minutes + ' ' + ampm;
+  console.log("scheduleDate","",scheduleDate,"");
+  console.log("strTime",strTime);
+  
+  
   const clickTime = (value) => {
     if (isFutureDateTime(MinDate + " " + value)) {
       setSchTimeerror('')
@@ -665,14 +676,20 @@ function Form13() {
                   max: MaxDate
                 }}
               />
-              <TextField
+              {/* <TextField
 
                 id="time"
                 type="time"
                 variant="standard"
                 value={value}
                 onChange={(e) => { clickTime(e.currentTarget.value) }}
-              />
+              /> */}
+              <TimePicker
+            label="Time"
+            value={value}
+            onChange={clickTime}
+            renderInput={(params) => <TextField {...params} />}
+          />
             </Grid>
             <Box sx={{mb:'20px',mt:'-5px'}}>
               <ErrorMessage1 Error={schTimeerror} />

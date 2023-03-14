@@ -9,7 +9,8 @@ const SchoolSettingSlice = createSlice({
         ModulesPermission:[],
         ModulesPermissionsResult:[],
         SchoolTrasnportIsEnabled: false,
-        SubTeacher:false
+        SubTeacher:false,
+        isLibrarySchoolSetting:false
     },
     reducers:{
         getModulesPermission(state,action){
@@ -24,7 +25,11 @@ const SchoolSettingSlice = createSlice({
         },
         getSubTeacherIsEnabled(state, action) {
           state.SubTeacher = action.payload;;
+        },
+        getLibrarySchoolSetting(state, action) {
+          state.isLibrarySchoolSetting = action.payload;;
         }
+        
 
     }
 });
@@ -73,5 +78,18 @@ export const getGetSettingValue =
           }
         }
       dispatch(SchoolSettingSlice.actions.getSubTeacherIsEnabled(subTeacherIsEnabled));
+    }
+    export const getLibrarySchoolSetting =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let isLibrarySchoolSetting = false
+      data.asKey = "EnableLibraryModule";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            isLibrarySchoolSetting = true;
+          }
+        }
+      dispatch(SchoolSettingSlice.actions.getLibrarySchoolSetting(isLibrarySchoolSetting));
     }
 export default SchoolSettingSlice.reducer
