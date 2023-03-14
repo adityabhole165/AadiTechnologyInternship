@@ -61,7 +61,7 @@ export const checkIsNumber = (value) => {
     return re.test(value)
 }
 
-const formatAMPM = (date) => {
+export const formatAMPM = (date) => {
     let hours = date.getHours();
     let minutes = date.getMinutes();
     let ampm = hours >= 12 ? 'pm' : 'am';
