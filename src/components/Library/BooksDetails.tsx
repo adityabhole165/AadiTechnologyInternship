@@ -22,10 +22,10 @@ console.log(aiFlag,"aiFlag")
 useEffect(() => {
   if(ReserveBook!==''){
     if(aiFlag===0){
-     toast.success(ReserveBook +"Student",{ toastId: 'success1'});
+     toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Student!!!", { toastId: 'success1'});
     }
     else{
-      toast.success(ReserveBook +"Parent",{ toastId: 'success1'});
+      toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Parent!!!",{ toastId: 'success1'});
     }
 
     dispatch(resetClaimMessage());
