@@ -81,7 +81,7 @@ function ClaimedBook() {
         aiUserId: sessionStorage.getItem('Id'),
         aiBookid: value,
         aiSchoolId: localStorage.getItem('localSchoolId'),
-        aiAcademicYearId: sessionStorage.getItem('AcademicYearId')
+        aiAcademicYrId: sessionStorage.getItem('AcademicYearId')
 
       }
       dispatch(getCancelBookReservation(CancelBookReservationbody));
