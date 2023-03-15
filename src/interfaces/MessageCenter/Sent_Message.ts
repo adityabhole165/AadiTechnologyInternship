@@ -45,7 +45,8 @@ export interface GetSentListResult {
             ReceiverUserIdCc:string,
             ScheduleDateTime: string,
             ReceiverNameCc: string,
-            RequestReadReceipt:string
+            RequestReadReceipt:string,
+            HasReadReceipt:string
 }
 
 // view sent

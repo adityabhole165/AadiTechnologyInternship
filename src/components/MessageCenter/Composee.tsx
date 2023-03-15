@@ -307,7 +307,7 @@ function Form13() {
         if (scheduleDate + value) {
           valid = true
         }
-        if(scheduleDate == '' && strTime == undefined){
+        if(scheduleDate == '' && strTime == ''){
           setRequestScheduleMsg('Schedule Date and Time should not be blank') 
         }else{
           setRequestScheduleMsg('')

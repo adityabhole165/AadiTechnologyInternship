@@ -93,7 +93,9 @@ export const getListOfMessages =
             isActive: false,
             DetailsId: item.DetailsId,
             ReceiverDetailsId: item.ReceiverDetailsId,
-            IsSchedule: isFutureDateTime(msgDate)
+            IsSchedule: isFutureDateTime(msgDate),
+            HasReadReceipt:item.HasReadReceipt,
+            RequestReadReceipt:item.RequestReadReceipt
           }
         })
         data = data === undefined ? [] : data;
