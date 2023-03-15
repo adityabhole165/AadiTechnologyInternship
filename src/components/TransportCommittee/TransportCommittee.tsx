@@ -17,7 +17,7 @@ const header = {
 function TransportCommittee() {
   
   const Teacher= [{id:"1",text1:"Ms. Nazneen A. Shaikh", text2:"principle" }]
-  const Data = Teacher.map((item, index) => {
+  const Item = Teacher.map((item, index) => {
     return {
       id: item.id,
       text1: item.text1,
@@ -47,7 +47,7 @@ function TransportCommittee() {
       <AccordionTrC
         Name='panel1'
         header={header.PTA_Member}
-        Data={Data}
+        Item={Item}
         isExpanded={expanded === 'panel1'}
         handleChange={handleChange('panel1')}
       />
@@ -56,7 +56,7 @@ function TransportCommittee() {
       <AccordionTrC
         Name='panel2'
         header={header.PTA}
-        Data={Data}
+        Item={Item}
         isExpanded={expanded === 'panel2'}
         handleChange={handleChange('panel2')}
       />

@@ -8,7 +8,7 @@ import { ListStyle } from '../styled/CardStyle';
 import CardNew from '../card/CardNew';
 
 
-function AccordionTrC({ header, handleChange, isExpanded, Name, Data }) {
+function AccordionTrC({ header, handleChange, isExpanded, Name, Item }) {
    
     const theme = useTheme();
     const classes = Styles();
@@ -38,7 +38,7 @@ function AccordionTrC({ header, handleChange, isExpanded, Name, Data }) {
                 <AccordionDetails sx={{ borderRadius: 1, mb: -1 }}>
 
                     {
-                        Data.map((Item, i) => {
+                        Item.map((Item, i) => {
                             return (
                                 <CardNew key={i}
 
