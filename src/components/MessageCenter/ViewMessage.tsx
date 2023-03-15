@@ -63,7 +63,7 @@ function ViewSms({ }) {
         const body: IUpdateReadReceiptStatusBody = {
           asSchoolId: SchoolId,
           asAcademicYearId: asAcademicYearId,
-          asReceiverId: viewSent.ReceiverDetailsId,
+          asReceiverId: viewSent.DetailsId,
           asRequestReadReceipt: readRecipient
         };
         dispatch(getUpdateReadReceiptStatus(body));

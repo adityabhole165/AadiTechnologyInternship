@@ -6,7 +6,8 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined }) {
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined ,HasReadReceipt= undefined,RequestReadReceipt= undefined}) {
+console.log("IsSchedule",IsSchedule);
 
   const location = useLocation();
   const pathname = location.pathname;
@@ -18,6 +19,9 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
     'blue' :
     (ActiveTab == "Sent" && IsSchedule) ? 'blue' :
       ''
+console.log("RequestReadReceipt",RequestReadReceipt);
+console.log("HasReadReceipt",HasReadReceipt);
+
 
   return (
     <>
@@ -58,6 +62,14 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
           <>
           {IsSchedule &&
             <ScheduleIcon fontSize="small" color="primary" />}
+            {/* {!HasReadReceipt && !RequestReadReceipt && */}
+            {/* {RequestReadReceipt === "True" && 
+            <>
+            {!HasReadReceipt && 
+             <ScheduleIcon fontSize="small" color="success" />
+            }
+            </>} */}
+           
           </>
        </CardDetail2>
       </CardDetail>

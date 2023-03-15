@@ -50,6 +50,8 @@ export interface GetMessagesResult{
 }
 export interface GetScheduledSMSResult{
     GetScheduledSMSResult:[{
+        RequestReadReceipt: string
+        HasReadReceipt: string
         Attachments:{},
         DetailsId:string,
         ReceiverDetailsId:string,
