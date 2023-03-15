@@ -43,7 +43,7 @@ const ClickReserve = (value)=> {
     aiUserId:sessionStorage.getItem('Id'),
     aiUserRoleId:sessionStorage.getItem('RoleId'),
     aiBookId:value.aiBookId,
-    ReservedByParent:"0",
+    ReservedByParent:value.aiFlag,
     InsertedById:sessionStorage.getItem('Id'),
     aiFlag:value.aiFlag
   }
