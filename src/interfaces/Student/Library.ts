@@ -97,7 +97,7 @@ export interface IReserveBook {
     aiUserId:string,
     aiUserRoleId:string,
     aiBookId:string,
-    ReservedByParent : string,
+    ReservedByParent :any,
     InsertedById:string,
     aiFlag:string,
 }

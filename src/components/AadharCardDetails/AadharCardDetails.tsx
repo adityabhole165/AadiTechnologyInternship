@@ -188,11 +188,14 @@ function AadharCardDetails() {
                                 width="150"
                                 height="150" style={{ border: "1px solid gray", padding: "1px" }}
                             />}
-                        <input ref={aRef} type="file" onChange={changeFile} />
-                        <Box className={classes.iIconSupport}>
-                            <Icon3 Note={"Supports only " + validFiles.join(' ') + " File size should not exceed 3 MB"} />
+                            </Box>
+                            <Box sx={{  textAlign: "center" }}>
+                        <input ref={aRef} type="file" onChange={changeFile} style={{width:"200px"}}/>
                         </Box>
-                    </Box>
+                        <Box  className={classes.iIconSupport}>
+                            <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                        </Box>
+                    
                     {fileError && <Errormessage Error={fileError} />}
                    
                     <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>

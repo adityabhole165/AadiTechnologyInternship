@@ -17,7 +17,6 @@ import { ListStyle } from 'src/libraries/styled/CardStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { IsaveParentPhotosBody } from 'src/interfaces/Student/IUpoladParentPhoto';
 
-
 const note = [
   '1) Max Height: 151px and Max Width: 112px.',
   '2) Image size should not exceed 80 kb. Supported file formats are JPG, JPEG '
@@ -27,8 +26,6 @@ const note = [
 const submittedNote = [
   'Photo update is restricted once uploaded. Please contact school admin for any changes.',
 ];
-
-
 
 function UploadParentPhoto() {
 
@@ -49,22 +46,17 @@ function UploadParentPhoto() {
     (state: RootState) => state.UploadParentPhoto.Loading
   );
 
-
   const [isPhotosSubmitted, setIsPhotosSubmitted] = useState(false)
   const [isAllPhotoSaved, setIsAllPhotoSaved] = useState(false)
-  const [issaveForSibling, setIsSaveForSibling] = useState("")
-  const [fatherPhotoFileName, setFatherPhotoFileName] = useState("")
-  const [fatherImgPhoto, setFatherImgPhoto] = useState("")
-  const [motherPhotoFileName, setMotherPhotoFileName] = useState("")
-  const [motherImgPhoto, setMotherImgPhoto] = useState("")
-  const [relativePhotoFileName, setRelativePhotoFileName] = useState("")
-  const [localGuardianPhoto, setLocalGuardianPhoto] = useState("")
   const [isSaveDisable, setIsSaveDisable] = useState(true)
+  const [itemList, setItemList] = useState([]);
+  const [checked, setChecked] = useState(true);
+  let activeItem = itemList.filter((obj) => obj.IsActive)[0]
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asUserId = sessionStorage.getItem('Id');
-  const [itemList, setItemList] = useState([]);
+
   const GetParentphotoBody =
   {
     aiSchoolId: asSchoolId,
@@ -85,9 +77,6 @@ function UploadParentPhoto() {
     if (GetParentphotos.IsPhotosSubmitted !== undefined) {
       setIsPhotosSubmitted(GetParentphotos.IsPhotosSubmitted)
       setIsAllPhotoSaved(GetParentphotos.IsAllPhotoSaved)
-      setFatherImgPhoto(GetParentphotos.FatherPhoto)
-      setMotherImgPhoto(GetParentphotos.MotherPhoto)
-      setLocalGuardianPhoto(GetParentphotos.RelativePhoto)
     }
   }, [GetParentphotos])
 
@@ -123,24 +112,8 @@ function UploadParentPhoto() {
       dispatch(resetMessage1())
       dispatch(getParentphoto(GetParentphotoBody, getActiveTable()));
     }
-    
+
   }, [SubmitParentPhotos])
-
-  const ChangeFileIntoBase64 = (fileData) => {
-
-    return new Promise((resolve, reject) => {
-      const fileReader = new FileReader();
-      if (fileData)
-        fileReader.readAsDataURL(fileData);
-
-      fileReader.onload = () => {
-        resolve(fileReader.result);
-      };
-      fileReader.onerror = (err) => {
-        reject(err);
-      };
-    });
-  };
 
   const onFileTextChange = (value) => {
     setItemList(itemList.map((item) => {
@@ -151,20 +124,16 @@ function UploadParentPhoto() {
     if (!isPhotosSubmitted)
       setIsSaveDisable(false)
   }
-  
 
-  let activeItem = itemList.filter((obj) => obj.IsActive)[0]
-  
+
   const SaveFile = () => {
     let IsSaveForSibling = false
     if (GetParentphotos.IsSiblingPresent === true) {
-      if (confirm('Do you want to save same details for sibling login')) {
-        IsSaveForSibling=true
-        
-      }
+      if (confirm('Do you want to save same details for sibling login'))
+        IsSaveForSibling = true
     }
 
-    const SaveParentPhotosBody : IsaveParentPhotosBody=
+    const SaveParentPhotosBody: IsaveParentPhotosBody =
     {
       aiSchoolId: asSchoolId,
       aiAcademicYearId: asAcademicYearId,
@@ -176,25 +145,18 @@ function UploadParentPhoto() {
       asFatherImgPhoto: itemList[0].Value,
       asMotherImgPhoto: itemList[1].Value,
       asLocalGuardianPhoto: itemList[2].Value,
-      // asFatherImgPhoto: itemList[0].Value===null?"":itemList[0].Value,
-      // asMotherImgPhoto: itemList[1].Value===null?"":itemList[1].Value,
-      // asLocalGuardianPhoto: itemList[2].Value===null?"":itemList[2].Value,
       asRelativeName: itemList[2].Text,
-      abSaveForSibling: IsSaveForSibling 
+      abSaveForSibling: IsSaveForSibling
 
     }
     dispatch(getSaveParentPhotos(SaveParentPhotosBody));
   }
-  const [checked, setChecked] = useState(true);
 
   const SubmitFile = () => {
-    if(confirm("Make sure the uploaded photos are final before submission. Contact the School admin for any changes in submitted photos."))
-  {
-    dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
+    if (confirm("Make sure the uploaded photos are final before submission. Contact the School admin for any changes in submitted photos."))
+      dispatch(getSubmitParentPhotoDetails(SubmitParentPhotoDetailsBody));
   }
-  }
-   
-    
+
   return (
     <Container>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
@@ -218,20 +180,17 @@ function UploadParentPhoto() {
           <Grid container spacing={2} sx={{ mt: "10px" }}>
             <Grid item xs={6}>
               <ButtonPrimary
-                type="submit"
-                fullWidth
+                type="submit" fullWidth
                 color={isSaveDisable ? 'warning' : 'primary'}
-                disabled={isSaveDisable}
-                onClick={SaveFile}
+                disabled={isSaveDisable} onClick={SaveFile}
               >
                 Save
               </ButtonPrimary>
             </Grid>
             <Grid item xs={6}>
-              <ButtonPrimary fullWidth
+              <ButtonPrimary fullWidth onClick={SubmitFile}
                 color={(isPhotosSubmitted || !isAllPhotoSaved) ? "warning" : "primary"}
-                disabled={isPhotosSubmitted || !isAllPhotoSaved}
-                onClick={SubmitFile}>
+                disabled={isPhotosSubmitted || !isAllPhotoSaved}>
                 Submit
               </ButtonPrimary>
             </Grid>

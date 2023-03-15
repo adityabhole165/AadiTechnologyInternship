@@ -22,10 +22,10 @@ console.log(aiFlag,"aiFlag")
 useEffect(() => {
   if(ReserveBook!==''){
     if(aiFlag===0){
-     toast.success(ReserveBook +"Student",{ toastId: 'success1'});
+     toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Student!!!", { toastId: 'success1'});
     }
     else{
-      toast.success(ReserveBook +"Parent",{ toastId: 'success1'});
+      toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Parent!!!",{ toastId: 'success1'});
     }
 
     dispatch(resetClaimMessage());
@@ -43,7 +43,7 @@ const ClickReserve = (value)=> {
     aiUserId:sessionStorage.getItem('Id'),
     aiUserRoleId:sessionStorage.getItem('RoleId'),
     aiBookId:value.aiBookId,
-    ReservedByParent:"0",
+    ReservedByParent:value.aiFlag,
     InsertedById:sessionStorage.getItem('Id'),
     aiFlag:value.aiFlag
   }
