@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography,InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -28,6 +28,7 @@ import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
+import AccessTimeIcon from '@mui/icons-material/AccessTime';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -664,7 +665,8 @@ function Form13() {
                   </Box>
                 </Box>}
             </Box>
-            <Grid sx={{ display: scheduleMessage, mb:'10px',mt: "-20px" }}>
+           
+            <Grid   sx={{ display: scheduleMessage, mb:'10px',mt: "-20px" }} >
               <TextField
                 type="date"
                 // required
@@ -676,20 +678,23 @@ function Form13() {
                   max: MaxDate
                 }}
               />
-              {/* <TextField
-
-                id="time"
-                type="time"
-                variant="standard"
-                value={value}
-                onChange={(e) => { clickTime(e.currentTarget.value) }}
-              /> */}
+          
+        
               <TimePicker
-            label="Time"
-            value={value}
-            onChange={clickTime}
-            renderInput={(params) => <TextField {...params} />}
+              value={value}
+              onChange={clickTime}
+              renderInput={(params) => 
+              <TextField {...params}    variant="standard" size="small"  sx={{float:"right"}} 
+               InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <AccessTimeIcon fontSize='small'/>
+                </InputAdornment>
+              ),
+            }}
+            />}
           />
+         
             </Grid>
             <Box sx={{mb:'20px',mt:'-5px'}}>
               <ErrorMessage1 Error={schTimeerror} />

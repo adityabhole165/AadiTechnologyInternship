@@ -16,7 +16,18 @@ const header = {
 
 function TransportCommittee() {
   
-
+  const Teacher= [{id:"1",text1:"Ms. Nazneen A. Shaikh", text2:"principle" }]
+  const Item = Teacher.map((item, index) => {
+    return {
+      id: item.id,
+      text1: item.text1,
+      text2: item.text2,
+      // backgroundColor: item.RealatedSection === '2' ? 'info' : '',
+      // RelatedSection: item.RealatedSection === '2' ? '2' : '0',
+    
+    }
+  });
+ 
  
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange = (panel) => (event, isExpanded) => {
@@ -36,6 +47,7 @@ function TransportCommittee() {
       <AccordionTrC
         Name='panel1'
         header={header.PTA_Member}
+        Item={Item}
         isExpanded={expanded === 'panel1'}
         handleChange={handleChange('panel1')}
       />
@@ -44,6 +56,7 @@ function TransportCommittee() {
       <AccordionTrC
         Name='panel2'
         header={header.PTA}
+        Item={Item}
         isExpanded={expanded === 'panel2'}
         handleChange={handleChange('panel2')}
       />

@@ -7,7 +7,7 @@ import Errormessage from "src/libraries/ErrorMessages/Errormessage";
 import { getUserAadharCardDetails, resetMessage } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { getsaveUserAadharCardDetails } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/material';
-import { CheckFileValidation } from '../Common/Util';
+import { CheckFileValidationAdhar } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 
@@ -27,6 +27,7 @@ function AadharCardDetails() {
     const [base64URL, setBase64URL] = useState()
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
+    const [error1, setError1] = useState (false)
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -38,13 +39,22 @@ function AadharCardDetails() {
     };
 
     const clickOnBlur = (e) => {
+        setAadharNumber(e.target.value) 
         if (e.target.value.length == 0) {
             setError(true);
         }
         if (e.target.value.length > 0) {
             setError(false);
         }
+        if (e.target.value.length >= 12){
+            setError1(true);
+        }
+        if (e.target.value.length <= 12){
+            setError1(false);
+        }
+       
     };
+
 
     const GetUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.GetUserAadharCardDetails
@@ -68,7 +78,7 @@ function AadharCardDetails() {
     }, [SaveUserAadharCardDetails])
     const classes = Styles();
     const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
-    const maxfileSize = 3000000
+    const maxfileSize = 300000
     const [selectedFile, setSelectedFile] = useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
@@ -76,7 +86,7 @@ function AadharCardDetails() {
         let DataAttachment: any = '';
         let fileName: any = '';
         for (let i = 0; i < multipleFiles.length; i++) {
-            const isValid = CheckFileValidation(multipleFiles[i], validFiles, maxfileSize);
+            const isValid = CheckFileValidationAdhar(multipleFiles[i], validFiles, maxfileSize);
             if (isValid == null) {
                 setFileName(multipleFiles[i].name);
                 setSelectedFile(e.target.files[i])
@@ -156,6 +166,7 @@ function AadharCardDetails() {
                 <ListStyle>
                     <Typography variant='caption'>Name</Typography>
                     <TextField
+                    
                         fullWidth
                         variant="standard"
                         value={GetUserAadharCardDetails.Name} />
@@ -163,16 +174,13 @@ function AadharCardDetails() {
                     <Typography variant='caption'>Aadhar Number</Typography>
                     <TextField
                         fullWidth
-                        inputProps={{ maxLength: 12 }}
-                        type="text"
-                        // margin="dense"
+                        type="number"
                         variant="standard"
-                        // label="Aadhar Number"
                         value={aadharNumber}
-                        onChange={(e) => { setAadharNumber(e.target.value) }}
-                        onBlur={clickOnBlur} />
+                        onChange={clickOnBlur} />
 
-                    <ErrorMessage1 Error={error ? "Adhar card number textbox should not be blank" : " "} />
+                    <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
+                    <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
                             height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
@@ -180,12 +188,16 @@ function AadharCardDetails() {
                                 width="150"
                                 height="150" style={{ border: "1px solid gray", padding: "1px" }}
                             />}
-                        <input ref={aRef} type="file" onChange={changeFile} />
+                            </Box>
+                            <Box sx={{  textAlign: "center" }}>
+                        <input ref={aRef} type="file" onChange={changeFile} style={{width:"200px"}}/>
+                        </Box>
                         <Box  className={classes.iIconSupport}>
                             <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
                         </Box>
-                    </Box>
+                    
                     {fileError && <Errormessage Error={fileError} />}
+                   
                     <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
                 </ListStyle>
 

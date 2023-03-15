@@ -155,6 +155,20 @@ export const CheckFileValidation = (fileData, allowedFileTypes, fileSize) => {
         }
     }
 };
+export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) => {
+    const fileExtension = fileData?.name?.split('.').at(-1);
+    if (fileExtension != undefined || null) {
+
+        if (fileData?.size > fileSize) {
+            return 'Please upload a file smaller than 3 MB';
+        }
+        if (!allowedFileTypes.includes(fileExtension.toUpperCase())) {
+            return 'File does not support. Please check Note';
+        } else if (allowedFileTypes.includes(fileExtension)) {
+            return null;
+        }
+    }
+};
 
 export function isBetweenDate(date, dayCount) {
     var fromDate = new Date(getDateFormatted(new Date()));

@@ -25,6 +25,7 @@ export interface GetBooksDetailsResult {
     Category_Name: string,
     Available_Books: number,
     Total_Book_Quantity: number,
+    AllowBookClaimForParent:boolean,
     IsForIssue: number,
     Decription: string,
     Standards: string,
@@ -97,7 +98,7 @@ export interface IReserveBook {
     aiUserId:string,
     aiUserRoleId:string,
     aiBookId:string,
-    ReservedByParent : string,
+    ReservedByParent :any,
     InsertedById:string,
     aiFlag:string,
 }

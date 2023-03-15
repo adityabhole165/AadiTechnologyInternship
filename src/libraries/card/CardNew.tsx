@@ -2,12 +2,13 @@ import { Typography } from '@mui/material'
 import React from 'react'
 import { ListStyle } from '../styled/CardStyle'
 
-function CardNew() {
+function CardNew({Data}) {
+ 
   return (
     <div>
         <ListStyle>
-            <Typography>Ms. Nazneen A. Shaikh</Typography>
-            <p>Vice Chairman</p>
+            <Typography style={{fontWeight:"bold"}}>{Data.text1}</Typography>
+         <Typography>{Data.text2}</Typography>
         </ListStyle>
     </div>
   )

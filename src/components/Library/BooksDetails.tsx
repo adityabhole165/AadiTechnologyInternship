@@ -1,3 +1,4 @@
+
 import  React,{useState, useEffect} from 'react';
 import Accordion4 from 'src/libraries/accordion/accordion4';
 import {GetBooksDetailsResult,} from 'src/interfaces/Student/Library';
@@ -22,10 +23,10 @@ console.log(aiFlag,"aiFlag")
 useEffect(() => {
   if(ReserveBook!==''){
     if(aiFlag===0){
-     toast.success(ReserveBook +"Student",{ toastId: 'success1'});
+     toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Student!!!", { toastId: 'success1'});
     }
     else{
-      toast.success(ReserveBook +"Parent",{ toastId: 'success1'});
+      toast.success(ReserveBook.replace( "!!!" ,"  ") + "for Parent!!!",{ toastId: 'success1'});
     }
 
     dispatch(resetClaimMessage());
@@ -43,7 +44,7 @@ const ClickReserve = (value)=> {
     aiUserId:sessionStorage.getItem('Id'),
     aiUserRoleId:sessionStorage.getItem('RoleId'),
     aiBookId:value.aiBookId,
-    ReservedByParent:"0",
+    ReservedByParent:value.aiFlag,
     InsertedById:sessionStorage.getItem('Id'),
     aiFlag:value.aiFlag
   }
@@ -73,6 +74,7 @@ const ClickReserve = (value)=> {
                   title={items.Book_Title}
                   no={items.Book_No}
                   IsForIssue={items.IsForIssue}
+                  AllowBookClaimForParent={items.AllowBookClaimForParent}
                   Collapse={handleChange}
                   expand={expanded}
                   ClickReserve={ClickReserve}

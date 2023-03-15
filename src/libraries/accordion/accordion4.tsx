@@ -39,7 +39,7 @@ function Accordion4({
   no,
   index,
   IsForIssue,
-  Collapse, expand, ClickReserve
+  Collapse, expand, ClickReserve, AllowBookClaimForParent
 }) {
   
 

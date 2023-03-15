@@ -1,7 +1,8 @@
-import { TextField, Box } from '@mui/material'
+import { TextField, Box ,Grid} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { ChangeFileIntoBase64, CheckFileValidationUploadPic } from 'src/components/Common/Util';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 
 function TextFilePath({ item, onFileSelect, onTextChange }) {
   const [error, setError] = useState('')
@@ -9,7 +10,11 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
   
   useEffect(()=>{
     setError('')
-  },[item.Value])
+    aRef.current.value=""
+  },[item.Id])
+  const handleClick = event => {
+    aRef.current.click();
+};
 
   const changeFile = async (e) => {
     let isValid = CheckFileValidationUploadPic(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 80000)
@@ -21,7 +26,8 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
         item = {
           ...item,
           Value: DataAttachment,
-          fileName: e.target.files[0].name
+          fileName: e.target.files[0].name,
+          selectedFile: e.target.files[0].name
         }
         onFileSelect(item)
       }
@@ -38,16 +44,27 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
           onChange={(e) => { onTextChange({ ...item, Text: e.target.value }) }}/>) :
         (<TextField value={item.Text} fullWidth variant="standard" />)}
       
-      <Box sx={{ textAlign: "center", mt: "10px" }}>
-      
+     
+     
+        <Box sx={{ textAlign: "center",  mt: "10px" }}>
         <img width="112" height="151" style={{ border: "1px solid gray" }}
           src={(item.Value === "" || item.Value === null) ? 
           '/imges/defualtUser.jpg' : 'data:image/png;base64,' + item.Value} />
-      
-        <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} />
+        </Box>
+        <Box sx={{ textAlign: "center",mt:"5px"}}>
+        <CloudUploadIcon onClick={handleClick} /><b>Upload files: </b>
+        {(item.selectedFile ==="" || item.selectedFile === undefined)? 
+         "No file selected": item.selectedFile}
+        
+        <input ref={aRef} type="file" onChange={changeFile} 
+        disabled={item.choosefileDisable} style={{ display: 'none' }}/>
         {error && <ErrorMessages Error={error} />}
+        
+        </Box>
       
-      </Box>
+     
+      
+     
     </div>
   )
 }
