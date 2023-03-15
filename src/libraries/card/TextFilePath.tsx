@@ -46,7 +46,7 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
           '/imges/defualtUser.jpg' : 'data:image/png;base64,' + item.Value} />
         </Box>
         <Box sx={{ textAlign: "center"}}>
-        <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} style={{width:"300px"}} />
+        <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} style={{width:"200px"}} />
         {error && <ErrorMessages Error={error} />}
         </Box>
       
