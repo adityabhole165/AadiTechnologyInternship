@@ -1,3 +1,4 @@
+
 import  React,{useState, useEffect} from 'react';
 import Accordion4 from 'src/libraries/accordion/accordion4';
 import {GetBooksDetailsResult,} from 'src/interfaces/Student/Library';
@@ -73,6 +74,7 @@ const ClickReserve = (value)=> {
                   title={items.Book_Title}
                   no={items.Book_No}
                   IsForIssue={items.IsForIssue}
+                  AllowBookClaimForParent={items.AllowBookClaimForParent}
                   Collapse={handleChange}
                   expand={expanded}
                   ClickReserve={ClickReserve}
