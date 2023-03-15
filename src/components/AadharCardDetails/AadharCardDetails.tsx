@@ -78,7 +78,7 @@ function AadharCardDetails() {
     }, [SaveUserAadharCardDetails])
     const classes = Styles();
     const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
-    const maxfileSize = 300000
+    const maxfileSize = 3000000
     const [selectedFile, setSelectedFile] = useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
