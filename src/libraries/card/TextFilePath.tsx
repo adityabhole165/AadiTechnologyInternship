@@ -1,4 +1,4 @@
-import { TextField, Box ,Grid} from '@mui/material'
+import { TextField, Box ,Grid, Typography,Stack} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { ChangeFileIntoBase64, CheckFileValidationUploadPic } from 'src/components/Common/Util';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
@@ -51,17 +51,21 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
           src={(item.Value === "" || item.Value === null) ? 
           '/imges/defualtUser.jpg' : 'data:image/png;base64,' + item.Value} />
         </Box>
-        <Box sx={{ textAlign: "center",mt:"5px"}}>
-        <CloudUploadIcon onClick={handleClick} /><b>Upload files: </b>
-        {(item.selectedFile ==="" || item.selectedFile === undefined)? 
-         "No file selected": item.selectedFile}
-        
+      
+        <Stack alignItems={"center"}>
+     <Box sx={{display:"flex" ,mt:"5px"}}>
+      <CloudUploadIcon onClick={handleClick} sx={{mt:"-2px", color:"#4169e1"}}/>
+      <Typography sx={{mt:"2px" , fontWeight:"bold",ml:"2px",fontSize:"12px"}}>Upload files : </Typography>
+      {(item.selectedFile ==="" || item.selectedFile === undefined)? 
+         " No file selected": item.selectedFile}
+      </Box></Stack> 
         <input ref={aRef} type="file" onChange={changeFile} 
         disabled={item.choosefileDisable} style={{ display: 'none' }}/>
         {error && <ErrorMessages Error={error} />}
         
-        </Box>
-      
+        
+   
+     
      
       
      
