@@ -1,4 +1,4 @@
-import { TextField, Box } from '@mui/material'
+import { TextField, Box ,Grid} from '@mui/material'
 import { useEffect, useRef, useState } from 'react'
 import { ChangeFileIntoBase64, CheckFileValidationUploadPic } from 'src/components/Common/Util';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
@@ -38,16 +38,21 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
           onChange={(e) => { onTextChange({ ...item, Text: e.target.value }) }}/>) :
         (<TextField value={item.Text} fullWidth variant="standard" />)}
       
-      <Box sx={{ textAlign: "center", mt: "10px" }}>
-      
+     
+     
+        <Box sx={{ textAlign: "center",  mt: "10px" }}>
         <img width="112" height="151" style={{ border: "1px solid gray" }}
           src={(item.Value === "" || item.Value === null) ? 
           '/imges/defualtUser.jpg' : 'data:image/png;base64,' + item.Value} />
-      
-        <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} />
+        </Box>
+        <Box sx={{ textAlign: "center"}}>
+        <input ref={aRef} type="file" onChange={changeFile} disabled={item.choosefileDisable} style={{width:"300px"}} />
         {error && <ErrorMessages Error={error} />}
+        </Box>
       
-      </Box>
+     
+      
+     
     </div>
   )
 }
