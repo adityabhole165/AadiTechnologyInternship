@@ -1,6 +1,7 @@
 import { IgetModulesPermission, ISchoolId } from "src/interfaces/SchoolSetting/schoolSettings";
 import { IGetScreensAccessPermissions,GetScreensAccessPermissions,
-    IGetSettingValueBody, IGetSettingValueResult } from "src/interfaces/SchoolSetting/schoolSettings";
+    IGetSettingValueBody, IGetSettingValueResult ,
+    IGetSettingValueByNameBody,IGetSettingValueByNameResult} from "src/interfaces/SchoolSetting/schoolSettings";
 import http from "../../requests/SchoolService/schoolServices";
 
 
@@ -19,11 +20,15 @@ const GetScreensAccessPermission=(data:IGetScreensAccessPermissions)=>{
 const GetSettingValueapi = (data: IGetSettingValueBody) => {
     return http.post<IGetSettingValueResult>('School/GetSettingValue',data);
   };
+  const GetSettingValueByNameApi = (data: IGetSettingValueByNameBody) => {
+      return http.post<IGetSettingValueByNameResult>('School/GetSettingValueByName',data);
+    };
 const SchoolSettingApi ={
     GetSchoolSettings,
     GetModulesPermissions,
     GetScreensAccessPermission,
-    GetSettingValueapi
+    GetSettingValueapi,
+    GetSettingValueByNameApi
 }
 
 export default SchoolSettingApi

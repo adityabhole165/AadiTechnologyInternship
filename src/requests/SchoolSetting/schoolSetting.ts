@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SchoolSettingApi from "src/api/SchoolSetting";
-import { ISchoolId, IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from "src/interfaces/SchoolSetting/schoolSettings";
+import { ISchoolId, IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody, IGetSettingValueByNameBody } from "src/interfaces/SchoolSetting/schoolSettings";
 import { AppThunk } from "src/store";
 
 const SchoolSettingSlice = createSlice({
@@ -10,7 +10,8 @@ const SchoolSettingSlice = createSlice({
     ModulesPermissionsResult: [],
     SchoolTrasnportIsEnabled: false,
     SubTeacher: false,
-    isLibrarySchoolSetting: false
+    isLibrarySchoolSetting: false,
+    ExternalLibrarySite: ""
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -28,6 +29,9 @@ const SchoolSettingSlice = createSlice({
     },
     getLibrarySchoolSetting(state, action) {
       state.isLibrarySchoolSetting = action.payload;;
+    },
+    getExternalLibrarySite(state, action) {
+      state.ExternalLibrarySite = action.payload;;
     }
 
 
@@ -95,5 +99,9 @@ export const getLibrarySchoolSetting =
 
       }
       dispatch(SchoolSettingSlice.actions.getLibrarySchoolSetting(isLibrarySchoolSetting));
+      let data2:IGetSettingValueByNameBody = {asSchoolId:data.asSchoolId, asAcademicYearId:data.aiAcademicYearId,asKey:"ExternalLibrarySite"}
+      let response2 = await SchoolSettingApi.GetSettingValueByNameApi(data2)
+      dispatch(SchoolSettingSlice.actions.getExternalLibrarySite(response2.data.Value));
+      
     }
 export default SchoolSettingSlice.reducer
