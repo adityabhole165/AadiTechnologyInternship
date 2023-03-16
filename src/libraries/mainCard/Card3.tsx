@@ -40,7 +40,7 @@ function Card3({ color, text1, text2, icon, iconColor, opacityLevel, Link1,
   return (
     <>
       { (text1==="Library" && ExternalLibrarySite !=="") ?
-        (<a href={ExternalLibrarySite}  style={{ textDecoration: 'none' }}><IconCard>
+        (<a href={ExternalLibrarySite} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}><IconCard>
             <IconButton>
               <IconCardSize>
               {icon === 27 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
