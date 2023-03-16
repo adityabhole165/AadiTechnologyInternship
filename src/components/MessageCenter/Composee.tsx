@@ -684,11 +684,11 @@ function Form13() {
               value={value}
               onChange={clickTime}
               renderInput={(params) => 
-              <TextField {...params}    variant="standard" size="small"  sx={{float:"right"}} 
+              <TextField {...params}    variant="standard" size="small"  sx={{float:"right",mt:"2px"}} 
                InputProps={{
               startAdornment: (
                 <InputAdornment position="start">
-                  <AccessTimeIcon fontSize='small'/>
+                  <AccessTimeIcon fontSize='small' sx={{mr:"-4px",mb:"4px"}} />
                 </InputAdornment>
               ),
             }}

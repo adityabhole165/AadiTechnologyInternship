@@ -61,7 +61,7 @@ console.log("HasReadReceipt",HasReadReceipt);
         <>{text2}</> 
           <>
           {IsSchedule &&
-            <ScheduleIcon fontSize="small" color="primary" />}
+            <ScheduleIcon fontSize="small" color="primary"  sx={{mt:"-2px"}}/>}
             {/* {!HasReadReceipt && !RequestReadReceipt && */}
             {/* {RequestReadReceipt === "True" && 
             <>
