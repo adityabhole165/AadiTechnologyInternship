@@ -36,19 +36,21 @@ function Card3({ color, text1, text2, icon, iconColor, opacityLevel, Link1,
   from { opacity: 0; }
   to { opacity: 1; }
 `;
+
   return (
     <>
       { (text1==="Library" && ExternalLibrarySite !=="") ?
-        (<Link to={ExternalLibrarySite} style={{ textDecoration: 'none' }}>
-
-          <IconCard>
+        (<a href={ExternalLibrarySite}  style={{ textDecoration: 'none' }}><IconCard>
             <IconButton>
               <IconCardSize>
-                {icon === 5 && <VideoLibraryIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+              {icon === 27 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
+                 <Text1>
+                  {text1}
+                </Text1>
               </IconCardSize>
             </IconButton>
           </IconCard>
-        </Link>) :
+        </a>) :
         (<Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{ textDecoration: 'none' }}>
 
           <IconCard>
