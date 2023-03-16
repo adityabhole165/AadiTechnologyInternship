@@ -12,7 +12,7 @@ import {
 
 interface PageHeaderProps {
   heading: string;
-  subheading: string;
+  subheading?: string;
 }
 
 const RootWrapper = styled(Box)(
@@ -22,7 +22,7 @@ const RootWrapper = styled(Box)(
 `
 );
 
-const PageHeader: FC<PageHeaderProps> = ({ heading, subheading }) => {
+const PageHeader: FC<PageHeaderProps> = ({ heading, subheading="" }) => {
   const theme = useTheme();
 
   return (

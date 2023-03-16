@@ -1,50 +1,49 @@
+import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
-import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import OnlineExamProgressReport from "src/interfaces/Student/OnlineExamProgressReport";
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { getHeader } from 'src/requests/Student/OnlineExamProgressReport';
-import Card30 from 'src/libraries/card/Card30';
-import { Container } from '@mui/material';
-import Card28 from 'src/libraries/card/Card28';
-import DropdownList from 'src/libraries/dropdown/DropdownList';
+import DropdownandList from 'src/libraries/Page/DropdownandList'
 
-function OnlineExamReport() {
+
+function OnlineExamProgressReport() {
     const dispatch = useDispatch();
-    const Header = useSelector(
-        (state: RootState) => state.ExamOnlineReport.Header
-    );
-    
+    // const [exam, setExam] = useState("");
 
+    // const OnlineExams: any = useSelector(
+    //     (state: RootState) => state.ExamOnlineReport.OnlineExams);
+        
+    //     const getExamDetailslist: any = useSelector(
+    //         (state: RootState) => state.ExamOnlineReport.getExamDetailslist);
 
+    // useEffect(() => {
+    //     dispatch(GetOnlineExamProgressReportDetails(GetOnlineExamProgressReportDetailsBody))
+    // },[])
 
+    // useEffect(()=> {
+    //     dispatch(GetExamDetailsList(GetExamDetailsListBody));
+    //      },[exam])
 
-
-    useEffect(() => {
-        localStorage.setItem("url", window.location.pathname)
-        const ExamDetails: OnlineExamProgressReport = {
-            aiStudentId: sessionStorage.getItem('StudentId'),
-            aiSchoolId: localStorage.getItem('localSchoolId'),
-            aiAcademicYrId: sessionStorage.getItem('AcademicYearId'),
-            asStdDivId: sessionStorage.getItem('StandardDivisionId')
-        };
-        dispatch(getHeader(ExamDetails));
-    }, []);
+    // const onChangeExam = (value) => {
+    //     let exam = ""
+    //     value.map((item) => {
+    //         if (item.IsActive)
+    //             exam = item.Value
+    //     })
+    //     setExam(exam)
+    // }
 
     return (
-        <Container>
-
-            <PageHeader heading={'Online Exam Progress Report'} subheading={''} />
-            <DropdownList />
-
-
-            {/* {Header === null ? null : <>
-                <Card28 Student={Header.Students} />
-
-                <Card30 header={Header.Header}></Card30>
-            </>} */}
-        </Container>
-    );
+        <div>
+            {/* <DropdownandList
+                heading={"Online Exam Progress Report"}
+                Itemlist={OnlineExams}
+                onChange={onChangeExam}
+                Label={"Exam"}
+                DefaultValue={exam}
+                CardItemlist={""}
+            /> */}
+        </div>
+    )
 }
-export default OnlineExamReport;
+
+export default OnlineExamProgressReport
