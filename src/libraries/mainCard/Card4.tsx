@@ -58,17 +58,12 @@ console.log("HasReadReceipt",HasReadReceipt);
           <CardD>{text1}</CardD> :
           <CardDetail3>{text1}</CardDetail3>}
         <CardDetail2 sx={{ color: "#628def" ,display:"flex"}}>
-        <>{text2}</> 
+        <>{text2}     {IsSchedule &&
+            <ScheduleIcon fontSize="small" color="primary"  sx={{mt:"-2px",ml:"4px"}}/>}</> 
           <>
-          {IsSchedule &&
-            <ScheduleIcon fontSize="small" color="primary"  sx={{mt:"-2px"}}/>}
-            {/* {!HasReadReceipt && !RequestReadReceipt && */}
-            {/* {RequestReadReceipt === "True" && 
-            <>
-            {!HasReadReceipt && 
-             <ScheduleIcon fontSize="small" color="success" />
-            }
-            </>} */}
+         
+          
+            
            
           </>
        </CardDetail2>

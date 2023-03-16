@@ -29,7 +29,7 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
         img.src = window.URL.createObjectURL(e.target.files[0])
         img.onload = () => {
           if (img.width > width && img.height > height) {
-            setError(`Image is ${img.height} x ${img.width}, Upload image with Max Height: 151px and Max Width: 112px.`);
+            setError(`Image is ${img.height} x ${img.width}, Height and Width of photo file should not exceed 151px and 112px respectively`);
           }
           else {
             item = {
