@@ -1,56 +1,56 @@
 export interface ISchoolId {
-    asSchoolId:string
+    asSchoolId: string
 }
 
 
 export interface IGetSchoolSettingsResult {
-      AssemblyLectNo  : number,
-      AssemblyName  : string,
-      AssemblyWeekday  : string,
-      BlockProgressReportIfFeesArePending  : string,
-      FromMailAddress  : string,
-      IsAssemblyApplicable  :string ,
-      IsMPTApplicable  : string,
-      IsStaybackApplicable  : string,
-      IsWeeklyTestApplicable  : string,
-      MPTLectNo  : string,
-      MPTName  : string,
-      MPTWeekday  : string,
-      ProgressSheetNote  : string,
-      SMSProvider  : string,
-      SMSSenderUPwd  : string,
-      SMSSenderUserName  : string,
-      SendMail  : string,
-      SendSMS  : string,
-      ShowProgressSheetNote  : string,
-      SiteName  : string,
-      StaybackName  : string,
-      WeeklyTestLectNo  : string,
-      WeeklyTestName  : string,
-      WeeklyTestWeekDay  : string
+    AssemblyLectNo: number,
+    AssemblyName: string,
+    AssemblyWeekday: string,
+    BlockProgressReportIfFeesArePending: string,
+    FromMailAddress: string,
+    IsAssemblyApplicable: string,
+    IsMPTApplicable: string,
+    IsStaybackApplicable: string,
+    IsWeeklyTestApplicable: string,
+    MPTLectNo: string,
+    MPTName: string,
+    MPTWeekday: string,
+    ProgressSheetNote: string,
+    SMSProvider: string,
+    SMSSenderUPwd: string,
+    SMSSenderUserName: string,
+    SendMail: string,
+    SendSMS: string,
+    ShowProgressSheetNote: string,
+    SiteName: string,
+    StaybackName: string,
+    WeeklyTestLectNo: string,
+    WeeklyTestName: string,
+    WeeklyTestWeekDay: string
 }
 
 
 export interface IgetModulesPermission {
-    asSchoolId:string,
-    asAcademicYearId:string,
-    asUserId:string,
-    abIsPreprimary:boolean,
-    abXseedApplicable:boolean
+    asSchoolId: string,
+    asAcademicYearId: string,
+    asUserId: string,
+    abIsPreprimary: boolean,
+    abXseedApplicable: boolean
 }
 
-export interface GetModulesPermissionsResult { 
+export interface GetModulesPermissionsResult {
     IsEnabled: boolean,
     ModuleName: string
 }
 
 //GetScreensAccessPermissions
-export interface IGetScreensAccessPermissions{
+export interface IGetScreensAccessPermissions {
     asSchoolId: string,
-    asAcademicYearId:string,
+    asAcademicYearId: string,
     asUserId: string,
     asUserRoleId: string,
-    abIsPreprimaryTeacher:boolean
+    abIsPreprimaryTeacher: boolean
 }
 
 export interface GetScreensAccessPermissions {
@@ -61,11 +61,20 @@ export interface GetScreensAccessPermissions {
     IsEnabled: boolean
 }
 export interface IGetSettingValueResult {
-    GetSettingValueResult:string   
+    GetSettingValueResult: string
 }
 export interface IGetSettingValueBody {
 
     asSchoolId: number,
     aiAcademicYearId: number,
+    asKey: string
+}
+export interface IGetSettingValueByNameResult {
+    Value: string
+}
+export interface IGetSettingValueByNameBody {
+
+    asSchoolId: number,
+    asAcademicYearId: number,
     asKey: string
 }

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import {useTheme,Container,IconButton,Typography,Box, Badge,keyframes} from '@mui/material';
+import { useTheme, Container, IconButton, Typography, Box, Badge, keyframes } from '@mui/material';
 import EventIcon from '@mui/icons-material/Event';
 import CakeIcon from '@mui/icons-material/Cake';
 import SmsIcon from '@mui/icons-material/Sms';
@@ -22,81 +22,93 @@ import AirportShuttleIcon from '@mui/icons-material/AirportShuttle';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import HistoryEduOutlinedIcon from '@mui/icons-material/HistoryEduOutlined';
 import { Link } from 'react-router-dom';
-import { IconCard, IconCardSize, Text1, Text2 , BadgeStyle} from '../styled/DashboardStyled';
+import { IconCard, IconCardSize, Text1, Text2, BadgeStyle } from '../styled/DashboardStyled';
 import HelpIcon from '@mui/icons-material/Help';
 import AddCardIcon from '@mui/icons-material/AddCard';
 
 
-function Card3({color,text1,text2,icon,iconColor,opacityLevel,Link1,isAvtar,ImageUrl, Messagecount}) {
+function Card3({ color, text1, text2, icon, iconColor, opacityLevel, Link1,
+  isAvtar, ImageUrl, Messagecount, ExternalLibrarySite = "" }) {
   const theme = useTheme();
   if (theme.colors.gradients.pink1 !== 'linear-gradient(135deg, white 0%, white 100%);')
     iconColor = 'white';
-    const blink = keyframes`
+  const blink = keyframes`
   from { opacity: 0; }
   to { opacity: 1; }
 `;
   return (
     <>
-      <Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{textDecoration:'none'}}>
-     
-      <IconCard>
-        <IconButton>
-          
-          <IconCardSize>
-            {icon === 1 && <AssignmentIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 2 && <EventIcon  sx={{color: iconColor ,mt:"7px"}} fontSize="medium" />}
-            {icon === 3 && <DateRangeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 4 && <PhotoIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 5 && <VideoLibraryIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 6 && <EventNoteIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 7 && <AccessTimeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 8 && <CurrencyRupeeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 9 && <MenuBookIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 10 && <LockOpenIcon sx={{color: iconColor,mt:"7px"}}  fontSize="medium" />}
-            {icon === 11 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
+      { (text1==="Library" && ExternalLibrarySite !=="") ?
+        (<Link to={ExternalLibrarySite} style={{ textDecoration: 'none' }}>
 
-            {icon === 12 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter: "invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) brightness(94%) contrast(92%)" }} />}
-            {icon === 13 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px"}}/>}
-            {icon === 14 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter: "invert(40%) sepia(87%) saturate(1676%) hue-rotate(333deg) brightness(92%) contrast(105%)" }} />}
-            {icon === 15 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px" ,marginTop:"8px",filter:"invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) contrast(94%)  brightness(92%) "}}/>}
-            {icon === 16 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}}/>}
+          <IconCard>
+            <IconButton>
+              <IconCardSize>
+                {icon === 5 && <VideoLibraryIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+              </IconCardSize>
+            </IconButton>
+          </IconCard>
+        </Link>) :
+        (<Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{ textDecoration: 'none' }}>
 
-            {icon === 17 &&  <BadgeStyle badgeContent={Messagecount} color="error"  anchorOrigin={{vertical: 'top',horizontal: 'right'}}>  
-            <ForwardToInboxIcon sx={{color: iconColor}} fontSize="medium" />  </BadgeStyle>}
-         
- 
-            {icon === 18 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 19 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 20 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 21 && <ForwardToInboxIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 22 && <SmsIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 23 &&<> <Badge badgeContent="New" color="error" sx={{animation: `${blink} 1s linear infinite`,float:"right",mr:"15px"}} >  
-             </Badge>  <AirportShuttleIcon sx={{color: iconColor,mb:"-4px"}} fontSize="large" /> </>}
-            {icon === 25 && <HelpIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 26 && <CakeIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 27 && <img src={ImageUrl} alt="" style={{  width:"20px", height:"22px",marginTop:"8px"}} />}
-            {icon === 28 && <AddCardIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 29 && <img src={ImageUrl} alt="" style={{  width:"25px", height:"25px",marginTop:"4px"}}/>}
-            {icon === 30 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
-            {icon === 31 && <img src={ImageUrl} alt="" style={{  width:"24px", height:"27px",marginTop:"5px"}}/>}
-            {icon === 32 && <PeopleIcon sx={{color: iconColor,mt:"7px"}} fontSize="medium" />}
-            {icon === 33 && <img src={ImageUrl} alt="" style={{  width:"36px", height:"35px",marginTop:"3px"}}/>}
+          <IconCard>
+            <IconButton>
 
-            <Text1>
-              {text1}
-            </Text1>
-            <Text2>
-              {text2}
-            </Text2>
-          </IconCardSize>
-         
-            
-      
-          </IconButton>
-      </IconCard>
-      
-      </Link>
- 
+              <IconCardSize>
+                {icon === 1 && <AssignmentIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 2 && <EventIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 3 && <DateRangeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 4 && <PhotoIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 5 && <VideoLibraryIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 6 && <EventNoteIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 7 && <AccessTimeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 8 && <CurrencyRupeeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 9 && <MenuBookIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 10 && <LockOpenIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 11 && <PeopleIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+
+                {icon === 12 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px", filter: "invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) brightness(94%) contrast(92%)" }} />}
+                {icon === 13 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
+                {icon === 14 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px", filter: "invert(40%) sepia(87%) saturate(1676%) hue-rotate(333deg) brightness(92%) contrast(105%)" }} />}
+                {icon === 15 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px", filter: "invert(54%) sepia(88%) saturate(362%) hue-rotate(151deg) contrast(94%)  brightness(92%) " }} />}
+                {icon === 16 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
+
+                {icon === 17 && <BadgeStyle badgeContent={Messagecount} color="error" anchorOrigin={{ vertical: 'top', horizontal: 'right' }}>
+                  <ForwardToInboxIcon sx={{ color: iconColor }} fontSize="medium" />  </BadgeStyle>}
+
+
+                {icon === 18 && <SmsIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 19 && <PeopleIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 20 && <CakeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 21 && <ForwardToInboxIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 22 && <SmsIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 23 && <> <Badge badgeContent="New" color="error" sx={{ animation: `${blink} 1s linear infinite`, float: "right", mr: "15px" }} >
+                </Badge>  <AirportShuttleIcon sx={{ color: iconColor, mb: "-4px" }} fontSize="large" /> </>}
+                {icon === 25 && <HelpIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 26 && <CakeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 27 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
+                {icon === 28 && <AddCardIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 29 && <img src={ImageUrl} alt="" style={{ width: "25px", height: "25px", marginTop: "4px" }} />}
+                {icon === 30 && <img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} />}
+                {icon === 31 && <img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} />}
+                {icon === 32 && <PeopleIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
+                {icon === 33 && <img src={ImageUrl} alt="" style={{ width: "36px", height: "35px", marginTop: "3px" }} />}
+
+                <Text1>
+                  {text1}
+                </Text1>
+                <Text2>
+                  {text2}
+                </Text2>
+              </IconCardSize>
+
+
+
+            </IconButton>
+          </IconCard>
+
+        </Link>)
+      }
     </>
   );
 }
