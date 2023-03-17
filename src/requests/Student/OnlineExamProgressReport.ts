@@ -64,7 +64,7 @@ export const getOnlineExams =
   (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
-      const onlineExams = response.data.OnlineExams.map((item, index) => {
+      let onlineExams = response.data.OnlineExams.map((item, index) => {
         return {
           Id: index,
           Name: item.Name,
@@ -72,6 +72,8 @@ export const getOnlineExams =
           IsActive:false
         };
       })
+
+      onlineExams =[{Id:0,Name:"Select Exam", Value:"" , IsActive:false} , ...onlineExams]
       dispatch(OnlineExamProgressReportSlice.actions.getOnlineExams(onlineExams));
       const getSubjectName = (SubjectId) => {
         let sub = ""

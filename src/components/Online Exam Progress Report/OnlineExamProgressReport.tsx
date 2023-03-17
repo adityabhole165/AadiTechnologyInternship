@@ -5,6 +5,7 @@ import { RootState } from 'src/store';
 import DropdownandList from 'src/libraries/Page/DropdownandList'
 import IOnlineExamProgressReportBody from 'src/interfaces/Student/OnlineExamProgressReport';
 import { getOnlineExams } from 'src/requests/Student/OnlineExamProgressReport';
+import { Container } from '@mui/material';
 
 
 function OnlineExamProgressReport() {
@@ -37,13 +38,13 @@ function OnlineExamProgressReport() {
     }
 
     return (
-        <div>
+        <Container>
             <DropdownandList heading={"Online Exam Progress Report"}
                 Itemlist={OnlineExams} onChange={onChangeExam}
-                Label={"Exam"} DefaultValue={exam}
+                Label={""} DefaultValue={exam}
                 CardItemlist={getExamDetailslist.filter((item) => item.ExamId.toString() === exam.toString())}
             />
-        </div>
+        </Container>
     )
 }
 
