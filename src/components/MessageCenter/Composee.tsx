@@ -666,7 +666,9 @@ function Form13() {
                 </Box>}
             </Box>
 
-            <Grid sx={{ display: scheduleMessage, mb: '10px', mt: "-20px" }} >
+            <Grid container sx={{ display: scheduleMessage }} >
+              <Box sx={{display:"flex"}}>
+              <Grid item xs={6} >
               <TextField
                 type="date"
                 // required
@@ -678,27 +680,32 @@ function Form13() {
                   max: MaxDate
                 }}
               />
+              </Grid>
+            
 
-
+              <Grid item xs={4}>
               <TimePicker
                 value={value}
                 onChange={clickTime}
                 renderInput={(params) =>
-                  <TextField {...params} variant="standard" size="small" sx={{ float: "right" }}
+                  <TextField {...params} variant="standard" size="small" sx={{ float: "right" ,mt:"3px"}}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AccessTimeIcon fontSize='small' />
+                          <AccessTimeIcon fontSize='small' sx={{mb:"2px"}} />
                         </InputAdornment>
                       ),
                     }}
                   />}
               />
+                 </Grid>
+                 </Box>
+                 </Grid>
               <Box sx={{ mb: '20px', mt: '-5px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Box>
-            </Grid>
+          
 
 
 
