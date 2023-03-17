@@ -28,6 +28,7 @@ function AadharCardDetails() {
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
     const [error1, setError1] = useState (false)
+    const [error2, setError2] = useState (false)
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -46,6 +47,7 @@ function AadharCardDetails() {
         if (e.target.value.length > 0) {
             setError(false);
         }
+        
         if (e.target.value.length >= 12){
             setError1(true);
         }
