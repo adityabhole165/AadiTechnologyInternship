@@ -68,7 +68,7 @@ export const getOnlineExams =
         return {
           Id: index,
           Name: item.Name,
-          Value: item.Id,
+          Value: item.Id.toString(),
           IsActive:false
         };
       })

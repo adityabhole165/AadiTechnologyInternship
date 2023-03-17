@@ -41,7 +41,7 @@ function OnlineExamProgressReport() {
             <DropdownandList heading={"Online Exam Progress Report"}
                 Itemlist={OnlineExams} onChange={onChangeExam}
                 Label={"Exam"} DefaultValue={exam}
-                CardItemlist={getExamDetailslist.filter((item) => item.ExamId === exam)}
+                CardItemlist={getExamDetailslist.filter((item) => item.ExamId.toString() === exam.toString())}
             />
         </div>
     )
