@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography,InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography, InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -307,13 +307,13 @@ function Form13() {
         if (scheduleDate + value) {
           valid = true
         }
-        if(scheduleDate == '' && strTime == ''){
-          setRequestScheduleMsg('Schedule Date and Time should not be blank') 
-        }else{
+        if (scheduleDate == '' && strTime == '') {
+          setRequestScheduleMsg('Schedule Date and Time should not be blank')
+        } else {
           setRequestScheduleMsg('')
         }
-      }  
-      else { 
+      }
+      else {
         valid = true
       }
       if (valid) {
@@ -424,10 +424,10 @@ function Form13() {
   hours = hours % 12;
   hours = hours ? hours : 12;
   let strTime = hours + ':' + minutes + ' ' + ampm;
-  console.log("scheduleDate","",scheduleDate,"");
-  console.log("strTime",strTime);
-  
-  
+  console.log("scheduleDate", "", scheduleDate, "");
+  console.log("strTime", strTime);
+
+
   const clickTime = (value) => {
     if (isFutureDateTime(MinDate + " " + value)) {
       setSchTimeerror('')
@@ -665,8 +665,8 @@ function Form13() {
                   </Box>
                 </Box>}
             </Box>
-           
-            <Grid   sx={{ display: scheduleMessage, mb:'10px',mt: "-20px" }} >
+
+            <Grid sx={{ display: scheduleMessage, mb: '10px', mt: "-20px" }} >
               <TextField
                 type="date"
                 // required
@@ -678,29 +678,29 @@ function Form13() {
                   max: MaxDate
                 }}
               />
-          
-        
+
+
               <TimePicker
-              value={value}
-              onChange={clickTime}
-              renderInput={(params) => 
-              <TextField {...params}    variant="standard" size="small"  sx={{float:"right",mt:"2px"}} 
-               InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <AccessTimeIcon fontSize='small' sx={{mr:"-4px",mb:"4px"}} />
-                </InputAdornment>
-              ),
-            }}
-            />}
-          />
-         
+                value={value}
+                onChange={clickTime}
+                renderInput={(params) =>
+                  <TextField {...params} variant="standard" size="small" sx={{ float: "right" }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccessTimeIcon fontSize='small' />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />}
+              />
+              <Box sx={{ mb: '20px', mt: '-5px' }}>
+                <ErrorMessage1 Error={schTimeerror} />
+                <ErrorMessage1 Error={requestScheduleMsg} />
+              </Box>
             </Grid>
-            <Box sx={{mb:'20px',mt:'-5px'}}>
-              <ErrorMessage1 Error={schTimeerror} />
-              <ErrorMessage1 Error={requestScheduleMsg} />
-            </Box>
-           
+
+
 
             <TextField
               fullWidth
