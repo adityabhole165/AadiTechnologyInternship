@@ -2,6 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import OnlineExamProgressReport from 'src/interfaces/Student/OnlineExamProgressReport';
 import OnlineExamProgressReportapi from 'src/api/Student/OnlineExamProgressReport';
+import IOnlineExamProgressReportBody from 'src/interfaces/Student/OnlineExamProgressReport';
 
 
 const OnlineExamProgressReportSlice = createSlice({
@@ -13,7 +14,8 @@ const OnlineExamProgressReportSlice = createSlice({
     Subjects: [],
     MarkInformation: [],
     Details: [],
-    Header: null
+    Header: null,
+    getExamDetailslist: []
   },
   reducers: {
     getStudentDetails(state, action) {
@@ -23,7 +25,10 @@ const OnlineExamProgressReportSlice = createSlice({
       state.SchoolInformation = action.payload.SchoolInformation
     },
     getOnlineExams(state, action) {
-      state.OnlineExams = action.payload.OnlineExams
+      state.OnlineExams = action.payload
+    },
+    getOnlineExamDetails(state, action) {
+      state.getExamDetailslist = action.payload
     },
     getSubjects(state, action) {
       state.Subjects = action.payload.Subjects
@@ -42,49 +47,77 @@ const OnlineExamProgressReportSlice = createSlice({
 
 
 export const getStudentDetails =
-  (data: OnlineExamProgressReport): AppThunk =>
+  (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
       dispatch(OnlineExamProgressReportSlice.actions.getStudentDetails(response.data));
     };
 
 export const getSchoolInformation =
-  (data: OnlineExamProgressReport): AppThunk =>
+  (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
       dispatch(OnlineExamProgressReportSlice.actions.getSchoolInformation(response.data));
     };
 
 export const getOnlineExams =
-  (data: OnlineExamProgressReport): AppThunk =>
+  (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
-      dispatch(OnlineExamProgressReportSlice.actions.getOnlineExams(response.data));
-    };
-
+      const onlineExams = response.data.OnlineExams.map((item, index) => {
+        return {
+          Id: index,
+          Name: item.Name,
+          Value: item.Id,
+          IsActive:false
+        };
+      })
+      dispatch(OnlineExamProgressReportSlice.actions.getOnlineExams(onlineExams));
+      const getSubjectName = (SubjectId) => {
+        let sub = ""
+        response.data.Subjects
+          .map((item) => {
+            if (item.SubjectId === SubjectId)
+              sub = item.Name
+          })
+        return sub
+      };
+      const onlineExamDetails =
+        response.data.MarkInformation.map((item, index) => {
+          return {
+            Id: index,
+            ExamId: item.ExamId,
+            Text1: getSubjectName(item.SubjectId),
+            Text2: item.Marks + '/' + item.OutOfMarks,
+            Text3: ((item.Marks / item.OutOfMarks) * 100).toFixed(2),
+          };
+        })
+      dispatch(OnlineExamProgressReportSlice.actions.getOnlineExamDetails(onlineExamDetails));
+      
+    }
 export const getSubjects =
-  (data: OnlineExamProgressReport): AppThunk =>
+  (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
       dispatch(OnlineExamProgressReportSlice.actions.getSubjects(response.data));
     };
 
-    export const getMarkInformation =
-    (data: OnlineExamProgressReport): AppThunk =>
-      async (dispatch) => {
-        const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
-        dispatch(OnlineExamProgressReportSlice.actions.getMarkInformation(response.data));
-      };
+export const getMarkInformation =
+  (data: IOnlineExamProgressReportBody): AppThunk =>
+    async (dispatch) => {
+      const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
+      dispatch(OnlineExamProgressReportSlice.actions.getMarkInformation(response.data));
+    };
 
-      export const getDetails =
-      (data: OnlineExamProgressReport): AppThunk =>
-        async (dispatch) => {
-          const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
-          dispatch(OnlineExamProgressReportSlice.actions.getDetails(response.data));
-        };
-      
+export const getDetails =
+  (data: IOnlineExamProgressReportBody): AppThunk =>
+    async (dispatch) => {
+      const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
+      dispatch(OnlineExamProgressReportSlice.actions.getDetails(response.data));
+    };
+
 export const getHeader =
-  (data: OnlineExamProgressReport): AppThunk =>
+  (data: IOnlineExamProgressReportBody): AppThunk =>
     async (dispatch) => {
       const response = await OnlineExamProgressReportapi.getOnlineExamProgressReport(data);
       const child = (ExamId) => {
@@ -110,7 +143,7 @@ export const getHeader =
             Child: child(item.Id)
           };
         })
-      dispatch(OnlineExamProgressReportSlice.actions.getHeader({Header:header, Students:response.data.Students}));
+      dispatch(OnlineExamProgressReportSlice.actions.getHeader({ Header: header, Students: response.data.Students }));
     };
 
 export default OnlineExamProgressReportSlice.reducer

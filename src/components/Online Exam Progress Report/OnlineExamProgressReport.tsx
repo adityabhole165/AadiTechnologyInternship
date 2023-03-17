@@ -3,45 +3,46 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import DropdownandList from 'src/libraries/Page/DropdownandList'
+import IOnlineExamProgressReportBody from 'src/interfaces/Student/OnlineExamProgressReport';
+import { getOnlineExams } from 'src/requests/Student/OnlineExamProgressReport';
 
 
 function OnlineExamProgressReport() {
     const dispatch = useDispatch();
-    // const [exam, setExam] = useState("");
+    const [exam, setExam] = useState("");
 
-    // const OnlineExams: any = useSelector(
-    //     (state: RootState) => state.ExamOnlineReport.OnlineExams);
-        
-    //     const getExamDetailslist: any = useSelector(
-    //         (state: RootState) => state.ExamOnlineReport.getExamDetailslist);
+    const OnlineExams: any = useSelector(
+        (state: RootState) => state.ExamOnlineReport.OnlineExams);
 
-    // useEffect(() => {
-    //     dispatch(GetOnlineExamProgressReportDetails(GetOnlineExamProgressReportDetailsBody))
-    // },[])
+    const getExamDetailslist: any = useSelector(
+        (state: RootState) => state.ExamOnlineReport.getExamDetailslist);
 
-    // useEffect(()=> {
-    //     dispatch(GetExamDetailsList(GetExamDetailsListBody));
-    //      },[exam])
+    useEffect(() => {
+        const OnlineExamProgressReportBody: IOnlineExamProgressReportBody = {
+            aiStudentId: sessionStorage.getItem('StudentId'),
+            aiSchoolId: localStorage.getItem('localSchoolId'),
+            aiAcademicYrId: sessionStorage.getItem('AcademicYearId'),
+            asStdDivId: sessionStorage.getItem('StandardDivisionId')
+        }
+        dispatch(getOnlineExams(OnlineExamProgressReportBody));
+    }, [])
 
-    // const onChangeExam = (value) => {
-    //     let exam = ""
-    //     value.map((item) => {
-    //         if (item.IsActive)
-    //             exam = item.Value
-    //     })
-    //     setExam(exam)
-    // }
+    const onChangeExam = (value) => {
+        let exam = ""
+        value.map((item) => {
+            if (item.IsActive)
+                exam = item.Value
+        })
+        setExam(exam)
+    }
 
     return (
         <div>
-            {/* <DropdownandList
-                heading={"Online Exam Progress Report"}
-                Itemlist={OnlineExams}
-                onChange={onChangeExam}
-                Label={"Exam"}
-                DefaultValue={exam}
-                CardItemlist={""}
-            /> */}
+            <DropdownandList heading={"Online Exam Progress Report"}
+                Itemlist={OnlineExams} onChange={onChangeExam}
+                Label={"Exam"} DefaultValue={exam}
+                CardItemlist={getExamDetailslist.filter((item) => item.ExamId === exam)}
+            />
         </div>
     )
 }

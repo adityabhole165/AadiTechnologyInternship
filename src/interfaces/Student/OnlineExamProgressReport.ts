@@ -1,7 +1,7 @@
 import { ReactNode } from "react"
 
 
-export default interface OnlineExamProgressReport {
+export default interface IOnlineExamProgressReportBody {
     
         aiStudentId:string,
         aiSchoolId:string,
