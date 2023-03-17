@@ -6,6 +6,8 @@ import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import EmailIcon from '@mui/icons-material/Email';
+import DraftsIcon from '@mui/icons-material/Drafts';
 function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined ,HasReadReceipt= undefined,RequestReadReceipt= undefined}) {
 console.log("IsSchedule",IsSchedule);
 
@@ -19,11 +21,7 @@ console.log("IsSchedule",IsSchedule);
     'blue' :
     (ActiveTab == "Sent" && IsSchedule) ? 'blue' :
       ''
-console.log("RequestReadReceipt",RequestReadReceipt);
-console.log("HasReadReceipt",HasReadReceipt);
-
-
-  return (
+        return (
     <>
 
       <CardDetail onClick={clickCard}>
@@ -61,9 +59,13 @@ console.log("HasReadReceipt",HasReadReceipt);
         <>{text2}     {IsSchedule &&
             <ScheduleIcon fontSize="small" color="primary"  sx={{mt:"-2px",ml:"4px"}}/>}</> 
           <>
-         
-          
-            
+            {RequestReadReceipt  === "True" &&
+            <>
+            {HasReadReceipt ? 
+            <DraftsIcon  fontSize="small" color="success" sx={{mt:"-2px",ml:"4px"}}/>  :
+             <EmailIcon fontSize="small" color="error" sx={{mt:"-2px",ml:"4px"}}/>  }
+            </>
+            }
            
           </>
        </CardDetail2>

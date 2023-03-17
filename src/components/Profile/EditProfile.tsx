@@ -16,6 +16,7 @@ const note = [
 
 ];
 function EditProfile() {
+  const  width = 112, height = 151, maxFileSize = 100000
   const UserName = sessionStorage.getItem('StudentName');
   const [value, setValue] = useState('');
   const aRef = useRef(null);
@@ -26,10 +27,20 @@ function EditProfile() {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 	1000000 )
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
+        let img = new Image()
+        img.src = window.URL.createObjectURL(e.target.files[0])
+        img.onload = () => {
+          if (img.width > width && img.height > height) {
+            setError(`Image is ${img.height} x ${img.width}, Height and Width of photo file should not exceed 151px and 112px respectively`);
+          }
         // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
-        setValue(base64URL);
-      }
+        else{
+          setValue(base64URL);
+        }
+        
+      }}
       else {
+        
         setError(isValid);
       }
     }
@@ -40,7 +51,10 @@ function EditProfile() {
     if (photos !== undefined && photos.length)
       setValue(photos[0].base64Data)
   }, [photos])
-
+  useEffect(() => {
+    setError('')
+  
+  }, [value])
   return (
     <Container>
       <PageHeader heading={'Edit Profile'} subheading={''} />
@@ -61,7 +75,7 @@ function EditProfile() {
           </Grid>
         </Box>
      
-        <Grid container sx={{ textAlign: "center" }}>
+        <Grid container spacing={3} sx={{textAlign:"center"}}>
           <Grid item xs={3} />
           <Grid item xs={3}>
             <ButtonPrimary>Save</ButtonPrimary>

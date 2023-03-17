@@ -52,7 +52,7 @@ function ViewSms({ }) {
   useEffect(() => {
     GetViewEventResult();
   }, []);
-  useEffect(() => {
+  useEffect(() => {   
     if (viewSent !== undefined) {
       if (viewSent.RequestReadReceipt === "True") {
         let readRecipient = "0"
@@ -63,11 +63,10 @@ function ViewSms({ }) {
         const body: IUpdateReadReceiptStatusBody = {
           asSchoolId: SchoolId,
           asAcademicYearId: asAcademicYearId,
-          asReceiverId: viewSent.DetailsId,
+          asReceiverId: viewSent.ReceiverDetailsId,
           asRequestReadReceipt: readRecipient
         };
         dispatch(getUpdateReadReceiptStatus(body));
-
       }
       setShowMessage(true)
     }
