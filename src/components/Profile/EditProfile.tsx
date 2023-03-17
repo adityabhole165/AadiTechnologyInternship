@@ -75,7 +75,7 @@ function EditProfile() {
           </Grid>
         </Box>
      
-        <Grid container sx={{ textAlign: "center" }}>
+        <Grid container spacing={3} sx={{textAlign:"center"}}>
           <Grid item xs={3} />
           <Grid item xs={3}>
             <ButtonPrimary>Save</ButtonPrimary>
