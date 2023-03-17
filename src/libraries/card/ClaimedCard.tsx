@@ -10,7 +10,7 @@ function ClaimedCard({Text1,Text2,confirmsg}) {
       <ListStyle>
         <Box sx={{display:"flex", justifyContent:"space-between"}} pb={1}>
         <Typography> <b>Date : </b> {Text1}</Typography>
-        <Typography><b>Claimed by Parent : </b> {Text2 === true ? 'Yes' : 'No'}</Typography>
+        <Typography>{Text2 === true &&  <b>Claimed by Parent : Yes </b>}</Typography>
         </Box>
         <ButtonPrimary onClick={confirmsg}>Cancel</ButtonPrimary>
       </ListStyle>
