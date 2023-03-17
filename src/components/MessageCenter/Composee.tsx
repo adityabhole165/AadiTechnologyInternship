@@ -562,7 +562,7 @@ function Form13() {
 
 
 
-            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} />
+            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{width:'280px',overflow: "hidden",  textOverflow: "ellipsis"}}/>
             <ClickAwayListener onClickAway={handleClickAway}>
               <Tooltip
                 PopperProps={{

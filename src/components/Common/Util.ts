@@ -163,7 +163,7 @@ export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) =
             return 'Please upload a file smaller than 3 MB';
         }
         if (!allowedFileTypes.includes(fileExtension.toUpperCase())) {
-            return 'File does not support. Please check Note';
+            return 'File type is not supportive. Please check the note';
         } else if (allowedFileTypes.includes(fileExtension)) {
             return null;
         }

@@ -28,6 +28,7 @@ function AadharCardDetails() {
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
     const [error1, setError1] = useState (false)
+    const [error2, setError2] = useState (false)
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -46,6 +47,7 @@ function AadharCardDetails() {
         if (e.target.value.length > 0) {
             setError(false);
         }
+        
         if (e.target.value.length >= 12){
             setError1(true);
         }
@@ -78,7 +80,7 @@ function AadharCardDetails() {
     }, [SaveUserAadharCardDetails])
     const classes = Styles();
     const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
-    const maxfileSize = 300000
+    const maxfileSize = 3000000
     const [selectedFile, setSelectedFile] = useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
