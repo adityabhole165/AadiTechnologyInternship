@@ -8,18 +8,32 @@ import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import EmailIcon from '@mui/icons-material/Email';
 import DraftsIcon from '@mui/icons-material/Drafts';
+import { useNavigate } from 'react-router-dom';
 import Card15 from './Card15';
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined, HasReadReceipt = undefined, RequestReadReceipt = undefined }) {
+function Card4({ header, text1, text2, text3, text5,
+  text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined,
+  IsSchedule = false, IsAttachmentExist = undefined, HasReadReceipt = undefined,
+  RequestReadReceipt = undefined, NavPath = undefined }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
   const [popup, setPopup] = useState(false);
-  const handleClickToOpen = () => {
+  let clickParent = true;
+  const handleClickToOpen = (e) => {
+    e.stopPropagation();
     setPopup(true);
+    clickParent = false
   };
+  const navigate = useNavigate();
 
+  const clickNav = () => {
+    if (clickParent) {
+      navigate('/' + location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + NavPath);
+    }
+
+  }
   const handleToClose = () => {
     setPopup(false);
   };
@@ -31,7 +45,7 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
   return (
     <>
 
-      <CardDetail onClick={clickCard}>
+      <CardDetail onClick={clickNav}>
 
         <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
 
@@ -69,7 +83,8 @@ function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = u
             {RequestReadReceipt === "True" &&
               <>
                 {HasReadReceipt ? <>
-                  <DraftsIcon fontSize="small" color="success" sx={{ mt: "-2px", ml: "4px" }} onClick={handleClickToOpen} />
+                  <DraftsIcon fontSize="small" color="success" sx={{ mt: "-2px", ml: "4px" }}
+                    onClick={(e) => { handleClickToOpen(e) }} />
                   <Dialog open={popup}
                     onClose={() => { setPopup(false) }}
                   >
