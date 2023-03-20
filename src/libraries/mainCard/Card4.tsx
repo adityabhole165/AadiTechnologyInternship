@@ -34,9 +34,6 @@ function Card4({ header, text1, text2, text3, text5,
     }
 
   }
-  const handleToClose = () => {
-    setPopup(false);
-  };
 
   let IsReadColor = (ActiveTab == "Inbox" && IsRead == 'N') ?
     'blue' :
