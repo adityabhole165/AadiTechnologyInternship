@@ -424,12 +424,10 @@ function Form13() {
   hours = hours % 12;
   hours = hours ? hours : 12;
   let strTime = hours + ':' + minutes + ' ' + ampm;
-  console.log("scheduleDate", "", scheduleDate, "");
-  console.log("strTime", strTime);
-
-
+  
   const clickTime = (value) => {
-    if (isFutureDateTime(MinDate + " " + value)) {
+     const time = formatAMPM(value)
+    if (isFutureDateTime(MinDate + " " + time)) {
       setSchTimeerror('')
     }
     else {
@@ -701,14 +699,10 @@ function Form13() {
                  </Grid>
                  </Box>
                  </Grid>
-              <Box sx={{ mb: '20px', mt: '-5px' }}>
+              <Box sx={{ mb: '10px', mt: '5px' }}>
                 <ErrorMessage1 Error={schTimeerror} />
                 <ErrorMessage1 Error={requestScheduleMsg} />
               </Box>
-          
-
-
-
             <TextField
               fullWidth
               multiline
