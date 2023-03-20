@@ -1,27 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { AttachmentIcon1, CardD, CardDetail, CardDetail1, CardDetail2, CardDetail3, CardDetail5, CardDetail7, CardDetail9, DateWidth, DateWidth1 } from '../styled/CardStyle';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import { Box, Dialog, Typography } from '@mui/material';
 import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
 import { isFutureDateTime } from 'src/components/Common/Util';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import EmailIcon from '@mui/icons-material/Email';
 import DraftsIcon from '@mui/icons-material/Drafts';
-function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined ,HasReadReceipt= undefined,RequestReadReceipt= undefined}) {
-console.log("IsSchedule",IsSchedule);
-
+import Card15 from './Card15';
+function Card4({ header, text1, text2, text3, text5, text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined, IsSchedule = false, IsAttachmentExist = undefined, HasReadReceipt = undefined, RequestReadReceipt = undefined }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
+  const [popup, setPopup] = useState(false);
+  const handleClickToOpen = () => {
+    setPopup(true);
+  };
+
+  const handleToClose = () => {
+    setPopup(false);
+  };
 
   let IsReadColor = (ActiveTab == "Inbox" && IsRead == 'N') ?
     'blue' :
     (ActiveTab == "Sent" && IsSchedule) ? 'blue' :
       ''
-        return (
+  return (
     <>
 
       <CardDetail onClick={clickCard}>
@@ -55,20 +62,27 @@ console.log("IsSchedule",IsSchedule);
         {pageName1 == "MessageCenter/msgCenter" ?
           <CardD>{text1}</CardD> :
           <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2 sx={{ color: "#628def" ,display:"flex"}}>
-        <>{text2}     {IsSchedule &&
-            <ScheduleIcon fontSize="small" color="primary"  sx={{mt:"-2px",ml:"4px"}}/>}</> 
+        <CardDetail2 sx={{ color: "#628def", display: "flex" }}>
+          <>{text2}     {IsSchedule &&
+            <ScheduleIcon fontSize="small" color="primary" sx={{ mt: "-2px", ml: "4px" }} />}</>
           <>
-            {RequestReadReceipt  === "True" &&
-            <>
-            {HasReadReceipt ? 
-            <DraftsIcon  fontSize="small" color="success" sx={{mt:"-2px",ml:"4px"}}/>  :
-             <EmailIcon fontSize="small" color="error" sx={{mt:"-2px",ml:"4px"}}/>  }
-            </>
+            {RequestReadReceipt === "True" &&
+              <>
+                {HasReadReceipt ? <>
+                  <DraftsIcon fontSize="small" color="success" sx={{ mt: "-2px", ml: "4px" }} onClick={handleClickToOpen} />
+                  <Dialog open={popup}
+                    onClose={() => { setPopup(false) }}
+                  >
+                    <Card15 text1={text2} text2={text1} />
+                  </Dialog>
+                </>
+                  :
+                  <EmailIcon fontSize="small" color="error" sx={{ mt: "-2px", ml: "4px" }} />}
+              </>
             }
-           
+
           </>
-       </CardDetail2>
+        </CardDetail2>
       </CardDetail>
 
       <CardDetail>
