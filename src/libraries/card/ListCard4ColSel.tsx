@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Card4 from 'src/libraries/mainCard/Card4';
 import { useState } from 'react';
 
-const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
+const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => { 
   const navigate = useNavigate();
   const [checked, setChecked] = useState(true)
   const clickNav = (value) => {

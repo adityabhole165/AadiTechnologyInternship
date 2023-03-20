@@ -355,7 +355,7 @@ const MessageList = () => {
 
   const clickSetting = () => {
     navigate('/extended-sidebar/MessageCenter/EmailSetting')
-  }
+  }  
   return (
     <>
       <Container>

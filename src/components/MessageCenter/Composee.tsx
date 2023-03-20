@@ -140,7 +140,7 @@ function Form13() {
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
-  const [requestReadReceipt, setRequestReadReceipt] = useState(false)
+  const [requestReadReceipt, setRequestReadReceipt] = useState(false)  
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
@@ -424,7 +424,7 @@ function Form13() {
   hours = hours % 12;
   hours = hours ? hours : 12;
   let strTime = hours + ':' + minutes + ' ' + ampm;
-  
+
   const clickTime = (value) => {
      const time = formatAMPM(value)
     if (isFutureDateTime(MinDate + " " + time)) {
@@ -438,11 +438,6 @@ function Form13() {
   const [showCC, setShowCC] = useState(false)
   const clickHide = () => {
     setShowCC(!showCC)
-  }
-
-  const [showMore, setShowMore] = useState(false)
-  const clickMore = () => {
-    setShowMore(!showMore)
   }
 
   return (
@@ -644,9 +639,7 @@ function Form13() {
                 </div>
               )}
             <br />
-            <ButtonPrimary sx={{ float: 'right', mb: "10px" }} onClick={clickMore}>{showMore ? <><KeyboardArrowUpIcon />Less</> : <><KeyboardArrowDownIcon />More</>}</ButtonPrimary>
-            <Box sx={{ mb: "12px" }}>
-              {showMore &&
+            <Box sx={{ mb: "12px" }}>           
                 <Box sx={{ mt: "-18px", mb: "-10px" }}>
                   <Box mt={1}>
                     <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
@@ -661,7 +654,7 @@ function Form13() {
                       Schedule Message at:
                     </Typography>
                   </Box>
-                </Box>}
+                </Box>
             </Box>
 
             <Grid container sx={{ display: scheduleMessage }} >
