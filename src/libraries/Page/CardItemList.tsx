@@ -13,12 +13,12 @@ const CardItemList = ({ CardItemList }) => {
             <div key={i}>
                 <ListStyle >
                     <Box>
-                    <Typography><b>Subject:-</b>{Item.Text1}</Typography>
+                    <Typography><b>Subject:- </b>{Item.Text1}</Typography>
                     </Box>
                     
                     <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-                        <Typography><b>Total Marks:-</b>{Item.Text2}</Typography>
-                        <Typography> <b>Percentage:-</b>{Item.Text3}</Typography>
+                        <Typography><b>Total Marks:- </b>{Item.Text2}</Typography>
+                        <Typography> <b>Percentage:- </b>{Item.Text3}</Typography>
                     </Box>
                 </ListStyle>
             </div>
