@@ -1082,6 +1082,26 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          '@media (min-width:600px)': {
+            paddingLeft:"50px",
+            paddingRight:"50px",
+          },
+          '@media (min-width:900px)': {
+            paddingLeft:"60px",
+            paddingRight:"60px",
+          },
+          '@media (min-width:1200px)': {
+            paddingLeft:"100px",
+            paddingRight:"100px",
+          },
+        
+        }
+      
+      }
+    },
     MuiTimelineItem: {
       styleOverrides: {
         root: {
@@ -1205,11 +1225,15 @@ export const PurpleFlowTheme = createTheme({
     borderRadius: 6
   },
   typography: {
+
     fontFamily:
       'Roboto',
+    
+      
     h1: {
       fontWeight: 700,
-      fontSize: 35
+      fontSize: 35,
+     
     },
     h2: {
       fontWeight: 700,
@@ -1227,16 +1251,23 @@ export const PurpleFlowTheme = createTheme({
     },
     h5: {
       fontWeight: 700,
-      fontSize: 14,
+      fontSize: 12,
+  
  
     },
     h6: {
-      fontSize: 15
+      fontSize: 12,
+      color:"black",
+      '@media (min-width:600px)': {
+        fontSize: 14,
+      },
     },
+  
     body1: {
-      fontSize: 14,
-    
-    
+      fontSize: 12,
+      color:"black",
+    '@media (min-width:600px)': {
+        fontSize: 14,}
     },
     body2: {
       fontSize: 12,
