@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import PropTypes from 'prop-types';
-import { HeadingStyle } from '../styled/HeadingStyled';
+import { HeadingStyle ,RootWrapper } from '../styled/HeadingStyled';
 import {
   styled,
   Typography,
@@ -15,12 +15,13 @@ interface PageHeaderProps {
   subheading?: string;
 }
 
-const RootWrapper = styled(Box)(
-  ({ theme }) => `
-        margin-top: ${theme.spacing(2)};
-        margin-bottom: ${theme.spacing(2)};
-`
-);
+// const RootWrapper = styled(Box)(
+//   ({ theme }) => `
+//         margin-top: ${theme.spacing(2)};
+//         margin-bottom: ${theme.spacing(2)};
+        
+// `
+// );
 
 const PageHeader: FC<PageHeaderProps> = ({ heading, subheading="" }) => {
   const theme = useTheme();

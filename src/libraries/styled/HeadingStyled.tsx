@@ -11,6 +11,9 @@ font-family: roboto;
 @media (min-width: 280px) and (max-width: 320px)  {
   font-size: 18px;
 };
+@media (min-width: 600px)  {
+  font-size: 22px;
+};
 `);
 
 export const BoxStyle= styled(Box)( ({ theme }) =>`
@@ -20,3 +23,15 @@ height: 100%;
     overflow: scroll;
   };
 `);
+
+export const RootWrapper= styled(Box)( ({ theme }) =>`
+
+margin-top: ${theme.spacing(2)};
+       margin-bottom:  ${theme.spacing(2)};
+       @media (min-width: 600px) {
+        // margin-bottom:  ${theme.spacing(4)};
+      };
+      
+`
+);
+
