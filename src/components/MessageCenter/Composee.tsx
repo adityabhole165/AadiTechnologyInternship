@@ -143,7 +143,8 @@ function Form13() {
   const [requestReadReceipt, setRequestReadReceipt] = useState(false)  
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
-  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState(''); 
+  const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
   const Note: string =
@@ -307,8 +308,9 @@ function Form13() {
         if (scheduleDate + value) {
           valid = true
         }
-        if (scheduleDate == '' && strTime == '') {
+        if (scheduleDate.length == 0 ) {
           setRequestScheduleMsg('Schedule Date and Time should not be blank')
+          valid = false
         } else {
           setRequestScheduleMsg('')
         }
@@ -364,6 +366,13 @@ function Form13() {
   let currentDate = new Date();
 
   const scheduleDateAndTime = (e) => {
+    console.log(scheduleDate,'out');
+
+      if(scheduleDate !== ""){
+        console.log("in",scheduleDate);
+        setRequestScheduleMsg('')
+      }
+
     if (e.target.type == 'date') {
       setscheduleDate(e.target.value);
     }
@@ -416,7 +425,6 @@ function Form13() {
     )
     aRef.current.value = null;
   }
-  const [schTimeerror, setSchTimeerror] = useState('');
   const [value, setValue] = React.useState(new Date());
   let hours = value.getHours();
   let minutes = value.getMinutes();
