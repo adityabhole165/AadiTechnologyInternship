@@ -309,3 +309,15 @@ b{
   #card.close-half #card-front .wrap * {
      display: none;
   }
+
+   input[type=text] {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid black;
+  }
+  
+  input[type=text]:focus {
+    border: 3px solid white;
+    border-bottom: 1px solid black;
+  }
