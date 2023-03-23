@@ -10,7 +10,7 @@ import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/materia
 import { CheckFileValidationAdhar } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
-
+import 'src/assets/style/BdayCard.css';
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
@@ -176,14 +176,14 @@ function AadharCardDetails() {
                         value={GetUserAadharCardDetails.Name} />
 
                     <Typography variant='caption'>Aadhar Number</Typography>
-                    <TextField
+                    {/* <TextField
                         fullWidth
                         type="number"
                         variant="standard"
                         value={aadharNumber}
-                        onChange={(e)=>{clickOnBlur(e.target.value)}} />
+                        onChange={(e)=>{clickOnBlur(e.target.value)}} /> */}
                     <input type="text" value={aadharNumber} 
-                    onChange={(e)=>{clickOnBlur(e.target.value)}} maxLength={12}/>
+                    onChange={(e)=>{clickOnBlur(e.target.value)}} maxLength={12}   />
 
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
