@@ -64,7 +64,7 @@ function TextFilePath({ item, onFileSelect, onTextChange }) {
         <Box sx={{ display: "flex", mt: "5px" }}>
           <CloudUploadIcon onClick={handleClick} sx={{ mt: "-2px" }} color={item.choosefileDisable ? "disabled" : "primary"} />
           <Typography sx={{ mt: "2px", fontWeight: "bold", ml: "2px", fontSize: "12px" }}>Upload files : </Typography>
-          <Box sx={{ width: '100px', overflow: "hidden", textOverflow: "ellipsis" }}>
+          <Box sx={{ width: '100px', overflow: "hidden", textOverflow: "ellipsis", mt: "2px", }}>
             {(item.selectedFile === "" || item.selectedFile === undefined) ?
               " No file selected" : item.selectedFile}
           </Box>
