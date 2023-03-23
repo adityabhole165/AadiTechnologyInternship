@@ -15,7 +15,7 @@ import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-
+import 'src/assets/style/BdayCard.css';
 function AadharCardDetails() {
 
     const GetUserAadharCardDetails: any = useSelector(
@@ -174,8 +174,8 @@ function AadharCardDetails() {
                 {...(checked ? { timeout: 1500 } : {})}
             >
                 <ListStyle>
-                    <Typography >Name: {GetUserAadharCardDetails.Name}</Typography>
-                    <Typography >Aadhar NumberL:
+                    <Typography > <b>Name :</b> {GetUserAadharCardDetails.Name}</Typography>
+                    <Typography sx={{mt:"4px"}}> <b>Aadhar Number : </b>
                         <input type="text" value={aadharNumber}
                             onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
                     </Typography>
