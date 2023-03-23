@@ -10,7 +10,7 @@ import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/materia
 import { CheckFileValidationAdhar } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
-
+import 'src/assets/style/BdayCard.css';
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
