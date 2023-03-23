@@ -309,6 +309,9 @@ b{
   #card.close-half #card-front .wrap * {
      display: none;
   }
+  .css-bccm03-MuiInputBase-input-MuiInput-input{
+    font-weight: bold;
+  }
 
    input[type=text] {
     width: 100%;

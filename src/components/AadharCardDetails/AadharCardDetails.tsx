@@ -27,8 +27,8 @@ function AadharCardDetails() {
     const [base64URL, setBase64URL] = useState()
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
-    const [error1, setError1] = useState (false)
-    const [error2, setError2] = useState (false)
+    const [error1, setError1] = useState(false)
+    const [error2, setError2] = useState(false)
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -39,22 +39,24 @@ function AadharCardDetails() {
         }
     };
 
-    const clickOnBlur = (e) => {
-        setAadharNumber(e.target.value) 
-        if (e.target.value.length == 0) {
-            setError(true);
+    const clickOnBlur = (value) => {
+        const re = /^[0-9\b]+$/;
+        if (re.test(value)) {
+            if (value.length == 0) {
+                setError(true);
+            }
+            if (value.length > 0) {
+                setError(false);
+            }
+
+            if (value.length >= 12) {
+                setError1(true);
+            }
+            if (value.length <= 12) {
+                setError1(false);
+            }
+            setAadharNumber(value)
         }
-        if (e.target.value.length > 0) {
-            setError(false);
-        }
-        
-        if (e.target.value.length >= 12){
-            setError1(true);
-        }
-        if (e.target.value.length <= 12){
-            setError1(false);
-        }
-       
     };
 
 
@@ -168,7 +170,7 @@ function AadharCardDetails() {
                 <ListStyle>
                     <Typography variant='caption'>Name</Typography>
                     <TextField
-                    
+
                         fullWidth
                         variant="standard"
                         value={GetUserAadharCardDetails.Name} />
@@ -179,7 +181,9 @@ function AadharCardDetails() {
                         type="number"
                         variant="standard"
                         value={aadharNumber}
-                        onChange={clickOnBlur} />
+                        onChange={(e)=>{clickOnBlur(e.target.value)}} />
+                    <input type="text" value={aadharNumber} 
+                    onChange={(e)=>{clickOnBlur(e.target.value)}} maxLength={12}/>
 
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
@@ -190,16 +194,16 @@ function AadharCardDetails() {
                                 width="150"
                                 height="150" style={{ border: "1px solid gray", padding: "1px" }}
                             />}
-                            </Box>
-                            <Box sx={{  textAlign: "center" }}>
-                        <input ref={aRef} type="file" onChange={changeFile} style={{width:"200px"}}/>
-                        </Box>
-                        <Box  className={classes.iIconSupport}>
-                            <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
-                        </Box>
-                    
+                    </Box>
+                    <Box sx={{ textAlign: "center" }}>
+                        <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
+                    </Box>
+                    <Box className={classes.iIconSupport}>
+                        <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                    </Box>
+
                     {fileError && <Errormessage Error={fileError} />}
-                   
+
                     <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
                 </ListStyle>
 
