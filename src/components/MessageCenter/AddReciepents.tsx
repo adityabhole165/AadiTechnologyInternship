@@ -20,6 +20,8 @@ import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { ContactGroup } from 'src/requests/MessageCenter/MessaageCenter';
+import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -67,6 +69,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
+  const ContactGroupList: any = useSelector(
+    (state: RootState) => state.MessageCenter.Contactgrp
+  );
+  
+  
   // const Student = getstudentlist.GetStudentsUserResult;
 
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -101,6 +108,16 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asUserId: asUserId,
     asAcademicYearId: academicYearId
   }
+  const ContactgroupBody:IContactGRPBody = {
+    asScholId: schoolId,
+    asAcademicYearId:academicYearId,
+    asGroupId:"0",
+    asUserRoleId:"3",
+    asUserId:asUserId
+}
+useEffect(()=>{
+dispatch(ContactGroup(ContactgroupBody))
+},[])
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
@@ -109,6 +126,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false }
+        ,
+        {
+          Id: '9',
+          Name: 'Contact group',
+          isActive: false
+        }
       ]);
       //  if ( !getPTAOption.HideStudentOption){
       //   setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
@@ -136,7 +159,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Id: '6',
           Name: 'Admin Staff',
           isActive: false
-        },
+        } ,
+        {
+          Id: '9',
+          Name: 'Contact group',
+          isActive: false
+        }
       ]);
       if (getPTAOption.ShowPTAOption) {
         setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
@@ -172,7 +200,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           Id: '11',
           Name: 'PTA',
           isActive: false
-        },
+        } ,
+        {
+          Id: '9',
+          Name: 'Contact group',
+          isActive: false
+        }
 
       ]);
     }

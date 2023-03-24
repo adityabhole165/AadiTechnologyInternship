@@ -3,7 +3,7 @@ import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
-import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody} from 'src/interfaces/MessageCenter/MessageCenter';
+import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IContactGRPBody,IContactGRPResult} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
@@ -24,7 +24,8 @@ const MessageCenterSlice = createSlice({
     Loading:true,
     EmailSettings:null,
     UpdationMessage:'',
-    PTAOption:{}
+    PTAOption:{},
+    Contactgrp:[]
 
   },
   reducers: {
@@ -84,6 +85,9 @@ const MessageCenterSlice = createSlice({
     },
     getShowPTAOption (state,action){
       state.PTAOption=action.payload.PTAOptionStatusResult;
+    },
+    getContactgrp(state, action) {
+      state.Contactgrp = action.payload.ContactGroups;
     },
     getLoading (state,action) {   
       state.Loading = true
@@ -187,6 +191,12 @@ export const getTrashList =
  async (dispatch) => {
    dispatch(MessageCenterSlice.actions.ResetUpdateUserEmailSetting());
  };
+ export const ContactGroup =
+  (data :IContactGRPBody): AppThunk =>
+  async (dispatch) => {
+    const response = await MessageCenterApi.ContactGRP(data);
+    dispatch(MessageCenterSlice.actions.getContactgrp(response.data));
+  };
 
  
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;
