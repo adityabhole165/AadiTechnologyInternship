@@ -17,6 +17,8 @@ const UpgradeApp = Loader(lazy(() => import('src/components/Authentication/NewRe
 const Schoolnotice = Loader(lazy(() => import('src/components/SchoolNotice/Schoolnotice')));
 const ForgotPassword = Loader(lazy(() => import('src/components/Authentication/Login/ForgotPassword')));
 const ViewSchoolNotice = Loader(lazy(() => import('src/components/SchoolNotice/Viewschoolnotice')));
+const TermAndCondition = Loader(lazy(() => import('src/components/Authentication/TermAndConditions/TermAndCondition')));
+const ChangePassword = Loader(lazy(() => import('src/components/ChangePassword/changePassword')));
 
 const SchoolList = Loader(lazy(() => import('src/components/Authentication/Login/Login')));
 
@@ -48,8 +50,17 @@ const AuthenticationRoute = [
   {
     path: 'ViewSchoolNotice/:ID',
     element: <ViewSchoolNotice />
-  }
+  },
 
+  {
+    path: 'ChangePassword',
+    element: <ChangePassword />
+  },
+
+  {
+    path: 'TermAndCondition',
+    element: <TermAndCondition />
+  }
 ];
 
 export default AuthenticationRoute;

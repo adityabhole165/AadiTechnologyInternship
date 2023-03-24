@@ -42,6 +42,7 @@ function Form() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
+  // const Username = sessionStorage.getItem('UserName' );
 
   const [value, setValue] = useState<any>('');
   const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
@@ -107,6 +108,15 @@ function Form() {
   return (
     <ListStyle>
       <form onSubmit={formik.handleSubmit}>
+
+        <TextField
+         fullWidth
+         margin="normal"
+         label={'User Name'}
+         name="username"
+         type="number"
+         variant="standard"
+        />
         <TextField
           fullWidth
           margin="normal"
