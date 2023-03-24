@@ -13,7 +13,7 @@ const List23 = ({ data }) => {
         navigate(navPath);
     }
   }
-    let xsWidth = data.length === 0 ? 12 :
+    let xsWidth = data.length === 0  || data == undefined ? 12 :
     data[0].isAttendanceTopper == true  ? 6 : 12
   return (<>
  <Grid container   >

@@ -22,9 +22,10 @@ export const Card30 = ({ header }) => {
                         <Card32 Id={index} Name={Header.Name}
                             expand={() => setEnableRow(enableRow === index ? -1 : index)}
                             isActive={enableRow === index} />
-                        {enableRow === index &&
+                            {Header.Child !== undefined &&
+                       <> {enableRow === index && 
                             <List23 data={Header.Child} />
-                        }
+                        }</>}
                     </ListStyle>
                 </Grow>
             ))
