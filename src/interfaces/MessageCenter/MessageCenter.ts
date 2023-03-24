@@ -154,4 +154,20 @@ export  interface IShowPTAOptionResult{
     HideStudentOption:string
 }
 
+// contact group
+export interface IContactGRPBody{
+    asScholId: string,
+    asUserId: string,
+    asAcademicYearId:string,
+    asGroupId:string,
+    asUserRoleId:string
+}
+export  interface IContactGRPResult{
+    GroupId:number,
+    GroupName:string,
+    Users:string,
+    IsDefault:boolean,
+    IsAllDeactivated:boolean
+}
+
 
