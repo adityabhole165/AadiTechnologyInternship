@@ -10,13 +10,21 @@ import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/materia
 import { CheckFileValidationAdhar } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
-
+import 'src/assets/style/BdayCard.css';
 import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-
+import 'src/assets/style/BdayCard.css';
 function AadharCardDetails() {
+
+    const GetUserAadharCardDetails: any = useSelector(
+        (state: RootState) => state.AadharCardDetails.GetUserAadharCardDetails
+    );
+
+    const SaveUserAadharCardDetails: any = useSelector(
+        (state: RootState) => state.AadharCardDetails.SaveUserAadharCardDetails
+    );
 
     const [checked, setChecked] = useState(true);
     const SchoolName = localStorage.getItem("SchoolName");
@@ -24,11 +32,56 @@ function AadharCardDetails() {
     const [fileName, setFileName] = useState('')
     const [aadharNumber, setAadharNumber] = useState('')
     const dispatch = useDispatch();
-    const [base64URL, setBase64URL] = useState()
+    const [base64URL, setBase64URL] = useState('')
     const [error, setError] = useState(false);
     const [fileError, setFileError] = useState('');
-    const [error1, setError1] = useState (false)
-    const [error2, setError2] = useState (false)
+    const [error1, setError1] = useState(false)
+    const [error2, setError2] = useState(false)
+    const classes = Styles();
+    const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
+    const maxfileSize = 3000000
+    const [selectedFile, setSelectedFile] = useState(null)
+    
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const asUserId = Number(sessionStorage.getItem('Id'));
+    const asUserRoleId = sessionStorage.getItem('RoleId');
+    let enableButton = (selectedFile!==null || GetUserAadharCardDetails.AadharCardNo!==aadharNumber)
+
+
+    useEffect(() => {
+        dispatch(getUserAadharCardDetails(GetUserAadharCardDetailsBody));
+    }, [SaveUserAadharCardDetails]);
+
+    useEffect(() => {
+        setAadharNumber(GetUserAadharCardDetails.AadharCardNo)
+    }, [GetUserAadharCardDetails])
+
+    useEffect(() => {
+        if (SaveUserAadharCardDetails.Message !== undefined) {
+            toast.success(SaveUserAadharCardDetails.Message, { toastId: 'success1' })
+            dispatch(resetMessage());
+            setSelectedFile(null)
+        }
+    }, [SaveUserAadharCardDetails])
+    const GetUserAadharCardDetailsBody =
+    {
+        "aiUserId": asUserId,
+        "aiSchoolId": asSchoolId,
+        "aiAcademicYrId": asAcademicYearId
+    }
+
+
+    const SaveUserAadharCardDetailsBody =
+    {
+        "aiUserId": asUserId,
+        "asSchoolId": asSchoolId,
+        "asAadharCardNo": aadharNumber,
+        "asAadharCardFileName": fileName,
+        "asUserRoleId": asUserRoleId,
+        "asAadharCardBase64String": base64URL
+    }
+
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -39,49 +92,28 @@ function AadharCardDetails() {
         }
     };
 
-    const clickOnBlur = (e) => {
-        setAadharNumber(e.target.value) 
-        if (e.target.value.length == 0) {
-            setError(true);
+    const changeAdhar = (value) => {
+        const re = /^[0-9\b]+$/;
+        if (value === "")
+            setAadharNumber(value)
+        if (re.test(value)) {
+            if (value.length == 0) {
+                setError(true);
+            }
+            if (value.length > 0) {
+                setError(false);
+            }
+
+            if (value.length >= 12) {
+                setError1(true);
+            }
+            if (value.length <= 12) {
+                setError1(false);
+            }
+            setAadharNumber(value)
         }
-        if (e.target.value.length > 0) {
-            setError(false);
-        }
-        
-        if (e.target.value.length >= 12){
-            setError1(true);
-        }
-        if (e.target.value.length <= 12){
-            setError1(false);
-        }
-       
     };
 
-
-    const GetUserAadharCardDetails: any = useSelector(
-        (state: RootState) => state.AadharCardDetails.GetUserAadharCardDetails
-    );
-
-
-    const SaveUserAadharCardDetails: any = useSelector(
-        (state: RootState) => state.AadharCardDetails.SaveUserAadharCardDetails
-    );
-
-    useEffect(() => {
-        setAadharNumber(GetUserAadharCardDetails.AadharCardNo)
-    }, [GetUserAadharCardDetails])
-
-    useEffect(() => {
-        if (SaveUserAadharCardDetails.Message !== undefined) {
-            toast.success(SaveUserAadharCardDetails.Message, { toastId: 'success1' })
-            dispatch(resetMessage());
-        }
-
-    }, [SaveUserAadharCardDetails])
-    const classes = Styles();
-    const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
-    const maxfileSize = 3000000
-    const [selectedFile, setSelectedFile] = useState()
     const changeFile = async (e) => {
         const multipleFiles = e.target.files;
         let base64URL: any = '';
@@ -115,43 +147,19 @@ function AadharCardDetails() {
         });
     };
 
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const asUserId = Number(sessionStorage.getItem('Id'));
-    const asUserRoleId = sessionStorage.getItem('RoleId');
-    const GetUserAadharCardDetailsBody =
-    {
-        "aiUserId": asUserId,
-        "aiSchoolId": asSchoolId,
-        "aiAcademicYrId": asAcademicYearId
-    }
-
-
-    const SaveUserAadharCardDetailsBody =
-    {
-        "aiUserId": asUserId,
-        "asSchoolId": asSchoolId,
-        "asAadharCardNo": aadharNumber,
-        "asAadharCardFileName": fileName,
-        "asUserRoleId": asUserRoleId,
-        "asAadharCardBase64String": base64URL
-    }
-
-
-
-
-    useEffect(() => {
-        dispatch(getUserAadharCardDetails(GetUserAadharCardDetailsBody));
-    }, []);
-
     const clickSubmit = () => {
+        let arr = GetUserAadharCardDetails.AadharCardFileName.split('/')
+        let arrLength = arr.length;
+        let imgName = ''
+        if (arrLength > 0)
+            imgName = arr[arrLength - 1]
         if (aadharNumber.length === 0) {
             setError(true);
         }
-        if (fileName === '') {
+        if (imgName === '' && selectedFile === null) {
             setFileError('Please Upload the file')
         } else {
-            if (fileName !== '' && aadharNumber.length !== 0) {
+            if (aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
                 // aRef.current.value = null
             }
@@ -166,21 +174,11 @@ function AadharCardDetails() {
                 {...(checked ? { timeout: 1500 } : {})}
             >
                 <ListStyle>
-                    <Typography variant='caption'>Name</Typography>
-                    <TextField
-                    
-                        fullWidth
-                        variant="standard"
-                        value={GetUserAadharCardDetails.Name} />
-
-                    <Typography variant='caption'>Aadhar Number</Typography>
-                    <TextField
-                        fullWidth
-                        type="number"
-                        variant="standard"
-                        value={aadharNumber}
-                        onChange={clickOnBlur} />
-
+                    <Typography > <b>Name :</b> {GetUserAadharCardDetails.Name}</Typography>
+                    <Typography sx={{mt:"4px"}}> <b>Aadhar Number : </b>
+                        <input type="text" value={aadharNumber}
+                            onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
+                    </Typography>
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
                     <Box sx={{ my: "10px", textAlign: "center" }}>
@@ -190,17 +188,19 @@ function AadharCardDetails() {
                                 width="150"
                                 height="150" style={{ border: "1px solid gray", padding: "1px" }}
                             />}
-                            </Box>
-                            <Box sx={{  textAlign: "center" }}>
-                        <input ref={aRef} type="file" onChange={changeFile} style={{width:"200px"}}/>
-                        </Box>
-                        <Box  className={classes.iIconSupport}>
-                            <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
-                        </Box>
-                    
+                    </Box>
+                    <Box sx={{ textAlign: "center" }}>
+                        <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
+                    </Box>
+                    <Box className={classes.iIconSupport}>
+                        <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                    </Box>
+
                     {fileError && <Errormessage Error={fileError} />}
-                   
-                    <ButtonPrimary onClick={clickSubmit} fullWidth >Submit</ButtonPrimary>
+
+                    <ButtonPrimary onClick={clickSubmit} fullWidth 
+                    color={enableButton?'primary':'warning'}
+                    >Submit</ButtonPrimary>
                 </ListStyle>
 
             </Grow>

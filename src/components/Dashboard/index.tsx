@@ -57,7 +57,7 @@ function LandingPage() {
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const DOB = localStorage.getItem('DOB');
+  const DOB = sessionStorage.getItem('DOB');
 
   const getModulePermissionBody: IgetModulesPermission = {
     asSchoolId: asSchoolId,

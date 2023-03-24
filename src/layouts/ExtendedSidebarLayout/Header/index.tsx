@@ -194,6 +194,7 @@ function Header() {
       sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
+      sessionStorage.setItem('DOB', studentDetails.DOB);
       localStorage.setItem("UserId", result.Id);
     }
 
