@@ -2,7 +2,7 @@ import http from "../../requests/SchoolService/schoolServices";
 import { IUserGroupList,ISendMessage} from "../../interfaces/MessageCenter/MessageCenter";
 import { IgetList } from "src/interfaces/MessageCenter/GetList";
 import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
-  IUpdateUserEmailSettingBody,IUpdateUserEmailSettingResult,IContactGRPBody,IContactGRPResult} 
+  IUpdateUserEmailSettingBody,IUpdateUserEmailSettingResult,IContactGRPBody,IContactgrpResult} 
   from "src/interfaces/MessageCenter/MessageCenter";
 
   const GetTrashList = (data: IgetList) => {
@@ -25,7 +25,7 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
     return http.post<IUpdateUserEmailSettingResult>('MessageCenter/UpdateUserEmailSetting',data);
   }
   const ContactGRP = (data: IContactGRPBody) => {
-    return http.post<IContactGRPResult>('MessageCenter/GetContactGroups',data);
+    return http.post<IContactgrpResult>('MessageCenter/GetContactGroups',data);
   };
 
   const MessageCenterApi  = {

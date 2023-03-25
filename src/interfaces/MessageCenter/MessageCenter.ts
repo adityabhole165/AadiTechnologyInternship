@@ -169,5 +169,8 @@ export  interface IContactGRPResult{
     IsDefault:boolean,
     IsAllDeactivated:boolean
 }
+export interface IContactgrpResult{
+    ContactGroups:IContactGRPResult[]
+}
 
 

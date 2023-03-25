@@ -20,7 +20,7 @@ import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
 import SelectallAddrecipents from './SelectallAddrecipents';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { ContactGroup } from 'src/requests/MessageCenter/MessaageCenter';
+import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
@@ -53,7 +53,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
-  );
+  ); 
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
     (state: RootState) => state.getuser1.Loading
@@ -69,10 +69,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const getPTAOption: any = useSelector(
     (state: RootState) => state.getuser1.PTAOption
   );
-  const ContactGroupList: any = useSelector(
-    (state: RootState) => state.MessageCenter.Contactgrp
-  );
-  
   
   // const Student = getstudentlist.GetStudentsUserResult;
 
@@ -115,9 +111,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asUserRoleId:"3",
     asUserId:asUserId
 }
-useEffect(()=>{
-dispatch(ContactGroup(ContactgroupBody))
-},[])
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
@@ -254,7 +247,11 @@ dispatch(ContactGroup(ContactgroupBody))
 
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    dispatch(GetUser(getUsersInGroupAPIBody));
+    teacherStudent.map((item,i)=>{
+      return item.iActive == true || item.Id == '9' ? 
+      dispatch(ContactGroup(ContactgroupBody)) :
+      dispatch(GetUser(getUsersInGroupAPIBody));
+    })
   }, [techerStudent1]); //SendSMS
 
   const classChange = (value) => {
