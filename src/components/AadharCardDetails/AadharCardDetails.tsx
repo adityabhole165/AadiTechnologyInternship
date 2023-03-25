@@ -193,7 +193,7 @@ function AadharCardDetails() {
                         <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
                     </Box>
                     <Box className={classes.iIconSupport}>
-                        <Icon3 Note={"Supports only " + validFiles.join(' ') + " files types up to 3 MB"} />
+                        <Icon3 Note={"Supports only " + validFiles.join(', ') + " files types up to 3 MB"} />
                     </Box>
 
                     {fileError && <Errormessage Error={fileError} />}
