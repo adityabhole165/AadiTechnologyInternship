@@ -13,30 +13,28 @@ const ListCard = ({ itemList, clickItem, selectedItem }) => {
     <div>
       <Grid container spacing={1} >
         {itemList?.map((item, index) => (
-          <Grid item xs={1} key={index}>
             <>
               {selectedItem == item.Name ?
                 <Avatar sx={{
                   bgcolor: selectedItem == item.Name ? item.IsAnswered ? 'green' : 'blue' : '',
-                  width: 24, height: 24, fontSize: '10px', mr: '2px'
+                  width: 29, height: 29, fontSize: '10px', mr: '2px',mt:"10px"
                 }}
                   onClick={() => { clickItem(item.Name) }}>{item.SerialNo}</Avatar>
                 :
                 item.IsAnswered ?
                   <Avatar sx={{
                     bgcolor: item.IsAnswered ? 'green' : 'white', border: '3px solid grey',
-                    borderRadius: '20px', width: 24, height: 24, fontSize: '10px', mr: '2px'
+                    borderRadius: '20px', width: 29, height: 29, fontSize: '10px', mr: '2px',mt:"10px"
                   }}
                     onClick={() => { clickItem(item.Name) }} >{item.SerialNo}</Avatar>
                   :
                   <Avatar sx={{
                     bgcolor: 'white', color: 'black', border: '3px solid grey',
-                    borderRadius: '20px', width: 24, height: 24, fontSize: '10px', mr: '2px'
+                    borderRadius: '20px', width: 29, height: 29, fontSize: '10px', mr: '2px',mt:"10px"
                   }}
                     onClick={() => { clickItem(item.Name) }} >{item.SerialNo}</Avatar>
               }
             </>
-          </Grid>
         ))}
       </Grid>
     </div>

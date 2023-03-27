@@ -138,15 +138,21 @@ const QueAns = () => {
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
                 <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
-                <Box sx={{ textAlign: 'center' }}> 
+                <Grid container>
+                <Grid xs={0.5}/>
+                   <Grid xs={11.5}>
+                   <Box sx={{ textAlign: 'center' }}> 
                 <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
                 </Box>
+                    </Grid> 
+                </Grid>
+               
                 {itemlist.length > 0 &&
                     <>
-                        <Grid container xs={12} flexDirection='row'>
+                        <Grid container xs={12} flexDirection='row'sx={{mt:"8px"}}>
                             <Grid xs={10} />
                             <Grid xs={2}>
-                                <Typography sx={{ textAlign: 'end', border: '1px solid grey' }}><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography>
+                                <Typography sx={{ textAlign: 'center', border: '1px solid grey' }}><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography>
                             </Grid>
                         </Grid>
                         <Grid container xs={12}>
