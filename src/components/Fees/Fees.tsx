@@ -113,6 +113,9 @@ function Fees() {
           </ToggleButtonGroup>
           <br></br>
           <br></br>
+         {
+          showCaution === 'School' && 
+         
       <Grid container>
         <Grid item xs={7.5}>
           <DotLegend1>
@@ -134,7 +137,8 @@ function Fees() {
             <CardDetail7>Refunded Fees</CardDetail7>
           </DotLegend1>
         </Grid>
-      </Grid>
+      </Grid>}
+   
       <br></br>
        <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
