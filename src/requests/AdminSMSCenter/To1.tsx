@@ -5,6 +5,8 @@ import { IGetStudentsUser } from "src/interfaces/AdminSMSCenter/To1"
 import { GetAdminAndprincipalUsers } from "src/interfaces/AdminSMSCenter/To1";
 import { AppThunk } from "src/store";
 import { IShowPTAOptionBody } from 'src/interfaces/MessageCenter/MessageCenter';
+import {IContactGRPBody,IContactGRPResult} from 'src/interfaces/MessageCenter/MessageCenter';
+import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 const GetuserSlice1 = createSlice({
   name: 'GetUser',
   initialState: {
@@ -13,7 +15,7 @@ const GetuserSlice1 = createSlice({
     getGetAdminAndprincipalUsers: [],
     getClass: [],
     Loading:false,
-    PTAOption:{}
+    PTAOption:{},
 
   },
   reducers: {
@@ -38,7 +40,6 @@ const GetuserSlice1 = createSlice({
       state.PTAOption=action.payload.PTAOptionStatusResult;
       state.Loading = false
     },
-    
     getLoading (state){
       state.Loading = true
     },
@@ -64,6 +65,22 @@ export const GetUser =
         dispatch(GetuserSlice1.actions.getClass(userList));
       } else
         dispatch(GetuserSlice1.actions.getUser(userList));
+    };
+    export const ContactGroup =
+    (data :IContactGRPBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(GetuserSlice1.actions.getLoading());
+      const response = await MessageCenterApi.ContactGRP(data);
+      const contactgrplist= response.data.ContactGroups.map((item, index) => {
+        return {
+          Id: item.GroupId,
+          Value: item.Users,
+          isActive: false,
+          Name: item.GroupName
+        }
+      })
+      dispatch(GetuserSlice1.actions.getUser(contactgrplist));
+
     };
 
 export const GetStudent =
