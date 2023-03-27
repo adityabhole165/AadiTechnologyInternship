@@ -22,6 +22,7 @@ import { useParams } from 'react-router-dom';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import DotLegend from 'src/libraries/summary/DotLegend';
+import HomeworkNew from './HomeworkNew';
 
 function Homework() {
   const dispatch = useDispatch();
@@ -147,6 +148,7 @@ function Homework() {
           <Card30 header={HomeworkSubjectList} />
 
         )}
+        {/* <HomeworkNew/> */}
       </Container>
     </>
   );

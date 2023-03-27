@@ -4,7 +4,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 function PayCautionMoney({ShowCaution,note,IspaidCautionMoney}) {
   return (
     <div>
-      { ShowCaution=== "Internal" && 
+      { ShowCaution=== "School" && 
     <>
    {!IspaidCautionMoney ?
     
