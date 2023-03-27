@@ -24,7 +24,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 const note = [
-  '1) If the user has paid caution money then Display "Show Caution Money receipt" instead of " Pay caution Money"',
+  '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
  
 
 ];
