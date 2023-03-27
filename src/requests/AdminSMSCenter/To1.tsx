@@ -76,7 +76,8 @@ export const GetUser =
           Id: item.GroupId,
           Value: item.Users,
           isActive: false,
-          Name: item.GroupName
+          Name: item.GroupName,
+          IsAllDeactivated:item.IsAllDeactivated
         }
       })
       dispatch(GetuserSlice1.actions.getUser(contactgrplist));

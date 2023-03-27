@@ -1,28 +1,34 @@
-import { Grid,Box } from '@mui/material'
+import { Grid, Box } from '@mui/material'
 import React from 'react'
 import CheckboxImg from '../card/CheckboxImg'
-import { CardDetail2, ItemSize, ListStyle,ListStyle1 } from '../styled/CardStyle'
+import { CardDetail2, ItemSize, ListStyle, ListStyle1 } from '../styled/CardStyle'
 
-const CheckboxCard = ({Item, onClick}) => {
+const CheckboxCard = ({ Item, onClick }) => {
     const onChange = () => {
-        onClick({Id:Item.Id, isActive:!Item.isActive})
+        onClick({ Id: Item.Id, isActive: !Item.isActive })
     }
     return (
         <ListStyle1>
-     
-                <Box sx={{display:"flex"}}>
-                    <CheckboxImg
-                        name={Item.Name}
-                        value={Item.Value}
-                        checked={Item.isActive}
-                        onChange={onChange}
-                    />
+
+            <Box sx={{ display: "flex" }}>
+                <CheckboxImg
+                    name={Item.Name}
+                    value={Item.Value}
+                    checked={Item.isActive}
+                    onChange={onChange}
+                    IsAllDeactivated={Item.IsAllDeactivated}
+                />
+                {Item.IsAllDeactivated ?
+                    <ItemSize >
+                        {Item.Name}
+                    </ItemSize> :
                     <ItemSize onClick={onChange}>
-                    {Item.Name}
+                        {Item.Name}
                     </ItemSize>
-                 </Box>
-               
-         
+                }
+            </Box>
+
+
         </ListStyle1>
     )
 }
