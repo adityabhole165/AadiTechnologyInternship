@@ -289,6 +289,7 @@ function Form13() {
         toast.error('Message did not sent successfully', { toastId: 'error1' });
         localStorage.setItem("messageBody", '');
         setdisabledStateOfSend(false);
+        setLoading(false)
 
       });
   };
