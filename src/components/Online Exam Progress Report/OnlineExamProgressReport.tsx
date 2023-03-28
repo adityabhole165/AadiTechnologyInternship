@@ -8,7 +8,7 @@ import { getOnlineExams } from 'src/requests/Student/OnlineExamProgressReport';
 import { Container, Box } from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function OnlineExamProgressReport() {
     const dispatch = useDispatch();
@@ -20,6 +20,11 @@ function OnlineExamProgressReport() {
 
     const getExamDetailslist: any = useSelector(
         (state: RootState) => state.ExamOnlineReport.getExamDetailslist);
+
+    const loading = useSelector(
+        (state: RootState) => state.ExamOnlineReport.Loading
+    );
+    console.log("loading",loading)
 
     useEffect(() => {
         const OnlineExamProgressReportBody: IOnlineExamProgressReportBody = {
@@ -44,8 +49,12 @@ function OnlineExamProgressReport() {
         <Container>
             <PageHeader heading={'Online Exam Progress Report'} subheading={''} />
             <Box sx={{ mt: "-10px" }}>
-                {
-                    (OnlineExams.length > 0) ?
+                {loading ? (
+                    <SuspenseLoader />
+                ) : (
+<>
+                    {
+            (OnlineExams.length > 0) ?
                         (<DropdownandList heading={""}
                             Itemlist={OnlineExams} onChange={onChangeExam}
                             Label={""} DefaultValue={exam}
@@ -54,7 +63,9 @@ function OnlineExamProgressReport() {
                         />
                         )
                         : (<ErrorMessages Error={"No exam has been published"} />)
-                }
+        }</>
+      )}
+
             </Box>
         </Container>
     )
