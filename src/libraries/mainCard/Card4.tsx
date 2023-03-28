@@ -42,7 +42,7 @@ function Card4({ header, text1, text2, text3, text5,
   return (
     <>
 
-      <CardDetail onClick={clickNav}>
+      <CardDetail onClick={clickCard}>
 
         <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
 
