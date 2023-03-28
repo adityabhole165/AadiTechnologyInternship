@@ -45,7 +45,7 @@ function OnlineExamProgressReport() {
             <PageHeader heading={'Online Exam Progress Report'} subheading={''} />
             <Box sx={{ mt: "-10px" }}>
                 {
-                    (OnlineExams.length > 1) ?
+                    (OnlineExams.length > 0) ?
                         (<DropdownandList heading={""}
                             Itemlist={OnlineExams} onChange={onChangeExam}
                             Label={""} DefaultValue={exam}

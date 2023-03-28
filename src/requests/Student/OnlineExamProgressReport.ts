@@ -69,11 +69,11 @@ export const getOnlineExams =
           Id: index,
           Name: item.Name,
           Value: item.Id.toString(),
-          IsActive:false
+          IsActive: false
         };
       })
-
-      onlineExams =[{Id:0,Name:"Select Exam", Value:"" , IsActive:false} , ...onlineExams]
+      if (onlineExams.length > 0)
+        onlineExams = [{ Id: 0, Name: "Select Exam", Value: "", IsActive: false }, ...onlineExams]
       dispatch(OnlineExamProgressReportSlice.actions.getOnlineExams(onlineExams));
       const getSubjectName = (SubjectId) => {
         let sub = ""
@@ -95,7 +95,7 @@ export const getOnlineExams =
           };
         })
       dispatch(OnlineExamProgressReportSlice.actions.getOnlineExamDetails(onlineExamDetails));
-      
+
     }
 export const getSubjects =
   (data: IOnlineExamProgressReportBody): AppThunk =>
