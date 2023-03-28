@@ -25,7 +25,7 @@ function IncomeTaxReport() {
 
     const IncomeTaxReport: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.GetIncomeTaxReport);
-    console.log("IncomeTaxReport", IncomeTaxReport)
+
 
     const AcadamicYear: any = useSelector(
         (state: RootState) => state.Fees.YearList

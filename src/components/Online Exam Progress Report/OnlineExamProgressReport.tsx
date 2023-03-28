@@ -24,7 +24,7 @@ function OnlineExamProgressReport() {
     const loading = useSelector(
         (state: RootState) => state.ExamOnlineReport.Loading
     );
-    console.log("loading",loading)
+   
 
     useEffect(() => {
         const OnlineExamProgressReportBody: IOnlineExamProgressReportBody = {
