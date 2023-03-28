@@ -7,8 +7,10 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney }) {
       {ShowCaution === "School" &&
         <>
           {!IspaidCautionMoney ?
-
-            <Note NoteDetail={note} /> :
+            <>
+              <Note NoteDetail={note} /> <ButtonPrimary fullWidth>Show Caution Money Receipt</ButtonPrimary>
+            </>
+            :
             <ButtonPrimary fullWidth>Pay caution Money</ButtonPrimary>
           }
         </>
