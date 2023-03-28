@@ -53,7 +53,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const getuserlist: any = useSelector(
     (state: RootState) => state.getuser1.GetUser
-  ); 
+  );  
   // Api for Teacher list ,Student list ,Other staff and admin staff
   const Loading: any = useSelector(
     (state: RootState) => state.getuser1.Loading
@@ -247,11 +247,10 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
-    teacherStudent.map((item,i)=>{
-      return item.iActive == true || item.Id == '9' ? 
-      dispatch(ContactGroup(ContactgroupBody)) :
+     if( techerStudent1 == '9'){
+      dispatch(ContactGroup(ContactgroupBody))
+     }else
       dispatch(GetUser(getUsersInGroupAPIBody));
-    })
   }, [techerStudent1]); //SendSMS
 
   const classChange = (value) => {
