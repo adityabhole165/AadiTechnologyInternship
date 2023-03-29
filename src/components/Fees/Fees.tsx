@@ -79,10 +79,10 @@ function Fees() {
     const [showCaution, setShowCaution] = useState('School');
     const handleChange = (
       event: React.MouseEvent<HTMLElement>,
-      newshowCaution: string,
+      newShowCaution: string,
     ) => {
-      if (newshowCaution != null)
-      setShowCaution(newshowCaution);
+      if (newShowCaution != null)
+      setShowCaution(newShowCaution);
     };
 
   const theme = useTheme();
@@ -105,7 +105,7 @@ function Fees() {
        <br></br>
       <br></br>
       <ToggleButtonGroup
-            value={PayCautionMoney}
+           value={showCaution}
             exclusive
             onChange={handleChange}>
             <ToggleButton value="School">School Fees</ToggleButton>

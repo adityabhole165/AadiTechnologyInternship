@@ -8,7 +8,9 @@ import { useState } from 'react';
 const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => { 
   const navigate = useNavigate();
   const [checked, setChecked] = useState(true)
-  
+  const clickCard = (NavPath) => {
+        navigate('/' + location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + NavPath);
+  }
   return (
     <>
       <Grow in={checked}
@@ -35,7 +37,7 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               HasReadReceipt={Item.HasReadReceipt}
               RequestReadReceipt={Item.RequestReadReceipt}
               IsAttachmentExist={Item.IsAttachmentExist}
-              NavPath = {Item.NavPath}
+              clickCard={() => { clickCard(Item.NavPath) }}
             />
           </Grid>
         </Grid>

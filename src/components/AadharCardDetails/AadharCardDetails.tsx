@@ -157,7 +157,7 @@ function AadharCardDetails() {
             setError(true);
         }
         if (imgName === '' && selectedFile === null) {
-            setFileError('Please Upload the file')
+            setFileError('Please upload the file')
         } else {
             if (aadharNumber.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
