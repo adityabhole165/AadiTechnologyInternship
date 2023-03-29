@@ -9,7 +9,7 @@ import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { toast } from 'react-toastify';
 import { useFormik } from 'formik';
 import { useLocation } from 'react-router-dom';
-import { addRecipients } from 'src/requests/MessageCenter/MessaageCenter';
+import { addRecipients, ContactGroupUsers } from 'src/requests/MessageCenter/MessaageCenter';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import ReplyIcon from '@mui/icons-material/Reply';
 import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
@@ -34,9 +34,21 @@ function Form13() {
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
+const ContactGRPusers = useSelector(
+  (state: RootState) => state.MessageCenter.ContactgrpUsers
+);
+console.log("ContactGRPusers",ContactGRPusers);
 
   const dispatch = useDispatch();
-
+  const contactgrpuserBody = {
+    asScholId: "122",
+    asAcademicYearId: "7",
+    asGroupId: "126",
+    aiIsForUser: "0"
+  }
+  useEffect(() => {
+    dispatch(ContactGroupUsers(contactgrpuserBody))
+  }, []);
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;

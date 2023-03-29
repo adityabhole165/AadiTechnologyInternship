@@ -173,4 +173,15 @@ export interface IContactgrpResult{
     ContactGroups:IContactGRPResult[]
 }
 
+//contact grp users 
+export interface IContactGRPUsersBody{
+    asScholId: string,
+    asAcademicYearId:string,
+    asGroupId:string,
+    aiIsForUser:string
+}
+export interface IContactgrpUsersResult{
+    ContactGroupUserIds:string
+}
+
 

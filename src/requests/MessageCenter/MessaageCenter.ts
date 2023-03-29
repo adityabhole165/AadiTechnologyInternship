@@ -1,7 +1,7 @@
 import { createSlice} from '@reduxjs/toolkit'
 import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
-import {ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
+import {IContactGRPUsersBody, ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
 import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IContactGRPBody,IContactGRPResult} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
@@ -25,7 +25,7 @@ const MessageCenterSlice = createSlice({
     EmailSettings:null,
     UpdationMessage:'',
     PTAOption:{},
-    Contactgrp:[]
+    ContactgrpUsers:{}
 
   },
   reducers: {
@@ -86,14 +86,13 @@ const MessageCenterSlice = createSlice({
     getShowPTAOption (state,action){
       state.PTAOption=action.payload.PTAOptionStatusResult;
     },
-    getContactgrp(state, action) {
-      state.Contactgrp = action.payload.ContactGroups;
-    },
     getLoading (state,action) {   
       state.Loading = true
       state.TrashList=[];
   },
-  
+  getContactgrpUsers(state, action) {
+    state.ContactgrpUsers = action.payload;
+  },
   }   
 });
 
@@ -191,11 +190,11 @@ export const getTrashList =
  async (dispatch) => {
    dispatch(MessageCenterSlice.actions.ResetUpdateUserEmailSetting());
  };
- export const ContactGroup =
-  (data :IContactGRPBody): AppThunk =>
+  export const ContactGroupUsers =
+  (data :IContactGRPUsersBody): AppThunk =>
   async (dispatch) => {
-    const response = await MessageCenterApi.ContactGRP(data);
-    dispatch(MessageCenterSlice.actions.getContactgrp(response.data));
+    const response = await MessageCenterApi.ContactGRPUsers(data);
+    dispatch(MessageCenterSlice.actions.getContactgrpUsers(response.data));
   };
 
  
