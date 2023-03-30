@@ -41,12 +41,12 @@ function AadharCardDetails() {
     const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
     const maxfileSize = 3000000
     const [selectedFile, setSelectedFile] = useState(null)
-    
+
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUserId = Number(sessionStorage.getItem('Id'));
     const asUserRoleId = sessionStorage.getItem('RoleId');
-    let enableButton = (selectedFile!==null || GetUserAadharCardDetails.AadharCardNo!==aadharNumber)
+    let enableButton = (selectedFile !== null || GetUserAadharCardDetails.AadharCardNo !== aadharNumber)
 
 
     useEffect(() => {
@@ -175,19 +175,24 @@ function AadharCardDetails() {
             >
                 <ListStyle>
                     <Typography > <b>Name :</b> {GetUserAadharCardDetails.Name}</Typography>
-                    <Typography sx={{mt:"4px"}}> <b>Aadhar Number : </b>
+                    <Typography sx={{ mt: "4px" }}> <b>Aadhar Number : </b>
                         <input type="text" value={aadharNumber}
                             onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
                     </Typography>
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
                     <Box sx={{ my: "10px", textAlign: "center" }}>
-                        {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
-                            height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
-                            <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
-                                width="150"
-                                height="150" style={{ border: "1px solid gray", padding: "1px" }}
-                            />}
+                        {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
+                        <img alt={'sejal'}/> :
+                        <>
+                            {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
+                                height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
+                                <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
+                                    width="150"
+                                    height="150" style={{ border: "1px solid gray", padding: "1px" }}
+                                />}
+                        </>
+}
                     </Box>
                     <Box sx={{ textAlign: "center" }}>
                         <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
@@ -198,8 +203,8 @@ function AadharCardDetails() {
 
                     {fileError && <Errormessage Error={fileError} />}
 
-                    <ButtonPrimary onClick={clickSubmit} fullWidth 
-                    color={enableButton?'primary':'warning'}
+                    <ButtonPrimary onClick={clickSubmit} fullWidth
+                        color={enableButton ? 'primary' : 'warning'}
                     >Submit</ButtonPrimary>
                 </ListStyle>
 
