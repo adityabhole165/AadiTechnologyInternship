@@ -15,7 +15,9 @@ import { Styles } from 'src/assets/style/student-style'
 import Icon3 from "src/libraries/icon/icon3"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-import 'src/assets/style/BdayCard.css';
+
+// import 'src/assets/style/BdayCard.css';
+
 function AadharCardDetails() {
 
     const GetUserAadharCardDetails: any = useSelector(
@@ -183,7 +185,7 @@ function AadharCardDetails() {
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
-                        <img alt={'sejal'}/> :
+                        <img style={{height:"150px", width:"150px"}} src={"/imges/Adhar.png"} alt={'adhar'}/> :
                         <>
                             {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
                                 height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
