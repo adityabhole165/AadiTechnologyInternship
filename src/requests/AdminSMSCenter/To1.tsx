@@ -74,7 +74,8 @@ export const GetUser =
       const contactgrplist= response.data.ContactGroups.map((item, index) => {
         return {
           Id: item.GroupId,
-          Value: item.Users,
+          Value: item.GroupName,
+          Users: item.Users,
           isActive: false,
           Name: item.GroupName,
           IsAllDeactivated:item.IsAllDeactivated
