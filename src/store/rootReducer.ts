@@ -51,6 +51,7 @@ import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUpload
 import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadharCard';
 import SliceIncomeTaxReport from 'src/requests/IncomeTaxReport/RequestIncomeTax';
 import SliceEditProfile from 'src/requests/EditProfile/RequestEditProfile';
+import SliceTransportcommittee from 'src/requests/TransportCommittee/RequestTransportcommittee';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -108,7 +109,8 @@ const rootReducer = combineReducers({
     UploadParentPhoto: SliceUploadParentPhoto,
     AadharCardDetails: SliceAadharCardDetails,
     IncomeTaxReport: SliceIncomeTaxReport,
-    EditProfile:SliceEditProfile
+    EditProfile:SliceEditProfile,
+    TransportCommittee: SliceTransportcommittee
 });
 
 export default rootReducer;
