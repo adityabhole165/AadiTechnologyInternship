@@ -39,15 +39,7 @@ const ContactGRPusers = useSelector(
 );
 
   const dispatch = useDispatch();
-  const contactgrpuserBody = {
-    asScholId: "122",
-    asAcademicYearId: "7",
-    asGroupId: "126",
-    aiIsForUser: "0"
-  }
-  useEffect(() => {
-    dispatch(ContactGroupUsers(contactgrpuserBody))
-  }, []);
+  
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
@@ -73,7 +65,8 @@ const ContactGRPusers = useSelector(
   const [RecipientsObject, setRecipientsObject] = useState<any>({
     RecipientName: [],
     RecipientId: [],
-    ClassId: []
+    ClassId: [],
+    ContactUserId:[]
   });
 
   const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
@@ -170,7 +163,15 @@ const ContactGRPusers = useSelector(
   const SchoolName = localStorage.getItem('SchoolName');
   const [fileExtension, setfileExtension] = React.useState<any>('');
   const [disabledStateOfSend, setdisabledStateOfSend] = useState(false);
-
+  const contactgrpuserBody = {
+    asScholId: localschoolId,
+    asAcademicYearId: AcademicYearId,
+    asGroupId: "131",
+    aiIsForUser: "0"
+  }
+  useEffect(() => {
+    dispatch(ContactGroupUsers(contactgrpuserBody))
+  }, []);
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
     if (finalBase642New.length == 0) {
