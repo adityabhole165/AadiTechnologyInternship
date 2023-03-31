@@ -1,4 +1,4 @@
-import { TextField, Grid, Typography,Box } from '@mui/material';
+import { TextField, Grid, Typography, Box } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IChangePassword, IChangePasswordResult } from 'src/interfaces/Common/ChangePassword';
@@ -13,7 +13,7 @@ import { ListStyle } from '../styled/CardStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
   '2) Password should be combination of at least one character, digit & special character.',];
-const note1 =['It seem that You have not changed the sytem genearted password. Please reset your passwor for secutiry purpose.'] 
+const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your passwor for secutiry purpose.']
 
 function Form() {
   const navigate = useNavigate();
@@ -24,7 +24,12 @@ function Form() {
   };
 
   const getHomepage = () => {
-    navigate('/extended-sidebar/landing/landing');
+    if (window.location.pathname === "/changePassword") {
+      navigate('/');
+    }
+    else {
+      navigate('/extended-sidebar/landing/landing');
+    }
   };
 
   const Logout = async (): Promise<void> => {
@@ -44,7 +49,7 @@ function Form() {
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
   // const Username = sessionStorage.getItem('UserName' );
-  
+
   const [value, setValue] = useState<any>('');
   const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
 
@@ -110,19 +115,19 @@ function Form() {
   return (
     <ListStyle>
       <form onSubmit={formik.handleSubmit}>
-      <Note NoteDetail={note1} />
+        <Note NoteDetail={note1} />
         <Box >
-        <Typography>User Name</Typography>
-        <TextField
-          disabled
-          fullWidth
-          margin="normal"
-          //  label={'User Name'}
-          name="username"
-          type="number"
-          variant="standard"
-          value={formik.values.UserLogin}
-        /></Box>
+          <Typography>User Name</Typography>
+          <TextField
+            disabled
+            fullWidth
+            margin="normal"
+            //  label={'User Name'}
+            name="username"
+            type="number"
+            variant="standard"
+            value={formik.values.UserLogin}
+          /></Box>
         <TextField
           fullWidth
           margin="normal"

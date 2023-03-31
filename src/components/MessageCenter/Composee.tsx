@@ -34,9 +34,9 @@ function Form13() {
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
-const ContactGRPusers = useSelector(
-  (state: RootState) => state.MessageCenter.ContactgrpUsers
-);
+  const ContactGRPusers = useSelector(
+    (state: RootState) => state.MessageCenter.ContactgrpUsers
+  );
 
   const dispatch = useDispatch();
   
@@ -144,10 +144,10 @@ const ContactGRPusers = useSelector(
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
-  const [requestReadReceipt, setRequestReadReceipt] = useState(false)  
+  const [requestReadReceipt, setRequestReadReceipt] = useState(false)
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
-  const [requestScheduleMsg, setRequestScheduleMsg] = useState(''); 
+  const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   let dataShow: any = [];
@@ -321,12 +321,16 @@ const ContactGRPusers = useSelector(
         if (scheduleDate + value) {
           valid = true
         }
-        if (scheduleDate.length == 0 ) {
+        if (scheduleDate.length == 0) {
           setRequestScheduleMsg('Schedule Date and Time should not be blank')
           valid = false
-        } else {
-          setRequestScheduleMsg('')
-        }
+        } else
+          if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
+            setSchTimeerror('Please select future time')
+            valid = false
+          } else {
+            setRequestScheduleMsg('')
+          }
       }
       else {
         valid = true
@@ -376,21 +380,7 @@ const ContactGRPusers = useSelector(
       setscheduleMessage('none');
     }
   };
-  let currentDate = new Date();
 
-  const scheduleDateAndTime = (e) => {
-    console.log(scheduleDate,'out');
-
-      if(scheduleDate !== ""){
-        console.log("in",scheduleDate);
-        setRequestScheduleMsg('')
-      }
-
-    if (e.target.type == 'date') {
-      setscheduleDate(e.target.value);
-    }
-
-  };
   const RecipientButton = (e) => {
     setdisplayOfRecipients('block');
     setdisplayOfComposePage('none');
@@ -447,14 +437,27 @@ const ContactGRPusers = useSelector(
   let strTime = hours + ':' + minutes + ' ' + ampm;
 
   const clickTime = (value) => {
-     const time = formatAMPM(value)
-    if (isFutureDateTime(MinDate + " " + time)) {
+    const time = formatAMPM(value)
+    checkScheduleValidation(scheduleDate + " " + time)
+    setValue(value)
+  }
+
+  const scheduleDateAndTime = (e) => {
+
+    if (scheduleDate !== "") {
+      setRequestScheduleMsg('')
+    }
+    checkScheduleValidation(e.target.value + " " + strTime)
+    setscheduleDate(e.target.value);
+
+  };
+  const checkScheduleValidation = (DateTime) => {
+    if (isFutureDateTime(DateTime)) {
       setSchTimeerror('')
     }
     else {
       setSchTimeerror('Please select future time')
     }
-    setValue(value)
   }
   const [showCC, setShowCC] = useState(false)
   const clickHide = () => {
@@ -472,10 +475,8 @@ const ContactGRPusers = useSelector(
           <Fab
             className={classes.backArrow}
             sx={{
-              background: `${theme.colors.gradients.pink1}`,
-              position: 'absolute',
-              top: '30px',
-              left: '35px'
+              position: 'absolute', top: '30px', left: '35px',
+              background: `${theme.colors.gradients.pink1}`
             }}
           >
             <ReplyIcon />
@@ -485,20 +486,10 @@ const ContactGRPusers = useSelector(
           <form onSubmit={formik.handleSubmit}>
             <FormControl fullWidth>
               <FormHelperText >To</FormHelperText>
-              <TextField
-                multiline
+              <TextField multiline id="" fullWidth disabled
                 value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
-                id=""
-                fullWidth
-                disabled
-
                 onChange={formik.handleChange}
-                sx={{
-                  height: "50px",
-                  overflow: 'auto',
-                  border: "0.1px solid #c4c5c5",
-                  borderRadius: "5.3px"
-                }}
+                sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px" }}
               />
               <Box mt={0.5}>
                 {RecipientsList.length == 0 ? (
@@ -509,37 +500,26 @@ const ContactGRPusers = useSelector(
               {loading && <SuspenseLoader />}
               <Grid container spacing={1}  >
                 <Grid item xs={6} >
-                  <ButtonPrimary fullWidth
+                  <ButtonPrimary fullWidth color="primary"
                     onClick={(e) => RecipientButton(e)}
-                    color="primary">
+                  >
                     Add Recipients
                   </ButtonPrimary>
                 </Grid>
                 <Grid item xs={6} >
-                  <ButtonPrimary fullWidth
+                  <ButtonPrimary fullWidth color="primary"
                     onClick={clickHide}
-                    color="primary" >
+                  >
                     Add Cc
                   </ButtonPrimary>
                 </Grid>
               </Grid>
               {showCC && <>
                 <FormHelperText >Cc</FormHelperText>
-                <TextField
-                  multiline
+                <TextField multiline id="" fullWidth disabled
                   value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ')}
-                  // .replace(';', '')
-                  id=""
-                  fullWidth
-                  disabled
-
                   onChange={formik.handleChange}
-                  sx={{
-                    height: "50px",
-                    overflow: 'auto',
-                    border: "0.1px solid #c4c5c5",
-                    borderRadius: "5.3px",
-                  }}
+                  sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px", }}
                 />
 
                 <Box mt={1}>
@@ -549,24 +529,14 @@ const ContactGRPusers = useSelector(
                     Add Cc Recipients
                   </ButtonPrimary>
                 </Box>
-
-
-
               </>}
             </FormControl>
 
-            <TextField
-              fullWidth
-
-              margin="normal"
-              label='Subject :'
-              name="Subject"
-              type="text"
-              autoComplete="off"
-              variant="standard"
+            <TextField fullWidth margin="normal" label='Subject :'
+              name="Subject" type="text" autoComplete="off"
+              variant="standard" sx={{ mt: "5px" }}
               value={formik.values.Subject}
               onChange={formik.handleChange}
-              sx={{ mt: "5px" }}
             />
             <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
@@ -574,41 +544,25 @@ const ContactGRPusers = useSelector(
               ) : null}
             </Box>
 
-
-
-            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{width:'280px',overflow: "hidden",  textOverflow: "ellipsis"}}/>
+            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
             <ClickAwayListener onClickAway={handleClickAway}>
               <Tooltip
                 PopperProps={{
                   disablePortal: true
                 }}
                 onClose={handleClick}
-                open={open}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title={Note}
-                arrow
-                placement="left"
+
+                disableFocusListener disableHoverListener disableTouchListener arrow
+                open={open} title={Note} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: {
-                      marginLeft: '10px',
-                      mt: 0.5,
-                      transform:
-                        'translate3d(17px, 0.5px, 0px) !important'
-                    }
+                    sx: { marginLeft: '10px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
                   }
                 }}
               >
-                <InfoTwoToneIcon
-                  type="button"
+                <InfoTwoToneIcon type="button"
                   onClick={handleClick}
-                  sx={{
-                    color: 'navy',
-                    fontSize: '17px',
-                    float: 'right'
-                  }}
+                  sx={{ color: 'navy', fontSize: '17px', float: 'right' }}
                 />
               </Tooltip>
             </ClickAwayListener>
@@ -636,10 +590,7 @@ const ContactGRPusers = useSelector(
                               </CardDetail8>
                             </Grid>
                             <Grid item xs={2}>
-                              <IconButton
-                                edge="end"
-                                aria-label="delete"
-                                title="Delete"
+                              <IconButton edge="end" aria-label="delete" title="Delete"
                                 onClick={() =>
                                   handleRemoveListItems(
                                     obj.FileName,
@@ -660,75 +611,62 @@ const ContactGRPusers = useSelector(
                 </div>
               )}
             <br />
-            <Box sx={{ mb: "12px" }}>           
-                <Box sx={{ mt: "-18px", mb: "-10px" }}>
-                  <Box mt={1}>
-                    <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
-                    <Typography sx={{ display: 'inline-block' }}>
-                      Request Read Receipt? :
-                    </Typography>
-                  </Box>
-
-                  <Box mt={-1}>
-                    <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
-                    <Typography sx={{ display: 'inline-block' }}>
-                      Schedule Message at:
-                    </Typography>
-                  </Box>
+            <Box sx={{ mb: "12px" }}>
+              <Box sx={{ mt: "-18px", mb: "-10px" }}>
+                <Box mt={1}>
+                  <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
+                  <Typography sx={{ display: 'inline-block' }}>
+                    Request Read Receipt? :
+                  </Typography>
                 </Box>
+
+                <Box mt={-1}>
+                  <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
+                  <Typography sx={{ display: 'inline-block' }}>
+                    Schedule Message at:
+                  </Typography>
+                </Box>
+              </Box>
             </Box>
 
             <Grid container sx={{ display: scheduleMessage }} >
-              <Box sx={{display:"flex"}}>
-              <Grid item xs={6} >
-              <TextField
-                type="date"
-                // required
-                id="outlined-required"
-                variant="standard"
-                onChange={scheduleDateAndTime}
-                inputProps={{
-                  min: MinDate,
-                  max: MaxDate
-                }}
-              />
-              </Grid>
-            
+              <Box sx={{ display: "flex" }}>
+                <Grid item xs={6} >
+                  <TextField
+                    type="date" id="outlined-required" variant="standard"
+                    onChange={scheduleDateAndTime}
+                    inputProps={{ min: MinDate, max: MaxDate }}
+                  />
+                </Grid>
 
-              <Grid item xs={4}>
-              <TimePicker
-                value={value}
-                onChange={clickTime}
-                renderInput={(params) =>
-                  <TextField {...params} variant="standard" size="small" sx={{ float: "right" ,mt:"3px"}}
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccessTimeIcon fontSize='small' sx={{mb:"2px"}} />
-                        </InputAdornment>
-                      ),
-                    }}
-                  />}
-              />
-                 </Grid>
-                 </Box>
-                 </Grid>
-              <Box sx={{ mb: '10px', mt: '5px' }}>
-                <ErrorMessage1 Error={schTimeerror} />
-                <ErrorMessage1 Error={requestScheduleMsg} />
+
+                <Grid item xs={4}>
+                  <TimePicker
+                    value={value}
+                    onChange={clickTime}
+                    renderInput={(params) =>
+                      <TextField {...params} variant="standard" size="small" sx={{ float: "right", mt: "3px" }}
+                        InputProps={{
+                          startAdornment: (
+                            <InputAdornment position="start">
+                              <AccessTimeIcon fontSize='small' sx={{ mb: "2px" }} />
+                            </InputAdornment>
+                          ),
+                        }}
+                      />}
+                  />
+                </Grid>
               </Box>
-            <TextField
-              fullWidth
-              multiline
-              rows={4}
-              margin="normal"
-              label='Content :'
-              name="Content"
-              type="text"
-              variant="outlined"
+            </Grid>
+            <Box sx={{ mb: '10px', mt: '5px' }}>
+              <ErrorMessage1 Error={schTimeerror} />
+              <ErrorMessage1 Error={requestScheduleMsg} />
+            </Box>
+            <TextField fullWidth multiline rows={4}
+              margin="normal" label='Content :' name="Content" type="text"
+              variant="outlined" sx={{ mt: "-0.5px" }}
               value={formik.values.Content}
               onChange={formik.handleChange}
-              sx={{ mt: "-0.5px" }}
             />
             <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
@@ -745,14 +683,10 @@ const ContactGRPusers = useSelector(
             ) : null}
 
             <Grid item xs={12}>
-              <ButtonPrimary
-                color="primary"
+              <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
-                type="submit"
-                fullWidth
               >
-
                 Send
               </ButtonPrimary>
             </Grid>

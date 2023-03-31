@@ -50,6 +50,7 @@ import SliceDeleteMessagePermanetly from 'src/requests/MessageCenter/RequestDele
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceAadharCardDetails from 'src/requests/AadharCardDetails/RequestAadharCard';
 import SliceIncomeTaxReport from 'src/requests/IncomeTaxReport/RequestIncomeTax';
+import SliceEditProfile from 'src/requests/EditProfile/RequestEditProfile';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -106,7 +107,8 @@ const rootReducer = combineReducers({
     DeleteMessagePermanetly: SliceDeleteMessagePermanetly,
     UploadParentPhoto: SliceUploadParentPhoto,
     AadharCardDetails: SliceAadharCardDetails,
-    IncomeTaxReport: SliceIncomeTaxReport
+    IncomeTaxReport: SliceIncomeTaxReport,
+    EditProfile:SliceEditProfile
 });
 
 export default rootReducer;
