@@ -159,7 +159,7 @@ function SelectSchool() {
 
 
         if (result.RoleName === "Student") {
-            window.sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+            sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
             sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
             sessionStorage.setItem('Class', studentDetails.Class);
             sessionStorage.setItem('StandardId', studentDetails.StandardId);
@@ -185,13 +185,16 @@ function SelectSchool() {
             sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
+            sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
             localStorage.setItem('DOB', studentDetails.DOB);
             localStorage.setItem("UserId", result.Id);
             localStorage.setItem("RoleName", result.RoleName);
+
         }
 
 
         if (result.RoleName === "Teacher") {
+            sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
             sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
             sessionStorage.setItem('Address', teacherDetails.Address);
             sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
@@ -204,9 +207,9 @@ function SelectSchool() {
             sessionStorage.setItem('EndDate', teacherDetails.EndDate);
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
+            sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
             localStorage.setItem("RoleName", result.RoleName);
             localStorage.setItem("DOB", teacherDetails.DOB);
-
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -229,16 +232,13 @@ function SelectSchool() {
         sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
         sessionStorage.setItem("Userlogin", result.UserLogin);
         const url = localStorage.getItem("url");
+
         if (url != null) {
             navigate(url);
         }
-        else if (result.RoleName == "Student") {
-            navigate('/extended-sidebar/landing/landing');
-        }
-        else if (result.RoleName == "Teacher") {
-            navigate('/extended-sidebar/landing/landing');
-        }
-        else if (result.RoleName == "Admin Staff") {
+        else if (result.RoleName == "Student" ||
+            result.RoleName == "Teacher" ||
+            result.RoleName == "Admin Staff") {
             navigate('/extended-sidebar/landing/landing');
         }
         // deviceRegistrationFCM(result.Id)
@@ -255,10 +255,20 @@ function SelectSchool() {
         const response: any = await LoginApi.AuthenticateUser(body)
         if (response.data != null) {
             if (response.data.AuthenticateUserResult.Message === "" ||
-            response.data.AuthenticateUserResult.Message === null) {
+                response.data.AuthenticateUserResult.Message === null) {
+                const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
+                const TermsAccepted = result.TermsAccepted
 
-                localStorage.setItem("auth", JSON.stringify(response));
-                setSession(response);
+                if (TermsAccepted !== "Y") {
+                    sessionStorage.setItem("Id", result.Id);
+                    sessionStorage.setItem("RoleId", result.RoleId);
+                    sessionStorage.setItem("Userlogin", result.UserLogin);
+                    navigate("/TermAndCondition")
+                }
+                else {
+                    localStorage.setItem("auth", JSON.stringify(response));
+                    setSession(response);
+                }
             }
             else
                 errorOccur(response.data.AuthenticateUserResult.Message)
@@ -269,7 +279,7 @@ function SelectSchool() {
     };
     const errorOccur = (value) => {
 
-        toast.error(value,{ toastId: 'error1'});
+        toast.error(value, { toastId: 'error1' });
         setTimeout(() => {
             setLoginButtonDisabled("auto");
         }, 3000);
@@ -281,7 +291,7 @@ function SelectSchool() {
             asUserId: userId.toString(),
             asRegistrationId: localStorage.getItem('FCMdeviceToken'),
             asDeviceId: localStorage.getItem('deviceId'),
-            asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' :  localStorage.getItem('deviceType'))
+            asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
         }
         const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
     }
@@ -376,7 +386,7 @@ function SelectSchool() {
                     >
 
                         <Grid item xs={12} sx={{ mt: "30px" }}>
-                        <img src={img_src} width='100%' style={{maxHeight:200}}/>
+                            <img src={img_src} width='100%' style={{ maxHeight: 200 }} />
                         </Grid>
                         <Grid item xs={12}>
 
