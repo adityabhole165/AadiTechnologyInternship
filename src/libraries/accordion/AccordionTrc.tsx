@@ -1,58 +1,64 @@
-import React, { useState } from 'react'
-import { Accordion, AccordionDetails, useTheme, Card } from '@mui/material';
-import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
-import { Styles } from 'src/assets/style/student-style';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import ErrorMessages from '../ErrorMessages/ErrorMessages';
-import { ListStyle } from '../styled/CardStyle';
-import CardNew from '../card/CardNew';
+import PropTypes from 'prop-types';
+import AccordionPTA from './accordionPTA'
+import { useState } from 'react'
 
+AccordionTrc.propTypes = {
+    Parent: PropTypes.array,
+    Teacher: PropTypes.array,
+    headingg: PropTypes.object
+};
 
-function AccordionTrC({ header, handleChange, isExpanded, Name, Item }) {
-   
-    const theme = useTheme();
-    const classes = Styles();
+function AccordionTrc({ Parent, Teacher, headingg }) {
+
+    const [expanded, setExpanded] = useState<string | false>(false);
+    const handleChange = (panel) => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
+    const Data = Teacher.map((item, index) => {
+        return {
+            id: item.RealatedSection,
+            header: item.TeacherName,
+            text1: item.TeacherDesignation,
+            text2: '',
+            backgroundColor: item.RealatedSection === '2' ? 'info' : '',
+            RelatedSection: item.RealatedSection === '2' ? '2' : '0',
+        }
+    });
+
+    const Data1 = Parent.map((item, index) => {
+        return {
+            id: index,
+            header: item.ParentName,
+            text1: item.ParentDesignation,
+            text2: item.MobileNumber1,
+            text3: item.Class,
+            text4: item.MobileNumber2,
+            text6: item.ContactTime,
+            backgroundColor: '',
+
+        };
+    });
     return (
-        <div>
-            <Accordion expanded={isExpanded}
-                className={classes.background}
-                onChange={handleChange}
-                elevation={0}
-                disableGutters>
+        <>
+            <AccordionPTA
+                name='panel1'
+                header={headingg.PTA_Member}
+                Data={Data}
+                isExpanded={expanded === 'panel1'}
+                handleChange={handleChange('panel1')}
+            />
 
-                <Accordionsummary
-                    expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
-                    aria-controls="panel1bh-content"
-                    id="panel1bh-header"
-                    sx={{
-                        background: `${theme.colors.gradients.pink1}`,
-                        boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)',
-                        mb: 1,
-                        color: isExpanded
-                            ? `${theme.colors.gradients.accordianHeadercolor}`
-                            : ''
-                    }}
-                >
-                    {header}
-                </Accordionsummary>
-                <AccordionDetails sx={{ borderRadius: 1, mb: -1 }}>
+            <AccordionPTA
+                name='panel2'
+                header={headingg.PTA}
+                Data={Data1}
+                isExpanded={expanded === 'panel2'}
+                handleChange={handleChange('panel2')}
+            />
 
-                    {
-                        Item.map((Item, i) => {
-                            return (
-                                <CardNew key={i}
-
-                                    Data={Item} />
-                            )
-                        })
-                    }
-
-                </AccordionDetails>
-            </Accordion>
-
-
-        </div>
-    )
+        </>
+    );
 }
+export default AccordionTrc;
 
-export default AccordionTrC

@@ -1,38 +1,50 @@
-import React, { useState } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
 import AccordionTrC from 'src/libraries/accordion/AccordionTrc';
+import { RootState } from 'src/store';
+import { getTransportCommittee } from 'src/requests/TransportCommittee/RequestTransportcommittee';
+import { IGetTransportCommitteeDetailsBody } from 'src/interfaces/Student/ITransportCommittee';
+import AccordionTrc from 'src/libraries/accordion/AccordionTrc';
 
 
-const header = {
-  PTA_Member: 'Executive Committee (School)',
-  PTA: 'Executive Committee (Parent)'
-}
 
 
 
 function TransportCommittee() {
-  
-  const Teacher= [{id:"1",text1:"Ms. Nazneen A. Shaikh", text2:"principle" }]
-  const Item = Teacher.map((item, index) => {
-    return {
-      id: item.id,
-      text1: item.text1,
-      text2: item.text2,
-      // backgroundColor: item.RealatedSection === '2' ? 'info' : '',
-      // RelatedSection: item.RealatedSection === '2' ? '2' : '0',
-    
-    }
-  });
- 
- 
-  const [expanded, setExpanded] = useState<string | false>(false);
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+
+  const dispatch = useDispatch();
+
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asUserId = sessionStorage.getItem('Id');
+
+
+  const ParentCommitteeList: any = useSelector(
+    (state: RootState) => state.TransportCommittee.TeacherCommittee
+  );
+  const TeacherCommitteeList = useSelector(
+    (state: RootState) => state.TransportCommittee.ParentCommittee
+  );
+
+  const data3 = {
+    PTA_Member: 'Executive Committee (School)',
+    PTA: 'Executive Committee (Parent)'
   };
+
+  const body: IGetTransportCommitteeDetailsBody = {
+    "asUserId": asUserId,
+    "asAcademicYearId": asAcademicYearId,
+    "asSchoolId": asSchoolId
+  };
+
+  useEffect(() => {
+    dispatch(getTransportCommittee(body));
+  }, []);
+
 
   return (
     <Container>
@@ -44,22 +56,10 @@ function TransportCommittee() {
       </Grid>
       <br />
 
-      <AccordionTrC
-        Name='panel1'
-        header={header.PTA_Member}
-        Item={Item}
-        isExpanded={expanded === 'panel1'}
-        handleChange={handleChange('panel1')}
-      />
-      
 
-      <AccordionTrC
-        Name='panel2'
-        header={header.PTA}
-        Item={Item}
-        isExpanded={expanded === 'panel2'}
-        handleChange={handleChange('panel2')}
-      />
+      <AccordionTrc Parent={ParentCommitteeList} Teacher={TeacherCommitteeList} headingg={data3} />
+
+     
     </Container>
   )
 }
