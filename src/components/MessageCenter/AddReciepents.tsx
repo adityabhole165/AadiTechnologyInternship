@@ -118,17 +118,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     if (sessionStorage.getItem('RoleId') === '3') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
-        { Id: '6', Name: 'Admin Staff', isActive: false }
-        ,
-        {
-          Id: '9',
-          Name: 'Contact group',
-          isActive: false
-        }
+        { Id: '6', Name: 'Admin Staff', isActive: false },
+        {Id: '9', Name: 'Contact group', isActive: false}
       ]);
-      //  if ( !getPTAOption.HideStudentOption){
-      //   setTecherStudent(myArr=>[...myArr, {Id: '3', Name: 'Student', isActive: false }])
-      // }
       if (getPTAOption.ShowPTAOption) {
         setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
 
@@ -143,21 +135,9 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     }
     else if (sessionStorage.getItem('RoleId') === '2') {
       setTecherStudent([
-        {
-          Id: '2',
-          Name: 'Teacher',
-          isActive: false
-        },
-        {
-          Id: '6',
-          Name: 'Admin Staff',
-          isActive: false
-        } ,
-        {
-          Id: '9',
-          Name: 'Contact group',
-          isActive: false
-        }
+        {Id: '2', Name: 'Teacher', isActive: false},
+        {Id: '6', Name: 'Admin Staff', isActive: false} ,
+        {Id: '9', Name: 'Contact group', isActive: false}
       ]);
       if (getPTAOption.ShowPTAOption) {
         setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
@@ -169,36 +149,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
     else {
       setTecherStudent([
-        {
-          Id: '2',
-          Name: 'Teacher',
-          isActive: false
-        },
-        {
-          Id: '3',
-          Name: 'Student',
-          isActive: false
-        },
-        {
-          Id: '7',
-          Name: 'Other Staff',
-          isActive: false
-        },
-        {
-          Id: '6',
-          Name: 'Admin Staff',
-          isActive: false
-        },
-        {
-          Id: '11',
-          Name: 'PTA',
-          isActive: false
-        } ,
-        {
-          Id: '9',
-          Name: 'Contact group',
-          isActive: false
-        }
+        {Id: '2', Name: 'Teacher', isActive: false},
+        {Id: '3', Name: 'Student', isActive: false},
+        {Id: '7', Name: 'Other Staff', isActive: false},
+        {Id: '6', Name: 'Admin Staff', isActive: false},
+        {Id: '11',Name: 'PTA',isActive: false} ,
+        {Id: '9', Name: 'Contact group', isActive: false}
 
       ]);
     }
