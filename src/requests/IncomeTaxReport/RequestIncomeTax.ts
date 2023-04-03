@@ -9,7 +9,7 @@ import { IGetITRFileNameBody,GetAllAcademicYearsApiBody } from 'src/interfaces/S
 const SliceIncomeTaxReport = createSlice({
     name: 'IncomeTaxReport',
     initialState: {
-        GetIncomeTaxReport: {},
+        GetIncomeTaxReport: '',
         YearList:[],
         Loading: true,
     },
@@ -34,7 +34,6 @@ export const getIncomeTaxReport =
   async (dispatch) => {
     dispatch(SliceIncomeTaxReport.actions.getLoading(true));
     const response = await ApiIncomeTaxReport.GetIncomeTaxReportApi(data);
-    
     dispatch(SliceIncomeTaxReport.actions.getIncomeTaxReport(response.data));
   };
   
