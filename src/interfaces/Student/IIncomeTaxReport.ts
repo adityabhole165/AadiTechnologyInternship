@@ -1,11 +1,25 @@
 export interface IGetITRFileNameBody {
-    aiSchoolId: number,
-    aiAcademicYearId: number,
-    aiStudentId: number,
-    aiFinancialYearId: number,
-    aiSelectAcademicYearId: number,
-    aiCategoryId: number
+    aiSchoolId: string,
+    aiAcademicYearId: string,
+    aiStudentId: string,
+    aiFinancialYearId: string,
+    SelectAcademicYearId: string,
+    ITRCategoryId: string,
+    aiLoginUserId: string
 }
 export interface IGetITRFileNameResult{
-    Message: 'string'
+    Message: string
 }
+
+export interface GetAllAcademicYearsApiBody {
+    aiSchoolId: string,
+   aiYearwiseStudentId: string,
+   };
+   
+   export interface GetAllAcademicYearsResult {
+           GetAllAcademicYears:[{
+           AcademicYear: string,
+           Academic_Year_Id: string,
+   
+   }]
+};
