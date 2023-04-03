@@ -29,6 +29,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [selectedRecipents, setSelectedRecipents] = useState([]);
   const [selectedRecipentsId, setSelectedRecipentsId] = useState([]);
   const [classId, setClassId] = useState([]);
+  const [contactGroup, setContactGroup] = useState([]);
   const [techerStudent1, setTeacherStudent1] = useState('');
   const [adminandSW, setAdminandSW] = useState();
   const [staffAndAdmin, setStaffAndAdmin] = useState();
@@ -36,6 +37,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const [studentlist, setStudentlist] = useState('');
   const [teacherStudent, setTecherStudent] = useState([]);
   const [show, setShow] = useState(true);
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const schoolId = localStorage.getItem('localSchoolId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const stdDivId = sessionStorage.getItem('StandardDivisionId');
+  const asUserId = sessionStorage.getItem('Id');
+
   const [entireSchool, setEntireSchool] = useState([
     { Id: 'Entire School', Name: 'Entire School', Value: 'Entire School', isActive: false }
   ]);
@@ -56,11 +63,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
   // const Student = getstudentlist.GetStudentsUserResult;
 
-  const academicYearId = sessionStorage.getItem('AcademicYearId');
-  const schoolId = localStorage.getItem('localSchoolId');
-  const RoleId = sessionStorage.getItem('RoleId');
-  const stdDivId = sessionStorage.getItem('StandardDivisionId');
-  const asUserId = sessionStorage.getItem('Id');
 
   const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
     asAcademicYearId: academicYearId,
@@ -155,10 +157,12 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   }, [getuserlist]);
   const SelectUsersInRecipients = (RecipentsIds) => {
 
+    console.log(contactGroup,"--",getuserlist)
     setList(getuserlist?.map((obj) => {
       return {
         ...obj,
-        isActive: (RecipentsIds.includes(obj.Id) || isClassSelect()) ?
+        isActive: (isSelected('Contact group') ? contactGroup.includes(obj.Id) :
+          (RecipentsIds.includes(obj.Id)) || isClassSelect())?
           true : false
       }
     }))
@@ -221,10 +225,10 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     setTecherStudent(value);
   };
 
-  const isStudentSelected = () => {
+  const isSelected = (value) => {
     let returnValue = false
     teacherStudent.map((item) => {
-      if (item.Name === 'Student' && item.isActive)
+      if (item.Name === value && item.isActive)
         returnValue = true
     })
     return returnValue
@@ -232,7 +236,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const onChangeTeacher = (value) => {
     setList(value);
     //if student is selected
-    if (isStudentSelected()) {
+
+    if (isSelected('Student')) {
       if ((!value.some(obj => obj.isActive === false))) {
         removeAllRecipient(value)
         setClassId((prevState) => [...prevState, getSelectedClassId[0]]);
@@ -266,11 +271,21 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     itemList?.map((obj) => {
       if (obj.isActive && !selectedRecipentsId.includes(obj.Id)) {
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
-        setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
+        if (isSelected('Contact group')) {
+          setContactGroup((prevState) => [...prevState, obj.Id])
+        }
+        else {
+          setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
+        }
       }
       else if (!obj.isActive && selectedRecipentsId.includes(obj.Id)) {
         setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
-        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+        if (isSelected('Contact group')) {
+          setContactGroup((prevState) => prevState.filter(item => item !== obj.Value))
+        }
+        else {
+          setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+        }
       }
     });
   }
@@ -286,7 +301,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       RecipientName: selectedRecipents,
       RecipientId: selectedRecipentsId,
       ClassId: classId,
+      ContactGroup: contactGroup
     });
+    console.log({
+      RecipientName: selectedRecipents,
+      RecipientId: selectedRecipentsId,
+      ClassId: classId,
+      ContactGroup: contactGroup
+    })
   };
   return (
     <>
@@ -330,7 +352,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={12}>
                   {Loading ? <SuspenseLoader /> :
-                    list.length === 0 ? !isStudentSelected &&
+                    list.length === 0 ? !isSelected('Student') &&
                       <ErrorMessages Error={'No records found'} /> :
                       <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} />
                   }
