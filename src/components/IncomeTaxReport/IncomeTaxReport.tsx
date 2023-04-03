@@ -11,7 +11,7 @@ import { getIncomeTaxReport, getAllAcademicYears,resetReciept } from 'src/reques
 import { RootState } from 'src/store';
 import { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/IIncomeTaxReport';
 import { IGetITRFileNameBody } from 'src/interfaces/Student/IIncomeTaxReport'
-// import { getYearList } from 'src/requests/Fees/Fees';
+
 // import 'src/assets/style/BdayCard.css';
 
 
@@ -65,9 +65,7 @@ function IncomeTaxReport() {
     
       }, [IncomeTaxReport])
 
-    useEffect(() => {
-        
-    }, []);
+    
 
     useEffect(() => {
         dispatch(getAllAcademicYears(body1));
@@ -82,12 +80,12 @@ function IncomeTaxReport() {
         {
             Name: "Father",
             Id: "2",
-            Value: "2"
+            Value: "1"
         },
         {
             Name: "Mother",
             Id: "3",
-            Value: "3"
+            Value: "2"
         },
     ];
 
@@ -103,7 +101,6 @@ function IncomeTaxReport() {
     };
 
     const clickParentName = (value) => {
-        alert(value)
         setParentName(value);
 
     };

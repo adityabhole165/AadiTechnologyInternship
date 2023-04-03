@@ -259,7 +259,7 @@ function SelectSchool() {
                 const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
                 const TermsAccepted = result.TermsAccepted
 
-                if (TermsAccepted !== "Y") {
+                if (TermsAccepted !== "N") {
                     sessionStorage.setItem("Id", result.Id);
                     sessionStorage.setItem("RoleId", result.RoleId);
                     sessionStorage.setItem("Userlogin", result.UserLogin);
