@@ -1,4 +1,4 @@
-import { FormControl, Grid, InputLabel, TextField, Paper, Box } from '@mui/material';
+import { FormControl, Grid, InputLabel, TextField, Paper, Box,Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,10 +7,11 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Note from 'src/libraries/Note/Note';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-import { getIncomeTaxReport } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
+import { getIncomeTaxReport, getAllAcademicYears,resetReciept } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
 import { RootState } from 'src/store';
-import { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/Fees';
-import {getYearList  } from 'src/requests/Fees/Fees';
+import { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/IIncomeTaxReport';
+import { IGetITRFileNameBody } from 'src/interfaces/Student/IIncomeTaxReport'
+// import { getYearList } from 'src/requests/Fees/Fees';
 // import 'src/assets/style/BdayCard.css';
 
 
@@ -18,21 +19,22 @@ const note = ['1) Gives income tax statement for paid fees'];
 
 function IncomeTaxReport() {
     const dispatch = useDispatch();
-    const [acadamicYear, setAcadamicYear] = useState('AcadamicYear');
-    const [financialYear, setFinancialYear] = useState('');
-    const [parentName, setParentName] = useState('');
+    const [acadamicYear, setAcadamicYear] = useState('asAcademicYearId');
+    const [financialYear, setFinancialYear] = useState('All');
+    const [parentName, setParentName] = useState('All');
 
 
     const IncomeTaxReport: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.GetIncomeTaxReport);
 
-
+        console.log("IncomeTaxReport", IncomeTaxReport)
     const AcadamicYear: any = useSelector(
-        (state: RootState) => state.Fees.YearList
-      );
-      const AcadamicYear1: any = useSelector(
-        (state: RootState) => state.Fees.YearList
-      );
+        (state: RootState) => state.IncomeTaxReport.YearList
+    );
+    console.log("AcadamicYear", AcadamicYear)
+    const AcadamicYear1: any = useSelector(
+        (state: RootState) => state.IncomeTaxReport.YearList
+    );
     const StudentName = sessionStorage.getItem("StudentName");
     const Standard = sessionStorage.getItem('Class');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -40,29 +42,52 @@ function IncomeTaxReport() {
     const asStudentId = (sessionStorage.getItem('StudentId'));
     const asUserId = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
+    // const filePath = IncomeTaxReport.replace(/\\/g, '/');
+    // let sitePathURL = localStorage.getItem('SiteURL');
+    // let downloadPathOfReceipt = sitePathURL + filePath;
 
-    const IncomeTaxBody = {
-        "aiSchoolId": Number(asSchoolId),
-        "aiAcademicYearId": Number(asAcademicYearId),
-        "aiStudentId": Number(asStudentId),
-        "aiFinancialYearId": Number(financialYear),
-        "aiSelectAcademicYearId": Number(acadamicYear),
-        "aiCategoryId": Number(parentName)
+    const body: IGetITRFileNameBody = {
+        "aiSchoolId": asSchoolId,
+        "aiAcademicYearId": asAcademicYearId,
+        "aiStudentId": asStudentId,
+        "aiFinancialYearId": financialYear,
+        "SelectAcademicYearId": acadamicYear,
+        "ITRCategoryId": parentName,
+        "aiLoginUserId": asUserId,
     }
     const body1: GetAllAcademicYearsApiBody = {
         aiSchoolId: asSchoolId,
         aiYearwiseStudentId: asStudentId
-      };
+    };
+    // useEffect(() => {
+    //     if (IncomeTaxReport !== "")
+    //       window.open(downloadPathOfReceipt);
+    //     dispatch(resetReciept());
+    
+    //   }, [IncomeTaxReport])
 
     useEffect(() => {
-        dispatch(getIncomeTaxReport(IncomeTaxBody));
+        dispatch(getIncomeTaxReport(body));
     }, []);
 
     useEffect(() => {
-        dispatch(getYearList(body1));
-        }, []);
+        dispatch(getAllAcademicYears(body1));
+    }, []);
 
-   
+    const UserArray2 = [
+        {
+            Name: "All",
+            Id: "1"
+        },
+        {
+            Name: "Father",
+            Id: "2"
+        },
+        {
+            Name: "Mother",
+            Id: "3"
+        },
+    ];
 
     const clickAcadamicYear = (value) => {
         setAcadamicYear(value);
@@ -79,13 +104,13 @@ function IncomeTaxReport() {
         setParentName(value);
 
     };
-   
+
+const ClickDisplay=()=>{
+    alert("hello")
+}
 
 
 
-    // const handleChange = (event) => {
-    //     setAcadamicYear(event.target.value);
-    // }
 
 
 
@@ -98,16 +123,16 @@ function IncomeTaxReport() {
                 <Note NoteDetail={note} />
                 <ListStyle>
 
-                    <TextField 
+                    <TextField
                         fullWidth
                         variant='standard'
                         size="small"
                         value={StudentName + ' ' + '(' + Standard + ')'}
-                         />
+                    />
 
-
+                    <Typography> Select Academic Year</Typography>
                     <FormControl fullWidth>
-                        <InputLabel variant="standard">Select Academic Year</InputLabel>
+
                         <Dropdown
                             Array={AcadamicYear}
                             handleChange={clickAcadamicYear}
@@ -115,26 +140,26 @@ function IncomeTaxReport() {
                         />
                     </FormControl>
 
-
+                    <Typography> Select Financial Year</Typography>
                     <FormControl fullWidth sx={{ mt: "2px" }}>
-                        <InputLabel variant="standard">Select Financial Year</InputLabel>
                         <Dropdown
                             Array={AcadamicYear1}
                             handleChange={clickFinacialYear}
                             defaultValue={financialYear}
-                        /> 
+                        />
                     </FormControl>
 
-                     {/* <FormControl fullWidth sx={{ mt: "2px" }}>
-                        <InputLabel variant="standard">Select Category</InputLabel>
+                    <Typography> Select Category</Typography>
+                    <FormControl fullWidth sx={{ mt: "2px" }}>
+                        {/* <InputLabel variant="standard">Select Category</InputLabel> */}
                         <Dropdown
-                            Array={''}
-                            handleChange={''}
+                            Array={UserArray2}
+                            handleChange={clickParentName}
                             defaultValue={parentName}
                         />
-                    </FormControl> */}
+                    </FormControl>
                     <br /><br />
-                    <ButtonPrimary fullWidth>Display Report</ButtonPrimary>
+                    <ButtonPrimary fullWidth onClick={ClickDisplay}>Display Report</ButtonPrimary>
                 </ListStyle>
 
 
