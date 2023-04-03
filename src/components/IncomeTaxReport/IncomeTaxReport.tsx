@@ -19,7 +19,7 @@ const note = ['1) Gives income tax statement for paid fees'];
 
 function IncomeTaxReport() {
     const dispatch = useDispatch();
-    const [acadamicYear, setAcadamicYear] = useState('asAcademicYearId');
+  
     const [financialYear, setFinancialYear] = useState('All');
     const [parentName, setParentName] = useState('All');
 
@@ -46,6 +46,7 @@ function IncomeTaxReport() {
     // let sitePathURL = localStorage.getItem('SiteURL');
     // let downloadPathOfReceipt = sitePathURL + filePath;
 
+    const [acadamicYear, setAcadamicYear] = useState(asAcademicYearId);
     const body: IGetITRFileNameBody = {
         "aiSchoolId": asSchoolId,
         "aiAcademicYearId": asAcademicYearId,
@@ -55,6 +56,7 @@ function IncomeTaxReport() {
         "ITRCategoryId": parentName,
         "aiLoginUserId": asUserId,
     }
+    console.log("aiSchoolId",asSchoolId)
     const body1: GetAllAcademicYearsApiBody = {
         aiSchoolId: asSchoolId,
         aiYearwiseStudentId: asStudentId
