@@ -55,7 +55,7 @@ function TermAndCondition() {
 
         No guarantees are provided that this web site will be available for use on any particular
         day or time or that site data will be accessible.
-        <br /><br/>
+        <br />
 
         You may not reverse engineer, disassemble, decompile, modify or translate the software,
         or otherwise attempt to derive the source code of the software, or authorize any
