@@ -66,7 +66,7 @@ function Form13() {
     RecipientName: [],
     RecipientId: [],
     ClassId: [],
-    ContactUserId:[]
+    ContactGroup:[]
   });
 
   const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
@@ -169,9 +169,10 @@ function Form13() {
     asGroupId: "131",
     aiIsForUser: "0"
   }
+  
   useEffect(() => {
     dispatch(ContactGroupUsers(contactgrpuserBody))
-  }, []);
+  }, [RecipientsObject.ContactGroup]);
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
     if (finalBase642New.length == 0) {
@@ -273,7 +274,7 @@ function Form13() {
       asMessageId: ID != undefined || ID != "" ? parseInt(ID) : 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString(),
-      asSelectedUserIds: RecipientsObject.RecipientId.toString(),
+      asSelectedUserIds: RecipientsObject.RecipientId.toString() + ContactGRPusers.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
@@ -282,6 +283,7 @@ function Form13() {
       asIsSoftwareCordinatorCc: "",
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
+    
     MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
