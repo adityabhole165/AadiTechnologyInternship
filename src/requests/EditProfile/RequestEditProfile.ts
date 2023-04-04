@@ -16,10 +16,17 @@ const SliceEditProfile = createSlice({
             state.SaveStudentPhoto = action.payload;
             state.Loading = false;
         },
+        resetMessage(state) {
+          state.SaveStudentPhoto = {};
+        },
 
         getSubmitStudentPhoto(state, action) {
             state.SubmitStudentPhoto = action.payload;
             state.Loading = false;
+        },
+      
+        resetMessage1(state) {
+          state.SubmitStudentPhoto = {};
         },
         
         getLoading(state, action) {
@@ -35,6 +42,11 @@ export const getSaveStudentPhoto =
       const response = await ApiEditprofile.SaveStudentPhotoApi(data)
       dispatch(SliceEditProfile.actions.getSaveStudentPhoto( response.data ));
     };
+    export const resetMessage =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceEditProfile.actions.resetMessage());
+    }
 
     export const getSubmitStudentPhoto =
     (data: ISubmitStudentPhotoBody): AppThunk =>
@@ -43,5 +55,10 @@ export const getSaveStudentPhoto =
         const response = await ApiEditprofile.SubmitStudentPhotoapi(data)
         dispatch(SliceEditProfile.actions.getSubmitStudentPhoto( response.data ));
       };
+      export const resetMessage1 =
+      (): AppThunk =>
+        async (dispatch) => {
+          dispatch(SliceEditProfile.actions.resetMessage());
+        }
 
       export default SliceEditProfile.reducer;
