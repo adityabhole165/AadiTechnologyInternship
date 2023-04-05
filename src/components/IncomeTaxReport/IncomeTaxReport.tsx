@@ -53,7 +53,7 @@ function IncomeTaxReport() {
         "aiSchoolId": asSchoolId,
         "aiAcademicYearId": asAcademicYearId,
         "aiStudentId": asStudentId,
-        "aiFinancialYearId": financialYear,
+        "aiFinancialStartYear": financialYear,
         "SelectAcademicYearId": acadamicYear,
         "ITRCategoryId": parentName,
         "aiLoginUserId": asUserId,
@@ -65,6 +65,7 @@ function IncomeTaxReport() {
     };
     const body2: GetFinancialYearDetailsBody = {
         aiSchoolId: asSchoolId,
+        
        
     };
     useEffect(() => {
