@@ -6,8 +6,8 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData } from 'src/requests/Student/OnlineExam';
-import { IOnlineExamQuestions } from 'src/interfaces/Student/OnlineExam';
+import { AllExamData,GetSubmitExam } from 'src/requests/Student/OnlineExam';
+import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
 import ListCard from 'src/libraries/list/ListCard';
@@ -35,6 +35,13 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
+    console.log("GetAllAnswerQueListtt",GetAllAnswerQueListtt);
+    
+    const Getsubmitexam = useSelector(
+        (state: RootState) => state.OnlineExam.SubmitExam
+    );
+    // console.log("Getsubmitexam",Getsubmitexam);
+    
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
@@ -44,6 +51,7 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
+   
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
@@ -110,10 +118,6 @@ const QueAns = () => {
         setCurrentIndex(value)
     }
 
-    const msg = () => {
-        alert("Are you sure you want to Submit the exam?")
-        clearInterval(timer);
-    }
 
     var timer;
 
@@ -132,6 +136,21 @@ const QueAns = () => {
 
         return () => clearInterval(timer);
     });
+const ClickSubmit =()=>{
+    alert("Are you sure you want to Submit the exam?")
+    clearInterval(timer);
+    const SubmitOnlineExam: ISubmitOnlineExamBody = {
+        aiSchoolId: asSchoolId,
+        aiAcademicYrId: asAcademicYearId,
+        aiStandardId: asStandardId,
+        aiSatandardDivisionId: asStandardDivisionId,
+        aiSubjectId: Subjectid,
+        aiExamId: EXAMid,
+        aiStudentId: asStudentId,
+    };
+    dispatch(GetSubmitExam(SubmitOnlineExam))
+}
+
 
     return (
         <>
@@ -171,7 +190,7 @@ const QueAns = () => {
 
                     <Grid item xs={6}>
                         {currentIndex == maxIndex ?
-                            <ButtonPrimary fullWidth color='primary' onClick={msg}>
+                            <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
                                 Submit
                             </ButtonPrimary>
                             :

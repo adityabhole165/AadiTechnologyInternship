@@ -96,3 +96,17 @@ export  interface GetQuestionsForOnlineExamResult{
     ExamSchedules:ExamSchedules[],
     QuestionDetails:QuestionDetails[]
 }
+
+//submit exam 
+export interface ISubmitOnlineExamBody {
+    aiSchoolId: string,
+    aiAcademicYrId: string,
+    aiStandardId: string,
+    aiSatandardDivisionId: string,
+    aiSubjectId: string,
+    aiExamId: string,
+    aiStudentId: string
+}
+export interface GetSubmitOnlineExamResult {
+    Message:string
+}

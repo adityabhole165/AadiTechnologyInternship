@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import GetOnlineExamListApi from "../../api/Student/OnlineExam";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IOnlineTest, {IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/interfaces/Student/OnlineExam';
+import IOnlineTest, { ISubmitOnlineExamBody,IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/interfaces/Student/OnlineExam';
 
 const SelectOnlineExamSlice = createSlice({
     name: 'selectOnlineExam',
@@ -12,7 +12,8 @@ const SelectOnlineExamSlice = createSlice({
         QuestionDetailsList: [],
         AnswerDetailsList: [],
         ExamSchedulesList: [],
-        ExamData: []
+        ExamData: [],
+        SubmitExam: {}
     },
     reducers: {
         getOnlineExam(state, action) {
@@ -32,7 +33,10 @@ const SelectOnlineExamSlice = createSlice({
         },
         getExamData(state, action) {
             state.ExamData = action.payload;
-        }
+        },
+        submitExam(state, action) {
+            state.SubmitExam = action.payload;
+        },
     }
 });
 
@@ -44,7 +48,7 @@ export const AllExamData =
             const getChild = (QuestionId) => {
                 return (
                     response1.data.AnswerDetails
-                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer!=="")
+                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer !== "")
                         .map((item, i) => {
                             return {
                                 Id: item.AnswerId,
@@ -63,10 +67,10 @@ export const AllExamData =
                         Parent: {
                             Id: item.QuestionId,
                             Name: item.Question,
-                            Marks:item.Marks,
-                            SerialNo:item.SerialNo,
+                            Marks: item.Marks,
+                            SerialNo: item.SerialNo,
                             isSingleSelect: true,
-                            isActive:false
+                            isActive: false
                         },
                         Child: getChild(item.QuestionId)
                     }
@@ -107,6 +111,13 @@ export const GetExamSchedulesListList =
         async (dispatch) => {
             const response = await GetOnlineExamListApi.GetOnlineExamQuestionsDetail(data);
             dispatch(SelectOnlineExamSlice.actions.getExamSchedules(response.data));
+        }
+
+export const GetSubmitExam =
+    (data: ISubmitOnlineExamBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetOnlineExamListApi.SubmitExam(data);
+            dispatch(SelectOnlineExamSlice.actions.submitExam(response.data));
         }
 
 
