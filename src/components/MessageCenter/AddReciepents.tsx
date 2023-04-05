@@ -96,7 +96,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asGroupId: "0",
     asUserRoleId: "3",
     asUserId: asUserId
-  }
+  } 
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
@@ -156,8 +156,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     SelectUsersInRecipients(selectedRecipentsId);
   }, [getuserlist]);
   const SelectUsersInRecipients = (RecipentsIds) => {
-
-    console.log(contactGroup,"--",getuserlist)
     setList(getuserlist?.map((obj) => {
       return {
         ...obj,
@@ -303,12 +301,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       ClassId: classId,
       ContactGroup: contactGroup
     });
-    console.log({
-      RecipientName: selectedRecipents,
-      RecipientId: selectedRecipentsId,
-      ClassId: classId,
-      ContactGroup: contactGroup
-    })
   };
   return (
     <>
