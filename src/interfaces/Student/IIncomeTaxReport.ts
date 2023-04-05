@@ -23,3 +23,20 @@ export interface GetAllAcademicYearsApiBody {
    
    }]
 };
+// Financial year
+export interface  GetFinancialYearDetailsBody{
+    aiSchoolId: string
+}
+
+export interface  GetFinancialYearDetailsResult{
+
+    FinancialYearId: string,
+    FinancialYearName: string,
+    IsCurrent: boolean,
+    IsClosed: boolean
+}
+export interface  GetFinancialYearDetails{
+    FinancialYears:
+        GetFinancialYearDetailsResult[]
+    
+}
