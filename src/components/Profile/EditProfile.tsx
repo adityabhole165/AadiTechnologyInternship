@@ -50,6 +50,7 @@ function EditProfile() {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 	1000000 )
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
+        setFileName(base64URL.slice(base64URL.indexOf(',') + 1));
         let img = new Image()
         img.src = window.URL.createObjectURL(e.target.files[0])
         img.onload = () => {
@@ -95,7 +96,7 @@ function EditProfile() {
     {
       aiSchoolId:asSchoolId,
       aiStudentId: asStudentId,
-      aiInsertedById:"72",
+      aiInsertedById:asUserId,
       asPhotoBase64String:fileName
   
     }
