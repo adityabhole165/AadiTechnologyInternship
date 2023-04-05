@@ -11,7 +11,7 @@ import { getIncomeTaxReport, getAllAcademicYears,resetReciept } from 'src/reques
 import { RootState } from 'src/store';
 import { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/IIncomeTaxReport';
 import { IGetITRFileNameBody } from 'src/interfaces/Student/IIncomeTaxReport'
-// import { getYearList } from 'src/requests/Fees/Fees';
+
 // import 'src/assets/style/BdayCard.css';
 
 
@@ -19,19 +19,16 @@ const note = ['1) Gives income tax statement for paid fees'];
 
 function IncomeTaxReport() {
     const dispatch = useDispatch();
-    const [acadamicYear, setAcadamicYear] = useState('asAcademicYearId');
-    const [financialYear, setFinancialYear] = useState('All');
-    const [parentName, setParentName] = useState('All');
+  
+    const [financialYear, setFinancialYear] = useState('0');
+    const [parentName, setParentName] = useState('0');
 
 
     const IncomeTaxReport: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.GetIncomeTaxReport);
-
-        console.log("IncomeTaxReport", IncomeTaxReport)
     const AcadamicYear: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.YearList
     );
-    console.log("AcadamicYear", AcadamicYear)
     const AcadamicYear1: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.YearList
     );
@@ -42,11 +39,12 @@ function IncomeTaxReport() {
     const asStudentId = (sessionStorage.getItem('StudentId'));
     const asUserId = sessionStorage.getItem('Id');
     const RoleId = sessionStorage.getItem('RoleId');
-    // const filePath = IncomeTaxReport.replace(/\\/g, '/');
-    // let sitePathURL = localStorage.getItem('SiteURL');
-    // let downloadPathOfReceipt = sitePathURL + filePath;
+    const filePath = IncomeTaxReport.replace(/\\/g, '/');
+    let sitePathURL = localStorage.getItem('SiteURL');
+    let downloadPathOfReceipt = sitePathURL + filePath;
 
-    const body: IGetITRFileNameBody = {
+    const [acadamicYear, setAcadamicYear] = useState(asAcademicYearId);
+    const GetITRFileNameBody: IGetITRFileNameBody = {
         "aiSchoolId": asSchoolId,
         "aiAcademicYearId": asAcademicYearId,
         "aiStudentId": asStudentId,
@@ -59,16 +57,15 @@ function IncomeTaxReport() {
         aiSchoolId: asSchoolId,
         aiYearwiseStudentId: asStudentId
     };
-    // useEffect(() => {
-    //     if (IncomeTaxReport !== "")
-    //       window.open(downloadPathOfReceipt);
-    //     dispatch(resetReciept());
-    
-    //   }, [IncomeTaxReport])
-
     useEffect(() => {
-        dispatch(getIncomeTaxReport(body));
-    }, []);
+        console.log(downloadPathOfReceipt,"downloadPathOfReceipt")
+        if (IncomeTaxReport !== "")
+          window.open(downloadPathOfReceipt);
+        dispatch(resetReciept());
+    
+      }, [IncomeTaxReport])
+
+    
 
     useEffect(() => {
         dispatch(getAllAcademicYears(body1));
@@ -77,15 +74,18 @@ function IncomeTaxReport() {
     const UserArray2 = [
         {
             Name: "All",
-            Id: "1"
+            Id: "0",
+            Value: "0"
         },
         {
             Name: "Father",
-            Id: "2"
+            Id: "2",
+            Value: "1"
         },
         {
             Name: "Mother",
-            Id: "3"
+            Id: "3",
+            Value: "2"
         },
     ];
 
@@ -106,7 +106,7 @@ function IncomeTaxReport() {
     };
 
 const ClickDisplay=()=>{
-    alert("hello")
+    dispatch(getIncomeTaxReport(GetITRFileNameBody));
 }
 
 

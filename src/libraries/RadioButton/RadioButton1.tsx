@@ -1,0 +1,43 @@
+import { FormControl, FormLabel, RadioGroup, FormControlLabel, Radio, Box } from '@mui/material'
+import { FormControlLabel1 } from '../styled/ButtonStyle';
+import React from 'react'
+
+const RadioButton1 = ({ Array, ClickRadio, defaultValue = '1', Label }) => {
+    return (
+        <>
+            <FormControl >
+                <Box sx={{
+                    // display: "flex",
+                    // flexDirection: "row",
+                }}>
+                    <FormLabel id="demo-controlled-radio-buttons-group" >{Label}</FormLabel>
+
+                    <RadioGroup value={defaultValue}
+                        aria-labelledby="demo-controlled-radio-buttons-group"
+                        name="controlled-radio-buttons-group"
+                        onChange={(e) => ClickRadio(e.target.value)}
+                    >
+                        <Box sx={{
+                           
+                            flexDirection: "row",
+                            ml: "7px",
+                            
+                        }}>
+                            {Array.map((items, i) => {
+                                return (
+                                        <FormControlLabel1 key={i} value={items.Value}
+                                            control={<Radio size="small" />}
+                                            label={items.Name}
+                                        />
+
+                                );
+                            })}
+                        </Box>
+                    </RadioGroup>
+                </Box>
+            </FormControl>
+        </>
+    )
+}
+
+export default RadioButton1

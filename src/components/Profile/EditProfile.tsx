@@ -9,13 +9,36 @@ import Note from 'src/libraries/Note/Note';
 import { ChangeFileIntoBase64, CheckFileValidationEditeProfile } from 'src/components/Common/Util';
 import CameraClick from '../PhotoGallery/CameraClick';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { RootState } from 'src/store';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import { ISaveStudentPhotoBody, ISubmitStudentPhotoBody } from 'src/interfaces/Student/IEditProfile';
+import { getSaveStudentPhoto, getSubmitStudentPhoto,resetMessage, resetMessage1 } from 'src/requests/EditProfile/RequestEditProfile';
 const note = [
   '1) The student photo to be uploaded should be in school uniform.',
   '2) Upload or Capture an image file for students photo (Max Height: 151px and Max Width: 112px) ',
   '3) Image size should not exceed 1 mb. Supported file formats are JPG, JPEG, PNG, BMP '
 
 ];
+
+
 function EditProfile() {
+  const dispatch = useDispatch();
+    
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asStudentId = sessionStorage.getItem('StudentId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asUserId = localStorage.getItem('UserId');  
+  const [fileName, setFileName] = useState('')
+  const SavePhotos: any = useSelector(
+    (state: RootState) => state.EditProfile.SaveStudentPhoto
+  );
+  const SubmitPhotos: any = useSelector(
+    (state: RootState) => state.EditProfile.SubmitStudentPhoto
+  );
+
+  // console.log(SavePhotos,"SavePhotos")
   const  width = 112, height = 151, maxFileSize = 100000
   const UserName = sessionStorage.getItem('StudentName');
   const [value, setValue] = useState('');
@@ -46,6 +69,7 @@ function EditProfile() {
     }
   }
 
+
   const { photos, takePhoto } = CameraClick();
   useEffect(() => {
     if (photos !== undefined && photos.length)
@@ -53,8 +77,39 @@ function EditProfile() {
   }, [photos])
   useEffect(() => {
     setError('')
-  
   }, [value])
+  
+  useEffect(() => {
+  toast.success(SavePhotos.Message, { toastId: 'success1' });
+  // dispatch(resetMessage());
+  },
+  [SavePhotos])
+  useEffect(() => {
+    toast.success(SubmitPhotos.Message, { toastId: 'success1' });
+    dispatch(resetMessage1());
+    },
+    [SubmitPhotos])
+
+  const SaveFile = () => {
+    const SavePhotosBody: ISaveStudentPhotoBody =
+    {
+      aiSchoolId:asSchoolId,
+      aiStudentId: asStudentId,
+      aiInsertedById:"72",
+      asPhotoBase64String:fileName
+  
+    }
+    dispatch(getSaveStudentPhoto(SavePhotosBody));
+  }
+  const SubmitFile = () => {
+    const SubmitBody = {
+      aiStudentId:asStudentId,
+      aiUpdatedById:asUserId,
+      aiSchoolId:asSchoolId,
+      aiAcademicYearId :asAcademicYearId
+    }
+  dispatch(getSubmitStudentPhoto(SubmitBody));
+  }
   return (
     <Container>
       <PageHeader heading={'Edit Profile'} subheading={''} />
@@ -78,14 +133,15 @@ function EditProfile() {
         <Grid container spacing={3} sx={{textAlign:"center"}}>
           <Grid item xs={3} />
           <Grid item xs={3}>
-            <ButtonPrimary>Save</ButtonPrimary>
+            <ButtonPrimary onClick={SaveFile}>Save</ButtonPrimary>
           </Grid>
           <Grid item xs={3}>
-            <ButtonPrimary>Submit</ButtonPrimary>
+            <ButtonPrimary onClick={SubmitFile}>Submit</ButtonPrimary>
           </Grid>
           <Grid item xs={3} />
         </Grid>
       </ListStyle>
+    
     </Container>
   )
 }

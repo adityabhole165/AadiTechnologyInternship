@@ -1,17 +1,21 @@
 import { Button } from '@mui/material'
 import React from 'react'
+import { ListStyle } from '../styled/CardStyle'
 
 
 const ButtonHomework = ({Item,ClickItem}) => {
-    
-  return (
+  const onClick=()=>{
+    Item = {...Item,IsActive:Item.IsActive?Item.IsActive:!Item.IsActive}
+    ClickItem(Item)}
+  
+    return (
     
     <div>
     
-        <Button  sx={{color:Item.IsActive === false ? "black" : "red"}} 
-        onClick={() => ClickItem(Item.Value)} >
+        <ListStyle sx={{color:Item.IsActive  ? "red" : "black"}} textAlign={"center"} 
+        onClick={onClick}  >
             {Item.Name}
-            </Button>
+            </ListStyle>
            
             
     </div>

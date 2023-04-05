@@ -194,7 +194,7 @@ export const getTrashList =
   (data :IContactGRPUsersBody): AppThunk =>
   async (dispatch) => {
     const response = await MessageCenterApi.ContactGRPUsers(data);
-    dispatch(MessageCenterSlice.actions.getContactgrpUsers(response.data));
+    dispatch(MessageCenterSlice.actions.getContactgrpUsers(response.data.ContactGroupUserIds));
   };
 
  
