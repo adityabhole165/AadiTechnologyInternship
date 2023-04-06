@@ -231,6 +231,14 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     })
     return returnValue
   }
+  const isTeacherSelected = () => {
+    let returnValue = false
+    teacherStudent.map((item) => {
+      if (item.isActive)
+        returnValue = true
+    })
+    return returnValue
+  }
   const onChangeTeacher = (value) => {
     setList(value);
     //if student is selected
@@ -344,7 +352,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                 </Grid>
                 <Grid item xs={12}>
                   {Loading ? <SuspenseLoader /> :
-                    list.length === 0 ? !isSelected('Student') &&
+                    list.length === 0 ?  (!isSelected('Student') && isTeacherSelected()) &&
                       <ErrorMessages Error={'No records found'} /> :
                       <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} />
                   }
