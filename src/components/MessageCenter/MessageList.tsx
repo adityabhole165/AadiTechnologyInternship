@@ -7,7 +7,8 @@ import { RootState } from 'src/store';
 import { Iyears, IGetAllMonths } from 'src/interfaces/MessageCenter/Search';
 import {
   getAcademicYearList,
-  getMonthYearList
+  getMonthYearList,
+  ReadReceiptDetail
 } from 'src/requests/MessageCenter/MessaageCenter';
 import MCForm from 'src/libraries/form/MCForm';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
@@ -94,8 +95,22 @@ const MessageList = () => {
   const DeletePermanently = useSelector(
     (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
   );
-
-
+const ReadReceipt = useSelector(
+    (state: RootState) => state.MessageCenter.ReadReceiptDetails
+    );
+    console.log("ReadReceipt",ReadReceipt);
+    
+    // let DetailsId = [];
+    // inboxListData.map((obj) => {
+    //   if (obj.isActive) {
+    //     DetailsId.push(obj.DetailsId);
+    //   }
+    // });
+const ReadReceipts ={
+  aiSchoolId:SchoolId,
+  aiAcademicYearId:academicYear,
+  aiMessageDetailId:"103153"
+}
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
     asAcademicYearId: academicYear,
@@ -138,7 +153,9 @@ const MessageList = () => {
   useEffect(() => {
     setInboxListData(InboxList);
   }, [InboxList]);
-
+useEffect(()=>{
+  dispatch(ReadReceiptDetail(ReadReceipts))
+})
   useEffect(() => {
     if (academicYear !== '') {
       dispatch(getMonthYearList(Mbody));
