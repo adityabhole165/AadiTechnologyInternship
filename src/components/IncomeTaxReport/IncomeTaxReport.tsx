@@ -31,11 +31,11 @@ function IncomeTaxReport() {
     const AcadamicYear: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.YearList
     );
-    console.log("AcadamicYear",AcadamicYear)
+    
     const FinancialYearList: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.GetFinancialYear
     );
-    console.log("FinancialYearList",FinancialYearList)
+  
   
     const StudentName = sessionStorage.getItem("StudentName");
     const Standard = sessionStorage.getItem('Class');
