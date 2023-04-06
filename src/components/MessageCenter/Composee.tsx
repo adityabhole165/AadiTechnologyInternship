@@ -266,20 +266,20 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: scheduleDate + ' ' + strTime,
-        RequestReadReceipt: requestReadReceipt ? "1" : "0"
+        ScheduleDateTime: requestSchedule? scheduleDate + ' ' + strTime : '',
+        RequestReadReceipt:  requestReadReceipt ? "1" : "0"
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
       asMessageId: ID != undefined || ID != "" ? parseInt(ID) : 0,
       asSchoolName: SchoolName,
-      asSelectedStDivId: RoleId == '3' ? DivisionId : RecipientsObject.ClassId.toString(),
+      asSelectedStDivId: RecipientsObject.ClassId.toString(),
       asSelectedUserIds: RecipientsObject.RecipientId.toString() + ContactGRPusers.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
       asSelectedUserIdsCc: RecipientsCCObject.RecipientId.toString(),
-      asSelectedStDivIdCc: RoleId == '3' ? DivisionId : RecipientsCCObject.ClassId.toString(),
+      asSelectedStDivIdCc: RecipientsCCObject.ClassId.toString(),
       asIsSoftwareCordinatorCc: "",
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };

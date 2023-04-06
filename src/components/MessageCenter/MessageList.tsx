@@ -153,9 +153,9 @@ const ReadReceipts ={
   useEffect(() => {
     setInboxListData(InboxList);
   }, [InboxList]);
-useEffect(()=>{
-  dispatch(ReadReceiptDetail(ReadReceipts))
-})
+// useEffect(()=>{
+  // dispatch(ReadReceiptDetail(ReadReceipts))
+// })
   useEffect(() => {
     if (academicYear !== '') {
       dispatch(getMonthYearList(Mbody));
