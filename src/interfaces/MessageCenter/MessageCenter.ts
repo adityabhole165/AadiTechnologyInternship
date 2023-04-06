@@ -183,5 +183,16 @@ export interface IContactGRPUsersBody{
 export interface IContactgrpUsersResult{
     ContactGroupUserIds:string
 }
+// read receipt users after viewing msg
+export interface IGetReadReceiptDetailsBody{
+    aiSchoolId: string,
+    aiAcademicYearId:string,
+    aiMessageDetailId:string,
+}
+export interface IGetReadReceiptDetailsResult{
+    UserName:string,
+    Designation:string,
+    ReadingDateTime:string
+}
 
 

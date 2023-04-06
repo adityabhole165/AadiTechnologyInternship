@@ -3,7 +3,7 @@ import MessageCenterApi from "../../api/MessageCenter/MessageCenter";
 import { AppThunk } from 'src/store';
 import {IContactGRPUsersBody, ITrashList} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IUserGroupList } from "../../interfaces/MessageCenter/MessageCenter";
-import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IContactGRPBody,IContactGRPResult} from 'src/interfaces/MessageCenter/MessageCenter';
+import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IContactGRPBody,IContactGRPResult,IGetReadReceiptDetailsBody} from 'src/interfaces/MessageCenter/MessageCenter';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
@@ -25,7 +25,8 @@ const MessageCenterSlice = createSlice({
     EmailSettings:null,
     UpdationMessage:'',
     PTAOption:{},
-    ContactgrpUsers:{}
+    ContactgrpUsers:{},
+    ReadReceiptDetails:[]
 
   },
   reducers: {
@@ -92,6 +93,9 @@ const MessageCenterSlice = createSlice({
   },
   getContactgrpUsers(state, action) {
     state.ContactgrpUsers = action.payload;
+  },
+  getReadReceiptDetails(state, action) {
+    state.ReadReceiptDetails = action.payload.ReadReceiptDetails;
   },
   }   
 });
@@ -195,6 +199,12 @@ export const getTrashList =
   async (dispatch) => {
     const response = await MessageCenterApi.ContactGRPUsers(data);
     dispatch(MessageCenterSlice.actions.getContactgrpUsers(response.data.ContactGroupUserIds));
+  };
+  export const ReadReceiptDetail =
+  (data :IGetReadReceiptDetailsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await MessageCenterApi.GetReadReceiptDetails(data);
+    dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response));
   };
 
  
