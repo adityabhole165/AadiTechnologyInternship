@@ -154,17 +154,26 @@ const DashboardData = {
       index: 8,
       ModulesPermission: 'EnableStudentFeesModule'
     },
+    // {
+    //   Text1: 'Homework ',
+    
+    //   Color: '#90a4ae',
+    //   iconColor: '#424242',
+    //   Icon: MenuBookIcon,
+    //   Link: 'Student/Homework',
+    //   index: 9,
+    //   ModulesPermission: 'EnableHomeworkModule'
+    // },
     {
-      Text1: 'Homework ',
+      Text1: 'Homework',
     
       Color: '#90a4ae',
       iconColor: '#424242',
       Icon: MenuBookIcon,
-      Link: 'Student/Homework',
-      index: 9,
+      Link: 'Student/HomeworkNew',
+      index: 34,
       ModulesPermission: 'EnableHomeworkModule'
     },
-  
     
   ],
   items3: [

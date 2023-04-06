@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Card, Grid, Typography } from '@mui/material'
 import React, { useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
@@ -156,11 +156,12 @@ const ClickSubmit =()=>{
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
+                <Card sx={{py:1}}>
                 <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
-                <Grid container>
+                <Grid container >
                 <Grid xs={0.5}/>
                    <Grid xs={11.5}>
-                   <Box sx={{ textAlign: 'center' }}> 
+                   <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '2px solid grey'}}> 
                 <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
                 </Box>
                     </Grid> 
@@ -200,6 +201,7 @@ const ClickSubmit =()=>{
                         }
                     </Grid>
                 </Grid>
+                </Card>
             </Container>
 
         </>

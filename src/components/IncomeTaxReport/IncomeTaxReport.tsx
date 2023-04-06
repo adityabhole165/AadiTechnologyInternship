@@ -7,9 +7,9 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Note from 'src/libraries/Note/Note';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-import { getIncomeTaxReport, getAllAcademicYears,resetReciept } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
+import { getIncomeTaxReport, getAllAcademicYears,resetReciept,getAllFinancialYears } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
 import { RootState } from 'src/store';
-import { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/IIncomeTaxReport';
+import { GetAllAcademicYearsApiBody,GetFinancialYearDetailsBody } from 'src/interfaces/Student/IIncomeTaxReport';
 import { IGetITRFileNameBody } from 'src/interfaces/Student/IIncomeTaxReport'
 
 // import 'src/assets/style/BdayCard.css';
@@ -21,17 +21,22 @@ function IncomeTaxReport() {
     const dispatch = useDispatch();
   
     const [financialYear, setFinancialYear] = useState('0');
+    const [acadamicYear, setAcadamicYear] = useState("0");
     const [parentName, setParentName] = useState('0');
 
 
     const IncomeTaxReport: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.GetIncomeTaxReport);
+
     const AcadamicYear: any = useSelector(
         (state: RootState) => state.IncomeTaxReport.YearList
     );
-    const AcadamicYear1: any = useSelector(
-        (state: RootState) => state.IncomeTaxReport.YearList
+    
+    const FinancialYearList: any = useSelector(
+        (state: RootState) => state.IncomeTaxReport.GetFinancialYear
     );
+  
+  
     const StudentName = sessionStorage.getItem("StudentName");
     const Standard = sessionStorage.getItem('Class');
     const asSchoolId = localStorage.getItem('localSchoolId');
@@ -42,20 +47,26 @@ function IncomeTaxReport() {
     const filePath = IncomeTaxReport.replace(/\\/g, '/');
     let sitePathURL = localStorage.getItem('SiteURL');
     let downloadPathOfReceipt = sitePathURL + filePath;
+    
 
-    const [acadamicYear, setAcadamicYear] = useState(asAcademicYearId);
     const GetITRFileNameBody: IGetITRFileNameBody = {
         "aiSchoolId": asSchoolId,
         "aiAcademicYearId": asAcademicYearId,
         "aiStudentId": asStudentId,
-        "aiFinancialYearId": financialYear,
+        "aiFinancialStartYear": financialYear,
         "SelectAcademicYearId": acadamicYear,
         "ITRCategoryId": parentName,
         "aiLoginUserId": asUserId,
     }
+
     const body1: GetAllAcademicYearsApiBody = {
         aiSchoolId: asSchoolId,
         aiYearwiseStudentId: asStudentId
+    };
+    const body2: GetFinancialYearDetailsBody = {
+        aiSchoolId: asSchoolId,
+        
+       
     };
     useEffect(() => {
         console.log(downloadPathOfReceipt,"downloadPathOfReceipt")
@@ -69,6 +80,10 @@ function IncomeTaxReport() {
 
     useEffect(() => {
         dispatch(getAllAcademicYears(body1));
+    }, []);
+
+    useEffect(() => {
+        dispatch(getAllFinancialYears(body2));
     }, []);
 
     const UserArray2 = [
@@ -89,15 +104,17 @@ function IncomeTaxReport() {
         },
     ];
 
+    
+
     const clickAcadamicYear = (value) => {
         setAcadamicYear(value);
-        setFinancialYear("All")
+        setFinancialYear("0")
     };
 
 
     const clickFinacialYear = (value) => {
         setFinancialYear(value);
-        setAcadamicYear("All")
+        setAcadamicYear("0")
     };
 
     const clickParentName = (value) => {
@@ -129,6 +146,14 @@ const ClickDisplay=()=>{
                         size="small"
                         value={StudentName + ' ' + '(' + Standard + ')'}
                     />
+                    <Typography> Select Financial Year</Typography>
+                    <FormControl fullWidth sx={{ mt: "2px" }}>
+                        <Dropdown
+                            Array={FinancialYearList}
+                            handleChange={clickFinacialYear}
+                            defaultValue={financialYear}
+                        />
+                    </FormControl>
 
                     <Typography> Select Academic Year</Typography>
                     <FormControl fullWidth>
@@ -140,14 +165,7 @@ const ClickDisplay=()=>{
                         />
                     </FormControl>
 
-                    <Typography> Select Financial Year</Typography>
-                    <FormControl fullWidth sx={{ mt: "2px" }}>
-                        <Dropdown
-                            Array={AcadamicYear1}
-                            handleChange={clickFinacialYear}
-                            defaultValue={financialYear}
-                        />
-                    </FormControl>
+                    
 
                     <Typography> Select Category</Typography>
                     <FormControl fullWidth sx={{ mt: "2px" }}>

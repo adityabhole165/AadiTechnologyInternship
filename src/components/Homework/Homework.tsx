@@ -176,7 +176,7 @@ function Homework() {
           <Card30 header={HomeworkSubjectList} />
 
         )} */}
-        <Grid container spacing={1} alignItems={"center"}>
+        {/* <Grid container spacing={1} alignItems={"center"}>
           <Grid item xs={2} sx={{textAlign:"center"}}>
             <ListStyle><ArrowLeft onClick={() => arrowClick(-1)}/></ListStyle>
          </Grid>
@@ -188,7 +188,7 @@ function Homework() {
           <ArrowRight onClick={() => arrowClick(1)} />
           </ListStyle>
          </Grid>
-        </Grid>
+        </Grid> */}
       </Container>
     </>
   );

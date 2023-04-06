@@ -166,7 +166,7 @@ function Form13() {
   const contactgrpuserBody = {
     asScholId: localschoolId,
     asAcademicYearId: AcademicYearId,
-    asGroupId: "131",
+    asGroupId:RecipientsObject.ContactGroup.toString(),
     aiIsForUser: "0"
   }
   

@@ -2,10 +2,12 @@ export interface IGetITRFileNameBody {
     aiSchoolId: string,
     aiAcademicYearId: string,
     aiStudentId: string,
-    aiFinancialYearId: string,
+    aiFinancialStartYear: string,
     SelectAcademicYearId: string,
     ITRCategoryId: string,
     aiLoginUserId: string
+
+    
 }
 export interface IGetITRFileNameResult{
     Message: string
@@ -23,3 +25,22 @@ export interface GetAllAcademicYearsApiBody {
    
    }]
 };
+// Financial year
+export interface  GetFinancialYearDetailsBody{
+    aiSchoolId: string,
+   
+}
+
+export interface  GetFinancialYearDetailsResult{
+
+    FinancialYearId: string,
+    FinancialYearName: string,
+    IsCurrent: boolean,
+    IsClosed: boolean,
+    Year : number
+}
+export interface  GetFinancialYearDetails{
+    FinancialYears:
+        GetFinancialYearDetailsResult[]
+    
+}
