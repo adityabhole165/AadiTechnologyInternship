@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import ApiHomework from "../../api/Homework/ApiHomeworkNew";
 import { AppThunk } from 'src/store';
 import { IGetDatewiseHomeworkDetailsBody } from "src/interfaces/Student/IHomeworkNew";
+import { getDateMonthFormatted, getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 
 const SliceHomework = createSlice({
@@ -35,33 +36,34 @@ export const getHomeworkDetails =
         async (dispatch) => {
             dispatch(SliceHomework.actions.getLoading(true));
             const response = await ApiHomework.GetHomeworkList(data)
-        //     let HomeworkList = response.data.HomeworkDetails.map((item, index) => {
-        //         return {
-        //             Id: item.Id,
-        //             Name: item.AssignedDate,
-        //             Value: item.AssignedDate,
-        //             IsActive: item.IsPublished
-          
-        // }
-        //     })
+            //     let HomeworkList = response.data.HomeworkDetails.map((item, index) => {
+            //         return {
+            //             Id: item.Id,
+            //             Name: item.AssignedDate,
+            //             Value: item.AssignedDate,
+            //             IsActive: item.IsPublished
+
+            // }
+            //     })
 
             dispatch(SliceHomework.actions.getHomeworkDetails(response.data));
         };
 
-        export const getHomeworkDates =
+export const getHomeworkDates =
     (data: IGetDatewiseHomeworkDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(SliceHomework.actions.getLoading(true));
             const response = await ApiHomework.GetHomeworkList(data)
-        //     let HomeworkList = response.data.HomeworkDates.map((item, index)  => {
-        //         return {
-                  
-        //             Name: item.HomeworkDates,
-                    
-          
-        // }
-        //     })
-            dispatch(SliceHomework.actions.getHomeworkDates(response.data));
+            let HomeworkList = response.data.HomeworkDates?.map((item, index) => {
+                let arrDate = item.split('-')
+                return {
+                    Id: index,
+                    Name: getDateMonthFormatted(item),
+                    Value: getDateMonthYearFormatted(item),
+                    IsActive: false
+                }
+            })
+            dispatch(SliceHomework.actions.getHomeworkDates(HomeworkList));
         };
 
 

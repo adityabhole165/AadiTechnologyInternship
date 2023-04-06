@@ -25,6 +25,7 @@ import DotLegend from 'src/libraries/summary/DotLegend';
 import HomeworkNew from './HomeworkNew';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
+import SelectedDateCalendar from 'src/libraries/DateSelector/SelectedDateCalendar';
 function Homework() {
   const dispatch = useDispatch();
   const {DateFromHomework } = useParams();
@@ -164,31 +165,16 @@ function Homework() {
         
         </div>{' '}
         <br />
-        {/* <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector> */}
+        <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
 
-        {/* {loading ? (
+        {loading ? (
           <SuspenseLoader />
         ) : HomeworkSubjectList.length === 0 ? (
           <ErrorMessages Error={'Homework is not available'} />
         ) : (
-
-
           <Card30 header={HomeworkSubjectList} />
+        )}
 
-        )} */}
-        {/* <Grid container spacing={1} alignItems={"center"}>
-          <Grid item xs={2} sx={{textAlign:"center"}}>
-            <ListStyle><ArrowLeft onClick={() => arrowClick(-1)}/></ListStyle>
-         </Grid>
-         <Grid item xs={8}>
-        <HomeworkNew ItemList={itemList} clickItem={clickItem}/>
-        </Grid>
-         <Grid item xs={2} sx={{textAlign:"center"}}>
-          <ListStyle>
-          <ArrowRight onClick={() => arrowClick(1)} />
-          </ListStyle>
-         </Grid>
-        </Grid> */}
       </Container>
     </>
   );

@@ -81,8 +81,31 @@ export const getDateFormatted = (date) => {
     return `${Day} ${Month} ${Year}`;
 }
 
+export const getHomeworkDateFormatted = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Day}-${Month}-${Year}`;
+}
+export const getDateMonthFormatted = (date) => {
+    let arrDate = date.split('-')
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]}`;
+}
+
+export const getDateMonthYearFormatted = (date) => {
+    let arrDate = date.split('-')
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]} ${arrDate[2]}`;
+}
+
 export const getNextDate = (date, prevNext) => {
     var nextDate = new Date(date);
+    console.log(date,"nextDate",nextDate)
+    console.log(nextDate.getDate() + prevNext,"nextDate",nextDate.getDate())
     nextDate.setDate(nextDate.getDate() + prevNext);
     return getDateFormatted(nextDate)
 }
