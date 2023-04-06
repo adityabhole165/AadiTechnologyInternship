@@ -53,6 +53,7 @@ const AttendanceTopper= Loader(lazy(() => import ('src/components/Attendance/Att
 const EditProfile = Loader (lazy(()=> import ('src/components/Profile/EditProfile')))
 const TransportCommittee = Loader (lazy(()=> import ('src/components/TransportCommittee/TransportCommittee')))
 const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/PayinternalFees')))
+const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew')))
 
 const studentRoutes = [
   {
@@ -236,7 +237,10 @@ const studentRoutes = [
   path: "TransportCommittee",
   element: <TransportCommittee/>
 },
-
+{
+  path: "HomeworkNew",
+  element: <HomeworkNew/>
+},
   ];
 
 export default studentRoutes;

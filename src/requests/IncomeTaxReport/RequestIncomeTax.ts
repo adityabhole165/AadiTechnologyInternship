@@ -73,8 +73,8 @@ export const getAllFinancialYears =
        
         return {
           Id: index.toString(),
-          Value: item.FinancialYearId,
-          Name: item.FinancialYearName
+          Value: item.Year.toString(),
+          Name: item.FinancialYearId
           
         }
       })
