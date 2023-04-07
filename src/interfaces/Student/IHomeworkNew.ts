@@ -1,15 +1,23 @@
 export interface IGetDatewiseHomeworkDetailsBody {
-
     aiSchoolId: string,
     aiAcademicYearId: string,
     aiStandardDivisionId: string,
     asStartdate: string,
     asEnddate: string
-
 }
 
 export interface IGetDatewiseHomeworkDetailsResult {
+    HomeworkDetails:[HomeworkDetails]
+    HomeworkDates:string[]
+    ButtonState:ButtonState
+}
 
+export interface ButtonState{
+    AllowPrevious: boolean,
+    AllowNext: boolean
+}
+
+export interface HomeworkDetails{
     Id: number,
     Title: string,
     AttachmentPath: string,
@@ -24,15 +32,7 @@ export interface IGetDatewiseHomeworkDetailsResult {
     MoreAttachments: null,
     MinDate: string,
     MaxDate: string
-
-    HomeworkDates:[HomeworkDates]
-}
-export interface HomeworkDates{
-    HomeworkDates: any
-} 
-// export interface Homework{
-//     HomeworkDetails:IGetDatewiseHomeworkDetailsResult[]
-// }
+    }
 export interface HomeWork {
     HomeworkDates:IGetDatewiseHomeworkDetailsResult
 }
