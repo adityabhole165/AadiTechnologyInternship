@@ -97,7 +97,7 @@ function EditProfile() {
       aiSchoolId:asSchoolId,
       aiStudentId: asStudentId,
       aiInsertedById:asUserId,
-      asPhotoBase64String:fileName
+      asPhotoBase64String:value
   
     }
     dispatch(getSaveStudentPhoto(SavePhotosBody));
