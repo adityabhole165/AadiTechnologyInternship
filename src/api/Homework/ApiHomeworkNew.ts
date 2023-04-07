@@ -1,10 +1,9 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IGetDatewiseHomeworkDetailsBody,HomeworkDates } from "src/interfaces/Student/IHomeworkNew";
+import { IGetDatewiseHomeworkDetailsBody, IGetDatewiseHomeworkDetailsResult } from "src/interfaces/Student/IHomeworkNew";
 
 const GetHomeworkList = (data:IGetDatewiseHomeworkDetailsBody) => {
-    return http.post<HomeworkDates>('Student/GetDatewiseHomeworkDetails',data);
+    return http.post<IGetDatewiseHomeworkDetailsResult>('Student/GetDatewiseHomeworkDetails',data);
 }
-
 
 const ApiHomework ={
     GetHomeworkList

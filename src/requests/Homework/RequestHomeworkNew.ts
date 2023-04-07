@@ -12,6 +12,7 @@ const SliceHomework = createSlice({
     initialState: {
         GetHomeworkDetails: [],
         GetHomeworkDates: [],
+        ButtonState: null,
         Loading: true
     },
 
@@ -23,6 +24,10 @@ const SliceHomework = createSlice({
         },
         getHomeworkDates(state, action) {
             state.GetHomeworkDates = action.payload;
+            state.Loading = false;
+        },
+        getButtonState(state, action) {
+            state.ButtonState = action.payload;
             state.Loading = false;
         },
         getLoading(state, action) {
@@ -64,6 +69,8 @@ export const getHomeworkDates =
                 }
             })
             dispatch(SliceHomework.actions.getHomeworkDates(HomeworkList));
+            dispatch(SliceHomework.actions.getHomeworkDetails(response.data.HomeworkDetails));
+            dispatch(SliceHomework.actions.getButtonState(response.data.ButtonState));
         };
 
 
