@@ -44,12 +44,15 @@ function EditProfile() {
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,'+ImgUrl : '/imges/defualtUser.jpg'
   const [value, setValue] = useState('');
+  const [disableButton, setDisableButton] = useState(true);
+  const [disableSubmitButton, setDisableSubmitButton] = useState(true);
   const aRef = useRef(null);
 
   const [error, setError] = useState('')
   const changeFile = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 	1000000 )
+      setDisableButton(false);
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
         setFileName(base64URL.slice(base64URL.indexOf(',') + 1));
@@ -94,6 +97,8 @@ function EditProfile() {
     [SubmitPhotos])
 
   const SaveFile = () => {
+    setDisableSubmitButton(false);
+    setDisableButton(true);
     const SavePhotosBody: ISaveStudentPhotoBody =
     {
       aiSchoolId:asSchoolId,
@@ -105,6 +110,7 @@ function EditProfile() {
     dispatch(getSaveStudentPhoto(SavePhotosBody));
   }
   const SubmitFile = () => {
+    setDisableSubmitButton(true);
     const SubmitBody = {
       aiStudentId:asStudentId,
       aiUpdatedById:asUserId,
@@ -136,10 +142,10 @@ function EditProfile() {
         <Grid container spacing={3} sx={{textAlign:"center"}}>
           <Grid item xs={3} />
           <Grid item xs={3}>
-            <ButtonPrimary onClick={SaveFile}>Save</ButtonPrimary>
+            <ButtonPrimary onClick={SaveFile} disabled={disableButton}  color={(disableButton) ? "warning" : "primary"}>Save</ButtonPrimary>
           </Grid>
           <Grid item xs={3}>
-            <ButtonPrimary onClick={SubmitFile}>Submit</ButtonPrimary>
+            <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton}  color={(disableSubmitButton) ? "warning" : "primary"}>Submit</ButtonPrimary>
           </Grid>
           <Grid item xs={3} />
         </Grid>
