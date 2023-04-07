@@ -41,6 +41,8 @@ function EditProfile() {
   // console.log(SavePhotos,"SavePhotos")
   const  width = 112, height = 151, maxFileSize = 100000
   const UserName = sessionStorage.getItem('StudentName');
+  const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,'+ImgUrl : '/imges/defualtUser.jpg'
   const [value, setValue] = useState('');
   const aRef = useRef(null);
 
@@ -119,7 +121,7 @@ function EditProfile() {
         <ProfileDetailHeader sx={{ textAlign: "center" }}> <b>Name : </b><b>{UserName}</b></ProfileDetailHeader>
        
         <Box sx={{ textAlign: "center" }}>
-          <img src={value} width="112" height="151" style={{ border: "1px solid gray" }} />
+        <img src={value == "" ? userPhoto : value} width="112" height="151" style={{ border: "1px solid gray" }} />
           <Grid container spacing={2}>
             <Grid item xs={6} >
               <input type="file" accept="image/*" onChange={changeFile} />
