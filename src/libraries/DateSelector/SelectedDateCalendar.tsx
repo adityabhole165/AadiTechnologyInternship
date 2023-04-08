@@ -115,17 +115,17 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
                 <ErrorDetail>{errDates}</ErrorDetail>
                 <Grid container spacing={1} alignItems={"center"}>
                     <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        {/* <IconButton disabled={!ButtonState?.AllowPrevious}> */}
+                        <IconButton disabled={!ButtonState?.AllowPrevious}>
                             <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
-                        {/* </IconButton> */}
+                        </IconButton>
                     </Grid>
                     <Grid item xs={8}>
                         <HomeworkCard ItemList={itemList} clickItem={clickItem} />
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        {/* <IconButton disabled={!ButtonState?.AllowNext}> */}
+                        <IconButton disabled={!ButtonState?.AllowNext}>
                             <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
-                        {/* </IconButton> */}
+                        </IconButton>
                     </Grid>
                 </Grid>
             </Container>

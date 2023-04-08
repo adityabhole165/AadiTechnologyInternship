@@ -9,12 +9,14 @@ export interface IGetDatewiseHomeworkDetailsBody {
 export interface IGetDatewiseHomeworkDetailsResult {
     HomeworkDetails:[HomeworkDetails]
     HomeworkDates:string[]
-    ButtonState:ButtonState
+    HomeworkDateStatus:HomeworkDateStatus
 }
 
-export interface ButtonState{
+export interface HomeworkDateStatus{
     AllowPrevious: boolean,
-    AllowNext: boolean
+    AllowNext: boolean,
+    MinDate: string,
+    MaxDate: string
 }
 
 export interface HomeworkDetails{

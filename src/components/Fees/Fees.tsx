@@ -1,16 +1,18 @@
-import { useEffect ,useState} from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { getFees,getYearList  } from 'src/requests/Fees/Fees';
+import { getFees, getYearList } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField ,ToggleButton, ToggleButtonGroup, Typography,} from '@mui/material';
+import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
+import { CardDetail2 } from 'src/libraries/styled/CardStyle';
+import { NoteStyle } from 'src/libraries/styled/NoteStyle'
 import {
   CardDetail1,
   CardDetail7,
@@ -19,20 +21,21 @@ import {
 } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
-import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
+import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
+import SpecialNote from 'src/libraries/Note/SpecialNote';
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
- 
+
 
 ];
 function Fees() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [ispaidCautionMoney, setIspaidCautionMoney] =useState('false')
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
+  const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
@@ -71,85 +74,99 @@ function Fees() {
   }, []);
   useEffect(() => {
     dispatch(getYearList(body1));
-    }, []);
+  }, []);
 
-    const clickYear = (value) => {
-      setCurrentyear(value);
-    };
-    const [showCaution, setShowCaution] = useState('School');
-    const handleChange = (
-      event: React.MouseEvent<HTMLElement>,
-      newShowCaution: string,
-    ) => {
-      if (newShowCaution != null)
+  const clickYear = (value) => {
+    setCurrentyear(value);
+  };
+  const [showCaution, setShowCaution] = useState('School');
+  const handleChange = (
+    event: React.MouseEvent<HTMLElement>,
+    newShowCaution: string,
+  ) => {
+    if (newShowCaution != null)
       setShowCaution(newShowCaution);
-    };
+  };
 
   const theme = useTheme();
 
- 
+
   const classes = Styles();
   const note1 = ['1) *RTE student (100% concession on school fees)'];
-  const PayInternalFees =()=>{
+  const PayInternalFees = () => {
     navigate('PayinternalFees')
   };
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
       <Dropdown
-        Array={ AcadamicYear}
+        Array={AcadamicYear}
         handleChange={clickYear}
         label={'Select Year'}
-        defaultValue={currentYear} 
+        defaultValue={currentYear}
       />
-       <br></br>
+      <br></br>
       <br></br>
       <ToggleButtonGroup
-           value={showCaution}
-            exclusive
-            onChange={handleChange}>
-            <ToggleButton value="School">School Fees</ToggleButton>
-            <ToggleButton value="Internal">Internal Fees</ToggleButton>
-          </ToggleButtonGroup>
-          <br></br>
-          <br></br>
-         {
-          showCaution === 'School' && 
-         
-      <Grid container>
-        <Grid item xs={7.5}>
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'red' }}
-            />
-            <CardDetail7>Bounced Cheque Transaction</CardDetail7>
-          </DotLegend1>
-        </Grid>
-
-        <Grid item xs={4.5}>
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              sx={{ background: '#64b5f6' }}
-            />
-
-            <CardDetail7>Refunded Fees</CardDetail7>
-          </DotLegend1>
-        </Grid>
-      </Grid>}
-   
+        value={showCaution}
+        exclusive
+        onChange={handleChange}>
+        <ToggleButton value="School">School Fees</ToggleButton>
+        <ToggleButton value="Internal">Internal Fees</ToggleButton>
+      </ToggleButtonGroup>
       <br></br>
-       <ListStyle sx={{ mb: 2 }} color="info">
+      <br></br>
+      {
+        showCaution === 'School' &&
+
+        <Grid container>
+          <Grid item xs={7.5}>
+            <DotLegend1>
+              <DotLegendStyled1
+                className={classes.border}
+                style={{ background: 'red' }}
+              />
+              <CardDetail7>Bounced Cheque Transaction</CardDetail7>
+            </DotLegend1>
+          </Grid>
+
+          <Grid item xs={4.5}>
+            <DotLegend1>
+              <DotLegendStyled1
+                className={classes.border}
+                sx={{ background: '#64b5f6' }}
+              />
+
+              <CardDetail7>Refunded Fees</CardDetail7>
+            </DotLegend1>
+          </Grid>
+        </Grid>}
+
+      <br></br>
+      <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {FeesList2.TotalFee}
         </CardDetail1>
       </ListStyle>
-     <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
-     {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />} 
-     <PayCautionMoney ShowCaution={showCaution}  IspaidCautionMoney={ispaidCautionMoney} note={note}/>   
-     </Container>
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
+      {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
+      <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
+      <NoteStyle >
+      <b>Note :</b>
+      {FeesList2.PaymentNotes?.map((note, i) => {
+        return <>    
+            <CardDetail2 key={i}>
+            <b>{note.SrNo}:</b> {note.Note}
+            </CardDetail2> 
+        </>
+      })}
+       </NoteStyle>
+       {asSchoolId == "11" && <>
+       <SpecialNote />
+       </>
+       }
+    </Container>
   );
 }
 
