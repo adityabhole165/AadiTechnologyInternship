@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, IconButton } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -31,6 +31,9 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
 
     const GetHomeworkDates = useSelector(
         (state: RootState) => state.HomeworkNew.GetHomeworkDates
+    );
+    const ButtonState = useSelector(
+        (state: RootState) => state.HomeworkNew.ButtonState
     );
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -112,15 +115,17 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
                 <ErrorDetail>{errDates}</ErrorDetail>
                 <Grid container spacing={1} alignItems={"center"}>
                     <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
+                        {/* <IconButton disabled={!ButtonState?.AllowPrevious}> */}
+                            <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
+                        {/* </IconButton> */}
                     </Grid>
                     <Grid item xs={8}>
                         <HomeworkCard ItemList={itemList} clickItem={clickItem} />
                     </Grid>
                     <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <ListStyle>
-                            <ArrowRight onClick={() => arrowClick(1)} />
-                        </ListStyle>
+                        {/* <IconButton disabled={!ButtonState?.AllowNext}> */}
+                            <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
+                        {/* </IconButton> */}
                     </Grid>
                 </Grid>
             </Container>

@@ -204,7 +204,7 @@ export const getTrashList =
   (data :IGetReadReceiptDetailsBody): AppThunk =>
   async (dispatch) => {
     const response = await MessageCenterApi.GetReadReceiptDetails(data);
-    dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response));
+    dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response.data));
   };
 
  
