@@ -45,7 +45,6 @@ function TransportCommittee() {
     dispatch(getTransportCommittee(body));
   }, []);
 
-
   return (
     <Container>
       <PageHeader heading={'Transport Committee'} subheading={''} />
@@ -56,10 +55,10 @@ function TransportCommittee() {
       </Grid>
       <br />
 
+      {(ParentCommitteeList  !== undefined && TeacherCommitteeList!== undefined ) &&
+        < AccordionTrc Parent={ParentCommitteeList} Teacher={TeacherCommitteeList} headingg={data3} />
+      }
 
-      <AccordionTrc Parent={ParentCommitteeList} Teacher={TeacherCommitteeList} headingg={data3} />
-
-     
     </Container>
   )
 }
