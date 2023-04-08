@@ -12,8 +12,8 @@ const SliceTransportcommittee = createSlice({
     },
     reducers: {
         getTransportCommittee(state, action) {
-            state.TeacherCommittee=action.payload.GetTransportCommittee.TeachersCommittee;
-            state.TeacherCommittee=action.payload.GetTransportCommittee.ParentCommittee;
+            state.TeacherCommittee=action.payload.GetTransportCommittee?.TeachersCommittee;
+            state.ParentCommittee=action.payload.GetTransportCommittee?.ParentCommittee;
             state.Loading = false;
         },
         
