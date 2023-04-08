@@ -11,7 +11,7 @@ import {
 } from 'src/requests/Homework/Homework';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container, styled ,Grid , Card} from '@mui/material';
+import { Container, styled, Grid, Card } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -28,7 +28,7 @@ import ArrowRight from '@mui/icons-material/ArrowRight';
 import SelectedDateCalendar from 'src/libraries/DateSelector/SelectedDateCalendar';
 function Homework() {
   const dispatch = useDispatch();
-  const {DateFromHomework } = useParams();
+  const { DateFromHomework } = useParams();
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedDate, setAssignedDate] = useState<string>();
   const [calanderSelected, setcalanderSelected] = useState(false);
@@ -68,7 +68,7 @@ function Homework() {
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Year = new Date(date).getFullYear();
     const NewDateFormat = `${Day} ${Month} ${Year}`;
-   
+
     setDate({
       selectedDate: NewDateFormat
     });
@@ -77,7 +77,7 @@ function Homework() {
   };
 
   const getCurrentDate = (newDate?: Date) => {
-    setAssignedDate(getDateFormatted(newDate).replace("-"," ").replace("-"," "));
+    setAssignedDate(getDateFormatted(newDate).replace("-", " ").replace("-", " "));
     setcalanderSelected(false);
   };
 
@@ -93,11 +93,11 @@ function Homework() {
   }, [assignedDate, CalanderDate]);
 
   useEffect(() => {
-    if(DateFromHomework != undefined){
+    if (DateFromHomework != undefined) {
       setAssignedDate(DateFromHomework);
     }
   }, [DateFromHomework]);
-  
+
 
 
   const getNextDate = (dayMultiple) => {
@@ -120,59 +120,64 @@ function Homework() {
     setCalanderDate(NewDateFormat);
     setcalanderSelected(true);
   }
-  const [itemList, setItemList] = useState([{ Id: "1", Name: "2 Feb", Value: "2 feb", IsActive: true },
-  { Id: "2", Name: "3 Feb", Value: "3 feb", IsActive: false },
-  { Id: "3", Name: "4 Feb", Value: "4 feb", IsActive: false },
-  { Id: "4", Name: "5 Feb", Value: "5 feb", IsActive: false },
-  { Id: "5", Name: "6 Feb", Value: "6 feb", IsActive: false },
-  { Id: "6", Name: "7 Feb", Value: "15 feb", IsActive: false },
-]);
-  
-  const clickItem = (value) => {
-    setItemList(value);
-  }
-  const [index, setIndex] = useState(0);
-  const arrowClick = (value) => {
-    const maxlength = itemList.length -1;
-    const min = 0;
-    if (value === -1 && index === 0) {
-      setIndex(maxlength)
-    }else
-    if (value === 1 && index === maxlength) {
-      setIndex(min)
-    }
-    else {
-      setIndex(index + value)
-      
-    }
+  //   const [itemList, setItemList] = useState([{ Id: "1", Name: "2 Feb", Value: "2 feb", IsActive: true },
+  //   { Id: "2", Name: "3 Feb", Value: "3 feb", IsActive: false },
+  //   { Id: "3", Name: "4 Feb", Value: "4 feb", IsActive: false },
+  //   { Id: "4", Name: "5 Feb", Value: "5 feb", IsActive: false },
+  //   { Id: "5", Name: "6 Feb", Value: "6 feb", IsActive: false },
+  //   { Id: "6", Name: "7 Feb", Value: "15 feb", IsActive: false },
+  // ]);
 
-  }
+  // const clickItem = (value) => {
+  //   setItemList(value);
+  // }
+  // const [index, setIndex] = useState(0);
+  // const arrowClick = (value) => {
+  //   const maxlength = itemList.length -1;
+  //   const min = 0;
+  //   if (value === -1 && index === 0) {
+  //     setIndex(maxlength)
+  //   }else
+  //   if (value === 1 && index === maxlength) {
+  //     setIndex(min)
+  //   }
+  //   else {
+  //     setIndex(index + value)
+
+  //   }
+
+  // }
   const classes = Styles();
   return (
     <>
       <Container>
         <PageHeader heading={'Homework'} subheading={''} />
         <div>
-        <DotLegend1>
+          <DotLegend1>
             <DotLegendStyled1
               className={classes.border}
               style={{ background: '#8896FF' }}
             />
-                   
+
 
             <CardDetail7>Completed By Date</CardDetail7>
           </DotLegend1>
-        
+
         </div>{' '}
         <br />
-        <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
+       
+
+
+         <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
 
         {loading ? (
           <SuspenseLoader />
         ) : HomeworkSubjectList.length === 0 ? (
           <ErrorMessages Error={'Homework is not available'} />
         ) : (
+
           <Card30 header={HomeworkSubjectList} />
+
         )}
 
       </Container>
