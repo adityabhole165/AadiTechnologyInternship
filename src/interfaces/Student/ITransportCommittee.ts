@@ -1,7 +1,7 @@
 export interface IGetTransportCommitteeDetailsBody{
-    asUserId: string,
-    asSchoolId: string,
-    asAcademicYearId: string,
+    aiUserId: string,
+    aiSchoolId: string,
+    aiAcademicYearId: string,
 };
 
 export interface IGetTransportCommitteeDetailsResult{

@@ -36,9 +36,9 @@ function TransportCommittee() {
   };
 
   const body: IGetTransportCommitteeDetailsBody = {
-    "asUserId": asUserId,
-    "asAcademicYearId": asAcademicYearId,
-    "asSchoolId": asSchoolId
+    "aiUserId": asUserId,
+    "aiAcademicYearId": asAcademicYearId,
+    "aiSchoolId": asSchoolId
   };
 
   useEffect(() => {
