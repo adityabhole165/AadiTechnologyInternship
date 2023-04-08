@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography } from '@mui/material'
+import { Box, Card, Grid, Typography,Stack } from '@mui/material'
 import React, { useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
@@ -158,25 +158,30 @@ const ClickSubmit =()=>{
             <Container>
                 <Card sx={{py:1}}>
                 <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
-                <Grid container >
-                <Grid xs={0.5}/>
-                   <Grid xs={11.5}>
-                   <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '2px solid grey'}}> 
+             
+                <Stack
+                 direction="row"
+                 justifyContent="center"
+                 alignItems="center"
+                 m={1}
+                      >
+               <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '2px solid grey'}} alignItems={"center"}> 
                 <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
-                </Box>
-                    </Grid> 
-                </Grid>
+                </Box>   
+               </Stack> 
+               
+                
                
                 {itemlist.length > 0 &&
                     <>
                         <Grid container xs={12} flexDirection='row'sx={{mt:"8px"}}>
-                            <Grid xs={10} />
-                            <Grid xs={2}>
-                                <Typography sx={{ textAlign: 'center', border: '1px solid grey' }}><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography>
+                            <Grid xs={9} />
+                            <Grid xs={3} pr={1}>
+                                <Typography sx={{ textAlign: 'center', border: '1px solid grey' }} ><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography>
                             </Grid>
                         </Grid>
                         <Grid container xs={12}>
-                            <Typography> {itemlist[currentIndex].Parent.Name}</Typography>
+                            <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
                         </Grid>
                         <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
                     </>
