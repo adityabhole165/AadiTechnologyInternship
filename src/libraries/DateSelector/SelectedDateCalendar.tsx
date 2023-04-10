@@ -43,6 +43,7 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
 
 
     useEffect(() => {
+        console.log("GetHomeworkDates",GetHomeworkDates)
         if (GetHomeworkDates.length > 0) {
 
             setItemList(GetHomeworkDates.map((item, index) => {
@@ -53,6 +54,7 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
             setCurrentDate(GetHomeworkDates[0].Value)
             setErrDates('')
         } else {
+            setCurrentDate('')
             if (prevNext === -1)
                 setErrDates('Homework not available for previous date')
             else if (prevNext === 1)
@@ -112,22 +114,24 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
     return (
         <div>
             <Container>
-                <ErrorDetail>{errDates}</ErrorDetail>
-                <Grid container spacing={1} alignItems={"center"}>
-                    <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <IconButton disabled={!ButtonState?.AllowPrevious}>
-                            <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <HomeworkCard ItemList={itemList} clickItem={clickItem} />
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <IconButton disabled={!ButtonState?.AllowNext}>
-                            <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
-                        </IconButton>
-                    </Grid>
-                </Grid>
+                {errDates !== '' ?
+                    (<ErrorDetail>{errDates}</ErrorDetail>) :
+                    (<Grid container spacing={1} alignItems={"center"}>
+                        <Grid item xs={2} sx={{ textAlign: "center" }}>
+                            <IconButton disabled={!ButtonState?.AllowPrevious}>
+                                <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <HomeworkCard ItemList={itemList} clickItem={clickItem} />
+                        </Grid>
+                        <Grid item xs={2} sx={{ textAlign: "center" }}>
+                            <IconButton disabled={!ButtonState?.AllowNext}>
+                                <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
+                            </IconButton>
+                        </Grid>
+                    </Grid>)
+                }
             </Container>
         </div>
     )
