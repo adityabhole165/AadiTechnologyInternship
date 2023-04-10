@@ -38,6 +38,7 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               RequestReadReceipt={Item.RequestReadReceipt}
               IsAttachmentExist={Item.IsAttachmentExist}
               clickCard={() => { clickCard(Item.NavPath) }}
+              DetailsId={Item.DetailsId}
             />
           </Grid>
         </Grid>

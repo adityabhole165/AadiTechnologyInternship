@@ -10,20 +10,41 @@ import EmailIcon from '@mui/icons-material/Email';
 import DraftsIcon from '@mui/icons-material/Drafts';
 import { useNavigate } from 'react-router-dom';
 import Card15 from './Card15';
-function Card4({ header, text1, text2, text3, text5,
+import { RootState } from 'src/store';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import { ReadReceiptDetail} from 'src/requests/MessageCenter/MessaageCenter';
+
+function Card4({ header, text1, text2, text3, text5,DetailsId= undefined,
   text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined,
   IsSchedule = false, IsAttachmentExist = undefined, HasReadReceipt = undefined,
   RequestReadReceipt = undefined, NavPath = undefined }) {
+  const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Common/', '');
   const pageName1 = pathname.replace('/extended-sidebar/', '');
   const pageNameStudent = pathname.replace('/extended-sidebar/Student/', '');
+
+  const SchoolId = localStorage.getItem('localSchoolId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const [popup, setPopup] = useState(false);
+  
+  const ReadReceipt = useSelector(
+    (state: RootState) => state.MessageCenter.ReadReceiptDetails
+    );
+    console.log("ReadReceipt",ReadReceipt);
+    
+const ReadReceipts ={
+  aiSchoolId:SchoolId,
+  aiAcademicYearId:AcademicYearId,
+  aiMessageDetailId:DetailsId
+}
   let clickParent = true;
   const handleClickToOpen = (e) => {
     e.stopPropagation();
     setPopup(true);
+    dispatch(ReadReceiptDetail(ReadReceipts))
     clickParent = false
   };
   const navigate = useNavigate();
