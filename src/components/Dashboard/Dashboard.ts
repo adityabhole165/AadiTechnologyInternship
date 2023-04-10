@@ -162,7 +162,7 @@ const DashboardData = {
       Icon: MenuBookIcon,
       Link: 'Student/Homework',
       index: 9,
-      ModulesPermission: 'EnableHomeworkModule'
+      // ModulesPermission: 'EnableHomeworkModule'
     },
     
     
