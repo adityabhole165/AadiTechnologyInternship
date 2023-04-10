@@ -95,22 +95,7 @@ const MessageList = () => {
   const DeletePermanently = useSelector(
     (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
   );
-const ReadReceipt = useSelector(
-    (state: RootState) => state.MessageCenter.ReadReceiptDetails
-    );
-    console.log("ReadReceipt",ReadReceipt);
-    
-    // let DetailsId = [];
-    // inboxListData.map((obj) => {
-    //   if (obj.isActive) {
-    //     DetailsId.push(obj.DetailsId);
-    //   }
-    // });
-const ReadReceipts ={
-  aiSchoolId:SchoolId,
-  aiAcademicYearId:academicYear,
-  aiMessageDetailId:"103153"
-}
+
   const getListBody: IgetList = {
     asSchoolId: SchoolId,
     asAcademicYearId: academicYear,
