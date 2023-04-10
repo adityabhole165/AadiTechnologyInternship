@@ -15,15 +15,8 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
     const dispatch = useDispatch();
     const [startDate, setStartdate] = useState("");
     const [endDate, setEnddate] = useState("");
-    // const [itemList, setItemList] = useState([]);
     const [itemList, setItemList] = useState([]);
-    // useState([{ Id: "1", Name: "20 Oct", Value: "20 Oct 2022", IsActive: true },
-    // { Id: "2", Name: "21 Oct", Value: "21 Oct 2022", IsActive: false },
-    // { Id: "3", Name: "22 Oct", Value: "22 Oct 2022", IsActive: false },
-    // { Id: "4", Name: "5 Feb", Value: "5 feb", IsActive: false },
-    // { Id: "5", Name: "6 Feb", Value: "6 feb", IsActive: false },
-    // { Id: "6", Name: "7 Feb", Value: "15 feb", IsActive: false },
-    // ]);
+    
 
     const GetHomeworkDetails = useSelector(
         (state: RootState) => state.HomeworkNew.GetHomeworkDetails
@@ -43,7 +36,6 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
 
 
     useEffect(() => {
-        console.log("GetHomeworkDates",GetHomeworkDates)
         if (GetHomeworkDates.length > 0) {
 
             setItemList(GetHomeworkDates.map((item, index) => {
