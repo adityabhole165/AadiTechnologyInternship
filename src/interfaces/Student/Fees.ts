@@ -1,74 +1,136 @@
 export default interface IFees {
-    
-        "asSchoolId":string,
+
+        "asSchoolId": string,
         "asStudentId": string
-    
+
 }
 
 export interface GetFeeDetailsResult {
-                AccountHeaderId: string;
-                Amount: string;
-                AmountPayable:string;
-                DebitStudentFeeId: string;
-                DueDate: string;
-                DueDateFormat: string;
-                DueDateString: string;
-                FeeId: string;
-                FeeType: string;
-                FeesPaid: string;
-                IsArrears: string;
-                IsChequeBounce: string;
-                IsPartialPayment: string;
-                LateFeeAmount: string;
-                OriginalFeeType: string;
-                PayableFor: string;
-                PaymentGroup: string;
-                ReceiptNo: string;
-                RefundDetailsID: string;
-                RowNumber: string;
-                SerialNo: string;
-                ShowOptionButtonForAllEntry: string;
-                StudentFeeId: string;
-                FeesTobePaid: string;
-                FullConcessionAmt: string;
-                IsCautionMoneyPaid: string;
-                IsRTEstudent: string;
-                PercentageConcession: string;
-                RefundAmount: string;
-                TPSLTransactionID: string;
-                TotalFee: string;
-                TotalFeesPaid: string;
-                TotalLateFee: string;
+        AccountHeaderId: string;
+        Amount: string;
+        AmountPayable: string;
+        DebitStudentFeeId: string;
+        DueDate: string;
+        DueDateFormat: string;
+        DueDateString: string;
+        FeeId: string;
+        FeeType: string;
+        FeesPaid: string;
+        IsArrears: string;
+        IsChequeBounce: string;
+        IsPartialPayment: string;
+        LateFeeAmount: string;
+        OriginalFeeType: string;
+        PayableFor: string;
+        PaymentGroup: string;
+        ReceiptNo: string;
+        RefundDetailsID: string;
+        RowNumber: string;
+        SerialNo: string;
+        ShowOptionButtonForAllEntry: string;
+        StudentFeeId: string;
+        FeesTobePaid: string;
+        FullConcessionAmt: string;
+        IsCautionMoneyPaid: string;
+        IsRTEstudent: string;
+        PercentageConcession: string;
+        RefundAmount: string;
+        TPSLTransactionID: string;
+        TotalFee: string;
+        TotalFeesPaid: string;
+        TotalLateFee: string;
 }
 
 export interface IPayOnline {
         asSchoolId: string,
-        asUserLogin:string,
-        asQueryString:string,
+        asUserLogin: string,
+        asQueryString: string,
         asSchoolSiteUrl: string,
         asRedirectPageUrl: string
 };
 
 export interface IGetReceiptFileName {
         asSchoolId: string,
-        asReceiptNo:string,
-        asAcademicYearId:string,
+        asReceiptNo: string,
+        asAcademicYearId: string,
         asAccountHeaderId: string,
         asIsRefundFee: string,
-        asStudentId:string,
-        asSerialNo:string,
-        asLoginUserId:string
+        asStudentId: string,
+        asSerialNo: string,
+        asLoginUserId: string
 };
 
 export interface GetAllAcademicYearsApiBody {
-         aiSchoolId: string,
+        aiSchoolId: string,
         aiYearwiseStudentId: string,
-        };
-        
-        export interface GetAllAcademicYears {
-                GetAllAcademicYears:[{
+};
+
+export interface GetAllAcademicYears {
+        GetAllAcademicYears: [{
                 AcademicYear: string,
                 Academic_Year_Id: string,
-        
+
         }]
 };
+
+
+//GetFeeDetailsOfOldAcademic
+
+export interface IGetFeeDetailsOfOldAcademicBody {
+        aiSchoolId: string,
+        aiStudentId: string,
+        aiAcademicYearId: string
+
+};
+
+export interface IGetFeeDetailsOfOldAcademicResult {
+
+
+        FeeDetails: [FeeDetails],
+        TotalFeesPaid: string,
+        FeesTobePaid: string,
+        TotalLateFee: string,
+        TotalFee: string,
+        ConcessionAmount: null,
+        RefundAmount: string,
+        ConcessionRule: string,
+        IsRTEstudent: boolean,
+        FullConcessionAmt: string,
+        PercentageConcession: number,
+        AllowCautionMoneyOnlinePayment: boolean,
+        IsCautionMoneyPaid: boolean,
+        TPSLTransactionID: string,
+        PaymentNotes: [PaymentNotes]
+}
+
+export interface FeeDetails {
+        PayableFor: string,
+        FeeType: string,
+        Amount: string,
+        FeesPaid: string,
+        LateFeeAmount: string,
+        AmountPayable: string,
+        IsPartialPayment: string,
+        DebitStudentFeeId: string,
+        IsChequeBounce: string,
+        IsArrears: boolean,
+        RefundDetailsID: string,
+        FeeId: string,
+        StudentFeeId: string,
+        OriginalFeeType: string,
+        PaymentGroup: number,
+        RowNumber: number,
+        DueDate: string,
+        DueDateString: string,
+        ShowOptionButtonForAllEntry: boolean,
+        DueDateFormat: string,
+        ReceiptNo: string,
+        SerialNo: number,
+        AccountHeaderId: number
+
+}
+export interface PaymentNotes {
+        SrNo: number,
+        Note: string,
+        Title: string
+}
