@@ -12,7 +12,7 @@ const ButtonHomework = ({Item,ClickItem}) => {
     
     <div>
     
-        <ListStyle sx={{color:Item.IsActive  ? "red" : "black"}} textAlign={"center"} 
+        <ListStyle sx={{color:Item.IsActive  ? "black" : "black", background:Item.IsActive ?  "#ffffff" : "#90CAF9"}} textAlign={"center"} 
         onClick={onClick}  >
             {Item.Name}
             </ListStyle>

@@ -156,7 +156,7 @@ function Homework() {
           <DotLegend1>
             <DotLegendStyled1
               className={classes.border}
-              style={{ background: '#8896FF' }}
+              style={{ background: 'pink' }}
             />
 
 
