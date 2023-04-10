@@ -55,9 +55,9 @@ function TransportCommittee() {
       </Grid>
       <br />
 
-      {/* {(ParentCommitteeList  !== undefined && TeacherCommitteeList!== undefined ) && */}
+      {(ParentCommitteeList  !== undefined && TeacherCommitteeList!== undefined ) &&
         < AccordionTrc Parent={ParentCommitteeList} Teacher={TeacherCommitteeList} headingg={data3} />
-      {/* } */}
+      }
 
     </Container>
   )
