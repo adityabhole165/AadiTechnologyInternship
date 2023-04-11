@@ -267,7 +267,7 @@ const DashboardData = {
     },
     {
       Text1: 'O-Exam',
-      Text2: 'Schedule',
+      Text2: '',
       Color: '#81c784',
       iconColor: '#35abd9',
       ImageUrl: "/imges/OExamSchedule.png",
