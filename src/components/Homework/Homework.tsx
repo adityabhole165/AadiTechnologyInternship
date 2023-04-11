@@ -88,7 +88,7 @@ function Homework() {
   }, []);
 
   useEffect(() => {
-    if (homeworkSubject_Body.asDate != "undefined")
+    if (homeworkSubject_Body.asDate != undefined && homeworkSubject_Body.asDate !== '')
       dispatch(getHomeworkSubject(homeworkSubject_Body));
   }, [assignedDate, CalanderDate]);
 

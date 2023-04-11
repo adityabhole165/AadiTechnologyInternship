@@ -39,7 +39,7 @@ function Form13() {
   );
 
   const dispatch = useDispatch();
-  
+
   const theme = useTheme();
   const location = useLocation();
   const pathname = location.pathname;
@@ -66,7 +66,7 @@ function Form13() {
     RecipientName: [],
     RecipientId: [],
     ClassId: [],
-    ContactGroup:[]
+    ContactGroup: []
   });
 
   const [RecipientsCCObject, setRecipientsCCObject] = useState<any>({
@@ -166,10 +166,10 @@ function Form13() {
   const contactgrpuserBody = {
     asScholId: localschoolId,
     asAcademicYearId: AcademicYearId,
-    asGroupId:RecipientsObject.ContactGroup.toString(),
+    asGroupId: RecipientsObject.ContactGroup.toString(),
     aiIsForUser: "0"
   }
-  
+
   useEffect(() => {
     dispatch(ContactGroupUsers(contactgrpuserBody))
   }, [RecipientsObject.ContactGroup]);
@@ -266,8 +266,8 @@ function Form13() {
         SchoolId: localschoolId,
         InsertedById: UserId,
         Attachment: '',
-        ScheduleDateTime: requestSchedule? scheduleDate + ' ' + strTime : '',
-        RequestReadReceipt:  requestReadReceipt ? "1" : "0"
+        ScheduleDateTime: requestSchedule ? scheduleDate + ' ' + strTime : '',
+        RequestReadReceipt: requestReadReceipt ? "1" : "0"
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
@@ -283,7 +283,7 @@ function Form13() {
       asIsSoftwareCordinatorCc: "",
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
-    
+
     MessageCenterApi.SendMessage(sendMessageAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
@@ -440,7 +440,9 @@ function Form13() {
 
   const clickTime = (value) => {
     const time = formatAMPM(value)
-    checkScheduleValidation(scheduleDate + " " + time)
+    if (scheduleDate !== '') {
+      checkScheduleValidation(scheduleDate + " " + time)
+    }
     setValue(value)
   }
 
@@ -449,7 +451,9 @@ function Form13() {
     if (scheduleDate !== "") {
       setRequestScheduleMsg('')
     }
+    if (scheduleDate !== '') {
     checkScheduleValidation(e.target.value + " " + strTime)
+    }
     setscheduleDate(e.target.value);
 
   };

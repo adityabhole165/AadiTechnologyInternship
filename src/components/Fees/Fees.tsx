@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFees, getYearList } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody } from 'src/interfaces/Student/Fees';
+import IFees, { GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
@@ -13,15 +13,11 @@ import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { NoteStyle } from 'src/libraries/styled/NoteStyle'
-import {
-  CardDetail1,
-  CardDetail7,
-  CardDetail8,
-  ListStyle
-} from 'src/libraries/styled/CardStyle';
+import {CardDetail1,CardDetail7,CardDetail8,ListStyle} from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
+import {getFeesDetailsOfOldAcademic} from 'src/requests/Fees/Fees'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
@@ -43,6 +39,10 @@ function Fees() {
     (state: RootState) => state.Fees.YearList
   );
 
+   const FeesDetailsOfOldAcademic: any = useSelector(
+    (state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic
+   );
+   console.log("s",FeesDetailsOfOldAcademic)
   const Feedata = {
     Fee1: 'Fee Type',
     Fee2: 'Amount + Late Fees : ',
@@ -58,6 +58,7 @@ function Fees() {
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const body1: GetAllAcademicYearsApiBody = {
     aiSchoolId: asSchoolId,
     aiYearwiseStudentId: asStudentId
@@ -68,12 +69,22 @@ function Fees() {
     asStudentId: asStudentId
   };
 
+  const IGetFeeDetailsOfOldAcademicBody ={
+    aiSchoolId: asSchoolId,
+    aiStudentId: asStudentId,
+    aiAcademicYearId: asAcademicYearId
+  }
+
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
   useEffect(() => {
     dispatch(getYearList(body1));
+  }, []);
+
+  useEffect(() => {
+    dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
   }, []);
 
   const clickYear = (value) => {

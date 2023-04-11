@@ -15,15 +15,8 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
     const dispatch = useDispatch();
     const [startDate, setStartdate] = useState("");
     const [endDate, setEnddate] = useState("");
-    // const [itemList, setItemList] = useState([]);
     const [itemList, setItemList] = useState([]);
-    // useState([{ Id: "1", Name: "20 Oct", Value: "20 Oct 2022", IsActive: true },
-    // { Id: "2", Name: "21 Oct", Value: "21 Oct 2022", IsActive: false },
-    // { Id: "3", Name: "22 Oct", Value: "22 Oct 2022", IsActive: false },
-    // { Id: "4", Name: "5 Feb", Value: "5 feb", IsActive: false },
-    // { Id: "5", Name: "6 Feb", Value: "6 feb", IsActive: false },
-    // { Id: "6", Name: "7 Feb", Value: "15 feb", IsActive: false },
-    // ]);
+    
 
     const GetHomeworkDetails = useSelector(
         (state: RootState) => state.HomeworkNew.GetHomeworkDetails
@@ -53,6 +46,7 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
             setCurrentDate(GetHomeworkDates[0].Value)
             setErrDates('')
         } else {
+            setCurrentDate('')
             if (prevNext === -1)
                 setErrDates('Homework not available for previous date')
             else if (prevNext === 1)
@@ -112,22 +106,24 @@ const SelectedDateCalendar = ({ DefaultDate, setCurrentDate }) => {
     return (
         <div>
             <Container>
-                <ErrorDetail>{errDates}</ErrorDetail>
-                <Grid container spacing={1} alignItems={"center"}>
-                    <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <IconButton disabled={!ButtonState?.AllowPrevious}>
-                            <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
-                        </IconButton>
-                    </Grid>
-                    <Grid item xs={8}>
-                        <HomeworkCard ItemList={itemList} clickItem={clickItem} />
-                    </Grid>
-                    <Grid item xs={2} sx={{ textAlign: "center" }}>
-                        <IconButton disabled={!ButtonState?.AllowNext}>
-                            <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
-                        </IconButton>
-                    </Grid>
-                </Grid>
+                {errDates !== '' ?
+                    (<ErrorDetail>{errDates}</ErrorDetail>) :
+                    (<Grid container spacing={1} alignItems={"center"}>
+                        <Grid item xs={2} sx={{ textAlign: "center" }}>
+                            <IconButton disabled={!ButtonState?.AllowPrevious}>
+                                <ListStyle><ArrowLeft onClick={() => arrowClick(-1)} /></ListStyle>
+                            </IconButton>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <HomeworkCard ItemList={itemList} clickItem={clickItem} />
+                        </Grid>
+                        <Grid item xs={2} sx={{ textAlign: "center" }}>
+                            <IconButton disabled={!ButtonState?.AllowNext}>
+                                <ListStyle><ArrowRight onClick={() => arrowClick(1)} /></ListStyle>
+                            </IconButton>
+                        </Grid>
+                    </Grid>)
+                }
             </Container>
         </div>
     )
