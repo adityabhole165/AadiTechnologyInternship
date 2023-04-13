@@ -88,6 +88,7 @@ function Homework() {
   }, []);
 
   useEffect(() => {
+    
     if (homeworkSubject_Body.asDate != undefined && homeworkSubject_Body.asDate !== '')
       dispatch(getHomeworkSubject(homeworkSubject_Body));
   }, [assignedDate, CalanderDate]);
@@ -165,11 +166,11 @@ function Homework() {
 
         </div>{' '}
         <br />
-       
 
 
-         <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
-
+        {homeworkSubject_Body.asDate === undefined &&
+          <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
+        }
         {loading ? (
           <SuspenseLoader />
         ) : HomeworkSubjectList.length === 0 ? (
