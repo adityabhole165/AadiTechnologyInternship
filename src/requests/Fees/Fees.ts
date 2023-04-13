@@ -88,7 +88,7 @@ export const getFees =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.GetFeeDetailsOfOldAcademic(data);
-      dispatch(Feesslice.actions.getFeesDetailsOfOldAcademic(response.data));
+      dispatch(Feesslice.actions.getFees(response.data));
    
     };
 
