@@ -187,7 +187,7 @@ const ClickSubmit =()=>{
                         <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
                     </>
                 }
-                {currentIndex == maxIndex && <Box sx={{ mt: '-20px' }}><Attachments /></Box>}
+                {currentIndex == maxIndex && <Box sx={{ mt: '-20px', mr:"7px" }}><Attachments /></Box>}
                 <Grid container spacing={1} sx={{ mt: '-10px' }} p={1}>
                     <Grid item xs={6}>
                         <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
