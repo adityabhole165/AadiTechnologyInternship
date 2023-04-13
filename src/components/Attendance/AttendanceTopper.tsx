@@ -74,10 +74,6 @@ function AttendanceTopper() {
     setAcademicYear(value);
   };
 
-  
-   
-
-
   return (
     <div>
       <Container>
@@ -97,7 +93,7 @@ function AttendanceTopper() {
        </Box>
         <Box >
         {(
-          GetStudentAttendance !== undefined &&
+          GetStudentAttendance.StudentName !== undefined &&
           GetStudentAttendance.length > 0) && 
           <Card35 header={{ Header: GetStudentAttendance }} />}
         </Box>
