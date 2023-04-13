@@ -31,10 +31,14 @@ function Fees() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
+  console.log("FeesList2",FeesList2);
+  console.log("FeesList",FeesList);
+  
+  
   const AcadamicYear: any = useSelector(
     (state: RootState) => state.Fees.YearList
   );
@@ -72,20 +76,22 @@ function Fees() {
   const IGetFeeDetailsOfOldAcademicBody ={
     aiSchoolId: asSchoolId,
     aiStudentId: asStudentId,
-    aiAcademicYearId: asAcademicYearId
+    aiAcademicYearId: currentYear
   }
 
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
-    dispatch(getFees(body));
   }, []);
   useEffect(() => {
     dispatch(getYearList(body1));
   }, []);
 
   useEffect(() => {
+    if(currentYear === sessionStorage.getItem("AcademicYearId")){
+      dispatch(getFees(body));
+    }else 
     dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
-  }, []);
+  }, [currentYear]);
 
   const clickYear = (value) => {
     setCurrentyear(value);
@@ -163,6 +169,7 @@ function Fees() {
       <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
+      {/* {FeesList2.PaymentNotes !== 0 &&  */}
       <NoteStyle >
       <b>Note :</b>
       {FeesList2.PaymentNotes?.map((note, i) => {
@@ -173,6 +180,7 @@ function Fees() {
         </>
       })}
        </NoteStyle>
+       {/* } */}
        {asSchoolId == "11" && <>
        <SpecialNote />
        </>
