@@ -19,6 +19,7 @@ import List6 from 'src/libraries/list/List6';
 import Card4 from 'src/libraries/mainCard/Card4';
 import Card1 from 'src/libraries/mainCard/Card1';
 import { Link as RouterLink } from 'react-router-dom';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 const onlineExam = () => {
   const dispatch = useDispatch();
@@ -67,11 +68,11 @@ const onlineExam = () => {
       dispatch(GetOnlineExamSubjectList(SubjectList_body));
     }
   }, [examid]);
-
   return (
     <Container>
       <PageHeader heading={'Online Exam Schedule'} subheading={''} />
-    
+    {OnlineExamList.length === 0 ? 
+    <ErrorMessages Error={'No exam has been scheduled'} /> :
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
         >
@@ -92,7 +93,7 @@ const onlineExam = () => {
             </NativeSelect>
           }
         </FormControl>
-     
+}
       {SubjectList?.map((subjectList: GetAllSubjectsForExamdata, i) => {
         return (
           <>
