@@ -96,9 +96,10 @@ export const getDateMonthFormatted = (date) => {
 }
 
 export const getDateMonthYearFormatted = (date) => {
-    let arrDate = date.split('-')
+    let arrDate = date.split(' ')[0].split('-')
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
   "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
     return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]} ${arrDate[2]}`;
 }
 
