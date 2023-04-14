@@ -40,7 +40,7 @@ export const getHomeworkDetails =
     (data: IGetDatewiseHomeworkDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(SliceHomework.actions.getLoading(true));
-            const response = await ApiHomework.GetHomeworkList(data)
+            const response = await ApiHomework.GetDatewiseHomeworkDetails(data)
             //     let HomeworkList = response.data.HomeworkDetails.map((item, index) => {
             //         return {
             //             Id: item.Id,
@@ -58,7 +58,7 @@ export const getHomeworkDates =
     (data: IGetDatewiseHomeworkDetailsBody): AppThunk =>
         async (dispatch) => {
             dispatch(SliceHomework.actions.getLoading(true));
-            const response = await ApiHomework.GetHomeworkList(data)
+            const response = await ApiHomework.GetDatewiseHomeworkDetails(data)
             let HomeworkList = response.data.HomeworkDates?.map((item, index) => {
                 let arrDate = item.split('-')
                 return {
