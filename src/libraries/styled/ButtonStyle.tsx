@@ -7,7 +7,7 @@ font-size: 12px;
 font-family: 'Roboto';
 text-decoration: none;
 height:30px;
-@media (max-width: 280px) {
+@media (max-width: 230px) {
   font-size: 10px;
 };
 

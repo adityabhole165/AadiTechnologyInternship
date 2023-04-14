@@ -165,7 +165,7 @@ const ClickSubmit =()=>{
                  alignItems="center"
                  m={1}
                       >
-               <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '2px solid grey'}} alignItems={"center"}> 
+               <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '1px solid grey'}} alignItems={"center"}> 
                 <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
                 </Box>   
                </Stack> 
@@ -184,18 +184,23 @@ const ClickSubmit =()=>{
                         <Grid container xs={12}>
                             <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
                         </Grid>
+                       
                         <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
+                      
                     </>
                 }
-                {currentIndex == maxIndex && <Box sx={{ mt: '-20px', mr:"7px" }}><Attachments /></Box>}
+                {currentIndex == maxIndex && <Box sx={{ mt: '-20px', mr:"15px", ml:"5px" }}><Attachments /></Box>}
                 <Grid container spacing={1} sx={{ mt: '-10px' }} p={1}>
                     <Grid item xs={6}>
+                        <Container>
                         <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
                             Previous
                         </ButtonPrimary>
+                        </Container>
                     </Grid>
 
                     <Grid item xs={6} >
+                    <Container>
                         {currentIndex == maxIndex ?
                             <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
                                 Submit
@@ -204,7 +209,8 @@ const ClickSubmit =()=>{
                             <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
                                 Next
                             </ButtonPrimary>
-                        }
+                            
+                        }</Container>
                     </Grid>
                 </Grid>
                 </Card>
