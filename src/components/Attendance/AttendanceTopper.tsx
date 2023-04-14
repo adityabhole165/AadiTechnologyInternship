@@ -9,6 +9,7 @@ import { IGetAcademicYearsForOldAttendanceBody, IGetAttendanceToppersBody } from
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DropdownAllSelect from 'src/libraries/dropdown/DropdownAllSelect';
 import Card35 from 'src/libraries/card/Card35';
+import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 
 
 function AttendanceTopper() {
@@ -74,10 +75,6 @@ function AttendanceTopper() {
     setAcademicYear(value);
   };
 
-  
-   
-
-
   return (
     <div>
       <Container>
@@ -97,9 +94,10 @@ function AttendanceTopper() {
        </Box>
         <Box >
         {(
-          GetStudentAttendance !== undefined &&
-          GetStudentAttendance.length > 0) && 
-          <Card35 header={{ Header: GetStudentAttendance }} />}
+          GetStudentAttendance.StudentName !== undefined &&
+          GetStudentAttendance.length > 0) ? 
+          <Card35 header={{ Header: GetStudentAttendance }} />:
+          <ErrorDetail>No attendance</ErrorDetail>}
         </Box>
 
         <Box my={1}>

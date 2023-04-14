@@ -94,7 +94,7 @@ const ReadReceipts ={
         {pageName1 == "MessageCenter/msgCenter" ?
           <CardD>{text1}</CardD> :
           <CardDetail3>{text1}</CardDetail3>}
-        <CardDetail2 sx={{ color: "#628def", display: "flex" }}>
+        <CardDetail2 sx={{ color: "black", display: "flex" }}>
           <>{text2}     {IsSchedule &&
             <ScheduleIcon fontSize="small" color="primary" sx={{ mt: "-2px", ml: "4px" }} />}</>
           <>

@@ -108,7 +108,7 @@ const onlineExam = () => {
               }
               style={{ textDecoration: 'none' }}
             >
-              <Card1
+              <Card1 
                 header={subjectList.SubjectName}
                 text1=""
                 text2={subjectList.StartTime + '-' + subjectList.EndTime}

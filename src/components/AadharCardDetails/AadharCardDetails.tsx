@@ -12,7 +12,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 import 'src/assets/style/BdayCard.css';
 import { Styles } from 'src/assets/style/student-style'
-import Icon3 from "src/libraries/icon/icon3"
+import Icon5 from "src/libraries/icon/icon5"
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 
@@ -170,14 +170,14 @@ function AadharCardDetails() {
 
     return (
         <Container>
-            <PageHeader heading={'Aadhar Card Details'} subheading={''} />
+            <PageHeader heading={'Aadhaar Card Details'} subheading={''} />
             <Grow in={checked}
                 style={{ transformOrigin: '0 0 1' }}
                 {...(checked ? { timeout: 1500 } : {})}
             >
                 <ListStyle>
                     <Typography > <b>Name :</b> {GetUserAadharCardDetails.Name}</Typography>
-                    <Typography sx={{ mt: "4px" }}> <b>Aadhar Number : </b>
+                    <Typography sx={{ mt: "4px" }}> <b>Aadhaar Number : </b>
                         <input type="text" value={aadharNumber}
                             onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
                     </Typography>
@@ -200,7 +200,7 @@ function AadharCardDetails() {
                         <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
                     </Box>
                     <Box className={classes.iIconSupport}>
-                        <Icon3 Note={"Supports only " + validFiles.join(', ') + " files types up to 3 MB"} />
+                        <Icon5 Note={"Supports only " + validFiles.join(', ') + " files types up to 3 MB"} />
                     </Box>
 
                     {fileError && <Errormessage Error={fileError} />}

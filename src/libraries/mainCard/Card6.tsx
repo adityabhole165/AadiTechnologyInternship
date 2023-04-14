@@ -78,6 +78,7 @@ function Card6() {
               </>
             ) : RoleName == 'Student' ? (
               <>
+              <ButtonPrimary onClick={EditProfile}>Edit <EditIcon fontSize="small" /></ButtonPrimary>
                 <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
                 <ProfileComponent Name='Residence Phone No:' Value={ResidencePhoneNumber}></ProfileComponent>
 
@@ -96,7 +97,7 @@ function Card6() {
 
                 <ProfileComponent Name='Blood Group:' Value={Blood_Group}></ProfileComponent>
 
-                <ButtonPrimary onClick={EditProfile}>Edit <EditIcon fontSize="small" /></ButtonPrimary>
+                
 
               </>
             ) : (<></>)}

@@ -8,11 +8,11 @@ import PropTypes from 'prop-types';
 import { styled, useTheme, Grid, MenuItem, Divider } from '@mui/material';
 
 
-Icon3.propTypes = {
+Icon5.propTypes = {
     Note: PropTypes.string,
 }
 
-function Icon3({ Note }) {
+function Icon5({ Note }) {
 
     const [open, setOpen] = useState(false);
 
@@ -41,7 +41,7 @@ function Icon3({ Note }) {
     return (
         <>
             <Container>
-                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2, marginTop: '-20px' }}>
+                <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2, marginTop: '-27px' }}>
                     <Typography variant="body2" fontSize='15px'>
                         {/* <DotLegend className={classes.Listfont1}
                             style={{ background: 'darkmagenta', marginLeft: '9px', marginBottom: "-2px" }}
@@ -89,4 +89,4 @@ function Icon3({ Note }) {
     );
 }
 
-export default Icon3;
+export default Icon5;
