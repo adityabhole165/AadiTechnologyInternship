@@ -165,9 +165,10 @@ const AddFeedback = () => {
                 placeholder="Comments"
                 minRows={4}
                 style={{ width: "100%", marginTop: "5px" }}
-                nonce={undefined}
-                onResize={undefined}
-                onResizeCapture={undefined}   />
+                // nonce={undefined}
+                // onResize={undefined}
+                // onResizeCapture={undefined}   
+                />
               <Box sx={{ mt: "3px" }}>   {formik.touched.Comments && formik.errors.Comments ? (<Errormessage Error={formik.errors.Comments} />) : null}</Box>
               <Grid container spacing={2} >
                 <Grid item xs={6} sx={{ marginTop: "4px" }}>

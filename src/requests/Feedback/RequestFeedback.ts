@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { AppThunk } from 'src/store';
 import APIFeedback from 'src/api/Feedback/ApiFeedback'
 import { IGetUserFeedbackBody, ISaveFeedbackDetailsBody } from 'src/interfaces/Student/IFeedback';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 const SliceFeedback = createSlice({
   name: 'Feedback',
@@ -51,15 +52,11 @@ export const getuserFeedback =
         response.data.GetUserFeedbackDetails.map((item, index) => {
           let date = item.Date.split(" ")[0];
           let time = item.Date.replace(date + " ", "");
-          const day = new Date(date).getDate();
-          const month = new Date(date).toLocaleString('default', { month: "short" });
-          const year = new Date(date).getFullYear();
-          const newdate = `${day} ${month} ${year}`
           return {
             id: index,
             Header: item.UserName,
             Text1: time,
-            Text2: newdate,
+            Text2: getDateMonthYearFormatted(item.Date),
             Text3: item.Text
           }
         })
