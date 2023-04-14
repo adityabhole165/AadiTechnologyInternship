@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import GetOnlineExamListApi from "../../api/Student/OnlineExam";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IOnlineTest, { ISubmitOnlineExamBody,IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails } from 'src/interfaces/Student/OnlineExam';
+import IOnlineTest, { ISubmitOnlineExamBody,IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails, ISaveOnlineExamDetailsBody } from 'src/interfaces/Student/OnlineExam';
 
 const SelectOnlineExamSlice = createSlice({
     name: 'selectOnlineExam',
@@ -13,7 +13,8 @@ const SelectOnlineExamSlice = createSlice({
         AnswerDetailsList: [],
         ExamSchedulesList: [],
         ExamData: [],
-        SubmitExam: {}
+        SubmitExam: {},
+        SaveExam: {}
     },
     reducers: {
         getOnlineExam(state, action) {
@@ -36,6 +37,9 @@ const SelectOnlineExamSlice = createSlice({
         },
         submitExam(state, action) {
             state.SubmitExam = action.payload;
+        },
+        saveExam(state, action) {
+            state.SaveExam = action.payload;
         },
     }
 });
@@ -119,6 +123,12 @@ export const GetSubmitExam =
             const response = await GetOnlineExamListApi.SubmitExam(data);
             dispatch(SelectOnlineExamSlice.actions.submitExam(response.data));
         }
+        export const GetSaveExam =
+    (data: ISaveOnlineExamDetailsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetOnlineExamListApi.SaveExam(data);
+            dispatch(SelectOnlineExamSlice.actions.saveExam(response.data));
+        }     
 
 
 

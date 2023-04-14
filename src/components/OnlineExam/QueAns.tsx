@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData,GetSubmitExam } from 'src/requests/Student/OnlineExam';
+import { AllExamData,GetSaveExam,GetSubmitExam } from 'src/requests/Student/OnlineExam';
 import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
@@ -40,8 +40,43 @@ const QueAns = () => {
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
     );
+    const Getsaveexam = useSelector(
+        (state: RootState) => state.OnlineExam.SaveExam
+    );
     // console.log("Getsubmitexam",Getsubmitexam);
-    
+    const saveBody ={
+        aiSchoolId:asSchoolId,
+    aiAcademicYearId:asAcademicYearId,
+    aiStandardId:asStandardId,
+    aiStandardDivisionId:asStandardDivisionId,
+    aiSubjectId:Subjectid,
+    aiExamId:EXAMid,
+    aiStudentId:asStudentId,
+    aiTotalMarks:'',
+    aiOutOfMarks:"",
+    aiInsertedById:"",
+    asAttachmentBase64String:"",
+    alstQuestAnswerDetails:[{
+        QuestionId:"21",
+        AnswerId:"88",
+        DescriptionFileName:""
+    }
+    // {
+    //     "QuestionId":"22",
+    //     "AnswerId":"92",
+    //     "DescriptionFileName":""
+    // },
+    // {
+    //     "QuestionId":"23",
+    //     "AnswerId":"94",
+    //     "DescriptionFileName":"Answer Sheet2023412161930677.docx"
+    // },
+    // {
+    //     "QuestionId":"20",
+    //     "AnswerId":"83",
+    //     "DescriptionFileName":""
+    // }
+    ]}
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
@@ -149,6 +184,10 @@ const ClickSubmit =()=>{
         aiStudentId: asStudentId,
     };
     dispatch(GetSubmitExam(SubmitOnlineExam))
+}
+
+const SaveExam = ()=>{
+//   dispatch(GetSaveExam(saveBody))
 }
 
 

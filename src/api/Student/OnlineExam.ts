@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IOnlineTest, {ISubmitOnlineExamBody,GetSubmitOnlineExamResult,GetQuestionsForOnlineExamResult, IOnlineTestSubject,IOnlineExamQuestions,IExamData } from "../../interfaces/Student/OnlineExam"
+import IOnlineTest, {ISubmitOnlineExamBody,GetSubmitOnlineExamResult,GetQuestionsForOnlineExamResult, IOnlineTestSubject,IOnlineExamQuestions,IExamData, GetSaveOnlineExamDetailsResult, ISaveOnlineExamDetailsBody } from "../../interfaces/Student/OnlineExam"
 
   const GetOnlineExamList = (data: IOnlineTest) => {
     return http.post<IOnlineTest>('Student/GetAllTestsForStudent',data);
@@ -20,13 +20,17 @@ import IOnlineTest, {ISubmitOnlineExamBody,GetSubmitOnlineExamResult,GetQuestion
   const SubmitExam = (data: ISubmitOnlineExamBody) => {
     return http.post<GetSubmitOnlineExamResult>('Student/SubmitOnlineExam',data);
   };
+  const SaveExam = (data: ISaveOnlineExamDetailsBody) => {
+    return http.post<GetSaveOnlineExamDetailsResult>('Student/SaveOnlineExamDetails',data);
+  };
   
 const GetOnlineExamListApi ={
     GetOnlineExamList,
     GetOnlineExamSubjectList,
     GetOnlineExamQuestionsDetail,
     AllExamData,
-    SubmitExam
+    SubmitExam,
+    SaveExam
 }
 
 export default GetOnlineExamListApi;

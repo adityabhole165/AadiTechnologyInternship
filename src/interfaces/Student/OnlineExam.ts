@@ -110,3 +110,27 @@ export interface ISubmitOnlineExamBody {
 export interface GetSubmitOnlineExamResult {
     Message:string
 }
+
+//save exam
+export interface ISaveOnlineExamDetailsBody {
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiStandardId:string,
+    aiStandardDivisionId:string,
+    aiSubjectId:string,
+    aiExamId:string,
+    aiStudentId:string,
+    aiTotalMarks:string,
+    aiOutOfMarks:string,
+    aiInsertedById:string,
+    asAttachmentBase64String:string,
+    alstQuestAnswerDetails:[alstQuestAnswerDetails]
+}
+export interface alstQuestAnswerDetails{
+    QuestionId:string,
+    AnswerId:string,
+    DescriptionFileName:string
+}
+export interface GetSaveOnlineExamDetailsResult {
+    Message:string
+}
