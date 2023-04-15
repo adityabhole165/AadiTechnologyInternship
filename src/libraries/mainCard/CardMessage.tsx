@@ -22,7 +22,7 @@ function CardMessage({ header, text1, text2, DetailsId,
     const SchoolId = localStorage.getItem('localSchoolId');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
     const [popup, setPopup] = useState(false);
-    let clickParent = true;
+    const [clickParent, setClickParent] = useState(true);
 
     const ReadReceipt = useSelector(
         (state: RootState) => state.MessageCenter.ReadReceiptDetails
@@ -37,13 +37,15 @@ function CardMessage({ header, text1, text2, DetailsId,
         e.stopPropagation();
         setPopup(true);
         dispatch(ReadReceiptDetail(ReadReceipts))
-        clickParent = false
+        setClickParent(false)
     };
 
     const clickNav = () => {
         if (clickParent) {
             navigate('/' + location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + NavPath);
         }
+        setClickParent(true)
+
     }
 
     let IsReadColor = (ActiveTab == "Inbox" && IsRead == 'N') ?

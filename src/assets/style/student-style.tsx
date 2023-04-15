@@ -18,7 +18,7 @@ export const Styles = makeStyles({
   smalllogo: {
     // width: '100%',
     margin: 'auto',
-    maxHeight:70,
+    maxHeight: 70,
 
   },
   check: {
@@ -221,8 +221,8 @@ export const Styles = makeStyles({
     fontWeight: 'bold',
     fontSize: '12px !important',
     '@media (max-width: 280px)': {
-      fontSize: "10px !important", 
-  
+      fontSize: "10px !important",
+
     },
   },
   Autocomplete: {
@@ -338,7 +338,7 @@ export const Styles = makeStyles({
     transform: 'rotateZ(-36deg)',
     marginRight: '-20px',
     float: 'right',
-    position:"absolute"
+    position: "absolute"
   },
 
   ListFont5: {
@@ -353,66 +353,73 @@ export const Styles = makeStyles({
     fontWeight: 'bold !important'
   },
 
-  ListFont2:{
-    float: 'right', 
-    marginLeft: '-20px', 
-    
+  ListFont2: {
+    float: 'right',
+    marginLeft: '-20px',
+
     fontSize: '12px !important',
     color: 'black',
-   
+
   },
 
- iIconExamSchedule : {
+  iIconExamSchedule: {
 
-  fontSize: "20px !important",  
-  marginTop: '10px', 
-  backgroundColor: "#e8a0e7", 
-  borderRadius: "50px", 
-  marginRight: "-15px",
-  '@media (max-width: 280px)': {
-    fontSize: "15px !important",
-    marginTop: '10px',  
+    fontSize: "20px !important",
+    marginTop: '10px',
+    backgroundColor: "#e8a0e7",
+    borderRadius: "50px",
+    marginRight: "-15px",
+    '@media (max-width: 280px)': {
+      fontSize: "15px !important",
+      marginTop: '10px',
+    },
   },
- },
 
- iIconTExamSchedule : {
+  iIconTExamSchedule: {
 
-  fontSize: "20px !important", 
-  marginTop: '20px', 
-  backgroundColor: "#e8a0e7", 
-  borderRadius: "50px", 
-  marginRight: "8px",
-  '@media (max-width: 280px)': {
-    fontSize: "15px !important", 
-    marginRight: "10px",
+    fontSize: "20px !important",
+    marginTop: '20px',
+    backgroundColor: "#e8a0e7",
+    borderRadius: "50px",
+    marginRight: "8px",
+    '@media (max-width: 280px)': {
+      fontSize: "15px !important",
+      marginRight: "10px",
+    },
   },
- },
- 
- iIconSupport : {
 
-  fontSize: "20px !important",  
+  iIconSupport: {
 
-  
+    fontSize: "20px !important",
 
-  '@media (max-width: 280px)': {
-    fontSize: "15px !important",
-    // marginTop: '20px',  
+
+
+    '@media (max-width: 280px)': {
+      fontSize: "15px !important",
+      // marginTop: '20px',  
+    },
   },
- },
 
- checkboxSize : {
+  checkboxSize: {
 
-  fontSize: "16px !important", 
+    fontSize: "16px !important",
 
-  '@media (max-width: 280px)': {
-    fontSize: "14px !important", 
- 
+    '@media (max-width: 280px)': {
+      fontSize: "14px !important",
+
+    },
   },
- 
- 
- },
-footer: {
-'@media (max-height: 600px)': {
+
+  IconSize: {
+    '@media (min-width: 600px)': {
+      fontSize: "40px !important",
+
+    },
+  },
+
+  footer: {
+    '@media (max-height: 600px)': {
       // display: "none",
-  }},
+    }
+  },
 });
