@@ -449,7 +449,14 @@ export const Detail1 = styled(Typography)(
   color: blue;
   font-weight: bold ;  `
 );
+export const RootWrapper= styled(Box)(
+  ({ theme }) => `
+  @media (min-width: 600px) {
+    margin-top:-20px;
+   
+  };
 
+  `);
 export const Cardbday = styled(Card)`
 background-image: url(${`/imges/school1.jpg`});
 flex: 1;
@@ -457,6 +464,7 @@ width: 100%;
 background-size: cover;
 margin-bottom:10px;
 `;
+
 
 
 

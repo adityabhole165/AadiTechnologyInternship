@@ -27,11 +27,11 @@ const MCButton = ({ ButtonType, clickTab,activeTab }) => {
     );
     return (
         <>
-        <ListStyle color={activeTab == ButtonType?'secondary':'primary'} onClick={()=>{clickTab(ButtonType)}}>
+        <ListStyle color={activeTab == ButtonType?'secondary':'primary'} onClick={()=>{clickTab(ButtonType)}} >
                 {
-                    ButtonType === 'Inbox' ? <InboxIcon /> :
-                        ButtonType === 'Sent' ? <SendIcon /> :
-                            ButtonType === 'Trash' ? <DeleteIcon /> :
+                    ButtonType === 'Inbox' ? <InboxIcon className={classes.IconSize} /> :
+                        ButtonType === 'Sent' ? <SendIcon  className={classes.IconSize}/> :
+                            ButtonType === 'Trash' ? <DeleteIcon  className={classes.IconSize}/> :
                                 null
                 }
                 <br />

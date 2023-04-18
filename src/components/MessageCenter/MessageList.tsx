@@ -38,8 +38,9 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import CardMessage from './CardMessage';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
-import { RootWrapper } from 'src/libraries/styled/HeadingStyled';
+
 import { Styles } from 'src/assets/style/student-style';
+import { RootWrapper } from 'src/libraries/styled/CardStyle';
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -429,7 +430,8 @@ const MessageList = () => {
                             )}
 
                         </Grid>
-                        <Grid item xs={12} sm={12}><RootWrapper>
+                        <Grid item xs={12} sm={12}>
+                            <RootWrapper>
                             {loading ? (
                                 <SuspenseLoader />
                             ) : (
