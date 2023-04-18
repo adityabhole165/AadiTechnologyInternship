@@ -45,17 +45,17 @@ function Card6() {
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
-        <Box sx={{ display: "flex" }}>
+        <Box sx={{ display: "flex",ml:"46px" }}>
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
           
-          <Button style={{marginTop:"1px", marginLeft:"-5px"}} onClick={EditProfile}> 
-          <Box sx={{border: "1px solid gray"}}><EditIcon fontSize="small" /> </Box></Button>
-         
-          {/* <Button style={{marginTop:"-105px", marginLeft:"-17px"}} onClick={EditProfile}> 
+          {/* <Button style={{marginTop:"1px", marginLeft:"-5px"}} onClick={EditProfile}> 
           <Box sx={{border: "1px solid gray"}}><EditIcon fontSize="small" /> </Box></Button> */}
+         
+          <Button onClick={EditProfile}> 
+          <Box ><EditIcon fontSize="small" /> </Box></Button>
         </Box>
         
-        <ProfileDetailHeader style={{marginRight:"57px"}}><b>{UserName}</b></ProfileDetailHeader>
+        <ProfileDetailHeader style={{marginRight:"38px"}}><b>{UserName}</b></ProfileDetailHeader>
 
         {RoleName == 'Student' &&
           <ProfileDetail2 style={{marginRight:"57px"}}>Roll No: {RollNo}</ProfileDetail2>
