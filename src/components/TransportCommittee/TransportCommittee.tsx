@@ -22,12 +22,12 @@ function TransportCommittee() {
   const asUserId = sessionStorage.getItem('Id');
 
   const TeacherCommitteeList = useSelector(
+    (state: RootState) => state.TransportCommittee.TeachersCommittee
+  );
+  const ParentCommitteeList: any = useSelector(
     (state: RootState) => state.TransportCommittee.ParentCommittee
   );
-  console.log("TeacherCommitteeList",TeacherCommitteeList)
-  const ParentCommitteeList: any = useSelector(
-    (state: RootState) => state.TransportCommittee.TeacherCommittee
-  );
+ 
   
 
   const data3 = {
