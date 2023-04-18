@@ -4,7 +4,6 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Grid from '@mui/material/Grid';
 import { Container } from '@mui/material';
-import AccordionTrC from 'src/libraries/accordion/AccordionTrc';
 import { RootState } from 'src/store';
 import { getTransportCommittee } from 'src/requests/TransportCommittee/RequestTransportcommittee';
 import { IGetTransportCommitteeDetailsBody } from 'src/interfaces/Student/ITransportCommittee';
@@ -22,27 +21,28 @@ function TransportCommittee() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
 
-
-  const ParentCommitteeList: any = useSelector(
-    (state: RootState) => state.TransportCommittee.TeacherCommittee
-  );
   const TeacherCommitteeList = useSelector(
     (state: RootState) => state.TransportCommittee.ParentCommittee
   );
+  console.log("TeacherCommitteeList",TeacherCommitteeList)
+  const ParentCommitteeList: any = useSelector(
+    (state: RootState) => state.TransportCommittee.TeacherCommittee
+  );
+  
 
   const data3 = {
     PTA_Member: 'Executive Committee (School)',
     PTA: 'Executive Committee (Parent)'
   };
 
-  const body: IGetTransportCommitteeDetailsBody = {
+  const  TransportCommitteeDetailsBody = {
     "aiUserId": asUserId,
     "aiAcademicYearId": asAcademicYearId,
     "aiSchoolId": asSchoolId
   };
 
   useEffect(() => {
-    dispatch(getTransportCommittee(body));
+    dispatch(getTransportCommittee(TransportCommitteeDetailsBody));
   }, []);
 
   return (

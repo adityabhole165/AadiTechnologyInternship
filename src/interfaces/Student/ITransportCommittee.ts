@@ -17,11 +17,11 @@ export interface TeachersCommittee{
 }
 
 export interface ParentCommittee{
-    Class: string,
-    ContactTime: string,
     MobileNumber1: string,
     MobileNumber2: string,
+    ContactTime: string,
+    ParentName: string,
     ParentDesignation: string,
-    ParentName: string
+    Class: string
 
 }
