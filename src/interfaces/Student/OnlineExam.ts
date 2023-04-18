@@ -124,7 +124,7 @@ export interface ISaveOnlineExamDetailsBody {
     aiOutOfMarks:string,
     aiInsertedById:string,
     asAttachmentBase64String:string,
-    alstQuestAnswerDetails:[alstQuestAnswerDetails]
+    alstQuestAnswerDetails:alstQuestAnswerDetails[]
 }
 export interface alstQuestAnswerDetails{
     QuestionId:string,

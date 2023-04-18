@@ -56,9 +56,11 @@ export const AllExamData =
                         .map((item, i) => {
                             return {
                                 Id: item.AnswerId,
-                                Value: item.AnswerId,
+                                Value: item.QuestionID,
                                 Name: item.Answer,
-                                isActive: false
+                                isActive: item.UserSelectedAnswer===item.AnswerId?true:false,
+                                IsCorrectAnswer :item.IsCorrectAnswer,
+                                UserSelectedAnswer:item.UserSelectedAnswer
                             }
 
                         })
@@ -80,6 +82,7 @@ export const AllExamData =
                     }
 
                 })
+                console.log(questions,"questions")
             dispatch(SelectOnlineExamSlice.actions.getExamData(questions));
         }
 export const GetOnlineExamList =
