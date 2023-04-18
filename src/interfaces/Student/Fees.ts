@@ -134,3 +134,29 @@ export interface PaymentNotes {
         Note: string,
         Title: string
 }
+
+// GetInternalFeeDetails
+
+export interface IGetInternalFeeDetailsBody{
+        aiSchoolId: string,
+    aiAcademicYearId: string,
+    aiStudentId: string,
+    abIsNextYearFeePayment: string
+}
+export interface IGetInternalFeeDetailsResult{
+        InternalFeeDetails : [InternalFeeDetails],
+        PendingFeeAcademicYears: string
+}
+export interface InternalFeeDetails{
+        SchoolwiseStudentId: number,
+            InternalFeeDetailsId: number,
+            ReceiptNo: number,
+            SerialNumber: number,
+            DebitCredit: string,
+            Amount: number,
+            FeeType: string,
+            PayableFor:string,
+            IsDueDateApplicable: boolean,
+            PaidDate: string,
+            Remarks: string
+}

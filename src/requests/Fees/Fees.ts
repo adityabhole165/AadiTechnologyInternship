@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetInternalFeeDetailsBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 
 const Feesslice = createSlice({
@@ -13,7 +13,8 @@ const Feesslice = createSlice({
     paymentUrl:[],
     YearList: [],
     ReceiptFileName:"",
-    GetFeesDetailsOfOldAcademic:[]
+    GetFeesDetailsOfOldAcademic:[],
+    GetInternalFeeDetails: []
   },
     
     
@@ -41,6 +42,10 @@ const Feesslice = createSlice({
 
     getFeesDetailsOfOldAcademic(state, action){
       state.GetFeesDetailsOfOldAcademic = action.payload;
+      
+    },
+    getInternalFeeDetails(state, action){
+      state.GetInternalFeeDetails = action.payload;
       
     }
   }   
@@ -92,7 +97,14 @@ export const getFees =
    
     };
 
-
+    export const getInternalFeeDetails =
+    (data: IGetInternalFeeDetailsBody): AppThunk =>
+      async (dispatch) => {
+        // dispatch(Feesslice.actions.getLoading(true));
+        const response = await FeesApi.GetInternalFeeDetails(data);
+        dispatch(Feesslice.actions.getInternalFeeDetails(response.data));
+     console.log("getInternalFeeDetails",response)
+      };
 
 
   export const resetReciept =

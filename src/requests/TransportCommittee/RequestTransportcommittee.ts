@@ -6,14 +6,14 @@ import { IGetTransportCommitteeDetailsBody, IGetTransportCommitteeDetailsResult 
 const SliceTransportcommittee = createSlice({
     name: 'TransportCommittee',
     initialState: {
-        TeacherCommittee: [],
+        TeachersCommittee: [],
         ParentCommittee: [],
         Loading: true,
     },
     reducers: {
         getTransportCommittee(state, action) {
-            state.TeacherCommittee=action.payload.GetTransportCommittee?.TeachersCommittee;
-            state.ParentCommittee=action.payload.GetTransportCommittee?.ParentCommittee;
+            state.TeachersCommittee=action.payload.GetTransportCommitteeDetails?.TeachersCommittee;
+            state.ParentCommittee=action.payload.GetTransportCommitteeDetails?.ParentCommittee;
             state.Loading = false;
         },
         
@@ -30,6 +30,7 @@ export const getTransportCommittee =
     dispatch(SliceTransportcommittee.actions.getLoading(true));
     const response = await ApiTransportCommittee.GetTransportCommittee(data);
     dispatch(SliceTransportcommittee.actions.getTransportCommittee(response.data));
+    console.log("response",response.data)
   };
 
   export default SliceTransportcommittee.reducer

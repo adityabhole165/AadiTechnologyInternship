@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFees, getYearList } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody } from 'src/interfaces/Student/Fees';
+import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
@@ -13,15 +13,16 @@ import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import { NoteStyle } from 'src/libraries/styled/NoteStyle'
-import {CardDetail1,CardDetail7,CardDetail8,ListStyle} from 'src/libraries/styled/CardStyle';
+import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
-import {getFeesDetailsOfOldAcademic} from 'src/requests/Fees/Fees'
+import { getFeesDetailsOfOldAcademic, getInternalFeeDetails } from 'src/requests/Fees/Fees'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
+import { string } from 'prop-types';
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
 
@@ -31,22 +32,27 @@ function Fees() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData); 
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
-  console.log("FeesList2",FeesList2);
-  console.log("FeesList",FeesList);
-  
-  
+  console.log("FeesList2", FeesList2);
+  console.log("FeesList", FeesList);
+
+
   const AcadamicYear: any = useSelector(
     (state: RootState) => state.Fees.YearList
   );
 
-   const FeesDetailsOfOldAcademic: any = useSelector(
+  const FeesDetailsOfOldAcademic: any = useSelector(
     (state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic
-   );
-   console.log("s",FeesDetailsOfOldAcademic)
+  );
+
+  const InternalFeeDetails: any = useSelector(
+    (state: RootState) => state.Fees.GetInternalFeeDetails
+  );
+console.log("InternalFeeDetails",InternalFeeDetails)
+
   const Feedata = {
     Fee1: 'Fee Type',
     Fee2: 'Amount + Late Fees : ',
@@ -73,11 +79,17 @@ function Fees() {
     asStudentId: asStudentId
   };
 
-  const IGetFeeDetailsOfOldAcademicBody ={
+  const IGetFeeDetailsOfOldAcademicBody = {
     aiSchoolId: asSchoolId,
     aiStudentId: asStudentId,
     aiAcademicYearId: currentYear
   }
+  // const IGetInternalFeeDetailsBody = {
+  //   aiSchoolId: asSchoolId,
+  //   aiAcademicYearId: asAcademicYearId,
+  //   aiStudentId: asStudentId,
+  //   abIsNextYearFeePayment: 
+  // }
 
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
@@ -87,11 +99,15 @@ function Fees() {
   }, []);
 
   useEffect(() => {
-    if(currentYear === sessionStorage.getItem("AcademicYearId")){
+    if (currentYear === sessionStorage.getItem("AcademicYearId")) {
       dispatch(getFees(body));
-    }else 
-    dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
+    } else
+      dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
   }, [currentYear]);
+
+  useEffect(() => {
+    // dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+  }, []);
 
   const clickYear = (value) => {
     setCurrentyear(value);
@@ -171,20 +187,20 @@ function Fees() {
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
       <NoteStyle >
-      <b>Note :</b>
-      {FeesList2.PaymentNotes?.map((note, i) => {
-        return <>    
+        <b>Note :</b>
+        {FeesList2.PaymentNotes?.map((note, i) => {
+          return <>
             <CardDetail2 key={i}>
-            <b>{note.SrNo}:</b> {note.Note}
-            </CardDetail2> 
-        </>
-      })}
-       </NoteStyle>
-       {/* } */}
-       {asSchoolId == "11" && <>
-       <SpecialNote />
-       </>
-       }
+              <b>{note.SrNo}:</b> {note.Note}
+            </CardDetail2>
+          </>
+        })}
+      </NoteStyle>
+      {/* } */}
+      {asSchoolId == "11" && <>
+        <SpecialNote />
+      </>
+      }
     </Container>
   );
 }

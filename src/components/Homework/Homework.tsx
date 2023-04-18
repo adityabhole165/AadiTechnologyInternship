@@ -1,189 +1,119 @@
-import { useState } from 'react';
-import Buttons from 'src/libraries/buttons/button';
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import {
-  IHomework,
-  IHomeworkSubject
-} from 'src/interfaces/Student/Homework';
-import {
-  getHomeworkSubject
-} from 'src/requests/Homework/Homework';
+import { useEffect, useState } from 'react';
 import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container, styled, Grid, Card } from '@mui/material';
+import { getHomeworkDateFormatted, getNextDate } from '../Common/Util';
+import { useDispatch, useSelector } from 'react-redux';
+import { Container } from '@mui/material'
+
+import SelectedDateCalendar from 'src/libraries/DateSelector/SelectedDateCalendar';
+
+import { CardDetail7 } from 'src/libraries/styled/CardStyle'
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled'
+import { Styles } from 'src/assets/style/student-style';
+
+import { getHomeworkDates } from 'src/requests/Homework/RequestHomeworkNew';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { Styles } from 'src/assets/style/student-style';
-import DateSelector from 'src/libraries/buttons/DateSelector';
-import { getDateFormatted } from '../Common/Util'
-import { useParams } from 'react-router-dom';
-import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
-import { CardDetail7, ListStyle } from 'src/libraries/styled/CardStyle';
-import DotLegend from 'src/libraries/summary/DotLegend';
-import HomeworkNew from './HomeworkNew';
-import ArrowLeft from '@mui/icons-material/ArrowLeft';
-import ArrowRight from '@mui/icons-material/ArrowRight';
-import SelectedDateCalendar from 'src/libraries/DateSelector/SelectedDateCalendar';
+import PageHeader from 'src/libraries/heading/PageHeader';
+
 function Homework() {
   const dispatch = useDispatch();
-  const { DateFromHomework } = useParams();
-  const [date, setDate] = useState<any>({ selectedDate: null });
-  const [assignedDate, setAssignedDate] = useState<string>();
-  const [calanderSelected, setcalanderSelected] = useState(false);
-  const [CalanderDate, setCalanderDate] = useState("");
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
-  const Id = sessionStorage.getItem('Id');
-
-  const HomeworkSubjectList = useSelector(
-    (state: RootState) => state.Homework.HomeworkSubjectData
-  );
-  const loading = useSelector(
-    (state: RootState) => state.Homework.Loading);
-
-
-
-  const homework_Body: IHomework = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStdDivId: asStandardDivisionId,
-    asDate: `${calanderSelected ? CalanderDate : assignedDate}`,
-    asLoginUserId: Id
-  };
-
-  const homeworkSubject_Body: IHomeworkSubject = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStdDivId: asStandardDivisionId,
-    asDate: `${calanderSelected ? CalanderDate : assignedDate}`,
-    asLoginUserId: Id
-  };
-
-  const getCurrentDate1 = (newDate?: Date) => {
-    const date = `${calanderSelected ? CalanderDate : newDate || new Date()}`;
-    const Day = new Date(date).getDate();
-    const Month = new Date(date).toLocaleString('default', { month: 'short' });
-    const Year = new Date(date).getFullYear();
-    const NewDateFormat = `${Day} ${Month} ${Year}`;
-
-    setDate({
-      selectedDate: NewDateFormat
-    });
-    setAssignedDate(NewDateFormat);
-    setcalanderSelected(false);
-  };
-
-  const getCurrentDate = (newDate?: Date) => {
-    setAssignedDate(getDateFormatted(newDate).replace("-", " ").replace("-", " "));
-    setcalanderSelected(false);
-  };
-
-
-  useEffect(() => {
-    localStorage.setItem("url", window.location.pathname)
-    getCurrentDate();
-  }, []);
-
-  useEffect(() => {
-    
-    if (homeworkSubject_Body.asDate != undefined && homeworkSubject_Body.asDate !== '')
-      dispatch(getHomeworkSubject(homeworkSubject_Body));
-  }, [assignedDate, CalanderDate]);
-
-  useEffect(() => {
-    if (DateFromHomework != undefined) {
-      setAssignedDate(DateFromHomework);
-    }
-  }, [DateFromHomework]);
-
-
-
-  const getNextDate = (dayMultiple) => {
-    const { selectedDate } = date;
-
-    const currentDayInMilli = new Date(selectedDate).getTime();
-    const oneDay = 1000 * 60 * 60 * 24;
-    const nextDayInMilli = currentDayInMilli + oneDay * dayMultiple;
-    const next = new Date(nextDayInMilli);
-    getCurrentDate(next);
-  };
-
-
-  const CalenderDateHandler = (e) => {
-    const date = new Date(e);
-    const Day = new Date(date).getDate();
-    const Month = new Date(date).toLocaleString('default', { month: 'short' });
-    const Year = new Date(date).getFullYear();
-    const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setCalanderDate(NewDateFormat);
-    setcalanderSelected(true);
-  }
-  //   const [itemList, setItemList] = useState([{ Id: "1", Name: "2 Feb", Value: "2 feb", IsActive: true },
-  //   { Id: "2", Name: "3 Feb", Value: "3 feb", IsActive: false },
-  //   { Id: "3", Name: "4 Feb", Value: "4 feb", IsActive: false },
-  //   { Id: "4", Name: "5 Feb", Value: "5 feb", IsActive: false },
-  //   { Id: "5", Name: "6 Feb", Value: "6 feb", IsActive: false },
-  //   { Id: "6", Name: "7 Feb", Value: "15 feb", IsActive: false },
-  // ]);
-
-  // const clickItem = (value) => {
-  //   setItemList(value);
-  // }
-  // const [index, setIndex] = useState(0);
-  // const arrowClick = (value) => {
-  //   const maxlength = itemList.length -1;
-  //   const min = 0;
-  //   if (value === -1 && index === 0) {
-  //     setIndex(maxlength)
-  //   }else
-  //   if (value === 1 && index === maxlength) {
-  //     setIndex(min)
-  //   }
-  //   else {
-  //     setIndex(index + value)
-
-  //   }
-
-  // }
   const classes = Styles();
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
+  const [assignedDate, setAssignedDate] = useState('')
+  const [startdate, setStartDate] = useState('')
+  const [endDate, setEndDate] = useState('')
+  const [itemList, setItemList] = useState([]);
+  const [prevNext, setPrevNext] = useState(0)
+
+  const GetHomeworkDetails = useSelector((state: RootState) => state.HomeworkNew.GetHomeworkDetails);
+  const GetHomeworkDates = useSelector((state: RootState) => state.HomeworkNew.GetHomeworkDates);
+  const ButtonState = useSelector((state: RootState) => state.HomeworkNew.ButtonState);
+  const loading = useSelector((state: RootState) => state.HomeworkNew.Loading);
+
+  useEffect(() => {
+    setStartDate(assignedDate)
+    setEndDate(getHomeworkDateFormatted(new Date()))
+  }, [])
+
+  useEffect(() => {
+    const HomeworkBody =
+    {
+      aiSchoolId: asSchoolId,
+      aiAcademicYearId: asAcademicYearId,
+      aiStandardDivisionId: asStandardDivision,
+      asStartdate: startdate,
+      asEnddate: endDate
+    }
+    dispatch(getHomeworkDates(HomeworkBody))
+  }, [startdate, endDate])
+
+  useEffect(() => {
+    if (GetHomeworkDates.length > 0) {
+      setAssignedDate(GetHomeworkDates[0].Value)
+      setItemList(GetHomeworkDates.map((item, index) => {
+        return index === 0 ?
+          { ...item, IsActive: true } :
+          { ...item, IsActive: false }
+      }))
+    }
+    else {
+      setAssignedDate('')
+      setItemList([])
+    }
+  }, [GetHomeworkDates])
+
+  const clickDate = (value) => {
+    let returnDate = assignedDate
+    value.map((item) => {
+      if (item.IsActive)
+        returnDate = item.Value
+    });
+    setAssignedDate(returnDate);
+    setItemList(value);
+  }
+
+  const clickPrevNext = (value) => {
+    setPrevNext(value)
+
+    if (value === -1) {
+      setStartDate('')
+      setEndDate(getNextDate(itemList[0].Value, -1))
+    } else
+      if (value === 1) {
+        setStartDate(getNextDate(itemList[itemList.length - 1].Value, 1))
+        setEndDate('')
+      }
+  }
   return (
-    <>
+    <div>
+
       <Container>
         <PageHeader heading={'Homework'} subheading={''} />
         <div>
           <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'pink' }}
-            />
-
-
+            <DotLegendStyled1 className={classes.border} style={{ background: 'pink' }} />
             <CardDetail7>Completed By Date</CardDetail7>
           </DotLegend1>
 
         </div>{' '}
         <br />
-
-
-        {homeworkSubject_Body.asDate === undefined &&
-          <SelectedDateCalendar DefaultDate={assignedDate} setCurrentDate={getCurrentDate} ></SelectedDateCalendar>
+        {loading ?
+          (<SuspenseLoader />) :
+          itemList.length === 0 ?
+            (<ErrorMessages Error={'Homework is not available'} />) :
+            (<>
+              <SelectedDateCalendar DefaultDate={assignedDate}
+                itemList={itemList} clickDate={clickDate} clickPrevNext={clickPrevNext}
+                />
+              <Card30 header={GetHomeworkDetails} />
+            </>)
         }
-        {loading ? (
-          <SuspenseLoader />
-        ) : HomeworkSubjectList.length === 0 ? (
-          <ErrorMessages Error={'Homework is not available'} />
-        ) : (
-
-          <Card30 header={HomeworkSubjectList} />
-
-        )}
-
       </Container>
-    </>
-  );
+    </div>
+  )
 }
 
-export default Homework;
+export default Homework

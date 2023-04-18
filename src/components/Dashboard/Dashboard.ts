@@ -235,7 +235,7 @@ const DashboardData = {
     },
 
     {
-      Text1: 'Adhar Card',
+      Text1: 'AdhaarCard',
       Text2: 'Details',
       Color: '#90a4ae',
       iconColor: '#f0483e ',
@@ -266,8 +266,8 @@ const DashboardData = {
 
     },
     {
-      Text1: 'O-Exam',
-      Text2: '',
+      Text1: 'Online',
+      Text2: 'Exam',
       Color: '#81c784',
       iconColor: '#35abd9',
       ImageUrl: "/imges/OExamSchedule.png",
