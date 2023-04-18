@@ -13,7 +13,7 @@ ParentCommittee : [ParentCommittee]
 export interface TeachersCommittee{
     TeacherName: string,
     TeacherDesignation: string,
-    TeacherRealatedSection: string,
+    RealatedSection: string,
 }
 
 export interface ParentCommittee{
