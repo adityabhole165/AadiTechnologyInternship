@@ -29,7 +29,9 @@ const PaidFeesDetails = () => {
   }
   const body: IFees = {
     asSchoolId: localStorage.getItem('localSchoolId'),
-    asStudentId: sessionStorage.getItem('StudentId')
+    asStudentId: sessionStorage.getItem('StudentId'),
+    aiAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    abIsForCurrentYear: true
   };
 
   useEffect(() => {

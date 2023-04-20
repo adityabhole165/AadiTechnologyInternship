@@ -132,7 +132,9 @@ function Card16({ Note, Heading }) {
 
   const body: IFees = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId //"11554"
+    asStudentId: asStudentId ,
+    aiAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    abIsForCurrentYear: true
   };
 
   useEffect(() => {

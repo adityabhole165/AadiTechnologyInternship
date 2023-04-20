@@ -77,7 +77,9 @@ console.log("InternalFeeDetails",InternalFeeDetails)
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
   const body: IFees = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId
+    asStudentId: asStudentId,
+    aiAcademicYearId: Number(asAcademicYearId),
+    abIsForCurrentYear: true
   };
 
   const IGetFeeDetailsOfOldAcademicBody = {
