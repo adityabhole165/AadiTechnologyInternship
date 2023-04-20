@@ -33,6 +33,7 @@ function Fees() {
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const [internalFees, setInternalFees]= useState("")
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
@@ -49,7 +50,7 @@ function Fees() {
   );
 
   const InternalFeeDetails: any = useSelector(
-    (state: RootState) => state.Fees.GetInternalFeeDetails
+    (state: RootState) => state.Fees.InternalFeeDetails
   );
 console.log("InternalFeeDetails",InternalFeeDetails)
 
@@ -84,12 +85,12 @@ console.log("InternalFeeDetails",InternalFeeDetails)
     aiStudentId: asStudentId,
     aiAcademicYearId: currentYear
   }
-  // const IGetInternalFeeDetailsBody = {
-  //   aiSchoolId: asSchoolId,
-  //   aiAcademicYearId: asAcademicYearId,
-  //   aiStudentId: asStudentId,
-  //   abIsNextYearFeePayment: 
-  // }
+  const IGetInternalFeeDetailsBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiStudentId: asStudentId,
+    abIsNextYearFeePayment: internalFees
+  }
 
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
@@ -106,7 +107,7 @@ console.log("InternalFeeDetails",InternalFeeDetails)
   }, [currentYear]);
 
   useEffect(() => {
-    // dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+    dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
   }, []);
 
   const clickYear = (value) => {

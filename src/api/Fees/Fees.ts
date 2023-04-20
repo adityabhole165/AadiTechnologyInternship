@@ -20,7 +20,7 @@ import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGet
     return http.post<IGetFeeDetailsOfOldAcademicResult>('Student/GetFeeDetailsOfOldAcademic',data);
 };
 
-const GetInternalFeeDetails = (data:IGetInternalFeeDetailsBody) => {
+const InternalFeeDetails = (data:IGetInternalFeeDetailsBody) => {
   return http.post<IGetInternalFeeDetailsResult>('Student/GetInternalFeeDetails',data);
 }
 
@@ -30,7 +30,7 @@ const FeesApi ={
     getReceiptFileName,
     getAllAcademicYears,
     GetFeeDetailsOfOldAcademic,
-    GetInternalFeeDetails
+    InternalFeeDetails
 }
 
 export default FeesApi;

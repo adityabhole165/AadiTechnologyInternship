@@ -221,10 +221,10 @@ const SaveExam = ()=>{
                             </Grid>
                         </Grid>
                         <Grid container xs={12}>
-                            <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                            <Typography sx={{ml:"3px"}} p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
                         </Grid>
                        
-                        <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
+                        <ListSelect  Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
                       
                     </>
                 }

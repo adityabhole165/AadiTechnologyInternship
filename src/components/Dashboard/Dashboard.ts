@@ -235,7 +235,7 @@ const DashboardData = {
     },
 
     {
-      Text1: 'AdhaarCard',
+      Text1: 'Adhaar Card',
       Text2: 'Details',
       Color: '#90a4ae',
       iconColor: '#f0483e ',

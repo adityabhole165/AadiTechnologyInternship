@@ -1,4 +1,4 @@
-import { Card } from '@mui/material'
+import { Box, Card } from '@mui/material'
 import React from 'react'
 import ListCard3ColSel from '../card/ListCard3ColSel'
 import CheckboxCard from './CheckboxCard'
@@ -15,11 +15,14 @@ const ListSelect = ({Itemlist,onChange, isSingleSelect=false}) => {
     }
   return (
     <>
+    <Box sx={{ml:"7px"}}>
     {
         Itemlist?.map((item, index) => (
             <CheckboxCard Item={item} onClick={onClick} key={index}/>
         ))
     }
+
+</Box>
     </>
   )
 }

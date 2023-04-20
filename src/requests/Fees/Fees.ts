@@ -14,7 +14,7 @@ const Feesslice = createSlice({
     YearList: [],
     ReceiptFileName:"",
     GetFeesDetailsOfOldAcademic:[],
-    GetInternalFeeDetails: []
+    InternalFeeDetails: []
   },
     
     
@@ -45,7 +45,7 @@ const Feesslice = createSlice({
       
     },
     getInternalFeeDetails(state, action){
-      state.GetInternalFeeDetails = action.payload;
+      state.InternalFeeDetails = action.payload;
       
     }
   }   
@@ -96,14 +96,14 @@ export const getFees =
       dispatch(Feesslice.actions.getFees(response.data));
    
     };
-
+//Internalfees
     export const getInternalFeeDetails =
     (data: IGetInternalFeeDetailsBody): AppThunk =>
       async (dispatch) => {
         // dispatch(Feesslice.actions.getLoading(true));
-        const response = await FeesApi.GetInternalFeeDetails(data);
+        const response = await FeesApi.InternalFeeDetails(data);
         dispatch(Feesslice.actions.getInternalFeeDetails(response.data));
-     console.log("getInternalFeeDetails",response)
+   
       };
 
 
