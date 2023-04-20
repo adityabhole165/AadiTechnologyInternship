@@ -1,4 +1,4 @@
-import { Box, Card, Grid, Typography,Stack, Avatar } from '@mui/material'
+import { Box, Card, Grid, Typography, Stack, Avatar } from '@mui/material'
 import React, { useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData,GetSaveExam,GetSubmitExam } from 'src/requests/Student/OnlineExam';
+import { AllExamData, GetSaveExam, GetSubmitExam } from 'src/requests/Student/OnlineExam';
 import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
@@ -14,6 +14,7 @@ import ListCard from 'src/libraries/list/ListCard';
 import { Container } from '@mui/system';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Attachments from 'src/libraries/buttons/Attachments';
+import { combineReducers } from 'redux';
 
 const QueAns = () => {
 
@@ -27,56 +28,81 @@ const QueAns = () => {
     const EXAMid = localStorage.getItem('Examid')
     const Subjectid = localStorage.getItem('SubjectId')
     const [itemlist, setItemlist] = useState([]);
+
     const [listCardItems, setListCardItems] = useState([])
+
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
+    // console.log("itemlist", itemlist);
 
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
-    console.log("GetAllAnswerQueListtt",GetAllAnswerQueListtt);
-    
+
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
     );
     const Getsaveexam = useSelector(
         (state: RootState) => state.OnlineExam.SaveExam
     );
-    // console.log("Getsubmitexam",Getsubmitexam);
-    const saveBody ={
-        aiSchoolId:asSchoolId,
-    aiAcademicYearId:asAcademicYearId,
-    aiStandardId:asStandardId,
-    aiStandardDivisionId:asStandardDivisionId,
-    aiSubjectId:Subjectid,
-    aiExamId:EXAMid,
-    aiStudentId:asStudentId,
-    aiTotalMarks:'',
-    aiOutOfMarks:"",
-    aiInsertedById:"",
-    asAttachmentBase64String:"",
-    alstQuestAnswerDetails:[{
-        QuestionId:"21",
-        AnswerId:"88",
-        DescriptionFileName:""
+    
+    const OutofMarks = itemlist.map((item) => {
+        return { AddMarks: item.Parent }
+    });
+    const totalMarks = () => {
+        let totalMarks = 0
+        itemlist.map((item) => {
+            item.Child.map(obj => {
+                if (obj.IsCorrectAnswer === true && obj.IsCorrectAnswer === obj.isActive){
+                    totalMarks = totalMarks + item.Parent.Marks
+                }
+            })
+        });
+        return totalMarks
     }
-    // {
-    //     "QuestionId":"22",
-    //     "AnswerId":"92",
-    //     "DescriptionFileName":""
-    // },
-    // {
-    //     "QuestionId":"23",
-    //     "AnswerId":"94",
-    //     "DescriptionFileName":"Answer Sheet2023412161930677.docx"
-    // },
-    // {
-    //     "QuestionId":"20",
-    //     "AnswerId":"83",
-    //     "DescriptionFileName":""
-    // }
-    ]}
+
+    // const totalMarks = TotalMarks.reduce((total, currentValue) => total = total + currentValue.TMarks.Marks, 0);
+    const OutOfMarks = OutofMarks.reduce((total, currentValue) => total = total + currentValue.AddMarks.Marks, 0);
+
+    const getQuestionAnser = () => {
+        return itemlist.map((item, i) => {
+            return {
+                QuestionId: item.Parent.Id,
+                AnswerId: getAnsweredQuestion(item),
+                DescriptionFileName: ""
+            }
+        })
+
+    }
+    const getAnsweredQuestion = (value) => {
+        const list = value.Child.filter(item => { return item.isActive })
+        if (list.length > 0)
+            return list[0].Id
+        else
+            return ""
+
+    }
+
+    const saveBody = {
+        aiSchoolId: asSchoolId,
+        aiAcademicYearId: asAcademicYearId,
+        aiStandardId: asStandardId,
+        aiStandardDivisionId: asStandardDivisionId,
+        aiSubjectId: Subjectid,
+        aiExamId: EXAMid,
+        aiStudentId: asStudentId,
+        aiTotalMarks: totalMarks().toString(),
+        aiOutOfMarks: OutOfMarks,
+        aiInsertedById: "",
+        asAttachmentBase64String: "",
+        alstQuestAnswerDetails: getQuestionAnser()
+    }
+    
+
+    const SaveExam = () => {
+        dispatch(GetSaveExam(saveBody))
+    }
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
         aiSchoolId: asSchoolId,
         aiAcademicYrId: asAcademicYearId,
@@ -86,7 +112,7 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
-   
+
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
@@ -156,102 +182,106 @@ const QueAns = () => {
 
     var timer;
 
-    useEffect(() => {
-        timer = setInterval(() => {
+    // useEffect(() => {
+    //     timer = setInterval(() => {
 
-            setSeconds(seconds + 1);
+    //         setSeconds(seconds + 1);
 
-            if (seconds === 59) {
-                setMinutes(minutes + 1);
-                setSeconds(0);
-            } if (minutes === 59) {
-                setHours(hours + 1);
-            }
-        }, 1000)
+    //         if (seconds === 59) {
+    //             setMinutes(minutes + 1);
+    //             setSeconds(0);
+    //         } if (minutes === 59) {
+    //             setHours(hours + 1);
+    //         }
+    //     }, 1000)
 
-        return () => clearInterval(timer);
-    });
-const ClickSubmit =()=>{
-    alert("Are you sure you want to Submit the exam?")
-    clearInterval(timer);
-    const SubmitOnlineExam: ISubmitOnlineExamBody = {
-        aiSchoolId: asSchoolId,
-        aiAcademicYrId: asAcademicYearId,
-        aiStandardId: asStandardId,
-        aiSatandardDivisionId: asStandardDivisionId,
-        aiSubjectId: Subjectid,
-        aiExamId: EXAMid,
-        aiStudentId: asStudentId,
-    };
-    dispatch(GetSubmitExam(SubmitOnlineExam))
-}
+    //     return () => clearInterval(timer);
+    // });
+    const ClickSubmit = () => {
+        alert("Are you sure you want to Submit the exam?")
+        clearInterval(timer);
+        const SubmitOnlineExam: ISubmitOnlineExamBody = {
+            aiSchoolId: asSchoolId,
+            aiAcademicYrId: asAcademicYearId,
+            aiStandardId: asStandardId,
+            aiSatandardDivisionId: asStandardDivisionId,
+            aiSubjectId: Subjectid,
+            aiExamId: EXAMid,
+            aiStudentId: asStudentId,
+        };
+        dispatch(GetSubmitExam(SubmitOnlineExam))
+    }
 
-const SaveExam = ()=>{
-//   dispatch(GetSaveExam(saveBody))
-}
 
 
     return (
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
-                <Card sx={{py:1}}>
-                <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
-             
-                <Stack
-                 direction="row"
-                 justifyContent="center"
-                 alignItems="center"
-                 m={1}
-                      >
-               <Box sx={{height:"150px",width:"320px",overflow:"scroll",border: '1px solid grey'}} alignItems={"center"}> 
-                <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
-                </Box>   
-               </Stack> 
-               
-                
-               
-                {itemlist.length > 0 &&
-                    <>
-                        <Grid container xs={12} flexDirection='row'sx={{mt:"8px"}}>
-                            <Grid xs={10.3} />
-                            <Grid xs={1.7} >
-                                {/* <Typography sx={{ textAlign: 'center', border: '1px solid grey' }} ><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography> */}
-                                <Avatar  sx={{ textAlign: 'center', border: '2.5px solid grey' , backgroundColor:"white" , color:"#4b4b4b", width: 29, height: 29, fontSize: '10px',}}>{itemlist[currentIndex].Parent.Marks}M </Avatar>
-                            </Grid>
-                        </Grid>
-                        <Grid container xs={12}>
-                            <Typography sx={{ml:"3px"}} p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
-                        </Grid>
-                       
-                        <ListSelect  Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
-                      
-                    </>
-                }
-                {currentIndex == maxIndex && <Box sx={{ mt: '-20px', mr:"15px", ml:"5px" }}><Attachments /></Box>}
-                <Grid container spacing={1} sx={{ mt: '-10px' }} p={1}>
-                    <Grid item xs={6}>
-                        <Container>
-                        <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
-                            Previous
-                        </ButtonPrimary>
-                        </Container>
-                    </Grid>
+                <Card sx={{ py: 1 }}>
+                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
+                    <Stack
+                        direction="row"
+                        justifyContent="center"
+                        alignItems="center"
+                        m={1}
+                    >
+                        <Box sx={{ height: "150px", width: "320px", overflow: "scroll", border: '1px solid grey' }} alignItems={"center"}>
+                            <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
+                        </Box>
+                    </Stack>
 
-                    <Grid item xs={6} >
-                    <Container>
-                        {currentIndex == maxIndex ?
-                            <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
-                                Submit
-                            </ButtonPrimary>
-                            :
-                            <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
-                                Next
-                            </ButtonPrimary>
-                            
-                        }</Container>
+
+
+                    {itemlist.length > 0 &&
+                        <>
+                        {/* <Typography>{Getsaveexam.Message}</Typography> */}
+                            <Grid container xs={12} flexDirection='row' sx={{ mt: "8px" }}>
+                                <Grid xs={10.3} />
+                                <Grid xs={1.7} >
+                                    {/* <Typography sx={{ textAlign: 'center', border: '1px solid grey' }} ><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography> */}
+                                    <Avatar sx={{ textAlign: 'center', border: '2.5px solid grey', backgroundColor: "white", color: "#4b4b4b", width: 29, height: 29, fontSize: '10px', }}>{itemlist[currentIndex].Parent.Marks}M </Avatar>
+                                </Grid>
+                            </Grid>
+                            <Grid container xs={12}>
+                                <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                            </Grid>
+
+                            <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
+
+                        </>
+                    }
+                    {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "15px", ml: "5px" }}><Attachments /></Box>}
+                    <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
+                        <Grid item xs={6}>
+                            <Container>
+                                <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
+                                    Previous
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
+                        <Grid item xs={6} >
+                            <Container>
+                                <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
+                                    Next
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
+                        <Grid item xs={6}>
+                            <Container>
+                                <ButtonPrimary fullWidth color='secondary' onClick={SaveExam}>
+                                    Save
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
+                        <Grid item xs={6} >
+                            <Container>
+                                <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
+                                    Submit
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
                     </Grid>
-                </Grid>
                 </Card>
             </Container>
 

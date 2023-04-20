@@ -32,7 +32,7 @@ const Attachments = () => {
     } else if (allowedFileTypes.includes(fileExtension)) {
       setFilerror(null)
     }
-    if (file?.size > 25000) {
+    if (file?.size > 2500000) {
       setFilerror("Please upload a file smaller than 25 MB");
       return false;
     }
