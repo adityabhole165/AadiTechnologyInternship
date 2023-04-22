@@ -244,6 +244,9 @@ const QueAns = () => {
                                 </Grid>
                             </Grid>
                             <Grid container xs={12}>
+                                {listCardItems.map((item,i)=>{
+                                    return <> {currentIndex == item.Name && <Typography key={i} > {item.SerialNo} </Typography>}</>
+                                })}
                                 <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
                             </Grid>
 
