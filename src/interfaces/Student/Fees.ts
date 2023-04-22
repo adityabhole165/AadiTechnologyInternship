@@ -1,7 +1,9 @@
 export default interface IFees {
 
-        "asSchoolId": string,
-        "asStudentId": string
+        asSchoolId: string,
+        asStudentId: string,
+        aiAcademicYearId: number,
+        abIsForCurrentYear: boolean
 
 }
 

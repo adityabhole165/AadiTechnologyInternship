@@ -77,7 +77,9 @@ console.log("InternalFeeDetails",InternalFeeDetails)
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
   const body: IFees = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId
+    asStudentId: asStudentId,
+    aiAcademicYearId: Number(asAcademicYearId),
+    abIsForCurrentYear: true
   };
 
   const IGetFeeDetailsOfOldAcademicBody = {
@@ -130,6 +132,8 @@ console.log("InternalFeeDetails",InternalFeeDetails)
   const PayInternalFees = () => {
     navigate('PayinternalFees')
   };
+  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -180,10 +184,10 @@ console.log("InternalFeeDetails",InternalFeeDetails)
       <ListStyle sx={{ mb: 2 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
-          <b>Applicable Fees:</b> {FeesList2.TotalFee}
+          <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}  />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
