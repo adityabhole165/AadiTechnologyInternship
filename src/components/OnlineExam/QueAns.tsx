@@ -244,10 +244,15 @@ const QueAns = () => {
                                 </Grid>
                             </Grid>
                             <Grid container xs={12}>
+                                <Grid item xs={1}>
                                 {listCardItems.map((item,i)=>{
-                                    return <> {currentIndex == item.Name && <Typography key={i} > {item.SerialNo} </Typography>}</>
+                                    return <> {currentIndex == item.Name && <Typography key={i} pt={1} pl={1.8}> {item.SerialNo} </Typography>}</>
                                 })}
-                                <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                                </Grid>
+                              <Grid item xs={11}>
+                              <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                              </Grid>
+                             
                             </Grid>
 
                             <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
