@@ -368,7 +368,12 @@ const MessageList = () => {
 
             <Container maxWidth={'xl'}>
                 <PageHeader heading="Message Center" subheading=""></PageHeader>
-
+                <Hidden smUp>
+        <Box sx={{ float: "right", mt: "-45px" }}>
+          <SettingsIcon onClick={clickSetting} fontSize="medium" />
+          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} fontSize="medium" />
+        </Box>
+        </Hidden>
                 <Grid container columnGap={1}>
                     <Grid item sm={2} xs={12} spacing={1}>
                         <Hidden smDown>
