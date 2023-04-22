@@ -187,7 +187,7 @@ console.log("InternalFeeDetails",InternalFeeDetails)
           <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} Fee2={FeesList2} />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}  />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
