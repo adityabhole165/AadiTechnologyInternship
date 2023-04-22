@@ -139,26 +139,68 @@ export interface PaymentNotes {
 
 // GetInternalFeeDetails
 
-export interface IGetInternalFeeDetailsBody{
+export interface IGetInternalFeeDetailsBody {
         aiSchoolId: string,
-    aiAcademicYearId: string,
-    aiStudentId: string,
-    abIsNextYearFeePayment: string
+        aiAcademicYearId: string,
+        aiStudentId: string,
+        abIsNextYearFeePayment: string
 }
-export interface IGetInternalFeeDetailsResult{
-        InternalFeeDetails : [InternalFeeDetails],
+export interface IGetInternalFeeDetailsResult {
+        InternalFeeDetails: [InternalFeeDetails],
         PendingFeeAcademicYears: string
 }
-export interface InternalFeeDetails{
+export interface InternalFeeDetails {
         SchoolwiseStudentId: number,
-            InternalFeeDetailsId: number,
-            ReceiptNo: number,
-            SerialNumber: number,
-            DebitCredit: string,
-            Amount: number,
-            FeeType: string,
-            PayableFor:string,
-            IsDueDateApplicable: boolean,
-            PaidDate: string,
-            Remarks: string
+        InternalFeeDetailsId: number,
+        ReceiptNo: number,
+        SerialNumber: number,
+        DebitCredit: string,
+        Amount: number,
+        FeeType: string,
+        PayableFor: string,
+        IsDueDateApplicable: boolean,
+        PaidDate: string,
+        Remarks: string
+}
+
+// GetNextYearDetails
+
+export interface IGetNextYearDetailsBody {
+        aiSchoolId: string,
+        aiStudentId: string
+}
+
+export interface IGetNextYearDetailsResult {
+        NextAcademicDetails: {
+                SchoolwiseStudentId: string,
+                NextAcademicYearId: string,
+        }
+}
+
+//GetNextYearFeeDetails
+export interface IGetNextYearFeeDetailsBody {
+
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiSchoolwiseStudentId: string,
+        aiStandardId: string
+
+}
+
+export interface IGetNextYearFeeDetailsResult {
+        NextYearFeeDetails: [NextYearFeeDetails]
+}
+
+export interface NextYearFeeDetails {
+        PayableFor: string,
+        FeeType: string,
+        Amount: string,
+        FeesPaid: string,
+        LateFeeAmount: string,
+        AmountPayable: string,
+        RowNumber: number,
+        DueDate: string,
+        DueDateString: string,
+        SerialNo: number,
+        PaymentGroup: number
 }

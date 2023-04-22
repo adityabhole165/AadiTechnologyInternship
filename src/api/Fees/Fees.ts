@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult}  from "../../interfaces/Student/Fees";
+import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult}  from "../../interfaces/Student/Fees";
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);
@@ -24,13 +24,23 @@ const InternalFeeDetails = (data:IGetInternalFeeDetailsBody) => {
   return http.post<IGetInternalFeeDetailsResult>('Student/GetInternalFeeDetails',data);
 }
 
+const GetNextYearDetails = (data:IGetNextYearDetailsBody) => {
+  return http.post<IGetNextYearDetailsResult>('Student/GetNextYearDetails',data);
+}
+
+const GetNextYearFeeDetails = (data:IGetNextYearFeeDetailsBody) => {
+  return http.post<IGetNextYearFeeDetailsResult>('Student/GetNextYearFeeDetails',data);
+}
+
 const FeesApi ={
     GetFeesList,
     getPaymentUrl,
     getReceiptFileName,
     getAllAcademicYears,
     GetFeeDetailsOfOldAcademic,
-    InternalFeeDetails
+    InternalFeeDetails,
+    GetNextYearDetails,
+    GetNextYearFeeDetails
 }
 
 export default FeesApi;
