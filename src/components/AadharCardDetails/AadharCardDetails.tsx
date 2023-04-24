@@ -33,6 +33,7 @@ function AadharCardDetails() {
     const aRef = useRef(null);
     const [fileName, setFileName] = useState('')
     const [aadharNumber, setAadharNumber] = useState('')
+    const [aadharName, setAdharName]= useState('')
     const dispatch = useDispatch();
     const [base64URL, setBase64URL] = useState('')
     const [error, setError] = useState(false);
@@ -81,9 +82,11 @@ function AadharCardDetails() {
         "asAadharCardNo": aadharNumber,
         "asAadharCardFileName": fileName,
         "asUserRoleId": asUserRoleId,
-        "asAadharCardBase64String": base64URL
+        "asAadharCardBase64String": base64URL,
+        "asNameOnAadharCard": aadharName
     }
 
+   
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -183,7 +186,12 @@ function AadharCardDetails() {
                     </Typography>
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
-                    <Box sx={{ my: "10px", textAlign: "center" }}>
+                 
+
+                        <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b>
+                            <input type='text' value={aadharName} onChange={(e)=> setAdharName(e.target.value)}/> 
+                            </Typography>
+                            <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
                         <img style={{height:"150px", width:"150px"}} src={"/imges/Adhar.png"} alt={'adhar'}/> :
                         <>

@@ -128,8 +128,8 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
   useEffect(() => {
     dispatch(getYearList(body1));
     dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
-    dispatch(getNextYearDetails(IGetNextYearDetailsBody));
-    dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
+    // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+    // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
     
   }, []);
 
