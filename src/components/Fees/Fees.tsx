@@ -17,7 +17,7 @@ import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
-import { getFeesDetailsOfOldAcademic, getInternalFeeDetails } from 'src/requests/Fees/Fees'
+import { getFeesDetailsOfOldAcademic, getInternalFeeDetails, getNextYearDetails, getNextYearFeeDetails } from 'src/requests/Fees/Fees'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
@@ -33,7 +33,10 @@ function Fees() {
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-  const [internalFees, setInternalFees]= useState("")
+  const [internalFees, setInternalFees] = useState("")
+  const schoolFees = "School";
+
+
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
@@ -52,7 +55,17 @@ function Fees() {
   const InternalFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.InternalFeeDetails
   );
-console.log("InternalFeeDetails",InternalFeeDetails)
+
+
+  const NextYearDetails: any = useSelector(
+    (state: RootState) => state.Fees.GetNextYearDetails
+  );
+
+  const GetNextYearFeeDetails: any = useSelector(
+    (state: RootState) => state.Fees.GetNextYearFeeDetails
+  );
+console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
+
 
   const Feedata = {
     Fee1: 'Fee Type',
@@ -70,6 +83,8 @@ console.log("InternalFeeDetails",InternalFeeDetails)
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asStandardId = sessionStorage.getItem('StandardId');
+
   const body1: GetAllAcademicYearsApiBody = {
     aiSchoolId: asSchoolId,
     aiYearwiseStudentId: asStudentId
@@ -94,11 +109,28 @@ console.log("InternalFeeDetails",InternalFeeDetails)
     abIsNextYearFeePayment: internalFees
   }
 
+  const IGetNextYearDetailsBody = {
+    aiSchoolId: asSchoolId,
+    aiStudentId: asStudentId
+  }
+
+  const IGetNextYearFeeDetailsBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiSchoolwiseStudentId: asStudentId,
+    aiStandardId: asStandardId
+
+  }
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
   }, []);
+
   useEffect(() => {
     dispatch(getYearList(body1));
+    dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+    // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+    // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
+    
   }, []);
 
   useEffect(() => {
@@ -108,9 +140,7 @@ console.log("InternalFeeDetails",InternalFeeDetails)
       dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
   }, [currentYear]);
 
-  useEffect(() => {
-    dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
-  }, []);
+
 
   const clickYear = (value) => {
     setCurrentyear(value);
@@ -149,7 +179,7 @@ console.log("InternalFeeDetails",InternalFeeDetails)
         value={showCaution}
         exclusive
         onChange={handleChange}>
-        <ToggleButton value="School">School Fees</ToggleButton>
+        <ToggleButton value={schoolFees} >School Fees</ToggleButton>
         <ToggleButton value="Internal">Internal Fees</ToggleButton>
       </ToggleButtonGroup>
       <br></br>

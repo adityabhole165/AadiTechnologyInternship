@@ -12,6 +12,7 @@ export interface IGetUserAadharCardDetailsResult {
         AadharCardNo: string,
         AadharCardFileName: string,
         AllowAadharCardSubmit: boolean,
+        NameOnAadharCard:string
 }
 
 export interface ISaveUserAadharCardDetailsBody{
@@ -21,7 +22,8 @@ export interface ISaveUserAadharCardDetailsBody{
 	asAadharCardNo: string,
 	asAadharCardFileName: string,
 	asUserRoleId: string,
-	asAadharCardBase64String: string
+	asAadharCardBase64String: string,
+    asNameOnAadharCard: string
 }
 
 export interface ISaveUserAadharCardDetailsResult{
