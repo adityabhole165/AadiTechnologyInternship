@@ -1,0 +1,18 @@
+export const CardStyle = {
+    '@media (max-width:600px)': {
+     height: "300px", overflow: "auto"
+    },
+    };
+
+  export const  MessageStyle = (theme)=> ({
+    [theme.breakpoints.only('md')]: {
+        mt:"50px",
+        ml:"-190px"
+      },
+      [theme.breakpoints.only('lg')]: {
+        ml:"-290px",
+        mt:"50px"
+      },
+ })
+
+  

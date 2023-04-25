@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import { useState } from 'react';
 import { ButtonPrimary } from '../styled/ButtonStyle';
+import { CardStyle } from '../styled/CommonStyle';
 import {
   CardWrapper,
   ListStyle,
@@ -86,8 +87,8 @@ function Card7({
 
   return (
     <>
-      <Container>
-        <ListStyle sx={{ height: "300px", overflow: "auto" }}>
+      <Container maxWidth={'xl'}>
+        <ListStyle sx={CardStyle}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
