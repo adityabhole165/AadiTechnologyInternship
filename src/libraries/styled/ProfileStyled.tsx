@@ -7,10 +7,11 @@ font-size:12px;
   margin-left: 10px;
 `;
 export const ProfileDetailHeader = styled(Typography)`
-  font-weight: 600;
-font-size:16px;
+  font-weight: 500;
+font-size:14px;
   margin-left: 10px;
 font-family: Roboto;
+margin-bottom :10px;
 `;
 export const ProfileDetail2 = styled(Typography)`
   margin-bottom: 10px;

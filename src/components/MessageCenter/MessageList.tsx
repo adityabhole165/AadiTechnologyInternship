@@ -15,7 +15,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container, Box, Hidden } from '@mui/material';
+import { Grid, Card, Container, Box, Hidden ,Dialog} from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -41,6 +41,7 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
+import EmailSettings from './EmailSetting';
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -363,6 +364,13 @@ const MessageList = () => {
     const clickSetting = () => {
         navigate('/extended-sidebar/MessageCenter/EmailSetting')
     }
+    const [open, setOpen] = useState(false);
+
+    const handleClickOpen = () => {
+        setOpen(true);
+      };
+    
+    
     return (
         <>
 
@@ -410,9 +418,11 @@ const MessageList = () => {
                             <Hidden smDown>
                                 <Box sx={{ mt: "15px" }}>
                                     <ButtonPrimary fullWidth
-                                        onClick={clickSetting}
+                                        onClick={handleClickOpen}
                                         endIcon={<SettingsIcon />}
-                                        sx={{ mb: "5px", height: "40px" }}>
+                                        sx={{ mb: "5px", height: "40px" }}
+                                        
+                                        >
                                         Setting
                                     </ButtonPrimary>
                                     <ButtonPrimary fullWidth
@@ -422,6 +432,13 @@ const MessageList = () => {
                                         Refresh
                                     </ButtonPrimary>
                                 </Box>
+                                <Dialog open={open}
+                               onClose={() => { setOpen(false) }}
+                               PaperProps={{ sx: { position: 'fixed', m: 0, p: 1 } }}
+                                >   
+                           <EmailSettings/>
+                
+                          </Dialog>
                             </Hidden>
                         </Grid>
                         <Grid item xs={12} sm={12} >
@@ -435,7 +452,7 @@ const MessageList = () => {
                             )}
 
                         </Grid>
-                        <Grid item xs={12} sm={12}>
+                        <Grid item xs={12} >
                             <RootWrapper>
                             {loading ? (
                                 <SuspenseLoader />
@@ -448,15 +465,13 @@ const MessageList = () => {
                                         height: '570px',
                                         overflow: 'auto'
                                     }}
-                                >{InboxList?.length === 0 ? (
-                                    <ErrorMessages Error="No records found"></ErrorMessages>
-                                ) : (
+                                >
                                     <SelectList3Col
                                         Itemlist={inboxListData}
                                         ActiveTab={activeTab}
                                         refreshData={refreshData}
                                     />
-                                )}
+                              
                                 </div>
                             )}
 

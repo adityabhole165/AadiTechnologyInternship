@@ -25,7 +25,7 @@ function Card6() {
   const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB :
     RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
       RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB : ''
-
+const birthPlace = authData.data.StudentDetails.BirthPlace;
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
@@ -41,7 +41,7 @@ function Card6() {
 
   const EditProfile = () => {
     navigate('EditProfile')
-  }
+  }  
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
@@ -99,7 +99,7 @@ function Card6() {
 
                 <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
 
-                <ProfileComponent Name='Place of Birth:' Value={BirthPlace}></ProfileComponent>
+                <ProfileComponent Name='Place of Birth:' Value={birthPlace}></ProfileComponent>
 
                 <ProfileComponent Name='Date of Birth:' Value={newdate}></ProfileComponent>
 
