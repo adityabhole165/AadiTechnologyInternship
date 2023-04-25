@@ -4,7 +4,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
-import { Container } from '@mui/material'
+import { Container,Box } from '@mui/material'
 function TermAndCondition() {
   const navigate = useNavigate();
   const [radioBtn, setRadioBtn] = useState('2');
@@ -23,9 +23,10 @@ function TermAndCondition() {
     navigate('/changePassword')
   }
   return (
-    <Container>
+    <Container sx={{backgroundColor:"white"}}>
 
       <PageHeader heading={'Terms of Use'} subheading={''} />
+      <Box sx={{backgroundColor:"white", height:"100%"}}>
       <p>
 
         Pawar Public School (PPSPune) provides web based educational software and services. This End User Licensing
@@ -90,7 +91,7 @@ function TermAndCondition() {
           <ButtonPrimary onClick={ChangePassword} onClickCapture={ChangePassword}>Continue</ButtonPrimary> :
           <ButtonPrimary disabled >Continue</ButtonPrimary>
       }
-
+</Box>
     </Container>
   )
 }
