@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Container, TextField, Grid, Checkbox, Typography, Box, Card } from '@mui/material';
+import { Container, TextField, Grid, Checkbox, Typography, Box, Card, Hidden } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import BackButton from 'src/libraries/button/BackButton';
@@ -90,11 +90,14 @@ const EmailSettings = () => {
 
     return (
 
-        <Container>
+        <Container maxWidth = {'xl'}>
+            <Hidden smUp>
             <BackButton FromRoute={"/MessageCenter/msgCenter"} />
+            </Hidden>
+      
             <PageHeader heading={'Email Setting'} subheading={''} />
             {Loading && (<SuspenseLoader />)}
-            <Card component={Box} sx={{ display: "flex" }}>
+            <Card component={Box} sx={{ display: "flex" }} mb={1}>
                 <Checkbox size="small"
                     name="IsChecked"
                     // checked={isChecked}
@@ -104,8 +107,8 @@ const EmailSettings = () => {
                 <Typography variant='body2' component={Box} p={1}>Yes I want to receive message on below Email address.</Typography>
             </Card>
             <TextField fullWidth margin="dense" size="small"
-                id="EmailId" name="EmailId"
-                label={emailAddress === undefined ? "EmailId" : ''}
+                id="Email Id" name="Email Id"
+                label="Email Id"
                 value={emailAddress}
                 onChange={(e) => { inputFiledBlur(e.target.value) }}
             />
@@ -113,13 +116,13 @@ const EmailSettings = () => {
                   <Box sx={{my:1}}><Errormessage Error={'Please enter valid email address'} /></Box>
                 ) : null}
             <Grid container spacing={2}>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={0.4}>
                     <ButtonPrimary onClick={clickSubmit}
                         type="submit" fullWidth color='primary' disabled={submitButtonDisabled}>
                         Submit
                     </ButtonPrimary>
                 </Grid>
-                <Grid item xs={6}>
+                <Grid item xs={6} mt={0.4}>
                     <ButtonPrimary fullWidth color='secondary' type='reset'
                         onClick={clickReset} >
                         Reset
