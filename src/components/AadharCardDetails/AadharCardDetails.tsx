@@ -23,7 +23,7 @@ function AadharCardDetails() {
     const GetUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.GetUserAadharCardDetails
     );
-
+   
     const SaveUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.SaveUserAadharCardDetails
     );
@@ -33,7 +33,7 @@ function AadharCardDetails() {
     const aRef = useRef(null);
     const [fileName, setFileName] = useState('')
     const [aadharNumber, setAadharNumber] = useState('')
-    const [aadharName, setAdharName]= useState('')
+    const [aadharName, setAdharName] = useState('')
     const dispatch = useDispatch();
     const [base64URL, setBase64URL] = useState('')
     const [error, setError] = useState(false);
@@ -86,7 +86,7 @@ function AadharCardDetails() {
         "asNameOnAadharCard": aadharName
     }
 
-   
+
 
     const clickError = (e) => {
         if (e.target.value.length > 0) {
@@ -186,23 +186,28 @@ function AadharCardDetails() {
                     </Typography>
                     <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
-                 
+
+                    {GetUserAadharCardDetails.NameOnAadharCard === "" ?
+                        <Typography sx={{ mt: "4px" }}><b>Name Present On Aadhaar Card : </b><input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} /></Typography>
+                        : <Typography><b>Name Present On Aadhaar Card : </b> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
+                    }
+                    {/* <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b></Typography>
 
                         <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b>
                             <input type='text' value={aadharName} onChange={(e)=> setAdharName(e.target.value)}/> 
-                            </Typography>
-                            <Box sx={{ my: "10px", textAlign: "center" }}>
+                            </Typography> */}
+                    <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
-                        <img style={{height:"150px", width:"150px"}} src={"/imges/Adhar.png"} alt={'adhar'}/> :
-                        <>
-                            {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
-                                height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
-                                <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
-                                    width="150"
-                                    height="150" style={{ border: "1px solid gray", padding: "1px" }}
-                                />}
-                        </>
-}
+                            <img style={{ height: "150px", width: "150px" }} src={"/imges/Adhar.png"} alt={'adhar'} /> :
+                            <>
+                                {selectedFile ? <img src={URL.createObjectURL(selectedFile)} width="150"
+                                    height="150" style={{ border: "1px solid gray", padding: "1px" }} /> :
+                                    <img src={localStorage.getItem("SiteURL") + GetUserAadharCardDetails.AadharCardFileName}
+                                        width="150"
+                                        height="150" style={{ border: "1px solid gray", padding: "1px" }}
+                                    />}
+                            </>
+                        }
                     </Box>
                     <Box sx={{ textAlign: "center" }}>
                         <input ref={aRef} type="file" onChange={changeFile} style={{ width: "200px" }} />
