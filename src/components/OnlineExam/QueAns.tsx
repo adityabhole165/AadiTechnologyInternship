@@ -1,5 +1,5 @@
 import { Box, Card, Grid, Typography, Stack, Avatar } from '@mui/material'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,8 @@ import { combineReducers } from 'redux';
 const QueAns = () => {
 
     const dispatch = useDispatch();
+    const Ref = useRef(null);
+    const [timer, setTimer] = useState('00:00:00');
     const [currentIndex, setCurrentIndex] = useState(0)
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -28,13 +30,10 @@ const QueAns = () => {
     const EXAMid = localStorage.getItem('Examid')
     const Subjectid = localStorage.getItem('SubjectId')
     const [itemlist, setItemlist] = useState([]);
-
     const [listCardItems, setListCardItems] = useState([])
-
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
-    // console.log("itemlist", itemlist);
 
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
@@ -112,6 +111,15 @@ const QueAns = () => {
         asSchoolwiseTestId: EXAMid,
         asStudentId: asStudentId,
     };
+    const SubmitOnlineExam: ISubmitOnlineExamBody = {
+        aiSchoolId: asSchoolId,
+        aiAcademicYrId: asAcademicYearId,
+        aiStandardId: asStandardId,
+        aiSatandardDivisionId: asStandardDivisionId,
+        aiSubjectId: Subjectid,
+        aiExamId: EXAMid,
+        aiStudentId: asStudentId,
+    };
 
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
@@ -180,7 +188,7 @@ const QueAns = () => {
     }
 
 
-    var timer;
+    // var timer;
 
     // useEffect(() => {
     //     timer = setInterval(() => {
@@ -200,18 +208,60 @@ const QueAns = () => {
     const ClickSubmit = () => {
         alert("Are you sure you want to Submit the exam?")
         clearInterval(timer);
-        const SubmitOnlineExam: ISubmitOnlineExamBody = {
-            aiSchoolId: asSchoolId,
-            aiAcademicYrId: asAcademicYearId,
-            aiStandardId: asStandardId,
-            aiSatandardDivisionId: asStandardDivisionId,
-            aiSubjectId: Subjectid,
-            aiExamId: EXAMid,
-            aiStudentId: asStudentId,
-        };
         dispatch(GetSubmitExam(SubmitOnlineExam))
     }
+    const getTimeRemaining = (e) => {
+        const total = Date.parse(e) - Date.parse(new Date().toString());
+        const seconds = Math.floor((total / 1000) % 60);
+        const minutes = Math.floor((total / 1000 / 60) % 60);
+        const hours = Math.floor((total / 1000 / 60 / 60) % 24);
+        return {
+            total, hours, minutes, seconds
+        };
+    }
+  
+  
+    const startTimer = (e) => {
+        let { total, hours, minutes, seconds } 
+                    = getTimeRemaining(e);
+        if (total >= 0) {
+            setTimer(
+                (hours > 9 ? hours : '0' + hours) + ':' +
+                (minutes > 9 ? minutes : '0' + minutes) + ':'
+                + (seconds > 9 ? seconds : '0' + seconds)
+            )
+        }
+    }
+  
+  
+    const clearTimer = (e) => {
+    
+        setTimer('00:00:10');
+        if (Ref.current) clearInterval(Ref.current);
+        const id = setInterval(() => {
+            startTimer(e);
+        }, 1000)
+        Ref.current = id;
+    }
+  
+    const getDeadTime = () => {
+        let deadline = new Date();
+  
+      
+        deadline.setSeconds(deadline.getSeconds() + 10);
+        return deadline;
+    }
+  
+    useEffect(() => {
+        clearTimer(getDeadTime());
+    }, []);
 
+    useEffect(() => {
+        if(timer == '00:00:00'){
+            dispatch(GetSaveExam(saveBody))
+            dispatch(GetSubmitExam(SubmitOnlineExam))
+        }
+    }, [timer]);
 
 
     return (
@@ -219,7 +269,7 @@ const QueAns = () => {
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
                 <Card sx={{ py: 1 }}>
-                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time: </b>{hours < 10 ? "0" + hours : hours}:{minutes < 10 ? "0" + minutes : minutes}:{seconds < 10 ? "0" + seconds : seconds}</Typography>
+                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time:</b>{timer}</Typography>
                     <Stack
                         direction="row"
                         justifyContent="center"
