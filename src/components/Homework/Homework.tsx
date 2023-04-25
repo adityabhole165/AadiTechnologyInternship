@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RootState } from 'src/store';
-import { getHomeworkDateFormatted, getNextDate } from '../Common/Util';
+import { getDateMonthYearFormatted, getHomeworkDateFormatted, getNextDate } from '../Common/Util';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from '@mui/material'
 
@@ -87,6 +87,7 @@ function Homework() {
         setEndDate('')
       }
   }
+  
   return (
     <div>
 
@@ -108,7 +109,7 @@ function Homework() {
               <SelectedDateCalendar DefaultDate={assignedDate}
                 itemList={itemList} clickDate={clickDate} clickPrevNext={clickPrevNext}
                 />
-              <Card30 header={GetHomeworkDetails} />
+              <Card30 header={GetHomeworkDetails.filter((item)=>{return getDateMonthYearFormatted(item.AssignedDate) === assignedDate})} />
             </>)
         }
       </Container>
