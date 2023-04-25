@@ -188,7 +188,9 @@ function AadharCardDetails() {
                     <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
 
                     {GetUserAadharCardDetails.NameOnAadharCard === "" ?
-                        <Typography sx={{ mt: "4px" }}><b>Name Present On Aadhaar Card : </b><input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} /></Typography>
+                        <Typography sx={{ mt: "4px" }}><b>Name Present On Aadhaar Card : </b>
+                        <input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} />
+                        </Typography>
                         : <Typography><b>Name Present On Aadhaar Card : </b> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
                     }
                     {/* <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b></Typography>

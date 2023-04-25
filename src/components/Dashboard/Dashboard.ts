@@ -285,6 +285,16 @@ const DashboardData = {
       index: 33
     },
     
+    {
+      Text1: 'Navbar',
+      Text2: 'Menus',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      ImageUrl: "",
+      Link: 'Student/NavBarMenus',
+      index: 35,
+
+    },
     
   
   ]},
