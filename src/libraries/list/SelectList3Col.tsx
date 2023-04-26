@@ -12,18 +12,11 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab }) => {
 
   return (
     <div>
-      {Itemlist?.length === 0 ?
-       (
-        <Stack sx={MessageStyle}>
-            <ErrorMessages Error="No records found"></ErrorMessages>
-        </Stack>
-    
-      ) : (
-    
+     {
         Itemlist.map((item, index) => (
           <ListCard4ColSel key={index} Item={item} onChange={clickSingle} ActiveTab={ActiveTab} />
-        ))  
-     ) }
+        ))
+      }
     </div>
   );
 };

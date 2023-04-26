@@ -455,24 +455,24 @@ const MessageList = () => {
                         <Grid item xs={12} >
                             <RootWrapper>
                             {loading ? (
-                                <SuspenseLoader />
-                            ) : (
-                                <div
-                                    id="ScrollableDiv"
-                                    onScroll={scrolling}
-                                    style={{
-                                        paddingBottom: '100px',
-                                        height: '570px',
-                                        overflow: 'auto'
-                                    }}
-                                >
-                                    <SelectList3Col
-                                        Itemlist={inboxListData}
-                                        ActiveTab={activeTab}
-                                        refreshData={refreshData}
-                                    />
-                              
-                                </div>
+                       <SuspenseLoader />
+                        ) : (
+                          <div
+                           id="ScrollableDiv"
+                          onScroll={scrolling}
+                          style={{
+                          paddingBottom: '100px',
+                           height: '570px',
+                          overflow: 'auto'
+                           }}
+                          >{InboxList?.length === 0 ? (
+                        <ErrorMessages Error="No records found"></ErrorMessages>
+                        ) : (
+                         <SelectList3Col
+                        Itemlist={inboxListData}
+                         ActiveTab={activeTab}
+                        refreshData={refreshData}/>)}
+                        </div>
                             )}
 
 
