@@ -53,6 +53,7 @@ import SliceIncomeTaxReport from 'src/requests/IncomeTaxReport/RequestIncomeTax'
 import SliceEditProfile from 'src/requests/EditProfile/RequestEditProfile';
 import SliceTransportcommittee from 'src/requests/TransportCommittee/RequestTransportcommittee';
 import SliceHomeworkNew from 'src/requests/Homework/RequestHomeworkNew';
+import SliceNavbarMenu from 'src/requests/NavBarMenu/requestNavBarMenu';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -112,7 +113,8 @@ const rootReducer = combineReducers({
     IncomeTaxReport: SliceIncomeTaxReport,
     EditProfile:SliceEditProfile,
     TransportCommittee: SliceTransportcommittee,
-    HomeworkNew: SliceHomeworkNew
+    HomeworkNew: SliceHomeworkNew,
+    NavbarMenu:SliceNavbarMenu,
 });
 
 export default rootReducer;

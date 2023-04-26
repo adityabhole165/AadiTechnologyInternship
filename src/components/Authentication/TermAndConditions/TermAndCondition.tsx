@@ -8,6 +8,7 @@ import { Container,Box } from '@mui/material'
 function TermAndCondition() {
   const navigate = useNavigate();
   const [radioBtn, setRadioBtn] = useState('2');
+  const SchoolName = localStorage.getItem("SchoolName");
 
 
   const RadioList = [{ Value: "1", Name: "I accept the Term of Use" },
@@ -29,7 +30,7 @@ function TermAndCondition() {
       <Box sx={{backgroundColor:"white", height:"100%"}}>
       <p>
 
-        Pawar Public School (PPSPune) provides web based educational software and services. This End User Licensing
+        {SchoolName} provides web based educational software and services. This End User Licensing
         Agreement ("EULA") sets forth the terms and conditions of your use of these software
         and services.<br/><br/>
 

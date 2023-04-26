@@ -54,6 +54,7 @@ const EditProfile = Loader (lazy(()=> import ('src/components/Profile/EditProfil
 const TransportCommittee = Loader (lazy(()=> import ('src/components/TransportCommittee/TransportCommittee')))
 const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/PayinternalFees')))
 const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew')))
+const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMenus')))
 
 const studentRoutes = [
   {
@@ -240,6 +241,11 @@ const studentRoutes = [
 {
   path: "HomeworkNew",
   element: <HomeworkNew/>
+},
+
+{
+  path: "NavbarMenus",
+  element: <NavbarMenus/>
 },
   ];
 

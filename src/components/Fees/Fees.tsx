@@ -33,8 +33,9 @@ function Fees() {
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-  const [internalFees, setInternalFees] = useState("")
-  const schoolFees = "School";
+  // const [internalFees, setInternalFees] = useState("")
+  const schoolFees = "SchoolFees";
+  const internalFees = "internalFees";
 
 
   const FeesList2: any = useSelector(
@@ -181,7 +182,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
         exclusive
         onChange={handleChange}>
         <ToggleButton value={schoolFees} >School Fees</ToggleButton>
-        <ToggleButton value="Internal">Internal Fees</ToggleButton>
+        <ToggleButton value={internalFees}>Internal Fees</ToggleButton>
       </ToggleButtonGroup>
       <br></br>
       <br></br>
