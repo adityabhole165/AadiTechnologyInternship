@@ -111,6 +111,7 @@ const EmailSettings = () => {
                 label="Email Id"
                 value={emailAddress}
                 onChange={(e) => { inputFiledBlur(e.target.value) }}
+                variant="standard"
             />
              {emailAddressErrorFlag ? (
                   <Box sx={{my:1}}><Errormessage Error={'Please enter valid email address'} /></Box>
