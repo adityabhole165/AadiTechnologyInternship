@@ -94,8 +94,8 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId,
-    aiAcademicYearId: Number(asAcademicYearId),
-    abIsForCurrentYear: true
+    aiAcademicYearId: Number(currentYear),
+    abIsForCurrentYear: currentYear == asAcademicYearId ? true : false
   };
 
   const IGetFeeDetailsOfOldAcademicBody = {
@@ -138,8 +138,9 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
   useEffect(() => {
     if (currentYear === sessionStorage.getItem("AcademicYearId")) {
       dispatch(getFees(body));
-    } else
-      dispatch(getFees(IGetFeeDetailsOfOldAcademicBody));
+    } 
+    else
+      dispatch(getFees(body));
   }, [currentYear]);
 
 
