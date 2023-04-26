@@ -11,7 +11,7 @@ import { useNavigate } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
-import { CardDetail2 } from 'src/libraries/styled/CardStyle';
+import { CardDetail2, Wordbreak } from 'src/libraries/styled/CardStyle';
 import { NoteStyle } from 'src/libraries/styled/NoteStyle'
 import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/styled/CardStyle';
 import Note from 'src/libraries/Note/Note';
@@ -98,9 +98,10 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
   };
 
   const IGetFeeDetailsOfOldAcademicBody = {
-    aiSchoolId: asSchoolId,
-    aiStudentId: asStudentId,
-    aiAcademicYearId: currentYear
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId,
+    aiAcademicYearId: Number(asAcademicYearId),
+    abIsForCurrentYear: true
   }
   const IGetInternalFeeDetailsBody = {
     aiSchoolId: asSchoolId,
@@ -137,7 +138,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
     if (currentYear === sessionStorage.getItem("AcademicYearId")) {
       dispatch(getFees(body));
     } else
-      dispatch(getFeesDetailsOfOldAcademic(IGetFeeDetailsOfOldAcademicBody));
+      dispatch(getFees(IGetFeeDetailsOfOldAcademicBody));
   }, [currentYear]);
 
 
@@ -225,13 +226,10 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
           return <>
-            <CardDetail2 key={i}>
-              <b>{note.SrNo}:</b> {note.Note}
-            </CardDetail2>
+         <Box sx={{display:'flex',flexDirection:'row'}}><Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} /></Box>   
           </>
         })}
       </NoteStyle>
-      {/* } */}
       {asSchoolId == "11" && <>
         <SpecialNote />
       </>
