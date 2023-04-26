@@ -15,7 +15,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container, Box, Hidden ,Dialog} from '@mui/material';
+import { Grid, Card, Container, Box, Hidden, Dialog } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -368,20 +368,20 @@ const MessageList = () => {
 
     const handleClickOpen = () => {
         setOpen(true);
-      };
-    
-    
+    };
+
+
     return (
         <>
 
             <Container maxWidth={'xl'}>
                 <PageHeader heading="Message Center" subheading=""></PageHeader>
                 <Hidden smUp>
-        <Box sx={{ float: "right", mt: "-45px" }}>
-          <SettingsIcon onClick={clickSetting} fontSize="medium" />
-          <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} fontSize="medium" />
-        </Box>
-        </Hidden>
+                    <Box sx={{ float: "right", mt: "-45px" }}>
+                        <SettingsIcon onClick={clickSetting} fontSize="medium" />
+                        <RefreshIcon onClick={() => { setIsRefresh(!isRefresh) }} fontSize="medium" />
+                    </Box>
+                </Hidden>
                 <Grid container columnGap={1}>
                     <Grid item sm={2} xs={12} spacing={1}>
                         <Hidden smDown>
@@ -395,52 +395,54 @@ const MessageList = () => {
                                 </RouterLink>
                             </Card>
                         </Hidden>
-
+                        {!showSearch &&
                         <CardMessage activeTab={activeTab}
                             clickTab={clickTab} clickSearchIcon={clickSearchIcon} />
+                        }
                     </Grid>
-                    
                     <Grid container sm={10} spacing={1} >
-                        <Grid item xs={12} sm={10}>
-                            <MCForm
-                                AcademicYearList={AcademicYearList}
-                                MonthYearList={MonthYearList}
-                                clickSearch={clickSearch}
-                                academicYear={academicYear}
-                                monthYear={monthYear}
-                                clickAcademicYear={clickAcademicYear}
-                                clickMonthYear={clickMonthYear}
-                                isSearchClicked={isSearchClicked}
-                                CloseSearchBar={closeSearchBar}
-                            />
-                        </Grid>
-                        <Grid item sm={2}>
-                            <Hidden smDown>
-                                <Box sx={{ mt: "15px" }}>
-                                    <ButtonPrimary fullWidth
-                                        onClick={handleClickOpen}
-                                        endIcon={<SettingsIcon />}
-                                        sx={{ mb: "5px", height: "40px" }}
-                                        
+                        {showSearch &&
+                            (<><Grid item xs={12} sm={10}>
+                                <MCForm
+                                    AcademicYearList={AcademicYearList}
+                                    MonthYearList={MonthYearList}
+                                    clickSearch={clickSearch}
+                                    academicYear={academicYear}
+                                    monthYear={monthYear}
+                                    clickAcademicYear={clickAcademicYear}
+                                    clickMonthYear={clickMonthYear}
+                                    isSearchClicked={isSearchClicked}
+                                    CloseSearchBar={closeSearchBar}
+                                />
+                            </Grid>
+                                <Grid item sm={2}>
+                                    <Hidden smDown>
+                                        <Box sx={{ mt: "15px" }}>
+                                            <ButtonPrimary fullWidth
+                                                onClick={handleClickOpen}
+                                                endIcon={<SettingsIcon />}
+                                                sx={{ mb: "5px", height: "40px" }}
+
+                                            >
+                                                Setting
+                                            </ButtonPrimary>
+                                            <ButtonPrimary fullWidth
+                                                onClick={() => { setIsRefresh(!isRefresh) }}
+                                                endIcon={<RefreshIcon />}
+                                                sx={{ height: "40px" }}>
+                                                Refresh
+                                            </ButtonPrimary>
+                                        </Box>
+                                        <Dialog open={open}
+                                            onClose={() => { setOpen(false) }}
+                                            PaperProps={{ sx: { position: 'fixed', m: 0, p: 1 } }}
                                         >
-                                        Setting
-                                    </ButtonPrimary>
-                                    <ButtonPrimary fullWidth
-                                        onClick={() => { setIsRefresh(!isRefresh) }}
-                                        endIcon={<RefreshIcon />}
-                                        sx={{ height: "40px" }}>
-                                        Refresh
-                                    </ButtonPrimary>
-                                </Box>
-                                <Dialog open={open}
-                               onClose={() => { setOpen(false) }}
-                               PaperProps={{ sx: { position: 'fixed', m: 0, p: 1 } }}
-                                >   
-                           <EmailSettings/>
-                
-                          </Dialog>
-                            </Hidden>
-                        </Grid>
+                                            <EmailSettings />
+
+                                        </Dialog>
+                                    </Hidden>
+                                </Grid></>)
+                        }
                         <Grid item xs={12} sm={12} >
 
                             {inboxListData.some((obj) => obj.isActive === true) && (
@@ -454,68 +456,68 @@ const MessageList = () => {
                         </Grid>
                         <Grid item xs={12} >
                             <RootWrapper>
-                            {loading ? (
-                                <SuspenseLoader />
-                            ) : (
-                                <div
-                                    id="ScrollableDiv"
-                                    onScroll={scrolling}
+                                {loading ? (
+                                    <SuspenseLoader />
+                                ) : (
+                                    <div
+                                        id="ScrollableDiv"
+                                        onScroll={scrolling}
+                                        style={{
+                                            paddingBottom: '100px',
+                                            height: '570px',
+                                            overflow: 'auto'
+                                        }}
+                                    >{InboxList?.length === 0 ? (
+                                        <ErrorMessages Error="No records found"></ErrorMessages>
+                                    ) : (
+                                        <SelectList3Col
+                                            Itemlist={inboxListData}
+                                            ActiveTab={activeTab}
+                                            refreshData={refreshData} />)}
+                                    </div>
+                                )}
+
+
+                                <Avatar
+                                    sx={{
+                                        display: displayMoveToTop,
+                                        position: 'fixed',
+                                        bottom: '95px',
+                                        zIndex: '4',
+                                        left: '15px',
+                                        p: '2px',
+                                        width: 50,
+                                        height: 50,
+                                        backgroundColor: 'white',
+                                        boxShadow:
+                                            '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+                                    }}
+                                    onClick={MoveToTop} // Close function
+                                >
+                                    <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
+                                </Avatar>
+                                <span
                                     style={{
-                                        paddingBottom: '100px',
-                                        height: '570px',
-                                        overflow: 'auto'
+                                        width: '95px',
+                                        position: 'fixed',
+                                        bottom: '80px',
+                                        right: '20px'
                                     }}
                                 >
-                                    <SelectList3Col
-                                        Itemlist={inboxListData}
-                                        ActiveTab={activeTab}
-                                        refreshData={refreshData}
-                                    />
-                              
-                                </div>
-                            )}
+                                    <RouterLink
+                                        style={{ textDecoration: 'none' }}
+                                        to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
+                                    >
+                                        <Item sx={{ fontSize: '10px', marginLeft: '-7px', mb: "10px" }} >
+                                            <AddCircleIcon onClick={clickClear} />
+                                            <br />
+                                            <b>Compose</b>
+                                        </Item>
+                                    </RouterLink>
+                                </span>
 
 
-                            <Avatar
-                                sx={{
-                                    display: displayMoveToTop,
-                                    position: 'fixed',
-                                    bottom: '95px',
-                                    zIndex: '4',
-                                    left: '15px',
-                                    p: '2px',
-                                    width: 50,
-                                    height: 50,
-                                    backgroundColor: 'white',
-                                    boxShadow:
-                                        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
-                                }}
-                                onClick={MoveToTop} // Close function
-                            >
-                                <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
-                            </Avatar>
-                            <span
-                                style={{
-                                    width: '95px',
-                                    position: 'fixed',
-                                    bottom: '80px',
-                                    right: '20px'
-                                }}
-                            >
-                                <RouterLink
-                                    style={{ textDecoration: 'none' }}
-                                    to={`/${location.pathname.split('/')[1]}/MessageCenter/Compose`}
-                                >
-                                    <Item sx={{ fontSize: '10px', marginLeft: '-7px', mb: "10px" }} >
-                                        <AddCircleIcon onClick={clickClear} />
-                                        <br />
-                                        <b>Compose</b>
-                                    </Item>
-                                </RouterLink>
-                            </span>
-
-
-                        </RootWrapper></Grid>
+                            </RootWrapper></Grid>
                     </Grid>
 
                 </Grid>

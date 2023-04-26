@@ -15,6 +15,8 @@ import { Container } from '@mui/system';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
+import BackButton from 'src/libraries/button/BackButton';
+
 
 const QueAns = () => {
 
@@ -268,6 +270,7 @@ const QueAns = () => {
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
+          {Getsubmitexam != "" &&  <BackButton FromRoute={'/Student/OnlineExam'} />} 
                 <Card sx={{ py: 1 }}>
                     <Typography sx={{ textAlign: 'center' }}><b>Exam Time:</b>{timer}</Typography>
                     <Stack
