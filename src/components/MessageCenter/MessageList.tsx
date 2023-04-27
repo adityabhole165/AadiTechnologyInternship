@@ -82,6 +82,9 @@ const MessageList = () => {
     const [ToolTip, setToolTip] = useState<boolean>(true);
     const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
     const [isRefresh, setIsRefresh] = useState(false)
+    const [open, setOpen] = useState(false);
+    const [isMobile, setIsMobile] = useState(false);
+
 
     const AcademicYearList = useSelector(
         (state: RootState) => state.MessageCenter.YearsList
@@ -135,7 +138,18 @@ const MessageList = () => {
         asSchoolId: SchoolId
     };
 
+    const handleResize = () => {
+        // setShowSearch(true)
+        if (window.innerWidth < 600) {
+            setIsMobile(true)
+        } else {
+            setIsMobile(false)
+        }
+    }
+    window.addEventListener('resize', handleResize)
+
     useEffect(() => {
+        handleResize()
         dispatch(getAcademicYearList(body));
         setActiveTab(pageName === '' ? 'Inbox' : pageName);
         setAcademicYear(AcademicYearId);
@@ -364,8 +378,6 @@ const MessageList = () => {
     const clickSetting = () => {
         navigate('/extended-sidebar/MessageCenter/EmailSetting')
     }
-    const [open, setOpen] = useState(false);
-
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -396,12 +408,12 @@ const MessageList = () => {
                             </Card>
                         </Hidden>
                         {!showSearch &&
-                        <CardMessage activeTab={activeTab}
-                            clickTab={clickTab} clickSearchIcon={clickSearchIcon} />
+                            <CardMessage activeTab={activeTab}
+                                clickTab={clickTab} clickSearchIcon={clickSearchIcon} />
                         }
                     </Grid>
                     <Grid container sm={10} spacing={1} >
-                        {showSearch &&
+                        {((showSearch && isMobile) || !isMobile) &&
                             (<><Grid item xs={12} sm={10}>
                                 <MCForm
                                     AcademicYearList={AcademicYearList}
