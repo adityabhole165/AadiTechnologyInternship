@@ -96,7 +96,7 @@ const Subjectid = localStorage.setItem('SubjectId',SubjectId)
                <CardQA key={i}
               header={examSchedules.Exam}
               text1={examSchedules.Subject}
-              text2={examSchedules.StartTime + '-' + examSchedules.EndTime}
+              text2={examSchedules.StartTime + ' - ' + examSchedules.EndTime}
               text3={examSchedules.StartDate}
               /> 
             </>
