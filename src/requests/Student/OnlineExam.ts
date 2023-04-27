@@ -36,14 +36,29 @@ const SelectOnlineExamSlice = createSlice({
             state.ExamData = action.payload;
         },
         submitExam(state, action) {
-            state.SubmitExam = action.payload;
+            state.SubmitExam = action.payload.Message;
         },
         saveExam(state, action) {
-            state.SaveExam = action.payload;
+            state.SaveExam = action.payload.Message;
         },
+        resetSaveMsg(state){
+            state.SaveExam = "";
+        },
+        resetSubmitMsg(state){
+            state.SubmitExam = "";
+        }
     }
 });
-
+export const resetSaveMsg =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectOnlineExamSlice.actions.resetSaveMsg());
+    };
+export const resetSubmitMsg =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SelectOnlineExamSlice.actions.resetSubmitMsg());
+    };
 export const AllExamData =
     (data: IExamData): AppThunk =>
         async (dispatch) => {

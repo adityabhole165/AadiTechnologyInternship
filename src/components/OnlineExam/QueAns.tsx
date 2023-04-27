@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData, GetSaveExam, GetSubmitExam } from 'src/requests/Student/OnlineExam';
+import { AllExamData, GetSaveExam, GetSubmitExam, resetSaveMsg, resetSubmitMsg } from 'src/requests/Student/OnlineExam';
 import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
@@ -16,6 +16,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
 import BackButton from 'src/libraries/button/BackButton';
+import { toast } from 'react-toastify';
 
 
 const QueAns = () => {
@@ -43,7 +44,7 @@ const QueAns = () => {
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
-    );
+    );   
     const Getsaveexam = useSelector(
         (state: RootState) => state.OnlineExam.SaveExam
     );
@@ -126,6 +127,18 @@ const QueAns = () => {
     useEffect(() => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
+    useEffect(() => {
+        if (Getsubmitexam !== undefined || Getsubmitexam !== "") {
+            toast.success(Getsubmitexam, { toastId: 'success1' })
+            dispatch(resetSubmitMsg());
+        }
+    }, [Getsubmitexam])
+    useEffect(() => {
+        if (Getsaveexam !== undefined || Getsaveexam !== "") {
+            toast.success(Getsaveexam, { toastId: 'success1' })
+            dispatch(resetSaveMsg());
+        }
+    }, [Getsaveexam])
 
     useEffect(() => {
         setItemlist(GetAllAnswerQueListtt)
