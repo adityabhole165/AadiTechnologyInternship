@@ -128,17 +128,18 @@ const QueAns = () => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
     useEffect(() => {
-        if (Getsubmitexam !== undefined || Getsubmitexam !== "") {
+        console.log("--",Getsaveexam,"--",Getsubmitexam,"--");
+        
+        if (Getsubmitexam !== null || Getsubmitexam !== "") {
             toast.success(Getsubmitexam, { toastId: 'success1' })
             dispatch(resetSubmitMsg());
-        }
-    }, [Getsubmitexam])
-    useEffect(() => {
-        if (Getsaveexam !== undefined || Getsaveexam !== "") {
+        } 
+        if (Getsaveexam !== null || Getsaveexam !== "") {
             toast.success(Getsaveexam, { toastId: 'success1' })
             dispatch(resetSaveMsg());
         }
-    }, [Getsaveexam])
+    
+    }, [Getsubmitexam,Getsaveexam])
 
     useEffect(() => {
         setItemlist(GetAllAnswerQueListtt)

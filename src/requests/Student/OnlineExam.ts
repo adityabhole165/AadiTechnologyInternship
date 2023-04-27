@@ -13,8 +13,8 @@ const SelectOnlineExamSlice = createSlice({
         AnswerDetailsList: [],
         ExamSchedulesList: [],
         ExamData: [],
-        SubmitExam: {},
-        SaveExam: {}
+        SubmitExam: null,
+        SaveExam: null
     },
     reducers: {
         getOnlineExam(state, action) {
