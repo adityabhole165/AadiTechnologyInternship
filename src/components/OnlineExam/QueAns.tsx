@@ -1,6 +1,6 @@
 import { Box, Card, Grid, Typography, Stack, Avatar } from '@mui/material'
 import React, { useRef, useState } from 'react'
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import {  ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -48,7 +48,7 @@ const QueAns = () => {
     const Getsaveexam = useSelector(
         (state: RootState) => state.OnlineExam.SaveExam
     );
-    
+
     const OutofMarks = itemlist.map((item) => {
         return { AddMarks: item.Parent }
     });
@@ -56,7 +56,7 @@ const QueAns = () => {
         let totalMarks = 0
         itemlist.map((item) => {
             item.Child.map(obj => {
-                if (obj.IsCorrectAnswer === true && obj.IsCorrectAnswer === obj.isActive){
+                if (obj.IsCorrectAnswer === true && obj.IsCorrectAnswer === obj.isActive) {
                     totalMarks = totalMarks + item.Parent.Marks
                 }
             })
@@ -100,7 +100,7 @@ const QueAns = () => {
         asAttachmentBase64String: "",
         alstQuestAnswerDetails: getQuestionAnser()
     }
-    
+
 
     const SaveExam = () => {
         dispatch(GetSaveExam(saveBody))
@@ -234,11 +234,11 @@ const QueAns = () => {
             total, hours, minutes, seconds
         };
     }
-  
-  
+
+
     const startTimer = (e) => {
-        let { total, hours, minutes, seconds } 
-                    = getTimeRemaining(e);
+        let { total, hours, minutes, seconds }
+            = getTimeRemaining(e);
         if (total >= 0) {
             setTimer(
                 (hours > 9 ? hours : '0' + hours) + ':' +
@@ -247,32 +247,32 @@ const QueAns = () => {
             )
         }
     }
-  
-  
+
+
     const clearTimer = (e) => {
-    
-        setTimer('00:00:10');
+
+        setTimer ('00: 00: 10');
         if (Ref.current) clearInterval(Ref.current);
         const id = setInterval(() => {
             startTimer(e);
         }, 1000)
         Ref.current = id;
     }
-  
+
     const getDeadTime = () => {
         let deadline = new Date();
-  
-      
+
+
         deadline.setSeconds(deadline.getSeconds() + 10);
         return deadline;
     }
-  
+
     useEffect(() => {
         clearTimer(getDeadTime());
     }, []);
 
     useEffect(() => {
-        if(timer == '00:00:00'){
+        if (timer == '00:00:00') {
             dispatch(GetSaveExam(saveBody))
             dispatch(GetSubmitExam(SubmitOnlineExam))
         }
@@ -283,9 +283,9 @@ const QueAns = () => {
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
-          {Getsubmitexam != "" &&  <BackButton FromRoute={'/Student/OnlineExam'} />} 
+                {Getsubmitexam != "" && <BackButton FromRoute={'/Student/OnlineExam'} />}
                 <Card sx={{ py: 1 }}>
-                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time:</b>{timer}</Typography>
+                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time     :    </b>{timer}</Typography>
                     <Stack
                         direction="row"
                         justifyContent="center"
@@ -296,40 +296,54 @@ const QueAns = () => {
                             <ListCard itemList={listCardItems} selectedItem={currentIndex} clickItem={clickItem} />
                         </Box>
                     </Stack>
-
-
+                    <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
+                    <Grid item xs={6}>
+                        <Container>
+                            <ButtonPrimary sx={{backgroundColor:"#90caf9", color:"black"}}  fullWidth  onClick={() => { clickPrevNext(-1) }}>
+                                Previous
+                            </ButtonPrimary>
+                        </Container>
+                    </Grid>
+                    <Grid item xs={6} >
+                        <Container>
+                            <ButtonPrimary sx={{backgroundColor:"#90caf9",color:"black"}} fullWidth  onClick={() => { clickPrevNext(1) }} >
+                                Next
+                            </ButtonPrimary>
+                        </Container>
+                    </Grid>
+                    </Grid>
 
                     {itemlist.length > 0 &&
                         <>
-                        {/* <Typography>{Getsaveexam.Message}</Typography> */}
+                            {/* <Typography>{Getsaveexam.Message}</Typography> */}
                             <Grid container xs={12} flexDirection='row' sx={{ mt: "8px" }}>
                                 <Grid xs={10.3} />
                                 <Grid xs={1.7} >
                                     {/* <Typography sx={{ textAlign: 'center', border: '1px solid grey' }} ><b> Marks: </b>{itemlist[currentIndex].Parent.Marks} </Typography> */}
-                                    <Avatar sx={{ textAlign: 'center', border: '2.5px solid grey', backgroundColor: "white", color: "#4b4b4b", width: 29, height: 29, fontSize: '10px', }}>{itemlist[currentIndex].Parent.Marks}M </Avatar>
+                                    <Avatar sx={{ textAlign: 'center', border: '1.5px solid grey', backgroundColor: "white", color: "#4b4b4b", width: 25, height: 25, fontSize: '10px', }}>{itemlist[currentIndex].Parent.Marks}M </Avatar>
                                 </Grid>
                             </Grid>
                             <Grid container xs={12}>
                                 <Grid item xs={1}>
-                                {listCardItems.map((item,i)=>{
-                                    return <> {currentIndex == item.Name && <Typography key={i} pt={1} pl={1.8}> {item.SerialNo} </Typography>}</>
-                                })}
+                                    {listCardItems.map((item, i) => {
+                                        return <> {currentIndex == item.Name && <Typography key={i} pt={1} pl={1.8}> {item.SerialNo} </Typography>}</>
+                                    })}
                                 </Grid>
-                              <Grid item xs={11}>
-                              <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
-                              </Grid>
-                             
+                                <Grid item xs={11}>
+                                    <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                                </Grid>
+
                             </Grid>
 
-                            <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
+                            <ListSelect  Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
 
                         </>
                     }
-                    {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "15px", ml: "5px" }}><Attachments /></Box>}
+                    {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "11px", ml: "25px" }}><Attachments /></Box>}
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
-                        <Grid item xs={6}>
+                        {/* <Grid item xs={6}>
                             <Container>
-                                <ButtonPrimary fullWidth color='secondary' onClick={() => { clickPrevNext(-1) }}>
+                                <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(-1) }}>
                                     Previous
                                 </ButtonPrimary>
                             </Container>
@@ -340,10 +354,11 @@ const QueAns = () => {
                                     Next
                                 </ButtonPrimary>
                             </Container>
-                        </Grid>
+                        </Grid> */}
+                          <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
                         <Grid item xs={6}>
                             <Container>
-                                <ButtonPrimary fullWidth color='secondary' onClick={SaveExam}>
+                                <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>
                                     Save
                                 </ButtonPrimary>
                             </Container>
