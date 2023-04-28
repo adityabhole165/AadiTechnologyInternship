@@ -23,6 +23,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
 import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
 
+
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
   const dispatch = useDispatch();
@@ -312,7 +313,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
   return (
     <>
-      <Container>
+      <Container maxWidth={'xl'}>
         <TextField fullWidth disabled multiline placeholder="Selected Recipient"
           id="body" margin="normal" style={{ scrollBehavior: 'auto' }}
           value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
@@ -327,38 +328,39 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           )}
           {show === true ? (
             <>
-              <Grid container spacing={2}>
-
-                <Grid item xs={6}>
+              <Grid container spacing={2} >
+              <Grid item xs={12} sm={6}>
+              <Grid container spacing={1}>
+                <Grid item xs={6} sm={12}>
                   <Card>
                     <BorderBox height={RoleId === '3' ? "50px" : "180px" || RoleId === '2' ? "110px" : "100px"} >
                       <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
                     </BorderBox>
                   </Card>
-                </Grid>
-                <Grid item xs={6}>
+                  </Grid>
+                  <Grid item xs={6} sm={12}>
                   <Card>
                     <BorderBox >
                       <ListSelect Itemlist={teacherStudent} onChange={teacherStudentChange} isSingleSelect={true} />
                     </BorderBox>
                   </Card>
+                  </Grid>
                 </Grid>
-
-                <Grid item xs={12}>
-                  {techerStudent1 === '3' && (
+                 </Grid>
+                <Grid item xs={12} sm={6}>
+                {techerStudent1 === '3' && (
                     <DropdownofAddrecipent Array={getClass} defaultValue={studentlist}
                       label="Select Class" handleChange={classChange} />
                   )}
-                </Grid>
-                <Grid item xs={12}>
-                  {Loading ? <SuspenseLoader /> :
+
+                   {Loading ? <SuspenseLoader /> :
                     list.length === 0 ?  (!isSelected('Student') && isTeacherSelected()) &&
                       <ErrorMessages Error={'No records found'} /> :
                       <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} />
                   }
                 </Grid>
-              </Grid>
-            </>
+             </Grid>
+                </>
           ) : null}
         </>
       </Container>

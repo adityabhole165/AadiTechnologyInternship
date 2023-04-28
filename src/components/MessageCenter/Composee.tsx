@@ -1,4 +1,4 @@
-import { Container, TextField, Box, FormControl, Grid, Typography, InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox, } from '@mui/material';
+import { Container, TextField, Box, FormControl, Grid, Typography,Hidden, InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox,Divider } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -472,7 +472,7 @@ function Form13() {
 
   return (
     <>
-      <Container sx={{ display: displayOfComposePage }}>
+      <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
         <span
           onClick={() => {
             navigate(-1);
@@ -490,8 +490,13 @@ function Form13() {
         </span>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-            <FormControl fullWidth>
-              <FormHelperText >To</FormHelperText>
+          <Grid container spacing={1}>
+            <Grid item xs={12}>
+          <FormHelperText >To</FormHelperText>
+          </Grid>
+              <Grid item xs={12} sm={8} md={10}sx={{mt:"-5px"}}>
+            {/* <FormControl fullWidth> */}
+            
               <TextField multiline id="" fullWidth disabled
                 value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
                 onChange={formik.handleChange}
@@ -502,57 +507,96 @@ function Form13() {
                   <ErrorMessage1 Error={formik.errors.To} />
                 ) : null}
               </Box>
-
+              </Grid>
               {loading && <SuspenseLoader />}
-              <Grid container spacing={1}  >
-                <Grid item xs={6} >
+              <Grid item xs={6} sm={2} md={1}>
+              
                   <ButtonPrimary fullWidth color="primary"
                     onClick={(e) => RecipientButton(e)}
                   >
                     Add Recipients
                   </ButtonPrimary>
                 </Grid>
-                <Grid item xs={6} >
+                <Grid item xs={6}  sm={2} md={1}>
                   <ButtonPrimary fullWidth color="primary"
                     onClick={clickHide}
                   >
                     Add Cc
                   </ButtonPrimary>
                 </Grid>
-              </Grid>
+                <Hidden smDown>
+                <Box pl={1}>
+
+                  <Box sx={{ display: "flex" }}>
+                    <TextField
+                      label="Search By Name"
+                      sx={{ width: "300px" }}
+                      size="small" variant='standard'
+                    />
+                    <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
+                  </Box>
+                </Box>
+              </Hidden>
               {showCC && <>
-                <FormHelperText >Cc</FormHelperText>
-                <TextField multiline id="" fullWidth disabled
+                <Grid item xs={12}>
+                <FormHelperText sx={{}}>Cc</FormHelperText>
+                  </Grid>
+              <Grid item xs={12} sm={12} sx={{ml:"-10px" ,mt:"-5px"}}>
+          
+                <TextField multiline id="" fullWidth disabled 
                   value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ')}
                   onChange={formik.handleChange}
-                  sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px", }}
+                  sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px",marginLeft:"8px" }}
                 />
-
-                <Box mt={1}>
-                  <ButtonPrimary
+              </Grid>
+              
+              <Grid item sm={1.5} xs={12}>
+                <Box mt={1} >
+                  <ButtonPrimary fullWidth
                     onClick={(e) => RecipientCCButton(e)}
                     color="primary">
                     Add Cc Recipients
                   </ButtonPrimary>
                 </Box>
-              </>}
-            </FormControl>
+                </Grid>
+                <Grid item sm={10.5} />
+                <Hidden smDown>
+                  <Box sx={{ display: "flex" }}>
+                    <TextField
+                      sx={{ width: "300px", ml: "10px" }}
+                      size="small"
+                      label="Search By Name"
+                      variant='standard'
+                    />
+                    <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
+                  </Box>
+                </Hidden>
 
+              </>}
+            {/* </FormControl> */}
+            <Grid xs={12} pl={1}>
             <TextField fullWidth margin="normal" label='Subject :'
               name="Subject" type="text" autoComplete="off"
-              variant="standard" sx={{ mt: "5px" }}
+              variant="standard"
               value={formik.values.Subject}
               onChange={formik.handleChange}
+              sx={{ mt: "5px"}}
             />
             <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <ErrorMessage1 Error={formik.errors.Subject} />
               ) : null}
             </Box>
-
+            </Grid>
+            <Grid item xs={11} sm={3} md={2.5} lg={2}>
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
-            <ClickAwayListener onClickAway={handleClickAway}>
-              <Tooltip
+            <Box sx={{mt:"15px" , width:"300px"}}>
+              <Errormessages Error={fileerror} />
+            </Box>
+            </Grid>
+            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+               <ClickAwayListener onClickAway={handleClickAway}>
+               <Tooltip
                 PopperProps={{
                   disablePortal: true
                 }}
@@ -562,112 +606,120 @@ function Form13() {
                 open={open} title={Note} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: { marginLeft: '10px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
                   }
                 }}
               >
                 <InfoTwoToneIcon type="button"
                   onClick={handleClick}
-                  sx={{ color: 'navy', fontSize: '17px', float: 'right' }}
+                  sx={{ color: 'navy', fontSize: '17px'}}
                 />
               </Tooltip>
             </ClickAwayListener>
-            <Box sx={{mt:"15px"}}>
-              <Errormessages Error={fileerror} />
-            </Box>
-            {finalBase642New == undefined ||
+            </Grid>
+          
+            
+       
+                  <Grid item xs={12}  sm={4} md={2.5} lg={2} mt={-1}>
+                  <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
+                  <Typography sx={{ display: 'inline-block' }}>
+                    Request Read Receipt? :
+                  </Typography>
+                  </Grid>
+              
+                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1}>
+                  <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
+                  <Typography sx={{ display: 'inline-block' }}>
+                    Schedule Message at:
+                  </Typography>
+                  </Grid>
+     
+          
+            
+            <Grid item xs={6} sm={4} md={2} lg={2}>
+              <TextField sx={{ display: scheduleMessage ,mt: "-8px"}}
+                type="date" id="outlined-required" variant="standard"
+                onChange={scheduleDateAndTime}
+                inputProps={{ min: MinDate, max: MaxDate }}
+              />
+            </Grid>
+
+
+            <Grid item xs={4} sm={4} md={2} lg={2} sx={{ display: scheduleMessage }}>
+              <TimePicker 
+                value={value}
+                onChange={clickTime}
+                renderInput={(params) =>
+                  <TextField {...params} variant="standard" size="small" sx={{ mt: "-8px" }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <AccessTimeIcon fontSize='small' sx={{ mb: "2px" }} />
+                        </InputAdornment>
+                      ),
+                    }}
+                  />}
+              />
+        
+            </Grid>
+            
+            <Grid item xs={12} sx={{ mb: '10px', mt: '5px' , ml:"5px"}}>
+          <ErrorMessage1 Error={schTimeerror} />
+          <ErrorMessage1 Error={requestScheduleMsg} />
+        </Grid>
+
+        <Grid item xs={12} sm={12}   md={4}mt={-1}>
+        {finalBase642New == undefined ||
               finalBase642New.length == 0
               || PageName == 'Reply'
               ? null :
               (
                 <div >
-                  <Typography component={Box} mt={2}>Attachment(s):</Typography>
+                 
+                  <Typography component={Box} >Attachment(s):</Typography>
+               
                   {
                     finalBase642New.map((obj, i) => {
-                      return (
-                        <Box key={obj.FileName}>
-                          <Grid container>
-                            <Grid item xs={2} >
-                              <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                            </Grid>
-                            <Grid item xs={8}>
-                              <CardDetail8 sx={{ mt: '1px' }}>
-                                {obj.FileName.slice(0, 25)}
-                              </CardDetail8>
-                            </Grid>
-                            <Grid item xs={2}>
-                              <IconButton edge="end" aria-label="delete" title="Delete"
-                                onClick={() =>
-                                  handleRemoveListItems(
-                                    obj.FileName,
-                                    obj.Base64URL
-                                  )
-                                }
-                              >
-                                <DeleteIcon
-                                  sx={{ color: 'red', mt: "-6px" }}
-                                />
-                              </IconButton >
-                            </Grid>
-                          </Grid>
-                        </Box>
+                      return (<>
+                      
+                      <Box key={obj.FileName} sx={{display:"flex" , justifyContent:"space-between"}}>
+                         
+                            
+                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                    
+                    
+                         <CardDetail8 sx={{ mt: '1px' }}>
+                           {obj.FileName.slice(0, 25)}
+                         </CardDetail8>
+                    
+                   
+                         <IconButton  aria-label="delete" title="Delete"
+                           onClick={() =>
+                             handleRemoveListItems(
+                               obj.FileName,
+                               obj.Base64URL
+                             )
+                           }
+                         >
+                           <DeleteIcon
+                             sx={{ color: 'red', mt: "-6px" }}
+                           />
+                         </IconButton >
+                    
+                  
+                   </Box>  
+                      
+                     
+                      </>
+             
+                      
                       )
                     })
                   }
                 </div>
               )}
-            <br />
-            <Box sx={{ mb: "12px" }}>
-              <Box sx={{ mt: "-18px", mb: "-10px" }}>
-                <Box mt={1}>
-                  <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
-                  <Typography sx={{ display: 'inline-block' }}>
-                    Request Read Receipt? :
-                  </Typography>
-                </Box>
-
-                <Box mt={-1}>
-                  <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
-                  <Typography sx={{ display: 'inline-block' }}>
-                    Schedule Message at:
-                  </Typography>
-                </Box>
-              </Box>
-            </Box>
-
-            <Grid container sx={{ display: scheduleMessage }} >
-              <Box sx={{ display: "flex" }}>
-                <Grid item xs={6} >
-                  <TextField
-                    type="date" id="outlined-required" variant="standard"
-                    onChange={scheduleDateAndTime}
-                    inputProps={{ min: MinDate, max: MaxDate }}
-                  />
-                </Grid>
-
-
-                <Grid item xs={4}>
-                  <TimePicker
-                    value={value}
-                    onChange={clickTime}
-                    renderInput={(params) =>
-                      <TextField {...params} variant="standard" size="small" sx={{ float: "right", mt: "3px" }}
-                        InputProps={{
-                          startAdornment: (
-                            <InputAdornment position="start">
-                              <AccessTimeIcon fontSize='small' sx={{ mb: "2px" }} />
-                            </InputAdornment>
-                          ),
-                        }}
-                      />}
-                  />
-                </Grid>
-              </Box>
             </Grid>
-            <Box sx={{ mb: '10px', mt: '5px' }}>
-              <ErrorMessage1 Error={schTimeerror} />
-              <ErrorMessage1 Error={requestScheduleMsg} />
-            </Box>
+            <Grid item xs={12} >
             <TextField fullWidth multiline rows={4}
               margin="normal" label='Content :' name="Content" type="text"
               variant="outlined" sx={{ mt: "-0.5px" }}
@@ -679,22 +731,25 @@ function Form13() {
                 <ErrorMessage1 Error={formik.errors.Content} />
               ) : null}
             </Box>
+            </Grid>
+            <Grid item xs={12} sm={12} sx={{mt:"-15px"}}>
             {PageName === 'Reply' || PageName === 'Forwa' ? (
               <>
-                <FormHelperText >Original message</FormHelperText>
+                <FormHelperText sx={{ml:"3px"}}>Original message</FormHelperText>
                 <BoxContent>
                   <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
                 </BoxContent>
               </>
             ) : null}
-
-            <Grid item xs={12}>
+              </Grid>
+            <Grid item xs={12} sm={2} sx={{mt:"-15px"}}>
               <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
               >
                 Send
               </ButtonPrimary>
+            </Grid>
             </Grid>
           </form>
         </ListStyle>
