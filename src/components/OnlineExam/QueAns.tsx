@@ -23,7 +23,7 @@ const QueAns = () => {
 
     const dispatch = useDispatch();
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00:00');
+    const [timer, setTimer] = useState('00:00:01');
     const [currentIndex, setCurrentIndex] = useState(0)
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -128,13 +128,12 @@ const QueAns = () => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
     useEffect(() => {
-        console.log("--",Getsaveexam,"--",Getsubmitexam,"--");
         
-        if (Getsubmitexam !== null || Getsubmitexam !== "") {
+        if (Getsubmitexam !== null && Getsubmitexam !== "") {
             toast.success(Getsubmitexam, { toastId: 'success1' })
             dispatch(resetSubmitMsg());
         } 
-        if (Getsaveexam !== null || Getsaveexam !== "") {
+        if (Getsaveexam !== null && Getsaveexam !== "") {
             toast.success(Getsaveexam, { toastId: 'success1' })
             dispatch(resetSaveMsg());
         }
