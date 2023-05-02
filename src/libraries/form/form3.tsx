@@ -69,6 +69,7 @@ function Form() {
           setoutput(data);
           if (data === 'True') {
             toast.success('Password changed successfully');
+            //call api
             Logout();
           } else {
             toast.error(data);
@@ -94,17 +95,21 @@ function Form() {
       }
       if (!values.NewPassword) {
         errors.NewPassword = 'New Password should not be blank.';
-      } else if (values.NewPassword.length < 6) {
+      } 
+      else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
-      } else if (!regularExpression.test(values.NewPassword)) {
+      } 
+      else if (!regularExpression.test(values.NewPassword)) {
         errors.NewPassword =
           'Password should be combination of at least one character, digit & special character.';
-      } else if (values.NewPassword.length > 15) {
+      } 
+      else if (values.NewPassword.length > 15) {
         errors.NewPassword = 'Password must maximum 15 character';
       }
       if (!values.ConfirmPassword) {
         errors.ConfirmPassword = 'Confirm Password should not be blank.';
-      } else if (values.ConfirmPassword != values.NewPassword) {
+      } 
+      else if (values.ConfirmPassword != values.NewPassword) {
         errors.ConfirmPassword =
           'New Password and Confirm Password should be same.';
       }
@@ -118,61 +123,27 @@ function Form() {
         <Note NoteDetail={note1} />
         <Box >
           <Typography>User Name</Typography>
-          <TextField
-            disabled
-            fullWidth
-            margin="normal"
-            //  label={'User Name'}
-            name="username"
-            type="number"
-            variant="standard"
-            value={formik.values.UserLogin}
-          /></Box>
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'Old Password'}
-          name="Oldpassword"
-          type="password"
-          variant="standard"
-          value={formik.values.Oldpassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+          <TextField disabled fullWidth margin="normal" name="username" type="number"
+            variant="standard" value={formik.values.UserLogin} />
+        </Box>
+        <TextField fullWidth margin="normal" label={'Old Password'} name="Oldpassword" type="password"
+          variant="standard" value={formik.values.Oldpassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
           <Errormessage Error={formik.errors.Oldpassword} />
         ) : null}
 
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'New Password'}
-          name="NewPassword"
-          type="password"
-          variant="standard"
-          value={formik.values.NewPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+        <TextField fullWidth margin="normal" label={'New Password'} name="NewPassword" type="password"
+          variant="standard" value={formik.values.NewPassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.NewPassword && formik.errors.NewPassword ? (
           <Errormessage Error={formik.errors.NewPassword} />
         ) : null}
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'Confirm Password'}
-          name="ConfirmPassword"
-          type="password"
-          variant="standard"
-          value={formik.values.ConfirmPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+        <TextField fullWidth margin="normal" label={'Confirm Password'} name="ConfirmPassword" type="password"
+          variant="standard" value={formik.values.ConfirmPassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
           <Errormessage Error={formik.errors.ConfirmPassword} />
@@ -182,18 +153,12 @@ function Form() {
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary
-              onChange={formik.handleChange}
-              type="submit"
-              fullWidth
-              color='primary'
-            >
+            <ButtonPrimary onChange={formik.handleChange} type="submit" fullWidth color='primary'>
               Save
             </ButtonPrimary>
           </Grid>
           <Grid item xs={6}>
-            <ButtonPrimary onClick={getHomepage} fullWidth
-              color='secondary'>
+            <ButtonPrimary onClick={getHomepage} fullWidth color='secondary'>
               Cancel
             </ButtonPrimary>
           </Grid>
