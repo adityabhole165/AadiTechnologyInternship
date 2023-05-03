@@ -54,6 +54,7 @@ import SliceEditProfile from 'src/requests/EditProfile/RequestEditProfile';
 import SliceTransportcommittee from 'src/requests/TransportCommittee/RequestTransportcommittee';
 import SliceHomeworkNew from 'src/requests/Homework/RequestHomeworkNew';
 import SliceNavbarMenu from 'src/requests/NavBarMenu/requestNavBarMenu';
+import SliceTermsAndConditions from 'src/requests/TermAndCondition/TermAndCondition';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -115,6 +116,7 @@ const rootReducer = combineReducers({
     TransportCommittee: SliceTransportcommittee,
     HomeworkNew: SliceHomeworkNew,
     NavbarMenu:SliceNavbarMenu,
+    TermAndConditions: SliceTermsAndConditions,
 });
 
 export default rootReducer;

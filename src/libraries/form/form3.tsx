@@ -1,5 +1,5 @@
 import { TextField, Grid, Typography, Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IChangePassword, IChangePasswordResult } from 'src/interfaces/Common/ChangePassword';
 import http from 'src/requests/SchoolService/schoolServices';
@@ -9,6 +9,10 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
+import { getTermsAndCondition } from 'src/requests/TermAndCondition/TermAndCondition'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import {IAcceptTermsBody} from 'src/interfaces/Common/ChangePassword'
 
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
@@ -17,6 +21,12 @@ const note1 = ['It seem that You have not changed the sytem genearted password. 
 
 function Form() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const TermAndConditions: any = useSelector(
+    (state: RootState) => state.TermAndConditions.AcceptTermResult);
+
+  console.log("TermAndConditions", TermAndConditions)
 
   const logout = () => {
     sessionStorage.clear();
@@ -48,7 +58,7 @@ function Form() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
-  // const Username = sessionStorage.getItem('UserName' );
+  const asUserId = sessionStorage.getItem('Id');
 
   const [value, setValue] = useState<any>('');
   const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
@@ -61,6 +71,17 @@ function Form() {
       asNewPassword: formik.values.ConfirmPassword,
       asOldPassword: formik.values.Oldpassword
     };
+
+
+    const TermsBody:IAcceptTermsBody = {
+      asSchoolId: asSchoolId,
+      asUserId: asUserId
+    }
+
+    useEffect(() => {
+      dispatch(getTermsAndCondition(TermsBody));
+    }, []);
+
     {
       http
         .post('School/ChangePassword', body)
