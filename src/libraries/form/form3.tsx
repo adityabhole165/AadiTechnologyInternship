@@ -24,7 +24,7 @@ function Form() {
   const dispatch = useDispatch();
 
   const TermAndConditions: any = useSelector(
-    (state: RootState) => state.TermAndConditions.AcceptTermResult);
+    (state: RootState) => state.TermAndConditions.GetAcceptTermResult);
 
   console.log("TermAndConditions", TermAndConditions)
 
@@ -82,6 +82,8 @@ function Form() {
       dispatch(getTermsAndCondition(TermsBody));
     }, []);
 
+   
+
     {
       http
         .post('School/ChangePassword', body)
@@ -91,6 +93,9 @@ function Form() {
           if (data === 'True') {
             toast.success('Password changed successfully');
             //call api
+            if(TermAndConditions.AcceptTermsResult ===true){
+            }
+            
             Logout();
           } else {
             toast.error(data);

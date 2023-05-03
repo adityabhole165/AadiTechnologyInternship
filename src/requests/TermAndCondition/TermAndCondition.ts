@@ -6,13 +6,13 @@ import {IAcceptTermsBody} from "src/interfaces/Common/ChangePassword";
 const SliceTermsAndConditions = createSlice({
     name: 'TermAndConditions',
     initialState: {
-        AcceptTermResult:{}
+        GetAcceptTermResult: " ",
     },
 
 
     reducers: {
       getTermsAndCondition(state, action) {
-        state.AcceptTermResult = action.payload;
+        state.GetAcceptTermResult = action.payload;
         
       }
     }
@@ -24,8 +24,9 @@ export const getTermsAndCondition =
   async (dispatch) => {
     // dispatch(SliceTermsAndConditions.actions.getLoading(true));
     const response = await ChangePasswordapi.Terms(data)
+  
     dispatch(SliceTermsAndConditions.actions.getTermsAndCondition(response.data));
-    console.log("data", response.data)
+    
   };
 
 
