@@ -36,11 +36,8 @@ function PayOnline() {
 
   // Temporary fix to fee payment popup. Update code later
   return (
-    <div>
-      {localStorage.getItem("paymentPopUpCount") === '0' ? localStorage.setItem("paymentPopUpCount",'1') :
-      <div>  <PageHeader heading={'Online Payment'} subheading={''} />
-        <Card26 paymentPageLink={paymentPageLink} /></div>}
-    </div>
+    <div> <PageHeader heading={'Online Payment'} subheading={''} />
+      {localStorage.getItem("paymentPopUpCount") === '0' ? localStorage.setItem("paymentPopUpCount", '1') :<Card26 paymentPageLink={paymentPageLink} />}</div>
   );
 }
 
