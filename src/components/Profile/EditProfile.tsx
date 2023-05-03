@@ -127,15 +127,15 @@ function EditProfile() {
         <ProfileDetailHeader sx={{ textAlign: "center" }}> <b>Name : </b><b>{UserName}</b></ProfileDetailHeader>
        
         <Box sx={{ textAlign: "center" }}>
-        <img src={value == "" ? userPhoto : value} width="112" height="151" style={{ border: "1px solid gray" }} />
-          <Grid container spacing={2}>
-            <Grid item xs={6} >
-              <input type="file" accept="image/*" onChange={changeFile} />
+          <img src={value == "" ? userPhoto : value} width="112" height="151" style={{ border: "1px solid gray" }} />
+            <Grid container>
+              <Grid item xs={6} >
+                <input style={{ padding: "1em" }} type="file" accept="image/*" onChange={changeFile} />
+              </Grid>
+              <Grid item xs={6} style={{ padding: "1em" }} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
             </Grid>
-            <Grid item xs={6} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
-          </Grid>
-          <Grid item xs={6} sx={{mt:"-3px",mb:"3px"}}>
-          {error && <ErrorMessages Error={error} />}
+          <Grid item xs={6} sx={{ mt: "-3px", mb: "3px" }}>
+            {error && <ErrorMessages Error={error} />}
           </Grid>
         </Box>
      
