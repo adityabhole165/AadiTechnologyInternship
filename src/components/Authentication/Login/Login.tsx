@@ -258,6 +258,7 @@ function SelectSchool() {
                 response.data.AuthenticateUserResult.Message === null) {
                 const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
                 const TermsAccepted = result.TermsAccepted
+                sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
 
                 if (TermsAccepted !== "Y") {
                     sessionStorage.setItem("Id", result.Id);
