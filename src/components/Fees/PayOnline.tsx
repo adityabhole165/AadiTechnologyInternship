@@ -8,14 +8,14 @@ import Card26 from 'src/libraries/card/card26';
 import { useParams } from 'react-router';
 import { sitePath } from '../Common/Util';
 function PayOnline() {
-  const {SelectedDueDate, feeId} = useParams();
+  const { SelectedDueDate, feeId } = useParams();
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
-  
+
   const studentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem("auth")); 
+  const authData = JSON.parse(localStorage.getItem("auth"));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const schoolId = localStorage.getItem('localSchoolId');
 
@@ -23,22 +23,21 @@ function PayOnline() {
     asSchoolId: schoolId,
     asUserLogin: userLoginId,
     asQueryString:
-    'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
-    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0',
+      'StudentId=' + studentId + '&DueDates=' + SelectedDueDate +
+      '&Remarks=&SchoolwiseStudentFeeId=' + feeId + '&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
-    localStorage.getItem('SiteURL')+ '/RITeSchool/SingleSignOnPage.aspx?',
+      localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
-    localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
+      localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
   useEffect(() => {
     dispatch(payOnline(body));
   }, []);
 
+  // Temporary fix to fee payment popup. Update code later
   return (
-    <div>
-      <PageHeader heading={'Online Payment'} subheading={''} />
-      <Card26 paymentPageLink={paymentPageLink} />
-    </div>
+    <div> <PageHeader heading={'Online Payment'} subheading={''} />
+      {localStorage.getItem("paymentPopUpCount") === '0' ? localStorage.setItem("paymentPopUpCount", '1') :<Card26 paymentPageLink={paymentPageLink} />}</div>
   );
 }
 
