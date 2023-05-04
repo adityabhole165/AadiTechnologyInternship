@@ -21,7 +21,7 @@ Card27.propTypes = {
   Note: PropTypes?.string
 };
 
-function Card27({ FeesType, Fee, Heading, Note }) {
+function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear }) {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -138,6 +138,8 @@ function Card27({ FeesType, Fee, Heading, Note }) {
             Heading={Heading}
             Note={Note}
             FeesTypes={FeesType}
+            currentYear={currentYear}
+            IsForCurrentyear={IsForCurrentyear}
           />
         </AccordionDetails>
       </Accordion>

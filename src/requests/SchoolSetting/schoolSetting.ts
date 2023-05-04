@@ -11,7 +11,8 @@ const SchoolSettingSlice = createSlice({
     SchoolTrasnportIsEnabled: false,
     SubTeacher: false,
     isLibrarySchoolSetting: false,
-    ExternalLibrarySite: ""
+    ExternalLibrarySite: "",
+    EnableMessageCenterReadModeForStudent: false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -32,6 +33,9 @@ const SchoolSettingSlice = createSlice({
     },
     getExternalLibrarySite(state, action) {
       state.ExternalLibrarySite = action.payload;;
+    },
+    getEnableMessageCenterReadModeForStudent(state, action) {
+      state.EnableMessageCenterReadModeForStudent = action.payload;;
     }
 
 
@@ -69,6 +73,24 @@ export const getGetSettingValue =
         }
       }
       dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(trasnportIsEnabled));
+    }
+
+    export const GetEnableMessageCenterReadModeForStudent =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let EnableMessageCenterReadMode = false
+      data.asKey = "EnableMessageCenterReadModeForStudent";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+      if (response.data.GetSettingValueResult) {
+        data.asKey = "EnableMessageCenterReadModeForStudent";
+        response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            EnableMessageCenterReadMode = true;
+          }
+        }
+      }
+      dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(EnableMessageCenterReadMode));
     }
 export const getGetSettingSubTeacher =
   (data: IGetSettingValueBody): AppThunk =>

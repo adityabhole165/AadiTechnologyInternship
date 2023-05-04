@@ -48,7 +48,7 @@ const Feesslice = createSlice({
 
     },
     getInternalFeeDetails(state, action) {
-      state.InternalFeeDetails = action.payload;
+      state.FeesData = action.payload.InternalFeeDetails;
 
     },
     getNextYearDetails(state, action) {
@@ -92,7 +92,8 @@ export const getYearList =
         return {
           id: item.Academic_Year_Id,
           Name: item.AcademicYear,
-          Value: item.Academic_Year_Id
+          Value: item.Academic_Year_Id,
+          YearType:"'A','B','C'"
         }
       })
       dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
@@ -114,6 +115,7 @@ export const getInternalFeeDetails =
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
       dispatch(Feesslice.actions.getInternalFeeDetails(response.data));
+      // dispatch(Feesslice.actions.getFees(response.data));
 
     };
 

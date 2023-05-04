@@ -33,6 +33,7 @@ function Fees() {
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const [YearType,setYearType]=useState("C")
   // const [internalFees, setInternalFees] = useState("")
   const schoolFees = "SchoolFees";
   const internalFees = "internalFees";
@@ -41,7 +42,7 @@ function Fees() {
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
-  console.log("FeesList2", FeesList2);
+  // console.log("FeesList2", FeesList2);
   console.log("FeesList", FeesList);
 
 
@@ -56,6 +57,9 @@ function Fees() {
   const InternalFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.InternalFeeDetails
   );
+  // console.log("InternalFeeDetails",InternalFeeDetails);
+  
+// console.log("InternalFeeDetails",InternalFeeDetails);
 
 
   const NextYearDetails: any = useSelector(
@@ -65,7 +69,7 @@ function Fees() {
   const GetNextYearFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearFeeDetails
   );
-console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
+// console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
 
 
   const Feedata = {
@@ -80,7 +84,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
     Sum4: 'Applicable Fees'
   };
   const Note2: string = '*RITE student (100%  Concession on school fees)';
-
+  const [showCaution, setShowCaution] = useState('School');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -91,11 +95,12 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
     aiYearwiseStudentId: asStudentId
   };
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
+  const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId,
     aiAcademicYearId: Number(currentYear),
-    abIsForCurrentYear: currentYear == asAcademicYearId ? true : false
+    abIsForCurrentYear: IsForCurrentyear
   };
 
   const IGetFeeDetailsOfOldAcademicBody = {
@@ -108,7 +113,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId,
-    abIsNextYearFeePayment: internalFees
+    abIsNextYearFeePayment: "0"
   }
 
   const IGetNextYearDetailsBody = {
@@ -129,26 +134,45 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
 
   useEffect(() => {
     dispatch(getYearList(body1));
-    dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+    // dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
     // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
     
   }, []);
+  // useEffect(() => {
+  //   if(showCaution == internalFees){
+  //     dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+  //   }else
+  //   dispatch(getFees(body));
+  // }, [showCaution]);
+
+  // useEffect(() => {
+  //   if (currentYear === sessionStorage.getItem("AcademicYearId")) {
+  //     dispatch(getFees(body));
+  //   } 
+  //   else
+  //     dispatch(getFees(body));
+  // }, [currentYear]);
 
   useEffect(() => {
-    if (currentYear === sessionStorage.getItem("AcademicYearId")) {
-      dispatch(getFees(body));
-    } 
-    else
-      dispatch(getFees(body));
-  }, [currentYear]);
+    // if (currentYear === sessionStorage.getItem("AcademicYearId")) {
+    if(showCaution == internalFees){
+      dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+    }else
+    dispatch(getFees(body));
+  }, [showCaution]);
 
 
 
   const clickYear = (value) => {
+    AcadamicYear.map((item)=>{
+      if(item === value){
+      setYearType(item.YearType)
+      }
+    })
     setCurrentyear(value);
   };
-  const [showCaution, setShowCaution] = useState('School');
+  
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newShowCaution: string,
@@ -166,6 +190,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
     navigate('PayinternalFees')
   };
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  console.log("ApplicableFee",ApplicableFee);
   
   return (
     <Container>
@@ -220,7 +245,7 @@ console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
           <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2}  />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}/>
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}

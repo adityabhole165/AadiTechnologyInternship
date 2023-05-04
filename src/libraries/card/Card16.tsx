@@ -29,7 +29,7 @@ export interface Iprops {
   pointerEvents: string;
 }
 
-function Card16({ Note, Heading }) {
+function Card16({ Note, Heading, currentYear, IsForCurrentyear }) {
   const dispatch = useDispatch();
   const GetFeeDetails: any = useSelector((state: RootState) => state.Fees.FeesData2);
   const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
@@ -189,7 +189,7 @@ function Card16({ Note, Heading }) {
         <RouterLink
           to={
             `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate.replaceAll("/", "-") + `/` + feeId
+            selectedDueDate.replaceAll("/", "-") + `/` + feeId + currentYear + IsForCurrentyear
           }
           style={mystyle}
         >
