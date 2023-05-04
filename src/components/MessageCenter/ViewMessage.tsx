@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   GetSentListResult,
   IViewSent
@@ -12,6 +12,9 @@ import BackButton from 'src/libraries/button/BackButton';
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
 import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import { compareStringWithoutSpace } from '../Common/Util';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
+import { RootState } from 'src/store';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -32,7 +35,16 @@ function ViewSms({ }) {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
-
+  const MessageCenterReadMode: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.EnableMessageCenterReadModeForStudent
+  );
+  console.log("MessageCenterReadMode",MessageCenterReadMode);
+  
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
   const GetViewEventResult = () => {
     const ViewSent_body: IViewSent = {
       asSchoolId: asSchoolId,
@@ -51,6 +63,9 @@ function ViewSms({ }) {
 
   useEffect(() => {
     GetViewEventResult();
+  }, []);
+  useEffect(() => {
+    dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody))
   }, []);
   useEffect(() => {   
     if (viewSent !== undefined) {
@@ -109,6 +124,7 @@ function ViewSms({ }) {
             ID={ID}
             ViewSentObject={viewSent}
             LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
+            MessageCenterReadMode={MessageCenterReadMode}
           />
         )}
     </>

@@ -38,7 +38,8 @@ function Card7({
   ID,
   Viewsent,
   ViewSentObject,
-  LoggedInUserNameForMessage = ''
+  LoggedInUserNameForMessage = '',
+  MessageCenterReadMode=''
 }) {
   const theme = useTheme();
 
@@ -141,7 +142,7 @@ function Card7({
 
           </BoxWrapper>
         </ListStyle>
-        <CardWrapper>
+      {MessageCenterReadMode  &&   <CardWrapper>
           {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
@@ -174,7 +175,7 @@ function Card7({
           > */}
           <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward</ButtonPrimary>
           {/* </RouterLink> */}
-        </CardWrapper>
+        </CardWrapper>}
       </Container>
     </>
   );
