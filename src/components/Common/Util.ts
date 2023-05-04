@@ -204,7 +204,7 @@ export function isBetweenDate(date, dayCount) {
 
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttps.riteschool.com/images/";
-export const androidCurrentAppVersion = "2.0.4";
+export const androidCurrentAppVersion = "2.0.5";
 export const appleCurrentAppVersion = "2.0.0";
 export const deviceType = ((typeof window.localStorage.getItem('deviceType') != undefined &&
     window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");
