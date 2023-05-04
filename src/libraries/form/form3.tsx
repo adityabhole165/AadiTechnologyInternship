@@ -1,5 +1,5 @@
 import { TextField, Grid, Typography, Box } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { IChangePassword, IChangePasswordResult } from 'src/interfaces/Common/ChangePassword';
 import http from 'src/requests/SchoolService/schoolServices';
@@ -9,6 +9,10 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
 import Errormessage from '../ErrorMessages/Errormessage';
 import { ListStyle } from '../styled/CardStyle';
+import { getTermsAndCondition } from 'src/requests/TermAndCondition/TermAndCondition'
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import {IAcceptTermsBody} from 'src/interfaces/Common/ChangePassword'
 
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
@@ -17,6 +21,12 @@ const note1 = ['It seem that You have not changed the sytem genearted password. 
 
 function Form() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const TermAndConditions: any = useSelector(
+    (state: RootState) => state.TermAndConditions.GetAcceptTermResult);
+
+  console.log("TermAndConditions", TermAndConditions)
 
   const logout = () => {
     sessionStorage.clear();
@@ -48,7 +58,7 @@ function Form() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
-  // const Username = sessionStorage.getItem('UserName' );
+  const asUserId = sessionStorage.getItem('Id');
 
   const [value, setValue] = useState<any>('');
   const values = { Oldpassword: '', NewPassword: '', ConfirmPassword: '' };
@@ -61,6 +71,19 @@ function Form() {
       asNewPassword: formik.values.ConfirmPassword,
       asOldPassword: formik.values.Oldpassword
     };
+
+
+    const TermsBody:IAcceptTermsBody = {
+      asSchoolId: asSchoolId,
+      asUserId: asUserId
+    }
+
+    useEffect(() => {
+      dispatch(getTermsAndCondition(TermsBody));
+    }, []);
+
+   
+
     {
       http
         .post('School/ChangePassword', body)
@@ -69,6 +92,10 @@ function Form() {
           setoutput(data);
           if (data === 'True') {
             toast.success('Password changed successfully');
+            //call api
+            if(TermAndConditions.AcceptTermsResult ===true){
+            }
+            
             Logout();
           } else {
             toast.error(data);
@@ -94,17 +121,21 @@ function Form() {
       }
       if (!values.NewPassword) {
         errors.NewPassword = 'New Password should not be blank.';
-      } else if (values.NewPassword.length < 6) {
+      } 
+      else if (values.NewPassword.length < 6) {
         errors.NewPassword = 'Password should be of minimum 6 characters.';
-      } else if (!regularExpression.test(values.NewPassword)) {
+      } 
+      else if (!regularExpression.test(values.NewPassword)) {
         errors.NewPassword =
           'Password should be combination of at least one character, digit & special character.';
-      } else if (values.NewPassword.length > 15) {
+      } 
+      else if (values.NewPassword.length > 15) {
         errors.NewPassword = 'Password must maximum 15 character';
       }
       if (!values.ConfirmPassword) {
         errors.ConfirmPassword = 'Confirm Password should not be blank.';
-      } else if (values.ConfirmPassword != values.NewPassword) {
+      } 
+      else if (values.ConfirmPassword != values.NewPassword) {
         errors.ConfirmPassword =
           'New Password and Confirm Password should be same.';
       }
@@ -118,61 +149,27 @@ function Form() {
         <Note NoteDetail={note1} />
         <Box >
           <Typography>User Name</Typography>
-          <TextField
-            disabled
-            fullWidth
-            margin="normal"
-            //  label={'User Name'}
-            name="username"
-            type="number"
-            variant="standard"
-            value={formik.values.UserLogin}
-          /></Box>
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'Old Password'}
-          name="Oldpassword"
-          type="password"
-          variant="standard"
-          value={formik.values.Oldpassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+          <TextField disabled fullWidth margin="normal" name="username" type="number"
+            variant="standard" value={formik.values.UserLogin} />
+        </Box>
+        <TextField fullWidth margin="normal" label={'Old Password'} name="Oldpassword" type="password"
+          variant="standard" value={formik.values.Oldpassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.Oldpassword && formik.errors.Oldpassword ? (
           <Errormessage Error={formik.errors.Oldpassword} />
         ) : null}
 
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'New Password'}
-          name="NewPassword"
-          type="password"
-          variant="standard"
-          value={formik.values.NewPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+        <TextField fullWidth margin="normal" label={'New Password'} name="NewPassword" type="password"
+          variant="standard" value={formik.values.NewPassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.NewPassword && formik.errors.NewPassword ? (
           <Errormessage Error={formik.errors.NewPassword} />
         ) : null}
-        <TextField
-          fullWidth
-          margin="normal"
-          label={'Confirm Password'}
-          name="ConfirmPassword"
-          type="password"
-          variant="standard"
-          value={formik.values.ConfirmPassword}
-          onChange={formik.handleChange}
-          onBlur={formik.handleBlur}
-          sx={{ mt: '-0.3rem' }}
-        />
+        <TextField fullWidth margin="normal" label={'Confirm Password'} name="ConfirmPassword" type="password"
+          variant="standard" value={formik.values.ConfirmPassword} onChange={formik.handleChange}
+          onBlur={formik.handleBlur} sx={{ mt: '-0.3rem' }} />
 
         {formik.touched.ConfirmPassword && formik.errors.ConfirmPassword ? (
           <Errormessage Error={formik.errors.ConfirmPassword} />
@@ -182,18 +179,12 @@ function Form() {
 
         <Grid container spacing={2}>
           <Grid item xs={6}>
-            <ButtonPrimary
-              onChange={formik.handleChange}
-              type="submit"
-              fullWidth
-              color='primary'
-            >
+            <ButtonPrimary onChange={formik.handleChange} type="submit" fullWidth color='primary'>
               Save
             </ButtonPrimary>
           </Grid>
           <Grid item xs={6}>
-            <ButtonPrimary onClick={getHomepage} fullWidth
-              color='secondary'>
+            <ButtonPrimary onClick={getHomepage} fullWidth color='secondary'>
               Cancel
             </ButtonPrimary>
           </Grid>

@@ -4,7 +4,7 @@ import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
-  base64Data:string;
+  base64Data: string;
 }
 
 export async function base64FromPath(path: string): Promise<string> {
@@ -37,18 +37,24 @@ const CameraClick = () => {
     };
   };
   const takePhoto = async () => {
-    const photo = await Camera.getPhoto({
-      resultType: CameraResultType.Uri,
-      source: CameraSource.Camera,
-      quality: 100,
-    });
-    const fileName = new Date().getTime() + '.jpeg';
-    const savedFileImage = await savePicture(photo, fileName);
+    try {
+      const photo = await Camera.getPhoto({
+        resultType: CameraResultType.Uri,
+        source: CameraSource.Camera,
+        quality: 100,
+      });
+      const fileName = new Date().getTime() + '.jpeg';
+      const savedFileImage = await savePicture(photo, fileName);
 
-    const newPhotos = [
-      savedFileImage,
-    ];
-    setPhotos(newPhotos);
+      const newPhotos = [
+        savedFileImage,
+      ];
+      setPhotos(newPhotos);
+    } catch (error) {
+      console.error("Failed to browse image");
+    } finally {
+      console.log("Handled")
+    }
   };
 
   return {

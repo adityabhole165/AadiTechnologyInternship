@@ -129,6 +129,7 @@ function Fees() {
 
   }
   useEffect(() => {
+    localStorage.setItem("paymentPopUpCount", '0'); // Temporary fix to fee payment popup. Update code later
     localStorage.setItem('url', window.location.pathname);
   }, []);
 

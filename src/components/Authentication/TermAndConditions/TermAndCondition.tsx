@@ -89,7 +89,7 @@ function TermAndCondition() {
 
       {
         radioBtn === "1" ?
-          <ButtonPrimary onClick={ChangePassword} onClickCapture={ChangePassword}>Continue</ButtonPrimary> :
+          <ButtonPrimary onClick={ChangePassword}>Continue</ButtonPrimary> :
           <ButtonPrimary disabled >Continue</ButtonPrimary>
       }
 </Box>

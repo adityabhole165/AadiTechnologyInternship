@@ -220,10 +220,20 @@ const QueAns = () => {
 
     //     return () => clearInterval(timer);
     // });
-    const ClickSubmit = () => {
-        alert("Are you sure you want to Submit the exam?")
-        clearInterval(timer);
+    // const ClickSubmit = () => {
+    //     alert("Are you sure you want to Submit the exam?")
+    //     clearInterval(timer);
+    //     dispatch(GetSubmitExam(SubmitOnlineExam))
+    // }
+
+    const ClickSubmit =()=>{
+        let text = ("Are you sure you want to Submit the exam?")
+      if(window.confirm(text)=== true){
         dispatch(GetSubmitExam(SubmitOnlineExam))
+      }else{
+       
+      }
+      clearInterval(timer);
     }
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date().toString());
