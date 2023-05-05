@@ -114,7 +114,40 @@ export const getInternalFeeDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
-      dispatch(Feesslice.actions.getInternalFeeDetails(response.data));
+      const itemlist = response?.data.InternalFeeDetails.map((item)=>{
+        return{
+          SchoolwiseStudentId:item.SchoolwiseStudentId,
+          InternalFeeDetailsId:item.InternalFeeDetailsId,
+          DebitCredit:item.DebitCredit,
+          Amount:item.Amount,
+          FeeType:item.FeeType,
+          PayableFor:item.PayableFor,
+          ReceiptNo:item.ReceiptNo,
+          SerialNo:item.SerialNumber,
+          IsDueDateApplicable:item.IsDueDateApplicable,
+          PaidDate:item.PaidDate,
+          Remarks:item.Remarks,
+          AccountHeaderId:0,
+          AmountPayable:"0",
+          DebitStudentFeeId:"0",
+          DueDate:"",
+          DueDateFormat:"",
+          DueDateString:"",
+          FeeId:"0",
+          FeesPaid:"0",
+          IsArrears:"",
+          IsChequeBounce:"N",
+          IsPartialPayment:"0",
+          LateFeeAmount:"0",
+          OriginalFeeType:"",
+          PaymentGroup:1,
+          RefundDetailsID:"0",
+          RowNumber:1,
+          ShowOptionButtonForAllEntry:true,
+          StudentFeeId:""
+        }
+      })
+      dispatch(Feesslice.actions.getInternalFeeDetails(itemlist));
       // dispatch(Feesslice.actions.getFees(response.data));
 
     };

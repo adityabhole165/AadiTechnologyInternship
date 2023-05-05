@@ -189,7 +189,8 @@ function Card16({ Note, Heading, currentYear, IsForCurrentyear }) {
         <RouterLink
           to={
             `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate.replaceAll("/", "-") + `/` + feeId + currentYear + IsForCurrentyear
+            selectedDueDate.replaceAll("/", "-") + `/` + feeId
+            //  + currentYear + IsForCurrentyear
           }
           style={mystyle}
         >

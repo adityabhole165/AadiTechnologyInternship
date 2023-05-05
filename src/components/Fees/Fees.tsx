@@ -192,7 +192,7 @@ function Fees() {
   };
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   console.log("ApplicableFee",ApplicableFee);
-  
+  const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -246,7 +246,7 @@ function Fees() {
           <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}/>
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear} IsForCurrentyear={IsOldAcademicYearPayment}/>
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
