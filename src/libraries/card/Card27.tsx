@@ -133,14 +133,15 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear })
           </Header1>
         </Accordionsummary>
         <AccordionDetails>
+          {Fee !== undefined && 
           <Card16
-            Fee={Fee}
+            FeesList={Fee}
             Heading={Heading}
             Note={Note}
             FeesTypes={FeesType}
             currentYear={currentYear}
             IsForCurrentyear={IsForCurrentyear}
-          />
+          />}
         </AccordionDetails>
       </Accordion>
 

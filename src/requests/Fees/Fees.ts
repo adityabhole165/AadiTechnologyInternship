@@ -114,7 +114,7 @@ export const getInternalFeeDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
-      const itemlist = response?.data.InternalFeeDetails.map((item)=>{
+      const itemlist = response.data.InternalFeeDetails.map((item)=>{
         return{
           SchoolwiseStudentId:item.SchoolwiseStudentId,
           InternalFeeDetailsId:item.InternalFeeDetailsId,
@@ -147,6 +147,8 @@ export const getInternalFeeDetails =
           StudentFeeId:""
         }
       })
+      console.log("itemlist",itemlist);
+      
       dispatch(Feesslice.actions.getInternalFeeDetails(itemlist));
       // dispatch(Feesslice.actions.getFees(response.data));
 

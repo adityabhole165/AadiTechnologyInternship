@@ -29,11 +29,12 @@ export interface Iprops {
   pointerEvents: string;
 }
 
-function Card16({ Note, Heading, currentYear, IsForCurrentyear }) {
+function Card16({FeesList, Note, Heading, currentYear, IsForCurrentyear}) {
   const dispatch = useDispatch();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const GetFeeDetails: any = useSelector((state: RootState) => state.Fees.FeesData2);
-  const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
-  const LengthOfFeesList = FeesList.length; // For splicing operation
+  // const FeesList: any = useSelector((state: RootState) => state.Fees.FeesData);
+  const LengthOfFeesList = FeesList?.length; // For splicing operation
   const [ArrayOfPaymentGroup, setArrayOfPaymentGroup] = useState([]); // Check value and Background Color
   const [ArrayOfFees, setArrayOfFees] = useState<any>([]); // Fees group
   const [open, setOpen] = useState(false);
@@ -186,11 +187,10 @@ function Card16({ Note, Heading, currentYear, IsForCurrentyear }) {
           Total: {FeesTotal}
         </div>
 
-        <RouterLink
+     <RouterLink
           to={
             `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate.replaceAll("/", "-") + `/` + feeId
-            //  + currentYear + IsForCurrentyear
+            selectedDueDate.replaceAll("/", "-") + `/` + feeId  //  + currentYear + IsForCurrentyear
           }
           style={mystyle}
         >

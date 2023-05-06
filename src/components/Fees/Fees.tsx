@@ -253,9 +253,9 @@ function Fees() {
       <NoteStyle >
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
-          return <>
-         <Box sx={{display:'flex',flexDirection:'row'}}><Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} /></Box>   
-          </>
+          return
+         <Box key={i} sx={{display:'flex',flexDirection:'row'}}><Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} /></Box>   
+        
         })}
       </NoteStyle>
       {asSchoolId == "11" && <>
