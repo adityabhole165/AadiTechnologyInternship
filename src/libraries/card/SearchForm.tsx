@@ -1,4 +1,4 @@
-import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography } from '@mui/material'
+import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography, Hidden } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { ListStyle } from '../styled/CardStyle'
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
@@ -80,6 +80,7 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
     <div>
 
       <ListStyle>
+        <Hidden mdUp>
         <Avatar onClick={clickClose}
           sx={{
             position: 'absolute', top: '-10px', zIndex: '4', right: '-5px', p: '2px', width: 25, height: 25, backgroundColor: "white", boxShadow:
@@ -88,6 +89,7 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
         >
           <CloseIcon fontSize="small" color='error' />
         </Avatar>
+        </Hidden>
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <TextField id="standard-basic" label="Book Title:"

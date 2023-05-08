@@ -1,8 +1,9 @@
+
 import { useEffect, useState } from 'react';
 import BooksDetails from './BooksDetails';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { Typography, Container, Grid, IconButton, Avatar } from '@mui/material';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { Typography, Container, Grid, IconButton, Avatar, Hidden } from '@mui/material';
+import { ButtonPrimary, ButtonPrimaryLab } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import { IBooksDetails } from 'src/interfaces/Student/Library';
 import { RootState } from 'src/store';
@@ -38,6 +39,7 @@ function Library() {
   const [ascending, setAscending] = useState('asc');
 
   useEffect(() => {
+   
     setStandard(Standard)
   }, []);
 
@@ -49,7 +51,7 @@ function Library() {
       asAuthorName: author,
       asPublisher: publisher,
       asLanguage: Language,
-      aiStandardId: Standard===""?asStandardID:Standard,
+      aiStandardId: Standard === "" ? asStandardID : Standard,
       aiMediaType: 2,
       aiBookId: 0,
       aiParentStaffId: "0",
@@ -88,21 +90,36 @@ function Library() {
   }
 
   return (
-    <Container>
+    <Container maxWidth={'xl'}>
       <PageHeader heading={'Library'} subheading={''} />
-      {!showFilter ?
-        (<Grid container spacing={1}>
-          <Grid item xs={5.2}>
-            <ButtonPrimary fullWidth onClick={() => { clickNav('ClaimedBook') }}>Claimed Book</ButtonPrimary>
+       <Grid container spacing={1}>
+       {(!showFilter) ? (<>
+        <Grid container item md={2} xs={12}  >
+        <Grid item md={12} xs={5} direction={{xs:"row", sm:"column"}}>
+              <ButtonPrimaryLab fullWidth onClick={() => { clickNav('ClaimedBook') }}>Claimed Books</ButtonPrimaryLab >
+            </Grid>
+            <Grid item md={12} xs={5} direction={{ xs: "row", sm: "column" }} >
+              <ButtonPrimaryLab fullWidth onClick={() => { clickNav('Bookswithme') }} >Books With Me</ButtonPrimaryLab >
+            </Grid>
+            <Hidden mdUp>
+              <Grid item xs={2}>
+                <img src={"/imges/SearchBook.png"} style={{ width: 30, height: 27, }} onClick={() => { setShowFilter(!showFilter) }} />
+              </Grid>
+            </Hidden>
           </Grid>
-          <Grid item xs={5.2}>
-            <ButtonPrimary fullWidth onClick={() => { clickNav('Bookswithme') }}>Books With Me</ButtonPrimary>
-          </Grid>
-          <Grid item xs={1.6}>
-            <img src={"/imges/SearchBook.png"} style={{ width: 30, height: 27, }} onClick={() => { setShowFilter(!showFilter) }} />
-          </Grid>
-        </Grid>) :
-        (<SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />)}
+        </>):(
+          <>
+           <Grid item md={10} xs={12}>
+            <SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />
+           </Grid>
+          </>)}
+          <Hidden mdDown>
+          <Grid item sm={10} xs={12}>
+            <SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />
+           </Grid>
+          </Hidden>
+        
+        </Grid>
 
       <Grid container >
         <Grid item xs={1.5} />
@@ -124,6 +141,8 @@ function Library() {
         <BooksDetails GetBookList={GetBookList} />
       }
     </Container>
+
+
   );
 }
 export default Library;
