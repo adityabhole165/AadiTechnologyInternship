@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid, Avatar, Typography } from '@mui/material'
+import { Box, Container, Grid, Avatar, Typography, Hidden } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -240,10 +240,13 @@ const TAttendance = () => {
                 </Box>
             </Box>
                 </Grid>
-                <Grid item lg={6} >
+                <Hidden mdDown>
+                <Grid item md={6} >
                 <AttandaceHalf/>
 
                 </Grid>
+                </Hidden>
+              
             </Grid>
       
         </Container>
