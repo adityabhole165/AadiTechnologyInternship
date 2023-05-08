@@ -48,7 +48,7 @@ const Feesslice = createSlice({
 
     },
     getInternalFeeDetails(state, action) {
-      state.FeesData = action.payload.InternalFeeDetails;
+      state.FeesData = action.payload;
 
     },
     getNextYearDetails(state, action) {
