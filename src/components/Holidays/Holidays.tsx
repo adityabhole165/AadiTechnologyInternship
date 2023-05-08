@@ -10,6 +10,7 @@ import List1 from 'src/libraries/mainCard/List1';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Grid from '@mui/material/Grid';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ListH from 'src/libraries/mainCard/ListH';
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -54,7 +55,8 @@ function Holidays() {
       {loading ? (
         <SuspenseLoader />
       ) : (
-        <List1 items={holidaysList}></List1>
+        
+        <ListH itemList={holidaysList}></ListH>
       )}
     </Container>
   );

@@ -45,6 +45,54 @@ box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
 `
 );
 
+export const ButtonPrimaryLab = styled(Button)(
+  ({ theme, color }) => `
+color: white;
+font-size: 12px;
+font-family: 'Roboto';
+text-decoration: none;
+height:30px;
+@media (max-width: 230px) {
+  font-size: 10px;
+};
+
+@media (min-width: 600px) {
+  height:88px;
+};
+
+
+background: ${
+    color === 'primary'
+      ? theme.colors.gradients.primayButton
+      : color === 'secondary'
+      ? theme.colors.gradients.secondaryButton
+      : color === 'warning'
+      ? theme.colors.gradients.disableButton
+      : color === 'error'
+      ? '#DC143C'
+      : theme.colors.gradients.primayButton
+  };
+&:hover {
+    background: ${
+      color === 'primary'
+        ? theme.colors.gradients.primayButton
+        : color === 'secondary'
+        ? theme.colors.gradients.secondaryButton
+        : color === 'warning'
+        ? theme.colors.gradients.disableButton
+        : color === 'error'
+        ? '#DC143C'
+        : theme.colors.gradients.primayButton
+    };
+  }
+border-radius: 3px;
+
+
+box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+
+`
+);
+
 export const Buttontab = styled(Box)(
   ({ theme, color }) => `
 
@@ -72,6 +120,8 @@ border-radius: 6px;
 };
 `
 );
+
+
 
 
 

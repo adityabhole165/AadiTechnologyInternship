@@ -13,6 +13,12 @@ export const CardStyle = {
         ml:"-290px",
         mt:"50px"
       },
- })
+ });
+
+ export const ChangePasswordStyle = {
+  '@media (min-width:600px)': {
+  padding:"18px"
+  },
+  };
 
   

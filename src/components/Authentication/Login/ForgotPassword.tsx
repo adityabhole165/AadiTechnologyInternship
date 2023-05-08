@@ -10,6 +10,7 @@ import Note from 'src/libraries/Note/Note';
 import { HelperText, ListStyle } from 'src/libraries/styled/CardStyle';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
+import { ChangePasswordStyle } from 'src/libraries/styled/CommonStyle';
 
 function ForgotPassword() {
   const theme = useTheme();
@@ -89,7 +90,9 @@ function ForgotPassword() {
 <BoxStyle>
      <Container>
       <PageHeader heading={'Forgot Password'} subheading={''} />
-     
+      <Grid container>
+    <Grid item xs={3}></Grid>
+    <Grid item xs={12} lg={6}>
         <Stack
           direction="row"
           alignItems="center"
@@ -106,7 +109,8 @@ function ForgotPassword() {
             }}
           />
         </Stack>
-        <ListStyle sx={{ mt: '30px' }}>
+        <Box mt={2}>
+        <ListStyle sx={ChangePasswordStyle}>
           <form onSubmit={formik.handleSubmit}>
             <TextField
               fullWidth
@@ -177,6 +181,9 @@ function ForgotPassword() {
           </form>
           <Note NoteDetail={note} />
         </ListStyle>
+        </Box>
+        </Grid>
+        </Grid>
         </Container>
         </BoxStyle>
    

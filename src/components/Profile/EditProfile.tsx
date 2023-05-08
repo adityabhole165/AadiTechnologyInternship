@@ -15,6 +15,7 @@ import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { ISaveStudentPhotoBody, ISubmitStudentPhotoBody } from 'src/interfaces/Student/IEditProfile';
 import { getSaveStudentPhoto, getSubmitStudentPhoto,resetMessage, resetMessage1 } from 'src/requests/EditProfile/RequestEditProfile';
+import BackButton from 'src/libraries/button/BackButton';
 const note = [
   '1) The student photo to be uploaded should be in school uniform.',
   '2) Upload or Capture an image file for students photo (Max Height: 151px and Max Width: 112px) ',
@@ -60,6 +61,7 @@ function EditProfile() {
         img.src = window.URL.createObjectURL(e.target.files[0])
         img.onload = () => {
           if (img.width > width && img.height > height) {
+            setDisableButton(true);
             setError(`Image is ${img.height} x ${img.width}, Height and Width of photo file should not exceed 151px and 112px respectively`);
           }
         // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
@@ -122,6 +124,7 @@ function EditProfile() {
   return (
     <Container>
       <PageHeader heading={'Edit Profile'} subheading={''} />
+      <BackButton FromRoute={"/Student/Profile"}/>
       <Note NoteDetail={note} />
       <ListStyle>
         <ProfileDetailHeader sx={{ textAlign: "center" }}> <b>Name : </b><b>{UserName}</b></ProfileDetailHeader>

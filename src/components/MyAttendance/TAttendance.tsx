@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid, Avatar } from '@mui/material'
+import { Box, Container, Grid, Avatar, Typography } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -16,6 +16,10 @@ import { toast } from 'react-toastify';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getDateFormatted } from '../Common/Util'
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Calender1 } from '../Attendance/Calender';
+import Calendar from 'react-calendar';
+import { ListStyle } from 'src/libraries/styled/CardStyle';
+import AttandaceHalf from './AttendanceHalf';
 
 const TAttendance = () => {
     const dispatch = useDispatch();
@@ -194,10 +198,12 @@ const TAttendance = () => {
     }
 
     return (
-        <Container >
+        <Container maxWidth={'xl'}>
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
-            {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown> : <span><b>Class : </b>{singleStdName}</span>}
+            <Grid container spacing={2}>
+                <Grid item xs={12} md={6}>
+                {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown> : <span><b>Class : </b>{singleStdName}</span>}
             <br />
             <br />
 
@@ -233,6 +239,13 @@ const TAttendance = () => {
                     <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
                 </Box>
             </Box>
+                </Grid>
+                <Grid item lg={6} >
+                <AttandaceHalf/>
+
+                </Grid>
+            </Grid>
+      
         </Container>
     )
 }
