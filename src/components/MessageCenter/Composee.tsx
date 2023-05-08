@@ -29,6 +29,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import { messageCenter } from 'src/libraries/styled/CommonStyle';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -719,7 +720,7 @@ function Form13() {
                 </div>
               )}
             </Grid>
-            <Grid item xs={12} >
+            <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
               margin="normal" label='Content :' name="Content" type="text"
               variant="outlined" sx={{ mt: "-0.5px" }}

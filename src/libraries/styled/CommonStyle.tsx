@@ -21,4 +21,13 @@ export const CardStyle = {
   },
   };
 
+
+
+  export const messageCenter = {
+    mt:"-20px",
+    '@media (max-width:600px)': {
+            mt:"-40px"
+    },
+    };
+
   
