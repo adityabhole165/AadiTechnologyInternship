@@ -8,11 +8,11 @@ function AttandaceHalf() {
     <div>
         <Grid container spacing={1}>
         
-        <Grid item lg={6} > 
+        <Grid item lg={5.5} > 
                 <ListStyle sx={{ml:"16px" , mt:"26px" , backgroundColor:"#e1bee7"}}>
                     <Box sx={{display:"flex"}}>
                         <Typography >Present Student/Total Student</Typography>
-                        <Typography pl={4} >
+                        <Typography pl={3} >
                       
                             32/45
                          
@@ -22,11 +22,11 @@ function AttandaceHalf() {
                 
                  </Grid>
                  
-                 <Grid item lg={6} > 
+                 <Grid item lg={6.5} > 
                 <ListStyle sx={{ mt:"26px" , backgroundColor:"#e1bee7"}} >
                     <Box sx={{display:"flex"}}>
-                        <Typography  pl={1} >Attendaced Marked Classes/Total Student</Typography>
-                        <Typography pl={2} >
+                        <Typography   >Attendaced Marked Classes/Total Student</Typography>
+                        <Typography  pl={2}>
                          
                            23/45
                         
@@ -46,8 +46,8 @@ function AttandaceHalf() {
                     <ButtonPrimary fullWidth>MonthWise Attandace</ButtonPrimary>
                     </Grid>
                     <Grid item lg={3}/>
-                    <Grid item xs={12} sx={{ml:"50px" , mt:"19px"}}>
-                      <Calendar sx={{height:"900px"}}/> 
+                    <Grid item xs={12} sx={{ml:"50px" , mt:"19px"}} >
+                      <Calendar sx={{height:"900px", width:"100px"}}/> 
                     </Grid>
                     
                     <Grid item xs={12} sx={{ml:"16px"}}>
