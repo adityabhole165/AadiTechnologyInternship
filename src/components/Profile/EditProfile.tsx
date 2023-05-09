@@ -81,8 +81,10 @@ function EditProfile() {
 
   const { photos, takePhoto } = CameraClick();
   useEffect(() => {
-    if (photos !== undefined && photos.length)
+    if (photos !== undefined && photos.length){
       setValue(photos[0].base64Data)
+      setDisableButton(false);
+    }
   }, [photos])
   useEffect(() => {
     setError('')
