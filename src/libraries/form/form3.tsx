@@ -79,13 +79,8 @@ function Form() {
       asUserId: asUserId
     }
 
-    useEffect(() => {
       dispatch(getTermsAndCondition(TermsBody));
-    }, []);
 
-   
-
-    {
       http
         .post('School/ChangePassword', body)
         .then((resp) => resp.data)
@@ -102,7 +97,7 @@ function Form() {
             toast.error(data);
           }
         });
-    }
+    
   };
 
   const formik = useFormik({
