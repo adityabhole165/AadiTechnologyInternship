@@ -75,7 +75,7 @@ function EventOverview() {
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.split(" ");
+    const dateValues = selectedDate.includes('-')? selectedDate.split("-"):selectedDate.split(" ");
     const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() - 1);
@@ -84,7 +84,7 @@ function EventOverview() {
 
   const getNextDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.split(" ");
+    const dateValues = selectedDate.includes('-')? selectedDate.split("-"):selectedDate.split(" ");
     const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
