@@ -13,6 +13,29 @@ export const CardStyle = {
         ml:"-290px",
         mt:"50px"
       },
- })
+ });
+
+ export const ChangePasswordStyle = {
+  '@media (min-width:600px)': {
+  padding:"18px"
+  },
+  };
+
+
+
+  export const messageCenter = {
+    mt:"-20px",
+    '@media (max-width:600px)': {
+            mt:"-40px"
+    },
+    };
+
+    export const ListHeight = {
+         
+      '@media (min-width: 900px)': {
+        height:"200px"
+      
+      },
+      };
 
   

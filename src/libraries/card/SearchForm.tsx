@@ -1,4 +1,4 @@
-import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography } from '@mui/material'
+import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography, Hidden, FormGroup } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { ListStyle } from '../styled/CardStyle'
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
@@ -11,6 +11,7 @@ import { RootState } from 'src/store';
 import { ILanguagesDetails, IStandardsBody } from 'src/interfaces/Student/Library'
 import ReplayIcon from '@mui/icons-material/Replay';
 import DropdownAllSelect from '../dropdown/DropdownAllSelect';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 function SearchForm({ clickFilter, clickCloseIcon }) {
   const dispatch = useDispatch();
 
@@ -80,6 +81,7 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
     <div>
 
       <ListStyle>
+        <Hidden mdUp>
         <Avatar onClick={clickClose}
           sx={{
             position: 'absolute', top: '-10px', zIndex: '4', right: '-5px', p: '2px', width: 25, height: 25, backgroundColor: "white", boxShadow:
@@ -88,6 +90,7 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
         >
           <CloseIcon fontSize="small" color='error' />
         </Avatar>
+        </Hidden>
         <Grid container spacing={1}>
           <Grid item xs={6}>
             <TextField id="standard-basic" label="Book Title:"
@@ -120,11 +123,18 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
           <Grid item xs={6}>
             <DropdownAllSelect Array={GetLanguageList} handleChange={clickLanguage} label={''} defaultValue={Language} />
           </Grid>
-          <Grid item xs={6} >
+          <Hidden smDown>
+          <Grid item  md={10}>
+       
+           
+          </Grid>
+          </Hidden>
+        
+          <Grid item xs={6} md={1}>
             <ButtonPrimary color="secondary" onClick={() => clickReset()}
               endIcon={<ReplayIcon />}>Reset</ButtonPrimary>
           </Grid>
-          <Grid item xs={6} >
+          <Grid item xs={6} md={1}>
             <ArrowCircleRightRoundedIcon onClick={onClick}
               fontSize='large' color='success' sx={{ float: "right", mr: 2 }}></ArrowCircleRightRoundedIcon>
           </Grid>

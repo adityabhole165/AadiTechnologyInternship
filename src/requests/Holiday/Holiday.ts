@@ -37,6 +37,7 @@ export const getHolidays =
           text1: Number(item.ToatalDays) == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
           text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
+          TextH3: item.Standards,
           backgroundColor: 'secondary'
         }
         : {
@@ -44,6 +45,7 @@ export const getHolidays =
           header: item.Name,
           text1: Number(item.ToatalDays) > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
+          TextH3: item.Standards,
           backgroundColor: 'primary'
         };
     });

@@ -13,6 +13,7 @@ import { getTermsAndCondition } from 'src/requests/TermAndCondition/TermAndCondi
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import {IAcceptTermsBody} from 'src/interfaces/Common/ChangePassword'
+import { ChangePasswordStyle } from '../styled/CommonStyle';
 
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
@@ -78,13 +79,8 @@ function Form() {
       asUserId: asUserId
     }
 
-    useEffect(() => {
       dispatch(getTermsAndCondition(TermsBody));
-    }, []);
 
-   
-
-    {
       http
         .post('School/ChangePassword', body)
         .then((resp) => resp.data)
@@ -101,7 +97,7 @@ function Form() {
             toast.error(data);
           }
         });
-    }
+    
   };
 
   const formik = useFormik({
@@ -144,7 +140,12 @@ function Form() {
   });
 
   return (
-    <ListStyle>
+    
+    <Grid container>
+    <Grid item xs={3}></Grid>
+    <Grid item xs={12} lg={6}>
+
+    <ListStyle sx={ChangePasswordStyle}>
       <form onSubmit={formik.handleSubmit}>
         <Note NoteDetail={note1} />
         <Box >
@@ -191,6 +192,8 @@ function Form() {
         </Grid>
       </form>
     </ListStyle>
+    </Grid>
+     </Grid>
 
   );
 }

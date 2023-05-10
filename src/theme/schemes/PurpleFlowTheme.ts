@@ -1252,7 +1252,10 @@ export const PurpleFlowTheme = createTheme({
     h5: {
       fontWeight: 700,
       fontSize: 12,
-  
+      '@media (min-width:600px)': {
+        fontSize: 14},
+   
+    
  
     },
     h6: {
@@ -1271,6 +1274,8 @@ export const PurpleFlowTheme = createTheme({
     },
     body2: {
       fontSize: 12,
+      '@media (min-width:600px)': {
+        fontSize: 14,}
    
     },
     button: {

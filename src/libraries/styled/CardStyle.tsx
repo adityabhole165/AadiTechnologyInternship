@@ -182,12 +182,12 @@ export const BoxDetail1 = styled(Typography)`
 export const BoxDetail2 = styled(Typography)`
   font-weight: bold;
   font-size: 12px;
-
+ width:250px;
   color: black;
   font-family: Roboto;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  // white-space: nowrap;
+  // overflow: hidden;
+  // text-overflow: ellipsis;
 `;
 
 export const CardD = styled(Typography)`
@@ -286,6 +286,32 @@ export const ListStyle = styled(Box)(
  };
     position:relative;
  padding:8px;
+border-radius: 6px;
+   margin-bottom: 8px;
+   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+ `
+);
+
+export const ListStyleA = styled(Box)(
+  ({ theme, color }) => `
+
+//  background: ${theme.colors.gradients.listColor}; 
+ background: ${
+   color === 'primary'
+     ? theme.colors.gradients.listColor
+     : color === 'secondary'
+     ? theme.colors.gradients.HighlightedlistColor
+     : color === 'warning'
+     ? theme.colors.gradients.selectedlistColor
+     : color === 'info'
+     ? theme.colors.gradients.pageBackground
+      : color === 'red'
+     ? theme.colors.gradients.red
+     : theme.colors.gradients.listColor
+     
+ };
+    position:relative;
+ padding:15px;
 border-radius: 6px;
    margin-bottom: 8px;
    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);

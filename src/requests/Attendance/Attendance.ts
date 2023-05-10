@@ -8,7 +8,7 @@ const AttendanceSlice = createSlice({
   name: 'Attendance',
   initialState: {
     DailyAttendanceList: [],
-    GetStudentAttendance: {},
+    GetStudentAttendance: [],
     GetAttendanceDetails: [],
     GetAcademicYearsForOldAttendance: [],
     Loading: true,
