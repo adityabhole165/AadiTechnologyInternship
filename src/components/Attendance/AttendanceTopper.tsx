@@ -93,9 +93,7 @@ function AttendanceTopper() {
           <Typography sx={{ textAlign: "center" }} variant="h5">   Your Attendance</Typography>
        </Box>
         <Box >
-        {(
-          GetStudentAttendance.StudentName !== undefined &&
-          GetStudentAttendance.length > 0) ? 
+        {(GetStudentAttendance.length > 0 && GetStudentAttendance[0].Name!=null) ? 
           <Card35 header={{ Header: GetStudentAttendance }} />:
           <ErrorDetail>No attendance</ErrorDetail>}
         </Box>
