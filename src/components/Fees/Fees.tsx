@@ -32,7 +32,10 @@ function Fees() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
+
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+
+
   const [YearType,setYearType]=useState("C")
   // const [internalFees, setInternalFees] = useState("")
   const schoolFees = "SchoolFees";
@@ -69,8 +72,6 @@ function Fees() {
   const GetNextYearFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearFeeDetails
   );
-// console.log("GetNextYearFeeDetails",GetNextYearFeeDetails)
-
 
   const Feedata = {
     Fee1: 'Fee Type',
@@ -156,12 +157,15 @@ function Fees() {
   // }, [currentYear]);
 
   useEffect(() => {
-    // if (currentYear === sessionStorage.getItem("AcademicYearId")) {
+  if(currentYear == '0'){
+    dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
+  }else{
     if(showCaution == internalFees){
       dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
     }else
     dispatch(getFees(body));
-  }, [showCaution]);
+  }
+  }, [showCaution,currentYear]);
 
 
 
@@ -191,7 +195,6 @@ function Fees() {
     navigate('PayinternalFees')
   };
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
-  console.log("ApplicableFee",ApplicableFee);
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   return (
     <Container>

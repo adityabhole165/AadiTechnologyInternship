@@ -281,12 +281,12 @@ const QueAns = () => {
         clearTimer(getDeadTime());
     }, []);
 
-    useEffect(() => {
-        if (timer == '00:00:00') {
-            dispatch(GetSaveExam(saveBody))
-            dispatch(GetSubmitExam(SubmitOnlineExam))
-        }
-    }, [timer]);
+    // useEffect(() => {
+    //     if (timer == '00:00:00') {
+    //         dispatch(GetSaveExam(saveBody))
+    //         dispatch(GetSubmitExam(SubmitOnlineExam))
+    //     }
+    // }, [timer]);
 
 
     return (
