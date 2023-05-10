@@ -30,4 +30,12 @@ export const CardStyle = {
     },
     };
 
+    export const ListHeight = {
+         
+      '@media (min-width: 900px)': {
+        height:"200px"
+      
+      },
+      };
+
   
