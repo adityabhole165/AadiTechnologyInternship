@@ -24,9 +24,9 @@ export const CardStyle = {
 
 
   export const messageCenter = {
-    mt:"-20px",
+    mt:"-10px",
     '@media (max-width:600px)': {
-            mt:"-30px"
+            mt:"-15px"
     },
     };
 

@@ -138,7 +138,7 @@ function EditProfile() {
           <img src={value == "" ? userPhoto : value} width="112" height="151" style={{ border: "1px solid gray" }} />
           <Grid container>
             <Grid item xs={6} >
-              <input style={{ padding: "1em" }} type="file" accept="image/*" onChange={changeFile} />
+              <input style={{ padding: "1em" , width: '220px', overflow: "hidden", textOverflow: "ellipsis"}} type="file" accept="image/*" onChange={changeFile}  />
             </Grid>
             <Grid item xs={6} style={{ padding: "1em" }} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
           </Grid>
