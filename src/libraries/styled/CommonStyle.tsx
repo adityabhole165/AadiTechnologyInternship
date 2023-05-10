@@ -26,9 +26,16 @@ export const CardStyle = {
   export const messageCenter = {
     mt:"-20px",
     '@media (max-width:600px)': {
-            mt:"-40px"
+            mt:"-30px"
     },
     };
+
+    export const messageCenterCale = {
+      mt:"-8px",
+      '@media (max-width:600px)': {
+              mt:"-18px"
+      },
+      };
 
     export const ListHeight = {
          

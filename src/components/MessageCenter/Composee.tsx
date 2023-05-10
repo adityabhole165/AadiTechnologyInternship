@@ -29,7 +29,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { messageCenter } from 'src/libraries/styled/CommonStyle';
+import { messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -637,8 +637,8 @@ function Form13() {
      
           
             
-            <Grid item xs={6} sm={4} md={2} lg={2}>
-              <TextField sx={{ display: scheduleMessage ,mt: "-8px"}}
+            <Grid item xs={6} sm={4} md={2} lg={2} sx={messageCenterCale}>
+              <TextField sx={{ display: scheduleMessage }}
                 type="date" id="outlined-required" variant="standard"
                 onChange={scheduleDateAndTime}
                 inputProps={{ min: MinDate, max: MaxDate }}
@@ -646,12 +646,12 @@ function Form13() {
             </Grid>
 
 
-            <Grid item xs={4} sm={4} md={2} lg={2} sx={{ display: scheduleMessage }}>
+            <Grid item xs={4} sm={4} md={2} lg={2} sx={{ display: scheduleMessage }} >
               <TimePicker 
                 value={value}
                 onChange={clickTime}
                 renderInput={(params) =>
-                  <TextField {...params} variant="standard" size="small" sx={{ mt: "-8px" }}
+                  <TextField {...params} variant="standard" size="small" sx={messageCenterCale}
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
