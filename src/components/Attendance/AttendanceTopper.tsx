@@ -106,8 +106,10 @@ function AttendanceTopper() {
         <Box >
         {(
           GetAttendanceDetails !== undefined &&
-          GetAttendanceDetails.length > 0) && 
-          <Card35 header={{ Header: GetAttendanceDetails }} />}
+          GetAttendanceDetails.length > 0) ?
+          <Card35 header={{ Header: GetAttendanceDetails }} />:
+          <ErrorDetail>No attendance</ErrorDetail>
+          }
         </Box>
        
 
