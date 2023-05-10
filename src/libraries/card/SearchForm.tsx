@@ -1,4 +1,4 @@
-import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography, Hidden } from '@mui/material'
+import { TextField, Grid, Checkbox, Radio, FormControl, FormLabel, RadioGroup, Box, FormControlLabel, Avatar, Typography, Hidden, FormGroup } from '@mui/material'
 import React, { useState, useEffect } from 'react'
 import { ListStyle } from '../styled/CardStyle'
 import ArrowCircleRightRoundedIcon from '@mui/icons-material/ArrowCircleRightRounded';
@@ -11,6 +11,7 @@ import { RootState } from 'src/store';
 import { ILanguagesDetails, IStandardsBody } from 'src/interfaces/Student/Library'
 import ReplayIcon from '@mui/icons-material/Replay';
 import DropdownAllSelect from '../dropdown/DropdownAllSelect';
+import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 function SearchForm({ clickFilter, clickCloseIcon }) {
   const dispatch = useDispatch();
 
@@ -122,11 +123,18 @@ function SearchForm({ clickFilter, clickCloseIcon }) {
           <Grid item xs={6}>
             <DropdownAllSelect Array={GetLanguageList} handleChange={clickLanguage} label={''} defaultValue={Language} />
           </Grid>
-          <Grid item xs={6} >
+          <Hidden smDown>
+          <Grid item  md={10}>
+       
+           
+          </Grid>
+          </Hidden>
+        
+          <Grid item xs={6} md={1}>
             <ButtonPrimary color="secondary" onClick={() => clickReset()}
               endIcon={<ReplayIcon />}>Reset</ButtonPrimary>
           </Grid>
-          <Grid item xs={6} >
+          <Grid item xs={6} md={1}>
             <ArrowCircleRightRoundedIcon onClick={onClick}
               fontSize='large' color='success' sx={{ float: "right", mr: 2 }}></ArrowCircleRightRoundedIcon>
           </Grid>

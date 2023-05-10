@@ -94,7 +94,7 @@ function Library() {
       <PageHeader heading={'Library'} subheading={''} />
        <Grid container spacing={1}>
        {(!showFilter) ? (<>
-        <Grid container item md={2} xs={12}  >
+        <Grid container item md={2} xs={12} columnSpacing={1} >
         <Grid item md={12} xs={5} direction={{xs:"row", sm:"column"}}>
               <ButtonPrimaryLab fullWidth onClick={() => { clickNav('ClaimedBook') }}>Claimed Books</ButtonPrimaryLab >
             </Grid>

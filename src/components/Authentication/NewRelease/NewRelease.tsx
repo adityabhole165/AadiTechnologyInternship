@@ -9,15 +9,17 @@ import { Card, Container, Grid, Typography, Box } from "@mui/material";
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
 import { androidCurrentAppVersion, appleCurrentAppVersion, deviceType } from "../../Common/Util"
 import UpgradeApp from "./UpgradeApp";
+import { useNavigate } from 'react-router-dom';
 
 const NewRelease = ({ onChangeVersion }) => {
 
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     let currentAppVersion = androidCurrentAppVersion;
     const [showUpgrade, setShowUpgrade] = useState(false);
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
+    
     const iOSAppStoreUrl = 'https://apps.apple.com/in/app/riteschool/id1036759360'
     
     let lastFetchDateTimeValue = null;
@@ -26,7 +28,7 @@ const NewRelease = ({ onChangeVersion }) => {
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
         const releaseBody: INewRelease = {
             "asDeviceType": deviceType,
-            "asUserCurrentVersion": currentAppVersion
+            "asUserCurrentVersion":deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
         };
         dispatch(getNewRelease(releaseBody))
         // }
@@ -37,6 +39,10 @@ const NewRelease = ({ onChangeVersion }) => {
             localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
             if (latestVersionDetails.IsForceUpdate === 'True')
                 onChangeVersion()
+                if(latestVersionDetails.IsForceLogout === 'True'){
+                    sessionStorage.clear();
+                    navigate('/');
+                }
         }
     }, [latestVersionDetails])
 
