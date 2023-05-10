@@ -20,30 +20,33 @@ function PayOnline() {
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const schoolId = localStorage.getItem('localSchoolId');
 
-// const getQueryString = () =>{
-//     let returnString = ""
-//     if(currentYear > asAcademicYearId){
-//       returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId
-//        + '&AcadmicYearId='+currentYear+'&StanardID='+'&TotalAmount='+'&LateFeeAmount='+'&LateFeeAmount='+ '&ConcessionAmount='+'&FeeType='
-//     }
-//     if(currentYear == asAcademicYearId ){
-//       returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0'
-//     }
-//    if(currentYear < asAcademicYearId){
-//     returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
-//     '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId='+currentYear+'&IsOldAcademicYearPayment='+ IsForCurrentyear
-//    }
-//    if(currentYear){ //internal
-//     returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=' + '&IsOnlineInternalFeePayment=' + '&IsForNextYear=' + 
-//     '&AcadmicYearId=' + currentYear + '&TotalAmount'+'&IsForInternalFee=1'
-//    }
-//     return returnString
-//   }
+const getQueryString = () =>{
+  console.log("currentYear == asAcademicYearId--",currentYear, asAcademicYearId)
+    let returnString = ""
+    // if(currentYear > asAcademicYearId){
+    //   returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId
+    //    + '&AcadmicYearId='+currentYear+'&StanardID='+'&TotalAmount='+'&LateFeeAmount='+'&LateFeeAmount='+ '&ConcessionAmount='+'&FeeType='
+    // }
+    if(currentYear == asAcademicYearId ){
+      returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0'
+    }
+   if(currentYear < asAcademicYearId){
+    returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId='+currentYear+'&IsOldAcademicYearPayment='+ IsForCurrentyear
+   }
+  //  if(currentYear){ //internal
+  //   returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=' + '&IsOnlineInternalFeePayment=' + '&IsForNextYear=' + 
+  //   '&AcadmicYearId=' + currentYear + '&TotalAmount'+'&IsForInternalFee=1'
+  //  }
+    return returnString
+  }
+  console.log("getQueryString",getQueryString())
   const body: IPayOnline = {
     asSchoolId: schoolId,
     asUserLogin: userLoginId,
-    asQueryString: 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
-    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0',
+    asQueryString:getQueryString(),
+    // asQueryString: 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+    // '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
       localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',
     asRedirectPageUrl:
