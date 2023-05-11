@@ -25,6 +25,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card1 from 'src/libraries/mainCard/Card1';
 import { Typography, Box } from '@mui/material';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
+import CardExamSchedule from 'src/libraries/card/CardExamSchedule';
 
 const TExamScheduleNew = () => {
   const dispatch = useDispatch();
@@ -129,7 +130,7 @@ const TExamScheduleNew = () => {
               <Icon3 Note={item.Instructions} />
             ) : null}
            
-              <Card1 key={i}
+              {/* <Card1 key={i}
                 header={item.header}
                 text1={''}
                 text2={item.text2}
@@ -141,7 +142,9 @@ const TExamScheduleNew = () => {
                 margin={''}
                 FileName={''}
 
-              />
+              /> */}
+               <CardExamSchedule  header={item.header}     text2={item.text3}
+                text3={item.text2}  text5={item.text5}/>
           </div>
         );
       })}
