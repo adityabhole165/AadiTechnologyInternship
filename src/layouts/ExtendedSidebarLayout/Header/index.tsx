@@ -432,7 +432,8 @@ function Header() {
               <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
             </Button>
           </Box>
-          {window.localStorage.getItem('deviceType') === 'android' ? (
+          {(window.localStorage.getItem('deviceType') === 'android' || 
+          localStorage.getItem('deviceType') === 'ios') ? (
           <Box m={1}>
             <Button color="primary" fullWidth onClick={handleCloseApp}>
               <PowerSettingsNewTwoToneIcon fontSize="small"

@@ -53,7 +53,7 @@ function EditProfile() {
   const changeFile = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 1000000)
-      setDisableButton(false);
+     
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
         setFileName(base64URL.slice(base64URL.indexOf(',') + 1));
@@ -66,13 +66,14 @@ function EditProfile() {
           }
           // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
           else {
+            setDisableButton(false);
             setValue(base64URL);
           }
 
         }
       }
       else {
-
+        setDisableButton(true);
         setError(isValid);
       }
     }
