@@ -618,7 +618,60 @@ function Form13() {
               </Tooltip>
             </ClickAwayListener>
             </Grid>
-          
+            <Hidden smUp>
+        <Grid item xs={12} sm={12}   md={4}mt={-1}>
+        {finalBase642New == undefined ||
+              finalBase642New.length == 0
+              || PageName == 'Reply'
+              ? null :
+              (
+                <div >
+                 
+                  <Typography component={Box} >Attachment(s):</Typography>
+               
+                  {
+                    finalBase642New.map((obj, i) => {
+                      return (<>
+                      
+                      <Box key={obj.FileName} sx={{display:"flex" }}>
+                         
+                            
+                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                    
+                    
+                         <CardDetail8 sx={{ mt: '1px'}}>
+                           {obj.FileName.slice(0, 25)}
+                         </CardDetail8>
+                    
+                   
+                       
+                    
+                  
+                   </Box>  
+                   <IconButton  aria-label="delete" title="Delete"
+                           onClick={() =>
+                             handleRemoveListItems(
+                               obj.FileName,
+                               obj.Base64URL
+                             )
+                           }
+                           sx={{float:"right", mr: "-3px"}}
+                         >
+                           <DeleteIcon
+                             sx={{ color: 'red' , mt:"-40px"}}
+                           />
+                         </IconButton >
+                     
+                      </>
+             
+                      
+                      )
+                    })
+                  }
+                </div>
+              )}
+            </Grid>
+            </Hidden>
             
        
                   <Grid item xs={12}  sm={4} md={2.5} lg={2} mt={-1}>
@@ -668,7 +721,7 @@ function Form13() {
           <ErrorMessage1 Error={schTimeerror} />
           <ErrorMessage1 Error={requestScheduleMsg} />
         </Grid>
-
+        <Hidden smDown>
         <Grid item xs={12} sm={12}   md={4}mt={-1}>
         {finalBase642New == undefined ||
               finalBase642New.length == 0
@@ -720,6 +773,7 @@ function Form13() {
                 </div>
               )}
             </Grid>
+            </Hidden>
             <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
               margin="normal" label='Content :' name="Content" type="text"

@@ -58,7 +58,9 @@ export const getSaveStudentPhoto =
       export const resetMessage1 =
       (): AppThunk =>
         async (dispatch) => {
-          dispatch(SliceEditProfile.actions.resetMessage());
+          dispatch(SliceEditProfile.actions.resetMessage1());
         }
+
+        
 
       export default SliceEditProfile.reducer;
