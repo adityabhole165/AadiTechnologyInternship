@@ -29,7 +29,7 @@ export interface Iprops {
   pointerEvents: string;
 }
 
-function Card16({FeesList, Note, Heading, currentYear, IsForCurrentyear}) {
+function Card16({ FeesList, Note, Heading, currentYear, IsForCurrentyear }) {
   const dispatch = useDispatch();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const GetFeeDetails: any = useSelector((state: RootState) => state.Fees.FeesData2);
@@ -133,15 +133,26 @@ function Card16({FeesList, Note, Heading, currentYear, IsForCurrentyear}) {
 
   const body: IFees = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId ,
+    asStudentId: asStudentId,
     aiAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
     abIsForCurrentYear: true
   };
 
-  useEffect(() => {
-    dispatch(getFees(body));
-  }, [CheckBoxPaymentGroup, change, ArrayOfPaymentGroup]);
-
+  // useEffect(() => {
+  //   dispatch(getFees(body));
+  // }, [CheckBoxPaymentGroup, change, ArrayOfPaymentGroup]);
+  const getURL = () => {
+    let url = ``
+    if (Number(currentYear) === Number(sessionStorage.getItem('AcademicYearId'))) {
+      url = `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        selectedDueDate.replaceAll("/", "-") + `/` + feeId  //  + currentYear + IsForCurrentyear
+    } else {
+      url = `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        selectedDueDate.replaceAll("/", "-") + `/` + feeId + `/` + currentYear + `/`+ IsForCurrentyear
+    }
+    return url;
+  }
+console.log("getURL-",getURL())
   return (
     <div>
       {GetFeeDetails.IsRTEstudent ? (
@@ -187,11 +198,8 @@ function Card16({FeesList, Note, Heading, currentYear, IsForCurrentyear}) {
           Total: {FeesTotal}
         </div>
 
-     <RouterLink
-          to={
-            `/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-            selectedDueDate.replaceAll("/", "-") + `/` + feeId  //  + currentYear + IsForCurrentyear
-          }
+        <RouterLink
+          to={getURL()}
           style={mystyle}
         >
           {FeesList.AmountPayable != 0 ? (
@@ -213,7 +221,7 @@ function Card16({FeesList, Note, Heading, currentYear, IsForCurrentyear}) {
           {FeesList.map((item: GetFeeDetailsResult, i) => {
             // Checked Box Disability
             const disabledStateCheckBox =
-              FeesList.filter((item) => item.FeesPaid === "0" && parseInt(item.PaymentGroup)>0).length === 0 ?
+              FeesList.filter((item) => item.FeesPaid === "0" && parseInt(item.PaymentGroup) > 0).length === 0 ?
                 false :
                 !CheckBoxPaymentGroup.includes(item.PaymentGroup.toString()
                 );

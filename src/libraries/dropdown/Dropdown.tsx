@@ -21,12 +21,10 @@ function Dropdown({ Array, handleChange, label, defaultValue = '' }) {
                 {defaultValue == '' && <option>{label}</option>}
                {pageName == 'Fees' &&  <option value={0}>Advanced Academic Year</option>} 
                 {Array.map((items, i) => {
-                    return (<>
-                        
+                    return (
                         <option value={items.Value} key={i}>
                             {items.Name}
                         </option>
-                        </>
                     );
                 })}
             </NativeSelect>
