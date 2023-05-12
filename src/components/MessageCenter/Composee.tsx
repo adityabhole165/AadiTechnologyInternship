@@ -29,7 +29,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
+import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -618,17 +618,70 @@ function Form13() {
               </Tooltip>
             </ClickAwayListener>
             </Grid>
-          
+            <Hidden smUp>
+        <Grid item xs={12} sm={12}   md={4}mt={-1}>
+        {finalBase642New == undefined ||
+              finalBase642New.length == 0
+              || PageName == 'Reply'
+              ? null :
+              (
+                <div >
+                 
+                  <Typography component={Box} >Attachment(s):</Typography>
+               
+                  {
+                    finalBase642New.map((obj, i) => {
+                      return (<>
+                      
+                      <Box key={obj.FileName} sx={{display:"flex" }}>
+                         
+                            
+                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
+                    
+                    
+                         <CardDetail8 sx={{ mt: '1px'}}>
+                           {obj.FileName.slice(0, 25)}
+                         </CardDetail8>
+                    
+                   
+                       
+                    
+                  
+                   </Box>  
+                   <IconButton  aria-label="delete" title="Delete"
+                           onClick={() =>
+                             handleRemoveListItems(
+                               obj.FileName,
+                               obj.Base64URL
+                             )
+                           }
+                           sx={{float:"right", mr: "-3px"}}
+                         >
+                           <DeleteIcon
+                             sx={{ color: 'red' , mt:"-40px"}}
+                           />
+                         </IconButton >
+                     
+                      </>
+             
+                      
+                      )
+                    })
+                  }
+                </div>
+              )}
+            </Grid>
+            </Hidden>
             
        
-                  <Grid item xs={12}  sm={4} md={2.5} lg={2} mt={-1}>
+                  <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Request Read Receipt? :
                   </Typography>
                   </Grid>
               
-                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1}>
+                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1} sx={ReadRecipient}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Schedule Message at:
@@ -668,7 +721,7 @@ function Form13() {
           <ErrorMessage1 Error={schTimeerror} />
           <ErrorMessage1 Error={requestScheduleMsg} />
         </Grid>
-
+        <Hidden smDown>
         <Grid item xs={12} sm={12}   md={4}mt={-1}>
         {finalBase642New == undefined ||
               finalBase642New.length == 0
@@ -720,6 +773,7 @@ function Form13() {
                 </div>
               )}
             </Grid>
+            </Hidden>
             <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
               margin="normal" label='Content :' name="Content" type="text"
@@ -743,7 +797,7 @@ function Form13() {
               </>
             ) : null}
               </Grid>
-            <Grid item xs={12} sm={2} sx={{mt:"-15px"}}>
+            <Grid item xs={12} sm={2} sx={{mt:"1px"}}>
               <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}

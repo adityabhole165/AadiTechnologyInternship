@@ -53,7 +53,7 @@ function EditProfile() {
   const changeFile = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 1000000)
-      setDisableButton(false);
+     
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
         setFileName(base64URL.slice(base64URL.indexOf(',') + 1));
@@ -66,13 +66,14 @@ function EditProfile() {
           }
           // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
           else {
+            setDisableButton(false);
             setValue(base64URL);
           }
 
         }
       }
       else {
-
+        setDisableButton(true);
         setError(isValid);
       }
     }
@@ -91,8 +92,10 @@ function EditProfile() {
   }, [value])
 
   useEffect(() => {
+    if (SavePhotos.Message !== undefined) {
     toast.success(SavePhotos.Message, { toastId: 'success2' });
     dispatch(resetMessage());
+  }
   }, [SavePhotos])
 
   useEffect(() => {
@@ -140,7 +143,7 @@ function EditProfile() {
             <Grid item xs={6} >
               <input style={{ padding: "1em" , width: '220px', overflow: "hidden", textOverflow: "ellipsis"}} type="file" accept="image/*" onChange={changeFile}  />
             </Grid>
-            <Grid item xs={6} style={{ padding: "1em" }} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
+            <Grid item xs={6} style={{ padding: "1em" , marginTop:"2.5px"}} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
           </Grid>
           <Grid item xs={6} sx={{ mt: "-3px", mb: "3px" }}>
             {error && <ErrorMessages Error={error} />}

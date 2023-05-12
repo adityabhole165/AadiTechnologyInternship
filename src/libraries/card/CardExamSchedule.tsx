@@ -15,17 +15,17 @@ function CardExamSchedule({ header, text2, text3, text5 }) {
         </Typography>
     </Grid>
     <Grid item xs={4} sm={4} >
-        <Typography sx={{float:"right"}}>
+        <Typography variant='body2' sx={{float:"right"}}>
             {text2}
         </Typography>
     </Grid>
     <Grid item xs={12} sm={4}>
-        <Typography sx={{float:"right"}}>
+        <Typography variant='body2' sx={{float:"right"}}>
             {text3}
         </Typography>
     </Grid>
     <Grid item xs={12} sm={12}>
-        <Typography color="primary">
+        <Typography variant='body2' color="primary">
             {text5}
         </Typography>
     </Grid>

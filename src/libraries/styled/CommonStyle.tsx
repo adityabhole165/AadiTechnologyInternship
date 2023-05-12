@@ -26,7 +26,7 @@ export const CardStyle = {
   export const messageCenter = {
     mt:"-10px",
     '@media (max-width:600px)': {
-            mt:"-15px"
+            mt:"-30px"
     },
     };
 
@@ -44,5 +44,13 @@ export const CardStyle = {
       
       },
       };
+
+      export const ReadRecipient = {
+         mt:"-15px",
+        '@media (min-width: 600px)': {
+          mt:"-10px"
+        
+        },
+        };
 
   
