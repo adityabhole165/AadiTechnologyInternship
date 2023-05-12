@@ -143,7 +143,7 @@ function EditProfile() {
             <Grid item xs={6} >
               <input style={{ padding: "1em" , width: '220px', overflow: "hidden", textOverflow: "ellipsis"}} type="file" accept="image/*" onChange={changeFile}  />
             </Grid>
-            <Grid item xs={6} style={{ padding: "1em" , marginTop:"3px"}} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
+            <Grid item xs={6} style={{ padding: "1em" , marginTop:"2.5px"}} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
           </Grid>
           <Grid item xs={6} sx={{ mt: "-3px", mb: "3px" }}>
             {error && <ErrorMessages Error={error} />}
