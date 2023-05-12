@@ -90,6 +90,7 @@ export const AllExamData =
                             Name: item.Question,
                             Marks: item.Marks,
                             SerialNo: item.SerialNo,
+                            IsExamSubmitted:item.IsExamSubmited,
                             isSingleSelect: true,
                             isActive: false
                         },

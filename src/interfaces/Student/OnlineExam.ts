@@ -100,9 +100,9 @@ export  interface GetQuestionsForOnlineExamResult{
 //submit exam 
 export interface ISubmitOnlineExamBody {
     aiSchoolId: string,
-    aiAcademicYrId: string,
+    aiAcademicYearId: string,
     aiStandardId: string,
-    aiSatandardDivisionId: string,
+    aiStandardDivisionId: string,
     aiSubjectId: string,
     aiExamId: string,
     aiStudentId: string
