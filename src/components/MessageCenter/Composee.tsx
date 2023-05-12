@@ -29,7 +29,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import { messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
+import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
 
   const RecipientsList: any = useSelector(
@@ -674,14 +674,14 @@ function Form13() {
             </Hidden>
             
        
-                  <Grid item xs={12}  sm={4} md={2.5} lg={2} mt={-1}>
+                  <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Request Read Receipt? :
                   </Typography>
                   </Grid>
               
-                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1}>
+                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1} sx={ReadRecipient}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Schedule Message at:

@@ -45,4 +45,12 @@ export const CardStyle = {
       },
       };
 
+      export const ReadRecipient = {
+         mt:"-15px",
+        '@media (min-width: 600px)': {
+          mt:"-10px"
+        
+        },
+        };
+
   
