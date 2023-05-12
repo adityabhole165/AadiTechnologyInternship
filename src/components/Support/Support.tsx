@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import Icon3 from "src/libraries/icon/icon3";
 import { Styles } from 'src/assets/style/student-style'
 import { ListStyle } from 'src/libraries/styled/CardStyle';
+import { NoteStyle } from 'src/libraries/styled/NoteStyle';
 function Support() {
   const classes = Styles();
   const dispatch = useDispatch();
@@ -207,13 +208,18 @@ function Support() {
         <Box className={classes.iIconSupport} >
         <input ref={aRef} type="file" onChange={changeFile} />
         </Box>
+        
         <Box mt={2}>
-        <Icon3  Note={FileValidationNote} />
-        </Box>
-   
-        </Box>
+        <Hidden mdUp>
+       <Icon3  Note={FileValidationNote} />
+       </Hidden>
+       </Box>
+       </Box>
         <Hidden mdDown>
-        <Typography variant='body2' mt={-1} mb={1}>{FileValidationNote}</Typography>
+          <NoteStyle>
+          <Typography variant='body2' >{FileValidationNote}</Typography>
+          </NoteStyle>
+   
         </Hidden>
       
         {error && <Errormessage Error={error} />}
