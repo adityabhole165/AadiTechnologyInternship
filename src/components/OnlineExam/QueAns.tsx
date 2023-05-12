@@ -1,6 +1,6 @@
 import { Box, Card, Grid, Typography, Stack, Avatar } from '@mui/material'
 import React, { useRef, useState } from 'react'
-import {  ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
@@ -41,10 +41,11 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
+    console.log("GetAllAnswerQueListtt", GetAllAnswerQueListtt);
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
-    );   
+    );
     const Getsaveexam = useSelector(
         (state: RootState) => state.OnlineExam.SaveExam
     );
@@ -116,9 +117,9 @@ const QueAns = () => {
     };
     const SubmitOnlineExam: ISubmitOnlineExamBody = {
         aiSchoolId: asSchoolId,
-        aiAcademicYrId: asAcademicYearId,
+        aiAcademicYearId: asAcademicYearId,
         aiStandardId: asStandardId,
-        aiSatandardDivisionId: asStandardDivisionId,
+        aiStandardDivisionId: asStandardDivisionId,
         aiSubjectId: Subjectid,
         aiExamId: EXAMid,
         aiStudentId: asStudentId,
@@ -128,17 +129,17 @@ const QueAns = () => {
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
     useEffect(() => {
-        
+
         if (Getsubmitexam !== null && Getsubmitexam !== "") {
             toast.success(Getsubmitexam, { toastId: 'success1' })
             dispatch(resetSubmitMsg());
-        } 
+        }
         if (Getsaveexam !== null && Getsaveexam !== "") {
             toast.success(Getsaveexam, { toastId: 'success1' })
             dispatch(resetSaveMsg());
         }
-    
-    }, [Getsubmitexam,Getsaveexam])
+
+    }, [Getsubmitexam, Getsaveexam])
 
     useEffect(() => {
         setItemlist(GetAllAnswerQueListtt)
@@ -226,14 +227,14 @@ const QueAns = () => {
     //     dispatch(GetSubmitExam(SubmitOnlineExam))
     // }
 
-    const ClickSubmit =()=>{
+    const ClickSubmit = () => {
         let text = ("Are you sure you want to Submit the exam?")
-      if(window.confirm(text)=== true){
-        dispatch(GetSubmitExam(SubmitOnlineExam))
-      }else{
-       
-      }
-      clearInterval(timer);
+        if (window.confirm(text) === true) {
+            dispatch(GetSubmitExam(SubmitOnlineExam))
+        } else {
+
+        }
+        clearInterval(timer);
     }
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date().toString());
@@ -261,7 +262,7 @@ const QueAns = () => {
 
     const clearTimer = (e) => {
 
-        setTimer ('00: 00: 10');
+        setTimer('00: 00: 10');
         if (Ref.current) clearInterval(Ref.current);
         const id = setInterval(() => {
             startTimer(e);
@@ -293,7 +294,13 @@ const QueAns = () => {
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
-                {Getsubmitexam != "" && <BackButton FromRoute={'/Student/OnlineExam'} />}
+                {
+                    GetAllAnswerQueListtt.map((item, i) => {
+                        return item.Parent.IsExamSubmitted == true &&
+                            <BackButton FromRoute={'/Student/OnlineExam'} />
+
+                    })
+                }
                 <Card sx={{ py: 1 }}>
                     <Typography sx={{ textAlign: 'center' }}><b>Exam Time     :    </b>{timer}</Typography>
                     <Stack
@@ -307,20 +314,20 @@ const QueAns = () => {
                         </Box>
                     </Stack>
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
-                    <Grid item xs={6}>
-                        <Container>
-                            <ButtonPrimary sx={{backgroundColor:"#90caf9", color:"black"}}  fullWidth  onClick={() => { clickPrevNext(-1) }}>
-                                Previous
-                            </ButtonPrimary>
-                        </Container>
-                    </Grid>
-                    <Grid item xs={6} >
-                        <Container>
-                            <ButtonPrimary sx={{backgroundColor:"#90caf9",color:"black"}} fullWidth  onClick={() => { clickPrevNext(1) }} >
-                                Next
-                            </ButtonPrimary>
-                        </Container>
-                    </Grid>
+                        <Grid item xs={6}>
+                            <Container>
+                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(-1) }}>
+                                    Previous
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
+                        <Grid item xs={6} >
+                            <Container>
+                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(1) }} >
+                                    Next
+                                </ButtonPrimary>
+                            </Container>
+                        </Grid>
                     </Grid>
 
                     {itemlist.length > 0 &&
@@ -345,7 +352,7 @@ const QueAns = () => {
 
                             </Grid>
 
-                            <ListSelect  Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
+                            <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
 
                         </>
                     }
@@ -365,7 +372,7 @@ const QueAns = () => {
                                 </ButtonPrimary>
                             </Container>
                         </Grid> */}
-                          <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
+                        <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
                         <Grid item xs={6}>
                             <Container>
                                 <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>

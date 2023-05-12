@@ -12,7 +12,8 @@ const SchoolSettingSlice = createSlice({
     SubTeacher: false,
     isLibrarySchoolSetting: false,
     ExternalLibrarySite: "",
-    EnableMessageCenterReadModeForStudent: false
+    EnableMessageCenterReadModeForStudent: false,
+    AllowStudentPhotoUploadFromStudentLogin:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -36,8 +37,11 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableMessageCenterReadModeForStudent(state, action) {
       state.EnableMessageCenterReadModeForStudent = action.payload;;
-    }
-
+    },
+    getAllowStudentPhotoUploadFromStudentLogin(state, action) {
+      state.AllowStudentPhotoUploadFromStudentLogin = action.payload;;
+    },
+    
 
   }
 });
@@ -91,6 +95,23 @@ export const getGetSettingValue =
         }
       }
       dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(EnableMessageCenterReadMode));
+    }
+    export const GetAllowStudentPhotoUploadFromStudentLogin =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let AllowStudentPhotoUpload = false
+      data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+      if (response.data.GetSettingValueResult) {
+        data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
+        response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            AllowStudentPhotoUpload = true;
+          }
+        }
+      }
+      dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(AllowStudentPhotoUpload));
     }
 export const getGetSettingSubTeacher =
   (data: IGetSettingValueBody): AppThunk =>

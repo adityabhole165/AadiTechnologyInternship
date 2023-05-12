@@ -1,3 +1,5 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Stack, Grid, Avatar, Box, Button } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import { ListStyle } from '../styled/CardStyle';
@@ -7,9 +9,15 @@ import UserPhoto from '../UserPhoto/UserPhoto';
 import ProfileComponent from './ProfileComponent';
 import { useNavigate } from 'react-router-dom';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
+import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { RootState } from 'src/store';
 
 function Card6() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
   const UserName = sessionStorage.getItem('StudentName');
   const RoleName = localStorage.getItem('RoleName');
   const DesignationName = sessionStorage.getItem('DesignationName');
@@ -39,9 +47,23 @@ const birthPlace = authData.data.StudentDetails.BirthPlace;
   }
   const newdate = (DOB === undefined || DOB === "") ? "" : getDateFormate(DOB)
 
+
+  const AllowStudentPhotoUpload: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
+  );
+  console.log("AllowStudentPhotoUpload",AllowStudentPhotoUpload);
+  
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
+  useEffect(() => {
+    dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
+  }, []);
   const EditProfile = () => {
     navigate('EditProfile')
-  }  
+  } 
   return (
     <>
       <Stack alignItems="center" justifyContent="center" gap={1}>
@@ -51,8 +73,9 @@ const birthPlace = authData.data.StudentDetails.BirthPlace;
           {/* <Button style={{marginTop:"1px", marginLeft:"-5px"}} onClick={EditProfile}> 
           <Box sx={{border: "1px solid gray"}}><EditIcon fontSize="small" /> </Box></Button> */}
          
-          <Button onClick={EditProfile}> 
-          <Box sx={{color:"black"}}><EditIcon fontSize="small" /> </Box></Button>
+       {AllowStudentPhotoUpload == true &&
+        <Button onClick={EditProfile}> 
+          <Box sx={{color:"black"}}><EditIcon fontSize="small" /> </Box></Button>}
         </Box>
         
         <ProfileDetailHeader style={{marginRight:"12px"}}><b>{UserName}</b></ProfileDetailHeader>
