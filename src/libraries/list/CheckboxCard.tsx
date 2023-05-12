@@ -25,6 +25,7 @@ const CheckboxCard = ({ Item, onClick }) => {
           checked={Item.isActive}
           onChange={onChange}
           IsAllDeactivated={Item.IsAllDeactivated}
+          IsExamSubmitted={Item.IsExamSubmitted}
         />
         {Item.IsAllDeactivated ?
           <ItemSize >

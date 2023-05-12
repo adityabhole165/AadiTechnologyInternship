@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import GetOnlineExamListApi from "../../api/Student/OnlineExam";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IOnlineTest, { ISubmitOnlineExamBody,IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails, ISaveOnlineExamDetailsBody } from 'src/interfaces/Student/OnlineExam';
+import IOnlineTest, { ISubmitOnlineExamBody, IExamData, AnswerDetails, ExamSchedules, IOnlineExamQuestions, IOnlineTestSubject, QuestionDetails, ISaveOnlineExamDetailsBody } from 'src/interfaces/Student/OnlineExam';
 
 const SelectOnlineExamSlice = createSlice({
     name: 'selectOnlineExam',
@@ -41,28 +41,36 @@ const SelectOnlineExamSlice = createSlice({
         saveExam(state, action) {
             state.SaveExam = action.payload.Message;
         },
-        resetSaveMsg(state){
+        resetSaveMsg(state) {
             state.SaveExam = "";
         },
-        resetSubmitMsg(state){
+        resetSubmitMsg(state) {
             state.SubmitExam = "";
         }
     }
 });
 export const resetSaveMsg =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SelectOnlineExamSlice.actions.resetSaveMsg());
-    };
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(SelectOnlineExamSlice.actions.resetSaveMsg());
+        };
 export const resetSubmitMsg =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SelectOnlineExamSlice.actions.resetSubmitMsg());
-    };
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(SelectOnlineExamSlice.actions.resetSubmitMsg());
+        };
 export const AllExamData =
     (data: IExamData): AppThunk =>
         async (dispatch) => {
+
             const response = await GetOnlineExamListApi.AllExamData(data);
+            const GetIsExamSubmitted = () => {
+                let bIsExamSubmitted = false
+                if (response.data.QuestionDetails.length > 0){
+                     bIsExamSubmitted=response.data.QuestionDetails[0].IsExamSubmited
+                }
+                return bIsExamSubmitted
+            }
             const response1 = await GetOnlineExamListApi.GetOnlineExamQuestionsDetail(data);
             const getChild = (QuestionId) => {
                 return (
@@ -73,9 +81,10 @@ export const AllExamData =
                                 Id: item.AnswerId,
                                 Value: item.QuestionID,
                                 Name: item.Answer,
-                                isActive: item.UserSelectedAnswer===item.AnswerId?true:false,
-                                IsCorrectAnswer :item.IsCorrectAnswer,
-                                UserSelectedAnswer:item.UserSelectedAnswer
+                                isActive: item.UserSelectedAnswer === item.AnswerId ? true : false,
+                                IsCorrectAnswer: item.IsCorrectAnswer,
+                                UserSelectedAnswer: item.UserSelectedAnswer,
+                                IsExamSubmitted: GetIsExamSubmitted()
                             }
 
                         })
@@ -90,7 +99,7 @@ export const AllExamData =
                             Name: item.Question,
                             Marks: item.Marks,
                             SerialNo: item.SerialNo,
-                            IsExamSubmitted:item.IsExamSubmited,
+                            IsExamSubmitted: item.IsExamSubmited,
                             isSingleSelect: true,
                             isActive: false
                         },
@@ -98,7 +107,7 @@ export const AllExamData =
                     }
 
                 })
-                console.log(questions,"questions")
+            console.log(questions, "questions")
             dispatch(SelectOnlineExamSlice.actions.getExamData(questions));
         }
 export const GetOnlineExamList =
@@ -142,12 +151,12 @@ export const GetSubmitExam =
             const response = await GetOnlineExamListApi.SubmitExam(data);
             dispatch(SelectOnlineExamSlice.actions.submitExam(response.data));
         }
-        export const GetSaveExam =
+export const GetSaveExam =
     (data: ISaveOnlineExamDetailsBody): AppThunk =>
         async (dispatch) => {
             const response = await GetOnlineExamListApi.SaveExam(data);
             dispatch(SelectOnlineExamSlice.actions.saveExam(response.data));
-        }     
+        }
 
 
 
