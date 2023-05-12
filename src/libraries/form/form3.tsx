@@ -142,8 +142,8 @@ function Form() {
   return (
     
     <Grid container>
-    <Grid item xs={3}></Grid>
-    <Grid item xs={12} lg={6}>
+    <Grid item md={3}></Grid>
+    <Grid item xs={12} md={6}>
 
     <ListStyle sx={ChangePasswordStyle}>
       <form onSubmit={formik.handleSubmit}>
@@ -178,13 +178,13 @@ function Form() {
 
         <Note NoteDetail={note} />
 
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+        <Grid container spacing={2} justifyContent={'center'}>
+          <Grid item xs={6} md={3}>
             <ButtonPrimary onChange={formik.handleChange} type="submit" fullWidth color='primary'>
               Save
             </ButtonPrimary>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} md={3}>
             <ButtonPrimary onClick={getHomepage} fullWidth color='secondary'>
               Cancel
             </ButtonPrimary>
