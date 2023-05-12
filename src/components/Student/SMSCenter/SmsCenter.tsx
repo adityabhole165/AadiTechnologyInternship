@@ -6,9 +6,11 @@ import { ISmsList, IMobileNumber } from 'src/interfaces/Student/SMSCenter';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container, Typography, Box } from '@mui/material';
+import { Container, Typography, Box, Hidden } from '@mui/material';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import Note from 'src/libraries/Note/Note';
+import { NoteStyle } from 'src/libraries/styled/NoteStyle';
 
 const PageNumber = 1;
 
@@ -74,9 +76,19 @@ function SmsCenter() {
         <CardDetail2>
           <b>Mobile Number(s) : </b> {MobileNumber.replace(";",", ")}
         </CardDetail2>
+        <Hidden mdUp>
         <Icon1 Note={Note} />
+        </Hidden>
+       
+    
       </Box>
-
+      <Hidden mdDown>
+      <NoteStyle>
+      <Typography sx={{mt:"-6px"}} p={0.6}>{Note}</Typography>
+      </NoteStyle>
+      </Hidden>
+     
+   
       
       {loading ? 
         <SuspenseLoader />

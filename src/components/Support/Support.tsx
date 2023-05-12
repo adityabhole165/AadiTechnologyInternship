@@ -5,7 +5,7 @@ import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getSaveSupport, ResetMessage } from 'src/requests/Support/RequestSupport';
 import Note from "src/libraries/Note/Note"
-import { Container, TextField, TextareaAutosize, Grid, Typography, Box } from '@mui/material';
+import { Container, TextField, TextareaAutosize, Grid, Typography, Box, Hidden } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useFormik } from 'formik';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
@@ -15,6 +15,8 @@ import { CheckFileValidation } from '../Common/Util'
 import { toast } from 'react-toastify';
 import Icon3 from "src/libraries/icon/icon3";
 import { Styles } from 'src/assets/style/student-style'
+import { ListStyle } from 'src/libraries/styled/CardStyle';
+import { NoteStyle } from 'src/libraries/styled/NoteStyle';
 function Support() {
   const classes = Styles();
   const dispatch = useDispatch();
@@ -137,7 +139,9 @@ function Support() {
   }, [Support]);
   return (
     <Container>
+      
       <PageHeader heading={'Support'} subheading={''} />
+      <ListStyle>
       <Note NoteDetail={SupportPageNote} />
       <form onSubmit={formik.handleSubmit}>
         <TextField
@@ -204,21 +208,30 @@ function Support() {
         <Box className={classes.iIconSupport} >
         <input ref={aRef} type="file" onChange={changeFile} />
         </Box>
+        
         <Box mt={2}>
-        <Icon3  Note={FileValidationNote} />
-        </Box>
-    
-        </Box>
+        <Hidden mdUp>
+       <Icon3  Note={FileValidationNote} />
+       </Hidden>
+       </Box>
+       </Box>
+        <Hidden mdDown>
+          <NoteStyle>
+          <Typography variant='body2' >{FileValidationNote}</Typography>
+          </NoteStyle>
+   
+        </Hidden>
+      
         {error && <Errormessage Error={error} />}
 
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
+        <Grid container spacing={2} justifyContent={'center'}>
+          <Grid item xs={6} md={2}>
             <ButtonPrimary onChange={formik.handleChange}
               type="submit" fullWidth color='primary'>
               Submit
             </ButtonPrimary>
           </Grid>
-          <Grid item xs={6}>
+          <Grid item xs={6} md={2}>
             <ButtonPrimary fullWidth color='secondary' type='reset'
               onClick={formik.handleReset} >
               Reset
@@ -226,6 +239,7 @@ function Support() {
           </Grid>
         </Grid>
       </form>
+      </ListStyle>
     </Container>
   )
 }
