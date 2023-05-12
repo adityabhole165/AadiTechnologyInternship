@@ -290,7 +290,7 @@ console.log("getURL-",getURL())
 
                     <Grid item xs={1} />
 
-                    <BoxDetail1>Due On :{item.DueDateFormat}</BoxDetail1>
+                    <BoxDetail1>Due On : {item.DueDateFormat}</BoxDetail1>
 
 
                   </BoxDetail>
