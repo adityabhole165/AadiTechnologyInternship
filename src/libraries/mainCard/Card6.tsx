@@ -25,7 +25,7 @@ function Card6() {
   const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB :
     RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
       RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB : ''
-const birthPlace = authData.data.StudentDetails.BirthPlace;
+const birthPlace = authData.data.StudentDetails?.BirthPlace;
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
