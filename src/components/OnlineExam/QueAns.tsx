@@ -41,7 +41,7 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
-    console.log("GetAllAnswerQueListtt", GetAllAnswerQueListtt);
+    // console.log("GetAllAnswerQueListtt", GetAllAnswerQueListtt);
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam

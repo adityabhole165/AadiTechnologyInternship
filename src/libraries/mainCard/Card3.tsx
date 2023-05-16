@@ -39,18 +39,20 @@ function Card3({ color, text1, text2, icon, iconColor, opacityLevel, Link1,
 `;
 
   return (
+    // Blink annimation if required
+    //  <Badge badgeContent="New" color="error" sx={{ animation: `${blink} 1s linear infinite`, float: "right", mr: "15px" }} ></Badge> 
     <>
-      { (text1==="Library" && ExternalLibrarySite !=="") ?
+      {(text1 === "Library" && ExternalLibrarySite !== "") ?
         (<a href={ExternalLibrarySite} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}><IconCard>
-            <IconButton>
-              <IconCardSize>
+          <IconButton>
+            <IconCardSize>
               {icon === 27 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
-                 <Text1>
-                  {text1}
-                </Text1>
-              </IconCardSize>
-            </IconButton>
-          </IconCard>
+              <Text1>
+                {text1}
+              </Text1>
+            </IconCardSize>
+          </IconButton>
+        </IconCard>
         </a>) :
         (<Link to={`/${location.pathname.split('/')[1]}/${Link1}`} style={{ textDecoration: 'none' }}>
 
@@ -85,17 +87,23 @@ function Card3({ color, text1, text2, icon, iconColor, opacityLevel, Link1,
                 {icon === 20 && <CakeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
                 {icon === 21 && <ForwardToInboxIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
                 {icon === 22 && <SmsIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
-                {icon === 23 && <> <Badge badgeContent="New" color="error" sx={{ animation: `${blink} 1s linear infinite`, float: "right", mr: "15px" }} >
-                </Badge>  <AirportShuttleIcon sx={{ color: iconColor, mb: "-4px" }} fontSize="large" /> </>}
+                {icon === 23 && <AirportShuttleIcon sx={{ color: iconColor, mb: "-4px" }} fontSize="large" />}
                 {icon === 25 && <HelpIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
                 {icon === 26 && <CakeIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
-                {icon === 27 && <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} />}
-                {icon === 28 && <AddCardIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
-                {icon === 29 && <img src={ImageUrl} alt="" style={{ width: "25px", height: "25px", marginTop: "4px" }} />}
-                {icon === 30 && <img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} />}
-                {icon === 31 && <img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} />}
-                {icon === 32 && <PeopleIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
-                {icon === 33 && <img src={ImageUrl} alt="" style={{ width: "36px", height: "35px", marginTop: "3px" }} />}
+                {icon === 27 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge> <img src={ImageUrl} alt="" style={{ width: "20px", height: "22px", marginTop: "8px" }} /></>}
+                {icon === 28 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge> <AddCardIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" /></>}
+                {icon === 29 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge> <img src={ImageUrl} alt="" style={{ width: "25px", height: "25px", marginTop: "4px" }} /></>}
+                {icon === 30 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge><img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} /></>}
+                {icon === 31 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge> <img src={ImageUrl} alt="" style={{ width: "24px", height: "27px", marginTop: "5px" }} /></>}
+                {icon === 32 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge> <PeopleIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" /> </>}
+                {icon === 33 && <> <Badge badgeContent="New" color="error" sx={{ float: "right", mr: "15px" }} >
+                </Badge><img src={ImageUrl} alt="" style={{ width: "36px", height: "35px", marginTop: "3px" }} /></>}
                 {icon === 34 && <MenuBookIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
                 {icon === 35 && <MenuIcon sx={{ color: iconColor, mt: "7px" }} fontSize="medium" />}
                 <Text1>
