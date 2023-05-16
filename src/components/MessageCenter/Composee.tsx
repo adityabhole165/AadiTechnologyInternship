@@ -714,13 +714,19 @@ function Form13() {
                     }}
                   />}
               />
-        
+
+         
             </Grid>
+          
+        
             
-            <Grid item xs={12} sx={{ mb: '10px', mt: '5px' , ml:"5px"}}>
-          <ErrorMessage1 Error={schTimeerror} />
+             <Grid item xs={12} sx={{ mt: '-10px' ,mb:"6px" , ml:"5px"}}>
+        
+         <ErrorMessage1 Error={schTimeerror} />
           <ErrorMessage1 Error={requestScheduleMsg} />
-        </Grid>
+       
+     
+        </Grid> 
         <Hidden smDown>
         <Grid item xs={12} sm={12}   md={4}mt={-1}>
         {finalBase642New == undefined ||
@@ -777,7 +783,7 @@ function Form13() {
             <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
               margin="normal" label='Content :' name="Content" type="text"
-              variant="outlined" sx={{ mt: "-0.5px" }}
+              variant="outlined" sx={{ mt: "16px" }}
               value={formik.values.Content}
               onChange={formik.handleChange}
             />
@@ -797,7 +803,7 @@ function Form13() {
               </>
             ) : null}
               </Grid>
-            <Grid item xs={12} sm={2} sx={{mt:"1px"}}>
+            <Grid item xs={12} sm={2} sx={{mt:"-5px"}}>
               <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}

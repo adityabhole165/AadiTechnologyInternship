@@ -85,7 +85,7 @@ function Fees() {
     Sum4: 'Applicable Fees'
   };
   const Note2: string = '*RITE student (100%  Concession on school fees)';
-  const [showCaution, setShowCaution] = useState('School');
+  const [showCaution, setShowCaution] = useState(schoolFees);
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -217,7 +217,7 @@ function Fees() {
       <br></br>
       <br></br>
       {
-        showCaution === 'School' &&
+        showCaution === schoolFees &&
 
         <Grid container>
           <Grid item xs={7.5}>
