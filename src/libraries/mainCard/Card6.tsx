@@ -1,5 +1,6 @@
 import { Stack, Grid, Avatar, Box, Button } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
+import { useEffect, useState } from 'react';
 import { ListStyle } from '../styled/CardStyle';
 import { ProfileDetail1, ProfileDetail2, ProfileDetail3, ProfileDetail4, ProfileWrapper, ProfileDetailHeader } from '../styled/ProfileStyled';
 import EditIcon from '@mui/icons-material/Edit';
@@ -7,9 +8,16 @@ import UserPhoto from '../UserPhoto/UserPhoto';
 import ProfileComponent from './ProfileComponent';
 import { useNavigate } from 'react-router-dom';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
+import { useSelector,useDispatch } from 'react-redux';
+import { RootState } from 'src/store';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
 
 function Card6() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
   const UserName = sessionStorage.getItem('StudentName');
   const RoleName = localStorage.getItem('RoleName');
   const DesignationName = sessionStorage.getItem('DesignationName');
@@ -26,6 +34,19 @@ function Card6() {
     RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
       RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB : ''
 const birthPlace = authData.data.StudentDetails?.BirthPlace;
+
+const AllowStudentPhotoUpload: any = useSelector(
+  (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
+);
+
+const GetSettingValueBody: IGetSettingValueBody = {
+  asSchoolId: parseInt(asSchoolId),
+  aiAcademicYearId: parseInt(asAcademicYearId),
+  asKey: "",
+};
+useEffect(() => {
+  dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
+}, []);
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
@@ -51,8 +72,9 @@ const birthPlace = authData.data.StudentDetails?.BirthPlace;
           {/* <Button style={{marginTop:"1px", marginLeft:"-5px"}} onClick={EditProfile}> 
           <Box sx={{border: "1px solid gray"}}><EditIcon fontSize="small" /> </Box></Button> */}
          
-          <Button onClick={EditProfile}> 
-          <Box sx={{color:"black"}}><EditIcon fontSize="small" /> </Box></Button>
+         {AllowStudentPhotoUpload == true &&
+        <Button onClick={EditProfile}> 
+          <Box sx={{color:"black"}}><EditIcon fontSize="small" /> </Box></Button>}
         </Box>
         
         <ProfileDetailHeader style={{marginRight:"12px"}}><b>{UserName}</b></ProfileDetailHeader>
