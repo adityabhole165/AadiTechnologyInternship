@@ -193,11 +193,16 @@ function AadharCardDetails() {
                         </Typography>
                         : <Typography sx={{ mt: "5px" }}><b>Name Present On Aadhaar Card : </b> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
                     }
-                    {/* <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b></Typography>
+                   
+                   <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
+                        <input type='text'  />
+                        </Typography>
 
-                        <Typography sx={{ mt: "4px" }}> <b>Name Present On Aadhaar Card : </b>
-                            <input type='text' value={aadharName} onChange={(e)=> setAdharName(e.target.value)}/> 
-                            </Typography> */}
+                        <Typography sx={{ mt: "5px" }}><b>Mother Tongue : </b>
+                        <input type='text'  />
+                        </Typography>
+
+
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
                             <img style={{ height: "150px", width: "150px" }} src={"/imges/Adhar.png"} alt={'adhar'} /> :

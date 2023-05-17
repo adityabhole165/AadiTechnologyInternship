@@ -16,6 +16,7 @@ import { toast } from 'react-toastify';
 import { ISaveStudentPhotoBody, ISubmitStudentPhotoBody } from 'src/interfaces/Student/IEditProfile';
 import { getSaveStudentPhoto, getSubmitStudentPhoto, resetMessage, resetMessage1 } from 'src/requests/EditProfile/RequestEditProfile';
 import BackButton from 'src/libraries/button/BackButton';
+
 const note = [
   '1) The student photo to be uploaded should be in school uniform.',
   '2) Upload or Capture an image file for students photo (Max Height: 151px and Max Width: 112px) ',
@@ -26,7 +27,7 @@ const note = [
 
 function EditProfile() {
   const dispatch = useDispatch();
-
+ 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -99,12 +100,18 @@ function EditProfile() {
   }, [SavePhotos])
 
   useEffect(() => {
+    
     if (SubmitPhotos.Message !== undefined) {
+   
       toast.success(SubmitPhotos.Message, { toastId: 'success1' });
       dispatch(resetMessage1());
       sessionStorage.setItem("PhotoFilePath", value.slice(value.indexOf(',') + 1))
-    }
+      const timer = setTimeout(() => {
+        window.location.reload();
+      },5000); 
+  }
   }, [SubmitPhotos])
+
 
   const SaveFile = () => {
     setDisableSubmitButton(false);
