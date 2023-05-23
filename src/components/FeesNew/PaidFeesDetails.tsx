@@ -50,7 +50,7 @@ const PaidFeesDetails = () => {
           IsActive: false,
           Text1: item.FeeType + "(" + item.PayableFor + ")",
           Text2: "Amount + Late Fees : ",
-          Text3: item.AmountPayable + " + " + item.LateFeeAmount,
+          Text3: item.LateFeeAmount == "0" ? item.AmountPayable : item.AmountPayable + " + " + item.LateFeeAmount,
           Text4: "Due On : " + item.DueDateFormat,
           ParentId: item.FeeId === '11' ? '0' : '0',
           AmountPayable: item.AmountPayable,
