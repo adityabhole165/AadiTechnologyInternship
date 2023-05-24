@@ -1,0 +1,28 @@
+import { createSlice } from '@reduxjs/toolkit';
+import { AppThunk } from 'src/store';
+import ApiUserLoginExpires from 'src/api/UserLoginExpires/ApiUserLoginExpires';
+import { IUserLoginExpiresBody, IUserLoginExpiresResult } from 'src/interfaces/Student/ICheckForUserLoginExpires'
+
+const SliceUserLoginExpires = createSlice({
+    name: 'UserLoginExpires',
+    initialState: {
+        UserLoginExpires: {}
+    },
+    reducers: {
+        getuserLoginExpires(state, action) {
+                state.UserLoginExpires = action.payload;
+        },
+    }
+});
+
+      
+export const getuserLoginExpires =
+(data: IUserLoginExpiresBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiUserLoginExpires.UserLoginExpiresapi(data)
+    dispatch(SliceUserLoginExpires.actions.getuserLoginExpires(response.data));
+    
+  };
+
+
+  export default SliceUserLoginExpires.reducer;
