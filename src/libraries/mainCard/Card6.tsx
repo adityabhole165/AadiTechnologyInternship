@@ -65,27 +65,25 @@ useEffect(() => {
   }  
   return (
     <>
-      <Stack alignItems="center" justifyContent="center" gap={1}>
-        <Box sx={{ display: "flex",ml:"67px" }}>
+     <Box sx={{ display: "flex" ,alignItems:"center" ,justifyContent:"center"  }} >
+          <Box ml={AllowStudentPhotoUpload == true && "30px"} >
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
-          
-          {/* <Button style={{marginTop:"1px", marginLeft:"-5px"}} onClick={EditProfile}> 
-          <Box sx={{border: "1px solid gray"}}><EditIcon fontSize="small" /> </Box></Button> */}
+          </Box>
          
-         {AllowStudentPhotoUpload == true &&
-        <Button onClick={EditProfile}> 
-          <Box sx={{color:"black"}}><EditIcon fontSize="small" /> </Box></Button>}
-        </Box>
+        {AllowStudentPhotoUpload == true &&
+      
+          <Box sx={{color:"black"}}  onClick={EditProfile}>
+            <EditIcon fontSize="small" /> 
+          </Box>}
+          </Box>
         
-        <ProfileDetailHeader style={{marginRight:"12px"}}><b>{UserName}</b></ProfileDetailHeader>
+        <ProfileDetailHeader style={{marginRight:"12px" , textAlign:"center"}}><b>{UserName}</b></ProfileDetailHeader>
 
         {RoleName == 'Student' &&
-          <ProfileDetail2 style={{marginRight:"3px"}}>Roll No: {RollNo}</ProfileDetail2>
+          <ProfileDetail2 style={{marginRight:"3px" ,textAlign:"center"}}>Roll No: {RollNo}</ProfileDetail2>
         }
        
-      </Stack>
-
-      <ListStyle
+     <ListStyle
         sx={{
           bottom: 0,
           height: '80vh',
