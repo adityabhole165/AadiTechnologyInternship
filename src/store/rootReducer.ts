@@ -1,4 +1,5 @@
 
+
 import { combineReducers } from '@reduxjs/toolkit';
 import Holidaysslice from "../requests/Holiday/Holiday";
 import staffBirthdayslice from "../requests/StaffBirthday/StaffBirthday";
@@ -55,6 +56,7 @@ import SliceTransportcommittee from 'src/requests/TransportCommittee/RequestTran
 import SliceHomeworkNew from 'src/requests/Homework/RequestHomeworkNew';
 import SliceNavbarMenu from 'src/requests/NavBarMenu/requestNavBarMenu';
 import SliceTermsAndConditions from 'src/requests/TermAndCondition/TermAndCondition';
+import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -117,6 +119,7 @@ const rootReducer = combineReducers({
     HomeworkNew: SliceHomeworkNew,
     NavbarMenu:SliceNavbarMenu,
     TermAndConditions: SliceTermsAndConditions,
+    userLoginExpires: SliceUserLoginExpires
 });
 
 export default rootReducer;
