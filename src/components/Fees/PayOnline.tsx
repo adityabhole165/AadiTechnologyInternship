@@ -8,7 +8,7 @@ import Card26 from 'src/libraries/card/card26';
 import { useParams } from 'react-router';
 import { sitePath } from '../Common/Util';
 function PayOnline() {
-  const {SelectedDueDate, feeId,currentYear,IsForCurrentyear} = useParams();
+  const {SelectedDueDate, feeId,currentYear,IsForCurrentyear,OldYearwiseStudentId} = useParams();
   
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(
@@ -20,23 +20,29 @@ function PayOnline() {
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const schoolId = localStorage.getItem('localSchoolId');
 
-const getQueryString = () =>{
-  console.log("currentYear == asAcademicYearId--",currentYear, asAcademicYearId)
+
+const getQueryString = () => {
+  // console.log("currentYear == asAcademicYearId--",currentYear, asAcademicYearId)
     let returnString = ""
     // if(currentYear > asAcademicYearId){
-    //   returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId
-    //    + '&AcadmicYearId='+currentYear+'&StanardID='+'&TotalAmount='+'&LateFeeAmount='+'&LateFeeAmount='+ '&ConcessionAmount='+'&FeeType='
-    // }
+      if(currentYear == "0"){
+      returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+      '&Remarks=&SchoolwiseStudentFeeId='+feeId + '&AcadmicYearId='+currentYear+
+      '&StanardID='+'&TotalAmount='+'&LateFeeAmount='+'&LateFeeAmount='+ 
+       '&ConcessionAmount='+'&FeeType='
+    }
     if(currentYear == asAcademicYearId ){
-      returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +'&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0'
+      returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+      '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0'
     }
    if(currentYear < asAcademicYearId){
-    returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
-    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId='+currentYear+'&IsOldAcademicYearPayment='+ IsForCurrentyear
+    returnString = 'StudentId='+ OldYearwiseStudentId +'&DueDates='+ SelectedDueDate +
+    '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId='+currentYear+
+    '&IsOldAcademicYearPayment='+ IsForCurrentyear
    }
   //  if(currentYear){ //internal
-  //   returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=' + '&IsOnlineInternalFeePayment=' + '&IsForNextYear=' + 
-  //   '&AcadmicYearId=' + currentYear + '&TotalAmount'+'&IsForInternalFee=1'
+  //   returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=' + '&IsOnlineInternalFeePayment='
+  // + '&IsForNextYear=' + '&AcadmicYearId=' + currentYear + '&TotalAmount'+'&IsForInternalFee=1'
   //  }
     return returnString
   }
@@ -44,8 +50,8 @@ const getQueryString = () =>{
   const body: IPayOnline = {
     asSchoolId: schoolId,
     asUserLogin: userLoginId,
-    asQueryString:getQueryString(),
-    // asQueryString: 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
+    asQueryString: getQueryString(),
+    // 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
     // '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0',
     asSchoolSiteUrl:
       localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',

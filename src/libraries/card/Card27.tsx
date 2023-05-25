@@ -24,7 +24,7 @@ Card27.propTypes = {
   Note: PropTypes?.string
 };
 
-function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear }) {
+function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees }) {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
@@ -69,7 +69,9 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear })
   }, [receiptFileName])
   return (
     
-      <FeeAccordion FeesType={FeesType} Fee={Fee} FeesObject={FeesObject} expanded={expanded} handleChange={handleChange} />
+      <FeeAccordion FeesType={FeesType} Fee={Fee} FeesObject={FeesObject} expanded={expanded}
+       handleChange={handleChange} currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
+        OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} />
   
   );
 }

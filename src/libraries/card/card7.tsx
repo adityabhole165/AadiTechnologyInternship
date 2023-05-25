@@ -142,7 +142,7 @@ function Card7({
 
           </BoxWrapper>
         </ListStyle>
-      {MessageCenterReadMode  &&   <CardWrapper>
+      {MessageCenterReadMode == 'true' ? null :   <CardWrapper>
           {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
