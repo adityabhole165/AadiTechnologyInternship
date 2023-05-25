@@ -45,8 +45,8 @@ function Fees() {
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
-  // console.log("FeesList2", FeesList2);
-  console.log("FeesList", FeesList);
+  console.log("FeesList2", FeesList2);
+  // console.log("FeesList", FeesList);
 
 
   const AcadamicYear: any = useSelector(
@@ -112,7 +112,7 @@ function Fees() {
   }
   const IGetInternalFeeDetailsBody = {
     aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
+    aiAcademicYearId: currentYear,
     aiStudentId: asStudentId,
     abIsNextYearFeePayment: "0"
   }
@@ -124,7 +124,7 @@ function Fees() {
 
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
+    aiAcademicYearId: currentYear,
     aiSchoolwiseStudentId: asStudentId,
     aiStandardId: asStandardId
 
@@ -249,7 +249,9 @@ function Fees() {
           <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear} IsForCurrentyear={IsOldAcademicYearPayment}/>
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear}
+       IsForCurrentyear={IsOldAcademicYearPayment} OldYearwiseStudentId={FeesList2.OldYearwiseStudentId} 
+       internalFees={internalFees}/>
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
