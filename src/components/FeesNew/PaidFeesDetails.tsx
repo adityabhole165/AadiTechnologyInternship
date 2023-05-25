@@ -44,18 +44,19 @@ const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,in
     setItemList(FeesList
       .filter((obj) => { return obj.AmountPayable !== "0" })
       .map((item, index) => {
+        const lateFeeLabel = item.LateFeeAmount === "0" ? "Amount :" : "Amount + Late Fees : ";
         return {
           Id: item.FeeId,
           Name: item.FeeId,
           Value: item.FeeId,
           IsActive: false,
           Text1: item.FeeType + "(" + item.PayableFor + ")",
-          Text2: "Amount + Late Fees : ",
+          Text2: lateFeeLabel,
           Text3: item.LateFeeAmount == "0" ? item.AmountPayable : item.AmountPayable + " + " + item.LateFeeAmount,
           Text4: "Due On : " + item.DueDateFormat,
           ParentId: item.FeeId === '11' ? '0' : '0',
           AmountPayable: item.AmountPayable,
-          LateFeeAmount: item.LateFeeAmount,
+          LateFeeAmount : item.LateFeeAmount,
           DueDate: item.DueDateString,
           StudentFeeId: item.StudentFeeId
         }
