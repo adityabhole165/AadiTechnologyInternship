@@ -23,6 +23,7 @@ export interface IAuthenticateUserResult {
       TermsAccepted: string,
       UserLogin: string,
       DOB: string,
+      LastPasswordChangeDate: string,
 }
 
 export interface IStudentDetails{

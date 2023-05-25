@@ -2,13 +2,14 @@ import React from 'react';
 import { Box, Paper, Typography } from '@mui/material';
 import Divider from '@mui/material/Divider';
 function Card9({ item, variant = "body2", IsDivider = false }) {
+  let num = 'tel:' + item.Text2
   return (
     <div>
 
       <Box display={"flex"} justifyContent={'space-between'} sx={{ backgroundColor: item.IsActive ? 'secondary' : 'primary' }}>
       <Typography variant={variant === "body2" ? "body2" : "h5"}>
           {item.IsDial ?
-            <a href='tel:8888850696'>{item.Text2}</a> :
+            <a href={num}>{item.Text2}</a> :
             item.Text2}
         </Typography>
         <Typography variant={variant === "body2" ? "body2" : "h5"} gutterBottom>

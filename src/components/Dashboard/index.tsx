@@ -17,6 +17,8 @@ import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import { useNavigate } from 'react-router-dom';
+import { IUserLoginExpiresBody } from 'src/interfaces/Student/ICheckForUserLoginExpires';
+
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
   Leftpadding: theme.spacing(1),
@@ -53,11 +55,18 @@ function LandingPage() {
     (state: RootState) => state.Dashboard.MessageCount
   );
 
+  const UserExpires = useSelector(
+    (state: RootState) => state.userLoginExpires.UserLoginExpires);
+
+    console.log("UserExpires",UserExpires)
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const DOB = sessionStorage.getItem('DOB');
+  const LastPassword =  sessionStorage.getItem("LastPasswordChangeDate");
+
 
   const getModulePermissionBody: IgetModulesPermission = {
     asSchoolId: asSchoolId,
@@ -85,6 +94,22 @@ function LandingPage() {
     asUserId: userId,
     asAcademicYearId: AcademicYearId,
   };
+
+
+
+  // useEffect(() => {
+  //     dispatch(getuserLoginExpires(IUserLoginExpiresBody));
+  // }, []);
+
+  const IUserLoginExpiresBody =
+  {
+    asSchoolId: asSchoolId,
+    asUserId: userId,
+    asAcademicYearId: AcademicYearId,
+    asUserRoleId: RoleId,
+    asLastPasswordChangeDate: LastPassword
+  }
+
   const curYear = new Date().getFullYear();
   const date = DOB;
   const day = new Date(date).getDate();

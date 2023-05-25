@@ -8,12 +8,16 @@ export interface IUserLoginExpiresBody {
 }
 
 export interface IUserLoginExpiresResult {
-
     CurrentAcademicYearID: number,
+    Id:number,
+    IsAaryanSchool: number,
     IsDeleted: string,
     IsLocked: string,
     IsLogoutRequired: string,
     LastPasswordChangeDate: string,
-    Message: string
+    Message: string,
+    RoleId: number,
+    ShowChangePasswordScreen: number
 
 }
+
