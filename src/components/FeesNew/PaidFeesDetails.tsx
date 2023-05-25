@@ -9,7 +9,8 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 
-const PaidFeesDetails = () => {
+const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees}) => {
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
@@ -60,9 +61,26 @@ const PaidFeesDetails = () => {
         }
       }))
   }, [FeesList]);
+// const navi = () => {
+//   let naviGate = ""
+//   if(currentYear == AcademicYearId){
+//     naviGate = `/${location.pathname.split('/')[1]}/Student/PayOnline/`+DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear
+//   }
+//   return naviGate
+// }
+// const navi = ()=>{
+//   let naviGate = ""
+//   if(currentYear == AcademicYearId){
+//     naviGate = StudentFeeId + `/` + currentYear
+//   }
+//   if(currentYear < AcademicYearId){
 
-  const clickPayOnline = () => {
-    let DueDate, StudentFeeId = ""
+//   }
+
+// }
+const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
+ const clickPayOnline = () => {
+    let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {
       if (item.IsActive) {
         DueDate = item.DueDate
@@ -70,9 +88,27 @@ const PaidFeesDetails = () => {
       }
     })
     // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/12-10-2022` +
-    navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-      DueDate.replaceAll("/", "-") +
-      `/` + StudentFeeId)
+    const nav=()=>{
+      if(currentYear == AcademicYearId){
+        // naviGate = StudentFeeId + `/` + currentYear
+        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear)
+          }
+          if(currentYear < AcademicYearId){
+            navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
+          }
+        //   if(internalFees){
+        //     navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        // DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
+        //   }
+          else{
+
+          }
+    }
+    nav()
+    // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+    //   DueDate.replaceAll("/", "-") + `/` + nav())
   }
 
   return (

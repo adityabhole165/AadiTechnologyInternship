@@ -7,7 +7,8 @@ import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidFeesDetails from 'src/components/FeesNew/PaidFeesDetails'
 
-const Card37 = ({expanded,handleChange,FeesObject}) => {
+const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
+     internalFees}) => {
     console.log(FeesObject);
     
    
@@ -39,7 +40,8 @@ const Card37 = ({expanded,handleChange,FeesObject}) => {
                 </Accordionsummary>
                 <AccordionDetails>
 
-                    < PaidFeesDetails />
+                    < PaidFeesDetails currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
+                     OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} />
 
                 </AccordionDetails>
             </Accordion>

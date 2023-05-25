@@ -215,7 +215,7 @@ function LandingPage() {
   }
 
 
-  if (RoleId === '6' || RoleId === '1') {
+  if (RoleId === '6' || RoleId === '1' ) {
     items1 = DashboardData.Admin.items1.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
         return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) &&
@@ -256,8 +256,8 @@ function LandingPage() {
     });
   }
 
-  let header2 = RoleId === '3' ? 'Student' : 'Teacher';
-  let header3 = RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
+  let header2 = RoleId === '3'  ? 'Student' : 'Teacher' &&  (RoleId === '1') ? 'Communication' :'Teacher';
+  let header3 = RoleId === '6' || RoleId === '2'  ? 'Communication' : 'Exam & Communication';
   let header4 = RoleId === '1' && 'Communication'
   const [forceUpdate, setForceUpdate] = useState(false)
   const onChangeVersion = () => {
@@ -270,8 +270,8 @@ function LandingPage() {
       <Card2 items={items1} heading={'School'} rowsCol="4"
         Messagecount={Messagecount.MESSAGECOUNT} ExternalLibrarySite={ExternalLibrarySite}></Card2>
       {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />} */}
-      {RoleId != '6' && <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
-      {RoleId == '6' || RoleId == '1' && <Card2 items={items2} heading={header3} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
+      { (RoleId != '6')  && <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
+      { (RoleId == '6'  ) && <Card2 items={items2} heading={header3} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
       {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>}
     </>
   );
