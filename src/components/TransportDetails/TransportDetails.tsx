@@ -14,10 +14,15 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card10 from 'src/libraries/mainCard/Card10';
 import Note from 'src/libraries/Note/Note';
 import RefreshIcon from '@mui/icons-material/Refresh';
+import { useNavigate  } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
+import Map from './Map';
+
 function TransportDetails() {
-
+  
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const RouteDetails: any = useSelector(
     (state: RootState) => state.TransportDetails.RouteDetails
   );
@@ -42,6 +47,11 @@ function TransportDetails() {
     if (newAlignment != null)
       setAlignment(newAlignment);
   };
+
+  // useEffect(()=>{
+  //   const { PickDrop } = useParams();
+  //   setAlignment(PickDrop==='Drop Vehicle Tracking'? '2' :'1')
+  // },[])
   useEffect(() => {
     const TransportBody: GetStudentTransportDetailsBody = {
       aiUserId: parseInt(sessionStorage.getItem('Id')),
@@ -50,14 +60,22 @@ function TransportDetails() {
       aiTypeId: parseInt(alignment)
     }
     dispatch(getTransportDetails(TransportBody));
-  }, [alignment, isRefresh]);
+     }, [alignment, isRefresh]);
 
-  const refresh = () => window.location.reload()
+        const refresh = () => window.location.reload()
+        const variableToPass = alignment === "1" ? "Pick-up Vehicle Tracking" : "Drop Vehicle Tracking";
+        
+        const Map=()=>{
+          navigate ('Map' , { state: { variable: variableToPass } })
+   
+       }
 
+ 
   return (
     <Container>
       <PageHeader heading={'Transport Details'} subheading={''} />
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+      
+      <Box sx={{ display: "flex", justifyContent: "space-between" , mb:"25px" }}>
         <ToggleButtonGroup
           value={alignment}
           exclusive
@@ -69,6 +87,7 @@ function TransportDetails() {
           <ToggleButton value="2">Drop</ToggleButton>
         </ToggleButtonGroup>
       </Box>
+     
       <Grow in={true}
         style={{ transformOrigin: '0 0 0' }}
         {...(true ? { timeout: 1500 } : {})}
@@ -77,11 +96,16 @@ function TransportDetails() {
           {loading ? <SuspenseLoader />
             :
             RouteDetails.length === 0 ?
-              <ErrorMessages Error={(alignment === "1" ? "Pick-up" : "Drop") + " is not associated yet"} /> :
+              <ErrorMessages Error={(alignment === "1" ? "Pick-up " : "Drop") + " is not associated yet"} /> :
 
               (<>
                 <Card8 itemList={RouteDetails} />
-                {OtherTrackingDetails.ShowStops ?
+           
+           <ButtonPrimary onClick={Map}  sx={{mt:"25px" , float:"right"}}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</ButtonPrimary>
+            
+
+
+                {/* {OtherTrackingDetails.ShowStops ?
                   <>
                     {StopDetails?.map((item, i) => {
                       return (
@@ -89,8 +113,8 @@ function TransportDetails() {
                         <Card10 item={item.StopDetail} selected={showMyStop ? false : item.IsMyStop} key={i} />)
                     })
 
-                    }
-                    <Grid container spacing={2} sx={{ mb: "10px" }}>
+                    } */}
+                    {/* <Grid container spacing={2} sx={{ mb: "10px" }}>
                       <Grid item xs={6}>
                         <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
                           Show All Stops
@@ -102,9 +126,9 @@ function TransportDetails() {
                         </ButtonPrimary>
                       </Grid>
                     </Grid>
-                  </> : null}
+                  </> : null} */}
 
-                {OtherTrackingDetails.TrackingURI !== "" ?
+                {/* {OtherTrackingDetails.TrackingURI !== "" ?
                   <><Grid container>
                     <Grid item xs={11}>
                       <Typography variant='h5' sx={{ textAlign: "center", mb: 1 }}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</Typography>
@@ -121,11 +145,21 @@ function TransportDetails() {
                       : <Note NoteDetail={[OtherTrackingDetails.TrackingMessage]}></Note>
                     }
                   </> : null
-                }
+                } */}
 
+              
+
+                
               </>
               )}
-        </Box></Grow>
+        </Box>
+        
+        
+        </Grow>
+        {/* <Map/> */}
+
+       
+        
     </Container>
   )
 }

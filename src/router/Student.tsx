@@ -55,7 +55,7 @@ const TransportCommittee = Loader (lazy(()=> import ('src/components/TransportCo
 const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/PayinternalFees')))
 const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew')))
 const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMenus')))
-
+const Map = Loader(lazy(()=> import('src/components/TransportDetails/Map')))
 const studentRoutes = [
   {
     path: '/',
@@ -211,6 +211,12 @@ const studentRoutes = [
   {
     path: 'TransportDetails',
     element: <TransportDetails/>
+  },
+
+  
+  {
+    path: 'TransportDetails/Map',
+    element: <Map/>
   },
   {
     path: 'Support',
