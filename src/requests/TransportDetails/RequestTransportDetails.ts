@@ -43,9 +43,14 @@ export const getTransportDetails =
         RouteDetails = [{ Text1: response?.data?.RouteName, Text2: response?.data?.TransportShiftName }]
         response?.data?.TransportStaffDetails.map((item) => {
           RouteDetails.push({
-            Text1: item.TransportStaffName 
-            + (response?.data?.ShowStaffContactDetails ? '(' + item.Designation + ')' : ''),
-            Text2: response?.data?.ShowStaffContactDetails ? item.MobileNo : item.Designation
+
+            Text1: response?.data?.ShowStaffContactDetails ? item.MobileNo : item.Designation,
+            // + (response?.data?.ShowStaffContactDetails ? '(' + item.Designation + ')' : ''),
+            
+            Text2: item.TransportStaffName 
+            // + (response?.data?.ShowStaffContactDetails ? item.MobileNo : item.Designation)
+            + (response?.data?.ShowStaffContactDetails ? item.MobileNo :""),
+            // Text2: response?.data?.ShowStaffContactDetails ? item.MobileNo : item.Designation
           })
         })
         RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
