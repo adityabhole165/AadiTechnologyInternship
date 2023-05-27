@@ -86,7 +86,7 @@ function Map() {
                     </Grid>
                 </> : null}
 
-            {OtherTrackingDetails.TrackingURI !== "" ?
+            {OtherTrackingDetails.TrackingURL !== "" ?
                 <><Grid container>
                     <Grid item xs={11}>
                         
