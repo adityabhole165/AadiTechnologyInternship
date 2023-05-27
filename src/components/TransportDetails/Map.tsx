@@ -59,8 +59,8 @@ function Map() {
 
             <BackButton  FromRoute={"/Student/TransportDetails/"} />
           
-            <PageHeader heading={variable}/>
-
+           
+            <PageHeader heading={variable} subheading={''} />
             
             <Avatar onClick={() => { setIsRefresh(!isRefresh) }} sx={{ height: 40, width: 40, color: "black", float:"right" , mt:"-50px" }}><RefreshIcon fontSize='small' /></Avatar>
             {OtherTrackingDetails.ShowStops ?
