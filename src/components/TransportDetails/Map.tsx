@@ -17,9 +17,10 @@ import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransp
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
 function Map() {
     const dispatch = useDispatch();
-    const location = useLocation();
-    const { selectedButton } = useParams();
-    const variable = location.state?.variable;
+    const location = useLocation();  
+    const { PickDrop } = useParams();
+
+    // const variable = location.state?.variable;
     const StopDetails: any = useSelector(
         (state: RootState) => state.TransportDetails.StopDetails
       );
@@ -57,10 +58,10 @@ function Map() {
 
               
 
-            <BackButton  FromRoute={"/Student/TransportDetails/"} />
+            <BackButton  FromRoute={"/Student/TransportDetails/"+PickDrop} />
           
            
-            <PageHeader heading={variable} subheading={''} />
+            <PageHeader heading={PickDrop} subheading={''} />
             
             <Avatar onClick={() => { setIsRefresh(!isRefresh) }} sx={{ height: 40, width: 40, color: "black", float:"right" , mt:"-50px" }}><RefreshIcon fontSize='small' /></Avatar>
             {OtherTrackingDetails.ShowStops ?

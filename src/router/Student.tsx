@@ -213,9 +213,12 @@ const studentRoutes = [
     element: <TransportDetails/>
   },
 
-  
   {
-    path: 'TransportDetails/Map',
+    path: 'TransportDetails/:PickDrop',
+    element: <TransportDetails/>
+  },  
+  {
+    path: 'TransportDetails/Map/:PickDrop',
     element: <Map/>
   },
   {

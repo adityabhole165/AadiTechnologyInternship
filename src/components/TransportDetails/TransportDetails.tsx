@@ -52,6 +52,10 @@ function TransportDetails() {
   //   const { PickDrop } = useParams();
   //   setAlignment(PickDrop==='Drop Vehicle Tracking'? '2' :'1')
   // },[])
+  const { PickDrop } = useParams();
+  useEffect(() => {
+    setAlignment(PickDrop==="Drop Vehicle Tracking"?'2':'1');
+  },[])
   useEffect(() => {
     const TransportBody: GetStudentTransportDetailsBody = {
       aiUserId: parseInt(sessionStorage.getItem('Id')),
@@ -66,7 +70,7 @@ function TransportDetails() {
         const variableToPass = alignment === "1" ? "Pick-up Vehicle Tracking" : "Drop Vehicle Tracking";
         
         const Map=()=>{
-          navigate ('Map' , { state: { variable: variableToPass } })
+          navigate ('/extended-sidebar/Student/TransportDetails/Map/' + variableToPass)
    
        }
 
