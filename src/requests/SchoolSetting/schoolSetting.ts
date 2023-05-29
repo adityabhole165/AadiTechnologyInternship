@@ -103,15 +103,9 @@ export const getGetSettingValue =
       data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
       let response = await SchoolSettingApi.GetSettingValueapi(data)
       if (response.data.GetSettingValueResult) {
-        data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
-        response = await SchoolSettingApi.GetSettingValueapi(data)
-        if (response.data.GetSettingValueResult) {
-          {
             AllowStudentPhotoUpload = true;
-          }
-        }
       }
-      dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(AllowStudentPhotoUpload));
+      dispatch(SchoolSettingSlice.actions.getAllowStudentPhotoUploadFromStudentLogin(AllowStudentPhotoUpload));
     }
 export const getGetSettingSubTeacher =
   (data: IGetSettingValueBody): AppThunk =>
