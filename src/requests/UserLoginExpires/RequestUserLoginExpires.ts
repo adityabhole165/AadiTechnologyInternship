@@ -6,7 +6,7 @@ import { IUserLoginExpiresBody, IUserLoginExpiresResult } from 'src/interfaces/S
 const SliceUserLoginExpires = createSlice({
     name: 'UserLoginExpires',
     initialState: {
-        UserLoginExpires: {}
+        UserLoginExpires: null
     },
     reducers: {
         getuserLoginExpires(state, action) {

@@ -10,6 +10,8 @@ import school2 from 'src/assets/img/Shool_Logo/school2.png';
 import { androidCurrentAppVersion, appleCurrentAppVersion, deviceType } from "../../Common/Util"
 import UpgradeApp from "./UpgradeApp";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import {getuserLoginExpires} from "src/requests/UserLoginExpires/RequestUserLoginExpires"
 
 const NewRelease = ({ onChangeVersion }) => {
 
@@ -19,10 +21,51 @@ const NewRelease = ({ onChangeVersion }) => {
     const [showUpgrade, setShowUpgrade] = useState(false);
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
-    
+    const UserExpires = useSelector(
+        (state: RootState) => state.userLoginExpires.UserLoginExpires);
     const iOSAppStoreUrl = 'https://apps.apple.com/in/app/riteschool/id1036759360'
-    
     let lastFetchDateTimeValue = null;
+    const asSchoolId = localStorage.getItem('localSchoolId');
+    const RoleId = sessionStorage.getItem('RoleId');
+    const userId = sessionStorage.getItem('Id');
+    const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+    const LastPassword =  sessionStorage.getItem("LastPasswordChangeDate");
+
+    const IUserLoginExpiresBody =
+    {
+      asSchoolId: asSchoolId,
+      asUserId: userId,
+      asAcademicYearId: AcademicYearId,
+      asUserRoleId: RoleId,
+      asLastPasswordChangeDate: LastPassword
+    }
+
+
+    useEffect(() => {
+        let LogoutMessage = ""
+        if(UserExpires.IsLocked == "N"){
+            LogoutMessage="Your account is locked"
+        }
+        if(UserExpires.IsLogoutRequired == "Y"){
+            LogoutMessage="Please login again"
+        }
+        if(UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")){
+            LogoutMessage = "You are using old password"
+        }
+        if(LogoutMessage!=""){
+            toast.success (UserExpires .Message, { toastId: 'success1' })
+            navigate('/');
+        }
+        // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
+        const releaseBody: INewRelease = {
+            "asDeviceType": deviceType,
+            "asUserCurrentVersion":deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+        };
+        dispatch(getNewRelease(releaseBody))
+        // }
+    }, [UserExpires])
+
+
     useEffect(() => {
 
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
