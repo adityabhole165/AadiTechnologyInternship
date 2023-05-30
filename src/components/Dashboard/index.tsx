@@ -58,7 +58,6 @@ function LandingPage() {
   const UserExpires = useSelector(
     (state: RootState) => state.userLoginExpires.UserLoginExpires);
 
-    console.log("UserExpires",UserExpires)
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
