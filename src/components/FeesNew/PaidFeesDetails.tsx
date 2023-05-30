@@ -42,7 +42,7 @@ const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,in
 
   useEffect(() => {
     setItemList(FeesList
-      .filter((obj) => { return internalFees ? obj.FeeDetailsId == 0 : obj.AmountPayable !== "0" })
+      .filter((obj) => { return ((internalFees && obj.FeeDetailsId == 0) || obj.AmountPayable !== "0") })
       .map((item, index) => {
         const lateFeeLabel = item.LateFeeAmount === "0" ? "Amount :" : "Amount + Late Fees : ";
         return {
