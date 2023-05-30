@@ -85,16 +85,10 @@ export const getGetSettingValue =
       let EnableMessageCenterReadMode = false
       data.asKey = "EnableMessageCenterReadModeForStudent";
       let response = await SchoolSettingApi.GetSettingValueapi(data)
-      if (response.data.GetSettingValueResult) {
-        data.asKey = "EnableMessageCenterReadModeForStudent";
-        response = await SchoolSettingApi.GetSettingValueapi(data)
-        if (response.data.GetSettingValueResult) {
-          {
+      if (response.data.GetSettingValueResult) {     
             EnableMessageCenterReadMode = true;
-          }
-        }
       }
-      dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(EnableMessageCenterReadMode));
+      dispatch(SchoolSettingSlice.actions.getEnableMessageCenterReadModeForStudent(EnableMessageCenterReadMode));
     }
     export const GetAllowStudentPhotoUploadFromStudentLogin =
   (data: IGetSettingValueBody): AppThunk =>

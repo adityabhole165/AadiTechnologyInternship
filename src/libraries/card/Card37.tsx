@@ -41,7 +41,7 @@ const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentye
                 <AccordionDetails>
 
                     < PaidFeesDetails currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
-                     OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} />
+                     OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} FeesObject={FeesObject} />
 
                 </AccordionDetails>
             </Accordion>

@@ -145,7 +145,8 @@ export const getInternalFeeDetails =
           RefundDetailsID:"0",
           RowNumber:1,
           ShowOptionButtonForAllEntry:true,
-          StudentFeeId:""
+          StudentFeeId:"",
+          FeeDetailsId:item.FeeDetailsId
         }
       })
       console.log("itemlist",itemlist);

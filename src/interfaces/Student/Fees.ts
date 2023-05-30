@@ -160,7 +160,8 @@ export interface InternalFeeDetails {
         PayableFor: string,
         IsDueDateApplicable: boolean,
         PaidDate: string,
-        Remarks: string
+        Remarks: string,
+        FeeDetailsId: number
 }
 
 // GetNextYearDetails

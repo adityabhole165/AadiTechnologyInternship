@@ -9,7 +9,7 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 
-const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees}) => {
+const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,FeesObject}) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -42,7 +42,7 @@ const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,in
 
   useEffect(() => {
     setItemList(FeesList
-      .filter((obj) => { return obj.AmountPayable !== "0" })
+      .filter((obj) => { return internalFees ? obj.FeeDetailsId == 0 : obj.AmountPayable !== "0" })
       .map((item, index) => {
         const lateFeeLabel = item.LateFeeAmount === "0" ? "Amount :" : "Amount + Late Fees : ";
         return {
@@ -114,7 +114,7 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
 
   return (
     <div>
-      <Grid container>
+       <Grid container>
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>

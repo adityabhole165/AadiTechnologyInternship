@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5 from "./card5";
 
-const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange}) => {
+const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) => {
     const theme = useTheme();
     const classes = Styles();
     console.log("Fee",Fee);
@@ -43,10 +43,10 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange}) => {
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
-                return item.AmountPayable == 0 ? (
+                  return item.FeeDetailsId !== 0  ? ( 
                   <>
                   <Card5
-                   FileName={item.FeeType + "+" + item.FeesPaid}
+                   FileName={internalFees?item.FeeType + ":"+ " " + item.Amount:item.FeeType + ":"+ " " + item.FeesPaid}
                    Content={''}
                    Name={''}
                    key={i}
