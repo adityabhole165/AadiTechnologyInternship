@@ -11,7 +11,7 @@ import { androidCurrentAppVersion, appleCurrentAppVersion, deviceType } from "..
 import UpgradeApp from "./UpgradeApp";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import {getuserLoginExpires} from "src/requests/UserLoginExpires/RequestUserLoginExpires"
+import { getuserLoginExpires } from "src/requests/UserLoginExpires/RequestUserLoginExpires"
 
 const NewRelease = ({ onChangeVersion }) => {
 
@@ -29,37 +29,39 @@ const NewRelease = ({ onChangeVersion }) => {
     const RoleId = sessionStorage.getItem('RoleId');
     const userId = sessionStorage.getItem('Id');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const LastPassword =  sessionStorage.getItem("LastPasswordChangeDate");
+    const LastPassword = sessionStorage.getItem("LastPasswordChangeDate");
 
     const IUserLoginExpiresBody =
     {
-      asSchoolId: asSchoolId,
-      asUserId: userId,
-      asAcademicYearId: AcademicYearId,
-      asUserRoleId: RoleId,
-      asLastPasswordChangeDate: LastPassword
+        asSchoolId: asSchoolId,
+        asUserId: userId,
+        asAcademicYearId: AcademicYearId,
+        asUserRoleId: RoleId,
+        asLastPasswordChangeDate: LastPassword
     }
 
 
     useEffect(() => {
         let LogoutMessage = ""
-        if(UserExpires.IsLocked == "N"){
-            LogoutMessage="Your account is locked"
-        }
-        if(UserExpires.IsLogoutRequired == "Y"){
-            LogoutMessage="Please login again"
-        }
-        if(UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")){
-            LogoutMessage = "You are using old password"
-        }
-        if(LogoutMessage!=""){
-            toast.success (UserExpires .Message, { toastId: 'success1' })
-            navigate('/');
+        if (UserExpires != null) {
+            if (UserExpires.IsLocked == "N") {
+                LogoutMessage = "Your account is locked"
+            }
+            if (UserExpires.IsLogoutRequired == "Y") {
+                LogoutMessage = "Please login again"
+            }
+            if (UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")) {
+                LogoutMessage = "You are using old password"
+            }
+            if (LogoutMessage != "") {
+                toast.success(UserExpires.Message, { toastId: 'success1' })
+                navigate('/');
+            }
         }
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
         const releaseBody: INewRelease = {
             "asDeviceType": deviceType,
-            "asUserCurrentVersion":deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
         };
         dispatch(getNewRelease(releaseBody))
         // }
@@ -71,7 +73,7 @@ const NewRelease = ({ onChangeVersion }) => {
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
         const releaseBody: INewRelease = {
             "asDeviceType": deviceType,
-            "asUserCurrentVersion":deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
         };
         dispatch(getNewRelease(releaseBody))
         // }
@@ -82,10 +84,10 @@ const NewRelease = ({ onChangeVersion }) => {
             localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
             if (latestVersionDetails.IsForceUpdate === 'True')
                 onChangeVersion()
-                if(latestVersionDetails.IsForceLogout === 'True'){
-                    sessionStorage.clear();
-                    navigate('/');
-                }
+            if (latestVersionDetails.IsForceLogout === 'True') {
+                sessionStorage.clear();
+                navigate('/');
+            }
         }
     }, [latestVersionDetails])
 
