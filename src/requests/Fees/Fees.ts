@@ -197,7 +197,8 @@ export const getNextYearFeeDetails =
           RefundDetailsID:"0",
           RowNumber:item.RowNumber,
           ShowOptionButtonForAllEntry:true,
-          StudentFeeId:""
+          StudentFeeId:"",
+          ConcessionAmount:item.ConcessionAmount
         }
       })
       dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));

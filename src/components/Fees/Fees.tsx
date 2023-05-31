@@ -45,10 +45,6 @@ function Fees() {
   const FeesList2: any = useSelector(
     (state: RootState) => state.Fees.FeesData2
   );
-  console.log("FeesList2", FeesList2);
-  // console.log("FeesList", FeesList);
-
-
   const AcadamicYear: any = useSelector(
     (state: RootState) => state.Fees.YearList
   );
@@ -68,7 +64,6 @@ function Fees() {
   const NextYearDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearDetails
   );
-
   const GetNextYearFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearFeeDetails
   );
@@ -139,23 +134,10 @@ function Fees() {
     // dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
     // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
-    
   }, []);
-  // useEffect(() => {
-  //   if(showCaution == internalFees){
-  //     dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
-  //   }else
-  //   dispatch(getFees(body));
-  // }, [showCaution]);
-
-  // useEffect(() => {
-  //   if (currentYear === sessionStorage.getItem("AcademicYearId")) {
-  //     dispatch(getFees(body));
-  //   } 
-  //   else
-  //     dispatch(getFees(body));
-  // }, [currentYear]);
-
+  useEffect(() => {
+    dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+  }, [currentYear]);
   useEffect(() => {
   if(currentYear == '0'){
     dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
@@ -251,7 +233,7 @@ function Fees() {
       </ListStyle>
       <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear}
        IsForCurrentyear={IsOldAcademicYearPayment} OldYearwiseStudentId={FeesList2.OldYearwiseStudentId} 
-       internalFees={internalFees}/>
+       internalFees={internalFees} ApplicableFee={ApplicableFee} TotalLateFee={FeesList2.TotalLateFee} />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}

@@ -70,7 +70,7 @@ function TransportDetails() {
         const variableToPass = alignment === "1" ? "Pick-up Vehicle Tracking" : "Drop Vehicle Tracking";
         
         const Map=()=>{
-          navigate ('/extended-sidebar/Student/TransportDetails/Map/' + variableToPass)
+          navigate ('/extended-sidebar/Student/TransportDetails/Map/' + variableToPass + `/`+ alignment)
    
        }
 

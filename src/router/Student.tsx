@@ -185,6 +185,10 @@ const studentRoutes = [
     element: <Layout/>
   },
   {
+    path: 'PayOnline/:SelectedDueDate/:feeId/:currentYear/:ApplicableFee/:TotalLateFee/:advanceFeelist',
+    element: <PayOnline/>
+  },
+  {
     path: 'PayOnline/:SelectedDueDate/:feeId/:currentYear/:IsForCurrentyear/:OldYearwiseStudentId',
     element: <PayOnline/>
   },
@@ -218,7 +222,7 @@ const studentRoutes = [
     element: <TransportDetails/>
   },  
   {
-    path: 'TransportDetails/Map/:PickDrop',
+    path: 'TransportDetails/Map/:PickDrop/:alignment',
     element: <Map/>
   },
   {

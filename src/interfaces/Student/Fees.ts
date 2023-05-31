@@ -203,5 +203,6 @@ export interface NextYearFeeDetails {
         DueDate: string,
         DueDateString: string,
         SerialNo: number,
-        PaymentGroup: number
+        PaymentGroup: number,
+        ConcessionAmount:number
 }

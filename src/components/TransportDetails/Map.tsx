@@ -19,7 +19,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 function Map() {
     const dispatch = useDispatch();
     const location = useLocation();
-    const { PickDrop } = useParams();
+    const { PickDrop, alignment } = useParams();
 
     // const variable = location.state?.variable;
     const StopDetails: any = useSelector(
@@ -28,21 +28,23 @@ function Map() {
     const OtherTrackingDetails: any = useSelector(
         (state: RootState) => state.TransportDetails.OtherTrackingDetails
     );
+    
     const loading = useSelector(
         (state: RootState) => state.TransportDetails.Loading
     );
     const [showMyStop, setShowMyStop] = useState(true)
     const [isRefresh, setIsRefresh] = React.useState(false);
-    const [alignment, setAlignment] = React.useState('1');
+    // const [alignment, setAlignment] = React.useState('1');
+// console.log("stop alignment",alignment);
 
     const refresh = () => window.location.reload()
-    const handleChange = (
-        event: React.MouseEvent<HTMLElement>,
-        newAlignment: string,
-    ) => {
-        if (newAlignment != null)
-            setAlignment(newAlignment);
-    };
+    // const handleChange = (
+    //     event: React.MouseEvent<HTMLElement>,
+    //     newAlignment: string,
+    // ) => {
+    //     if (newAlignment != null)
+    //         setAlignment(newAlignment);
+    // };
     useEffect(() => {
         const TransportBody: GetStudentTransportDetailsBody = {
             aiUserId: parseInt(sessionStorage.getItem('Id')),

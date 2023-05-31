@@ -9,7 +9,7 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 
-const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,FeesObject}) => {
+const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,FeesObject,ApplicableFee,TotalLateFee}) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -62,6 +62,10 @@ const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,in
         }
       }))
   }, [FeesList]);
+  let advanceFeelist = 0;
+  FeesList.map((item,i)=>{
+  advanceFeelist =  item.ConcessionAmount
+})
 // const navi = () => {
 //   let naviGate = ""
 //   if(currentYear == AcademicYearId){
@@ -90,6 +94,10 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
     })
     // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/12-10-2022` +
     const nav=()=>{
+      if(currentYear == "0"){
+        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + ApplicableFee + `/` +TotalLateFee+`/`+advanceFeelist)
+          }
       if(currentYear == AcademicYearId){
         // naviGate = StudentFeeId + `/` + currentYear
         navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
@@ -111,7 +119,7 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
     // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
     //   DueDate.replaceAll("/", "-") + `/` + nav())
   }
-
+ 
   return (
     <div>
        <Grid container>

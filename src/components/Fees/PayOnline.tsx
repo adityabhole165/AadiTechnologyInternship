@@ -8,7 +8,8 @@ import Card26 from 'src/libraries/card/card26';
 import { useParams } from 'react-router';
 import { sitePath } from '../Common/Util';
 function PayOnline() {
-  const {SelectedDueDate, feeId,currentYear,IsForCurrentyear,OldYearwiseStudentId} = useParams();
+  const {SelectedDueDate, feeId,currentYear,IsForCurrentyear,OldYearwiseStudentId,
+    ApplicableFee,TotalLateFee,advanceFeelist} = useParams();
   
   const dispatch = useDispatch();
   const paymentPageLink: any = useSelector(
@@ -19,7 +20,7 @@ function PayOnline() {
   const authData = JSON.parse(localStorage.getItem("auth"));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const schoolId = localStorage.getItem('localSchoolId');
-
+  const AdvanceFeelist = schoolId == '122'? advanceFeelist : ''
 
 const getQueryString = () => {
   // console.log("currentYear == asAcademicYearId--",currentYear, asAcademicYearId)
@@ -28,8 +29,8 @@ const getQueryString = () => {
       if(currentYear == "0"){
       returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
       '&Remarks=&SchoolwiseStudentFeeId='+feeId + '&AcadmicYearId='+currentYear+
-      '&StanardID='+'&TotalAmount='+'&LateFeeAmount='+'&LateFeeAmount='+ 
-       '&ConcessionAmount='+'&FeeType='
+      '&StanardID='+'&TotalAmount='+ApplicableFee+'&LateFeeAmount='+TotalLateFee+'&IsForNextYear='+ 
+       '&ConcessionAmount='+AdvanceFeelist+'&FeeType='
     }
     if(currentYear == asAcademicYearId ){
       returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
