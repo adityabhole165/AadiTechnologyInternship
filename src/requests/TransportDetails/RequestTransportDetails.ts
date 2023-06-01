@@ -56,7 +56,7 @@ export const getTransportDetails =
         RouteDetails.push({ Text1: response?.data?.VehicleType, Text2: response?.data?.VehicleNumber })
         if (response?.data?.ShowVehicleOfficialContactNo) {
           RouteDetails.push({
-            Text1: "Emergency Contact Number",
+            Text1: "Vehicle Contact Number",
             Text2: response?.data?.VehicleOfficialContactNo,
             IsDial: true
           })
