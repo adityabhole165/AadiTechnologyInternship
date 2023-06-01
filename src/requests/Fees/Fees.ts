@@ -48,7 +48,8 @@ const Feesslice = createSlice({
 
     },
     getInternalFeeDetails(state, action) {
-      state.FeesData = action.payload;
+      state.FeesData = action.payload.FeeDetails;
+      state.FeesData2 = action.payload;
 
     },
     getNextYearDetails(state, action) {
@@ -57,7 +58,8 @@ const Feesslice = createSlice({
     },
     getNextYearFeeDetails(state, action) {
       // state.GetNextYearFeeDetails = action.payload;
-      state.FeesData = action.payload;
+      state.FeesData = action.payload.FeeDetails;
+      state.FeesData2 = action.payload;
 
     }
   }
@@ -115,7 +117,27 @@ export const getInternalFeeDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
-      const itemlist = response.data.InternalFeeDetails.map((item)=>{
+      
+    const getPayableFees = () => {
+      let amount = 0;
+      response.data.InternalFeeDetails.map((item)=>{
+        if(item.FeeDetailsId===0){
+          amount=amount + item.Amount;
+        }
+      })
+      return amount;
+    }
+    const getPaidFees = () => {
+      let amount = 0;
+      response.data.InternalFeeDetails.map((item)=>{
+        if(item.FeeDetailsId!==0){
+          amount=amount + item.Amount;
+        }
+      })
+      return amount;
+    }
+      const itemlist = {
+        FeeDetails:response.data.InternalFeeDetails.map((item)=>{
         return{
           SchoolwiseStudentId:item.SchoolwiseStudentId,
           InternalFeeDetailsId:item.InternalFeeDetailsId,
@@ -148,8 +170,13 @@ export const getInternalFeeDetails =
           StudentFeeId:"",
           FeeDetailsId:item.FeeDetailsId
         }
-      })
-      console.log("itemlist",itemlist);
+      }),
+      FeesTobePaid:getPayableFees(),
+      TotalFeesPaid:getPaidFees(),
+      TotalFee:getPayableFees(),
+      TotalLateFee:0
+    }
+      // console.log("itemlist",itemlist);
       
       dispatch(Feesslice.actions.getInternalFeeDetails(itemlist));
       // dispatch(Feesslice.actions.getFees(response.data));
@@ -173,7 +200,26 @@ export const getNextYearFeeDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.GetNextYearFeeDetails(data);
-      const itemlist = response.data.NextYearFeeDetails.map((item)=>{
+      const getPayableFees = () => {
+        let amount = 0;
+        response.data.NextYearFeeDetails.map((item)=>{
+          if(item.FeesPaid==="0"){
+            amount=amount + parseInt(item.Amount);
+          }
+        })
+        return amount;
+      }
+      const getPaidFees = () => {
+        let amount = 0;
+        response.data.NextYearFeeDetails.map((item)=>{
+          if(item.FeesPaid!=="0"){
+            amount=amount + parseInt(item.Amount);
+          }
+        })
+        return amount;
+      }
+      const itemlist = {
+        FeeDetails:response.data.NextYearFeeDetails.map((item)=>{
         return{
           PayableFor:item.PayableFor,
           FeeType:item.FeeType,
@@ -200,7 +246,12 @@ export const getNextYearFeeDetails =
           StudentFeeId:"",
           ConcessionAmount:item.ConcessionAmount
         }
-      })
+      }),
+      FeesTobePaid:getPayableFees(),
+      TotalFeesPaid:getPaidFees(),
+      TotalFee:0,
+      TotalLateFee:0
+    }
       dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));
 
     };

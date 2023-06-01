@@ -35,8 +35,7 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
 
-
-  const [YearType,setYearType]=useState("C")
+  const [YearType, setYearType] = useState("C")
   // const [internalFees, setInternalFees] = useState("")
   const schoolFees = "SchoolFees";
   const internalFees = "internalFees";
@@ -57,8 +56,8 @@ function Fees() {
     (state: RootState) => state.Fees.InternalFeeDetails
   );
   // console.log("InternalFeeDetails",InternalFeeDetails);
-  
-// console.log("InternalFeeDetails",InternalFeeDetails);
+
+  // console.log("InternalFeeDetails",InternalFeeDetails);
 
 
   const NextYearDetails: any = useSelector(
@@ -135,31 +134,31 @@ function Fees() {
     // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
   }, []);
+  // useEffect(() => {
+  //   dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+  // }, [currentYear]);
   useEffect(() => {
-    dispatch(getNextYearDetails(IGetNextYearDetailsBody));
-  }, [currentYear]);
-  useEffect(() => {
-  if(currentYear == '0'){
-    dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
-  }else{
-    if(showCaution == internalFees){
-      dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
-    }else
-    dispatch(getFees(body));
-  }
-  }, [showCaution,currentYear]);
+    if (currentYear == '0') {
+      dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
+    } else {
+      if (showCaution == internalFees) {
+        dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+      } else
+        dispatch(getFees(body));
+    }
+  }, [showCaution, currentYear]);
 
 
 
   const clickYear = (value) => {
-    AcadamicYear.map((item)=>{
-      if(item === value){
-      setYearType(item.YearType)
+    AcadamicYear.map((item) => {
+      if (item === value) {
+        setYearType(item.YearType)
       }
     })
     setCurrentyear(value);
   };
-  
+
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newShowCaution: string,
@@ -231,9 +230,12 @@ function Fees() {
           <b>Applicable Fees:</b> {ApplicableFee}
         </CardDetail1>
       </ListStyle>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList} Heading={Feedata} Note={Note2} currentYear={currentYear}
-       IsForCurrentyear={IsOldAcademicYearPayment} OldYearwiseStudentId={FeesList2.OldYearwiseStudentId} 
-       internalFees={internalFees} ApplicableFee={ApplicableFee} TotalLateFee={FeesList2.TotalLateFee} />
+      <Card27 FeesType={'Paid Fees'} Fee={FeesList}
+        Heading={Feedata} Note={Note2} currentYear={currentYear}
+        IsForCurrentyear={IsOldAcademicYearPayment}
+        OldYearwiseStudentId={FeesList2.OldYearwiseStudentId}
+        internalFees={internalFees} ApplicableFee={ApplicableFee}
+        TotalLateFee={FeesList2.TotalLateFee} />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
@@ -241,8 +243,8 @@ function Fees() {
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
           return
-         <Box key={i} sx={{display:'flex',flexDirection:'row'}}><Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} /></Box>   
-        
+          <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}><Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} /></Box>
+
         })}
       </NoteStyle>
       {asSchoolId == "11" && <>
