@@ -47,7 +47,7 @@ const NewRelease = ({ onChangeVersion }) => {
             if (UserExpires.IsLocked == "N") {
                 LogoutMessage = "Your account is locked"
             }
-            if (UserExpires.IsLogoutRequired == "Y") {
+            if (UserExpires.IsLogoutRequired == "Y" || UserExpires.CurrentAcademicYearID == AcademicYearId) {
                 LogoutMessage = "Please login again"
             }
             if (UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")) {
@@ -68,16 +68,16 @@ const NewRelease = ({ onChangeVersion }) => {
     }, [UserExpires])
 
 
-    useEffect(() => {
+    // useEffect(() => {
 
-        // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
-        const releaseBody: INewRelease = {
-            "asDeviceType": deviceType,
-            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
-        };
-        dispatch(getNewRelease(releaseBody))
-        // }
-    }, [])
+    //     // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
+    //     const releaseBody: INewRelease = {
+    //         "asDeviceType": deviceType,
+    //         "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+    //     };
+    //     dispatch(getNewRelease(releaseBody))
+    //     // }
+    // }, [])
     useEffect(() => {
         if (latestVersionDetails != null && latestVersionDetails.Version != null && latestVersionDetails.Version != "") {
             setShowUpgrade(true)
@@ -139,3 +139,12 @@ const NewRelease = ({ onChangeVersion }) => {
 }
 
 export default NewRelease
+
+
+
+
+
+
+
+
+
