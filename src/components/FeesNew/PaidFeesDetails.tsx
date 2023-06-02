@@ -107,10 +107,10 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
             navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
         DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
           }
-        //   if(internalFees){
-        //     navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-        // DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
-        //   }
+          if(internalFees){
+            navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
+          }
           else{
 
           }

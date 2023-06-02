@@ -25,11 +25,15 @@ function PayOnline() {
 const getQueryString = () => {
   // console.log("currentYear == asAcademicYearId--",currentYear, asAcademicYearId)
     let returnString = ""
+    let IsForNextYear = "N"
+    if(currentYear == "0"){
+      IsForNextYear = "Y"
+    }
     // if(currentYear > asAcademicYearId){
       if(currentYear == "0"){
       returnString = 'StudentId='+ studentId +'&DueDates='+ SelectedDueDate +
       '&Remarks=&SchoolwiseStudentFeeId='+feeId + '&AcadmicYearId='+currentYear+
-      '&StanardID='+'&TotalAmount='+ApplicableFee+'&LateFeeAmount='+TotalLateFee+'&IsForNextYear='+ 
+      '&StanardID='+'&TotalAmount='+ApplicableFee+'&LateFeeAmount='+TotalLateFee+'&IsForNextYear=Y'+ 
        '&ConcessionAmount='+AdvanceFeelist+'&FeeType='
     }
     if(currentYear == asAcademicYearId ){
@@ -41,11 +45,11 @@ const getQueryString = () => {
     '&Remarks=&SchoolwiseStudentFeeId='+feeId+'&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId='+currentYear+
     '&IsOldAcademicYearPayment='+ IsForCurrentyear
    }
-  //  if(currentYear){ //internal
-  //   returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=' + '&IsOnlineInternalFeePayment='
-  // + '&IsForNextYear=' + '&AcadmicYearId=' + currentYear + '&TotalAmount'+'&IsForInternalFee=1'
-  //  }
-    return returnString
+   if(currentYear){ //internal
+    returnString = 'StudentId='+ studentId + '&InternalFeeDetailsId=0' + '&IsOnlineInternalFeePayment=1'
+  + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount=0'+'&IsForInternalFee=1'
+   }
+   return returnString
   }
   console.log("getQueryString",getQueryString())
   const body: IPayOnline = {
@@ -66,7 +70,8 @@ const getQueryString = () => {
   // Temporary fix to fee payment popup. Update code later
   return (
     <div> <PageHeader heading={'Online Payment'} subheading={''} />
-      {localStorage.getItem("paymentPopUpCount") === '0' ? localStorage.setItem("paymentPopUpCount", '1') :<Card26 paymentPageLink={paymentPageLink} />}</div>
+      {localStorage.getItem("paymentPopUpCount") === '0' ? localStorage.setItem("paymentPopUpCount", '1') :
+      <Card26 paymentPageLink={paymentPageLink} />}</div>
   );
 }
 
