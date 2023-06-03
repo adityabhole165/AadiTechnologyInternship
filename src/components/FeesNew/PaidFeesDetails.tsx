@@ -8,8 +8,11 @@ import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+
 
 import { Browser } from '@capacitor/browser';
+import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject, ApplicableFee, TotalLateFee }) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
@@ -25,7 +28,19 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     (state: RootState) => state.Fees.paymentUrl
   );
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-
+  // console.log("FeesList",FeesList);
+  
+  const OnlinePaymentForInternalFee: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee
+  );
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: aiAcademicYearId,
+    asKey: "",
+  };
+  useEffect(() => {
+    dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
+  }, []);
   const RefreshData = (value) => {
     setItemList(value)
     let Total = 0;
@@ -74,25 +89,38 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           AmountPayable: item.AmountPayable,
           LateFeeAmount: item.LateFeeAmount,
           DueDate: item.DueDateString,
-          StudentFeeId: item.StudentFeeId
+          StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || item.StudentFeeId)
         }
       }))
   }, [FeesList]);
-  let advanceFeelist = 0;
+  let ConcessionAmount = 0;
   FeesList.map((item, i) => {
-    advanceFeelist = item.ConcessionAmount
+    ConcessionAmount = item.ConcessionAmount
   })
-
+  let FeeDetailsId = 0;
+  FeesList.map((item,i)=>{ 
+    FeeDetailsId = item.FeeDetailsId
+  })
+  
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
   const getQueryString = (StudentFeeId, DueDate) => {
     let returnString = ""
     let IsForNextYear = Number(currentYear) == 0?"Y":"N"
-    
+    let OPaymentForInternalFee = OnlinePaymentForInternalFee ? 1 : 0
+    console.log("StudentFeeId",StudentFeeId);
+    console.log("FeeDetailsId",FeeDetailsId);
+    console.log("OPaymentForInternalFee",OPaymentForInternalFee);
+    console.log("IsForNextYear",IsForNextYear);
+    console.log("currentYear",currentYear);
+    console.log("ApplicableFee",ApplicableFee);
+
+
+
     if (Number(currentYear) == 0) {
       returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&AcadmicYearId=' + currentYear +
         '&StanardID=' + '&TotalAmount=' + ApplicableFee + '&LateFeeAmount=' + TotalLateFee + '&IsForNextYear=Y' +
-        '&ConcessionAmount=' + advanceFeelist + '&FeeType='
+        '&ConcessionAmount=' + ConcessionAmount + '&FeeType='
     }
     if (Number(currentYear) == aiAcademicYearId) {
       returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
@@ -103,12 +131,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId=' + currentYear +
         '&IsOldAcademicYearPayment=' + IsForCurrentyear
     }
-    // if (currentYear) { //internal
-    //   returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId=0' + '&IsOnlineInternalFeePayment=1'
-    //     + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount=0' + '&IsForInternalFee=1'
-    // }
+    if (internalFees) { //internal
+      returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId='+FeeDetailsId + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
+        + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount=0'+ApplicableFee + '&IsForInternalFee=1'
+    }
     return returnString
   }
+  
+  
   const clickPayOnline = () => {
     let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {

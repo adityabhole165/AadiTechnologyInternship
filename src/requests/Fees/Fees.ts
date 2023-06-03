@@ -15,7 +15,7 @@ const Feesslice = createSlice({
     ReceiptFileName: "",
     GetFeesDetailsOfOldAcademic: [],
     InternalFeeDetails: [],
-    GetNextYearDetails: {},
+    GetNextYearDetails: null,
     GetNextYearFeeDetails: [],
 
   },
@@ -190,7 +190,7 @@ export const getNextYearDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.GetNextYearDetails(data);
-      dispatch(Feesslice.actions.getNextYearDetails(response.data));
+      dispatch(Feesslice.actions.getNextYearDetails(response.data?.NextAcademicDetails));
 
     };
 

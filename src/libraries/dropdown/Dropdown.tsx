@@ -19,7 +19,6 @@ function Dropdown({ Array, handleChange, label, defaultValue = '' }) {
             <NativeSelect value={defaultValue}
                 onChange={(e) => handleChange(e.target.value)} fullWidth >
                 {defaultValue == '' && <option>{label}</option>}
-               {pageName == 'Fees' &&  <option value={0}>Advanced Academic Year</option>} 
                 {Array.map((items, i) => {
                     return (
                         <option value={items.Value} key={i}>
