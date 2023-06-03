@@ -2,20 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import SelectSequenceList from './SelectSequenceList';
 import { useDispatch } from 'react-redux';
-import IFees from 'src/interfaces/Student/Fees';
-import { getFees } from 'src/requests/Fees/Fees';
+import IFees, { IPayOnline } from 'src/interfaces/Student/Fees';
+import { getFees, payOnline } from 'src/requests/Fees/Fees';
 import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 
+import { Browser } from '@capacitor/browser';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject, ApplicableFee, TotalLateFee }) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
   const dispatch = useDispatch();
-
+  const authData = JSON.parse(localStorage.getItem("auth"));
+  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const asSchoolId = localStorage.getItem('localSchoolId')
+  const asStudentId = sessionStorage.getItem('StudentId')
+  const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
+  const paymentPageLink: any = useSelector(
+    (state: RootState) => state.Fees.paymentUrl
+  );
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
 
   const RefreshData = (value) => {
@@ -29,9 +37,9 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     setFeesTotal(Total)
   }
   const body: IFees = {
-    asSchoolId: localStorage.getItem('localSchoolId'),
-    asStudentId: sessionStorage.getItem('StudentId'),
-    aiAcademicYearId: Number(sessionStorage.getItem('AcademicYearId')),
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId,
+    aiAcademicYearId: aiAcademicYearId,
     abIsForCurrentYear: true
   };
 
@@ -39,6 +47,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
+  useEffect(() => {
+    if (paymentPageLink !== "") {
+      const openCapacitorSite = async (url) => {
+        await Browser.open({ url: url });
+      };
+      openCapacitorSite(paymentPageLink)
+    }
+  }, [paymentPageLink]);
 
   useEffect(() => {
     setItemList(FeesList
@@ -66,24 +82,33 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   FeesList.map((item, i) => {
     advanceFeelist = item.ConcessionAmount
   })
-  // const navi = () => {
-  //   let naviGate = ""
-  //   if(currentYear == AcademicYearId){
-  //     naviGate = `/${location.pathname.split('/')[1]}/Student/PayOnline/`+DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear
-  //   }
-  //   return naviGate
-  // }
-  // const navi = ()=>{
-  //   let naviGate = ""
-  //   if(currentYear == AcademicYearId){
-  //     naviGate = StudentFeeId + `/` + currentYear
-  //   }
-  //   if(currentYear < AcademicYearId){
 
-  //   }
-
-  // }
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
+  const getQueryString = (StudentFeeId, DueDate) => {
+    let returnString = ""
+    let IsForNextYear = Number(currentYear) == 0?"Y":"N"
+    
+    if (Number(currentYear) == 0) {
+      returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
+        '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&AcadmicYearId=' + currentYear +
+        '&StanardID=' + '&TotalAmount=' + ApplicableFee + '&LateFeeAmount=' + TotalLateFee + '&IsForNextYear=Y' +
+        '&ConcessionAmount=' + advanceFeelist + '&FeeType='
+    }
+    if (Number(currentYear) == aiAcademicYearId) {
+      returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
+        '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0'
+    }
+    if (Number(currentYear) < aiAcademicYearId) {
+      returnString = 'StudentId=' + OldYearwiseStudentId + '&DueDates=' + DueDate +
+        '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId=' + currentYear +
+        '&IsOldAcademicYearPayment=' + IsForCurrentyear
+    }
+    // if (currentYear) { //internal
+    //   returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId=0' + '&IsOnlineInternalFeePayment=1'
+    //     + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount=0' + '&IsForInternalFee=1'
+    // }
+    return returnString
+  }
   const clickPayOnline = () => {
     let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {
@@ -92,32 +117,17 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         StudentFeeId = item.StudentFeeId
       }
     })
-    // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/12-10-2022` +
-    const nav = () => {
-      if (currentYear == "0") {
-        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + ApplicableFee + `/` + TotalLateFee + `/` + advanceFeelist)
-      }
-      if (currentYear == AcademicYearId) {
-        // naviGate = StudentFeeId + `/` + currentYear
-        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear)
-      }
-      if (currentYear < AcademicYearId) {
-        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear + `/` + OldYearwiseStudentId)
-      }
-      if (internalFees) {
-        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear + `/` + OldYearwiseStudentId)
-      }
-      else {
+    const body: IPayOnline = {
+      asSchoolId: localStorage.getItem('localSchoolId'),
+      asUserLogin: userLoginId,
+      asQueryString: getQueryString(StudentFeeId, DueDate),
+      asSchoolSiteUrl:
+        localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',
+      asRedirectPageUrl:
+        localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
+    };
+    dispatch(payOnline(body));
 
-      }
-    }
-    nav()
-    // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-    //   DueDate.replaceAll("/", "-") + `/` + nav())
   }
 
   return (

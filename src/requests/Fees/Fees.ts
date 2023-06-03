@@ -10,7 +10,7 @@ const Feesslice = createSlice({
   initialState: {
     FeesData: [],
     FeesData2: [],
-    paymentUrl: [],
+    paymentUrl: "",
     YearList: [],
     ReceiptFileName: "",
     GetFeesDetailsOfOldAcademic: [],
