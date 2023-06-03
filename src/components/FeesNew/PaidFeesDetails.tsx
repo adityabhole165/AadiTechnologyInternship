@@ -9,7 +9,7 @@ import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 
-const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,FeesObject,ApplicableFee,TotalLateFee}) => {
+const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject, ApplicableFee, TotalLateFee }) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -56,35 +56,35 @@ const PaidFeesDetails = ({currentYear, IsForCurrentyear, OldYearwiseStudentId,in
           Text4: "Due On : " + item.DueDateFormat,
           ParentId: item.FeeId === '11' ? '0' : '0',
           AmountPayable: item.AmountPayable,
-          LateFeeAmount : item.LateFeeAmount,
+          LateFeeAmount: item.LateFeeAmount,
           DueDate: item.DueDateString,
           StudentFeeId: item.StudentFeeId
         }
       }))
   }, [FeesList]);
   let advanceFeelist = 0;
-  FeesList.map((item,i)=>{
-  advanceFeelist =  item.ConcessionAmount
-})
-// const navi = () => {
-//   let naviGate = ""
-//   if(currentYear == AcademicYearId){
-//     naviGate = `/${location.pathname.split('/')[1]}/Student/PayOnline/`+DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear
-//   }
-//   return naviGate
-// }
-// const navi = ()=>{
-//   let naviGate = ""
-//   if(currentYear == AcademicYearId){
-//     naviGate = StudentFeeId + `/` + currentYear
-//   }
-//   if(currentYear < AcademicYearId){
+  FeesList.map((item, i) => {
+    advanceFeelist = item.ConcessionAmount
+  })
+  // const navi = () => {
+  //   let naviGate = ""
+  //   if(currentYear == AcademicYearId){
+  //     naviGate = `/${location.pathname.split('/')[1]}/Student/PayOnline/`+DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear
+  //   }
+  //   return naviGate
+  // }
+  // const navi = ()=>{
+  //   let naviGate = ""
+  //   if(currentYear == AcademicYearId){
+  //     naviGate = StudentFeeId + `/` + currentYear
+  //   }
+  //   if(currentYear < AcademicYearId){
 
-//   }
+  //   }
 
-// }
-const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
- const clickPayOnline = () => {
+  // }
+  const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
+  const clickPayOnline = () => {
     let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {
       if (item.IsActive) {
@@ -93,36 +93,36 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
       }
     })
     // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/12-10-2022` +
-    const nav=()=>{
-      if(currentYear == "0"){
+    const nav = () => {
+      if (currentYear == "0") {
         navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + ApplicableFee + `/` +TotalLateFee+`/`+advanceFeelist)
-          }
-      if(currentYear == AcademicYearId){
+          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + ApplicableFee + `/` + TotalLateFee + `/` + advanceFeelist)
+      }
+      if (currentYear == AcademicYearId) {
         // naviGate = StudentFeeId + `/` + currentYear
         navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear)
-          }
-          if(currentYear < AcademicYearId){
-            navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
-          }
-          if(internalFees){
-            navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
-        DueDate.replaceAll("/", "-") + `/` +  StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear+ `/`+ OldYearwiseStudentId)
-          }
-          else{
+          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear)
+      }
+      if (currentYear < AcademicYearId) {
+        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear + `/` + OldYearwiseStudentId)
+      }
+      if (internalFees) {
+        navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
+          DueDate.replaceAll("/", "-") + `/` + StudentFeeId + `/` + currentYear + `/` + IsForCurrentYear + `/` + OldYearwiseStudentId)
+      }
+      else {
 
-          }
+      }
     }
     nav()
     // navigate(`/${location.pathname.split('/')[1]}/Student/PayOnline/` +
     //   DueDate.replaceAll("/", "-") + `/` + nav())
   }
- 
+
   return (
     <div>
-       <Grid container>
+      <Grid container>
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>
@@ -133,8 +133,8 @@ const IsForCurrentYear = IsForCurrentyear ? 1: 0 ;
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
-            FeesCard ={FeesCard}
-              IsSequenceSelect={true}/>
+              FeesCard={FeesCard}
+              IsSequenceSelect={true} />
           }
         </Grid>
       </Grid>
