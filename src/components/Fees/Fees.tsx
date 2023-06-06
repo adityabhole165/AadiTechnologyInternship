@@ -250,7 +250,7 @@ function Fees() {
         Heading={Feedata} Note={Note2} currentYear={currentYear}
         IsForCurrentyear={IsOldAcademicYearPayment}
         OldYearwiseStudentId={FeesList2.OldYearwiseStudentId}
-        internalFees={internalFees} ApplicableFee={ApplicableFee}
+        internalFees={showCaution} ApplicableFee={ApplicableFee}
         TotalLateFee={FeesList2.TotalLateFee}
         NextYearID={NextYearDetails==null?0:NextYearDetails.NextAcademicYearId}
         SchoolwiseStudentId={NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId}

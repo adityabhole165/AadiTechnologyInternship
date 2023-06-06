@@ -127,14 +127,12 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId=' + currentYear +
         '&IsOldAcademicYearPayment=' + IsForCurrentyear
     }
-    if (internalFees) { //internal
+    if (internalFees == "internalFees") { //internal
       returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
         + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount='+FeesTotal + '&IsForInternalFee=1'
     }
     return returnString
-  }
-  
-  
+  } 
   const clickPayOnline = () => {
     let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {
