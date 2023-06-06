@@ -151,7 +151,7 @@ export const getInternalFeeDetails =
           PaidDate:item.PaidDate,
           Remarks:item.Remarks,
           AccountHeaderId:0,
-          AmountPayable:item.Amount,
+          AmountPayable:"0",
           DebitStudentFeeId:"0",
           DueDate:item.PaidDate,
           DueDateFormat:"",
