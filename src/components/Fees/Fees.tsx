@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { getFees, getYearList } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody } from 'src/interfaces/Student/Fees';
+import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
@@ -36,6 +36,7 @@ function Fees() {
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
 
   const [YearType, setYearType] = useState("C")
+  const [newAcadamicYear,setNewAcadamicYear]= useState([])
   // const [internalFees, setInternalFees] = useState("")
   const schoolFees = "SchoolFees";
   const internalFees = "internalFees";
@@ -108,7 +109,7 @@ function Fees() {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: currentYear,
     aiStudentId: asStudentId,
-    abIsNextYearFeePayment: "0"
+    abIsNextYearFeePayment:Number(currentYear) == 0 ?"0":"1"
   }
 
   const IGetNextYearDetailsBody = {
@@ -118,11 +119,26 @@ function Fees() {
 
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
-    aiAcademicYearId: currentYear,
-    aiSchoolwiseStudentId: asStudentId,
+    aiAcademicYearId: NextYearDetails==null?0:NextYearDetails.NextAcademicYearId,
+    aiSchoolwiseStudentId: NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId,
     aiStandardId: asStandardId
 
   }
+  useEffect(() => {
+    if(AcadamicYear.length>0){
+    let arr = AcadamicYear;
+    // arr.push({id:0,
+    //   Name: 'Advance Academic Year',
+    //   Value: 0,
+    //   YearType:''})
+    //   console.log(arr,"new year")
+      let arr2 = {id:NextYearDetails==null?0:NextYearDetails.NextAcademicYearId,
+        Name: 'Advance Academic Year',
+        Value: NextYearDetails==null?0:NextYearDetails.NextAcademicYearId,
+        YearType:''}
+      setNewAcadamicYear([arr2,...arr])
+    }
+  }, [AcadamicYear]);
   useEffect(() => {
     localStorage.setItem("paymentPopUpCount", '0'); // Temporary fix to fee payment popup. Update code later
     localStorage.setItem('url', window.location.pathname);
@@ -131,21 +147,21 @@ function Fees() {
   useEffect(() => {
     dispatch(getYearList(body1));
     // dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
-    // dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+    dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
   }, []);
   // useEffect(() => {
   //   dispatch(getNextYearDetails(IGetNextYearDetailsBody));
   // }, [currentYear]);
   useEffect(() => {
-    if (currentYear == '0') {
-      dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
-    } else {
+    
       if (showCaution == internalFees) {
         dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
+      } else  if (currentYear == (NextYearDetails==null?0:NextYearDetails.NextAcademicYearId)) {
+        dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
       } else
         dispatch(getFees(body));
-    }
+    
   }, [showCaution, currentYear]);
 
 
@@ -175,13 +191,13 @@ function Fees() {
   const PayInternalFees = () => {
     navigate('PayinternalFees')
   };
-  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee  
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
       <Dropdown
-        Array={AcadamicYear}
+        Array={newAcadamicYear}
         handleChange={clickYear}
         label={'Select Year'}
         defaultValue={currentYear}
@@ -234,8 +250,11 @@ function Fees() {
         Heading={Feedata} Note={Note2} currentYear={currentYear}
         IsForCurrentyear={IsOldAcademicYearPayment}
         OldYearwiseStudentId={FeesList2.OldYearwiseStudentId}
-        internalFees={internalFees} ApplicableFee={ApplicableFee}
-        TotalLateFee={FeesList2.TotalLateFee} />
+        internalFees={showCaution} ApplicableFee={ApplicableFee}
+        TotalLateFee={FeesList2.TotalLateFee}
+        NextYearID={NextYearDetails==null?0:NextYearDetails.NextAcademicYearId}
+        SchoolwiseStudentId={NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId}
+        />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}

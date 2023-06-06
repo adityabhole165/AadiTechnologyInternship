@@ -276,7 +276,11 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
 
   const populateRecipient = (itemList) => {
     itemList?.map((obj) => {
-      if (obj.isActive && !selectedRecipentsId.includes(obj.Id)) {
+      if (obj.isActive && 
+        (
+          (!isSelected('Contact group') && !selectedRecipentsId.includes(obj.Id)) ||
+          (isSelected('Contact group') && !contactGroup.includes(obj.Id)) 
+        )) {
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         if (isSelected('Contact group')) {
           setContactGroup((prevState) => [...prevState, obj.Id])
@@ -285,13 +289,18 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
         }
       }
-      else if (!obj.isActive && selectedRecipentsId.includes(obj.Id)) {
-        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+      else if (!obj.isActive &&
+      (
+        (!isSelected('Contact group') && selectedRecipentsId.includes(obj.Id)) ||
+        (isSelected('Contact group') && contactGroup.includes(obj.Id)) 
+      )
+      ) {
+        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
         if (isSelected('Contact group')) {
           setContactGroup((prevState) => prevState.filter(item => item !== obj.Value))
         }
         else {
-          setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+          setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
         }
       }
     });

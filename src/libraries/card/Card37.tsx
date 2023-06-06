@@ -8,7 +8,7 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidFeesDetails from 'src/components/FeesNew/PaidFeesDetails'
 
 const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
-     internalFees,ApplicableFee,TotalLateFee}) => {
+     internalFees,ApplicableFee,TotalLateFee, SchoolwiseStudentId, NextYearID}) => {
     console.log(FeesObject);
     
    
@@ -42,7 +42,7 @@ const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentye
 
                     < PaidFeesDetails currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
                      OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} FeesObject={FeesObject}
-                     ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} />
+                     ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID} />
 
                 </AccordionDetails>
             </Accordion>

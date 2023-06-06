@@ -13,7 +13,8 @@ const SchoolSettingSlice = createSlice({
     isLibrarySchoolSetting: false,
     ExternalLibrarySite: "",
     EnableMessageCenterReadModeForStudent: false,
-    AllowStudentPhotoUploadFromStudentLogin:false
+    AllowStudentPhotoUploadFromStudentLogin:false,
+    EnableOnlinePaymentForInternalFee:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -41,7 +42,9 @@ const SchoolSettingSlice = createSlice({
     getAllowStudentPhotoUploadFromStudentLogin(state, action) {
       state.AllowStudentPhotoUploadFromStudentLogin = action.payload;;
     },
-    
+    getEnableOnlinePaymentForInternalFee(state,action){
+      state.EnableOnlinePaymentForInternalFee = action.payload;
+    }
 
   }
 });
@@ -90,17 +93,28 @@ export const getGetSettingValue =
       }
       dispatch(SchoolSettingSlice.actions.getEnableMessageCenterReadModeForStudent(EnableMessageCenterReadMode));
     }
-    export const GetAllowStudentPhotoUploadFromStudentLogin =
+    export const GetEnableOnlinePaymentForInternalFee = 
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
-      let AllowStudentPhotoUpload = false
-      data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
+      let OnlinePaymentForInternalFee = false
+      data.asKey = "EnableOnlinePaymentForInternalFee";
       let response = await SchoolSettingApi.GetSettingValueapi(data)
       if (response.data.GetSettingValueResult) {
-            AllowStudentPhotoUpload = true;
+        OnlinePaymentForInternalFee = true;
       }
-      dispatch(SchoolSettingSlice.actions.getAllowStudentPhotoUploadFromStudentLogin(AllowStudentPhotoUpload));
+      dispatch(SchoolSettingSlice.actions.getEnableOnlinePaymentForInternalFee(OnlinePaymentForInternalFee));
     }
+    export const GetAllowStudentPhotoUploadFromStudentLogin =
+    (data: IGetSettingValueBody): AppThunk =>
+      async (dispatch) => {
+        let AllowStudentPhotoUpload = false
+        data.asKey = "AllowStudentPhotoUploadFromStudentLogin";
+        let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+              AllowStudentPhotoUpload = true;
+        }
+        dispatch(SchoolSettingSlice.actions.getAllowStudentPhotoUploadFromStudentLogin(AllowStudentPhotoUpload));
+      }
 export const getGetSettingSubTeacher =
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
