@@ -173,7 +173,7 @@ function AadharCardDetails() {
 
     return (
         <Container>
-            <PageHeader heading={'Aadhaar Card Details'} subheading={''} />
+            <PageHeader heading={'Update Profile'} subheading={''} />
             <Grow in={checked}
                 style={{ transformOrigin: '0 0 1' }}
                 {...(checked ? { timeout: 1500 } : {})}
