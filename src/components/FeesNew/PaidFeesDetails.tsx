@@ -13,7 +13,8 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 
 import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
-const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject, ApplicableFee, TotalLateFee }) => {
+const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
+   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID }) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -22,13 +23,15 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const authData = JSON.parse(localStorage.getItem("auth"));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   const asSchoolId = localStorage.getItem('localSchoolId')
-  const asStudentId = sessionStorage.getItem('StudentId')
+  const StandardId = sessionStorage.getItem('StandardId');
+  const sStudentId = sessionStorage.getItem('StudentId')
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
+  const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId
+   const totalamountt = FeesTotal - TotalLateFee;   
   const paymentPageLink: any = useSelector(
     (state: RootState) => state.Fees.paymentUrl
   );
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-  // console.log("FeesList",FeesList);
   
   const OnlinePaymentForInternalFee: any = useSelector(
     (state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee
@@ -97,9 +100,11 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   FeesList.map((item, i) => {
     ConcessionAmount = item.ConcessionAmount
   })
-  let FeeDetailsId = 0;
-  FeesList.map((item,i)=>{ 
-    FeeDetailsId = item.FeeDetailsId
+ const IntFeeDetailsId= FeesList.map((item,i)=>{ 
+    return item.InternalFeeDetailsId
+  })
+  const FeeType = FeesList.map((item,i)=>{ 
+    return item.FeeType
   })
   
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
@@ -107,19 +112,10 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     let returnString = ""
     let IsForNextYear = Number(currentYear) == 0?"Y":"N"
     let OPaymentForInternalFee = OnlinePaymentForInternalFee ? 1 : 0
-    console.log("StudentFeeId",StudentFeeId);
-    console.log("FeeDetailsId",FeeDetailsId);
-    console.log("OPaymentForInternalFee",OPaymentForInternalFee);
-    console.log("IsForNextYear",IsForNextYear);
-    console.log("currentYear",currentYear);
-    console.log("ApplicableFee",ApplicableFee);
-
-
-
-    if (Number(currentYear) == 0) {
+    if (Number(currentYear) == NextYearID) {
       returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&AcadmicYearId=' + currentYear +
-        '&StanardID=' + '&TotalAmount=' + ApplicableFee + '&LateFeeAmount=' + TotalLateFee + '&IsForNextYear=Y' +
+        '&StanardID='+StandardId + '&TotalAmount=' + FeesTotal + '&LateFeeAmount=' + TotalLateFee + '&IsForNextYear=Y' +
         '&ConcessionAmount=' + ConcessionAmount + '&FeeType='
     }
     if (Number(currentYear) == aiAcademicYearId) {
@@ -132,8 +128,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         '&IsOldAcademicYearPayment=' + IsForCurrentyear
     }
     if (internalFees) { //internal
-      returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId='+FeeDetailsId + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
-        + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount=0'+ApplicableFee + '&IsForInternalFee=1'
+      returnString = 'StudentId=' + StudentFeeId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
+        + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount='+FeesTotal + '&IsForInternalFee=1'
     }
     return returnString
   }

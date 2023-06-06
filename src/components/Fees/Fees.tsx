@@ -191,7 +191,7 @@ function Fees() {
   const PayInternalFees = () => {
     navigate('PayinternalFees')
   };
-  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee  
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   return (
     <Container>
@@ -251,7 +251,10 @@ function Fees() {
         IsForCurrentyear={IsOldAcademicYearPayment}
         OldYearwiseStudentId={FeesList2.OldYearwiseStudentId}
         internalFees={internalFees} ApplicableFee={ApplicableFee}
-        TotalLateFee={FeesList2.TotalLateFee} />
+        TotalLateFee={FeesList2.TotalLateFee}
+        NextYearID={NextYearDetails==null?0:NextYearDetails.NextAcademicYearId}
+        SchoolwiseStudentId={NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId}
+        />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={ispaidCautionMoney} note={note} />
       {/* {FeesList2.PaymentNotes !== 0 &&  */}
