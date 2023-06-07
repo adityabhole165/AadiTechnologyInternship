@@ -235,8 +235,8 @@ const DashboardData = {
     },
 
     {
-      Text1: 'Aadhaar ',
-      Text2: ' Card Details',
+      Text1: 'Update ',
+      Text2: ' Profile',
       Color: '#90a4ae',
       iconColor: '#f0483e ',
       Icon: AddCardIcon ,
