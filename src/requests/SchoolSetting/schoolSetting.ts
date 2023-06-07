@@ -14,7 +14,8 @@ const SchoolSettingSlice = createSlice({
     ExternalLibrarySite: "",
     EnableMessageCenterReadModeForStudent: false,
     AllowStudentPhotoUploadFromStudentLogin:false,
-    EnableOnlinePaymentForInternalFee:false
+    EnableOnlinePaymentForInternalFee:false,
+    OnlinePaymentForCautionMoney:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -44,6 +45,9 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableOnlinePaymentForInternalFee(state,action){
       state.EnableOnlinePaymentForInternalFee = action.payload;
+    },
+    getOnlinePaymentCaution(state,action){
+      state.OnlinePaymentForCautionMoney = action.payload;
     }
 
   }
@@ -148,5 +152,18 @@ export const getLibrarySchoolSetting =
       let response2 = await SchoolSettingApi.GetSettingValueByNameApi(data2)
       dispatch(SchoolSettingSlice.actions.getExternalLibrarySite(response2.data.Value));
       
+    }
+    export const getOnlinePaymentForCautionMoney =
+  (data: IGetSettingValueBody): AppThunk =>
+    async (dispatch) => {
+      let OnlinePayment = false
+      data.asKey = "EnableOnlinePaymentForCautionMoney";
+      let response = await SchoolSettingApi.GetSettingValueapi(data)
+      if (response.data.GetSettingValueResult) {
+        {
+          OnlinePayment = true;
+        }
+      }
+      dispatch(SchoolSettingSlice.actions.getOnlinePaymentCaution(OnlinePayment));
     }
 export default SchoolSettingSlice.reducer

@@ -185,6 +185,10 @@ const studentRoutes = [
     element: <Layout/>
   },
   {
+    path: 'PayOnline',
+    element: <PayOnline/>
+  },
+  {
     path: 'PayOnline/:SelectedDueDate/:feeId/:currentYear/:ApplicableFee/:TotalLateFee/:advanceFeelist',
     element: <PayOnline/>
   },

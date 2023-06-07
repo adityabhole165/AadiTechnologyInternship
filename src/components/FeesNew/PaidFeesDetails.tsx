@@ -14,7 +14,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
-   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID }) => {
+   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline }) => {
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -28,9 +28,11 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-  const paymentPageLink: any = useSelector(
-    (state: RootState) => state.Fees.paymentUrl
-  );
+   console.log("totalamountt",totalamountt);
+   
+  // const paymentPageLink: any = useSelector(
+  //   (state: RootState) => state.Fees.paymentUrl
+  // );
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   
   const OnlinePaymentForInternalFee: any = useSelector(
@@ -66,14 +68,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
-  useEffect(() => {
-    if (paymentPageLink !== "") {
-      const openCapacitorSite = async (url) => {
-        await Browser.open({ url: url });
-      };
-      openCapacitorSite(paymentPageLink)
-    }
-  }, [paymentPageLink]);
+  // useEffect(() => {
+  //   if (paymentPageLink !== "") {
+  //     const openCapacitorSite = async (url) => {
+  //       await Browser.open({ url: url });
+  //     };
+  //     openCapacitorSite(paymentPageLink)
+  //   }
+  // }, [paymentPageLink]);
 
   useEffect(() => {
     setItemList(FeesList
@@ -134,9 +136,13 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       returnString = 'StudentId=' + asStudentId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
         + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount='+FeesTotal + '&IsForInternalFee=1'
     }
+    // if (!CautionClick) { 
+    //   returnString ='StudentId='+asStudentId+ '&DueDates='+DueDate+'&Remarks=&SchoolwiseStudentFeeId='+StudentFeeId+
+    //   '&IsOnlineCautionMoneyPayment=1'
+    // }
     return returnString
   } 
-  const clickPayOnline = () => {
+  const clickPayOnlineLocal = () => {
     let DueDate, StudentFeeId = "", naviGate = ""
     itemList.map((item) => {
       if (item.IsActive) {
@@ -153,7 +159,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       asRedirectPageUrl:
         localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
     };
-    dispatch(payOnline(body));
+    clickPayOnline(body);
 
   }
 
@@ -163,7 +169,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>
-          <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnline}
+          <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
             color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
             Pay Online
           </ButtonPrimary>
