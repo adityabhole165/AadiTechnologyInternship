@@ -143,7 +143,7 @@ export interface IGetInternalFeeDetailsBody {
         aiSchoolId: string,
         aiAcademicYearId: string,
         aiStudentId: string,
-        abIsNextYearFeePayment: string
+        abIsNextYearFeePayment: boolean
 }
 export interface IGetInternalFeeDetailsResult {
         InternalFeeDetails: [InternalFeeDetails],

@@ -80,6 +80,13 @@ export const getDateFormatted = (date) => {
     const Year = new Date(date).getFullYear();
     return `${Day} ${Month} ${Year}`;
 }
+export const getDateFormat = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Day}-${Month}-${Year}`;
+}
 
 export const getHomeworkDateFormatted = (date) => {
     date = date || new Date();

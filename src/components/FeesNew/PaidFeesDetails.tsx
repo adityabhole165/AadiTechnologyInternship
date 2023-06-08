@@ -33,7 +33,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   //   (state: RootState) => state.Fees.paymentUrl
   // );
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
-  
+ 
   const OnlinePaymentForInternalFee: any = useSelector(
     (state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee
   );
@@ -113,15 +113,15 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   })
   
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
-  const getQueryString = (StudentFeeId, DueDate) => {
+  const getQueryString = (StudentFeeId, DueDate, FeeType) => {
     let returnString = ""
-    let IsForNextYear = Number(currentYear) == 0?"Y":"N"
+    let IsForNextYear = Number(currentYear) == NextYearID?"Y":"N"
     let OPaymentForInternalFee = OnlinePaymentForInternalFee ? 1 : 0
     if (Number(currentYear) == NextYearID) {
       returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&AcadmicYearId=' + currentYear +
         '&StanardID='+StandardId + '&TotalAmount=' + FeesTotal + '&LateFeeAmount=' + TotalLateFee + '&IsForNextYear=Y' +
-        '&ConcessionAmount=' + ConcessionAmount + '&FeeType='
+        '&ConcessionAmount=' + ConcessionAmount + '&FeeType=' + FeeType
     }
     if (Number(currentYear) == aiAcademicYearId) {
       returnString = 'StudentId=' + asStudentId + '&DueDates=' + DueDate +
@@ -139,17 +139,18 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     return returnString
   } 
   const clickPayOnlineLocal = () => {
-    let DueDate, StudentFeeId = "", naviGate = ""
-    itemList.map((item) => {
+    let DueDate, StudentFeeId = "", FeeType = ""
+    itemList.map((item) => {     
       if (item.IsActive) {
         DueDate = item.DueDate
         StudentFeeId = item.StudentFeeId
+        FeeType = item.Text1
       }
     })
     const body: IPayOnline = {
       asSchoolId: localStorage.getItem('localSchoolId'),
       asUserLogin: userLoginId,
-      asQueryString: getQueryString(StudentFeeId, DueDate),
+      asQueryString: getQueryString(StudentFeeId, DueDate, FeeType),
       asSchoolSiteUrl:
         localStorage.getItem('SiteURL') + '/RITeSchool/SingleSignOnPage.aspx?',
       asRedirectPageUrl:

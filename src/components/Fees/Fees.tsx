@@ -39,7 +39,7 @@ function Fees() {
   const dispatch = useDispatch();
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
 
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);  
   const [IsCautionClick,setIsCautionClick] = useState(false)
   
   const [YearType, setYearType] = useState("C")
@@ -115,8 +115,8 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
   const IGetInternalFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: currentYear,
-    aiStudentId: Number(currentYear) == NextYrId ?NextYrSchoolId :asStudentId ,
-    abIsNextYearFeePayment:Number(currentYear) == NextYrId ?"0":"1"
+    aiStudentId:asStudentId ,
+    abIsNextYearFeePayment:Number(currentYear) == NextYrId ?true:false
   }
 
   const IGetNextYearDetailsBody = {

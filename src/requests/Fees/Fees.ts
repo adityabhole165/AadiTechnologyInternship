@@ -4,6 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
+import { getDateFormat } from 'src/components/Common/Util';
 
 const Feesslice = createSlice({
   name: 'Fees',
@@ -137,7 +138,7 @@ export const getInternalFeeDetails =
       return amount;
     }
       const itemlist = {
-        FeeDetails:response.data.InternalFeeDetails.map((item)=>{
+        FeeDetails:response.data.InternalFeeDetails.map((item)=>{       
         return{
           SchoolwiseStudentId:item.SchoolwiseStudentId,
           InternalFeeDetailsId:item.InternalFeeDetailsId,
@@ -153,7 +154,7 @@ export const getInternalFeeDetails =
           AccountHeaderId:0,
           AmountPayable:"0",
           DebitStudentFeeId:"0",
-          DueDate:item.PaidDate,
+          DueDate:getDateFormat(item.PaidDate),
           DueDateFormat:"",
           DueDateString:"",
           FeeId:"0",
@@ -219,7 +220,7 @@ export const getNextYearFeeDetails =
         return amount;
       }
       const itemlist = {
-        FeeDetails:response.data.NextYearFeeDetails.map((item)=>{
+        FeeDetails:response.data.NextYearFeeDetails.map((item)=>{          
         return{
           PayableFor:item.PayableFor,
           FeeType:item.FeeType,
@@ -229,8 +230,8 @@ export const getNextYearFeeDetails =
           AccountHeaderId:0,
           AmountPayable:item.AmountPayable,
           DebitStudentFeeId:"0",
-          DueDate:item.DueDate,
-          DueDateFormat:"",
+          DueDate:"",
+          DueDateFormat:getDateFormat(item.DueDate),
           DueDateString:item.DueDateString,
           FeeId:"0",
           FeesPaid:item.FeesPaid ,
@@ -252,7 +253,7 @@ export const getNextYearFeeDetails =
       TotalFee:0,
       TotalLateFee:0
     }
-      dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));
+       dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));
 
     };
 
