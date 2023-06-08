@@ -27,7 +27,7 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           sx={{
-            background: `${theme.colors.gradients.pink1}`
+            background: `${theme.colors.gradients.pink1}`, mb:1
           }}
         >
           <Header1
