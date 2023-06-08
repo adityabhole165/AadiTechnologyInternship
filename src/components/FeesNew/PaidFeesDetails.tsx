@@ -28,7 +28,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-   console.log("totalamountt",totalamountt);
    
   // const paymentPageLink: any = useSelector(
   //   (state: RootState) => state.Fees.paymentUrl
@@ -51,9 +50,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     let Total = 0;
     value.map((item) => {
     const amount = internalFees = "internalFees" ? item.Text3 : item.AmountPayable
-      if (item.IsActive) {
-        Total += parseInt(amount) + parseInt(item.LateFeeAmount)
-      }
+    if (item.IsActive) 
+      Total += parseInt(amount) + parseInt(item.LateFeeAmount)
     })
     setFeesTotal(Total)
   }
@@ -68,24 +66,23 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
   }, []);
-  // useEffect(() => {
-  //   if (paymentPageLink !== "") {
-  //     const openCapacitorSite = async (url) => {
-  //       await Browser.open({ url: url });
-  //     };
-  //     openCapacitorSite(paymentPageLink)
-  //   }
-  // }, [paymentPageLink]);
 
   useEffect(() => {
+    let prevGroup = 0;
+    let prevFeeId = "0";
+    
     setItemList(FeesList
       .filter((obj) => {       
          return ((internalFees == "internalFees" && obj.FeeDetailsId  == 0) || obj.AmountPayable !== "0") })
       .map((item, index) => {
-        
         const lateFeeLabel = item.LateFeeAmount === "0" ? "Amount :" : "Amount + Late Fees : ";
+        
+        if(prevGroup !== item.PaymentGroup){
+          prevGroup = item.PaymentGroup;
+          prevFeeId = item.StudentFeeId;
+        }
         return {
-          Id: item.FeeId,
+          Id: item.StudentFeeId,
           Name: item.FeeId,
           Value: item.FeeId,
           IsActive: false,
@@ -93,7 +90,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           Text2: lateFeeLabel,
           Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? item.Amount :item.Amount + " + " + item.LateFeeAmount) : (item.LateFeeAmount == "0" ? item.AmountPayable :item.AmountPayable + " + " + item.LateFeeAmount) ,
           Text4: "Due On : " + item.DueDateFormat,
-          ParentId: item.FeeId === '11' ? '0' : '0',
+          ParentId: item.StudentFeeId === prevFeeId? "0":prevFeeId,
           AmountPayable: item.AmountPayable,
           LateFeeAmount: item.LateFeeAmount,
           DueDate: item.DueDateString,
@@ -101,10 +98,11 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         }
       }))
   }, [FeesList]);
-  let ConcessionAmount = 0;
+        let ConcessionAmount = 0;
   FeesList.map((item, i) => {
     ConcessionAmount = item.ConcessionAmount
   })
+ 
  const IntFeeDetailsId= FeesList.map((item,i)=>{ 
     return item.InternalFeeDetailsId
   })
@@ -136,10 +134,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       returnString = 'StudentId=' + asStudentId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
         + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount='+FeesTotal + '&IsForInternalFee=1'
     }
-    // if (!CautionClick) { 
-    //   returnString ='StudentId='+asStudentId+ '&DueDates='+DueDate+'&Remarks=&SchoolwiseStudentFeeId='+StudentFeeId+
-    //   '&IsOnlineCautionMoneyPayment=1'
-    // }
     return returnString
   } 
   const clickPayOnlineLocal = () => {
