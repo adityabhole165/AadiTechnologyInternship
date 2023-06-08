@@ -28,7 +28,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-   const [IsSequenceSelect, setIsSequenceSelect] = useState(true);
+   const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
   // const paymentPageLink: any = useSelector(
   //   (state: RootState) => state.Fees.paymentUrl
   // );
@@ -71,7 +71,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     if(FeesList.length>0){
     let prevGroup = 0;
     let prevFeeId = "0";
-    setIsSequenceSelect(FeesList[0].ShowOptionButtonForAllEntry)
+    setIsSequenceSelect(!FeesList[0].ShowOptionButtonForAllEntry)
     setItemList(FeesList
       .filter((obj) => {       
          return ((internalFees == "internalFees" && obj.FeeDetailsId  == 0) || obj.AmountPayable !== "0") })
