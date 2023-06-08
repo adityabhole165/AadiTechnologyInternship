@@ -71,7 +71,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     if(FeesList.length>0){
     let prevGroup = 0;
     let prevFeeId = "0";
-    setIsSequenceSelect(!FeesList[0].ShowOptionButtonForAllEntry)
+    setIsSequenceSelect(FeesList[0].ShowOptionButtonForAllEntry)
     setItemList(FeesList
       .filter((obj) => {       
          return ((internalFees == "internalFees" && obj.FeeDetailsId  == 0) || obj.AmountPayable !== "0") })
@@ -173,7 +173,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           {itemList.length > 0 &&
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
               FeesCard={FeesCard}
-              IsSequenceSelect={IsSequenceSelect} />
+              IsSequenceSelect={IsSequenceSelect} 
+              isSingleSelect={!IsSequenceSelect}/>
           }
         </Grid>
       </Grid>
