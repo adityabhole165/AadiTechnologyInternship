@@ -9,7 +9,6 @@ import PaidFeesDetails from 'src/components/FeesNew/PaidFeesDetails'
 
 const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
      internalFees,ApplicableFee,TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline}) => {
-    console.log(FeesObject);
     
    
     const theme = useTheme();

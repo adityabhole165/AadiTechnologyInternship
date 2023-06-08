@@ -15,7 +15,7 @@ const PaidFeesDetailsCard = ({ item, onChange,FeesCard }) => {
                 }}
             >
                 <Grid container>
-                    <Grid item xs={2} display={'flex'} alignItems={'center'}>
+                    <Grid item xs={2} display={'flex'} mt={0.8}>
                         <Box ml={2}>
                         <CheckBox item={item} onChange={onChange} />
                         </Box>

@@ -64,10 +64,6 @@ function Fees() {
   );
 
   const paymentPageLink: any = useSelector((state: RootState) => state.Fees.paymentUrl);
-
-  // console.log("InternalFeeDetails",InternalFeeDetails);
-
-
   const NextYearDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearDetails
   );
@@ -100,6 +96,8 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiYearwiseStudentId: asStudentId
   };
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
+  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
+  let NextYrSchoolId = NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const body: IFees = {
     asSchoolId: asSchoolId,
@@ -117,8 +115,8 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
   const IGetInternalFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: currentYear,
-    aiStudentId: asStudentId,
-    abIsNextYearFeePayment:Number(currentYear) == 0 ?"0":"1"
+    aiStudentId: Number(currentYear) == NextYrId ?NextYrSchoolId :asStudentId ,
+    abIsNextYearFeePayment:Number(currentYear) == NextYrId ?"0":"1"
   }
 
   const IGetNextYearDetailsBody = {
@@ -133,7 +131,6 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiStandardId: asStandardId
 
   }
-  const NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
@@ -141,15 +138,15 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
   };
   
   useEffect(() => {
-    if(AcadamicYear.length>0){
+    if(AcadamicYear.length>0 && NextYearDetails!==null){
     let arr = AcadamicYear;
-      let arr2 = {id:NextYrId,
+      let arr2 = {id: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         Name: 'Advance Academic Year',
-        Value: NextYrId,
+        Value: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         YearType:''}
       setNewAcadamicYear([arr2,...arr])
     }
-  }, [AcadamicYear]);
+  }, [AcadamicYear,NextYearDetails]);
   useEffect(() => {
     localStorage.setItem("paymentPopUpCount", '0'); // Temporary fix to fee payment popup. Update code later
     localStorage.setItem('url', window.location.pathname);
@@ -239,21 +236,19 @@ const clickPayOnline = (value)=>{
         label={'Select Year'}
         defaultValue={currentYear}
       />
-      <br></br>
-      <br></br>
+    
       <ToggleButtonGroup
         value={showCaution}
         exclusive
-        onChange={handleChange}>
+        onChange={handleChange} sx={{my:1}}>
         <ToggleButton value={schoolFees} >School Fees</ToggleButton>
         <ToggleButton value={internalFees}>Internal Fees</ToggleButton>
       </ToggleButtonGroup>
-      <br></br>
-      <br></br>
+  
       {
         showCaution === schoolFees &&
 
-        <Grid container>
+        <Grid container sx={{mb:0.3}}>
           <Grid item xs={7.5}>
             <DotLegend1>
               <DotLegendStyled1
@@ -276,8 +271,8 @@ const clickPayOnline = (value)=>{
           </Grid>
         </Grid>}
 
-      <br></br>
-      <ListStyle sx={{ mb: 2 }} color="info">
+   
+      <ListStyle sx={{ mb: 1 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {ApplicableFee}

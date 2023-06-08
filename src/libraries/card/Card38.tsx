@@ -6,12 +6,11 @@ import { useTheme, Grid } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
-import Card5 from "./card5";
+import Card5Fees from "./Card5Fees";
 
 const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) => {
     const theme = useTheme();
     const classes = Styles();
-    console.log("Fee",Fee);
     
     return (
         <>
@@ -27,7 +26,7 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           sx={{
-            background: `${theme.colors.gradients.pink1}`
+            background: `${theme.colors.gradients.pink1}`, mb:1
           }}
         >
           <Header1
@@ -43,9 +42,11 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
-                  return item.FeeDetailsId !== 0  ? ( 
+               const paid= internalFees =="internalFees" ? item.FeeDetailsId !== 0 :item.AmountPayable == 0
+                  // return item.FeeDetailsId !== 0  ? ( 
+                    return paid  ? (
                   <>
-                  <Card5
+                  <Card5Fees
                    FileName={internalFees?item.FeeType + ":"+ " " + item.Amount:item.FeeType + ":"+ " " + item.FeesPaid}
                    Content={''}
                    Name={''}

@@ -182,7 +182,7 @@ export const BoxDetail1 = styled(Typography)`
 export const BoxDetail2 = styled(Typography)`
   font-weight: bold;
   font-size: 12px;
- width:250px;
+ width:200px;
   color: black;
   font-family: Roboto;
   // white-space: nowrap;
