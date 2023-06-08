@@ -235,21 +235,19 @@ const clickPayOnline = (value)=>{
         label={'Select Year'}
         defaultValue={currentYear}
       />
-      <br></br>
-      <br></br>
+    
       <ToggleButtonGroup
         value={showCaution}
         exclusive
-        onChange={handleChange}>
+        onChange={handleChange} sx={{my:1}}>
         <ToggleButton value={schoolFees} >School Fees</ToggleButton>
         <ToggleButton value={internalFees}>Internal Fees</ToggleButton>
       </ToggleButtonGroup>
-      <br></br>
-      <br></br>
+  
       {
         showCaution === schoolFees &&
 
-        <Grid container>
+        <Grid container sx={{mb:0.5}}>
           <Grid item xs={7.5}>
             <DotLegend1>
               <DotLegendStyled1
@@ -272,8 +270,8 @@ const clickPayOnline = (value)=>{
           </Grid>
         </Grid>}
 
-      <br></br>
-      <ListStyle sx={{ mb: 2 }} color="info">
+   
+      <ListStyle sx={{ mb: 1 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {ApplicableFee}
