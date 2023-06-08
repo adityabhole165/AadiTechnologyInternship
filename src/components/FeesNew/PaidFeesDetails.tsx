@@ -105,8 +105,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     ConcessionAmount = item.ConcessionAmount
   })
  
- const IntFeeDetailsId= FeesList.map((item,i)=>{ 
-    return item.InternalFeeDetailsId
+ const IntFeeDetailsId= itemList.map((item,i)=>{ 
+    return item.StudentFeeId
   })
   const FeeType = FeesList.map((item,i)=>{ 
     return item.FeeType
