@@ -96,6 +96,8 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiYearwiseStudentId: asStudentId
   };
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
+  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
+  let NextYrSchoolId = NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const body: IFees = {
     asSchoolId: asSchoolId,
@@ -113,8 +115,8 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
   const IGetInternalFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: currentYear,
-    aiStudentId: asStudentId,
-    abIsNextYearFeePayment:Number(currentYear) == 0 ?"0":"1"
+    aiStudentId: Number(currentYear) == NextYrId ?NextYrSchoolId :asStudentId ,
+    abIsNextYearFeePayment:Number(currentYear) == NextYrId ?"0":"1"
   }
 
   const IGetNextYearDetailsBody = {
@@ -129,7 +131,6 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiStandardId: asStandardId
 
   }
-  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
@@ -247,7 +248,7 @@ const clickPayOnline = (value)=>{
       {
         showCaution === schoolFees &&
 
-        <Grid container sx={{mb:0.5}}>
+        <Grid container sx={{mb:0.3}}>
           <Grid item xs={7.5}>
             <DotLegend1>
               <DotLegendStyled1

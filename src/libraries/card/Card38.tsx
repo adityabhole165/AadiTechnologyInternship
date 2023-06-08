@@ -6,7 +6,7 @@ import { useTheme, Grid } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
-import Card5 from "./card5";
+import Card5Fees from "./Card5Fees";
 
 const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) => {
     const theme = useTheme();
@@ -46,7 +46,7 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
                   // return item.FeeDetailsId !== 0  ? ( 
                     return paid  ? (
                   <>
-                  <Card5
+                  <Card5Fees
                    FileName={internalFees?item.FeeType + ":"+ " " + item.Amount:item.FeeType + ":"+ " " + item.FeesPaid}
                    Content={''}
                    Name={''}
