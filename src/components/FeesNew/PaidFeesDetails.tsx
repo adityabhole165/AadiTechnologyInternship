@@ -28,7 +28,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-   
+   const [IsSequenceSelect, setIsSequenceSelect] = useState(true);
   // const paymentPageLink: any = useSelector(
   //   (state: RootState) => state.Fees.paymentUrl
   // );
@@ -68,9 +68,10 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   }, []);
 
   useEffect(() => {
+    if(FeesList.length>0){
     let prevGroup = 0;
     let prevFeeId = "0";
-    
+    setIsSequenceSelect(!FeesList[0].ShowOptionButtonForAllEntry)
     setItemList(FeesList
       .filter((obj) => {       
          return ((internalFees == "internalFees" && obj.FeeDetailsId  == 0) || obj.AmountPayable !== "0") })
@@ -97,6 +98,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || item.StudentFeeId)
         }
       }))
+    }
   }, [FeesList]);
         let ConcessionAmount = 0;
   FeesList.map((item, i) => {
@@ -171,7 +173,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           {itemList.length > 0 &&
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
               FeesCard={FeesCard}
-              IsSequenceSelect={true} />
+              IsSequenceSelect={IsSequenceSelect} />
           }
         </Grid>
       </Grid>
