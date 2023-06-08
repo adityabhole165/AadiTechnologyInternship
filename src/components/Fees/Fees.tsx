@@ -64,10 +64,6 @@ function Fees() {
   );
 
   const paymentPageLink: any = useSelector((state: RootState) => state.Fees.paymentUrl);
-
-  // console.log("InternalFeeDetails",InternalFeeDetails);
-
-
   const NextYearDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearDetails
   );
@@ -133,7 +129,7 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiStandardId: asStandardId
 
   }
-  const NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
+  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
@@ -141,15 +137,15 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
   };
   
   useEffect(() => {
-    if(AcadamicYear.length>0){
+    if(AcadamicYear.length>0 && NextYearDetails!==null){
     let arr = AcadamicYear;
-      let arr2 = {id:NextYrId,
+      let arr2 = {id: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         Name: 'Advance Academic Year',
-        Value: NextYrId,
+        Value: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         YearType:''}
       setNewAcadamicYear([arr2,...arr])
     }
-  }, [AcadamicYear]);
+  }, [AcadamicYear,NextYearDetails]);
   useEffect(() => {
     localStorage.setItem("paymentPopUpCount", '0'); // Temporary fix to fee payment popup. Update code later
     localStorage.setItem('url', window.location.pathname);

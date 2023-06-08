@@ -11,7 +11,6 @@ import Card5 from "./card5";
 const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) => {
     const theme = useTheme();
     const classes = Styles();
-    console.log("Fee",Fee);
     
     return (
         <>
@@ -43,7 +42,9 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
-                  return item.FeeDetailsId !== 0  ? ( 
+               const paid= internalFees =="internalFees" ? item.FeeDetailsId !== 0 :item.AmountPayable == 0
+                  // return item.FeeDetailsId !== 0  ? ( 
+                    return paid  ? (
                   <>
                   <Card5
                    FileName={internalFees?item.FeeType + ":"+ " " + item.Amount:item.FeeType + ":"+ " " + item.FeesPaid}

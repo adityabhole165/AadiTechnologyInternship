@@ -2,7 +2,6 @@ import React from 'react'
 import Note from 'src/libraries/Note/Note';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution }) {
-  console.log("IspaidCautionMoney",IspaidCautionMoney );
   
   return (
     <div>
