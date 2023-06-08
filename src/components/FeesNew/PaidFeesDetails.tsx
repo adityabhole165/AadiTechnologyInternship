@@ -28,7 +28,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-   console.log("totalamountt",totalamountt);
    
   // const paymentPageLink: any = useSelector(
   //   (state: RootState) => state.Fees.paymentUrl
