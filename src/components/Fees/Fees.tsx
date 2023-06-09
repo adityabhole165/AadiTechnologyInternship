@@ -35,72 +35,52 @@ const note = [
 
 ];
 function Fees() {
+  const theme = useTheme();
+  const classes = Styles();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
-
-  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);  
-  const [IsCautionClick,setIsCautionClick] = useState(false)
-  
-  const [YearType, setYearType] = useState("C")
-  const [newAcadamicYear,setNewAcadamicYear]= useState([])
-  // const [internalFees, setInternalFees] = useState("")
-  const schoolFees = "SchoolFees";
-  const internalFees = "internalFees";
-
-  const FeesList2: any = useSelector(
-    (state: RootState) => state.Fees.FeesData2
-  );
-  const AcadamicYear: any = useSelector(
-    (state: RootState) => state.Fees.YearList
-  );
-
-  const FeesDetailsOfOldAcademic: any = useSelector(
-    (state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic
-  );
-
-  const InternalFeeDetails: any = useSelector(
-    (state: RootState) => state.Fees.InternalFeeDetails
-  );
-
-  const paymentPageLink: any = useSelector((state: RootState) => state.Fees.paymentUrl);
-  const NextYearDetails: any = useSelector(
-    (state: RootState) => state.Fees.GetNextYearDetails
-  );
-  const OldstudentDetails:any = useSelector((state:RootState)=>state.Fees.GetOldStudentDetails)  
-  const GetNextYearFeeDetails: any = useSelector(
-    (state: RootState) => state.Fees.GetNextYearFeeDetails
-  );
-const IsOnlinePaymetCautionMoney: any = useSelector(
-  (state:RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney
-)
-  const Feedata = {
-    Fee1: 'Fee Type',
-    Fee2: 'Amount + Late Fees : ',
-    Fee3: 'Receipt'
-  };
-  const FeeAmount = {
-    Sum1: 'Paid Fees',
-    Sum2: 'Payable Fees',
-    Sum3: 'Late Fee',
-    Sum4: 'Applicable Fees'
-  };
-  const Note2: string = '*RITE student (100%  Concession on school fees)';
-  const [showCaution, setShowCaution] = useState(schoolFees);
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardId = sessionStorage.getItem('StandardId');
+  const [YearType, setYearType] = useState("C")
+  const schoolFees = "SchoolFees";
+  const internalFees = "internalFees";
+  const [showCaution, setShowCaution] = useState(schoolFees);
+  const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
+  const [IsCautionClick,setIsCautionClick] = useState(false)
+  const [newAcadamicYear,setNewAcadamicYear]= useState([])
+  const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
+
+
+  const FeesList = useSelector((state: RootState) => state.Fees.FeesData);  
+  const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
+  const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
+  const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
+  const InternalFeeDetails: any = useSelector( (state: RootState) => state.Fees.InternalFeeDetails);
+  const paymentPageLink: any = useSelector((state: RootState) => state.Fees.paymentUrl);
+  const NextYearDetails: any = useSelector((state: RootState) => state.Fees.GetNextYearDetails);
+  const OldstudentDetails:any = useSelector((state:RootState)=>state.Fees.GetOldStudentDetails)  
+  const GetNextYearFeeDetails: any = useSelector((state: RootState) => state.Fees.GetNextYearFeeDetails);
+  const IsOnlinePaymetCautionMoney: any = useSelector((state:RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
+ 
+  let OldInternalstudent = OldstudentDetails ==null?0:OldstudentDetails.StudentId
+  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
+  let NextYrSchoolId = NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId
+  const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
+  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee  
+  const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
+  
+  const Feedata = { Fee1: 'Fee Type', Fee2: 'Amount + Late Fees : ',Fee3: 'Receipt' };
+  const FeeAmount = { Sum1: 'Paid Fees',Sum2: 'Payable Fees',Sum3: 'Late Fee',Sum4: 'Applicable Fees'};
+  const note1 = ['1) *RTE student (100% concession on school fees)'];
+  const Note2: string = '*RITE student (100%  Concession on school fees)';
 
   const body1: GetAllAcademicYearsApiBody = {
     aiSchoolId: asSchoolId,
     aiYearwiseStudentId: asStudentId
   };
-  const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
-  let OldInternalstudent = OldstudentDetails ==null?0:OldstudentDetails.StudentId
-  let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
-  let NextYrSchoolId = NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId
-  const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
+ 
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId,
@@ -153,6 +133,7 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
       setNewAcadamicYear([arr2,...arr])
     }
   }, [AcadamicYear,NextYearDetails]);
+
   useEffect(() => {
     localStorage.setItem("paymentPopUpCount", '0'); // Temporary fix to fee payment popup. Update code later
     localStorage.setItem('url', window.location.pathname);
@@ -163,20 +144,19 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
   }, []);
+
   useEffect(() => {
     dispatch(getOldstudentDetails(IOldStudentDetails));
   }, [currentYear,]);
+
   useEffect(() => {
-    
       if (showCaution == internalFees) {
         dispatch(getInternalFeeDetails(IGetInternalFeeDetailsBody));
       } else  if (currentYear == (NextYearDetails==null?0:NextYearDetails.NextAcademicYearId)) {
         dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
       } else
         dispatch(getFees(body));
-    
   }, [showCaution, currentYear]);
-
 
   useEffect(() => {
     if (paymentPageLink !== "") {
@@ -185,14 +165,14 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
       };
       openCapacitorSite(paymentPageLink)
       navigate('/extended-sidebar/Student/PayOnline')
-    }
-   
+    } 
   }, [paymentPageLink]);
-const clickCaution = (value)=>{;
 
+const clickCaution = (value)=>{;
   const authData = JSON.parse(localStorage.getItem("auth"));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
   let returnString ='StudentId='+asStudentId+ '&DueDates=' +'&Remarks=&SchoolwiseStudentFeeId=0'+ '&IsOnlineCautionMoneyPayment=1'
+  
   const body: IPayOnline = {
     asSchoolId: localStorage.getItem('localSchoolId'),
     asUserLogin: userLoginId,
@@ -205,36 +185,25 @@ const clickCaution = (value)=>{;
   dispatch(payOnline(body));
 }
 const clickPayOnline = (value)=>{
-  
   dispatch(payOnline(value));
 }
-  const clickYear = (value) => {
+const clickYear = (value) => {
     AcadamicYear.map((item) => {
       if (item === value) {
         setYearType(item.YearType)
       }
     })
     setCurrentyear(value);
-  };
+};
 
-  const handleChange = (
+const handleChange = (
     event: React.MouseEvent<HTMLElement>,
     newShowCaution: string,
   ) => {
     if (newShowCaution != null)
       setShowCaution(newShowCaution);
-  };
-
-  const theme = useTheme();
-
-
-  const classes = Styles();
-  const note1 = ['1) *RTE student (100% concession on school fees)'];
-  const PayInternalFees = () => {
-    navigate('PayinternalFees')
-  };
-  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee  
-  const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
+};
+  
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -273,13 +242,11 @@ const clickPayOnline = (value)=>{
                 className={classes.border}
                 sx={{ background: '#64b5f6' }}
               />
-
               <CardDetail7>Refunded Fees</CardDetail7>
             </DotLegend1>
           </Grid>
         </Grid>}
 
-   
       <ListStyle sx={{ mb: 1 }} color="info">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
@@ -298,14 +265,12 @@ const clickPayOnline = (value)=>{
         />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution}/>
-      {/* {FeesList2.PaymentNotes !== 0 &&  */}
       <NoteStyle >
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
           return<Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
             </Box>
-
         })}
       </NoteStyle>
       {asSchoolId == "11" && <>
