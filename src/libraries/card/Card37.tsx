@@ -7,9 +7,9 @@ import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PaidFeesDetails from 'src/components/FeesNew/PaidFeesDetails'
 
-const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
-     internalFees,ApplicableFee,TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,
-     clickPayOnline,OldInternalstudent}) => {
+const Card37 = ({ expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
+    internalFees, ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,
+    clickPayOnline, OldInternalstudent }) => {
     const theme = useTheme();
     const classes = Styles();
     return (
@@ -39,10 +39,10 @@ const Card37 = ({expanded, handleChange, FeesObject, currentYear, IsForCurrentye
                 <AccordionDetails>
 
                     < PaidFeesDetails currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
-                     OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} FeesObject={FeesObject}
-                     ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId}
-                      NextYearID={NextYearID} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney}
-                       clickPayOnline={clickPayOnline}  OldInternalstudent={OldInternalstudent}/>
+                        OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} FeesObject={FeesObject}
+                        ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId}
+                        NextYearID={NextYearID} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney}
+                        clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent} />
 
                 </AccordionDetails>
             </Accordion>

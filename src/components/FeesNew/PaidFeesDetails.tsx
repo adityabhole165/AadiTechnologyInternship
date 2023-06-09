@@ -6,7 +6,6 @@ import IFees, { IPayOnline } from 'src/interfaces/Student/Fees';
 import { getFees, payOnline } from 'src/requests/Fees/Fees';
 import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
-import { useNavigate } from 'react-router';
 import FeesCard from './FeesCard';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 
@@ -15,57 +14,48 @@ import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
    ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline,
-   OldInternalstudent}) => {   
-  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const navigate = useNavigate()
+   OldInternalstudent}) => {  
+    const dispatch = useDispatch();
+
+    const asSchoolId = localStorage.getItem('localSchoolId')
+    const StandardId = sessionStorage.getItem('StandardId');
+    const sStudentId = sessionStorage.getItem('StudentId')
+    const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId')) 
+  const authData = JSON.parse(localStorage.getItem("auth"));
+
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
-  const dispatch = useDispatch();
-  const authData = JSON.parse(localStorage.getItem("auth"));
+  const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
+
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin
-  const asSchoolId = localStorage.getItem('localSchoolId')
-  const StandardId = sessionStorage.getItem('StandardId');
-  const sStudentId = sessionStorage.getItem('StudentId')
-  const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId 
    const totalamountt = FeesTotal - TotalLateFee;   
-   const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
-  // const paymentPageLink: any = useSelector(
-  //   (state: RootState) => state.Fees.paymentUrl
-  // );
+   const IntFeeDetailsId= itemList.map((item,i)=>{return item.StudentFeeId})
+  const OldInternalstudentId =  currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId 
+  const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const FeeType = FeesList.map((item,i)=>{return item.FeeType})
+  let ConcessionAmount = 0;
+  FeesList.map((item, i) => {ConcessionAmount = item.ConcessionAmount})
  
-  const OnlinePaymentForInternalFee: any = useSelector(
-    (state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee
-  );
+  const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
+  
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: aiAcademicYearId,
     asKey: "",
   };
-  useEffect(() => {
-    dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
-  }, []);
-  const RefreshData = (value) => {
-    setItemList(value)
-    let Total = 0;
-    value.map((item) => {
-    const amount = internalFees = "internalFees" ? item.Text3 : item.AmountPayable
-    if (item.IsActive) 
-      Total += parseInt(amount) + parseInt(item.LateFeeAmount)
-    })
-    setFeesTotal(Total)
-  }
+
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId,
     aiAcademicYearId: aiAcademicYearId,
     abIsForCurrentYear: true
   };
-
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
+    dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
   }, []);
 
   useEffect(() => {
@@ -101,19 +91,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       }))
     }
   }, [FeesList]);
-        let ConcessionAmount = 0;
-  FeesList.map((item, i) => {
-    ConcessionAmount = item.ConcessionAmount
-  })
- 
- const IntFeeDetailsId= itemList.map((item,i)=>{ 
-    return item.StudentFeeId
-  })
-  const FeeType = FeesList.map((item,i)=>{ 
-    return item.FeeType
-  })
-  const OldInternalstudentId =  currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId 
-  const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
+  
   const getQueryString = (StudentFeeId, DueDate, FeeType) => {
     let returnString = ""
     let IsForNextYear = Number(currentYear) == NextYearID?"Y":"N"
@@ -158,9 +136,17 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
     };
     clickPayOnline(body);
-
   }
-
+  const RefreshData = (value) => {
+    setItemList(value)
+    let Total = 0;
+    value.map((item) => {
+    const amount = internalFees = "internalFees" ? item.Text3 : item.AmountPayable
+    if (item.IsActive) 
+      Total += parseInt(amount) + parseInt(item.LateFeeAmount)
+    })
+    setFeesTotal(Total)
+  }
   return (
     <div>
       <Grid container>
