@@ -74,7 +74,7 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, O
        handleChange={handleChange} currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
         OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} ApplicableFee={ApplicableFee}
         TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID}
-        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} />
+        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent} />
   
   );
 }

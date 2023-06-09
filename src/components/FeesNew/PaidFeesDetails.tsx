@@ -14,7 +14,8 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
-   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline }) => {   
+   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline,
+   OldInternalstudent}) => {   
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -111,7 +112,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const FeeType = FeesList.map((item,i)=>{ 
     return item.FeeType
   })
-  
+  const OldInternalstudentId =  currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId 
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
   const getQueryString = (StudentFeeId, DueDate, FeeType) => {
     let returnString = ""
@@ -128,12 +129,12 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0'
     }
     if (Number(currentYear) < aiAcademicYearId) {
-      returnString = 'StudentId=' + OldYearwiseStudentId + '&DueDates=' + DueDate +
+      returnString = 'StudentId=' + OldInternalstudentId + '&DueDates=' + DueDate +
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId=' + currentYear +
         '&IsOldAcademicYearPayment=' + IsForCurrentYear
     }
     if (internalFees == "internalFees") { //internal
-      returnString = 'StudentId=' + asStudentId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
+      returnString = 'StudentId='+OldInternalstudentId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee
         + '&IsForNextYear=' + IsForNextYear + '&AcadmicYearId=' + currentYear + '&TotalAmount='+FeesTotal + '&IsForInternalFee=1'
     }
     return returnString

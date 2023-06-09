@@ -67,7 +67,7 @@ function Fees() {
   const NextYearDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearDetails
   );
-  const OldstudentDetails:any = useSelector((state:RootStateOrAny)=>state.Fees.GetOldStudentDetails) 
+  const OldstudentDetails:any = useSelector((state:RootState)=>state.Fees.GetOldStudentDetails)  
   const GetNextYearFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearFeeDetails
   );
@@ -130,7 +130,6 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiAcademicYearId:currentYear,
     aiStudentId:asStudentId
 }
-
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails==null?0:NextYearDetails.NextAcademicYearId,
@@ -163,8 +162,10 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     dispatch(getYearList(body1));
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
-    dispatch(getOldstudentDetails(IOldStudentDetails));
   }, []);
+  useEffect(() => {
+    dispatch(getOldstudentDetails(IOldStudentDetails));
+  }, [currentYear,]);
   useEffect(() => {
     
       if (showCaution == internalFees) {
