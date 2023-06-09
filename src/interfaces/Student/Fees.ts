@@ -206,3 +206,16 @@ export interface NextYearFeeDetails {
         PaymentGroup: number,
         ConcessionAmount:number
 }
+
+//old student id 
+export interface IGetOldStudentDetailsBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStudentId: string
+}
+ export interface IGetOldStudentDetailsResult {
+        OldStudentDetails: {
+        StudentId: string,
+        StandardDivisionId: string,
+    }
+ }

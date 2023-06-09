@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { getFees, getYearList } from 'src/requests/Fees/Fees';
+import { RootStateOrAny, useDispatch } from 'react-redux';
+import { getFees, getOldstudentDetails, getYearList } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
@@ -67,6 +67,7 @@ function Fees() {
   const NextYearDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearDetails
   );
+  const OldstudentDetails:any = useSelector((state:RootStateOrAny)=>state.Fees.GetOldStudentDetails) 
   const GetNextYearFeeDetails: any = useSelector(
     (state: RootState) => state.Fees.GetNextYearFeeDetails
   );
@@ -96,6 +97,7 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiYearwiseStudentId: asStudentId
   };
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
+  let OldInternalstudent = OldstudentDetails ==null?0:OldstudentDetails.StudentId
   let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
@@ -123,6 +125,11 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     aiSchoolId: asSchoolId,
     aiStudentId: asStudentId
   }
+  const IOldStudentDetails ={
+    aiSchoolId:asSchoolId,
+    aiAcademicYearId:currentYear,
+    aiStudentId:asStudentId
+}
 
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
@@ -156,7 +163,7 @@ const IsOnlinePaymetCautionMoney: any = useSelector(
     dispatch(getYearList(body1));
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
-    // dispatch(getNextYearFeeDetails(IGetNextYearFeeDetailsBody));
+    dispatch(getOldstudentDetails(IOldStudentDetails));
   }, []);
   useEffect(() => {
     
@@ -286,7 +293,7 @@ const clickPayOnline = (value)=>{
         TotalLateFee={FeesList2.TotalLateFee}
         NextYearID={NextYearDetails==null?0:NextYearDetails.NextAcademicYearId}
         SchoolwiseStudentId={NextYearDetails==null?0:NextYearDetails.SchoolwiseStudentId}
-        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline}
+        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent}
         />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution}/>

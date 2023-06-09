@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 import { getDateFormat } from 'src/components/Common/Util';
 
@@ -18,7 +18,7 @@ const Feesslice = createSlice({
     InternalFeeDetails: [],
     GetNextYearDetails: null,
     GetNextYearFeeDetails: [],
-
+    GetOldStudentDetails:null
   },
 
 
@@ -61,8 +61,11 @@ const Feesslice = createSlice({
       // state.GetNextYearFeeDetails = action.payload;
       state.FeesData = action.payload.FeeDetails;
       state.FeesData2 = action.payload;
+    },
+    getOldStudentDetails(state, action) {
+      state.GetOldStudentDetails = action.payload;
 
-    }
+    },
   }
 });
 
@@ -193,6 +196,12 @@ export const getNextYearDetails =
       const response = await FeesApi.GetNextYearDetails(data);
       dispatch(Feesslice.actions.getNextYearDetails(response.data?.NextAcademicDetails));
 
+    };
+    export const getOldstudentDetails =
+  (data: IGetOldStudentDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.GetOldStudentDetails(data);
+      dispatch(Feesslice.actions.getOldStudentDetails(response.data?.OldStudentDetails));
     };
 
 //GetNextYearFeeDetails

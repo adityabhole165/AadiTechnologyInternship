@@ -14,7 +14,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
-   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline }) => {
+   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,clickPayOnline }) => {   
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const navigate = useNavigate()
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
@@ -130,7 +130,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     if (Number(currentYear) < aiAcademicYearId) {
       returnString = 'StudentId=' + OldYearwiseStudentId + '&DueDates=' + DueDate +
         '&Remarks=&SchoolwiseStudentFeeId=' + StudentFeeId + '&IsOnlineCautionMoneyPayment=0' + '&AcadmicYearId=' + currentYear +
-        '&IsOldAcademicYearPayment=' + IsForCurrentyear
+        '&IsOldAcademicYearPayment=' + IsForCurrentYear
     }
     if (internalFees == "internalFees") { //internal
       returnString = 'StudentId=' + asStudentId + '&InternalFeeDetailsId=' + IntFeeDetailsId.toString() + '&IsOnlineInternalFeePayment='+OPaymentForInternalFee

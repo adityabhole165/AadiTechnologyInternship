@@ -25,7 +25,7 @@ Card27.propTypes = {
 };
 
 function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,
-  ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline }) {
+  ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,OldInternalstudent }) {
   const [expanded, setExpanded] = useState<string | false>(false);
 
   const handleChange = (panel) => (event, isExpanded) => {
