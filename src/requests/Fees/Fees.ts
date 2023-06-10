@@ -170,7 +170,6 @@ export const getInternalFeeDetails =
           PaymentGroup:1,
           RefundDetailsID:"0",
           RowNumber:1,
-          ShowOptionButtonForAllEntry:true,
           StudentFeeId:"",
           FeeDetailsId:item.FeeDetailsId
         }
@@ -252,7 +251,6 @@ export const getNextYearFeeDetails =
           PaymentGroup:item.PaymentGroup,
           RefundDetailsID:"0",
           RowNumber:item.RowNumber,
-          ShowOptionButtonForAllEntry:true,
           StudentFeeId:"",
           ConcessionAmount:item.ConcessionAmount
         }

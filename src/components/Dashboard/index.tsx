@@ -259,12 +259,10 @@ function LandingPage() {
   let header3 = RoleId === '6' || RoleId === '2'  ? 'Communication' : 'Exam & Communication';
   let header4 = RoleId === '1' && 'Communication'
   const [forceUpdate, setForceUpdate] = useState(false)
-  const onChangeVersion = () => {
-    navigate('../../../UpgradeApp');
-  }
+  
   return (
     <>
-      <NewRelease onChangeVersion={onChangeVersion} />
+      <NewRelease/> 
       {showBday && <BdayPopUp />}
       <Card2 items={items1} heading={'School'} rowsCol="4"
         Messagecount={Messagecount.MESSAGECOUNT} ExternalLibrarySite={ExternalLibrarySite}></Card2>
