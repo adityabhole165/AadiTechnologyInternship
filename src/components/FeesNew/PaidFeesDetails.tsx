@@ -111,7 +111,10 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             AmountPayable: item.AmountPayable,
             LateFeeAmount: item.LateFeeAmount,
             DueDate: item.DueDateString,
-            StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || item.StudentFeeId)
+            FeeType: item.FeeType,
+            StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || 
+            (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
+            )
           }
         }))
     }
@@ -143,12 +146,13 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     return returnString
   }
   const clickPayOnlineLocal = () => {
-    let DueDate, StudentFeeId = "", FeeType = ""
+    let DueDate="", StudentFeeId = "0", FeeType = ""
+    
     itemList.map((item) => {
       if (item.IsActive) {
-        DueDate = item.DueDate
-        StudentFeeId = item.StudentFeeId
-        FeeType = item.Text1
+        DueDate = DueDate + item.DueDate + ','
+        StudentFeeId = item.StudentFeeId 
+        FeeType = item.FeeType
       }
     })
     const body: IPayOnline = {
