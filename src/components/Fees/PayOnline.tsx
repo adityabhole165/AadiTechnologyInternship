@@ -63,9 +63,9 @@ const getQueryString = () => {
     asRedirectPageUrl:
       localStorage.getItem('SiteURL') + '/RITeSchool/Accountant/PayFeeOnline.aspx?'
   };
-  useEffect(() => {
-    dispatch(payOnline(body));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(payOnline(body));
+  // }, []);
 
   // Temporary fix to fee payment popup. Update code later
   return (

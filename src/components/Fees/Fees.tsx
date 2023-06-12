@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getFees, getOldstudentDetails, getYearList } from 'src/requests/Fees/Fees';
+import { getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
@@ -165,7 +165,9 @@ function Fees() {
       };
       openCapacitorSite(paymentPageLink)
       navigate('/extended-sidebar/Student/PayOnline')
+      dispatch(resetPaymentUrl())
     } 
+    
   }, [paymentPageLink]);
 
 const clickCaution = (value)=>{;

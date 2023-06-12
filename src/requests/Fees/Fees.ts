@@ -32,7 +32,10 @@ const Feesslice = createSlice({
     payOnline(state, action) {
       state.paymentUrl = action.payload.GetSingleSignOnPageEncryptedURLResult
     },
-
+    resetPaymentUrl(state) {
+      state.paymentUrl = ""
+    },
+    
     getReceiptFileName(state, action) {
       state.ReceiptFileName = action.payload
     },
@@ -77,13 +80,19 @@ export const getFees =
       dispatch(Feesslice.actions.getFees(response.data));
     };
 
-export const payOnline =
-  (data: IPayOnline): AppThunk =>
-    async (dispatch) => {
-      const response = await FeesApi.getPaymentUrl(data);
-      dispatch(Feesslice.actions.payOnline(response.data));
-    };
+    export const payOnline =
+    (data: IPayOnline): AppThunk =>
+      async (dispatch) => {
+        const response = await FeesApi.getPaymentUrl(data);
+        dispatch(Feesslice.actions.payOnline(response.data));
+      };
 
+      export const resetPaymentUrl =
+      (): AppThunk =>
+        async (dispatch) => {
+          dispatch(Feesslice.actions.resetPaymentUrl());
+        };
+      
 export const getReceiptFileName =
   (data: IGetReceiptFileName): AppThunk =>
     async (dispatch) => {

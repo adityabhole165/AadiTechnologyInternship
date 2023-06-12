@@ -3,7 +3,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import SelectSequenceList from './SelectSequenceList';
 import { useDispatch } from 'react-redux';
 import IFees, { IPayOnline } from 'src/interfaces/Student/Fees';
-import { getFees, payOnline } from 'src/requests/Fees/Fees';
+import { getFees } from 'src/requests/Fees/Fees';
 import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
 import FeesCard from './FeesCard';
