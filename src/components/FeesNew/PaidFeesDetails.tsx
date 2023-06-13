@@ -25,6 +25,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
 
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
+  
   const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
   const [isSingleSelect, setisSingleSelect] = useState(false);
 
@@ -32,6 +33,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId
   const totalamountt = FeesTotal - TotalLateFee;
   const IntFeeDetailsId = itemList.map((item, i) => { return item.StudentFeeId })
+  
   const OldInternalstudentId = currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
@@ -65,7 +67,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       let prevFeeId = "0";
       //SNS
       if (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry) {
-        console.log("sns")
           setIsSequenceSelect(false)
           if (Number(currentYear) === NextYearID)
             setisSingleSelect(false)
@@ -74,7 +75,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       }
       //Non SNS
       else {
-        console.log("OTHERS")
 
         setisSingleSelect(false)
         if (Number(currentYear) === NextYearID) {
@@ -112,14 +112,15 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             LateFeeAmount: item.LateFeeAmount,
             DueDate: item.DueDateString,
             FeeType: item.FeeType,
-            StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || 
+            StudentFeeId:(internalFees == "internalFees" ? item.InternalFeeDetailsId: 
             (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
+            // StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || 
+            // (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
             )
           }
         }))
     }
   }, [FeesList]);
-  
   const getQueryString = (StudentFeeId, DueDate, FeeType) => {
     let returnString = ""
     let IsForNextYear = Number(currentYear) == NextYearID ? "Y" : "N"
