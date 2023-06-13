@@ -4,7 +4,16 @@ import PaidFeesDetailsCard from './PaidFeesDetailsCard'
 const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
     isSingleSelect = false, IsSequenceSelect = false }) => {
     const [isFirstTime, setIsFirstTime] = useState(true)
-    if (isFirstTime) {
+
+    const IsAllDisabled = () => {
+        let bIsAllDisabled = true
+        Itemlist.map((item) => {
+            if (item.IsEnabled)
+                bIsAllDisabled = false
+        })
+        return bIsAllDisabled
+    }
+    if (isFirstTime || IsAllDisabled()) {
         Itemlist = Itemlist.map((Item, Index) => (
             { ...Item, IsEnabled: (IsSequenceSelect && Index === 0 || !IsSequenceSelect) ? true : false }
         ))
