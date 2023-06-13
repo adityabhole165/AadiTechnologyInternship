@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney,getEnableadvanceFeepayment } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 
@@ -63,6 +63,7 @@ function Fees() {
   const OldstudentDetails:any = useSelector((state:RootState)=>state.Fees.GetOldStudentDetails)  
   const GetNextYearFeeDetails: any = useSelector((state: RootState) => state.Fees.GetNextYearFeeDetails);
   const IsOnlinePaymetCautionMoney: any = useSelector((state:RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
+  const AllowAdvancePayment: any = useSelector((state:RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
  
   let OldInternalstudent = OldstudentDetails ==null?0:OldstudentDetails.StudentId
   let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
@@ -122,18 +123,22 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-  
+
   useEffect(() => {
-    if(AcadamicYear.length>0 && NextYearDetails!==null){
     let arr = AcadamicYear;
+  if(AllowAdvancePayment){ 
+    if(AcadamicYear.length>0 && NextYearDetails!==null){
       let arr2 = {id: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         Name: 'Advance Academic Year',
         Value: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         YearType:''}
       setNewAcadamicYear([arr2,...arr])
     }
+  } 
+  if(AcadamicYear.length>0){
+  setNewAcadamicYear(arr)
+  }
   }, [AcadamicYear,NextYearDetails]);
-
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
   }, []);
@@ -142,6 +147,7 @@ function Fees() {
     dispatch(getYearList(body1));
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
+    dispatch(getEnableadvanceFeepayment(GetSettingValueBody))
   }, []);
 
   useEffect(() => {
