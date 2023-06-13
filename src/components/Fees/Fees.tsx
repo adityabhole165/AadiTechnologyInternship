@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney,getEnableadvanceFeepayment } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney,getEnableadvanceFeepayment,EnableAdvancefeePayment } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 
@@ -63,7 +63,9 @@ function Fees() {
   const OldstudentDetails:any = useSelector((state:RootState)=>state.Fees.GetOldStudentDetails)  
   const GetNextYearFeeDetails: any = useSelector((state: RootState) => state.Fees.GetNextYearFeeDetails);
   const IsOnlinePaymetCautionMoney: any = useSelector((state:RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
+  const AllowAdvancePaymentforStudent: any = useSelector((state:RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state:RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
+
  
   let OldInternalstudent = OldstudentDetails ==null?0:OldstudentDetails.StudentId
   let NextYrId = NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId
@@ -123,10 +125,9 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-
   useEffect(() => {
     let arr = AcadamicYear;
-  if(AllowAdvancePayment){ 
+  if(AllowAdvancePaymentforStudent == true && AllowAdvancePayment == true){ 
     if(AcadamicYear.length>0 && NextYearDetails!==null){
       let arr2 = {id: NextYearDetails ==null?0:NextYearDetails.NextAcademicYearId,
         Name: 'Advance Academic Year',
@@ -134,10 +135,10 @@ function Fees() {
         YearType:''}
       setNewAcadamicYear([arr2,...arr])
     }
-  } 
+  } else{
   if(AcadamicYear.length>0){
   setNewAcadamicYear(arr)
-  }
+  }}
   }, [AcadamicYear,NextYearDetails]);
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
@@ -148,6 +149,7 @@ function Fees() {
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     dispatch(getEnableadvanceFeepayment(GetSettingValueBody))
+    dispatch(EnableAdvancefeePayment(GetSettingValueBody))
   }, []);
 
   useEffect(() => {

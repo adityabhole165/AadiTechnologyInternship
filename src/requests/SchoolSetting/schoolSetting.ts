@@ -16,7 +16,8 @@ const SchoolSettingSlice = createSlice({
     AllowStudentPhotoUploadFromStudentLogin:false,
     EnableOnlinePaymentForInternalFee:false,
     OnlinePaymentForCautionMoney:false,
-    EnableAdvanceFeePaymentForStudent:false
+    EnableAdvanceFeePaymentForStudent:false,
+    EnableAdvanceFeePayment:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -50,10 +51,12 @@ const SchoolSettingSlice = createSlice({
     getOnlinePaymentCaution(state,action){
       state.OnlinePaymentForCautionMoney = action.payload;
     },
-    getEnableAdvanceFeePayment(state,action){
+    getEnableAdvanceFeePaymentforStudent(state,action){
       state.EnableAdvanceFeePaymentForStudent = action.payload;
+    },
+    getEnableAdvancefeepayment(state,action){
+      state.EnableAdvanceFeePayment = action.payload;
     }
-
   }
 });
 
@@ -174,14 +177,27 @@ export const getLibrarySchoolSetting =
     export const getEnableadvanceFeepayment =
     (data: IGetSettingValueBody): AppThunk =>
       async (dispatch) => {
-        let AllowOnlinePayment = false
+        let AllowOnlinePaymentforStudent = false
         data.asKey = "EnableAdvanceFeePaymentForStudent";
+        let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            AllowOnlinePaymentforStudent = true;
+          }
+        }
+        dispatch(SchoolSettingSlice.actions.getEnableAdvanceFeePaymentforStudent(AllowOnlinePaymentforStudent));
+      }
+      export const EnableAdvancefeePayment =
+    (data: IGetSettingValueBody): AppThunk =>
+      async (dispatch) => {
+        let AllowOnlinePayment = false
+        data.asKey = "EnableAdvanceFeePayment";
         let response = await SchoolSettingApi.GetSettingValueapi(data)
         if (response.data.GetSettingValueResult) {
           {
             AllowOnlinePayment = true;
           }
         }
-        dispatch(SchoolSettingSlice.actions.getEnableAdvanceFeePayment(AllowOnlinePayment));
+        dispatch(SchoolSettingSlice.actions.getEnableAdvancefeepayment(AllowOnlinePayment));
       }
 export default SchoolSettingSlice.reducer
