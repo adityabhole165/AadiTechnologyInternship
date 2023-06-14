@@ -175,6 +175,7 @@ export interface IGetNextYearDetailsResult {
         NextAcademicDetails: {
                 SchoolwiseStudentId: string,
                 NextAcademicYearId: string,
+                NextStandardId:string
         }
 }
 

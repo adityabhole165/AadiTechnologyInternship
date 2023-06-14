@@ -70,6 +70,7 @@ function Fees() {
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
+  const NeXtStandardId = NextYearDetails == null ? 0 : NextYearDetails.NextStandardId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
@@ -117,7 +118,7 @@ function Fees() {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
     aiSchoolwiseStudentId: NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId,
-    aiStandardId: "1077"
+    aiStandardId: NeXtStandardId
 
   }
   const GetSettingValueBody: IGetSettingValueBody = {
@@ -261,9 +262,11 @@ function Fees() {
         label={'Select Year'}
         defaultValue={currentYear}
       />
-     {showCaution !== "internalFees" && <>
-     {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
-      </>}
+     {showCaution == "internalFees" ? 
+    <> {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}</>
+     :
+     <>  {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}</>
+      }
       {/* {showOldPendingMsg && "Pending Fees for:" + FeesList2.PendingFeeAcademicYears} */}
       <ToggleButtonGroup
         value={showCaution}
