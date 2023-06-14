@@ -50,6 +50,7 @@ function Fees() {
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const [IsCautionClick, setIsCautionClick] = useState(false)
   const [newAcadamicYear, setNewAcadamicYear] = useState([])
+  const [originalAcadamicYear, setOriginalAcadamicYear] = useState([])
   const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
 
 
@@ -138,12 +139,15 @@ function Fees() {
             YearType: ''
           }
           setNewAcadamicYear([arr2, ...arr])
+          setOriginalAcadamicYear([arr2, ...arr])
       }
     } else {
       if (AcadamicYear.length > 0) {
         setNewAcadamicYear(arr)
+        setOriginalAcadamicYear(arr)
       }
     }
+
   }, [AcadamicYear, NextYearDetails, AllowAdvancePaymentforStudent, AllowAdvancePayment]);
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
@@ -242,7 +246,7 @@ function Fees() {
       arr = FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
       setshowOldPendingMsg(arr.length > 1)
       let arr1 = newAcadamicYear
-      let arr2 = newAcadamicYear.map((item) => {
+      let arr2 = originalAcadamicYear.map((item) => {
         let IsInclude = getIsInclude(item, arr)
         return { ...item, Name: item.Name + (IsInclude ? ' (Pending)' : '') }
       })
