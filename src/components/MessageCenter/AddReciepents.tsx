@@ -154,28 +154,6 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   }, [getPTAOption]);
 
   useEffect(() => {
-    SelectUsersInRecipients(selectedRecipentsId);
-  }, [getuserlist]);
-  const SelectUsersInRecipients = (RecipentsIds) => {
-    setList(getuserlist?.map((obj) => {
-      return {
-        ...obj,
-        isActive: (isSelected('Contact group') ? contactGroup.includes(obj.Id) :
-          (RecipentsIds.includes(obj.Id)) || isClassSelect())?
-          true : false
-      }
-    }))
-  }
-  const isClassSelect = () => {
-    let selectedClass = getClass
-      .filter((obj) => obj.Id === Number(studentlist))
-      .map((item) => {
-        return item.Name
-      })
-    return selectedRecipents.includes(selectedClass[0]);
-  }
-
-  useEffect(() => {
     dispatch(GetStudent(getStudentsUserAPIBody));
 
   }, [studentlist]);
@@ -195,6 +173,30 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     } else
       dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
+
+  useEffect(() => {
+    SelectUsersInRecipients(selectedRecipentsId);
+  }, [getuserlist]);
+
+  const SelectUsersInRecipients = (RecipentsIds) => {
+    setList(getuserlist?.map((obj) => {
+      return {
+        ...obj,
+        isActive: (isSelected('Contact group') ? contactGroup.includes(obj.Id) :
+          (RecipentsIds.includes(obj.Id)) || isClassSelect())?
+          true : false
+      }
+    }))
+  }
+
+  const isClassSelect = () => {
+    let selectedClass = getClass
+      .filter((obj) => obj.Id === Number(studentlist))
+      .map((item) => {
+        return item.Name
+      })
+    return selectedRecipents.includes(selectedClass[0]);
+  }
 
   const classChange = (value) => {
     setStudentlist(value);
@@ -275,6 +277,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
 
   const populateRecipient = (itemList) => {
+
     itemList?.map((obj) => {
       if (obj.isActive && 
         (
@@ -297,7 +300,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       ) {
         setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
         if (isSelected('Contact group')) {
-          setContactGroup((prevState) => prevState.filter(item => item !== obj.Value))
+          setContactGroup((prevState) => prevState.filter(item => item !== obj.Id))
         }
         else {
           setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
