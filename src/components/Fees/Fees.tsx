@@ -26,7 +26,7 @@ import { string } from 'prop-types';
 import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
-
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Browser } from '@capacitor/browser';
 
 const note = [
@@ -117,7 +117,7 @@ function Fees() {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
     aiSchoolwiseStudentId: NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId,
-    aiStandardId: asStandardId
+    aiStandardId: "1077"
 
   }
   const GetSettingValueBody: IGetSettingValueBody = {
@@ -130,7 +130,7 @@ function Fees() {
     let arr = AcadamicYear;
     if (AllowAdvancePaymentforStudent == true && AllowAdvancePayment == true) {
       if (AcadamicYear.length > 0 && NextYearDetails !== null) {
-        if (asStandardId !== "1071") {
+        // if (asStandardId !== "1071") {
           let arr2 = {
             id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
             Name: 'Advance Academic Year',
@@ -138,7 +138,7 @@ function Fees() {
             YearType: ''
           }
           setNewAcadamicYear([arr2, ...arr])
-        }
+        // }
       }
     } else {
       if (AcadamicYear.length > 0) {
@@ -261,7 +261,10 @@ function Fees() {
         label={'Select Year'}
         defaultValue={currentYear}
       />
-      {showOldPendingMsg && "Pending Fees for:" + FeesList2.PendingFeeAcademicYears}
+     {showCaution !== "internalFees" && <>
+     {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+      </>}
+      {/* {showOldPendingMsg && "Pending Fees for:" + FeesList2.PendingFeeAcademicYears} */}
       <ToggleButtonGroup
         value={showCaution}
         exclusive
