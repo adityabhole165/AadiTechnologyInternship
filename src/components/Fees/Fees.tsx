@@ -264,7 +264,10 @@ function Fees() {
         label={'Select Year'}
         defaultValue={currentYear}
       />
+      {currentYear != NextYrId && 
+      <>
       {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears}/>}
+      </>}
       <ToggleButtonGroup
         value={showCaution}
         exclusive
