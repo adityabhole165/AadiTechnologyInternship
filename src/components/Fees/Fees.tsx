@@ -244,7 +244,7 @@ function Fees() {
 
     if (FeesList2.PendingFeeAcademicYears !== undefined) {
       arr = FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
-      setshowOldPendingMsg(arr.length > 1)
+      setshowOldPendingMsg(arr.length > 0)
       let arr1 = newAcadamicYear
       let arr2 = originalAcadamicYear.map((item) => {
         let IsInclude = getIsInclude(item, arr)
@@ -254,6 +254,8 @@ function Fees() {
     }
   }, [FeesList2])
   //  FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
+console.log("showOldPendingMsg",showOldPendingMsg);
+console.log("FeesList2",FeesList2);
 
   return (
     <Container>
