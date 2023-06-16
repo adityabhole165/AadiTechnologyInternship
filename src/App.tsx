@@ -9,10 +9,13 @@ import { CssBaseline } from '@mui/material';
 import ThemeProvider from './theme/ThemeProvider';
 import AppInit from './libraries/AppInit';
 import ExtendedSidebarLayout from './layouts/ExtendedSidebarLayout';
+import routerWeb from './routerWeb';
 
 function App() {
 
   const content = useRoutes(router);
+  // const contentWeb = useRoutes(routerWeb);
+ 
   const deviceType = window.localStorage.getItem('deviceType') 
   const iOSMarginTop = ((typeof deviceType != undefined && deviceType == 'ios') ? '10px' : '0px')
 

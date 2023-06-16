@@ -56,6 +56,7 @@ const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/Payinter
 const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew')))
 const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMenus')))
 const Map = Loader(lazy(()=> import('src/components/TransportDetails/Map')))
+const SchoolWeb = Loader(lazy(()=> import('src/componentsWeb/SchoolWeb/SchoolWeb')))
 const studentRoutes = [
   {
     path: '/',
@@ -267,6 +268,11 @@ const studentRoutes = [
 {
   path: "NavbarMenus",
   element: <NavbarMenus/>
+},
+
+{
+  path: 'SchoolWeb',
+  element: <SchoolWeb/>
 },
   ];
 
