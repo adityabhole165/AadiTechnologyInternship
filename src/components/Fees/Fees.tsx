@@ -319,14 +319,14 @@ function Fees() {
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} />
-      <NoteStyle >
+     {showCaution == "SchoolFees" &&  <NoteStyle >
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
           return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
           </Box>
         })}
-      </NoteStyle>
+      </NoteStyle>}
       {asSchoolId == "11" && <>
         <SpecialNote />
       </>
