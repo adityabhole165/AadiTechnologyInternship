@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 import { getDateFormat } from 'src/components/Common/Util';
 
@@ -18,7 +18,7 @@ const Feesslice = createSlice({
     InternalFeeDetails: [],
     GetNextYearDetails: null,
     GetNextYearFeeDetails: [],
-
+    GetOldStudentDetails: null
   },
 
 
@@ -31,6 +31,9 @@ const Feesslice = createSlice({
 
     payOnline(state, action) {
       state.paymentUrl = action.payload.GetSingleSignOnPageEncryptedURLResult
+    },
+    resetPaymentUrl(state) {
+      state.paymentUrl = ""
     },
 
     getReceiptFileName(state, action) {
@@ -61,8 +64,11 @@ const Feesslice = createSlice({
       // state.GetNextYearFeeDetails = action.payload;
       state.FeesData = action.payload.FeeDetails;
       state.FeesData2 = action.payload;
+    },
+    getOldStudentDetails(state, action) {
+      state.GetOldStudentDetails = action.payload;
 
-    }
+    },
   }
 });
 
@@ -81,6 +87,12 @@ export const payOnline =
       dispatch(Feesslice.actions.payOnline(response.data));
     };
 
+export const resetPaymentUrl =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Feesslice.actions.resetPaymentUrl());
+    };
+
 export const getReceiptFileName =
   (data: IGetReceiptFileName): AppThunk =>
     async (dispatch) => {
@@ -97,7 +109,7 @@ export const getYearList =
           id: item.Academic_Year_Id,
           Name: item.AcademicYear,
           Value: item.Academic_Year_Id,
-          YearType:"'A','B','C'"
+          YearType: "'A','B','C'"
         }
       })
       dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
@@ -118,69 +130,67 @@ export const getInternalFeeDetails =
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
-      
-    const getPayableFees = () => {
-      let amount = 0;
-      response.data.InternalFeeDetails.map((item)=>{
-        if(item.FeeDetailsId===0){
-          amount=amount + item.Amount;
-        }
-      })
-      return amount;
-    }
-    const getPaidFees = () => {
-      let amount = 0;
-      response.data.InternalFeeDetails.map((item)=>{
-        if(item.FeeDetailsId!==0){
-          amount=amount + item.Amount;
-        }
-      })
-      return amount;
-    }
+      const getPayableFees = () => {
+        let amount = 0;
+        response.data.InternalFeeDetails.map((item) => {
+          if (item.FeeDetailsId === 0) {
+            amount = amount + item.Amount;
+          }
+        })
+        return amount;
+      }
+      const getPaidFees = () => {
+        let amount = 0;
+        response.data.InternalFeeDetails.map((item) => {
+          if (item.FeeDetailsId !== 0) {
+            amount = amount + item.Amount;
+          }
+        })
+        return amount;
+      }
       const itemlist = {
-        FeeDetails:response.data.InternalFeeDetails.map((item)=>{       
-        return{
-          SchoolwiseStudentId:item.SchoolwiseStudentId,
-          InternalFeeDetailsId:item.InternalFeeDetailsId,
-          DebitCredit:item.DebitCredit,
-          Amount:item.Amount,
-          FeeType:item.FeeType,
-          PayableFor:item.PayableFor,
-          ReceiptNo:item.ReceiptNo,
-          SerialNo:item.SerialNumber,
-          IsDueDateApplicable:item.IsDueDateApplicable,
-          PaidDate:item.PaidDate,
-          Remarks:item.Remarks,
-          AccountHeaderId:0,
-          AmountPayable:"0",
-          DebitStudentFeeId:"0",
-          DueDate:getDateFormat(item.PaidDate),
-          DueDateFormat:"",
-          DueDateString:"",
-          FeeId:"0",
-          FeesPaid:"0",
-          IsArrears:"",
-          IsChequeBounce:"N",
-          IsPartialPayment:"0",
-          LateFeeAmount:"0",
-          OriginalFeeType:"",
-          PaymentGroup:1,
-          RefundDetailsID:"0",
-          RowNumber:1,
-          ShowOptionButtonForAllEntry:true,
-          StudentFeeId:"",
-          FeeDetailsId:item.FeeDetailsId
-        }
-      }),
-      FeesTobePaid:getPayableFees(),
-      TotalFeesPaid:getPaidFees(),
-      TotalFee:getPayableFees(),
-      TotalLateFee:0
-    }
-      // console.log("itemlist",itemlist);
-      
+        FeeDetails: response.data.InternalFeeDetails.map((item) => {
+
+          return {
+            SchoolwiseStudentId: item.SchoolwiseStudentId,
+            InternalFeeDetailsId: item.InternalFeeDetailsId,
+            DebitCredit: item.DebitCredit,
+            Amount: item.Amount,
+            FeeType: item.FeeType,
+            PayableFor: item.PayableFor,
+            ReceiptNo: item.ReceiptNo,
+            SerialNo: item.SerialNumber,
+            IsDueDateApplicable: item.IsDueDateApplicable,
+            PaidDate: item.PaidDate,
+            Remarks: item.Remarks,
+            AccountHeaderId: 0,
+            AmountPayable: "0",
+            DebitStudentFeeId: "0",
+            DueDate: "",
+            DueDateFormat: getDateFormat(item.PaidDate),
+            DueDateString: "",
+            FeeId: "0",
+            FeesPaid: "0",
+            IsArrears: "",
+            IsChequeBounce: "N",
+            IsPartialPayment: "0",
+            LateFeeAmount: "0",
+            OriginalFeeType: "",
+            PaymentGroup: 1,
+            RefundDetailsID: "0",
+            RowNumber: 1,
+            StudentFeeId: "",
+            FeeDetailsId: item.FeeDetailsId
+          }
+        }),
+        FeesTobePaid: getPayableFees(),
+        TotalFeesPaid: getPaidFees(),
+        TotalFee: getPayableFees(),
+        TotalLateFee: 0,
+        PendingFeeAcademicYears: response.data.PendingFeeAcademicYears
+      }
+
       dispatch(Feesslice.actions.getInternalFeeDetails(itemlist));
-      // dispatch(Feesslice.actions.getFees(response.data));
 
     };
 
@@ -194,6 +204,12 @@ export const getNextYearDetails =
       dispatch(Feesslice.actions.getNextYearDetails(response.data?.NextAcademicDetails));
 
     };
+export const getOldstudentDetails =
+  (data: IGetOldStudentDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.GetOldStudentDetails(data);
+      dispatch(Feesslice.actions.getOldStudentDetails(response.data?.OldStudentDetails));
+    };
 
 //GetNextYearFeeDetails
 export const getNextYearFeeDetails =
@@ -203,57 +219,56 @@ export const getNextYearFeeDetails =
       const response = await FeesApi.GetNextYearFeeDetails(data);
       const getPayableFees = () => {
         let amount = 0;
-        response.data.NextYearFeeDetails.map((item)=>{
-          if(item.FeesPaid==="0"){
-            amount=amount + parseInt(item.Amount);
+        response.data.NextYearFeeDetails.map((item) => {
+          if (item.FeesPaid === "0") {
+            amount = amount + parseInt(item.Amount);
           }
         })
         return amount;
       }
       const getPaidFees = () => {
         let amount = 0;
-        response.data.NextYearFeeDetails.map((item)=>{
-          if(item.FeesPaid!=="0"){
-            amount=amount + parseInt(item.Amount);
+        response.data.NextYearFeeDetails.map((item) => {
+          if (item.FeesPaid !== "0") {
+            amount = amount + parseInt(item.Amount);
           }
         })
         return amount;
       }
       const itemlist = {
-        FeeDetails:response.data.NextYearFeeDetails.map((item)=>{          
-        return{
-          PayableFor:item.PayableFor,
-          FeeType:item.FeeType,
-          Amount:item.Amount,
-          ReceiptNo:"0",
-          SerialNo:item.SerialNo,
-          AccountHeaderId:0,
-          AmountPayable:item.AmountPayable,
-          DebitStudentFeeId:"0",
-          DueDate:"",
-          DueDateFormat:getDateFormat(item.DueDate),
-          DueDateString:item.DueDateString,
-          FeeId:"0",
-          FeesPaid:item.FeesPaid ,
-          IsArrears:"",
-          IsChequeBounce:"N",
-          IsPartialPayment:"0",
-          LateFeeAmount:item.LateFeeAmount,
-          OriginalFeeType:"",
-          PaymentGroup:item.PaymentGroup,
-          RefundDetailsID:"0",
-          RowNumber:item.RowNumber,
-          ShowOptionButtonForAllEntry:true,
-          StudentFeeId:"",
-          ConcessionAmount:item.ConcessionAmount
-        }
-      }),
-      FeesTobePaid:getPayableFees(),
-      TotalFeesPaid:getPaidFees(),
-      TotalFee:0,
-      TotalLateFee:0
-    }
-       dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));
+        FeeDetails: response.data.NextYearFeeDetails.map((item) => {
+          return {
+            PayableFor: item.PayableFor,
+            FeeType: item.FeeType,
+            Amount: item.Amount,
+            ReceiptNo: "0",
+            SerialNo: item.SerialNo,
+            AccountHeaderId: 0,
+            AmountPayable: item.AmountPayable,
+            DebitStudentFeeId: "0",
+            DueDate: "",
+            DueDateFormat: getDateFormat(item.DueDate),
+            DueDateString: item.DueDateString,
+            FeeId: "0",
+            FeesPaid: item.FeesPaid,
+            IsArrears: "",
+            IsChequeBounce: "N",
+            IsPartialPayment: "0",
+            LateFeeAmount: item.LateFeeAmount,
+            OriginalFeeType: "",
+            PaymentGroup: item.PaymentGroup,
+            RefundDetailsID: "0",
+            RowNumber: item.RowNumber,
+            StudentFeeId: "",
+            ConcessionAmount: item.ConcessionAmount
+          }
+        }),
+        FeesTobePaid: getPayableFees(),
+        TotalFeesPaid: getPaidFees(),
+        TotalFee: 0,
+        TotalLateFee: 0
+      }
+      dispatch(Feesslice.actions.getNextYearFeeDetails(itemlist));
 
     };
 

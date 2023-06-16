@@ -25,28 +25,29 @@ Card27.propTypes = {
 };
 
 function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,
-  ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline }) {
-  const [expanded, setExpanded] = useState<string | false>(false);
-
-  const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
-  };
+  ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
+  OldInternalstudent }) {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
 
+  const [expanded, setExpanded] = useState<string | false>(false);
   const FeesObject: any = useSelector((state: RootState) => state.Fees.FeesData2);
   const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-
-
   const authData = JSON.parse(localStorage.getItem('auth'));
   const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
   const filePath = receiptFileName.replace(/\\/g, '/');
   let sitePathURL = localStorage.getItem('SiteURL');
   let downloadPathOfReceipt = sitePathURL + filePath;
+
+  useEffect(() => {
+    if (receiptFileName !== "")
+      window.open(downloadPathOfReceipt);
+    dispatch(resetReciept());
+  }, [receiptFileName])
 
   const downloadReceiptFile = (receiptNo, accountHeaderId) => {
     const getReceiptFileName_body: any = {
@@ -61,20 +62,17 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, O
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
   };
-  // 
-  useEffect(() => {
-    if (receiptFileName !== "")
-      window.open(downloadPathOfReceipt);
-    dispatch(resetReciept());
-
-  }, [receiptFileName])
+  
+  const handleChange = (panel) => (event, isExpanded) => {
+    setExpanded(isExpanded ? panel : false);
+  };
   return (
     
       <FeeAccordion FeesType={FeesType} Fee={Fee} FeesObject={FeesObject} expanded={expanded}
        handleChange={handleChange} currentYear={currentYear} IsForCurrentyear={IsForCurrentyear}
         OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} ApplicableFee={ApplicableFee}
         TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID}
-        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} />
+        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent} />
   
   );
 }

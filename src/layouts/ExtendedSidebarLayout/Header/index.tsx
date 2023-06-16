@@ -120,8 +120,12 @@ function Header() {
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
-  const userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
-  const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+  let userprofile = ''
+  let img_src = ''
+  if (sessionStorage.length > 0) {
+    userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
+    img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+  }
 
   const authData = JSON.parse(localStorage.getItem("auth"));
   let siblingList: any = [];
@@ -237,7 +241,7 @@ function Header() {
     navigate('Student/Notification')
   }
 
-  return (
+  return (<>
     <HeaderWrapper
       display="flex"
       alignItems="center"
@@ -354,10 +358,10 @@ function Header() {
               to={"/extended-sidebar/Student/Feedback"}
               component={NavLink}
             >
-              <FeedbackTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
+              <FeedbackTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<Detail1>Feedback</Detail1 >} />
             </ListItem>
-            
+
             <ListItem
               onClick={() => {
                 handleClose();
@@ -366,7 +370,7 @@ function Header() {
               to={"/extended-sidebar/Student/Support"}
               component={NavLink}
             >
-              <ContactSupportTwoToneIcon fontSize="small"  sx={{ color: "#053082" }}/>
+              <ContactSupportTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<Detail1>Support</Detail1 >} />
             </ListItem>
             {siblingList.length == 0 ? (
@@ -432,20 +436,20 @@ function Header() {
               <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
             </Button>
           </Box>
-          {(window.localStorage.getItem('deviceType') === 'android' || 
-          localStorage.getItem('deviceType') === 'ios') ? (
-          <Box m={1}>
-            <Button color="primary" fullWidth onClick={handleCloseApp}>
-              <PowerSettingsNewTwoToneIcon fontSize="small"
-                sx={{
-                  mr: 1,
-                  fontWeight: "bold",
-                  color: "#053082"
-                }}
-              />
-              <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Exit</UserBoxLabel>
-            </Button>
-          </Box>):<div/>}
+          {(window.localStorage.getItem('deviceType') === 'android' ||
+            localStorage.getItem('deviceType') === 'ios') ? (
+            <Box m={1}>
+              <Button color="primary" fullWidth onClick={handleCloseApp}>
+                <PowerSettingsNewTwoToneIcon fontSize="small"
+                  sx={{
+                    mr: 1,
+                    fontWeight: "bold",
+                    color: "#053082"
+                  }}
+                />
+                <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Exit</UserBoxLabel>
+              </Button>
+            </Box>) : <div />}
         </Popover>
         <Avatar sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add">
           <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 50 }} />
@@ -454,6 +458,7 @@ function Header() {
       </Stack>
 
     </HeaderWrapper>
+    </>
   );
 }
 

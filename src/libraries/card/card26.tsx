@@ -5,20 +5,16 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import { Link as RouterLink } from 'react-router-dom';
 
 import { useTheme, Fab } from '@mui/material';
-import { Browser } from '@capacitor/browser';
-import { ErrorDetail, ShowMessage } from '../styled/ErrormessageStyled';
+import { ShowMessage } from '../styled/ErrormessageStyled';
 
 Card26.propTypes = {
   paymentPageLink: PropTypes.string
 };
 
-function Card26({ paymentPageLink }) {
+function Card26() {
   const theme = useTheme();
-  const openCapacitorSite = async (url) => {
-    await Browser.open({ url: url });
-  };
   
-  openCapacitorSite(paymentPageLink)
+  
     return (
     <Container>
       <div>

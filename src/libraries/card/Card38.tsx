@@ -8,13 +8,12 @@ import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5Fees from "./Card5Fees";
 
-const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) => {
-    const theme = useTheme();
-    const classes = Styles();
-    
-    return (
-        <>
- <Accordion
+const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFees }) => {
+  const theme = useTheme();
+  const classes = Styles();
+  return (
+    <>
+      <Accordion
         className={classes.background}
         expanded={expanded === 'panel'}
         onChange={handleChange('panel')}
@@ -26,7 +25,7 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
           aria-controls="panel1bh-content"
           id="panel1bh-header"
           sx={{
-            background: `${theme.colors.gradients.pink1}`, mb:1
+            background: `${theme.colors.gradients.pink1}`, mb: 1
           }}
         >
           <Header1
@@ -42,16 +41,15 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
-               const paid= internalFees =="internalFees" ? item.FeeDetailsId !== 0 :item.AmountPayable == 0
-                  // return item.FeeDetailsId !== 0  ? ( 
-                    return paid  ? (
+                const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
+                return paid ? (
                   <>
-                  <Card5Fees
-                   FileName={internalFees?item.FeeType + ":"+ " " + item.Amount:item.FeeType + ":"+ " " + item.FeesPaid}
-                   Content={''}
-                   Name={''}
-                   key={i}
-                  />
+                    <Card5Fees
+                      FileName={internalFees ? item.FeeType + ":" + " " + item.Amount : item.FeeType + ":" + " " + item.FeesPaid}
+                      Content={''}
+                      Name={''}
+                      key={i}
+                    />
                   </>
                 ) : null;
               })
@@ -59,7 +57,7 @@ const Card38 = ({FeesType, Fee, FeesObject,expanded,handleChange,internalFees}) 
           </AccordionDetails>
         }
       </Accordion>
-        </>
-    )
+    </>
+  )
 }
 export default Card38

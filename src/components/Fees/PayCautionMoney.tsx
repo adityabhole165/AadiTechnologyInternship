@@ -9,7 +9,7 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution }
         <>
           {IspaidCautionMoney ?
             <>
-              <ButtonPrimary fullWidth sx={{mb:0.5}}>Show Caution Money Receipt</ButtonPrimary> <Note NoteDetail={note} />
+              <ButtonPrimary fullWidth sx={{mb:0.5}}>Show Caution Money Receipt</ButtonPrimary>
             </>
             :
             <ButtonPrimary fullWidth onClick={()=>clickCaution(true)} sx={{mb:0.5}}>Pay caution Money</ButtonPrimary>

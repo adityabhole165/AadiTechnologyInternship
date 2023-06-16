@@ -37,11 +37,11 @@ const QueAns = () => {
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
+    const [showSaveSubmit,setshowSaveSubmit] = useState(true);
 
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
-    // console.log("GetAllAnswerQueListtt", GetAllAnswerQueListtt);
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
@@ -65,7 +65,6 @@ const QueAns = () => {
         return totalMarks
     }
 
-    // const totalMarks = TotalMarks.reduce((total, currentValue) => total = total + currentValue.TMarks.Marks, 0);
     const OutOfMarks = OutofMarks.reduce((total, currentValue) => total = total + currentValue.AddMarks.Marks, 0);
 
     const getQuestionAnser = () => {
@@ -142,6 +141,8 @@ const QueAns = () => {
     }, [Getsubmitexam, Getsaveexam])
 
     useEffect(() => {
+        if(GetAllAnswerQueListtt.length > 0){
+            setshowSaveSubmit(GetAllAnswerQueListtt[0].IsExamSubmitted)
         setItemlist(GetAllAnswerQueListtt)
         setListCardItems(GetAllAnswerQueListtt.map((item, index) => {
             return {
@@ -151,6 +152,7 @@ const QueAns = () => {
                 IsAnswered: false
             }
         }))
+    }
     }, [GetAllAnswerQueListtt])
 
     let maxIndex = itemlist.length - 1;
@@ -282,13 +284,6 @@ const QueAns = () => {
         clearTimer(getDeadTime());
     }, []);
 
-    // useEffect(() => {
-    //     if (timer == '00:00:00') {
-    //         dispatch(GetSaveExam(saveBody))
-    //         dispatch(GetSubmitExam(SubmitOnlineExam))
-    //     }
-    // }, [timer]);
-
 
     return (
         <>
@@ -358,35 +353,27 @@ const QueAns = () => {
                     }
                     {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "11px", ml: "25px" }}><Attachments /></Box>}
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
-                        {/* <Grid item xs={6}>
-                            <Container>
-                                <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(-1) }}>
-                                    Previous
-                                </ButtonPrimary>
-                            </Container>
-                        </Grid>
-                        <Grid item xs={6} >
-                            <Container>
-                                <ButtonPrimary fullWidth color='primary' onClick={() => { clickPrevNext(1) }} >
-                                    Next
-                                </ButtonPrimary>
-                            </Container>
-                        </Grid> */}
-                        <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
-                        <Grid item xs={6}>
-                            <Container>
-                                <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>
-                                    Save
-                                </ButtonPrimary>
-                            </Container>
-                        </Grid>
-                        <Grid item xs={6} >
-                            <Container>
-                                <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
-                                    Submit
-                                </ButtonPrimary>
-                            </Container>
-                        </Grid>
+                        {showSaveSubmit && 
+                                    <>
+                                        <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
+                                        <Grid item xs={6}>
+                                            <Container>
+                                                <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>
+                                                    Save
+                                                </ButtonPrimary>
+                                            </Container>
+                                        </Grid>
+                                        <Grid item xs={6} >
+                                            <Container>
+                                                <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
+                                                    Submit
+                                                </ButtonPrimary>
+                                            </Container>
+                                        </Grid>
+                                    </>
+                         
+                         }
+
                     </Grid>
                 </Card>
             </Container>

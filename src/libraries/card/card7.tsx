@@ -39,7 +39,7 @@ function Card7({
   Viewsent,
   ViewSentObject,
   LoggedInUserNameForMessage = '',
-  MessageCenterReadMode=''
+  MessageCenterReadMode
 }) {
   const theme = useTheme();
 
@@ -142,7 +142,7 @@ function Card7({
 
           </BoxWrapper>
         </ListStyle>
-      {MessageCenterReadMode == 'true' ? null :   <CardWrapper>
+      {MessageCenterReadMode == true ? null :   <CardWrapper>
           {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={

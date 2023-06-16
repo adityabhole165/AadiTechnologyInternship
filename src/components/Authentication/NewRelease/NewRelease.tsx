@@ -13,7 +13,7 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getuserLoginExpires } from "src/requests/UserLoginExpires/RequestUserLoginExpires"
 
-const NewRelease = ({ onChangeVersion }) => {
+const NewRelease = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -68,22 +68,21 @@ const NewRelease = ({ onChangeVersion }) => {
     }, [UserExpires])
 
 
-    // useEffect(() => {
-
-    //     // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
-    //     const releaseBody: INewRelease = {
-    //         "asDeviceType": deviceType,
-    //         "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
-    //     };
-    //     dispatch(getNewRelease(releaseBody))
-    //     // }
-    // }, [])
+    useEffect(() => {
+        // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
+        const releaseBody: INewRelease = {
+            "asDeviceType": deviceType,
+            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+        };
+        dispatch(getNewRelease(releaseBody))
+        // }
+    }, [])
     useEffect(() => {
         if (latestVersionDetails != null && latestVersionDetails.Version != null && latestVersionDetails.Version != "") {
             setShowUpgrade(true)
             localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
             if (latestVersionDetails.IsForceUpdate === 'True')
-                onChangeVersion()
+                navigate('../../../UpgradeApp');
             if (latestVersionDetails.IsForceLogout === 'True') {
                 sessionStorage.clear();
                 navigate('/');
