@@ -236,7 +236,9 @@ function LandingPage() {
     items3 = items3.filter((el) => {
       return el.Text1 == 'Online' ? showOnlineExam : true
     })
-    
+    items3 = items3.filter((el) => {
+      return el.Text1 == ' O-Progress ' ? showOnlineExam : true
+    })
   }
 
 

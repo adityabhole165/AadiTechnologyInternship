@@ -85,7 +85,6 @@ function Fees() {
     aiSchoolId: asSchoolId,
     aiYearwiseStudentId: asStudentId
   };
-
   const body: IFees = {
     asSchoolId: asSchoolId,
     asStudentId: asStudentId,
@@ -132,14 +131,14 @@ function Fees() {
     let arr = AcadamicYear;
     if (AllowAdvancePaymentforStudent == true && AllowAdvancePayment == true) {
       if (AcadamicYear.length > 0 && NextYearDetails !== null) {
-          let arr2 = {
-            id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
-            Name: 'Advance Academic Year',
-            Value: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
-            YearType: ''
-          }
-          setNewAcadamicYear([arr2, ...arr])
-          setOriginalAcadamicYear([arr2, ...arr])
+        let arr2 = {
+          id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
+          Name: 'Advance Academic Year',
+          Value: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
+          YearType: ''
+        }
+        setNewAcadamicYear([arr2, ...arr])
+        setOriginalAcadamicYear([arr2, ...arr])
       }
     } else {
       if (AcadamicYear.length > 0) {
@@ -253,10 +252,7 @@ function Fees() {
       setNewAcadamicYear(arr2)
     }
   }, [FeesList2])
-  //  FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
-console.log("showOldPendingMsg",showOldPendingMsg);
-console.log("FeesList2",FeesList2);
-
+  
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -266,10 +262,10 @@ console.log("FeesList2",FeesList2);
         label={'Select Year'}
         defaultValue={currentYear}
       />
-      {currentYear != NextYrId && 
-      <>
-      {showOldPendingMsg && <ErrorMessages  Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears}/>}
-      </>}
+      {currentYear != NextYrId &&
+        <>
+          {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+        </>}
       <ToggleButtonGroup
         value={showCaution}
         exclusive
@@ -321,14 +317,16 @@ console.log("FeesList2",FeesList2);
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} />
-     {showCaution == "SchoolFees" &&  <NoteStyle >
+   {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes!==undefined) &&
+     (<NoteStyle>
         <b>Note :</b>
         {FeesList2.PaymentNotes?.map((note, i) => {
           return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
           </Box>
         })}
-      </NoteStyle>}
+      </NoteStyle>)
+      }
       {asSchoolId == "11" && <>
         <SpecialNote />
       </>
