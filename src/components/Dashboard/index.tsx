@@ -67,9 +67,6 @@ function LandingPage() {
     const showOnlineExam: any = useSelector(
       (state: RootState) => state.getSchoolSettings.EnableOnlineExamModule
     );
-    console.log("showOnlineExam",showOnlineExam);
-    
-
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
