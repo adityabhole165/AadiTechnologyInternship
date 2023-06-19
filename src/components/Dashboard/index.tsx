@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {
   getModulesPermission, getModulesPermissionsResultt, getGetSettingValue,
-  getGetSettingSubTeacher, getLibrarySchoolSetting
+  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getMessageCount } from 'src/requests/Dashboard/Dashboard'
@@ -37,6 +37,9 @@ function LandingPage() {
   const SchoolTrasnportIsEnabled: any = useSelector(
     (state: RootState) => state.getSchoolSettings.SchoolTrasnportIsEnabled
   );
+  const TransportCommitteeForStudent: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.EnableTransportCommitteeForStudentLogin
+  );
   const ExternalLibrarySite: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ExternalLibrarySite
   );
@@ -58,6 +61,14 @@ function LandingPage() {
   const UserExpires = useSelector(
     (state: RootState) => state.userLoginExpires.UserLoginExpires);
 
+    const showAaadharCard: any = useSelector(
+      (state: RootState) => state.getSchoolSettings.ShowAadharCardForStudent
+    );
+    const showOnlineExam: any = useSelector(
+      (state: RootState) => state.getSchoolSettings.EnableOnlineExamModule
+    );
+    console.log("showOnlineExam",showOnlineExam);
+    
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -122,6 +133,11 @@ function LandingPage() {
       dispatch(getGetSettingValue(GetSettingValueBody));
       dispatch(getGetSettingSubTeacher(GetSettingValueBody))
       dispatch(getLibrarySchoolSetting(GetSettingValueBody))
+      dispatch(getTransportCommitteeForStudent(GetSettingValueBody)) 
+      dispatch(ShowAadharCardForStudent(GetSettingValueBody)) 
+      dispatch(EnableOnlineExamM(GetSettingValueBody)) 
+
+      // EnableOnlineExamModule
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
@@ -152,6 +168,9 @@ function LandingPage() {
     items1 = items1.filter((el) => {
       return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
     })
+    // items1 = items1.filter((el) => {
+    //   return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true
+    // })
 
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
@@ -192,6 +211,9 @@ function LandingPage() {
     items1 = items1.filter((el) => {
       return el.Text1 == 'Library' ? isLibrarySchoolSetting : true
     })
+    items1 = items1.filter((el) => {
+      return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true
+    })
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
         return f.ModuleName ===
@@ -211,6 +233,13 @@ function LandingPage() {
     items3 = items3.filter((el) => {
       return el.Text1 == 'Subject ' ? SubTeacherEnabled : true
     })
+    items3 = items3.filter((el) => {
+      return el.Text1 == 'Update ' ? showAaadharCard : true
+    })
+    items3 = items3.filter((el) => {
+      return el.Text1 == 'Online' ? showOnlineExam : true
+    })
+    
   }
 
 

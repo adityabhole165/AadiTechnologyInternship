@@ -17,11 +17,20 @@ const SchoolSettingSlice = createSlice({
     EnableOnlinePaymentForInternalFee:false,
     OnlinePaymentForCautionMoney:false,
     EnableAdvanceFeePaymentForStudent:false,
-    EnableAdvanceFeePayment:false
+    EnableAdvanceFeePayment:false,
+    EnableTransportCommitteeForStudentLogin:false,
+    ShowAadharCardForStudent:false,
+    EnableOnlineExamModule:false
   },
   reducers: {
     getModulesPermission(state, action) {
       state.ModulesPermission = action.payload.GetModulesPermissionsResult
+    },
+    getEnableOnlineExamModule(state, action) {
+      state.EnableOnlineExamModule = action.payload
+    },
+    getShowAadharCardForStudent(state, action) {
+      state.ShowAadharCardForStudent = action.payload
     },
     getModulesPermissionsResult(state, action) {
       sessionStorage.setItem("ScreensAccessPermission", JSON.stringify(action.payload))
@@ -29,6 +38,9 @@ const SchoolSettingSlice = createSlice({
     },
     getSchoolTrasnportIsEnabled(state, action) {
       state.SchoolTrasnportIsEnabled = action.payload;;
+    },
+    getTransportCommitteeStudent(state, action) {
+      state.EnableTransportCommitteeForStudentLogin = action.payload;;
     },
     getSubTeacherIsEnabled(state, action) {
       state.SubTeacher = action.payload;;
@@ -92,7 +104,19 @@ export const getGetSettingValue =
       }
       dispatch(SchoolSettingSlice.actions.getSchoolTrasnportIsEnabled(trasnportIsEnabled));
     }
-
+    export const getTransportCommitteeForStudent =
+    (data: IGetSettingValueBody): AppThunk =>
+      async (dispatch) => {
+        let TransportCommitteeForStudent = false
+        data.asKey = "EnableTransportCommitteeForStudentLogin";
+        let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            TransportCommitteeForStudent = true;
+          }
+        }
+        dispatch(SchoolSettingSlice.actions.getTransportCommitteeStudent(TransportCommitteeForStudent));
+      }
     export const GetEnableMessageCenterReadModeForStudent =
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
@@ -200,4 +224,31 @@ export const getLibrarySchoolSetting =
         }
         dispatch(SchoolSettingSlice.actions.getEnableAdvancefeepayment(AllowOnlinePayment));
       }
+      export const ShowAadharCardForStudent =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let AadharCardForStudent = false
+          data.asKey = "ShowAadharCardForStudent";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              AadharCardForStudent = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getShowAadharCardForStudent(AadharCardForStudent));
+        }
+      export const EnableOnlineExamM =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let EnableOnlineExam = false
+          data.asKey = "EnableOnlineExamModule";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              EnableOnlineExam = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getEnableOnlineExamModule(EnableOnlineExam));
+        }
+        
 export default SchoolSettingSlice.reducer
