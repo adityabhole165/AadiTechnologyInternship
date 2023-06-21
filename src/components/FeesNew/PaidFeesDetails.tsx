@@ -77,7 +77,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       else {
 
         setisSingleSelect(false)
-        if (Number(currentYear) === NextYearID) {
+        if (Number(currentYear) === NextYearID || internalFees == "internalFees") {
           setIsSequenceSelect(false)
         }
         else {
