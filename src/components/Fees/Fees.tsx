@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -60,6 +60,7 @@ function Fees() {
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
   const InternalFeeDetails: any = useSelector((state: RootState) => state.Fees.InternalFeeDetails);
+  const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
   const paymentPageLink: any = useSelector((state: RootState) => state.Fees.paymentUrl);
   const NextYearDetails: any = useSelector((state: RootState) => state.Fees.GetNextYearDetails);
   const OldstudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails)
@@ -67,6 +68,7 @@ function Fees() {
   const IsOnlinePaymetCautionMoney: any = useSelector((state: RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
   const AllowAdvancePaymentforStudent: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
+  console.log("OnlinePaymentForInternalFee", OnlinePaymentForInternalFee);
 
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
@@ -156,6 +158,7 @@ function Fees() {
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     dispatch(getEnableadvanceFeepayment(GetSettingValueBody))
     dispatch(EnableAdvancefeePayment(GetSettingValueBody))
+    dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
   }, []);
 
   useEffect(() => {
@@ -252,7 +255,7 @@ function Fees() {
       setNewAcadamicYear(arr2)
     }
   }, [FeesList2])
-  
+
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -271,7 +274,8 @@ function Fees() {
         exclusive
         onChange={handleChange} sx={{ my: 1 }}>
         <ToggleButton value={schoolFees} >School Fees</ToggleButton>
-        <ToggleButton value={internalFees}>Internal Fees</ToggleButton>
+        {OnlinePaymentForInternalFee &&
+          <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
 
       {
@@ -317,15 +321,15 @@ function Fees() {
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} />
-   {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes!==undefined) &&
-     (<NoteStyle>
-        <b>Note :</b>
-        {FeesList2.PaymentNotes?.map((note, i) => {
-          return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
-            <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
-          </Box>
-        })}
-      </NoteStyle>)
+      {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
+        (<NoteStyle>
+          <b>Note :</b>
+          {FeesList2.PaymentNotes?.map((note, i) => {
+            return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
+              <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
+            </Box>
+          })}
+        </NoteStyle>)
       }
       {asSchoolId == "11" && <>
         <SpecialNote />
