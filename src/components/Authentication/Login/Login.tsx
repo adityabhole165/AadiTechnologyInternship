@@ -36,8 +36,6 @@ import { logoURL } from 'src/components/Common/Util';
 import PushNotification from '../../../libraries/PushNotification/PushNotification';
 import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
-import getuserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
-import {IUserLoginExpiresBody} from 'src/interfaces/Student/ICheckForUserLoginExpires';
 
 function SelectSchool() {
     const styleroot = Styles();
@@ -78,25 +76,8 @@ function SelectSchool() {
     const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
     const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
 
-    // const UserExpires = useSelector(
-    //     (state: RootState) => state.userLoginExpires.UserLoginExpires);
-
     const [value, setValue] = React.useState<GetAllSchoolsResult>();
     const [inputValue, setInputValue] = React.useState('');
-
-   
-    // useEffect(() => {
-    //     dispatch(getuserLoginExpires(IUserLoginExpiresBody));
-    // }, []);
-
-    // const IUserLoginExpiresBody =
-    // {
-    //     asSchoolId: string,
-    // asUserId: string,
-    // asAcademicYearId: string,
-    // asUserRoleId: string,
-    // asLastPasswordChangeDate: string
-    // }
 
     if ((value !== undefined) && (value !== null)) {
         window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));

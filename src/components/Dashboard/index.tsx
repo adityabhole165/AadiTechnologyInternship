@@ -17,7 +17,6 @@ import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import { useNavigate } from 'react-router-dom';
-import { IUserLoginExpiresBody } from 'src/interfaces/Student/ICheckForUserLoginExpires';
 
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -58,9 +57,7 @@ function LandingPage() {
     (state: RootState) => state.Dashboard.MessageCount
   );
 
-  const UserExpires = useSelector(
-    (state: RootState) => state.userLoginExpires.UserLoginExpires);
-
+  
     const showAaadharCard: any = useSelector(
       (state: RootState) => state.getSchoolSettings.ShowAadharCardForStudent
     );
@@ -102,20 +99,6 @@ function LandingPage() {
     asAcademicYearId: AcademicYearId,
   };
 
-
-
-  // useEffect(() => {
-  //     dispatch(getuserLoginExpires(IUserLoginExpiresBody));
-  // }, []);
-
-  const IUserLoginExpiresBody =
-  {
-    asSchoolId: asSchoolId,
-    asUserId: userId,
-    asAcademicYearId: AcademicYearId,
-    asUserRoleId: RoleId,
-    asLastPasswordChangeDate: LastPassword
-  }
 
   const curYear = new Date().getFullYear();
   const date = DOB;
