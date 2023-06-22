@@ -72,9 +72,6 @@ function SelectSchool() {
         window.location.href = "http://riteschool.com/PrivacyPolicy.aspx";
         //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
     }
-    const termAndConditon = () => {
-        navigate('/TermAndCondition');
-    }
 
     //   select School
     const dispatch = useDispatch();
@@ -484,9 +481,7 @@ function SelectSchool() {
                         </Grid>
                         <br />
 
-                        <Grid>
-                            <CardDetail10 onClick={termAndConditon}>Term And Conditions</CardDetail10>
-                        </Grid>
+                        
                         <Box sx={{ flex: 1, zIndex: 9999, }} className={classes.footer}>
                             <Grid item xs={12} textAlign="center">
                                 <CardDetail10>

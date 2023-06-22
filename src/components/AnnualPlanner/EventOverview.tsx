@@ -54,7 +54,7 @@ function EventOverview() {
     setCurrentDate();
     if (DateFrommon != undefined) {
       setDate({
-        selectedDate: `${new Date(BackMonth + '/01/' + DateFromyear).toLocaleString('default', { month: 'short' })}-${DateFromyear}`
+        selectedDate: `${new Date(BackMonth + '/01/' + DateFromyear).toLocaleString('default', { month: 'short' })} ${DateFromyear}`
       });
     }
   }, []);
