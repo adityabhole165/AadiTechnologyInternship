@@ -275,7 +275,7 @@ function Form13() {
       asMessageId: ID != undefined || ID != "" ? parseInt(ID) : 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: RecipientsObject.ClassId.toString(),
-      asSelectedUserIds: RecipientsObject.RecipientId.toString() + ContactGRPusers.toString(),
+      asSelectedUserIds: RecipientsObject.RecipientId.toString() +','+ ContactGRPusers.toString(),
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
