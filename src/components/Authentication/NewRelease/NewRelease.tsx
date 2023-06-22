@@ -31,7 +31,7 @@ const NewRelease = () => {
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
     const LastPassword = sessionStorage.getItem("LastPasswordChangeDate");
 
-    const IUserLoginExpiresBody =
+    const UserLoginExpiresBody =
     {
         asSchoolId: asSchoolId,
         asUserId: userId,
@@ -44,10 +44,11 @@ const NewRelease = () => {
     useEffect(() => {
         let LogoutMessage = ""
         if (UserExpires != null) {
-            if (UserExpires.IsLocked == "N") {
+            if (UserExpires.IsLocked == "Y") {
                 LogoutMessage = "Your account is locked"
             }
-            if (UserExpires.IsLogoutRequired == "Y" || UserExpires.CurrentAcademicYearID == AcademicYearId) {
+            if (UserExpires.IsLogoutRequired == "Y" || 
+            UserExpires.CurrentAcademicYearID.toString() !== sessionStorage.getItem('AcademicYearId')) {
                 LogoutMessage = "Please login again"
             }
             if (UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")) {
@@ -74,7 +75,7 @@ const NewRelease = () => {
             "asDeviceType": deviceType,
             "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
         };
-        dispatch(getNewRelease(releaseBody))
+        dispatch(getuserLoginExpires(UserLoginExpiresBody))
         // }
     }, [])
     useEffect(() => {

@@ -231,10 +231,11 @@ function SelectSchool() {
         sessionStorage.setItem("Userlogin", result.UserLogin);
         const url = localStorage.getItem("url");
 
-        if (url != null) {
-            navigate(url);
-        }
-        else if (result.RoleName == "Student" ||
+        // if (url != null) {
+        //     navigate(url);
+        // }
+        // else 
+        if (result.RoleName == "Student" ||
             result.RoleName == "Teacher" ||
             result.RoleName == "Admin Staff") {
             navigate('/extended-sidebar/landing/landing');
@@ -265,6 +266,7 @@ function SelectSchool() {
                     navigate("/TermAndCondition")
                 }
                 else {
+                    
                     localStorage.setItem("auth", JSON.stringify(response));
                     setSession(response);
                 }
@@ -302,16 +304,16 @@ function SelectSchool() {
 
     useEffect(() => {
         dispatch(getSchoolList(ListData))
+    }, [])
+    useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
-            dispatch(getSchoolSettingsValue(schoolSettingAPIBody))
-        }
-        if (schoolId !== null) {
-            const res = localStorage.getItem("auth")
-            if (res === null) {
-                setShow(false);
-            } else {
-                setSession(JSON.parse(res))
-            }
+            dispatch(getSchoolSettingsValue({asSchoolId: schoolId}))
+            // const res = localStorage.getItem("auth")
+            // if (res === null) {
+            //     setShow(false);
+            // } else {
+            //     setSession(JSON.parse(res))
+            // }
         }
     }, [value]);
 
@@ -462,7 +464,7 @@ function SelectSchool() {
                         </Grid>
                         <br />
 
-                        
+
                         <Box sx={{ flex: 1, zIndex: 9999, }} className={classes.footer}>
                             <Grid item xs={12} textAlign="center">
                                 <CardDetail10>
