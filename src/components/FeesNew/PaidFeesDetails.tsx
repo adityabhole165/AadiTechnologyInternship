@@ -31,7 +31,9 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const userLoginId = sessionStorage.getItem("Userlogin") 
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId
   const totalamountt = FeesTotal - TotalLateFee;
-  const IntFeeDetailsId = itemList.map((item, i) => { return item.StudentFeeId })
+  const IntFeeDetailsId = itemList.filter((item) => item.IsActive === true).map((obj, i) => {
+    return obj.StudentFeeId
+  });
   
   const OldInternalstudentId = currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
