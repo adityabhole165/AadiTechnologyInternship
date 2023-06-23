@@ -53,8 +53,9 @@ function Homework() {
   useEffect(() => {
     if (GetHomeworkDates.length > 0) {
       setAssignedDate(GetHomeworkDates[0].Value)
+      let itemLength = GetHomeworkDates.length;
       setItemList(GetHomeworkDates.map((item, index) => {
-        return index === 0 ?
+        return index === itemLength-1 ?
           { ...item, IsActive: true } :
           { ...item, IsActive: false }
       }))
@@ -87,7 +88,28 @@ function Homework() {
         setEndDate('')
       }
   }
-  
+  const filterData = () =>{
+    const arrParent = []
+    GetHomeworkDetails.map((item)=>{
+    const arrChild = []
+        
+        item.Child.map((obj)=>{
+            if(getDateMonthYearFormatted(obj.AssignedDate) === assignedDate){
+                arrChild.push(obj)
+            }
+        })
+        if(arrChild.length>0){
+            arrParent.push(
+                {Id: item.Id,
+                    Name: item.Name,
+                    AssignedDate: item.Value,
+                    Child: arrChild
+                }
+            )
+        }
+    })
+    return arrParent;
+  }
   return (
     <div>
 
@@ -110,7 +132,7 @@ function Homework() {
                 itemList={itemList} clickDate={clickDate} clickPrevNext={clickPrevNext}
                 />
               {/* <Card30 header={GetHomeworkDetails.filter((item)=>{return getDateMonthYearFormatted(item.AssignedDate) === assignedDate})} /> */}
-              <Card30 header={GetHomeworkDetails} AssignedDate={assignedDate} />
+              <Card30 header={filterData()} />
             </>)
         }
       </Container>
