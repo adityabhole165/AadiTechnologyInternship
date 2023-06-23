@@ -17,8 +17,7 @@ function PayOnline() {
   );
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem("auth"));
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const schoolId = localStorage.getItem('localSchoolId');
   const AdvanceFeelist = schoolId == '122'? advanceFeelist : ''
 

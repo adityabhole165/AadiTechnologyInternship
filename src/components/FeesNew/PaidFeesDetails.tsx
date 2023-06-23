@@ -21,15 +21,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const StandardId = sessionStorage.getItem('StandardId');
   const sStudentId = sessionStorage.getItem('StudentId')
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
-  const authData = JSON.parse(localStorage.getItem("auth"));
-
+  
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
   
   const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
   const [isSingleSelect, setisSingleSelect] = useState(false);
 
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId
   const totalamountt = FeesTotal - TotalLateFee;
   const IntFeeDetailsId = itemList.map((item, i) => { return item.StudentFeeId })

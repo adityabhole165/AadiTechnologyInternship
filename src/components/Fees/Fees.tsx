@@ -188,9 +188,8 @@ function Fees() {
 
   const clickCaution = (value) => {
     ;
-    const authData = JSON.parse(localStorage.getItem("auth"));
-    const userLoginId = authData.data.AuthenticateUserResult.UserLogin
-    let returnString = 'StudentId=' + asStudentId + '&DueDates=' + '&Remarks=&SchoolwiseStudentFeeId=0' + '&IsOnlineCautionMoneyPayment=1'
+  const userLoginId = sessionStorage.getItem("Userlogin") 
+  let returnString = 'StudentId=' + asStudentId + '&DueDates=' + '&Remarks=&SchoolwiseStudentFeeId=0' + '&IsOnlineCautionMoneyPayment=1'
 
     const body: IPayOnline = {
       asSchoolId: localStorage.getItem('localSchoolId'),
