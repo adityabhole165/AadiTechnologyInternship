@@ -5,7 +5,7 @@ import { ListStyle } from '../styled/CardStyle';
 import { Grow } from '@mui/material';
 import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
-export const Card30 = ({ header, AssignedDate }) => {
+export const Card30 = ({ header, AssignedDate="" }) => {
 
     const [enableRow, setEnableRow] = useState(-1)
     const [checked, setChecked] = useState(true)
