@@ -109,7 +109,8 @@ function Homework() {
               <SelectedDateCalendar DefaultDate={assignedDate}
                 itemList={itemList} clickDate={clickDate} clickPrevNext={clickPrevNext}
                 />
-              <Card30 header={GetHomeworkDetails.filter((item)=>{return getDateMonthYearFormatted(item.AssignedDate) === assignedDate})} />
+              {/* <Card30 header={GetHomeworkDetails.filter((item)=>{return getDateMonthYearFormatted(item.AssignedDate) === assignedDate})} /> */}
+              <Card30 header={GetHomeworkDetails} AssignedDate={assignedDate} />
             </>)
         }
       </Container>

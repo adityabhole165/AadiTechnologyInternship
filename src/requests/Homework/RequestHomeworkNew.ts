@@ -78,21 +78,27 @@ export const getHomeworkDates =
                             Id: item.Id,
                             Name: item.Title,
                             Value: item.CompleteByDate.replace("-", " ").replace("-", " "),
-                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id + '/' + item.AssignedDate
+                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id + '/' + item.AssignedDate,
+                            AssignedDate: item.AssignedDate
                         };
                     })
             }
+            let subjectArr = [];
+            const Data2 = []
+            response.data.HomeworkDetails.map((item, index) => {
 
-            const Data2 = (
-                response.data.HomeworkDetails.map((item, index) => {
-                    return {
+                    if(!subjectArr.includes(item.SubjectId)){
+                        subjectArr.push(item.SubjectId)
+                        Data2.push( {
                         Id: index,
                         Name: item.SubjectName,
                         AssignedDate: item.AssignedDate,
                         Child: child(item.SubjectId)
-                    };
+                    });
+
+                }
+
                 })
-            )
             dispatch(SliceHomework.actions.getHomeworkDates(HomeworkList));
             dispatch(SliceHomework.actions.getHomeworkDetails(Data2));
             dispatch(SliceHomework.actions.getButtonState(response.data.HomeworkDateStatus));
