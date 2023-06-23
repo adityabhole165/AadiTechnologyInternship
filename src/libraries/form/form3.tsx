@@ -46,7 +46,6 @@ function Form() {
   const Logout = async (): Promise<void> => {
     try {
       sessionStorage.clear();
-      localStorage.removeItem("auth")
       localStorage.removeItem("url");
       navigate('/');
     } catch (err) {

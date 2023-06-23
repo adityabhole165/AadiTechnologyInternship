@@ -187,7 +187,10 @@ function SelectSchool() {
             localStorage.setItem("UserId", result.Id);
             localStorage.setItem("RoleName", result.RoleName);
             sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
-
+            if (result.StudentSiblingList === undefined)
+                sessionStorage.setItem("StudentSiblingList", "");
+            else
+                sessionStorage.setItem("StudentSiblingList", JSON.stringify(result.StudentSiblingList));
         }
 
 
@@ -266,8 +269,7 @@ function SelectSchool() {
                     navigate("/TermAndCondition")
                 }
                 else {
-                    
-                    localStorage.setItem("auth", JSON.stringify(response));
+
                     setSession(response);
                 }
             }
@@ -307,13 +309,8 @@ function SelectSchool() {
     }, [])
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
-            dispatch(getSchoolSettingsValue({asSchoolId: schoolId}))
-            // const res = localStorage.getItem("auth")
-            // if (res === null) {
-            //     setShow(false);
-            // } else {
-            //     setSession(JSON.parse(res))
-            // }
+            dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
+            setShow(false);
         }
     }, [value]);
 

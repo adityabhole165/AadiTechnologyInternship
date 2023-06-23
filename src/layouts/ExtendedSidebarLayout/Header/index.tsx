@@ -127,10 +127,9 @@ function Header() {
     img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
   }
 
-  const authData = JSON.parse(localStorage.getItem("auth"));
   let siblingList: any = [];
-  if (authData.data.AuthenticateUserResult.RoleName === 'Student') {
-    siblingList = authData.data.StudentDetails.StudentSiblingList
+  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList")!=="") {
+    siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
   }
   const schoolId = localStorage.getItem("localSchoolId");
 
@@ -158,7 +157,6 @@ function Header() {
     try {
       handleClose();
       sessionStorage.clear();
-      localStorage.removeItem("auth")
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -227,7 +225,6 @@ function Header() {
 
     const response: any = await LoginApi.AuthenticateUser(body)
     if (response.data != null) {
-      localStorage.setItem("auth", JSON.stringify(response));
       setSession(response);
     }
     else {

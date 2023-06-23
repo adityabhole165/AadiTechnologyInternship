@@ -24,6 +24,7 @@ export interface IAuthenticateUserResult {
       UserLogin: string,
       DOB: string,
       LastPasswordChangeDate: string,
+      StudentSiblingList:[{UserName:string,Password:string}]
 }
 
 export interface IStudentDetails{
