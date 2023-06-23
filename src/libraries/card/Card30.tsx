@@ -5,38 +5,16 @@ import { ListStyle } from '../styled/CardStyle';
 import { Grow } from '@mui/material';
 import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
-export const Card30 = ({ header, AssignedDate="" }) => {
+export const Card30 = ({ header}) => {
 
     const [enableRow, setEnableRow] = useState(-1)
     const [checked, setChecked] = useState(true)
     
-    const filterData = () =>{
-        const arrParent = []
-        header.map((item)=>{
-        const arrChild = []
-            
-            item.Child.map((obj)=>{
-                console.log(getDateMonthYearFormatted(obj.AssignedDate),"--",AssignedDate)
-                if(getDateMonthYearFormatted(obj.AssignedDate) === AssignedDate){
-                    arrChild.push(obj)
-                }
-            })
-            if(arrChild.length>0){
-                arrParent.push(
-                    {Id: item.Id,
-                        Name: item.Name,
-                        AssignedDate: item.Value,
-                        Child: arrChild
-                    }
-                )
-            }
-        })
-        return arrParent;
-    }
+    
     return (<>
 
         {
-            filterData().map((Header, index) => (
+            header.map((Header, index) => (
                 <Grow key={index}
                     in={checked}
                     style={{ transformOrigin: '0 0 0' }}
