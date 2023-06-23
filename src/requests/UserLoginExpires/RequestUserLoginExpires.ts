@@ -10,7 +10,7 @@ const SliceUserLoginExpires = createSlice({
     },
     reducers: {
         getuserLoginExpires(state, action) {
-                state.UserLoginExpires = action.payload;
+                state.UserLoginExpires = action.payload.CheckForUserLoginExpiresResult;
         },
     }
 });
