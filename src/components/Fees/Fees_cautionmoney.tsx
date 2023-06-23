@@ -14,8 +14,7 @@ function Fees_cautionmoney() {
     (state: RootState) => state.Fees.paymentUrl
   );
   const studentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem("auth")); 
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const schoolId = localStorage.getItem('localSchoolId');
 
   const body: IPayOnline = {
