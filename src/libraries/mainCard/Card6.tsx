@@ -34,7 +34,6 @@ function Card6() {
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
   );
-
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),

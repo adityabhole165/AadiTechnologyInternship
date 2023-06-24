@@ -20,7 +20,8 @@ const SchoolSettingSlice = createSlice({
     EnableAdvanceFeePayment:false,
     EnableTransportCommitteeForStudentLogin:false,
     ShowAadharCardForStudent:false,
-    EnableOnlineExamModule:false
+    EnableOnlineExamModule:false,
+    AllowParentPhotoUploadFromStudentLogin:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -28,6 +29,9 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableOnlineExamModule(state, action) {
       state.EnableOnlineExamModule = action.payload
+    },
+    getAllowParentPhotoUploadFromStudentLogin(state, action) {
+      state.AllowParentPhotoUploadFromStudentLogin = action.payload
     },
     getShowAadharCardForStudent(state, action) {
       state.ShowAadharCardForStudent = action.payload
@@ -86,7 +90,6 @@ export const getModulesPermissionsResultt =
       dispatch(SchoolSettingSlice.actions.getModulesPermissionsResult(response.data))
     };
 
-
 export const getGetSettingValue =
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
@@ -117,6 +120,21 @@ export const getGetSettingValue =
         }
         dispatch(SchoolSettingSlice.actions.getTransportCommitteeStudent(TransportCommitteeForStudent));
       }
+      export const getParentPhotoUpload =
+    (data: IGetSettingValueBody): AppThunk =>
+      async (dispatch) => {
+        let ParentPhotoUpload = false
+        data.asKey = "AllowParentPhotoUploadFromStudentLogin";
+        let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            ParentPhotoUpload = true;
+          }
+        }
+        dispatch(SchoolSettingSlice.actions.getAllowParentPhotoUploadFromStudentLogin(ParentPhotoUpload));
+      }
+    
+
     export const GetEnableMessageCenterReadModeForStudent =
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
