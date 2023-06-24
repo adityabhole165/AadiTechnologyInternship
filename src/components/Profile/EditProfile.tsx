@@ -16,6 +16,8 @@ import { toast } from 'react-toastify';
 import { ISaveStudentPhotoBody, ISubmitStudentPhotoBody } from 'src/interfaces/Student/IEditProfile';
 import { getSaveStudentPhoto, getSubmitStudentPhoto, resetMessage, resetMessage1 } from 'src/requests/EditProfile/RequestEditProfile';
 import BackButton from 'src/libraries/button/BackButton';
+import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
+import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
 
 const note = [
   '1) The student photo to be uploaded should be in school uniform.',
@@ -39,7 +41,20 @@ function EditProfile() {
   const SubmitPhotos: any = useSelector(
     (state: RootState) => state.EditProfile.SubmitStudentPhoto
   );
-
+  const GetStudentPic: any = useSelector(
+    (state: RootState) => state.StudentPic.GetStudentpic
+  );
+  const DisableSubmit = GetStudentPic == null ? '' : GetStudentPic.IsSubmitted
+  console.log("GetStudentPic",GetStudentPic);
+  
+const getstudentphoto : IGetStudentPhotoBody= {
+  aiSchoolId:parseInt(asSchoolId),
+  aiUserId:parseInt(asUserId),
+  aiStudentId:parseInt(asStudentId)
+}
+useEffect(() => {
+  dispatch(getstudentpic(getstudentphoto))
+}, [])
   // console.log(SavePhotos,"SavePhotos")
   const width = 112, height = 151, maxFileSize = 100000
   const UserName = sessionStorage.getItem('StudentName');
@@ -136,6 +151,8 @@ function EditProfile() {
     }
     dispatch(getSubmitStudentPhoto(SubmitBody));
   }
+  console.log("DisableSubmit",DisableSubmit);
+  
   return (
     <Container>
       <PageHeader heading={'Edit Profile'} subheading={''} />
@@ -163,7 +180,9 @@ function EditProfile() {
             <ButtonPrimary onClick={SaveFile} disabled={disableButton} color={(disableButton) ? "warning" : "primary"}>Save</ButtonPrimary>
           </Grid>
           <Grid item xs={3}>
-            <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit</ButtonPrimary>
+        {DisableSubmit ? 
+        <ButtonPrimary disabled color={(disableSubmitButton) ? "warning" : "warning"} >Submit</ButtonPrimary>:
+        <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit</ButtonPrimary>}
           </Grid>
           <Grid item xs={3} />
         </Grid>
