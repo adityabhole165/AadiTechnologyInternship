@@ -314,7 +314,7 @@ b{
   }
 
   input[type=text] {
-    width: 30%;
+    width: 100%;
     outline: none;
     border: none;
     border-bottom: 1px solid black;
