@@ -68,7 +68,6 @@ function Fees() {
   const IsOnlinePaymetCautionMoney: any = useSelector((state: RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
   const AllowAdvancePaymentforStudent: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
-  console.log("OnlinePaymentForInternalFee", OnlinePaymentForInternalFee);
 
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
@@ -131,8 +130,8 @@ function Fees() {
 
   useEffect(() => {
     let arr = AcadamicYear;
-    if (AllowAdvancePaymentforStudent == true && AllowAdvancePayment == true) {
-      if (AcadamicYear.length > 0 && NextYearDetails !== null) {
+    if (AllowAdvancePaymentforStudent  && AllowAdvancePayment ) {
+      if (AcadamicYear.length > 0 && NextYearDetails !== undefined) {
         let arr2 = {
           id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
           Name: 'Advance Academic Year',

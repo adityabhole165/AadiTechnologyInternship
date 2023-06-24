@@ -81,8 +81,11 @@ export const getListOfMessages =
           let msgDate = item.Date + ' ' + item.Time
           if (msgDate !== undefined) {
             let msgDateArr = msgDate.split(' ')
-            if (msgDateArr.length === 4)
+            if (msgDateArr.length === 4 )
               msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] + " " + msgDateArr[3]
+              else
+              if (msgDateArr.length === 4 || msgDateArr.length === 3)
+                msgDate = msgDateArr[0] + " " + msgDateArr[1] + " 2023 " + msgDateArr[2] 
           }
           return {
             Id: item.DetailsId,
