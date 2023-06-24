@@ -310,7 +310,7 @@ function SelectSchool() {
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
             dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
-            const res = localStorage.getItem("Userlogin")
+            const res = sessionStorage.getItem("Userlogin")
             if (res === null) {
                 setShow(false);
             } else {
