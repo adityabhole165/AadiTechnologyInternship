@@ -16,10 +16,7 @@ function MyprofileCard() {
   const Address = sessionStorage.getItem('Address');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
-  const authData = JSON.parse(localStorage.getItem('auth'));
-  const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB : 
-              RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
-              RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB :''
+  const DOB = sessionStorage.getItem('DOB')
     const ImgUrl = sessionStorage.getItem('PhotoFilePath');
     const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,'+ImgUrl : '/imges/defualtUser.jpg'
     const getDateFormate = (date) => {

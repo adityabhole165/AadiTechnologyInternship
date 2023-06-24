@@ -8,7 +8,7 @@ import UserPhoto from '../UserPhoto/UserPhoto';
 import ProfileComponent from './ProfileComponent';
 import { useNavigate } from 'react-router-dom';
 import CropSquareTwoToneIcon from '@mui/icons-material/CropSquareTwoTone';
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
@@ -24,29 +24,25 @@ function Card6() {
   const ClassTeacher = sessionStorage.getItem('ClassName');
   const RollNo = sessionStorage.getItem('RollNo');
   const UDISENumber = sessionStorage.getItem('UDISENumber');
-  const BirthPlace = sessionStorage.getItem('BirthPlace');
   const Nationality = sessionStorage.getItem('Nationality');
   const Address = sessionStorage.getItem('Address');
   const Blood_Group = sessionStorage.getItem('Blood_Group');
   const MotherTongue = sessionStorage.getItem('MotherTongue');
-  const authData = JSON.parse(localStorage.getItem('auth'));
-  const DOB = RoleName == 'Student' ? authData.data.StudentDetails.DOB :
-    RoleName == 'Teacher' ? authData.data.TeacherDetails.DOB :
-      RoleName == 'Admin Staff' ? authData.data.AdminStaffDetails?.GetAdminStaffResult?.DOB : ''
-const birthPlace = authData.data.StudentDetails?.BirthPlace;
+  const DOB = sessionStorage.getItem('DOB')
+  const birthPlace = sessionStorage.getItem('BirthPlace');
 
-const AllowStudentPhotoUpload: any = useSelector(
-  (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
-);
+  const AllowStudentPhotoUpload: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
+  );
 
-const GetSettingValueBody: IGetSettingValueBody = {
-  asSchoolId: parseInt(asSchoolId),
-  aiAcademicYearId: parseInt(asAcademicYearId),
-  asKey: "",
-};
-useEffect(() => {
-  dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
-}, []);
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
+  useEffect(() => {
+    dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
+  }, []);
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
@@ -62,28 +58,28 @@ useEffect(() => {
 
   const EditProfile = () => {
     navigate('EditProfile')
-  }  
+  }
   return (
     <>
-     <Box sx={{ display: "flex" ,alignItems:"center" ,justifyContent:"center"  }} >
-          <Box ml={AllowStudentPhotoUpload == true && "30px"} >
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
+        <Box ml={AllowStudentPhotoUpload == true && "30px"} >
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
-          </Box>
-         
-        {AllowStudentPhotoUpload == true &&
-      
-          <Box sx={{color:"black"}}  onClick={EditProfile}>
-            <EditIcon fontSize="small" /> 
-          </Box>}
-          </Box>
-        
-        <ProfileDetailHeader style={{marginRight:"12px" , textAlign:"center"}}><b>{UserName}</b></ProfileDetailHeader>
+        </Box>
 
-        {RoleName == 'Student' &&
-          <ProfileDetail2 style={{marginRight:"3px" ,textAlign:"center"}}>Roll No: {RollNo}</ProfileDetail2>
-        }
-       
-     <ListStyle
+        {AllowStudentPhotoUpload == true &&
+
+          <Box sx={{ color: "black" }} onClick={EditProfile}>
+            <EditIcon fontSize="small" />
+          </Box>}
+      </Box>
+
+      <ProfileDetailHeader style={{ marginRight: "12px", textAlign: "center" }}><b>{UserName}</b></ProfileDetailHeader>
+
+      {RoleName == 'Student' &&
+        <ProfileDetail2 style={{ marginRight: "3px", textAlign: "center" }}>Roll No: {RollNo}</ProfileDetail2>
+      }
+
+      <ListStyle
         sx={{
           bottom: 0,
           height: '80vh',
@@ -110,11 +106,11 @@ useEffect(() => {
               </>
             ) : RoleName == 'Student' ? (
               <>
-                
+
                 <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
                 <ProfileComponent Name='Residence Phone No:' Value={ResidencePhoneNumber}></ProfileComponent>
 
-            
+
 
                 <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
 

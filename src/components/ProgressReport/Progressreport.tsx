@@ -47,8 +47,7 @@ function Progressreport() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem('auth'));
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
   const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;

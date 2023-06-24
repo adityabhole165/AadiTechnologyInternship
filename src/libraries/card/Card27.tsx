@@ -37,8 +37,7 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, O
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-  const authData = JSON.parse(localStorage.getItem('auth'));
-  const userLoginId = authData.data.AuthenticateUserResult.UserLogin;
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const filePath = receiptFileName.replace(/\\/g, '/');
   let sitePathURL = localStorage.getItem('SiteURL');
   let downloadPathOfReceipt = sitePathURL + filePath;
