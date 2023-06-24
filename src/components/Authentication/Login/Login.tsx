@@ -234,15 +234,15 @@ function SelectSchool() {
         sessionStorage.setItem("Userlogin", result.UserLogin);
         const url = localStorage.getItem("url");
 
-        // if (url != null) {
-        //     navigate(url);
-        // }
-        // else 
-        if (result.RoleName == "Student" ||
-            result.RoleName == "Teacher" ||
-            result.RoleName == "Admin Staff") {
-            navigate('/extended-sidebar/landing/landing');
+        if (url != null) {
+            navigate(url);
         }
+        else
+            if (result.RoleName == "Student" ||
+                result.RoleName == "Teacher" ||
+                result.RoleName == "Admin Staff") {
+                navigate('/extended-sidebar/landing/landing');
+            }
         // deviceRegistrationFCM(result.Id)
     }
 
@@ -310,7 +310,22 @@ function SelectSchool() {
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
             dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
-            setShow(false);
+            const res = localStorage.getItem("Userlogin")
+            if (res === null) {
+                setShow(false);
+            } else {
+                const url = localStorage.getItem("url");
+
+                if (url != null) {
+                    navigate(url);
+                }
+                else
+                    if (localStorage.getItem("RoleName") == "Student" ||
+                        localStorage.getItem("RoleName") == "Teacher" ||
+                        localStorage.getItem("RoleName") == "Admin Staff") {
+                        navigate('/extended-sidebar/landing/landing');
+                    }
+            }
         }
     }, [value]);
 
