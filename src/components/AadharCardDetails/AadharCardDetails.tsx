@@ -6,7 +6,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Errormessage from "src/libraries/ErrorMessages/Errormessage";
 import { getUserAadharCardDetails, resetMessage } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { getsaveUserAadharCardDetails } from 'src/requests/AadharCardDetails/RequestAadharCard';
-import { Box, Container, Grow, Paper, TextField, Typography } from '@mui/material';
+import { Box, Container, Grow, Paper, TextField, Typography, Grid } from '@mui/material';
 import { CheckFileValidationAdhar } from '../Common/Util';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
@@ -23,7 +23,7 @@ function AadharCardDetails() {
     const GetUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.GetUserAadharCardDetails
     );
-   
+
     const SaveUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.SaveUserAadharCardDetails
     );
@@ -179,30 +179,58 @@ function AadharCardDetails() {
                 {...(checked ? { timeout: 1500 } : {})}
             >
                 <ListStyle>
-                    <Typography > <b>Name :</b> {GetUserAadharCardDetails.Name}</Typography>
-                    <Typography sx={{ mt: "4px" }}> <b>Aadhaar Number : </b>
-                        <input type="text" value={aadharNumber}
-                            onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
-                    </Typography>
-                    <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
-                    <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
+                    <Grid container>
+                        <Grid item xs={4}>
+                            <Typography> <b>Name :</b> </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <Typography>{GetUserAadharCardDetails.Name}</Typography>
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography> <b>Aadhaar Number : </b> </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+                            <input type="text" value={aadharNumber}
+                                onChange={(e) => { changeAdhar(e.target.value) }} maxLength={12} />
 
-                    {GetUserAadharCardDetails.NameOnAadharCard === "" ?
-                        <Typography sx={{ mt: "5px" }}><b>Name Present On Aadhaar Card : </b>
-                        <input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} />
-                        </Typography>
-                        : <Typography sx={{ mt: "5px" }}><b>Name Present On Aadhaar Card : </b> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
-                    }
-                   
-                   <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
-                        <input type='text'  />
-                        </Typography>
+                            <ErrorMessage1 Error={error ? "Please enter Aadhar Card Number." : " "} />
+                            <ErrorMessage1 Error={error1 ? "Number should not exceed 12 digit." : " "} />
+                        </Grid>
 
-                        <Typography sx={{ mt: "5px" }}><b>Mother Tongue : </b>
-                        <input type='text'  />
-                        </Typography>
+                        <Grid item xs={4}>
+                            <Typography> <b>Name Present On Aadhaar Card : </b></Typography>
+                        </Grid>
+                        <Grid item xs={8} mt={1}>
+                            {GetUserAadharCardDetails.NameOnAadharCard === "" ?
+
+                                <input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} />
+
+                                : <Typography sx={{ mt: "5px" }}> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
+                            }
 
 
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
+
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+
+                            <input type='text' />
+
+                        </Grid>
+                        <Grid item xs={4}>
+                            <Typography sx={{ mt: "5px" }}><b>Mother Tongue : </b>
+
+                            </Typography>
+                        </Grid>
+                        <Grid item xs={8}>
+
+                            <input type='text' />
+
+                        </Grid>
+                    </Grid>
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
                             <img style={{ height: "150px", width: "150px" }} src={"/imges/Adhar.png"} alt={'adhar'} /> :
