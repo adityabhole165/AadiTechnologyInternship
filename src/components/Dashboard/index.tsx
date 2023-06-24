@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {
   getModulesPermission, getModulesPermissionsResultt, getGetSettingValue,
-  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM
+  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getMessageCount } from 'src/requests/Dashboard/Dashboard'
@@ -56,8 +56,9 @@ function LandingPage() {
   const Messagecount: any = useSelector(
     (state: RootState) => state.Dashboard.MessageCount
   );
-
-  
+  const AllowParentPhoto: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.AllowParentPhotoUploadFromStudentLogin
+  );
     const showAaadharCard: any = useSelector(
       (state: RootState) => state.getSchoolSettings.ShowAadharCardForStudent
     );
@@ -116,8 +117,7 @@ function LandingPage() {
       dispatch(getTransportCommitteeForStudent(GetSettingValueBody)) 
       dispatch(ShowAadharCardForStudent(GetSettingValueBody)) 
       dispatch(EnableOnlineExamM(GetSettingValueBody)) 
-
-      // EnableOnlineExamModule
+      dispatch(getParentPhotoUpload(GetSettingValueBody)) 
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
@@ -222,6 +222,10 @@ function LandingPage() {
     items3 = items3.filter((el) => {
       return el.Text1 == ' O-Progress ' ? showOnlineExam : true
     })
+    items3 = items3.filter((el) => {
+      return el.Text1 == 'Upload' ? AllowParentPhoto : true
+    })
+    
   }
 
 
