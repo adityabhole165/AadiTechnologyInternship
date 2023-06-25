@@ -186,7 +186,7 @@ function AadharCardDetails() {
                         <Grid item xs={8}>
                             <Typography>{GetUserAadharCardDetails.Name}</Typography>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={4}>  
                             <Typography> <b>Aadhaar Number : </b> </Typography>
                         </Grid>
                         <Grid item xs={8}>
@@ -210,7 +210,7 @@ function AadharCardDetails() {
 
 
                         </Grid>
-                        <Grid item xs={4}>
+                        {/* <Grid item xs={4}>
                             <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
 
                             </Typography>
@@ -229,7 +229,7 @@ function AadharCardDetails() {
 
                             <input type='text' />
 
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?
