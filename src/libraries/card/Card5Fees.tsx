@@ -15,6 +15,7 @@ import {
   import ReplyIcon from '@mui/icons-material/Reply';
   import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
   import BackButton from '../button/BackButton';
+  import { toast } from 'react-toastify';
   import {
     CardDetail1,
     ListStyle,
@@ -58,7 +59,9 @@ import {
       FileName;
   
     const classes = Styles();
-  
+  const Toaster =()=>{
+    toast.success('This feature is coming soon. Please download receipt form web app.')
+  }
     return (
       <>
         <Container>
@@ -78,7 +81,8 @@ import {
                     <Box
                       sx={{marginTop: '1px'}}>
                       <a>
-                        <FileDownloadOutlinedIcon onClick={download} />
+                        {/* <FileDownloadOutlinedIcon onClick={download} /> */}
+                        <FileDownloadOutlinedIcon onClick={Toaster} />
                       </a>
                     </Box>
                   </>
