@@ -182,6 +182,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   }
+  console.log("RestrictNewPayment", !RestrictNewPayment);
+
   return (
     <div>
       <Grid container>
@@ -199,10 +201,15 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
                 </ButtonPrimary>
               }
             </>
-            : <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
-              color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
-              Pay Online
-            </ButtonPrimary>}
+            : <>
+                  {RestrictNewPayment ? null :
+                    <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
+                      color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
+                      Pay Online
+                    </ButtonPrimary>
+                  }   
+            </>
+          }
 
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&
