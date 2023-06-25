@@ -57,6 +57,8 @@ const NewRelease = () => {
             dispatch(resetuserLoginExpires())
             if (LogoutMessage != "") {
                 toast.success(UserExpires.Message, { toastId: 'success1' })
+                sessionStorage.clear();
+                localStorage.removeItem("auth")
                 navigate('/');
             }
         }
