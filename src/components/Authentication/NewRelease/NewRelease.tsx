@@ -12,6 +12,7 @@ import UpgradeApp from "./UpgradeApp";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { getuserLoginExpires, resetuserLoginExpires } from "src/requests/UserLoginExpires/RequestUserLoginExpires"
+import { IUserLoginExpiresBody } from "src/interfaces/Student/ICheckForUserLoginExpires";
 
 const NewRelease = () => {
 
@@ -29,33 +30,13 @@ const NewRelease = () => {
     const RoleId = sessionStorage.getItem('RoleId');
     const userId = sessionStorage.getItem('Id');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-    const LastPassword = sessionStorage.getItem("LastPasswordChangeDate");
-
-    const UserLoginExpiresBody =
-    {
-        asSchoolId: asSchoolId,
-        asUserId: userId,
-        asAcademicYearId: AcademicYearId,
-        asUserRoleId: RoleId,
-        asLastPasswordChangeDate: LastPassword
-    }
 
 
     useEffect(() => {
         let LogoutMessage = ""
         if (UserExpires != null) {
-            if (UserExpires.IsLocked == "Y") {
-                LogoutMessage = "Your account is locked"
-            }
-            if (UserExpires.IsLogoutRequired == "Y" ||
-                UserExpires.CurrentAcademicYearID.toString() !== sessionStorage.getItem('AcademicYearId')) {
-                LogoutMessage = "Please login again"
-            }
-            if (UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")) {
-                LogoutMessage = "You are using old password"
-            }
-            dispatch(resetuserLoginExpires())
-            if (LogoutMessage != "") {
+            //api handles academic year mismatch, account is deacivated, locked and change password scenario
+            if (UserExpires.IsLogoutRequired == "Y") {
                 toast.success(UserExpires.Message, { toastId: 'success1' })
                 sessionStorage.clear();
                 localStorage.removeItem("auth")
@@ -64,8 +45,10 @@ const NewRelease = () => {
         }
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
         const releaseBody: INewRelease = {
-            "asDeviceType": deviceType,
-            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
+            asDeviceType: deviceType,
+            asUserCurrentVersion: deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion,
+            aiSchoolId: parseInt(asSchoolId),
+            asOldLoginVersion: localStorage.getItem("LoginVersion")
         };
         dispatch(getNewRelease(releaseBody))
         // }
@@ -73,41 +56,39 @@ const NewRelease = () => {
 
 
     useEffect(() => {
-        // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
-        const releaseBody: INewRelease = {
-            "asDeviceType": deviceType,
-            "asUserCurrentVersion": deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion
-        };
+
+        const UserLoginExpiresBody =
+        {
+            asSchoolId: asSchoolId,
+            asUserId: userId,
+            asAcademicYearId: AcademicYearId,
+            asUserRoleId: RoleId,
+            asLastPasswordChangeDate: sessionStorage.getItem('LastPasswordChangeDate')
+        }
         dispatch(getuserLoginExpires(UserLoginExpiresBody))
-        // }
     }, [])
+
     useEffect(() => {
-        if (latestVersionDetails != null && latestVersionDetails.Version != null && latestVersionDetails.Version != "") {
+        if (latestVersionDetails != null && latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
+            latestVersionDetails.GetNewAppVersionDetailsResult.Version != "") {
+
             setShowUpgrade(true)
             localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
-            if (latestVersionDetails.IsForceUpdate === 'True')
+
+            if (latestVersionDetails.GetNewAppVersionDetailsResult.IsForceUpdate === 'True')
                 navigate('../../../UpgradeApp');
-            if (latestVersionDetails.IsForceLogout === 'True') {
+            let LoginVersion = latestVersionDetails.LoginVersionDetails.LatestLoginVersion
+            if (LoginVersion !== localStorage.getItem('LoginVersion')) 
+            {
+                toast.success(UserExpires.Message, { toastId: 'success1' })
+                localStorage.clear();
                 sessionStorage.clear();
+                localStorage.setItem('LoginVersion', LoginVersion)
                 navigate('/');
             }
         }
     }, [latestVersionDetails])
 
-    // const checkForNewAppVersion = () => {
-    //     let appAvailableVersion = 0;
-    //     let checkForNewAppVersion = false
-    //     if ((localStorage.getItem("NewVersionDetails") != null) &&
-    //         (newVersionDetails != null) && (newVersionDetails.Version != null) &&
-    //         (newVersionDetails.Version != "")) {
-    //         /*Here we can set our available version on store */
-    //         appAvailableVersion = parseInt(newVersionDetails.Version.replace(/[.]/g, ""));
-    //         lastFetchDateTimeValue = new Date((newVersionDetails.LastFetchDate).replace(/-/g, '\/')).getTime();
-    //         const currentDateTimeValue = new Date().getTime();
-    //         checkForNewAppVersion = ((((currentDateTimeValue - lastFetchDateTimeValue) % (24 * 60 * 60 * 1000)) % 3600000) / 60000) > 5 ? true : false;
-    //     }
-    //     return checkForNewAppVersion;
-    // }
     return (
         <>
             {showUpgrade &&
@@ -115,29 +96,6 @@ const NewRelease = () => {
                     AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.AppStoreUrl}
                     ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
             }</>
-        // <Container>
-        //     {showUpgrade &&
-        //         (<>
-        //          <Grid  textAlign="center">
-        //         <a href='https://www.regulusit.net' target="_blank" rel="noreferrer">
-        //            <img src={school2} height={70}/>
-        //          </a>
-        //         </Grid>
-        //         <ListStyle sx={{textAlign:"center",backgroundColor:"#80cbc4"}} >
-        //            <NewCard><b>A new version of app is available.</b><br /></NewCard> 
-        //             <a href={latestVersionDetails.AppStoreUrl}><NewCard>Click here to upgrade.</NewCard></a>
-        //         </ListStyle>
-        //         <Box >
-
-        //         </Box>
-        //             {latestVersionDetails.IsForceUpdate === 'True' &&
-        //              <NewStyle sx={{backgroundColor:"#e0f2f1"}}>
-        //                     <Typography sx={{ml:"10px",mt:"10px"}}><b>What's New?</b></Typography>
-        //              <NewCard dangerouslySetInnerHTML={{ __html: latestVersionDetails.ReleaseNotes }} />
-        //              </NewStyle>
-        //             }
-        //         </>)}
-        // </Container>
     )
 }
 

@@ -52,8 +52,8 @@ function Homework() {
 
   useEffect(() => {
     if (GetHomeworkDates.length > 0) {
-      setAssignedDate(GetHomeworkDates[0].Value)
       let itemLength = GetHomeworkDates.length;
+      setAssignedDate(GetHomeworkDates[itemLength-1].Value)
       setItemList(GetHomeworkDates.map((item, index) => {
         return index === itemLength-1 ?
           { ...item, IsActive: true } :

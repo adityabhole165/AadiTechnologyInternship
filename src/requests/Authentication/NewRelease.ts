@@ -12,7 +12,7 @@ const NewReleaseslice = createSlice({
   },
   reducers: {
     getRelease(state, action) {
-      state.Release = action.payload.GetNewAppVersionDetailsResult;
+      state.Release = action.payload;
     },
 
   }
