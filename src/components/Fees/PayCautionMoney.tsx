@@ -8,6 +8,7 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution, 
   }
   return (
     <div>
+    {IsOnlinePaymetCautionMoney &&  <>
       {ShowCaution === "SchoolFees" &&
         <>
           {IspaidCautionMoney ?
@@ -19,6 +20,7 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution, 
           }
         </>
       }
+      </>}
     </div>
   )
 }
