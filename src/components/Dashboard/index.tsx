@@ -70,7 +70,6 @@ function LandingPage() {
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const DOB = sessionStorage.getItem('DOB');
-  const LastPassword =  sessionStorage.getItem("LastPasswordChangeDate");
 
 
   const getModulePermissionBody: IgetModulesPermission = {

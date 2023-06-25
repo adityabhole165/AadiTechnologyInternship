@@ -183,14 +183,12 @@ function SelectSchool() {
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
             sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
+            sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
             localStorage.setItem('DOB', studentDetails.DOB);
             localStorage.setItem("UserId", result.Id);
             localStorage.setItem("RoleName", result.RoleName);
-            sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
-            if (result.StudentSiblingList === undefined)
-                sessionStorage.setItem("StudentSiblingList", "");
-            else
-                sessionStorage.setItem("StudentSiblingList", JSON.stringify(result.StudentSiblingList));
+            sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
+                "" : JSON.stringify(result.StudentSiblingList));
         }
 
 
@@ -223,7 +221,6 @@ function SelectSchool() {
             localStorage.setItem("DOB", adminDetails.DOB);
             sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
-
         }
 
 
@@ -312,7 +309,6 @@ function SelectSchool() {
         if ((schoolId != null && schoolId != undefined)) {
             const res = localStorage.getItem("auth")
             if (res === null) {
-                // dispatch(getSchoolList(ListData))
                 dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
                 setShow(false);
             } else {

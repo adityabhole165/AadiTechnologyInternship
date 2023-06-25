@@ -63,7 +63,7 @@ const NewRelease = () => {
             asUserId: userId,
             asAcademicYearId: AcademicYearId,
             asUserRoleId: RoleId,
-            asLastPasswordChangeDate: localStorage.getItem('LastPasswordChangeDate')
+            asLastPasswordChangeDate: sessionStorage.getItem('LastPasswordChangeDate')
         }
         dispatch(getuserLoginExpires(UserLoginExpiresBody))
     }, [])
@@ -78,16 +78,11 @@ const NewRelease = () => {
             if (latestVersionDetails.GetNewAppVersionDetailsResult.IsForceUpdate === 'True')
                 navigate('../../../UpgradeApp');
             let LoginVersion = latestVersionDetails.LoginVersionDetails.LatestLoginVersion
-            if (LoginVersion !==
-                localStorage.getItem('LoginVersion')) {
-
+            if (LoginVersion !== localStorage.getItem('LoginVersion')) 
+            {
                 toast.success(UserExpires.Message, { toastId: 'success1' })
-                let LastPasswordChangeDate = localStorage.getItem('LastPasswordChangeDate')
-                let localSchoolId = localStorage.getItem('localSchoolId')
                 localStorage.clear();
                 sessionStorage.clear();
-                localStorage.setItem('localSchoolId', localSchoolId)
-                localStorage.setItem('LastPasswordChangeDate', LastPasswordChangeDate)
                 localStorage.setItem('LoginVersion', LoginVersion)
                 navigate('/');
             }
