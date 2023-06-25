@@ -11,7 +11,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 
 
 import { Browser } from '@capacitor/browser';
-import { GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
+import { GetEnableOnlinePaymentForInternalFee, getEnableOnlinePaymentForLastYearfee, getRestrictNewPaymentIfOldPaymentIsPending } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
   OldInternalstudent }) => {
@@ -21,20 +21,20 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const StandardId = sessionStorage.getItem('StandardId');
   const sStudentId = sessionStorage.getItem('StudentId')
   const aiAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'))
-  
+
   const [FeesTotal, setFeesTotal] = useState(0); // Sum of Fees
   const [itemList, setItemList] = useState([]); // Sum of Fees
-  
+
   const [IsSequenceSelect, setIsSequenceSelect] = useState(false);
   const [isSingleSelect, setisSingleSelect] = useState(false);
 
-  const userLoginId = sessionStorage.getItem("Userlogin") 
+  const userLoginId = sessionStorage.getItem("Userlogin")
   const asStudentId = currentYear == NextYearID ? SchoolwiseStudentId : sStudentId
   const totalamountt = FeesTotal - TotalLateFee;
   const IntFeeDetailsId = itemList.filter((item) => item.IsActive === true).map((obj, i) => {
     return obj.StudentFeeId
   });
-  
+
   const OldInternalstudentId = currentYear < aiAcademicYearId ? OldInternalstudent : asStudentId
   const IsForCurrentYear = IsForCurrentyear ? 1 : 0;
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
@@ -43,6 +43,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   FeesList.map((item, i) => { ConcessionAmount = item.ConcessionAmount })
 
   const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
+  const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
+  const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
 
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
@@ -60,6 +62,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     localStorage.setItem('url', window.location.pathname);
     dispatch(getFees(body));
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
+    dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
+    dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
   }, []);
 
   useEffect(() => {
@@ -68,11 +72,11 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
       let prevFeeId = "0";
       //SNS
       if (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry) {
-          setIsSequenceSelect(false)
-          if (Number(currentYear) === NextYearID)
-            setisSingleSelect(false)
-          else
-            setisSingleSelect(true)
+        setIsSequenceSelect(false)
+        if (Number(currentYear) === NextYearID)
+          setisSingleSelect(false)
+        else
+          setisSingleSelect(true)
       }
       //Non SNS
       else {
@@ -96,11 +100,11 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           if (!(internalFees === "internalFees" || Number(currentYear) === NextYearID)) {
             if (prevGroup !== item.PaymentGroup) {
               prevGroup = item.PaymentGroup;
-              prevFeeId = (index+1).toString() ;
+              prevFeeId = (index + 1).toString();
             }
           }
           return {
-            Id:(index+1).toString(),
+            Id: (index + 1).toString(),
             Name: item.FeeId,
             Value: item.FeeId,
             IsActive: false,
@@ -108,15 +112,15 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             Text2: lateFeeLabel,
             Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? item.Amount : item.Amount + " + " + item.LateFeeAmount) : (item.LateFeeAmount == "0" ? item.AmountPayable : item.AmountPayable + " + " + item.LateFeeAmount),
             Text4: "Due On : " + item.DueDateFormat,
-            ParentId: (index+1).toString() === prevFeeId ? "0" : prevFeeId,
+            ParentId: (index + 1).toString() === prevFeeId ? "0" : prevFeeId,
             AmountPayable: item.AmountPayable,
             LateFeeAmount: item.LateFeeAmount,
             DueDate: item.DueDateString,
             FeeType: item.FeeType,
-            StudentFeeId:(internalFees == "internalFees" ? item.InternalFeeDetailsId: 
-            (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
-            // StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || 
-            // (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
+            StudentFeeId: (internalFees == "internalFees" ? item.InternalFeeDetailsId :
+              (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry) ? item.StudentFeeId : "0"
+              // StudentFeeId: ((internalFees && item.InternalFeeDetailsId) || 
+              // (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry)?item.StudentFeeId:"0"
             )
           }
         }))
@@ -148,12 +152,12 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     return returnString
   }
   const clickPayOnlineLocal = () => {
-    let DueDate="", StudentFeeId = "0", FeeType = ""
-    
+    let DueDate = "", StudentFeeId = "0", FeeType = ""
+
     itemList.map((item) => {
       if (item.IsActive) {
         DueDate = DueDate + item.DueDate + ','
-        StudentFeeId = item.StudentFeeId 
+        StudentFeeId = item.StudentFeeId
         FeeType = item.FeeType
       }
     })
@@ -184,10 +188,22 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>
-          <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
-            color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
-            Pay Online
-          </ButtonPrimary>
+
+          {currentYear < aiAcademicYearId
+            ?
+            <>
+              {OnlinePaymentForLastYearFee &&
+                <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
+                  color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
+                  Pay Online
+                </ButtonPrimary>
+              }
+            </>
+            : <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
+              color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
+              Pay Online
+            </ButtonPrimary>}
+
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
@@ -197,7 +213,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           }
         </Grid>
       </Grid>
-    </div>
+    </div >
   )
 }
 
