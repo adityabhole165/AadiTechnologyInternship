@@ -184,12 +184,12 @@ function SelectSchool() {
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
             sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
             sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
-            localStorage.setItem('DOB', studentDetails.DOB);
-            localStorage.setItem("UserId", result.Id);
-            localStorage.setItem("RoleName", result.RoleName);
+            sessionStorage.setItem('DOB', studentDetails.DOB);
             sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
                 "" : JSON.stringify(result.StudentSiblingList));
-        }
+                localStorage.setItem("UserId", result.Id);
+                localStorage.setItem("RoleName", result.RoleName);
+            }
 
 
         if (result.RoleName === "Teacher") {
@@ -207,8 +207,8 @@ function SelectSchool() {
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
             sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
+            sessionStorage.setItem("DOB", teacherDetails.DOB);
             localStorage.setItem("RoleName", result.RoleName);
-            localStorage.setItem("DOB", teacherDetails.DOB);
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -217,10 +217,10 @@ function SelectSchool() {
             sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
             sessionStorage.setItem('EndDate', adminDetails.EndDate);
             sessionStorage.setItem('StartDate', adminDetails.StartDate);
-            localStorage.setItem("RoleName", result.RoleName);
-            localStorage.setItem("DOB", adminDetails.DOB);
+            sessionStorage.setItem("DOB", adminDetails.DOB);
             sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+            localStorage.setItem("RoleName", result.RoleName);
         }
 
 

@@ -21,7 +21,7 @@ function BirthdayDashboard() {
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
     const asSchoolId = localStorage.getItem('localSchoolId');
     const RoleId = sessionStorage.getItem('RoleId');
-    const DOB = localStorage.getItem('DOB');
+    const DOB = sessionStorage.getItem('DOB');
     const [view, setView] = useState('T');
     const [isRefresh, setIsRefresh] = useState(false)
     const Birthdays: any = useSelector(
