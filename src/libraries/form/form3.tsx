@@ -30,6 +30,7 @@ function Form() {
   console.log("TermAndConditions", TermAndConditions)
 
   const logout = () => {
+    localStorage.removeItem("auth");
     sessionStorage.clear();
     navigate('/');
   };
@@ -46,6 +47,7 @@ function Form() {
   const Logout = async (): Promise<void> => {
     try {
       sessionStorage.clear();
+      localStorage.removeItem("auth");
       localStorage.removeItem("url");
       navigate('/');
     } catch (err) {

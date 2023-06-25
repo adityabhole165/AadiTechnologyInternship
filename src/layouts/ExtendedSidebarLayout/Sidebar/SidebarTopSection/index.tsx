@@ -88,6 +88,7 @@ function SidebarTopSection() {
     try {
       handleClose();
       //localStorage.clear();
+      localStorage.removeItem("auth")
       sessionStorage.clear(); 
       navigate('/');
     } catch (err) {
