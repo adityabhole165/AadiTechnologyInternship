@@ -254,7 +254,7 @@ function AadharCardDetails() {
                     {fileError && <Errormessage Error={fileError} />}
 
                     <ButtonPrimary onClick={clickSubmit} fullWidth
-                        color={enableButton ? 'primary' : 'warning'}
+                        color={enableButton ? 'primary' : 'primary'}
                     >Submit</ButtonPrimary>
                 </ListStyle>
 
