@@ -23,7 +23,8 @@ const SchoolSettingSlice = createSlice({
     EnableOnlineExamModule:false,
     AllowParentPhotoUploadFromStudentLogin:false,
     RestrictNewPaymentIfOldPaymentIsPending:false,
-    EnableOnlinePaymentForLastYearFee:false
+    EnableOnlinePaymentForLastYearFee:false,
+    EnabledOnlineFee:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -31,6 +32,9 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableOnlineExamModule(state, action) {
       state.EnableOnlineExamModule = action.payload
+    },
+    getEnabledOnlineFee(state, action) {
+      state.EnabledOnlineFee = action.payload
     },
     getRestrictNewPaymentIfOldPaymentIsPending(state, action) {
       state.RestrictNewPaymentIfOldPaymentIsPending = action.payload
@@ -140,7 +144,20 @@ export const getGetSettingValue =
           }
         }
         dispatch(SchoolSettingSlice.actions.getAllowParentPhotoUploadFromStudentLogin(ParentPhotoUpload));
-      }
+      } 
+      export const getEnabledOnlineFeePayment =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let EnabledOnlineFee = false
+          data.asKey = "EnabledOnlineFee";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              EnabledOnlineFee = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getEnabledOnlineFee(EnabledOnlineFee));
+        }
       
       export const getEnableOnlinePaymentForLastYearfee =
       (data: IGetSettingValueBody): AppThunk =>

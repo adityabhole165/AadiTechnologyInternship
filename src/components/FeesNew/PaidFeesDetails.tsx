@@ -11,7 +11,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 
 
 import { Browser } from '@capacitor/browser';
-import { GetEnableOnlinePaymentForInternalFee, getEnableOnlinePaymentForLastYearfee, getRestrictNewPaymentIfOldPaymentIsPending } from 'src/requests/SchoolSetting/schoolSetting';
+import { GetEnableOnlinePaymentForInternalFee, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, getRestrictNewPaymentIfOldPaymentIsPending } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
   OldInternalstudent }) => {
@@ -45,6 +45,8 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
   const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
   const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
+  const OnlineFeePaymentAll: any = useSelector((state: RootState) => state.getSchoolSettings.EnabledOnlineFee);
+  console.log("OnlineFeePaymentAll", OnlineFeePaymentAll);
 
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
@@ -64,6 +66,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
     dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
     dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
+    dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
   }, []);
 
   useEffect(() => {
@@ -182,34 +185,33 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   }
-  console.log("RestrictNewPayment", !RestrictNewPayment);
-
   return (
     <div>
       <Grid container>
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>
-
-          {currentYear < aiAcademicYearId
-            ?
+          {OnlineFeePaymentAll &&
             <>
-              {OnlinePaymentForLastYearFee &&
-                <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
-                  color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
-                  Pay Online
-                </ButtonPrimary>
-              }
-            </>
-            : <>
+              {currentYear < aiAcademicYearId
+                ?
+                <>
+                  {OnlinePaymentForLastYearFee &&
+                    <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
+                      color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
+                      Pay Online
+                    </ButtonPrimary>
+                  }
+                </>
+                : <>
                   {RestrictNewPayment ? null :
                     <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
                       color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
                       Pay Online
                     </ButtonPrimary>
-                  }   
-            </>
-          }
+                  }
+                </>
+              } </>}
 
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&
