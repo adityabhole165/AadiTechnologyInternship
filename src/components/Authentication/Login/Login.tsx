@@ -231,7 +231,7 @@ function SelectSchool() {
         sessionStorage.setItem("Userlogin", result.UserLogin);
         const url = localStorage.getItem("url");
 
-        if (url != null) {
+        if (url != null && url !== '/') {
             navigate(url);
         }
         else
