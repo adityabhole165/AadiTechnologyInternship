@@ -35,18 +35,18 @@ function TermAndCondition() {
         and services.<br/><br/>
 
 
-        PPSPune may modify this EULA from time to time and will post a modified version
+        {SchoolName} may modify this EULA from time to time and will post a modified version
         of the EULA on this web site. Modified versions of this EULA shall be effective
-        upon posting by PPSPune. You agree to be bound to any changes to this EULA by using
+        upon posting by {SchoolName}. You agree to be bound to any changes to this EULA by using
         the software and services after any such modification is posted. Accordingly, you
         must review this EULA regularly to ensure that you are aware of the current terms
         and conditions.
         <br /><br/>
 
-        You must agree to keep your PPSPune account password secret and known only to yourself. At the sole
-        discretion of PPSPune your account may be suspended or deleted without notice and
+        You must agree to keep your {SchoolName} account password secret and known only to yourself. At the sole
+        discretion of {SchoolName} your account may be suspended or deleted without notice and
         any customization may be lost. Subject to the terms and restrictions set forth in
-        this EULA, PPSPune grants you a non-exclusive, non-transferable license, to use
+        this EULA, {SchoolName} grants you a non-exclusive, non-transferable license, to use
         the software and access the services solely for the educational benefit of school
         students. You may not use, copy, modify, or transfer the software, in whole or in
         part, or use the services except as expressly provided in this EULA. Except for
@@ -62,7 +62,7 @@ function TermAndCondition() {
         You may not reverse engineer, disassemble, decompile, modify or translate the software,
         or otherwise attempt to derive the source code of the software, or authorize any
         third party to do any of the foregoing. The software is licensed, not sold, to you
-        for use only under the terms of this EULA, and PPSPune reserves all rights not expressly
+        for use only under the terms of this EULA, and {SchoolName} reserves all rights not expressly
         granted to you.
         <br /><br/>
 
