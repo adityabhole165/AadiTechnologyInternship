@@ -11,7 +11,7 @@ import { androidCurrentAppVersion, appleCurrentAppVersion, deviceType } from "..
 import UpgradeApp from "./UpgradeApp";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { getuserLoginExpires } from "src/requests/UserLoginExpires/RequestUserLoginExpires"
+import { getuserLoginExpires, resetuserLoginExpires } from "src/requests/UserLoginExpires/RequestUserLoginExpires"
 
 const NewRelease = () => {
 
@@ -47,13 +47,14 @@ const NewRelease = () => {
             if (UserExpires.IsLocked == "Y") {
                 LogoutMessage = "Your account is locked"
             }
-            if (UserExpires.IsLogoutRequired == "Y" || 
-            UserExpires.CurrentAcademicYearID.toString() !== sessionStorage.getItem('AcademicYearId')) {
+            if (UserExpires.IsLogoutRequired == "Y" ||
+                UserExpires.CurrentAcademicYearID.toString() !== sessionStorage.getItem('AcademicYearId')) {
                 LogoutMessage = "Please login again"
             }
             if (UserExpires.LastPasswordChangeDate !== sessionStorage.getItem("LastPasswordChangeDate")) {
                 LogoutMessage = "You are using old password"
             }
+            dispatch(resetuserLoginExpires())
             if (LogoutMessage != "") {
                 toast.success(UserExpires.Message, { toastId: 'success1' })
                 navigate('/');

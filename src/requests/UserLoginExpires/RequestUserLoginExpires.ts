@@ -12,6 +12,9 @@ const SliceUserLoginExpires = createSlice({
         getuserLoginExpires(state, action) {
                 state.UserLoginExpires = action.payload.CheckForUserLoginExpiresResult;
         },
+        resetuserLoginExpires(state) {
+          state.UserLoginExpires = null;
+  },
     }
 });
 
@@ -26,4 +29,13 @@ export const getuserLoginExpires =
   };
 
 
+  export const resetuserLoginExpires =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceUserLoginExpires.actions.resetuserLoginExpires());
+  
+      
+    };
+  
+  
   export default SliceUserLoginExpires.reducer;

@@ -269,7 +269,7 @@ function SelectSchool() {
                     navigate("/TermAndCondition")
                 }
                 else {
-
+                    localStorage.setItem("auth", JSON.stringify(response));
                     setSession(response);
                 }
             }
@@ -307,24 +307,16 @@ function SelectSchool() {
     useEffect(() => {
         dispatch(getSchoolList(ListData))
     }, [])
+
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
-            dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
-            const res = localStorage.getItem("Userlogin")
+            const res = localStorage.getItem("auth")
             if (res === null) {
+                // dispatch(getSchoolList(ListData))
+                dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
                 setShow(false);
             } else {
-                const url = localStorage.getItem("url");
-
-                if (url != null) {
-                    navigate(url);
-                }
-                else
-                    if (localStorage.getItem("RoleName") == "Student" ||
-                        localStorage.getItem("RoleName") == "Teacher" ||
-                        localStorage.getItem("RoleName") == "Admin Staff") {
-                        navigate('/extended-sidebar/landing/landing');
-                    }
+                setSession(JSON.parse(res))
             }
         }
     }, [value]);
@@ -332,7 +324,6 @@ function SelectSchool() {
 
     return (
         <Grid style={styles.paperContainer} >
-
             {
                 show ?
                     <>

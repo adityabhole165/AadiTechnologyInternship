@@ -156,6 +156,7 @@ function Header() {
   const handleLogout = async (): Promise<void> => {
     try {
       handleClose();
+      localStorage.removeItem("auth")
       sessionStorage.clear();
       navigate('/');
     } catch (err) {
