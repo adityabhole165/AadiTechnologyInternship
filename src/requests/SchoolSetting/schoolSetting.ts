@@ -21,7 +21,10 @@ const SchoolSettingSlice = createSlice({
     EnableTransportCommitteeForStudentLogin:false,
     ShowAadharCardForStudent:false,
     EnableOnlineExamModule:false,
-    AllowParentPhotoUploadFromStudentLogin:false
+    AllowParentPhotoUploadFromStudentLogin:false,
+    RestrictNewPaymentIfOldPaymentIsPending:false,
+    EnableOnlinePaymentForLastYearFee:false,
+    EnabledOnlineFee:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -29,6 +32,15 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableOnlineExamModule(state, action) {
       state.EnableOnlineExamModule = action.payload
+    },
+    getEnabledOnlineFee(state, action) {
+      state.EnabledOnlineFee = action.payload
+    },
+    getRestrictNewPaymentIfOldPaymentIsPending(state, action) {
+      state.RestrictNewPaymentIfOldPaymentIsPending = action.payload
+    },
+    getEnableOnlinePaymentForLastYearFee(state, action) {
+      state.EnableOnlinePaymentForLastYearFee = action.payload
     },
     getAllowParentPhotoUploadFromStudentLogin(state, action) {
       state.AllowParentPhotoUploadFromStudentLogin = action.payload
@@ -132,9 +144,47 @@ export const getGetSettingValue =
           }
         }
         dispatch(SchoolSettingSlice.actions.getAllowParentPhotoUploadFromStudentLogin(ParentPhotoUpload));
-      }
-    
-
+      } 
+      export const getEnabledOnlineFeePayment =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let EnabledOnlineFee = false
+          data.asKey = "EnabledOnlineFee";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              EnabledOnlineFee = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getEnabledOnlineFee(EnabledOnlineFee));
+        }
+      
+      export const getEnableOnlinePaymentForLastYearfee =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let EnableOnlinePaymentLastYear = false
+          data.asKey = "EnableOnlinePaymentForLastYearFee";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              EnableOnlinePaymentLastYear = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getEnableOnlinePaymentForLastYearFee(EnableOnlinePaymentLastYear));
+        }
+        export const getRestrictNewPaymentIfOldPaymentIsPending =
+        (data: IGetSettingValueBody): AppThunk =>
+          async (dispatch) => {
+            let RestrictNewPayment = false
+            data.asKey = "RestrictNewPaymentIfOldPaymentIsPending";
+            let response = await SchoolSettingApi.GetSettingValueapi(data)
+            if (response.data.GetSettingValueResult) {
+              {
+                RestrictNewPayment = true;
+              }
+            }
+            dispatch(SchoolSettingSlice.actions.getRestrictNewPaymentIfOldPaymentIsPending(RestrictNewPayment));
+          }
     export const GetEnableMessageCenterReadModeForStudent =
   (data: IGetSettingValueBody): AppThunk =>
     async (dispatch) => {
