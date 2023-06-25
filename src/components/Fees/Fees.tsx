@@ -318,7 +318,7 @@ function Fees() {
         IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent}
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
-      <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} />
+      <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} />
       {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
         (<NoteStyle>
           <b>Note :</b>
