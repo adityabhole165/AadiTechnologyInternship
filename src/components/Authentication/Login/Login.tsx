@@ -185,9 +185,8 @@ function SelectSchool() {
             sessionStorage.setItem('DOB', studentDetails.DOB);
             sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
                 "" : JSON.stringify(result.StudentSiblingList));
-                localStorage.setItem("UserId", result.Id);
-                localStorage.setItem("RoleName", result.RoleName);
-            }
+            localStorage.setItem("UserId", result.Id);
+        }
 
 
         if (result.RoleName === "Teacher") {
