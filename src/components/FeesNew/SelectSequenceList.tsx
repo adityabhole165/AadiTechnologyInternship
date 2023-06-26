@@ -4,7 +4,6 @@ import PaidFeesDetailsCard from './PaidFeesDetailsCard'
 const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
     isSingleSelect = false, IsSequenceSelect = false }) => {
     const [isFirstTime, setIsFirstTime] = useState(true)
-
     const IsAllDisabled = () => {
         let bIsAllDisabled = true
         Itemlist.map((item) => {
@@ -15,7 +14,11 @@ const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
     }
     if (isFirstTime || IsAllDisabled()) {
         Itemlist = Itemlist.map((Item, Index) => (
-            { ...Item, IsEnabled: (IsSequenceSelect && Index === 0 || !IsSequenceSelect) ? true : false }
+            {
+                ...Item,
+                IsEnabled: (IsSequenceSelect && Index === 0 ||
+                    !IsSequenceSelect) ? true : false
+            }
         ))
     }
 
@@ -27,7 +30,24 @@ const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
                 { ...obj, IsActive: isSingleSelect ? false : obj.IsActive }
         )
         SequenceSelect();
+        MarkChildActiveFlag();
         RefreshData(Itemlist)
+    }
+
+    const MarkChildActiveFlag = () => {
+        Itemlist = Itemlist.map((obj) => {
+            return obj.ParentId !== "0" ?
+                { ...obj, IsActive: getParentActiveStatus(obj.ParentId) } : obj
+        })
+    }
+
+    const getParentActiveStatus = (Id) => {
+        let IsActive = false
+        Itemlist.filter((item) => { return item.Id === Id })
+            .map((obj) => {
+                IsActive = obj.IsActive
+            })
+        return IsActive
     }
 
     const SequenceSelect = () => {
