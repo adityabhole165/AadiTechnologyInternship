@@ -130,7 +130,7 @@ function Fees() {
 
   useEffect(() => {
     let arr = AcadamicYear;
-    if (AllowAdvancePaymentforStudent  && AllowAdvancePayment ) {
+    if (AllowAdvancePaymentforStudent && AllowAdvancePayment) {
       if (AcadamicYear.length > 0 && NextYearDetails !== undefined) {
         let arr2 = {
           id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -187,8 +187,8 @@ function Fees() {
 
   const clickCaution = (value) => {
     ;
-  const userLoginId = sessionStorage.getItem("Userlogin") 
-  let returnString = 'StudentId=' + asStudentId + '&DueDates=' + '&Remarks=&SchoolwiseStudentFeeId=0' + '&IsOnlineCautionMoneyPayment=1'
+    const userLoginId = sessionStorage.getItem("Userlogin")
+    let returnString = 'StudentId=' + asStudentId + '&DueDates=' + '&Remarks=&SchoolwiseStudentFeeId=0' + '&IsOnlineCautionMoneyPayment=1'
 
     const body: IPayOnline = {
       asSchoolId: localStorage.getItem('localSchoolId'),
@@ -265,7 +265,11 @@ function Fees() {
       />
       {currentYear != NextYrId &&
         <>
-          {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+          {FeesList2.PendingFeeAcademicYears !== "" &&
+            <>
+              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+            </>
+          }
         </>}
       <ToggleButtonGroup
         value={showCaution}

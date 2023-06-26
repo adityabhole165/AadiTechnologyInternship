@@ -46,7 +46,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
   const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
   const OnlineFeePaymentAll: any = useSelector((state: RootState) => state.getSchoolSettings.EnabledOnlineFee);
-  console.log("OnlineFeePaymentAll", OnlineFeePaymentAll);
 
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
@@ -185,13 +184,16 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   }
+  // console.log(OnlineFeePaymentAll,"OnlineFeePaymentAll",OnlineFeePaymentAll && internalFees == "SchoolFees");
+  // console.log("internalFees",internalFees);
+  
   return (
     <div>
       <Grid container>
         <Grid item xs={3}>
           Total: {FeesTotal}
         </Grid><Grid item xs={9}>
-          {OnlineFeePaymentAll &&
+          {((OnlineFeePaymentAll && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
             <>
               {currentYear < aiAcademicYearId
                 ?
