@@ -182,8 +182,6 @@ function SelectSchool() {
             sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
-            sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
-            sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
             sessionStorage.setItem('DOB', studentDetails.DOB);
             sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
                 "" : JSON.stringify(result.StudentSiblingList));
@@ -206,9 +204,7 @@ function SelectSchool() {
             sessionStorage.setItem('EndDate', teacherDetails.EndDate);
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
-            sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
             sessionStorage.setItem("DOB", teacherDetails.DOB);
-            localStorage.setItem("RoleName", result.RoleName);
         }
 
         if (result.RoleName === "Admin Staff") {
@@ -220,7 +216,6 @@ function SelectSchool() {
             sessionStorage.setItem("DOB", adminDetails.DOB);
             sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
-            localStorage.setItem("RoleName", result.RoleName);
         }
 
 
@@ -229,6 +224,10 @@ function SelectSchool() {
         sessionStorage.setItem("StudentName", result.Name);
         sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
         sessionStorage.setItem("Userlogin", result.UserLogin);
+        sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
+        localStorage.setItem("RoleName", result.RoleName);
+        sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
+            
         const url = localStorage.getItem("url");
 
         if (url != null && url !== '/') {
