@@ -69,23 +69,36 @@ const NewRelease = () => {
     }, [])
 
     useEffect(() => {
-        if (latestVersionDetails != null && latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
-            latestVersionDetails.GetNewAppVersionDetailsResult.Version != "") {
+        console.log(latestVersionDetails?.LoginVersionDetails, "LoginVersion")
 
-            setShowUpgrade(true)
+        // if (latestVersionDetails != null && latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
+        //     latestVersionDetails.GetNewAppVersionDetailsResult.Version != "") {
+        if (latestVersionDetails?.GetNewAppVersionDetailsResult != undefined) {
+
+            console.log(latestVersionDetails.GetNewAppVersionDetailsResult, "LoginVersion")
+
+            if (latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
+                latestVersionDetails.GetNewAppVersionDetailsResult.Version != "")
+                setShowUpgrade(true)
+
             localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
 
             if (latestVersionDetails.GetNewAppVersionDetailsResult.IsForceUpdate === 'True')
                 navigate('../../../UpgradeApp');
+
             let LoginVersion = latestVersionDetails.LoginVersionDetails.LatestLoginVersion
-            if (LoginVersion !== localStorage.getItem('LoginVersion')) 
-            {
-                toast.success(UserExpires.Message, { toastId: 'success1' })
+            
+            if (LoginVersion !== localStorage.getItem('LoginVersion') ||
+                localStorage.getItem('LoginVersion') === null) {
+
+                toast.success("Please login again", { toastId: 'success1' })
                 localStorage.clear();
                 sessionStorage.clear();
                 localStorage.setItem('LoginVersion', LoginVersion)
                 navigate('/');
             }
+            else
+                localStorage.setItem('LoginVersion', LoginVersion)
         }
     }, [latestVersionDetails])
 
