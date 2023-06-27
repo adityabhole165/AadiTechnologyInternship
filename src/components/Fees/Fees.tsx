@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -68,7 +68,8 @@ function Fees() {
   const IsOnlinePaymetCautionMoney: any = useSelector((state: RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
   const AllowAdvancePaymentforStudent: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
-
+  const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent) 
+  
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
@@ -127,10 +128,9 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-
   useEffect(() => {
     let arr = AcadamicYear;
-    if (AllowAdvancePaymentforStudent && AllowAdvancePayment) {
+    if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") ||AllowNextYearInternal && showCaution == "internalFees" ) {
       if (AcadamicYear.length > 0 && NextYearDetails !== undefined) {
         let arr2 = {
           id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -148,7 +148,7 @@ function Fees() {
       }
     }
 
-  }, [AcadamicYear, NextYearDetails, AllowAdvancePaymentforStudent, AllowAdvancePayment]);
+  }, [AcadamicYear, NextYearDetails, AllowAdvancePaymentforStudent, AllowAdvancePayment, showCaution,AllowNextYearInternal]);
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
 
@@ -158,6 +158,7 @@ function Fees() {
     dispatch(getEnableadvanceFeepayment(GetSettingValueBody))
     dispatch(EnableAdvancefeePayment(GetSettingValueBody))
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
+    dispatch(getallowNextYearInternalFeePaymentForStudent(GetSettingValueBody))
   }, []);
 
   useEffect(() => {

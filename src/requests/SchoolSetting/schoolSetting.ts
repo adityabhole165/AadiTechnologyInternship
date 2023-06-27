@@ -24,7 +24,8 @@ const SchoolSettingSlice = createSlice({
     AllowParentPhotoUploadFromStudentLogin:false,
     RestrictNewPaymentIfOldPaymentIsPending:false,
     EnableOnlinePaymentForLastYearFee:false,
-    EnabledOnlineFee:false
+    EnabledOnlineFee:false,
+    AllowNextYearInternalFeePaymentForStudent:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -35,6 +36,9 @@ const SchoolSettingSlice = createSlice({
     },
     getEnabledOnlineFee(state, action) {
       state.EnabledOnlineFee = action.payload
+    },
+    getAllowNextYearInternalFeePaymentForStudent(state, action) {
+      state.AllowNextYearInternalFeePaymentForStudent = action.payload
     },
     getRestrictNewPaymentIfOldPaymentIsPending(state, action) {
       state.RestrictNewPaymentIfOldPaymentIsPending = action.payload
@@ -132,6 +136,19 @@ export const getGetSettingValue =
         }
         dispatch(SchoolSettingSlice.actions.getTransportCommitteeStudent(TransportCommitteeForStudent));
       }
+      export const getallowNextYearInternalFeePaymentForStudent =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let allowNestYearInternal = false
+          data.asKey = "AllowNextYearInternalFeePaymentForStudent";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              allowNestYearInternal = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getAllowNextYearInternalFeePaymentForStudent(allowNestYearInternal));
+        }
       export const getParentPhotoUpload =
     (data: IGetSettingValueBody): AppThunk =>
       async (dispatch) => {
