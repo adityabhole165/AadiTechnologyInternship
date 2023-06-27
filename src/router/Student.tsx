@@ -118,6 +118,10 @@ const studentRoutes = [
     element: <Fees />
   },
   {
+    path: 'Fees/:ActiveYear/:InternalOrSchool',
+    element: <Fees />
+  },
+  {
     path: 'Fees/PayinternalFees',
     element: <PayinternalFees/>
   },
@@ -186,7 +190,7 @@ const studentRoutes = [
     element: <Layout/>
   },
   {
-    path: 'PayOnline',
+    path: 'PayOnline/:ActiveYear/:InternalOrSchool',
     element: <PayOnline/>
   },
   {

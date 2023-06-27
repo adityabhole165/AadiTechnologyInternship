@@ -7,7 +7,7 @@ import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
 import { useTheme } from '@mui/material';
@@ -70,6 +70,8 @@ function Fees() {
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent) 
   
+  const {ActiveYear,InternalOrSchool} = useParams();
+
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
@@ -128,6 +130,7 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
+  
   useEffect(() => {
     let arr = AcadamicYear;
     if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") ||AllowNextYearInternal && showCaution == "internalFees" ) {
@@ -159,6 +162,8 @@ function Fees() {
     dispatch(EnableAdvancefeePayment(GetSettingValueBody))
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
     dispatch(getallowNextYearInternalFeePaymentForStudent(GetSettingValueBody))
+    setShowCaution(InternalOrSchool)
+    setCurrentyear(ActiveYear)
   }, []);
 
   useEffect(() => {
@@ -180,7 +185,7 @@ function Fees() {
         await Browser.open({ url: url });
       };
       openCapacitorSite(paymentPageLink)
-      navigate('/extended-sidebar/Student/PayOnline')
+      navigate('/extended-sidebar/Student/PayOnline/' + currentYear + '/' + internalFees)
       dispatch(resetPaymentUrl())
     }
 
@@ -221,6 +226,7 @@ function Fees() {
     if (newShowCaution != null)
       setShowCaution(newShowCaution);
   };
+
   // let ConcessionAmount = 0;
   // FeesList.map((item, i) => { ConcessionAmount = item.ConcessionAmount })
   let IsOldPendingFee = ""
@@ -254,7 +260,6 @@ function Fees() {
       setNewAcadamicYear(arr2)
     }
   }, [FeesList2])
-
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />

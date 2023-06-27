@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import BackButton from 'src/libraries/button/BackButton';
 import { Container, Box } from '@mui/material';
 import ReplyIcon from '@mui/icons-material/Reply';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useParams } from 'react-router-dom';
 
 import { useTheme, Fab } from '@mui/material';
 import { ShowMessage } from '../styled/ErrormessageStyled';
@@ -13,13 +13,13 @@ Card26.propTypes = {
 
 function Card26() {
   const theme = useTheme();
-  
-  
+  const {ActiveYear,InternalOrSchool} = useParams();
+
     return (
     <Container>
       <div>
         <RouterLink
-          to={'/extended-sidebar/Student/Fees'}
+          to={'/extended-sidebar/Student/Fees/' + ActiveYear + '/' + InternalOrSchool}
           color="primary"
           style={{ textDecoration: 'none' }}
         >
