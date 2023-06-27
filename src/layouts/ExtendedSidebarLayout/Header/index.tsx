@@ -128,7 +128,7 @@ function Header() {
   }
 
   let siblingList: any = [];
-  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList")!=="") {
+  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
     siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
   }
   const schoolId = localStorage.getItem("localSchoolId");
@@ -168,10 +168,10 @@ function Header() {
     const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
     const studentDetails: any = await response.data.StudentDetails
     const teacherDetails: any = await response.data.TeacherDetails
-    const adminDetails: any = await response.data.TeacherDetails
+    const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
     if (result.RoleName === "Student") {
-      window.sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+      sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
       sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
       sessionStorage.setItem('Class', studentDetails.Class);
       sessionStorage.setItem('StandardId', studentDetails.StandardId);
@@ -181,12 +181,12 @@ function Header() {
       sessionStorage.setItem('StudentId', studentDetails.StudentId);
       sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
       sessionStorage.setItem('Address', studentDetails.Address);
-      sessionStorage.setItem('Residence_Phone_Number', studentDetails.Residence_Phone_Number);
+      sessionStorage.setItem('ResidencePhoneNumber', studentDetails.ResidencePhoneNumber);
       sessionStorage.setItem('CasteAndSubCaste', studentDetails.CasteAndSubCaste);
       sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
-      sessionStorage.setItem('Birth_Place', studentDetails.Birth_Place);
+      sessionStorage.setItem('BirthPlace', studentDetails.BirthPlace);
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
-      sessionStorage.setItem('Mother_Tongue', studentDetails.Mother_Tongue);
+      sessionStorage.setItem('MotherTongue', studentDetails.MotherTongue);
       sessionStorage.setItem('Blood_Group', studentDetails.Blood_Group);
       sessionStorage.setItem('EndDate', studentDetails.EndDate);
       sessionStorage.setItem('StartDate', studentDetails.StartDate);
@@ -198,23 +198,66 @@ function Header() {
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
       sessionStorage.setItem('DOB', studentDetails.DOB);
+      // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
+      //     "" : JSON.stringify(result.StudentSiblingList));
+      sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
+        "" : JSON.stringify(studentDetails.StudentSiblingList));
       localStorage.setItem("UserId", result.Id);
     }
+
+
+    if (result.RoleName === "Teacher") {
+      sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+      sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
+      sessionStorage.setItem('Address', teacherDetails.Address);
+      sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
+      sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
+      sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
+      sessionStorage.setItem('StandardId', teacherDetails.StandardId);
+      sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
+      sessionStorage.setItem('ClassName', teacherDetails.ClassName);
+      sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
+      sessionStorage.setItem('EndDate', teacherDetails.EndDate);
+      sessionStorage.setItem('StartDate', teacherDetails.StartDate);
+      sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
+      sessionStorage.setItem("DOB", teacherDetails.DOB);
+    }
+
+    if (result.RoleName === "Admin Staff") {
+      sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
+      sessionStorage.setItem('Address', adminDetails.Address);
+      sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
+      sessionStorage.setItem('EndDate', adminDetails.EndDate);
+      sessionStorage.setItem('StartDate', adminDetails.StartDate);
+      sessionStorage.setItem("DOB", adminDetails.DOB);
+      sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
+      sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+    }
+
 
     sessionStorage.setItem("Id", result.Id);
     sessionStorage.setItem("RoleId", result.RoleId);
     sessionStorage.setItem("StudentName", result.Name);
     sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
     sessionStorage.setItem("Userlogin", result.UserLogin);
+    sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
+    localStorage.setItem("RoleName", result.RoleName);
+    sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
+
     const url = localStorage.getItem("url");
 
-    if (result.RoleName == "Student") {
-      navigate('/extended-sidebar/landing/landing');
-    }
-    else {
+    if (url != null && url !== '/') {
       navigate(url);
     }
+    else
+      if (result.RoleName == "Student" ||
+        result.RoleName == "Teacher" ||
+        result.RoleName == "Admin Staff") {
+        navigate('/extended-sidebar/landing/landing');
+      }
+    // deviceRegistrationFCM(result.Id)
   }
+
 
   const loginToSibling = async (siblingUserLogin, siblingPassword) => {
     const body: IAuthenticateUser = {
@@ -456,7 +499,7 @@ function Header() {
       </Stack>
 
     </HeaderWrapper>
-    </>
+  </>
   );
 }
 
