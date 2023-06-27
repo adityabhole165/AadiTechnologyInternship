@@ -203,8 +203,8 @@ export const CheckFileValidationAdhar = (fileData, allowedFileTypes, fileSize) =
 
 export function isBetweenDate(date, dayCount) {
     var compareDate = new Date(getDateFormatted(new Date()));
-    var toDate = getNextDate(fromDate, dayCount)
     var fromDate = new Date(new Date(date))
+    var toDate = getNextDate(fromDate, dayCount)
     return ((compareDate >= fromDate) &&
         (compareDate <= new Date(toDate)))
 }
