@@ -162,8 +162,10 @@ function Fees() {
     dispatch(EnableAdvancefeePayment(GetSettingValueBody))
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
     dispatch(getallowNextYearInternalFeePaymentForStudent(GetSettingValueBody))
+    if(InternalOrSchool !== undefined && ActiveYear !== undefined){
     setShowCaution(InternalOrSchool)
     setCurrentyear(ActiveYear)
+    }
   }, []);
 
   useEffect(() => {
