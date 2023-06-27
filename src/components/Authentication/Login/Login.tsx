@@ -155,6 +155,7 @@ function SelectSchool() {
         const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
 
+
         if (result.RoleName === "Student") {
             sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
             sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
@@ -183,8 +184,10 @@ function SelectSchool() {
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
             sessionStorage.setItem('DOB', studentDetails.DOB);
-            sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
-                "" : JSON.stringify(result.StudentSiblingList));
+            // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
+            //     "" : JSON.stringify(result.StudentSiblingList));
+            sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
+                "" : JSON.stringify(studentDetails.StudentSiblingList));
             localStorage.setItem("UserId", result.Id);
         }
 
