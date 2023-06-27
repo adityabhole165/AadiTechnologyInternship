@@ -30,7 +30,8 @@ const NewRelease = () => {
     const RoleId = sessionStorage.getItem('RoleId');
     const userId = sessionStorage.getItem('Id');
     const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-
+    const LastPasswordChangeDate = sessionStorage.getItem("LastPasswordChangeDate")
+    const LoginVersion = localStorage.getItem("LoginVersion")
 
     useEffect(() => {
         let LogoutMessage = ""
@@ -38,17 +39,19 @@ const NewRelease = () => {
             //api handles academic year mismatch, account is deacivated, locked and change password scenario
             if (UserExpires.IsLogoutRequired == "Y") {
                 toast.success(UserExpires.Message, { toastId: 'success1' })
+                dispatch(resetuserLoginExpires())
                 sessionStorage.clear();
                 localStorage.removeItem("auth")
                 navigate('/');
             }
+            dispatch(resetuserLoginExpires())
         }
         // if (lastFetchDateTimeValue == null || checkForNewAppVersion) {
         const releaseBody: INewRelease = {
             asDeviceType: deviceType,
             asUserCurrentVersion: deviceType == 'iOS' ? appleCurrentAppVersion : currentAppVersion,
             aiSchoolId: parseInt(asSchoolId),
-            asOldLoginVersion: localStorage.getItem("LoginVersion")
+            asOldLoginVersion: LoginVersion
         };
         dispatch(getNewRelease(releaseBody))
         // }
@@ -63,7 +66,7 @@ const NewRelease = () => {
             asUserId: userId,
             asAcademicYearId: AcademicYearId,
             asUserRoleId: RoleId,
-            asLastPasswordChangeDate: sessionStorage.getItem('LastPasswordChangeDate')
+            asLastPasswordChangeDate: LastPasswordChangeDate
         }
         dispatch(getuserLoginExpires(UserLoginExpiresBody))
     }, [])
@@ -87,7 +90,7 @@ const NewRelease = () => {
                 navigate('../../../UpgradeApp');
 
             let LoginVersion = latestVersionDetails.LoginVersionDetails.LatestLoginVersion
-            
+
             if (LoginVersion !== localStorage.getItem('LoginVersion') ||
                 localStorage.getItem('LoginVersion') === null) {
 
