@@ -198,7 +198,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
               {currentYear < aiAcademicYearId
                 ?
                 <>
-                  {OnlinePaymentForLastYearFee &&
+                  {((OnlinePaymentForLastYearFee && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
                     <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
                       color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
                       Pay Online
@@ -206,7 +206,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
                   }
                 </>
                 : <>
-                  {RestrictNewPayment ? null :
+                  {(RestrictNewPayment && internalFees === "SchoolFees") ? null :
                     <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
                       color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
                       Pay Online
