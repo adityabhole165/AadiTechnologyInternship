@@ -37,7 +37,7 @@ import {
     Name: PropTypes.string
   };
   
-  function Card5Fees({ Content, FileName, Name }) {
+  function Card5Fees({ Content, FileName, Name, internalFees }) {
     const theme = useTheme();
     const navigate = useNavigate();
   
@@ -81,8 +81,12 @@ import {
                     <Box
                       sx={{marginTop: '1px'}}>
                       <a>
-                        {/* <FileDownloadOutlinedIcon onClick={download} /> */}
-                        <FileDownloadOutlinedIcon onClick={Toaster} />
+                        {internalFees == "internalFees" ?
+                        <FileDownloadOutlinedIcon onClick={Toaster} />:
+                        <FileDownloadOutlinedIcon onClick={download} />
+                        }
+                       
+                        
                       </a>
                     </Box>
                   </>

@@ -43,7 +43,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
               Fee.map((item, i) => {
                 const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
                 return paid ? (
-                    <Card5Fees Content={''} Name={''} key={i}
+                    <Card5Fees Content={''} Name={''} key={i} internalFees={internalFees}
                       FileName={internalFees ? item.FeeType + ":" + " " + item.Amount : item.FeeType + 
                       ":" + " " + item.FeesPaid}
                     />
