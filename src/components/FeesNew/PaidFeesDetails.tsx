@@ -69,9 +69,9 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   }, []);
 
   useEffect(() => {
+    let prevGroup = 0;
+    let prevFeeId = "0";
     if (FeesList.length > 0) {
-      let prevGroup = 0;
-      let prevFeeId = "0";
       //SNS
       if (FeesList[0].ShowOptionButtonForAllEntry !== undefined && FeesList[0].ShowOptionButtonForAllEntry) {
         setIsSequenceSelect(false)
@@ -91,7 +91,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
           setIsSequenceSelect(true)
         }
       }
-
+    }
       setItemList(FeesList
         .filter((obj) => {
           return ((internalFees == "internalFees" && obj.FeeDetailsId == 0) || obj.AmountPayable !== "0")
@@ -126,7 +126,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             )
           }
         }))
-    }
+    
   }, [FeesList]);
   const getQueryString = (StudentFeeId, DueDate, FeeType) => {
     let returnString = ""
