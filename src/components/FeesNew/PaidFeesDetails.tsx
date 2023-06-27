@@ -174,16 +174,21 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     };
     clickPayOnline(body);
   }
+  
   const RefreshData = (value) => {
     setItemList(value)
+  }
+
+  useEffect(() => {
     let Total = 0;
-    value.map((item) => {
+    itemList.map((item) => {
       const amount = internalFees = "internalFees" ? item.Text3 : item.AmountPayable
       if (item.IsActive)
         Total += parseInt(amount) + parseInt(item.LateFeeAmount)
     })
     setFeesTotal(Total)
-  }
+  },[itemList])
+  
 
   return (
     <div>
