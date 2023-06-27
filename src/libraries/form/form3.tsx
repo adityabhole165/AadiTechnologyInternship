@@ -100,6 +100,7 @@ function Form() {
         });
     
   };
+console.log("UserLogin",UserLogin);
 
   const formik = useFormik({
     initialValues: {
@@ -151,7 +152,7 @@ function Form() {
         <Note NoteDetail={note1} />
         <Box >
           <Typography>User Name</Typography>
-          <TextField disabled fullWidth margin="normal" name="username" type="number"
+          <TextField disabled fullWidth margin="normal" name="username" type="text"
             variant="standard" value={formik.values.UserLogin} />
         </Box>
         <TextField fullWidth margin="normal" label={'Old Password'} name="Oldpassword" type="password"
