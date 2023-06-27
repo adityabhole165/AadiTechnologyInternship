@@ -72,13 +72,13 @@ const NewRelease = () => {
     }, [])
 
     useEffect(() => {
-        console.log(latestVersionDetails?.LoginVersionDetails, "LoginVersion")
+        // console.log(latestVersionDetails?.LoginVersionDetails, "LoginVersion")
 
         // if (latestVersionDetails != null && latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
         //     latestVersionDetails.GetNewAppVersionDetailsResult.Version != "") {
         if (latestVersionDetails?.GetNewAppVersionDetailsResult != undefined) {
 
-            console.log(latestVersionDetails.GetNewAppVersionDetailsResult, "LoginVersion")
+            // console.log(latestVersionDetails.GetNewAppVersionDetailsResult, "LoginVersion")
 
             if (latestVersionDetails.GetNewAppVersionDetailsResult.Version != null &&
                 latestVersionDetails.GetNewAppVersionDetailsResult.Version != "")

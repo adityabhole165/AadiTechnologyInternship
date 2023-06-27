@@ -112,8 +112,8 @@ export const getDateMonthYearFormatted = (date) => {
 
 export const getNextDate = (date, prevNext) => {
     var nextDate = new Date(date);
-    console.log(date,"nextDate",nextDate)
-    console.log(nextDate.getDate() + prevNext,"nextDate",nextDate.getDate())
+    // console.log(date,"nextDate",nextDate)
+    // console.log(nextDate.getDate() + prevNext,"nextDate",nextDate.getDate())
     nextDate.setDate(nextDate.getDate() + prevNext);
     return getDateFormatted(nextDate)
 }
