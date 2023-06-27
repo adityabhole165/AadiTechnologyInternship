@@ -54,7 +54,9 @@ function SelectSchool() {
     const changeschool = () => {
         setShow(true);
         setValue(null);
+        let LoginVersion = localStorage.getItem('LoginVersion');
         localStorage.clear();
+        localStorage.setItem('LoginVersion', LoginVersion)
     }
 
     const clearLocal = () => {
