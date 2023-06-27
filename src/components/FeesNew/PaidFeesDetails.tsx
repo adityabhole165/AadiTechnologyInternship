@@ -14,7 +14,7 @@ import { Browser } from '@capacitor/browser';
 import { GetEnableOnlinePaymentForInternalFee, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, getRestrictNewPaymentIfOldPaymentIsPending } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
-  OldInternalstudent }) => {
+  OldInternalstudent, IsPending }) => {
   const dispatch = useDispatch();
 
   const asSchoolId = localStorage.getItem('localSchoolId')
@@ -184,9 +184,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   }
-  // console.log(OnlineFeePaymentAll,"OnlineFeePaymentAll",OnlineFeePaymentAll && internalFees == "SchoolFees");
-  // console.log("internalFees",internalFees);
-  
+
   return (
     <div>
       <Grid container>
@@ -206,7 +204,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
                   }
                 </>
                 : <>
-                  {(RestrictNewPayment && internalFees === "SchoolFees") ? null :
+                  {(RestrictNewPayment && internalFees === "SchoolFees" && IsPending != "") ? null :
                     <ButtonPrimary sx={{ float: 'right' }} onClick={clickPayOnlineLocal}
                       color={itemList.some((obj) => obj.IsActive === true) ? "primary" : "warning"} >
                       Pay Online

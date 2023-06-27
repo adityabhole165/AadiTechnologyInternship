@@ -319,7 +319,8 @@ function Fees() {
         TotalLateFee={FeesList2.TotalLateFee}
         NextYearID={NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId}
         SchoolwiseStudentId={NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId}
-        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent}
+        IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline}
+        OldInternalstudent={OldInternalstudent} IsPending={FeesList2.PendingFeeAcademicYears}
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} />
