@@ -80,7 +80,8 @@ function CardMessage({ header, text1, text2, DetailsId,
                             IsSchedule &&
                             <ScheduleIcon fontSize="small" color="primary" sx={{ mb: "-5px" }} />
                         }</>
-                        <>{RequestReadReceipt === "True" &&
+                        {/* <>{RequestReadReceipt === "True" && */}
+                        <>{false &&
                             <>{HasReadReceipt ? <>
                                 <DraftsIcon fontSize="small" color="success" sx={{ mt: "-2px", ml: "4px" }} onClick={(e) => { handleClickToOpen(e) }} />
                                 <Dialog open={popup}

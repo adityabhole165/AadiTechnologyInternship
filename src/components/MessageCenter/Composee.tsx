@@ -674,12 +674,12 @@ function Form13() {
             </Hidden>
             
        
-                  <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
+                  {/* <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Request Read Receipt? :
                   </Typography>
-                  </Grid>
+                  </Grid> */}
               
                 <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1} sx={ReadRecipient}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
