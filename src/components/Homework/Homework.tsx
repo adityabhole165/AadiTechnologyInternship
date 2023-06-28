@@ -15,10 +15,12 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import PageHeader from 'src/libraries/heading/PageHeader';
+import { useParams } from 'react-router';
 
 function Homework() {
   const dispatch = useDispatch();
   const classes = Styles();
+  const {SelectedDate} = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
@@ -53,11 +55,19 @@ function Homework() {
   useEffect(() => {
     if (GetHomeworkDates.length > 0) {
       let itemLength = GetHomeworkDates.length;
-      setAssignedDate(GetHomeworkDates[itemLength-1].Value)
-      setItemList(GetHomeworkDates.map((item, index) => {
-        return index === itemLength-1 ?
+      
+      setAssignedDate(SelectedDate===undefined?
+        GetHomeworkDates[itemLength-1].Value:
+        getDateMonthYearFormatted(SelectedDate).toString())
+      
+        setItemList(GetHomeworkDates.map((item, index) => {
+        return (SelectedDate===undefined?
+        (index === itemLength-1 ?
           { ...item, IsActive: true } :
-          { ...item, IsActive: false }
+          { ...item, IsActive: false }):
+          (getDateMonthYearFormatted(SelectedDate).toString())=== item.Value ?
+            { ...item, IsActive: true } :
+            { ...item, IsActive: false })
       }))
     }
     else {
