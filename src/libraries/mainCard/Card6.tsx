@@ -12,6 +12,8 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from 'src/store';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
+import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
+import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
 
 function Card6() {
   const navigate = useNavigate();
@@ -30,17 +32,33 @@ function Card6() {
   const MotherTongue = sessionStorage.getItem('MotherTongue');
   const DOB = sessionStorage.getItem('DOB')
   const birthPlace = sessionStorage.getItem('BirthPlace');
+  const asUserId = sessionStorage.getItem('UserId');
+  const asStudentId = sessionStorage.getItem('StudentId');
 
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
   );
+  
+  const GetStudentPic: any = useSelector(
+    (state: RootState) => state.StudentPic.GetStudentpic
+  );
+
+  const DisableSubmit = GetStudentPic == null ? '' : GetStudentPic.IsSubmitted
+
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
+   
+const getstudentphoto : IGetStudentPhotoBody= {
+  aiSchoolId:parseInt(asSchoolId),
+  aiUserId:parseInt(asUserId),
+  aiStudentId:parseInt(asStudentId)
+}
   useEffect(() => {
-    dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
+  dispatch(getstudentpic(getstudentphoto))
+  dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
   }, []);
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
@@ -58,6 +76,7 @@ function Card6() {
   const EditProfile = () => {
     navigate('EditProfile')
   }
+  
   return (
     <>
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
@@ -65,7 +84,7 @@ function Card6() {
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
         </Box>
 
-        {AllowStudentPhotoUpload == true &&
+        {(AllowStudentPhotoUpload && !DisableSubmit ) &&
 
           <Box sx={{ color: "black" }} onClick={EditProfile}>
             <EditIcon fontSize="small" />
