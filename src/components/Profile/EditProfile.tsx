@@ -191,7 +191,7 @@ function EditProfile() {
             <ButtonPrimary onClick={SaveFile} disabled={disableButton} color={(disableButton) ? "warning" : "primary"}>Save</ButtonPrimary>
           </Grid>
           <Grid item xs={3}>
-              <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit2</ButtonPrimary>
+              <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit</ButtonPrimary>
           </Grid>
           <Grid item xs={3} />
         </Grid>
