@@ -29,7 +29,7 @@ const note = [
 
 function EditProfile() {
   const dispatch = useDispatch();
- 
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -45,21 +45,17 @@ function EditProfile() {
     (state: RootState) => state.StudentPic.GetStudentpic
   );
   const DisableSubmit = GetStudentPic == null ? '' : GetStudentPic.IsSubmitted
-  console.log("GetStudentPic",GetStudentPic);
-  
-const getstudentphoto : IGetStudentPhotoBody= {
-  aiSchoolId:parseInt(asSchoolId),
-  aiUserId:parseInt(asUserId),
-  aiStudentId:parseInt(asStudentId)
-}
-useEffect(() => {
-  dispatch(getstudentpic(getstudentphoto))
-}, [])
+
+  const getstudentphoto: IGetStudentPhotoBody = {
+    aiSchoolId: parseInt(asSchoolId),
+    aiUserId: parseInt(asUserId),
+    aiStudentId: parseInt(asStudentId)
+  }
   // console.log(SavePhotos,"SavePhotos")
   const width = 112, height = 151, maxFileSize = 100000
   const UserName = sessionStorage.getItem('StudentName');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
-  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
+  const [userPhoto, setUserPhoto] = useState(ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg')
   const [value, setValue] = useState('');
   const [disableButton, setDisableButton] = useState(true);
   const [disableSubmitButton, setDisableSubmitButton] = useState(true);
@@ -69,7 +65,7 @@ useEffect(() => {
   const changeFile = async (e) => {
     if (e.target.files && e.target.files.length > 0) {
       let isValid = CheckFileValidationEditeProfile(e.target.files[0], ['jpg', 'jpeg', 'png', 'bmp'], 1000000)
-     
+
       if (isValid === null) {
         let base64URL: any = await ChangeFileIntoBase64(e.target.files[0]);
         setFileName(base64URL.slice(base64URL.indexOf(',') + 1));
@@ -78,11 +74,13 @@ useEffect(() => {
         img.onload = () => {
           if (img.width > width && img.height > height) {
             setDisableButton(true);
+            setDisableSubmitButton(false)
             setError(`Image is ${img.height} x ${img.width}, Height and Width of photo file should not exceed 151px and 112px respectively`);
           }
           // let DataAttachment = base64URL.slice(base64URL.indexOf(',') + 1);
           else {
             setDisableButton(false);
+            setDisableSubmitButton(true)
             setValue(base64URL);
           }
 
@@ -97,8 +95,21 @@ useEffect(() => {
 
 
   const { photos, takePhoto } = CameraClick();
+
+
   useEffect(() => {
-    if (photos !== undefined && photos.length){
+    dispatch(getstudentpic(getstudentphoto))
+  }, [])
+
+  useEffect(() => {
+    if (GetStudentPic !== null){
+      setUserPhoto('data:image/png;base64,' + GetStudentPic.PhotoImage)
+      setDisableSubmitButton(false)
+    }
+  }, [GetStudentPic])
+
+  useEffect(() => {
+    if (photos !== undefined && photos.length) {
       setValue(photos[0].base64Data)
       setDisableButton(false);
     }
@@ -109,22 +120,22 @@ useEffect(() => {
 
   useEffect(() => {
     if (SavePhotos.Message !== undefined) {
-    toast.success(SavePhotos.Message, { toastId: 'success2' });
-    dispatch(resetMessage());
-  }
+      toast.success(SavePhotos.Message, { toastId: 'success2' });
+      dispatch(resetMessage());
+    }
   }, [SavePhotos])
 
   useEffect(() => {
-    
+
     if (SubmitPhotos.Message !== undefined) {
-   
+
       toast.success(SubmitPhotos.Message, { toastId: 'success1' });
       dispatch(resetMessage1());
       sessionStorage.setItem("PhotoFilePath", value.slice(value.indexOf(',') + 1))
       const timer = setTimeout(() => {
         window.location.reload();
-      },5000); 
-  }
+      }, 5000);
+    }
   }, [SubmitPhotos])
 
 
@@ -151,8 +162,8 @@ useEffect(() => {
     }
     dispatch(getSubmitStudentPhoto(SubmitBody));
   }
-  console.log("DisableSubmit",DisableSubmit);
-  
+  console.log("DisableSubmit", DisableSubmit);
+
   return (
     <Container>
       <PageHeader heading={'Edit Profile'} subheading={''} />
@@ -165,9 +176,9 @@ useEffect(() => {
           <img src={value == "" ? userPhoto : value} width="112" height="151" style={{ border: "1px solid gray" }} />
           <Grid container>
             <Grid item xs={6} >
-              <input style={{ padding: "1em" , width: '220px', overflow: "hidden", textOverflow: "ellipsis"}} type="file" accept="image/*" onChange={changeFile}  />
+              <input style={{ padding: "1em", width: '220px', overflow: "hidden", textOverflow: "ellipsis" }} type="file" accept="image/*" onChange={changeFile} />
             </Grid>
-            <Grid item xs={6} style={{ padding: "1em" , marginTop:"2.5px"}} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
+            <Grid item xs={6} style={{ padding: "1em", marginTop: "2.5px" }} onClick={() => takePhoto()}><CameraAltIcon /></Grid>
           </Grid>
           <Grid item xs={6} sx={{ mt: "-3px", mb: "3px" }}>
             {error && <ErrorMessages Error={error} />}
@@ -180,9 +191,7 @@ useEffect(() => {
             <ButtonPrimary onClick={SaveFile} disabled={disableButton} color={(disableButton) ? "warning" : "primary"}>Save</ButtonPrimary>
           </Grid>
           <Grid item xs={3}>
-        {DisableSubmit ? 
-        <ButtonPrimary disabled color={(disableSubmitButton) ? "warning" : "warning"} >Submit</ButtonPrimary>:
-        <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit</ButtonPrimary>}
+              <ButtonPrimary onClick={SubmitFile} disabled={disableSubmitButton} color={(disableSubmitButton) ? "warning" : "primary"}>Submit2</ButtonPrimary>
           </Grid>
           <Grid item xs={3} />
         </Grid>

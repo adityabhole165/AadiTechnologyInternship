@@ -58,6 +58,7 @@ function AadharCardDetails() {
 
     useEffect(() => {
         setAadharNumber(GetUserAadharCardDetails.AadharCardNo)
+        setAdharName(GetUserAadharCardDetails.NameOnAadharCard)
     }, [GetUserAadharCardDetails])
 
     useEffect(() => {
