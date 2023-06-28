@@ -202,14 +202,8 @@ function AadharCardDetails() {
                             <Typography> <b>Name Present On Aadhaar Card : </b></Typography>
                         </Grid>
                         <Grid item xs={8} mt={1}>
-                            {GetUserAadharCardDetails.NameOnAadharCard === "" ?
-
                                 <input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} />
-
-                                : <Typography sx={{ mt: "5px" }}> {GetUserAadharCardDetails.NameOnAadharCard}</Typography>
-                            }
-
-
+                                {/* <Typography sx={{ mt: "5px" }} > {GetUserAadharCardDetails.NameOnAadharCard}</Typography> */}
                         </Grid>
                         {/* <Grid item xs={4}>
                             <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
