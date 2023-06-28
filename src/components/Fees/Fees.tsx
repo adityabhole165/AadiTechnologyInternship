@@ -37,22 +37,23 @@ const note = [
 function Fees() {
   const theme = useTheme();
   const classes = Styles();
+  const {ActiveYear,InternalOrSchool} = useParams();
+  const schoolFees = "SchoolFees";
+  const internalFees = "internalFees";
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const [currentYear, setCurrentyear] = useState(ActiveYear===undefined?asAcademicYearId:ActiveYear);
+  const [showCaution, setShowCaution] = useState(InternalOrSchool===undefined?schoolFees:InternalOrSchool);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardId = sessionStorage.getItem('StandardId');
   const [YearType, setYearType] = useState("C")
-  const schoolFees = "SchoolFees";
-  const internalFees = "internalFees";
-  const [showCaution, setShowCaution] = useState(schoolFees);
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const [IsCautionClick, setIsCautionClick] = useState(false)
   const [newAcadamicYear, setNewAcadamicYear] = useState([])
   const [originalAcadamicYear, setOriginalAcadamicYear] = useState([])
-  const [currentYear, setCurrentyear] = useState(sessionStorage.getItem("AcademicYearId"));
-
+  
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
@@ -70,8 +71,7 @@ function Fees() {
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent) 
   
-  const {ActiveYear,InternalOrSchool} = useParams();
-
+  
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
