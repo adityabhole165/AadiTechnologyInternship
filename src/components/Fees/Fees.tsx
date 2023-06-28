@@ -187,7 +187,7 @@ function Fees() {
         await Browser.open({ url: url });
       };
       openCapacitorSite(paymentPageLink)
-      navigate('/extended-sidebar/Student/PayOnline/' + currentYear + '/' + internalFees)
+      navigate('/extended-sidebar/Student/PayOnline/' + currentYear + '/' + showCaution)
       dispatch(resetPaymentUrl())
     }
 
