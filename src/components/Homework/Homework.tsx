@@ -20,7 +20,6 @@ import { useParams } from 'react-router';
 function Homework() {
   const dispatch = useDispatch();
   const classes = Styles();
-  const {SelectedDate} = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
@@ -55,19 +54,11 @@ function Homework() {
   useEffect(() => {
     if (GetHomeworkDates.length > 0) {
       let itemLength = GetHomeworkDates.length;
-      
-      setAssignedDate(SelectedDate===undefined?
-        GetHomeworkDates[itemLength-1].Value:
-        getDateMonthYearFormatted(SelectedDate).toString())
-      
-        setItemList(GetHomeworkDates.map((item, index) => {
-        return (SelectedDate===undefined?
-        (index === itemLength-1 ?
-          { ...item, IsActive: true } :
-          { ...item, IsActive: false }):
-          (getDateMonthYearFormatted(SelectedDate).toString())=== item.Value ?
-            { ...item, IsActive: true } :
-            { ...item, IsActive: false })
+      setAssignedDate(GetHomeworkDates[itemLength-1].Value)
+      setItemList(GetHomeworkDates.map((item, index) => {
+        return index === itemLength-1 ?
+        { ...item, IsActive: true } :
+        { ...item, IsActive: false }
       }))
     }
     else {

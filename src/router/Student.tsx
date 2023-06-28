@@ -110,10 +110,6 @@ const studentRoutes = [
     element: <Homework/>
   },
   {
-    path: 'Homework/:SelectedDate',
-    element: <Homework/>
-  },
-  {
     path: 'Homework/:DateFromHomework',
     element: <Homework/>
   },
