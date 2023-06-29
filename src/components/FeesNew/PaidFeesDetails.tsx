@@ -1,17 +1,12 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import SelectSequenceList from './SelectSequenceList';
 import { useDispatch } from 'react-redux';
-import IFees, { IPayOnline } from 'src/interfaces/Student/Fees';
-import { getFees } from 'src/requests/Fees/Fees';
+import  { IPayOnline } from 'src/interfaces/Student/Fees';
 import { RootState, useSelector } from 'src/store';
 import { Grid } from '@mui/material';
 import FeesCard from './FeesCard';
-import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 
-
-import { Browser } from '@capacitor/browser';
-import { GetEnableOnlinePaymentForInternalFee, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, getRestrictNewPaymentIfOldPaymentIsPending } from 'src/requests/SchoolSetting/schoolSetting';
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
   OldInternalstudent, IsPending }) => {
@@ -46,27 +41,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
   const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
   const OnlineFeePaymentAll: any = useSelector((state: RootState) => state.getSchoolSettings.EnabledOnlineFee);
-
-  const GetSettingValueBody: IGetSettingValueBody = {
-    asSchoolId: parseInt(asSchoolId),
-    aiAcademicYearId: aiAcademicYearId,
-    asKey: "",
-  };
-
-  const body: IFees = {
-    asSchoolId: asSchoolId,
-    asStudentId: asStudentId,
-    aiAcademicYearId: aiAcademicYearId,
-    abIsForCurrentYear: true
-  };
-  useEffect(() => {
-    localStorage.setItem('url', window.location.pathname);
-    dispatch(getFees(body));
-    dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
-    dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
-    dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
-    dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
-  }, []);
 
   useEffect(() => {
     let prevGroup = 0;

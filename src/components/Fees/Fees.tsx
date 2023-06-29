@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent, getRestrictNewPaymentIfOldPaymentIsPending, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -162,6 +162,10 @@ function Fees() {
     dispatch(EnableAdvancefeePayment(GetSettingValueBody))
     dispatch(GetEnableOnlinePaymentForInternalFee(GetSettingValueBody))
     dispatch(getallowNextYearInternalFeePaymentForStudent(GetSettingValueBody))
+    dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
+    dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
+    dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
+
     if(InternalOrSchool !== undefined && ActiveYear !== undefined){
     setShowCaution(InternalOrSchool)
     setCurrentyear(ActiveYear)
