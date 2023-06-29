@@ -190,7 +190,6 @@ function SelectSchool() {
             //     "" : JSON.stringify(result.StudentSiblingList));
             sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
                 "" : JSON.stringify(studentDetails.StudentSiblingList));
-            localStorage.setItem("UserId", result.Id);
         }
 
 
@@ -222,15 +221,16 @@ function SelectSchool() {
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
         }
 
-
         sessionStorage.setItem("Id", result.Id);
         sessionStorage.setItem("RoleId", result.RoleId);
         sessionStorage.setItem("StudentName", result.Name);
         sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
         sessionStorage.setItem("Userlogin", result.UserLogin);
         sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
-        localStorage.setItem("RoleName", result.RoleName);
         sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
+
+        localStorage.setItem("UserId", result.Id);
+        localStorage.setItem("RoleName", result.RoleName);
             
         const url = localStorage.getItem("url");
 
