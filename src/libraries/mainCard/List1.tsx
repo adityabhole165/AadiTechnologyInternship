@@ -11,9 +11,9 @@ function List1({ items, SelectedMonth = null, SelectedYear = null }) {
       navigate('../' + path.replace('/Common/', ''))
     else if (path !== undefined) {
       if (SelectedMonth === null)
-        navigate('/extended-sidebar/' + path)
+        navigate('/extended-sidebar/' + path.replace('%', encodeURIComponent('%')) )
       else
-        navigate('/extended-sidebar/' + path + '/' + SelectedMonth + '/' + SelectedYear)
+        navigate('/extended-sidebar/' + path.replace('%', encodeURIComponent('%')) + '/' + SelectedMonth + '/' + SelectedYear)
     }
   }
   return (
