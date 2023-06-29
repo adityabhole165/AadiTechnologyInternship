@@ -33,35 +33,7 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, O
 
   const [expanded, setExpanded] = useState<string | false>(false);
   const FeesObject: any = useSelector((state: RootState) => state.Fees.FeesData2);
-  const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
-  const schoolId = localStorage.getItem('localSchoolId');
-  const academicYearId = sessionStorage.getItem('AcademicYearId');
-  const studentId = sessionStorage.getItem('StudentId');
-  const userLoginId = sessionStorage.getItem("Userlogin") 
-  const filePath = receiptFileName.replace(/\\/g, '/');
-  let sitePathURL = localStorage.getItem('SiteURL');
-  let downloadPathOfReceipt = sitePathURL + filePath;
-
-  useEffect(() => {
-    if (receiptFileName !== "")
-      window.open(downloadPathOfReceipt);
-    dispatch(resetReciept());
-  }, [receiptFileName])
-
-  const downloadReceiptFile = (receiptNo, accountHeaderId) => {
-    const getReceiptFileName_body: any = {
-      asSchoolId: schoolId,
-      asReceiptNo: receiptNo,
-      asAcademicYearId: academicYearId,
-      asAccountHeaderId: accountHeaderId,
-      asIsRefundFee: '0',
-      asStudentId: studentId,
-      asSerialNo: '0',
-      asLoginUserId: userLoginId
-    };
-    dispatch(getReceiptFileName(getReceiptFileName_body));
-  };
-  
+ 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };

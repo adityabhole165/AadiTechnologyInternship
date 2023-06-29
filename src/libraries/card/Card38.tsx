@@ -1,16 +1,49 @@
 import { Accordion, AccordionDetails } from "@mui/material"
 import Note from "../Note/Note"
 import { Accordionsummary, Header1 } from "../styled/AccordianStyled"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useTheme, Grid } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5Fees from "./Card5Fees";
+import { getReceiptFileName, resetReciept } from "src/requests/Fees/Fees";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "src/store";
 
 const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFees }) => {
   const theme = useTheme();
   const classes = Styles();
+  const dispatch = useDispatch();
+  const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
+
+  const schoolId = localStorage.getItem('localSchoolId');
+  const academicYearId = sessionStorage.getItem('AcademicYearId');
+  const studentId = sessionStorage.getItem('StudentId');
+  const userLoginId = sessionStorage.getItem('UserLogin');
+  const downloadReceiptFile = (ReceiptNo, AccountHeaderId) => {
+    
+    const getReceiptFileName_body: any = {
+      asSchoolId: schoolId,
+      asReceiptNo: ReceiptNo,
+      asAcademicYearId: academicYearId,
+      asAccountHeaderId: AccountHeaderId,
+      asIsRefundFee: '0',
+      asStudentId: studentId,
+      asSerialNo: '0',
+      asLoginUserId: userLoginId
+    };
+    dispatch(getReceiptFileName(getReceiptFileName_body));
+  };
+  
+useEffect(() => {
+
+    if (receiptFileName !== "") {
+      window.open(localStorage.getItem('SiteURL')+receiptFileName.replace(/\\/g, '/'));
+      dispatch(resetReciept());
+    }
+  }, [receiptFileName])
+
   return (
     <>
       <Accordion
@@ -43,10 +76,11 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
               Fee.map((item, i) => {
                 const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
                 return paid ? (
-                    <Card5Fees Content={''} Name={''} key={i} internalFees={internalFees}
-                      FileName={internalFees ? item.FeeType + ":" + " " + item.Amount : item.FeeType + 
+                  <Card5Fees item={item} Content={''} Name={''} key={i} internalFees={internalFees}
+                    FileName={internalFees ? item.FeeType + ":" + " " + item.Amount : item.FeeType +
                       ":" + " " + item.FeesPaid}
-                    />
+                    downloadReceiptFile={downloadReceiptFile}
+                  />
                 ) : null;
               })
             )}
