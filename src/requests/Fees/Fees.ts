@@ -4,7 +4,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
-import { getDateFormat, getDateMonthYearFormatted } from 'src/components/Common/Util';
+import { getDateFormat, getDateFormatted, getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 const Feesslice = createSlice({
   name: 'Fees',
@@ -166,7 +166,7 @@ export const getInternalFeeDetails =
             AmountPayable: "0",
             DebitStudentFeeId: "0",
             DueDate: "",
-            DueDateFormat: getDateMonthYearFormatted(item.PaidDate),
+            DueDateFormat: getDateFormatted(item.PaidDate),
             DueDateString: "",
             FeeId: "0",
             FeesPaid: "0",
