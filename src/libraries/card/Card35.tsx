@@ -4,7 +4,7 @@ import Card28 from './Card28';
 import { ListStyle } from '../styled/CardStyle';
 import AttendanceCard from '../mainCard/AttendanceCard';
 import { Box } from '@mui/material';
-export const Card35 = ({ header }) => {
+export const Card35 = ({ header, IsStudent }) => {
     const [enableRow, setEnableRow] = useState(-1)
 
     const expand = (index) => {
@@ -20,7 +20,7 @@ export const Card35 = ({ header }) => {
                         <Card36 Id={index} Rank={Header.Rank}
                             Name={Header.Name} Rollno={Header.Rollno}
                             Presentdays={Header.PresentDays} Percentage={Header.Percentage}
-                            expand={expand} isActive={enableRow === index} />
+                            expand={expand} isActive={enableRow === index} IsStudent={IsStudent} />
                           <Box sx={{mt:"10px"}}>
                           {enableRow === index && (
                             Header.Child.map((Item, index) =>

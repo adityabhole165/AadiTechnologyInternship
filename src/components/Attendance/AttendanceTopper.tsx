@@ -94,7 +94,7 @@ function AttendanceTopper() {
        </Box>
         <Box >
         {(GetStudentAttendance.length > 0 && GetStudentAttendance[0].Name!=null) ? 
-          <Card35 header={{ Header: GetStudentAttendance }} />:
+          <Card35 header={{ Header: GetStudentAttendance}} IsStudent={true}/>:
           <ErrorDetail>No attendance</ErrorDetail>}
         </Box>
 
@@ -107,7 +107,7 @@ function AttendanceTopper() {
         {(
           GetAttendanceDetails !== undefined &&
           GetAttendanceDetails.length > 0) ?
-          <Card35 header={{ Header: GetAttendanceDetails }} />:
+          <Card35 header={{ Header: GetAttendanceDetails}} IsStudent={false} />:
           <ErrorDetail>No attendance</ErrorDetail>
           }
         </Box>

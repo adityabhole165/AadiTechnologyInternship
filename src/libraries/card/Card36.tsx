@@ -6,9 +6,9 @@ import { AccordianHeader, Header1, Header2 } from '../styled/AccordianStyled';
 import { Box } from '@mui/system';
 import { ListStyle } from '../styled/CardStyle';
 
-const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentdays }) => {
+const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentdays,IsStudent }) => {
   let isThirdAbove = false
-  if (Rollno.toString() === sessionStorage.getItem('RollNo')) {
+  if (IsStudent) {
     const arr = ["1", "2", "3"]
     arr.map((item) => {
       if (Rank.indexOf(item) > 0)
@@ -19,7 +19,6 @@ const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentd
     isThirdAbove = true
 
   const theme = useTheme();
-  
   
   return (
     // <ListStyle color={isActive ? 'red' : ''}>
