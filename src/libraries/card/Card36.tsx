@@ -9,7 +9,7 @@ import { ListStyle } from '../styled/CardStyle';
 const Card36 = ({ Id, Name, expand, isActive, Rank, Percentage, Rollno, Presentdays,IsStudent }) => {
   let isThirdAbove = false
   if (IsStudent) {
-    const arr = ["1", "2", "3"]
+    const arr = ["Number1.gif", "Number2.gif", "Number3.gif"]
     arr.map((item) => {
       if (Rank.indexOf(item) > 0)
         isThirdAbove = true;
