@@ -100,7 +100,6 @@ function Form() {
         });
     
   };
-console.log("UserLogin",UserLogin);
 
   const formik = useFormik({
     initialValues: {
