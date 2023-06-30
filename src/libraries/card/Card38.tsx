@@ -11,35 +11,36 @@ import { getReceiptFileName, resetReciept } from "src/requests/Fees/Fees";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
 
-const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFees }) => {
+const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFees, currentYear }) => {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
   const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
+  const GetOldStudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails);
 
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
-  const userLoginId = sessionStorage.getItem('UserLogin');
+  const userLoginId = sessionStorage.getItem('Userlogin');
   const downloadReceiptFile = (ReceiptNo, AccountHeaderId) => {
-    
+
     const getReceiptFileName_body: any = {
       asSchoolId: schoolId,
       asReceiptNo: ReceiptNo,
-      asAcademicYearId: academicYearId,
+      asAcademicYearId: currentYear,
       asAccountHeaderId: AccountHeaderId,
       asIsRefundFee: '0',
-      asStudentId: studentId,
+      asStudentId: GetOldStudentDetails.StudentId,
       asSerialNo: '0',
       asLoginUserId: userLoginId
     };
     dispatch(getReceiptFileName(getReceiptFileName_body));
   };
-  
-useEffect(() => {
+
+  useEffect(() => {
 
     if (receiptFileName !== "") {
-      window.open(localStorage.getItem('SiteURL')+receiptFileName.replace(/\\/g, '/'));
+      window.open(localStorage.getItem('SiteURL') + receiptFileName.replace(/\\/g, '/'));
       dispatch(resetReciept());
     }
   }, [receiptFileName])

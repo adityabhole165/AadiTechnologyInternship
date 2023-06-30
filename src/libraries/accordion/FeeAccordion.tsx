@@ -6,7 +6,7 @@ const FeeAccordion = ({ FeesType, Fee, FeesObject,handleChange, expanded,current
      IsOnlinePaymetCautionMoney, clickPayOnline,OldInternalstudent, IsPending }) => {
     return <>
         <Card38 FeesType={FeesType} Fee={Fee} FeesObject={FeesObject} expanded={expanded} handleChange={handleChange}
-        internalFees={internalFees} />
+        internalFees={internalFees} currentYear={currentYear}/>
         <Card37 expanded={expanded} handleChange={handleChange} FeesObject={FeesObject} currentYear={currentYear} 
         IsForCurrentyear={IsForCurrentyear} OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees}
         ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID}
