@@ -15,7 +15,7 @@ import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
 import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container, Box, Hidden, Dialog } from '@mui/material';
+import { Grid, Card, Container, Box, Hidden, Dialog, Typography } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -466,7 +466,7 @@ const MessageList = () => {
                             )}
 
                         </Grid>
-                        <Grid item xs={12} >
+                        <Grid item xs={12}>
                             <RootWrapper>
                                 {loading ? (
                                     <SuspenseLoader />
@@ -480,7 +480,11 @@ const MessageList = () => {
                                             overflow: 'auto'
                                         }}
                                     >{InboxList?.length === 0 ? (
-                                        <ErrorMessages Error="No records found"></ErrorMessages>
+
+                                        <Grid item sm={9.5}>
+                                         <ErrorMessages Error={'No records found'} />
+                                        </Grid>
+
                                     ) : (
                                         <SelectList3Col
                                             Itemlist={inboxListData}
