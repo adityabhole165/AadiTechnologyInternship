@@ -163,7 +163,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     setFeesTotal(Total)
   },[itemList])
   
-
   return (
     <div>
       <Grid container>
@@ -197,7 +196,9 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             <SelectSequenceList Itemlist={itemList} RefreshData={RefreshData}
               FeesCard={FeesCard}
               IsSequenceSelect={IsSequenceSelect}
-              isSingleSelect={isSingleSelect} />
+              isSingleSelect={isSingleSelect} 
+              IsNotDisabled={OnlineFeePaymentAll}
+              InternalOrSchool={internalFees}/>
           }
         </Grid>
       </Grid>
