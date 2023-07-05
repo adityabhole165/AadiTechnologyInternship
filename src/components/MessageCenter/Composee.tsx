@@ -23,12 +23,14 @@ import { textAlign } from '@mui/system';
 import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
 import { FormHelperText } from '@mui/material';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { isFutureDateTime, formatAMPM } from '../Common/Util';
+import { isFutureDateTime, formatAMPM, toolbarOptions } from '../Common/Util';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
 
@@ -85,6 +87,7 @@ function Form13() {
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
   const [loading, setLoading] = useState(false);
+  const [isMobile , setIsMobile ] = useState(false);
   const aRef = useRef(null);
 
   const originalMessageBody = localStorage.getItem("messageBody")
@@ -479,6 +482,17 @@ function Form13() {
     setShowCC(!showCC)
   }
 
+  const handleResize = () => {
+    
+    if (window.innerWidth < 600) {
+        setIsMobile(true)
+    } else {
+        setIsMobile(false)
+    }
+}
+window.addEventListener('resize', handleResize)
+  
+ 
   return (
     <>
       <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
@@ -812,12 +826,18 @@ function Form13() {
             </Grid>
             </Hidden>
             <Grid item xs={12} sx={messageCenter}>
-            <TextField fullWidth multiline rows={4}
-              margin="normal" label='Content :' name="Content" type="text"
-              variant="outlined" sx={{ mt: "16px" }}
-              value={formik.values.Content}
-              onChange={formik.handleChange}
-            />
+              {isMobile  ? 
+                 <TextField fullWidth multiline rows={4}
+                 margin="normal" label='Content :' name="Content" type="text"
+                 variant="outlined" sx={{ mt: "16px" }}
+                 value={formik.values.Content}
+                 onChange={formik.handleChange}
+               />:
+            
+               <ReactQuill value={formik.values.Content} onChange={formik.handleChange} modules={toolbarOptions} />
+            }
+         
+
             <Box mb={0.4}>
               {formik.touched.Content && formik.errors.Content ? (
                 <ErrorMessage1 Error={formik.errors.Content} />

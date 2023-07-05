@@ -380,6 +380,13 @@ const MessageList = () => {
     }
     const handleClickOpen = () => {
         setOpen(true);
+       
+        
+    };
+
+    const handleClickClose = () => {
+        setOpen(false);
+        setIsRefresh(true)
     };
 
 
@@ -446,10 +453,10 @@ const MessageList = () => {
                                             </ButtonPrimary>
                                         </Box>
                                         <Dialog open={open}
-                                            onClose={() => { setOpen(false) }}
+                                            onClose={handleClickClose}
                                             PaperProps={{ sx: { position: 'fixed', m: 0, p: 1 } }}
                                         >
-                                            <EmailSettings />
+                                            <EmailSettings/>
 
                                         </Dialog>
                                     </Hidden>
