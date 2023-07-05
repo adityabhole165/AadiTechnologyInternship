@@ -269,20 +269,6 @@ function Fees() {
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
-      <Dropdown
-        Array={newAcadamicYear}
-        handleChange={clickYear}
-        label={'Select Year'}
-        defaultValue={currentYear}
-      />
-      {currentYear != NextYrId &&
-        <>
-          {FeesList2.PendingFeeAcademicYears !== "" &&
-            <>
-              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
-            </>
-          }
-        </>}
       <ToggleButtonGroup
         value={showCaution}
         exclusive
@@ -291,7 +277,20 @@ function Fees() {
         {OnlinePaymentForInternalFee &&
           <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
-
+    <Box sx={{mb:"8px"}}><Dropdown 
+        Array={newAcadamicYear}
+        handleChange={clickYear}
+        label={'Select Year'}
+        defaultValue={currentYear}
+      /></Box>  
+      {currentYear != NextYrId &&
+        <>
+          {FeesList2.PendingFeeAcademicYears !== "" &&
+            <>
+              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+            </>
+          }
+        </>}
       {
         showCaution === schoolFees &&
 
