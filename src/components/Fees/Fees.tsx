@@ -37,12 +37,12 @@ const note = [
 function Fees() {
   const theme = useTheme();
   const classes = Styles();
-  const {ActiveYear,InternalOrSchool} = useParams();
+  const { ActiveYear, InternalOrSchool } = useParams();
   const schoolFees = "SchoolFees";
   const internalFees = "internalFees";
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const [currentYear, setCurrentyear] = useState(ActiveYear===undefined?asAcademicYearId:ActiveYear);
-  const [showCaution, setShowCaution] = useState(InternalOrSchool===undefined?schoolFees:InternalOrSchool);
+  const [currentYear, setCurrentyear] = useState(ActiveYear === undefined ? asAcademicYearId : ActiveYear);
+  const [showCaution, setShowCaution] = useState(InternalOrSchool === undefined ? schoolFees : InternalOrSchool);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -53,7 +53,8 @@ function Fees() {
   const [IsCautionClick, setIsCautionClick] = useState(false)
   const [newAcadamicYear, setNewAcadamicYear] = useState([])
   const [originalAcadamicYear, setOriginalAcadamicYear] = useState([])
-  
+  const [payNote, setPayNote] = useState([])
+
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
@@ -69,9 +70,9 @@ function Fees() {
   const IsOnlinePaymetCautionMoney: any = useSelector((state: RootState) => state.getSchoolSettings.OnlinePaymentForCautionMoney)
   const AllowAdvancePaymentforStudent: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
-  const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent) 
-  
-  
+  const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
+
+
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
@@ -130,10 +131,20 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-  
+  useEffect(() => {
+    if (FeesList2.PaymentNotes !== undefined) {
+      let arrNote = FeesList2.PaymentNotes;
+      let arrNote2 = {
+        Note: 'If amount is deducted from your bank account and not reflected on fee screen then please wait for 1 hour and then if required send transaction details to Software Coordinator with Message Center facility.',
+        SrNo: '3',
+        Title:'Amount not deducted from bank account'
+      }
+      setPayNote([...arrNote, arrNote2])
+    }
+  }, [FeesList2])
   useEffect(() => {
     let arr = AcadamicYear;
-    if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") ||AllowNextYearInternal && showCaution == "internalFees" ) {
+    if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") || AllowNextYearInternal && showCaution == "internalFees") {
       if (AcadamicYear.length > 0 && NextYearDetails !== undefined) {
         let arr2 = {
           id: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -151,7 +162,7 @@ function Fees() {
       }
     }
 
-  }, [AcadamicYear, NextYearDetails, AllowAdvancePaymentforStudent, AllowAdvancePayment, showCaution,AllowNextYearInternal]);
+  }, [AcadamicYear, NextYearDetails, AllowAdvancePaymentforStudent, AllowAdvancePayment, showCaution, AllowNextYearInternal]);
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
 
@@ -166,9 +177,9 @@ function Fees() {
     dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
     dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
 
-    if(InternalOrSchool !== undefined && ActiveYear !== undefined){
-    setShowCaution(InternalOrSchool)
-    setCurrentyear(ActiveYear)
+    if (InternalOrSchool !== undefined && ActiveYear !== undefined) {
+      setShowCaution(InternalOrSchool)
+      setCurrentyear(ActiveYear)
     }
   }, []);
 
@@ -253,6 +264,7 @@ function Fees() {
     }
     return returnVal
   }
+  // originalAcadamicNote
   useEffect(() => {
 
     if (FeesList2.PendingFeeAcademicYears !== undefined) {
@@ -265,24 +277,12 @@ function Fees() {
       })
       setNewAcadamicYear(arr2)
     }
+
   }, [FeesList2])
+
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
-      <Dropdown
-        Array={newAcadamicYear}
-        handleChange={clickYear}
-        label={'Select Year'}
-        defaultValue={currentYear}
-      />
-      {currentYear != NextYrId &&
-        <>
-          {FeesList2.PendingFeeAcademicYears !== "" &&
-            <>
-              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
-            </>
-          }
-        </>}
       <ToggleButtonGroup
         value={showCaution}
         exclusive
@@ -291,7 +291,20 @@ function Fees() {
         {OnlinePaymentForInternalFee &&
           <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
-
+      <Box sx={{ mb: "8px" }}><Dropdown
+        Array={newAcadamicYear}
+        handleChange={clickYear}
+        label={'Select Year'}
+        defaultValue={currentYear}
+      /></Box>
+      {currentYear != NextYrId &&
+        <>
+          {FeesList2.PendingFeeAcademicYears !== "" &&
+            <>
+              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+            </>
+          }
+        </>}
       {
         showCaution === schoolFees &&
 
@@ -339,11 +352,12 @@ function Fees() {
       {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
         (<NoteStyle>
           <b>Note :</b>
-          {FeesList2.PaymentNotes?.map((note, i) => {
+          {payNote?.map((note, i) => {
             return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
               <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
             </Box>
           })}
+          {/* <Typography>{Paymentnote}</Typography> */}
         </NoteStyle>)
       }
       {asSchoolId == "11" && <>
