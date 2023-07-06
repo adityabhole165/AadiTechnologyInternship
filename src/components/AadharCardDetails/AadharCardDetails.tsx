@@ -33,10 +33,11 @@ function AadharCardDetails() {
     const aRef = useRef(null);
     const [fileName, setFileName] = useState('')
     const [aadharNumber, setAadharNumber] = useState('')
-    const [aadharName, setAdharName] = useState('')
+    const [aadharName, setAadharName] = useState('')
     const dispatch = useDispatch();
     const [base64URL, setBase64URL] = useState('')
     const [error, setError] = useState(false);
+    const [errorname, setErrorname] = useState(false);
     const [fileError, setFileError] = useState('');
     const [error1, setError1] = useState(false)
     const [error2, setError2] = useState(false)
@@ -58,7 +59,7 @@ function AadharCardDetails() {
 
     useEffect(() => {
         setAadharNumber(GetUserAadharCardDetails.AadharCardNo)
-        setAdharName(GetUserAadharCardDetails.NameOnAadharCard)
+        setAadharName(GetUserAadharCardDetails.NameOnAadharCard)
     }, [GetUserAadharCardDetails])
 
     useEffect(() => {
@@ -97,7 +98,12 @@ function AadharCardDetails() {
             setError(true);
         }
     };
-
+    const changeAdharName = (value) => {
+        setAadharName(value)
+        if (value.length > 0) {
+            setErrorname(false)
+        }
+    }
     const changeAdhar = (value) => {
         const re = /^[0-9\b]+$/;
         if (value === "")
@@ -162,10 +168,13 @@ function AadharCardDetails() {
         if (aadharNumber.length === 0) {
             setError(true);
         }
+        if (aadharName.length === 0) {
+            setErrorname(true)
+        }
         if (imgName === '' && selectedFile === null) {
             setFileError('Please upload the file')
         } else {
-            if (aadharNumber.length !== 0) {
+            if (aadharNumber.length !== 0 && aadharName.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
                 // aRef.current.value = null
             }
@@ -187,7 +196,7 @@ function AadharCardDetails() {
                         <Grid item xs={8}>
                             <Typography>{GetUserAadharCardDetails.Name}</Typography>
                         </Grid>
-                        <Grid item xs={4}>  
+                        <Grid item xs={4}>
                             <Typography> <b>Aadhaar Number : </b> </Typography>
                         </Grid>
                         <Grid item xs={8}>
@@ -201,9 +210,11 @@ function AadharCardDetails() {
                         <Grid item xs={4}>
                             <Typography> <b>Name Present On Aadhaar Card : </b></Typography>
                         </Grid>
+
                         <Grid item xs={8} mt={1}>
-                                <input type='text' value={aadharName} onChange={(e) => setAdharName(e.target.value)} />
-                                {/* <Typography sx={{ mt: "5px" }} > {GetUserAadharCardDetails.NameOnAadharCard}</Typography> */}
+                            <input type='text' value={aadharName} onChange={(e) => changeAdharName(e.target.value)} />
+                            <ErrorMessage1 Error={errorname ? "Please enter Aadhar Card Name." : " "} />
+
                         </Grid>
                         {/* <Grid item xs={4}>
                             <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
