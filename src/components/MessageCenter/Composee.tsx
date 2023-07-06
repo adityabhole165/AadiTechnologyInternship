@@ -79,7 +79,8 @@ function Form13() {
   });
 
   const [finalBase642, setFinalBase642] = useState<AttachmentFile[]>([]);
-
+  const [open, setOpen] = useState(false);
+  const [Sopen, setSopen] = useState(false);
   const [finalBase642Duplicate, setFinalBase642Duplicate] = useState([]);
 
   const [FileNameOfAttachment, setFileNameOfAttachment] = useState([]);
@@ -135,13 +136,18 @@ function Form13() {
   const handleClickAway = () => {
     setOpen(false);
   };
+  const handleClickAwayS = () => {
+    setSopen(false);
+  };
 
   const handleClick = () => {
     setOpen((prev) => !prev);
   };
+  const handleClickS = () => {
+    setSopen((prev) => !prev);
+  };
   const classes = Styles();
   const navigate = useNavigate();
-  const [open, setOpen] = useState(false);
   const [fileerror, setFilerror] = useState<any>('');
   const [fileName, setfileName] = useState('');
   const [displayOfRecipients, setdisplayOfRecipients] = useState('none');
@@ -157,6 +163,8 @@ function Form13() {
   let dataShow: any = [];
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
+    const NoteSchedule: string =
+    'e.g. 07:00 AM. You can schedule message for next 7 days. For scheduled message, recipients wont get notification on mobile.';
 
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const localschoolId = localStorage.getItem('localSchoolId');
@@ -695,13 +703,36 @@ window.addEventListener('resize', handleResize)
                   </Typography>
                   </Grid> */}
               
-                <Grid item xs={12} sm={4} md={2.5} lg={2.5} mt={-1} sx={ReadRecipient}>
+
+                  <Grid item xs={11} sm={3} md={2.5} lg={2}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Schedule Message at:
                   </Typography>
-                  </Grid>
-     
+            </Grid>
+            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+               <ClickAwayListener onClickAway={handleClickAwayS}>
+               <Tooltip
+                PopperProps={{
+                  disablePortal: true
+                }}
+                onClose={handleClickS}
+
+                disableFocusListener disableHoverListener disableTouchListener arrow
+                open={Sopen} title={NoteSchedule} placement="left"
+                componentsProps={{
+                  tooltip: {
+                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                  }
+                }}
+              >
+                <InfoTwoToneIcon type="button"
+                  onClick={handleClickS}
+                  sx={{ color: 'navy', fontSize: '17px',mt:"8px"}}
+                />
+              </Tooltip>
+            </ClickAwayListener>
+            </Grid>
           
             
             <Grid item xs={6} sm={4} md={2} lg={2} sx={messageCenterCale}>
