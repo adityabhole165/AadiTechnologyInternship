@@ -18,7 +18,7 @@ const NewRelease = () => {
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    let currentAppVersion = androidCurrentAppVersion;
+    let currentAppVersion = window.localStorage.getItem('deviceType') === 'ios' ? appleCurrentAppVersion : androidCurrentAppVersion;
     const [showUpgrade, setShowUpgrade] = useState(false);
 
     const latestVersionDetails = useSelector((state: RootState) => state.NewRelease.Release)
@@ -107,11 +107,11 @@ const NewRelease = () => {
 
     return (
         <>
-            {showUpgrade &&
-                (<><UpgradeApp IsForceUpdate={latestVersionDetails.IsForceUpdate}
-                    AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.AppStoreUrl}
-                    ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
-            }</>
+        {showUpgrade && latestVersionDetails.DeviceType === (window.localStorage.getItem('deviceType') === 'ios' ? 'APPLE' : 'android' ) &&
+            (<><UpgradeApp IsForceUpdate={latestVersionDetails.IsForceUpdate}
+                AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.AppStoreUrl}
+                ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
+        }</>
     )
 }
 
