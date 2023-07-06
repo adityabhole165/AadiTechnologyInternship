@@ -17,6 +17,8 @@ import Accordion7 from 'src/libraries/accordion/accordion7';
 import ControlledAccordions from 'src/libraries/accordion/accordion';
 import Card30 from 'src/libraries/card/Card30';
 import { Container } from '@mui/material';
+import CardTimetable from 'src/libraries/card/CardTimetable';
+import CardTimetable2 from 'src/libraries/card/CardTimetable2';
 function TeacherTimetable() {
   const dispatch = useDispatch();
   const weekdaysList = useSelector(
@@ -68,10 +70,11 @@ function TeacherTimetable() {
 
   return (
     <>
-    <Container>
+    <Container maxWidth={'xl'}>
       <PageHeader heading={'Timetable'} subheading={''} />
-      <Card30 header={TMTimetable}></Card30>
-
+      
+      <CardTimetable header={TMTimetable.filter((item)=>{return item.Name !== "Additional Lectures"})}></CardTimetable>
+      <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2>
       </Container>
     </>
   );
