@@ -349,16 +349,16 @@ const DashboardData = {
         Link: 'Common/VideoGallery/VideoAlbum',
         index: 5,
       },
-      {
-        Text1: 'Library',
-        Text2: '',
-        Color: '#90a4ae',
-        iconColor: '#424242',
-        Icon: HistoryEduOutlinedIcon,
-        ImageUrl: "/imges/library.png",
-        Link: 'Student/Library',
-        index: 27
-      },
+      // {
+      //   Text1: 'Library',
+      //   Text2: '',
+      //   Color: '#90a4ae',
+      //   iconColor: '#424242',
+      //   Icon: HistoryEduOutlinedIcon,
+      //   ImageUrl: "/imges/library.png",
+      //   Link: 'Student/Library',
+      //   index: 27
+      // },
     ],
     items2:[
     
@@ -392,16 +392,16 @@ const DashboardData = {
         index: 7,
         ScreenPermission: 'TeacherTimeTable'
       },
-      {
-        Text1: 'Staff   ',
-        Text2: 'Birthday',
-        Color: '#90a4ae',
-        iconColor: '#35abd9',
-        Icon:CakeIcon,
-        Link: 'Common/StaffBirthday',
-        index: 20,
-        ScreenPermission: 'StaffBirthday'
-      },
+      // {
+      //   Text1: 'Staff   ',
+      //   Text2: 'Birthday',
+      //   Color: '#90a4ae',
+      //   iconColor: '#35abd9',
+      //   Icon:CakeIcon,
+      //   Link: 'Common/StaffBirthday',
+      //   index: 20,
+      //   ScreenPermission: 'StaffBirthday'
+      // },
     ],
     items3:[
      

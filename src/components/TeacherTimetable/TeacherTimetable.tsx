@@ -73,8 +73,8 @@ function TeacherTimetable() {
     <Container maxWidth={'xl'}>
       <PageHeader heading={'Timetable'} subheading={''} />
       
-      <CardTimetable header={TMTimetable.filter((item)=>{return item.Name !== "Additional Lectures"})}></CardTimetable>
-      <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2>
+      <CardTimetable header={TMTimetable}></CardTimetable>
+      {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}
       </Container>
     </>
   );

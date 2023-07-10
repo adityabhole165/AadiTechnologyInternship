@@ -40,7 +40,7 @@ export const CardTimetable = ({ header }) => {
                                     isActive={enableRow === index} />
                                 {Header.Child !== undefined &&
                                     <>
-                                        {isMobile ? <><List23 data={Header.Child} /></> :
+                                        {/* {isMobile ? <><List23 data={Header.Child} /></> : */}
                                             <>
                                                 {(enableRow === index) &&
                                                     <List23 data={Header.Child} />
@@ -48,7 +48,7 @@ export const CardTimetable = ({ header }) => {
                                             </>
 
 
-                                        }
+                                        {/* } */}
 
 
                                     </>
