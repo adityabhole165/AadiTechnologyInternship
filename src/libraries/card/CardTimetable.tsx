@@ -10,14 +10,14 @@ export const CardTimetable = ({ header }) => {
 
     const [enableRow, setEnableRow] = useState(-1)
     const [checked, setChecked] = useState(true)
-    const [isMobile, setIsMobile] = useState(false)
+    const [isMobile, setIsMobile] = useState(true)
 
     const handleResize = () => {
 
         if (window.innerWidth < 600) {
-            setIsMobile(true)
-        } else {
             setIsMobile(false)
+        } else {
+            setIsMobile(true)
         }
     }
     window.addEventListener('resize', handleResize)
@@ -40,22 +40,23 @@ export const CardTimetable = ({ header }) => {
                                     isActive={enableRow === index} />
                                 {Header.Child !== undefined &&
                                     <>
-                                   
-                                        {isMobile ?
+                                        {isMobile ? <><List23 data={Header.Child} /></> :
                                             <>
-                                                {
+                                                {(enableRow === index) &&
                                                     <List23 data={Header.Child} />
                                                 }
+                                            </>
 
-                                            </> : <>
-                                            {(enableRow === index) &&
-                                                    <List23 data={Header.Child} />
-                                                }
-                                            
-                                            </>}
+
+                                        }
+
 
                                     </>
                                 }
+
+
+
+
                             </ListStyle>
                         </Grid>
                     </Grow>

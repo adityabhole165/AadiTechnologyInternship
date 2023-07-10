@@ -39,7 +39,7 @@ export const CardStyle = {
 
     export const ListHeight = {
          
-      '@media (min-width: 900px)': {
+      '@media (min-width: 600px)': {
         height:"200px"
       
       },
