@@ -14,7 +14,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function EventOverview() {
   const { DateFrommon, DateFromyear } = useParams();
-  const BackMonth = new Date(DateFrommon).getMonth() + 1;
+  const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
   const dispatch = useDispatch();
   const eventList = useSelector(
