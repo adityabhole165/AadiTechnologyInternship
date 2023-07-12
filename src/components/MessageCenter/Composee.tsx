@@ -484,7 +484,7 @@ function Form13() {
 
   const handleResize = () => {
     
-    if (window.innerWidth < 600) {
+    if (window.innerWidth >= 900) {
         setIsMobile(true)
     } else {
         setIsMobile(false)
@@ -740,23 +740,24 @@ window.addEventListener('resize', handleResize)
                 type="date" id="outlined-required" variant="standard"
                 onChange={scheduleDateAndTime}
                 inputProps={{ min: MinDate, max: MaxDate }}
+                fullWidth
               />
             </Grid>
 
 
-            <Grid item xs={4} sm={4} md={2} lg={2} sx={{ display: scheduleMessage }} >
-              <TimePicker
+            <Grid item xs={6} sm={4} md={2} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
+              <TimePicker 
                 value={value}
                 onChange={clickTime}
                 renderInput={(params) =>
-                  <TextField {...params} variant="standard" size="small" sx={messageCenterCale}
+                  <TextField {...params} variant="standard" size="small" sx={messageCenterCale} 
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
-                          <AccessTimeIcon fontSize='small' sx={{ mb: "2px" }} />
+                          <AccessTimeIcon fontSize='small'  />
                         </InputAdornment>
                       ),
-                    }}
+                    }} fullWidth
                   />}
               />
 
@@ -765,7 +766,7 @@ window.addEventListener('resize', handleResize)
           
         
             
-             <Grid item xs={12} sx={{ mt: '-10px' ,mb:"6px" , ml:"5px"}}>
+             <Grid item xs={12} sx={{ mt: '-15px' ,mb:"6px" , ml:"5px"}}>
         
          <ErrorMessage1 Error={schTimeerror} />
           <ErrorMessage1 Error={requestScheduleMsg} />
@@ -826,7 +827,13 @@ window.addEventListener('resize', handleResize)
             </Grid>
             </Hidden>
             <Grid item xs={12} sx={messageCenter}>
-              {isMobile  ? 
+            <TextField fullWidth multiline rows={4}
+                 margin="normal" label='Content :' name="Content" type="text"
+                 variant="outlined" sx={{ mt:"30px" }}
+                 value={formik.values.Content}
+                 onChange={formik.handleChange}
+               />
+              {/* {isMobile  ? 
                  <TextField fullWidth multiline rows={4}
                  margin="normal" label='Content :' name="Content" type="text"
                  variant="outlined" sx={{ mt: "16px" }}
@@ -835,7 +842,7 @@ window.addEventListener('resize', handleResize)
                />:
             
                <ReactQuill value={formik.values.Content} onChange={formik.handleChange} modules={toolbarOptions} />
-            }
+            } */}
          
 
             <Box mb={0.4}>
