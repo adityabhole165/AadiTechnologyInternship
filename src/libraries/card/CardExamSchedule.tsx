@@ -2,7 +2,7 @@ import { Typography, Box, Grid } from '@mui/material'
 import React from 'react'
 import { ListStyle } from '../styled/CardStyle'
 
-function CardExamSchedule({ header, text2, text3, text5 }) {
+function CardExamSchedule({ header, text2, text3, text5,text6="" }) {   
   return (
     <div>
     <ListStyle>
@@ -17,16 +17,21 @@ function CardExamSchedule({ header, text2, text3, text5 }) {
             {text2}
         </Typography>
     </Grid>
-    <Grid item xs={12} sm={5.5}>
-        <Typography variant='body2' sx={{float:"right"}}>
+    <Grid item xs={6} sm={4}>
+        <Typography variant='body2'>
             {text3}
         </Typography>
     </Grid>
-    <Grid item xs={12} sm={12}>
+    <Grid item xs={6} sm={4}>
+        <Typography variant='body2' sx={{float:"right"}}>
+            {text6}
+        </Typography>
+    </Grid>
+    <Grid item xs={6} sm={6}>
         <Typography variant='body2' color="primary">
             {text5}
         </Typography>
-    </Grid>
+    </Grid>   
 </Grid>
 </ListStyle>
     </div>

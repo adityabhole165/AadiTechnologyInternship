@@ -88,7 +88,9 @@ export const ViewExamDataRess =
           text2: item.StartTime + ' - ' + item.EndTime,
           text5: item.Description,
           text3: item.StartDate.replace("-"," ").replace("-"," "),
-          Instructions: item.Instructions
+          Instructions: item.Instructions,
+          startTime:item.StartTime,
+          endTime:item.EndTime
         }
       })
       dispatch(SelectStandardExamslice.actions.ViewExamDataRes(itemlist));

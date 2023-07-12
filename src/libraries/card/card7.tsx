@@ -44,11 +44,10 @@ function Card7({
   
 }) {
   const theme = useTheme();
-
   let attachment = Attachments;
   let attachmentObj: any = [];
   let file_path = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
-
+  const UserID = sessionStorage.getItem('Id');
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
 
   if (Object.keys(Attachments).length == 0) {
@@ -63,25 +62,26 @@ function Card7({
       attachmentObj.push(AttachmentFile);
     }
   }
-
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
+  const ReplyallRecieverId = ViewSentObject.ReceiverUserId
+  const IsSender = UserID === FromUserID
   const navigate = useNavigate();
 
-  const saveMessageBody = (replyFwd) => {
+  const saveMessageBody = (replyFwd) => {  
     const path =
       replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
         replyFwd === "Forward" ?
           `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
-          : "";
+          :replyFwd === "ReplyAll"?  `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`:"";
     navigate(path)
     localStorage.setItem("messageBody", Body);
 
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
-        From: replyFwd === "Reply" ? From : "",
-        FromUserID: replyFwd === "Reply" ? FromUserID : "",
+        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? To : "",
+        FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
         Text: Text,
         Attachment: AttachmentArray,
         ID: ID
@@ -166,6 +166,7 @@ function Card7({
             }
           > */}
           <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>&nbsp;&nbsp;
+        {!IsSender &&  <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
           {/* </RouterLink> */}
           {/* <RouterLink
             style={{ textDecoration: 'none' }}

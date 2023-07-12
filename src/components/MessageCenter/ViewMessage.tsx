@@ -38,7 +38,6 @@ function ViewSms({ }) {
   const MessageCenterReadMode: any = useSelector(
     (state: RootState) => state.getSchoolSettings.EnableMessageCenterReadModeForStudent
   );
-  console.log("MessageCenterReadMode",MessageCenterReadMode);
   
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),

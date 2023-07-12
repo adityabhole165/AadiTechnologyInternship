@@ -76,6 +76,10 @@ const messageCenterRoutes: PartialRouteObject[] = [
     element: <Composee />
   },
   {
+    path: 'Compose/ReplyAll', // ReplyAll
+    element: <Composee />
+  },
+  {
     path:'Compose', //from subject teacher
     element: <Composee />
 },

@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import {
   Box,
@@ -282,6 +282,26 @@ function Header() {
     navigate('Student/Notification')
   }
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+    useEffect(() => {
+      const handleOnline = () => setIsOnline(true);
+      const handleOffline = () => setIsOnline(false);
+  
+      window.addEventListener('online', handleOnline);
+      window.addEventListener('offline', handleOffline);
+  
+      return () => {
+        window.removeEventListener('online', handleOnline);
+        window.removeEventListener('offline', handleOffline);
+      };
+    }, []);
+  const Toaster =()=>{
+    if(!isOnline){
+    toast.error('No internet connection', { toastId: 'success1' })
+  }
+  }
+
   return (<>
     <HeaderWrapper
       display="flex"
@@ -298,6 +318,7 @@ function Header() {
             alpha(theme.colors.alpha.black[100], 0.1)
       }}
     >
+       {Toaster()}
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" flexItem />}

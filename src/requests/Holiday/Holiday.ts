@@ -3,6 +3,7 @@ import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import HolidaysApi from 'src/api/Holiday/Holiday';
+import { getDateFormatted, isFutureDateTime } from 'src/components/Common/Util';
 
 const Holidaysslice = createSlice({
   name: 'holidays',
@@ -30,6 +31,7 @@ export const getHolidays =
     const response = await HolidaysApi.GetHolidayList(data);
     let Data = [];
     Data = response.data.GetHolidayListResult?.map((item, index) => {
+    const today = getDateFormatted(new Date());
       return index === 0
         ? {
           id: index,
@@ -46,7 +48,7 @@ export const getHolidays =
           text1: Number(item.ToatalDays) > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
           text2: 'Total Days: ' + item.ToatalDays,
           TextH3: item.Standards,
-          backgroundColor: 'primary'
+          backgroundColor:isFutureDateTime(item.StartDate) ? 'primary':'info' 
         };
     });
   

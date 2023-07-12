@@ -33,7 +33,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
-
+  
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -95,7 +95,7 @@ function Form13() {
   useEffect(() => {
   }, [finalBase642New])
   useEffect(() => {
-    if (PageName == 'Reply') {
+    if (PageName == 'Reply' || PageName == 'ReplyAll') {
       const PayLoadObject = {
         Name: From,
         ID: FromUserID.toString()
@@ -432,7 +432,7 @@ function Form13() {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
-      RecipientsObject.RecipientId.push(Number(ReplyRecipientNameId.ReplyRecipientID))
+      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID)
     }
   }, []);
 
@@ -491,8 +491,8 @@ function Form13() {
     }
 }
 window.addEventListener('resize', handleResize)
-  
- 
+
+
   return (
     <>
       <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
