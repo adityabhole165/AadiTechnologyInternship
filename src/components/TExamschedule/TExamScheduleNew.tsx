@@ -95,6 +95,39 @@ const TExamScheduleNew = () => {
     dispatch(ViewExamDataRess(getexamType_body));
   }, [exam]);
 
+  const [startTime, setStartTime] = useState('08:00');
+  const [endTime, setEndTime] = useState('10:30');
+  const [totalHours, setTotalHours] = useState(0);
+  const [totalMinutes, setTotalMinutes] = useState(0);
+  
+   const calculateTotalTime = () => {
+      const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
+      let adjustedStartHours = parseInt(startHours, 10);
+  
+      const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
+      let adjustedEndHours = parseInt(endHours, 10);
+  
+      const startDate = new Date();
+      startDate.setHours(adjustedStartHours);
+      startDate.setMinutes(parseInt(startMinutes, 10));
+  
+      const endDate = new Date();
+      endDate.setHours(adjustedEndHours);
+      endDate.setMinutes(parseInt(endMinutes, 10));
+  
+      const diffInMs = Number(endDate) - Number(startDate);
+      const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+      const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+  
+      setTotalHours(hours);
+      setTotalMinutes(minutes);
+    };
+  
+  useEffect(() => {
+    calculateTotalTime();
+  }, [startTime, endTime]);
+  const TotalMin = totalMinutes !== 0 ? totalMinutes+"min" : ""
+  const  TotalTime = totalHours+"h"+" "+TotalMin
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
@@ -144,7 +177,7 @@ const TExamScheduleNew = () => {
 
               /> */}
                <CardExamSchedule  header={item.header}     text2={item.text3}
-                text3={item.text2}  text5={item.text5}/>
+                text3={item.text2}  text5={item.text5} text6={TotalTime}/>
           </div>
         );
       })}

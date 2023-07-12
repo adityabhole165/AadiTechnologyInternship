@@ -25,7 +25,8 @@ const SchoolSettingSlice = createSlice({
     RestrictNewPaymentIfOldPaymentIsPending:false,
     EnableOnlinePaymentForLastYearFee:false,
     EnabledOnlineFee:false,
-    AllowNextYearInternalFeePaymentForStudent:false
+    AllowNextYearInternalFeePaymentForStudent:false,
+    EnableHomeworkModuleForStudentLogin	:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -33,6 +34,9 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableOnlineExamModule(state, action) {
       state.EnableOnlineExamModule = action.payload
+    },
+    getEnableHomeworkModuleForStudent(state, action) {
+      state.EnableHomeworkModuleForStudentLogin = action.payload
     },
     getEnabledOnlineFee(state, action) {
       state.EnabledOnlineFee = action.payload
@@ -136,6 +140,20 @@ export const getGetSettingValue =
         }
         dispatch(SchoolSettingSlice.actions.getTransportCommitteeStudent(TransportCommitteeForStudent));
       }
+      export const getEnableHomeworkModule =
+    (data: IGetSettingValueBody): AppThunk =>
+      async (dispatch) => {
+        let EnableHomeworkModule = false
+        data.asKey = "EnableHomeworkModuleForStudentLogin";
+        let response = await SchoolSettingApi.GetSettingValueapi(data)
+        if (response.data.GetSettingValueResult) {
+          {
+            EnableHomeworkModule = true;
+          }
+        }
+        dispatch(SchoolSettingSlice.actions.getEnableHomeworkModuleForStudent(EnableHomeworkModule));
+      }
+      
       export const getallowNextYearInternalFeePaymentForStudent =
       (data: IGetSettingValueBody): AppThunk =>
         async (dispatch) => {

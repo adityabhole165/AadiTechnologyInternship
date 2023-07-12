@@ -18,8 +18,8 @@ import { ChangePasswordStyle } from '../styled/CommonStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
   '2) Password should be combination of at least one character, digit & special character.',];
-const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your passwor for secutiry purpose.']
-
+const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your password for Security purpose.']
+const note2 = [' Please reset your password for Security purpose.']
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -56,7 +56,7 @@ function Form() {
   };
 
   const regularExpression = /^.*(?=.{6,})(?=.*\d)(?=.*[a-zA-Z])(?=.*[\W_]).*$/;
-  const [viewSent, setoutput] = useState<IChangePasswordResult>();
+  const [output, setoutput] = useState<IChangePasswordResult>();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const Id = sessionStorage.getItem('Id');
   const UserLogin = sessionStorage.getItem('Userlogin');
@@ -148,7 +148,7 @@ function Form() {
 
     <ListStyle sx={ChangePasswordStyle}>
       <form onSubmit={formik.handleSubmit}>
-        <Note NoteDetail={note1} />
+       {output ? <Note NoteDetail={note1} /> : <Note NoteDetail={note2} /> }
         <Box >
           <Typography>User Name</Typography>
           <TextField disabled fullWidth margin="normal" name="username" type="text"

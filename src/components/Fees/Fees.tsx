@@ -28,6 +28,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Browser } from '@capacitor/browser';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
@@ -80,6 +81,7 @@ function Fees() {
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
+  const [selectedYear, setselectedYear] = useState(null)
 
   const Feedata = { Fee1: 'Fee Type', Fee2: 'Amount + Late Fees : ', Fee3: 'Receipt' };
   const FeeAmount = { Sum1: 'Paid Fees', Sum2: 'Payable Fees', Sum3: 'Late Fee', Sum4: 'Applicable Fees' };
@@ -234,6 +236,12 @@ function Fees() {
       }
     })
     setCurrentyear(value);
+    AcadamicYear.map((obj) => {
+      if (obj.Value === value) {
+        setselectedYear(obj.Name)
+     
+      }
+    })
   };
 
   const handleChange = (
@@ -297,6 +305,13 @@ function Fees() {
         label={'Select Year'}
         defaultValue={currentYear}
       /></Box>
+        {currentYear !== asAcademicYearId &&
+         <> {selectedYear ? 
+          <Box mt={2} mb={1}>
+      <Errormessage Error={'You are Viewing data of old academic year' + selectedYear}/>
+          </Box> 
+         : "" }
+         </>}
       {currentYear != NextYrId &&
         <>
           {FeesList2.PendingFeeAcademicYears !== "" &&
