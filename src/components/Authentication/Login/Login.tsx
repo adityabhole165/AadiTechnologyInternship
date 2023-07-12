@@ -156,7 +156,7 @@ function SelectSchool() {
         const teacherDetails: any = await response.data.TeacherDetails
         const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
-
+console.log(studentDetails.MobileNumber ,"MobileNumber")
 
         if (result.RoleName === "Student") {
             sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
@@ -186,6 +186,8 @@ function SelectSchool() {
             sessionStorage.setItem('UserName', studentDetails.asUserName);
             sessionStorage.setItem('ExamID', studentDetails.asExamId);
             sessionStorage.setItem('DOB', studentDetails.DOB);
+            sessionStorage.setItem('MobileNumber', studentDetails.MobileNumber);
+            sessionStorage.setItem('MobileNumber2', studentDetails.MobileNumber2);
             // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
             //     "" : JSON.stringify(result.StudentSiblingList));
             sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?

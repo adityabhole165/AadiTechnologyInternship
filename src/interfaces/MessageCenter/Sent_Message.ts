@@ -20,6 +20,7 @@ export interface GetSentListResult {
             DisplayText: string,
             Id: string,
             InsertedById: string,
+            InsertDateInFormat:string,
             IsAttachment: string,
             IsBdayApplicable: string,
             IsDeleted: string,

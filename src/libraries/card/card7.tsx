@@ -39,7 +39,9 @@ function Card7({
   Viewsent,
   ViewSentObject,
   LoggedInUserNameForMessage = '',
-  MessageCenterReadMode
+  MessageCenterReadMode,
+  InsertDateInFormat,
+  
 }) {
   const theme = useTheme();
 
@@ -94,6 +96,11 @@ function Card7({
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
             <CardDetail2>{From}</CardDetail2>
+          </BoxWrapper>
+          <BoxWrapper>
+            <CardDetail1>Received Date</CardDetail1>
+
+            <CardDetail2>{InsertDateInFormat} </CardDetail2>
           </BoxWrapper>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.To}</CardDetail1>

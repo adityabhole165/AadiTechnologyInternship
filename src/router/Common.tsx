@@ -26,7 +26,7 @@ const EventOverview = Loader(lazy(() => import('src/components/AnnualPlanner/Eve
 const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEvent')));
 const StaffBirthday = Loader(lazy(() => import('src/components/StaffBirthday/StaffBirthday')));
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
-
+const UpcomingEvent = Loader(lazy(()=> import('src/components/AnnualPlanner/UpcomingEvent')))
 const commonRoutes = [
     {
         path: 'pta',
@@ -89,6 +89,11 @@ const commonRoutes = [
         path: 'EventOverview',
         element: <EventOverview />
     },
+
+    {
+        path: 'EventOverview/UpcomingEvent',
+        element: <UpcomingEvent/>
+      },
     {
         path: 'viewevent/:Id/:AssigMonth/:AssigYear',
         element: <ViewEvent />

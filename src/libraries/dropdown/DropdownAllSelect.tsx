@@ -11,12 +11,13 @@ function DropdownAllSelect({ Array, handleChange, label, defaultValue = '' }) {
         <>
             <NativeSelect value={defaultValue}
                 onChange={(e) => handleChange(e.target.value)} fullWidth >
-                {Array.map((items, i) => {
+                {Array.map((item, i) => {
                     return (
-                        <option value={items.Value} key={i}>
-                            {items.Name}
+                        <option value={item.Value} key={i}>
+                            {item.Name}
                         </option>
                     );
+                    
                 })}
             </NativeSelect>
         </>

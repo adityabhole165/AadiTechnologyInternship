@@ -33,3 +33,28 @@ export interface GetEventsDetailsResult {
     EventImage: string,
     EventComment: string
 }
+
+export default interface IGetUpcomingEventBody {
+ 
+    aiAcademicYrId: string,
+    aiSchoolId: string,
+    aiUserId: string,
+    aiUserRoleId: string,
+    isScreenFullAccess: string
+}
+
+
+
+export interface IGetUpcomingEventResult {
+    StartDate: string,
+    EndDate: string,
+    EndDateUniversal: string,
+    EventDescription: null,
+    EventTitle: string,
+    StandardName: string,
+     EventType:string
+}
+
+export interface IGetUpcomingeventResult{
+    UpcomingEventsData:IGetUpcomingEventResult[]
+};
