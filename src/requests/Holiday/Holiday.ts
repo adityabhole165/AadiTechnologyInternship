@@ -35,18 +35,18 @@ export const getHolidays =
       return index === 0
         ? {
           id: index,
-          header: item.Name,
-          text1: Number(item.ToatalDays) == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
-          text2: 'Total Days: ' + item.ToatalDays,
+          Header: item.Name,
+          Text1: Number(item.ToatalDays) == 1 ? item.StartDate : item.StartDate + ' To ' + item.EndDate,
+          Text2: 'Total Days: ' + item.ToatalDays,
           subtitle: 'Total Days: ' + item.ToatalDays,
           TextH3: item.Standards,
           backgroundColor: 'secondary'
         }
         : {
           id: index,
-          header: item.Name,
-          text1: Number(item.ToatalDays) > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
-          text2: 'Total Days: ' + item.ToatalDays,
+          Header: item.Name,
+          Text1: Number(item.ToatalDays) > 1 ? item.StartDate + ' To ' + item.EndDate : item.StartDate,
+          Text2: 'Total Days: ' + item.ToatalDays,
           TextH3: item.Standards,
           backgroundColor:isFutureDateTime(item.StartDate) ? 'primary':'info' 
         };
