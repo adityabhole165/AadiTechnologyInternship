@@ -345,7 +345,7 @@ function Fees() {
           </Grid>
         </Grid>}
 
-      <ListStyle sx={{ mb: 1 }} color="info">
+      <ListStyle sx={{ mb: 1 }} color="error">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
           <b>Applicable Fees:</b> {ApplicableFee}

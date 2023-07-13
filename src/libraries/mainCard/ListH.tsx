@@ -17,7 +17,7 @@ function ListH({itemList}) {
        itemList.map((item,i)=>(
         
        <Box key={i}>
-      <CardH header={item.header} text1={item.text1} text2={item.TextH3} text3={item.text2}   Color={item.backgroundColor}/>
+      <CardH Header={item.Header} Text1={item.Text1} Text2={item.TextH3} Text3={item.Text2}   Color={item.backgroundColor}/>
        </Box>
 
        ))}   
