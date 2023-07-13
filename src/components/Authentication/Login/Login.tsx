@@ -156,7 +156,6 @@ function SelectSchool() {
         const teacherDetails: any = await response.data.TeacherDetails
         const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
 
-console.log(studentDetails.MobileNumber ,"MobileNumber")
 
         if (result.RoleName === "Student") {
             sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
