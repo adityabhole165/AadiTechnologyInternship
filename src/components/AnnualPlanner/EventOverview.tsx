@@ -13,6 +13,7 @@ import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
+import Table1 from 'src/libraries/TableFormat/Table1';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
@@ -113,10 +114,12 @@ function EventOverview() {
   const onUpcomingEvent=()=>{
     navigate ('UpcomingEvent')
   }
+
+  
   return (
     <Container>
       <PageHeader heading={'Events Overview'} subheading={''} />
-      <ButtonPrimary sx={{float:"right",mb:"10px", mt:"-15px"}} onClick={onUpcomingEvent}>Upcoming Event</ButtonPrimary>
+      <ButtonPrimary sx={{float:"right",mb:"10px", mt:"-15px"}} onClick={onUpcomingEvent}>Annual Planner</ButtonPrimary>
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -137,6 +140,8 @@ function EventOverview() {
           }
         </>)
       }
+
+     
 
     </Container>
   );

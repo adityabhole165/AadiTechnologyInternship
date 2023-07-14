@@ -42,7 +42,7 @@ function UpcomingEvent() {
   }
   return (
     <Container>
-    <PageHeader heading={'UpcomingEvent'}/>
+    <PageHeader heading={'Annual Planner'}/>
     <BackButton FromRoute={'/Common/EventOverview'}/>
     <Grid container>
       <Grid item xs={2}>
