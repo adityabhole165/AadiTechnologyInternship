@@ -27,14 +27,17 @@ function AadharCardDetails() {
     const SaveUserAadharCardDetails: any = useSelector(
         (state: RootState) => state.AadharCardDetails.SaveUserAadharCardDetails
     );
+    const dispatch = useDispatch();
 
     const [checked, setChecked] = useState(true);
     const SchoolName = localStorage.getItem("SchoolName");
     const aRef = useRef(null);
+    const [emailAddress, setEmailAddress] = useState('')
+    const [emailAddressErrorFlag, setemailAddressErrorFlag] = useState<boolean>(false);
     const [fileName, setFileName] = useState('')
     const [aadharNumber, setAadharNumber] = useState('')
     const [aadharName, setAadharName] = useState('')
-    const dispatch = useDispatch();
+    const [mother, setMother] = useState('')
     const [base64URL, setBase64URL] = useState('')
     const [error, setError] = useState(false);
     const [errorname, setErrorname] = useState(false);
@@ -51,6 +54,7 @@ function AadharCardDetails() {
     const asUserId = Number(sessionStorage.getItem('Id'));
     const asUserRoleId = sessionStorage.getItem('RoleId');
     let enableButton = (selectedFile !== null || GetUserAadharCardDetails.AadharCardNo !== aadharNumber)
+    const validEMailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
 
     useEffect(() => {
@@ -60,6 +64,8 @@ function AadharCardDetails() {
     useEffect(() => {
         setAadharNumber(GetUserAadharCardDetails.AadharCardNo)
         setAadharName(GetUserAadharCardDetails.NameOnAadharCard)
+        setMother(GetUserAadharCardDetails.MotherTounge)
+        setEmailAddress(GetUserAadharCardDetails.Email)
     }, [GetUserAadharCardDetails])
 
     useEffect(() => {
@@ -76,16 +82,17 @@ function AadharCardDetails() {
         "aiAcademicYrId": asAcademicYearId
     }
 
-
     const SaveUserAadharCardDetailsBody =
     {
-        "aiUserId": asUserId,
-        "asSchoolId": asSchoolId,
-        "asAadharCardNo": aadharNumber,
-        "asAadharCardFileName": fileName,
-        "asUserRoleId": asUserRoleId,
-        "asAadharCardBase64String": base64URL,
-        "asNameOnAadharCard": aadharName
+        aiUserId: asUserId,
+        asSchoolId: asSchoolId,
+        asAadharCardNo: aadharNumber,
+        asAadharCardFileName: fileName,
+        asUserRoleId: asUserRoleId,
+        asAadharCardBase64String: base64URL,
+        asNameOnAadharCard: aadharName,
+        asMotherTongue: mother,
+        asEmailId: emailAddress
     }
 
 
@@ -104,6 +111,19 @@ function AadharCardDetails() {
             setErrorname(false)
         }
     }
+    const changeMotherTounge = (value) => {
+        setMother(value)
+    }
+    const inputFiledBlur = (value) => {
+        setEmailAddress(value)
+        const EmailErrorFlag = validEMailFormat.test(value);
+        if (EmailErrorFlag == false && value.length !== 0) {
+            setemailAddressErrorFlag(true);
+        }
+        if (EmailErrorFlag == true) {
+            setemailAddressErrorFlag(false);
+        }
+    };  
     const changeAdhar = (value) => {
         const re = /^[0-9\b]+$/;
         if (value === "")
@@ -171,15 +191,17 @@ function AadharCardDetails() {
         if (aadharName.length === 0) {
             setErrorname(true)
         }
-        if (imgName === '' && selectedFile === null) {
-            setFileError('Please upload the file')
-        } else {
+        // if (imgName === '' && selectedFile === null) {
+        //     setFileError('Please upload the file')
+        // }
+        else {
             if (aadharNumber.length !== 0 && aadharName.length !== 0) {
                 dispatch(getsaveUserAadharCardDetails(SaveUserAadharCardDetailsBody));
                 // aRef.current.value = null
             }
         }
     }
+    console.log("mother", mother);
 
     return (
         <Container>
@@ -216,26 +238,21 @@ function AadharCardDetails() {
                             <ErrorMessage1 Error={errorname ? "Please enter Aadhar Card Name." : " "} />
 
                         </Grid>
-                        {/* <Grid item xs={4}>
-                            <Typography sx={{ mt: "5px" }}><b>Email Id : </b>
-
-                            </Typography>
+                        <Grid item xs={4}>
+                            <Typography sx={{ mt: "5px" }}><b>Email Id : </b> </Typography>
                         </Grid>
                         <Grid item xs={8}>
-
-                            <input type='text' />
-
+                        <input type='text' value={emailAddress} onChange={(e) => { inputFiledBlur(e.target.value) }} />
+                            {emailAddressErrorFlag ? (
+                                <Box sx={{ my: 1 }}><Errormessage Error={'Please enter valid email address'} /></Box>
+                            ) : null}
                         </Grid>
                         <Grid item xs={4}>
-                            <Typography sx={{ mt: "5px" }}><b>Mother Tongue : </b>
-
-                            </Typography>
+                            <Typography sx={{ mt: "5px" }}><b>Mother Tongue : </b></Typography>
                         </Grid>
                         <Grid item xs={8}>
-
-                            <input type='text' />
-
-                        </Grid> */}
+                            <input type='text' value={mother} onChange={(e) => changeMotherTounge(e.target.value)} />
+                        </Grid>
                     </Grid>
                     <Box sx={{ my: "10px", textAlign: "center" }}>
                         {GetUserAadharCardDetails.AadharCardFileName === "/RITeSchool/DOWNLOADS/Aadhar Cards/" ?

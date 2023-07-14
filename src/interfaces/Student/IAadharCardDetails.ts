@@ -12,7 +12,9 @@ export interface IGetUserAadharCardDetailsResult {
         AadharCardNo: string,
         AadharCardFileName: string,
         AllowAadharCardSubmit: boolean,
-        NameOnAadharCard:string
+        NameOnAadharCard:string,
+        asMotherTongue:string,
+        asEmailId:string
 }
 
 export interface ISaveUserAadharCardDetailsBody{
