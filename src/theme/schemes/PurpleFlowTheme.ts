@@ -1024,16 +1024,23 @@ export const PurpleFlowTheme = createTheme({
       }
     },
     MuiTableCell: {
+      defaultProps: {
+        variant:"body",
+        color: colors.alpha.black[500],
+      
+
+      },
       styleOverrides: {
+       
         root: {
           borderBottomColor: colors.alpha.black[10],
           fontSize: 14
         },
         head: {
-          textTransform: 'uppercase',
-          fontSize: 13,
+          textTransform: 'capitalize',
+          fontSize: 14,
           fontWeight: 'bold',
-          color: colors.alpha.black[70]
+          color: colors.alpha.black[500]
         }
       }
     },
