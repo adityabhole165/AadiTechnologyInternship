@@ -13,8 +13,8 @@ export default function Table1({ ItemList, Headeritems }) {
             <Table aria-label="simple table" size="small" stickyHeader >
                 <TableHead  >
                     <TableRow >
-                        {Headeritems.map((item) => {
-                            return <TableCell variant="head" sx={{ backgroundColor: "#deb887" }} >{item.HeaderName}</TableCell>
+                        {Headeritems.map((item ,i) => {
+                            return <TableCell key={i} variant="head" sx={{ backgroundColor: "#deb887" }} >{item.HeaderName}</TableCell>
                         })}
                     </TableRow>
                 </TableHead>
