@@ -2,12 +2,12 @@ import React from 'react'
 import { ListStyle } from '../styled/CardStyle'
 import { Typography , Box, Hidden } from '@mui/material'
 
-function CardH({Text1 , Text2 , Text3 , Header ,Color}) {
+function CardH({Text1 , Text2 , Text3 , Header ,Color ,ClickItem }) {
     const asUserRoleId = sessionStorage.getItem('RoleId');
-  
+ 
   return (
     <div>
-        <ListStyle color={Color}>
+        <ListStyle color={Color} onClick={ClickItem}>
         <Box sx={{display:"flex" , justifyContent:"space-between"}}>
         <Typography variant='h5'>{Header}</Typography>  
         <Typography variant='body2'>{Text1}</Typography>

@@ -52,7 +52,8 @@ export interface IGetUpcomingEventResult {
     EventDescription: null,
     EventTitle: string,
     StandardName: string,
-     EventType:string
+    EventType:string,
+    EventId:number
 }
 
 export interface IGetUpcomingeventResult{

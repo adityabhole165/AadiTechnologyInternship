@@ -94,10 +94,14 @@ const commonRoutes = [
         path: 'EventOverview/UpcomingEvent',
         element: <UpcomingEvent/>
       },
-    {
-        path: 'viewevent/:Id/:AssigMonth/:AssigYear',
-        element: <ViewEvent />
-    },
+      {
+          path: 'viewevent/:Id/:AssigMonth/:AssigYear',
+          element: <ViewEvent />
+      },
+      {
+          path: 'viewevent/:Id',
+          element: <ViewEvent />
+      },
     {
         path: 'StaffBirthday',
         element: <StaffBirthday />

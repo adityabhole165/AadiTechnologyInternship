@@ -56,7 +56,7 @@ export const getEventList =
             console.log("response" ,response.data)
               let UpcomingEventList = response.data.UpcomingEventsData.map((item, index) => {
                 return {
-                    id: index,
+                    Id: item.EventId,
                     Header: item.EventTitle,      
                     Text1: item.StartDate,       
                     Text2: item.EventType,
@@ -64,8 +64,8 @@ export const getEventList =
                     Text4 :item.EndDate,
                     Text5:item.EventDescription,
                     Text6:item.EndDateUniversal,
-                    backgroundColor: item.EventType === "Exam" ? "success" : item.EventType === "Event" ? "info" : "secondary"
-                    // linkPath: '/Common/viewevent/' + item.id 
+                    backgroundColor: item.EventType === "Exam" ? "success" : item.EventType === "Event" ? "info" : "secondary",
+                    linkPath: item.EventId 
                 }
             })
            
