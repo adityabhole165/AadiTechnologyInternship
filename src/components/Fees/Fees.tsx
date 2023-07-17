@@ -6,7 +6,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, } from '@mui/material';
+import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography,ClickAwayListener,Tooltip } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
@@ -29,12 +29,13 @@ import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Browser } from '@capacitor/browser';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
-
-
 ];
+const NoMoneyDeducted = "If amount is deducted from your bank account and not reflected on fee screen then please wait for 1 hour and then if required send transaction details to Software Coordinator with Message Center facility."
 function Fees() {
   const theme = useTheme();
   const classes = Styles();
@@ -55,6 +56,9 @@ function Fees() {
   const [newAcadamicYear, setNewAcadamicYear] = useState([])
   const [originalAcadamicYear, setOriginalAcadamicYear] = useState([])
   const [payNote, setPayNote] = useState([])
+  const [open, setOpen] = useState(false);
+  const [selectedYear, setselectedYear] = useState(null)
+
 
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
@@ -81,7 +85,6 @@ function Fees() {
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
-  const [selectedYear, setselectedYear] = useState(null)
 
   const Feedata = { Fee1: 'Fee Type', Fee2: 'Amount + Late Fees : ', Fee3: 'Receipt' };
   const FeeAmount = { Sum1: 'Paid Fees', Sum2: 'Payable Fees', Sum3: 'Late Fee', Sum4: 'Applicable Fees' };
@@ -133,17 +136,17 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-  useEffect(() => {
-    if (FeesList2.PaymentNotes !== undefined) {
-      let arrNote = FeesList2.PaymentNotes;
-      let arrNote2 = {
-        Note: 'If amount is deducted from your bank account and not reflected on fee screen then please wait for 1 hour and then if required send transaction details to Software Coordinator with Message Center facility.',
-        SrNo: '3',
-        Title:'Amount not deducted from bank account'
-      }
-      setPayNote([...arrNote, arrNote2])
-    }
-  }, [FeesList2])
+  // useEffect(() => {
+  //   if (FeesList2.PaymentNotes !== undefined) {
+  //     let arrNote = FeesList2.PaymentNotes;
+  //     let arrNote2 = {
+  //       Note: 'If amount is deducted from your bank account and not reflected on fee screen then please wait for 1 hour and then if required send transaction details to Software Coordinator with Message Center facility.',
+  //       SrNo: '3',
+  //       Title:'Amount not deducted from bank account'
+  //     }
+  //     setPayNote([...arrNote, arrNote2])
+  //   }
+  // }, [FeesList2])
   useEffect(() => {
     let arr = AcadamicYear;
     if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") || AllowNextYearInternal && showCaution == "internalFees") {
@@ -259,6 +262,12 @@ function Fees() {
   let arr: string[] = []
   const [showOldPendingMsg, setshowOldPendingMsg] = useState(false)
 
+  const handleClickAway = () => {
+    setOpen(false);
+  };
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
   const getIsInclude = (item, arr) => {
     let returnVal = false
     let item1 = '', item2 = ''
@@ -299,6 +308,27 @@ function Fees() {
         {OnlinePaymentForInternalFee &&
           <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
+               <ClickAwayListener onClickAway={handleClickAway}>
+               <Tooltip
+                PopperProps={{
+                  disablePortal: true
+                }}
+                onClose={handleClickAway}
+
+                disableFocusListener disableHoverListener disableTouchListener arrow
+                open={open} title={NoMoneyDeducted} placement="left"
+                componentsProps={{
+                  tooltip: {
+                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                  }
+                }}
+              >
+                <InfoTwoToneIcon type="button"
+                  onClick={handleClick}
+                  sx={{ color: 'navy', fontSize: '17px',mt:"8px",float:"right"}}
+                />
+              </Tooltip>
+            </ClickAwayListener>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}
         handleChange={clickYear}
@@ -367,7 +397,7 @@ function Fees() {
       {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
         (<NoteStyle>
           <b>Note :</b>
-          {payNote?.map((note, i) => {
+          {FeesList2.PaymentNotes?.map((note, i) => {
             return <Box key={i} sx={{ display: 'flex', flexDirection: 'row' }}>
               <Typography> {note.SrNo}. </Typography><Wordbreak dangerouslySetInnerHTML={{ __html: note.Note }} />
             </Box>
