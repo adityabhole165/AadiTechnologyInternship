@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
+import { getFeeStructureLink, getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
@@ -50,6 +50,7 @@ function Fees() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asStandardId = sessionStorage.getItem('StandardId');
+  const UserId = sessionStorage.getItem('Id');
   const [YearType, setYearType] = useState("C")
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const [IsCautionClick, setIsCautionClick] = useState(false)
@@ -63,6 +64,7 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
+  const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks);
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
@@ -124,6 +126,12 @@ function Fees() {
     aiAcademicYearId: currentYear,
     aiStudentId: asStudentId
   }
+  const IFeeStructure = {
+    aiSchoolId:asSchoolId,
+    aiAcademicYearId:currentYear,
+    aiUserId:UserId,
+    abShowFeeStructureForNextYear:"true"
+  }
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -181,6 +189,9 @@ function Fees() {
     dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
     dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
     dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
+    dispatch(getFeeStructureLink(IFeeStructure))
+
+    
 
     if (InternalOrSchool !== undefined && ActiveYear !== undefined) {
       setShowCaution(InternalOrSchool)
