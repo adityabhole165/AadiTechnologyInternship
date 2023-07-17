@@ -64,8 +64,12 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
   const PhoneNumber = sessionStorage.getItem('MobileNumber');
   const PhoneNumber2 = sessionStorage.getItem('MobileNumber2');
+  const Religion = sessionStorage.getItem('Religion');
+  const CategoryName = sessionStorage.getItem('CategoryName');
+  const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
-  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
+  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
+  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? 'data:image/png;base64,' + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -78,6 +82,8 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const EditProfile = () => {
     navigate('EditProfile')
   }
+
+ 
   
   return (
     <>
@@ -144,7 +150,11 @@ const getstudentphoto : IGetStudentPhotoBody= {
                 <ProfileComponent Name='Mother Tongue :' Value={MotherTongue}></ProfileComponent>
 
                 <ProfileComponent Name='Blood Group :' Value={Blood_Group}></ProfileComponent>
+                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
+                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
 
+                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'106px'} height={'137px'} />
+              
 
 
               </>

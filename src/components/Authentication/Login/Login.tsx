@@ -150,12 +150,14 @@ function SelectSchool() {
         }
     })
 
+
+
     const setSession = async (response) => {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
         const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
-
+       
 
         if (result.RoleName === "Student") {
             sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
@@ -187,6 +189,10 @@ function SelectSchool() {
             sessionStorage.setItem('DOB', studentDetails.DOB);
             sessionStorage.setItem('MobileNumber', studentDetails.MobileNumber);
             sessionStorage.setItem('MobileNumber2', studentDetails.MobileNumber2);
+            sessionStorage.setItem('Religion', studentDetails.Religion);
+            sessionStorage.setItem('CategoryName', studentDetails.CategoryName);
+            sessionStorage.setItem('FamilyPhotoFilePath', studentDetails.FamilyPhotoFilePath);
+            
             // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
             //     "" : JSON.stringify(result.StudentSiblingList));
             sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
