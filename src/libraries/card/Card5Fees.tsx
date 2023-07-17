@@ -63,7 +63,7 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
                       {internalFees == "internalFees" ?
                         <FileDownloadOutlinedIcon onClick={Toaster} /> :
                         <>
-                        {item.PayableFor == "Concession Fee" ? null :
+                        {item.IsConcessionFee == true ? null :
                         <FileDownloadOutlinedIcon 
                         onClick={()=>{downloadReceiptFile(item.ReceiptNo, item.AccountHeaderId)}} />}
                         </>
