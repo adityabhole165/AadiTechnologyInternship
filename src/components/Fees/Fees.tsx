@@ -23,7 +23,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent, getRestrictNewPaymentIfOldPaymentIsPending, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent, getRestrictNewPaymentIfOldPaymentIsPending, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, ShowFeeStructureOfNextYear } from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -64,7 +64,7 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
-  const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks);
+
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
@@ -78,7 +78,9 @@ function Fees() {
   const AllowAdvancePaymentforStudent: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
-
+  const ShowFeeStructureOfNextYr: any = useSelector((state: RootState) => state.getSchoolSettings.ShowFeeStructureOfNextYear)
+  const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks); 
+  
 
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
@@ -130,8 +132,8 @@ function Fees() {
     aiSchoolId:asSchoolId,
     aiAcademicYearId:currentYear,
     aiUserId:UserId,
-    abShowFeeStructureForNextYear:"true"
-  }
+    abShowFeeStructureForNextYear:ShowFeeStructureOfNextYr
+  }  
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -180,6 +182,7 @@ function Fees() {
     localStorage.setItem('url', window.location.pathname);
 
     dispatch(getYearList(body1));
+    dispatch(ShowFeeStructureOfNextYear(GetSettingValueBody))
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
     dispatch(getEnableadvanceFeepayment(GetSettingValueBody))

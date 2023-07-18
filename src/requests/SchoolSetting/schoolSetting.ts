@@ -26,7 +26,8 @@ const SchoolSettingSlice = createSlice({
     EnableOnlinePaymentForLastYearFee:false,
     EnabledOnlineFee:false,
     AllowNextYearInternalFeePaymentForStudent:false,
-    EnableHomeworkModuleForStudentLogin	:false
+    EnableHomeworkModuleForStudentLogin	:false,
+    ShowFeeStructureOfNextYear:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -92,7 +93,11 @@ const SchoolSettingSlice = createSlice({
     },
     getEnableAdvancefeepayment(state,action){
       state.EnableAdvanceFeePayment = action.payload;
-    }
+    },
+    getShowFeeStructureOfNextYear(state,action){
+      state.ShowFeeStructureOfNextYear = action.payload;
+    },
+    
   }
 });
 
@@ -352,6 +357,19 @@ export const getLibrarySchoolSetting =
             }
           }
           dispatch(SchoolSettingSlice.actions.getEnableOnlineExamModule(EnableOnlineExam));
+        }
+        export const ShowFeeStructureOfNextYear =
+      (data: IGetSettingValueBody): AppThunk =>
+        async (dispatch) => {
+          let FeeStructureOfNextYear = false
+          data.asKey = "ShowFeeStructureOfNextYear";
+          let response = await SchoolSettingApi.GetSettingValueapi(data)
+          if (response.data.GetSettingValueResult) {
+            {
+              FeeStructureOfNextYear = true;
+            }
+          }
+          dispatch(SchoolSettingSlice.actions.getShowFeeStructureOfNextYear(FeeStructureOfNextYear));
         }
         
 export default SchoolSettingSlice.reducer
