@@ -48,6 +48,7 @@ function Card7({
   let attachmentObj: any = [];
   let file_path = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
   const UserID = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
 
   if (Object.keys(Attachments).length == 0) {
@@ -166,7 +167,9 @@ function Card7({
             }
           > */}
           <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>&nbsp;&nbsp;
+         {RoleId !== "3" &&  <>
         {!IsSender &&  <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
+          </>}
           {/* </RouterLink> */}
           {/* <RouterLink
             style={{ textDecoration: 'none' }}

@@ -175,7 +175,7 @@ export interface IGetNextYearDetailsResult {
         NextAcademicDetails: {
                 SchoolwiseStudentId: string,
                 NextAcademicYearId: string,
-                NextStandardId:string
+                NextStandardId: string
         }
 }
 
@@ -205,7 +205,7 @@ export interface NextYearFeeDetails {
         DueDateString: string,
         SerialNo: number,
         PaymentGroup: number,
-        ConcessionAmount:number
+        ConcessionAmount: number
 }
 
 //old student id 
@@ -214,9 +214,23 @@ export interface IGetOldStudentDetailsBody {
         aiAcademicYearId: string,
         aiStudentId: string
 }
- export interface IGetOldStudentDetailsResult {
+export interface IGetOldStudentDetailsResult {
         OldStudentDetails: {
-        StudentId: string,
-        StandardDivisionId: string,
-    }
- }
+                StudentId: string,
+                StandardDivisionId: string,
+        }
+}
+
+// NextYear Fee structure link 
+export interface IGetFeeStructureLinksBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiUserId: string,
+        abShowFeeStructureForNextYear: string
+}
+export interface IGetFeeStructureLinksResult {
+        FeeStructureLink: {
+                CurrentYearFeeStructure: string,
+                MidYearFeeStructure: string,
+        }
+}
