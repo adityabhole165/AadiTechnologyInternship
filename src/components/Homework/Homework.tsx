@@ -16,9 +16,11 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Card30 from 'src/libraries/card/Card30';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router';
-
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useNavigate } from 'react-router-dom';
 function Homework() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const classes = Styles();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -111,6 +113,10 @@ function Homework() {
     })
     return arrParent;
   }
+
+  const onNavigateDailyLog=()=>{
+    navigate ('DailyLogs')
+  }
   return (
     <div>
 
@@ -136,6 +142,7 @@ function Homework() {
               <Card30 header={filterData()} />
             </>)
         }
+          <ButtonPrimary sx={{float:"right"}} onClick={onNavigateDailyLog}>Daily Logs</ButtonPrimary>
       </Container>
     </div>
   )

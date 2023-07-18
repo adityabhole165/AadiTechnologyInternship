@@ -53,6 +53,26 @@ export const CardStyle = {
         },
         };
 
+
+        export const MarkAsReadMessage = {
+          mb:"0px",
+          mt:"-10px",
+          float:"right",
+         '@media (min-width: 600px)': {
+           mb:"20px"
+         
+         },
+         };
+
+         export const DeleteButton = {
+          mt:"5px",
+          
+         '@media (min-width: 600px)': {
+           mt:"-10px"
+         
+         },
+         };
+
      
 
   

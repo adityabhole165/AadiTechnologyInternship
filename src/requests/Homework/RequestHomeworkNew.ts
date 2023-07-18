@@ -12,6 +12,7 @@ const SliceHomework = createSlice({
     initialState: {
         GetHomeworkDetails: [],
         GetHomeworkDates: [],
+        HomeworkDailyLogs:[],
         ButtonState: null,
         Loading: true
     },
@@ -24,6 +25,11 @@ const SliceHomework = createSlice({
         },
         getHomeworkDates(state, action) {
             state.GetHomeworkDates = action.payload;
+            state.Loading = false;
+        },
+
+        getHomeworkDailyLogs(state, action) {
+            state.HomeworkDailyLogs = action.payload;
             state.Loading = false;
         },
         getButtonState(state, action) {
@@ -59,13 +65,23 @@ export const getHomeworkDates =
         async (dispatch) => {
             dispatch(SliceHomework.actions.getLoading(true));
             const response = await ApiHomework.GetDatewiseHomeworkDetails(data)
+            
             let HomeworkList = response.data.HomeworkDates?.map((item, index) => {
-                let arrDate = item.split('-')
                 return {
                     Id: index,
                     Name: getDateMonthFormatted(item),
                     Value: getDateMonthYearFormatted(item),
                     IsActive: false
+                }
+            })
+
+            let HomeworkDailyLogs = response.data.HomeworkDailyLogs?.map((item, index) => {
+               
+                return {
+                    Id: index,
+                    Header: getDateMonthFormatted(item.Date),
+                    Text1: item.AttachmentPath,
+                   
                 }
             })
             const child = (SubjectId) => {
@@ -100,6 +116,7 @@ export const getHomeworkDates =
 
                 })
             dispatch(SliceHomework.actions.getHomeworkDates(HomeworkList));
+            dispatch(SliceHomework.actions.getHomeworkDailyLogs(HomeworkDailyLogs));
             dispatch(SliceHomework.actions.getHomeworkDetails(Data2));
             dispatch(SliceHomework.actions.getButtonState(response.data.HomeworkDateStatus));
         };

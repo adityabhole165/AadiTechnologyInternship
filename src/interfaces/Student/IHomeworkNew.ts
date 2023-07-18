@@ -10,6 +10,8 @@ export interface IGetDatewiseHomeworkDetailsResult {
     HomeworkDetails:[HomeworkDetails]
     HomeworkDates:string[]
     HomeworkDateStatus:HomeworkDateStatus
+    HomeworkDailyLogs:HomeworkDailyLogs[]
+  
 }
 
 export interface HomeworkDateStatus{
@@ -17,6 +19,11 @@ export interface HomeworkDateStatus{
     AllowNext: boolean,
     MinDate: string,
     MaxDate: string
+}
+
+export interface HomeworkDailyLogs{
+    Date:string,
+    AttachmentPath:string
 }
 
 export interface HomeworkDetails{
