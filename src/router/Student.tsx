@@ -57,6 +57,7 @@ const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew
 const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMenus')))
 const Map = Loader(lazy(()=> import('src/components/TransportDetails/Map')))
 const SchoolWeb = Loader(lazy(()=> import('src/componentsWeb/SchoolWeb/SchoolWeb')))
+const DailyLogs = Loader(lazy(()=> import('src/components/Homework/DailyLogs')))
 const studentRoutes = [
   {
     path: '/',
@@ -105,6 +106,11 @@ const studentRoutes = [
     path: 'viewsent/:ID',
     element: <Viewsent/>
   },
+  {
+    path: 'Homework/DailyLogs',
+    element: <DailyLogs/>
+  },
+
   {
     path: 'Homework',
     element: <Homework/>
