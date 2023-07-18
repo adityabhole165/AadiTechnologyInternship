@@ -392,7 +392,7 @@ function Fees() {
       <ListStyle sx={{ mb: 1 }} color="error">
         <CardDetail1 sx={{ textAlign: 'center' }}>
           {' '}
-          <b>Applicable Fees:</b> {ApplicableFee}
+          <b>Applicable Fees:</b> Rs. {ApplicableFee}
         </CardDetail1>
       </ListStyle>
       <Card27 FeesType={'Paid Fees'} Fee={FeesList}

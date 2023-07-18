@@ -65,7 +65,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
           <Header1
             color={expanded === 'panel' ? 'secondary' : ''}
           >
-            <b>{FeesType}</b> &nbsp;:&nbsp;<b>{FeesObject.TotalFeesPaid}</b>
+            <b>{FeesType}</b> &nbsp;:&nbsp;<b>Rs. {FeesObject.TotalFeesPaid}</b>
           </Header1>
         </Accordionsummary>
         {
@@ -78,8 +78,8 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
                 const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
                 return paid ? (
                   <Card5Fees item={item} Content={''} Name={''} key={i} internalFees={internalFees}
-                    FileName={internalFees ? item.FeeType + ":" + " " + item.Amount : item.FeeType +
-                      ":" + " " + item.FeesPaid}
+                    FileName={internalFees ? item.FeeType + ":" + " " +"Rs. "+item.Amount : item.FeeType +
+                      ":" + " " +"Rs. "+ item.FeesPaid}
                     downloadReceiptFile={downloadReceiptFile}
                   />
                 ) : null;
