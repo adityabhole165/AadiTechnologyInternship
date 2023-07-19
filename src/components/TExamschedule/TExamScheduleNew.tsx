@@ -95,10 +95,27 @@ const TExamScheduleNew = () => {
     dispatch(ViewExamDataRess(getexamType_body));
   }, [exam]);
 
-  const [startTime, setStartTime] = useState('08:00');
-  const [endTime, setEndTime] = useState('10:30');
+
+  const [startTime, setStartTime] = useState('');
+  const [endTime, setEndTime] = useState('');
   const [totalHours, setTotalHours] = useState(0);
   const [totalMinutes, setTotalMinutes] = useState(0);
+
+  let STime= ''
+  let ETime= ''
+  useEffect(() => {
+    if(SubList !== undefined){
+    const TimeStart = SubList.map((item)=>{
+    return STime = item.startTime
+    })}
+    if(SubList !== undefined){
+    const TimeEnd = SubList.map((item)=>{
+    return ETime = item.endTime
+    })}
+    setStartTime(STime)
+    setEndTime(ETime)
+  }, [SubList]);
+
   
    const calculateTotalTime = () => {
       const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
@@ -127,7 +144,8 @@ const TExamScheduleNew = () => {
     calculateTotalTime();
   }, [startTime, endTime]);
   const TotalMin = totalMinutes !== 0 ? totalMinutes+"min" : ""
-  const  TotalTime = totalHours+"h"+" "+TotalMin
+  const TotalHour = totalHours !== 0 ? totalHours+"h" :""
+  const  TotalTime = TotalHour+" "+TotalMin
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />

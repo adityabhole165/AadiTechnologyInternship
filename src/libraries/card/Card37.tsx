@@ -33,7 +33,9 @@ const Card37 = ({ expanded, handleChange, FeesObject, currentYear, IsForCurrenty
                     <Header1
                         color={expanded === 'panel1' ? 'secondary' : ''}
                     >
-                        <b>{'Payable Fees'}</b> &nbsp;:&nbsp;<b>{FeesObject.FeesTobePaid}</b>
+                        <b>{'Payable Fees'}</b> :&nbsp;<b>Rs. {FeesObject.FeesTobePaid}</b><br/>
+                        <b>{'Late Fee'}</b> :&nbsp;&nbsp;<b>Rs. {FeesObject.TotalLateFee}</b>
+
                     </Header1>
                 </Accordionsummary>
                 <AccordionDetails>
