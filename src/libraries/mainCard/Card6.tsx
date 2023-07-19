@@ -69,7 +69,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? 'data:image/png;base64,' + FamilyPhotoFilePath : ''
+  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ?  localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -107,8 +107,8 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
       <ListStyle
         sx={{
-          bottom: 0,
-          height: '80vh',
+          marginBottom:"60px",
+          height: '100%',
           width: '100%',
           borderRadius: '15px'
         }}
@@ -152,8 +152,10 @@ const getstudentphoto : IGetStudentPhotoBody= {
                 <ProfileComponent Name='Blood Group :' Value={Blood_Group}></ProfileComponent>
                 <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
                 <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
-
-                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'106px'} height={'137px'} />
+                <Box sx={{mt:"5px" , ml:"10px"}}>
+                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'}/>
+                </Box>
+              
               
 
 

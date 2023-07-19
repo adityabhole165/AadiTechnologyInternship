@@ -463,7 +463,7 @@ const MessageList = () => {
                                     </Hidden>
                                 </Grid></>)
                         }
-                        <Grid item xs={12} sm={8} >
+                        <Grid item xs={12} sm={5} md={7} >
                            
                             {inboxListData.some((obj) => obj.isActive === true) && (
                                 <Box mb={2} sx={DeleteButton}>
@@ -473,10 +473,13 @@ const MessageList = () => {
                                 </Box>
                             )}
                             </Grid>
-                          <Grid item xs={12} sm={4} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                            <Hidden smUp>
+                            <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
                           <ButtonPrimary > Mark as UnRead  </ButtonPrimary>
                           <ButtonPrimary sx={{ml:"5px"}}> Mark as Read</ButtonPrimary>
                             </Grid>
+                            </Hidden>
+                        
                    
                         
                       
