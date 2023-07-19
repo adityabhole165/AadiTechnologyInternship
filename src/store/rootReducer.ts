@@ -58,7 +58,7 @@ import SliceNavbarMenu from 'src/requests/NavBarMenu/requestNavBarMenu';
 import SliceTermsAndConditions from 'src/requests/TermAndCondition/TermAndCondition';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import SliceStudentPic from 'src/requests/StudentPhoto/RequestStudentPhoto'
-
+import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -121,7 +121,8 @@ const rootReducer = combineReducers({
     NavbarMenu:SliceNavbarMenu,
     TermAndConditions: SliceTermsAndConditions,
     userLoginExpires: SliceUserLoginExpires,
-    StudentPic:SliceStudentPic
+    StudentPic:SliceStudentPic,
+    SchoolNoticeBoard:SliceSchoolNoticeBoard
 });
 
 export default rootReducer;
