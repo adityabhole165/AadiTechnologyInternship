@@ -45,6 +45,13 @@ export const CardStyle = {
       },
       };
 
+      export const TabListHeight = {
+        height:"60px",
+        '@media (min-width: 600px)': {
+          height:"80px"
+        },
+        };
+
       export const ReadRecipient = {
          mt:"-15px",
         '@media (min-width: 600px)': {

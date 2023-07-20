@@ -56,7 +56,7 @@ function CardMessage({ header, text1, text2, DetailsId,
         <>
 
             <Grid container alignItems={"center"} onClick={clickNav}>
-                <Grid item xs={11} sm={4} md={4} >
+                <Grid item xs={11} sm={5} md={4} >
                     <Typography variant='h6' sx={{ color: IsReadColor, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: "150px" }}>{header}</Typography>
                 </Grid>
                 {/* This attachment is used for Mobile view */}
@@ -69,21 +69,21 @@ function CardMessage({ header, text1, text2, DetailsId,
                     <Typography variant="body1" sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}>{text1}</Typography>
                 </Grid>
                 {/* This attachment is used for web view */}
-                <Grid item display={{ xs: "none", sm: "block" }} sm={1.5} md={0.5} >
+                <Grid item display={{ xs: "none", sm: "block" }} sm={1} md={0.5} >
                     {IsAttachmentExist &&
                         <AttachmentIcon fontSize='small' sx={{ ml: "20px" }} />}
                 </Grid>
 
-                <Grid item xs={6} sm={4.5} md={3}>
+                <Grid item xs={6} sm={4} md={3}>
                     <Typography variant="body1" sx={{ float: "right" }}>
                         <>    {text2}  {
                             IsSchedule &&
                             <ScheduleIcon fontSize="small" color="primary" sx={{ mb: "-5px" }} />
                         }</>
-                        {/* <>{RequestReadReceipt === "True" && */}
+
                         <>{HasReadReceipt &&
                             <>{RequestReadReceipt ? <>
-                                <DraftsIcon fontSize="small" color="success" sx={{ mt: "-2px", ml: "4px" }} onClick={(e) => { handleClickToOpen(e) }} />
+                               <DraftsIcon fontSize="small" color="success" sx={{ mb: "-5px", ml: "4px" }} onClick={(e) => { handleClickToOpen(e) }} />
                                 <Dialog open={popup}
                                     onClose={() => { setPopup(false) }}
                                 >
