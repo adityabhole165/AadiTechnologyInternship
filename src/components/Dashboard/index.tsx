@@ -27,6 +27,14 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function LandingPage() {
+  
+const UserLoginDetails1 = useSelector(
+  (state: RootState) => state.Dashboard.UserLoginDetails
+);
+
+if(UserLoginDetails1 !== null){
+localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
+}
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showBday, setShowBday] = useState(false);

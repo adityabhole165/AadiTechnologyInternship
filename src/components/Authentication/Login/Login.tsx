@@ -36,8 +36,14 @@ import { logoURL } from 'src/components/Common/Util';
 import PushNotification from '../../../libraries/PushNotification/PushNotification';
 import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
+import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
+import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 
 function SelectSchool() {
+    
+    const UserLoginDetails1 = useSelector(
+        (state: RootState) => state.Dashboard.UserLoginDetails
+      );
     const styleroot = Styles();
     const classes = Styles();
 
@@ -96,6 +102,8 @@ function SelectSchool() {
     // const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const schoolId = localStorage.getItem('localSchoolId')
+    const UserId = sessionStorage.getItem('Id');
+
     if ((schoolId != null && schoolId != undefined)) {
         localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
     }
@@ -149,14 +157,16 @@ function SelectSchool() {
             return errors
         }
     })
-
-
-
     const setSession = async (response) => {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
         const teacherDetails: any = await response.data.TeacherDetails
         const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+        const UserLoginD: ISaveUserLoginDetailsBody = {
+            asSchoolId: schoolId,
+            asUserId: result.Id
+          }
+        dispatch(getSaveUserLoginDetail(UserLoginD))
        
 
         if (result.RoleName === "Student") {

@@ -27,6 +27,7 @@ function CardMessage({ header, text1, text2, DetailsId,
     const ReadReceipt = useSelector(
         (state: RootState) => state.MessageCenter.ReadReceiptDetails
     );
+// const Usernames = ReadReceipt.map(item =>item.UserName ).join(', ');
 
     const ReadReceipts = {
         aiSchoolId: SchoolId,
@@ -87,7 +88,12 @@ function CardMessage({ header, text1, text2, DetailsId,
                                 <Dialog open={popup}
                                     onClose={() => { setPopup(false) }}
                                 >
-                                    <Card15 text1={text2} text2={text1} />
+                                    {ReadReceipt.map((item , i)=>(
+                                        <div key={i}>
+                                     <Card15 text1={item.ReadingDateTime} text2={item.UserName} />
+                                        </div>
+                                 
+                                    ))}
                                 </Dialog></> :
                                 <EmailIcon fontSize="small" color="error" sx={{ mt: "-2px", ml: "4px" }} />
                             }</>
