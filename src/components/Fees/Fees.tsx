@@ -6,7 +6,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography,ClickAwayListener,Tooltip } from '@mui/material';
+import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, ClickAwayListener, Tooltip } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
@@ -30,7 +30,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Browser } from '@capacitor/browser';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import {getAcademicYearsforFeeChallan} from 'src/requests/Fees/Fees'
+import { getAcademicYearsforFeeChallan } from 'src/requests/Fees/Fees'
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
@@ -52,7 +52,7 @@ function Fees() {
   const asStandardId = sessionStorage.getItem('StandardId');
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const UserId = sessionStorage.getItem('Id');
- 
+
   const [YearType, setYearType] = useState("C")
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const [IsCautionClick, setIsCautionClick] = useState(false)
@@ -61,7 +61,6 @@ function Fees() {
   const [payNote, setPayNote] = useState([])
   const [open, setOpen] = useState(false);
   const [selectedYear, setselectedYear] = useState(null)
-
 
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
@@ -81,13 +80,15 @@ function Fees() {
   const AllowAdvancePayment: any = useSelector((state: RootState) => state.getSchoolSettings.EnableAdvanceFeePaymentForStudent)
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
   const ShowFeeStructureOfNextYr: any = useSelector((state: RootState) => state.getSchoolSettings.ShowFeeStructureOfNextYear)
-  const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks); 
+  const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks);
   const AcadamicYearChallen: any = useSelector((state: RootState) => state.Fees.AcademicYearsforFeeChallan);
   const DetailsForChallanImport: any = useSelector((state: RootState) => state.Fees.DetailsForChallanImport);
   const AllFeeTypesForChallan: any = useSelector((state: RootState) => state.Fees.AllFeeTypesForChallanImport);
   const PayableforChallan: any = useSelector((state: RootState) => state.Fees.AllPayableforChallan);
   const FileNameChallan: any = useSelector((state: RootState) => state.Fees.FileNameForSNSChallan);
-  
+  console.log("FeeStructureLink", FeeStructureLink);
+
+
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
@@ -134,12 +135,14 @@ function Fees() {
     aiAcademicYearId: currentYear,
     aiStudentId: asStudentId
   }
+  // console.log("ShowFeeStructureOfNextYr",ShowFeeStructureOfNextYr);
+  
   const IFeeStructure = {
-    aiSchoolId:asSchoolId,
-    aiAcademicYearId:currentYear,
-    aiUserId:UserId,
-    abShowFeeStructureForNextYear:ShowFeeStructureOfNextYr
-  }  
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: currentYear,
+    aiUserId: UserId,
+    abShowFeeStructureForNextYear: ShowFeeStructureOfNextYr
+  }
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -200,7 +203,7 @@ function Fees() {
     dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
     dispatch(getFeeStructureLink(IFeeStructure))
 
-    
+
 
     if (InternalOrSchool !== undefined && ActiveYear !== undefined) {
       setShowCaution(InternalOrSchool)
@@ -262,7 +265,7 @@ function Fees() {
     AcadamicYear.map((obj) => {
       if (obj.Value === value) {
         setselectedYear(obj.Name)
-     
+
       }
     })
   };
@@ -317,57 +320,81 @@ function Fees() {
 
   }, [FeesList2])
 
-const AcademicYearsforFeeChallanBody : IGetAcademicYearsforFeeChallanBody = {
-     aiSchoolId:asSchoolId,
-     aiAcademicYearId:asAcademicYearId,
-     aiStudentId:asStudentId
-};
+  const AcademicYearsforFeeChallanBody: IGetAcademicYearsforFeeChallanBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiStudentId: asStudentId
+  };
 
 
-const DetailsForChallanImportBody : IGetDetailsForChallanImportBody = {
-  aiSchoolId:asSchoolId,
-  aiAcademicYearId:asAcademicYearId,
-  aiStudentId:asStudentId,
-  aiSelectedAcademicYearId:"8"
-};
+  const DetailsForChallanImportBody: IGetDetailsForChallanImportBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiStudentId: asStudentId,
+    aiSelectedAcademicYearId: "8"
+  };
 
-const AllFeeTypesForChallanImportBody : IGetAllFeeTypesForChallanImportBody = {
-  aiSchoolId:asSchoolId,
-  aiSelectedAcademicYearId:"8",
-  aiStandardDivisionId:asStandardDivisionId,
-  aiStandardId:asStandardId
-};
+  const AllFeeTypesForChallanImportBody: IGetAllFeeTypesForChallanImportBody = {
+    aiSchoolId: asSchoolId,
+    aiSelectedAcademicYearId: "8",
+    aiStandardDivisionId: asStandardDivisionId,
+    aiStandardId: asStandardId
+  };
 
-const PayableforChallanBody : IGetAllPayableforChallanBody = {
-  aiSchoolId:asSchoolId,
-  aiAcademicYearId:asAcademicYearId,
-  aiOriginalFeeTypeId:"228",
-  aiStandardId:asStandardId
-};
+  const PayableforChallanBody: IGetAllPayableforChallanBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiOriginalFeeTypeId: "228",
+    aiStandardId: asStandardId
+  };
 
 
-const FileNameForChallanBody : IGetFileNameForSNSChallanBody = {
-  aiSchoolId:asSchoolId, 
-  aiAcademicYearId:asAcademicYearId, 
-  aiStandardId:asStandardId,
-  aiStandardDivisionId:asStandardDivisionId,
-  aiSchoolwiseStudentId:asStudentId,
-  aiFeeTypeId:"228", 
-  asPayableFor:"Install - III",
-  aiSelectedAcademicYearId:"8"
-};
+  const FileNameForChallanBody: IGetFileNameForSNSChallanBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiStandardId: asStandardId,
+    aiStandardDivisionId: asStandardDivisionId,
+    aiSchoolwiseStudentId: asStudentId,
+    aiFeeTypeId: "228",
+    asPayableFor: "Install - III",
+    aiSelectedAcademicYearId: "8"
+  };
 
-useEffect(()=>{
+  useEffect(() => {
     dispatch(getAcademicYearsforFeeChallan(AcademicYearsforFeeChallanBody))
     dispatch(getDetailsForChallanImport(DetailsForChallanImportBody))
     dispatch(getAllFeeTypesForChallanImport(AllFeeTypesForChallanImportBody))
     dispatch(getAllPayableforChallan(PayableforChallanBody))
     dispatch(getFileNameForSNSChallan(FileNameForChallanBody))
-  },[])
+  }, [])
+  const curr = FeeStructureLink !== null && FeeStructureLink.CurrentYearFeeStructure
+  const nxt = FeeStructureLink !== null && FeeStructureLink.MidYearFeeStructure
+
+  
+  const CurrentDownload = () => {
+    const pdfUrl = curr;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.click();
+  };
+  const NextDownload = () => {
+    const pdfUrl = nxt;
+    const link = document.createElement('a');
+    link.href = pdfUrl;
+    link.click();
+  };
 
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
+    {curr && <span onClick={CurrentDownload} style={{ cursor: 'pointer', textDecoration: 'underline', color:'brown'}}>
+        Current Year Fee Structure
+      </span>} &nbsp;&nbsp;
+      {ShowFeeStructureOfNextYr  &&   <span onClick={NextDownload} style={{ cursor: 'pointer', textDecoration: 'underline', color:'brown'}}>
+        Next Year Fee Structure
+      </span>
+       }
+      <br />
       <ToggleButtonGroup
         value={showCaution}
         exclusive
@@ -376,40 +403,40 @@ useEffect(()=>{
         {OnlinePaymentForInternalFee &&
           <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
-               <ClickAwayListener onClickAway={handleClickAway}>
-               <Tooltip
-                PopperProps={{
-                  disablePortal: true
-                }}
-                onClose={handleClickAway}
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <Tooltip
+          PopperProps={{
+            disablePortal: true
+          }}
+          onClose={handleClickAway}
 
-                disableFocusListener disableHoverListener disableTouchListener arrow
-                open={open} title={NoMoneyDeducted} placement="left"
-                componentsProps={{
-                  tooltip: {
-                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
-                  }
-                }}
-              >
-                <InfoTwoToneIcon type="button"
-                  onClick={handleClick}
-                  sx={{ color: 'navy', fontSize: '17px',mt:"8px",float:"right"}}
-                />
-              </Tooltip>
-            </ClickAwayListener>
+          disableFocusListener disableHoverListener disableTouchListener arrow
+          open={open} title={NoMoneyDeducted} placement="left"
+          componentsProps={{
+            tooltip: {
+              sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+            }
+          }}
+        >
+          <InfoTwoToneIcon type="button"
+            onClick={handleClick}
+            sx={{ color: 'navy', fontSize: '17px', mt: "8px", float: "right" }}
+          />
+        </Tooltip>
+      </ClickAwayListener>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}
         handleChange={clickYear}
         label={'Select Year'}
         defaultValue={currentYear}
       /></Box>
-        {currentYear !== asAcademicYearId &&
-         <> {selectedYear ? 
+      {currentYear !== asAcademicYearId &&
+        <> {selectedYear ?
           <Box mt={2} mb={1}>
-      <Errormessage Error={'You are Viewing data of old academic year' + selectedYear}/>
-          </Box> 
-         : "" }
-         </>}
+            <Errormessage Error={'You are Viewing data of old academic year' + selectedYear} />
+          </Box>
+          : ""}
+        </>}
       {currentYear != NextYrId &&
         <>
           {FeesList2.PendingFeeAcademicYears !== "" &&
