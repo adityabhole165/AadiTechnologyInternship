@@ -17,6 +17,7 @@ import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import { useNavigate } from 'react-router-dom';
+import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
 
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -293,6 +294,7 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     <>
       <NewRelease/> 
       {showBday && <BdayPopUp />}
+      <SchoolNoticeBoard/>
       <Card2 items={items1} heading={'School'} rowsCol="4"
         Messagecount={Messagecount.MESSAGECOUNT} ExternalLibrarySite={ExternalLibrarySite}></Card2>
       {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />} */}

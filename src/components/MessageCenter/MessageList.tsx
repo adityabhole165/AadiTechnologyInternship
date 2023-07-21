@@ -422,7 +422,7 @@ const MessageList = () => {
                     </Grid>
                     <Grid container sm={10} spacing={1} >
                         {((showSearch && isMobile) || !isMobile) &&
-                            (<><Grid item xs={12} sm={10}>
+                            (<><Grid item xs={12} sm={9} md={10}>
                                 <MCForm
                                     AcademicYearList={AcademicYearList}
                                     MonthYearList={MonthYearList}
@@ -435,7 +435,7 @@ const MessageList = () => {
                                     CloseSearchBar={closeSearchBar}
                                 />
                             </Grid>
-                                <Grid item sm={2}>
+                                <Grid item sm={3} md={2}>
                                     <Hidden smDown>
                                         <Box sx={{ mt: "15px" }}>
                                             <ButtonPrimary fullWidth
@@ -463,7 +463,7 @@ const MessageList = () => {
                                     </Hidden>
                                 </Grid></>)
                         }
-                        <Grid item xs={12} sm={8} >
+                        <Grid item xs={12}>
                            
                             {inboxListData.some((obj) => obj.isActive === true) && (
                                 <Box mb={2} sx={DeleteButton}>
@@ -473,10 +473,13 @@ const MessageList = () => {
                                 </Box>
                             )}
                             </Grid>
-                          <Grid item xs={12} sm={4} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                            {/* <Hidden smUp>
+                            <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
                           <ButtonPrimary > Mark as UnRead  </ButtonPrimary>
                           <ButtonPrimary sx={{ml:"5px"}}> Mark as Read</ButtonPrimary>
                             </Grid>
+                            </Hidden> */}
+                        
                    
                         
                       

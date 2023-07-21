@@ -7,27 +7,27 @@ function CardExamSchedule({ header, text2, text3, text5,text6="" }) {
     <div>
     <ListStyle>
     <Grid container>
-    <Grid item xs={8} sm={4}>
+    <Grid item xs={8} >
         <Typography variant="h6">
             {header}
         </Typography>
     </Grid>
-    <Grid item xs={4} sm={2.5} >
+    <Grid item xs={4}  >
         <Typography variant='body2' sx={{float:"right"}}>
             {text2}
         </Typography>
     </Grid>
-    <Grid item xs={6} sm={4}>
+    <Grid item xs={6} >
         <Typography variant='body2'>
             {text3}
         </Typography>
     </Grid>
-    <Grid item xs={6} sm={4}>
+    <Grid item xs={6}>
         <Typography variant='body2' sx={{float:"right"}}>
             {text6}
         </Typography>
     </Grid>
-    <Grid item xs={6} sm={6}>
+    <Grid item xs={6} >
         <Typography variant='body2' color="primary">
             {text5}
         </Typography>

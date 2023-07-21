@@ -547,7 +547,7 @@ window.addEventListener('resize', handleResize)
                     Add Cc
                   </ButtonPrimary>
                 </Grid>
-                <Hidden smDown>
+                {/* <Hidden smDown>
                 <Box pl={1}>
 
                   <Box sx={{ display: "flex" }}>
@@ -559,7 +559,7 @@ window.addEventListener('resize', handleResize)
                     <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
                   </Box>
                 </Box>
-              </Hidden>
+              </Hidden> */}
               {showCC && <>
                 <Grid item xs={12}>
                 <FormHelperText sx={{}}>Cc</FormHelperText>
@@ -573,7 +573,7 @@ window.addEventListener('resize', handleResize)
                 />
               </Grid>
               
-              <Grid item sm={1.5} xs={12}>
+              <Grid item sm={3} xs={12}>
                 <Box mt={1} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientCCButton(e)}
@@ -582,8 +582,8 @@ window.addEventListener('resize', handleResize)
                   </ButtonPrimary>
                 </Box>
                 </Grid>
-                <Grid item sm={10.5} />
-                <Hidden smDown>
+                {/* <Grid item sm={10.5} /> */}
+                {/* <Hidden smDown>
                   <Box sx={{ display: "flex" }}>
                     <TextField
                       sx={{ width: "300px", ml: "10px" }}
@@ -593,7 +593,7 @@ window.addEventListener('resize', handleResize)
                     />
                     <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
                   </Box>
-                </Hidden>
+                </Hidden> */}
 
               </>}
             {/* </FormControl> */}
@@ -611,13 +611,13 @@ window.addEventListener('resize', handleResize)
               ) : null}
             </Box>
             </Grid>
-            <Grid item xs={11} sm={3} md={2.5} lg={2}>
+            <Grid item xs={11} sm={5.5} md={5.5} lg={4.5}>
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
             <Box sx={{mt:"15px" , width:"300px"}}>
               <Errormessages Error={fileerror} />
             </Box>
             </Grid>
-            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+            <Grid item xs={1}  sm={1} md={0.5} lg={0.5} sx={{mt:"3px"}}>
                <ClickAwayListener onClickAway={handleClickAway}>
                <Tooltip
                 PopperProps={{
@@ -640,8 +640,9 @@ window.addEventListener('resize', handleResize)
               </Tooltip>
             </ClickAwayListener>
             </Grid>
-            <Hidden smUp>
-        <Grid item xs={12} sm={12}   md={4}mt={-1}>
+
+           
+        <Grid item xs={12} >
         {finalBase642New == undefined ||
               finalBase642New.length == 0
               || PageName == 'Reply'
@@ -649,7 +650,7 @@ window.addEventListener('resize', handleResize)
               (
                 <div >
                  
-                  <Typography component={Box} >Attachment(s):</Typography>
+                  <Typography>Attachment(s):</Typography>
                
                   {
                     finalBase642New.map((obj, i) => {
@@ -665,38 +666,38 @@ window.addEventListener('resize', handleResize)
                            {obj.FileName.slice(0, 25)}
                          </CardDetail8>
                     
-                   
-                       
-                    
-                  
-                   </Box>  
-                   <IconButton  aria-label="delete" title="Delete"
+                         <IconButton  aria-label="delete" title="Delete"
                            onClick={() =>
                              handleRemoveListItems(
                                obj.FileName,
                                obj.Base64URL
                              )
                            }
-                           sx={{float:"right", mr: "-3px"}}
+                         
                          >
                            <DeleteIcon
-                             sx={{ color: 'red' , mt:"-40px"}}
+                             sx={{ color: 'red' , mt:"-4px"}}
                            />
                          </IconButton >
-                     
-                      </>
-             
-                      
-                      )
+                       
+                    
+                  
+                   </Box>  
+           
+               
+                 
+                  
+                      </>)
                     })
                   }
                 </div>
               )}
             </Grid>
-            </Hidden>
+     
+           
             
        
-                  <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
+                  <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Request Read Receipt? :
@@ -704,13 +705,13 @@ window.addEventListener('resize', handleResize)
                   </Grid>
               
 
-                  <Grid item xs={11} sm={3} md={2.5} lg={2}>
+                  <Grid item xs={11} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Schedule Message at:
                   </Typography>
-            </Grid>
-            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+                 </Grid>
+               <Grid item xs={1}  sm={1} md={1} lg={1} sx={{mt:'-10px'}}>
                <ClickAwayListener onClickAway={handleClickAwayS}>
                <Tooltip
                 PopperProps={{
@@ -735,7 +736,7 @@ window.addEventListener('resize', handleResize)
             </Grid>
           
             
-            <Grid item xs={6} sm={4} md={2} lg={2} sx={messageCenterCale}>
+            <Grid item xs={6} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
               <TextField sx={{ display: scheduleMessage }}
                 type="date" id="outlined-required" variant="standard"
                 onChange={scheduleDateAndTime}
@@ -745,7 +746,7 @@ window.addEventListener('resize', handleResize)
             </Grid>
 
 
-            <Grid item xs={6} sm={4} md={2} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
+            <Grid item xs={6} sm={3} md={3} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
               <TimePicker 
                 value={value}
                 onChange={clickTime}
@@ -766,66 +767,14 @@ window.addEventListener('resize', handleResize)
           
         
             
-             <Grid item xs={12} sx={{ mt: '-15px' ,mb:"6px" , ml:"5px"}}>
+             <Grid item xs={12} sx={{ mt: '-10px' ,mb:"6px" , ml:"5px"}}>
         
-         <ErrorMessage1 Error={schTimeerror} />
-          <ErrorMessage1 Error={requestScheduleMsg} />
+           <ErrorMessage1 Error={schTimeerror} />
+           <ErrorMessage1 Error={requestScheduleMsg} />
        
      
         </Grid> 
-        <Hidden smDown>
-        <Grid item xs={12} sm={12}   md={4}mt={-1}>
-        {finalBase642New == undefined ||
-              finalBase642New.length == 0
-              || PageName == 'Reply'
-              ? null :
-              (
-                <div >
-                 
-                  <Typography component={Box} mt={-3} >Attachment(s):</Typography>
-               
-                  {
-                    finalBase642New.map((obj, i) => {
-                      return (<>
-                      
-                      <Box key={obj.FileName} sx={{display:"flex" , justifyContent:"space-between"}}>
-                         
-                            
-                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                    
-                    
-                         <CardDetail8 sx={{ mt: '1px' }}>
-                           {obj.FileName.slice(0, 25)}
-                         </CardDetail8>
-                    
-                   
-                         <IconButton  aria-label="delete" title="Delete"
-                           onClick={() =>
-                             handleRemoveListItems(
-                               obj.FileName,
-                               obj.Base64URL
-                             )
-                           }
-                         >
-                           <DeleteIcon
-                             sx={{ color: 'red', mt: "-6px" }}
-                           />
-                         </IconButton >
-                    
-                  
-                   </Box>  
-                      
-                     
-                      </>
-             
-                      
-                      )
-                    })
-                  }
-                </div>
-              )}
-            </Grid>
-            </Hidden>
+       
             <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
                  margin="normal" label='Content :' name="Content" type="text"
