@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getFeeStructureLink, getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
+import { getAllFeeTypesForChallanImport, getAllPayableforChallan, getDetailsForChallanImport, getFeeStructureLink, getFees, getFileNameForSNSChallan, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
+import IFees, { GetAllAcademicYearsApiBody, IGetAcademicYearsforFeeChallanBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetDetailsForChallanImportBody, IGetFeeDetailsOfOldAcademicBody, IGetFileNameForSNSChallanBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
@@ -30,7 +30,7 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { Browser } from '@capacitor/browser';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-
+import {getAcademicYearsforFeeChallan} from 'src/requests/Fees/Fees'
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
@@ -50,7 +50,9 @@ function Fees() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStudentId = sessionStorage.getItem('StudentId');
   const asStandardId = sessionStorage.getItem('StandardId');
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const UserId = sessionStorage.getItem('Id');
+ 
   const [YearType, setYearType] = useState("C")
   const [ispaidCautionMoney, setIspaidCautionMoney] = useState('false')
   const [IsCautionClick, setIsCautionClick] = useState(false)
@@ -80,8 +82,12 @@ function Fees() {
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
   const ShowFeeStructureOfNextYr: any = useSelector((state: RootState) => state.getSchoolSettings.ShowFeeStructureOfNextYear)
   const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks); 
+  const AcadamicYearChallen: any = useSelector((state: RootState) => state.Fees.AcademicYearsforFeeChallan);
+  const DetailsForChallanImport: any = useSelector((state: RootState) => state.Fees.DetailsForChallanImport);
+  const AllFeeTypesForChallan: any = useSelector((state: RootState) => state.Fees.AllFeeTypesForChallanImport);
+  const PayableforChallan: any = useSelector((state: RootState) => state.Fees.AllPayableforChallan);
+  const FileNameChallan: any = useSelector((state: RootState) => state.Fees.FileNameForSNSChallan);
   
-
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
@@ -310,6 +316,54 @@ function Fees() {
     }
 
   }, [FeesList2])
+
+const AcademicYearsforFeeChallanBody : IGetAcademicYearsforFeeChallanBody = {
+     aiSchoolId:asSchoolId,
+     aiAcademicYearId:asAcademicYearId,
+     aiStudentId:asStudentId
+};
+
+
+const DetailsForChallanImportBody : IGetDetailsForChallanImportBody = {
+  aiSchoolId:asSchoolId,
+  aiAcademicYearId:asAcademicYearId,
+  aiStudentId:asStudentId,
+  aiSelectedAcademicYearId:"8"
+};
+
+const AllFeeTypesForChallanImportBody : IGetAllFeeTypesForChallanImportBody = {
+  aiSchoolId:asSchoolId,
+  aiSelectedAcademicYearId:"8",
+  aiStandardDivisionId:asStandardDivisionId,
+  aiStandardId:asStandardId
+};
+
+const PayableforChallanBody : IGetAllPayableforChallanBody = {
+  aiSchoolId:asSchoolId,
+  aiAcademicYearId:asAcademicYearId,
+  aiOriginalFeeTypeId:"228",
+  aiStandardId:asStandardId
+};
+
+
+const FileNameForChallanBody : IGetFileNameForSNSChallanBody = {
+  aiSchoolId:asSchoolId, 
+  aiAcademicYearId:asAcademicYearId, 
+  aiStandardId:asStandardId,
+  aiStandardDivisionId:asStandardDivisionId,
+  aiSchoolwiseStudentId:asStudentId,
+  aiFeeTypeId:"228", 
+  asPayableFor:"Install - III",
+  aiSelectedAcademicYearId:"8"
+};
+
+useEffect(()=>{
+    dispatch(getAcademicYearsforFeeChallan(AcademicYearsforFeeChallanBody))
+    dispatch(getDetailsForChallanImport(DetailsForChallanImportBody))
+    dispatch(getAllFeeTypesForChallanImport(AllFeeTypesForChallanImportBody))
+    dispatch(getAllPayableforChallan(PayableforChallanBody))
+    dispatch(getFileNameForSNSChallan(FileNameForChallanBody))
+  },[])
 
   return (
     <Container>
