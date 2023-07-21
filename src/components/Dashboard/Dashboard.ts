@@ -255,16 +255,16 @@ const DashboardData = {
 
     },
 
-    // {
-    //   Text1: 'Income',
-    //   Text2: 'Tax Report',
-    //   Color: '#81c784',
-    //   iconColor: '#35abd9',
-    //   ImageUrl: "/imges/incometax.png",
-    //   Link: 'Student/IncomeTaxReport',
-    //   index: 30,
+    {
+      Text1: 'Income',
+      Text2: 'Tax Report',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      ImageUrl: "/imges/incometax.png",
+      Link: 'Student/IncomeTaxReport',
+      index: 30,
 
-    // },
+    },
     {
       Text1: 'Online',
       Text2: 'Exam',
