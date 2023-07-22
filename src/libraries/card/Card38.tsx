@@ -65,7 +65,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
           <Header1
             color={expanded === 'panel' ? 'secondary' : ''}
           >
-            <b>{FeesType}</b> &nbsp;:&nbsp;<b>Rs. {FeesObject.TotalFeesPaid}</b>
+            <b>{FeesType}</b>&nbsp;:&nbsp;&nbsp;<b>Rs. {FeesObject.TotalFeesPaid}</b>
           </Header1>
         </Accordionsummary>
         {
