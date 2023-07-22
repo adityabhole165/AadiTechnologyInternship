@@ -81,6 +81,23 @@ export const getAllFinancialYears =
       FinancialYearsList = [{ Id: "0", Value: "0", Name: "All" }, ...FinancialYearsList]
       dispatch(SliceIncomeTaxReport.actions.getAllFinancialYears(FinancialYearsList));
     }
+    export const getAllFinancialYearsifAcademic =
+  (data: GetFinancialYearDetailsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceIncomeTaxReport.actions.getLoading(true));
+      const response = await ApiIncomeTaxReport.getAllFinancialYears(data);
+      
+      let FinancialYearsList = response.data.FinancialYears.map((item, index) => {
+       
+        return {
+          Id: index.toString(),
+          Value: item.Year.toString(),
+          Name: item.FinancialYearName
+          
+        }
+      })
+      dispatch(SliceIncomeTaxReport.actions.getAllFinancialYears(FinancialYearsList));
+    }
 
 
 
