@@ -69,8 +69,8 @@ export const getHomeworkDates =
             let HomeworkList = response.data.HomeworkDates?.map((item, index) => {
                 return {
                     Id: index,
-                    Name: getDateMonthYearFormatted(item),
-                    Value: getDateMonthYearFormatted(item),
+                    Name: getDateMonthFormatted(item),
+                    Value: getDateMonthFormatted(item),
                     IsActive: false
                 }
             })
