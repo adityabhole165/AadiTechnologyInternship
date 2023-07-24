@@ -97,6 +97,9 @@ function Fees() {
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
+const ConsessionNote = FeesList2.ConcessionRule
+
+
 
   const Feedata = { Fee1: 'Fee Type', Fee2: 'Amount + Late Fees : ', Fee3: 'Receipt' };
   const FeeAmount = { Sum1: 'Paid Fees', Sum2: 'Payable Fees', Sum3: 'Late Fee', Sum4: 'Applicable Fees' };
@@ -481,6 +484,7 @@ function Fees() {
           <b>Applicable Fees:</b> Rs. {ApplicableFee}
         </CardDetail1>
       </ListStyle>
+      <Typography sx={{textAlign:"center"}} my={1}> <b>{ConsessionNote}</b></Typography>
       <Card27 FeesType={'Paid Fees'} Fee={FeesList}
         Heading={Feedata} Note={Note2} currentYear={currentYear}
         IsForCurrentyear={IsOldAcademicYearPayment}
@@ -494,6 +498,7 @@ function Fees() {
         RestrictNewPayment={RestrictNewPayment}
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
+      
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} />
       {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
         (<NoteStyle>

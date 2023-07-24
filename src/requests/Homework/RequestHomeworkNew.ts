@@ -125,7 +125,7 @@ export const getHomeworkDates =
                 return {
                     
                     Id: index,
-                    Header: getDateMonthYearFormatted(item.Date),
+                    Header: item.Date.replace("-", " ").replace("-", " "),
                     Text1: item.AttachmentPath,
                    
                 }
