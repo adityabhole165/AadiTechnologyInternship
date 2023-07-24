@@ -86,7 +86,8 @@ function Fees() {
   const AllFeeTypesForChallan: any = useSelector((state: RootState) => state.Fees.AllFeeTypesForChallanImport);
   const PayableforChallan: any = useSelector((state: RootState) => state.Fees.AllPayableforChallan);
   const FileNameChallan: any = useSelector((state: RootState) => state.Fees.FileNameForSNSChallan);
-  console.log("FeeStructureLink", FeeStructureLink);
+  const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
+
 
 
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
@@ -403,7 +404,7 @@ function Fees() {
         exclusive
         onChange={handleChange} sx={{ my: 1 }}>
         <ToggleButton value={schoolFees} >School Fees</ToggleButton>
-        {OnlinePaymentForInternalFee &&
+     {OnlinePaymentForInternalFee &&
           <ToggleButton value={internalFees}>Internal Fees</ToggleButton>}
       </ToggleButtonGroup>
       <ClickAwayListener onClickAway={handleClickAway}>
@@ -448,6 +449,7 @@ function Fees() {
             </>
           }
         </>}
+       {currentYear == NextYrId && (showCaution == "SchoolFees" && <>{RestrictNewPayment && <ErrorMessages Error={"You cannot pay next year fee till the complete payment of last year fee."} />}</>)}
       {
         showCaution === schoolFees &&
 
@@ -489,6 +491,7 @@ function Fees() {
         SchoolwiseStudentId={NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId}
         IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline}
         OldInternalstudent={OldInternalstudent} IsPending={FeesList2.PendingFeeAcademicYears}
+        RestrictNewPayment={RestrictNewPayment}
       />
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} />

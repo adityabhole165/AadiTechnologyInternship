@@ -9,7 +9,7 @@ import FeesCard from './FeesCard';
 
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
-  OldInternalstudent, IsPending }) => {
+  OldInternalstudent, IsPending, RestrictNewPayment }) => {
   const dispatch = useDispatch();
 
   const asSchoolId = localStorage.getItem('localSchoolId')
@@ -39,7 +39,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
 
   const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
   const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
-  const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
   const OnlineFeePaymentAll: any = useSelector((state: RootState) => state.getSchoolSettings.EnabledOnlineFee);
 
   useEffect(() => {
