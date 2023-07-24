@@ -143,6 +143,7 @@ function Fees() {
     aiUserId: UserId,
     abShowFeeStructureForNextYear: ShowFeeStructureOfNextYr
   }
+
   const IGetNextYearFeeDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
@@ -201,7 +202,6 @@ function Fees() {
     dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
     dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
     dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
-    dispatch(getFeeStructureLink(IFeeStructure))
 
 
 
@@ -214,6 +214,9 @@ function Fees() {
   useEffect(() => {
     dispatch(getOldstudentDetails(IOldStudentDetails));
   }, [currentYear]);
+  useEffect(() => {    
+    dispatch(getFeeStructureLink(IFeeStructure))
+  }, [ShowFeeStructureOfNextYr]);
 
   useEffect(() => {
     if (showCaution == internalFees) {

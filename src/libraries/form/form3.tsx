@@ -18,8 +18,8 @@ import { ChangePasswordStyle } from '../styled/CommonStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
   '2) Password should be combination of at least one character, digit & special character.',];
-const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your password for Security purpose.']
-const note2 = [' Please reset your password for Security purpose.']
+const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your password for security purpose.']
+const note2 = [' Please reset your password for security purpose.']
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();

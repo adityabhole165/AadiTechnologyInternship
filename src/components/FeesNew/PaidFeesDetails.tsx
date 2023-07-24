@@ -87,7 +87,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             Text1: item.FeeType + "(" + item.PayableFor + ")",
             Text2: lateFeeLabel,
             DisplayText: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? +item.Amount : item.Amount + " + " + item.LateFeeAmount) : (item.LateFeeAmount == "0" ? +item.AmountPayable : item.AmountPayable + " + " + item.LateFeeAmount),
-            Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? "Rs. "+item.Amount : "Rs. "+item.Amount + " + " + "Rs. "+item.LateFeeAmount) : (item.LateFeeAmount == "0" ? "Rs. "+item.AmountPayable : "Rs. "+item.AmountPayable + " + " + "Rs. "+item.LateFeeAmount),
+            Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? " Rs. "+item.Amount : " Rs. "+item.Amount + " + " + "Rs. "+item.LateFeeAmount) : (item.LateFeeAmount == "0" ? " Rs. "+item.AmountPayable : "Rs. "+item.AmountPayable + " + " + "Rs. "+item.LateFeeAmount),
             Text4: "Due On : " + item.DueDateFormat,
             ParentId: (index + 1).toString() === prevFeeId ? "0" : prevFeeId,
             AmountPayable: item.AmountPayable,
@@ -168,7 +168,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     <div>
       <Grid container>
         <Grid item xs={3}>
-          Total: {FeesTotal}
+          Total : Rs. {FeesTotal}
         </Grid><Grid item xs={9}>
           {((OnlineFeePaymentAll && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
             <>
