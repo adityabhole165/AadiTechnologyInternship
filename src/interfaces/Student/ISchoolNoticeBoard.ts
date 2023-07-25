@@ -12,3 +12,20 @@ export interface IGetNoticeBoardDetailsResult{
     EndDate: string
 
 }
+
+export interface IGetAllActiveNoticesBody{
+  asSchoolId:string,
+   asUserId:string,
+}
+
+export interface IGetAllActiveNoticesResult{
+  Name: string,
+  FileName: string,
+  Date:string,
+  Id: string,
+  IsText: string,
+  Content: string,
+  IsImageNotice: boolean
+  }
+
+
