@@ -9,7 +9,7 @@ import PaidFeesDetails from 'src/components/FeesNew/PaidFeesDetails'
 
 const Card37 = ({ expanded, handleChange, FeesObject, currentYear, IsForCurrentyear, OldYearwiseStudentId,
     internalFees, ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney,
-    clickPayOnline, OldInternalstudent, IsPending }) => {
+    clickPayOnline, OldInternalstudent, IsPending,RestrictNewPayment }) => {
     const theme = useTheme();
     const classes = Styles();
     return (
@@ -44,7 +44,8 @@ const Card37 = ({ expanded, handleChange, FeesObject, currentYear, IsForCurrenty
                         OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} FeesObject={FeesObject}
                         ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId}
                         NextYearID={NextYearID} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney}
-                        clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent} IsPending={IsPending} />
+                        clickPayOnline={clickPayOnline} OldInternalstudent={OldInternalstudent} IsPending={IsPending} 
+                        RestrictNewPayment={RestrictNewPayment}/>
 
                 </AccordionDetails>
             </Accordion>

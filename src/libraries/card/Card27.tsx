@@ -26,7 +26,7 @@ Card27.propTypes = {
 
 function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, OldYearwiseStudentId,internalFees,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
-  OldInternalstudent,IsPending }) {
+  OldInternalstudent,IsPending,RestrictNewPayment }) {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
@@ -44,7 +44,7 @@ function Card27({ FeesType, Fee, Heading, Note, currentYear, IsForCurrentyear, O
         OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees} ApplicableFee={ApplicableFee}
         TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID}
         IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline} 
-        OldInternalstudent={OldInternalstudent} IsPending={IsPending}/>
+        OldInternalstudent={OldInternalstudent} IsPending={IsPending} RestrictNewPayment={RestrictNewPayment} />
   
   );
 }
