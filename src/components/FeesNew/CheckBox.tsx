@@ -2,7 +2,7 @@ import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { Styles } from 'src/assets/style/student-style'
 import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 
-const CheckBox = ({ item, onChange, IsNotDisabled, InternalOrSchool }) => {
+const CheckBox = ({ item, onChange, IsNotDisabled=true, InternalOrSchool }) => {
     const classes = Styles();
     const onClick = () => {
         onChange({ ...item, IsActive: !item.IsActive })
@@ -11,7 +11,9 @@ const CheckBox = ({ item, onChange, IsNotDisabled, InternalOrSchool }) => {
     return (<>
         {item.ParentId !== "0" ? null :
             <>
-                {((IsNotDisabled == true && InternalOrSchool == "SchoolFees")|| InternalOrSchool == "internalFees" )?
+                {((IsNotDisabled == false && InternalOrSchool == "SchoolFees")|| InternalOrSchool == "internalFees" )?
+                <RadioButtonUncheckedIcon sx={{ color: 'grey' }}
+                className={classes.checkboxSize} /> : 
                     (item.IsEnabled) ?
                         item.IsActive ?
                             <CheckCircleIcon sx={{ color: 'green' }}
@@ -19,9 +21,8 @@ const CheckBox = ({ item, onChange, IsNotDisabled, InternalOrSchool }) => {
                             <RadioButtonUncheckedIcon sx={{ color: 'green' }}
                                 onClick={onClick} className={classes.checkboxSize} /> :
                         <RadioButtonUncheckedIcon sx={{ color: 'grey' }}
-                            className={classes.checkboxSize} /> :
-                    <RadioButtonUncheckedIcon sx={{ color: 'grey' }}
-                        className={classes.checkboxSize} />
+                            className={classes.checkboxSize} />
+                    
                 }
             </>
         }
