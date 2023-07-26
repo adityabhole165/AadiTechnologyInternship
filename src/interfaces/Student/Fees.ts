@@ -175,7 +175,7 @@ export interface IGetNextYearDetailsResult {
         NextAcademicDetails: {
                 SchoolwiseStudentId: string,
                 NextAcademicYearId: string,
-                NextStandardId:string
+                NextStandardId: string
         }
 }
 
@@ -205,7 +205,7 @@ export interface NextYearFeeDetails {
         DueDateString: string,
         SerialNo: number,
         PaymentGroup: number,
-        ConcessionAmount:number
+        ConcessionAmount: number
 }
 
 //old student id 
@@ -214,9 +214,100 @@ export interface IGetOldStudentDetailsBody {
         aiAcademicYearId: string,
         aiStudentId: string
 }
- export interface IGetOldStudentDetailsResult {
+export interface IGetOldStudentDetailsResult {
         OldStudentDetails: {
-        StudentId: string,
-        StandardDivisionId: string,
-    }
- }
+                StudentId: string,
+                StandardDivisionId: string,
+        }
+}
+
+// NextYear Fee structure link 
+export interface IGetFeeStructureLinksBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiUserId: string,
+        abShowFeeStructureForNextYear: string
+}
+export interface IGetFeeStructureLinksResult {
+        FeeStructureLink: {
+                CurrentYearFeeStructure: string,
+                MidYearFeeStructure: string,
+        }
+}
+
+//GetAcademicYearsforFeeChallan
+
+export interface IGetAcademicYearsforFeeChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStudentId: string
+}
+
+export interface IGetAcademicYearsforFeeChallanResult {
+
+        AcademicYearId: string,
+        AcademicYearName: string
+}
+
+export interface IGetAcademicYearsFeeChallanResult {
+        AcademicYears: [IGetAcademicYearsforFeeChallanResult]
+}
+
+// GetDetailsForChallanImport
+
+
+export interface IGetDetailsForChallanImportBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStudentId: string,
+        aiSelectedAcademicYearId: string
+}
+
+export interface IGetDetailsForChallanImportResult {
+        StandardId: number,
+        StandardDivisionId: number,
+        SchoolwiseStudentId: number
+}
+
+// GetAllFeeTypesForChallanImport
+
+export interface IGetAllFeeTypesForChallanImportBody {
+        aiSchoolId: string,
+        aiSelectedAcademicYearId: string,
+        aiStandardDivisionId: string,
+        aiStandardId: string
+}
+
+export interface IGetAllFeeTypesForChallanImportResult {
+        Id: number,
+        Name: string
+}
+
+//GetAllPayableforChallan
+export interface IGetAllPayableforChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStandardId: string,
+        aiOriginalFeeTypeId: string
+}
+
+
+export interface IGetAllPayableforChallanResult {
+        Id: string,
+        Name: string
+}
+
+//GetFileNameForSNSChallan
+
+export interface IGetFileNameForSNSChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStandardId:string,
+        aiStandardDivisionId: string,
+        aiSchoolwiseStudentId: string,
+        aiFeeTypeId: string,
+        asPayableFor: string,
+        aiSelectedAcademicYearId: string
+}
+
+

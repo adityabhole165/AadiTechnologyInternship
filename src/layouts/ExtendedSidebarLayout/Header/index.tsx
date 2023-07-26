@@ -1,4 +1,4 @@
-import { useContext, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 
 import {
   Box,
@@ -49,6 +49,11 @@ import { App } from '@capacitor/app';
 import { Detail1 } from 'src/libraries/styled/CardStyle';
 import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone';
 import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
+import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
+import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
         height: ${theme.header.height};
@@ -115,11 +120,14 @@ function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
   const theme = useTheme();
   const classes = Styles();
-
+  const dispatch = useDispatch();
+  
   const Name = sessionStorage.getItem("StudentName");
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
+  const UserLoginDetails1 =localStorage.getItem('UserLoginDetails1')
+
   let userprofile = ''
   let img_src = ''
   if (sessionStorage.length > 0) {
@@ -282,6 +290,26 @@ function Header() {
     navigate('Student/Notification')
   }
 
+  const [isOnline, setIsOnline] = useState(navigator.onLine);
+
+  useEffect(() => {
+    const handleOnline = () => setIsOnline(true);
+    const handleOffline = () => setIsOnline(false);
+
+    window.addEventListener('online', handleOnline);
+    window.addEventListener('offline', handleOffline);
+
+    return () => {
+      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('offline', handleOffline);
+    };
+  }, []);
+  const Toaster = () => {
+    if (!isOnline) {
+      toast.error('No internet connection', { toastId: 'success1' })
+    }
+  }
+
   return (<>
     <HeaderWrapper
       display="flex"
@@ -298,6 +326,7 @@ function Header() {
             alpha(theme.colors.alpha.black[100], 0.1)
       }}
     >
+      {Toaster()}
       <Stack
         direction="row"
         divider={<Divider orientation="vertical" flexItem />}
@@ -355,7 +384,7 @@ function Header() {
                   </UserBoxDescription> </>
                   : null)
               }
-
+              <UserBoxDescription className="popoverTypo"> {UserLoginDetails1} </UserBoxDescription>
             </UserBoxText>
           </MenuUserBox>
           <Divider

@@ -3,7 +3,7 @@ import Card38 from "../card/Card38"
 
 const FeeAccordion = ({ FeesType, Fee, FeesObject,handleChange, expanded,currentYear, IsForCurrentyear,
      OldYearwiseStudentId, internalFees, ApplicableFee, TotalLateFee,SchoolwiseStudentId, NextYearID,
-     IsOnlinePaymetCautionMoney, clickPayOnline,OldInternalstudent, IsPending }) => {
+     IsOnlinePaymetCautionMoney, clickPayOnline,OldInternalstudent, IsPending,RestrictNewPayment }) => {
     return <>
         <Card38 FeesType={FeesType} Fee={Fee} FeesObject={FeesObject} expanded={expanded} handleChange={handleChange}
         internalFees={internalFees} currentYear={currentYear}/>
@@ -11,7 +11,7 @@ const FeeAccordion = ({ FeesType, Fee, FeesObject,handleChange, expanded,current
         IsForCurrentyear={IsForCurrentyear} OldYearwiseStudentId={OldYearwiseStudentId} internalFees={internalFees}
         ApplicableFee={ApplicableFee} TotalLateFee={TotalLateFee} SchoolwiseStudentId={SchoolwiseStudentId} NextYearID={NextYearID}
         IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} clickPayOnline={clickPayOnline}
-        OldInternalstudent={OldInternalstudent} IsPending={IsPending} />
+        OldInternalstudent={OldInternalstudent} IsPending={IsPending} RestrictNewPayment={RestrictNewPayment}/>
     </>
 
 }

@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {
   getModulesPermission, getModulesPermissionsResultt, getGetSettingValue,
-  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload
+  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload, getEnableHomeworkModule
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getMessageCount } from 'src/requests/Dashboard/Dashboard'
@@ -17,6 +17,7 @@ import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import { useNavigate } from 'react-router-dom';
+import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
 
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -27,6 +28,14 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function LandingPage() {
+  
+const UserLoginDetails1 = useSelector(
+  (state: RootState) => state.Dashboard.UserLoginDetails
+);
+
+if(UserLoginDetails1 !== null){
+localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
+}
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showBday, setShowBday] = useState(false);
@@ -42,7 +51,6 @@ function LandingPage() {
   const ExternalLibrarySite: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ExternalLibrarySite
   );
-
   const SubTeacherEnabled: any = useSelector(
     (state: RootState) => state.getSchoolSettings.SubTeacher
   );
@@ -64,6 +72,9 @@ function LandingPage() {
     );
     const showOnlineExam: any = useSelector(
       (state: RootState) => state.getSchoolSettings.EnableOnlineExamModule
+    );
+    const EnableHomeworkModule: any = useSelector(
+      (state: RootState) => state.getSchoolSettings.EnableHomeworkModuleForStudentLogin
     );
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
@@ -117,6 +128,7 @@ function LandingPage() {
       dispatch(ShowAadharCardForStudent(GetSettingValueBody)) 
       dispatch(EnableOnlineExamM(GetSettingValueBody)) 
       dispatch(getParentPhotoUpload(GetSettingValueBody)) 
+      dispatch(getEnableHomeworkModule(GetSettingValueBody)) 
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
@@ -201,8 +213,12 @@ function LandingPage() {
             : el.ModulesPermission) && (el.ModulesPermission === undefined
               ? true
               : f.IsEnabled === true);
-      });
+      });   
     });
+    items2 = items2.filter((el) => {
+      return el.Text1 == 'Homework ' ? EnableHomeworkModule : true
+    })
+   
     items3 = DashboardData.Student.items3.filter((el) => {
       return ModulesPermission.some((f) => {
         return f.ModuleName === (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission) &&
@@ -276,8 +292,9 @@ function LandingPage() {
   
   return (
     <>
-      <NewRelease/> 
+      {/* <NewRelease/>  */}
       {showBday && <BdayPopUp />}
+      <SchoolNoticeBoard/>
       <Card2 items={items1} heading={'School'} rowsCol="4"
         Messagecount={Messagecount.MESSAGECOUNT} ExternalLibrarySite={ExternalLibrarySite}></Card2>
       {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />} */}

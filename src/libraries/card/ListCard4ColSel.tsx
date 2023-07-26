@@ -21,13 +21,13 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
       <ListStyle>
     
         <Grid container>
-          <Grid item xs={1} sx={{ mt: '5px' }}>
+          <Grid item xs={1} sm={0.5} sx={{ mt: '5px' }}>
             <CheckboxImg
               name={Item.Id} value={Item.Id}
               checked={Item.isActive} onChange={onChange}
             />
           </Grid>
-          <Grid item xs={11}>
+          <Grid item xs={11} sm={11.5}>
             <CardMessage
               header={Item.text1} 
               text1={Item.text2} 

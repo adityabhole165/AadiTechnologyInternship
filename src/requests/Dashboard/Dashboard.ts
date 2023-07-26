@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import DashboardApi from "../../api/dashboard/dashboard";
 
 import { AppThunk } from 'src/store';
-import { IUnreadMessages, IUpcomingEventsList, IBirthdays, IPhotoAlbum ,IFeedbackList,IMsgfrom,INewMessageCount} from 'src/interfaces/Student/dashboard';
+import { IUnreadMessages, IUpcomingEventsList, IBirthdays, IPhotoAlbum, IFeedbackList, IMsgfrom, INewMessageCount, ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
 
 const Dashboardlice = createSlice({
   name: 'Dashboard',
@@ -11,10 +11,11 @@ const Dashboardlice = createSlice({
     UnreadMessage: [],
     UpcomingEventsList: [],
     PhotoAlbumList: [],
-    FeedbackList:[],
-    Msgfrom:[],
-    MessageCount:{},
-    Loading : true
+    FeedbackList: [],
+    Msgfrom: [],
+    MessageCount: {},
+    Loading: true,
+    UserLoginDetails: null
   },
   reducers: {
     getBirthdayList(state, action) {
@@ -33,9 +34,9 @@ const Dashboardlice = createSlice({
       state.Loading = false
       state.PhotoAlbumList = action.payload;
     },
-    getLoading (state,action) {
-        state.Loading = true
-        state.PhotoAlbumList = [];
+    getLoading(state, action) {
+      state.Loading = true
+      state.PhotoAlbumList = [];
     },
 
     getFeedback(state, action) {
@@ -47,6 +48,8 @@ const Dashboardlice = createSlice({
     getMessageCount(state, action) {
       state.MessageCount = action.payload.GetNewMessageCountResult
     },
+    getUserLoginDetails(state, action) {
+      state.UserLoginDetails = action.payload },
   }
 });
 
@@ -72,44 +75,51 @@ export const getEventsList =
       dispatch(Dashboardlice.actions.getEventsList(response.data));
     };
 
-    export const getPhotoAlbum =
-    (data: IPhotoAlbum): AppThunk =>
-      async (dispatch) => {
-    dispatch(Dashboardlice.actions.getLoading(true));
+export const getPhotoAlbum =
+  (data: IPhotoAlbum): AppThunk =>
+    async (dispatch) => {
+      dispatch(Dashboardlice.actions.getLoading(true));
 
-        const response = await DashboardApi.PhotoAlbumData(data)
+      const response = await DashboardApi.PhotoAlbumData(data)
 
-       const Data=response.data[0].Name===null?[]:
-       response.data.map((item, index) => {
+      const Data = response.data[0].Name === null ? [] :
+        response.data.map((item, index) => {
           return {
             id: index,
-            header: item.Name===null?'':item.Name,
+            header: item.Name === null ? '' : item.Name,
             text1: '',
             text2: '',
             linkPath: `/Common/Photos/` + item.Name + '/PhotoGallery',
             FileName: ''
           };
         });
-        dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
-      };
+      dispatch(Dashboardlice.actions.getPhotoAlbum(Data));
+    };
 
-      export const getFeedback =
-      (data: IFeedbackList): AppThunk =>
-        async (dispatch) => {
-          const response = await DashboardApi.Feedback(data)
-          dispatch(Dashboardlice.actions.getFeedback(response.data));
-        };
+export const getFeedback =
+  (data: IFeedbackList): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.Feedback(data)
+      dispatch(Dashboardlice.actions.getFeedback(response.data));
+    };
 
-        export const getmsgfrom =
-        (data: IMsgfrom): AppThunk =>
-          async (dispatch) => {
-            const response = await DashboardApi.GetMessageFromList(data)
-            dispatch(Dashboardlice.actions.getmsgfrom(response.data));
-          };
-          export const getMessageCount =
-          (data: INewMessageCount): AppThunk =>
-            async (dispatch) => {
-              const response = await DashboardApi. GetMessagesCount(data)
-              dispatch(Dashboardlice.actions.getMessageCount(response.data));
-            };
- export default Dashboardlice.reducer
+export const getmsgfrom =
+  (data: IMsgfrom): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.GetMessageFromList(data)
+      dispatch(Dashboardlice.actions.getmsgfrom(response.data));
+    };
+export const getMessageCount =
+  (data: INewMessageCount): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.GetMessagesCount(data)
+      dispatch(Dashboardlice.actions.getMessageCount(response.data));
+    };
+export const getSaveUserLoginDetail =
+  (data: ISaveUserLoginDetailsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await DashboardApi.GetSaveUserLoginDetailsResult(data)
+      dispatch(Dashboardlice.actions.getUserLoginDetails(response.data));
+    };
+
+export default Dashboardlice.reducer

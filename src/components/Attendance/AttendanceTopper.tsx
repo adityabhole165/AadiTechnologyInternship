@@ -10,6 +10,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import DropdownAllSelect from 'src/libraries/dropdown/DropdownAllSelect';
 import Card35 from 'src/libraries/card/Card35';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 
 function AttendanceTopper() {
@@ -29,12 +30,16 @@ function AttendanceTopper() {
   )
 
 
+
+
   const asSchoolId = (localStorage.getItem('localSchoolId'));
   const asStudentId = (sessionStorage.getItem('StudentId'));
   const asAcademicYear = (sessionStorage.getItem('AcademicYearId'));
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
 
   const [academicyear, setAcademicYear] = useState(asAcademicYear);
+  const [selectedYear, setselectedYear] = useState(null)
+
 
 
   useEffect(() => {
@@ -43,20 +48,21 @@ function AttendanceTopper() {
       aiStudentId: asStudentId,
       abIncludeCurrentYear: academicyear
     }
-    
+
     dispatch(getAcademicYearsForOldAttendance(GetAcademicYearsForOldAttendanceBody));
   }, []);
 
-  
+
 
   useEffect(() => {
     setAcademicYear(asAcademicYear);
+
   }, [GetAcademicYearsForOldAttendance]);
 
 
   useEffect(() => {
     if (academicyear !== "") {
-      const GetAttendanceToppersBody= {
+      const GetAttendanceToppersBody = {
         aiSchoolId: asSchoolId,
         aiAcademicYearId: academicyear,
         StandardDivisionId: asStandardDivision,
@@ -71,9 +77,17 @@ function AttendanceTopper() {
 
 
   const ClickAcademicYear = (value) => {
-   
     setAcademicYear(value);
+    GetAcademicYearsForOldAttendance.map((obj) => {
+      if (obj.Value === value) {
+        setselectedYear(obj.Name)
+     
+      }
+    })
   };
+
+
+
 
   return (
     <div>
@@ -88,30 +102,36 @@ function AttendanceTopper() {
             handleChange={ClickAcademicYear}
             defaultValue={academicyear}
           />
+        {academicyear !== asAcademicYear &&
+         <> {selectedYear ?  
+      
+         <Typography variant='h5' sx={{color:"red", mt:"5px"}}>You are Viewing data of old academic year ({selectedYear})</Typography>:"" }</>
+
+           }
         </FormControl>
         <Box my={1}>
           <Typography sx={{ textAlign: "center" }} variant="h5">   Your Attendance</Typography>
-       </Box>
+        </Box>
         <Box >
-        {(GetStudentAttendance.length > 0 && GetStudentAttendance[0].Name!=null) ? 
-          <Card35 header={{ Header: GetStudentAttendance}} IsStudent={true}/>:
-          <ErrorDetail>No attendance</ErrorDetail>}
+          {(GetStudentAttendance.length > 0 && GetStudentAttendance[0].Name != null) ?
+            <Card35 header={{ Header: GetStudentAttendance }} IsStudent={true} /> :
+            <ErrorDetail>No attendance</ErrorDetail>}
         </Box>
 
         <Box my={1}>
           <Typography sx={{ textAlign: "center" }} variant="h5">Attendance Toppers</Typography>
-          
-          </Box>
+
+        </Box>
 
         <Box >
-        {(
-          GetAttendanceDetails !== undefined &&
-          GetAttendanceDetails.length > 0) ?
-          <Card35 header={{ Header: GetAttendanceDetails}} IsStudent={false} />:
-          <ErrorDetail>No attendance</ErrorDetail>
+          {(
+            GetAttendanceDetails !== undefined &&
+            GetAttendanceDetails.length > 0) ?
+            <Card35 header={{ Header: GetAttendanceDetails }} IsStudent={false} /> :
+            <ErrorDetail>No attendance</ErrorDetail>
           }
         </Box>
-       
+
 
       </Container>
     </div>

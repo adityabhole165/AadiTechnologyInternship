@@ -86,6 +86,9 @@ const MessageListOld = () => {
   const InboxList = useSelector(
     (state: RootState) => state.InboxMessage.InboxList
   );
+  const MarkAsRead = useSelector(
+    (state: RootState) => state.InboxMessage.UnReadMessage
+);
   const NextInboxList = useSelector(
     (state: RootState) => state.InboxMessage.NextPageList
   );
@@ -378,6 +381,7 @@ const MessageListOld = () => {
                   <MCButtons
                     activeTab={activeTab}
                     clickTab={clickTab}
+                    MarkAsRead={MarkAsRead}
                   ></MCButtons>
                 </Grid>
                 <Grid item xs={2} sx={{ textAlign: 'center' }}>

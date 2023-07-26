@@ -44,9 +44,10 @@ function ViewEvent() {
   return (
     <>
       <PageHeader heading={'View Event'} subheading={''} />
-
+       {AssigMonth===undefined?
+      <BackButton FromRoute={'/Common/EventOverview/UpcomingEvent'} />:
       <BackButton FromRoute={'/Common/EventOverview' + '/' + AssigMonth + '/' + AssigYear} />
-
+    }
       {viewEvent === undefined ? null : (
         <Card2
           ViewDetail={ViewDetail}

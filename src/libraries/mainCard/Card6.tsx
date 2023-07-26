@@ -62,8 +62,14 @@ const getstudentphoto : IGetStudentPhotoBody= {
   }, []);
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
+  const PhoneNumber = sessionStorage.getItem('MobileNumber');
+  const PhoneNumber2 = sessionStorage.getItem('MobileNumber2');
+  const Religion = sessionStorage.getItem('Religion');
+  const CategoryName = sessionStorage.getItem('CategoryName');
+  const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
-  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
+  const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
+  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ?  localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -76,6 +82,8 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const EditProfile = () => {
     navigate('EditProfile')
   }
+
+ 
   
   return (
     <>
@@ -99,8 +107,8 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
       <ListStyle
         sx={{
-          bottom: 0,
-          height: '80vh',
+          marginBottom:"60px",
+          height: '100%',
           width: '100%',
           borderRadius: '15px'
         }}
@@ -110,38 +118,45 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
             {RoleName == 'Teacher' || RoleName == 'Admin Staff' ? (
               <>
-                <ProfileComponent Name='Designation:' Value={DesignationName}></ProfileComponent>
+                <ProfileComponent Name='Designation :' Value={DesignationName}></ProfileComponent>
 
 
                 {RoleName == 'Teacher' &&
-                  <ProfileComponent Name='Class Teacher:' Value={ClassTeacher}></ProfileComponent>}
+                  <ProfileComponent Name='Class Teacher :' Value={ClassTeacher}></ProfileComponent>}
 
-                <ProfileComponent Name='Mobile Number:' Value=''></ProfileComponent>
+                <ProfileComponent Name='Mobile Number :' Value=''></ProfileComponent>
 
-                <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
+                <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
 
-                <ProfileComponent Name='Date of Birth:' Value={newdate}></ProfileComponent>
+                <ProfileComponent Name='Date of Birth :' Value={newdate}></ProfileComponent>
               </>
             ) : RoleName == 'Student' ? (
               <>
 
-                <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
-                <ProfileComponent Name='Residence Phone No:' Value={ResidencePhoneNumber}></ProfileComponent>
+                <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
+                <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
 
-
+                <ProfileComponent Name='Mobile Number :' Value={PhoneNumber===""? PhoneNumber2 : PhoneNumber + ' , '+ PhoneNumber2 }></ProfileComponent>
+       
 
                 <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
 
-                <ProfileComponent Name='Place of Birth:' Value={birthPlace}></ProfileComponent>
+                <ProfileComponent Name='Place of Birth :' Value={birthPlace}></ProfileComponent>
 
-                <ProfileComponent Name='Date of Birth:' Value={newdate}></ProfileComponent>
+                <ProfileComponent Name='Date of Birth :' Value={newdate}></ProfileComponent>
 
-                <ProfileComponent Name='Nationality:' Value={Nationality}></ProfileComponent>
+                <ProfileComponent Name='Nationality :' Value={Nationality}></ProfileComponent>
 
-                <ProfileComponent Name='Mother Tongue:' Value={MotherTongue}></ProfileComponent>
+                <ProfileComponent Name='Mother Tongue :' Value={MotherTongue}></ProfileComponent>
 
-                <ProfileComponent Name='Blood Group:' Value={Blood_Group}></ProfileComponent>
-
+                <ProfileComponent Name='Blood Group :' Value={Blood_Group}></ProfileComponent>
+                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
+                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
+                <Box sx={{mt:"5px" , ml:"10px"}}>
+                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'}/>
+                </Box>
+              
+              
 
 
               </>

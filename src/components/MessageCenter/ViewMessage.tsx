@@ -38,7 +38,6 @@ function ViewSms({ }) {
   const MessageCenterReadMode: any = useSelector(
     (state: RootState) => state.getSchoolSettings.EnableMessageCenterReadModeForStudent
   );
-  console.log("MessageCenterReadMode",MessageCenterReadMode);
   
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
@@ -98,6 +97,8 @@ function ViewSms({ }) {
     else
       return false
   } 
+
+  
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
@@ -111,6 +112,9 @@ function ViewSms({ }) {
           <Card7
             ViewDetail={ViewDetail}
             From={viewSent.UserName}
+            InsertDateInFormat={viewSent.InsertDateInFormat}
+            // ReceivedTime={viewSent.Time}
+
             // To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
             //   (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
             //     viewSent.RecieverName : viewSent.DisplayText}

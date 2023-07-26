@@ -14,6 +14,7 @@ import { useSelector } from 'react-redux';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import TableCard from 'src/libraries/card/TableCard';
 
 function Library() {
   const dispatch = useDispatch();
@@ -138,8 +139,18 @@ function Library() {
       </Grid>
       {loading ?
         <SuspenseLoader /> :
-        <BooksDetails GetBookList={GetBookList} />
+        <>
+        <Hidden smUp>
+        <BooksDetails GetBookList={GetBookList}/>
+        </Hidden>
+         <Hidden smDown>
+         <TableCard GetBookList={GetBookList}/>
+         </Hidden>
+        
+        </>
+      
       }
+      
     </Container>
 
 

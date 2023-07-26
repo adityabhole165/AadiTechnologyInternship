@@ -47,6 +47,7 @@ export interface GetMessagesResult{
         RequestReadReceipt:string,
       
     }]
+     UnreadMessageTotalCount: number
 }
 export interface GetScheduledSMSResult{
     GetScheduledSMSResult:[{

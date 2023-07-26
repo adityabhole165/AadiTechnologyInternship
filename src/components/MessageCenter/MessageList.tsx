@@ -14,8 +14,7 @@ import MCForm from 'src/libraries/form/MCForm';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { getListOfMessages } from 'src/requests/Student/InboxMessage';
 import SelectList3Col from '../../libraries/list/SelectList3Col';
-import SearchIcon from '@mui/icons-material/Search';
-import { Grid, Card, Container, Box, Hidden, Dialog, Typography } from '@mui/material';
+import { Grid, Card, Container, Box, Hidden, Dialog, } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import { styled } from '@mui/material/styles';
@@ -23,13 +22,8 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import DeleteIcon from '@mui/icons-material/Delete';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import RestoreIcon from '@mui/icons-material/Restore';
-import ReplayIcon from '@mui/icons-material/Replay';
 import { Avatar } from '@mui/material';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 import { getDeleteMessagePermantely } from 'src/requests/MessageCenter/RequestDeleteMessagePermanently';
 import ApiDeleteMessagePermanently from 'src/api/MessageCenter/ApiDeleteMsgPermanently';
 import SettingsIcon from '@mui/icons-material/Settings';
@@ -38,10 +32,10 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import CardMessage from './CardMessage';
 import CardMessDeleteButtons from './CardMessDeleteButtons';
-
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import EmailSettings from './EmailSetting';
+import { DeleteButton, MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -95,6 +89,12 @@ const MessageList = () => {
     const InboxList = useSelector(
         (state: RootState) => state.InboxMessage.InboxList
     );
+    const MarkAsRead = useSelector(
+        (state: RootState) => state.InboxMessage.UnReadMessage
+    );
+
+   
+    
     const NextInboxList = useSelector(
         (state: RootState) => state.InboxMessage.NextPageList
     );
@@ -390,6 +390,7 @@ const MessageList = () => {
     };
 
 
+
     return (
         <>
 
@@ -415,13 +416,13 @@ const MessageList = () => {
                             </Card>
                         </Hidden>
                         {!showSearch &&
-                            <CardMessage activeTab={activeTab}
+                            <CardMessage activeTab={activeTab} MarkAsRead ={MarkAsRead}
                                 clickTab={clickTab} clickSearchIcon={clickSearchIcon} />
                         }
                     </Grid>
                     <Grid container sm={10} spacing={1} >
                         {((showSearch && isMobile) || !isMobile) &&
-                            (<><Grid item xs={12} sm={10}>
+                            (<><Grid item xs={12} sm={9} md={10}>
                                 <MCForm
                                     AcademicYearList={AcademicYearList}
                                     MonthYearList={MonthYearList}
@@ -434,7 +435,7 @@ const MessageList = () => {
                                     CloseSearchBar={closeSearchBar}
                                 />
                             </Grid>
-                                <Grid item sm={2}>
+                                <Grid item sm={3} md={2}>
                                     <Hidden smDown>
                                         <Box sx={{ mt: "15px" }}>
                                             <ButtonPrimary fullWidth
@@ -462,17 +463,26 @@ const MessageList = () => {
                                     </Hidden>
                                 </Grid></>)
                         }
-                        <Grid item xs={12} sm={12} >
-
+                        <Grid item xs={12}>
+                           
                             {inboxListData.some((obj) => obj.isActive === true) && (
-                                <Box mt={-1} mb={2}>
+                                <Box mb={2} sx={DeleteButton}>
                                     <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
                                         ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
                                     />
                                 </Box>
                             )}
-
-                        </Grid>
+                            </Grid>
+                            {/* <Hidden smUp>
+                            <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                          <ButtonPrimary > Mark as UnRead  </ButtonPrimary>
+                          <ButtonPrimary sx={{ml:"5px"}}> Mark as Read</ButtonPrimary>
+                            </Grid>
+                            </Hidden> */}
+                        
+                   
+                        
+                      
                         <Grid item xs={12}>
                             <RootWrapper>
                                 {loading ? (

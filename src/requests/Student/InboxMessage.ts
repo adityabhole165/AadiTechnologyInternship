@@ -11,6 +11,7 @@ const InboxMessageSlice = createSlice({
   initialState: {
     InboxList: [],
     NextPageList: [],
+    UnReadMessage:null,
     FilterData: false,
     Loading: true,
     ReadReceiptMessage: "",
@@ -25,8 +26,12 @@ const InboxMessageSlice = createSlice({
       state.Loading = false;
       state.InboxList = action.payload;
     },
+
     NextMessages(state, action) {
       state.NextPageList = action.payload;
+    },
+    MarkReadMessage(state, action) {
+      state.UnReadMessage = action.payload;
     },
     getFilterData(state, action) {
       state.FilterData = action.payload;
@@ -52,7 +57,7 @@ export const getListOfMessages =
 
       if (ActiveTab === 'Inbox') {
         const response = await InboxMessageApi.GetInboxList(body);
-        const data = response.data.GetMessagesResult.map((item) => {
+        const data = response.data.GetMessagesResult.map((item) => {  
           return {
             Id: item.DetailsId,
             text1: item.Subject,
@@ -64,9 +69,12 @@ export const getListOfMessages =
             ReceiverDetailsId: item.ReceiverDetailsId,
             IsRead: item.IsRead,
             IsAttachmentExist: item.IsAttachmentExist,
-            RequestReadReceipt: item.RequestReadReceipt
+            RequestReadReceipt: item.RequestReadReceipt,
+            
           }
         })
+        let UnreadMessage = response.data.UnreadMessageTotalCount
+        dispatch(InboxMessageSlice.actions.MarkReadMessage(UnreadMessage))
         if (Pagination == true) {
           dispatch(InboxMessageSlice.actions.NextMessages(data))
         }

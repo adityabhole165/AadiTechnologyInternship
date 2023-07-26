@@ -34,8 +34,8 @@ const colors = {
     blue5: 'linear-gradient(135deg, #97ABFF 10%, #123597 100%)',
     orange1: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)',
     orange2: 'linear-gradient(135deg, #FFD3A5 0%, #FD6585 100%)',
-    orange3: 'linear-gradient(120deg, #f6d365 0%, #fda085 100%)',
-    purple1: 'linear-gradient(135deg, #43CBFF 0%, #9708CC 100%)',
+    orange3: '#deb887',
+    purple1: '#9acd32',
     purple3: '#8593fe',
     navy2: 'linear-gradient(135deg, #2C3E50 0%, #4CA1AF 100%)',
     pink1: 'linear-gradient(135deg, white 0%, white 100%);',
@@ -1024,16 +1024,23 @@ export const PurpleFlowTheme = createTheme({
       }
     },
     MuiTableCell: {
+      defaultProps: {
+        variant:"body",
+        color: colors.alpha.black[500],
+      
+
+      },
       styleOverrides: {
+       
         root: {
           borderBottomColor: colors.alpha.black[10],
           fontSize: 14
         },
         head: {
-          textTransform: 'uppercase',
-          fontSize: 13,
+          textTransform: 'capitalize',
+          fontSize: 14,
           fontWeight: 'bold',
-          color: colors.alpha.black[70]
+          color: colors.alpha.black[500]
         }
       }
     },

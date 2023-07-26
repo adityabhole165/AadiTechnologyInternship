@@ -278,8 +278,12 @@ export const ListStyle = styled(Box)(
      : color === 'warning'
      ? theme.colors.gradients.selectedlistColor
      : color === 'info'
+     ? theme.colors.gradients.purple1
+     : color === 'success'
+      ? theme.colors.gradients.orange3
+     : color === 'error'
      ? theme.colors.gradients.pageBackground
-      : color === 'red'
+     : color === 'red'
      ? theme.colors.gradients.red
      : theme.colors.gradients.listColor
      

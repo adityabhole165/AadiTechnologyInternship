@@ -107,4 +107,14 @@ export interface GetNewMessageCountResult {
     MESSAGECOUNT: number,
    
 }
+// user save login details
+
+export interface ISaveUserLoginDetailsBody {
+    asSchoolId:string,
+    asUserId:string
+}
+export interface ISaveUserLoginDetailsResult {
+    LastLoginDetails: string
+
+}
 

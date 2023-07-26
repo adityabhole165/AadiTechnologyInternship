@@ -18,7 +18,8 @@ export const DotLegendStyled = styled(Box)(
             color === 'secondary' ? theme.colors.gradients.HighlightedlistColor :
             color === 'warning' ? theme.colors.gradients.selectedlistColor :
             color === 'info' ? theme.colors.gradients.pageBackground :
-            color === 'success' ? theme.colors.gradients.purple3 :
+            color === 'success' ? theme.colors.gradients.purple1 :
+            color === 'error' ? theme.colors.gradients.orange3 :
                     theme.colors.gradients.primayButton
         }
     `

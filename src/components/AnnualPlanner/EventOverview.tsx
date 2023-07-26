@@ -11,8 +11,11 @@ import List1 from 'src/libraries/mainCard/List1';
 import { Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useNavigate } from 'react-router-dom';
+import Table1 from 'src/libraries/TableFormat/Table1';
 function EventOverview() {
+  const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
   const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
@@ -108,10 +111,15 @@ function EventOverview() {
   const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
   const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] +"01," + selectedDateList[1]) : date.selectedDate)
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
+  const onUpcomingEvent=()=>{
+    navigate ('UpcomingEvent')
+  }
 
+  
   return (
     <Container>
       <PageHeader heading={'Events Overview'} subheading={''} />
+      <ButtonPrimary sx={{float:"right",mb:"10px", mt:"-15px"}} onClick={onUpcomingEvent}>Annual Planner</ButtonPrimary>
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -132,6 +140,8 @@ function EventOverview() {
           }
         </>)
       }
+
+     
 
     </Container>
   );
