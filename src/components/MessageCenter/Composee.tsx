@@ -624,13 +624,13 @@ window.addEventListener('resize', handleResize)
               ) : null}
             </Box>
             </Grid>
-            <Grid item xs={11} sm={5.5} md={5.5} lg={4.5}>
+            <Grid item xs={10} sm={5.5} md={5.5} lg={4.5}>
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
             <Box sx={{mt:"15px" , width:"300px"}}>
               <Errormessages Error={fileerror} />
             </Box>
             </Grid>
-            <Grid item xs={1}  sm={1} md={0.5} lg={0.5} sx={{mt:"3px"}}>
+            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"3px"}}>
                <ClickAwayListener onClickAway={handleClickAway}>
                <Tooltip
                 PopperProps={{
@@ -646,10 +646,12 @@ window.addEventListener('resize', handleResize)
                   }
                 }}
               >
+                <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
-                  onClick={handleClick}
-                  sx={{ color: 'navy', fontSize: '17px'}}
+                 sx={{ color: 'navy', fontSize: '20px'}}
                 />
+                </IconButton>
+             
               </Tooltip>
             </ClickAwayListener>
             </Grid>
@@ -718,13 +720,13 @@ window.addEventListener('resize', handleResize)
                   </Grid>
               
 
-                  <Grid item xs={11} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
+                  <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
                     Schedule Message at:
                   </Typography>
                  </Grid>
-               <Grid item xs={1}  sm={1} md={1} lg={1} sx={{mt:'-10px'}}>
+               <Grid item xs={2}  sm={1} md={1} lg={1} sx={{mt:'-10px'}}>
                <ClickAwayListener onClickAway={handleClickAwayS}>
                <Tooltip
                 PopperProps={{
@@ -740,10 +742,12 @@ window.addEventListener('resize', handleResize)
                   }
                 }}
               >
-                <InfoTwoToneIcon type="button"
-                  onClick={handleClickS}
-                  sx={{ color: 'navy', fontSize: '17px',mt:"8px"}}
+                 <IconButton onClick={handleClickS}>
+                 <InfoTwoToneIcon type="button"
+                 sx={{ color: 'navy', fontSize: '20px',mt:"8px"}}
                 />
+                 </IconButton>
+              
               </Tooltip>
             </ClickAwayListener>
             </Grid>
