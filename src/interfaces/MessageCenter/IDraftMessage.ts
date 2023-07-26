@@ -33,3 +33,27 @@ export interface IGetAllDraftMessageResult  {
     Subject: string,
     DraftDate: string
 }
+
+export interface IGetDraftMessageBody  {
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiUserId:string,  
+    aiDraftId:string 
+}
+
+export interface IGetDraftMessageResult  {
+  
+}
+
+export interface IDeleteDraftMessageBody  {
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiUserId:string,  
+    aiDraftId:string 
+
+    
+}
+
+export interface IDeleteDraftMessageResult  {
+    Message: string
+}
