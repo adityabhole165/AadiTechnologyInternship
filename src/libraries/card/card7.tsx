@@ -62,11 +62,12 @@ function Card7({
       AttachmentArray.push(property);
       attachmentObj.push(AttachmentFile);
     }
-  }
+  } 
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
   const ReplyallRecieverId = ViewSentObject.ReceiverUserId
+  const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
 
@@ -85,7 +86,9 @@ function Card7({
         FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
         Text: Text,
         Attachment: AttachmentArray,
-        ID: ID
+        ID: ID,
+        CC:replyFwd ==="ReplyAll" ? Cc : "",
+        CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
       }))
   }
 
