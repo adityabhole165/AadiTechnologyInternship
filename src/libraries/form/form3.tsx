@@ -23,11 +23,12 @@ const note2 = [' Please reset your password for security purpose.']
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+ const FirstTime = sessionStorage.getItem("TermsAccepted");
 
   const TermAndConditions: any = useSelector(
     (state: RootState) => state.TermAndConditions.GetAcceptTermResult);
 
-  console.log("TermAndConditions", TermAndConditions)
+  console.log("FirstTime", FirstTime)
 
   const logout = () => {
     localStorage.removeItem("auth");
@@ -148,7 +149,7 @@ function Form() {
 
     <ListStyle sx={ChangePasswordStyle}>
       <form onSubmit={formik.handleSubmit}>
-       {output ? <Note NoteDetail={note1} /> : <Note NoteDetail={note2} /> }
+       {FirstTime == "N" ? <Note NoteDetail={note1} /> : <Note NoteDetail={note2} /> }
         <Box >
           <Typography>User Name</Typography>
           <TextField disabled fullWidth margin="normal" name="username" type="text"
