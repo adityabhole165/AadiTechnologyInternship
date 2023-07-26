@@ -58,10 +58,16 @@ function Form13() {
   const AttachmentArray = (ViewData === null || ViewData === "" || View.Attachment == "") ? "null" : View.Attachment.join(',');
   const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
   const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
+  const CC = (ViewData === null || ViewData === "") ? "" :View.CC
+  const CcReceiverUserId = (ViewData === null || ViewData === "") ? "" :View.CCReceiverUserId
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
     ReplyRecipientID: FromUserID
+  };
+  const ReplyAllRecipientNameId = {
+    ReplyAllRecipientName: CC,
+    ReplyAllRecipientID: CcReceiverUserId
   };
 
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
@@ -434,6 +440,13 @@ function Form13() {
       );
       RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID)
     }
+    if (!(ReplyAllRecipientNameId.ReplyAllRecipientName ===undefined ||
+      ReplyAllRecipientNameId.ReplyAllRecipientID === "")){
+        RecipientsCCObject.RecipientName.push(
+          ReplyAllRecipientNameId.ReplyAllRecipientName
+        );
+        RecipientsCCObject.RecipientId.push(ReplyAllRecipientNameId.ReplyAllRecipientID)
+      }
   }, []);
 
   const handleRemoveListItems = (fileName, fileData) => {
