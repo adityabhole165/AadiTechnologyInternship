@@ -11,12 +11,14 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import BackButton from 'src/libraries/button/BackButton';
 function GenerateChallan() {
   const dispatch = useDispatch();
+
   const ChallanAcadamicYear = useSelector((state: RootState) => state.Fees.AcademicYearsforFeeChallan);
   const AllFeeTypesForChallan = useSelector((state: RootState) => state.Fees.AllFeeTypesForChallanImport);
   const AllPayableChallan = useSelector((state: RootState) => state.Fees.AllPayableforChallan);
   const FileNameChallan: any = useSelector((state: RootState) => state.Fees.FileNameForSNSChallan);
   const DetailsForChallanImport: any = useSelector((state: RootState) => state.Fees.DetailsForChallanImport);
-  console.log(DetailsForChallanImport,"DetailsForChallanImport")
+
+
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
@@ -24,11 +26,11 @@ function GenerateChallan() {
   const asStandardId = (sessionStorage.getItem('StandardId'));
   let sitePathURL = localStorage.getItem('SiteURL');
   let downloadPathOfReceipt = sitePathURL + FileNameChallan;
+  
   const [year , setYear] = useState('')
   const [feeType , setFeeType] = useState('')
   const [Payable , setPayable] = useState('')
 
-console.log(feeType ,"feeType")
 
   const ClickYear=(value)=>{
     setYear(value)
@@ -88,10 +90,10 @@ console.log(feeType ,"feeType")
 
      useEffect(() => {
      
-      if (FileNameChallan !== "")
+      if (FileNameChallan !== null){
         window.open(downloadPathOfReceipt);
       dispatch(resetRecieptChallan());
-  
+      }
     }, [FileNameChallan])
 
     const clickGenerate = () => {
@@ -105,7 +107,9 @@ console.log(feeType ,"feeType")
         asPayableFor: Payable,
         aiSelectedAcademicYearId: year
       };
-      dispatch(getFileNameForSNSChallan(FileNameForChallanBody))
+      if(year !== '' && feeType !== '' && Payable !==''){
+        dispatch(getFileNameForSNSChallan(FileNameForChallanBody))
+      }
     };
   return (
     <Container>
@@ -118,7 +122,8 @@ console.log(feeType ,"feeType")
       <br></br> <br></br>
       <Dropdown  Array={AllPayableChallan} handleChange={ClickPayable} label={'Select Payable'} defaultValue = {Payable}/>
       <br></br>   <br></br>
-      <ButtonPrimary onClick={clickGenerate}>Generate</ButtonPrimary>
+      <ButtonPrimary onClick={clickGenerate}   
+       color={ ( (year !== '') && (feeType !== '') && (Payable !=='') ) ? 'primary' : 'warning'}>Generate</ButtonPrimary>
       </Card>
 
     </Container>

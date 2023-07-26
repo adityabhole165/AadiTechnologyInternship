@@ -137,7 +137,7 @@ const studentRoutes = [
     element: <Fees_cautionmoney />
   },
   {
-    path: 'Fees/GenerateChallanSNSForFees',
+    path: 'Fees/ChallanSNSForFees',
     element: <GenerateChallan/>
 
   },

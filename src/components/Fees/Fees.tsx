@@ -343,7 +343,7 @@ function Fees() {
   };
 
   const ClickNavigateChallan=()=>{
-    navigate ('GenerateChallanSNSForFees')
+    navigate ('ChallanSNSForFees')
   }
 
   return (
