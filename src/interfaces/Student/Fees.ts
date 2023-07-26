@@ -283,6 +283,10 @@ export interface IGetAllFeeTypesForChallanImportResult {
         Name: string
 }
 
+export interface IGetFeeTypesForChallanImportResult {
+        FeeTypes : [IGetAllFeeTypesForChallanImportResult]
+}
+
 //GetAllPayableforChallan
 export interface IGetAllPayableforChallanBody {
         aiSchoolId: string,
@@ -296,6 +300,12 @@ export interface IGetAllPayableforChallanResult {
         Id: string,
         Name: string
 }
+
+export interface IGetPayableforChallanResult {
+        Payables :[IGetAllPayableforChallanResult]
+}
+
+
 
 //GetFileNameForSNSChallan
 

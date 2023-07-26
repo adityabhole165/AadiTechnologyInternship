@@ -344,17 +344,32 @@ export const resetReciept =
       (data: IGetAllFeeTypesForChallanImportBody): AppThunk =>
         async (dispatch) => {
           const response = await FeesApi.GetAllFeeTypesForChallanImport(data);
-       
-          dispatch(Feesslice.actions.getAllFeeTypesForChallanImport(response.data));
+          const itemlist = response?.data.FeeTypes.map((item) => {
+            return {
+              id: item.Id,
+              Name: item.Name,
+              Value: item.Id,
+              
+            }
+          })
+          dispatch(Feesslice.actions.getAllFeeTypesForChallanImport(itemlist));
         };
 
 
         export const getAllPayableforChallan =
         (data: IGetAllPayableforChallanBody): AppThunk =>
           async (dispatch) => {
-            const response = await FeesApi. GetAllPayableforChallan(data);
-            console.log(response ,"GetAllPayableforChallan")
-            dispatch(Feesslice.actions.getAllPayableforChallan(response.data));
+            const response = await FeesApi.GetAllPayableforChallan(data);
+       console.log(response,"response")
+            const itemlist = response?.data.Payables.map((item) => {
+              return {
+                id: item.Id,
+                Name: item.Name,
+                Value: item.Id,
+                
+              }
+            })
+            dispatch(Feesslice.actions.getAllPayableforChallan(itemlist));
           };
 
 
@@ -362,7 +377,7 @@ export const resetReciept =
           (data: IGetFileNameForSNSChallanBody): AppThunk =>
             async (dispatch) => {
               const response = await FeesApi.FileNameForSNSChallan(data);
-              console.log(response ,"GetAllPayableforChallan")
+          
               dispatch(Feesslice.actions.getFileNameForSNSChallan(response.data));
             };
 
