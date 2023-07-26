@@ -166,9 +166,9 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
   return (
     <div>
       <Grid container>
-        <Grid item xs={3}>
+        <Grid item xs={4}>
           Total : Rs. {FeesTotal}
-        </Grid><Grid item xs={9}>
+        </Grid><Grid item xs={8}>
           {((OnlineFeePaymentAll && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
             <>
               {currentYear < aiAcademicYearId
