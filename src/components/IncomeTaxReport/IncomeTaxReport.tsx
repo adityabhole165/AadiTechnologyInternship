@@ -147,15 +147,16 @@ const ClickDisplay=()=>{
                 <PageHeader heading={'Income Tax Report'} subheading={''} />
                 <Note NoteDetail={note} />
                 <ListStyle>
-
+                <Typography> Name</Typography>
                     <TextField
                         fullWidth
                         variant='standard'
                         size="small"
                         value={StudentName + ' ' + '(' + Standard + ')'}
+                        sx={{mb:"10px"}}
                     />
                     <Typography> Select Financial Year</Typography>
-                    <FormControl fullWidth sx={{ mt: "2px" }}>
+                    <FormControl fullWidth >
                         <Dropdown
                             Array={FinancialYearList}
                             handleChange={clickFinacialYear}
@@ -163,8 +164,8 @@ const ClickDisplay=()=>{
                         />
                     </FormControl>
 
-                    <Typography> Select Academic Year</Typography>
-                    <FormControl fullWidth>
+                    <Typography sx={{mt :"10px"}}> Select Academic Year</Typography>
+                    <FormControl fullWidth >
 
                         <Dropdown
                             Array={AcadamicYear}
@@ -175,7 +176,7 @@ const ClickDisplay=()=>{
 
                     
 
-                    <Typography> Select Category</Typography>
+                    <Typography sx={{mt :"10px"}}> Select Category</Typography>
                     <FormControl fullWidth sx={{ mt: "2px" }}>
                         {/* <InputLabel variant="standard">Select Category</InputLabel> */}
                         <Dropdown

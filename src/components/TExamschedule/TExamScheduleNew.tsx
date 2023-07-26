@@ -101,51 +101,45 @@ const TExamScheduleNew = () => {
   const [totalHours, setTotalHours] = useState(0);
   const [totalMinutes, setTotalMinutes] = useState(0);
 
-  let STime= ''
-  let ETime= ''
+  let STime = ''
+  let ETime = ''
   useEffect(() => {
-    if(SubList !== undefined){
-    const TimeStart = SubList.map((item)=>{
-    return STime = item.startTime
-    })}
-    if(SubList !== undefined){
-    const TimeEnd = SubList.map((item)=>{
-    return ETime = item.endTime
-    })}
+    if (SubList !== undefined) {
+      SubList.map((item) => {
+        STime = item.startTime
+      })
+      SubList.map((item) => {
+        ETime = item.endTime
+      })
+    }
     setStartTime(STime)
     setEndTime(ETime)
   }, [SubList]);
 
+
+  const getTime = (startTime, endTime) => {
+    const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
+    let adjustedStartHours = parseInt(startHours, 10);
+
+    const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
+    let adjustedEndHours = parseInt(endHours, 10);
+
+    const startDate = new Date();
+    startDate.setHours(adjustedStartHours);
+    startDate.setMinutes(parseInt(startMinutes, 10));
+
+    const endDate = new Date();
+    endDate.setHours(adjustedEndHours);
+    endDate.setMinutes(parseInt(endMinutes, 10));
+
+    const diffInMs = Number(endDate) - Number(startDate);
+    const hours = Math.floor(diffInMs / (1000 * 60 * 60));
+    const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
+    const TotalMin = minutes !== 0 ? minutes + "min" : ""
+    const TotalHour = hours !== 0 ? hours + "h" : ""
+    return TotalHour + " " + TotalMin
+  }
   
-   const calculateTotalTime = () => {
-      const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
-      let adjustedStartHours = parseInt(startHours, 10);
-  
-      const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
-      let adjustedEndHours = parseInt(endHours, 10);
-  
-      const startDate = new Date();
-      startDate.setHours(adjustedStartHours);
-      startDate.setMinutes(parseInt(startMinutes, 10));
-  
-      const endDate = new Date();
-      endDate.setHours(adjustedEndHours);
-      endDate.setMinutes(parseInt(endMinutes, 10));
-  
-      const diffInMs = Number(endDate) - Number(startDate);
-      const hours = Math.floor(diffInMs / (1000 * 60 * 60));
-      const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-  
-      setTotalHours(hours);
-      setTotalMinutes(minutes);
-    };
-  
-  useEffect(() => {
-    calculateTotalTime();
-  }, [startTime, endTime]);
-  const TotalMin = totalMinutes !== 0 ? totalMinutes+"min" : ""
-  const TotalHour = totalHours !== 0 ? totalHours+"h" :""
-  const  TotalTime = TotalHour+" "+TotalMin
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
@@ -170,18 +164,18 @@ const TExamScheduleNew = () => {
         }
       </Box>
       <br />
-       {loading ? (
-              <SuspenseLoader />
-            ) : (
-      <>
-      {SubList?.map((item, i) => {
-        return (
-          <div key={i} >
-            {i == 0 && item.Instructions !== '' ? (
-              <Icon3 Note={item.Instructions} />
-            ) : null}
-           
-              {/* <Card1 key={i}
+      {loading ? (
+        <SuspenseLoader />
+      ) : (
+        <>
+          {SubList?.map((item, i) => {
+            return (
+              <div key={i} >
+                {i == 0 && item.Instructions !== '' ? (
+                  <Icon3 Note={item.Instructions} />
+                ) : null}
+
+                {/* <Card1 key={i}
                 header={item.header}
                 text1={''}
                 text2={item.text2}
@@ -194,13 +188,14 @@ const TExamScheduleNew = () => {
                 FileName={''}
 
               /> */}
-               <CardExamSchedule  header={item.header}     text2={item.text3}
-                text3={item.text2}  text5={item.text5} text6={TotalTime}/>
-          </div>
-        );
-      })}
-      </>
-       )}
+                <CardExamSchedule header={item.header} text2={item.text3}
+                  text3={item.text2} text5={item.text5} 
+                  text6={getTime(item.startTime,item.endTime)} />
+              </div>
+            );
+          })}
+        </>
+      )}
     </Container>
   );
 };
