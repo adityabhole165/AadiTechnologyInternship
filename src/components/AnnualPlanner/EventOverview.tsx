@@ -17,7 +17,7 @@ import Table1 from 'src/libraries/TableFormat/Table1';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
-  const BackMonth = new Date(DateFrommon).getMonth() + 1;
+  const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
   const dispatch = useDispatch();
   const eventList = useSelector(
