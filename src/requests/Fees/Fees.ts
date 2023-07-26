@@ -381,4 +381,11 @@ export const resetReciept =
               dispatch(Feesslice.actions.getFileNameForSNSChallan(response.data));
             };
 
+     export const resetRecieptChallan =
+     (): AppThunk =>
+     async (dispatch) => {
+      dispatch(Feesslice.actions.getFileNameForSNSChallan(""));
+    };
+  
+
 export default Feesslice.reducer
