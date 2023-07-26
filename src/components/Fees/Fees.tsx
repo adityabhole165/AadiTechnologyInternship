@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getAllFeeTypesForChallanImport, getAllPayableforChallan, getDetailsForChallanImport, getFeeStructureLink, getFees, getFileNameForSNSChallan, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
+import { getFeeStructureLink, getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody, IGetAcademicYearsforFeeChallanBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetDetailsForChallanImportBody, IGetFeeDetailsOfOldAcademicBody, IGetFileNameForSNSChallanBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
@@ -81,11 +81,6 @@ function Fees() {
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
   const ShowFeeStructureOfNextYr: any = useSelector((state: RootState) => state.getSchoolSettings.ShowFeeStructureOfNextYear)
   const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks);
-  const AcadamicYearChallen: any = useSelector((state: RootState) => state.Fees.AcademicYearsforFeeChallan);
-  const DetailsForChallanImport: any = useSelector((state: RootState) => state.Fees.DetailsForChallanImport);
-  const AllFeeTypesForChallan: any = useSelector((state: RootState) => state.Fees.AllFeeTypesForChallanImport);
-  const PayableforChallan: any = useSelector((state: RootState) => state.Fees.AllPayableforChallan);
-  const FileNameChallan: any = useSelector((state: RootState) => state.Fees.FileNameForSNSChallan);
   const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
 
 
@@ -97,7 +92,7 @@ function Fees() {
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
   const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
-const ConsessionNote = FeesList2.ConcessionRule
+  const ConsessionNote = FeesList2.ConcessionRule
 
 
 
@@ -327,53 +322,9 @@ const ConsessionNote = FeesList2.ConcessionRule
 
   }, [FeesList2])
 
-  const AcademicYearsforFeeChallanBody: IGetAcademicYearsforFeeChallanBody = {
-    aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
-    aiStudentId: asStudentId
-  };
+ 
 
 
-  const DetailsForChallanImportBody: IGetDetailsForChallanImportBody = {
-    aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
-    aiStudentId: asStudentId,
-    aiSelectedAcademicYearId: "8"
-  };
-
-  const AllFeeTypesForChallanImportBody: IGetAllFeeTypesForChallanImportBody = {
-    aiSchoolId: asSchoolId,
-    aiSelectedAcademicYearId: "8",
-    aiStandardDivisionId: asStandardDivisionId,
-    aiStandardId: asStandardId
-  };
-
-  const PayableforChallanBody: IGetAllPayableforChallanBody = {
-    aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
-    aiOriginalFeeTypeId: "228",
-    aiStandardId: asStandardId
-  };
-
-
-  const FileNameForChallanBody: IGetFileNameForSNSChallanBody = {
-    aiSchoolId: asSchoolId,
-    aiAcademicYearId: asAcademicYearId,
-    aiStandardId: asStandardId,
-    aiStandardDivisionId: asStandardDivisionId,
-    aiSchoolwiseStudentId: asStudentId,
-    aiFeeTypeId: "228",
-    asPayableFor: "Install - III",
-    aiSelectedAcademicYearId: "8"
-  };
-
-  useEffect(() => {
-    dispatch(getAcademicYearsforFeeChallan(AcademicYearsforFeeChallanBody))
-    dispatch(getDetailsForChallanImport(DetailsForChallanImportBody))
-    dispatch(getAllFeeTypesForChallanImport(AllFeeTypesForChallanImportBody))
-    dispatch(getAllPayableforChallan(PayableforChallanBody))
-    dispatch(getFileNameForSNSChallan(FileNameForChallanBody))
-  }, [])
   const curr = FeeStructureLink !== null && FeeStructureLink.CurrentYearFeeStructure
   const nxt = FeeStructureLink !== null && FeeStructureLink.MidYearFeeStructure
 
@@ -390,6 +341,10 @@ const ConsessionNote = FeesList2.ConcessionRule
     link.href = pdfUrl;
     link.click();
   };
+
+  const ClickNavigateChallan=()=>{
+    navigate ('GenerateChallan')
+  }
 
   return (
     <Container>
@@ -515,6 +470,7 @@ const ConsessionNote = FeesList2.ConcessionRule
         <SpecialNote />
       </>
       }
+      <ButtonPrimary onClick={ClickNavigateChallan}>Challan</ButtonPrimary>
     </Container>
   );
 }

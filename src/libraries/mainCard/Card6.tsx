@@ -68,6 +68,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const CategoryName = sessionStorage.getItem('CategoryName');
   const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+  const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
   const FamilyPhoto = FamilyPhotoFilePath.length != 0 ?  localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
@@ -89,7 +90,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
     <>
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
         <Box ml={AllowStudentPhotoUpload == true && "30px"} >
-          <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
+          <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'}/>
         </Box>
 
         {(AllowStudentPhotoUpload && !DisableSubmit ) &&
@@ -135,25 +136,33 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
                 <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
-
+                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
+                <ProfileComponent Name='Caste & Sub-Caste :' Value={CasteAndSubCaste}></ProfileComponent>
+                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
+                <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
                 <ProfileComponent Name='Mobile Number :' Value={PhoneNumber===""? PhoneNumber2 : PhoneNumber + ' , '+ PhoneNumber2 }></ProfileComponent>
        
 
-                <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
+              
 
                 <ProfileComponent Name='Place of Birth :' Value={birthPlace}></ProfileComponent>
 
                 <ProfileComponent Name='Date of Birth :' Value={newdate}></ProfileComponent>
 
                 <ProfileComponent Name='Nationality :' Value={Nationality}></ProfileComponent>
+              
+                
 
                 <ProfileComponent Name='Mother Tongue :' Value={MotherTongue}></ProfileComponent>
 
                 <ProfileComponent Name='Blood Group :' Value={Blood_Group}></ProfileComponent>
-                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
-                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
-                <Box sx={{mt:"5px" , ml:"10px"}}>
-                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'}/>
+         
+                <Box sx={{display:"flex"}} >
+                <ProfileComponent Name='Family Photo :' Value={''}></ProfileComponent>
+                <Box sx={{mt:"14px"}}>
+                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'} />
+                </Box>
+               
                 </Box>
               
               

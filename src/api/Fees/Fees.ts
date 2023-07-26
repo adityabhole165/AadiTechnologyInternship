@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetAllPayableforChallanResult, IGetFileNameForSNSChallanBody}  from "../../interfaces/Student/Fees";
+import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetPayableforChallanResult, IGetFileNameForSNSChallanBody}  from "../../interfaces/Student/Fees";
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);
@@ -47,11 +47,12 @@ const GetDetailsForChallanImport= (data:IGetDetailsForChallanImportBody) => {
 }
 
 const GetAllFeeTypesForChallanImport= (data:IGetAllFeeTypesForChallanImportBody) => {
-  return http.post<IGetAllFeeTypesForChallanImportResult[]>('Student/GetAllFeeTypesForChallanImport',data);
+  return http.post<IGetFeeTypesForChallanImportResult>('Student/GetAllFeeTypesForChallanImport',data);
 }
 
 const GetAllPayableforChallan= (data:IGetAllPayableforChallanBody) => {
-  return http.post<IGetAllPayableforChallanResult[]>('Student/GetAllPayableforChallan',data);
+  console.log(data,"GetAllPayableforChallan")
+   return http.post<IGetPayableforChallanResult>('Student/GetAllPayableforChallan',data);
 }
 
 const FileNameForSNSChallan = (data:IGetFileNameForSNSChallanBody) => {
