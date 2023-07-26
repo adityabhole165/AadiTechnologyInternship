@@ -633,10 +633,12 @@ window.addEventListener('resize', handleResize)
                   }
                 }}
               >
+                <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
-                  onClick={handleClick}
-                  sx={{ color: 'navy', fontSize: '25px'}}
+                 sx={{ color: 'navy', fontSize: '20px'}}
                 />
+                </IconButton>
+             
               </Tooltip>
             </ClickAwayListener>
             </Grid>
@@ -727,10 +729,12 @@ window.addEventListener('resize', handleResize)
                   }
                 }}
               >
-                <InfoTwoToneIcon type="button"
-                  onClick={handleClickS}
-                  sx={{ color: 'navy', fontSize: '25px',mt:"8px"}}
+                 <IconButton onClick={handleClickS}>
+                 <InfoTwoToneIcon type="button"
+                 sx={{ color: 'navy', fontSize: '20px',mt:"8px"}}
                 />
+                 </IconButton>
+              
               </Tooltip>
             </ClickAwayListener>
             </Grid>
