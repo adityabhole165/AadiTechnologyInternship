@@ -101,6 +101,9 @@ const MessageCenterSlice = createSlice({
   },
   getReadUnReadStatus(state, action) {
     state.ReadUnReadStatus = action.payload;
+  }, 
+  resetMessage(state) {
+    state.ReadUnReadStatus = ""
   },
   
   }
@@ -218,6 +221,11 @@ export const getTrashList =
     const response = await MessageCenterApi.GetReadUnReadStatus(data);
     dispatch(MessageCenterSlice.actions.getReadUnReadStatus(response.data));
   };
+  export const resetMessageReadUnReadstatus =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(MessageCenterSlice.actions.resetMessage());
+    };
 
  
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;

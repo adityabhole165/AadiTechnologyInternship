@@ -9,7 +9,8 @@ import {
     getAcademicYearList,
     getMonthYearList,
     ReadReceiptDetail,
-    ReadUnReadstatus
+    ReadUnReadstatus,
+    resetMessageReadUnReadstatus
 } from 'src/requests/MessageCenter/MessaageCenter';
 import MCForm from 'src/libraries/form/MCForm';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
@@ -79,9 +80,6 @@ const MessageList = () => {
     const [isRefresh, setIsRefresh] = useState(false)
     const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
-    const Markasread = "Markasread"
-    const MarkasUnread = "MarkasUnread"
-    const [showCaution, setShowCaution] = useState("")
 
 
 
@@ -102,7 +100,7 @@ const MessageList = () => {
 
     const StatusReadUnread = useSelector(
         (state: RootState) => state.MessageCenter.ReadUnReadStatus
-    );
+    );    
 
     const NextInboxList = useSelector(
         (state: RootState) => state.InboxMessage.NextPageList
@@ -166,6 +164,14 @@ const MessageList = () => {
     }, []);
 
     useEffect(() => {
+        if (StatusReadUnread !== null) {
+            toast.success(StatusReadUnread.UpdationMessage, { toastId: 'success1' })
+            dispatch(resetMessageReadUnReadstatus());
+            dispatch(getListOfMessages(getListBody, activeTab, false));
+        }
+    }, [StatusReadUnread])
+
+    useEffect(() => {
         setInboxListData(InboxList);
     }, [InboxList]);
 
@@ -222,16 +228,13 @@ const MessageList = () => {
             });
     };
     const clickReadUnread = (ReadOrUnread) => {
-        console.log("ReadOrUnread",ReadOrUnread);
-        
         let arrMessageReceiverIds = [];
         inboxListData.map((obj) => {
             if (obj.isActive) {
                 arrMessageReceiverIds.push(obj.ReceiverDetailsId);
             }
         });
-            
-        
+
         const UnreadReadStatus = {
             aiSchoolId: SchoolId,
             aiAcademicYearId: AcademicYearId,
@@ -495,23 +498,20 @@ const MessageList = () => {
                         <Grid item xs={12}>
 
                             {inboxListData.some((obj) => obj.isActive === true) && (
+                                <>
                                 <Box mb={2} sx={DeleteButton}>
                                     <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
                                         ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
                                     />
                                 </Box>
+                                 <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                                     <ButtonPrimary onClick={() => { clickReadUnread("Unread")}} > Mark as Unread  </ButtonPrimary>
+                                     <ButtonPrimary sx={{ ml: "5px" }}  onClick={() => { clickReadUnread("Read")}}> Mark as Read</ButtonPrimary>
+                                 </Grid>
+                                 </>
                             )}
                         </Grid>
-                        <Hidden smUp>
-                            <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
-                                <ButtonPrimary onClick={() => { clickReadUnread("Unread")}} value={MarkasUnread} > Mark as Unread  </ButtonPrimary>
-                                <ButtonPrimary sx={{ ml: "5px" }} value={Markasread} onClick={() => { clickReadUnread("Read")}}> Mark as Read</ButtonPrimary>
-                            </Grid>
-                        </Hidden>
-
-
-
-
+                       
                         <Grid item xs={12}>
                             <RootWrapper>
                                 {loading ? (
