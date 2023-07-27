@@ -8,7 +8,8 @@ import { Iyears, IGetAllMonths } from 'src/interfaces/MessageCenter/Search';
 import {
     getAcademicYearList,
     getMonthYearList,
-    ReadReceiptDetail
+    ReadReceiptDetail,
+    ReadUnReadstatus
 } from 'src/requests/MessageCenter/MessaageCenter';
 import MCForm from 'src/libraries/form/MCForm';
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
@@ -78,6 +79,11 @@ const MessageList = () => {
     const [isRefresh, setIsRefresh] = useState(false)
     const [open, setOpen] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
+    const Markasread = "Markasread"
+    const MarkasUnread = "MarkasUnread"
+    const [showCaution, setShowCaution] = useState("")
+
+
 
 
     const AcademicYearList = useSelector(
@@ -89,12 +95,15 @@ const MessageList = () => {
     const InboxList = useSelector(
         (state: RootState) => state.InboxMessage.InboxList
     );
+
     const MarkAsRead = useSelector(
         (state: RootState) => state.InboxMessage.UnReadMessage
     );
 
-   
-    
+    const StatusReadUnread = useSelector(
+        (state: RootState) => state.MessageCenter.ReadUnReadStatus
+    );
+
     const NextInboxList = useSelector(
         (state: RootState) => state.InboxMessage.NextPageList
     );
@@ -115,6 +124,7 @@ const MessageList = () => {
         asPageIndex: 1,
         asMonthId: monthYear
     };
+
 
     const getMsgBody = (searchtext, monthyear) => {
         return {
@@ -158,9 +168,7 @@ const MessageList = () => {
     useEffect(() => {
         setInboxListData(InboxList);
     }, [InboxList]);
-    // useEffect(()=>{
-    // dispatch(ReadReceiptDetail(ReadReceipts))
-    // })
+
     useEffect(() => {
         if (academicYear !== '') {
             dispatch(getMonthYearList(Mbody));
@@ -213,7 +221,27 @@ const MessageList = () => {
                 alert('error network');
             });
     };
+    const clickReadUnread = (ReadOrUnread) => {
+        console.log("ReadOrUnread",ReadOrUnread);
+        
+        let arrMessageReceiverIds = [];
+        inboxListData.map((obj) => {
+            if (obj.isActive) {
+                arrMessageReceiverIds.push(obj.ReceiverDetailsId);
+            }
+        });
+            
+        
+        const UnreadReadStatus = {
+            aiSchoolId: SchoolId,
+            aiAcademicYearId: AcademicYearId,
+            asMessageReceiverIds: arrMessageReceiverIds.join(','),
+            aiReceiverUserId: asUserid,
+            abMarkAsRead: ReadOrUnread == "Read" ? "true" : "false"
+        }
+        dispatch(ReadUnReadstatus(UnreadReadStatus))
 
+    }
     const clickDelete = () => {
         let arrDetails = [];
         let arrReciever = [];
@@ -223,6 +251,7 @@ const MessageList = () => {
                 arrReciever.push(obj.ReceiverDetailsId);
             }
         });
+
         const trashbody: any = {
             asSchoolId: SchoolId,
             asMessageDetailsId: arrDetails.join(';'),
@@ -380,8 +409,8 @@ const MessageList = () => {
     }
     const handleClickOpen = () => {
         setOpen(true);
-       
-        
+
+
     };
 
     const handleClickClose = () => {
@@ -416,7 +445,7 @@ const MessageList = () => {
                             </Card>
                         </Hidden>
                         {!showSearch &&
-                            <CardMessage activeTab={activeTab} MarkAsRead ={MarkAsRead}
+                            <CardMessage activeTab={activeTab} MarkAsRead={MarkAsRead}
                                 clickTab={clickTab} clickSearchIcon={clickSearchIcon} />
                         }
                     </Grid>
@@ -457,14 +486,14 @@ const MessageList = () => {
                                             onClose={handleClickClose}
                                             PaperProps={{ sx: { position: 'fixed', m: 0, p: 1 } }}
                                         >
-                                            <EmailSettings/>
+                                            <EmailSettings />
 
                                         </Dialog>
                                     </Hidden>
                                 </Grid></>)
                         }
                         <Grid item xs={12}>
-                           
+
                             {inboxListData.some((obj) => obj.isActive === true) && (
                                 <Box mb={2} sx={DeleteButton}>
                                     <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
@@ -472,17 +501,17 @@ const MessageList = () => {
                                     />
                                 </Box>
                             )}
-                            </Grid>
-                            {/* <Hidden smUp>
+                        </Grid>
+                        <Hidden smUp>
                             <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
-                          <ButtonPrimary > Mark as UnRead  </ButtonPrimary>
-                          <ButtonPrimary sx={{ml:"5px"}}> Mark as Read</ButtonPrimary>
+                                <ButtonPrimary onClick={() => { clickReadUnread("Unread")}} value={MarkasUnread} > Mark as Unread  </ButtonPrimary>
+                                <ButtonPrimary sx={{ ml: "5px" }} value={Markasread} onClick={() => { clickReadUnread("Read")}}> Mark as Read</ButtonPrimary>
                             </Grid>
-                            </Hidden> */}
-                        
-                   
-                        
-                      
+                        </Hidden>
+
+
+
+
                         <Grid item xs={12}>
                             <RootWrapper>
                                 {loading ? (
@@ -499,7 +528,7 @@ const MessageList = () => {
                                     >{InboxList?.length === 0 ? (
 
                                         <Grid item sm={9.5}>
-                                         <ErrorMessages Error={'No records found'} />
+                                            <ErrorMessages Error={'No records found'} />
                                         </Grid>
 
                                     ) : (
