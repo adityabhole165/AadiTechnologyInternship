@@ -24,7 +24,7 @@ const Feesslice = createSlice({
     DetailsForChallanImport:{},
     AllFeeTypesForChallanImport:[],
     AllPayableforChallan:[],
-    FileNameForSNSChallan:null
+    FileNameForSNSChallan:""
 
   },
 
@@ -99,7 +99,9 @@ const Feesslice = createSlice({
     getFileNameForSNSChallan(state, action) {
       state.FileNameForSNSChallan = action.payload;
     },
-    
+    resetFileNameForSNSChallan(state) {
+      state.FileNameForSNSChallan = "";
+    },
   }
 });
 
@@ -377,14 +379,13 @@ export const resetReciept =
           (data: IGetFileNameForSNSChallanBody): AppThunk =>
             async (dispatch) => {
               const response = await FeesApi.FileNameForSNSChallan(data);
-          
               dispatch(Feesslice.actions.getFileNameForSNSChallan(response.data));
             };
 
      export const resetRecieptChallan =
      (): AppThunk =>
      async (dispatch) => {
-      dispatch(Feesslice.actions.getFileNameForSNSChallan(""));
+      dispatch(Feesslice.actions.resetFileNameForSNSChallan());
     };
   
 

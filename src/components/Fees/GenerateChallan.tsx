@@ -90,7 +90,7 @@ function GenerateChallan() {
 
      useEffect(() => {
      
-      if (FileNameChallan !== null){
+      if (FileNameChallan !== ""){
         window.open(downloadPathOfReceipt);
       dispatch(resetRecieptChallan());
       }
