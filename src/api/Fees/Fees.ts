@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetPayableforChallanResult, IGetFileNameForSNSChallanBody}  from "../../interfaces/Student/Fees";
+import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetPayableforChallanResult, IGetFileNameForSNSChallanBody, GetAllAcademicYears, GetAllInternalAcademicYears}  from "../../interfaces/Student/Fees";
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);
@@ -16,6 +16,10 @@ import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGet
   return http.post<any> ('Student/GetAllAcademicYearsOfStudent',data);
  
   };
+  const getAllAcademicInternalYears = (data: GetAllAcademicYearsApiBody) => {
+    return http.post<GetAllInternalAcademicYears> ('Student/GetAllAcademicYearsForInternalFee',data);
+   
+    };
   const GetFeeDetailsOfOldAcademic = (data:IGetFeeDetailsOfOldAcademicBody) => {
     return http.post<IGetFeeDetailsOfOldAcademicResult>('Student/GetFeeDetailsOfOldAcademic',data);
 };
@@ -64,6 +68,7 @@ const FeesApi ={
     getPaymentUrl,
     getReceiptFileName,
     getAllAcademicYears,
+    getAllAcademicInternalYears,
     GetFeeDetailsOfOldAcademic,
     InternalFeeDetails,
     GetNextYearDetails,

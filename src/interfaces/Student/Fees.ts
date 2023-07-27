@@ -74,6 +74,13 @@ export interface GetAllAcademicYears {
 
         }]
 };
+export interface GetAllInternalAcademicYears {
+        AcademicYears: [{
+                AcademicYearName: string,
+                AcademicYearId: string,
+
+        }]
+};
 
 
 //GetFeeDetailsOfOldAcademic

@@ -147,6 +147,20 @@ export const getYearList =
       })
       dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
     };
+    export const getInternalYearList =
+  (data: GetAllAcademicYearsApiBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.getAllAcademicInternalYears(data);
+      const itemlist = response?.data.AcademicYears.map((item) => {
+        return {
+          id: item.AcademicYearId,
+          Name: item.AcademicYearName,
+          Value: item.AcademicYearId,
+          YearType: "'A','B','C'"
+        }
+      })
+      dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
+    };
 
 
 export const getFeesDetailsOfOldAcademic =
