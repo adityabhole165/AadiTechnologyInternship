@@ -481,7 +481,7 @@ function Fees() {
         <SpecialNote />
       </>
       }
-      <ButtonPrimary onClick={ClickNavigateChallan}>Challan</ButtonPrimary>
+    {asSchoolId == "122" && <ButtonPrimary onClick={ClickNavigateChallan}>Generate challan</ButtonPrimary>}
     </Container>
   );
 }

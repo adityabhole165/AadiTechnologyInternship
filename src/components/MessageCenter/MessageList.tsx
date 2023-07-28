@@ -71,6 +71,8 @@ const MessageList = () => {
     const [academicYear, setAcademicYear] = useState('');
     const [monthYear, setMonthYear] = useState('');
     const [isSearchClicked, setIsSearchClicked] = useState(false);
+    const [operator, setOperator] = useState('')
+    const [searchDate, setSearchDate] = useState<string>('');
     const [showSearch, setShowSearch] = useState(false);
     const [inboxListData, setInboxListData] = useState([]);
     const [isDeleteActive, setIsDeleteActive] = useState(false);
@@ -100,7 +102,7 @@ const MessageList = () => {
 
     const StatusReadUnread = useSelector(
         (state: RootState) => state.MessageCenter.ReadUnReadStatus
-    );    
+    );
 
     const NextInboxList = useSelector(
         (state: RootState) => state.InboxMessage.NextPageList
@@ -120,9 +122,10 @@ const MessageList = () => {
         abIsSMSCenter: '0',
         asFilter: searchText,
         asPageIndex: 1,
-        asMonthId: monthYear
+        asMonthId: monthYear,
+        asOperator:operator,
+        asDate: searchDate
     };
-
 
     const getMsgBody = (searchtext, monthyear) => {
         return {
@@ -338,11 +341,15 @@ const MessageList = () => {
         searchText,
         academicYear,
         monthYear,
+        operator,
+        searchDate,
         isSearchClicked
     ) => {
         setSearchText(searchText);
         setAcademicYear(academicYear);
         setMonthYear(monthYear);
+        setOperator(operator)
+        setSearchDate(searchDate)
         setIsSearchClicked(isSearchClicked);
     };
 
@@ -378,8 +385,11 @@ const MessageList = () => {
                 abIsSMSCenter: '0',
                 asFilter: searchText,
                 asPageIndex: pageIndex,
-                asMonthId: monthYear
+                asMonthId: monthYear,
+                asOperator:operator,
+                asDate: searchDate
             };
+            
             dispatch(getListOfMessages(getListBody, activeTab, true));
             setInboxListData((prev) => {
                 return [...inboxListData, ...NextInboxList];
@@ -499,19 +509,19 @@ const MessageList = () => {
 
                             {inboxListData.some((obj) => obj.isActive === true) && (
                                 <>
-                                <Box mb={2} sx={DeleteButton}>
-                                    <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
-                                        ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
-                                    />
-                                </Box>
-                                 <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
-                                     <ButtonPrimary onClick={() => { clickReadUnread("Unread")}} > Mark as Unread  </ButtonPrimary>
-                                     <ButtonPrimary sx={{ ml: "5px" }}  onClick={() => { clickReadUnread("Read")}}> Mark as Read</ButtonPrimary>
-                                 </Grid>
-                                 </>
+                                    <Box mb={2} sx={DeleteButton}>
+                                        <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
+                                            ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
+                                        />
+                                    </Box>
+                                    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                                        <ButtonPrimary onClick={() => { clickReadUnread("Unread") }} > Mark as Unread  </ButtonPrimary>
+                                        <ButtonPrimary sx={{ ml: "5px" }} onClick={() => { clickReadUnread("Read") }}> Mark as Read</ButtonPrimary>
+                                    </Grid>
+                                </>
                             )}
                         </Grid>
-                       
+
                         <Grid item xs={12}>
                             <RootWrapper>
                                 {loading ? (

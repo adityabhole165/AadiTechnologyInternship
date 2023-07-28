@@ -9,6 +9,15 @@ import { Avatar ,Box} from '@mui/material';
 const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
     academicYear, monthYear, clickAcademicYear, clickMonthYear, isSearchClicked, CloseSearchBar }) => {
     const [searchText, setSearchText] = useState('')
+    const [operator,setOperator] = useState('')
+    const [searchDate, setSearchDateDate] = useState<string>('');
+
+    const clickDate = (e) => {
+        setSearchDateDate(e.target.value);
+      };
+    const clickOperator = (value)=>{
+        setOperator(value)
+    }
     const textOnChange = (e) => {
         setSearchText(e.target.value);
     }
@@ -21,8 +30,19 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
         clickMonthYear(value)
     }
     const onClick = () => {
-        clickSearch(searchText, academicYear, monthYear, !isSearchClicked)
+        clickSearch(searchText, academicYear, monthYear,operator,searchDate,!isSearchClicked)
     }
+    const operatorArray = [
+        { Name:"=",  Value:"=" },
+        { Name:"<",  Value:"<" },
+        { Name:"<=", Value:"<="},
+        { Name:">",  Value:">" },
+        { Name:">=", Value:">="}
+    ]
+
+    console.log("AcademicYearList",AcademicYearList);
+    console.log("operatorArray",operatorArray);
+    
     return (
         <ListStyle>
                 <Box display={{ xs: "block", sm: "none" }} >
@@ -46,6 +66,16 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                 </Grid>
                 <Grid item xs={5}>
                     <Dropdown Array={MonthYearList} handleChange={clickMY} label={'Month'} defaultValue={monthYear}/>
+                </Grid>
+                <Grid item xs={5}>
+                <Dropdown Array={operatorArray} handleChange={clickOperator}  defaultValue={operator}/>
+                </Grid>
+                <Grid item xs={5}>
+                <TextField
+                type="date" id="outlined-required" variant="standard"
+                onChange={clickDate}
+                fullWidth
+              />
                 </Grid>
                 <Grid item xs={2}>
                      <ArrowCircleRightRoundedIcon onClick={onClick}

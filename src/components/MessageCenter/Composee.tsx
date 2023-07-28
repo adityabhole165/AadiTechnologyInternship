@@ -630,7 +630,7 @@ window.addEventListener('resize', handleResize)
               <Errormessages Error={fileerror} />
             </Box>
             </Grid>
-            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"3px"}}>
+            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"5px"}}>
                <ClickAwayListener onClickAway={handleClickAway}>
                <Tooltip
                 PopperProps={{
@@ -648,7 +648,7 @@ window.addEventListener('resize', handleResize)
               >
                 <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px'}}
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-10px"}}
                 />
                 </IconButton>
              
@@ -726,7 +726,7 @@ window.addEventListener('resize', handleResize)
                     Schedule Message at:
                   </Typography>
                  </Grid>
-               <Grid item xs={2}  sm={1} md={1} lg={1} sx={{mt:'-10px'}}>
+               <Grid item xs={2}  sm={1} md={1} lg={1} >
                <ClickAwayListener onClickAway={handleClickAwayS}>
                <Tooltip
                 PopperProps={{
@@ -744,7 +744,7 @@ window.addEventListener('resize', handleResize)
               >
                  <IconButton onClick={handleClickS}>
                  <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px',mt:"8px"}}
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-8px"}}
                 />
                  </IconButton>
               

@@ -6,7 +6,9 @@ export interface IgetList {
     asFilter : string,
     asPageIndex : number,
     asMonthId : string,
-    abIsSMSCenter: string
+    abIsSMSCenter: string,
+    asOperator:string,
+    asDate:string
 }
 
 export interface GetMessagesResult{
