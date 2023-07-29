@@ -9,7 +9,7 @@ import { Avatar ,Box} from '@mui/material';
 const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
     academicYear, monthYear, clickAcademicYear, clickMonthYear, isSearchClicked, CloseSearchBar }) => {
     const [searchText, setSearchText] = useState('')
-    const [operator,setOperator] = useState('')
+    const [operator,setOperator] = useState('=')
     const [searchDate, setSearchDateDate] = useState<string>('');
 
     const clickDate = (e) => {
