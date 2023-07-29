@@ -81,3 +81,24 @@ export interface IGetTeacherDetails {
       "DOB": string,
 
 }
+
+// Login to staff kid 
+export interface IStaffDetailsForloginBody {
+      aiSchoolId:string,
+      aiAcademicYearId:string,
+      aiYearwiseStudentId:string,
+      aiUserId:string
+  }
+  
+  export interface IStaffDetailsForloginResult {
+      GetStaffDetailsForlogin: [
+            {
+                RegNo:string,
+                StudentName:string,
+                ClassName:string,
+                UserName:string,
+                Password:string
+            }
+        ]
+  }
+  
