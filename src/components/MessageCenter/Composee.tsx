@@ -715,7 +715,7 @@ window.addEventListener('resize', handleResize)
                   <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Request Read Receipt? :
+                    Request Read Receipt ?
                   </Typography>
                   </Grid>
               
@@ -723,7 +723,7 @@ window.addEventListener('resize', handleResize)
                   <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Schedule Message at:
+                    Schedule Message at
                   </Typography>
                  </Grid>
                <Grid item xs={2}  sm={1} md={1} lg={1} >
