@@ -68,7 +68,7 @@ const MCForm = ({ AcademicYearList, MonthYearList, clickSearch,
                     <Dropdown Array={MonthYearList} handleChange={clickMY} label={'Month'} defaultValue={monthYear}/>
                 </Grid>
                 <Grid item xs={5}>
-                <Dropdown Array={operatorArray} handleChange={clickOperator}  defaultValue={operator}/>
+               <Box sx={{width:"50px"}}><Dropdown Array={operatorArray} handleChange={clickOperator}  defaultValue={operator}/></Box> 
                 </Grid>
                 <Grid item xs={5}>
                 <TextField
