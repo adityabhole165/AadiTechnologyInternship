@@ -75,11 +75,12 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
+                
                 const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
                 return paid ? (
-                  <Card5Fees item={item} Content={''} Name={''} key={i} internalFees={internalFees}
-                    FileName={internalFees ? item.FeeType + ":" + " " +"Rs. "+item.Amount : item.FeeType +
-                      ":" + " " +"Rs. "+ item.FeesPaid}
+                  <Card5Fees item={item} Content={''} Name={internalFees ? item.FeeType + "(" + item.PayableFor + ")"+ ":" + " " +"Rs. "+item.Amount : item.FeeType + "(" + item.PayableFor + ")" +
+                  ":" + " " +"Rs. "+ item.FeesPaid} key={i} internalFees={internalFees}
+                    FileName={''}
                     downloadReceiptFile={downloadReceiptFile}
                   />
                 ) : null;
