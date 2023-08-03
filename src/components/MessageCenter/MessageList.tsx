@@ -37,7 +37,11 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import EmailSettings from './EmailSetting';
+import {getAllDraftMessage ,getDeleteDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import { IDeleteDraftMessageBody, IGetAllDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteButton, MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
+
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -113,6 +117,10 @@ const MessageList = () => {
     const DeletePermanently = useSelector(
         (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
     );
+    const DeleteDraftM = useSelector(
+        (state: RootState) => state.DraftMessages.DeleteDraftMessage
+    );
+    const IfMonthEmpty = monthYear == "" ? "0":monthYear
 
     const getListBody: IgetList = {
         asSchoolId: SchoolId,
@@ -122,7 +130,7 @@ const MessageList = () => {
         abIsSMSCenter: '0',
         asFilter: searchText,
         asPageIndex: 1,
-        asMonthId: monthYear,
+        asMonthId: IfMonthEmpty,
         asOperator:operator,
         asDate: searchDate
     };
@@ -432,7 +440,21 @@ const MessageList = () => {
     };
 
 
+    useEffect(() => {
+        if (DeleteDraftM !== '') {
+          toast.success(DeleteDraftM, { toastId: 'success1' })
+         }
+      }, [DeleteDraftM])
 
+  const DeleteDraft = (Id)=>{
+    const DeleteDraftBody: IDeleteDraftMessageBody = {
+        aiSchoolId:"18",
+        aiAcademicYearId:"54",
+        aiUserId:"3861",  
+        aiDraftId:Id
+      };
+      dispatch(getDeleteDraftMessage(DeleteDraftBody))
+    }
     return (
         <>
 

@@ -34,6 +34,10 @@ export interface IGetAllDraftMessageResult  {
     DraftDate: string
 }
 
+export interface IGetAllDraftResult  {
+    GetAllDraftMessageDetails:[IGetAllDraftMessageResult]
+}
+
 export interface IGetDraftMessageBody  {
     aiSchoolId:string,
     aiAcademicYearId:string,

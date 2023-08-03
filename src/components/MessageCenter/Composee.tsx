@@ -31,6 +31,8 @@ import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
   
@@ -39,6 +41,9 @@ function Form13() {
   );
   const ContactGRPusers = useSelector(
     (state: RootState) => state.MessageCenter.ContactgrpUsers
+  );
+  const SaveDraftM = useSelector(
+    (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
 
   const dispatch = useDispatch();
@@ -505,7 +510,51 @@ function Form13() {
 }
 window.addEventListener('resize', handleResize)
 
+const AllDraftMessageBody: IGetAllDraftMessageBody = {
+  aiSchoolId:'18',
+  aiAcademicYearId:'54',
+  aiUserId:'5234',
+  asFilter:'',
+  aiMonthId:'',
+  asOperator:"",
+  asDate:""
+};
 
+
+
+const DraftMessageBody: IGetDraftMessageBody = {
+  aiSchoolId:"18",
+  aiAcademicYearId:"54",
+  aiUserId:"5234",  
+  aiDraftId:"10791" 
+}
+
+
+  const SaveDraftBody: ISaveDraftMessageBody = {
+      aiDraftId:'0',
+       aoMessage: {
+        SenderUserId:UserId,
+        SchoolId:localschoolId,
+        AcademicYearId:AcademicYearId,
+        ReceiverUserId:'',
+        DisplayText:RecipientsObject.RecipientName.toString(),
+        Subject:formik.values.Subject,
+        Body:formik.values.Content,
+        ReceiverUserIdCc:'',
+        DisplayTextCc:RecipientsCCObject.RecipientName.toString()
+      }}
+
+     
+
+        const SaveDraft = () =>{
+          dispatch(getSaveDraftMessage(SaveDraftBody))
+        }
+
+        useEffect(() => {
+          if (SaveDraftM !== '') {
+            toast.success(SaveDraftM, { toastId: 'success1' })
+           }
+        }, [SaveDraftM])
   return (
     <>
       <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
@@ -709,8 +758,6 @@ window.addEventListener('resize', handleResize)
               )}
             </Grid>
      
-           
-            
        
                   <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
@@ -833,6 +880,13 @@ window.addEventListener('resize', handleResize)
                 disabled={disabledStateOfSend}
               >
                 Send
+              </ButtonPrimary>
+            </Grid>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
+              <ButtonPrimary color="primary"  fullWidth 
+                onClick={SaveDraft}
+              >
+                Save as Draft
               </ButtonPrimary>
             </Grid>
             </Grid>

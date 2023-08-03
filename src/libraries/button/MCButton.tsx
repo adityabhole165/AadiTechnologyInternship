@@ -7,6 +7,7 @@ import SendIcon from '@mui/icons-material/Send';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { ListStyle } from '../styled/CardStyle';
 import { TabListHeight } from '../styled/CommonStyle';
+import DraftsIcon from '@mui/icons-material/Drafts';
 
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
@@ -34,6 +35,7 @@ const MCButton = ({ ButtonType, clickTab,activeTab ,MarkAsRead}) => {
                     ButtonType === 'Inbox' ? <Badge badgeContent={MarkAsRead} color="error" ><InboxIcon className={classes.IconSize} /></Badge>  :
                         ButtonType === 'Sent' ? <SendIcon  className={classes.IconSize}/> :
                             ButtonType === 'Trash' ? <DeleteIcon  className={classes.IconSize}/> :
+                            ButtonType === 'Draft' ? <DraftsIcon  className={classes.IconSize}/> :
                                 null
                 }
                 <br />
