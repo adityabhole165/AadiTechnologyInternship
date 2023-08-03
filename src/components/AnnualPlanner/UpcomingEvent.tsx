@@ -147,9 +147,9 @@ function UpcomingEvent() {
     <>
     <PageHeader heading={'Annual Planner'} subheading={''} />
      <FormGroup sx={{display:"inline"}}>
-    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)} color={'success'}/>} label="Holiday" />
-     <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)} color={'info'}/>} label="Event" />
-     <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)} color={'secondary'}/>} label="Exam" />
+    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)}/>} label="Holiday" />
+     <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)}/>} label="Event" />
+     <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)}/>} label="Exam" />
     </FormGroup>
       <br></br>  
       <MonthSelector
