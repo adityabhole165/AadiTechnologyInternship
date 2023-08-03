@@ -59,6 +59,9 @@ import SliceTermsAndConditions from 'src/requests/TermAndCondition/TermAndCondit
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import SliceStudentPic from 'src/requests/StudentPhoto/RequestStudentPhoto'
 import SliceSchoolNoticeBoard from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
+import Staffkidslice from 'src/requests/Authentication/StaffKidLogin'
+import SliceDraftMessage from 'src/requests/MessageCenter/RequestDraftMessage'
+
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -122,7 +125,9 @@ const rootReducer = combineReducers({
     TermAndConditions: SliceTermsAndConditions,
     userLoginExpires: SliceUserLoginExpires,
     StudentPic:SliceStudentPic,
-    SchoolNoticeBoard:SliceSchoolNoticeBoard
+    SchoolNoticeBoard:SliceSchoolNoticeBoard,
+    StaffKidLogin:Staffkidslice,
+    DraftMessages:SliceDraftMessage
 });
 
 export default rootReducer;

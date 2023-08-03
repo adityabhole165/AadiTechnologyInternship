@@ -107,7 +107,9 @@ const MessageListOld = () => {
     abIsSMSCenter: '0',
     asFilter: searchText,
     asPageIndex: 1,
-    asMonthId: monthYear
+    asMonthId: monthYear,
+    asOperator:"",
+    asDate:""
   };
 
   const getMsgBody = (searchtext, monthyear) => {
@@ -329,7 +331,9 @@ const MessageListOld = () => {
         abIsSMSCenter: '0',
         asFilter: searchText,
         asPageIndex: pageIndex,
-        asMonthId: monthYear
+        asMonthId: monthYear,
+        asOperator:"",
+        asDate:""
       };
       dispatch(getListOfMessages(getListBody, activeTab, true));
       setInboxListData((prev) => {

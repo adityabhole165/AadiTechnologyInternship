@@ -31,6 +31,8 @@ import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
   
@@ -39,6 +41,9 @@ function Form13() {
   );
   const ContactGRPusers = useSelector(
     (state: RootState) => state.MessageCenter.ContactgrpUsers
+  );
+  const SaveDraftM = useSelector(
+    (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
 
   const dispatch = useDispatch();
@@ -505,7 +510,51 @@ function Form13() {
 }
 window.addEventListener('resize', handleResize)
 
+const AllDraftMessageBody: IGetAllDraftMessageBody = {
+  aiSchoolId:'18',
+  aiAcademicYearId:'54',
+  aiUserId:'5234',
+  asFilter:'',
+  aiMonthId:'',
+  asOperator:"",
+  asDate:""
+};
 
+
+
+const DraftMessageBody: IGetDraftMessageBody = {
+  aiSchoolId:"18",
+  aiAcademicYearId:"54",
+  aiUserId:"5234",  
+  aiDraftId:"10791" 
+}
+
+
+  const SaveDraftBody: ISaveDraftMessageBody = {
+      aiDraftId:'0',
+       aoMessage: {
+        SenderUserId:UserId,
+        SchoolId:localschoolId,
+        AcademicYearId:AcademicYearId,
+        ReceiverUserId:'',
+        DisplayText:RecipientsObject.RecipientName.toString(),
+        Subject:formik.values.Subject,
+        Body:formik.values.Content,
+        ReceiverUserIdCc:'',
+        DisplayTextCc:RecipientsCCObject.RecipientName.toString()
+      }}
+
+     
+
+        const SaveDraft = () =>{
+          dispatch(getSaveDraftMessage(SaveDraftBody))
+        }
+
+        useEffect(() => {
+          if (SaveDraftM !== '') {
+            toast.success(SaveDraftM, { toastId: 'success1' })
+           }
+        }, [SaveDraftM])
   return (
     <>
       <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
@@ -630,7 +679,7 @@ window.addEventListener('resize', handleResize)
               <Errormessages Error={fileerror} />
             </Box>
             </Grid>
-            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"3px"}}>
+            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"5px"}}>
                <ClickAwayListener onClickAway={handleClickAway}>
                <Tooltip
                 PopperProps={{
@@ -648,7 +697,7 @@ window.addEventListener('resize', handleResize)
               >
                 <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px'}}
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-10px"}}
                 />
                 </IconButton>
              
@@ -709,13 +758,11 @@ window.addEventListener('resize', handleResize)
               )}
             </Grid>
      
-           
-            
        
                   <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Request Read Receipt? :
+                    Request Read Receipt ?
                   </Typography>
                   </Grid>
               
@@ -723,10 +770,10 @@ window.addEventListener('resize', handleResize)
                   <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Schedule Message at:
+                    Schedule Message at
                   </Typography>
                  </Grid>
-               <Grid item xs={2}  sm={1} md={1} lg={1} sx={{mt:'-10px'}}>
+               <Grid item xs={2}  sm={1} md={1} lg={1} >
                <ClickAwayListener onClickAway={handleClickAwayS}>
                <Tooltip
                 PopperProps={{
@@ -744,7 +791,7 @@ window.addEventListener('resize', handleResize)
               >
                  <IconButton onClick={handleClickS}>
                  <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px',mt:"8px"}}
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-8px"}}
                 />
                  </IconButton>
               
@@ -833,6 +880,13 @@ window.addEventListener('resize', handleResize)
                 disabled={disabledStateOfSend}
               >
                 Send
+              </ButtonPrimary>
+            </Grid>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
+              <ButtonPrimary color="primary"  fullWidth 
+                onClick={SaveDraft}
+              >
+                Save as Draft
               </ButtonPrimary>
             </Grid>
             </Grid>

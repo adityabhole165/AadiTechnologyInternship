@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 import DraftMessageApi from 'src/api/MessageCenter/ApiDraftMessage';
-import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import { IDeleteDraftMessageBody, IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { AppThunk } from 'src/store';
 
 
@@ -10,12 +10,13 @@ const SliceDraftMessage = createSlice({
         SaveDraftMessage: {},
         AllDraftMessage:[],
         DraftMessage:[],
+        DeleteDraftMessage:'',
         Loading: true,
     },
     reducers: {
         getSaveDraftMessage(state, action) {
           state.Loading = false;
-          state.SaveDraftMessage = action.payload;
+          state.SaveDraftMessage = action.payload.Message;
         },
         getLoading (state,action) {
             state.Loading = true
@@ -23,12 +24,17 @@ const SliceDraftMessage = createSlice({
         },
 
         getAllDraftMessage(state, action) {
-          state.AllDraftMessage = action.payload;
+          state.AllDraftMessage = action.payload.GetAllDraftMessageDetails;
           },
 
-          getDraftMessage(state, action) {
-            state.DraftMessage = action.payload;
-          },
+        getDraftMessage(state, action) {
+            state.DraftMessage = action.payload.GetDraftMessageDetails;
+         },
+
+         getDeleteDraftMessage(state , action){
+          state.DeleteDraftMessage = action.payload;
+         }
+
         }
       });
 
@@ -45,7 +51,8 @@ const SliceDraftMessage = createSlice({
       async (dispatch) => {
         dispatch(SliceDraftMessage.actions.getLoading(true));
         const response = await DraftMessageApi.GetAllDraftMessage(data)
-        dispatch(SliceDraftMessage.actions.getAllDraftMessage(response.data));
+        
+       dispatch(SliceDraftMessage.actions.getAllDraftMessage(response.data));
       };
 
       export const getDraftMessage =
@@ -55,6 +62,13 @@ const SliceDraftMessage = createSlice({
           const response = await DraftMessageApi.GetDraftMessage(data)
           dispatch(SliceDraftMessage.actions.getDraftMessage(response.data));
         };
+
+        export const  getDeleteDraftMessage =
+        (data: IDeleteDraftMessageBody): AppThunk =>
+          async (dispatch) => {
+            const response = await DraftMessageApi.DeleteDraftMessage(data)
+            dispatch(SliceDraftMessage.actions.getDeleteDraftMessage(response.data))
+          }
 
 
   

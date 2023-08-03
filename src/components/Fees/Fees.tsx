@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getFeeStructureLink, getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
+import { getFeeStructureLink, getFees, getInternalYearList, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
 import IFees, { GetAllAcademicYearsApiBody, IGetAcademicYearsforFeeChallanBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetDetailsForChallanImportBody, IGetFeeDetailsOfOldAcademicBody, IGetFileNameForSNSChallanBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
@@ -68,6 +68,8 @@ function Fees() {
 
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
+  console.log("AcadamicYear",AcadamicYear);
+  
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
   const InternalFeeDetails: any = useSelector((state: RootState) => state.Fees.InternalFeeDetails);
   const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
@@ -102,6 +104,10 @@ function Fees() {
   const Note2: string = '*RITE student (100%  Concession on school fees)';
 
   const body1: GetAllAcademicYearsApiBody = {
+    aiSchoolId: asSchoolId,
+    aiYearwiseStudentId: asStudentId
+  };
+  const InternalYrList: GetAllAcademicYearsApiBody = {
     aiSchoolId: asSchoolId,
     aiYearwiseStudentId: asStudentId
   };
@@ -166,6 +172,11 @@ function Fees() {
   //     setPayNote([...arrNote, arrNote2])
   //   }
   // }, [FeesList2])
+  useEffect(() => {
+    if(showCaution === "internalFees"){
+    dispatch(getInternalYearList(InternalYrList));
+    }
+  }, [showCaution])
   useEffect(() => {
     let arr = AcadamicYear;
     if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") || AllowNextYearInternal && showCaution == "internalFees") {
@@ -470,7 +481,7 @@ function Fees() {
         <SpecialNote />
       </>
       }
-      <ButtonPrimary onClick={ClickNavigateChallan}>Challan</ButtonPrimary>
+    {asSchoolId == "122" && <ButtonPrimary onClick={ClickNavigateChallan}>Generate challan</ButtonPrimary>}
     </Container>
   );
 }

@@ -15,6 +15,10 @@ import { compareStringWithoutSpace } from '../Common/Util';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
 import { RootState } from 'src/store';
+import { IGetDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import { getDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage';
+import CardDraft from 'src/libraries/card/CardDraft';
+import { Box } from '@mui/material';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -35,10 +39,20 @@ function ViewSms({ }) {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
+
   const MessageCenterReadMode: any = useSelector(
     (state: RootState) => state.getSchoolSettings.EnableMessageCenterReadModeForStudent
   );
+  const GetDraftMessage = useSelector(
+    (state: RootState) => state.DraftMessages.DraftMessage
+  );
   
+  const DraftMessageBody: IGetDraftMessageBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId,
+    aiUserId: UserId,
+    aiDraftId: "10850"
+  }
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
@@ -62,6 +76,7 @@ function ViewSms({ }) {
 
   useEffect(() => {
     GetViewEventResult();
+    dispatch(getDraftMessage(DraftMessageBody))
   }, []);
   useEffect(() => {
     dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody))
@@ -104,7 +119,25 @@ function ViewSms({ }) {
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+      {GetDraftMessage !== undefined && <>
+        {GetDraftMessage.map((item,i) => {
+          return <Box key={i}><CardDraft
+            ViewDetail={ViewDetail}
+            From={item.SenderName}
+            InsertDateInFormat={item.InsertDateInFormat}
+            To={item.DisplayText}
+            Cc={item.DisplayTextCc}
+            Body={item.Body}
+            Text={item.Subject}
+            Attachments={item.Attachments}
+            ID={ID}
+            ViewSentObject={GetDraftMessage}
+            MessageCenterReadMode={MessageCenterReadMode} Viewsent={undefined} /></Box>
+        })}
 
+      </>
+
+      }
 
       {
 

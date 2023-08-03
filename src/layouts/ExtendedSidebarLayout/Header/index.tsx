@@ -39,7 +39,7 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import { useTranslation } from 'react-i18next';
-import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login';
+import { IAuthenticateUser, IAuthenticateUserResult, IStaffDetailsForloginBody } from 'src/interfaces/Authentication/Login';
 import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
@@ -53,6 +53,7 @@ import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
+import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -253,7 +254,7 @@ function Header() {
     sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
 
     const url = localStorage.getItem("url");
-
+ 
     if (url != null && url !== '/') {
       navigate(url);
     }
@@ -274,7 +275,9 @@ function Header() {
       asSchoolId: schoolId,
       asIsSiblingLogin: true
     };
-
+    getNewLogin(body)
+  }
+  const getNewLogin = async (body) =>{
     const response: any = await LoginApi.AuthenticateUser(body)
     if (response.data != null) {
       setSession(response);
@@ -283,7 +286,6 @@ function Header() {
       toast.error("Invalid Username or Password");
       navigate('/')
     }
-
   }
 
   const Notification = () => {
@@ -304,6 +306,21 @@ function Header() {
       window.removeEventListener('offline', handleOffline);
     };
   }, []);
+  const LoginStaffKid: any = useSelector(
+    (state: RootState) => state.StaffKidLogin.Stafflogin
+);
+const SchoolId = localStorage.getItem('localSchoolId');
+const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+const UserId = sessionStorage.getItem('Id');
+const Staffkid: IStaffDetailsForloginBody = {
+  aiSchoolId:SchoolId,
+  aiAcademicYearId:AcademicYearId,
+  aiYearwiseStudentId:"0",
+  aiUserId:UserId
+}
+  useEffect(()=>{
+dispatch(Stafflogin(Staffkid))
+  },[])
   const Toaster = () => {
     if (!isOnline) {
       toast.error('No internet connection', { toastId: 'success1' })
@@ -492,6 +509,33 @@ function Header() {
                 </ul>
               </ListItem>
             }
+             <ListItem
+                button
+                to={""}
+                component={NavLink}
+                style={{ background: 'white' }}
+              >
+                
+                <GroupIcon fontSize="small" sx={{ color: "#053082", marginBottom: '42px' }} />
+                <ul style={{ listStyle: 'none', padding: '0px', margin: '0px' }}>
+                  <Typography sx={{ color: "blue", fontWeight: "bold" }}>Staff Kid</Typography>
+                  {
+                    LoginStaffKid?.map(
+                      (StaffKid: any, i) => {
+                        return (
+                          <>
+                            <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
+                              onClick={() => {
+                                loginToSibling(StaffKid.UserName, StaffKid.Password);
+                              }}
+                            >{StaffKid.StudentName}</li>
+                          </>
+                        );
+                      }
+                    )
+                  }
+                </ul>
+              </ListItem>
           </List>
           <Divider />
           <Box m={1}>

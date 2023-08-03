@@ -11,7 +11,7 @@ const CheckBox = ({ item, onChange, IsNotDisabled=true, InternalOrSchool }) => {
     return (<>
         {item.ParentId !== "0" ? null :
             <>
-                {((IsNotDisabled == false && InternalOrSchool == "SchoolFees")|| InternalOrSchool == "internalFees" )?
+                {((IsNotDisabled == false && InternalOrSchool == "SchoolFees")|| IsNotDisabled == false && InternalOrSchool == "internalFees" )?
                 <RadioButtonUncheckedIcon sx={{ color: 'grey' }}
                 className={classes.checkboxSize} /> : 
                     (item.IsEnabled) ?
