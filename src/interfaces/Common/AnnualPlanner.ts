@@ -34,28 +34,33 @@ export interface GetEventsDetailsResult {
     EventComment: string
 }
 
-export default interface IGetUpcomingEventBody {
- 
-    aiAcademicYrId: string,
-    aiSchoolId: string,
-    aiUserId: string,
-    aiUserRoleId: string,
-    isScreenFullAccess: string
+//GetEventsInMonth
+export default interface IGetEventsInMonth {
+    asSchoolId:string,
+    asAcademicYearId:string,
+    asMonth:string,
+    asYear:string,
+    asUserId:string,
+    abIncludeEvents:string,
+    abIncludeHolidays:string,
+    abIncludeExams:string
 }
 
 
 
-export interface IGetUpcomingEventResult {
-    StartDate: string,
-    EndDate: string,
-    EndDateUniversal: string,
-    EventDescription: null,
-    EventTitle: string,
-    StandardName: string,
-    EventType:string,
-    EventId:number
+export interface IGetEventsInMonthResult {
+   
+
+            Id: number,
+            Description: string,
+            StartDate: string,
+            EndDate: string,
+            StandardList: string,
+            EventComment: null,
+            TypeId: number,
+            DisplayDate: string
 }
 
-export interface IGetUpcomingeventResult{
-    UpcomingEventsData:IGetUpcomingEventResult[]
+export interface IGetEventsMonthResult{
+    GetEventsInMonthResult:IGetEventsInMonthResult[]
 };

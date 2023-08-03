@@ -1,18 +1,19 @@
 
 import http from "../../requests/SchoolService/schoolServices";
-import IGetUpcomingEventBody, {IEventList,GetEventsInMonthResult  ,IGetUpcomingeventResult} from "../../interfaces/Common/AnnualPlanner"
+import IGetUpcomingEventBody, {IEventList,GetEventsInMonthResult  , IGetEventsMonthResult} from "../../interfaces/Common/AnnualPlanner"
+import IGetEventsInMonth from "../../interfaces/Common/AnnualPlanner";
 
   const GetEventOverviewList = (data: IEventList) => {
     return http.post<GetEventsInMonthResult>('School/GetEventsInMonth',data);
   };
 
-  const GetUpcomingEvents = (data: IGetUpcomingEventBody) => {
-    return http.post<IGetUpcomingeventResult>('Dashboard/GetUpcomingEvents',data);
+  const GetEventsMonth = (data: IGetEventsInMonth) => {
+    return http.post<IGetEventsMonthResult>('School/GetEventsInMonth',data);
   };
   
 const AnnualPlannerApi  ={
     GetEventOverviewList,
-    GetUpcomingEvents
+    GetEventsMonth
 }
 
 export default AnnualPlannerApi ;
