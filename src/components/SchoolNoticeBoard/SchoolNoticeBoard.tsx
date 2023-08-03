@@ -10,7 +10,6 @@ import { CardDetail2 } from 'src/libraries/styled/CardStyle';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { makeStyles } from '@mui/styles';
 import Marquee from "react-fast-marquee";
-import 'src/assets/style/Marquee.css';
 // const useStyles = makeStyles((theme) => ({
 //   scrollingText: {
  
