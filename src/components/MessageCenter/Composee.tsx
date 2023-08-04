@@ -691,7 +691,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
                 open={open} title={Note} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                    sx: {width:"200px", marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
                   }
                 }}
               >
@@ -785,7 +785,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
                 open={Sopen} title={NoteSchedule} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                    sx: {width:"200px", marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
                   }
                 }}
               >
