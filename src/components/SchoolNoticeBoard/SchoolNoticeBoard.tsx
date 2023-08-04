@@ -60,7 +60,7 @@ function SchoolNoticeBoard() {
     <Container>     
     <Card component={Box} mt={2} p={0.6}>
         <Marquee delay={1}>
-        {GetNoticeBoardList.length !==0 && <>🔶</> }{marqueeContent}
+        {GetNoticeBoardList.length !==0 && <>   🔶   </> }  { marqueeContent}
        </Marquee>
       </Card>
       
