@@ -177,6 +177,8 @@ console.log("FeesList2",FeesList2);
     if(showCaution === "internalFees"){
     dispatch(getInternalYearList(InternalYrList));
     }
+    else
+    dispatch(getYearList(body1));
   }, [showCaution])
   useEffect(() => {
     let arr = AcadamicYear;
