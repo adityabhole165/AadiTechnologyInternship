@@ -66,10 +66,11 @@ function Card7({
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
-  const ReplyallRecieverId = ViewSentObject.ReceiverUserId
+  const ReplyallRecieverId =FromUserID +','+ ViewSentObject.ReceiverUserId
   const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
+const FromTo = From +','+ To
 
   const saveMessageBody = (replyFwd) => {  
     const path =
@@ -82,7 +83,7 @@ function Card7({
 
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
-        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? To : "",
+        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? FromTo : "",
         FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
         Text: Text,
         Attachment: AttachmentArray,

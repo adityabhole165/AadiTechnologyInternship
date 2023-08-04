@@ -119,7 +119,7 @@ function ViewSms({ }) {
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-      {GetDraftMessage !== undefined && <>
+      {/* {GetDraftMessage !== undefined && <>
         {GetDraftMessage.map((item,i) => {
           return <Box key={i}><CardDraft
             ViewDetail={ViewDetail}
@@ -137,7 +137,7 @@ function ViewSms({ }) {
 
       </>
 
-      }
+      } */}
 
       {
 
