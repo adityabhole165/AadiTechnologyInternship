@@ -65,10 +65,11 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
+console.log("FeesList2",FeesList2);
 
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
-  console.log("AcadamicYear",AcadamicYear);
+  // console.log("AcadamicYear",AcadamicYear);
   
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
   const InternalFeeDetails: any = useSelector((state: RootState) => state.Fees.InternalFeeDetails);
@@ -92,8 +93,7 @@ function Fees() {
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
   const NeXtStandardId = NextYearDetails == null ? 0 : NextYearDetails.NextStandardId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
-  // const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
-  const ApplicableFee = FeesList2.TotalFee
+  const ApplicableFee =showCaution == "SchoolFees" ? FeesList2.TotalFee :FeesList2.TotalFee+ FeesList2.TotalFeesPaid
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   const ConsessionNote = FeesList2.ConcessionRule
 
