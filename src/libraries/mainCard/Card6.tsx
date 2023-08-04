@@ -138,7 +138,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
                 <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
                 <ProfileComponent Name='Caste & Sub-Caste :' Value={CasteAndSubCaste}></ProfileComponent>
-                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
+                <ProfileComponent Name='Category Name :' Value={CategoryName}></ProfileComponent>
                 <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
                 <ProfileComponent Name='Mobile Number :' Value={PhoneNumber===""? PhoneNumber2 : PhoneNumber + ' , '+ PhoneNumber2 }></ProfileComponent>
        
