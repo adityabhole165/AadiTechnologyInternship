@@ -92,7 +92,8 @@ function Fees() {
   let NextYrSchoolId = NextYearDetails == null ? 0 : NextYearDetails.SchoolwiseStudentId
   const NeXtStandardId = NextYearDetails == null ? 0 : NextYearDetails.NextStandardId
   const IsForCurrentyear = currentYear == asAcademicYearId ? true : false;
-  const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  // const ApplicableFee = FeesList2.TotalFee - FeesList2.TotalLateFee
+  const ApplicableFee = FeesList2.TotalFee
   const IsOldAcademicYearPayment = IsForCurrentyear ? '0' : '1';
   const ConsessionNote = FeesList2.ConcessionRule
 
