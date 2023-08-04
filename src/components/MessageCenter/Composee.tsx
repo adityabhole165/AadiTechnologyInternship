@@ -691,9 +691,12 @@ const DraftMessageBody: IGetDraftMessageBody = {
                 open={open} title={Note} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: {width:"200px", marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                      sx: {
+                          marginLeft: '70px',
+                          transform: "translate3d(15px, 0.5px, 0px) !important",
+                      }
                   }
-                }}
+              }}
               >
                 <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
@@ -783,11 +786,14 @@ const DraftMessageBody: IGetDraftMessageBody = {
 
                 disableFocusListener disableHoverListener disableTouchListener arrow
                 open={Sopen} title={NoteSchedule} placement="left"
-                componentsProps={{
+              componentsProps={{
                   tooltip: {
-                    sx: {width:"200px", marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                      sx: {
+                          marginLeft: '70px',
+                          transform: "translate3d(15px, 0.5px, 0px) !important",
+                      }
                   }
-                }}
+              }}
               >
                  <IconButton onClick={handleClickS}>
                  <InfoTwoToneIcon type="button"
