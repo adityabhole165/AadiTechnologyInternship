@@ -151,7 +151,7 @@ function UpcomingEvent() {
     <PageHeader heading={'Annual Planner'} subheading={''} />
      <FormGroup sx={{display:"inline"}}>
      <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)}  style ={{color: "#aeeded"}} size="small"/>} label="Event" />
-    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)} color={'error'} size="small"/>} label="Holiday" />
+    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)} style ={{color: "#ffcdd2" }}   size="small"/>} label="Holiday" />
      <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)} style ={{color: "#d8eb88"}} size="small"/>}  label="Exam" />
     <Box sx={{float:"right" , mt:"10px"}}>
     <Icon1 Note={Note} />

@@ -40,7 +40,7 @@ const colors = {
     navy2: 'linear-gradient(135deg, #2C3E50 0%, #4CA1AF 100%)',
     pink1: 'linear-gradient(135deg, white 0%, white 100%);',
     pink2: '#d8eb88',
-    green1: 'red',
+    green1: '#ffcdd2',
     green2: '#aeeded',
     black1: 'linear-gradient(100.66deg, #434343 6.56%, #000000 93.57%)',
     black2: 'linear-gradient(60deg, #29323c 0%, #485563 100%)',
