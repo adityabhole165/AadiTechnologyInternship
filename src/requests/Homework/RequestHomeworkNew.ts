@@ -70,7 +70,7 @@ export const getHomeworkDates =
                 return {
                     Id: index,
                     Name: getDateMonthFormatted(item),
-                    Value: getDateMonthFormatted(item),
+                    Value: getDateMonthYearFormatted(item),
                     IsActive: false
                 }
             })
