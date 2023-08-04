@@ -8,7 +8,7 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container, ToggleButtonGroup, ToggleButton, Checkbox,Box, FormGroup, FormControlLabel } from '@mui/material';
+import { Container, ToggleButtonGroup, ToggleButton, Checkbox, Box, FormGroup, FormControlLabel } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -36,7 +36,7 @@ function UpcomingEvent() {
     (state: RootState) => state.AnnualPlanner.Loading
   );
   const Note: string =
-  'These events may change due to unavoidable reasons without prior notice.';
+    'These events may change due to unavoidable reasons without prior notice.';
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -45,12 +45,12 @@ function UpcomingEvent() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedYear, setAssignedYear] = useState<any>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
-  const[holiday,setHoliday] = useState(false)
-  const[event,setEvent] = useState(true)
-  const[exam,setExam] = useState(false)
+  const [holiday, setHoliday] = useState(false)
+  const [event, setEvent] = useState(true)
+  const [exam, setExam] = useState(false)
 
   const GetEventsInMonthBody: IGetEventsInMonth = {
-    asSchoolId:asSchoolId,
+    asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asMonth: assignedMonth_num,
     asYear: assignedYear,
@@ -59,7 +59,7 @@ function UpcomingEvent() {
     abIncludeHolidays: holiday.toString(),
     abIncludeExams: exam.toString()
   }
-   
+
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
@@ -93,22 +93,22 @@ function UpcomingEvent() {
   }, [DateFrommon, DateFromyear]);
 
   useEffect(() => {
-   if (assignedMonth_num !== undefined) {
-      dispatch(getEvents(GetEventsInMonthBody));
-    }
-  }, [assignedMonth_num , event]);
-  
-  useEffect(() => {
     if (assignedMonth_num !== undefined) {
       dispatch(getEvents(GetEventsInMonthBody));
     }
-  }, [assignedMonth_num , holiday]);
+  }, [assignedMonth_num, event]);
 
   useEffect(() => {
     if (assignedMonth_num !== undefined) {
       dispatch(getEvents(GetEventsInMonthBody));
     }
-  }, [assignedMonth_num , exam]);
+  }, [assignedMonth_num, holiday]);
+
+  useEffect(() => {
+    if (assignedMonth_num !== undefined) {
+      dispatch(getEvents(GetEventsInMonthBody));
+    }
+  }, [assignedMonth_num, exam]);
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
@@ -145,20 +145,39 @@ function UpcomingEvent() {
   const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
   const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] + "01," + selectedDateList[1]) : date.selectedDate)
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
- 
+
   return (
     <Container>
-    <PageHeader heading={'Annual Planner'} subheading={''} />
-     <FormGroup sx={{display:"inline"}}>
-     <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)}  style ={{color: "#aeeded"}} size="small"/>} label="Event" />
-    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)} style ={{color: "#ffcdd2" }}   size="small"/>} label="Holiday" />
-     <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)} style ={{color: "#d8eb88"}} size="small"/>}  label="Exam" />
-    <Box sx={{float:"right" , mt:"10px"}}>
-    <Icon1 Note={Note} />
-    </Box>
-  
-    </FormGroup>
-      <br></br>  
+      <PageHeader heading={'Annual Planner'} subheading={''} />
+      <FormGroup sx={{ display: "inline" }}>
+        <FormControlLabel control={<Checkbox checked={event} onChange={(e) => setEvent(e.target.checked)} sx={{
+          color: '#757575',
+          '&.Mui-checked': {
+            color: '#aeeded',
+          },
+          borderColor: 'black',
+        }} size="small" />} label="Event" />
+        <FormControlLabel control={<Checkbox checked={holiday} onChange={(e) => setHoliday(e.target.checked)} sx={{
+          color: '#757575',
+          '&.Mui-checked': {
+            color: '#ffcdd2',
+          },
+          borderColor: 'black',
+        }} size="small" />} label="Holiday" />
+        <FormControlLabel control={<Checkbox checked={exam} onChange={(e) => setExam(e.target.checked)} sx={{
+          color: '#757575',
+          '&.Mui-checked': {
+            color: '#d8eb88',
+           
+          },
+          borderColor: 'black',
+        }} size="small" />} label="Exam" />
+        <Box sx={{ float: "right", mt: "10px" }}>
+          <Icon1 Note={Note} />
+        </Box>
+
+      </FormGroup>
+      <br></br>
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
