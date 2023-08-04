@@ -119,8 +119,10 @@ function EventOverview() {
 
   
   return (
+    <>
+    {RoleId === "3" ?  <UpcomingEvent/> : <>
     <Container>
-      {RoleId === "3" ?  <UpcomingEvent/> : <>
+    
       <PageHeader heading={'Events Overview'} subheading={''} />
 
       <MonthSelector
@@ -143,12 +145,10 @@ function EventOverview() {
           }
         </>)
       }
-       </>
-      }
-     
-     
-
-    </Container>
+      </Container>
+    </>
+    }
+    </>
   );
 }
 

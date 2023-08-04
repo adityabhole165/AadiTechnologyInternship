@@ -35,7 +35,7 @@ const MCButton = ({ ButtonType, clickTab,activeTab ,MarkAsRead}) => {
                     ButtonType === 'Inbox' ? <Badge badgeContent={MarkAsRead} color="error" ><InboxIcon className={classes.IconSize} /></Badge>  :
                         ButtonType === 'Sent' ? <SendIcon  className={classes.IconSize}/> :
                             ButtonType === 'Trash' ? <DeleteIcon  className={classes.IconSize}/> :
-                            ButtonType === 'Draft' ? <DraftsIcon  className={classes.IconSize}/> :
+                            // ButtonType === 'Draft' ? <DraftsIcon  className={classes.IconSize}/> :
                                 null
                 }
                 <br />

@@ -144,12 +144,12 @@ function UpcomingEvent() {
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
  
   return (
-    <>
+    <Container>
     <PageHeader heading={'Annual Planner'} subheading={''} />
      <FormGroup sx={{display:"inline"}}>
-     <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)}/>} label="Event" />
-    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)}/>} label="Holiday" />
-     <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)}/>} label="Exam" />
+     <FormControlLabel control={<Checkbox  checked={event}   onChange={(e)=> setEvent(e.target.checked)}  style ={{color: "#aeeded"}} size="small"/>} label="Event" />
+    <FormControlLabel control={<Checkbox  checked={holiday}   onChange={(e)=> setHoliday(e.target.checked)} color={'error'} size="small"/>} label="Holiday" />
+     <FormControlLabel control={<Checkbox  checked={exam}   onChange={(e)=> setExam(e.target.checked)} style ={{color: "#d8eb88"}} size="small"/>}  label="Exam" />
     </FormGroup>
       <br></br>  
       <MonthSelector
@@ -173,7 +173,7 @@ function UpcomingEvent() {
         </>)
       }
 
-    </>
+    </Container>
   );
 }
 

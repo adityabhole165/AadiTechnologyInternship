@@ -60,11 +60,11 @@ export const getEventList =
                 return {
                     Id: item.Id,
                     header: item.Description,      
-                    text1: item.StartDate,  
+                    text1: item.DisplayDate,  
                     text2:item.TypeId,
                     text3:item.EventComment,
-                    backgroundColor: item.TypeId === 1 ? "success" : item.TypeId === 2 ? "info" :"secondary"
-                    
+                    backgroundColor: item.TypeId === 1 ? "green2" : item.TypeId === 2 ? "green1" :"pink2",
+                    linkPath:  item.TypeId === 1 && '/Common/viewevent/' + item.Id 
                   
                 }
             })
