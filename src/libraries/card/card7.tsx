@@ -81,9 +81,15 @@ const FromTo = From +','+ To
     navigate(path)
     localStorage.setItem("messageBody", Body);
 
+    const getExcludeMe = () =>{
+      let arr = FromTo.split(',');
+      arr = arr.filter(function(a){return a.replaceAll(' ','') !== ViewSentObject.LoggedInUserNameForMessage.replaceAll(' ','')})
+      return arr.join(',');
+    } 
+    
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
-        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? FromTo : "",
+        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? getExcludeMe() : "",
         FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
         Text: Text,
         Attachment: AttachmentArray,
