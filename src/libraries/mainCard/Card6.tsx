@@ -133,7 +133,7 @@ function Card6() {
               </>
             ) : RoleName == 'Student' ? (
               <>
-                <Grid container sx={{mt:"10px"}}>
+                <Grid container sx={{ mt: "10px" }}>
                   <Grid item xs={2.2} >
                     <Typography sx={{ ml: "10px", fontWeight: "bold" }}>Address :</Typography>
 
@@ -168,7 +168,16 @@ function Card6() {
                 <Box sx={{ display: "flex" }} >
                   <ProfileComponent Name='Family Photo :' Value={''}></ProfileComponent>
                   <Box sx={{ mt: "14px" }}>
-                    <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'} />
+                    {/* <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'} /> */}
+
+                    {
+                      ImgUrl == "" ?
+                        <Avatar alt="user.name" src={'/imges/relative.png'} sx={{ width: "180px", height: "160px", border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"   >
+                        </Avatar>
+                        :
+                        <Avatar alt="user.name" src={FamilyPhoto} sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"   >
+                        </Avatar>
+                    }
                   </Box>
 
                 </Box>
