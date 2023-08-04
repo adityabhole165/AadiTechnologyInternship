@@ -407,7 +407,7 @@ function Fees() {
       {currentYear !== asAcademicYearId &&
         <> {selectedYear ?
           <Box mt={2} mb={1}>
-            <Errormessage Error={'You are Viewing data of old academic year' + selectedYear} />
+            <Errormessage Error={'You are Viewing data of old academic year'} />
           </Box>
           : ""}
         </>}
