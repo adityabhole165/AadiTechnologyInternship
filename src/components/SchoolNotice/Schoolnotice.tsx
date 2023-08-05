@@ -14,7 +14,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 function Schoolnotice() {
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const asUserId = localStorage.getItem('UserId');
+  const asUserId = sessionStorage.getItem('Id');
 
   const dispatch = useDispatch();
   const SchoolnoticeList = useSelector(
