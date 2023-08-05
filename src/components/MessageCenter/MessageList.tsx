@@ -37,7 +37,7 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import EmailSettings from './EmailSetting';
-import {getAllDraftMessage ,getDeleteDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import { getAllDraftMessage, getDeleteDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage'
 import { IDeleteDraftMessageBody, IGetAllDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteButton, MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
@@ -120,7 +120,7 @@ const MessageList = () => {
     const DeleteDraftM = useSelector(
         (state: RootState) => state.DraftMessages.DeleteDraftMessage
     );
-    const IfMonthEmpty = monthYear == "" ? "0":monthYear
+    const IfMonthEmpty = monthYear == "" ? "0" : monthYear
 
     const getListBody: IgetList = {
         asSchoolId: SchoolId,
@@ -131,7 +131,7 @@ const MessageList = () => {
         asFilter: searchText,
         asPageIndex: 1,
         asMonthId: IfMonthEmpty,
-        asOperator:operator,
+        asOperator: operator,
         asDate: searchDate
     };
 
@@ -380,10 +380,11 @@ const MessageList = () => {
         if (scrollableDivRefference.scrollTop < 400) {
             setdisplayMoveToTop('none');
         }
+
         if (
             scrollableDivRefference.scrollHeight -
             scrollableDivRefference.scrollTop <=
-            570
+            scrollableDivRefference.clientHeight + 5
         ) {
             const getListBody: IgetList = {
                 asSchoolId: SchoolId,
@@ -394,18 +395,22 @@ const MessageList = () => {
                 asFilter: searchText,
                 asPageIndex: pageIndex,
                 asMonthId: monthYear,
-                asOperator:operator,
+                asOperator: operator,
                 asDate: searchDate
             };
-            
+
             dispatch(getListOfMessages(getListBody, activeTab, true));
-            setInboxListData((prev) => {
-                return [...inboxListData, ...NextInboxList];
-            });
+
             pageIndexIncrement();
         }
     };
-
+    useEffect(() => {
+        if (NextInboxList.length > 0) {
+            setInboxListData((prev) => {
+                return [...inboxListData, ...NextInboxList];
+            });
+        }
+    }, [NextInboxList])
     const closeSearchBar = () => {
         setShowSearch(false);
         setAcademicYear(AcademicYearId);
@@ -442,18 +447,18 @@ const MessageList = () => {
 
     useEffect(() => {
         if (DeleteDraftM !== '') {
-          toast.success(DeleteDraftM, { toastId: 'success1' })
-         }
-      }, [DeleteDraftM])
+            toast.success(DeleteDraftM, { toastId: 'success1' })
+        }
+    }, [DeleteDraftM])
 
-  const DeleteDraft = (Id)=>{
-    const DeleteDraftBody: IDeleteDraftMessageBody = {
-        aiSchoolId:"18",
-        aiAcademicYearId:"54",
-        aiUserId:"3861",  
-        aiDraftId:Id
-      };
-      dispatch(getDeleteDraftMessage(DeleteDraftBody))
+    const DeleteDraft = (Id) => {
+        const DeleteDraftBody: IDeleteDraftMessageBody = {
+            aiSchoolId: SchoolId,
+            aiAcademicYearId: academicYear,
+            aiUserId: sessionStorage.getItem('Id'),
+            aiDraftId: Id
+        };
+        dispatch(getDeleteDraftMessage(DeleteDraftBody))
     }
     return (
         <>
