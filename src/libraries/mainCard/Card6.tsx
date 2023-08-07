@@ -14,6 +14,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
 import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
 import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
+import { ProfileAddress } from '../styled/CommonStyle';
 
 function Card6() {
   const navigate = useNavigate();
@@ -42,6 +43,7 @@ function Card6() {
   const GetStudentPic: any = useSelector(
     (state: RootState) => state.StudentPic.GetStudentpic
   );
+  // console.log(GetStudentPic,"GetStudentPic")
 
   const DisableSubmit = GetStudentPic == null ? '' : GetStudentPic.IsSubmitted
 
@@ -66,11 +68,11 @@ function Card6() {
   const PhoneNumber2 = sessionStorage.getItem('MobileNumber2');
   const Religion = sessionStorage.getItem('Religion');
   const CategoryName = sessionStorage.getItem('CategoryName');
-  const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
+  const FamilyPhoto =  GetStudentPic?.PhotoImage.length != 0 ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage:'';
+  // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -88,6 +90,7 @@ function Card6() {
 
   return (
     <>
+    
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
         <Box ml={AllowStudentPhotoUpload == true && "30px"} >
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
@@ -133,21 +136,26 @@ function Card6() {
               </>
             ) : RoleName == 'Student' ? (
               <>
-                <Grid container sx={{ mt: "10px" }}>
-                  <Grid item xs={2.2} >
+                {/* <Grid container sx={{ mt: "10px" }}>
+                  <Grid item xs={4} >
                     <Typography sx={{ ml: "10px", fontWeight: "bold" }}>Address :</Typography>
 
                   </Grid>
-                  <Grid item xs={9.8}>
+                  <Grid item xs={8}>
                     {Address}
                   </Grid>
-                </Grid>
+                </Grid> */}
+
+                <Box sx={{display:"flex"}}>
+                <Typography sx={ProfileAddress}>Address : </Typography>
+                <Typography> {Address} </Typography>
+                </Box>
 
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
                 <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
                 <ProfileComponent Name='Caste & Sub-Caste :' Value={CasteAndSubCaste}></ProfileComponent>
                 <ProfileComponent Name='Category Name :' Value={CategoryName}></ProfileComponent>
-                <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
+                <ProfileComponent Name='UDISE Number :' Value={UDISENumber}></ProfileComponent>
                 <ProfileComponent Name='Mobile Number :' Value={PhoneNumber === "" ? PhoneNumber2 : PhoneNumber + ' , ' + PhoneNumber2}></ProfileComponent>
 
 
@@ -168,24 +176,13 @@ function Card6() {
                 <Box sx={{ display: "flex" }} >
                   <ProfileComponent Name='Family Photo :' Value={''}></ProfileComponent>
                   <Box sx={{ mt: "14px" }}>
-                    {/* <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'} /> */}
-
-                    {
-                      ImgUrl == "" ?
-                        <Avatar alt="user.name" src={'/imges/relative.png'} sx={{ width: "180px", height: "160px", border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"   >
-                        </Avatar>
-                        :
-                        <Avatar alt="user.name" src={FamilyPhoto} sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"   >
-                        </Avatar>
+                    {ImgUrl &&
+                      <Avatar alt="user.name" src={FamilyPhoto} sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"></Avatar>
                     }
                   </Box>
 
                 </Box>
-
-
-
-
-              </>
+                </>
             ) : (<></>)}
           </Grid>
         </Grid>
