@@ -35,6 +35,7 @@ function Card6() {
   const birthPlace = sessionStorage.getItem('BirthPlace');
   const asUserId = sessionStorage.getItem('UserId');
   const asStudentId = sessionStorage.getItem('StudentId');
+  const RoleId = sessionStorage.getItem('RoleId');
 
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
@@ -59,7 +60,7 @@ function Card6() {
     aiStudentId: parseInt(asStudentId)
   }
   useEffect(() => {
-    dispatch(getstudentpic(getstudentphoto))
+    if (RoleId === "3") { dispatch(getstudentpic(getstudentphoto)) }
     dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
   }, []);
 
@@ -71,7 +72,7 @@ function Card6() {
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto =  GetStudentPic?.PhotoImage.length != 0 ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage:'';
+  const FamilyPhoto = GetStudentPic?.PhotoImage.length != 0 ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
   // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
@@ -86,21 +87,19 @@ function Card6() {
     navigate('EditProfile')
   }
 
-
-
   return (
     <>
-    
+
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
         <Box ml={AllowStudentPhotoUpload == true && "30px"} >
           <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
         </Box>
-
-        {(AllowStudentPhotoUpload && !DisableSubmit) &&
-
+        {RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit &&
           <Box sx={{ color: "black" }} onClick={EditProfile}>
             <EditIcon fontSize="small" />
-          </Box>}
+          </Box>
+        }
+
       </Box>
 
       <ProfileDetailHeader style={{ marginRight: "12px", textAlign: "center" }}><b>{UserName}</b></ProfileDetailHeader>
@@ -146,9 +145,9 @@ function Card6() {
                   </Grid>
                 </Grid> */}
 
-                <Box sx={{display:"flex"}}>
-                <Typography sx={ProfileAddress}>Address : </Typography>
-                <Typography> {Address} </Typography>
+                <Box sx={{ display: "flex" }}>
+                  <Typography sx={ProfileAddress}>Address : </Typography>
+                  <Typography> {Address} </Typography>
                 </Box>
 
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
@@ -182,7 +181,7 @@ function Card6() {
                   </Box>
 
                 </Box>
-                </>
+              </>
             ) : (<></>)}
           </Grid>
         </Grid>
