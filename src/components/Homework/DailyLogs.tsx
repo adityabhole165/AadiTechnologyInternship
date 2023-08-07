@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 
 function DailyLogs() {
@@ -119,7 +120,8 @@ function DailyLogs() {
                 <Card sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={i === 0 ? -0.5 : 1} p={1}>
                   <Typography>{item.Header}</Typography>
                   <a href={localStorage.getItem('SiteURL') + item.Text1} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}>
-                    <Typography >Click here</Typography>
+             
+                    <FileDownloadOutlinedIcon/>
                   </a>
                 </Card>
               </div>
