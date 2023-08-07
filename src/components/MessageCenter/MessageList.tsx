@@ -460,6 +460,8 @@ const MessageList = () => {
         };
         dispatch(getDeleteDraftMessage(DeleteDraftBody))
     }
+    console.log("activeTab",activeTab);
+    
     return (
         <>
 
@@ -541,10 +543,10 @@ const MessageList = () => {
                                             ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
                                         />
                                     </Box>
-                                    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                                {activeTab ==  'Inbox' &&    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
                                         <ButtonPrimary onClick={() => { clickReadUnread("Unread") }} > Mark as Unread  </ButtonPrimary>
                                         <ButtonPrimary sx={{ ml: "5px" }} onClick={() => { clickReadUnread("Read") }}> Mark as Read</ButtonPrimary>
-                                    </Grid>
+                                    </Grid>}
                                 </>
                             )}
                         </Grid>
