@@ -292,7 +292,7 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
   
   return (
     <>
-      {/* <NewRelease/>  */}
+      <NewRelease/> 
       {showBday && <BdayPopUp />}
       <SchoolNoticeBoard/>
       <Card2 items={items1} heading={'School'} rowsCol="4"
