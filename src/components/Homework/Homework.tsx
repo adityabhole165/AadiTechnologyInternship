@@ -130,7 +130,7 @@ function Homework() {
         <PageHeader heading={'Homework'} subheading={''} />
         <div>
           <DotLegend1>
-            <DotLegendStyled1 className={classes.border} style={{ background: 'pink' }} />
+            <DotLegendStyled1 className={classes.border} style={{ background: '#628def' }} />
             <CardDetail7>Completed By Date</CardDetail7>
           </DotLegend1>
 
