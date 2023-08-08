@@ -3,13 +3,10 @@ import { RootState } from 'src/store';
 import { getDateMonthYearFormatted, getHomeworkDateFormatted, getNextDate } from '../Common/Util';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container } from '@mui/material'
-
 import SelectedDateCalendar from 'src/libraries/DateSelector/SelectedDateCalendar';
-
 import { CardDetail7 } from 'src/libraries/styled/CardStyle'
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled'
 import { Styles } from 'src/assets/style/student-style';
-
 import { getHomeworkDates } from 'src/requests/Homework/RequestHomeworkNew';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -18,6 +15,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
+import {getAllowHomewirkDaily} from 'src/requests/SchoolSetting/schoolSetting'
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 function Homework() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -35,10 +34,17 @@ function Homework() {
   const GetHomeworkDates = useSelector((state: RootState) => state.HomeworkNew.GetHomeworkDates);
   const ButtonState = useSelector((state: RootState) => state.HomeworkNew.ButtonState);
   const loading = useSelector((state: RootState) => state.HomeworkNew.Loading);
-
+  const getAllowHomewirkDailyLog: any = useSelector((state: RootState) => state.getSchoolSettings.AllowHomewirkDailyLog);
+  
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
   useEffect(() => {
     setStartDate(assignedDate)
     setEndDate(getHomeworkDateFormatted(new Date()))
+    dispatch(getAllowHomewirkDaily(GetSettingValueBody))
   }, [])
 
   useEffect(() => {
@@ -142,7 +148,12 @@ function Homework() {
               <Card30 header={filterData()} />
             </>)
         }
-          <ButtonPrimary sx={{float:"right"}} onClick={onNavigateDailyLog}>Daily Logs</ButtonPrimary>
+  
+         {getAllowHomewirkDailyLog && 
+           <ButtonPrimary sx={{float:"right"}} onClick={onNavigateDailyLog}>Daily Logs</ButtonPrimary>
+         }
+      
+         
       </Container>
     </div>
   )

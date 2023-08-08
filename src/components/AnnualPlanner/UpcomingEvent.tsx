@@ -19,7 +19,7 @@ import CheckboxImg from 'src/libraries/card/CheckboxImg';
 import Icon1 from 'src/libraries/icon/icon1';
 function UpcomingEvent() {
   const navigate = useNavigate();
-  const { DateFrommon, DateFromyear } = useParams();
+  const { DateFrommon, DateFromyear,Pholiday,Pevent, Pexam  } = useParams();
 
   const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
@@ -76,6 +76,11 @@ function UpcomingEvent() {
   }
 
   useEffect(() => {
+     if(Pholiday!==undefined){
+      setHoliday(Pholiday==='false'?false:true)
+      setEvent(Pevent==='false'?false:true)
+      setExam(Pexam==='false'?false:true)
+    }
     localStorage.setItem("url", window.location.pathname)
     setCurrentDate();
     if (DateFrommon != undefined) {
@@ -191,7 +196,8 @@ function UpcomingEvent() {
           {StartDate.getTime() <= date1.getTime() && EndDate.getTime() >= date1.getTime() ?
             (<>
 
-              <List1 items={eventListInMoth}></List1>
+              <List1 items={eventListInMoth} linkParams={'/' + assignedMonth_num +
+              '/'+ assignedYear + '/'+holiday+'/'+event+'/'+exam}></List1>
 
             </>) :
             <ErrorMessages Error={'Selected date is outside academic year'} />

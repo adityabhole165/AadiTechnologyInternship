@@ -3,7 +3,7 @@ import Card1 from 'src/libraries/mainCard/Card1';
 import { Link } from 'react-router-dom';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useNavigate } from 'react-router-dom';
-function List1({ items, SelectedMonth = null, SelectedYear = null }) {
+function List1({ items, SelectedMonth = null, SelectedYear = null, linkParams = '' }) {
 
   const navigate = useNavigate()
   const clickCard = (path) => {
@@ -11,7 +11,7 @@ function List1({ items, SelectedMonth = null, SelectedYear = null }) {
       navigate('../' + path.replace('/Common/', ''))
     else if (path !== undefined) {
       if (SelectedMonth === null)
-        navigate('/extended-sidebar/' + path.replace('%', encodeURIComponent('%')) )
+        navigate('/extended-sidebar/' + path.replace('%', encodeURIComponent('%')) + linkParams) 
       else
         navigate('/extended-sidebar/' + path.replace('%', encodeURIComponent('%')) + '/' + SelectedMonth + '/' + SelectedYear)
     }
