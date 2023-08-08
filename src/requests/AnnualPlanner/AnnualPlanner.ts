@@ -54,14 +54,12 @@ export const getEventList =
             dispatch(AnnualPlannerSlice.actions.getLoading(true));
 
             const response = await AnnualPlannerApi.GetEventsMonth(body);
-
-            console.log("response" ,response.data)
-              let UpcomingEventList = response.data.GetEventsInMonthResult.map((item, index) => {
+            let UpcomingEventList = response.data.GetEventsInMonthResult.map((item, index) => {
                 return {
                     Id: item.Id,
                     header: item.Description,      
                     text1: item.DisplayDate,  
-                    text2:item.TypeId,
+                    text2:'',
                     text3:item.EventComment,
                     backgroundColor: item.TypeId === 1 ? "green2" : item.TypeId === 2 ? "green1" :"pink2",
                     linkPath:  item.TypeId === 1 && '/Common/viewevent/' + item.Id 
