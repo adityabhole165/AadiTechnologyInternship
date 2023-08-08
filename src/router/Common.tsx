@@ -94,8 +94,17 @@ const commonRoutes = [
         path: 'EventOverview/UpcomingEvent',
         element: <UpcomingEvent/>
       },
+
+      {
+          path: 'EventOverview/:DateFrommon/:DateFromyear/:Pholiday/:Pevent/:Pexam',
+          element: <UpcomingEvent/>
+        },
       {
           path: 'viewevent/:Id/:AssigMonth/:AssigYear',
+          element: <ViewEvent />
+      },
+      {
+          path: 'viewevent/:Id/:DateFrommon/:DateFromyear/:holiday/:event/:exam',
           element: <ViewEvent />
       },
       {
