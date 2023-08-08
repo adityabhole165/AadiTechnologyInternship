@@ -72,7 +72,7 @@ function Card6() {
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto = GetStudentPic?.PhotoImage.length != 0 ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
+  const FamilyPhoto = (GetStudentPic?.PhotoImage.length != 0 && GetStudentPic?.PhotoImage !==undefined) ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
   // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
