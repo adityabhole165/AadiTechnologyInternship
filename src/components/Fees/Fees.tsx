@@ -359,7 +359,7 @@ console.log("FeesList2",FeesList2);
   const ClickNavigateChallan=()=>{
     navigate ('ChallanSNSForFees')
   }
-
+  
   return (
     <Container>
       <PageHeader heading={'Fee Details'} subheading={''} />
@@ -407,12 +407,13 @@ console.log("FeesList2",FeesList2);
         defaultValue={currentYear}
       /></Box>
       {currentYear !== asAcademicYearId &&
-        <> {selectedYear ?
+        // <> {selectedYear ?
           <Box mt={2} mb={1}>
             <Errormessage Error={'You are Viewing data of old academic year'} />
           </Box>
-          : ""}
-        </>}
+          // : ""}</>
+        
+        }
       {currentYear != NextYrId &&
         <>
           {FeesList2.PendingFeeAcademicYears !== "" &&
