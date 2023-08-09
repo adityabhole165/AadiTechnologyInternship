@@ -118,9 +118,9 @@ function DailyLogs() {
                 {GetHomeworkDailyLogs.map((item, i) => (
                   <div key={i}>
                     <Card sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={i === 0 ? -0.5 : 1} p={1}>
-                      <Typography>{item.Header}</Typography>
+                      <Typography mt={0.5}>{item.Header}</Typography>
                       <a href={localStorage.getItem('SiteURL') + item.Text1} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}>
-
+ 
                         <FileDownloadOutlinedIcon />
                       </a>
                     </Card>
