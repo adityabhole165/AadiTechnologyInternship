@@ -102,7 +102,7 @@ const FromTo = From +','+ To
   return (
     <>
       <Container maxWidth={'xl'}>
-        <ListStyle sx={CardStyle}>
+        <ListStyle >
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 

@@ -136,7 +136,7 @@ const TExamScheduleNew = () => {
     const hours = Math.floor(diffInMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
     const TotalMin = minutes !== 0 ? minutes + "min" : ""
-    const TotalHour = hours !== 0 ? hours + "h" : ""
+    const TotalHour = hours !== 0 ? hours + "hr" : ""
     return TotalHour + " " + TotalMin
   }
   

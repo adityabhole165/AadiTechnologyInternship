@@ -73,20 +73,22 @@ export const AllExamData =
             }
             const response1 = await GetOnlineExamListApi.GetOnlineExamQuestionsDetail(data);
             const getChild = (QuestionId) => {
+               
+            
                 return (
                     response1.data.AnswerDetails
-                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer !== "")
+                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer !== "" || objAnswer.AttachmentPath !== "")
                         .map((item, i) => {
-                            return {
+                           return {
                                 Id: item.AnswerId,
                                 Value: item.QuestionID,
                                 Name: item.Answer,
                                 isActive: item.UserSelectedAnswer === item.AnswerId ? true : false,
                                 IsCorrectAnswer: item.IsCorrectAnswer,
                                 UserSelectedAnswer: item.UserSelectedAnswer,
-                                IsExamSubmitted: GetIsExamSubmitted()
+                                IsExamSubmitted: GetIsExamSubmitted(),
+                                path1:item.AttachmentPath
                             }
-
                         })
                 )
             };
@@ -101,14 +103,16 @@ export const AllExamData =
                             SerialNo: item.SerialNo,
                             IsExamSubmitted: item.IsExamSubmited,
                             isSingleSelect: true,
-                            isActive: false
+                            isActive: false,
+                            path:item.AttachmentPath
                         },
                         Child: getChild(item.QuestionId)
                     }
 
                 })
-            console.log(questions, "questions")
+           
             dispatch(SelectOnlineExamSlice.actions.getExamData(questions));
+
         }
 export const GetOnlineExamList =
     (data: IOnlineTest): AppThunk =>

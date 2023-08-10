@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData, GetSaveExam, GetSubmitExam, resetSaveMsg, resetSubmitMsg } from 'src/requests/Student/OnlineExam';
+import { AllExamData, GetSaveExam, GetSubmitExam, resetSaveMsg, resetSubmitMsg ,GetExamSchedulesListList} from 'src/requests/Student/OnlineExam';
 import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
@@ -17,6 +17,7 @@ import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
 import BackButton from 'src/libraries/button/BackButton';
 import { toast } from 'react-toastify';
+import CardTimer from 'src/libraries/card/CardTimer';
 
 
 const QueAns = () => {
@@ -42,6 +43,7 @@ const QueAns = () => {
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
+    // console.log(GetAllAnswerQueListtt ,"GetAllAnswerQueListtt")
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
@@ -50,9 +52,20 @@ const QueAns = () => {
         (state: RootState) => state.OnlineExam.SaveExam
     );
 
+    const GetExamSchedules = useSelector(
+        (state: RootState) => state.OnlineExam.ExamSchedulesList
+    );
+
+  
+
+
+
     const OutofMarks = itemlist.map((item) => {
         return { AddMarks: item.Parent }
     });
+     
+
+    
     const totalMarks = () => {
         let totalMarks = 0
         itemlist.map((item) => {
@@ -124,7 +137,10 @@ const QueAns = () => {
         aiStudentId: asStudentId,
     };
 
+ 
+
     useEffect(() => {
+        dispatch(GetExamSchedulesListList(QuestionsForOnlineExam))
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
     useEffect(() => {
@@ -204,31 +220,7 @@ const QueAns = () => {
     const clickItem = (value) => {
         setCurrentIndex(value)
     }
-
-
-    // var timer;
-
-    // useEffect(() => {
-    //     timer = setInterval(() => {
-
-    //         setSeconds(seconds + 1);
-
-    //         if (seconds === 59) {
-    //             setMinutes(minutes + 1);
-    //             setSeconds(0);
-    //         } if (minutes === 59) {
-    //             setHours(hours + 1);
-    //         }
-    //     }, 1000)
-
-    //     return () => clearInterval(timer);
-    // });
-    // const ClickSubmit = () => {
-    //     alert("Are you sure you want to Submit the exam?")
-    //     clearInterval(timer);
-    //     dispatch(GetSubmitExam(SubmitOnlineExam))
-    // }
-
+      
     const ClickSubmit = () => {
         let text = ("Are you sure you want to Submit the exam?")
         if (window.confirm(text) === true) {
@@ -274,21 +266,25 @@ const QueAns = () => {
 
     const getDeadTime = () => {
         let deadline = new Date();
-
-
-        deadline.setSeconds(deadline.getSeconds() + 10);
+       deadline.setSeconds(deadline.getSeconds() + 10);
         return deadline;
     }
 
     useEffect(() => {
         clearTimer(getDeadTime());
     }, []);
-
-
+    
+ 
     return (
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
+            {GetExamSchedules.length > 0 && 
+            
+            <CardTimer GetExamSchedules={GetExamSchedules}/>
+            
+            }
+               
                 {
                     GetAllAnswerQueListtt.map((item, i) => {
                         return item.Parent.IsExamSubmitted == true &&
@@ -297,7 +293,11 @@ const QueAns = () => {
                     })
                 }
                 <Card sx={{ py: 1 }}>
-                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time     :    </b>{timer}</Typography>
+                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time     : </b>
+                    
+                    
+                    
+                    </Typography>
                     <Stack
                         direction="row"
                         justifyContent="center"
@@ -311,14 +311,14 @@ const QueAns = () => {
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
                         <Grid item xs={6}>
                             <Container>
-                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(-1) }}>
+                                <ButtonPrimary  fullWidth onClick={() => { clickPrevNext(-1) }}>
                                     Previous
                                 </ButtonPrimary>
                             </Container>
                         </Grid>
                         <Grid item xs={6} >
                             <Container>
-                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(1) }} >
+                                <ButtonPrimary  fullWidth onClick={() => { clickPrevNext(1) }} >
                                     Next
                                 </ButtonPrimary>
                             </Container>
@@ -346,33 +346,45 @@ const QueAns = () => {
                                 </Grid>
 
                             </Grid>
-
+                            <Box ml={3}>
+                         <Avatar alt="user.name" src={localStorage.getItem('SiteURL') + 'RITeSchool/Uploads/OnlineExamImages/' + itemlist[currentIndex].Parent.path} 
+                        sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }}
+                        variant="square" aria-label="add"></Avatar>
+                            
+                            
+                            </Box>
+                           
+                      
+                  
                             <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
 
                         </>
                     }
+                   
+                  
                     {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "11px", ml: "25px" }}><Attachments /></Box>}
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
-                        {showSaveSubmit && 
+                      
                                     <>
                                         <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
-                                        <Grid item xs={6}>
-                                            <Container>
-                                                <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>
-                                                    Save
-                                                </ButtonPrimary>
-                                            </Container>
-                                        </Grid>
+                                     <Grid item xs={6}>
+                                     <Container>
+                                 <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>Save</ButtonPrimary>
+                                   </Container>
+                                     </Grid>
+
+
                                         <Grid item xs={6} >
                                             <Container>
+                                            { showSaveSubmit || currentIndex == maxIndex &&
                                                 <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
                                                     Submit
-                                                </ButtonPrimary>
+                                                </ButtonPrimary>}
                                             </Container>
                                         </Grid>
                                     </>
                          
-                         }
+                        
 
                     </Grid>
                 </Card>
