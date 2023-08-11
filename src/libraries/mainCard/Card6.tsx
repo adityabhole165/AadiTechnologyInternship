@@ -134,19 +134,12 @@ function Card6() {
               </>
             ) : RoleName == 'Student' ? (
               <>
-                {/* <Grid container sx={{ mt: "10px" }}>
-                  <Grid item xs={4} >
-                    <Typography sx={{ ml: "10px", fontWeight: "bold" }}>Address :</Typography>
-
-                  </Grid>
-                  <Grid item xs={8}>
-                    {Address}
-                  </Grid>
-                </Grid> */}
+              
 
                 <Box sx={{ display: "flex" }}>
-                  <Typography sx={ProfileAddress}>Address : </Typography>
-                  <Typography> {Address} </Typography>
+              
+
+                  <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
                 </Box>
 
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
