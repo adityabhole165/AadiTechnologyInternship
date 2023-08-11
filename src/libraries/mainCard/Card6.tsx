@@ -37,6 +37,8 @@ function Card6() {
   const asStudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
 
+  const MobileNo = sessionStorage.getItem('MobileNumber');
+ 
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
   );
@@ -72,7 +74,7 @@ function Card6() {
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
   const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto = (GetStudentPic?.PhotoImage?.length != 0 && GetStudentPic?.PhotoImage !==undefined) ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
+  const FamilyPhoto = (GetStudentPic?.PhotoImage?.length != 0 && GetStudentPic?.PhotoImage !== undefined) ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
   // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
@@ -89,19 +91,16 @@ function Card6() {
 
   return (
     <>
-
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
-        <Box ml={AllowStudentPhotoUpload == true && "30px"} >
-          <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
-        </Box>
-        {RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit &&
-          <Box sx={{ color: "black" }} onClick={EditProfile}>
-            <EditIcon fontSize="small" />
-          </Box>
-        }
-
+     <Box sx={{display:"flex" ,alignItems: "center", justifyContent: "center"}} >
+      <Box ml={RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit ? "30px" : "0px" } >
+      <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
       </Box>
-
+      {RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit &&
+        <Box sx={{color: "black"}} onClick={EditProfile}>
+          <EditIcon fontSize="small" />
+        </Box>
+      }
+      </Box>
       <ProfileDetailHeader style={{ marginRight: "12px", textAlign: "center" }}><b>{UserName}</b></ProfileDetailHeader>
 
       {RoleName == 'Student' &&
@@ -127,7 +126,7 @@ function Card6() {
                 {RoleName == 'Teacher' &&
                   <ProfileComponent Name='Class Teacher :' Value={ClassTeacher}></ProfileComponent>}
 
-                <ProfileComponent Name='Mobile Number :' Value=''></ProfileComponent>
+                <ProfileComponent Name='Mobile Number :' Value={MobileNo}></ProfileComponent>
 
                 <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
 
@@ -135,19 +134,12 @@ function Card6() {
               </>
             ) : RoleName == 'Student' ? (
               <>
-                {/* <Grid container sx={{ mt: "10px" }}>
-                  <Grid item xs={4} >
-                    <Typography sx={{ ml: "10px", fontWeight: "bold" }}>Address :</Typography>
-
-                  </Grid>
-                  <Grid item xs={8}>
-                    {Address}
-                  </Grid>
-                </Grid> */}
+              
 
                 <Box sx={{ display: "flex" }}>
-                  <Typography sx={ProfileAddress}>Address : </Typography>
-                  <Typography> {Address} </Typography>
+              
+
+                  <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
                 </Box>
 
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>

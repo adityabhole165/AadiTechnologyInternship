@@ -391,7 +391,7 @@ dispatch(Stafflogin(Staffkid))
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{  height: 55 }} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
