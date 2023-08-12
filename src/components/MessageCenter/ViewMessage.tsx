@@ -153,7 +153,7 @@ function ViewSms({ }) {
             //     viewSent.RecieverName : viewSent.DisplayText}
             To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
               // (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
-                viewSent.RecieverName : viewSent.DisplayText}
+                viewSent.DisplayText : viewSent.RecieverName}
             Cc={viewSent.DisplayTextCc}
             Body={viewSent.Body}
             Text={viewSent.Subject}
