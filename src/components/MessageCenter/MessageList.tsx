@@ -37,7 +37,7 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import EmailSettings from './EmailSetting';
-import { getAllDraftMessage, getDeleteDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage'
+import { getAllDraftMessage, getDeleteDraftMessage, resetDeleteDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage'
 import { IDeleteDraftMessageBody, IGetAllDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteButton, MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
@@ -120,6 +120,8 @@ const MessageList = () => {
     const DeleteDraftM = useSelector(
         (state: RootState) => state.DraftMessages.DeleteDraftMessage
     );
+   
+    
     const IfMonthEmpty = monthYear == "" ? "0" : monthYear
 
     const getListBody: IgetList = {
@@ -444,24 +446,27 @@ const MessageList = () => {
         setIsRefresh(true)
     };
 
-
-    useEffect(() => {
-        if (DeleteDraftM !== '') {
-            toast.success(DeleteDraftM, { toastId: 'success1' })
-        }
-    }, [DeleteDraftM])
-
-    const DeleteDraft = (Id) => {
-        const DeleteDraftBody: IDeleteDraftMessageBody = {
-            aiSchoolId: SchoolId,
-            aiAcademicYearId: academicYear,
-            aiUserId: sessionStorage.getItem('Id'),
-            aiDraftId: Id
+  
+            
+         const DeleteDraft = (ID) => {
+          const DeleteDraftBody: IDeleteDraftMessageBody = {
+          aiSchoolId: SchoolId,
+          aiAcademicYearId: AcademicYearId,
+          aiUserId: sessionStorage.getItem('Id'),
+          aiDraftId: ID
         };
         dispatch(getDeleteDraftMessage(DeleteDraftBody))
-    }
-    console.log("activeTab",activeTab);
+         }
+
+         useEffect(() => {
+            if (DeleteDraftM !== '' ) {
+            toast.success(DeleteDraftM, { toastId: 'success1' })
+            dispatch(resetDeleteDraftMessage())
+            dispatch(getListOfMessages(getListBody, activeTab, false));}
+           }, [DeleteDraftM])
     
+     
+   
     return (
         <>
 
@@ -541,6 +546,7 @@ const MessageList = () => {
                                     <Box mb={2} sx={DeleteButton}>
                                         <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
                                             ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
+                                           
                                         />
                                     </Box>
                                 {activeTab ==  'Inbox' &&    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
@@ -574,6 +580,7 @@ const MessageList = () => {
                                         <SelectList3Col
                                             Itemlist={inboxListData}
                                             ActiveTab={activeTab}
+                                            DeleteDraft={DeleteDraft}
                                             refreshData={refreshData} />)}
                                     </div>
                                 )}

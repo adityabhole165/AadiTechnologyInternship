@@ -10,7 +10,7 @@ const SliceDraftMessage = createSlice({
         SaveDraftMessage: {},
         AllDraftMessage:[],
         DraftMessage:[],
-        DeleteDraftMessage:'',
+        DeleteDraftMessage:null,
         Loading: true,
     },
     reducers: {
@@ -33,7 +33,15 @@ const SliceDraftMessage = createSlice({
 
          getDeleteDraftMessage(state , action){
           state.DeleteDraftMessage = action.payload;
-         }
+         },
+
+         resetDeleteDraftMessage(state) {
+          state.DeleteDraftMessage = '';
+        },
+
+        resetSaveDraftMessage(state) {
+          state.SaveDraftMessage = '';
+        },
 
         }
       });
@@ -45,6 +53,12 @@ const SliceDraftMessage = createSlice({
       const response = await DraftMessageApi.GetSaveDraftMessage(data)
       dispatch(SliceDraftMessage.actions.getSaveDraftMessage(response.data));
     };
+
+    export const resetSaveDraftMessage  =
+    (): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceDraftMessage.actions.resetSaveDraftMessage());
+      }
 
     export const getAllDraftMessage =
     (data: IGetAllDraftMessageBody): AppThunk =>
@@ -67,8 +81,14 @@ const SliceDraftMessage = createSlice({
         (data: IDeleteDraftMessageBody): AppThunk =>
           async (dispatch) => {
             const response = await DraftMessageApi.DeleteDraftMessage(data)
-            dispatch(SliceDraftMessage.actions.getDeleteDraftMessage(response.data))
+            dispatch(SliceDraftMessage.actions.getDeleteDraftMessage(response.data.Message))
           }
+
+          export const resetDeleteDraftMessage  =
+          (): AppThunk =>
+            async (dispatch) => {
+              dispatch(SliceDraftMessage.actions.resetDeleteDraftMessage());
+            }
 
 
   

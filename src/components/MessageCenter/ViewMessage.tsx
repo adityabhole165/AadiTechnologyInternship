@@ -46,12 +46,12 @@ function ViewSms({ }) {
   const GetDraftMessage = useSelector(
     (state: RootState) => state.DraftMessages.DraftMessage
   );
-  
+
   const DraftMessageBody: IGetDraftMessageBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId,
     aiUserId: UserId,
-    aiDraftId: "10850"
+    aiDraftId: ID
   }
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
@@ -81,7 +81,7 @@ function ViewSms({ }) {
   useEffect(() => {
     dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody))
   }, []);
-  useEffect(() => {   
+  useEffect(() => {
     if (viewSent !== undefined) {
       if (viewSent.RequestReadReceipt === "True") {
         let readRecipient = "0"
@@ -105,65 +105,77 @@ function ViewSms({ }) {
     let arr2 = value2.split('(')
     if (arr1[0] === arr1[0]) {
       if (arr1.length > 1 && arr2.length > 1) {
-        if (compareStringWithoutSpace(arr1[1],arr2[1]) )
+        if (compareStringWithoutSpace(arr1[1], arr2[1]))
           return true
       }
     }
     else
       return false
-  } 
+  }
 
-  
+
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
-      {/* {GetDraftMessage !== undefined && <>
-        {GetDraftMessage.map((item,i) => {
-          return <Box key={i}><CardDraft
-            ViewDetail={ViewDetail}
-            From={item.SenderName}
-            InsertDateInFormat={item.InsertDateInFormat}
-            To={item.DisplayText}
-            Cc={item.DisplayTextCc}
-            Body={item.Body}
-            Text={item.Subject}
-            Attachments={item.Attachments}
-            ID={ID}
-            ViewSentObject={GetDraftMessage}
-            MessageCenterReadMode={MessageCenterReadMode} Viewsent={undefined} /></Box>
-        })}
+      <>
+
+        {FromRoute === "Draft" ?
+          <>
+            {GetDraftMessage !== undefined && <>
+              {GetDraftMessage.map((item, i) => {
+                return <Box key={i}>
+                  <CardDraft
+                    ViewDetail={ViewDetail}
+                    From={item.SenderName}
+                    InsertDateInFormat={item.InsertDateInFormat}
+                    To={item.DisplayText}
+                    Cc={item.DisplayTextCc}
+                    Body={item.Body}
+                    Text={item.Subject}
+                    Attachments={item.Attachments}
+                    ID={ID}
+                    ViewSentObject={GetDraftMessage}
+                    MessageCenterReadMode={MessageCenterReadMode} Viewsent={undefined} /></Box>
+              })}
+
+            </>}
+
+
+          </> :
+          <>
+            {
+
+              viewSent === undefined ? null : showMessage && (
+                <Card7
+                  ViewDetail={ViewDetail}
+                  From={viewSent.UserName}
+                  InsertDateInFormat={viewSent.InsertDateInFormat}
+                  To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+                    viewSent.RecieverName : viewSent.DisplayText}
+                  Cc={viewSent.DisplayTextCc}
+                  Body={viewSent.Body}
+                  Text={viewSent.Subject}
+                  Attachments={viewSent.Attachments}
+                  ID={ID}
+                  ViewSentObject={viewSent}
+                  LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
+                  MessageCenterReadMode={MessageCenterReadMode}
+                />
+              )}
+
+
+          </>}
+
+
+
+
 
       </>
 
-      } */}
 
-      {
 
-        viewSent === undefined ? null : showMessage && (
-          <Card7
-            ViewDetail={ViewDetail}
-            From={viewSent.UserName}
-            InsertDateInFormat={viewSent.InsertDateInFormat}
-            // ReceivedTime={viewSent.Time}
-
-            // To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-            //   (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
-            //     viewSent.RecieverName : viewSent.DisplayText}
-            To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-              // (isSame(viewSent.DisplayTextCc, viewSent.RecieverName)) ? '' :
-                viewSent.RecieverName : viewSent.DisplayText}
-            Cc={viewSent.DisplayTextCc}
-            Body={viewSent.Body}
-            Text={viewSent.Subject}
-            Attachments={viewSent.Attachments}
-            ID={ID}
-            ViewSentObject={viewSent}
-            LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
-            MessageCenterReadMode={MessageCenterReadMode}
-          />
-        )}
     </>
   );
 }

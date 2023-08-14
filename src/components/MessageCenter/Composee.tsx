@@ -31,7 +31,7 @@ import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage ,resetSaveDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
 import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
@@ -553,6 +553,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
         useEffect(() => {
           if (SaveDraftM !== '') {
             toast.success(SaveDraftM, { toastId: 'success1' })
+            dispatch(resetSaveDraftMessage());
            }
         }, [SaveDraftM])
   return (
@@ -888,13 +889,13 @@ const DraftMessageBody: IGetDraftMessageBody = {
                 Send
               </ButtonPrimary>
             </Grid>
-            {/* <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
               <ButtonPrimary color="primary"  fullWidth 
                 onClick={SaveDraft}
               >
                 Save as Draft
               </ButtonPrimary>
-            </Grid> */}
+            </Grid>
             </Grid>
           </form>
         </ListStyle>

@@ -1,17 +1,16 @@
-import { Grid, Grow } from '@mui/material';
+import {  Grid, Grow } from '@mui/material';
+import { useState ,useEffect} from 'react';
 import CheckboxImg from './CheckboxImg';
 import { ListStyle } from '../styled/CardStyle';
 import { useNavigate } from 'react-router-dom';
-import Card4 from 'src/libraries/mainCard/Card4';
-import { useState } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import CardMessage from '../mainCard/CardMessage';
+import { useDispatch } from 'react-redux';
 
-const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => { 
+const ListCard4ColSel = ({ Item, onChange,ActiveTab ,DeleteDraft }) => { 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(true)
-  const clickCard = (NavPath) => {
-        navigate('/' + location.pathname.split('/')[1] + '/MessageCenter/viewMSg/' + NavPath);
-  }
   return (
     <>
       <Grow in={checked}
@@ -22,10 +21,14 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
     
         <Grid container>
           <Grid item xs={1} sm={0.5} sx={{ mt: '5px' }}>
+          {ActiveTab !== 'Draft' ? 
             <CheckboxImg
               name={Item.Id} value={Item.Id}
               checked={Item.isActive} onChange={onChange}
-            />
+            />:
+          <DeleteIcon onClick={()=>DeleteDraft(Item.Id)} color={'error'}/>
+            }
+           
           </Grid>
           <Grid item xs={11} sm={11.5}>
             <CardMessage
@@ -40,6 +43,7 @@ const ListCard4ColSel = ({ Item, onChange,ActiveTab }) => {
               IsAttachmentExist={Item.IsAttachmentExist}
               DetailsId={Item.DetailsId}
               NavPath={Item.NavPath}
+           
             />
           </Grid>
         </Grid>

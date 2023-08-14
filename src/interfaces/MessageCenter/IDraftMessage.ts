@@ -46,8 +46,52 @@ export interface IGetDraftMessageBody  {
 }
 
 export interface IGetDraftMessageResult  {
-  
+    Attachments: {},
+            DetailsId: null,
+            ReceiverDetailsId: null,
+            DisplayText:string ,
+            Subject: string,
+            IsAttachment: null,
+            Attachment: null,
+            Body: string,
+            UserName: null,
+            Date: string,
+            Time: null,
+            RecieverName: null,
+            IsDeletedFromUser: null,
+            SenderUserId: null,
+            SenderUserRoleId: null,
+            IsDeleted: null,
+            AcademicYearId: null,
+            InsertedById: null,
+            IsRead: null,
+            IsNew: null,
+            ReceiverUserRoleId: null,
+            ReceiverUserId: null,
+            SchoolId: null,
+            SenderName: string,
+            LoggedInUserNameForMessage: null,
+            AttachmentDisplayName: null,
+            MESSAGECOUNT: number,
+            IsBdayApplicable: boolean,
+            DateOfBirth: null,
+            IsLockedUser: boolean,
+            Id: number,
+            PageLabel: null,
+            ScheduleDateTime:string,
+            DisplayTextCc: string,
+            ReceiverNameCc: null,
+            ReceiverUserIdCc: null,
+            RequestReadReceipt: null,
+            IsAttachmentExist: boolean,
+            HasReadReceipt: boolean,
+            InsertDateInFormat: string
 }
+
+// export interface IGetDraftMessageR  {
+//     GetDraftMessageDetails:IGetDraftMessageResult[]
+   
+// }
 
 export interface IDeleteDraftMessageBody  {
     aiSchoolId:string,
