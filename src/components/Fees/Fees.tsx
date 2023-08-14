@@ -65,11 +65,9 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
-console.log("FeesList2",FeesList2);
 
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
-  // console.log("AcadamicYear",AcadamicYear);
   
   const FeesDetailsOfOldAcademic: any = useSelector((state: RootState) => state.Fees.GetFeesDetailsOfOldAcademic);
   const InternalFeeDetails: any = useSelector((state: RootState) => state.Fees.InternalFeeDetails);
@@ -141,7 +139,6 @@ console.log("FeesList2",FeesList2);
     aiAcademicYearId: currentYear,
     aiStudentId: asStudentId
   }
-  // console.log("ShowFeeStructureOfNextYr",ShowFeeStructureOfNextYr);
   
   const IFeeStructure = {
     aiSchoolId: asSchoolId,
@@ -173,13 +170,15 @@ console.log("FeesList2",FeesList2);
   //     setPayNote([...arrNote, arrNote2])
   //   }
   // }, [FeesList2])
+  
   useEffect(() => {
     if(showCaution === "internalFees"){
     dispatch(getInternalYearList(InternalYrList));
     }
     else
     dispatch(getYearList(body1));
-  }, [showCaution])
+  }, [showCaution,currentYear])
+
   useEffect(() => {
     let arr = AcadamicYear;
     if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") || AllowNextYearInternal && showCaution == "internalFees") {
@@ -204,7 +203,7 @@ console.log("FeesList2",FeesList2);
   useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
 
-    dispatch(getYearList(body1));
+    // dispatch(getYearList(body1));
     dispatch(ShowFeeStructureOfNextYear(GetSettingValueBody))
     dispatch(getOnlinePaymentForCautionMoney(GetSettingValueBody));
     dispatch(getNextYearDetails(IGetNextYearDetailsBody));
@@ -222,8 +221,14 @@ console.log("FeesList2",FeesList2);
       setShowCaution(InternalOrSchool)
       setCurrentyear(ActiveYear)
     }
+   
   }, []);
 
+  useEffect(() => {
+    if(showCaution=="SchoolFees" || showCaution=="internalFees"){
+      setCurrentyear(asAcademicYearId)
+    }
+  }, [showCaution]);
   useEffect(() => {
     dispatch(getOldstudentDetails(IOldStudentDetails));
   }, [currentYear]);
@@ -406,7 +411,7 @@ console.log("FeesList2",FeesList2);
         label={'Select Year'}
         defaultValue={currentYear}
       /></Box>
-      {currentYear !== asAcademicYearId &&
+      {currentYear < asAcademicYearId &&
         // <> {selectedYear ?
           <Box mt={2} mb={1}>
             <Errormessage Error={'You are Viewing data of old academic year'} />

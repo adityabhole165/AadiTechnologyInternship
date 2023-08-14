@@ -164,18 +164,9 @@ function ViewSms({ }) {
                   MessageCenterReadMode={MessageCenterReadMode}
                 />
               )}
-
-
           </>}
 
-
-
-
-
       </>
-
-
-
     </>
   );
 }
