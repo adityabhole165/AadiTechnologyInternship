@@ -48,6 +48,10 @@ const messageCenterRoutes: PartialRouteObject[] = [
         element: <Sent />
       },
       {
+        path: 'Draft',
+        element: <Inbox />
+      },
+      {
         path: 'Search',
         element: <Search />
       },
