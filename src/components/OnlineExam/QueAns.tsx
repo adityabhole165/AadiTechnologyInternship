@@ -40,7 +40,7 @@ const QueAns = () => {
     const [hours, setHours] = useState(0);
     const [showSaveSubmit, setshowSaveSubmit] = useState(true);
 
-   
+
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
@@ -241,7 +241,7 @@ const QueAns = () => {
     }
 
     const ClickSubmit = () => {
-       
+
         let text = ("Are you sure you want to Submit the exam?")
         if (window.confirm(text) === true) {
             dispatch(GetSubmitExam(SubmitOnlineExam))
@@ -309,11 +309,11 @@ const QueAns = () => {
                     })
                 }
                 <Card sx={{ py: 1 }}>
-                    {GetExamSchedules.length > 0 &&
-
-                        <CardTimer GetExamSchedules={GetExamSchedules} />
-
-                    }
+                    {showSaveSubmit &&
+                        <>
+                            {GetExamSchedules.length > 0 &&
+                          <CardTimer GetExamSchedules={GetExamSchedules} />}
+                          </>}
 
 
 
