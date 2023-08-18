@@ -234,3 +234,25 @@ export interface IGetFeeStructureLinksResult {
                 MidYearFeeStructure: string,
         }
 }
+
+ export interface IGetInternalFeeReceiptBody{
+        
+            aiSchoolId : string,
+            aiAcademicYearId : string,
+             aiSchoolwiseStudentId : string,
+            asReceiptNo : string,
+            aiInternalFeeDetailsId : string,
+            abIsNextYearPayment : string,
+            aiSerialNumber : string
+        }
+
+
+export interface IGetCautionMoneyReceiptBody{
+       
+        aiSchoolId : string,
+        aiAcademicYearId : string,
+        aiStudentId : string
+    
+
+                
+}

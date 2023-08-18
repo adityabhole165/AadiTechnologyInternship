@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
 import { getFeeStructureLink, getFees, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline } from 'src/interfaces/Student/Fees';
+import IFees, { GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetNextYearDetailsResult, IPayOnline,IGetInternalFeeReceiptBody,IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
@@ -17,13 +17,13 @@ import { CardDetail1, CardDetail7, CardDetail8, ListStyle } from 'src/libraries/
 import Note from 'src/libraries/Note/Note';
 import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
 import { DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
-import { getFeesDetailsOfOldAcademic, getInternalFeeDetails, getNextYearDetails, getNextYearFeeDetails } from 'src/requests/Fees/Fees'
+import { getFeesDetailsOfOldAcademic, getInternalFeeDetails, getNextYearDetails, getNextYearFeeDetails ,GetInternalFeeReceipt , GetCautionMoneyReceipt} from 'src/requests/Fees/Fees'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import PayCautionMoney from './PayCautionMoney';
 import SpecialNote from 'src/libraries/Note/SpecialNote';
 import { string } from 'prop-types';
-import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent, getRestrictNewPaymentIfOldPaymentIsPending, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, ShowFeeStructureOfNextYear } from 'src/requests/SchoolSetting/schoolSetting';
+import { getOnlinePaymentForCautionMoney, getEnableadvanceFeepayment, EnableAdvancefeePayment, GetEnableOnlinePaymentForInternalFee, getallowNextYearInternalFeePaymentForStudent, getRestrictNewPaymentIfOldPaymentIsPending, getEnableOnlinePaymentForLastYearfee, getEnabledOnlineFeePayment, ShowFeeStructureOfNextYear} from 'src/requests/SchoolSetting/schoolSetting';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { payOnline } from 'src/requests/Fees/Fees';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -80,7 +80,10 @@ function Fees() {
   const AllowNextYearInternal: any = useSelector((state: RootState) => state.getSchoolSettings.AllowNextYearInternalFeePaymentForStudent)
   const ShowFeeStructureOfNextYr: any = useSelector((state: RootState) => state.getSchoolSettings.ShowFeeStructureOfNextYear)
   const FeeStructureLink = useSelector((state: RootState) => state.Fees.FeeStructureLinks); 
-  
+  const InternalFeeReceipt: any = useSelector((state: RootState) => state.Fees.InternalFeeReceipt);
+   console.log("InternalFeeReceipt" , InternalFeeReceipt);
+   const CautionMoneyReceipt: any = useSelector((state: RootState) => state.Fees.CautionMoneyReceipt);
+   console.log("CautionMoneyReceipt" , CautionMoneyReceipt);
 
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
   let NextYrId = NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId
@@ -157,6 +160,20 @@ function Fees() {
   //     setPayNote([...arrNote, arrNote2])
   //   }
   // }, [FeesList2])
+
+  const clickIcon=()=>{
+    const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
+
+      "aiSchoolId":"71",
+      "aiAcademicYearId":"11",
+      "aiSchoolwiseStudentId":"2686",
+      "asReceiptNo":"30328",
+      "aiInternalFeeDetailsId":"298261",
+      "abIsNextYearPayment":"false",
+      "aiSerialNumber":"449729"
+  }
+    dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
+    }
   useEffect(() => {
     let arr = AcadamicYear;
     if ((AllowAdvancePaymentforStudent && AllowAdvancePayment && showCaution == "SchoolFees") || AllowNextYearInternal && showCaution == "internalFees") {

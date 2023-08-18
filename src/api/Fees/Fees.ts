@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult}  from "../../interfaces/Student/Fees";
+import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult , IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody}  from "../../interfaces/Student/Fees";
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);
@@ -37,6 +37,15 @@ const GetOldStudentDetails = (data:IGetOldStudentDetailsBody) => {
 const GetFeeStructureLinks = (data:IGetFeeStructureLinksBody) => {
   return http.post<IGetFeeStructureLinksResult>('Student/GetFeeStructureLinks',data);
 }
+const GetInternalFeeReceipt  = (data: IGetInternalFeeReceiptBody) => {
+
+  return http.post('Student/GetInternalFeeReceiptFileName',data);
+};
+const GetCautionMoneyReceipt  = (data: IGetCautionMoneyReceiptBody) => {
+
+  return http.post('Student/GetCautionMoneyReceiptFileName',data);
+};
+
 
 const FeesApi ={
     GetFeesList,
@@ -48,7 +57,10 @@ const FeesApi ={
     GetNextYearDetails,
     GetNextYearFeeDetails,
     GetOldStudentDetails,
-    GetFeeStructureLinks
+    GetFeeStructureLinks,
+    GetInternalFeeReceipt,
+    GetCautionMoneyReceipt
+    
 }
 
 export default FeesApi;
