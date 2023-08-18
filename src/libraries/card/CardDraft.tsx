@@ -13,7 +13,7 @@ import {
   Wordbreak
 } from '../styled/CardStyle';
 import { useNavigate } from 'react-router-dom';
-
+import { useParams } from 'react-router-dom';
 
 function CardDraft({
   ViewDetail,
@@ -58,7 +58,7 @@ function CardDraft({
   const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
-
+  const { FromRoute } = useParams();
   const saveMessageBody = (replyFwd) => {  
     const path =
       replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
@@ -80,6 +80,9 @@ function CardDraft({
       }))
   }
 
+  const navigateToInBox =()=>{
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox' )
+  }
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -142,14 +145,8 @@ function CardDraft({
 
           </BoxWrapper>
         </ListStyle>
-      {MessageCenterReadMode == true ? null :   <CardWrapper>
-          <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>&nbsp;&nbsp;
-         {RoleId !== "3" &&  <>
-        {!IsSender &&  <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
-          </>}
-          <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward</ButtonPrimary>
-         
-        </CardWrapper>}
+           <ButtonPrimary onClick={navigateToInBox}>Go to InBox</ButtonPrimary>
+           <ButtonPrimary sx={{ml:"5px"}}>Edit</ButtonPrimary>
         
       </Container>
     </>
