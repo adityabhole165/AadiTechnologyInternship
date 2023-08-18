@@ -53,6 +53,7 @@ function Sent() {
                     margin={''}
                     FileName={''}
                     key={i}
+                    Textcolor=''
                   />
             </RouterLink>
           );
