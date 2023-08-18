@@ -32,6 +32,7 @@ function List1({ items, SelectedMonth = null, SelectedYear = null, linkParams = 
                   header={items.header}
                   text1={items.text1} text2={items.text2} text3={items.text3} text4={items.text4} text5={items.text5} text6={items.text6}
                   Color={items.backgroundColor}
+                  Textcolor={items.Textcolor}
                   margin={items.mx}
                   FileName={items.FileName}
                   key={items.id}

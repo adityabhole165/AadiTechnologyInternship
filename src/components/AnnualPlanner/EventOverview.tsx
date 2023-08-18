@@ -8,13 +8,12 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
-import Table1 from 'src/libraries/TableFormat/Table1';
 import UpcomingEvent from './UpcomingEvent';
+import Icon1 from 'src/libraries/icon/icon1';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
@@ -28,6 +27,9 @@ function EventOverview() {
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
+
+  const Note: string =
+  'These events may change due to unavoidable reasons without prior notice.';
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -123,8 +125,10 @@ function EventOverview() {
     {RoleId === "3" ?  <UpcomingEvent/> : <>
     <Container>
     
-      <PageHeader heading={'Events Overview'} subheading={''} />
-
+      <PageHeader heading={'Annual Planner'} subheading={''} />
+      <Box sx={{ float: "right" }}>
+          <Icon1 Note={Note} />
+        </Box>
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
