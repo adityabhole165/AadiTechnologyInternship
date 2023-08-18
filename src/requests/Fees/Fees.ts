@@ -2,9 +2,9 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody} from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
-import { getDateFormat, getDateFormatted, getDateMonthYearFormatted } from 'src/components/Common/Util';
+import { getDateFormat, getDateFormatWithSpaceAndMonthInString } from 'src/components/Common/Util';
 
 const Feesslice = createSlice({
   name: 'Fees',
@@ -21,7 +21,13 @@ const Feesslice = createSlice({
     GetOldStudentDetails: null,
     FeeStructureLinks:null,
     InternalFeeReceipt:"",
-    CautionMoneyReceipt:""
+    CautionMoneyReceipt:"",
+    AcademicYearsforFeeChallan:[],
+    DetailsForChallanImport:{},
+    AllFeeTypesForChallanImport:[],
+    AllPayableforChallan:[],
+    FileNameForSNSChallan:""
+
   },
 
 
@@ -56,6 +62,7 @@ const Feesslice = createSlice({
     },
     getInternalFeeDetails(state, action) {
       state.FeesData = action.payload.FeeDetails;
+      //console.log(state.FeesData)
       state.FeesData2 = action.payload;
 
     },
@@ -85,6 +92,28 @@ const Feesslice = createSlice({
     },
        resetCautionReciept(state, action) {
       state.CautionMoneyReceipt = ""
+       },
+    getAcademicYearsforFeeChallan(state, action) {
+      state.AcademicYearsforFeeChallan = action.payload;
+    },
+
+    getDetailsForChallanImport(state, action) {
+      state.DetailsForChallanImport = action.payload;
+    },
+
+    getAllFeeTypesForChallanImport(state, action) {
+      state.AllFeeTypesForChallanImport = action.payload;
+    },
+
+    getAllPayableforChallan(state, action) {
+      state.AllPayableforChallan = action.payload;
+    },
+
+    getFileNameForSNSChallan(state, action) {
+      state.FileNameForSNSChallan = action.payload;
+    },
+    resetFileNameForSNSChallan(state) {
+      state.FileNameForSNSChallan = "";
     },
   }
 });
@@ -126,6 +155,20 @@ export const getYearList =
           id: item.Academic_Year_Id,
           Name: item.AcademicYear,
           Value: item.Academic_Year_Id,
+          YearType: "'A','B','C'"
+        }
+      })
+      dispatch(Feesslice.actions.getAllAcademicYears(itemlist));
+    };
+    export const getInternalYearList =
+  (data: GetAllAcademicYearsApiBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.getAllAcademicInternalYears(data);
+      const itemlist = response?.data.AcademicYears.map((item) => {
+        return {
+          id: item.AcademicYearId,
+          Name: item.AcademicYearName,
+          Value: item.AcademicYearId,
           YearType: "'A','B','C'"
         }
       })
@@ -183,7 +226,7 @@ export const getInternalFeeDetails =
             AmountPayable: "0",
             DebitStudentFeeId: "0",
             DueDate: "",
-            DueDateFormat: getDateFormatted(item.PaidDate),
+            DueDateFormat: getDateFormatWithSpaceAndMonthInString(item.PaidDate),
             DueDateString: "",
             FeeId: "0",
             FeesPaid: "0",
@@ -318,6 +361,77 @@ export const resetReciept =
     const response = await FeesApi.GetCautionMoneyReceipt(data);
     dispatch(Feesslice.actions.getCautionMoneyReceipt(response.data));
   };
+ 
+
+  export const getAcademicYearsforFeeChallan =
+  (data: IGetAcademicYearsforFeeChallanBody): AppThunk =>
+    async (dispatch) => {
+      const response = await FeesApi.GetAcademicYearsforFeeChallan(data);
+
+      const itemlist = response?.data.AcademicYears.map((item) => {
+        return {
+          id: item.AcademicYearId,
+          Name: item.AcademicYearName,
+          Value: item.AcademicYearId,
+          
+        }
+      })
+      dispatch(Feesslice.actions.getAcademicYearsforFeeChallan(itemlist));
+    };
+
+    export const getDetailsForChallanImport =
+    (data: IGetDetailsForChallanImportBody): AppThunk =>
+      async (dispatch) => {
+        const response = await FeesApi.GetDetailsForChallanImport(data);
+        dispatch(Feesslice.actions.getDetailsForChallanImport(response.data));
+      };
+
+
+      export const getAllFeeTypesForChallanImport =
+      (data: IGetAllFeeTypesForChallanImportBody): AppThunk =>
+        async (dispatch) => {
+          const response = await FeesApi.GetAllFeeTypesForChallanImport(data);
+          const itemlist = response?.data.FeeTypes.map((item) => {
+            return {
+              id: item.Id,
+              Name: item.Name,
+              Value: item.Id,
+              
+            }
+          })
+          dispatch(Feesslice.actions.getAllFeeTypesForChallanImport(itemlist));
+        };
+
+
+        export const getAllPayableforChallan =
+        (data: IGetAllPayableforChallanBody): AppThunk =>
+          async (dispatch) => {
+            const response = await FeesApi.GetAllPayableforChallan(data);
+       console.log(response,"response")
+            const itemlist = response?.data.Payables.map((item) => {
+              return {
+                id: item.Id,
+                Name: item.Name,
+                Value: item.Id,
+                
+              }
+            })
+            dispatch(Feesslice.actions.getAllPayableforChallan(itemlist));
+          };
+
+
+          export const getFileNameForSNSChallan =
+          (data: IGetFileNameForSNSChallanBody): AppThunk =>
+            async (dispatch) => {
+              const response = await FeesApi.FileNameForSNSChallan(data);
+              dispatch(Feesslice.actions.getFileNameForSNSChallan(response.data));
+            };
+
+     export const resetRecieptChallan =
+     (): AppThunk =>
+     async (dispatch) => {
+      dispatch(Feesslice.actions.resetFileNameForSNSChallan());
+    };
   
 
 export default Feesslice.reducer

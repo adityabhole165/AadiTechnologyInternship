@@ -48,7 +48,7 @@ function ViewHomework() {
     <>
       <PageHeader heading={'View Homework'} subheading={''} />
    
-        <BackButton FromRoute={"/Student/Homework/"+SelectedDate} />
+        <BackButton FromRoute={"/Student/Homework/"} />
     
       {viewHomework === undefined ? null : (
         <Card4

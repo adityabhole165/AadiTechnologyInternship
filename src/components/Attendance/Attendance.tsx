@@ -86,12 +86,12 @@ function Attendance() {
             <Card1
               header='School working days '
               text3={AttendanceData.TotalAttendanceDays}
-              text2="" text1="" text4="" text5="" text6="" Color="" margin=""
+              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
             />
             <Card1
               header='Total present days '
               text3={AttendanceData.PresentDays}
-              text2="" text1="" text4="" text5="" text6="" Color="" margin=""
+              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
             />
             <Card1
               header=' Total absent days'
@@ -99,7 +99,7 @@ function Attendance() {
                 Number(AttendanceData.TotalAttendanceDays) -
                 Number(AttendanceData.PresentDays)
               }
-              text2="" text1="" text4="" text5="" text6="" Color="" margin=""
+              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
             />
           </>
         )}

@@ -8,16 +8,16 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container } from '@mui/material';
+import { Box, Container } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
-import Table1 from 'src/libraries/TableFormat/Table1';
+import UpcomingEvent from './UpcomingEvent';
+import Icon1 from 'src/libraries/icon/icon1';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
-  const BackMonth = new Date(DateFrommon).getMonth() + 1;
+  const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
   const dispatch = useDispatch();
   const eventList = useSelector(
@@ -28,9 +28,13 @@ function EventOverview() {
     (state: RootState) => state.AnnualPlanner.Loading
   );
 
+  const Note: string =
+  'These events may change due to unavoidable reasons without prior notice.';
+
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
+  const RoleId = sessionStorage.getItem('RoleId');
 
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedYear, setAssignedYear] = useState<any>();
@@ -117,9 +121,14 @@ function EventOverview() {
 
   
   return (
+    <>
+    {RoleId === "3" ?  <UpcomingEvent/> : <>
     <Container>
-      <PageHeader heading={'Events Overview'} subheading={''} />
-      <ButtonPrimary sx={{float:"right",mb:"10px", mt:"-15px"}} onClick={onUpcomingEvent}>Annual Planner</ButtonPrimary>
+    
+      <PageHeader heading={'Annual Planner'} subheading={''} />
+      <Box sx={{ float: "right" }}>
+          <Icon1 Note={Note} />
+        </Box>
       <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
@@ -140,10 +149,10 @@ function EventOverview() {
           }
         </>)
       }
-
-     
-
-    </Container>
+      </Container>
+    </>
+    }
+    </>
   );
 }
 

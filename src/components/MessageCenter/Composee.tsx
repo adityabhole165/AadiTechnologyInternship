@@ -31,6 +31,8 @@ import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
+import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage ,resetSaveDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
+import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
 function Form13() {
   
@@ -39,6 +41,9 @@ function Form13() {
   );
   const ContactGRPusers = useSelector(
     (state: RootState) => state.MessageCenter.ContactgrpUsers
+  );
+  const SaveDraftM = useSelector(
+    (state: RootState) => state.DraftMessages.SaveDraftMessage
   );
 
   const dispatch = useDispatch();
@@ -58,10 +63,16 @@ function Form13() {
   const AttachmentArray = (ViewData === null || ViewData === "" || View.Attachment == "") ? "null" : View.Attachment.join(',');
   const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
   const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
+  const CC = (ViewData === null || ViewData === "") ? "" :View.CC
+  const CcReceiverUserId = (ViewData === null || ViewData === "") ? "" :View.CCReceiverUserId
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
     ReplyRecipientID: FromUserID
+  };
+  const ReplyAllRecipientNameId = {
+    ReplyAllRecipientName: CC,
+    ReplyAllRecipientID: CcReceiverUserId
   };
 
   const [ArrayOfAttachment, setArrayOfAttachment] = useState<any>([]);
@@ -434,6 +445,13 @@ function Form13() {
       );
       RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID)
     }
+    if (!(ReplyAllRecipientNameId.ReplyAllRecipientName ===undefined ||
+      ReplyAllRecipientNameId.ReplyAllRecipientID === "")){
+        RecipientsCCObject.RecipientName.push(
+          ReplyAllRecipientNameId.ReplyAllRecipientName
+        );
+        RecipientsCCObject.RecipientId.push(ReplyAllRecipientNameId.ReplyAllRecipientID)
+      }
   }, []);
 
   const handleRemoveListItems = (fileName, fileData) => {
@@ -492,7 +510,52 @@ function Form13() {
 }
 window.addEventListener('resize', handleResize)
 
+const AllDraftMessageBody: IGetAllDraftMessageBody = {
+  aiSchoolId:'18',
+  aiAcademicYearId:'54',
+  aiUserId:'5234',
+  asFilter:'',
+  aiMonthId:'',
+  asOperator:"",
+  asDate:""
+};
 
+
+
+const DraftMessageBody: IGetDraftMessageBody = {
+  aiSchoolId:"18",
+  aiAcademicYearId:"54",
+  aiUserId:"5234",  
+  aiDraftId:"10791" 
+}
+
+
+  const SaveDraftBody: ISaveDraftMessageBody = {
+      aiDraftId:'0',
+       aoMessage: {
+        SenderUserId:UserId,
+        SchoolId:localschoolId,
+        AcademicYearId:AcademicYearId,
+        ReceiverUserId:'',
+        DisplayText:RecipientsObject.RecipientName.toString(),
+        Subject:formik.values.Subject,
+        Body:formik.values.Content,
+        ReceiverUserIdCc:'',
+        DisplayTextCc:RecipientsCCObject.RecipientName.toString()
+      }}
+
+     
+
+        const SaveDraft = () =>{
+          dispatch(getSaveDraftMessage(SaveDraftBody))
+        }
+
+        useEffect(() => {
+          if (SaveDraftM !== '') {
+            toast.success(SaveDraftM, { toastId: 'success1' })
+            dispatch(resetSaveDraftMessage());
+           }
+        }, [SaveDraftM])
   return (
     <>
       <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
@@ -547,7 +610,7 @@ window.addEventListener('resize', handleResize)
                     Add Cc
                   </ButtonPrimary>
                 </Grid>
-                <Hidden smDown>
+                {/* <Hidden smDown>
                 <Box pl={1}>
 
                   <Box sx={{ display: "flex" }}>
@@ -559,7 +622,7 @@ window.addEventListener('resize', handleResize)
                     <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
                   </Box>
                 </Box>
-              </Hidden>
+              </Hidden> */}
               {showCC && <>
                 <Grid item xs={12}>
                 <FormHelperText sx={{}}>Cc</FormHelperText>
@@ -573,7 +636,7 @@ window.addEventListener('resize', handleResize)
                 />
               </Grid>
               
-              <Grid item sm={1.5} xs={12}>
+              <Grid item sm={3} xs={12}>
                 <Box mt={1} >
                   <ButtonPrimary fullWidth
                     onClick={(e) => RecipientCCButton(e)}
@@ -582,8 +645,8 @@ window.addEventListener('resize', handleResize)
                   </ButtonPrimary>
                 </Box>
                 </Grid>
-                <Grid item sm={10.5} />
-                <Hidden smDown>
+                {/* <Grid item sm={10.5} /> */}
+                {/* <Hidden smDown>
                   <Box sx={{ display: "flex" }}>
                     <TextField
                       sx={{ width: "300px", ml: "10px" }}
@@ -593,7 +656,7 @@ window.addEventListener('resize', handleResize)
                     />
                     <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
                   </Box>
-                </Hidden>
+                </Hidden> */}
 
               </>}
             {/* </FormControl> */}
@@ -611,13 +674,13 @@ window.addEventListener('resize', handleResize)
               ) : null}
             </Box>
             </Grid>
-            <Grid item xs={11} sm={3} md={2.5} lg={2}>
+            <Grid item xs={10} sm={5.5} md={5.5} lg={4.5}>
             <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
             <Box sx={{mt:"15px" , width:"300px"}}>
               <Errormessages Error={fileerror} />
             </Box>
             </Grid>
-            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"5px"}}>
                <ClickAwayListener onClickAway={handleClickAway}>
                <Tooltip
                 PopperProps={{
@@ -629,19 +692,25 @@ window.addEventListener('resize', handleResize)
                 open={open} title={Note} placement="left"
                 componentsProps={{
                   tooltip: {
-                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                      sx: {
+                          marginLeft: '70px',
+                          transform: "translate3d(15px, 0.5px, 0px) !important",
+                      }
                   }
-                }}
+              }}
               >
+                <IconButton onClick={handleClick}>
                 <InfoTwoToneIcon type="button"
-                  onClick={handleClick}
-                  sx={{ color: 'navy', fontSize: '17px'}}
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-10px"}}
                 />
+                </IconButton>
+             
               </Tooltip>
             </ClickAwayListener>
             </Grid>
-            <Hidden smUp>
-        <Grid item xs={12} sm={12}   md={4}mt={-1}>
+
+           
+        <Grid item xs={12} >
         {finalBase642New == undefined ||
               finalBase642New.length == 0
               || PageName == 'Reply'
@@ -649,7 +718,7 @@ window.addEventListener('resize', handleResize)
               (
                 <div >
                  
-                  <Typography component={Box} >Attachment(s):</Typography>
+                  <Typography>Attachment(s):</Typography>
                
                   {
                     finalBase642New.map((obj, i) => {
@@ -665,52 +734,50 @@ window.addEventListener('resize', handleResize)
                            {obj.FileName.slice(0, 25)}
                          </CardDetail8>
                     
-                   
-                       
-                    
-                  
-                   </Box>  
-                   <IconButton  aria-label="delete" title="Delete"
+                         <IconButton  aria-label="delete" title="Delete"
                            onClick={() =>
                              handleRemoveListItems(
                                obj.FileName,
                                obj.Base64URL
                              )
                            }
-                           sx={{float:"right", mr: "-3px"}}
+                         
                          >
                            <DeleteIcon
-                             sx={{ color: 'red' , mt:"-40px"}}
+                             sx={{ color: 'red' , mt:"-4px"}}
                            />
                          </IconButton >
-                     
-                      </>
-             
-                      
-                      )
+                       
+                    
+                  
+                   </Box>  
+           
+               
+                 
+                  
+                      </>)
                     })
                   }
                 </div>
               )}
             </Grid>
-            </Hidden>
-            
+     
        
-                  <Grid item xs={12}  sm={4} md={2.5} lg={2}sx={ReadRecipient}>
+                  <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
                   <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Request Read Receipt? :
+                    Request Read Receipt ?
                   </Typography>
                   </Grid>
               
 
-                  <Grid item xs={11} sm={3} md={2.5} lg={2}>
+                  <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
                   <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
                   <Typography sx={{ display: 'inline-block' }}>
-                    Schedule Message at:
+                    Schedule Message at
                   </Typography>
-            </Grid>
-            <Grid item xs={1}  sm={1} md={0.5} lg={1}>
+                 </Grid>
+               <Grid item xs={2}  sm={1} md={1} lg={1} >
                <ClickAwayListener onClickAway={handleClickAwayS}>
                <Tooltip
                 PopperProps={{
@@ -720,22 +787,27 @@ window.addEventListener('resize', handleResize)
 
                 disableFocusListener disableHoverListener disableTouchListener arrow
                 open={Sopen} title={NoteSchedule} placement="left"
-                componentsProps={{
+              componentsProps={{
                   tooltip: {
-                    sx: { marginLeft: '1px', mt: 0.5, transform: 'translate3d(17px, 0.5px, 0px) !important' }
+                      sx: {
+                          marginLeft: '70px',
+                          transform: "translate3d(15px, 0.5px, 0px) !important",
+                      }
                   }
-                }}
+              }}
               >
-                <InfoTwoToneIcon type="button"
-                  onClick={handleClickS}
-                  sx={{ color: 'navy', fontSize: '17px',mt:"8px"}}
+                 <IconButton onClick={handleClickS}>
+                 <InfoTwoToneIcon type="button"
+                 sx={{ color: 'navy', fontSize: '20px',mt:"-8px"}}
                 />
+                 </IconButton>
+              
               </Tooltip>
             </ClickAwayListener>
             </Grid>
           
             
-            <Grid item xs={6} sm={4} md={2} lg={2} sx={messageCenterCale}>
+            <Grid item xs={6} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
               <TextField sx={{ display: scheduleMessage }}
                 type="date" id="outlined-required" variant="standard"
                 onChange={scheduleDateAndTime}
@@ -745,7 +817,7 @@ window.addEventListener('resize', handleResize)
             </Grid>
 
 
-            <Grid item xs={6} sm={4} md={2} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
+            <Grid item xs={6} sm={3} md={3} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
               <TimePicker 
                 value={value}
                 onChange={clickTime}
@@ -766,66 +838,14 @@ window.addEventListener('resize', handleResize)
           
         
             
-             <Grid item xs={12} sx={{ mt: '-15px' ,mb:"6px" , ml:"5px"}}>
+             <Grid item xs={12} sx={{ mt: '-10px' ,mb:"6px" , ml:"5px"}}>
         
-         <ErrorMessage1 Error={schTimeerror} />
-          <ErrorMessage1 Error={requestScheduleMsg} />
+           <ErrorMessage1 Error={schTimeerror} />
+           <ErrorMessage1 Error={requestScheduleMsg} />
        
      
         </Grid> 
-        <Hidden smDown>
-        <Grid item xs={12} sm={12}   md={4}mt={-1}>
-        {finalBase642New == undefined ||
-              finalBase642New.length == 0
-              || PageName == 'Reply'
-              ? null :
-              (
-                <div >
-                 
-                  <Typography component={Box} mt={-3} >Attachment(s):</Typography>
-               
-                  {
-                    finalBase642New.map((obj, i) => {
-                      return (<>
-                      
-                      <Box key={obj.FileName} sx={{display:"flex" , justifyContent:"space-between"}}>
-                         
-                            
-                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                    
-                    
-                         <CardDetail8 sx={{ mt: '1px' }}>
-                           {obj.FileName.slice(0, 25)}
-                         </CardDetail8>
-                    
-                   
-                         <IconButton  aria-label="delete" title="Delete"
-                           onClick={() =>
-                             handleRemoveListItems(
-                               obj.FileName,
-                               obj.Base64URL
-                             )
-                           }
-                         >
-                           <DeleteIcon
-                             sx={{ color: 'red', mt: "-6px" }}
-                           />
-                         </IconButton >
-                    
-                  
-                   </Box>  
-                      
-                     
-                      </>
-             
-                      
-                      )
-                    })
-                  }
-                </div>
-              )}
-            </Grid>
-            </Hidden>
+       
             <Grid item xs={12} sx={messageCenter}>
             <TextField fullWidth multiline rows={4}
                  margin="normal" label='Content :' name="Content" type="text"
@@ -861,12 +881,19 @@ window.addEventListener('resize', handleResize)
               </>
             ) : null}
               </Grid>
-            <Grid item xs={12} sm={2} sx={{mt:"-5px"}}>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
               <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}
               >
                 Send
+              </ButtonPrimary>
+            </Grid>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
+              <ButtonPrimary color="primary"  fullWidth 
+                onClick={SaveDraft}
+              >
+                Save as Draft
               </ButtonPrimary>
             </Grid>
             </Grid>

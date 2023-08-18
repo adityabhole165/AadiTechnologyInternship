@@ -9,7 +9,7 @@ import FeesCard from './FeesCard';
 
 const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, internalFees, FeesObject,
   ApplicableFee, TotalLateFee, SchoolwiseStudentId, NextYearID, IsOnlinePaymetCautionMoney, clickPayOnline,
-  OldInternalstudent, IsPending }) => {
+  OldInternalstudent, IsPending, RestrictNewPayment }) => {
   const dispatch = useDispatch();
 
   const asSchoolId = localStorage.getItem('localSchoolId')
@@ -39,7 +39,6 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
 
   const OnlinePaymentForInternalFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForInternalFee);
   const OnlinePaymentForLastYearFee: any = useSelector((state: RootState) => state.getSchoolSettings.EnableOnlinePaymentForLastYearFee);
-  const RestrictNewPayment: any = useSelector((state: RootState) => state.getSchoolSettings.RestrictNewPaymentIfOldPaymentIsPending);
   const OnlineFeePaymentAll: any = useSelector((state: RootState) => state.getSchoolSettings.EnabledOnlineFee);
 
   useEffect(() => {
@@ -87,7 +86,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
             Text1: item.FeeType + "(" + item.PayableFor + ")",
             Text2: lateFeeLabel,
             DisplayText: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? +item.Amount : item.Amount + " + " + item.LateFeeAmount) : (item.LateFeeAmount == "0" ? +item.AmountPayable : item.AmountPayable + " + " + item.LateFeeAmount),
-            Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? "Rs. "+item.Amount : "Rs. "+item.Amount + " + " + "Rs. "+item.LateFeeAmount) : (item.LateFeeAmount == "0" ? "Rs. "+item.AmountPayable : "Rs. "+item.AmountPayable + " + " + "Rs. "+item.LateFeeAmount),
+            Text3: internalFees == "internalFees" ? (item.LateFeeAmount == "0" ? " Rs. "+item.Amount : " Rs. "+item.Amount + " + " + "Rs. "+item.LateFeeAmount) : (item.LateFeeAmount == "0" ? " Rs. "+item.AmountPayable : "Rs. "+item.AmountPayable + " + " + "Rs. "+item.LateFeeAmount),
             Text4: "Due On : " + item.DueDateFormat,
             ParentId: (index + 1).toString() === prevFeeId ? "0" : prevFeeId,
             AmountPayable: item.AmountPayable,
@@ -163,14 +162,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   },[itemList])
-  
   return (
     <div>
       <Grid container>
-        <Grid item xs={3}>
-          Total: {FeesTotal}
-        </Grid><Grid item xs={9}>
-          {((OnlineFeePaymentAll && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
+        <Grid item xs={4}>
+          Total : Rs. {FeesTotal}
+        </Grid><Grid item xs={8}>
+        {itemList.some((obj) => obj.IsActive === true) ? <>
+        {OnlineFeePaymentAll &&
             <>
               {currentYear < aiAcademicYearId
                 ?
@@ -191,6 +190,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
                   }
                 </>
               } </>}
+              </> : null}
 
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&

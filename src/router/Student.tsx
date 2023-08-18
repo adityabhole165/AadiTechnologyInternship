@@ -58,6 +58,7 @@ const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMen
 const Map = Loader(lazy(()=> import('src/components/TransportDetails/Map')))
 const SchoolWeb = Loader(lazy(()=> import('src/componentsWeb/SchoolWeb/SchoolWeb')))
 const DailyLogs = Loader(lazy(()=> import('src/components/Homework/DailyLogs')))
+const GenerateChallan = Loader(lazy(()=> import('src/components/Fees/GenerateChallan')))
 const studentRoutes = [
   {
     path: '/',
@@ -135,8 +136,13 @@ const studentRoutes = [
     path: 'Fees_cautionmoney',
     element: <Fees_cautionmoney />
   },
+  {
+    path: 'Fees/ChallanSNSForFees',
+    element: <GenerateChallan/>
+
+  },
   {  
-    path: 'Viewhomework/:Id/:SelectedDate',
+    path: 'Viewhomework/:Id',
     element: <ViewHomework />
   },
   {

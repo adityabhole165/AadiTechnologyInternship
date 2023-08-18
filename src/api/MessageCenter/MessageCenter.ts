@@ -4,6 +4,7 @@ import { IgetList } from "src/interfaces/MessageCenter/GetList";
 import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
   IUpdateUserEmailSettingBody,IUpdateUserEmailSettingResult,IContactGRPBody,IContactgrpResult} 
   from "src/interfaces/MessageCenter/MessageCenter";
+import { IUpdateMessageReadUnreadStatusBody, IUpdateMessageReadUnreadStatusResult } from "src/interfaces/MessageCenter/ReadUnReadStatus";
 
   const GetTrashList = (data: IgetList) => {
     return http.post('MessageCenter/GetTrashMessages',data);
@@ -33,6 +34,9 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
   const GetReadReceiptDetails = (data: IGetReadReceiptDetailsBody) => {
     return http.post<IGetReadReceiptDetailsResult>('MessageCenter/GetReadReceiptDetails',data);
   };
+  const GetReadUnReadStatus = (data: IUpdateMessageReadUnreadStatusBody) => {
+    return http.post<IUpdateMessageReadUnreadStatusResult>('MessageCenter/UpdateMessageReadUnreadStatus',data);
+  };
 
   const MessageCenterApi  = {
     GetTrashList,
@@ -42,7 +46,8 @@ import { IGetUserEmailSettingsBody,IGetUserEmailSettingsResult,
     UpdateUserEmailSettingapi,
     ContactGRP,
     ContactGRPUsers,
-    GetReadReceiptDetails
+    GetReadReceiptDetails,
+    GetReadUnReadStatus
 }
 
 export default MessageCenterApi ;

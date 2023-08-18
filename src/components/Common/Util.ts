@@ -80,6 +80,19 @@ export const getDateFormatted = (date) => {
     const Year = new Date(date).getFullYear();
     return `${Day} ${Month} ${Year}`;
 }
+
+export const getDateFormatWithSpaceAndMonthInString = (date) => {
+    date = String(date || new Date());
+    date = date.split(" ")[0]
+    date = date.split("-")
+
+    const month = new Date();
+    month.setMonth(date[1] - 1);
+    date[1] = month.toLocaleString('en-US', { month: 'short' });
+
+    return `${date[0]} ${date[1]} ${date[2]}`
+}
+
 export const getDateFormat = (date) => {
     date = date || new Date();
     const Day = new Date(date).getDate();
@@ -225,7 +238,7 @@ export const toolbarOptions = {
 
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttps.riteschool.com/images/";
-export const androidCurrentAppVersion = "2.0.8";
+export const androidCurrentAppVersion = "2.0.9";
 export const appleCurrentAppVersion = "2.0.5";
 export const deviceType = ((typeof window.localStorage.getItem('deviceType') != undefined &&
     window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");

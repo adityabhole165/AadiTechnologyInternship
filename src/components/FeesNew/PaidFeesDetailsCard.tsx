@@ -15,13 +15,13 @@ const PaidFeesDetailsCard = ({ item, onChange,FeesCard, IsNotDisabled=true, Inte
                 }}
             >
                 <Grid container>
-                    <Grid item xs={2} display={'flex'} mt={0.8}>
-                        <Box ml={2}>
+                    <Grid item xs={1} display={'flex'} mt={0.8}>
+                        <Box ml={0.5}>
                         <CheckBox item={item} onChange={onChange} IsNotDisabled={IsNotDisabled} InternalOrSchool={InternalOrSchool} />
                         </Box>
              
                 </Grid>
-                <Grid item xs={10} >
+                <Grid item xs={11} >
                 <FeesCard item={item}/>
                 </Grid>
                 </Grid>

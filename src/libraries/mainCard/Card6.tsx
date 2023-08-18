@@ -1,4 +1,4 @@
-import { Stack, Grid, Avatar, Box, Button } from '@mui/material';
+import { Stack, Grid, Avatar, Box, Button, Typography } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 import { useEffect, useState } from 'react';
 import { ListStyle } from '../styled/CardStyle';
@@ -14,6 +14,7 @@ import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSetting
 import { GetAllowStudentPhotoUploadFromStudentLogin } from 'src/requests/SchoolSetting/schoolSetting';
 import { getstudentpic } from 'src/requests/StudentPhoto/RequestStudentPhoto';
 import { IGetStudentPhotoBody } from 'src/interfaces/Student/GetStudentPhoto';
+import { ProfileAddress } from '../styled/CommonStyle';
 
 function Card6() {
   const navigate = useNavigate();
@@ -34,14 +35,18 @@ function Card6() {
   const birthPlace = sessionStorage.getItem('BirthPlace');
   const asUserId = sessionStorage.getItem('UserId');
   const asStudentId = sessionStorage.getItem('StudentId');
+  const RoleId = sessionStorage.getItem('RoleId');
 
+  const MobileNo = sessionStorage.getItem('MobileNumber');
+ 
   const AllowStudentPhotoUpload: any = useSelector(
     (state: RootState) => state.getSchoolSettings.AllowStudentPhotoUploadFromStudentLogin
   );
-  
+
   const GetStudentPic: any = useSelector(
     (state: RootState) => state.StudentPic.GetStudentpic
   );
+  // console.log(GetStudentPic,"GetStudentPic")
 
   const DisableSubmit = GetStudentPic == null ? '' : GetStudentPic.IsSubmitted
 
@@ -50,15 +55,15 @@ function Card6() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
-   
-const getstudentphoto : IGetStudentPhotoBody= {
-  aiSchoolId:parseInt(asSchoolId),
-  aiUserId:parseInt(asUserId),
-  aiStudentId:parseInt(asStudentId)
-}
+
+  const getstudentphoto: IGetStudentPhotoBody = {
+    aiSchoolId: parseInt(asSchoolId),
+    aiUserId: parseInt(asUserId),
+    aiStudentId: parseInt(asStudentId)
+  }
   useEffect(() => {
-  dispatch(getstudentpic(getstudentphoto))
-  dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
+    if (RoleId === "3") { dispatch(getstudentpic(getstudentphoto)) }
+    dispatch(GetAllowStudentPhotoUploadFromStudentLogin(GetSettingValueBody))
   }, []);
 
   const ResidencePhoneNumber = sessionStorage.getItem('ResidencePhoneNumber');
@@ -66,10 +71,11 @@ const getstudentphoto : IGetStudentPhotoBody= {
   const PhoneNumber2 = sessionStorage.getItem('MobileNumber2');
   const Religion = sessionStorage.getItem('Religion');
   const CategoryName = sessionStorage.getItem('CategoryName');
-  const FamilyPhotoFilePath = sessionStorage.getItem('FamilyPhotoFilePath');
   const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+  const CasteAndSubCaste = sessionStorage.getItem('CasteAndSubCaste');
   const userPhoto = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg';
-  const FamilyPhoto = FamilyPhotoFilePath.length != 0 ?  localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
+  const FamilyPhoto = (GetStudentPic?.PhotoImage?.length != 0 && GetStudentPic?.PhotoImage !== undefined) ? 'data:image/png;base64,' + GetStudentPic?.PhotoImage : '';
+  // const FamilyPhoto = FamilyPhotoFilePath.length != 0 ? localStorage.getItem('SiteURL') + FamilyPhotoFilePath : ''
   const getDateFormate = (date) => {
 
     const day = new Date(date).getDate();
@@ -83,22 +89,18 @@ const getstudentphoto : IGetStudentPhotoBody= {
     navigate('EditProfile')
   }
 
- 
-  
   return (
     <>
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }} >
-        <Box ml={AllowStudentPhotoUpload == true && "30px"} >
-          <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
-        </Box>
-
-        {(AllowStudentPhotoUpload && !DisableSubmit ) &&
-
-          <Box sx={{ color: "black" }} onClick={EditProfile}>
-            <EditIcon fontSize="small" />
-          </Box>}
+     <Box sx={{display:"flex" ,alignItems: "center", justifyContent: "center"}} >
+      <Box ml={RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit ? "30px" : "0px" } >
+      <UserPhoto ImgUrl={userPhoto} alt={'user.name'} width={'106px'} height={'137px'} />
       </Box>
-
+      {RoleId === "3" && AllowStudentPhotoUpload && !DisableSubmit &&
+        <Box sx={{color: "black"}} onClick={EditProfile}>
+          <EditIcon fontSize="small" />
+        </Box>
+      }
+      </Box>
       <ProfileDetailHeader style={{ marginRight: "12px", textAlign: "center" }}><b>{UserName}</b></ProfileDetailHeader>
 
       {RoleName == 'Student' &&
@@ -107,7 +109,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
       <ListStyle
         sx={{
-          marginBottom:"60px",
+          marginBottom: "60px",
           height: '100%',
           width: '100%',
           borderRadius: '15px'
@@ -124,7 +126,7 @@ const getstudentphoto : IGetStudentPhotoBody= {
                 {RoleName == 'Teacher' &&
                   <ProfileComponent Name='Class Teacher :' Value={ClassTeacher}></ProfileComponent>}
 
-                <ProfileComponent Name='Mobile Number :' Value=''></ProfileComponent>
+                <ProfileComponent Name='Mobile Number :' Value={MobileNo}></ProfileComponent>
 
                 <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
 
@@ -132,14 +134,23 @@ const getstudentphoto : IGetStudentPhotoBody= {
               </>
             ) : RoleName == 'Student' ? (
               <>
+              
 
-                <ProfileComponent Name='Address :' Value={Address}></ProfileComponent>
+                <Box sx={{ display: "flex" }}>
+              
+
+                  <ProfileComponent Name='Address:' Value={Address}></ProfileComponent>
+                </Box>
+
                 <ProfileComponent Name='Residence Phone No :' Value={ResidencePhoneNumber}></ProfileComponent>
+                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
+                <ProfileComponent Name='Caste & Sub-Caste :' Value={CasteAndSubCaste}></ProfileComponent>
+                <ProfileComponent Name='Category Name :' Value={CategoryName}></ProfileComponent>
+                <ProfileComponent Name='UDISE Number :' Value={UDISENumber}></ProfileComponent>
+                <ProfileComponent Name='Mobile Number :' Value={PhoneNumber === "" ? PhoneNumber2 : PhoneNumber + ' , ' + PhoneNumber2}></ProfileComponent>
 
-                <ProfileComponent Name='Mobile Number :' Value={PhoneNumber===""? PhoneNumber2 : PhoneNumber + ' , '+ PhoneNumber2 }></ProfileComponent>
-       
 
-                <ProfileComponent Name='UDISE Number:' Value={UDISENumber}></ProfileComponent>
+
 
                 <ProfileComponent Name='Place of Birth :' Value={birthPlace}></ProfileComponent>
 
@@ -147,18 +158,21 @@ const getstudentphoto : IGetStudentPhotoBody= {
 
                 <ProfileComponent Name='Nationality :' Value={Nationality}></ProfileComponent>
 
+
+
                 <ProfileComponent Name='Mother Tongue :' Value={MotherTongue}></ProfileComponent>
 
                 <ProfileComponent Name='Blood Group :' Value={Blood_Group}></ProfileComponent>
-                <ProfileComponent Name='Religion :' Value={Religion}></ProfileComponent>
-                <ProfileComponent Name='CategoryName :' Value={CategoryName}></ProfileComponent>
-                <Box sx={{mt:"5px" , ml:"10px"}}>
-                <UserPhoto ImgUrl={FamilyPhoto} alt={''} width={'180px'} height={'150px'}/>
+
+                <Box sx={{ display: "flex" }} >
+                  <ProfileComponent Name='Family Photo :' Value={''}></ProfileComponent>
+                  <Box sx={{ mt: "14px" }}>
+                    {ImgUrl &&
+                      <Avatar alt="user.name" src={FamilyPhoto} sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }} variant="square" aria-label="add"></Avatar>
+                    }
+                  </Box>
+
                 </Box>
-              
-              
-
-
               </>
             ) : (<></>)}
           </Grid>

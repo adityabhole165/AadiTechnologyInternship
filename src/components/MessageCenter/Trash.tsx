@@ -102,7 +102,9 @@ function Trash() {
     abIsSMSCenter: '0',
     asFilter: '',
     asPageIndex: 1,
-    asMonthId: '0'
+    asMonthId: '0',
+    asOperator:"",
+    asDate:""
   };
 
   useEffect(() => {
@@ -207,7 +209,9 @@ function Trash() {
         abIsSMSCenter: '0',
         asFilter: '',
         asPageIndex: pageIndex,
-        asMonthId: '0'
+        asMonthId: '0',
+        asOperator:"",
+        asDate:""
       };
       MessageCenterApi.GetTrashList(UpdatedBody)
         .then((response) => {

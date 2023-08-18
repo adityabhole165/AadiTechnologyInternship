@@ -10,7 +10,7 @@ export interface IGetDatewiseHomeworkDetailsResult {
     HomeworkDetails:[HomeworkDetails]
     HomeworkDates:string[]
     HomeworkDateStatus:HomeworkDateStatus
-    HomeworkDailyLogs:HomeworkDailyLogs[]
+  
   
 }
 
@@ -21,9 +21,21 @@ export interface HomeworkDateStatus{
     MaxDate: string
 }
 
-export interface HomeworkDailyLogs{
+export interface HomeworkDailyLogsBody{
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiStandardDivisionId:string,
+    aiMonthId:string,
+    asYear:string
+}
+
+export interface HomeworkDailyLogsResult{
     Date:string,
     AttachmentPath:string
+}
+
+export interface HomeworkDailyResult{
+    GetStudentDailyLogDetails:[HomeworkDailyLogsResult]
 }
 
 export interface HomeworkDetails{

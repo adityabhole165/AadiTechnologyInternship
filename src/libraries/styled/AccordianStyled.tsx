@@ -133,7 +133,7 @@ export const Accordionsummary = styled(AccordionSummary)`
  background-color:red;
  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
  margin-bottom: 10px;
- height:40px;
+ height:50px;
  min-height:40px;
  font-size:14px;
  @media (max-width: 280px) {

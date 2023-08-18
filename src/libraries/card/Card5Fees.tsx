@@ -76,6 +76,7 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
               )}
             </Box>
           </CardDetail>
+          <Typography mt={-0.5}>{item.PaidDateString}</Typography>
 
         </ListStyle>
       </Container>

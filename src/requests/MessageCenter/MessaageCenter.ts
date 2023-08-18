@@ -7,6 +7,7 @@ import { IGetUserEmailSettingsBody,IUpdateUserEmailSettingBody,IContactGRPBody,I
 import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import {Iyears,IGetAllMonths} from "../../interfaces/MessageCenter/Search";
 import filterApi from "../../api/MessageCenter/Search";
+import { IUpdateMessageReadUnreadStatusBody } from 'src/interfaces/MessageCenter/ReadUnReadStatus';
 
 
 const MessageCenterSlice = createSlice({
@@ -26,7 +27,8 @@ const MessageCenterSlice = createSlice({
     UpdationMessage:'',
     PTAOption:{},
     ContactgrpUsers:{},
-    ReadReceiptDetails:[]
+    ReadReceiptDetails:[],
+    ReadUnReadStatus:null
 
   },
   reducers: {
@@ -97,7 +99,14 @@ const MessageCenterSlice = createSlice({
   getReadReceiptDetails(state, action) {
     state.ReadReceiptDetails = action.payload.ReadReceiptDetails;
   },
-  }   
+  getReadUnReadStatus(state, action) {
+    state.ReadUnReadStatus = action.payload;
+  }, 
+  resetMessage(state) {
+    state.ReadUnReadStatus = ""
+  },
+  
+  }
 });
 
 
@@ -206,6 +215,17 @@ export const getTrashList =
     const response = await MessageCenterApi.GetReadReceiptDetails(data);
     dispatch(MessageCenterSlice.actions.getReadReceiptDetails(response.data));
   };
+  export const ReadUnReadstatus =
+  (data :IUpdateMessageReadUnreadStatusBody): AppThunk =>
+  async (dispatch) => {
+    const response = await MessageCenterApi.GetReadUnReadStatus(data);
+    dispatch(MessageCenterSlice.actions.getReadUnReadStatus(response.data));
+  };
+  export const resetMessageReadUnReadstatus =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(MessageCenterSlice.actions.resetMessage());
+    };
 
  
 export const {addRecipients, removeRecipients, removeAllRecipients} = MessageCenterSlice.actions;

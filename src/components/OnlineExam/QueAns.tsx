@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { AllExamData, GetSaveExam, GetSubmitExam, resetSaveMsg, resetSubmitMsg } from 'src/requests/Student/OnlineExam';
+import { AllExamData, GetSaveExam, GetSubmitExam, resetSaveMsg, resetSubmitMsg, GetExamSchedulesListList } from 'src/requests/Student/OnlineExam';
 import { IOnlineExamQuestions, ISubmitOnlineExamBody } from 'src/interfaces/Student/OnlineExam';
 import ListSelect from 'src/libraries/list/ListSelect';
 import TimerCard from 'src/libraries/list/TimerCard';
@@ -17,6 +17,7 @@ import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
 import BackButton from 'src/libraries/button/BackButton';
 import { toast } from 'react-toastify';
+import CardTimer from 'src/libraries/card/CardTimer';
 
 
 const QueAns = () => {
@@ -37,11 +38,13 @@ const QueAns = () => {
     const [seconds, setSeconds] = useState(0);
     const [minutes, setMinutes] = useState(0);
     const [hours, setHours] = useState(0);
-    const [showSaveSubmit,setshowSaveSubmit] = useState(true);
+    const [showSaveSubmit, setshowSaveSubmit] = useState(true);
+
 
     const GetAllAnswerQueListtt = useSelector(
         (state: RootState) => state.OnlineExam.ExamData
     );
+    // console.log(GetAllAnswerQueListtt ,"GetAllAnswerQueListtt")
 
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
@@ -50,9 +53,20 @@ const QueAns = () => {
         (state: RootState) => state.OnlineExam.SaveExam
     );
 
+    const GetExamSchedules = useSelector(
+        (state: RootState) => state.OnlineExam.ExamSchedulesList
+    );
+
+
+
+
+
     const OutofMarks = itemlist.map((item) => {
         return { AddMarks: item.Parent }
     });
+
+
+
     const totalMarks = () => {
         let totalMarks = 0
         itemlist.map((item) => {
@@ -103,6 +117,7 @@ const QueAns = () => {
 
 
     const SaveExam = () => {
+
         dispatch(GetSaveExam(saveBody))
     }
     const QuestionsForOnlineExam: IOnlineExamQuestions = {
@@ -124,9 +139,22 @@ const QueAns = () => {
         aiStudentId: asStudentId,
     };
 
+
+
     useEffect(() => {
+        dispatch(GetExamSchedulesListList(QuestionsForOnlineExam))
         dispatch(AllExamData(QuestionsForOnlineExam))
     }, [])
+    let IsExamSubmitted = ""
+    useEffect(() => {
+        if (GetAllAnswerQueListtt !== undefined) {
+            const ii = GetAllAnswerQueListtt.map((item, i) => {
+                return IsExamSubmitted = item.Parent.IsExamSubmitted
+            })
+        }
+
+    }, [GetAllAnswerQueListtt])
+
     useEffect(() => {
 
         if (Getsubmitexam !== null && Getsubmitexam !== "") {
@@ -140,19 +168,26 @@ const QueAns = () => {
 
     }, [Getsubmitexam, Getsaveexam])
 
+
     useEffect(() => {
-        if(GetAllAnswerQueListtt.length > 0){
-            setshowSaveSubmit(GetAllAnswerQueListtt[0].IsExamSubmitted)
-        setItemlist(GetAllAnswerQueListtt)
-        setListCardItems(GetAllAnswerQueListtt.map((item, index) => {
-            return {
-                Id: item.Parent.Id,
-                Name: index,
-                SerialNo: item.Parent.SerialNo,
-                IsAnswered: false
+        if (GetAllAnswerQueListtt.length > 0) {
+            // setshowSaveSubmit(GetAllAnswerQueListtt[0].IsExamSubmitted)
+            if (IsExamSubmitted) {
+                setshowSaveSubmit(false)
             }
-        }))
-    }
+            else {
+                setshowSaveSubmit(true)
+            }
+            setItemlist(GetAllAnswerQueListtt)
+            setListCardItems(GetAllAnswerQueListtt.map((item, index) => {
+                return {
+                    Id: item.Parent.Id,
+                    Name: index,
+                    SerialNo: item.Parent.SerialNo,
+                    IsAnswered: false
+                }
+            }))
+        }
     }, [GetAllAnswerQueListtt])
 
     let maxIndex = itemlist.length - 1;
@@ -205,37 +240,15 @@ const QueAns = () => {
         setCurrentIndex(value)
     }
 
-
-    // var timer;
-
-    // useEffect(() => {
-    //     timer = setInterval(() => {
-
-    //         setSeconds(seconds + 1);
-
-    //         if (seconds === 59) {
-    //             setMinutes(minutes + 1);
-    //             setSeconds(0);
-    //         } if (minutes === 59) {
-    //             setHours(hours + 1);
-    //         }
-    //     }, 1000)
-
-    //     return () => clearInterval(timer);
-    // });
-    // const ClickSubmit = () => {
-    //     alert("Are you sure you want to Submit the exam?")
-    //     clearInterval(timer);
-    //     dispatch(GetSubmitExam(SubmitOnlineExam))
-    // }
-
     const ClickSubmit = () => {
+
         let text = ("Are you sure you want to Submit the exam?")
         if (window.confirm(text) === true) {
             dispatch(GetSubmitExam(SubmitOnlineExam))
         } else {
 
         }
+
         clearInterval(timer);
     }
     const getTimeRemaining = (e) => {
@@ -274,8 +287,6 @@ const QueAns = () => {
 
     const getDeadTime = () => {
         let deadline = new Date();
-
-
         deadline.setSeconds(deadline.getSeconds() + 10);
         return deadline;
     }
@@ -284,11 +295,12 @@ const QueAns = () => {
         clearTimer(getDeadTime());
     }, []);
 
-
     return (
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />
             <Container>
+
+
                 {
                     GetAllAnswerQueListtt.map((item, i) => {
                         return item.Parent.IsExamSubmitted == true &&
@@ -297,7 +309,15 @@ const QueAns = () => {
                     })
                 }
                 <Card sx={{ py: 1 }}>
-                    <Typography sx={{ textAlign: 'center' }}><b>Exam Time     :    </b>{timer}</Typography>
+                    {showSaveSubmit &&
+                        <>
+                            {GetExamSchedules.length > 0 &&
+                          <CardTimer GetExamSchedules={GetExamSchedules} />}
+                          </>}
+
+
+
+
                     <Stack
                         direction="row"
                         justifyContent="center"
@@ -311,14 +331,14 @@ const QueAns = () => {
                     <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
                         <Grid item xs={6}>
                             <Container>
-                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(-1) }}>
+                                <ButtonPrimary fullWidth onClick={() => { clickPrevNext(-1) }}>
                                     Previous
                                 </ButtonPrimary>
                             </Container>
                         </Grid>
                         <Grid item xs={6} >
                             <Container>
-                                <ButtonPrimary sx={{ backgroundColor: "#90caf9", color: "black" }} fullWidth onClick={() => { clickPrevNext(1) }} >
+                                <ButtonPrimary fullWidth onClick={() => { clickPrevNext(1) }} >
                                     Next
                                 </ButtonPrimary>
                             </Container>
@@ -342,39 +362,61 @@ const QueAns = () => {
                                     })}
                                 </Grid>
                                 <Grid item xs={11}>
-                                    <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+
+                                    {itemlist[currentIndex].Parent.path ?
+                                        <Box ml={3}>
+                                            <Avatar alt="user.name" src={localStorage.getItem('SiteURL') + 'RITeSchool/Uploads/OnlineExamImages/' + itemlist[currentIndex].Parent.path}
+                                                sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }}
+                                                variant="square" aria-label="add"></Avatar>
+
+
+                                        </Box> : <>
+                                            <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                                        </>}
                                 </Grid>
 
                             </Grid>
+
+
+
 
                             <ListSelect Itemlist={itemlist[currentIndex].Child} onChange={onChange} isSingleSelect={itemlist[currentIndex].Parent.isSingleSelect}></ListSelect>
 
                         </>
                     }
-                    {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "11px", ml: "25px" }}><Attachments /></Box>}
-                    <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
-                        {showSaveSubmit && 
-                                    <>
-                                        <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
-                                        <Grid item xs={6}>
-                                            <Container>
-                                                <ButtonPrimary fullWidth color='primary' onClick={SaveExam}>
-                                                    Save
-                                                </ButtonPrimary>
-                                            </Container>
-                                        </Grid>
-                                        <Grid item xs={6} >
-                                            <Container>
-                                                <ButtonPrimary fullWidth color='primary' onClick={ClickSubmit}>
-                                                    Submit
-                                                </ButtonPrimary>
-                                            </Container>
-                                        </Grid>
-                                    </>
-                         
-                         }
 
-                    </Grid>
+
+                    {currentIndex == maxIndex && <Box sx={{ mt: '-30px', mr: "11px", ml: "25px" }}><Attachments /></Box>}
+                    {showSaveSubmit && <>
+                        <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
+
+                            <>
+                                <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
+                                <Grid item xs={6}>
+                                    <Container>
+
+                                        <ButtonPrimary fullWidth onClick={SaveExam} >Save</ButtonPrimary>
+
+                                    </Container>
+                                </Grid>
+
+
+                                <Grid item xs={6} >
+                                    <Container>
+                                        {currentIndex == maxIndex &&
+                                            <ButtonPrimary fullWidth onClick={ClickSubmit} >
+                                                Submit
+                                            </ButtonPrimary>}
+
+                                    </Container>
+                                </Grid>
+
+                            </>
+
+
+
+                        </Grid>
+                    </>}
                 </Card>
             </Container>
 

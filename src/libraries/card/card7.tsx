@@ -62,13 +62,15 @@ function Card7({
       AttachmentArray.push(property);
       attachmentObj.push(AttachmentFile);
     }
-  }
+  } 
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
-  const ReplyallRecieverId = ViewSentObject.ReceiverUserId
+  const ReplyallRecieverId =FromUserID +','+ ViewSentObject.ReceiverUserId
+  const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
+const FromTo = From +','+ To
 
   const saveMessageBody = (replyFwd) => {  
     const path =
@@ -79,20 +81,28 @@ function Card7({
     navigate(path)
     localStorage.setItem("messageBody", Body);
 
+    const getExcludeMe = () =>{
+      let arr = FromTo.split(',');
+      arr = arr.filter(function(a){return a.replaceAll(' ','') !== ViewSentObject.LoggedInUserNameForMessage.replaceAll(' ','')})
+      return arr.join(',');
+    } 
+    
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
-        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? To : "",
+        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? getExcludeMe() : "",
         FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
         Text: Text,
         Attachment: AttachmentArray,
-        ID: ID
+        ID: ID,
+        CC:replyFwd ==="ReplyAll" ? Cc : "",
+        CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
       }))
   }
 
   return (
     <>
       <Container maxWidth={'xl'}>
-        <ListStyle sx={CardStyle}>
+        <ListStyle >
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 

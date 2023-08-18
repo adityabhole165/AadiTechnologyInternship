@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import ApiHomework from "../../api/Homework/ApiHomeworkNew";
 import { AppThunk } from 'src/store';
-import { IGetDatewiseHomeworkDetailsBody } from "src/interfaces/Student/IHomeworkNew";
+import { HomeworkDailyLogsBody, IGetDatewiseHomeworkDetailsBody } from "src/interfaces/Student/IHomeworkNew";
 import { getDateMonthFormatted, getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 
@@ -75,15 +75,7 @@ export const getHomeworkDates =
                 }
             })
 
-            let HomeworkDailyLogs = response.data.HomeworkDailyLogs?.map((item, index) => {
-               
-                return {
-                    Id: index,
-                    Header: getDateMonthFormatted(item.Date),
-                    Text1: item.AttachmentPath,
-                   
-                }
-            })
+        
             const child = (SubjectId) => {
                 return response.data.HomeworkDetails
                     .filter((obj) => {
@@ -94,7 +86,7 @@ export const getHomeworkDates =
                             Id: item.Id,
                             Name: item.Title,
                             Value: item.CompleteByDate.replace("-", " ").replace("-", " "),
-                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id + '/' + item.AssignedDate,
+                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id,
                             AssignedDate: item.AssignedDate
                         };
                     })
@@ -116,11 +108,32 @@ export const getHomeworkDates =
 
                 })
             dispatch(SliceHomework.actions.getHomeworkDates(HomeworkList));
-            dispatch(SliceHomework.actions.getHomeworkDailyLogs(HomeworkDailyLogs));
             dispatch(SliceHomework.actions.getHomeworkDetails(Data2));
             dispatch(SliceHomework.actions.getButtonState(response.data.HomeworkDateStatus));
         };
 
 
+
+    export const getHomeworkDailyLogs =
+    (data: HomeworkDailyLogsBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(SliceHomework.actions.getLoading(true));
+            const response = await ApiHomework.GetHomeworkDailyLogs(data)
+            console.log(response ,"responseDaily")
+            let HomeworkDailyLogs = response.data.GetStudentDailyLogDetails?.map((item, index) => {
+          
+                return {
+                    
+                    Id: index,
+                    Header: item.Date.replace("-", " ").replace("-", " "),
+                    Text1: item.AttachmentPath,
+                   
+                }
+            })
+
+            dispatch(SliceHomework.actions.getHomeworkDailyLogs(HomeworkDailyLogs));
+        };
+
+     
 
 export default SliceHomework.reducer;

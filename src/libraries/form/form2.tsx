@@ -85,7 +85,9 @@ function Form2({YearsList, allMonthList, searchFunction, YearChangeCapture }) {
     abIsSMSCenter: null,
     asFilter: Input,
     asPageIndex: 1,
-    asMonthId: Month
+    asMonthId: Month,
+    asOperator:"",
+    asDate:""
   };
 
   const FormSubmitted = (event) => {

@@ -45,6 +45,13 @@ export const CardStyle = {
       },
       };
 
+      export const TabListHeight = {
+        height:"60px",
+        '@media (min-width: 600px)': {
+          height:"80px"
+        },
+        };
+
       export const ReadRecipient = {
          mt:"-15px",
         '@media (min-width: 600px)': {
@@ -57,7 +64,6 @@ export const CardStyle = {
         export const MarkAsReadMessage = {
           mb:"0px",
           mt:"-10px",
-          float:"right",
          '@media (min-width: 600px)': {
            mb:"20px"
          
@@ -72,6 +78,21 @@ export const CardStyle = {
          
          },
          };
+
+         
+         export const ProfileAddress = {
+          ml: "10px", fontWeight: "bold",  width:"70px",
+          
+         '@media (max-width: 350px)': {
+          width:"90px"
+           },
+
+           '@media (min-width: 350px) and @media (max-width: 500px)': {
+            width:"50px"
+             },
+         };
+
+         
 
      
 

@@ -74,6 +74,13 @@ export interface GetAllAcademicYears {
 
         }]
 };
+export interface GetAllInternalAcademicYears {
+        AcademicYears: [{
+                AcademicYearName: string,
+                AcademicYearId: string,
+
+        }]
+};
 
 
 //GetFeeDetailsOfOldAcademic
@@ -256,3 +263,89 @@ export interface IGetCautionMoneyReceiptBody{
 
                 
 }
+//GetAcademicYearsforFeeChallan
+
+export interface IGetAcademicYearsforFeeChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStudentId: string
+}
+
+export interface IGetAcademicYearsforFeeChallanResult {
+
+        AcademicYearId: string,
+        AcademicYearName: string
+}
+
+export interface IGetAcademicYearsFeeChallanResult {
+        AcademicYears: [IGetAcademicYearsforFeeChallanResult]
+}
+
+// GetDetailsForChallanImport
+
+
+export interface IGetDetailsForChallanImportBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStudentId: string,
+        aiSelectedAcademicYearId: string
+}
+
+export interface IGetDetailsForChallanImportResult {
+        StandardId: number,
+        StandardDivisionId: number,
+        SchoolwiseStudentId: number
+}
+
+// GetAllFeeTypesForChallanImport
+
+export interface IGetAllFeeTypesForChallanImportBody {
+        aiSchoolId: string,
+        aiSelectedAcademicYearId: string,
+        aiStandardDivisionId: string,
+        aiStandardId: string
+}
+
+export interface IGetAllFeeTypesForChallanImportResult {
+        Id: number,
+        Name: string
+}
+
+export interface IGetFeeTypesForChallanImportResult {
+        FeeTypes : [IGetAllFeeTypesForChallanImportResult]
+}
+
+//GetAllPayableforChallan
+export interface IGetAllPayableforChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStandardId: string,
+        aiOriginalFeeTypeId: string
+}
+
+
+export interface IGetAllPayableforChallanResult {
+        Id: string,
+        Name: string
+}
+
+export interface IGetPayableforChallanResult {
+        Payables :[IGetAllPayableforChallanResult]
+}
+
+
+
+//GetFileNameForSNSChallan
+
+export interface IGetFileNameForSNSChallanBody {
+        aiSchoolId: string,
+        aiAcademicYearId: string,
+        aiStandardId:string,
+        aiStandardDivisionId: string,
+        aiSchoolwiseStudentId: string,
+        aiFeeTypeId: string,
+        asPayableFor: string,
+        aiSelectedAcademicYearId: string
+}
+
+

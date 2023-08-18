@@ -7,7 +7,7 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Note from 'src/libraries/Note/Note';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
-import { getIncomeTaxReport, getAllAcademicYears,resetReciept,getAllFinancialYears } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
+import { getIncomeTaxReport, getAllAcademicYears,resetReciept,getAllFinancialYears, getAllFinancialYearsifAcademic } from 'src/requests/IncomeTaxReport/RequestIncomeTax';
 import { RootState } from 'src/store';
 import { GetAllAcademicYearsApiBody,GetFinancialYearDetailsBody } from 'src/interfaces/Student/IIncomeTaxReport';
 import { IGetITRFileNameBody } from 'src/interfaces/Student/IIncomeTaxReport'
@@ -21,6 +21,8 @@ function IncomeTaxReport() {
     const dispatch = useDispatch();
   
     const [financialYear, setFinancialYear] = useState('0');
+    // console.log("financialYear",financialYear);
+    
     const [acadamicYear, setAcadamicYear] = useState("0");
     const [parentName, setParentName] = useState('0');
 
@@ -36,6 +38,7 @@ function IncomeTaxReport() {
         (state: RootState) => state.IncomeTaxReport.GetFinancialYear
     );
   
+//   console.log("FinancialYearList",FinancialYearList);
   
     const StudentName = sessionStorage.getItem("StudentName");
     const Standard = sessionStorage.getItem('Class');
@@ -69,7 +72,7 @@ function IncomeTaxReport() {
        
     };
     useEffect(() => {
-        console.log(downloadPathOfReceipt,"downloadPathOfReceipt")
+        // console.log(downloadPathOfReceipt,"downloadPathOfReceipt")
         if (IncomeTaxReport !== "")
           window.open(downloadPathOfReceipt);
         dispatch(resetReciept());
@@ -81,10 +84,15 @@ function IncomeTaxReport() {
     useEffect(() => {
         dispatch(getAllAcademicYears(body1));
     }, []);
+console.log("acadamicYear",acadamicYear);
 
     useEffect(() => {
+        if(acadamicYear == "0"){
+        dispatch(getAllFinancialYearsifAcademic(body2))
+        } else{
         dispatch(getAllFinancialYears(body2));
-    }, []);
+        }
+    }, [acadamicYear]);
 
     const UserArray2 = [
         {
@@ -139,15 +147,16 @@ const ClickDisplay=()=>{
                 <PageHeader heading={'Income Tax Report'} subheading={''} />
                 <Note NoteDetail={note} />
                 <ListStyle>
-
+                <Typography> Name</Typography>
                     <TextField
                         fullWidth
                         variant='standard'
                         size="small"
                         value={StudentName + ' ' + '(' + Standard + ')'}
+                        sx={{mb:"10px"}}
                     />
                     <Typography> Select Financial Year</Typography>
-                    <FormControl fullWidth sx={{ mt: "2px" }}>
+                    <FormControl fullWidth >
                         <Dropdown
                             Array={FinancialYearList}
                             handleChange={clickFinacialYear}
@@ -155,8 +164,8 @@ const ClickDisplay=()=>{
                         />
                     </FormControl>
 
-                    <Typography> Select Academic Year</Typography>
-                    <FormControl fullWidth>
+                    <Typography sx={{mt :"10px"}}> Select Academic Year</Typography>
+                    <FormControl fullWidth >
 
                         <Dropdown
                             Array={AcadamicYear}
@@ -167,7 +176,7 @@ const ClickDisplay=()=>{
 
                     
 
-                    <Typography> Select Category</Typography>
+                    <Typography sx={{mt :"10px"}}> Select Category</Typography>
                     <FormControl fullWidth sx={{ mt: "2px" }}>
                         {/* <InputLabel variant="standard">Select Category</InputLabel> */}
                         <Dropdown

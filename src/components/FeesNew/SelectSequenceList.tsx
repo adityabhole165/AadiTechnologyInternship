@@ -2,7 +2,7 @@ import { useState } from 'react'
 import PaidFeesDetailsCard from './PaidFeesDetailsCard'
 
 const SelectSequenceList = ({ Itemlist, RefreshData, FeesCard,
-    isSingleSelect = false, IsSequenceSelect = false, IsNotDisabled= false,InternalOrSchool }) => {
+    isSingleSelect = false, IsSequenceSelect = false, IsNotDisabled= true,InternalOrSchool }) => {
     const [isFirstTime, setIsFirstTime] = useState(true)
     const IsAllDisabled = () => {
         let bIsAllDisabled = true

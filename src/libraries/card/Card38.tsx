@@ -83,7 +83,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
           <Header1
             color={expanded === 'panel' ? 'secondary' : ''}
           >
-            <b>{FeesType}</b> &nbsp;:&nbsp;<b>Rs. {FeesObject.TotalFeesPaid}</b>
+            <b>{FeesType}</b>&nbsp;:&nbsp;&nbsp;<b>Rs. {FeesObject.TotalFeesPaid}</b>
           </Header1>
         </Accordionsummary>
         {
@@ -93,11 +93,12 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
               <ErrorMessages Error={'No fees has been paid'} />
             ) : Fee == undefined ? null : (
               Fee.map((item, i) => {
+                
                 const paid = internalFees == "internalFees" ? item.FeeDetailsId !== 0 : item.AmountPayable == 0
                 return paid ? (
                   <Card5Fees item={item} Content={''} Name={''} key={i} internalFees={internalFees}
-                    FileName={internalFees ? item.FeeType + ":" + " " +"Rs. "+item.Amount : item.FeeType +
-                      ":" + " " +"Rs. "+ item.FeesPaid}
+                    FileName={internalFees ? item.FeeType + "(" + item.PayableFor + ")"+ ":" + " " +"Rs. "+item.Amount : item.FeeType + "(" + item.PayableFor + ")" +
+                    ":" + " " +"Rs. "+ item.FeesPaid}
                     downloadReceiptFile={downloadReceiptFile}
                     clickIcon={clickIcon}
                   />

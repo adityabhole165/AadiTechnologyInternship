@@ -18,16 +18,17 @@ import { ChangePasswordStyle } from '../styled/CommonStyle';
 const note = [
   '1) Capitalization Matters! Min 6 characters, Max 15 characters.',
   '2) Password should be combination of at least one character, digit & special character.',];
-const note1 = ['It seem that You have not changed the sytem genearted password. Please reset your password for Security purpose.']
-const note2 = [' Please reset your password for Security purpose.']
+const note1 = ['It seems you have not changed the system generated password. Please reset your password for security purpose.']
+const note2 = [' Please reset your password for security purpose.']
 function Form() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+ const FirstTime = sessionStorage.getItem("TermsAccepted");
 
   const TermAndConditions: any = useSelector(
     (state: RootState) => state.TermAndConditions.GetAcceptTermResult);
 
-  console.log("TermAndConditions", TermAndConditions)
+  console.log("FirstTime", FirstTime)
 
   const logout = () => {
     localStorage.removeItem("auth");
@@ -148,7 +149,7 @@ function Form() {
 
     <ListStyle sx={ChangePasswordStyle}>
       <form onSubmit={formik.handleSubmit}>
-       {output ? <Note NoteDetail={note1} /> : <Note NoteDetail={note2} /> }
+       {FirstTime == "N" ? <Note NoteDetail={note1} /> : <Note NoteDetail={note2} /> }
         <Box >
           <Typography>User Name</Typography>
           <TextField disabled fullWidth margin="normal" name="username" type="text"

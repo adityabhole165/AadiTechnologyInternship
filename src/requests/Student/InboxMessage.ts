@@ -5,6 +5,7 @@ import SentMessageApi from 'src/api/Student/SentMessage';
 import { IgetList, IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
 import { isFutureDateTime } from 'src/components/Common/Util';
+import DraftMessageApi from 'src/api/MessageCenter/ApiDraftMessage';
 
 const InboxMessageSlice = createSlice({
   name: 'Message Center',
@@ -138,6 +139,28 @@ export const getListOfMessages =
         if (Pagination == false) {
           dispatch(InboxMessageSlice.actions.Messages(data));
         }
+      }
+      if (ActiveTab.trim() === 'Draft') {
+        const response = await DraftMessageApi.GetAllDraftMessage(body);
+        const data = response.data.GetAllDraftMessageDetails.map((item) => {
+          return {
+            Id: item.Id,
+            text1: item.Subject,
+            text3: item.DraftDate,
+            NavPath: item.Id + '/Draft',
+            isActive: false, 
+            DetailsId: item.Id,
+            ReceiverDetailsId: item.Id
+          }
+        })
+        if (Pagination == true) {
+          dispatch(InboxMessageSlice.actions.NextMessages(data))
+        }
+        if (Pagination == false) {
+          dispatch(InboxMessageSlice.actions.Messages(data));
+        }
+        
+      
       }
 
     };
