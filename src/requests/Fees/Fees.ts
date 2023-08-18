@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 import { getDateFormat, getDateFormatWithSpaceAndMonthInString } from 'src/components/Common/Util';
 
