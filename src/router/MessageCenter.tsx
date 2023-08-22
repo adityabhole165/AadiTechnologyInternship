@@ -80,6 +80,10 @@ const messageCenterRoutes: PartialRouteObject[] = [
     element: <Composee />
   },
   {
+    path: 'Compose/Edit', // Reply
+    element: <Composee />
+  },
+  {
     path: 'Compose/ReplyAll', // ReplyAll
     element: <Composee />
   },
@@ -92,6 +96,7 @@ const messageCenterRoutes: PartialRouteObject[] = [
     path: 'viewMSg/:ID/:FromRoute',
     element: <ViewMsg />
   },
+ 
   {
     path: 'Search',
     element: <Search />

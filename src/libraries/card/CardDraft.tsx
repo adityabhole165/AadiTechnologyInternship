@@ -59,30 +59,15 @@ function CardDraft({
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
   const { FromRoute } = useParams();
-  const saveMessageBody = (replyFwd) => {  
-    const path =
-      replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
-        replyFwd === "Forward" ?
-          `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
-          :replyFwd === "ReplyAll"?  `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`:"";
-    navigate(path)
-    localStorage.setItem("messageBody", Body);
 
-    localStorage.setItem("ViewMessageData", JSON.stringify(
-      {
-        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? To : "",
-        FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
-        Text: Text,
-        Attachment: AttachmentArray,
-        ID: ID,
-        CC:replyFwd ==="ReplyAll" ? Cc : "",
-        CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
-      }))
-  }
 
   const navigateToInBox =()=>{
     navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox' )
   }
+
+ const  navigateToEdit = () =>{
+  navigate('/extended-sidebar/MessageCenter/Compose/Edit')
+ }
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -146,7 +131,7 @@ function CardDraft({
           </BoxWrapper>
         </ListStyle>
            <ButtonPrimary onClick={navigateToInBox}>Go to InBox</ButtonPrimary>
-           <ButtonPrimary sx={{ml:"5px"}}>Edit</ButtonPrimary>
+           <ButtonPrimary sx={{ml:"5px"}} onClick={navigateToEdit}>Edit</ButtonPrimary>
         
       </Container>
     </>
