@@ -162,14 +162,14 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
     })
     setFeesTotal(Total)
   },[itemList])
-  
   return (
     <div>
       <Grid container>
         <Grid item xs={4}>
           Total : Rs. {FeesTotal}
         </Grid><Grid item xs={8}>
-          {((OnlineFeePaymentAll && internalFees === "SchoolFees")|| internalFees === "internalFees") &&
+        {itemList.some((obj) => obj.IsActive === true) ? <>
+        {OnlineFeePaymentAll &&
             <>
               {currentYear < aiAcademicYearId
                 ?
@@ -190,6 +190,7 @@ const PaidFeesDetails = ({ currentYear, IsForCurrentyear, OldYearwiseStudentId, 
                   }
                 </>
               } </>}
+              </> : null}
 
         </Grid><Grid item xs={12} sx={{ mt: 2 }}>
           {itemList.length > 0 &&

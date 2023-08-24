@@ -1,4 +1,4 @@
-import { Card, Container, Typography,  Box,} from '@mui/material'
+import { Card, Container, Typography, Box, } from '@mui/material'
 import React from 'react'
 import BackButton from 'src/libraries/button/BackButton'
 import PageHeader from 'src/libraries/heading/PageHeader'
@@ -10,6 +10,7 @@ import { useParams } from 'react-router-dom';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 
 
 function DailyLogs() {
@@ -57,19 +58,19 @@ function DailyLogs() {
 
 
 
-
   useEffect(() => {
+    if (assignedMonth_num !== undefined) {
+      const HomeworkDailyBody =
+      {
+        aiSchoolId: asSchoolId,
+        aiAcademicYearId: asAcademicYearId,
+        aiStandardDivisionId: asStandardDivision,
+        aiMonthId: assignedMonth_num,
+        asYear: assignedYear
+      }
 
-    const HomeworkDailyBody =
-    {
-      aiSchoolId: asSchoolId,
-      aiAcademicYearId: asAcademicYearId,
-      aiStandardDivisionId: asStandardDivision,
-      aiMonthId: assignedMonth_num,
-      asYear: assignedYear
+      dispatch(getHomeworkDailyLogs(HomeworkDailyBody))
     }
-
-    dispatch(getHomeworkDailyLogs(HomeworkDailyBody))
   }, [assignedMonth_num])
 
 
@@ -106,33 +107,34 @@ function DailyLogs() {
           NextDate={getNextDate}
           Close={undefined}
         />
-          {loading ? <SuspenseLoader/> : 
-       <>
+        {loading ? <SuspenseLoader /> :
+          <>
 
-       {GetHomeworkDailyLogs.length === 0 ?
-          <>
-            <ErrorMessages Error={'No records found'} />
-          </> :
-          <>
-            {GetHomeworkDailyLogs.map((item, i) => (
-              <div key={i}>
-                <Card sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={i === 0 ? -0.5 : 1} p={1}>
-                  <Typography>{item.Header}</Typography>
-                  <a href={localStorage.getItem('SiteURL') + item.Text1} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}>
-                    <Typography >Click here</Typography>
-                  </a>
-                </Card>
-              </div>
-            ))}
+            {GetHomeworkDailyLogs.length === 0 ?
+              <>
+                <ErrorMessages Error={'No records found'} />
+              </> :
+              <>
+                {GetHomeworkDailyLogs.map((item, i) => (
+                  <div key={i}>
+                    <Card sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={i === 0 ? -0.5 : 1} p={1}>
+                      <Typography mt={0.5}>{item.Header}</Typography>
+                      <a href={localStorage.getItem('SiteURL') + item.Text1} rel="noreferrer" target="_blank" style={{ textDecoration: 'none' }}>
+ 
+                        <FileDownloadOutlinedIcon />
+                      </a>
+                    </Card>
+                  </div>
+                ))}
+
+              </>}
+
 
           </>}
 
 
-</>}
 
-
-    
-     </Container>
+      </Container>
     </div>
   )
 }

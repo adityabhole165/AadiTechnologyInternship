@@ -225,7 +225,10 @@ function SelectSchool() {
             sessionStorage.setItem('StartDate', teacherDetails.StartDate);
             sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
             sessionStorage.setItem("DOB", teacherDetails.DOB);
+            sessionStorage.setItem("MobileNumber", teacherDetails.MobileNumber);
         }
+
+       
 
         if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
@@ -236,6 +239,7 @@ function SelectSchool() {
             sessionStorage.setItem("DOB", adminDetails.DOB);
             sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
             sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+            sessionStorage.setItem('MobileNumber', adminDetails.MobileNumber);
         }
 
         sessionStorage.setItem("Id", result.Id);

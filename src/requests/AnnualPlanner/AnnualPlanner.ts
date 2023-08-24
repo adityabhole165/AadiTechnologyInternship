@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AnnualPlannerApi from "../../api/AnnualPlanner/AnnualPlanner";
 import { AppThunk } from 'src/store';
 import IGetUpcomingEventBody, {IEventList} from 'src/interfaces/Common/AnnualPlanner';
+import IGetEventsInMonth from 'src/interfaces/Common/AnnualPlanner';
 
 const AnnualPlannerSlice = createSlice({
   name: 'Annual Planner',
   initialState:{
     EventList:[],
     Event:[],
+    
     Loading : true
   },
   reducers: {
@@ -15,7 +17,7 @@ const AnnualPlannerSlice = createSlice({
       state.EventList=action.payload;
       state.Loading = false
     },
-    getUpcomingEvent(state, action) {
+    getEvents(state, action) {
       state.Event = action.payload;
       state.Loading = false;
   },
@@ -46,30 +48,26 @@ export const getEventList =
 
   };
 
-  export const getUpcomingEvent =
-    (body: IGetUpcomingEventBody): AppThunk =>
+  export const getEvents =
+    (body: IGetEventsInMonth): AppThunk =>
         async (dispatch) => {
             dispatch(AnnualPlannerSlice.actions.getLoading(true));
 
-            const response = await AnnualPlannerApi.GetUpcomingEvents(body);
-
-            console.log("response" ,response.data)
-              let UpcomingEventList = response.data.UpcomingEventsData.map((item, index) => {
+            const response = await AnnualPlannerApi.GetEventsMonth(body);
+            let UpcomingEventList = response.data.GetEventsInMonthResult.map((item, index) => {
                 return {
-                    Id: item.EventId,
-                    Header: item.EventTitle,      
-                    Text1: item.StartDate,       
-                    Text2: item.EventType,
-                    Text3: item.StandardName,
-                    Text4 :item.EndDate,
-                    Text5:item.EventDescription,
-                    Text6:item.EndDateUniversal,
-                    backgroundColor: item.EventType === "Exam" ? "success" : item.EventType === "Event" ? "info" : "secondary",
-                    linkPath: item.EventId 
+                    Id: item.Id,
+                    header: item.Description,      
+                    text1: item.DisplayDate,  
+                    text2:'',
+                    text3:item.EventComment,
+                    backgroundColor: item.TypeId === 1 ? "green2" : item.TypeId === 2 ? "green1" :"pink2",
+                    linkPath:  item.TypeId === 1 && '/Common/viewevent/' + item.Id ,
+                    Textcolor: item.TypeId === 1 ? "#42a5f5" : item.TypeId === 2 ? "" :"",
                 }
             })
            
-            dispatch(AnnualPlannerSlice.actions.getUpcomingEvent(UpcomingEventList));
+            dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
           
         };
 

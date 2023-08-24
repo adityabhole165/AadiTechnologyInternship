@@ -106,7 +106,9 @@ function SentMessage() {
     abIsSMSCenter: '0',
     asFilter: '',
     asPageIndex: 1,
-    asMonthId: '0'
+    asMonthId: '0',
+    asOperator:"",
+    asDate:""
   };
 
   useEffect(() => {
@@ -203,7 +205,9 @@ function SentMessage() {
         abIsSMSCenter: '0',
         asFilter: '',
         asPageIndex: pageIndex,
-        asMonthId: '0'
+        asMonthId: '0',
+        asOperator:"",
+        asDate:""
       };
       SentMessageApi.GetSentMessageList(UpdatedBody) 
         .then((response) => {

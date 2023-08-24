@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useLocation, Link as RouterLink } from 'react-router-dom';
-import { Dialog, Grid, Typography } from '@mui/material';
+import { Button, Dialog, Grid, Typography } from '@mui/material';
 import AttachmentIcon from '@mui/icons-material/Attachment';
 import ScheduleIcon from '@mui/icons-material/Schedule';
 import EmailIcon from '@mui/icons-material/Email';
@@ -16,7 +16,7 @@ function CardMessage({ header, text1, text2, DetailsId,
     ActiveTab, IsRead, IsSchedule, IsAttachmentExist, HasReadReceipt,
     RequestReadReceipt, NavPath }) {
     
-        const navigate = useNavigate();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const location = useLocation();
     const SchoolId = localStorage.getItem('localSchoolId');
@@ -27,7 +27,7 @@ function CardMessage({ header, text1, text2, DetailsId,
     const ReadReceipt = useSelector(
         (state: RootState) => state.MessageCenter.ReadReceiptDetails
     );
-// const Usernames = ReadReceipt.map(item =>item.UserName ).join(', ');
+
 
     const ReadReceipts = {
         aiSchoolId: SchoolId,
@@ -53,10 +53,10 @@ function CardMessage({ header, text1, text2, DetailsId,
         'blue' :
         (ActiveTab == "Sent" && IsSchedule) ? 'blue' :
             ''
-    return (
+   return (
         <>
-
-            <Grid container alignItems={"center"} onClick={clickNav}>
+           <Grid container alignItems={"center"} onClick={clickNav}>
+               
                 <Grid item xs={11} sm={5} md={4} >
                     <Typography variant='h6' sx={{ color: IsReadColor, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap", width: "150px" }}>{header}</Typography>
                 </Grid>

@@ -392,16 +392,16 @@ const DashboardData = {
         index: 7,
         ScreenPermission: 'TeacherTimeTable'
       },
-      // {
-      //   Text1: 'Staff   ',
-      //   Text2: 'Birthday',
-      //   Color: '#90a4ae',
-      //   iconColor: '#35abd9',
-      //   Icon:CakeIcon,
-      //   Link: 'Common/StaffBirthday',
-      //   index: 20,
-      //   ScreenPermission: 'StaffBirthday'
-      // },
+      {
+        Text1: 'Staff   ',
+        Text2: 'Birthday',
+        Color: '#90a4ae',
+        iconColor: '#35abd9',
+        Icon:CakeIcon,
+        Link: 'Common/StaffBirthday',
+        index: 20,
+        ScreenPermission: 'StaffBirthday'
+      },
     ],
     items3:[
      

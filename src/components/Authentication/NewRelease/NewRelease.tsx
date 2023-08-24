@@ -84,7 +84,7 @@ const NewRelease = () => {
                 latestVersionDetails.GetNewAppVersionDetailsResult.Version != "")
                 setShowUpgrade(true)
 
-            localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails))
+            localStorage.setItem("NewVersionDetails", JSON.stringify(latestVersionDetails.GetNewAppVersionDetailsResult))
 
             if (latestVersionDetails.GetNewAppVersionDetailsResult.IsForceUpdate === 'True')
                 navigate('../../../UpgradeApp');

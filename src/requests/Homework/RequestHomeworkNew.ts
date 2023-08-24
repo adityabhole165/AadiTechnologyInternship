@@ -70,7 +70,7 @@ export const getHomeworkDates =
                 return {
                     Id: index,
                     Name: getDateMonthFormatted(item),
-                    Value: getDateMonthFormatted(item),
+                    Value: getDateMonthYearFormatted(item),
                     IsActive: false
                 }
             })
@@ -86,7 +86,7 @@ export const getHomeworkDates =
                             Id: item.Id,
                             Name: item.Title,
                             Value: item.CompleteByDate.replace("-", " ").replace("-", " "),
-                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id + '/' + item.AssignedDate,
+                            navPath: '/extended-sidebar/Student/viewHomework/' + item.Id,
                             AssignedDate: item.AssignedDate
                         };
                     })

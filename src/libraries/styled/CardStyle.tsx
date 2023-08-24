@@ -285,8 +285,13 @@ export const ListStyle = styled(Box)(
      ? theme.colors.gradients.pageBackground
      : color === 'red'
      ? theme.colors.gradients.red
+     : color === 'green2'
+     ? theme.colors.gradients.green2
+     : color === 'green1'
+     ? theme.colors.gradients.green1
+     : color === 'pink2'
+     ? theme.colors.gradients.pink2
      : theme.colors.gradients.listColor
-     
  };
     position:relative;
  padding:8px;

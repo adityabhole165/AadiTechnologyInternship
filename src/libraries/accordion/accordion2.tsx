@@ -106,7 +106,7 @@ function Accordion2({ subject, Data, Close, index, expand }) {
                                 to={
                                   `/${
                                     location.pathname.split('/')[1]
-                                  }/Student/viewHomework/` + list.Id+'/' + list.AssignedDate
+                                  }/Student/viewHomework/` + list.Id
                                 }
                                 style={{
                                   color: 'blue',

@@ -92,7 +92,7 @@ function AttendanceTopper() {
   return (
     <div>
       <Container>
-        <PageHeader heading={'Attendance Toppers'} subheading={''} />
+        <PageHeader heading={'Attendance '} subheading={''} />
         <BackButton FromRoute={"/Student/Attendance"} />
 
         <FormControl fullWidth>
@@ -105,7 +105,7 @@ function AttendanceTopper() {
         {academicyear !== asAcademicYear &&
          <> {selectedYear ?  
       
-         <Typography variant='h5' sx={{color:"red", mt:"5px"}}>You are Viewing data of old academic year ({selectedYear})</Typography>:"" }</>
+         <Typography variant='h5' sx={{color:"red", mt:"5px"}}>You are Viewing data of old academic year</Typography>:"" }</>
 
            }
         </FormControl>

@@ -13,21 +13,9 @@ import {
   Wordbreak
 } from '../styled/CardStyle';
 import { useNavigate } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 
-Card7.propTypes = {
-  From: PropTypes.string,
-  To: PropTypes.string,
-  Cc: PropTypes.string,
-  Text: PropTypes.string,
-  ViewDetail: PropTypes.object,
-  Body: PropTypes.string,
-  Attachments: PropTypes.any,
-  ID: PropTypes.string,
-  Viewsent: PropTypes.array,
-  LoggedInUserNameForMessage: PropTypes.string
-};
-
-function Card7({
+function CardDraft({
   ViewDetail,
   From,
   To,
@@ -66,43 +54,25 @@ function Card7({
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
-  const ReplyallRecieverId =FromUserID +','+ ViewSentObject.ReceiverUserId
+  const ReplyallRecieverId = ViewSentObject.ReceiverUserId
   const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
-const FromTo = From +','+ To
+  const { FromRoute } = useParams();
 
-  const saveMessageBody = (replyFwd) => {  
-    const path =
-      replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
-        replyFwd === "Forward" ?
-          `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
-          :replyFwd === "ReplyAll"?  `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`:"";
-    navigate(path)
-    localStorage.setItem("messageBody", Body);
 
-    const getExcludeMe = () =>{
-      let arr = FromTo.split(',');
-      arr = arr.filter(function(a){return a.replaceAll(' ','') !== ViewSentObject.LoggedInUserNameForMessage.replaceAll(' ','')})
-      return arr.join(',');
-    } 
-    
-    localStorage.setItem("ViewMessageData", JSON.stringify(
-      {
-        From: replyFwd === "Reply" ? From :replyFwd ==="ReplyAll" ? getExcludeMe() : "",
-        FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : "",
-        Text: Text,
-        Attachment: AttachmentArray,
-        ID: ID,
-        CC:replyFwd ==="ReplyAll" ? Cc : "",
-        CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
-      }))
+  const navigateToInBox =()=>{
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox' )
   }
 
+ const  navigateToEdit = () =>{
+  navigate('/extended-sidebar/MessageCenter/Compose/Edit')
+ }
   return (
     <>
       <Container maxWidth={'xl'}>
-        <ListStyle >
+      
+        <ListStyle sx={CardStyle}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
 
@@ -160,45 +130,11 @@ const FromTo = From +','+ To
 
           </BoxWrapper>
         </ListStyle>
-      {MessageCenterReadMode == true ? null :   <CardWrapper>
-          {/* <RouterLink
-            style={{ textDecoration: 'none' }}
-            to={
-              `/${
-                location.pathname.split('/')[1]
-              }/MessageCenter/Compose/Reply/` +
-              From +
-              '/' +
-              Text +
-              '/' +
-              FromUserID+
-              '/' +
-              ID
-            }
-          > */}
-          <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>&nbsp;&nbsp;
-         {RoleId !== "3" &&  <>
-        {!IsSender &&  <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
-          </>}
-          {/* </RouterLink> */}
-          {/* <RouterLink
-            style={{ textDecoration: 'none' }}
-            to={
-              `/${
-                location.pathname.split('/')[1]
-              }/MessageCenter/Compose/Forward/` +
-              Text +
-              '/' +
-              AttachmentArray +
-              '/' +
-              ID
-            }
-          > */}
-          <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward</ButtonPrimary>
-          {/* </RouterLink> */}
-        </CardWrapper>}
+           <ButtonPrimary onClick={navigateToInBox}>Go to InBox</ButtonPrimary>
+           <ButtonPrimary sx={{ml:"5px"}} onClick={navigateToEdit}>Edit</ButtonPrimary>
+        
       </Container>
     </>
   );
 }
-export default Card7;
+export default CardDraft;

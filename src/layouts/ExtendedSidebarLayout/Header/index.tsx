@@ -309,13 +309,15 @@ function Header() {
   const LoginStaffKid: any = useSelector(
     (state: RootState) => state.StaffKidLogin.Stafflogin
 );
+const StudentId = sessionStorage.getItem('StudentId');
+const RoleId = sessionStorage.getItem('RoleId');
 const SchoolId = localStorage.getItem('localSchoolId');
 const AcademicYearId = sessionStorage.getItem('AcademicYearId');
 const UserId = sessionStorage.getItem('Id');
 const Staffkid: IStaffDetailsForloginBody = {
   aiSchoolId:SchoolId,
   aiAcademicYearId:AcademicYearId,
-  aiYearwiseStudentId:"0",
+  aiYearwiseStudentId:RoleId === "3" ? StudentId : "0",
   aiUserId:UserId
 }
   useEffect(()=>{
@@ -326,6 +328,7 @@ dispatch(Stafflogin(Staffkid))
       toast.error('No internet connection', { toastId: 'success1' })
     }
   }
+  const LoginTo = RoleId === "3" ? "Login To Staff" : "Login To Child"
 
   return (<>
     <HeaderWrapper
@@ -388,7 +391,7 @@ dispatch(Stafflogin(Staffkid))
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{  height: 55 }} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
@@ -509,21 +512,42 @@ dispatch(Stafflogin(Staffkid))
                 </ul>
               </ListItem>
             }
-             <ListItem
+                   {LoginStaffKid.length == 0 ? (
+              <>
+              </>
+            ) : LoginStaffKid.length == 1 ?
+              (
+                <>
+                  <ListItem
+                    button
+                    to={""}
+                    component={NavLink}
+                    style={{ background: 'white !important' }}
+                  >
+                    <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
+                    <ListItemText
+                      primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}
+                        onClick={() => {
+                          loginToSibling(LoginStaffKid[0].UserName, LoginStaffKid[0].Password);
+                        }}
+                      >{LoginTo}</UserBoxLabel>} />
+                  </ListItem>
+                </>
+              ) :
+              <ListItem
                 button
                 to={""}
                 component={NavLink}
                 style={{ background: 'white' }}
               >
-                
                 <GroupIcon fontSize="small" sx={{ color: "#053082", marginBottom: '42px' }} />
                 <ul style={{ listStyle: 'none', padding: '0px', margin: '0px' }}>
-                  <Typography sx={{ color: "blue", fontWeight: "bold" }}>Staff Kid</Typography>
+                  {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
                   {
                     LoginStaffKid?.map(
                       (StaffKid: any, i) => {
                         return (
-                          <>
+                           <>
                             <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
                               onClick={() => {
                                 loginToSibling(StaffKid.UserName, StaffKid.Password);
@@ -536,6 +560,7 @@ dispatch(Stafflogin(Staffkid))
                   }
                 </ul>
               </ListItem>
+            }
           </List>
           <Divider />
           <Box m={1}>

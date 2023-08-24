@@ -36,7 +36,7 @@ Card5Fees.propTypes = {
   Name: PropTypes.string
 };
 
-function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceiptFile }) {
+function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceiptFile ,clickIcon}) {
 
   const Toaster = () => {
     toast.success('This feature is coming soon. Please download receipt form web app.')
@@ -61,7 +61,7 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
                     sx={{ marginTop: '1px' }}>
                     <a>
                       {internalFees == "internalFees" ?
-                        <FileDownloadOutlinedIcon onClick={Toaster} /> :
+                        <FileDownloadOutlinedIcon onClick={clickIcon} /> :
                         <>
                         {item.IsConcessionFee == true ? null :
                         <FileDownloadOutlinedIcon 
@@ -76,6 +76,7 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
               )}
             </Box>
           </CardDetail>
+          <Typography mt={-0.5}>{item.PaidDateString}</Typography>
 
         </ListStyle>
       </Container>

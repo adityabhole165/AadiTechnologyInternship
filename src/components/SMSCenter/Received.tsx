@@ -62,6 +62,7 @@ function Received() {
                     Color={''}
                     margin={''}
                     FileName={''}
+                    Textcolor=''
                     key={i}
                   />
                         

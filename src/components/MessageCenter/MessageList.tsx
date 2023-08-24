@@ -37,7 +37,11 @@ import CardMessDeleteButtons from './CardMessDeleteButtons';
 import { Styles } from 'src/assets/style/student-style';
 import { RootWrapper } from 'src/libraries/styled/CardStyle';
 import EmailSettings from './EmailSetting';
+import { getAllDraftMessage, getDeleteDraftMessage, resetDeleteDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage'
+import { IDeleteDraftMessageBody, IGetAllDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { DeleteButton, MarkAsReadMessage } from 'src/libraries/styled/CommonStyle';
+
 const Item = styled(Card)(({ theme }) => ({
     backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
     ...theme.typography.body2,
@@ -113,6 +117,12 @@ const MessageList = () => {
     const DeletePermanently = useSelector(
         (state: RootState) => state.DeleteMessagePermanetly.DeleteMessagePermanentlyList
     );
+    const DeleteDraftM = useSelector(
+        (state: RootState) => state.DraftMessages.DeleteDraftMessage
+    );
+   
+    
+    const IfMonthEmpty = monthYear == "" ? "0" : monthYear
 
     const getListBody: IgetList = {
         asSchoolId: SchoolId,
@@ -122,8 +132,8 @@ const MessageList = () => {
         abIsSMSCenter: '0',
         asFilter: searchText,
         asPageIndex: 1,
-        asMonthId: monthYear,
-        asOperator:operator,
+        asMonthId: IfMonthEmpty,
+        asOperator: operator,
         asDate: searchDate
     };
 
@@ -372,10 +382,11 @@ const MessageList = () => {
         if (scrollableDivRefference.scrollTop < 400) {
             setdisplayMoveToTop('none');
         }
+
         if (
             scrollableDivRefference.scrollHeight -
             scrollableDivRefference.scrollTop <=
-            570
+            scrollableDivRefference.clientHeight + 5
         ) {
             const getListBody: IgetList = {
                 asSchoolId: SchoolId,
@@ -386,18 +397,22 @@ const MessageList = () => {
                 asFilter: searchText,
                 asPageIndex: pageIndex,
                 asMonthId: monthYear,
-                asOperator:operator,
+                asOperator: operator,
                 asDate: searchDate
             };
-            
+
             dispatch(getListOfMessages(getListBody, activeTab, true));
-            setInboxListData((prev) => {
-                return [...inboxListData, ...NextInboxList];
-            });
+
             pageIndexIncrement();
         }
     };
-
+    useEffect(() => {
+        if (NextInboxList.length > 0) {
+            setInboxListData((prev) => {
+                return [...inboxListData, ...NextInboxList];
+            });
+        }
+    }, [NextInboxList])
     const closeSearchBar = () => {
         setShowSearch(false);
         setAcademicYear(AcademicYearId);
@@ -431,8 +446,27 @@ const MessageList = () => {
         setIsRefresh(true)
     };
 
+  
+            
+         const DeleteDraft = (ID) => {
+          const DeleteDraftBody: IDeleteDraftMessageBody = {
+          aiSchoolId: SchoolId,
+          aiAcademicYearId: AcademicYearId,
+          aiUserId: sessionStorage.getItem('Id'),
+          aiDraftId: ID
+        };
+        dispatch(getDeleteDraftMessage(DeleteDraftBody))
+         }
 
-
+         useEffect(() => {
+            if (DeleteDraftM !== '' ) {
+            toast.success(DeleteDraftM, { toastId: 'success1' })
+            dispatch(resetDeleteDraftMessage())
+            dispatch(getListOfMessages(getListBody, activeTab, false));}
+           }, [DeleteDraftM])
+    
+     
+   
     return (
         <>
 
@@ -512,12 +546,13 @@ const MessageList = () => {
                                     <Box mb={2} sx={DeleteButton}>
                                         <CardMessDeleteButtons activeTab={activeTab} clickReset={clickReset} TrashDelete={TrashDelete}
                                             ConfirmUndelete={ConfirmUndelete} DeletePermanent={DeletePermanent} clickDelete={clickDelete}
+                                           
                                         />
                                     </Box>
-                                    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
+                                {activeTab ==  'Inbox' &&    <Grid item xs={12} mt={-1} mb={2} sx={MarkAsReadMessage}>
                                         <ButtonPrimary onClick={() => { clickReadUnread("Unread") }} > Mark as Unread  </ButtonPrimary>
                                         <ButtonPrimary sx={{ ml: "5px" }} onClick={() => { clickReadUnread("Read") }}> Mark as Read</ButtonPrimary>
-                                    </Grid>
+                                    </Grid>}
                                 </>
                             )}
                         </Grid>
@@ -545,6 +580,7 @@ const MessageList = () => {
                                         <SelectList3Col
                                             Itemlist={inboxListData}
                                             ActiveTab={activeTab}
+                                            DeleteDraft={DeleteDraft}
                                             refreshData={refreshData} />)}
                                     </div>
                                 )}

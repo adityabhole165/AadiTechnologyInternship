@@ -1,4 +1,4 @@
-import { Grid, Box, ClickAwayListener, Tooltip } from '@mui/material'
+import { Grid, Box, ClickAwayListener, Tooltip, Avatar } from '@mui/material'
 import React, { useState } from 'react'
 import CheckboxImg from '../card/CheckboxImg'
 import { CardDetail2, ItemSize, ListStyle, ListStyle1 } from '../styled/CardStyle'
@@ -15,6 +15,7 @@ const CheckboxCard = ({ Item, onClick }) => {
   const onChange = () => {
     onClick({ Id: Item.Id, isActive: !Item.isActive })
   }
+
   return (
     <ListStyle1>
 
@@ -52,9 +53,13 @@ const CheckboxCard = ({ Item, onClick }) => {
                   }
                 }}
               >
-                <ItemSize onClick={handleClick} onClickCapture={onChange}  >
-              {Item.Name}
-            </ItemSize>
+              <ItemSize onClick={handleClick} onClickCapture={onChange}  >
+              {Item.Name !== '' ? Item.Name : 
+               <Avatar alt="user.name" src={localStorage.getItem('SiteURL') + 'RITeSchool/Uploads/OnlineExamImages/' + Item.path1} 
+               sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }}
+                variant="square" aria-label="add"></Avatar>
+              }
+             </ItemSize>
               </Tooltip>
             </ClickAwayListener>
             </Grid>
