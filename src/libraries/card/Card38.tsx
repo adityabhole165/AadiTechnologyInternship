@@ -20,7 +20,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
   const GetOldStudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails);
   const InternalFeeReceipt: any = useSelector((state: RootState) => state.Fees.InternalFeeReceipt);
 
-
+  
 
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -38,7 +38,6 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
       asSerialNo: '0',
       asLoginUserId: userLoginId
     };
-    dispatch(getReceiptFileName(getReceiptFileName_body));
   };
 
   useEffect(() => {
@@ -49,16 +48,15 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
     }
   }, [receiptFileName])
 
-  const clickIcon=()=>{
+  const clickIcon=(ReceiptNo,InternalFeeDetailsId,SerialNumber)=>{
     const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
-
-      "aiSchoolId":"71",
-      "aiAcademicYearId":"11",
-      "aiSchoolwiseStudentId":"2686",
-      "asReceiptNo":"30328",
-      "aiInternalFeeDetailsId":"298261",
+      "aiSchoolId":schoolId,
+      "aiAcademicYearId":currentYear,
+      "aiSchoolwiseStudentId":GetOldStudentDetails.StudentId,
+      "asReceiptNo":ReceiptNo,
+      "aiInternalFeeDetailsId":InternalFeeDetailsId,
       "abIsNextYearPayment":"false",
-      "aiSerialNumber":"449729"
+      "aiSerialNumber":SerialNumber
   }
     dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
     }

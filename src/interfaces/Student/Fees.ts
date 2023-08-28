@@ -246,7 +246,7 @@ export interface IGetFeeStructureLinksResult {
         
             aiSchoolId : string,
             aiAcademicYearId : string,
-             aiSchoolwiseStudentId : string,
+            aiSchoolwiseStudentId : string,
             asReceiptNo : string,
             aiInternalFeeDetailsId : string,
             abIsNextYearPayment : string,

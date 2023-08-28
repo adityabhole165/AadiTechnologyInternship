@@ -65,7 +65,7 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
-
+  
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
   
@@ -173,19 +173,6 @@ function Fees() {
   //   }
   // }, [FeesList2])
 
-  const clickIcon=()=>{
-    const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
-
-      "aiSchoolId":"71",
-      "aiAcademicYearId":"11",
-      "aiSchoolwiseStudentId":"2686",
-      "asReceiptNo":"30328",
-      "aiInternalFeeDetailsId":"298261",
-      "abIsNextYearPayment":"false",
-      "aiSerialNumber":"449729"
-  }
-    dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
-    }
   
   useEffect(() => {
     if(showCaution === "internalFees"){
