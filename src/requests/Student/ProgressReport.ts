@@ -6,8 +6,8 @@ import IExamResult, { IGetProgressReportFileName } from 'src/interfaces/Student/
 import IGetAcademicYearsOfStudent from  'src/interfaces/Student/ProgressReport';
 import IGetReasonforBlockingProgressReport from 'src/interfaces/Student/ProgressReport';
 import { IIsPendingFeesForStudent } from 'src/interfaces/Student/ProgressReport';
-
-
+import {IProgressReportBody,IAcademicYearsForProgressReportBody,IGetTermsForProgressReportBody} from  'src/interfaces/Student/ProgressReport';
+import { Dispatch } from '@reduxjs/toolkit';
 
 const GetExamResultslice = createSlice({
 
@@ -18,7 +18,11 @@ const GetExamResultslice = createSlice({
         GetTerms:[],  
         GetReasonforBlocking: [],
         PendingFees:[],
-        ProgressReportFileName:""
+        ProgressReportFileName:"",
+        ProgressReportDownload:"",
+        AcademicYearsForProgressReportDownload:[],
+        TermsForProgressReportDownload:[]
+      
     },
     reducers: {
         getExamResult(state, action) {
@@ -37,6 +41,18 @@ const GetExamResultslice = createSlice({
         getProgressReportFileName(state, action) {
           state.ProgressReportFileName = action.payload.GetProgressReportFileNameResult; 
         },
+
+        getProgressReport(state, action) {
+          state.ProgressReportDownload = action.payload; 
+        },
+
+        AcademicYearsForProgressReport(state, action) {
+          state.AcademicYearsForProgressReportDownload = action.payload; 
+        },
+
+        getTermsForProgressReport(state, action) {
+          state.TermsForProgressReportDownload = action.payload.Terms; 
+        }
     }
 
 });
@@ -77,4 +93,38 @@ export const GetExamResultList =
     dispatch(GetExamResultslice.actions.getProgressReportFileName(response.data));
   };
 
+  export const GetProgressReport =
+  (data: IProgressReportBody): AppThunk =>
+  async (dispatch) => {
+    const response = await GetExamResultApi.GetProgressReport(data);
+    dispatch(GetExamResultslice.actions.getProgressReport(response.data));
+  };
+
+  export const  AcademicProgressReportDownload =
+  (data: IAcademicYearsForProgressReportBody): AppThunk =>
+  async (dispatch) => {
+    const response = await GetExamResultApi.AcademicYearsForProgressReport(data);
+    // const response = await GetAllAcademicYearsApi. GetAllAcademicYears(data);
+  let a = response.data.AcademicYears.map((item, i) => {
+    return {
+      Id: item.AcademicYearId,
+      Name: item.AcademicYearName,
+      Value: item.AcademicYearId
+    }
+    });
+    dispatch(GetExamResultslice.actions.AcademicYearsForProgressReport(a));
+  };
+
+
+  export const GetTermsForProgressReport =
+  (data: IGetTermsForProgressReportBody): AppThunk =>
+  async (dispatch) => {
+    const response = await GetExamResultApi. TermsForProgressReport(data);
+    
+    dispatch(GetExamResultslice.actions.getTermsForProgressReport(response.data));
+  };
+
+
+  
+ 
   export default GetExamResultslice.reducer 
