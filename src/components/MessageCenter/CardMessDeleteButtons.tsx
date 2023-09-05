@@ -9,14 +9,14 @@ function CardMessDeleteButtons({ TrashDelete, clickReset, activeTab, ConfirmUnde
         <div>
             <Grid container spacing={0.5} sx={{ mb: "10px" }}>
                 {
-                // activeTab == 'Sent' ?
-                //     <Grid item xs={5.5} sm={6} md={3} lg={2} >
-                //         <ButtonPrimary
-                //             onClick={activeTab == 'Sent' && DeletePermanent}
-                //             endIcon={<HighlightOffIcon />} fullWidth
-                //         >Delete From Everyone
-                //         </ButtonPrimary>
-                //     </Grid> :
+                activeTab == 'Sent' ?
+                    <Grid item xs={5.5} sm={6} md={3} lg={2} >
+                        <ButtonPrimary
+                            onClick={activeTab == 'Sent' && DeletePermanent}
+                            endIcon={<HighlightOffIcon />} fullWidth
+                        >Delete From Everyone
+                        </ButtonPrimary>
+                    </Grid> :
                     activeTab == 'Trash' &&
                     <Grid item xs={5.5} sm={6} md={3} lg={1.5} >
                         <ButtonPrimary

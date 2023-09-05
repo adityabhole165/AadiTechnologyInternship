@@ -170,13 +170,16 @@ function Fees() {
   //     setPayNote([...arrNote, arrNote2])
   //   }
   // }, [FeesList2])
+
   
   useEffect(() => {
+    
     if(showCaution === "internalFees"){
     dispatch(getInternalYearList(InternalYrList));
     }
     else
     dispatch(getYearList(body1));
+
   }, [showCaution,currentYear])
 
   useEffect(() => {
@@ -225,9 +228,11 @@ function Fees() {
   }, []);
 
   useEffect(() => {
+    if(ActiveYear == undefined){
     if(showCaution=="SchoolFees" || showCaution=="internalFees"){
       setCurrentyear(asAcademicYearId)
     }
+  }
   }, [showCaution]);
   useEffect(() => {
     dispatch(getOldstudentDetails(IOldStudentDetails));
