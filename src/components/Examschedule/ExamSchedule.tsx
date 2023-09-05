@@ -134,6 +134,7 @@ function ExamSchedule() {
               Color=""
               margin=""
               FileName=""
+              Textcolor=''
               key=""
             />
           </>

@@ -119,6 +119,7 @@ const onlineExam = () => {
                 Color=""
                 margin=""
                 FileName=""
+                Textcolor=''
                 key=""
               />
             </RouterLink>

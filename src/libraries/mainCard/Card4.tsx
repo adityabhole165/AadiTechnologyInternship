@@ -18,7 +18,7 @@ import { ReadReceiptDetail} from 'src/requests/MessageCenter/MessaageCenter';
 function Card4({ header, text1, text2, text3, text5,DetailsId= undefined,
   text4, text6, clickCard = undefined, ActiveTab = undefined, IsRead = undefined,
   IsSchedule = false, IsAttachmentExist = undefined, HasReadReceipt = undefined,
-  RequestReadReceipt = undefined, NavPath = undefined }) {
+  RequestReadReceipt = undefined, NavPath = undefined ,Textcolor}) {
   const dispatch = useDispatch();
   const location = useLocation();
   const pathname = location.pathname;
@@ -65,7 +65,7 @@ const ReadReceipts ={
 
       <CardDetail onClick={clickCard}>
 
-        <CardDetail1 sx={{ color: IsReadColor }}>{header}</CardDetail1>
+        <CardDetail1 sx={{ color: IsReadColor || Textcolor }}>{header}</CardDetail1>
 
 
         {pageNameStudent == 'SubjectTeacher' ?

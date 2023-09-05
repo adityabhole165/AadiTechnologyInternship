@@ -34,7 +34,7 @@ function Card22({ pic, imgId }) {
       iconPadding: '10px',
       showAutoplayButton: true,
       showCloseButton: true,
-      showDownloadButton: false,
+      showDownloadButton: true,
       showFullscreenButton: true,
       showNextButton: true,
       showPrevButton: true,

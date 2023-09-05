@@ -881,7 +881,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
               </>
             ) : null}
               </Grid>
-            <Grid item xs={12} sm={2} sx={{mt:"-5px"}}>
+            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
               <ButtonPrimary color="primary" type="submit" fullWidth
                 onClick={formik.handleChange}
                 disabled={disabledStateOfSend}

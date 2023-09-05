@@ -242,6 +242,27 @@ export interface IGetFeeStructureLinksResult {
         }
 }
 
+ export interface IGetInternalFeeReceiptBody{
+        
+            aiSchoolId : string,
+            aiAcademicYearId : string,
+            aiSchoolwiseStudentId : string,
+            asReceiptNo : string,
+            aiInternalFeeDetailsId : string,
+            abIsNextYearPayment : string,
+            aiSerialNumber : string
+        }
+
+
+export interface IGetCautionMoneyReceiptBody{
+       
+        aiSchoolId : string,
+        aiAcademicYearId : string,
+        aiStudentId : string
+    
+
+                
+}
 //GetAcademicYearsforFeeChallan
 
 export interface IGetAcademicYearsforFeeChallanBody {

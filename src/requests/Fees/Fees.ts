@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 import { getDateFormat, getDateFormatWithSpaceAndMonthInString } from 'src/components/Common/Util';
 
@@ -20,6 +20,8 @@ const Feesslice = createSlice({
     GetNextYearFeeDetails: [],
     GetOldStudentDetails: null,
     FeeStructureLinks:null,
+    InternalFeeReceipt:"",
+    CautionMoneyReceipt:"",
     AcademicYearsforFeeChallan:[],
     DetailsForChallanImport:{},
     AllFeeTypesForChallanImport:[],
@@ -79,7 +81,18 @@ const Feesslice = createSlice({
     getFeeStructureLinks(state, action) {
       state.FeeStructureLinks = action.payload.FeeStructureLink;
     },
-
+    getInternalFeeReceipt(state, action) {
+      state.InternalFeeReceipt = action.payload; 
+    },
+      resetInternalReciept(state, action) {
+      state.InternalFeeReceipt = ""
+    },
+    getCautionMoneyReceipt(state, action) {
+      state.CautionMoneyReceipt = action.payload;
+    },
+       resetCautionReciept(state, action) {
+      state.CautionMoneyReceipt = ""
+       },
     getAcademicYearsforFeeChallan(state, action) {
       state.AcademicYearsforFeeChallan = action.payload;
     },
@@ -328,9 +341,27 @@ export const resetReciept =
     async (dispatch) => {
       const response = await FeesApi.GetFeeStructureLinks(data);
       dispatch(Feesslice.actions.getFeeStructureLinks(response.data));
-      
-
     };
+
+    export const resetInternalReciept =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Feesslice.actions.resetInternalReciept(""));
+    };
+    export const GetInternalFeeReceipt =
+  (data:IGetInternalFeeReceiptBody ): AppThunk =>
+  async (dispatch) => {
+    const response = await FeesApi.GetInternalFeeReceipt(data);
+    dispatch(Feesslice.actions.getInternalFeeReceipt(response.data));
+  };
+
+  export const GetCautionMoneyReceipt =
+  (data:IGetCautionMoneyReceiptBody ): AppThunk =>
+  async (dispatch) => {
+    const response = await FeesApi.GetCautionMoneyReceipt(data);
+    dispatch(Feesslice.actions.getCautionMoneyReceipt(response.data));
+  };
+ 
 
   export const getAcademicYearsforFeeChallan =
   (data: IGetAcademicYearsforFeeChallanBody): AppThunk =>

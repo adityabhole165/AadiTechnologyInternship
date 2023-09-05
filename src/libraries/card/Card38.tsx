@@ -7,16 +7,20 @@ import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5Fees from "./Card5Fees";
-import { getReceiptFileName, resetReciept } from "src/requests/Fees/Fees";
+import { getReceiptFileName, resetReciept ,GetInternalFeeReceipt} from "src/requests/Fees/Fees";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
-
+import {IGetInternalFeeReceiptBody}  from 'src/interfaces/Student/Fees';
+import Card27 from 'src/libraries/card/Card27';
 const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFees, currentYear }) => {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
   const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
   const GetOldStudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails);
+  const InternalFeeReceipt: any = useSelector((state: RootState) => state.Fees.InternalFeeReceipt);
+
+  
 
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
@@ -34,7 +38,6 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
       asSerialNo: '0',
       asLoginUserId: userLoginId
     };
-    dispatch(getReceiptFileName(getReceiptFileName_body));
   };
 
   useEffect(() => {
@@ -44,6 +47,19 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
       dispatch(resetReciept());
     }
   }, [receiptFileName])
+
+  const clickIcon=(ReceiptNo,InternalFeeDetailsId,SerialNumber)=>{
+    const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
+      "aiSchoolId":schoolId,
+      "aiAcademicYearId":currentYear,
+      "aiSchoolwiseStudentId":GetOldStudentDetails.StudentId,
+      "asReceiptNo":ReceiptNo,
+      "aiInternalFeeDetailsId":InternalFeeDetailsId,
+      "abIsNextYearPayment":"false",
+      "aiSerialNumber":SerialNumber
+  }
+    dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
+    }
 
   return (
     <>
@@ -82,6 +98,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
                     FileName={internalFees ? item.FeeType + "(" + item.PayableFor + ")"+ ":" + " " +"Rs. "+item.Amount : item.FeeType + "(" + item.PayableFor + ")" +
                     ":" + " " +"Rs. "+ item.FeesPaid}
                     downloadReceiptFile={downloadReceiptFile}
+                    clickIcon={clickIcon}
                   />
                 ) : null;
               })
