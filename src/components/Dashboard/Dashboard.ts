@@ -285,16 +285,15 @@ const DashboardData = {
       index: 33
     },
     
-    // {
-    //   Text1: 'Navbar',
-    //   Text2: 'Menus',
-    //   Color: '#81c784',
-    //   iconColor: '#35abd9',
-    //   ImageUrl: "",
-    //   Link: 'Student/NavBarMenus',
-    //   index: 35,
-
-    // },
+    {
+      Text1: 'Navbar',
+      Text2: 'Menus',
+      Color: '#81c784',
+      iconColor: '#35abd9',
+      ImageUrl: "",
+      Link: 'Student/NavBarMenus',
+      index: 35,
+    },
     
   
   ]},
@@ -508,6 +507,14 @@ const DashboardData = {
         Link: 'SMSCenter/smsCenter',
         index: 22,
         ScreenPermission: 'SMS Center'
+      },
+      {
+        Text1: 'NavBar',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: ' #424242',
+        Link: 'Common/smsCenter',
+        index: 36
       },
     ]
    }

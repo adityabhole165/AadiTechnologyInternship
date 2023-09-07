@@ -347,5 +347,14 @@ export interface IGetFileNameForSNSChallanBody {
         asPayableFor: string,
         aiSelectedAcademicYearId: string
 }
+export interface IIsPendingFeesForStudentBody {
+        asStudentId:string,
+        asAcademicYearId:string,
+        asSchoolId:string
+}
 
+export interface IIsPendingFeesForStudentResult {
+        IsPendingFeesForStudentResult: boolean,
+        Message:string
+}
 
