@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import {
   getModulesPermission, getModulesPermissionsResultt, getGetSettingValue,
-  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload, getEnableHomeworkModule
+  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload, getEnableHomeworkModule, getShowITRReportOnStudentLogin
 } from 'src/requests/SchoolSetting/schoolSetting';
 import { IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { getMessageCount } from 'src/requests/Dashboard/Dashboard'
@@ -76,6 +76,15 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     const EnableHomeworkModule: any = useSelector(
       (state: RootState) => state.getSchoolSettings.EnableHomeworkModuleForStudentLogin
     );
+
+    const getShowITRReportOnStudent: any = useSelector(
+      (state: RootState) => state.getSchoolSettings.ShowITRReportOnStudentLogin
+    );
+
+    console.log(getShowITRReportOnStudent ,"getShowITRReportOnStudent")
+
+
+    
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
@@ -129,6 +138,7 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
       dispatch(EnableOnlineExamM(GetSettingValueBody)) 
       dispatch(getParentPhotoUpload(GetSettingValueBody)) 
       dispatch(getEnableHomeworkModule(GetSettingValueBody)) 
+      dispatch(getShowITRReportOnStudentLogin(GetSettingValueBody)) 
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
@@ -239,6 +249,10 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     })
     items3 = items3.filter((el) => {
       return el.Text1 == 'Upload' ? AllowParentPhoto : true
+    })
+
+    items3 = items3.filter((el) => {
+      return el.Text1 == 'Income' ? getShowITRReportOnStudent : true
     })
     
   }
