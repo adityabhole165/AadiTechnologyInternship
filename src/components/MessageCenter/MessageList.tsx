@@ -375,18 +375,18 @@ const MessageList = () => {
         });
     };
 
-    const scrolling = (): void => {
-        if (scrollableDivRefference.scrollTop >= 400) {
+    const scrolling = (target): void => {
+        if (target.scrollTop >= 400) {
             setdisplayMoveToTop('flex');
         }
-        if (scrollableDivRefference.scrollTop < 400) {
+        if (target.scrollTop < 400) {
             setdisplayMoveToTop('none');
         }
 
         if (
-            scrollableDivRefference.scrollHeight -
-            scrollableDivRefference.scrollTop <=
-            scrollableDivRefference.clientHeight + 5
+            target.scrollHeight -
+            target.scrollTop <=
+            target.clientHeight + 5
         ) {
             const getListBody: IgetList = {
                 asSchoolId: SchoolId,
@@ -564,7 +564,7 @@ const MessageList = () => {
                                 ) : (
                                     <div
                                         id="ScrollableDiv"
-                                        onScroll={scrolling}
+                                        onScroll={(event)=> {scrolling(event.target)}}
                                         style={{
                                             paddingBottom: '100px',
                                             height: '570px',
