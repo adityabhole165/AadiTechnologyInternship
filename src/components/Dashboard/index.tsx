@@ -81,7 +81,7 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
       (state: RootState) => state.getSchoolSettings.ShowITRReportOnStudentLogin
     );
 
-    console.log(getShowITRReportOnStudent ,"getShowITRReportOnStudent")
+  
 
 
     
