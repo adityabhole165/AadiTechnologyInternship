@@ -56,6 +56,7 @@ const InternalFeePayment = Loader(lazy(()=> import('src/components/Fees/Payinter
 const HomeworkNew = Loader(lazy(()=> import('src/components/Homework/HomeworkNew')))
 const NavbarMenus = Loader(lazy(()=> import('src/components/NavbarMenu/NavBarMenus')))
 const Map = Loader(lazy(()=> import('src/components/TransportDetails/Map')))
+const Googlemap = Loader(lazy(()=> import('src/components/TransportDetails/Googlemap')))
 const SchoolWeb = Loader(lazy(()=> import('src/componentsWeb/SchoolWeb/SchoolWeb')))
 const DailyLogs = Loader(lazy(()=> import('src/components/Homework/DailyLogs')))
 const GenerateChallan = Loader(lazy(()=> import('src/components/Fees/GenerateChallan')))
@@ -233,11 +234,15 @@ const studentRoutes = [
     path: 'AddFeedback',
     element: <AddFeedback />
 },
-  {
-    path: 'TransportDetails',
-    element: <TransportDetails/>
-  },
-
+{
+  path: 'TransportDetails',
+  element: <TransportDetails/>
+},
+{
+  path: 'Googlemap',
+  element: <Googlemap/>
+},
+  
   {
     path: 'TransportDetails/:PickDrop',
     element: <TransportDetails/>

@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetPayableforChallanResult, IGetFileNameForSNSChallanBody, GetAllAcademicYears, GetAllInternalAcademicYears, IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody}  from "../../interfaces/Student/Fees";
+import IFees, { IGetReceiptFileName, IPayOnline ,GetAllAcademicYearsApiBody,IGetFeeDetailsOfOldAcademicBody,IGetFeeDetailsOfOldAcademicResult,IGetInternalFeeDetailsBody,IGetInternalFeeDetailsResult,IGetNextYearDetailsBody,IGetNextYearDetailsResult,IGetNextYearFeeDetailsBody,IGetNextYearFeeDetailsResult, IGetOldStudentDetailsBody, IGetOldStudentDetailsResult, IGetFeeStructureLinksBody, IGetFeeStructureLinksResult, IGetAcademicYearsforFeeChallanBody, IGetAcademicYearsFeeChallanResult, IGetDetailsForChallanImportResult, IGetDetailsForChallanImportBody, IGetFeeTypesForChallanImportResult, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetPayableforChallanResult, IGetFileNameForSNSChallanBody, GetAllAcademicYears, GetAllInternalAcademicYears, IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody, IIsPendingFeesForStudentBody}  from "../../interfaces/Student/Fees";
 
   const GetFeesList = (data: IFees) => {
     return http.post<IFees>('Student/GetFeeDetails',data);
@@ -71,6 +71,9 @@ const GetAllPayableforChallan= (data:IGetAllPayableforChallanBody) => {
 const FileNameForSNSChallan = (data:IGetFileNameForSNSChallanBody) => {
   return http.post<string>('Student/GetFileNameForSNSChallan',data);
 }
+const IsPendingFeesForStudent = (data:IIsPendingFeesForStudentBody) => {
+  return http.post<string>('Student/IsPendingFeesForStudent',data);
+}
 
 const FeesApi ={
     GetFeesList,
@@ -90,7 +93,8 @@ const FeesApi ={
     GetDetailsForChallanImport,
     GetAllFeeTypesForChallanImport,
     GetAllPayableforChallan,
-    FileNameForSNSChallan
+    FileNameForSNSChallan,
+    IsPendingFeesForStudent
 }
 
 export default FeesApi;

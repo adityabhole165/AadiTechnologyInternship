@@ -61,7 +61,7 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
                     sx={{ marginTop: '1px' }}>
                     <a>
                       {internalFees == "internalFees" ?
-                        <FileDownloadOutlinedIcon onClick={clickIcon} /> :
+                        <FileDownloadOutlinedIcon onClick={()=>{clickIcon(item.ReceiptNo, item.InternalFeeDetailsId,item.SerialNo)}} /> :
                         <>
                         {item.IsConcessionFee == true ? null :
                         <FileDownloadOutlinedIcon 

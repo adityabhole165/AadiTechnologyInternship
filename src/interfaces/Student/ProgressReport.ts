@@ -21,6 +21,8 @@ export interface  IStudentMarksList{
     ConsiderInTotal: string,
     EndingMarksRange: string,
    
+
+
     ExamStatus: null,
     ForeColor: null,
    
@@ -92,3 +94,51 @@ export interface IGetProgressReportFileNameResult{
    
     GetProgressReportFileNameResult : string
 }
+
+export  interface  IProgressReportBody
+{
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiStandardId:string,
+    aiStandardDivID:string,
+    aiStudentId:string,
+    aiTermId:string 
+}
+
+export  interface  IAcademicYearsForProgressReportBody
+{
+        aiSchoolId:string,
+        aiStudentId:string
+    
+}
+
+export  interface  IAcademicYearsForProgressReportResult
+{
+    
+        
+            AcademicYearId: string,
+            AcademicYearName: string
+        
+    
+}
+
+export interface IAcademicYearsForProgressResult{
+    AcademicYears : [IAcademicYearsForProgressReportResult]
+}
+
+export  interface  IGetTermsForProgressReportBody
+{
+    aiSchoolId:string,
+    aiAcademicYearId:string,
+    aiStudentId:string
+}
+export  interface  IGetTermsForProgressReportResult
+{ 
+    Terms: [{
+        TermName: string,
+        Id: string
+    }]
+}
+
+
+

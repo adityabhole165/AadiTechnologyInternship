@@ -2,7 +2,7 @@ import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
 import FeesApi from "../../api/Fees/Fees";
 import type { PayloadAction } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
-import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody } from 'src/interfaces/Student/Fees';
+import IFees, { IGetReceiptFileName, IPayOnline, GetAllAcademicYearsApiBody, IGetFeeDetailsOfOldAcademicBody, IGetInternalFeeDetailsBody, IGetNextYearDetailsBody, IGetNextYearFeeDetailsBody, IGetOldStudentDetailsBody, IGetFeeStructureLinksBody, IGetAcademicYearsforFeeChallanBody, IGetDetailsForChallanImportBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetFileNameForSNSChallanBody,IGetInternalFeeReceiptBody , IGetCautionMoneyReceiptBody, IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
 import IReceipt from 'src/interfaces/Student/Fees';
 import { getDateFormat, getDateFormatWithSpaceAndMonthInString } from 'src/components/Common/Util';
 
@@ -26,7 +26,8 @@ const Feesslice = createSlice({
     DetailsForChallanImport:{},
     AllFeeTypesForChallanImport:[],
     AllPayableforChallan:[],
-    FileNameForSNSChallan:""
+    FileNameForSNSChallan:"",
+    IsPendingFeesForStudent:null
 
   },
 
@@ -114,6 +115,9 @@ const Feesslice = createSlice({
     },
     resetFileNameForSNSChallan(state) {
       state.FileNameForSNSChallan = "";
+    },
+    getIsPendingFeesForStudent(state, action) {
+      state.IsPendingFeesForStudent = action.payload;
     },
   }
 });
@@ -432,6 +436,12 @@ export const resetReciept =
      async (dispatch) => {
       dispatch(Feesslice.actions.resetFileNameForSNSChallan());
     };
+    export const getIsPendingFeesForStudent =
+    (data: IIsPendingFeesForStudentBody): AppThunk =>
+      async (dispatch) => {
+        const response = await FeesApi.IsPendingFeesForStudent(data);
+        dispatch(Feesslice.actions.getIsPendingFeesForStudent(response.data));
+      };
   
 
 export default Feesslice.reducer

@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { RootStateOrAny, useDispatch } from 'react-redux';
-import { getFeeStructureLink, getFees, getInternalYearList, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
-import IFees, { GetAllAcademicYearsApiBody, IGetAcademicYearsforFeeChallanBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetDetailsForChallanImportBody, IGetFeeDetailsOfOldAcademicBody, IGetFileNameForSNSChallanBody, IGetNextYearDetailsResult, IPayOnline,IGetInternalFeeReceiptBody,IGetCautionMoneyReceiptBody  } from 'src/interfaces/Student/Fees';
+import { getFeeStructureLink, getFees, getInternalYearList, getIsPendingFeesForStudent, getOldstudentDetails, getYearList, resetPaymentUrl } from 'src/requests/Fees/Fees';
+import IFees, { GetAllAcademicYearsApiBody, IGetAcademicYearsforFeeChallanBody, IGetAllFeeTypesForChallanImportBody, IGetAllPayableforChallanBody, IGetDetailsForChallanImportBody, IGetFeeDetailsOfOldAcademicBody, IGetFileNameForSNSChallanBody, IGetNextYearDetailsResult, IPayOnline,IGetInternalFeeReceiptBody,IGetCautionMoneyReceiptBody, IIsPendingFeesForStudentBody  } from 'src/interfaces/Student/Fees';
 import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, ClickAwayListener, Tooltip } from '@mui/material';
+import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, ClickAwayListener, Tooltip, Link } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
@@ -65,7 +65,8 @@ function Fees() {
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
-
+  const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
+  
 
   const AcadamicYear: any = useSelector((state: RootState) => state.Fees.YearList);
   
@@ -161,6 +162,11 @@ function Fees() {
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
+  const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
+    asStudentId:asStudentId,
+    asAcademicYearId:currentYear,
+    asSchoolId:asSchoolId
+  };
   // useEffect(() => {
   //   if (FeesList2.PaymentNotes !== undefined) {
   //     let arrNote = FeesList2.PaymentNotes;
@@ -173,26 +179,15 @@ function Fees() {
   //   }
   // }, [FeesList2])
 
-  const clickIcon=()=>{
-    const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
-
-      "aiSchoolId":"71",
-      "aiAcademicYearId":"11",
-      "aiSchoolwiseStudentId":"2686",
-      "asReceiptNo":"30328",
-      "aiInternalFeeDetailsId":"298261",
-      "abIsNextYearPayment":"false",
-      "aiSerialNumber":"449729"
-  }
-    dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
-    }
   
   useEffect(() => {
+    
     if(showCaution === "internalFees"){
     dispatch(getInternalYearList(InternalYrList));
     }
     else
     dispatch(getYearList(body1));
+
   }, [showCaution,currentYear])
 
   useEffect(() => {
@@ -230,7 +225,7 @@ function Fees() {
     dispatch(getRestrictNewPaymentIfOldPaymentIsPending(GetSettingValueBody))
     dispatch(getEnableOnlinePaymentForLastYearfee(GetSettingValueBody))
     dispatch(getEnabledOnlineFeePayment(GetSettingValueBody))
-
+    dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
 
 
     if (InternalOrSchool !== undefined && ActiveYear !== undefined) {
@@ -241,9 +236,11 @@ function Fees() {
   }, []);
 
   useEffect(() => {
+    if(ActiveYear == undefined){
     if(showCaution=="SchoolFees" || showCaution=="internalFees"){
       setCurrentyear(asAcademicYearId)
     }
+  }
   }, [showCaution]);
   useEffect(() => {
     dispatch(getOldstudentDetails(IOldStudentDetails));
@@ -346,7 +343,7 @@ function Fees() {
 
     if (FeesList2.PendingFeeAcademicYears !== undefined) {
       arr = FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
-      setshowOldPendingMsg(arr.length > 0)
+      // setshowOldPendingMsg(arr.length > 0)
       let arr1 = newAcadamicYear
       let arr2 = originalAcadamicYear.map((item) => {
         let IsInclude = getIsInclude(item, arr)
@@ -356,6 +353,14 @@ function Fees() {
     }
 
   }, [FeesList2])
+  useEffect(() => {
+    if (PendingFeesForStudent !== null) {
+      if(PendingFeesForStudent.Message !== ""){
+      setshowOldPendingMsg(true)
+      }
+    }
+
+  }, [PendingFeesForStudent])
 
  
 
@@ -421,6 +426,9 @@ function Fees() {
           />
         </Tooltip>
       </ClickAwayListener>
+      <Link href={FeesList2.OnlineFeePaymentGuidePath} rel="noreferrer" target="_blank">
+    <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary>
+    </Link>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}
         handleChange={clickYear}
@@ -437,10 +445,14 @@ function Fees() {
         }
       {currentYear != NextYrId &&
         <>
+           {PendingFeesForStudent !== null &&
+           <>
           {FeesList2.PendingFeeAcademicYears !== "" &&
             <>
-              {showOldPendingMsg && <ErrorMessages Error={"Pending Fees for: " + FeesList2.PendingFeeAcademicYears} />}
+              {showOldPendingMsg && <ErrorMessages Error={PendingFeesForStudent.Message} />}
             </>
+            }     
+              </>
           }
         </>}
        {currentYear == NextYrId && (showCaution == "SchoolFees" && <>{RestrictNewPayment && <ErrorMessages Error={"You cannot pay next year fee till the complete payment of last year fee."} />}</>)}

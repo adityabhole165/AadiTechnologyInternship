@@ -246,7 +246,7 @@ export interface IGetFeeStructureLinksResult {
         
             aiSchoolId : string,
             aiAcademicYearId : string,
-             aiSchoolwiseStudentId : string,
+            aiSchoolwiseStudentId : string,
             asReceiptNo : string,
             aiInternalFeeDetailsId : string,
             abIsNextYearPayment : string,
@@ -347,5 +347,14 @@ export interface IGetFileNameForSNSChallanBody {
         asPayableFor: string,
         aiSelectedAcademicYearId: string
 }
+export interface IIsPendingFeesForStudentBody {
+        asStudentId:string,
+        asAcademicYearId:string,
+        asSchoolId:string
+}
 
+export interface IIsPendingFeesForStudentResult {
+        IsPendingFeesForStudentResult: boolean,
+        Message:string
+}
 

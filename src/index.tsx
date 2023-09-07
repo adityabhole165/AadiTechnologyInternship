@@ -11,6 +11,8 @@ import * as serviceWorker from 'src/serviceWorker';
 import 'react-toastify/dist/ReactToastify.css';
 import { ToastContainer } from 'react-toastify';
 import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import React from 'react';
+import MapComponent from './App'
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={store}>
@@ -18,6 +20,9 @@ ReactDOM.render(
         <BrowserRouter>
           <ScrollTop />
             <App />
+            <React.StrictMode>
+            <MapComponent />
+            </React.StrictMode>
         </BrowserRouter>
       </SidebarProvider>
     </Provider>

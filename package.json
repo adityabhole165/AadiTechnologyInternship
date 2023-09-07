@@ -34,6 +34,7 @@
     "@mui/lab": "^5.0.0-alpha.55",
     "@mui/material": "^5.11.12",
     "@mui/styles": "5.1.1",
+    "@react-google-maps/api": "^2.19.2",
     "@reduxjs/toolkit": "1.6.2",
     "@types/jsonwebtoken": "8.5.5",
     "@types/nprogress": "0.2.0",

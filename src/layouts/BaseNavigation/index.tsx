@@ -175,14 +175,14 @@ function Basenav() {
         </Grid>
         </Box>
      
-        <Grid container >
-        <Grid item xs={4} display="flex"  justifyContent="flex-start" alignItems="center">
+        <Grid container height={30}>
+        <Grid item xs={5} display="flex"  justifyContent="flex-start" alignItems="center">
           <a href='http://riteschool.com' target="_blank" rel="noreferrer">
-            <img src={school2} height={25}/>
+            <img src={'/imges/RITLOGO.png'} height={80} width={100} style={{marginTop:"-25px"}}/>
           </a>
         </Grid>
-        <Grid item xs={8} display="flex" justifyContent="flex-start" alignItems="center">
-          <Typography className={classes.FontFooter} sx={{mb:0.5}}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
+        <Grid item xs={7} display="flex" justifyContent="flex-start" alignItems="center" style={{marginTop:"-25px", float:"right"}}>
+          <Typography className={classes.FontFooter} sx={{mb:0.5 }}><strong>Copyright © {new Date().getFullYear()} RegulusIT.net. All rights reserved.</strong></Typography>
         </Grid>
         </Grid>
         </Paper>
