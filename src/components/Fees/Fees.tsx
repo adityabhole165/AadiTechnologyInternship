@@ -6,7 +6,7 @@ import Card27 from 'src/libraries/card/Card27';
 import { Styles } from 'src/assets/style/student-style';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, ClickAwayListener, Tooltip } from '@mui/material';
+import { Card, styled, TextField, ToggleButton, ToggleButtonGroup, Typography, ClickAwayListener, Tooltip, Link } from '@mui/material';
 import { useNavigate, useParams } from 'react-router-dom';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { Container, Box, Grid } from '@mui/material';
@@ -426,6 +426,9 @@ function Fees() {
           />
         </Tooltip>
       </ClickAwayListener>
+      <Link href={FeesList2.OnlineFeePaymentGuidePath} rel="noreferrer" target="_blank">
+    <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary>
+    </Link>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}
         handleChange={clickYear}
