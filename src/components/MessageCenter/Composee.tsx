@@ -116,6 +116,7 @@ function Form13() {
   }, []);
 
   useEffect(() => {
+ 
     if (AttachmentArray != undefined) {
       if (AttachmentArray != 'null') {
         const a = AttachmentArray.split(',');
@@ -281,7 +282,6 @@ function Form13() {
         Body: formik.values.Content,
         Subject: formik.values.Subject,
         SenderName: StudentName,
-        // DisplayText: RecipientsObject.RecipientName.toString(),
         DisplayText: RecipientsObject.RecipientName.toString(),
         SenderUserId: UserId,
         SenderUserRoleId: RoleId,
@@ -298,6 +298,7 @@ function Form13() {
       asSchoolName: SchoolName,
       asSelectedStDivId: RecipientsObject.ClassId.toString(),
       asSelectedUserIds: RecipientsObject.RecipientId.toString() +','+ ContactGRPusers.toString(),
+   
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
@@ -336,9 +337,11 @@ function Form13() {
     initialValues: {
       To: '',
       Cc: '',
-      Subject: PageName == 'Forwa' ? "FW: " + Text : '' || PageName == 'Reply' ? "RE: " + Text : '',
-      Content: '',
-      Attachment: ''
+      Subject: PageName == 'Forwa' ? "FW: " + Text : '' 
+      || PageName == 'Reply' ? "RE: " + Text : ''
+      || PageName == 'Edit' ? Text : '',
+      Content:PageName == 'Edit' ? Text : '',
+      Attachment: PageName == 'Edit' && null,
     },
     onSubmit: (values) => {
       let valid = false;
@@ -510,33 +513,16 @@ function Form13() {
 }
 window.addEventListener('resize', handleResize)
 
-const AllDraftMessageBody: IGetAllDraftMessageBody = {
-  aiSchoolId:'18',
-  aiAcademicYearId:'54',
-  aiUserId:'5234',
-  asFilter:'',
-  aiMonthId:'',
-  asOperator:"",
-  asDate:""
-};
 
-
-
-const DraftMessageBody: IGetDraftMessageBody = {
-  aiSchoolId:"18",
-  aiAcademicYearId:"54",
-  aiUserId:"5234",  
-  aiDraftId:"10791" 
-}
 
 
   const SaveDraftBody: ISaveDraftMessageBody = {
-      aiDraftId:'0',
+      aiDraftId:ID,
        aoMessage: {
         SenderUserId:UserId,
         SchoolId:localschoolId,
         AcademicYearId:AcademicYearId,
-        ReceiverUserId:'',
+        ReceiverUserId:RecipientsObject.RecipientId.toString() +','+ ContactGRPusers.toString(),
         DisplayText:RecipientsObject.RecipientName.toString(),
         Subject:formik.values.Subject,
         Body:formik.values.Content,
@@ -709,7 +695,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
             </ClickAwayListener>
             </Grid>
 
-           
+          
         <Grid item xs={12} >
         {finalBase642New == undefined ||
               finalBase642New.length == 0
@@ -729,7 +715,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
                             
                          <FilePresentRoundedIcon sx={{ color: 'blue' }} />
                     
-                    
+                       
                          <CardDetail8 sx={{ mt: '1px'}}>
                            {obj.FileName.slice(0, 25)}
                          </CardDetail8>
@@ -761,6 +747,7 @@ const DraftMessageBody: IGetDraftMessageBody = {
                 </div>
               )}
             </Grid>
+        
      
        
                   <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>

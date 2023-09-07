@@ -45,8 +45,10 @@ export interface IGetDraftMessageBody  {
     aiDraftId:string 
 }
 
+
 export interface IGetDraftMessageResult  {
-    Attachments: {},
+    GetDraftMessageDetails:[{
+            Attachments: {},
             DetailsId: null,
             ReceiverDetailsId: null,
             DisplayText:string ,
@@ -86,12 +88,12 @@ export interface IGetDraftMessageResult  {
             IsAttachmentExist: boolean,
             HasReadReceipt: boolean,
             InsertDateInFormat: string
+    }]
+   
+    
 }
 
-// export interface IGetDraftMessageR  {
-//     GetDraftMessageDetails:IGetDraftMessageResult[]
-   
-// }
+
 
 export interface IDeleteDraftMessageBody  {
     aiSchoolId:string,

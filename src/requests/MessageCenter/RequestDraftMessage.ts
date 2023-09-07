@@ -9,7 +9,7 @@ const SliceDraftMessage = createSlice({
     initialState: {
         SaveDraftMessage: {},
         AllDraftMessage:[],
-        DraftMessage:[],
+        DraftMessage:null,
         DeleteDraftMessage:null,
         Loading: true,
     },
