@@ -21,6 +21,8 @@ import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
+import { getIsPendingFeesForStudent } from 'src/requests/Fees/Fees';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
@@ -37,7 +39,7 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
   const ProgressReport = useSelector((state: RootState) => state.Progressreport.ProgressReportDownload);
   const TermsForProgressReport = useSelector((state: RootState) => state.Progressreport.TermsForProgressReportDownload);
-
+  const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
 
 
@@ -58,7 +60,7 @@ function Progressreport() {
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
   const asStandardId = sessionStorage.getItem('StandardId');
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
-console.log("SchoolSettingsValue",SchoolSettingsValue);
+  console.log("PendingFeesForStudent", PendingFeesForStudent);
 
 
 
@@ -133,7 +135,11 @@ console.log("SchoolSettingsValue",SchoolSettingsValue);
     "aiStudentId": asStudentId
 
   };
-
+  const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
 
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
@@ -149,6 +155,7 @@ console.log("SchoolSettingsValue",SchoolSettingsValue);
 
   useEffect(() => {
     dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
+    dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
   }, []);
 
 
@@ -216,17 +223,19 @@ console.log("SchoolSettingsValue",SchoolSettingsValue);
 
 
   const classes = Styles();
+  
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
-
-
-
       <Box>
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
+            <>
+              {PendingFeesForStudent !== null  &&
 
-            <Note NoteDetail={note} />
+                <Note NoteDetail={[PendingFeesForStudent.Message]} /> 
+
+              }</>
 
             :
             getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
