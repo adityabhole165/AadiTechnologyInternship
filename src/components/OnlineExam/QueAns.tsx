@@ -160,6 +160,9 @@ const QueAns = () => {
         if (Getsubmitexam !== null && Getsubmitexam !== "") {
             toast.success(Getsubmitexam, { toastId: 'success1' })
             dispatch(resetSubmitMsg());
+            setTimeout(() => {
+                window.location.href = "/extended-sidebar/landing/landing";
+            }, 2000);
         }
         if (Getsaveexam !== null && Getsaveexam !== "") {
             toast.success(Getsaveexam, { toastId: 'success1' })
@@ -245,11 +248,9 @@ const QueAns = () => {
         let text = ("Are you sure you want to Submit the exam?")
         if (window.confirm(text) === true) {
             dispatch(GetSubmitExam(SubmitOnlineExam))
-        } else {
-
         }
-
         clearInterval(timer);
+       
     }
     const getTimeRemaining = (e) => {
         const total = Date.parse(e) - Date.parse(new Date().toString());
@@ -293,6 +294,7 @@ const QueAns = () => {
 
     useEffect(() => {
         clearTimer(getDeadTime());
+      
     }, []);
 
     return (
@@ -362,17 +364,16 @@ const QueAns = () => {
                                     })}
                                 </Grid>
                                 <Grid item xs={11}>
-
-                                    {itemlist[currentIndex].Parent.path ?
+                                <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
+                                  {itemlist[currentIndex].Parent.path &&
                                         <Box ml={3}>
                                             <Avatar alt="user.name" src={localStorage.getItem('SiteURL') + 'RITeSchool/Uploads/OnlineExamImages/' + itemlist[currentIndex].Parent.path}
                                                 sx={{ width: "180px", height: '160px', border: "2px solid gray", textAlign: "center" }}
                                                 variant="square" aria-label="add"></Avatar>
 
 
-                                        </Box> : <>
-                                            <Typography p={1}> {itemlist[currentIndex].Parent.Name}</Typography>
-                                        </>}
+                                        </Box>
+                                    } 
                                 </Grid>
 
                             </Grid>

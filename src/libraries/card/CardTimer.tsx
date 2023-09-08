@@ -2,9 +2,8 @@ import React, { useState, useEffect } from 'react';
 import {Box} from "@mui/material";
 function CardTimer({GetExamSchedules}) {
   const value = parseInt(GetExamSchedules[0].StartTime)
-  const startTime = parseInt(GetExamSchedules[0].StartTime) * 60 * 60; // 10:00 AM in seconds
-  const endTime = parseInt(GetExamSchedules[0].EndTime) * 60 * 60;   // 11:00 AM in seconds
-
+  const startTime = parseInt(GetExamSchedules[0].StartTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].StartTime.split(":")[1]) * 60; 
+  const endTime = parseInt(GetExamSchedules[0].EndTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].EndTime.split(":")[1]) * 60; 
   const [time, setTime] = useState(endTime - startTime); // Time duration in seconds
 
   useEffect(() => {
