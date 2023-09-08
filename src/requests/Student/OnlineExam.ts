@@ -77,7 +77,8 @@ export const AllExamData =
             
                 return (
                     response1.data.AnswerDetails
-                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && objAnswer.Answer !== "" || objAnswer.AttachmentPath !== "")
+                        .filter((objAnswer) => objAnswer.QuestionID === QuestionId && 
+                        (objAnswer.Answer !== "" || objAnswer.AttachmentPath !== ""))
                         .map((item, i) => {
                            return {
                                 Id: item.AnswerId,
