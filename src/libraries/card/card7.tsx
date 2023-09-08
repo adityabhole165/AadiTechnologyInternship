@@ -94,8 +94,6 @@ function Card7({
       arr = arr.filter(function(a){return a.replaceAll(' ','') !== ViewSentObject.LoggedInUserNameForMessage.replaceAll(' ','')})
       return arr.join(',');
     } 
-    if(replyFwd === "Edit")
-    setAttachmentArray([])
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
         From: replyFwd === "Reply" ? From :  replyFwd ==="ReplyAll" ? getExcludeMe() : 
@@ -103,7 +101,7 @@ function Card7({
         FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : 
         replyFwd === "Edit" ? ViewSentObject.ReceiverUserId :"",
         Text: Text,
-        Attachment: AttachmentArray,
+        Attachment: replyFwd === "Edit"?[]:AttachmentArray,
         ID: ID,
         CC:replyFwd ==="ReplyAll" ? Cc : "",
         CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
