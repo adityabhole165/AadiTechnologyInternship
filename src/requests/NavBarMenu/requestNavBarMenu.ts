@@ -26,7 +26,14 @@ const SliceNavbarMenu = createSlice({
       async (dispatch) => {
         dispatch(SliceNavbarMenu.actions.getLoading(true));
         const response = await ApiGetMenuDetails.GetMenuDetailsApi(data)
-        dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(response.data));
+        const itemlist = response?.data.MenuDetails.map((item) => {
+            return {
+              id: item.MenuId,
+              Name: item.MenuName,
+              Value: item.MenuId,
+            }
+          })
+        dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(itemlist));
        
       };
     

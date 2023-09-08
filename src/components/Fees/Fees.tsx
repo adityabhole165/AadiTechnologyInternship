@@ -367,10 +367,9 @@ function Fees() {
 
   const curr = FeeStructureLink !== null && FeeStructureLink.CurrentYearFeeStructure
   const nxt = FeeStructureLink !== null && FeeStructureLink.MidYearFeeStructure
-
   
   const CurrentDownload = () => {
-    const pdfUrl = curr;
+    const pdfUrl =localStorage.getItem("SiteURL") + curr;
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.click();
