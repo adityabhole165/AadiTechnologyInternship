@@ -28,7 +28,8 @@ const SchoolSettingSlice = createSlice({
     AllowNextYearInternalFeePaymentForStudent:false,
     EnableHomeworkModuleForStudentLogin	:false,
     ShowFeeStructureOfNextYear:false,
-    AllowHomewirkDailyLog:false
+    AllowHomewirkDailyLog:false,
+    ShowITRReportOnStudentLogin:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -100,6 +101,9 @@ const SchoolSettingSlice = createSlice({
     },
     getAllowHomewirkDailyLog(state,action){
       state.AllowHomewirkDailyLog = action.payload;
+    },
+    getShowITRReportOnStudentLogin(state,action){
+      state.ShowITRReportOnStudentLogin = action.payload;
     },
     
   }
@@ -389,5 +393,19 @@ export const getLibrarySchoolSetting =
             }
             dispatch(SchoolSettingSlice.actions.getAllowHomewirkDailyLog(AllowHomewirkDailyLog));
           }
+
+          export const getShowITRReportOnStudentLogin =
+          (data: IGetSettingValueBody): AppThunk =>
+            async (dispatch) => {
+              let ShowITRReportOnStudentLogin = false
+              data.asKey = "ShowITRReportOnStudentLogin";
+              let response = await SchoolSettingApi.GetSettingValueapi(data)
+              if (response.data.GetSettingValueResult) {
+                {
+                  ShowITRReportOnStudentLogin = true;
+                }
+              }
+              dispatch(SchoolSettingSlice.actions.getShowITRReportOnStudentLogin(ShowITRReportOnStudentLogin));
+            }
         
 export default SchoolSettingSlice.reducer

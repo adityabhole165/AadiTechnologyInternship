@@ -90,6 +90,10 @@ function Library() {
     setAscending(ascending === "asc" ? "desc" : "asc")
   }
 
+  const HeaderArray = [{Id:1, Header:"BookTitle"},{Id:2, Header:"Accession No."},{Id:3, Header:"Author"} ,{Id:4, Header:"Publisher"},{Id:5, Header:"Language"} ,{Id:6, Header:"Standards"}
+  ,{Id:7, Header:"Available"} ,{Id:8, Header:"Total"},{Id:9, Header:"Claim"}
+   ]
+
   return (
     <Container maxWidth={'xl'}>
       <PageHeader heading={'Library'} subheading={''} />
@@ -144,7 +148,7 @@ function Library() {
         <BooksDetails GetBookList={GetBookList}/>
         </Hidden>
          <Hidden smDown>
-         <TableCard GetBookList={GetBookList}/>
+         <TableCard ItemList={GetBookList} HeaderArray={HeaderArray}/>
          </Hidden>
         
         </>

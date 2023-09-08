@@ -12,26 +12,19 @@ import { Card } from '@mui/material';
 
 
 
-export default function TableCard({GetBookList}) {
+export default function TableCard({ItemList ,HeaderArray}) {
   return (
     <TableContainer component={Card}>
       <Table aria-label="simple table">
-        <TableHead >
-          <TableRow >
-            <TableCell sx={{textTransform:"capitalize"}}> <b>Book Title</b></TableCell>
-           
-            <TableCell sx={{textTransform:"capitalize" }} align="center"> <b>Accession No.</b></TableCell>
-            <TableCell sx={{textTransform:"capitalize" }} align="center"> <b>Author</b></TableCell>
-            <TableCell sx={{textTransform:"capitalize" }} align="center"><b>Publisher</b></TableCell>
-           
-            <TableCell sx={{textTransform:"capitalize" }} align="center"><b>Language</b></TableCell>
-            <TableCell sx={{textTransform:"capitalize"}} align="center"><b>Standards</b></TableCell>
-            <TableCell sx={{textTransform:"capitalize"}} align="center"><b>Available</b></TableCell>
-            <TableCell sx={{textTransform:"capitalize"}} align="center"><b>Claim</b></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {GetBookList.map((item,i) => (
+      <TableHead >
+        <TableRow >
+        {HeaderArray.map((item,i)=>(
+       <TableCell key={i} sx={{textTransform:"capitalize" }} align="center"> <b>{item.Header}</b></TableCell>
+        ))}
+           </TableRow>
+            </TableHead>
+         <TableBody>
+          {ItemList.map((item,i) => (
             <TableRow
               key={i}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
@@ -45,8 +38,9 @@ export default function TableCard({GetBookList}) {
               <TableCell align="center">{item.Language}</TableCell>
               <TableCell align="center">{item.Standards}</TableCell>
               <TableCell align="center">{item.Available_Books}</TableCell>
-              {item.Available_Books === 0 &&
-              <TableCell align="center"> Claim</TableCell>}
+              <TableCell align="center">{item.Total_Book_Quantity}</TableCell>
+              {item.Available_Books !== 0 &&
+              <TableCell align="center" sx={{ color: "#628def" }}> Claim</TableCell>}
               
             </TableRow>
           ))}

@@ -10,7 +10,7 @@ import Card7 from 'src/libraries/card/card7';
 import http from 'src/requests/SchoolService/schoolServices';
 import BackButton from 'src/libraries/button/BackButton';
 import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
-import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
+import { GetMessagesResult, IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import { compareStringWithoutSpace } from '../Common/Util';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
@@ -32,7 +32,8 @@ function ViewSms({ }) {
   };
 
   const { ID, FromRoute } = useParams();
-  const [viewSent, setViewSent] = useState<GetSentListResult>();
+
+  const [viewSent, setViewSent] = useState(null);
 
   const [showMessage, setShowMessage] = useState(false)
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -48,17 +49,21 @@ function ViewSms({ }) {
   );
 
   const DraftMessageBody: IGetDraftMessageBody = {
+
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId,
     aiUserId: UserId,
     aiDraftId: ID
   }
+
+ 
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
     asKey: "",
   };
   const GetViewEventResult = () => {
+   
     const ViewSent_body: IViewSent = {
       asSchoolId: asSchoolId,
       asMessageDetailsId: ID,
@@ -69,20 +74,35 @@ function ViewSms({ }) {
       .post('MessageCenter/GetMessage', ViewSent_body)
       .then((resp) => resp.data.GetMessagesResult)
       .then((data) => {
+        console.log(data ,"data")
         setViewSent(data);
       });
   };
+
+ 
+
+  useEffect(()=>{
+    if(GetDraftMessage!==null && GetDraftMessage!==undefined){
+    setViewSent(GetDraftMessage[0]);
+  }
+  },[GetDraftMessage])
+      
   const SchoolId = localStorage.getItem('localSchoolId')
 
   useEffect(() => {
-    GetViewEventResult();
-    dispatch(getDraftMessage(DraftMessageBody))
+    if(FromRoute === "Draft")
+      dispatch(getDraftMessage(DraftMessageBody))
+    else
+      GetViewEventResult();
   }, []);
+  
+  
   useEffect(() => {
     dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody))
   }, []);
+  
   useEffect(() => {
-    if (viewSent !== undefined) {
+    if (viewSent !== undefined && viewSent !== null) {
       if (viewSent.RequestReadReceipt === "True") {
         let readRecipient = "0"
         if (confirm("The Sender of this message has requested 'Read Receipt'. Do you want to send it")) {
@@ -114,58 +134,34 @@ function ViewSms({ }) {
   }
 
 
+
   return (
     <>
       <PageHeader heading={'View Message'} subheading={''} />
 
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
+
       <>
+        {
 
-        {FromRoute === "Draft" ?
-          <>
-            {GetDraftMessage !== undefined && <>
-              {GetDraftMessage.map((item, i) => {
-                return <Box key={i}>
-                  <CardDraft
-                    ViewDetail={ViewDetail}
-                    From={item.SenderName}
-                    InsertDateInFormat={item.InsertDateInFormat}
-                    To={item.DisplayText}
-                    Cc={item.DisplayTextCc}
-                    Body={item.Body}
-                    Text={item.Subject}
-                    Attachments={item.Attachments}
-                    ID={ID}
-                    ViewSentObject={GetDraftMessage}
-                    MessageCenterReadMode={MessageCenterReadMode} Viewsent={undefined} /></Box>
-              })}
-
-            </>}
-
-
-          </> :
-          <>
-            {
-
-              viewSent === undefined ? null : showMessage && (
-                <Card7
-                  ViewDetail={ViewDetail}
-                  From={viewSent.UserName}
-                  InsertDateInFormat={viewSent.InsertDateInFormat}
-                  To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-                    viewSent.RecieverName : viewSent.DisplayText}
-                  Cc={viewSent.DisplayTextCc}
-                  Body={viewSent.Body}
-                  Text={viewSent.Subject}
-                  Attachments={viewSent.Attachments}
-                  ID={ID}
-                  ViewSentObject={viewSent}
-                  LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
-                  MessageCenterReadMode={MessageCenterReadMode}
-                />
-              )}
-          </>}
-
+          viewSent === undefined ? null : showMessage && (
+            <Card7
+              ViewDetail={ViewDetail}
+              From={viewSent.UserName}
+              InsertDateInFormat={viewSent.InsertDateInFormat}
+              To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+                viewSent.RecieverName : viewSent.DisplayText}
+              Cc={viewSent.DisplayTextCc}
+              Body={viewSent.Body}
+              Text={viewSent.Subject}
+              Attachments={viewSent.Attachments}
+              ID={ID}
+              ViewSentObject={viewSent}
+              LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
+              MessageCenterReadMode={MessageCenterReadMode}
+            />
+          )}
+        
       </>
     </>
   );
