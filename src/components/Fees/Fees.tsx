@@ -367,10 +367,9 @@ function Fees() {
 
   const curr = FeeStructureLink !== null && FeeStructureLink.CurrentYearFeeStructure
   const nxt = FeeStructureLink !== null && FeeStructureLink.MidYearFeeStructure
-
   
   const CurrentDownload = () => {
-    const pdfUrl = curr;
+    const pdfUrl =localStorage.getItem("SiteURL") + curr;
     const link = document.createElement('a');
     link.href = pdfUrl;
     link.click();
@@ -385,6 +384,8 @@ function Fees() {
   const ClickNavigateChallan=()=>{
     navigate ('ChallanSNSForFees')
   }
+  console.log("FeesList2",FeesList2);
+  
   
   return (
     <Container>
@@ -445,15 +446,15 @@ function Fees() {
         }
       {currentYear != NextYrId &&
         <>
-           {PendingFeesForStudent !== null &&
-           <>
+           {/* {PendingFeesForStudent !== null &&
+           <> */}
           {FeesList2.PendingFeeAcademicYears !== "" &&
             <>
-              {showOldPendingMsg && <ErrorMessages Error={PendingFeesForStudent.Message} />}
+              {showOldPendingMsg && <ErrorMessages Error={"Pending fees for :"+FeesList2.PendingFeeAcademicYears} />}
             </>
             }     
-              </>
-          }
+              {/* </>
+          } */}
         </>}
        {currentYear == NextYrId && (showCaution == "SchoolFees" && <>{RestrictNewPayment && <ErrorMessages Error={"You cannot pay next year fee till the complete payment of last year fee."} />}</>)}
       {

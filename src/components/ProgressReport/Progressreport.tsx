@@ -21,6 +21,8 @@ import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
+import { getIsPendingFeesForStudent } from 'src/requests/Fees/Fees';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
@@ -37,7 +39,7 @@ function Progressreport() {
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
   const ProgressReport = useSelector((state: RootState) => state.Progressreport.ProgressReportDownload);
   const TermsForProgressReport = useSelector((state: RootState) => state.Progressreport.TermsForProgressReportDownload);
-
+  const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
 
 
@@ -58,8 +60,9 @@ function Progressreport() {
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
   const asStandardId = sessionStorage.getItem('StandardId');
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
+  console.log("PendingFeesForStudent", PendingFeesForStudent);
 
-  
+
 
   const [year, setYear] = useState(asAcademicYear)
   const [dropyear, setDropyear] = useState();
@@ -117,7 +120,7 @@ function Progressreport() {
     aiStudentId: asStudentId
   };
 
-  
+
   const AcademicYearsForProgressReportBody: IAcademicYearsForProgressReportBody = {
 
     "aiSchoolId": asSchoolId,
@@ -132,11 +135,11 @@ function Progressreport() {
     "aiStudentId": asStudentId
 
   };
-
- 
-
-
-
+  const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId,
+    asSchoolId: asSchoolId
+  };
 
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
@@ -152,6 +155,7 @@ function Progressreport() {
 
   useEffect(() => {
     dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
+    dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
   }, []);
 
 
@@ -162,7 +166,7 @@ function Progressreport() {
     GetPeendingFeesResult();
     dispatch(GetAcademicYears(GetAcademicYears_body));
     dispatch(GetReasonforBlockingProgressReport(GetReasonforBlockingProgressReport_body));
-   
+
 
   }, [academicYearId]);
 
@@ -183,14 +187,14 @@ function Progressreport() {
     }
   }, [ProgressReport])
 
-   
- 
+
+
   const ClickDownloadProgrss = (Id) => {
- const ProgressReportBody: IProgressReportBody = {
-      "aiSchoolId":asSchoolId,
+    const ProgressReportBody: IProgressReportBody = {
+      "aiSchoolId": asSchoolId,
       "aiAcademicYearId": asAcademicYearId,
       "aiStandardId": asStandardId,
-      "aiStandardDivID":asStandardDivision,
+      "aiStandardDivID": asStandardDivision,
       "aiStudentId": asStudentId,
       "aiTermId": Id
     };
@@ -219,110 +223,154 @@ function Progressreport() {
 
 
   const classes = Styles();
+  
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
-
-
-      <Dropdown Array={AcademicYearsForProgressReport}
-        handleChange={clickDropdown}
-        label="Select Year"
-        defaultValue={year}></Dropdown>
-      
-
       <Box>
-        <>
-          {progressreportResult?.map(
-            (examresult: GetStudentExamResult, i) => (
-              <Accordions3
-                Data={progressreportResult}
-                Exam={examresult.Exam}
-                key={i}
-                index={i}
-                Collapse={handleChange}
-                expand={expanded}
-              />
-            )
-          )}
-        </>
-      </Box>
-      {false &&
-        <Box>
-          <FormControl
-            sx={{
-              marginTop: '50px',
-              m: 1,
-              width: '100%',
-              marginLeft: '1px'
-            }}
-          >
-            {
-              <NativeSelect onChange={handledropyear}>
-                <option value="0">
-                  {' '}
-                  Select Academic Year
-                </option>
-                {academicyearResult?.map(
-                  (getacademicyr: IGetAcademicYears, i) => {
-                    return (
-                      <option
-                        value={getacademicyr.Id}
-                        key={i}
-                      >
-                        {getacademicyr.AcademicYear}
-                      </option>
-                    );
-                  }
-                )}
-              </NativeSelect>
-            }
-          </FormControl>
-          {dropyear !== '0' ? (
+        {
+          (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
             <>
-              {showyear ? (
-                <List>
-                  {academictermsResult?.map(
-                    (gettermsres: IGetTerms, i) => {
-                      return (
-                        <Card5
-                          key={i}
-                          text1={gettermsres.TermName}
-                          text2=""
-                          clickIcon={() => {
-                            downloadProgress(gettermsres.Id);
-                          }}
-                        />
-                      );
+              {PendingFeesForStudent !== null  &&
+
+                <Note NoteDetail={[PendingFeesForStudent.Message]} /> 
+
+              }</>
+
+            :
+            getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
+
+              <Note NoteDetail={[
+                'You are prohibited to view the progress report due to the following reason:',
+                Reason,
+                'Please do the needful to view the progress report.']} />
+
+              :
+              (getreasonbprgrepres.GetReasonforBlockingProgressReport != ''
+                && BlockProgressReportIfFeesArePending == "Y"
+                && pendingfees.IsPendingFeesForStudentResult == true) ?
+                <>
+
+                  <Note NoteDetail={[
+                    'Your school fees are pending. Please pay the dues to view progress report.',
+                    'You are prohibited to view the progress report due to the following reason:',
+                    Reason,
+                    'Please do the needful to view the progress report.']} />
+
+                </>
+                :
+                !hideExamNote ?
+                  <Note NoteDetail={note2} />
+                  :
+                  <>
+                    <Dropdown Array={AcademicYearsForProgressReport}
+                      handleChange={clickDropdown}
+                      label="Select Year"
+                      defaultValue={year}></Dropdown>
+                    <DotLegend1>
+                      <DotLegendStyled1
+                        className={classes.border}
+                        style={{ background: 'blueviolet' }}
+                      />
+                      <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
+                    </DotLegend1>
+                    {hidePercentNote ? null :
+                      <Note NoteDetail={BarGraphNote} />
                     }
-                  )}
-                </List>
-              ) : null}
-            </>
-          ) :
-            null}
-        </Box>
+                    <Box>
+                      <>
+                        {progressreportResult?.map(
+                          (examresult: GetStudentExamResult, i) => (
+                            <Accordions3
+                              Data={progressreportResult}
+                              Exam={examresult.Exam}
+                              key={i}
+                              index={i}
+                              Collapse={handleChange}
+                              expand={expanded}
+                            />
+                          )
+                        )}
+                      </>
+                    </Box>
+                    {/* remove false condition in 2nd phase of development */}
+                    {false &&
+                      <Box>
+                        <FormControl
+                          sx={{
+                            marginTop: '50px',
+                            m: 1,
+                            width: '100%',
+                            marginLeft: '1px'
+                          }}
+                        >
+                          {
+                            <NativeSelect onChange={handledropyear}>
+                              <option value="0">
+                                {' '}
+                                Select Academic Year
+                              </option>
+                              {academicyearResult?.map(
+                                (getacademicyr: IGetAcademicYears, i) => {
+                                  return (
+                                    <option
+                                      value={getacademicyr.Id}
+                                      key={i}
+                                    >
+                                      {getacademicyr.AcademicYear}
+                                    </option>
+                                  );
+                                }
+                              )}
+                            </NativeSelect>
+                          }
+                        </FormControl>
+                        {dropyear !== '0' ? (
+                          <>
+                            {showyear ? (
+                              <List>
+                                {academictermsResult?.map(
+                                  (gettermsres: IGetTerms, i) => {
+                                    return (
+                                      <Card5
+                                        key={i}
+                                        text1={gettermsres.TermName}
+                                        text2=""
+                                        clickIcon={() => {
+                                          downloadProgress(gettermsres.Id);
+                                        }}
+                                      />
+                                    );
+                                  }
+                                )}
+                              </List>
+                            ) : null}
+                          </>
+                        ) :
+                          null}
+                      </Box>
+                    }
+                    {
+                      TermsForProgressReport.length === 0 ? <> no record found </> :
+                        <>
+                          {TermsForProgressReport?.map((item, i) => (
 
+                            <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
+                              <Typography padding={1}>{item.TermName}</Typography>
+                              <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
+                                <FileDownloadOutlinedIcon />
+                              </IconButton>
+                            </Card>
 
-      }
+                          ))}
 
-      {
-        TermsForProgressReport.length === 0 ? <> no record found </> :
-        <>
-          {TermsForProgressReport?.map((item, i) => (
+                        </>
 
-            <Card key={i} sx={{display:"flex" , justifyContent:"space-between"}} component={Box} mt={1}>
-              <Typography padding={1}>{item.TermName}</Typography>
-              <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
-              <FileDownloadOutlinedIcon />
-              </IconButton>
+                    }
+                  </>
+        }
+      </Box>
 
-            </Card>
-
-          ))}
-
-        </>
-
-      }
 
 
     </Container>
