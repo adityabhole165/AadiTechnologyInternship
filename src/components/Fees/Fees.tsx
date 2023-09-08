@@ -384,6 +384,8 @@ function Fees() {
   const ClickNavigateChallan=()=>{
     navigate ('ChallanSNSForFees')
   }
+  console.log("FeesList2",FeesList2);
+  
   
   return (
     <Container>
@@ -444,15 +446,15 @@ function Fees() {
         }
       {currentYear != NextYrId &&
         <>
-           {PendingFeesForStudent !== null &&
-           <>
+           {/* {PendingFeesForStudent !== null &&
+           <> */}
           {FeesList2.PendingFeeAcademicYears !== "" &&
             <>
-              {showOldPendingMsg && <ErrorMessages Error={PendingFeesForStudent.Message} />}
+              {showOldPendingMsg && <ErrorMessages Error={"Pending fees for :"+FeesList2.PendingFeeAcademicYears} />}
             </>
             }     
-              </>
-          }
+              {/* </>
+          } */}
         </>}
        {currentYear == NextYrId && (showCaution == "SchoolFees" && <>{RestrictNewPayment && <ErrorMessages Error={"You cannot pay next year fee till the complete payment of last year fee."} />}</>)}
       {
