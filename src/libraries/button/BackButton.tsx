@@ -35,7 +35,7 @@ function BackButton({ FromRoute }) {
             width: '35px !important',
             height: '10px !important',
             borderRadius: '4px !important',
-            boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+            // boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
           }}
         >
           <ReplyIcon />

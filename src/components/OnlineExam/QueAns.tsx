@@ -17,14 +17,14 @@ import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
 import BackButton from 'src/libraries/button/BackButton';
 import { toast } from 'react-toastify';
-import CardTimer from 'src/libraries/card/CardTimer';
+
 
 
 const QueAns = () => {
 
     const dispatch = useDispatch();
     const Ref = useRef(null);
-    const [timer, setTimer] = useState('00:00:01');
+    
     const [currentIndex, setCurrentIndex] = useState(0)
     const asSchoolId = localStorage.getItem('localSchoolId');
     const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -35,9 +35,7 @@ const QueAns = () => {
     const Subjectid = localStorage.getItem('SubjectId')
     const [itemlist, setItemlist] = useState([]);
     const [listCardItems, setListCardItems] = useState([])
-    const [seconds, setSeconds] = useState(0);
-    const [minutes, setMinutes] = useState(0);
-    const [hours, setHours] = useState(0);
+   
     const [showSaveSubmit, setshowSaveSubmit] = useState(true);
 
 
@@ -58,9 +56,19 @@ const QueAns = () => {
     );
 
 
+    const startTime = parseInt(GetExamSchedules[0].StartTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].StartTime.split(":")[1]) * 60; 
+    const endTime = parseInt(GetExamSchedules[0].EndTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].EndTime.split(":")[1]) * 60; 
+    const [time, setTime] = useState(endTime - startTime); 
 
 
 
+    
+      const formatTime = (seconds) => {
+        const hours = Math.floor(seconds / 3600);
+        const minutes = Math.floor((seconds % 3600) / 60);
+        const remainingSeconds = seconds % 60;
+        return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''}${remainingSeconds}`;
+      };
     const OutofMarks = itemlist.map((item) => {
         return { AddMarks: item.Parent }
     });
@@ -249,53 +257,27 @@ const QueAns = () => {
         if (window.confirm(text) === true) {
             dispatch(GetSubmitExam(SubmitOnlineExam))
         }
-        clearInterval(timer);
+        clearInterval(time);
        
     }
-    const getTimeRemaining = (e) => {
-        const total = Date.parse(e) - Date.parse(new Date().toString());
-        const seconds = Math.floor((total / 1000) % 60);
-        const minutes = Math.floor((total / 1000 / 60) % 60);
-        const hours = Math.floor((total / 1000 / 60 / 60) % 24);
-        return {
-            total, hours, minutes, seconds
-        };
-    }
+
+       useEffect(() => {
+        const interval = setInterval(() => {
+          if (time > 0) {
+            setTime(time - 1);
+          } else {
+            clearInterval(interval);
+            dispatch(GetSaveExam(saveBody))
+            dispatch(GetSubmitExam(SubmitOnlineExam))
+          }
+        }, 1000);
+    
+        return () => clearInterval(interval);
+      }, [time]);
+
+   
 
 
-    const startTimer = (e) => {
-        let { total, hours, minutes, seconds }
-            = getTimeRemaining(e);
-        if (total >= 0) {
-            setTimer(
-                (hours > 9 ? hours : '0' + hours) + ':' +
-                (minutes > 9 ? minutes : '0' + minutes) + ':'
-                + (seconds > 9 ? seconds : '0' + seconds)
-            )
-        }
-    }
-
-
-    const clearTimer = (e) => {
-
-        setTimer('00: 00: 10');
-        if (Ref.current) clearInterval(Ref.current);
-        const id = setInterval(() => {
-            startTimer(e);
-        }, 1000)
-        Ref.current = id;
-    }
-
-    const getDeadTime = () => {
-        let deadline = new Date();
-        deadline.setSeconds(deadline.getSeconds() + 10);
-        return deadline;
-    }
-
-    useEffect(() => {
-        clearTimer(getDeadTime());
-      
-    }, []);
 
     return (
         <>
@@ -310,12 +292,18 @@ const QueAns = () => {
 
                     })
                 }
-                <Card sx={{ py: 1 }}>
-                    {showSaveSubmit &&
+                    <Card sx={{ py: 1 }}>
+                       {showSaveSubmit &&
                         <>
                             {GetExamSchedules.length > 0 &&
-                          <CardTimer GetExamSchedules={GetExamSchedules} />}
-                          </>}
+                           <Box sx={{textAlign:"center"}}>
+  
+                           <p><b>Exam Time: </b> {formatTime(time)}</p>
+                         </Box>}
+                          
+                          </>
+                          
+                          }
 
 
 
