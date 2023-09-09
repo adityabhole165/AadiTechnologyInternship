@@ -69,13 +69,13 @@ function Schoolnotice() {
       })
 
 
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (GetAllActiveNotices.length > 0 ) {
-      window.open(localStorage.getItem('SiteURL')+ 'RITeSchool/DOWNLOADS/'+ filevalue )
-      // dispatch(resetReciept());
-    }
-  }, [GetAllActiveNotices])
+  //   if (GetAllActiveNotices.length > 0 ) {
+  //     window.open(localStorage.getItem('SiteURL')+ 'RITeSchool/DOWNLOADS/'+ filevalue )
+  //     // dispatch(resetReciept());
+  //   }
+  // }, [GetAllActiveNotices])
 
 
   const Data = SchoolnoticeList.map((item, index) => {
@@ -119,7 +119,7 @@ function Schoolnotice() {
       <Container>
         <PageHeader heading={'School Notices'} subheading={''} />
 
-        {Data1.map((item, index) => {
+        {/* {Data1.map((item, index) => {
   
           if (item.IsText) {
             return (
@@ -133,8 +133,8 @@ function Schoolnotice() {
              
             );
           } 
-          })}
-            <br></br>
+          })} */}
+            {/* <br></br> */}
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
         )}
