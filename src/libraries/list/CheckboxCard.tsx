@@ -35,22 +35,12 @@ const CheckboxCard = ({ Item, onClick }) => {
           <>
             <Grid container xs={12}>
             <ClickAwayListener onClickAway={handleClickAway}>
-              <Tooltip
-                PopperProps={{
-                  disablePortal: true
-                }}
-                onClose={handleClick}
-                open={open}
-                disableFocusListener
-                disableHoverListener
-                disableTouchListener
-                title={Item.Users}
-                arrow
+              <Tooltip PopperProps={{disablePortal: true}}
+                onClose={handleClick} open={open} title={Item.Users}
+                disableFocusListener disableHoverListener disableTouchListener arrow
                 placement="right"
                 componentsProps={{
-                  tooltip: { 
-                    sx:{py:0.7,width:'200px'}
-                  }
+                  tooltip: {sx:{py:0.7,width:'200px'}}
                 }}
               >
               <ItemSize onClick={handleClick} onClickCapture={onChange}  >
