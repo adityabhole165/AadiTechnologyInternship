@@ -15,9 +15,9 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution, 
   const asStandardId = sessionStorage.getItem('StandardId');
   const UserId = sessionStorage.getItem('Id');
   const asAcademicYear = sessionStorage.getItem('AcademicYearId');
-  
-  
+  const SchoolwiseStudentId =sessionStorage.getItem('SchoolwiseStudentId');
   const CautionMoneyReceipt: any = useSelector((state: RootState) => state.Fees.CautionMoneyReceipt);
+  
   const Toaster =()=>{
     toast.success('This feature is coming soon. Please download receipt form web app.')
   }
@@ -26,7 +26,7 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution, 
 
       "aiSchoolId":asSchoolId,
        "aiAcademicYearId":asAcademicYear,
-       "aiStudentId":asStudentId
+       "aiStudentId":SchoolwiseStudentId  
    }
     dispatch(GetCautionMoneyReceipt(CautionMoneyReciptBody))
     }
