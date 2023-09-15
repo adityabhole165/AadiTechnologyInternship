@@ -2,7 +2,7 @@ import { Typography, Card, Box ,Button, IconButton} from '@mui/material';
 import { useEffect, useState } from 'react';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-const CardNotice = ({ text1, text2,downloadNotice,id}) => {
+const CardNotice = ({item,downloadNotice}) => {
 
     const [isCardVisible, setIsCardVisible] = useState(true);
     const handleCheckboxChange = () => {
@@ -14,10 +14,10 @@ const CardNotice = ({ text1, text2,downloadNotice,id}) => {
  
     <Box  sx={{   display: 'flex', justifyContent:"space-between"}} >
     {isCardVisible && 
-      <Card sx={{   width: '1000px', height: '60px'  , display: 'flex', alignItems: 'center', p: 1.5, mt: 0.7 }}>
-        <Typography>{text1}</Typography>
+      <Card sx={{   width: '1000px'  , display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}>
+        <Typography>{item.header}</Typography>
         <div style={{ flex: '1' }}></div>
-         <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(id
+         <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(item.FileName
           )}} />
      </Card>}
       {isCardVisible &&

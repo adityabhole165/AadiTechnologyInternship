@@ -29,7 +29,8 @@ const SchoolSettingSlice = createSlice({
     EnableHomeworkModuleForStudentLogin	:false,
     ShowFeeStructureOfNextYear:false,
     AllowHomewirkDailyLog:false,
-    ShowITRReportOnStudentLogin:false
+    ShowITRReportOnStudentLogin:false,
+    AllowProgressReportDownloadAtStudentLogin:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -104,6 +105,10 @@ const SchoolSettingSlice = createSlice({
     },
     getShowITRReportOnStudentLogin(state,action){
       state.ShowITRReportOnStudentLogin = action.payload;
+    },
+
+    AllowProgressReportDownloadAtLogin(state,action){
+      state.AllowProgressReportDownloadAtStudentLogin = action.payload;
     },
     
   }
@@ -407,5 +412,19 @@ export const getLibrarySchoolSetting =
               }
               dispatch(SchoolSettingSlice.actions.getShowITRReportOnStudentLogin(ShowITRReportOnStudentLogin));
             }
+
+            export const AllowProgressReportDownloadAtLogin =
+            (data: IGetSettingValueBody): AppThunk =>
+              async (dispatch) => {
+                let AllowProgressReportDownloadAtStudentLogin = false
+                data.asKey = "AllowProgressReportDownloadAtStudentLogin";
+                let response = await SchoolSettingApi.GetSettingValueapi(data)
+                if (response.data.GetSettingValueResult) {
+                  {
+                    AllowProgressReportDownloadAtStudentLogin = true;
+                  }
+                }
+                dispatch(SchoolSettingSlice.actions.AllowProgressReportDownloadAtLogin(AllowProgressReportDownloadAtStudentLogin));
+              }
         
 export default SchoolSettingSlice.reducer
