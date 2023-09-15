@@ -202,7 +202,7 @@ function SelectSchool() {
             sessionStorage.setItem('Religion', studentDetails.Religion);
             sessionStorage.setItem('CategoryName', studentDetails.CategoryName);
             sessionStorage.setItem('FamilyPhotoFilePath', studentDetails.FamilyPhotoFilePath);
-            
+            sessionStorage.setItem('SchoolwiseStudentId', studentDetails.SchoolwiseStudentId);
             // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
             //     "" : JSON.stringify(result.StudentSiblingList));
             sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
