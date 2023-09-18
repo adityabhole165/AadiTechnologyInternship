@@ -7,21 +7,13 @@ import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
 import List1 from 'src/libraries/mainCard/List1';
 import {
-  Container,
-  Accordion,
-  AccordionSummary,
-  Typography,
-  AccordionDetails,
-  useTheme
+  Container,useTheme
 } from '@mui/material';
 import BackButton from 'src/libraries/button/BackButton';
-import { Box } from '@mui/system';
 import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
-import Card5Fees from 'src/libraries/card/Card5Fees';
-import Card5 from 'src/libraries/mainCard/Card5';
 import { Styles } from 'src/assets/style/student-style';
 import CardNotice from 'src/libraries/card/CardNotice';
 
@@ -67,18 +59,8 @@ function Schoolnotice() {
    const name = GetAllActiveNotices.filter((item,i)=>{
     return drop == item.id ? filevalue=item.FileName :""
       })
-
-
-  // useEffect(() => {
-
-  //   if (GetAllActiveNotices.length > 0 ) {
-  //     window.open(localStorage.getItem('SiteURL')+ 'RITeSchool/DOWNLOADS/'+ filevalue )
-  //     // dispatch(resetReciept());
-  //   }
-  // }, [GetAllActiveNotices])
-
-
-  const Data = SchoolnoticeList.map((item, index) => {
+   
+      const Data = SchoolnoticeList.map((item, index) => {
     const date = item.Date;
     const day = new Date(date).getDate();
     const month = new Date(date).toLocaleString('default', { month: 'short' });
@@ -90,17 +72,10 @@ function Schoolnotice() {
       text1: newdate,
       text2: '',
       linkPath: '/Common/Viewschoolnotice/' + item.Id,
-      FileName: item.FileName
+      FileName: item.FileName,
+     
     };
   });
-  const downloadNotice = (value) => {
-    const ActiveNoticesBody: IGetAllActiveNoticesBody = {
-      asSchoolId: asSchoolId,
-      asUserId: asUserId
-    };
-    dispatch(getAllActiveNotices(ActiveNoticesBody));
-    setDrop(value)
-  };
  const Data1 = GetAllActiveNotices.map((item, index) => {
     return {
       id: item.Id,
@@ -108,9 +83,16 @@ function Schoolnotice() {
       text2: '',
       linkPath: '/Common/Viewschoolnotice/' + item.Id,
       FileName: item.FileName,
-      IsText: item.IsText
+      IsText: item.IsText,
+      IsImageNotice:item.IsImageNotice
     };
   });
+
+ const downloadNotice = (FileName) => {
+    
+    window.open(localStorage.getItem('SiteURL') + 'RITeSchool/DOWNLOADS/School Notices/' + FileName )
+    // window.open(localStorage.getItem('SiteURL') + 'RITeSchool/Images/'+ FileName)
+}
   const theme = useTheme();
   const classes = Styles();
 
@@ -119,22 +101,16 @@ function Schoolnotice() {
       <Container>
         <PageHeader heading={'School Notices'} subheading={''} />
 
-        {/* {Data1.map((item, index) => {
-  
-          if (item.IsText) {
-            return (
-              <CardNotice
-                key={index}
-                text1={item.header}
-                text2={item.FileName}
-                id={item.id}
+        {Data1.map((item, index) => {
+          return (
+            <div key={index}>
+             <CardNotice 
+               item={item}
               downloadNotice={downloadNotice}
               />
-             
-            );
-          } 
-          })} */}
-            {/* <br></br> */}
+              </div>);
+            })}
+             <br></br> 
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
         )}

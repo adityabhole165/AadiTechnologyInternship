@@ -16,13 +16,14 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import Note from 'src/libraries/Note/Note';
 import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport, IProgressReportBody, IAcademicYearsForProgressReportBody, IGetTermsForProgressReportBody } from 'src/interfaces/Student/ProgressReport';
 import Card5 from 'src/libraries/mainCard/Card5';
-
+import {AllowProgressReportDownloadAtLogin} from 'src/requests/SchoolSetting/schoolSetting'
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
 import { getIsPendingFeesForStudent } from 'src/requests/Fees/Fees';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
@@ -41,7 +42,7 @@ function Progressreport() {
   const TermsForProgressReport = useSelector((state: RootState) => state.Progressreport.TermsForProgressReportDownload);
   const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
-
+  const AllowProgressReportDownloadStudentLogin = useSelector((state: RootState) => state.getSchoolSettings.AllowProgressReportDownloadAtStudentLogin);
 
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
@@ -141,6 +142,12 @@ function Progressreport() {
     asSchoolId: asSchoolId
   };
 
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
+
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
       asSchoolId: asSchoolId,
@@ -156,6 +163,7 @@ function Progressreport() {
   useEffect(() => {
     dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
     dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
+    dispatch(AllowProgressReportDownloadAtLogin(GetSettingValueBody))
   }, []);
 
 
@@ -350,7 +358,9 @@ function Progressreport() {
                           null}
                       </Box>
                     }
-                    {
+                 {AllowProgressReportDownloadStudentLogin &&
+<>
+{
                       TermsForProgressReport.length === 0 ? <> no record found </> :
                         <>
                           {TermsForProgressReport?.map((item, i) => (
@@ -366,7 +376,11 @@ function Progressreport() {
 
                         </>
 
-                    }
+}
+
+</>
+   
+}
                   </>
         }
       </Box>
