@@ -50,8 +50,8 @@ const Feesslice = createSlice({
       state.ReceiptFileName = action.payload
     },
 
-    resetReciept(state, action) {
-      state.ReceiptFileName = ""
+    resetReciept(state) {
+      state.InternalFeeReceipt = ""
     },
     getAllAcademicYears(state, action) {
       state.YearList = action.payload;
@@ -143,7 +143,7 @@ export const resetPaymentUrl =
       dispatch(Feesslice.actions.resetPaymentUrl());
     };
 
-export const getReceiptFileName =
+export const getReceiptFileNames =
   (data: IGetReceiptFileName): AppThunk =>
     async (dispatch) => {
       const response = await FeesApi.getReceiptFileName(data);
@@ -338,7 +338,7 @@ export const getNextYearFeeDetails =
 export const resetReciept =
   (): AppThunk =>
     async (dispatch) => {
-      dispatch(Feesslice.actions.resetReciept(""));
+      dispatch(Feesslice.actions.resetReciept());
     };
     export const getFeeStructureLink =
   (data: IGetFeeStructureLinksBody): AppThunk =>
