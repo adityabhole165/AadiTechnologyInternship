@@ -85,13 +85,13 @@ const Feesslice = createSlice({
     getInternalFeeReceipt(state, action) {
       state.InternalFeeReceipt = action.payload; 
     },
-      resetInternalReciept(state, action) {
+      resetInternalReciept(state) {
       state.InternalFeeReceipt = ""
     },
     getCautionMoneyReceipt(state, action) {
       state.CautionMoneyReceipt = action.payload;
     },
-       resetCautionReciept(state, action) {
+       resetCautionReciept(state) {
       state.CautionMoneyReceipt = ""
        },
     getAcademicYearsforFeeChallan(state, action) {
@@ -350,7 +350,12 @@ export const resetReciept =
     export const resetInternalReciept =
   (): AppThunk =>
     async (dispatch) => {
-      dispatch(Feesslice.actions.resetInternalReciept(""));
+      dispatch(Feesslice.actions.resetInternalReciept());
+    };
+    export const resetCatutionMoney  =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Feesslice.actions.resetCautionReciept());
     };
     export const GetInternalFeeReceipt =
   (data:IGetInternalFeeReceiptBody ): AppThunk =>
