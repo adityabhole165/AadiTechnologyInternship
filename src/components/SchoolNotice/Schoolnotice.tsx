@@ -101,7 +101,7 @@ function Schoolnotice() {
       <Container>
         <PageHeader heading={'School Notices'} subheading={''} />
 
-        {Data1.map((item, index) => {
+        {/* {Data1.map((item, index) => {
           return (
             <div key={index}>
              <CardNotice 
@@ -110,7 +110,7 @@ function Schoolnotice() {
               />
               </div>);
             })}
-             <br></br> 
+             <br></br>  */}
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
         )}
