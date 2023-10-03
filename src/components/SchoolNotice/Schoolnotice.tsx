@@ -136,21 +136,11 @@ if(!IsImageNotice){
 
         {Data1.map((item, index) => {
           return (
-            <div key={index}>
+            <div key={index} style={{display:'flex',flexDirection:'row'}}>
               <CardNotice
                 item={item}
                 downloadNotice={downloadNotice}
-              />
-            </div>);
-        })}
-        {Data1.map((item, index) => {
-          return (
-            <div key={index}>
-              <ChechBoX
-                name={""}
-                value={item.id}
-                checked={item.isActive}
-                onChange={clickSingle}
+                clickSingle={clickSingle}
               />
             </div>);
         })}

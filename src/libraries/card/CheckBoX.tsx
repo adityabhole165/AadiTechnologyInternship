@@ -7,16 +7,14 @@ const ChechBoX = ({ name, checked, value, onChange, IsAllDeactivated = false, Is
         onChange({ name: name, value : value, checked: !checked })
         
     }
-console.log("checked",checked);
-
     const classes = Styles();
     return (
 
     <>
         {
             checked ?
-                <DoNotDisturbOnIcon sx={{color:'red'}} onClick={onClick}  className={classes.checkboxSize}/> :
-                <RadioButtonUncheckedIcon sx={{color:'green'}} onClick={onClick} className={classes.checkboxSize}/>
+                <DoNotDisturbOnIcon sx={{color:'red'}} onClick={onClick}  /> :
+                <RadioButtonUncheckedIcon sx={{color:'green'}} onClick={onClick} />
         }
 
     </>
