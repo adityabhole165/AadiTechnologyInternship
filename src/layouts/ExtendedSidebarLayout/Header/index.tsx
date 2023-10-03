@@ -336,9 +336,9 @@ dispatch(Stafflogin(Staffkid))
 dispatch(getAllActiveNotices(ActiveNoticesBody));
   },[])
     useEffect(()=>{
-if(GetAllActiveNotices.length > 0){
-  navigate('/extended-sidebar/Common/SchoolNotice');
-}
+// if(GetAllActiveNotices.length > 0){
+//   navigate('/extended-sidebar/Common/SchoolNotice');
+// }
   },[GetAllActiveNotices])
   const Toaster = () => {
     if (!isOnline) {
