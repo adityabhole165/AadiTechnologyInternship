@@ -17,6 +17,7 @@ import Attachments from 'src/libraries/buttons/Attachments';
 import { combineReducers } from 'redux';
 import BackButton from 'src/libraries/button/BackButton';
 import { toast } from 'react-toastify';
+import { log } from 'console';
 
 
 
@@ -47,6 +48,7 @@ const QueAns = () => {
     const Getsubmitexam = useSelector(
         (state: RootState) => state.OnlineExam.SubmitExam
     );
+    
     const Getsaveexam = useSelector(
         (state: RootState) => state.OnlineExam.SaveExam
     );
@@ -169,7 +171,7 @@ const QueAns = () => {
             toast.success(Getsubmitexam, { toastId: 'success1' })
             dispatch(resetSubmitMsg());
             setTimeout(() => {
-                window.location.href = "/extended-sidebar/landing/landing";
+                window.location.href = "/extended-sidebar/Student/OnlineExam";
             }, 2000);
         }
         if (Getsaveexam !== null && Getsaveexam !== "") {
@@ -262,6 +264,8 @@ const QueAns = () => {
     }
 
        useEffect(() => {
+        // localStorage.setItem('timerState', JSON.stringify( time ));
+
         const interval = setInterval(() => {
           if (time > 0) {
             setTime(time - 1);
@@ -274,11 +278,11 @@ const QueAns = () => {
     
         return () => clearInterval(interval);
       }, [time]);
+    //  const storedTime= localStorage.getItem('timerState');
+    //  console.log("storedTime",storedTime);
+    //  console.log("time",time);
 
-   
-
-
-
+     
     return (
         <>
             <PageHeader heading={'Online Exam'} subheading={''} />

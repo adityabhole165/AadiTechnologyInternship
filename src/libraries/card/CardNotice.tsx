@@ -13,16 +13,14 @@ const CardNotice = ({item,downloadNotice}) => {
     <>
  
     <Box  sx={{   display: 'flex', justifyContent:"space-between"}} >
-    {isCardVisible && 
+ 
       <Card sx={{   width: '1000px'  , display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}>
         <Typography>{item.header}</Typography>
         <div style={{ flex: '1' }}></div>
-         <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(item.FileName
-          )}} />
-     </Card>}
-      {isCardVisible &&
-      <DoNotDisturbOnIcon onClick={handleCheckboxChange} sx={{mt:"15px" , mr:"18px", color:"red",fontSize:"38px"}}/>
-      }
+         <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(item.FileName,item.IsImageNotice)}} />
+     </Card>
+      {/* <DoNotDisturbOnIcon onClick={handleCheckboxChange} sx={{mt:"15px" , mr:"18px", color:"red",fontSize:"38px"}}/> */}
+      
     </Box>
     </>
   );

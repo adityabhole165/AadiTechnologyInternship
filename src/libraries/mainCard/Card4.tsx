@@ -33,7 +33,6 @@ function Card4({ header, text1, text2, text3, text5,DetailsId= undefined,
   const ReadReceipt = useSelector(
     (state: RootState) => state.MessageCenter.ReadReceiptDetails
     );
-    console.log("ReadReceipt",ReadReceipt);
     
 const ReadReceipts ={
   aiSchoolId:SchoolId,
