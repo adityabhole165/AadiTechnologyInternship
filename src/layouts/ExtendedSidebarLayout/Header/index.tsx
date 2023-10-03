@@ -54,6 +54,8 @@ import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
+import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
+import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -309,6 +311,9 @@ function Header() {
   const LoginStaffKid: any = useSelector(
     (state: RootState) => state.StaffKidLogin.Stafflogin
 );
+const GetAllActiveNotices = useSelector(
+  (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
+);
 const StudentId = sessionStorage.getItem('StudentId');
 const RoleId = sessionStorage.getItem('RoleId');
 const SchoolId = localStorage.getItem('localSchoolId');
@@ -320,9 +325,21 @@ const Staffkid: IStaffDetailsForloginBody = {
   aiYearwiseStudentId:RoleId === "3" ? StudentId : "0",
   aiUserId:UserId
 }
+const ActiveNoticesBody: IGetAllActiveNoticesBody = {
+  asSchoolId: SchoolId,
+  asUserId: UserId
+};
+console.log("Header",GetAllActiveNotices);
+
   useEffect(()=>{
 dispatch(Stafflogin(Staffkid))
+dispatch(getAllActiveNotices(ActiveNoticesBody));
   },[])
+    useEffect(()=>{
+if(GetAllActiveNotices.length > 0){
+  navigate('/extended-sidebar/Common/SchoolNotice');
+}
+  },[GetAllActiveNotices])
   const Toaster = () => {
     if (!isOnline) {
       toast.error('No internet connection', { toastId: 'success1' })

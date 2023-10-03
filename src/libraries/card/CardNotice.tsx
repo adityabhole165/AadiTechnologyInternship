@@ -19,8 +19,6 @@ const CardNotice = ({item,downloadNotice}) => {
         <div style={{ flex: '1' }}></div>
          <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(item.FileName,item.IsImageNotice)}} />
      </Card>
-      {/* <DoNotDisturbOnIcon onClick={handleCheckboxChange} sx={{mt:"15px" , mr:"18px", color:"red",fontSize:"38px"}}/> */}
-      
     </Box>
     </>
   );
