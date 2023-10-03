@@ -1,10 +1,11 @@
-import { Container } from '@mui/material';
+import { Container, Grid, TextField } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { getNavbarMenuDetails } from 'src/requests/NavBarMenu/requestNavBarMenu';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 function NavBarMenus() {
     const dispatch = useDispatch();
@@ -16,18 +17,124 @@ function NavBarMenus() {
 
     const RoleId = sessionStorage.getItem('RoleId');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const [childMenu, setChildMenu] = useState([])
+    const [searchMenu, setSearchMenu] = useState([])
+    const [searchText, setSearchText] = useState('')
+    const [parentMenu, setParentMenu] = useState([])
+    const [menuId, setMenuId] = useState(0)
+    const [ParentMenuId, setParentMenuId] = useState(0)
+
     const IGetMenuDetailsBody =
     {
         aiSchoolId: asSchoolId,  
         aiUserRoleId :RoleId
     }
+    useEffect(() => {
+      if (menuId == 0)
+        setParentMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == menuId }))
+      else {
+  
+        let parentMenu = []
+        let parentMenus = [menuId]
+        GetNavbarmenu.map((item) => {
+          if (parentMenus.includes(item.MenuId)) {
+            if(!parentMenus.includes(item.ParentMenuId))
+            parentMenus.push(item.ParentMenuId)
+          }
+        })
+        console.log(parentMenus,"parentMenus1")
+          GetNavbarmenu.map((item) => {
+          if (parentMenus.includes(item.MenuId)) {
+            if(!parentMenus.includes(item.ParentMenuId))
+            parentMenus.push(item.ParentMenuId)
+          }
+        })
+        console.log(parentMenus,"parentMenus1")
+          GetNavbarmenu.map((item) => {
+          if (parentMenus.includes(item.MenuId)) {
+            if(!parentMenus.includes(item.ParentMenuId))
+            parentMenus.push(item.ParentMenuId)
+          }
+        })
+        console.log(parentMenus,"parentMenus2")
+          GetNavbarmenu.map((item) => {
+          if (parentMenus.includes(item.MenuId)) {
+            parentMenu.push(item)
+          }
+        })
+        setParentMenu(parentMenu)
+        setChildMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == menuId }))
+      }
+    }, [GetNavbarmenu, menuId]);
+
+    const clickMenu = (MenuId, ParentMenuId) => {
+      // alert(value)1
+      setMenuId(MenuId)
+      setParentMenuId(ParentMenuId)
+    }
 
     useEffect(() => {
-        dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
-    }, []);
+      dispatch(getNavbarMenuDetails(IGetMenuDetailsBody));
+  }, []);
+
+  // useEffect(() => {
+  //     setSearchMenu(GetNavbarmenu)
+  // }, [GetNavbarmenu]);
+
+  const changeSearchText = (value) => {
+    if(value.length>3)
+    // setSearchMenu(GetNavbarmenu.filter((item) => { return item.MenuName.includes(value)}))
+    setSearchMenu(GetNavbarmenu.filter((item) => { return item.MenuName.toLowerCase().includes(value.toLowerCase())}))
+    setSearchText(value);
+  }
+
   return (
     <Container>
              <PageHeader heading={'Navbar Menus'} subheading={''} />
+             <TextField onChange={(e)=>{changeSearchText(e.target.value)}} value={searchText}/>
+             Search
+      {
+        (searchMenu.length == 0)
+          ?
+          <ErrorMessages Error={'No records found'} />
+          :
+          <Grid container >
+            {searchMenu.map((item, index) => (
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+                {item.MenuName}
+              </Grid>
+            ))}
+          </Grid>
+      }
+      
+      Parent
+      {
+        (parentMenu.length == 0)
+          ?
+          <ErrorMessages Error={'No records found'} />
+          :
+          <Grid container >
+            {parentMenu.map((item, index) => (
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+                {item.MenuName}
+              </Grid>
+            ))}
+          </Grid>
+      }
+      Child
+      {
+        (childMenu.length == 0)
+          ?
+          <ErrorMessages Error={'No records found'} />
+          :
+          <Grid container >
+            {childMenu.map((item, index) => (
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+                {item.MenuName}
+              </Grid>
+            ))}
+          </Grid>
+      }
     </Container>
   )
 }
