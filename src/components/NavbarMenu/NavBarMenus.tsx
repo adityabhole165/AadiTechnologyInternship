@@ -1,4 +1,4 @@
-import { Container, Grid, TextField } from '@mui/material';
+import { Container, Grid, TextField, Typography , Card ,Box} from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -87,41 +87,59 @@ function NavBarMenus() {
     setSearchMenu(GetNavbarmenu.filter((item) => { return item.MenuName.toLowerCase().includes(value.toLowerCase())}))
     setSearchText(value);
   }
+  const getMargin = (value) =>{
+    return value * 4
+  }
 
   return (
     <Container>
              <PageHeader heading={'Navbar Menus'} subheading={''} />
-             <TextField onChange={(e)=>{changeSearchText(e.target.value)}} value={searchText}/>
-             Search
+             <TextField label='Search' fullWidth onChange={(e)=>{changeSearchText(e.target.value)}} value={searchText}/>
+             <br></br>
+             <br></br>
       {
         (searchMenu.length == 0)
           ?
           <ErrorMessages Error={'No records found'} />
           :
           <Grid container >
+           
             {searchMenu.map((item, index) => (
               <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+                <Card component={Box} padding={1} mt={1}>
                 {item.MenuName}
+                </Card>
+               
               </Grid>
             ))}
+         
           </Grid>
       }
+
+      <br></br>
       
-      Parent
+          <Typography variant='h4'>Parent</Typography> 
       {
         (parentMenu.length == 0)
           ?
           <ErrorMessages Error={'No records found'} />
           :
           <Grid container >
-            {parentMenu.map((item, index) => (
+            {
+            parentMenu.map((item, index) => 
+            
+            (
               <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+                <Card component={Box} padding={1} mt={1} ml={item.ParentMenuId ? getMargin(index) : 0} >
                 {item.MenuName}
+                </Card>
+             
               </Grid>
             ))}
           </Grid>
       }
-      Child
+      <br></br> 
+      <Typography variant='h4'>Child</Typography>
       {
         (childMenu.length == 0)
           ?
@@ -130,7 +148,10 @@ function NavBarMenus() {
           <Grid container >
             {childMenu.map((item, index) => (
               <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
-                {item.MenuName}
+                  <Card component={Box} padding={1} mt={1}>
+                  {item.MenuName}
+                  </Card>
+              
               </Grid>
             ))}
           </Grid>
