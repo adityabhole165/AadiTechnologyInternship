@@ -124,12 +124,12 @@ function Header() {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
-  
+
   const Name = sessionStorage.getItem("StudentName");
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
-  const UserLoginDetails1 =localStorage.getItem('UserLoginDetails1')
+  const UserLoginDetails1 = localStorage.getItem('UserLoginDetails1')
 
   let userprofile = ''
   let img_src = ''
@@ -256,7 +256,7 @@ function Header() {
     sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
 
     const url = localStorage.getItem("url");
- 
+
     if (url != null && url !== '/') {
       navigate(url);
     }
@@ -279,7 +279,7 @@ function Header() {
     };
     getNewLogin(body)
   }
-  const getNewLogin = async (body) =>{
+  const getNewLogin = async (body) => {
     const response: any = await LoginApi.AuthenticateUser(body)
     if (response.data != null) {
       setSession(response);
@@ -310,36 +310,52 @@ function Header() {
   }, []);
   const LoginStaffKid: any = useSelector(
     (state: RootState) => state.StaffKidLogin.Stafflogin
-);
-const GetAllActiveNotices = useSelector(
-  (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
-);
-const StudentId = sessionStorage.getItem('StudentId');
-const RoleId = sessionStorage.getItem('RoleId');
-const SchoolId = localStorage.getItem('localSchoolId');
-const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-const UserId = sessionStorage.getItem('Id');
-const Staffkid: IStaffDetailsForloginBody = {
-  aiSchoolId:SchoolId,
-  aiAcademicYearId:AcademicYearId,
-  aiYearwiseStudentId:RoleId === "3" ? StudentId : "0",
-  aiUserId:UserId
-}
-const ActiveNoticesBody: IGetAllActiveNoticesBody = {
-  asSchoolId: SchoolId,
-  asUserId: UserId
-};
-console.log("Header",GetAllActiveNotices);
+  );
+  const GetAllActiveNotices = useSelector(
+    (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
+  );
+  const StudentId = sessionStorage.getItem('StudentId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const SchoolId = localStorage.getItem('localSchoolId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const UserId = sessionStorage.getItem('Id');
+  const Staffkid: IStaffDetailsForloginBody = {
+    aiSchoolId: SchoolId,
+    aiAcademicYearId: AcademicYearId,
+    aiYearwiseStudentId: RoleId === "3" ? StudentId : "0",
+    aiUserId: UserId
+  }
+  const ActiveNoticesBody: IGetAllActiveNoticesBody = {
+    asSchoolId: SchoolId,
+    asUserId: UserId
+  };
 
-  useEffect(()=>{
-dispatch(Stafflogin(Staffkid))
-dispatch(getAllActiveNotices(ActiveNoticesBody));
-  },[])
-    useEffect(()=>{
-// if(GetAllActiveNotices.length > 0){
-//   navigate('/extended-sidebar/Common/SchoolNotice');
-// }
-  },[GetAllActiveNotices])
+  useEffect(() => {
+    dispatch(Stafflogin(Staffkid))
+
+  }, [])
+  useEffect(() => {
+    const timer = setInterval(() => {
+      dispatch(getAllActiveNotices(ActiveNoticesBody));
+    }, 6000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [])
+
+  useEffect(() => {
+    let AllActiveNoticesId = GetAllActiveNotices.map((item) => {
+      return item.Id
+    })
+    if (AllActiveNoticesId.length > 0) {
+      if ((localStorage.getItem("AllActiveNotices") !== AllActiveNoticesId.toString())) {
+        localStorage.setItem("AllActiveNotices", AllActiveNoticesId.toString())
+        navigate('/extended-sidebar/Common/SchoolNotice');
+      }
+    }
+
+  }, [GetAllActiveNotices])
+
   const Toaster = () => {
     if (!isOnline) {
       toast.error('No internet connection', { toastId: 'success1' })
@@ -408,7 +424,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{  height: 55 }} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{ height: 55 }} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
@@ -529,7 +545,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
                 </ul>
               </ListItem>
             }
-                   {LoginStaffKid.length == 0 ? (
+            {LoginStaffKid.length == 0 ? (
               <>
               </>
             ) : LoginStaffKid.length == 1 ?
@@ -564,7 +580,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
                     LoginStaffKid?.map(
                       (StaffKid: any, i) => {
                         return (
-                           <>
+                          <>
                             <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
                               onClick={() => {
                                 loginToSibling(StaffKid.UserName, StaffKid.Password);
