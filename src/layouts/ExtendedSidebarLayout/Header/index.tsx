@@ -1,4 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
+import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 
 import {
   Box,
@@ -175,11 +177,27 @@ function Header() {
     }
   };
 
+  const deviceRegistrationFCM = async (userId) => {
+    const data: IPushNotificationFCM = {
+      asSchoolId: schoolId,
+      asUserId: userId.toString(),
+      asRegistrationId: localStorage.getItem('FCMdeviceToken'),
+      asDeviceId: localStorage.getItem('deviceId'),
+      asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
+    }
+    const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
+  }
   const setSession = async (response) => {
     const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
     const studentDetails: any = await response.data.StudentDetails
     const teacherDetails: any = await response.data.TeacherDetails
     const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+    const UserLoginD: ISaveUserLoginDetailsBody = {
+      asSchoolId: schoolId,
+      asUserId: result.Id
+    }
+    dispatch(getSaveUserLoginDetail(UserLoginD))
+
 
     if (result.RoleName === "Student") {
       sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
@@ -209,11 +227,16 @@ function Header() {
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
       sessionStorage.setItem('DOB', studentDetails.DOB);
+      sessionStorage.setItem('MobileNumber', studentDetails.MobileNumber);
+      sessionStorage.setItem('MobileNumber2', studentDetails.MobileNumber2);
+      sessionStorage.setItem('Religion', studentDetails.Religion);
+      sessionStorage.setItem('CategoryName', studentDetails.CategoryName);
+      sessionStorage.setItem('FamilyPhotoFilePath', studentDetails.FamilyPhotoFilePath);
+      sessionStorage.setItem('SchoolwiseStudentId', studentDetails.SchoolwiseStudentId);
       // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
       //     "" : JSON.stringify(result.StudentSiblingList));
       sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
         "" : JSON.stringify(studentDetails.StudentSiblingList));
-      localStorage.setItem("UserId", result.Id);
     }
 
 
@@ -232,6 +255,7 @@ function Header() {
       sessionStorage.setItem('StartDate', teacherDetails.StartDate);
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem("DOB", teacherDetails.DOB);
+      sessionStorage.setItem("MobileNumber", teacherDetails.MobileNumber);
     }
 
     if (result.RoleName === "Admin Staff") {
@@ -243,8 +267,8 @@ function Header() {
       sessionStorage.setItem("DOB", adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+      sessionStorage.setItem('MobileNumber', adminDetails.MobileNumber);
     }
-
 
     sessionStorage.setItem("Id", result.Id);
     sessionStorage.setItem("RoleId", result.RoleId);
@@ -252,8 +276,10 @@ function Header() {
     sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
     sessionStorage.setItem("Userlogin", result.UserLogin);
     sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
-    localStorage.setItem("RoleName", result.RoleName);
     sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
+
+    localStorage.setItem("UserId", result.Id);
+    localStorage.setItem("RoleName", result.RoleName);
 
     const url = localStorage.getItem("url");
 
