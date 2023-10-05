@@ -355,17 +355,33 @@ function Header() {
     asSchoolId: SchoolId,
     asUserId: UserId
   };
-  console.log("Header", GetAllActiveNotices);
 
   useEffect(() => {
     dispatch(Stafflogin(Staffkid))
-    dispatch(getAllActiveNotices(ActiveNoticesBody));
+
   }, [])
   useEffect(() => {
-    // if(GetAllActiveNotices.length > 0){
-    //   navigate('/extended-sidebar/Common/SchoolNotice');
-    // }
+    const timer = setInterval(() => {
+      dispatch(getAllActiveNotices(ActiveNoticesBody));
+    }, 6000);
+    return () => {
+      clearInterval(timer);
+    };
+  }, [])
+
+  useEffect(() => {
+    let AllActiveNoticesId = GetAllActiveNotices.map((item) => {
+      return item.Id
+    })
+    if (AllActiveNoticesId.length > 0) {
+      if ((localStorage.getItem("AllActiveNotices") !== AllActiveNoticesId.toString())) {
+        localStorage.setItem("AllActiveNotices", AllActiveNoticesId.toString())
+        navigate('/extended-sidebar/Common/SchoolNotice');
+      }
+    }
+
   }, [GetAllActiveNotices])
+
   const Toaster = () => {
     if (!isOnline) {
       toast.error('No internet connection', { toastId: 'success1' })
