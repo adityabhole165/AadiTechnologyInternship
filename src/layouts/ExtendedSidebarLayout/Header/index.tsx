@@ -1,4 +1,6 @@
 import { useContext, useEffect, useRef, useState } from 'react';
+import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
+import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
 
 import {
   Box,
@@ -124,12 +126,12 @@ function Header() {
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
-  
+
   const Name = sessionStorage.getItem("StudentName");
   const Class = sessionStorage.getItem("Class");
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
-  const UserLoginDetails1 =localStorage.getItem('UserLoginDetails1')
+  const UserLoginDetails1 = localStorage.getItem('UserLoginDetails1')
 
   let userprofile = ''
   let img_src = ''
@@ -175,11 +177,27 @@ function Header() {
     }
   };
 
+  const deviceRegistrationFCM = async (userId) => {
+    const data: IPushNotificationFCM = {
+      asSchoolId: schoolId,
+      asUserId: userId.toString(),
+      asRegistrationId: localStorage.getItem('FCMdeviceToken'),
+      asDeviceId: localStorage.getItem('deviceId'),
+      asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
+    }
+    const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
+  }
   const setSession = async (response) => {
     const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
     const studentDetails: any = await response.data.StudentDetails
     const teacherDetails: any = await response.data.TeacherDetails
     const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+    const UserLoginD: ISaveUserLoginDetailsBody = {
+      asSchoolId: schoolId,
+      asUserId: result.Id
+    }
+    dispatch(getSaveUserLoginDetail(UserLoginD))
+
 
     if (result.RoleName === "Student") {
       sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
@@ -209,11 +227,16 @@ function Header() {
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
       sessionStorage.setItem('DOB', studentDetails.DOB);
+      sessionStorage.setItem('MobileNumber', studentDetails.MobileNumber);
+      sessionStorage.setItem('MobileNumber2', studentDetails.MobileNumber2);
+      sessionStorage.setItem('Religion', studentDetails.Religion);
+      sessionStorage.setItem('CategoryName', studentDetails.CategoryName);
+      sessionStorage.setItem('FamilyPhotoFilePath', studentDetails.FamilyPhotoFilePath);
+      sessionStorage.setItem('SchoolwiseStudentId', studentDetails.SchoolwiseStudentId);
       // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
       //     "" : JSON.stringify(result.StudentSiblingList));
       sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
         "" : JSON.stringify(studentDetails.StudentSiblingList));
-      localStorage.setItem("UserId", result.Id);
     }
 
 
@@ -232,6 +255,7 @@ function Header() {
       sessionStorage.setItem('StartDate', teacherDetails.StartDate);
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem("DOB", teacherDetails.DOB);
+      sessionStorage.setItem("MobileNumber", teacherDetails.MobileNumber);
     }
 
     if (result.RoleName === "Admin Staff") {
@@ -243,8 +267,8 @@ function Header() {
       sessionStorage.setItem("DOB", adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
+      sessionStorage.setItem('MobileNumber', adminDetails.MobileNumber);
     }
-
 
     sessionStorage.setItem("Id", result.Id);
     sessionStorage.setItem("RoleId", result.RoleId);
@@ -252,11 +276,13 @@ function Header() {
     sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
     sessionStorage.setItem("Userlogin", result.UserLogin);
     sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
-    localStorage.setItem("RoleName", result.RoleName);
     sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
 
+    localStorage.setItem("UserId", result.Id);
+    localStorage.setItem("RoleName", result.RoleName);
+
     const url = localStorage.getItem("url");
- 
+
     if (url != null && url !== '/') {
       navigate(url);
     }
@@ -279,7 +305,7 @@ function Header() {
     };
     getNewLogin(body)
   }
-  const getNewLogin = async (body) =>{
+  const getNewLogin = async (body) => {
     const response: any = await LoginApi.AuthenticateUser(body)
     if (response.data != null) {
       setSession(response);
@@ -310,36 +336,36 @@ function Header() {
   }, []);
   const LoginStaffKid: any = useSelector(
     (state: RootState) => state.StaffKidLogin.Stafflogin
-);
-const GetAllActiveNotices = useSelector(
-  (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
-);
-const StudentId = sessionStorage.getItem('StudentId');
-const RoleId = sessionStorage.getItem('RoleId');
-const SchoolId = localStorage.getItem('localSchoolId');
-const AcademicYearId = sessionStorage.getItem('AcademicYearId');
-const UserId = sessionStorage.getItem('Id');
-const Staffkid: IStaffDetailsForloginBody = {
-  aiSchoolId:SchoolId,
-  aiAcademicYearId:AcademicYearId,
-  aiYearwiseStudentId:RoleId === "3" ? StudentId : "0",
-  aiUserId:UserId
-}
-const ActiveNoticesBody: IGetAllActiveNoticesBody = {
-  asSchoolId: SchoolId,
-  asUserId: UserId
-};
-console.log("Header",GetAllActiveNotices);
+  );
+  const GetAllActiveNotices = useSelector(
+    (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
+  );
+  const StudentId = sessionStorage.getItem('StudentId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const SchoolId = localStorage.getItem('localSchoolId');
+  const AcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const UserId = sessionStorage.getItem('Id');
+  const Staffkid: IStaffDetailsForloginBody = {
+    aiSchoolId: SchoolId,
+    aiAcademicYearId: AcademicYearId,
+    aiYearwiseStudentId: RoleId === "3" ? StudentId : "0",
+    aiUserId: UserId
+  }
+  const ActiveNoticesBody: IGetAllActiveNoticesBody = {
+    asSchoolId: SchoolId,
+    asUserId: UserId
+  };
+  console.log("Header", GetAllActiveNotices);
 
-  useEffect(()=>{
-dispatch(Stafflogin(Staffkid))
-dispatch(getAllActiveNotices(ActiveNoticesBody));
-  },[])
-    useEffect(()=>{
-// if(GetAllActiveNotices.length > 0){
-//   navigate('/extended-sidebar/Common/SchoolNotice');
-// }
-  },[GetAllActiveNotices])
+  useEffect(() => {
+    dispatch(Stafflogin(Staffkid))
+    dispatch(getAllActiveNotices(ActiveNoticesBody));
+  }, [])
+  useEffect(() => {
+    // if(GetAllActiveNotices.length > 0){
+    //   navigate('/extended-sidebar/Common/SchoolNotice');
+    // }
+  }, [GetAllActiveNotices])
   const Toaster = () => {
     if (!isOnline) {
       toast.error('No internet connection', { toastId: 'success1' })
@@ -408,7 +434,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{  height: 55 }} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{ height: 55 }} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
@@ -529,7 +555,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
                 </ul>
               </ListItem>
             }
-                   {LoginStaffKid.length == 0 ? (
+            {LoginStaffKid.length == 0 ? (
               <>
               </>
             ) : LoginStaffKid.length == 1 ?
@@ -564,7 +590,7 @@ dispatch(getAllActiveNotices(ActiveNoticesBody));
                     LoginStaffKid?.map(
                       (StaffKid: any, i) => {
                         return (
-                           <>
+                          <>
                             <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
                               onClick={() => {
                                 loginToSibling(StaffKid.UserName, StaffKid.Password);
