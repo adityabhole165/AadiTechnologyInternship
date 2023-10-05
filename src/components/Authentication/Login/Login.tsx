@@ -75,8 +75,8 @@ function SelectSchool() {
         navigate('/schoolNotice');
     }
     const PrivacyPolicy = () => {
-        window.location.href = "http://riteschool.com/PrivacyPolicy.aspx";
-        //<Route path="http://riteschool.com/PrivacyPolicy.aspx" />
+        window.location.href = "https://www.riteschool.in/privacy-policy";
+        //<Route path="https://www.riteschool.in/privacy-policy" />
     }
 
     //   select School
@@ -264,7 +264,7 @@ function SelectSchool() {
                 result.RoleName == "Admin Staff") {
                 navigate('/extended-sidebar/landing/landing');
             }
-        // deviceRegistrationFCM(result.Id)
+         deviceRegistrationFCM(result.Id)
     }
 
     const loginform = async () => {
@@ -357,7 +357,7 @@ function SelectSchool() {
                             style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            {/* <PushNotification /> */}
+                            <PushNotification />
                             <Grid item xs={12} alignItems="center" sx={{ mt: "30px" }} >
                                 <img src={school2} />
                             </Grid>
@@ -491,7 +491,7 @@ function SelectSchool() {
                         <Box sx={{ flex: 1, zIndex: 9999, }} className={classes.footer}>
                             <Grid item xs={12} textAlign="center">
                                 <CardDetail10>
-                                    <a href='http://riteschool.com/PrivacyPolicy.aspx'>Privacy Policy</a>
+                                    <a href='https://www.riteschool.in/privacy-policy'>Privacy Policy</a>
                                 </CardDetail10>
                             </Grid>
                             <br />
