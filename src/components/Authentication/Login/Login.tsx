@@ -357,7 +357,7 @@ function SelectSchool() {
                             style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            <PushNotification />
+                            {/* <PushNotification /> */}
                             <Grid item xs={12} alignItems="center" sx={{ mt: "30px" }} >
                                 <img src={school2} />
                             </Grid>
