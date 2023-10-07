@@ -427,7 +427,7 @@ function Fees() {
         </Tooltip>
       </ClickAwayListener>
       <Link href={FeesList2.OnlineFeePaymentGuidePath} rel="noreferrer" target="_blank">
-    <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary>
+    {/* <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary> */}
     </Link>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}
