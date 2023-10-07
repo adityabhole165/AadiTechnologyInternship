@@ -57,10 +57,9 @@ const QueAns = () => {
         (state: RootState) => state.OnlineExam.ExamSchedulesList
     );
 
-
     const startTime = parseInt(GetExamSchedules[0].StartTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].StartTime.split(":")[1]) * 60; 
     const endTime = parseInt(GetExamSchedules[0].EndTime.split(":")[0]) * 60 * 60 + parseInt(GetExamSchedules[0].EndTime.split(":")[1]) * 60; 
-    const [time, setTime] = useState(endTime - startTime); 
+    const [time, setTime] = useState(localStorage.getItem('timerState')=="0"?(endTime - startTime):Number(localStorage.getItem('timerState'))); 
 
 
 
@@ -264,7 +263,7 @@ const QueAns = () => {
     }
 
        useEffect(() => {
-        // localStorage.setItem('timerState', JSON.stringify( time ));
+        localStorage.setItem('timerState', time.toString());
 
         const interval = setInterval(() => {
           if (time > 0) {
@@ -278,10 +277,7 @@ const QueAns = () => {
     
         return () => clearInterval(interval);
       }, [time]);
-    //  const storedTime= localStorage.getItem('timerState');
-    //  console.log("storedTime",storedTime);
-    //  console.log("time",time);
-
+     
      
     return (
         <>
