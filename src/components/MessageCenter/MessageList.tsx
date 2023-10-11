@@ -455,8 +455,10 @@ const MessageList = () => {
           aiUserId: sessionStorage.getItem('Id'),
           aiDraftId: ID
         };
-        dispatch(getDeleteDraftMessage(DeleteDraftBody))
-         }
+        if (confirm('Are you sure you want to delete this record?')) {
+            dispatch(getDeleteDraftMessage(DeleteDraftBody))
+         } 
+        }
 
          useEffect(() => {
             if (DeleteDraftM !== '' ) {

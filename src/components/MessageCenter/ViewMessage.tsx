@@ -47,6 +47,7 @@ function ViewSms({ }) {
   const GetDraftMessage = useSelector(
     (state: RootState) => state.DraftMessages.DraftMessage
   );
+console.log("GetDraftMessage",GetDraftMessage);
 
   const DraftMessageBody: IGetDraftMessageBody = {
 
@@ -147,7 +148,7 @@ function ViewSms({ }) {
           viewSent === undefined ? null : showMessage && (
             <Card7
               ViewDetail={ViewDetail}
-              From={viewSent.UserName}
+              From={ FromRoute === 'Draft'  ? viewSent.SenderName : viewSent.UserName}
               InsertDateInFormat={viewSent.InsertDateInFormat}
               To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
                 viewSent.RecieverName : viewSent.DisplayText}
