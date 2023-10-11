@@ -34,8 +34,6 @@ function SchoolNoticeBoard() {
     (state: RootState) => state.SchoolNoticeBoard.SchoolNoticeBoard
   );
 
-  console.log(GetNoticeBoardList, "GetNoticeBoardList")
-
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserRoleId = sessionStorage.getItem('RoleId');
