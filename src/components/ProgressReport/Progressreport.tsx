@@ -132,7 +132,7 @@ function Progressreport() {
 
   const TermsForProgressReportBody: IGetTermsForProgressReportBody = {
     "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
+    "aiAcademicYearId": year,
     "aiStudentId": asStudentId
 
   };
