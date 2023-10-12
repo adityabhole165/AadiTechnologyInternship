@@ -22,7 +22,7 @@ import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyl
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
-import { getIsPendingFeesForStudent } from 'src/requests/Fees/Fees';
+import { getIsPendingFeesForStudent, getOldstudentDetails } from 'src/requests/Fees/Fees';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
@@ -61,8 +61,8 @@ function Progressreport() {
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
   const asStandardId = sessionStorage.getItem('StandardId');
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
-  console.log("PendingFeesForStudent", PendingFeesForStudent);
-
+  const OldstudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails)
+  let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
 
 
   const [year, setYear] = useState(asAcademicYear)
@@ -120,7 +120,11 @@ function Progressreport() {
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
-
+  const IOldStudentDetails = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: year,
+    aiStudentId: asStudentId
+  }
 
   const AcademicYearsForProgressReportBody: IAcademicYearsForProgressReportBody = {
 
@@ -133,7 +137,7 @@ function Progressreport() {
   const TermsForProgressReportBody: IGetTermsForProgressReportBody = {
     "aiSchoolId": asSchoolId,
     "aiAcademicYearId": year,
-    "aiStudentId": asStudentId
+    "aiStudentId":year < asAcademicYearId ? OldInternalstudent : asStudentId
 
   };
   const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
@@ -184,8 +188,12 @@ function Progressreport() {
   }, [AcademicYearsForProgressReport])
 
   useEffect(() => {
-    dispatch(GetTermsForProgressReport(TermsForProgressReportBody));
+    dispatch(getOldstudentDetails(IOldStudentDetails))
   }, [year]);
+
+  useEffect(() => {
+    dispatch(GetTermsForProgressReport(TermsForProgressReportBody));
+  }, [OldstudentDetails]);
 
   useEffect(() => {
 
