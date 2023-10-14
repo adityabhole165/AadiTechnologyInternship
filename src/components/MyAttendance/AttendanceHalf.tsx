@@ -45,9 +45,10 @@ function AttandaceHalf() {
        const [ItemList1 , setItemList1]=useState(ItemList)
 
        const ClickItemList=(value)=>{
-        setItemList1(value)
-      
-       }
+              alert(value)
+          
+         
+          }
        const [date, setDate] = useState(new Date());
        const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
          
