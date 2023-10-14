@@ -3,8 +3,10 @@ import Chart from 'react-apexcharts';
 import Card20 from 'src/libraries/card/card20';
 import PropTypes from 'prop-types';
 import BarChart from '../Charts/BarChart';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { ShowTotalAsPerOutOfMarks } from 'src/requests/SchoolSetting/schoolSetting';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { RootState } from 'src/store';
 Block.propTypes = {
   Percentage: PropTypes.any,
   SubjectTotalMarks: PropTypes.string,
@@ -48,7 +50,9 @@ function Block({
   const IsAbsent: any = [];
   const gradeormark: any = [];
   const [data, setData] = useState([]);
-
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const ShowTotalAsPerOutOfM = useSelector((state: RootState) => state.getSchoolSettings.ShowTotalAsPerOutOfMarks);
   Data.map((list, index) => {
     list.StudentMarksList.filter((item) => item.ConsiderInTotal === "Y").map((list1, i) => {
       if (ExamId == list1.ExamId) {
@@ -105,10 +109,14 @@ function Block({
     });
   });
   const dispatch = useDispatch();
-
-  // useEffect(() => {
-  //   dispatch(ShowTotalAsPerOutOfMarks(GetSettingValueBody))
-  // },[])
+  const GetSettingValueBody: IGetSettingValueBody= {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
+  };
+  useEffect(() => {
+    dispatch(ShowTotalAsPerOutOfMarks(GetSettingValueBody))
+  },[])
   
   useEffect(() => {
     setObject(subject);
@@ -185,11 +193,12 @@ function Block({
     }
   }
 
-  console.log(ShowTotalAsPerOutOfMarks ,"ShowTotalAsPerOutOfMarks")
+  
+ 
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} formatToolTip={formatToolTip} Isgrade={showonlyGrade} ></BarChart>
-      {ShowTotalAsPerOutOfMarks &&
+      {ShowTotalAsPerOutOfM &&
       <Card20
         percentage={Percentage}
         rank={Rank}

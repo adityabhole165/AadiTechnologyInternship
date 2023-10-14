@@ -16,7 +16,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import Note from 'src/libraries/Note/Note';
 import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport, IProgressReportBody, IAcademicYearsForProgressReportBody, IGetTermsForProgressReportBody } from 'src/interfaces/Student/ProgressReport';
 import Card5 from 'src/libraries/mainCard/Card5';
-import {AllowProgressReportDownloadAtLogin} from 'src/requests/SchoolSetting/schoolSetting'
+import { AllowProgressReportDownloadAtLogin, ShowProgressReportGraphOnMobileApp } from 'src/requests/SchoolSetting/schoolSetting'
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
@@ -30,6 +30,7 @@ const BarGraphNote = [
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
   const note2 = ['No exam of this class has been published for the current academic year.'];
+  const note3 = ['On publish, you will see download buttons to download Term 1/2 progress report.'];
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
@@ -43,7 +44,7 @@ function Progressreport() {
   const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
   const AllowProgressReportDownloadStudentLogin = useSelector((state: RootState) => state.getSchoolSettings.AllowProgressReportDownloadAtStudentLogin);
-
+  const ShowProgressReportGraphOnMobile = useSelector((state: RootState) => state.getSchoolSettings.ShowProgressReportGraphOnMobileApp);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
@@ -137,7 +138,7 @@ function Progressreport() {
   const TermsForProgressReportBody: IGetTermsForProgressReportBody = {
     "aiSchoolId": asSchoolId,
     "aiAcademicYearId": year,
-    "aiStudentId":year < asAcademicYearId ? OldInternalstudent : asStudentId
+    "aiStudentId": year < asAcademicYearId ? OldInternalstudent : asStudentId
 
   };
   const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
@@ -168,6 +169,7 @@ function Progressreport() {
     dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
     dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
     dispatch(AllowProgressReportDownloadAtLogin(GetSettingValueBody))
+    dispatch(ShowProgressReportGraphOnMobileApp(GetSettingValueBody))
   }, []);
 
 
@@ -239,7 +241,7 @@ function Progressreport() {
 
 
   const classes = Styles();
-  
+
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
@@ -247,9 +249,9 @@ function Progressreport() {
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
             <>
-              {PendingFeesForStudent !== null  &&
+              {PendingFeesForStudent !== null &&
 
-                <Note NoteDetail={[PendingFeesForStudent.Message]} /> 
+                <Note NoteDetail={[PendingFeesForStudent.Message]} />
 
               }</>
 
@@ -283,7 +285,8 @@ function Progressreport() {
                       handleChange={clickDropdown}
                       label="Select Year"
                       defaultValue={year}></Dropdown>
-                    <DotLegend1>
+
+                    <DotLegend1 sx={{ mt: "10px" }}>
                       <DotLegendStyled1
                         className={classes.border}
                         style={{ background: 'blueviolet' }}
@@ -294,20 +297,30 @@ function Progressreport() {
                       <Note NoteDetail={BarGraphNote} />
                     }
                     <Box>
-                      <>
-                        {progressreportResult?.map(
-                          (examresult: GetStudentExamResult, i) => (
-                            <Accordions3
-                              Data={progressreportResult}
-                              Exam={examresult.Exam}
-                              key={i}
-                              index={i}
-                              Collapse={handleChange}
-                              expand={expanded}
-                            />
-                          )
-                        )}
-                      </>
+                      {ShowProgressReportGraphOnMobile ?
+
+                        <>
+                          {progressreportResult?.map(
+                            (examresult: GetStudentExamResult, i) => (
+                              <Accordions3
+                                Data={progressreportResult}
+                                Exam={examresult.Exam}
+                                key={i}
+                                index={i}
+                                Collapse={handleChange}
+                                expand={expanded}
+                              />
+                            )
+                          )}
+                        </> :
+                        <>
+
+
+                          <Note NoteDetail={note3} />
+                        </>
+
+
+                      }
                     </Box>
                     {/* remove false condition in 2nd phase of development */}
                     {false &&
@@ -366,29 +379,29 @@ function Progressreport() {
                           null}
                       </Box>
                     }
-                 {AllowProgressReportDownloadStudentLogin &&
-<>
-{
-                      TermsForProgressReport.length === 0 ? <> no record found </> :
-                        <>
-                          {TermsForProgressReport?.map((item, i) => (
+                    {AllowProgressReportDownloadStudentLogin &&
+                      <>
+                        {
+                          TermsForProgressReport.length === 0 ? <> no record found </> :
+                            <>
+                              {TermsForProgressReport?.map((item, i) => (
 
-                            <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
-                              <Typography padding={1}>{item.TermName}</Typography>
-                              <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
-                                <FileDownloadOutlinedIcon />
-                              </IconButton>
-                            </Card>
+                                <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
+                                  <Typography padding={1}>{item.TermName}</Typography>
+                                  <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
+                                    <FileDownloadOutlinedIcon />
+                                  </IconButton>
+                                </Card>
 
-                          ))}
+                              ))}
 
-                        </>
+                            </>
 
-}
+                        }
 
-</>
-   
-}
+                      </>
+
+                    }
                   </>
         }
       </Box>

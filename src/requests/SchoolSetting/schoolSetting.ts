@@ -31,7 +31,8 @@ const SchoolSettingSlice = createSlice({
     AllowHomewirkDailyLog:false,
     ShowITRReportOnStudentLogin:false,
     AllowProgressReportDownloadAtStudentLogin:false,
-    ShowTotalAsPerOutOfMarks:false
+    ShowTotalAsPerOutOfMarks:false,
+    ShowProgressReportGraphOnMobileApp:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -115,6 +116,10 @@ const SchoolSettingSlice = createSlice({
     ShowTotalAsPerOutOfMarks(state,action){
       state.ShowTotalAsPerOutOfMarks = action.payload;
     },
+
+    ShowProgressReportGraphOnMobileApp(state,action){
+      state.ShowProgressReportGraphOnMobileApp = action.payload;
+    }
     
   }
 });
@@ -445,5 +450,19 @@ export const getLibrarySchoolSetting =
                   }
                   dispatch(SchoolSettingSlice.actions.ShowTotalAsPerOutOfMarks(ShowTotalAsPerOutOfMarks));
                 }
+
+                export const ShowProgressReportGraphOnMobileApp =
+                (data: IGetSettingValueBody): AppThunk =>
+                  async (dispatch) => {
+                    let ShowProgressReportGraphOnMobileApp = false
+                    data.asKey = "ShowProgressReportGraphOnMobileApp";
+                    let response = await SchoolSettingApi.GetSettingValueapi(data)
+                    if (response.data.GetSettingValueResult) {
+                      {
+                        ShowProgressReportGraphOnMobileApp = true;
+                      }
+                    }
+                    dispatch(SchoolSettingSlice.actions.ShowProgressReportGraphOnMobileApp(ShowProgressReportGraphOnMobileApp));
+                  }
         
 export default SchoolSettingSlice.reducer
