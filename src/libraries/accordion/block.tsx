@@ -2,7 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Chart from 'react-apexcharts';
 import Card20 from 'src/libraries/card/card20';
 import PropTypes from 'prop-types';
-import BarChart from '../Charts/BarChart'
+import BarChart from '../Charts/BarChart';
+import { useDispatch } from 'react-redux';
+import { ShowTotalAsPerOutOfMarks } from 'src/requests/SchoolSetting/schoolSetting';
 Block.propTypes = {
   Percentage: PropTypes.any,
   SubjectTotalMarks: PropTypes.string,
@@ -102,6 +104,11 @@ function Block({
       }
     });
   });
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(ShowTotalAsPerOutOfMarks(GetSettingValueBody))
+  // },[])
   
   useEffect(() => {
     setObject(subject);
@@ -177,9 +184,12 @@ function Block({
       return (IsGrade.trim() == 'true' ? returnVal : val)
     }
   }
+
+  console.log(ShowTotalAsPerOutOfMarks ,"ShowTotalAsPerOutOfMarks")
   return (
     <>
       <BarChart xData={options} colors={color} series={series} dataLabel={dataLabel} formatToolTip={formatToolTip} Isgrade={showonlyGrade} ></BarChart>
+      {ShowTotalAsPerOutOfMarks &&
       <Card20
         percentage={Percentage}
         rank={Rank}
@@ -192,7 +202,7 @@ function Block({
         Data={Data}
         examstatus={examstatus}
         showonlyGrade={showonlyGrade}
-      />
+      />}
     </>
   );
 }
