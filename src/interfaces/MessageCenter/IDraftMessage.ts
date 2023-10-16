@@ -31,7 +31,8 @@ export interface IGetAllDraftMessageBody  {
 export interface IGetAllDraftMessageResult  {
     Id: string,
     Subject: string,
-    DraftDate: string
+    DraftDate: string,
+    DisplayText: string
 }
 
 export interface IGetAllDraftResult  {

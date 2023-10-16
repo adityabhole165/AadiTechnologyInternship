@@ -146,6 +146,7 @@ export const getListOfMessages =
           return {
             Id: item.Id,
             text1: item.Subject,
+            text2 :item.DisplayText,
             text3: getDateMonthFormat(item.DraftDate),
             NavPath: item.Id + '/Draft',
             isActive: false, 
