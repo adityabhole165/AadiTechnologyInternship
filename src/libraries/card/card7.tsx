@@ -192,7 +192,7 @@ const navigateToInBox =()=>{
             }
           > */}
 
-        {FromRoute === 'Draft' ? <ButtonPrimary onClick={navigateToInBox}> GoTo InBox </ButtonPrimary> :
+        {FromRoute === 'Draft' ? <ButtonPrimary onClick={navigateToInBox}> Go to Inbox </ButtonPrimary> :
         <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>
         } &nbsp; &nbsp;            
           
