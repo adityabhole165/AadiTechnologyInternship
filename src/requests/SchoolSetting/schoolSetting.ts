@@ -30,7 +30,9 @@ const SchoolSettingSlice = createSlice({
     ShowFeeStructureOfNextYear:false,
     AllowHomewirkDailyLog:false,
     ShowITRReportOnStudentLogin:false,
-    AllowProgressReportDownloadAtStudentLogin:false
+    AllowProgressReportDownloadAtStudentLogin:false,
+    ShowTotalAsPerOutOfMarks:false,
+    ShowProgressReportGraphOnMobileApp:false
   },
   reducers: {
     getModulesPermission(state, action) {
@@ -110,6 +112,14 @@ const SchoolSettingSlice = createSlice({
     AllowProgressReportDownloadAtLogin(state,action){
       state.AllowProgressReportDownloadAtStudentLogin = action.payload;
     },
+
+    ShowTotalAsPerOutOfMarks(state,action){
+      state.ShowTotalAsPerOutOfMarks = action.payload;
+    },
+
+    ShowProgressReportGraphOnMobileApp(state,action){
+      state.ShowProgressReportGraphOnMobileApp = action.payload;
+    }
     
   }
 });
@@ -426,5 +436,33 @@ export const getLibrarySchoolSetting =
                 }
                 dispatch(SchoolSettingSlice.actions.AllowProgressReportDownloadAtLogin(AllowProgressReportDownloadAtStudentLogin));
               }
+
+              export const ShowTotalAsPerOutOfMarks =
+              (data: IGetSettingValueBody): AppThunk =>
+                async (dispatch) => {
+                  let ShowTotalAsPerOutOfMarks = false
+                  data.asKey = "ShowTotalAsPerOutOfMarks";
+                  let response = await SchoolSettingApi.GetSettingValueapi(data)
+                  if (response.data.GetSettingValueResult) {
+                    {
+                      ShowTotalAsPerOutOfMarks = true;
+                    }
+                  }
+                  dispatch(SchoolSettingSlice.actions.ShowTotalAsPerOutOfMarks(ShowTotalAsPerOutOfMarks));
+                }
+
+                export const ShowProgressReportGraphOnMobileApp =
+                (data: IGetSettingValueBody): AppThunk =>
+                  async (dispatch) => {
+                    let ShowProgressReportGraphOnMobileApp = false
+                    data.asKey = "ShowProgressReportGraphOnMobileApp";
+                    let response = await SchoolSettingApi.GetSettingValueapi(data)
+                    if (response.data.GetSettingValueResult) {
+                      {
+                        ShowProgressReportGraphOnMobileApp = true;
+                      }
+                    }
+                    dispatch(SchoolSettingSlice.actions.ShowProgressReportGraphOnMobileApp(ShowProgressReportGraphOnMobileApp));
+                  }
         
 export default SchoolSettingSlice.reducer

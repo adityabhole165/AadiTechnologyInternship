@@ -5,14 +5,10 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 function CardCalender({ ItemList, ClickItemList,handlePrevMonth ,handleNextMonth ,formattedDate}) {
 
+
   const click1 = (value) => {
-    console.log(value ,"valuesingle")
-   ItemList = ItemList.map((item) => {
-      return item.id === value.id ?
-      {...item,IsActive:!item.IsActive}:
-      {...item,IsActive:false}
-    });
-    ClickItemList(ItemList)}
+    ClickItemList(value + ' ' + formattedDate);
+    };
 
 return (
     <Card component={Box} p={2}>
@@ -34,7 +30,7 @@ return (
         {ItemList.map((item, i) => {
           return(
             <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
-            <CardCal item={item} clickItem={click1}/>
+            <CardCal item={item} clickItem={()=>{click1(item.Name)}}/>
           </Grid>
           )
         })

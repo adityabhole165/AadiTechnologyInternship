@@ -115,6 +115,15 @@ export const getDateMonthFormatted = (date) => {
     return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]}`;
 }
 
+export const getDateMonthFormat = (date) => {
+    const parts = date.split(' ');
+    const arrDate = parts[0].split('-');
+    const time = parts[1].split(':').slice(0, 2).join(':');
+    
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${time}`;
+}
+
 export const getDateMonthYearFormatted = (date) => {
     let arrDate = date.split(' ')[0].split('-')
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
