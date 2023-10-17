@@ -31,6 +31,7 @@ function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
   const note2 = ['No exam of this class has been published for the current academic year.'];
   const note3 = ['On publish, you will see download buttons to download Term 1/2 progress report.'];
+  const note4 = ['Assessment result is not available for this student.']
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
@@ -285,20 +286,23 @@ function Progressreport() {
                       handleChange={clickDropdown}
                       label="Select Year"
                       defaultValue={year}></Dropdown>
+                      <br></br><br></br>
 
-                    <DotLegend1 sx={{ mt: "10px" }}>
+                    {/* <DotLegend1 sx={{ mt: "10px" }}>
                       <DotLegendStyled1
                         className={classes.border}
                         style={{ background: 'blueviolet' }}
                       />
                       <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
-                    </DotLegend1>
+                    </DotLegend1> */}
                     {hidePercentNote ? null :
                       <Note NoteDetail={BarGraphNote} />
                     }
                     <Box>
-                      {ShowProgressReportGraphOnMobile ?
+                      {ShowProgressReportGraphOnMobile || progressreportResult.length === 0 ?
 
+                        <>
+                        {progressreportResult.length > 0 ?
                         <>
                           {progressreportResult?.map(
                             (examresult: GetStudentExamResult, i) => (
@@ -312,16 +316,23 @@ function Progressreport() {
                               />
                             )
                           )}
+                         </>
+                           :
+                           
+                           <Note NoteDetail={note4} />
+                           
+                           }
                         </> :
                         <>
-
-
-                          <Note NoteDetail={note3} />
+                        <Note NoteDetail={note3} />
+                          
                         </>
 
 
                       }
                     </Box>
+
+              
                     {/* remove false condition in 2nd phase of development */}
                     {false &&
                       <Box>
