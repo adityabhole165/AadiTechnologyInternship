@@ -42,7 +42,7 @@ function Card7({
   LoggedInUserNameForMessage = '',
   MessageCenterReadMode,
   InsertDateInFormat,
-  
+
 }) {
 
   const theme = useTheme();
@@ -53,66 +53,68 @@ function Card7({
   const RoleId = sessionStorage.getItem('RoleId');
   const [AttachmentArray, setAttachmentArray] = useState<any>([]);
   // useEffect(()=>{
-    if (Object.keys(Attachments).length == 0) {
-    
-      AttachmentArray.push('null');
-      console.log(AttachmentArray,"if Attachments")
-    } else {
-      for (const property in attachment) {
-        let AttachmentFile: any = {
-          FileName: `${property}`,
-          FilePath: file_path + `${property}`
-        };
-        AttachmentArray.push(property);
-      console.log(AttachmentFile,"else Attachments")
+  if (Object.keys(Attachments).length == 0) {
+
+    AttachmentArray.push('null');
+    console.log(AttachmentArray, "if Attachments")
+  } else {
+    for (const property in attachment) {
+      let AttachmentFile: any = {
+        FileName: `${property}`,
+        FilePath: file_path + `${property}`
+      };
+      AttachmentArray.push(property);
+      console.log(AttachmentFile, "else Attachments")
       attachmentObj.push(AttachmentFile);
-      }
-    } 
-    // },[Attachments])
+    }
+  }
+  // },[Attachments])
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
   // const FromUserID = ViewSentObject.SenderUserId;
-  const ReplyallRecieverId =FromUserID +','+ ViewSentObject.ReceiverUserId
+  const ReplyallRecieverId = FromUserID + ',' + ViewSentObject.ReceiverUserId
   const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
   const IsSender = UserID === FromUserID
   const navigate = useNavigate();
-  const FromTo = From +','+ To
+  const FromTo = From + ',' + To
 
-  const saveMessageBody = (replyFwd) => {  
+  const saveMessageBody = (replyFwd) => {
     const path =
       replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
-      replyFwd === "Edit" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Edit` :
-        replyFwd === "Forward" ?
-          `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
-          :replyFwd === "ReplyAll"?  `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`:"";
+        replyFwd === "Edit" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Edit` :
+          replyFwd === "Forward" ?
+            `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
+            : replyFwd === "ReplyAll" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll` : "";
     navigate(path)
     localStorage.setItem("messageBody", Body);
 
-    const getExcludeMe = () =>{
+    const getExcludeMe = () => {
       let arr = FromTo.split(',');
-      arr = arr.filter(function(a){return a.replaceAll(' ','') !== ViewSentObject.LoggedInUserNameForMessage.replaceAll(' ','')})
+      if (ViewSentObject.LoggedInUserNameForMessage !== null) {
+        arr = arr.filter(function (a) { return a.replaceAll(' ', '') !== ViewSentObject?.LoggedInUserNameForMessage.replaceAll(' ', '') })
+      }
       return arr.join(',');
-    } 
+    }
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
-        From: replyFwd === "Reply" ? From :  replyFwd ==="ReplyAll" ? getExcludeMe() : 
-        replyFwd === "Edit" ? To :"",
-        FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd ==="ReplyAll" ? ReplyallRecieverId : 
-        replyFwd === "Edit" ? ViewSentObject.ReceiverUserId :"",
+        From: replyFwd === "Reply" ? From : replyFwd === "ReplyAll" ? getExcludeMe() :
+          replyFwd === "Edit" ? To : "",
+        FromUserID: replyFwd === "Reply" ? FromUserID : replyFwd === "ReplyAll" ? ReplyallRecieverId :
+          replyFwd === "Edit" ? ViewSentObject.ReceiverUserId : "",
         Text: Text,
-        Attachment: replyFwd === "Edit"?[]:AttachmentArray,
+        Attachment: replyFwd === "Edit" ? [] : AttachmentArray,
         ID: ID,
-        CC:replyFwd ==="ReplyAll" ? Cc : "",
-        CCReceiverUserId:replyFwd ==="ReplyAll" ? ReplyallCCRecieverId : ""
+        CC: replyFwd === "ReplyAll" ? Cc : "",
+        CCReceiverUserId: replyFwd === "ReplyAll" ? ReplyallCCRecieverId : ""
       }))
   }
-  const {  FromRoute } = useParams();
+  const { FromRoute } = useParams();
 
 
-const navigateToInBox =()=>{
-  navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox' )
-}
+  const navigateToInBox = () => {
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox')
+  }
 
   return (
     <>
@@ -133,17 +135,17 @@ const navigateToInBox =()=>{
 
             <CardDetail2>{To}</CardDetail2>
           </BoxWrapper>
-          {Cc !== '' && 
-          <>
-          { To === LoggedInUserNameForMessage ?
-              null :
-            <BoxWrapper>
-              <CardDetail1> {ViewDetail.Cc}</CardDetail1>
-              <CardDetail2>{Cc}</CardDetail2>
-            </BoxWrapper>
+          {Cc !== '' &&
+            <>
+              {To === LoggedInUserNameForMessage ?
+                null :
+                <BoxWrapper>
+                  <CardDetail1> {ViewDetail.Cc}</CardDetail1>
+                  <CardDetail2>{Cc}</CardDetail2>
+                </BoxWrapper>
+              }
+            </>
           }
-          </>
-}
 
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
@@ -171,11 +173,11 @@ const navigateToInBox =()=>{
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
 
-            <Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
-
+            {/* <Wordbreak  /> */}
+            <Typography dangerouslySetInnerHTML={{ __html: Body }}></Typography>
           </BoxWrapper>
         </ListStyle>
-      {MessageCenterReadMode == true ? null :   <CardWrapper>
+        {MessageCenterReadMode == true ? null : <CardWrapper>
           {/* <RouterLink
             style={{ textDecoration: 'none' }}
             to={
@@ -192,17 +194,17 @@ const navigateToInBox =()=>{
             }
           > */}
 
-        {FromRoute === 'Draft' ? <ButtonPrimary onClick={navigateToInBox}> Go to Inbox </ButtonPrimary> :
-        <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>
-        } &nbsp; &nbsp;            
-          
-         {RoleId !== "3" &&  <>
-        {!IsSender &&  <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
+          {FromRoute === 'Draft' ? <ButtonPrimary onClick={navigateToInBox}> Go to Inbox </ButtonPrimary> :
+            <ButtonPrimary onClick={() => { saveMessageBody("Reply") }}> Reply</ButtonPrimary>
+          } &nbsp; &nbsp;
+
+          {RoleId !== "3" && <>
+            {!IsSender && <ButtonPrimary onClick={() => { saveMessageBody("ReplyAll") }}> Reply All</ButtonPrimary>}&nbsp;&nbsp;
           </>}
 
-        {FromRoute === 'Draft' ? <ButtonPrimary onClick={() => { saveMessageBody("Edit") }}> Edit </ButtonPrimary> :
-        <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward </ButtonPrimary>}
-         
+          {FromRoute === 'Draft' ? <ButtonPrimary onClick={() => { saveMessageBody("Edit") }}> Edit </ButtonPrimary> :
+            <ButtonPrimary onClick={() => { saveMessageBody("Forward") }}> Forward </ButtonPrimary>}
+
         </CardWrapper>}
       </Container>
     </>
