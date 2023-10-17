@@ -18,7 +18,7 @@ import { RootState } from 'src/store';
 import { IGetDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
 import { getDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage';
 import CardDraft from 'src/libraries/card/CardDraft';
-import { Box } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 
 function ViewSms({ }) {
   const dispatch = useDispatch();
@@ -134,6 +134,12 @@ console.log("GetDraftMessage",GetDraftMessage);
       return false
   }
 
+  const getWithoutHTML = (value) =>{
+    var div = document.createElement("div");
+    div.innerHTML = value;
+    var text = div.textContent || div.innerText || "";
+    return text;
+  }
 
 
   return (
@@ -154,7 +160,7 @@ console.log("GetDraftMessage",GetDraftMessage);
               //   viewSent.RecieverName : viewSent.DisplayText}
               To={viewSent.DisplayText}
               Cc={viewSent.DisplayTextCc}
-              Body={viewSent.Body}
+              Body={FromRoute === "Draft"?getWithoutHTML(viewSent.Body):viewSent.Body}
               Text={viewSent.Subject}
               Attachments={viewSent.Attachments}
               ID={ID}
@@ -162,7 +168,12 @@ console.log("GetDraftMessage",GetDraftMessage);
               LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
               MessageCenterReadMode={MessageCenterReadMode}
             />
+
+       
+          
           )}
+
+        
         
       </>
     </>

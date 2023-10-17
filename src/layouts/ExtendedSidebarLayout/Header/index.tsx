@@ -292,7 +292,7 @@ function Header() {
         result.RoleName == "Admin Staff") {
         navigate('/extended-sidebar/landing/landing');
       }
-    // deviceRegistrationFCM(result.Id)
+    deviceRegistrationFCM(result.Id)
   }
 
 
