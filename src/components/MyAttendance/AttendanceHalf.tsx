@@ -1,11 +1,17 @@
 import React ,{useState} from 'react'
-import {Box, Divider, Grid , Typography} from "@mui/material"
+import {Box, Divider, Grid , Typography,Container} from "@mui/material"
 import { ListStyle, ListStyleA } from 'src/libraries/styled/CardStyle'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
+import  { IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
+import {GetSummaryCountforAttendanceBodyCDA} from "src/requests/TAttendance/TAttendance"
+import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import Calendar from 'react-calendar';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
-
-
+import TableAttendace from 'src/libraries/ResuableComponents/TableAttendace';
+import { useEffect } from 'react'
+import { RootState } from 'src/store';
+import { useSelector,  } from 'react-redux';
+import { useDispatch } from 'src/store';
 
 const ItemList = [
 {id:1 , Name:"1" ,value:1 , IsActive:false, category:"1" ,categoryName:"Holiday"},
@@ -40,9 +46,27 @@ const ItemList = [
 {id:30 ,value:30, Name:"30",IsActive:false,category:"4",categoryName:"Absent"},
 {id:31 ,value:0, Name:"31",IsActive:false,category:"4",categoryName:"Absent"},]
 
-
+ 
 function AttandaceHalf() {
+       const dispatch = useDispatch();
        const [ItemList1 , setItemList1]=useState(ItemList)
+
+            const SummaryCountforAttendanceBodyUS = useSelector(
+              (state: RootState) => state.AttendanceList.ISGetSummaryCountforAttendanceBody
+            );
+
+            const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = {
+              "asSchoolId":18,
+              "asAcademicYearId":54,
+              "asStandardDivisionId":1229,
+              "asAttendanceDate":"03-Oct-2023",
+              "asUserId":1
+          }
+
+          useEffect(() => {
+              dispatch(GetSummaryCountforAttendanceBodyCDA(SummaryCountforAttendanceBody));
+          
+            }, [])
 
        const ClickItemList=(value)=>{
               alert(value)
@@ -62,7 +86,13 @@ function AttandaceHalf() {
          const newDate = new Date(date);
          newDate.setMonth(newDate.getMonth() +1);
              setDate(newDate);
-       };
+       }
+             const HeaderArray = [
+              {Id:1, Header:""},
+              {Id:2, Header:"Boys"},
+              {Id:3, Header:"Girls"} ,
+              {Id:4, Header:"Total"}
+               ]
   return (
     <div>
       
@@ -111,11 +141,11 @@ function AttandaceHalf() {
                     </Grid>
                     <Grid item lg={3}/>
                    <Grid item xs={12} sx={{ml:"16px"}}>
-                     <ListStyleA>
-                        <Typography variant='h4' sx={{mt:"-10px" ,color:"#00695c"}}>Present Student</Typography>
-                        <Divider sx={{backgroundColor:"black" , my:0.5}}></Divider>
-                        <Box sx={{display:"flex" , justifyContent:"space-between"}}>
-                   <Typography>
+                   
+                        {/* <Typography variant='h4' sx={{mt:"-10px" ,color:"#00695c"}}>Present Student</Typography> */}
+                        {/* <Divider sx={{backgroundColor:"black" , my:0.5}}></Divider> */}
+                        {/* <Box sx={{display:"flex" , justifyContent:"space-between"}}> */}
+                   {/* <Typography>
           Boys
                  </Typography>
                  <Typography>
@@ -197,10 +227,14 @@ function AttandaceHalf() {
                  <Typography>
           35
                  </Typography>
-         
-                        </Box>
+          */}
+                        {/* </Box> */}
+
+                       
+            <TableAttendace  ItemList={SummaryCountforAttendanceBodyUS} HeaderArray={HeaderArray} />
+
                         
-                        </ListStyleA>  
+                      
                      
                     </Grid>
 

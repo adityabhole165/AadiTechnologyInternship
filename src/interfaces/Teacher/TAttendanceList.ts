@@ -54,3 +54,85 @@ export interface IGetAttendanceStatus{
     asAcademicYearId:string,
     asSchoolId:string
 }
+
+
+export interface IGetSummaryCountforAttendanceBody{
+
+    asSchoolId:number,
+     asAcademicYearId:number,
+     asStandardDivisionId:number,
+     asAttendanceDate:string,
+     asUserId:number
+    
+  
+}
+
+
+export interface IGetSummaryCountforAttendanceResult
+
+{
+    
+
+    summaryCountforAttendance:null,
+
+
+    listSummaryCountforAttendance: {
+        Boys: string,
+        Girls: string,
+        Total: string,
+    },
+
+    listAbsentCountforAttendance:{
+       Boys: string,
+       Girls: string,
+       Total: string
+    },
+
+
+    listtotalCountforAttendance:{
+        Boys: string,
+        Girls: string,
+        Total: string
+    },
+
+
+    listAttendanceLists:[
+    {
+       School_Id: number,
+       Standard_Division_Id:number,
+       Student_Id: number,
+       Academic_Year_Id: number,
+       Roll_No: number,
+       FullName:string,
+       Attendance_Date:string,
+       SchoolWise_Attendance_Id:number,
+       Is_Present:boolean,
+       isApplicable:boolean,
+       JoinDate:string,
+       Is_HalfDayPresent:boolean
+    },
+    ]
+
+    listAttendanceCalender: [{
+        Att_date: string,
+        Status:string,
+        Status_Desc:string,
+        Status_ForeColur: string,
+        Status_BackColur: string
+    },
+]
+    listTotalStudentAttendance:{
+        TotalStudents: string,
+        PresentStudents: string,
+        PresentDivisions: string,
+        TotalDivisions: string
+    },
+
+    listPresentGendersAttendance:{
+        PresentBoys: string,
+        PresentGirls: string,
+        Total: string
+    },
+  
+}
+
