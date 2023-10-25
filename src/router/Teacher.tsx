@@ -17,6 +17,7 @@ const TView = Loader(lazy(() => import('src/components/TAttendance/TView')))
 const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetable/TeacherTimetable')));
 const MissingAttandence = Loader(lazy(() => import('src/components/TAttendance/MissingAttandence')))
 const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
+const  SchoolAttendanceOverview= Loader(lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview')))
 
 const teacherRoutes = [
     {
@@ -47,6 +48,10 @@ const teacherRoutes = [
     {
       path: 'TAttendance/:AssignedDate/:StandardId',
       element: <TAttendance/>
+    },
+    {
+      path: 'SchoolAttendanceOverview',
+      element: <SchoolAttendanceOverview/>
     },
     ];
   

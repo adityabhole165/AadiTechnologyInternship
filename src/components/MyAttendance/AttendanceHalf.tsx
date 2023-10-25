@@ -3,7 +3,12 @@ import {Box, Divider, Grid , Typography} from "@mui/material"
 import { ListStyle, ListStyleA } from 'src/libraries/styled/CardStyle'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import Calendar from 'react-calendar';
+import { useNavigate } from 'react-router-dom';
 function AttandaceHalf() {
+       const navigate = useNavigate();
+       const ClickNavigate =()=>{
+              navigate ('/extended-sidebar/Teacher/SchoolAttendanceOverview')
+       }
   return (
     <div>
         <Grid container spacing={1}>
@@ -12,7 +17,7 @@ function AttandaceHalf() {
                 <ListStyle sx={{ml:"16px" , mt:"26px" , backgroundColor:"#e1bee7"}}>
                     <Box sx={{display:"flex"}}>
                         <Typography >Present Student/Total Student</Typography>
-                        <Typography pl={3} >
+                        <Typography pl={3} onClick={ClickNavigate} >
                       
                             32/45
                          
