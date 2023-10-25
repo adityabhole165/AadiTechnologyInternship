@@ -16,19 +16,22 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import Note from 'src/libraries/Note/Note';
 import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport, IProgressReportBody, IAcademicYearsForProgressReportBody, IGetTermsForProgressReportBody } from 'src/interfaces/Student/ProgressReport';
 import Card5 from 'src/libraries/mainCard/Card5';
-
+import { AllowProgressReportDownloadAtLogin, ShowProgressReportGraphOnMobileApp } from 'src/requests/SchoolSetting/schoolSetting'
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
-import { getIsPendingFeesForStudent } from 'src/requests/Fees/Fees';
+import { getIsPendingFeesForStudent, getOldstudentDetails } from 'src/requests/Fees/Fees';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
   const note2 = ['No exam of this class has been published for the current academic year.'];
+  const note3 = ['On publish, you will see download buttons to download Term 1/2 progress report.'];
+  const note4 = ['Assessment result is not available for this student.']
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
@@ -41,8 +44,8 @@ function Progressreport() {
   const TermsForProgressReport = useSelector((state: RootState) => state.Progressreport.TermsForProgressReportDownload);
   const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
-
-
+  const AllowProgressReportDownloadStudentLogin = useSelector((state: RootState) => state.getSchoolSettings.AllowProgressReportDownloadAtStudentLogin);
+  const ShowProgressReportGraphOnMobile = useSelector((state: RootState) => state.getSchoolSettings.ShowProgressReportGraphOnMobileApp);
 
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
@@ -60,8 +63,8 @@ function Progressreport() {
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
   const asStandardId = sessionStorage.getItem('StandardId');
   const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
-  console.log("PendingFeesForStudent", PendingFeesForStudent);
-
+  const OldstudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails)
+  let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
 
 
   const [year, setYear] = useState(asAcademicYear)
@@ -119,7 +122,11 @@ function Progressreport() {
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
-
+  const IOldStudentDetails = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: year,
+    aiStudentId: asStudentId
+  }
 
   const AcademicYearsForProgressReportBody: IAcademicYearsForProgressReportBody = {
 
@@ -131,14 +138,20 @@ function Progressreport() {
 
   const TermsForProgressReportBody: IGetTermsForProgressReportBody = {
     "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": asAcademicYearId,
-    "aiStudentId": asStudentId
+    "aiAcademicYearId": year,
+    "aiStudentId": year < asAcademicYearId ? OldInternalstudent : asStudentId
 
   };
   const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
     asStudentId: asStudentId,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
+  };
+
+  const GetSettingValueBody: IGetSettingValueBody = {
+    asSchoolId: parseInt(asSchoolId),
+    aiAcademicYearId: parseInt(asAcademicYearId),
+    asKey: "",
   };
 
   const downloadProgress = (termId) => {
@@ -156,6 +169,8 @@ function Progressreport() {
   useEffect(() => {
     dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
     dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
+    dispatch(AllowProgressReportDownloadAtLogin(GetSettingValueBody))
+    dispatch(ShowProgressReportGraphOnMobileApp(GetSettingValueBody))
   }, []);
 
 
@@ -176,8 +191,12 @@ function Progressreport() {
   }, [AcademicYearsForProgressReport])
 
   useEffect(() => {
-    dispatch(GetTermsForProgressReport(TermsForProgressReportBody));
+    dispatch(getOldstudentDetails(IOldStudentDetails))
   }, [year]);
+
+  useEffect(() => {
+    dispatch(GetTermsForProgressReport(TermsForProgressReportBody));
+  }, [OldstudentDetails]);
 
   useEffect(() => {
 
@@ -223,7 +242,7 @@ function Progressreport() {
 
 
   const classes = Styles();
-  
+
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
@@ -231,9 +250,9 @@ function Progressreport() {
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
             <>
-              {PendingFeesForStudent !== null  &&
+              {PendingFeesForStudent !== null &&
 
-                <Note NoteDetail={[PendingFeesForStudent.Message]} /> 
+                <Note NoteDetail={[PendingFeesForStudent.Message]} />
 
               }</>
 
@@ -267,32 +286,53 @@ function Progressreport() {
                       handleChange={clickDropdown}
                       label="Select Year"
                       defaultValue={year}></Dropdown>
-                    <DotLegend1>
+                      <br></br><br></br>
+
+                    {/* <DotLegend1 sx={{ mt: "10px" }}>
                       <DotLegendStyled1
                         className={classes.border}
                         style={{ background: 'blueviolet' }}
                       />
                       <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
-                    </DotLegend1>
+                    </DotLegend1> */}
                     {hidePercentNote ? null :
                       <Note NoteDetail={BarGraphNote} />
                     }
                     <Box>
-                      <>
-                        {progressreportResult?.map(
-                          (examresult: GetStudentExamResult, i) => (
-                            <Accordions3
-                              Data={progressreportResult}
-                              Exam={examresult.Exam}
-                              key={i}
-                              index={i}
-                              Collapse={handleChange}
-                              expand={expanded}
-                            />
-                          )
-                        )}
-                      </>
+                      {ShowProgressReportGraphOnMobile || progressreportResult.length === 0 ?
+
+                        <>
+                        {progressreportResult.length > 0 ?
+                        <>
+                          {progressreportResult?.map(
+                            (examresult: GetStudentExamResult, i) => (
+                              <Accordions3
+                                Data={progressreportResult}
+                                Exam={examresult.Exam}
+                                key={i}
+                                index={i}
+                                Collapse={handleChange}
+                                expand={expanded}
+                              />
+                            )
+                          )}
+                         </>
+                           :
+                           
+                           <Note NoteDetail={note4} />
+                           
+                           }
+                        </> :
+                        <>
+                        <Note NoteDetail={note3} />
+                          
+                        </>
+
+
+                      }
                     </Box>
+
+              
                     {/* remove false condition in 2nd phase of development */}
                     {false &&
                       <Box>
@@ -350,21 +390,27 @@ function Progressreport() {
                           null}
                       </Box>
                     }
-                    {
-                      TermsForProgressReport.length === 0 ? <> no record found </> :
-                        <>
-                          {TermsForProgressReport?.map((item, i) => (
+                    {AllowProgressReportDownloadStudentLogin &&
+                      <>
+                        {
+                          TermsForProgressReport.length === 0 ? <> no record found </> :
+                            <>
+                              {TermsForProgressReport?.map((item, i) => (
 
-                            <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
-                              <Typography padding={1}>{item.TermName}</Typography>
-                              <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
-                                <FileDownloadOutlinedIcon />
-                              </IconButton>
-                            </Card>
+                                <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
+                                  <Typography padding={1}>{item.TermName}</Typography>
+                                  <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
+                                    <FileDownloadOutlinedIcon />
+                                  </IconButton>
+                                </Card>
 
-                          ))}
+                              ))}
 
-                        </>
+                            </>
+
+                        }
+
+                      </>
 
                     }
                   </>

@@ -172,6 +172,8 @@ function Form13() {
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
+  const [subjecterror, setSubjecterror] = useState('');
+  const [contenterror , setContenterror] = useState('')
   let dataShow: any = [];
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
@@ -533,7 +535,19 @@ window.addEventListener('resize', handleResize)
      
 
         const SaveDraft = () =>{
-          dispatch(getSaveDraftMessage(SaveDraftBody))
+          let isError = false
+          if (formik.values.Subject === ''){
+            setSubjecterror('Subject is required')
+            isError = true
+          }
+         if(formik.values.Content === '') {
+          setContenterror('Content is required')
+          isError = true
+         }
+          else{
+            dispatch(getSaveDraftMessage(SaveDraftBody))
+          }
+        
         }
 
         useEffect(() => {
@@ -654,6 +668,7 @@ window.addEventListener('resize', handleResize)
               onChange={formik.handleChange}
               sx={{ mt: "5px"}}
             />
+            <Errormessages Error={subjecterror} />
             <Box mb={0.4}>
               {formik.touched.Subject && formik.errors.Subject ? (
                 <ErrorMessage1 Error={formik.errors.Subject} />
@@ -840,6 +855,7 @@ window.addEventListener('resize', handleResize)
                  value={formik.values.Content}
                  onChange={formik.handleChange}
                />
+                <Errormessages Error={contenterror} />
               {/* {isMobile  ? 
                  <TextField fullWidth multiline rows={4}
                  margin="normal" label='Content :' name="Content" type="text"

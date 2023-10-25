@@ -4,7 +4,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { GetInternalFeeReceipt, resetInternalReciept } from 'src/requests/Fees/Fees';
+import { resetCatutionMoney } from 'src/requests/Fees/Fees';
 import { GetCautionMoneyReceipt ,  } from 'src/requests/Fees/Fees';
 import{IGetCautionMoneyReceiptBody} from 'src/interfaces/Student/Fees';
 
@@ -30,12 +30,13 @@ function PayCautionMoney({ ShowCaution, note, IspaidCautionMoney, clickCaution, 
    }
     dispatch(GetCautionMoneyReceipt(CautionMoneyReciptBody))
     }
+      console.log("CautionMoneyReceipt",CautionMoneyReceipt);
          
   useEffect(() => {
 
     if (CautionMoneyReceipt !== "") {
       window.open(localStorage.getItem('SiteURL') + CautionMoneyReceipt.replace(/\\/g, '/'));
-      dispatch(resetInternalReciept());
+      dispatch(resetCatutionMoney());
     }
   }, [CautionMoneyReceipt])
 

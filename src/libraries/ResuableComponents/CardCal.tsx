@@ -1,13 +1,13 @@
-import { Typography, Card } from '@mui/material'
+import { Typography, Card, Box } from '@mui/material'
 import React, { useState } from 'react'
 
-function CardCal({ item, clickItem, options=undefined }) {
-  const arrBackgroundColor = ["","red","green","blue"]
-  const arrWeekend = ["sat", "sun"] 
+function CardCal({ item, clickItem, options = undefined }) {
+  const arrBackgroundColor = ["", "red", "green", "blue","gray","orange"]
+  const arrWeekend = ["sat", "sun"]
   const selectColor = "yellow"
   const isMouseOver = true
   const [isHovered, setIsHovered] = useState(false);
-  const onClick = () => {
+  const onClick = (IsActive) => {
     item = { ...item, IsActive: item.IsActive ? item.IsActive : !item.IsActive }
     clickItem(item)
   }
@@ -24,15 +24,16 @@ function CardCal({ item, clickItem, options=undefined }) {
   return (
     <div>
       <Card sx={{
-        backgroundColor: arrBackgroundColor[item.category], height: "40px",width:"40px", display: "flex", alignItems: "center", justifyContent: "center", cursor: 'pointer', ':hover': {
-          backgroundColor: isHovered ? 'pink' : null,
-        },
-      }} onClick={onClick} onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave} >
-        <Typography sx={{ backgroundColor: item.IsActive ? "yellow" : "", padding: item.IsActive ? "40px" : null }}>
+        height: "60px", alignItems: "center", justifyContent: "center", cursor: 'pointer',
+        backgroundColor: item.IsActive ? "yellow" : arrBackgroundColor[item.category]
+      }} onClick={()=>onClick(item.IsActive)}>
+
+        <Typography sx={{}} >
           {item.Name}
         </Typography>
-
+        <Typography>
+          {item.categoryName}
+        </Typography>
       </Card>
 
 

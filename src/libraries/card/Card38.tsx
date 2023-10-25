@@ -7,7 +7,7 @@ import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5Fees from "./Card5Fees";
-import { getReceiptFileName, resetReciept ,GetInternalFeeReceipt} from "src/requests/Fees/Fees";
+import { getReceiptFileNames, resetReciept ,GetInternalFeeReceipt} from "src/requests/Fees/Fees";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
 import {IGetInternalFeeReceiptBody}  from 'src/interfaces/Student/Fees';
@@ -19,16 +19,14 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
   const receiptFileName: any = useSelector((state: RootState) => state.Fees.ReceiptFileName);
   const GetOldStudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails);
   const InternalFeeReceipt: any = useSelector((state: RootState) => state.Fees.InternalFeeReceipt);
-
-  
-
+  const SchoolwiseStudentId =sessionStorage.getItem('SchoolwiseStudentId');
   const schoolId = localStorage.getItem('localSchoolId');
   const academicYearId = sessionStorage.getItem('AcademicYearId');
   const studentId = sessionStorage.getItem('StudentId');
   const userLoginId = sessionStorage.getItem('Userlogin');
   const downloadReceiptFile = (ReceiptNo, AccountHeaderId) => {
 
-    const getReceiptFileName_body: any = {
+    const ReceiptFileNamebody: any = {
       asSchoolId: schoolId,
       asReceiptNo: ReceiptNo,
       asAcademicYearId: currentYear,
@@ -40,19 +38,13 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
     };
   };
 
-  useEffect(() => {
-
-    if (receiptFileName !== "") {
-      window.open(localStorage.getItem('SiteURL') + receiptFileName.replace(/\\/g, '/'));
-      dispatch(resetReciept());
-    }
-  }, [receiptFileName])
+ 
 
   const clickIcon=(ReceiptNo,InternalFeeDetailsId,SerialNumber)=>{
     const InternalFeeReciptBody : IGetInternalFeeReceiptBody = {
       "aiSchoolId":schoolId,
       "aiAcademicYearId":currentYear,
-      "aiSchoolwiseStudentId":GetOldStudentDetails.StudentId,
+      "aiSchoolwiseStudentId":SchoolwiseStudentId,
       "asReceiptNo":ReceiptNo,
       "aiInternalFeeDetailsId":InternalFeeDetailsId,
       "abIsNextYearPayment":"false",
@@ -60,6 +52,14 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
   }
     dispatch(GetInternalFeeReceipt(InternalFeeReciptBody))
     }
+
+    useEffect(() => {
+
+      if (InternalFeeReceipt !== "") {
+        window.open(localStorage.getItem('SiteURL') + InternalFeeReceipt.replace(/\\/g, '/'));
+        dispatch(resetReciept());
+      }
+    }, [InternalFeeReceipt])
 
   return (
     <>

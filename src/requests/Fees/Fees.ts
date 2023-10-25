@@ -50,8 +50,8 @@ const Feesslice = createSlice({
       state.ReceiptFileName = action.payload
     },
 
-    resetReciept(state, action) {
-      state.ReceiptFileName = ""
+    resetReciept(state) {
+      state.InternalFeeReceipt = ""
     },
     getAllAcademicYears(state, action) {
       state.YearList = action.payload;
@@ -85,13 +85,13 @@ const Feesslice = createSlice({
     getInternalFeeReceipt(state, action) {
       state.InternalFeeReceipt = action.payload; 
     },
-      resetInternalReciept(state, action) {
+      resetInternalReciept(state) {
       state.InternalFeeReceipt = ""
     },
     getCautionMoneyReceipt(state, action) {
       state.CautionMoneyReceipt = action.payload;
     },
-       resetCautionReciept(state, action) {
+       resetCautionReciept(state) {
       state.CautionMoneyReceipt = ""
        },
     getAcademicYearsforFeeChallan(state, action) {
@@ -143,7 +143,7 @@ export const resetPaymentUrl =
       dispatch(Feesslice.actions.resetPaymentUrl());
     };
 
-export const getReceiptFileName =
+export const getReceiptFileNames =
   (data: IGetReceiptFileName): AppThunk =>
     async (dispatch) => {
       const response = await FeesApi.getReceiptFileName(data);
@@ -338,7 +338,7 @@ export const getNextYearFeeDetails =
 export const resetReciept =
   (): AppThunk =>
     async (dispatch) => {
-      dispatch(Feesslice.actions.resetReciept(""));
+      dispatch(Feesslice.actions.resetReciept());
     };
     export const getFeeStructureLink =
   (data: IGetFeeStructureLinksBody): AppThunk =>
@@ -350,7 +350,12 @@ export const resetReciept =
     export const resetInternalReciept =
   (): AppThunk =>
     async (dispatch) => {
-      dispatch(Feesslice.actions.resetInternalReciept(""));
+      dispatch(Feesslice.actions.resetInternalReciept());
+    };
+    export const resetCatutionMoney  =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(Feesslice.actions.resetCautionReciept());
     };
     export const GetInternalFeeReceipt =
   (data:IGetInternalFeeReceiptBody ): AppThunk =>

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getEventList, getEvents } from 'src/requests/AnnualPlanner/AnnualPlanner';
+import { ResetFilePath, getEventList, getEvents, getFilePath } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import IGetEventsInMonth, { IEventList } from 'src/interfaces/Common/AnnualPlanner';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -8,14 +8,14 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container,  Checkbox, Box, FormGroup, FormControlLabel } from '@mui/material';
+import { Container, Checkbox, Box, FormGroup, FormControlLabel, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { useNavigate } from 'react-router-dom';
 import Icon1 from 'src/libraries/icon/icon1';
 function UpcomingEvent() {
   const navigate = useNavigate();
-  const { DateFrommon, DateFromyear,Pholiday,Pevent, Pexam  } = useParams();
+  const { DateFrommon, DateFromyear, Pholiday, Pevent, Pexam } = useParams();
 
   const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
@@ -30,6 +30,9 @@ function UpcomingEvent() {
 
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
+  );
+  const FileName = useSelector(
+    (state: RootState) => state.AnnualPlanner.FilePath
   );
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
@@ -72,10 +75,10 @@ function UpcomingEvent() {
   }
 
   useEffect(() => {
-     if(Pholiday!==undefined){
-      setHoliday(Pholiday==='false'?false:true)
-      setEvent(Pevent==='false'?false:true)
-      setExam(Pexam==='false'?false:true)
+    if (Pholiday !== undefined) {
+      setHoliday(Pholiday === 'false' ? false : true)
+      setEvent(Pevent === 'false' ? false : true)
+      setExam(Pexam === 'false' ? false : true)
     }
     localStorage.setItem("url", window.location.pathname)
     setCurrentDate();
@@ -146,10 +149,25 @@ function UpcomingEvent() {
   const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
   const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] + "01," + selectedDateList[1]) : date.selectedDate)
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
+  const clickFileName = () => {
+    const FilepathBody = {
+      aiSchoolId: asSchoolId,
+      aiAcademicYearId: asAcademicYearId
+    }
+    dispatch(getFilePath(FilepathBody))
+  }
+  useEffect(() => {
+
+    if (FileName !== "") {
+      window.open(localStorage.getItem('SiteURL') + FileName);
+      dispatch(ResetFilePath());
+    }
+  }, [FileName])
 
   return (
     <Container>
       <PageHeader heading={'Annual Planner'} subheading={''} />
+      <Typography sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>Annual Planner</Typography>
       <FormGroup sx={{ display: "inline" }}>
         <FormControlLabel control={<Checkbox checked={event} onChange={(e) => setEvent(e.target.checked)} sx={{
           color: '#757575',
@@ -169,14 +187,13 @@ function UpcomingEvent() {
           color: '#757575',
           '&.Mui-checked': {
             color: '#d8eb88',
-           
+
           },
           borderColor: 'black',
         }} size="small" />} label="Exam" />
         <Box sx={{ float: "right", mt: "10px" }}>
           <Icon1 Note={Note} />
         </Box>
-
       </FormGroup>
       <br></br>
       <MonthSelector
@@ -193,7 +210,7 @@ function UpcomingEvent() {
             (<>
 
               <List1 items={eventListInMoth} linkParams={'/' + assignedMonth_num +
-              '/'+ assignedYear + '/'+holiday+'/'+event+'/'+exam}></List1>
+                '/' + assignedYear + '/' + holiday + '/' + event + '/' + exam}></List1>
 
             </>) :
             <ErrorMessages Error={'Selected date is outside academic year'} />

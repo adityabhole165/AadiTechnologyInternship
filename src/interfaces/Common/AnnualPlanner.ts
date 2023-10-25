@@ -64,3 +64,8 @@ export interface IGetEventsInMonthResult {
 export interface IGetEventsMonthResult{
     GetEventsInMonthResult:IGetEventsInMonthResult[]
 };
+export interface IGetFilePathBody {
+   
+    aiSchoolId:string,
+    aiAcademicYearId:string
+}

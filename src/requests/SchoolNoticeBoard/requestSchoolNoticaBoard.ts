@@ -25,6 +25,10 @@ const SliceSchoolNoticeBoard = createSlice({
       state.Loading = false;
 
     },
+
+     getAllNoticeRecet(state) {
+      state.AllActiveNotices = [];
+    },
  
     getLoading(state, action) {
       state.Loading = true
@@ -49,6 +53,12 @@ export const getSchoolNoticeBoard =
       const response = await SchoolNoticeApi.GetAllActiveNotices(data);
       dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
     };
+
+   export const getAllNoticeRecet =
+    (): AppThunk =>
+      async (dispatch) => {
+        dispatch(SliceSchoolNoticeBoard.actions.getAllNoticeRecet());
+      }
 
 
 

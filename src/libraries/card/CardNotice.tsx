@@ -1,29 +1,34 @@
-import { Typography, Card, Box ,Button, IconButton} from '@mui/material';
+import { Typography, Card, Box, Button, IconButton, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import DoNotDisturbOnIcon from '@mui/icons-material/DoNotDisturbOn';
-const CardNotice = ({ text1, text2,downloadNotice,id}) => {
+import ChechBoX from './CheckBoX';
+const CardNotice = ({ item, downloadNotice, clickSingle }) => {
 
-    const [isCardVisible, setIsCardVisible] = useState(true);
-    const handleCheckboxChange = () => {
-        setIsCardVisible(!isCardVisible);
-      };
+  const [isCardVisible, setIsCardVisible] = useState(true);
+  const handleCheckboxChange = () => {
+    setIsCardVisible(!isCardVisible);
+  };
 
   return (
     <>
- 
-    <Box  sx={{   display: 'flex', justifyContent:"space-between"}} >
-    {isCardVisible && 
-      <Card sx={{   width: '1000px', height: '60px'  , display: 'flex', alignItems: 'center', p: 1.5, mt: 0.7 }}>
-        <Typography>{text1}</Typography>
-        <div style={{ flex: '1' }}></div>
-         <FileDownloadOutlinedIcon onClick={()=>{downloadNotice(id
-          )}} />
-     </Card>}
-      {isCardVisible &&
-      <DoNotDisturbOnIcon onClick={handleCheckboxChange} sx={{mt:"15px" , mr:"18px", color:"red",fontSize:"38px"}}/>
-      }
-    </Box>
+      <Grid container xs={12} >
+        <Grid xs={10.8}>
+          <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}>
+            <Typography>{item.header}</Typography>
+            <div style={{ flex: '1' }}></div>
+            <FileDownloadOutlinedIcon onClick={() => { downloadNotice(item.FileName, item.IsImageNotice) }} />
+          </Card>
+        </Grid>
+        <Grid xs={1} sx={{mt:"10px",ml:"5px"}}>
+          <ChechBoX
+            name={""}
+            value={item.id}
+            checked={item.isActive}
+            onChange={clickSingle}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

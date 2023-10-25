@@ -1,6 +1,7 @@
 import StandardAttendance ,{GetStandardDivisionsResult}from "src/interfaces/Teacher/TAttendance";
 import GetClassAttendance, { IGetStudentDetails, ISaveAttendance ,IGetAttendanceStatus,
-    IGetAttendanceStatusResult,GetStudentDetailsResult,IGetClassAttendanceResult} from "src/interfaces/Teacher/TAttendanceList";
+    IGetAttendanceStatusResult,GetStudentDetailsResult,IGetClassAttendanceResult, IGetSummaryCountforAttendanceBody,IGetSummaryCountforAttendanceResult} from "src/interfaces/Teacher/TAttendanceList";
+
 import http from "../../requests/SchoolService/schoolServices";
 
 
@@ -21,14 +22,23 @@ const SaveStudentAttendanceDetails = (data:ISaveAttendance) => {
 }
 
 const GetAttendanceStatus = (data:IGetAttendanceStatus) => {
-    return http.post<IGetAttendanceStatusResult[]>('Teacher/GetAttendanceStatus',data);
+    return http.post<IGetAttendanceStatusResult[]>('Teacher/GetAttendanceStatus',data);  
 }
+
+
+const GetSummaryCountforAttendance = (data:IGetSummaryCountforAttendanceBody) => {
+    return http.post<IGetSummaryCountforAttendanceResult>('Teacher/GetSummaryCountforAttendance',data);  
+}
+
+
 const GetTAttendanceListApi={
     GetStandardList,
     GetAttendanceData,
     GetStudentDetails,
     SaveStudentAttendanceDetails,
     GetAttendanceStatus,
+    GetSummaryCountforAttendance
+    
     
 }
 

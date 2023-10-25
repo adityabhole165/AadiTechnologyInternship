@@ -150,6 +150,19 @@ const MessageList = () => {
         };
     }
 
+    const getDraftMsgBody = (searchtext, monthyear) => {
+        return {
+            asSchoolId: SchoolId,
+            asAcademicYearId: academicYear,
+            asUserId: sessionStorage.getItem('Id'),
+            asUserRoleId: sessionStorage.getItem('RoleId'),
+            abIsSMSCenter: "0",
+            asFilter: "",
+            asPageIndex: 1,
+            asMonthId: "0" ,
+             asDate :"",};
+    }
+
     const body: Iyears = {
         asSchoolId: SchoolId
     };
@@ -418,7 +431,12 @@ const MessageList = () => {
         setAcademicYear(AcademicYearId);
         setMonthYear('');
         setSearchText('');
-        dispatch(getListOfMessages(getMsgBody('', ''), activeTab, false));
+        if(activeTab === 'Draft'){
+            dispatch(getListOfMessages(getDraftMsgBody('', ''), activeTab, false));
+        } else{
+            dispatch(getListOfMessages(getMsgBody('', ''), activeTab, false));
+        }
+       
     };
 
     const MoveToTop = (e) => {
@@ -455,8 +473,10 @@ const MessageList = () => {
           aiUserId: sessionStorage.getItem('Id'),
           aiDraftId: ID
         };
-        dispatch(getDeleteDraftMessage(DeleteDraftBody))
-         }
+        if (confirm('Are you sure you want to delete this record?')) {
+            dispatch(getDeleteDraftMessage(DeleteDraftBody))
+         } 
+        }
 
          useEffect(() => {
             if (DeleteDraftM !== '' ) {

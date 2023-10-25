@@ -1,16 +1,16 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import AnnualPlannerApi from "../../api/AnnualPlanner/AnnualPlanner";
 import { AppThunk } from 'src/store';
-import IGetUpcomingEventBody, {IEventList} from 'src/interfaces/Common/AnnualPlanner';
+import IGetUpcomingEventBody, {IEventList, IGetFilePathBody} from 'src/interfaces/Common/AnnualPlanner';
 import IGetEventsInMonth from 'src/interfaces/Common/AnnualPlanner';
 
 const AnnualPlannerSlice = createSlice({
   name: 'Annual Planner',
   initialState:{
     EventList:[],
-    Event:[],
-    
-    Loading : true
+    Event:[], 
+    Loading : true,
+    FilePath:""
   },
   reducers: {
     getEventList (state,action){
@@ -24,7 +24,13 @@ const AnnualPlannerSlice = createSlice({
     getLoading (state,action) {
         state.Loading = true
         state.EventList = [];
-    }
+    },
+    getFilepath (state,action) {
+      state.FilePath = action.payload;
+  },
+  resetFilepath (state) {
+    state.FilePath = "";
+}
   }   
 });
 
@@ -70,5 +76,16 @@ export const getEventList =
             dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
           
         };
+        export const getFilePath =
+  (data:IGetFilePathBody): AppThunk =>
+  async (dispatch) => {
+    const response = await AnnualPlannerApi.GetFilePath(data);
+    dispatch(AnnualPlannerSlice.actions.getFilepath(response.data));
+  };
+  export const ResetFilePath =
+  (): AppThunk =>
+  async (dispatch) => {
+    dispatch(AnnualPlannerSlice.actions.resetFilepath());
+  };
 
 export default AnnualPlannerSlice.reducer

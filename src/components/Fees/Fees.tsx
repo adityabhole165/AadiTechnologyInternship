@@ -200,12 +200,12 @@ function Fees() {
           Value: NextYearDetails == null ? 0 : NextYearDetails.NextAcademicYearId,
           YearType: ''
         }
-        setNewAcadamicYear([arr2, ...arr])
+        // setNewAcadamicYear([arr2, ...arr])
         setOriginalAcadamicYear([arr2, ...arr])
       }
     } else {
       if (AcadamicYear.length > 0) {
-        setNewAcadamicYear(arr)
+        // setNewAcadamicYear(arr)
         setOriginalAcadamicYear(arr)
       }
     }
@@ -294,7 +294,7 @@ function Fees() {
       if (item === value) {
         setYearType(item.YearType)
       }
-    })
+    })   
     setCurrentyear(value);
     AcadamicYear.map((obj) => {
       if (obj.Value === value) {
@@ -337,11 +337,11 @@ function Fees() {
       })
     }
     return returnVal
-  }
-  // originalAcadamicNote
+  }  
   useEffect(() => {
 
-    if (FeesList2.PendingFeeAcademicYears !== undefined) {
+    if (FeesList2.PendingFeeAcademicYears !== undefined && 
+      currentYear == sessionStorage.getItem("AcademicYearId")) {
       arr = FeesList2.PendingFeeAcademicYears.split(",").map((item: string) => item.trim());
       // setshowOldPendingMsg(arr.length > 0)
       let arr1 = newAcadamicYear
@@ -384,7 +384,6 @@ function Fees() {
   const ClickNavigateChallan=()=>{
     navigate ('ChallanSNSForFees')
   }
-  console.log("FeesList2",FeesList2);
   
   
   return (
@@ -428,7 +427,7 @@ function Fees() {
         </Tooltip>
       </ClickAwayListener>
       <Link href={FeesList2.OnlineFeePaymentGuidePath} rel="noreferrer" target="_blank">
-    <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary>
+    {/* <ButtonPrimary sx={{float:"right",mt:"10px",height:"27px"}}>PaymentVideo</ButtonPrimary> */}
     </Link>
       <Box sx={{ mb: "8px" }}><Dropdown
         Array={newAcadamicYear}

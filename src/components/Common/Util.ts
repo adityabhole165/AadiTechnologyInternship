@@ -115,6 +115,15 @@ export const getDateMonthFormatted = (date) => {
     return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]}`;
 }
 
+export const getDateMonthFormat = (date) => {
+    const parts = date.split(' ');
+    const arrDate = parts[0].split('-');
+    const time = parts[1].split(':').slice(0, 2).join(':');
+    
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${time}`;
+}
+
 export const getDateMonthYearFormatted = (date) => {
     let arrDate = date.split(' ')[0].split('-')
     const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
@@ -238,8 +247,8 @@ export const toolbarOptions = {
 
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttps.riteschool.com/images/";
-export const androidCurrentAppVersion = "2.0.9";
-export const appleCurrentAppVersion = "2.0.5";
+export const androidCurrentAppVersion = "2.1.1";
+export const appleCurrentAppVersion = "2.0.6";
 export const deviceType = ((typeof window.localStorage.getItem('deviceType') != undefined &&
     window.localStorage.getItem('deviceType') == 'ios') ? "iOS" : "Android");
 // export const sitePath = 'https://192.168.1.80';

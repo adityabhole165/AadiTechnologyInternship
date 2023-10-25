@@ -9,7 +9,7 @@ import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import React, { useEffect, useState } from 'react';
-import { getReceiptFileName, resetReciept } from 'src/requests/Fees/Fees';
+import { getReceiptFileNames, resetReciept } from 'src/requests/Fees/Fees';
 import Card5 from 'src/libraries/mainCard/Card5';
 import { Accordionsummary, Header1 } from '../styled/AccordianStyled';
 import { sitePath } from 'src/components/Common/Util';
