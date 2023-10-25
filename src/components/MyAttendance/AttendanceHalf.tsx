@@ -1,16 +1,42 @@
-import React from 'react'
-import {Box, Divider, Grid , Typography} from "@mui/material"
+import React ,{useState} from 'react'
+import {Box, Divider, Grid , Typography,Container} from "@mui/material"
 import { ListStyle, ListStyleA } from 'src/libraries/styled/CardStyle'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
+import  { IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
+import {GetSummaryCountforAttendanceBodyCDA} from "src/requests/TAttendance/TAttendance"
+import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import Calendar from 'react-calendar';
-import { useNavigate } from 'react-router-dom';
-function AttandaceHalf() {
-       const navigate = useNavigate();
-       const ClickNavigate =()=>{
-              navigate ('/extended-sidebar/Teacher/SchoolAttendanceOverview')
-       }
+import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
+import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
+import { useNavigate } from 'react-router';
+function AttandaceHalf({ItemList ,ClickItemList}) {
+       const [date, setDate] = useState(new Date());
+       const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
+         
+       const handlePrevMonth = () => {
+         const newDate = new Date(date);
+         newDate.setMonth(newDate.getMonth() - 1);
+             setDate(newDate);
+       };
+       
+       const handleNextMonth = () => {
+         const newDate = new Date(date);
+         newDate.setMonth(newDate.getMonth() +1);
+             setDate(newDate);
+       };
+
+   const navigate = useNavigate();
+   const  ClickNavigate = ()=> {
+       navigate('/extended-sidebar/Teacher/SchooAttendanceOverview')
+   }
+
   return (
     <div>
+      
+      <CardCalender ItemList={ItemList} 
+      ClickItemList={ClickItemList} 
+      handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} 
+      formattedDate={formattedDate}/>
         <Grid container spacing={1}>
         
         <Grid item lg={5.5} > 
@@ -51,16 +77,12 @@ function AttandaceHalf() {
                     <ButtonPrimary fullWidth>MonthWise Attandace</ButtonPrimary>
                     </Grid>
                     <Grid item lg={3}/>
-                    <Grid item xs={12} sx={{ml:"50px" , mt:"19px"}} >
-                      <Calendar sx={{height:"900px", width:"100px"}}/> 
-                    </Grid>
-                    
-                    <Grid item xs={12} sx={{ml:"16px"}}>
-                     <ListStyleA>
-                        <Typography variant='h4' sx={{mt:"-10px" ,color:"#00695c"}}>Present Student</Typography>
-                        <Divider sx={{backgroundColor:"black" , my:0.5}}></Divider>
-                        <Box sx={{display:"flex" , justifyContent:"space-between"}}>
-                   <Typography>
+                   <Grid item xs={12} sx={{ml:"16px"}}>
+                   
+                        {/* <Typography variant='h4' sx={{mt:"-10px" ,color:"#00695c"}}>Present Student</Typography> */}
+                        {/* <Divider sx={{backgroundColor:"black" , my:0.5}}></Divider> */}
+                        {/* <Box sx={{display:"flex" , justifyContent:"space-between"}}> */}
+                   {/* <Typography>
           Boys
                  </Typography>
                  <Typography>
@@ -142,10 +164,14 @@ function AttandaceHalf() {
                  <Typography>
           35
                  </Typography>
-         
-                        </Box>
+          */}
+                        {/* </Box> */}
+
+                       
+            {/* <TableAttendace  ItemList={SummaryCountforAttendanceBodyUS} HeaderArray={HeaderArray} /> */}
+
                         
-                        </ListStyleA>  
+                      
                      
                     </Grid>
 
