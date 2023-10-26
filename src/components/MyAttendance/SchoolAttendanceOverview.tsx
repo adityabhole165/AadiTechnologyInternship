@@ -26,7 +26,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 
    
   const HeaderArray= [{Id:1, Header:"Standard/Division."},{Id:2, Header:"A"},{Id:3, Header:"B"} ,{Id:4, Header:"C"} ,{Id:5, Header:"D"} ,{Id:6, Header:"E"} ,
-  ,{Id:7, Header:"F"} ,
+  ,{Id:7, Header:"F"} ,{Id:8, Header:"Marked for"} ,{Id:9, Header:"Present/Total"},{Id:10, Header:"Present%"}
    ]
 
 const ItemList = [{Text2:"0/6"},{Text2:"0/6"}  ,{Text2:"0/6"}  ,{Text2:"0/6"}  ,{Text2:"0/6"} ,{Text2:"0/6"}]
@@ -72,23 +72,21 @@ const ItemList = [{Text2:"0/6"},{Text2:"0/6"}  ,{Text2:"0/6"}  ,{Text2:"0/6"}  ,
       
 
       
-  <Box sx={{display:"flex" ,alignItems:"center",justifyContent:"center"  }}>
-  <Typography>Legend:</Typography>
-  <ClearIcon sx={{color:"red", mr:"20px"}} />
-  <DotLegend  color="Red" text="Attendance Not  Marked" /> 
+  <Box sx={{display:"flex"   }}>
+  <Typography>Legend :</Typography>
+  <ClearIcon sx={{color:"red"}} /> <Typography>Attendance Not  Marked</Typography>
+  
   </Box>
   
        <Grid container spacing={2}>
-        <Grid item xs={8}>
+        <Grid item xs={12}>
         <TableAttendace ItemList={SchoolAtteendanceOverview} HeaderArray={HeaderArray}/> 
         </Grid>
-        <Grid item xs={3}>
-        <TableAttendace ItemList={ItemList}  HeaderArray={HeaderArrayA}/> 
-        </Grid>
+     
        </Grid>
-  
+  <br></br>
   <Box sx={{ display:"flex" ,alignItems:"center",justifyContent:"center"}}>
-  <ButtonPrimary color="secondary" onClick={click} >
+  <ButtonPrimary color="error" onClick={click} >
                   Close
                 </ButtonPrimary>  
                
