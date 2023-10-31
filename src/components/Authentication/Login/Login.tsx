@@ -56,6 +56,7 @@ function SelectSchool() {
     const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
     const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
 const res = localStorage.getItem("auth")
+            console.log("auth",res)
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
             localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
