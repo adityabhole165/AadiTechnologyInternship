@@ -4,24 +4,19 @@ import { useDispatch } from "react-redux";
 import { useSelector } from 'react-redux';
 import { getSchoolList, getSchoolSettingsValue } from 'src/requests/Authentication/SchoolList';
 import { RootState } from 'src/store';
-import school5 from 'src/assets/img/school5.jpg';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import LoginApi from 'src/api/Authentication/Login';
 import { IAuthenticateUser, IAuthenticateUserResult } from 'src/interfaces/Authentication/Login'
-import { Route, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
 import InputAdornment from '@mui/material/InputAdornment';
 import IconButton from '@mui/material/IconButton';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import Input from '@mui/material/Input';
 import school2 from 'src/assets/img/Shool_Logo/school2.png';
-import bf from 'src/assets/img/stuff/Bright Future School_logo.png';
 import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
 import { Styles } from "src/assets/style/student-style";
 import { toast } from 'react-toastify';
@@ -29,9 +24,8 @@ import { useFormik } from 'formik';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
 import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
-import { CardDetail1, CardDetail10, CardDetail11, InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
+import { CardDetail10, CardDetail11, InputStyle, UsernameStyle } from 'src/libraries/styled/CardStyle';
 import { Divider, Paper, Typography } from '@mui/material';
-import { textAlign } from '@mui/system';
 import { logoURL } from 'src/components/Common/Util';
 import PushNotification from '../../../libraries/PushNotification/PushNotification';
 import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
@@ -40,123 +34,69 @@ import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
 import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 
 function SelectSchool() {
-    
-    const UserLoginDetails1 = useSelector(
-        (state: RootState) => state.Dashboard.UserLoginDetails
-      );
+
     const styleroot = Styles();
     const classes = Styles();
-
-    const styles = {
-        paperContainer: {
-            // backgroundImage: `url(${school5})`,
-            backgroundColor: "white"
-        },
-
-    };
-    const [show, setShow] = useState(true);
-    const [LoginButtonDisabled, setLoginButtonDisabled] = useState("auto");
-
-    const changeschool = () => {
-        setShow(true);
-        setValue(null);
-        let LoginVersion = localStorage.getItem('LoginVersion');
-        localStorage.clear();
-        localStorage.setItem('LoginVersion', LoginVersion)
-    }
-
-    const clearLocal = () => {
-        localStorage.clear();
-    }
-    const forgotPassword = () => {
-        navigate('/forgotPassword');
-    }
-    const schoolNotice = () => {
-        navigate('/schoolNotice');
-    }
-    const PrivacyPolicy = () => {
-        window.location.href = "https://www.riteschool.in/privacy-policy";
-        //<Route path="https://www.riteschool.in/privacy-policy" />
-    }
-
-    //   select School
     const dispatch = useDispatch();
-    const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
-    const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
-
-    const [value, setValue] = React.useState<GetAllSchoolsResult>();
-    const [inputValue, setInputValue] = React.useState('');
-
-    if ((value !== undefined) && (value !== null)) {
-        window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
-        sessionStorage.setItem("SchoolId", value.SchoolId);
-        localStorage.setItem("localSchoolId", value.SchoolId);
-        localStorage.setItem("SchoolName", value.SchoolName);
-        localStorage.setItem("SiteURL", value.SiteURL);
-        localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
-    }
-    const Id = sessionStorage.getItem('Id');
-    const RoleId = sessionStorage.getItem('RoleId');
+    const navigate = useNavigate();
+    
+    const styles = { paperContainer: { backgroundColor: "white" }, };
     const SchoolName = localStorage.getItem('SchoolName')
-    //const img_src = localStorage.getItem('SiteURL') + "/images/" + localStorage.getItem('SchoolName')?.split(' ').join('%20') + "_logo.png";
-    // const img_src = "https://riteschoolmobileservicehttpsnewui.riteschool.com/images/" + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
     const schoolId = localStorage.getItem('localSchoolId')
-    const UserId = sessionStorage.getItem('Id');
-
-    if ((schoolId != null && schoolId != undefined)) {
-        localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
-    }
-
+    const values = { username: "", password: "", showPassword: false };
+    
     let schoolSettingAPIBody: ISchoolSettings = null;
-    if ((schoolId != null && schoolId != undefined)) {
-        schoolSettingAPIBody = {
-            asSchoolId: schoolId
+
+    const [formValues, setFormValues] = useState(values);
+    const [show, setShow] = useState(true);
+    const [value, setValue] = useState<GetAllSchoolsResult>();
+    const [inputValue, setInputValue] = useState('');
+
+    const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
+    const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
+const res = localStorage.getItem("auth")
+    useEffect(() => {
+        if ((schoolId != null && schoolId != undefined)) {
+            localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
+
+            if (res === null) {
+                dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
+                setShow(false);
+            } else {
+                setSession(JSON.parse(res))
+            }
+
+            schoolSettingAPIBody = {
+                asSchoolId: schoolId
+            }
         }
-    }
+
+        const ListData: ISchoolList = {
+            "asSchoolId": "Default"
+        }
+        dispatch(getSchoolList(ListData))
+    }, [])
     // end select School
 
-    // Login form
-    const navigate = useNavigate();
-    const values = { username: "", password: "", showPassword: false };
-    const [formValues, setFormValues] = useState(values);
-
-    const handleClickShowPassword = () => {
-        setFormValues({
-            ...formValues,
-            showPassword: !formValues.showPassword,
-        });
-    };
-
-    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-    };
-
-    const formik = useFormik({
-        initialValues: {
-            userName: '',
-            password: '',
-        },
-
-        onSubmit: values => {
-            loginform();
-            setLoginButtonDisabled("none");
-        },
-
-        validate: values => {
-
-            const errors: any = {}
-
-            if (!values.userName) {
-                errors.userName = "Username is Required "
-            }
-            if (!values.password) {
-                errors.password = "Password is Required "
-            }
-
-            return errors
+    useEffect(() => {
+        if ((value !== undefined) && (value !== null)) {
+            window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
+            sessionStorage.setItem("SchoolId", value.SchoolId);
+            localStorage.setItem("localSchoolId", value.SchoolId);
+            localStorage.setItem("SchoolName", value.SchoolName);
+            localStorage.setItem("SiteURL", value.SiteURL);
+            localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
         }
-    })
+    }, [value])
+
+    const errorOccur = (value) => {
+
+        toast.error(value, { toastId: 'error1' });
+        setTimeout(() => {
+        }, 3000);
+    }
+
     const setSession = async (response) => {
         const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
         const studentDetails: any = await response.data.StudentDetails
@@ -165,9 +105,9 @@ function SelectSchool() {
         const UserLoginD: ISaveUserLoginDetailsBody = {
             asSchoolId: schoolId,
             asUserId: result.Id
-          }
+        }
         dispatch(getSaveUserLoginDetail(UserLoginD))
-       
+
 
         if (result.RoleName === "Student") {
             sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
@@ -228,7 +168,7 @@ function SelectSchool() {
             sessionStorage.setItem("MobileNumber", teacherDetails.MobileNumber);
         }
 
-       
+
 
         if (result.RoleName === "Admin Staff") {
             sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
@@ -252,7 +192,7 @@ function SelectSchool() {
 
         localStorage.setItem("UserId", result.Id);
         localStorage.setItem("RoleName", result.RoleName);
-            
+
         const url = localStorage.getItem("url");
 
         if (url != null && url !== '/') {
@@ -264,8 +204,72 @@ function SelectSchool() {
                 result.RoleName == "Admin Staff") {
                 navigate('/extended-sidebar/landing/landing');
             }
-         deviceRegistrationFCM(result.Id)
+        //  deviceRegistrationFCM(result.Id)
     }
+
+
+    const formik = useFormik({
+        initialValues: {
+            userName: '',
+            password: '',
+        },
+
+        onSubmit: values => {
+            loginform();
+        },
+
+        validate: values => {
+
+            const errors: any = {}
+
+            if (!values.userName) {
+                errors.userName = "Username is Required "
+            }
+            if (!values.password) {
+                errors.password = "Password is Required "
+            }
+
+            return errors
+        }
+    })
+
+    const deviceRegistrationFCM = async (userId) => {
+        const data: IPushNotificationFCM = {
+            asSchoolId: schoolId,
+            asUserId: userId.toString(),
+            asRegistrationId: localStorage.getItem('FCMdeviceToken'),
+            asDeviceId: localStorage.getItem('deviceId'),
+            asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
+        }
+        const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
+    }
+
+    const changeschool = () => {
+        setShow(true);
+        setValue(null);
+        let LoginVersion = localStorage.getItem('LoginVersion');
+        localStorage.clear();
+        localStorage.setItem('LoginVersion', LoginVersion)
+    }
+
+    const forgotPassword = () => {
+        navigate('/forgotPassword');
+    }
+
+    const schoolNotice = () => {
+        navigate('/schoolNotice');
+    }
+
+    const handleClickShowPassword = () => {
+        setFormValues({
+            ...formValues,
+            showPassword: !formValues.showPassword,
+        });
+    };
+
+    const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+        event.preventDefault();
+    };
 
     const loginform = async () => {
         const body: IAuthenticateUser = {
@@ -301,45 +305,8 @@ function SelectSchool() {
             errorOccur("Invalid Username or Password")
         }
     };
-    const errorOccur = (value) => {
 
-        toast.error(value, { toastId: 'error1' });
-        setTimeout(() => {
-            setLoginButtonDisabled("auto");
-        }, 3000);
-    }
 
-    const deviceRegistrationFCM = async (userId) => {
-        const data: IPushNotificationFCM = {
-            asSchoolId: schoolId,
-            asUserId: userId.toString(),
-            asRegistrationId: localStorage.getItem('FCMdeviceToken'),
-            asDeviceId: localStorage.getItem('deviceId'),
-            asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
-        }
-        const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
-    }
-
-    // End Login form
-    const ListData: ISchoolList = {
-        "asSchoolId": "Default"
-    }
-
-    useEffect(() => {
-        dispatch(getSchoolList(ListData))
-    }, [])
-
-    useEffect(() => {
-        if ((schoolId != null && schoolId != undefined)) {
-            const res = localStorage.getItem("auth")
-            if (res === null) {
-                dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
-                setShow(false);
-            } else {
-                setSession(JSON.parse(res))
-            }
-        }
-    }, [value]);
 
 
     return (
@@ -357,7 +324,7 @@ function SelectSchool() {
                             style={{ minHeight: '100vh' }}
                             columns={{ xs: 12, md: 12 }}
                         >
-                            <PushNotification />
+                            {/* <PushNotification /> */}
                             <Grid item xs={12} alignItems="center" sx={{ mt: "30px" }} >
                                 <img src={school2} />
                             </Grid>

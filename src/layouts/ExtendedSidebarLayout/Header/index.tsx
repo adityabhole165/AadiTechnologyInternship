@@ -135,15 +135,15 @@ function Header() {
 
   let userprofile = ''
   let img_src = ''
-  if (sessionStorage.length > 0) {
-    userprofile = ImgUrl.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
-    img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
-  }
-
   let siblingList: any = [];
-  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
-    siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
-  }
+    if (sessionStorage.length > 0) {
+      userprofile = ImgUrl?.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
+      img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    }
+  
+    if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
+      siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
+    }
   const schoolId = localStorage.getItem("localSchoolId");
 
   const { t }: { t: any } = useTranslation();
@@ -292,7 +292,7 @@ function Header() {
         result.RoleName == "Admin Staff") {
         navigate('/extended-sidebar/landing/landing');
       }
-    deviceRegistrationFCM(result.Id)
+    // deviceRegistrationFCM(result.Id)
   }
 
 
@@ -308,6 +308,7 @@ function Header() {
   const getNewLogin = async (body) => {
     const response: any = await LoginApi.AuthenticateUser(body)
     if (response.data != null) {
+      localStorage.setItem("auth", JSON.stringify(response));
       setSession(response);
     }
     else {
@@ -522,10 +523,10 @@ function Header() {
               <ContactSupportTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<Detail1>Support</Detail1 >} />
             </ListItem>
-            {siblingList.length == 0 ? (
+            {siblingList?.length == 0 ? (
               <>
               </>
-            ) : siblingList.length == 1 ?
+            ) : siblingList?.length == 1 ?
               (
                 <>
                   <ListItem
