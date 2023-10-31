@@ -49,7 +49,7 @@ export const getSchoolNoticeBoard =
     export const getAllActiveNotices =
   (data: IGetAllActiveNoticesBody): AppThunk =>
     async (dispatch) => {
-      dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
+      // dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
       const response = await SchoolNoticeApi.GetAllActiveNotices(data);
       dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
     };
