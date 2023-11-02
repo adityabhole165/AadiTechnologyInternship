@@ -156,9 +156,9 @@ console.log("GetDraftMessage",GetDraftMessage);
               ViewDetail={ViewDetail}
               From={ FromRoute === 'Draft'  ? viewSent.SenderName : viewSent.UserName}
               InsertDateInFormat={viewSent.InsertDateInFormat}
-              // To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-              //   viewSent.RecieverName : viewSent.DisplayText}
-              To={viewSent.DisplayText}
+              To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
+                viewSent.RecieverName : viewSent.DisplayText}
+              // To={viewSent.DisplayText}
               Cc={viewSent.DisplayTextCc}
               Body={FromRoute === "Draft"?getWithoutHTML(viewSent.Body):viewSent.Body}
               Text={viewSent.Subject}
