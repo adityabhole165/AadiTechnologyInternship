@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default axios.create({
-  // baseURL: "http://192.168.1.59:8011/",
+  // baseURL: "http://192.168.1.61:81/",
   // baseURL: "http://localhost:44307/",
   // baseURL: "http://schoolappapi.aaditechnology.com/",
   baseURL: "https://mobileappapi.regulusit.net/",

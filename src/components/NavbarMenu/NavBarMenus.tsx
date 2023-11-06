@@ -13,7 +13,6 @@ function NavBarMenus() {
     const GetNavbarmenu: any = useSelector(
         (state: RootState) => state.NavbarMenu.GetNavbarMenuDetails
     );
-    console.log("GetNavbarmenu",GetNavbarmenu)
 
     const RoleId = sessionStorage.getItem('RoleId');
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -22,6 +21,7 @@ function NavBarMenus() {
     const [searchText, setSearchText] = useState('')
     const [parentMenu, setParentMenu] = useState([])
     const [menuId, setMenuId] = useState(0)
+    const [SelectedMenu, setSelectedMenu] = useState({ MenuId: 0,ParentMenuId:0})
     const [ParentMenuId, setParentMenuId] = useState(0)
 
     const IGetMenuDetailsBody =
@@ -30,12 +30,13 @@ function NavBarMenus() {
         aiUserRoleId :RoleId
     }
     useEffect(() => {
-      if (menuId == 0)
-        setParentMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == menuId }))
+      if (SelectedMenu.MenuId == 0)
+        setParentMenu(GetNavbarmenu.filter((item) => { return item.LevelIndex == 1 }))
+        // setParentMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == SelectedMenu.MenuId }))
       else {
   
         let parentMenu = []
-        let parentMenus = [menuId]
+        let parentMenus = [SelectedMenu.MenuId]
         GetNavbarmenu.map((item) => {
           if (parentMenus.includes(item.MenuId)) {
             if(!parentMenus.includes(item.ParentMenuId))
@@ -63,14 +64,19 @@ function NavBarMenus() {
           }
         })
         setParentMenu(parentMenu)
-        setChildMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == menuId }))
+        setChildMenu(GetNavbarmenu.filter((item) => { return item.ParentMenuId == SelectedMenu.MenuId }))
       }
-    }, [GetNavbarmenu, menuId]);
+    }, [GetNavbarmenu, SelectedMenu]);
 
-    const clickMenu = (MenuId, ParentMenuId) => {
-      // alert(value)1
-      setMenuId(MenuId)
-      setParentMenuId(ParentMenuId)
+    const clickMenu = (value) => {
+
+      console.log(value.FilePath,"FilePath")
+      // if(value.FilePath==""){
+      setSelectedMenu(value)
+    // }else{
+    //   window.open(value.FilePath)
+    // }
+      // setParentMenuId(ParentMenuId)
     }
 
     useEffect(() => {
@@ -105,7 +111,7 @@ function NavBarMenus() {
           <Grid container >
            
             {searchMenu.map((item, index) => (
-              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item) }}>
                 <Card component={Box} padding={1} mt={1}>
                 {item.MenuName}
                 </Card>
@@ -129,7 +135,7 @@ function NavBarMenus() {
             parentMenu.map((item, index) => 
             
             (
-              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item) }}>
                 <Card component={Box} padding={1} mt={1} ml={item.ParentMenuId ? getMargin(index) : 0} >
                 {item.MenuName}
                 </Card>
@@ -147,7 +153,7 @@ function NavBarMenus() {
           :
           <Grid container >
             {childMenu.map((item, index) => (
-              <Grid item xs={12} key={index} onClick={() => { clickMenu(item.MenuId, item.ParentMenuId) }}>
+              <Grid item xs={12} key={index} onClick={() => { clickMenu(item) }}>
                   <Card component={Box} padding={1} mt={1}>
                   {item.MenuName}
                   </Card>

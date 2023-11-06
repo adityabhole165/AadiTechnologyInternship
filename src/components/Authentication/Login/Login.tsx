@@ -65,7 +65,7 @@ const res = localStorage.getItem("auth")
                 dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
                 setShow(false);
             } else {
-            console.log("auth",res)
+            // console.log("auth",res)
                 setSession(JSON.parse(res))
             }
 

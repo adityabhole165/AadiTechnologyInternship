@@ -361,14 +361,14 @@ function Header() {
     dispatch(Stafflogin(Staffkid))
 
   }, [])
-  useEffect(() => {
-    const timer = setInterval(() => {
-      dispatch(getAllActiveNotices(ActiveNoticesBody));
-    }, 6000);
-    return () => {
-      clearInterval(timer);
-    };
-  }, [])
+  // useEffect(() => {
+  //   const timer = setInterval(() => {
+  //     dispatch(getAllActiveNotices(ActiveNoticesBody));
+  //   }, 6000);
+  //   return () => {
+  //     clearInterval(timer);
+  //   };
+  // }, [])
 
   useEffect(() => {
     let AllActiveNoticesId = GetAllActiveNotices.map((item) => {

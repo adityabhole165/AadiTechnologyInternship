@@ -107,10 +107,11 @@ const NewRelease = () => {
 
     return (
         <>
-        {showUpgrade && latestVersionDetails.DeviceType === (window.localStorage.getItem('deviceType') === 'ios' ? 'APPLE' : 'android' ) &&
-            (<><UpgradeApp IsForceUpdate={latestVersionDetails.IsForceUpdate}
-                AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.AppStoreUrl}
-                ReleaseNotes={latestVersionDetails.ReleaseNotes}></UpgradeApp></>)
+        {showUpgrade && latestVersionDetails.GetNewAppVersionDetailsResult.DeviceType.toLowerCase() === 
+        (window.localStorage.getItem('deviceType') === 'ios' ? 'APPLE' : 'android' ).toLowerCase() &&
+            (<><UpgradeApp IsForceUpdate={latestVersionDetails.GetNewAppVersionDetailsResult.IsForceUpdate}
+                AppStoreUrl={window.localStorage.getItem('deviceType') === 'ios' ? iOSAppStoreUrl : latestVersionDetails.GetNewAppVersionDetailsResult.AppStoreUrl}
+                ReleaseNotes={latestVersionDetails.GetNewAppVersionDetailsResult.ReleaseNotes}></UpgradeApp></>)
         }</>
     )
 }
