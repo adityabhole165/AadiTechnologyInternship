@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
-import { GetExamResultList, GetAcademicYears, GetReasonforBlockingProgressReport, Getpendingfees, GetProgressReportFileName, GetProgressReport, AcademicProgressReportDownload, GetTermsForProgressReport } from 'src/requests/Student/ProgressReport';
+import { GetExamResultList, GetAcademicYears, GetReasonforBlockingProgressReport, Getpendingfees, GetProgressReportFileName } from 'src/requests/Student/ProgressReport';
 import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import { styled, Box, List, useTheme, Card, Typography, IconButton } from '@mui/material';
-import IExamResult, { GetStudentExamResult, IGetReasonforBlockingProgressReportResult, IAcademicYearsForProgressReportResult } from 'src/interfaces/Student/ProgressReport';
+import { styled, Box, List, useTheme } from '@mui/material';
+import IExamResult, { GetStudentExamResult, IGetReasonforBlockingProgressReportResult } from 'src/interfaces/Student/ProgressReport';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
@@ -12,27 +12,24 @@ import Accordions3 from 'src/libraries/accordion/accordion3';
 import http from 'src/requests/SchoolService/schoolServices';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import moment from 'moment';
 import Note from 'src/libraries/Note/Note';
-import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport, IProgressReportBody, IAcademicYearsForProgressReportBody, IGetTermsForProgressReportBody } from 'src/interfaces/Student/ProgressReport';
+import { IIsPendingFeesForStudent, IGetAcademicYears, IGetTerms, IGetReasonforBlockingProgressReport } from 'src/interfaces/Student/ProgressReport';
+import Icon1 from 'src/libraries/icon/icon1';
 import Card5 from 'src/libraries/mainCard/Card5';
-import { AllowProgressReportDownloadAtLogin, ShowProgressReportGraphOnMobileApp } from 'src/requests/SchoolSetting/schoolSetting'
+import { sitePath } from '../Common/Util';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
-import { getIsPendingFeesForStudent, getOldstudentDetails } from 'src/requests/Fees/Fees';
-import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
-import { toast } from 'react-toastify';
+
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
 function Progressreport() {
   const note = ['Your school fees are pending. Please pay the dues to view the progress report. '];
   const note2 = ['No exam of this class has been published for the current academic year.'];
-  const note3 = ['On publish, you will see download buttons to download Term 1/2 progress report.'];
-  const note4 = ['Assessment result is not available for this student.']
   const dispatch = useDispatch();
   const theme = useTheme();
   const progressreportResult = useSelector((state: RootState) => state.Progressreport.GetExamResultData);
@@ -41,12 +38,7 @@ function Progressreport() {
   const getreasonbprgrepres: any = useSelector((state: RootState) => state.Progressreport.GetReasonforBlocking);
   const pendingfees: any = useSelector((state: RootState) => state.Progressreport.PendingFees);
   const progressReportFilePath: any = useSelector((state: RootState) => state.Progressreport.ProgressReportFileName);
-  const ProgressReport = useSelector((state: RootState) => state.Progressreport.ProgressReportDownload);
-  const TermsForProgressReport = useSelector((state: RootState) => state.Progressreport.TermsForProgressReportDownload);
-  const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
-  const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
-  const AllowProgressReportDownloadStudentLogin = useSelector((state: RootState) => state.getSchoolSettings.AllowProgressReportDownloadAtStudentLogin);
-  const ShowProgressReportGraphOnMobile = useSelector((state: RootState) => state.getSchoolSettings.ShowProgressReportGraphOnMobileApp);
+
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
@@ -55,36 +47,18 @@ function Progressreport() {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStudentId = sessionStorage.getItem('StudentId');
-  const userLoginId = sessionStorage.getItem("Userlogin")
-  const asAcademicYear = (sessionStorage.getItem('AcademicYearId'));
+  const userLoginId = sessionStorage.getItem("Userlogin") 
   const Reason = getreasonbprgrepres.GetReasonforBlockingProgressReport;
   const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
-  const asDivisionId = sessionStorage.getItem('DivisionId');
-  const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
-  const asStandardId = sessionStorage.getItem('StandardId');
-  const BlockProgressReportIfFeesArePending = SchoolSettingsValue?.BlockProgressReportIfFeesArePending;
-  const OldstudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails)
-  let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
-
-
-  const [year, setYear] = useState(asAcademicYear)
-  const [dropyear, setDropyear] = useState();
-  const [showyear, setShowyear] = useState(false);
-  const [hidePercentNote, setHidePercentNote] = useState(true);
-  const [hideExamNote, setHideExamNote] = useState(true);
-
-
+  const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
 
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
   };
-  const clickDropdown = (value) => {
-    setYear(value)
-  }
 
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
-      asStudentId: OldstudentDetails?.StudentId,
+      asStudentId: asStudentId,
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId
     };
@@ -108,7 +82,7 @@ function Progressreport() {
 
   const GetExamResultList_body: IExamResult = {
     asSchoolId: asSchoolId,
-    asStudentId: OldstudentDetails?.StudentId,
+    asStudentId: asStudentId
   };
 
   const Getpendingfees_body: IIsPendingFeesForStudent = {
@@ -122,43 +96,12 @@ function Progressreport() {
     asAcademicYearId: asAcademicYearId,
     aiStudentId: asStudentId
   };
-  const IOldStudentDetails = {
-    aiSchoolId: asSchoolId,
-    aiAcademicYearId: year,
-    aiStudentId: asStudentId
-  }
-
-  const AcademicYearsForProgressReportBody: IAcademicYearsForProgressReportBody = {
-
-    "aiSchoolId": asSchoolId,
-    "aiStudentId": asStudentId
-
-
-  };
-
-  const TermsForProgressReportBody: IGetTermsForProgressReportBody = {
-    "aiSchoolId": asSchoolId,
-    "aiAcademicYearId": year,
-    "aiStudentId": year < asAcademicYearId ? OldInternalstudent : asStudentId
-
-  };
-  const IsPendingFeesBody: IIsPendingFeesForStudentBody = {
-    asStudentId: asStudentId,
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId
-  };
-
-  const GetSettingValueBody: IGetSettingValueBody = {
-    asSchoolId: parseInt(asSchoolId),
-    aiAcademicYearId: parseInt(asAcademicYearId),
-    asKey: "",
-  };
 
   const downloadProgress = (termId) => {
     const getProgressReportFileName_body: any = {
       asSchoolId: asSchoolId,
       asAcademicYearId: parseInt(`${academicYearId}`),
-      asStudentId:  asStudentId,
+      asStudentId: asStudentId,
       asLoginUserId: userLoginId,
       asTermId: termId
     };
@@ -167,62 +110,33 @@ function Progressreport() {
   };
 
   useEffect(() => {
-    dispatch(AcademicProgressReportDownload(AcademicYearsForProgressReportBody));
-    dispatch(getIsPendingFeesForStudent(IsPendingFeesBody))
-    dispatch(AllowProgressReportDownloadAtLogin(GetSettingValueBody))
-    dispatch(ShowProgressReportGraphOnMobileApp(GetSettingValueBody))
-  }, []);
-
-
-  useEffect(() => {
     localStorage.setItem('url', window.location.pathname);
     dispatch(Getpendingfees(Getpendingfees_body));
     dispatch(GetExamResultList(GetExamResultList_body));
     GetPeendingFeesResult();
     dispatch(GetAcademicYears(GetAcademicYears_body));
-    dispatch(GetReasonforBlockingProgressReport(GetReasonforBlockingProgressReport_body));
-
-
+    dispatch(
+      GetReasonforBlockingProgressReport(
+        GetReasonforBlockingProgressReport_body
+      )
+    );
   }, [academicYearId]);
 
+  const [dropyear, setDropyear] = useState();
+  const [showyear, setShowyear] = useState(false);
+  const [hidePercentNote, setHidePercentNote] = useState(true);
+  const [hideExamNote, setHideExamNote] = useState(true);
+
 
   useEffect(() => {
-    setYear(asAcademicYear)
-  }, [AcademicYearsForProgressReport])
-
-  useEffect(() => {
-    dispatch(getOldstudentDetails(IOldStudentDetails))
-  }, [year]);
-
-  useEffect(() => {
-    dispatch(GetTermsForProgressReport(TermsForProgressReportBody));
-  }, [OldstudentDetails]);
-
-  useEffect(() => {
-    if (ProgressReport !== null){
-      if(ProgressReport?.Message!==""){
-        toast.error(ProgressReport.Message, { toastId: 'error1' });
-      }else
-      if(ProgressReport?.FilePath !== "" ) {
-      window.open(localStorage.getItem('SiteURL') + ProgressReport.FilePath.replace(/\\/g, '/'));
-      // dispatch(resetReciept());
+    if (progressreportResult.length > 0) {
+      if (progressreportResult[0].StudentMarksList.length > 0) {
+        setHidePercentNote((progressreportResult[0].StudentMarksList[0].ShowOnlyGrade.trim() === "true"))
+      }
     }
-  }
-  }, [ProgressReport])
+    setHideExamNote(progressreportResult.length > 0)
 
-
-
-  const ClickDownloadProgrss = (Id) => {
-    const ProgressReportBody: IProgressReportBody = {
-      "aiSchoolId": asSchoolId,
-      "aiAcademicYearId": year,
-      "aiStandardId": asStandardId,
-      "aiStandardDivID": year < asAcademicYearId ? OldstudentDetails.StandardDivisionId : asStandardDivision,
-      "aiStudentId": year < asAcademicYearId ? OldInternalstudent : asStudentId,
-      "aiTermId": Id
-    };
-    dispatch(GetProgressReport(ProgressReportBody));
-  }
+  }, [progressreportResult])
 
   const handledropyear = (e) => {
     setDropyear(e.target.value);
@@ -243,22 +157,16 @@ function Progressreport() {
   `
   );
 
-
-
   const classes = Styles();
-
   return (
     <Container>
       <PageHeader heading={'Progress Report'} subheading={''} />
+
       <Box>
         {
           (pendingfees.IsPendingFeesForStudentResult !== false && BlockProgressReportIfFeesArePending == "Y") ?
-            <>
-              {PendingFeesForStudent !== null &&
 
-                <Note NoteDetail={[PendingFeesForStudent.Message]} />
-
-              }</>
+            <Note NoteDetail={note} />
 
             :
             getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ?
@@ -282,147 +190,96 @@ function Progressreport() {
 
                 </>
                 :
-                !hideExamNote ?
+                !hideExamNote ? 
                   <Note NoteDetail={note2} />
-                  :
-                  <>
-                    <Dropdown Array={AcademicYearsForProgressReport}
-                      handleChange={clickDropdown}
-                      label="Select Year"
-                      defaultValue={year}></Dropdown>
-                      <br></br><br></br>
-
-                    {/* <DotLegend1 sx={{ mt: "10px" }}>
-                      <DotLegendStyled1
-                        className={classes.border}
-                        style={{ background: 'blueviolet' }}
-                      />
-                      <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
-                    </DotLegend1> */}
-                    {hidePercentNote ? null :
-                      <Note NoteDetail={BarGraphNote} />
-                    }
+                :
+                <>
+                  <DotLegend1>
+                    <DotLegendStyled1
+                      className={classes.border}
+                      style={{ background: 'blueviolet' }}
+                    />
+                    <CardDetail7>Denotes subject marks not considered in total marks.</CardDetail7>
+                  </DotLegend1>
+                  {hidePercentNote ? null :
+                    <Note NoteDetail={BarGraphNote} />
+                  }
+                  <Box>
+                    <>
+                      {progressreportResult?.map(
+                        (examresult: GetStudentExamResult, i) => (
+                          <Accordions3
+                            Data={progressreportResult}
+                            Exam={examresult.Exam}
+                            key={i}
+                            index={i}
+                            Collapse={handleChange}
+                            expand={expanded}
+                          />
+                        )
+                      )}
+                    </>
+                  </Box>
+                  {/* remove false condition in 2nd phase of development */}
+                  {false &&
                     <Box>
-                      {ShowProgressReportGraphOnMobile || progressreportResult.length === 0 ?
-
+                      <FormControl
+                        sx={{
+                          marginTop: '50px',
+                          m: 1,
+                          width: '100%',
+                          marginLeft: '1px'
+                        }}
+                      >
+                        {
+                          <NativeSelect onChange={handledropyear}>
+                            <option value="0">
+                              {' '}
+                              Select Academic Year
+                            </option>
+                            {academicyearResult?.map(
+                              (getacademicyr: IGetAcademicYears, i) => {
+                                return (
+                                  <option
+                                    value={getacademicyr.Id}
+                                    key={i}
+                                  >
+                                    {getacademicyr.AcademicYear}
+                                  </option>
+                                );
+                              }
+                            )}
+                          </NativeSelect>
+                        }
+                      </FormControl>
+                      {dropyear !== '0' ? (
                         <>
-                        {progressreportResult.length > 0 ?
-                        <>
-                          {progressreportResult?.map(
-                            (examresult: GetStudentExamResult, i) => (
-                              <Accordions3
-                                Data={progressreportResult}
-                                Exam={examresult.Exam}
-                                key={i}
-                                index={i}
-                                Collapse={handleChange}
-                                expand={expanded}
-                              />
-                            )
-                          )}
-                         </>
-                           :
-                           
-                           <Note NoteDetail={note4} />
-                           
-                           }
-                        </> :
-                        <>
-                        <Note NoteDetail={note3} />
-                          
-                        </>
-
-
-                      }
-                    </Box>
-
-              
-                    {/* remove false condition in 2nd phase of development */}
-                    {false &&
-                      <Box>
-                        <FormControl
-                          sx={{
-                            marginTop: '50px',
-                            m: 1,
-                            width: '100%',
-                            marginLeft: '1px'
-                          }}
-                        >
-                          {
-                            <NativeSelect onChange={handledropyear}>
-                              <option value="0">
-                                {' '}
-                                Select Academic Year
-                              </option>
-                              {academicyearResult?.map(
-                                (getacademicyr: IGetAcademicYears, i) => {
+                          {showyear ? (
+                            <List>
+                              {academictermsResult?.map(
+                                (gettermsres: IGetTerms, i) => {
                                   return (
-                                    <option
-                                      value={getacademicyr.Id}
+                                    <Card5
                                       key={i}
-                                    >
-                                      {getacademicyr.AcademicYear}
-                                    </option>
+                                      text1={gettermsres.TermName}
+                                      text2=""
+                                      clickIcon={() => {
+                                        downloadProgress(gettermsres.Id);
+                                      }}
+                                    />
                                   );
                                 }
                               )}
-                            </NativeSelect>
-                          }
-                        </FormControl>
-                        {dropyear !== '0' ? (
-                          <>
-                            {showyear ? (
-                              <List>
-                                {academictermsResult?.map(
-                                  (gettermsres: IGetTerms, i) => {
-                                    return (
-                                      <Card5
-                                        key={i}
-                                        text1={gettermsres.TermName}
-                                        text2=""
-                                        clickIcon={() => {
-                                          downloadProgress(gettermsres.Id);
-                                        }}
-                                      />
-                                    );
-                                  }
-                                )}
-                              </List>
-                            ) : null}
-                          </>
-                        ) :
-                          null}
-                      </Box>
-                    }
-                    {AllowProgressReportDownloadStudentLogin &&
-                      <>
-                        {
-                          TermsForProgressReport.length === 0 ? <> no record found </> :
-                            <>
-                              {TermsForProgressReport?.map((item, i) => (
-
-                                <Card key={i} sx={{ display: "flex", justifyContent: "space-between" }} component={Box} mt={1}>
-                                  <Typography padding={1}>{item.TermName}</Typography>
-                                  <IconButton onClick={() => ClickDownloadProgrss(item.Id)}>
-                                    <FileDownloadOutlinedIcon />
-                                  </IconButton>
-                                </Card>
-
-                              ))}
-
-                            </>
-
-                        }
-
-                      </>
-
-                    }
-                  </>
+                            </List>
+                          ) : null}
+                        </>
+                      ) :
+                        null}
+                    </Box>
+                  }
+                </>
         }
       </Box>
-
-
-
     </Container>
   );
 }
