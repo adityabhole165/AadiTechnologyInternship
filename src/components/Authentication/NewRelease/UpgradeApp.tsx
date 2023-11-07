@@ -15,7 +15,8 @@ const UpgradeApp = ({ IsForceUpdate = 'True', AppStoreUrl = '', ReleaseNotes = '
             <>
                 <Grid textAlign="center">
                     <a href='http://riteschool.com' target="_blank" rel="noreferrer">
-                        <img src={school2} height={70} />
+                        {/* <img src={school2} height={70} /> */}
+                        <img  src={'/imges/RITLOGO2.png'} height={70} />
                     </a>
                 </Grid>
                 <ListStyle sx={{ textAlign: "center", backgroundColor: "#80cbc4" }} >
