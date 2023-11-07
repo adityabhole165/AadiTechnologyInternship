@@ -19,7 +19,7 @@ const GetExamResultslice = createSlice({
         GetReasonforBlocking: [],
         PendingFees:[],
         ProgressReportFileName:"",
-        ProgressReportDownload:"",
+        ProgressReportDownload:null,
         AcademicYearsForProgressReportDownload:[],
         TermsForProgressReportDownload:[]
       

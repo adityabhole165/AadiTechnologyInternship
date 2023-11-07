@@ -91,8 +91,9 @@ export interface IGetProgressReportFileName{
 }
 
 export interface IGetProgressReportFileNameResult{
-   
-    GetProgressReportFileNameResult : string
+    FilePath: string,
+    Message: string
+    // GetProgressReportFileNameResult : string
 }
 
 export  interface  IProgressReportBody

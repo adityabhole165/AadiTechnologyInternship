@@ -24,6 +24,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import { IIsPendingFeesForStudentBody } from 'src/interfaces/Student/Fees';
 import { getIsPendingFeesForStudent, getOldstudentDetails } from 'src/requests/Fees/Fees';
 import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import { toast } from 'react-toastify';
 const BarGraphNote = [
   'Bar graph shows the percentage scored in each subject and tap on the subject bar to view scored marks.'];
 
@@ -46,7 +47,6 @@ function Progressreport() {
   const AcademicYearsForProgressReport = useSelector((state: RootState) => state.Progressreport.AcademicYearsForProgressReportDownload);
   const AllowProgressReportDownloadStudentLogin = useSelector((state: RootState) => state.getSchoolSettings.AllowProgressReportDownloadAtStudentLogin);
   const ShowProgressReportGraphOnMobile = useSelector((state: RootState) => state.getSchoolSettings.ShowProgressReportGraphOnMobileApp);
-
   const filePath = progressReportFilePath.replace(/\\/g, '/');
   let downloadPathOfProgressReport = localStorage.getItem('SiteURL') + filePath;
   const [expanded, setExpanded] = useState<boolean>(true);
@@ -62,7 +62,7 @@ function Progressreport() {
   const asDivisionId = sessionStorage.getItem('DivisionId');
   const asStandardDivision = (sessionStorage.getItem('StandardDivisionId'));
   const asStandardId = sessionStorage.getItem('StandardId');
-  const BlockProgressReportIfFeesArePending = SchoolSettingsValue.BlockProgressReportIfFeesArePending;
+  const BlockProgressReportIfFeesArePending = SchoolSettingsValue?.BlockProgressReportIfFeesArePending;
   const OldstudentDetails: any = useSelector((state: RootState) => state.Fees.GetOldStudentDetails)
   let OldInternalstudent = OldstudentDetails == null ? 0 : OldstudentDetails.StudentId
 
@@ -84,7 +84,7 @@ function Progressreport() {
 
   const GetPeendingFeesResult = () => {
     const GetPendingFeesForStudentResult_body: IIsPendingFeesForStudent = {
-      asStudentId: asStudentId,
+      asStudentId: OldstudentDetails?.StudentId,
       asAcademicYearId: asAcademicYearId,
       asSchoolId: asSchoolId
     };
@@ -108,7 +108,7 @@ function Progressreport() {
 
   const GetExamResultList_body: IExamResult = {
     asSchoolId: asSchoolId,
-    asStudentId: asStudentId
+    asStudentId: OldstudentDetails?.StudentId,
   };
 
   const Getpendingfees_body: IIsPendingFeesForStudent = {
@@ -158,7 +158,7 @@ function Progressreport() {
     const getProgressReportFileName_body: any = {
       asSchoolId: asSchoolId,
       asAcademicYearId: parseInt(`${academicYearId}`),
-      asStudentId: asStudentId,
+      asStudentId:  asStudentId,
       asLoginUserId: userLoginId,
       asTermId: termId
     };
@@ -199,11 +199,15 @@ function Progressreport() {
   }, [OldstudentDetails]);
 
   useEffect(() => {
-
-    if (ProgressReport !== "") {
-      window.open(localStorage.getItem('SiteURL') + ProgressReport.replace(/\\/g, '/'));
+    if (ProgressReport !== null){
+      if(ProgressReport?.Message!==""){
+        toast.error(ProgressReport.Message, { toastId: 'error1' });
+      }else
+      if(ProgressReport?.FilePath !== "" ) {
+      window.open(localStorage.getItem('SiteURL') + ProgressReport.FilePath.replace(/\\/g, '/'));
       // dispatch(resetReciept());
     }
+  }
   }, [ProgressReport])
 
 
@@ -211,10 +215,10 @@ function Progressreport() {
   const ClickDownloadProgrss = (Id) => {
     const ProgressReportBody: IProgressReportBody = {
       "aiSchoolId": asSchoolId,
-      "aiAcademicYearId": asAcademicYearId,
+      "aiAcademicYearId": year,
       "aiStandardId": asStandardId,
-      "aiStandardDivID": asStandardDivision,
-      "aiStudentId": asStudentId,
+      "aiStandardDivID": year < asAcademicYearId ? OldstudentDetails.StandardDivisionId : asStandardDivision,
+      "aiStudentId": year < asAcademicYearId ? OldInternalstudent : asStudentId,
       "aiTermId": Id
     };
     dispatch(GetProgressReport(ProgressReportBody));
