@@ -131,6 +131,13 @@ export const getDateMonthYearFormatted = (date) => {
 
     return `${arrDate[0]} ${monthNames[parseInt(arrDate[1])-1]} ${arrDate[2]}`;
 }
+export const getMonthYearFormatted = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Month}-${Year}`;
+}
 
 export const getNextDate = (date, prevNext) => {
     var nextDate = new Date(date);

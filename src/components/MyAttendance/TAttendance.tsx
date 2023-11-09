@@ -20,6 +20,7 @@ import { Calender1 } from '../Attendance/Calender';
 import Calendar from 'react-calendar';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import AttandaceHalf from './AttendanceHalf';
+import AttendanceCalendar from './AttendanceCalendar';
 
 const TAttendance = () => {
    
@@ -247,6 +248,9 @@ const TAttendance = () => {
            dispatch(GetStudentList(GetStudentDetails));
            setAssignedDate(value)
     }
+    const ClickDate = (value) => {
+        setAssignedDate(value)
+    }
 
     return (
         <Container maxWidth={'xl'}>
@@ -291,12 +295,12 @@ const TAttendance = () => {
                 </Box>
             </Box>
                 </Grid>
-                <Hidden mdDown>
+                {/* <Hidden mdDown> */}
                 <Grid item md={6} >
-                <AttandaceHalf ItemList={ItemList1} ClickItemList={ClickItemList}/>
-
+                {/* <AttandaceHalf ItemList={ItemList1} ClickItemList={ClickItemList}/> */}
+                <AttendanceCalendar DefaultDate={assignedDate} ClickDate={ClickDate}/>
                 </Grid>
-                </Hidden>
+                {/* </Hidden> */}
               
             </Grid>
       
