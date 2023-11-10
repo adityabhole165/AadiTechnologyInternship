@@ -10,7 +10,7 @@ const FeesCard = ({ item }) => {
             <BoxDetail>
                 <BoxDetail2>{item.Text1}</BoxDetail2>
                 <Typography>{item.Text2}<b>{item.Text3}</b></Typography>
-                {todaysDate > dueDate ? <BoxDetail1 color="red" >{item.Text4}</BoxDetail1>: 
+                {(new Date(todaysDate)) > (new Date(dueDate)) ? <BoxDetail1 color="red" >{item.Text4}</BoxDetail1>: 
                  <BoxDetail1>{item.Text4}</BoxDetail1>
                  } 
             </BoxDetail>
