@@ -93,6 +93,18 @@ export const getDateFormatWithSpaceAndMonthInString = (date) => {
     return `${date[0]} ${date[1]} ${date[2]}`
 }
 
+export const getDateFormatFeedback = (date) => {
+    date = String(date || new Date());
+    date = date.split(" ")[0]
+    date = date.split("/")
+
+    const month = new Date();
+    month.setMonth(date[1] - 1);
+    date[1] = month.toLocaleString('en-US', { month: 'short' });
+
+    return `${date[0]} ${date[1]} ${date[2]}`
+}
+
 export const getDateFormat = (date) => {
     date = date || new Date();
     const Day = new Date(date).getDate();
@@ -147,6 +159,12 @@ export const getNextDate = (date, prevNext) => {
     return getDateFormatted(nextDate)
 }
 
+export const getDateFromatDateTime = (date) => {
+    date = String(date || new Date());
+    date = date.split(" ")[0]
+    date = date.split("-")
+    return date[0]
+}
 export const CheckFileValidationUploadPic = (fileData, allowedFileTypes, fileSize) => {
     const fileExtension = fileData.name.split('.').at(-1);
     if (fileExtension != undefined || null) {
