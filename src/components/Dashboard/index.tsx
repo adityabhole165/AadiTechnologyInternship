@@ -293,7 +293,8 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     });
     items3 = DashboardData.Teacher.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) &&
+        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : 
+          el.ScreenPermission) &&
           (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
