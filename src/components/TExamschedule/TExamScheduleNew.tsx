@@ -120,9 +120,10 @@ const TExamScheduleNew = () => {
   const getTime = (startTime, endTime) => {
     const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
     let adjustedStartHours = parseInt(startHours, 10);
-
+console.log(adjustedStartHours,"adjustedStartHours")
     const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
     let adjustedEndHours = parseInt(endHours, 10);
+    console.log(adjustedEndHours,"adjustedEndHours")
 
     const startDate = new Date();
     startDate.setHours(adjustedStartHours);
@@ -131,13 +132,19 @@ const TExamScheduleNew = () => {
     const endDate = new Date();
     endDate.setHours(adjustedEndHours);
     endDate.setMinutes(parseInt(endMinutes, 10));
+    const startTime1 = new Date(startDate).getTime();
+        const endTime1 = new Date(endDate).getTime();
 
+    const timeDifference = Math.abs(endTime1 - startTime1);
+    const hours1 = Math.floor(timeDifference / (1000 * 60 * 60));
+    const minutes2 = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+console.log(hours1,"hours1",minutes2)
     const diffInMs = Number(endDate) - Number(startDate);
     const hours = Math.floor(diffInMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
     const TotalMin = minutes !== 0 ? minutes + "min" : ""
     const TotalHour = hours !== 0 ? hours + "hr" : ""
-    return TotalHour + " " + TotalMin
+    return hours1 + " hrs " + minutes2 + " mins"
   }
   
   return (
