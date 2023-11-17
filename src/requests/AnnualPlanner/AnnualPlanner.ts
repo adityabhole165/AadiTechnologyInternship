@@ -68,7 +68,7 @@ export const getEventList =
                     text2:'',
                     text3:item.EventComment,
                     backgroundColor: item.TypeId === 1 ? "green2" : item.TypeId === 2 ? "green1" :"pink2",
-                    linkPath:  item.TypeId === 1 && '/Common/viewevent/' + item.Id ,
+                    linkPath:  item.TypeId === 1 ? '/Common/viewevent/' + item.Id: undefined ,
                     Textcolor: item.TypeId === 1 ? "#42a5f5" : item.TypeId === 2 ? "" :"",
                 }
             })

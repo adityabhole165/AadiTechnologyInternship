@@ -7,7 +7,7 @@ import { Styles } from 'src/assets/style/student-style';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import Card5Fees from "./Card5Fees";
-import { getReceiptFileNames, resetReciept ,GetInternalFeeReceipt} from "src/requests/Fees/Fees";
+import { getReceiptFileNames, resetReciept ,GetInternalFeeReceipt, resetInternalReciept} from "src/requests/Fees/Fees";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "src/store";
 import {IGetInternalFeeReceiptBody}  from 'src/interfaces/Student/Fees';
@@ -36,6 +36,7 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
       asSerialNo: '0',
       asLoginUserId: userLoginId
     };
+    dispatch(getReceiptFileNames(ReceiptFileNamebody))
   };
 
  
@@ -57,10 +58,18 @@ const Card38 = ({ FeesType, Fee, FeesObject, expanded, handleChange, internalFee
 
       if (InternalFeeReceipt !== "") {
         window.open(localStorage.getItem('SiteURL') + InternalFeeReceipt.replace(/\\/g, '/'));
-        dispatch(resetReciept());
+        dispatch(resetInternalReciept());
       }
     }, [InternalFeeReceipt])
 
+    useEffect(() => {
+
+      if (receiptFileName !== "") {
+        window.open(localStorage.getItem('SiteURL') + receiptFileName.replace(/\\/g, '/'));
+        dispatch(resetReciept());
+      }
+    }, [receiptFileName])
+    
   return (
     <>
       <Accordion

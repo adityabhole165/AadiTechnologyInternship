@@ -51,7 +51,7 @@ const Feesslice = createSlice({
     },
 
     resetReciept(state) {
-      state.InternalFeeReceipt = ""
+      state.ReceiptFileName = ""
     },
     getAllAcademicYears(state, action) {
       state.YearList = action.payload;
