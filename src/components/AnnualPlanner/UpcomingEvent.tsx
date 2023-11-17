@@ -167,7 +167,8 @@ function UpcomingEvent() {
   return (
     <Container>
       <PageHeader heading={'Annual Planner'} subheading={''} />
-      <Typography sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>Annual Planner</Typography>
+      <Typography component="span" sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>Annual Planner</Typography>
+      <br/>
       <FormGroup sx={{ display: "inline" }}>
         <FormControlLabel control={<Checkbox checked={event} onChange={(e) => setEvent(e.target.checked)} sx={{
           color: '#757575',
