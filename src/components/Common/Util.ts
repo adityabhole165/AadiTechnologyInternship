@@ -82,13 +82,13 @@ export const getDateFormatted = (date) => {
 }
 
 export const getDateFormatWithSpaceAndMonthInString = (date) => {
-    date = String(date || new Date());
-    date = date.split(" ")[0]
-    date = date.split("-")
+    // date = String(date || new Date());
+    // date = date.split(" ")[0]
+    // date = date.split("-")
 
-    const month = new Date();
-    month.setMonth(date[1] - 1);
-    date[1] = month.toLocaleString('en-US', { month: 'short' });
+    // const month = new Date();
+    // month.setMonth(date[1] - 1);
+    // date[1] = month.toLocaleString('en-US', { month: 'short' });
 
     // return `${date[0]} ${date[1]} ${date[2]}`
     return getDateFormatFeedback(date)
