@@ -34,19 +34,20 @@ import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
 import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
 
 function SelectSchool() {
-// Test
+    // Test
 
     const styleroot = Styles();
     const classes = Styles();
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    
+
     const styles = { paperContainer: { backgroundColor: "white" }, };
     const SchoolName = localStorage.getItem('SchoolName')
-    const img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    const [img_src,setimg_src] = useState(""); 
+    
     const schoolId = localStorage.getItem('localSchoolId')
     const values = { username: "", password: "", showPassword: false };
-    
+
     let schoolSettingAPIBody: ISchoolSettings = null;
 
     const [formValues, setFormValues] = useState(values);
@@ -56,8 +57,7 @@ function SelectSchool() {
 
     const schoolListData = useSelector((state: RootState) => state.SchoolList.SchoolList);
     const schoolSettingList = useSelector((state: RootState) => state.SchoolSettings.SchoolSettings);
-const res = localStorage.getItem("auth")
-            console.log("auth",res)
+    const res = localStorage.getItem("auth")
     useEffect(() => {
         if ((schoolId != null && schoolId != undefined)) {
             localStorage.setItem("SchoolSettingsValue", JSON.stringify(schoolSettingList));
@@ -66,7 +66,7 @@ const res = localStorage.getItem("auth")
                 dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }))
                 setShow(false);
             } else {
-            // console.log("auth",res)
+                // console.log("auth",res)
                 setSession(JSON.parse(res))
             }
 
@@ -79,6 +79,8 @@ const res = localStorage.getItem("auth")
             "asSchoolId": "Default"
         }
         dispatch(getSchoolList(ListData))
+        //Logo is set during localstorage setting. On refresh its again displayed through here
+        setimg_src(logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png");
     }, [])
     // end select School
 
@@ -90,6 +92,7 @@ const res = localStorage.getItem("auth")
             localStorage.setItem("SchoolName", value.SchoolName);
             localStorage.setItem("SiteURL", value.SiteURL);
             localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
+            setimg_src(logoURL + value.TermsSchoolName?.split(' ').join('%20') + "_logo.png");
         }
     }, [value])
 
