@@ -110,12 +110,11 @@ export const getDateFormatFeedbackTime = (date) => {
     let time = date.split(" ")[1] + ' ' +  date.split(" ")[2]
     date = date.split(" ")[0]
     date = date.split("/")
-
     const month = new Date();
-    month.setMonth(date[1] - 1);
-    date[1] = month.toLocaleString('en-US', { month: 'short' });
+    month.setMonth(date[0] - 1);
+    date[0] = month.toLocaleString('en-US', { month: 'short' });
 
-    return `${date[0]} ${date[1]} ${date[2]} ${time}`
+    return `${date[1]} ${date[0]} ${date[2]} ${time}`
 }
 
 export const getDateFormat = (date) => {
