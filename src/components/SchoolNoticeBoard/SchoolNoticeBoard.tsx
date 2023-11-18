@@ -5,54 +5,52 @@ import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IGetNoticeBoardDetailsBody } from "src/interfaces/Student/ISchoolNoticeBoard";
 import { getSchoolNoticeBoard } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
-import { NoteStyle } from 'src/libraries/styled/NoteStyle';
-import { CardDetail2 } from 'src/libraries/styled/CardStyle';
-import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
-import { makeStyles } from '@mui/styles';
+import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
+import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
+
 import Marquee from "react-fast-marquee";
-// const useStyles = makeStyles((theme) => ({
-//   scrollingText: {
-
-//     width:"1000px",
-//     animation: `$scroll 15s linear  infinite`,
-
-//     animationDuration:"15s"
-
-
-//   },
-//   '@keyframes scroll': {
-//     '0%': { transform: 'translateX(100%)' },
-//     '100%': { transform: 'translateX(-100%)' },
-//   },
-
-// }));
+import { useNavigate } from 'react-router';
 function SchoolNoticeBoard() {
-  // const classes = useStyles();
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
-  const GetNoticeBoardList = useSelector(
-    (state: RootState) => state.SchoolNoticeBoard.SchoolNoticeBoard
-  );
+  
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserRoleId = sessionStorage.getItem('RoleId');
+  const asUserId = sessionStorage.getItem('Id');
 
-
+  const GetAllActiveNotices = useSelector((state: RootState) => state.SchoolNoticeBoard.AllActiveNotices);
+  const GetNoticeBoardList = useSelector((state: RootState) => state.SchoolNoticeBoard.SchoolNoticeBoard);
 
   const NoticeBoardbody: IGetNoticeBoardDetailsBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId,
     aiUserRoleId: asUserRoleId
   };
+  const ActiveNoticesBody: IGetAllActiveNoticesBody = {
+    asSchoolId: asSchoolId,
+    asUserId: asUserId
+  };
 
   useEffect(() => {
     dispatch(getSchoolNoticeBoard(NoticeBoardbody));
+    dispatch(getAllActiveNotices(ActiveNoticesBody));
   }, []);
 
+  useEffect(() => {
+    let AllActiveNoticesId = GetAllActiveNotices.map((item) => {
+      return item.Id
+    })
+    if (AllActiveNoticesId.length > 0) {
+      if ((localStorage.getItem("AllActiveNotices") !== AllActiveNoticesId.toString())) {
+        localStorage.setItem("AllActiveNotices", AllActiveNoticesId.toString())
+        navigate('/extended-sidebar/Common/SchoolNotice');
+      }
+    }
 
-
-  const marqueeContent = GetNoticeBoardList.map(item => item.Message).join("   🔶  ").toString();
+  }, [GetAllActiveNotices])
 
   return (
     <Container>
@@ -60,13 +58,13 @@ function SchoolNoticeBoard() {
         <Marquee delay={1}>
           {/* {GetNoticeBoardList.length !==0 && <>  🔶  </> }   */}
           {GetNoticeBoardList.map((item, i) => (
-          <div key={i}>
-            <Box sx={{display:"flex"}}>
-              <Typography sx={{ml:"10px"}}> 🔶</Typography>
-            <Typography sx={{ml:"10px"}}>{item.Message}</Typography>
-            </Box>
-             
-          </div>
+            <div key={i}>
+              <Box sx={{ display: "flex" }}>
+                <Typography sx={{ ml: "10px" }}> 🔶</Typography>
+                <Typography sx={{ ml: "10px" }}>{item.Message}</Typography>
+              </Box>
+
+            </div>
           ))}
         </Marquee>
       </Card>
