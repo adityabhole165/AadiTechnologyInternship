@@ -31,6 +31,7 @@ import { Browser } from '@capacitor/browser';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { getAcademicYearsforFeeChallan } from 'src/requests/Fees/Fees'
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const note = [
   '1) Caution Money paid by Cheque on date 14 Dec 2017. Cheque Details (Date: 14 Dec 2017, Number: 0099998, Bank Name: ICICI BANK), Receipt No. : 30057.',
@@ -64,6 +65,7 @@ function Fees() {
 
 
   const FeesList = useSelector((state: RootState) => state.Fees.FeesData);
+  const Loading = useSelector((state: RootState) => state.Fees.Loading);
   const FeesList2: any = useSelector((state: RootState) => state.Fees.FeesData2);
   const PendingFeesForStudent = useSelector((state: RootState) => state.Fees.IsPendingFeesForStudent);
   
@@ -488,7 +490,11 @@ function Fees() {
         </CardDetail1>
       </ListStyle>
       <Typography sx={{textAlign:"center"}} my={1}> <b>{ConsessionNote}</b></Typography>
-      <Card27 FeesType={'Paid Fees'} Fee={FeesList}
+      
+    {Loading ? (
+        <SuspenseLoader />
+      ) : (<>
+        <Card27 FeesType={'Paid Fees'} Fee={FeesList}
         Heading={Feedata} Note={Note2} currentYear={currentYear}
         IsForCurrentyear={IsOldAcademicYearPayment}
         OldYearwiseStudentId={FeesList2.OldYearwiseStudentId}
@@ -500,9 +506,12 @@ function Fees() {
         OldInternalstudent={OldInternalstudent} IsPending={FeesList2.PendingFeeAcademicYears}
         RestrictNewPayment={RestrictNewPayment}
       />
+      
       {FeesList2.IsRTEstudent == true && <Note NoteDetail={note1} />}
       
       <PayCautionMoney ShowCaution={showCaution} IspaidCautionMoney={FeesList2.IsCautionMoneyPaid} note={note} clickCaution={clickCaution} IsOnlinePaymetCautionMoney={IsOnlinePaymetCautionMoney} />
+      
+      </>)}
       {(Object.keys(FeesList2).length > 0 && FeesList2.PaymentNotes !== undefined) &&
         (<NoteStyle>
           <b>Note :</b>

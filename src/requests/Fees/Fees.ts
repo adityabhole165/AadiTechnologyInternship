@@ -27,8 +27,8 @@ const Feesslice = createSlice({
     AllFeeTypesForChallanImport:[],
     AllPayableforChallan:[],
     FileNameForSNSChallan:"",
-    IsPendingFeesForStudent:null
-
+    IsPendingFeesForStudent:null,
+    Loading: false,
   },
 
 
@@ -37,8 +37,12 @@ const Feesslice = createSlice({
     getFees(state, action) {
       state.FeesData = action.payload.GetFeeDetailsResult.FeeDetails;
       state.FeesData2 = action.payload.GetFeeDetailsResult;
+      state.Loading = false;
     },
 
+    getLoading(state, action) {
+      state.Loading = action.payload
+    },
     payOnline(state, action) {
       state.paymentUrl = action.payload.GetSingleSignOnPageEncryptedURLResult
     },
@@ -65,6 +69,7 @@ const Feesslice = createSlice({
       state.FeesData = action.payload.FeeDetails;
       //console.log(state.FeesData)
       state.FeesData2 = action.payload;
+      state.Loading = false;
 
     },
     getNextYearDetails(state, action) {
@@ -126,6 +131,8 @@ const Feesslice = createSlice({
 export const getFees =
   (data: IFees): AppThunk =>
     async (dispatch) => {
+      dispatch(Feesslice.actions.getLoading(true));
+
       const response = await FeesApi.GetFeesList(data);
       dispatch(Feesslice.actions.getFees(response.data));
     };
@@ -193,6 +200,7 @@ export const getInternalFeeDetails =
   (data: IGetInternalFeeDetailsBody): AppThunk =>
     async (dispatch) => {
       // dispatch(Feesslice.actions.getLoading(true));
+      dispatch(Feesslice.actions.getLoading(true));
       const response = await FeesApi.InternalFeeDetails(data);
       const getPayableFees = () => {
         let amount = 0;
