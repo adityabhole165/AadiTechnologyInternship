@@ -119,11 +119,9 @@ const TExamScheduleNew = () => {
 
   const getTime = (startTime, endTime) => {
     const [startHours, startMinutes, startPeriod] = startTime.split(/:|\s/);
-    let adjustedStartHours = parseInt(startHours, 10);
-console.log(adjustedStartHours,"adjustedStartHours")
+    let adjustedStartHours = parseInt(startHours, 10) + (startPeriod == "PM" ? 12 : 0);
     const [endHours, endMinutes, endPeriod] = endTime.split(/:|\s/);
-    let adjustedEndHours = parseInt(endHours, 10);
-    console.log(adjustedEndHours,"adjustedEndHours")
+    let adjustedEndHours = parseInt(endHours, 10) + (endPeriod == "PM" ? 12 : 0);
 
     const startDate = new Date();
     startDate.setHours(adjustedStartHours);
@@ -133,20 +131,17 @@ console.log(adjustedStartHours,"adjustedStartHours")
     endDate.setHours(adjustedEndHours);
     endDate.setMinutes(parseInt(endMinutes, 10));
     const startTime1 = new Date(startDate).getTime();
-        const endTime1 = new Date(endDate).getTime();
+    const endTime1 = new Date(endDate).getTime();
 
     const timeDifference = Math.abs(endTime1 - startTime1);
     const hours1 = Math.floor(timeDifference / (1000 * 60 * 60));
     const minutes2 = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
-console.log(hours1,"hours1",minutes2)
     const diffInMs = Number(endDate) - Number(startDate);
     const hours = Math.floor(diffInMs / (1000 * 60 * 60));
     const minutes = Math.floor((diffInMs % (1000 * 60 * 60)) / (1000 * 60));
-    const TotalMin = minutes !== 0 ? minutes + "min" : ""
-    const TotalHour = hours !== 0 ? hours + "hr" : ""
     return hours1 + " hrs " + minutes2 + " mins"
   }
-  
+
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
@@ -196,8 +191,8 @@ console.log(hours1,"hours1",minutes2)
 
               /> */}
                 <CardExamSchedule header={item.header} text2={item.text3}
-                  text3={item.text2} text5={item.text5} 
-                  text6={getTime(item.startTime,item.endTime)} />
+                  text3={item.text2} text5={item.text5}
+                  text6={getTime(item.startTime, item.endTime)} />
               </div>
             );
           })}
