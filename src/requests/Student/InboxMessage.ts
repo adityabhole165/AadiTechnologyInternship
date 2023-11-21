@@ -4,7 +4,7 @@ import { AppThunk } from 'src/store';
 import SentMessageApi from 'src/api/Student/SentMessage';
 import { IgetList, IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
-import { getDateFormatFeedbackTime, getDateMonthFormat, getDateMonthFormatted, getDateMonthYearFormatted, isFutureDateTime } from 'src/components/Common/Util';
+import { getDateFormatDraftTime, getDateFormatFeedbackTime, getDateMonthFormat, getDateMonthFormatted, getDateMonthYearFormatted, isFutureDateTime } from 'src/components/Common/Util';
 import DraftMessageApi from 'src/api/MessageCenter/ApiDraftMessage';
 
 const InboxMessageSlice = createSlice({
@@ -147,7 +147,7 @@ export const getListOfMessages =
             Id: item.Id,
             text1: item.Subject,
             text2 :item.DisplayText,
-            text3: getDateFormatFeedbackTime(item.DraftDate),
+            text3: getDateFormatDraftTime(item.DraftDate),
             NavPath: item.Id + '/Draft',
             isActive: false, 
             DetailsId: item.Id,

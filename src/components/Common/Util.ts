@@ -117,6 +117,20 @@ export const getDateFormatFeedbackTime = (date) => {
     return `${date[1]} ${date[0]} ${date[2]} ${time}`
 }
 
+export const getDateFormatDraftTime = (date) => {
+    date = String(date || new Date());
+    let time = date.split(" ")[1] 
+    time = time.split(":")[0] + ":"+time.split(":")[1] 
+    time =  time + ' ' +  date.split(" ")[2]
+    date = date.split(" ")[0]
+    date = date.split("/")
+    const month = new Date();
+    month.setMonth(date[0] - 1);
+    date[0] = month.toLocaleString('en-US', { month: 'short' });
+
+    return `${date[1]} ${date[0]} ${time}`
+}
+
 export const getDateFormat = (date) => {
     date = date || new Date();
     const Day = new Date(date).getDate();
