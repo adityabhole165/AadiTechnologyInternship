@@ -79,7 +79,10 @@ function IncomeTaxReport() {
     
       }, [IncomeTaxReport])
 
-    
+    useEffect(()=>{
+        if(FinancialYearList.length>0)
+        setFinancialYear(FinancialYearList[0].Value)
+    },[FinancialYearList])
 
     useEffect(() => {
         dispatch(getAllAcademicYears(body1));
@@ -120,7 +123,7 @@ console.log("acadamicYear",acadamicYear);
     };
 
 
-    const clickFinacialYear = (value) => {
+    const clickFinacialYear = (value) => {alert(value)
         setFinancialYear(value);
         setAcadamicYear("0")
     };
