@@ -123,7 +123,7 @@ console.log("acadamicYear",acadamicYear);
     };
 
 
-    const clickFinacialYear = (value) => {alert(value)
+    const clickFinacialYear = (value) => {
         setFinancialYear(value);
         setAcadamicYear("0")
     };
