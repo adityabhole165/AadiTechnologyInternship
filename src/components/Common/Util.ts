@@ -296,6 +296,9 @@ export const toolbarOptions = {
     },
 };
 
+export const getImgSrcForBinary = (fileBase64, FileExtension) =>{
+    return "data:image/" + FileExtension + ";base64," + fileBase64
+}
 export const sitePath = localStorage.getItem('SiteURL');
 export const logoURL = "https://riteschoolmobileservicehttps.riteschool.com/images/";
 export const androidCurrentAppVersion = "2.1.1";
