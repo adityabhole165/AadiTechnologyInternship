@@ -97,7 +97,7 @@ export const getDateFormatWithSpaceAndMonthInString = (date) => {
 export const getDateFormatFeedback = (date) => {
     date = String(date || new Date());
     date = date.split(" ")[0]
-    date = date.split("/")
+    date = date.split("-")
 
     const month = new Date();
     month.setMonth(date[0] - 1);
@@ -120,10 +120,10 @@ export const getDateFormatFeedbackTime = (date) => {
 export const getDateFormatDraftTime = (date) => {
     date = String(date || new Date());
     let time = date.split(" ")[1] 
-    time = time.split(":")[0] + ":"+time.split(":")[1] 
-    time =  time + ' ' +  date.split(" ")[2]
+    time = time.split(":")[0] + ":" + time.split(":")[1] 
+    time =  time + ':' +  date.split(":")[2]
     date = date.split(" ")[0]
-    date = date.split("/")
+    date = date.split("-")
     const month = new Date();
     month.setMonth(date[0] - 1);
     date[0] = month.toLocaleString('en-US', { month: 'short' });
