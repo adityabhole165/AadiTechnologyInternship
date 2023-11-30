@@ -18,6 +18,17 @@ export function getMonthYear() {
     const NewDateFormat = `${Month}-${Year}`;
 
 }
+export const getAttendanceLegend = (Status) => {
+    //return Status=="Y"?"green":Status=="B"?"blue":"orange"
+    return Status == "Y" ? "mediumturquoise" : Status == "B" ? "lightcoral" : Status == "D" ? "lightsalmon " : Status == "L" ? "Skyblue" : Status == "X" ? "plum" : Status == "N" ? "tomato" : "salmon"
+}
+export const getDateMonthYearFormattedDash = (date) => {
+    let arrDate = date.split(' ')[0].split('-')
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+    return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
+}
 export function compareStringWithoutSpace (value1, value2){
     if (value1.replace(/ /g, '') === value2.replace(/ /g, ''))
         return true

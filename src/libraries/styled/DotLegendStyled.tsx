@@ -24,6 +24,31 @@ export const DotLegendStyled = styled(Box)(
         }
     `
 );
+export const DotLegendStyledTeacher = styled(Box)(
+    ({ theme, color }) => `
+        border-radius: 22px;
+        width: ${theme.spacing(1.5)};
+        height: ${theme.spacing(1.5)};
+        @media (min-width: 280px) and (max-width: 320px)  {
+          width: ${theme.spacing(1)};
+          height: ${theme.spacing(1)};
+        };
+        display: inline-block;
+        margin-right: ${theme.spacing(1)};
+        margin-top: -${theme.spacing(0.1)};
+        border: 1px #303030   solid;
+        
+        background: ${color === 'primary' ? theme.colors.gradients.orange2 :
+            color === 'secondary' ? theme.colors.gradients.green1 :
+            color === 'warning' ? theme.colors.gradients.green2 :
+            color === 'info' ? theme.colors.gradients.blue5 :
+            color === 'success' ? theme.colors.gradients.pink1 :
+            color === 'error' ? theme.colors.gradients.navy2 :
+                    theme.colors.gradients.orange1
+        }
+    `
+);
+
 export const DotLegendStyled1= styled(Box)(
     ({ theme, color }) => `
         border-radius: 22px;

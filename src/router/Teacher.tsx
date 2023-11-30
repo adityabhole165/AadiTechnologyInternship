@@ -18,6 +18,7 @@ const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetab
 const MissingAttandence = Loader(lazy(() => import('src/components/TAttendance/MissingAttandence')))
 const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
 const  SchoolAttendanceOverview= Loader(lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview')))
+const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAttendance/IndividualAttendance')))
 
 const teacherRoutes = [
     {
@@ -53,6 +54,11 @@ const teacherRoutes = [
       path: 'SchoolAttendanceOverview',
       element: <SchoolAttendanceOverview/>
     },
+    {
+      path: 'IndidualAttendance',
+      element: <IndidualAttendance/>
+    },
+
     ];
   
   export default teacherRoutes;
