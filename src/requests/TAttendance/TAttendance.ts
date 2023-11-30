@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAttendance";
-import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance,IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
+import { getDateFromatDateTime } from 'src/components/Common/Util';
+import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody, } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
 const TAttendanceSlice = createSlice({
-
     name: 'TAttendance',
-
     initialState: {
         StandardDivisionAttendance: [],
         AttendanceData: [],
@@ -18,9 +17,9 @@ const TAttendanceSlice = createSlice({
         stdlist: [],
         StudentAttendanceData: [],
         StudentAbsent: '',
-        SaveResponse:'',
+        SaveResponse: '',
         AYStatus: '',
-        ISGetSummaryCountforAttendanceBody:[],
+        ISGetSummaryCountforAttendance: [],
     },
 
     reducers: {
@@ -73,33 +72,27 @@ const TAttendanceSlice = createSlice({
         getSaveResponse(state, action) {
             state.SaveResponse = action.payload
         },
-        getAYStatus(state, action){
+        getAYStatus(state, action) {
             state.AYStatus = action.payload
         },
 
-        RGetSummaryCountforAttendance(state, action){
-            state.ISGetSummaryCountforAttendanceBody = action.payload
+        RGetSummaryCountforAttendance(state, action) {
+            state.ISGetSummaryCountforAttendance = action.payload.GetSummaryCountforAttendance
+        
         }
     }
 });
-
-
 
 export const setSaveResponse = (): AppThunk =>
     async (dispatch) => {
         dispatch(TAttendanceSlice.actions.getSaveResponse(''));
     };
-
-
 export const getAttendanceDataList =
     (data: AttendanceData): AppThunk =>
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetAttendanceData(data);
             dispatch(TAttendanceSlice.actions.getTAttendanceList(response.data));
         };
-
-
-
 export const getAttendanceStudentList =
     (data: AttendanceData): AppThunk =>
         async (dispatch) => {
@@ -153,19 +146,19 @@ export const GetStudentList =
                 const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
                 response2.data?.map((item, i) => {
                     message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg
-                    forInvalidAY = item.AcademicYearMsg === '' ? '':'none'
+                    forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none'
                 })
             }
-            if(message =='There are no students in the class.'){
+            if (message == 'There are no students in the class.') {
                 forInvalidAY = 'none';
             }
-            else if(message =='Attendance date should be within the current academic year'){
+            else if (message == 'Attendance date should be within the current academic year') {
                 forInvalidAY = 'none';
             }
-            else{
+            else {
                 forInvalidAY = '';
             }
-            
+
             dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
             dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
             dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
@@ -229,19 +222,50 @@ export const GetSaveAttendanceStatus =
             dispatch(TAttendanceSlice.actions.getSaveResponse(responseMsg));
             dispatch(TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data));
         }
-
-
-        export const GetSummaryCountforAttendanceBodyCDA =
-      (data: IGetSummaryCountforAttendanceBody): AppThunk =>
+export const CDASummaryCountforAttendanceBody =
+    (data: IGetSummaryCountforAttendanceBody): AppThunk =>
         async (dispatch) => {
-            const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(data);
+            const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(
+                data
+            );
+            const GetSummaryCountforAttendance = [
+                {
+                    Id: '1',
+                    Text1: 'Present Student ',
+                    Text2: response.data.listSummaryCountforAttendance.Boys,
+                    Text3: response.data.listSummaryCountforAttendance.Girls,
+                    Text4: response.data.listSummaryCountforAttendance.Total
+                },
+                {
+                    Id: '2',
+                    Text1: 'Absent  Student ',
+                    Text2: response.data.listAbsentCountforAttendance.Boys,
+                    Text3: response.data.listAbsentCountforAttendance.Girls,
+                    Text4: response.data.listAbsentCountforAttendance.Total
+                },
+                {
+                    Id: '3',
+                    Text1: 'Total Student ',
+                    Text2: response.data.listtotalCountforAttendance.Boys,
+                    Text3: response.data.listtotalCountforAttendance.Girls,
+                    Text4: response.data.listtotalCountforAttendance.Total
+                },
+                {
+                    Id: '4',
+                    Text1: 'Present month summary',
+                    Text2: response.data.listPresentGendersAttendance.PresentBoys,
+                    Text3: response.data.listPresentGendersAttendance.PresentGirls,
+                    Text4: response.data.listPresentGendersAttendance.Total
+                }
+            ];
 
-                        const listSummaryCountforAttendance= [
-                        {Id:"",Text1:"Presnt Student ", Text2:response.data.listSummaryCountforAttendance.Boys  , Text3:response.data.listSummaryCountforAttendance.Girls , Text4:response.data.listSummaryCountforAttendance.Total }, 
-                        {Id:"",Text1:"Absent  Student ", Text2:response.data.listAbsentCountforAttendance.Boys  , Text3:response.data.listAbsentCountforAttendance.Girls,Text4:response.data.listSummaryCountforAttendance.Total  }, 
-                        {Id:"",Text1:"Total Student ", Text2:response.data.listtotalCountforAttendance.Boys , Text3:response.data.listtotalCountforAttendance.Girls , Text4:response.data.listtotalCountforAttendance.Total  }, 
-                        {Id:"",Text1:"presnt month summary", Text2:response.data.listPresentGendersAttendance.PresentBoys , Text3:response.data.listPresentGendersAttendance.PresentGirls , Text4:response.data.listPresentGendersAttendance.Total}  ]
-            dispatch(TAttendanceSlice.actions.RGetSummaryCountforAttendance(listSummaryCountforAttendance));
-        }
-  
+            dispatch(
+                TAttendanceSlice.actions.RGetSummaryCountforAttendance({
+                    GetSummaryCountforAttendance: GetSummaryCountforAttendance,
+                    
+
+                })
+            );
+        };
+
 export default TAttendanceSlice.reducer

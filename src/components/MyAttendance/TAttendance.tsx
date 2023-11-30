@@ -9,6 +9,8 @@ import { Box, Container, Grid, Avatar, Typography, Hidden } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
+import  { IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
+import {CDASummaryCountforAttendanceBody} from "src/requests/TAttendance/TAttendance"
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -21,6 +23,7 @@ import Calendar from 'react-calendar';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import AttandaceHalf from './AttendanceHalf';
 import AttendanceCalendar from './AttendanceCalendar';
+import TableAttendace from 'src/libraries/ResuableComponents/TableAttendace';
 
 const TAttendance = () => {
    
@@ -59,6 +62,14 @@ const TAttendance = () => {
 
         const [ItemList1 , setItemList1]=useState(ItemList)
 
+
+        const HeaderArray = [
+          { Id: 1, Header: '' },
+          { Id: 2, Header: 'Boys' },
+          { Id: 3, Header: 'Girls' },
+          { Id: 4, Header: 'Total' }
+        ];
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { AssignedDate, StandardId } = useParams();
@@ -72,6 +83,12 @@ const TAttendance = () => {
     const [onlySelectedClass, setOnlySelectedClass] = useState('none');
     const [singleStdName, setSingleStdName] = useState('');
 
+    const [AttendanceDate, setAttendanceDate] = useState(
+      new Date().toISOString()
+    );
+    const [asUserId, SetUserId] = useState();
+
+   
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
     const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
@@ -95,18 +112,16 @@ const TAttendance = () => {
     let AYStatus = useSelector(
         (state: RootState) => state.AttendanceList.AYStatus
     );
-
-
-    const [attanStatus, setAttenStatus] = useState();
-
-
+    const SummaryCountforAttendance = useSelector(
+        (state: RootState) =>
+          state.AttendanceList.ISGetSummaryCountforAttendance
+      );
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
         asDate: assignedDate,
         asAcademicYearId: asAcademicYearId,
         asSchoolId: asSchoolId
     };
-
 
     const getAttendanceStatus: IGetAttendanceStatus = {
         asStanardDivisionId: Standardid,
@@ -124,6 +139,15 @@ const TAttendance = () => {
         asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
         asUserId: asTeacherId
     };
+    const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = 
+            {
+              asSchoolId: Number(asSchoolId),
+              asAcademicYearId: Number(asAcademicYearId),
+              asStandardDivisionId: Number(asStandardDivisionId),
+              asAttendanceDate: (AttendanceDate),
+              asUserId: asUserId
+            };
+            
 
     useEffect(() => {
         const ScreensAccessPermission = JSON.parse(sessionStorage.getItem("ScreensAccessPermission"))
@@ -156,6 +180,12 @@ const TAttendance = () => {
         dispatch(GetStudentList(GetStudentDetails));
     }, [Standardid, assignedDate]);
 
+    useEffect(() => {
+        dispatch(
+            CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody)
+        );
+      }, []);
+
     const getCurrentDate = (newDate?: Date) => {
         setAssignedDate(getDateFormatted(newDate));
     };
@@ -171,7 +201,6 @@ const TAttendance = () => {
         }
         
     }
-
     const handleChange = (value) => {
         if (value != 'Select Class') {
             setStandardid(value);
@@ -220,8 +249,6 @@ const TAttendance = () => {
             setOnlySelectedClass('');
         }
     }, [stdlist]);
-
-
     const SaveMsg = () => {
 
         if (AttendanceStatus == "Selected date is holiday." || AttendanceStatus == "Selected date is weekend.") {
@@ -232,15 +259,12 @@ const TAttendance = () => {
         }
         SaveAttendance()
     }
-
     const clickNav = (value) => {
         navigate(`/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value)
     }
-
-
     const ClickItemList=(value)=>{
         const GetStudentDetails: IStudentsDetails = {
-               asStdDivId: asStandardDivisionId,               //write
+               asStdDivId: asStandardDivisionId,               
                asDate:value,
                asAcademicYearId: asAcademicYearId,
                asSchoolId: asSchoolId
@@ -251,7 +275,6 @@ const TAttendance = () => {
     const ClickDate = (value) => {
         setAssignedDate(value)
     }
-
     return (
         <Container maxWidth={'xl'}>
 
@@ -297,8 +320,12 @@ const TAttendance = () => {
                 </Grid>
                 <Hidden mdDown>
                 <Grid item md={6} >
-                {/* <AttandaceHalf ItemList={ItemList1} ClickItemList={ClickItemList}/> */}
-                {/* <AttendanceCalendar DefaultDate={assignedDate} ClickDate={ClickDate}/> */}
+                {/* <AttandaceHalf ItemList={ItemList1} ClickItem={ClickItemList} DefaultValue={assignedDate}/> */}
+
+                {/* <AttendanceCalendar DefaultDate={assignedDate} ClickDate={ClickDate}/>  */}
+
+            <TableAttendace  ItemList={SummaryCountforAttendance} HeaderArray={HeaderArray} />
+
                 </Grid>
                 </Hidden>
               

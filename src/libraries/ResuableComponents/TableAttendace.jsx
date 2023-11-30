@@ -9,7 +9,7 @@ import Paper from '@mui/material/Paper';
 import { Card ,Divider,Grid} from '@mui/material';
 
 function TableAttendace({ItemList,HeaderArray}) {
-  console.log(ItemList,"ItemList")
+ 
   return (
     <div>
         <Grid container>
