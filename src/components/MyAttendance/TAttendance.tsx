@@ -253,13 +253,7 @@ const TAttendance = () => {
 
 
 
-    const DeleteAttendance=(value)=>{
-          if (window.confirm('Are you sure you want to delete attendance for this date?')){
-           dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
-           setAssignedDate(value)
-           toast.success('Attendance deleted successfully');
-    }
-   };
+
 
 
     const ClickItem = (value) => {
@@ -313,9 +307,7 @@ const TAttendance = () => {
                 <Grid item md={6} >
                 <Grid container>
            
-                <ButtonPrimary color="error" onClick={DeleteAttendance} fullWidth>
-              Delete Attendance
-            </ButtonPrimary>
+               
                 <Box sx={{ display: 'flex' }}>
                 <Typography variant="h4">Count:</Typography>
                 <Typography pl={2}> {SummaryCountforAttendance?.TotalStudents} </Typography>
