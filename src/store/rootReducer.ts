@@ -23,6 +23,7 @@ import AttendanceSlice from 'src/requests/Attendance/Attendance';
 import Dashboardlice from 'src/requests/Dashboard/Dashboard';
 import LibrarySlicee from 'src/requests/Library/Library';
 import GetExamResultslice from 'src/requests/Student/ProgressReport';
+import SliceExamResult from 'src/requests/ExamResult/RequestExamResult';
 // import ChangePasswordSlice from 'src/Slice/Student/changePassword'
 import OnlineExamProgressReportSlice from 'src/requests/Student/OnlineExamProgressReport';
 import PhotoGallarySlice from 'src/requests/PhotoGallery/PhotoGallery';
@@ -135,6 +136,7 @@ const rootReducer = combineReducers({
     IndividualAttendance:IndividualAttendanceSlice,
     AddPlanner:AddAnnualPlannerSlice,
     MonthwiseAttendance:MonthwiseAttendanceSlice,
+    ExamResult:SliceExamResult
 });
 
 export default rootReducer;

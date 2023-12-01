@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 
@@ -66,6 +67,11 @@ const teacherRoutes = [
       path: 'MonthwiseAttendance',
       element: <MonthwiseAttandance/>
     },
+    {
+      path: 'ExamResult',
+      element: <ExamResultBase/>
+    },
+
 
 
 
