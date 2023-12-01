@@ -20,6 +20,7 @@ const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/Sms
 const  SchoolAttendanceOverview= Loader(lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview')))
 const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAttendance/IndividualAttendance')))
 const AddAnnualPlaner = Loader(lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner')))
+const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/MonthwiseAttandance')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -61,7 +62,11 @@ const teacherRoutes = [
     {
       path: 'AddAnnualPlaner',
       element: <AddAnnualPlaner />
-    }
+    },{
+      path: 'MonthwiseAttendance',
+      element: <MonthwiseAttandance/>
+    },
+
 
 
     ];
