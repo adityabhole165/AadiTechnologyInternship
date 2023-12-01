@@ -63,7 +63,8 @@ import Staffkidslice from 'src/requests/Authentication/StaffKidLogin'
 import SliceDraftMessage from 'src/requests/MessageCenter/RequestDraftMessage'
 import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview'
 import IndividualAttendanceSlice from 'src/requests/Attendance/requestIndividualAttendance';
-
+import AddAnnualPlannerSlice from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner'
+import MonthwiseAttendanceSlice from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -132,7 +133,8 @@ const rootReducer = combineReducers({
     DraftMessages:SliceDraftMessage,
     SchoolAttendance:SchoolAttendanceOverviewSlice,
     IndividualAttendance:IndividualAttendanceSlice,
-
+    AddPlanner:AddAnnualPlannerSlice,
+    MonthwiseAttendance:MonthwiseAttendanceSlice,
 });
 
 export default rootReducer;
