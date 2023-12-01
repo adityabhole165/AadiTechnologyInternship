@@ -20,6 +20,7 @@ const TAttendanceSlice = createSlice({
         SaveResponse: '',
         AYStatus: '',
         ISGetSummaryCountforAttendance: [],
+        listAttendanceCalender: []
     },
 
     reducers: {
@@ -78,6 +79,7 @@ const TAttendanceSlice = createSlice({
 
         RGetSummaryCountforAttendance(state, action) {
             state.ISGetSummaryCountforAttendance = action.payload.GetSummaryCountforAttendance
+            state.listAttendanceCalender = action.payload.listAttendanceCalender;
         
         }
     }
@@ -225,9 +227,21 @@ export const GetSaveAttendanceStatus =
 export const CDASummaryCountforAttendanceBody =
     (data: IGetSummaryCountforAttendanceBody): AppThunk =>
         async (dispatch) => {
-            const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(
-                data
-            );
+            const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(data);
+            const listAttendanceCalender = response.data.listAttendanceCalender.map((item, i)=>{
+                return {
+                    Id:i,
+                    Name:getDateFromatDateTime(item.Att_date),
+                    Value:item.Att_date,
+                    IsActive:false,
+                    Text1:item.Status,
+                    Text2:item.Status_Desc,
+                    ForeColur:item.Status_ForeColur,
+                    BackgroundColor:item.Status_BackColur,
+        
+                }
+            })
+
             const GetSummaryCountforAttendance = [
                 {
                     Id: '1',
@@ -262,7 +276,8 @@ export const CDASummaryCountforAttendanceBody =
             dispatch(
                 TAttendanceSlice.actions.RGetSummaryCountforAttendance({
                     GetSummaryCountforAttendance: GetSummaryCountforAttendance,
-                    
+                    listAttendanceCalender:listAttendanceCalender,
+
 
                 })
             );
