@@ -92,6 +92,15 @@ export const getDateFormatted = (date) => {
     return `${Day} ${Month} ${Year}`;
 }
 
+export const getDateFormattedDash = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Day}-${Month}-${Year}`;
+}
+
+
 export const getDateFormatWithSpaceAndMonthInString = (date) => {
     // date = String(date || new Date());
     // date = date.split(" ")[0]
