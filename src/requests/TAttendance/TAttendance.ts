@@ -19,7 +19,7 @@ const TAttendanceSlice = createSlice({
         StudentAbsent: '',
         SaveResponse: '',
         AYStatus: '',
-        ISGetSummaryCountforAttendance: [],
+        ISGetSummaryCountforAttendance: null,
         listAttendanceCalender: []
     },
 
@@ -243,7 +243,8 @@ export const CDASummaryCountforAttendanceBody =
                 }
             })
 
-            const GetSummaryCountforAttendance = [
+            const GetSummaryCountforAttendance = {
+                GetSummaryCountList:[
                 {
                     Id: '1',
                     Text1: 'Present Student ',
@@ -272,7 +273,10 @@ export const CDASummaryCountforAttendanceBody =
                     Text3: response.data.listPresentGendersAttendance.PresentGirls,
                     Text4: response.data.listPresentGendersAttendance.Total
                 }
-            ];
+               
+            ],
+            TotalStudents:(response.data.listTotalStudentAttendance.PresentStudents + '/' + response.data. listTotalStudentAttendance.TotalStudents)
+        };
 
             dispatch(
                 TAttendanceSlice.actions.RGetSummaryCountforAttendance({

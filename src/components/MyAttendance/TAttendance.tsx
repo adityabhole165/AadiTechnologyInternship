@@ -82,7 +82,9 @@ const TAttendance = () => {
     let IsClassTeacher = sessionStorage.getItem("IsClassTeacher")
     const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
     const [Standardid, setStandardid] = useState<string>();
+
     const [assignedDate, setAssignedDate] = useState<string>();
+
     const [onlySelectedClass, setOnlySelectedClass] = useState('none');
     const [singleStdName, setSingleStdName] = useState('');
 
@@ -152,7 +154,7 @@ const TAttendance = () => {
               asSchoolId: Number(asSchoolId),
               asAcademicYearId: Number(asAcademicYearId),
               asStandardDivisionId: Number(asStandardDivisionId),
-              asAttendanceDate: (AttendanceDate),
+              asAttendanceDate: (assignedDate),
               asUserId: asUserId
             };
             
@@ -185,14 +187,14 @@ const TAttendance = () => {
 
     useEffect(() => {
         popupateDate()
-        dispatch(GetStudentList(GetStudentDetails));
-    }, [Standardid, assignedDate]);
+        if(assignedDate!=undefined){
+            dispatch(GetStudentList(GetStudentDetails));
+            dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
+        }
+        }, [Standardid,assignedDate]);
 
-    useEffect(() => {
-        dispatch(
-            CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody)
-        );
-      }, []);
+      
+  
 
     const getCurrentDate = (newDate?: Date) => {
         setAssignedDate(getDateFormatted(newDate));
@@ -332,7 +334,11 @@ const TAttendance = () => {
                 <Grid container>
            
                   
-
+                <Box sx={{ display: 'flex' }}>
+                <Typography variant="h4">Count:</Typography>
+                <Typography pl={2}> {SummaryCountforAttendance?.TotalStudents} </Typography>
+                    
+                 </Box>
 <Card component={Box} p={2}>
    <Grid container>
    <Grid item xs={6}>
@@ -354,8 +360,9 @@ const TAttendance = () => {
                   </Card>
                   </Grid>
                <br></br>
-            <TableAttendace  ItemList={SummaryCountforAttendance} HeaderArray={HeaderArray} />
-
+               {SummaryCountforAttendance!=null && 
+            <TableAttendace  ItemList={SummaryCountforAttendance.GetSummaryCountList} HeaderArray={HeaderArray} />
+}
                 </Grid>
                 </Hidden>
               
