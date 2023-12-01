@@ -29,43 +29,6 @@ import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import DotLegendAttandaceCalender from 'src/libraries/summary/DotLegendAttandaceCalender';
 
 const TAttendance = () => {
-   
-    const ItemList = [
-        {id:1 , Name:"1" ,value:1 , IsActive:false, category:"1" ,categoryName:"Holiday"},
-        {id:2 , Name:"2" ,value:2, IsActive:false , category:"3" ,categoryName:"Present"},
-        {id:3 , Name:"3" ,value:3, IsActive:false,category:"3" ,categoryName:"Present"}, 
-        {id:4, Name:"4" , value:4 ,IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:5 , Name:"5" ,value:5 , IsActive:false ,category:"3" ,categoryName:"Present"},
-        {id:6 , Name:"6" ,value:0, IsActive:false ,category:"2",categoryName:"Weekend"} ,
-        {id:7 ,value:0, Name:"7",IsActive:false,category:"2" ,categoryName:"Weekend"},
-        {id:8 ,value:8, Name:"8",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:9 ,value:9, Name:"9",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:10 ,value:10, Name:"10",IsActive:false,category:"4" ,categoryName:"Absent"},
-        {id:11 ,value:11, Name:"11",IsActive:false,category:"5" ,categoryName:"Attendance Unavailable"},
-        {id:12 ,value:12, Name:"12",IsActive:false,category:"5",categoryName:"Attendance Unavailable"},
-        {id:13 ,value:0, Name:"13",IsActive:false,category:"2" ,categoryName:"Weekend"},
-        {id:14 ,value:0, Name:"14",IsActive:false,category:"2" ,categoryName:"Weekend"},
-        {id:15,value:15, Name:"15",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:16 ,value:16, Name:"16",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:17 ,value:17, Name:"17",IsActive:false,category:"3",categoryName:"Present"},
-        {id:18 ,value:18, Name:"18",IsActive:false,category:"3",categoryName:"Present"},
-        {id:19 ,value:19, Name:"19",IsActive:false,category:"3",categoryName:"Present"},
-        {id:20 ,value:0, Name:"20",IsActive:false,category:"2",categoryName:"Weekend"},
-        {id:21 ,value:0, Name:"21",IsActive:false,category:"2",categoryName:"Weekend"},
-        {id:22 ,value:22, Name:"22",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:23, value:23, Name:"23",IsActive:false,category:"3" ,categoryName:"Present"},
-        {id:24 ,value:24, Name:"24",IsActive:false,category:"3",categoryName:"Present"},
-        {id:25 ,value:25, Name:"25",IsActive:false,category:"3",categoryName:"Present"},
-        {id:26 ,value:26, Name:"26",IsActive:false,category:"3",categoryName:"Present"},
-        {id:27 ,value:27, Name:"27",IsActive:false,category:"2",categoryName:"Weekend"},
-        {id:28 ,value:28, Name:"28",IsActive:false,category:"2",categoryName:"Weekend"},
-        {id:29, value:29, Name:"29",IsActive:false,category:"1",categoryName:"Hoilday"},
-        {id:30 ,value:30, Name:"30",IsActive:false,category:"4",categoryName:"Absent"},
-        {id:31 ,value:0, Name:"31",IsActive:false,category:"4",categoryName:"Absent"},]
-
-        const [ItemList1 , setItemList1]=useState(ItemList)
-
-
         const HeaderArray = [
           { Id: 1, Header: '' },
           { Id: 2, Header: 'Boys' },
@@ -249,6 +212,8 @@ const TAttendance = () => {
         if (saveResponseMessage != '') {
             toast.success(saveResponseMessage);
             dispatch(setSaveResponse());
+            dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
+
         }
     }, [saveResponseMessage]);
 
@@ -281,11 +246,26 @@ const TAttendance = () => {
            };
            dispatch(GetStudentList(GetStudentDetails));
            setAssignedDate(value)
+
+
+
     }
+
+
+
+    const DeleteAttendance=(value)=>{
+          if (window.confirm('Are you sure you want to delete attendance for this date?')){
+           dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
+           setAssignedDate(value)
+           toast.success('Attendance deleted successfully');
+    }
+   };
+
+
     const ClickItem = (value) => {
         setAssignedDate(value)
     }
-
+  
     return (
         <Container maxWidth={'xl'}>
 
@@ -333,7 +313,9 @@ const TAttendance = () => {
                 <Grid item md={6} >
                 <Grid container>
            
-                  
+                <ButtonPrimary color="error" onClick={DeleteAttendance} fullWidth>
+              Delete Attendance
+            </ButtonPrimary>
                 <Box sx={{ display: 'flex' }}>
                 <Typography variant="h4">Count:</Typography>
                 <Typography pl={2}> {SummaryCountforAttendance?.TotalStudents} </Typography>

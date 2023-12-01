@@ -275,7 +275,7 @@ export const CDASummaryCountforAttendanceBody =
                 }
                
             ],
-            TotalStudents:(response.data.listTotalStudentAttendance.PresentStudents + '/' + response.data. listTotalStudentAttendance.TotalStudents)
+            TotalStudents:(response.data.listTotalStudentAttendance.PresentStudents + '   /    ' + response.data. listTotalStudentAttendance.TotalStudents)
         };
 
             dispatch(
