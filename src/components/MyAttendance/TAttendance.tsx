@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid, Avatar, Typography, Hidden } from '@mui/material'
+import { Box, Container, Grid, Avatar, Typography, Hidden, Card } from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -25,6 +25,8 @@ import AttandaceHalf from './AttendanceHalf';
 import AttendanceCalendar from './AttendanceCalendar';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendace';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
+import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
+import DotLegendAttandaceCalender from 'src/libraries/summary/DotLegendAttandaceCalender';
 
 const TAttendance = () => {
    
@@ -327,15 +329,38 @@ const TAttendance = () => {
                 </Grid>
                 <Hidden mdDown>
                 <Grid item md={6} >
+                <Grid container>
+           
+                  
+
+<Card component={Box} p={2}>
+   <Grid container>
+   <Grid item xs={6}>
+          <DotLegendAttandaceCalender color="primary" text="Done " />
+          <DotLegendAttandaceCalender color="info" text="Not Done" />
+          <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
+        </Grid>
+   
+        <Grid item xs={6}>
+          <DotLegendAttandaceCalender color="Warning" text="Weekend" />
+          <DotLegendAttandaceCalender color="Suceess" text="OutSideAcadamicYear" />
+          
+        </Grid>
+        </Grid>
+         
+     
                 <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem} 
                 formattedDate={assignedDate} DefaultValue/>
+                  </Card>
+                  </Grid>
+               <br></br>
             <TableAttendace  ItemList={SummaryCountforAttendance} HeaderArray={HeaderArray} />
 
                 </Grid>
                 </Hidden>
               
             </Grid>
-      
+           
         </Container>
     )
 }
