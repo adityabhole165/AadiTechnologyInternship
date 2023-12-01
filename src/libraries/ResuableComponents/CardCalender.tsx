@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import CardCal from './CardCal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-function CardCalender({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue }) {
+import { getDateFormattedDash } from 'src/components/Common/Util';
+function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue }) {
 
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -25,18 +26,24 @@ function CardCalender({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, f
     ClickItem(returnVal)
   }
 
+  const clickPrevNextMonth = (value) => {
+    const newDate = new Date(formattedDate);
+    newDate.setMonth(newDate.getMonth() + value);
+
+    ClickItem(getDateFormattedDash(newDate));
+  };
 
   return (
     <Card component={Box} p={2}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-        <IconButton onClick={() => handlePrevMonth()} sx={{ float: 'left' }}>
+        <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon />
           </Card>
         </IconButton>
         {formattedDate}
 
-        <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
+        <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
           <Card >
             <ArrowForwardIosIcon />
           </Card>

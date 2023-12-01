@@ -279,13 +279,6 @@ const TAttendance = () => {
            setAssignedDate(value)
     }
     const ClickItem = (value) => {
-        alert(value)
-        setAssignedDate(value)
-    }
-    const handlePrevMonth = (value) => {
-        setAssignedDate(value)
-    }
-    const handleNextMonth = (value) => {
         setAssignedDate(value)
     }
 
@@ -334,11 +327,7 @@ const TAttendance = () => {
                 </Grid>
                 <Hidden mdDown>
                 <Grid item md={6} >
-                {/* <AttandaceHalf ItemList={ItemList1} ClickItem={ClickItemList} DefaultValue={assignedDate}/> */}
-
-                {/* <AttendanceCalendar DefaultDate={assignedDate} ClickDate={ClickDate}/>  */}
                 <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem} 
-                handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} 
                 formattedDate={assignedDate} DefaultValue/>
             <TableAttendace  ItemList={SummaryCountforAttendance} HeaderArray={HeaderArray} />
 
