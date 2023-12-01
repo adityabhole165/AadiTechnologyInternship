@@ -35,8 +35,8 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
         <Typography sx={{ color: item.ForeColur }}>
           {item.Name}
         </Typography>
-        <Typography>
-          {item.Text1}
+        <Typography sx={{color:item.ForeColur}}  dangerouslySetInnerHTML={{ __html: item.Text1}}>
+          
         </Typography>
       </Card>
 

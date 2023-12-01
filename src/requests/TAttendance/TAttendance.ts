@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAttendance";
-import { getDateFromatDateTime } from 'src/components/Common/Util';
+import { getDateFromatDateTime, getDateMonthYearFormatted } from 'src/components/Common/Util';
 import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody, } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
@@ -232,12 +232,13 @@ export const CDASummaryCountforAttendanceBody =
                 return {
                     Id:i,
                     Name:getDateFromatDateTime(item.Att_date),
-                    Value:item.Att_date,
+                    Value:getDateMonthYearFormatted(item.Att_date),
                     IsActive:false,
                     Text1:item.Status,
-                    Text2:item.Status_Desc,
+                    Text3:item.Status_Desc,
                     ForeColur:item.Status_ForeColur,
                     BackgroundColor:item.Status_BackColur,
+                    IsClickable:true
         
                 }
             })

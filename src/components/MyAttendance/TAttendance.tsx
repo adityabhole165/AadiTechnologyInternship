@@ -24,6 +24,7 @@ import { ListStyle } from 'src/libraries/styled/CardStyle';
 import AttandaceHalf from './AttendanceHalf';
 import AttendanceCalendar from './AttendanceCalendar';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendace';
+import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
 
 const TAttendance = () => {
    
@@ -116,6 +117,11 @@ const TAttendance = () => {
         (state: RootState) =>
           state.AttendanceList.ISGetSummaryCountforAttendance
       );
+
+      const listAttendanceCalender = useSelector(
+        (state: RootState) => state.AttendanceList.listAttendanceCalender
+    );
+      
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
         asDate: assignedDate,
@@ -272,9 +278,17 @@ const TAttendance = () => {
            dispatch(GetStudentList(GetStudentDetails));
            setAssignedDate(value)
     }
-    const ClickDate = (value) => {
+    const ClickItem = (value) => {
+        alert(value)
         setAssignedDate(value)
     }
+    const handlePrevMonth = (value) => {
+        setAssignedDate(value)
+    }
+    const handleNextMonth = (value) => {
+        setAssignedDate(value)
+    }
+
     return (
         <Container maxWidth={'xl'}>
 
@@ -323,7 +337,9 @@ const TAttendance = () => {
                 {/* <AttandaceHalf ItemList={ItemList1} ClickItem={ClickItemList} DefaultValue={assignedDate}/> */}
 
                 {/* <AttendanceCalendar DefaultDate={assignedDate} ClickDate={ClickDate}/>  */}
-
+                <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem} 
+                handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} 
+                formattedDate={assignedDate} DefaultValue/>
             <TableAttendace  ItemList={SummaryCountforAttendance} HeaderArray={HeaderArray} />
 
                 </Grid>
