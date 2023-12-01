@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import CardCal from './CardCal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-function CardCalender({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue }) {
+function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue }) {
 
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -47,13 +47,16 @@ function CardCalender({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, f
           return (
             <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
 
-              <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
+              <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
             </Grid>
           )
         })
         }
+
+
+
       </Grid>
     </Card>
   )
 }
-export default CardCalender
+export default CardCalenderList

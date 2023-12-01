@@ -11,7 +11,7 @@ import { useEffect, } from 'react';
 import { getstudentname, getcalendar, SaveStudentAttendance, resetMessage } from 'src/requests/Attendance/requestIndividualAttendance'
 import { IGetStudentNameBody, IGetCalendarForStudentBody, ISaveStudentAttendanceBody } from 'src/interfaces/IndividualAttendance/IIndividualAttendance';
 import Dropdown from 'src/libraries/list/DropDown';
-import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
+import CardCalenderList from 'src/libraries/ResuableComponents/CardCalenderList';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import Stack from '@mui/material/Stack';
 import { toast } from 'react-toastify';
@@ -174,7 +174,7 @@ const IndividualAttendance = () => {
           <DotLegendTeacher color="" text="NotAvailabel" />
         </Grid>
       </Grid>
-      <CardCalender ItemList={ItemList}
+      <CardCalenderList ItemList={ItemList}
         ClickItem={ClickItem}
         handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
         formattedDate={formattedDate} DefaultValue={DefaultValue} />
