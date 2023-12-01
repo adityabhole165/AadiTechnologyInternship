@@ -3,7 +3,6 @@ import {Box, Divider, Grid , Typography,Container} from "@mui/material"
 import { ListStyle, ListStyleA } from 'src/libraries/styled/CardStyle'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import  { IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
-import {GetSummaryCountforAttendanceBodyCDA} from "src/requests/TAttendance/TAttendance"
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import Calendar from 'react-calendar';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
@@ -33,10 +32,7 @@ function AttandaceHalf({ItemList ,ClickItemList}) {
   return (
     <div>
       
-      <CardCalender ItemList={ItemList} 
-      ClickItemList={ClickItemList} 
-      handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth} 
-      formattedDate={formattedDate}/>
+
         <Grid container spacing={1}>
         
         <Grid item lg={5.5} > 
