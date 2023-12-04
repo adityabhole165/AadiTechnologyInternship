@@ -84,6 +84,7 @@ const TAttendance = () => {
         (state: RootState) =>
           state.AttendanceList.ISGetSummaryCountforAttendance
       );
+      
 
       const listAttendanceCalender = useSelector(
         (state: RootState) => state.AttendanceList.listAttendanceCalender
@@ -218,6 +219,7 @@ const TAttendance = () => {
     }, [saveResponseMessage]);
 
     useEffect(() => {
+
         if (stdlist.length == 1) {
             setSingleStdName(stdlist[0].Name);
             setStandardid(stdlist[0].Value);
@@ -257,7 +259,12 @@ const TAttendance = () => {
 
 
     const ClickItem = (value) => {
+   
         setAssignedDate(value)
+    }
+
+    const  ClickNavigate = ()=> {
+        navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview')
     }
   
     return (
@@ -332,14 +339,23 @@ const TAttendance = () => {
                 <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem} 
                 formattedDate={assignedDate} DefaultValue/>
                   </Card>
+                 
+       <Box sx={{display:"flex" ,alignItems:"center",textAlign:"center",justifyContent:"center"}}>
+       <ListStyle sx={{ml:"16px" , mt:"26px" , backgroundColor:"#e1bee7",width:"300px"}}>
+                    <Box sx={{textAlign:"center"}}>
+                        <Typography  onClick={ClickNavigate} variant='h4'>Attendace Overview</Typography>
+                      
+                    </Box>
+                </ListStyle>
+       </Box>
                   </Grid>
                <br></br>
+               
                {SummaryCountforAttendance!=null && 
-            <TableAttendace  ItemList={SummaryCountforAttendance.GetSummaryCountList} HeaderArray={HeaderArray} />
-}
+            <TableAttendace  ItemList={SummaryCountforAttendance.GetSummaryCountList} HeaderArray={HeaderArray} />}
+                
                 </Grid>
                 </Hidden>
-              
             </Grid>
            
         </Container>
