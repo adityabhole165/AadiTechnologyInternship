@@ -76,6 +76,32 @@ export const AttandaceCalender = styled(Box)(
     `
 );
 
+export const DotAnnualPlanerLegend = styled(Box)(
+    ({ theme, color }) => `
+        border-radius: 22px;
+        width: ${theme.spacing(1.5)};
+        height: ${theme.spacing(1.5)};
+        @media (min-width: 280px) and (max-width: 320px)  {
+          width: ${theme.spacing(1)};
+          height: ${theme.spacing(1)};
+        };
+        display: inline-block;
+        margin-right: ${theme.spacing(1)};
+        margin-top: -${theme.spacing(0.1)};
+        border: 1px #303030   solid;
+        
+        background: ${color === 'primary' ? "Green" :
+            
+        
+            color === 'Holiday' ? "red":
+            color === 'Exam' ? "#4caf50":
+            color === 'Events' ? "#01579b":
+            color === 'info' ? "#f06292":
+                "#f06292"
+        }
+    `
+);
+
 export const DotLegendStyled1= styled(Box)(
     ({ theme, color }) => `
         border-radius: 22px;

@@ -1,10 +1,11 @@
 import { Card, Typography, Grid, Box, IconButton } from '@mui/material'
 import React, { useState } from 'react'
 import CardCal from './CardCal';
+import TableCell from "@mui/material/TableCell";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { getDateFormattedDash } from 'src/components/Common/Util';
-function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue }) {
+function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayList=[] }) {
 
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -36,6 +37,26 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue }) {
   return (
     <Card component={Box} p={2}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <Grid container>
+          {ArrayList.map((item, i) => (
+            <>
+
+              <Grid item xs={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <TableCell
+                  key={i}
+                  sx={{ textTransform: "capitalize" }}
+
+                >
+                  {" "}
+                  <b>{item.Header}</b>
+                </TableCell>
+              </Grid>
+
+            </>
+
+          ))}
+
+        </Grid>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon />
@@ -48,6 +69,8 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue }) {
             <ArrowForwardIosIcon />
           </Card>
         </IconButton>
+
+
       </Box>
       <Grid container columnSpacing={1} rowSpacing={1}>
         {ItemList.map((item, i) => {
@@ -62,5 +85,6 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue }) {
       </Grid>
     </Card>
   )
+
 }
 export default CardCalender

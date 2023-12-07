@@ -1,0 +1,81 @@
+
+import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
+import AssignExamMarkApi from "src/api/ApiAssignExamMarks/ApiAssignExamMarks"
+import { createSlice } from "@reduxjs/toolkit"
+import { AppThunk } from "src/store";
+
+const AssignExamMarkSlice = createSlice({
+    name: 'ExamMark',
+    initialState: {
+        ISAssignExam: [],
+        ISAssignClassExam: [],
+        ISSubjectListClass: []
+
+    },
+    reducers: {
+        //AssignClass
+        getAssignExamMark(state, action) {
+            state.ISAssignExam = action.payload
+        },
+
+        //ClasswiseExam
+        getClassWiseExam(state, action) {
+            state.ISAssignClassExam = action.payload
+        },
+
+        getsubjectList(state, action) {
+            state.ISSubjectListClass = action.payload
+        },
+    }
+});
+
+//AssignClass
+export const GetAssignExamMarkList =
+    (data: IAssignClassBody): AppThunk =>
+        async (dispatch) => {
+            const response = await AssignExamMarkApi.AssignClass(data);
+            let a = response.data.map((item, i) => {
+                return {
+                    Id: item.SchoolWise_Standard_Division_Id,
+                    Name: item.StandardDivision,
+                    Value: item.SchoolWise_Standard_Division_Id,
+                }
+            })
+            dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));
+        };
+
+//ClassWiseExam      
+export const GetClassWiseExam =
+    (data: IClasswiseExamDropdownBody): AppThunk =>
+        async (dispatch) => {
+            const response = await AssignExamMarkApi.ClasswiseExamDropdown(data);
+            let a = response.data.map((item, i) => {
+                return {
+                    Id: item.schoolwise_test_id,
+                    Name: item.schoolwise_test_name,
+                    Value: item.schoolwise_test_id,
+                }
+            })
+            dispatch(AssignExamMarkSlice.actions.getClassWiseExam(a));
+        };
+
+//SubjectList
+export const GetSubjectListClass =
+    (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
+        async (dispatch) => {
+            const response = await AssignExamMarkApi.SubjectsExamMarks(data);
+            
+            let a = response.data.map((item, i) => {
+                return {
+            
+                    Text1:item.StandardDivision,
+                    Text2:item.Subject_Name,
+                    Text3:item.STATUS,
+                }
+            })
+            dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
+        };
+
+export default AssignExamMarkSlice.reducer
+
+

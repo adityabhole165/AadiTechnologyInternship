@@ -22,6 +22,7 @@ const  SchoolAttendanceOverview= Loader(lazy(() => import('src/components/MyAtte
 const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAttendance/IndividualAttendance')))
 const AddAnnualPlaner = Loader(lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner')))
 const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/MonthwiseAttandance')))
+const AssignExamMark= Loader(lazy(() => import('src/components/AssignExamMark/AssignExamMark')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -71,6 +72,11 @@ const teacherRoutes = [
       path: 'ExamResult',
       element: <ExamResultBase/>
     },
+    {
+      path: 'AssignExamMark',
+      element: <AssignExamMark/>
+    },
+    
 
 
 

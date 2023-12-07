@@ -66,6 +66,8 @@ import SchoolAttendanceOverviewSlice from 'src/requests/SchoolAttendanceOverview
 import IndividualAttendanceSlice from 'src/requests/Attendance/requestIndividualAttendance';
 import AddAnnualPlannerSlice from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner'
 import MonthwiseAttendanceSlice from 'src/requests/Attendance/requestGetMonthWiseAttendance';
+import AnnualPlanerBaseScreenSlice from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import AssignExamMarkSlice from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -136,7 +138,9 @@ const rootReducer = combineReducers({
     IndividualAttendance:IndividualAttendanceSlice,
     AddPlanner:AddAnnualPlannerSlice,
     MonthwiseAttendance:MonthwiseAttendanceSlice,
-    ExamResult:SliceExamResult
+    ExamResult:SliceExamResult,
+    AnnualPlanerBaseScreen:AnnualPlanerBaseScreenSlice,
+    AssignExamMarkSlice:AssignExamMarkSlice
 });
 
 export default rootReducer;
