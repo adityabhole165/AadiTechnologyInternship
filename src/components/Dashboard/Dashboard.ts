@@ -381,7 +381,15 @@ const DashboardData = {
       // },
     ],
     items2:[
-    
+      {
+        Text1: 'Assign  ',
+        Text2: 'Homework',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/AssignHomework',
+        index: 6,
+      },
       {
         Text1: 'Attendance  ',
         Text2: '',

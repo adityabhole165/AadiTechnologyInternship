@@ -68,6 +68,7 @@ import AddAnnualPlannerSlice from 'src/requests/AddAnnualPlanner/RequestAddAnnua
 import MonthwiseAttendanceSlice from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 import AnnualPlanerBaseScreenSlice from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import AssignExamMarkSlice from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
+import AssignHomeworkSlice from 'src/requests/AssignHomework/RequestAssignHomework';
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -140,7 +141,8 @@ const rootReducer = combineReducers({
     MonthwiseAttendance:MonthwiseAttendanceSlice,
     ExamResult:SliceExamResult,
     AnnualPlanerBaseScreen:AnnualPlanerBaseScreenSlice,
-    AssignExamMarkSlice:AssignExamMarkSlice
+    AssignExamMarkSlice:AssignExamMarkSlice,
+    TeacherNameList:AssignHomeworkSlice,
 });
 
 export default rootReducer;
