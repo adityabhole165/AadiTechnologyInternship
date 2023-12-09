@@ -39,7 +39,7 @@ const IndividualAttendance = () => {
   const [date, setDate] = useState(new Date());
   const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
   const Note: string = 'Mark  Attendence of Only  individual Student.';
-  const [IsClicked,setIsClicked] = useState(false)
+  const [IsClicked, setIsClicked] = useState(false)
 
   const StudentList = useSelector((state: RootState) => state.IndividualAttendance.GetStudentName);
   const CalendarForStudent = useSelector((state: RootState) => state.IndividualAttendance.GetCalendarForStudent);
@@ -65,19 +65,19 @@ const IndividualAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if(StudentId!="0")
-    dispatch(getcalendar(IGetCalendarForStudent));
+    if (StudentId != "0")
+      dispatch(getcalendar(IGetCalendarForStudent));
   }, [month, StudentId])
-  
+
   useEffect(() => {
     setItemList(CalendarForStudent)
   }, [CalendarForStudent])
 
-  useEffect(()=>{
-    if(StudentList.length>0){
+  useEffect(() => {
+    if (StudentList.length > 0) {
       setStudentId(StudentList[0].Value)
     }
-  },[StudentList])
+  }, [StudentList])
   const clickStudent = (value) => {
     setIsPresentAbsent(0)
     setStudentId(value)
@@ -85,6 +85,7 @@ const IndividualAttendance = () => {
 
   const clickTogle = (value) => {
     setItemList(
+    
       ItemList.map((obj) =>
         obj.IsClickable ?
           {
@@ -93,8 +94,12 @@ const IndividualAttendance = () => {
             BackgroundColor: getAttendanceLegend(value),
             Text1: value == "Y" ? "Present" : "Absent"
           } : obj
+          
       )
+     
     )
+    const isClicked = ItemList.some((obj) => obj.IsClickable && obj.Status !== value);
+    setIsClicked(isClicked);
     setIsPresentAbsent(value)
   }
   const click = () => { navigate('/extended-sidebar/Teacher/TAttendance'); };
@@ -116,16 +121,17 @@ const IndividualAttendance = () => {
     setItemList(value)
     setAttendanceXML("<Attendance>" + getAttendanceString(value) + "</Attendance>")
   }
-  
+console.log( ItemList," setItemList");
+
   const getAttendanceString = (AttendanceList) => {
     var XMLString = ""
     let isClicked = false
     AttendanceList.map((item) => {
-      if(item.Status != undefined && item.Status != item.Text3) 
-      isClicked = true
-      if(item.IsClickable)
+      if (item.Status != undefined && item.Status != item.Text3)
+        isClicked = true
+      if (item.IsClickable)
         XMLString = XMLString + "<SchoolWiseAttendance Attendance_Date=\"" + item.Value + "\" Is_Present=\""
-      + (item.Status != undefined?item.Status:item.Text3) + "\" />"
+          + (item.Status != undefined ? item.Status : item.Text3) + "\" />"
     })
     setIsClicked(isClicked)
     return XMLString
@@ -157,7 +163,7 @@ const IndividualAttendance = () => {
       <PageHeader heading={'Individual Attandance'} subheading={''} />
       <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
       <br></br>
-      <CardToggle1 ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
+      <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
       <br></br>
       <Box sx={{ display: "flex", justifyContent: "space-between" }}>
       </Box>

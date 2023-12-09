@@ -120,7 +120,6 @@ const DashboardData = {
       index: 26,
      
     },
-
     
   ],
   items2 : [
@@ -348,6 +347,28 @@ const DashboardData = {
         Link: 'Common/VideoGallery/VideoAlbum',
         index: 5,
       },
+      {
+        Text1: 'Monthwise Attendance',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon ,
+        Link: 'Teacher/MonthwiseAttendance',
+        index: 26,
+       
+      },
+  
+      {
+        Text1: 'Individual Attendance',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon ,
+        Link: 'Teacher/IndidualAttendance',
+        index: 26,
+       
+      },
+  
       // {
       //   Text1: 'Library',
       //   Text2: '',

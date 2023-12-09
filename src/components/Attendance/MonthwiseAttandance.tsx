@@ -28,7 +28,7 @@ const MonthwiseAttandance = () => {
     const Note: string = "Displays list of student along with their month wise attendance.Attendance is given in format number of days present/total attendance days"
 
     const MonthWiseAttendance = useSelector((state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance);
-    
+
     const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
         asSchoolId: asSchoolId,
         asAcademicyearId: asAcademicYearId,
@@ -69,6 +69,8 @@ const MonthwiseAttandance = () => {
             <TextField label={'Search by Name'} name="SearchText" type="text" variant="standard"
                 value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth />
             <br></br><br></br>
+
+
 
             <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
             <ButtonPrimary color="secondary" onClick={click} fullWidth>
