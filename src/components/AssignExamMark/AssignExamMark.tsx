@@ -9,17 +9,18 @@ import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectListClass } from 'sr
 import { RootState } from 'src/store';
 // import IconLegends from '../IconLedends/IconLegends';
 import List2 from 'src/libraries/mainCard/List2';
-import { useNavigate } from 'react-router';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import { number } from 'prop-types';
 import DropDown from 'src/libraries/list/DropDown';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
+import { Navigate, useNavigate } from 'react-router';
 
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
+
 
   const [selectClass, SetSelectClass] = useState()
   const [ClassWiseExam, SetClassWiseExam] = useState()
@@ -108,10 +109,9 @@ const HeaderPublish = [
     
  ]
 
- const clickEdit=(id)=>{
-    console.log(id , "iD")
- }
-
+ const clickEdit = () => {
+  navigate('/extended-sidebar/Common/EventOverview')
+}
   return (
     <>
       <div>

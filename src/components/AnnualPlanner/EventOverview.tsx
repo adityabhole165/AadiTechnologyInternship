@@ -14,8 +14,8 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { useNavigate } from 'react-router-dom';
 import UpcomingEvent from './UpcomingEvent';
 import Icon1 from 'src/libraries/icon/icon1';
-import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody,  IGetAssociatedStandardsBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
-import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList, CDAAssociatedStandards } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
+import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
+import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
 import Note from 'src/libraries/Note/Note';
