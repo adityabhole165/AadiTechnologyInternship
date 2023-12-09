@@ -9,8 +9,8 @@ import { Box, Container, Grid, Avatar, Typography, Hidden, Card } from '@mui/mat
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
-import  { IGetSummaryCountforAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
-import {CDASummaryCountforAttendanceBody} from "src/requests/TAttendance/TAttendance"
+import  { IGetSummaryCountforAttendanceBody,IDeleteAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
+import {CDASummaryCountforAttendanceBody, CDADeleteAttendance, CDAresetDeleteAttendance} from "src/requests/TAttendance/TAttendance"
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -65,6 +65,8 @@ const TAttendance = () => {
         (state: RootState) => state.StandardAttendance.stdlist
     );
 
+    
+    
     const RollNoList = useSelector(
         (state: RootState) => state.AttendanceList.StudentList
     );
@@ -74,12 +76,18 @@ const TAttendance = () => {
     const AttendanceStatus = useSelector(
         (state: RootState) => state.AttendanceList.AttendanceStatus
     );
+
+   
+    
     const saveResponseMessage = useSelector(
         (state: RootState) => state.AttendanceList.SaveResponse
     );
+
+
     let AYStatus = useSelector(
         (state: RootState) => state.AttendanceList.AYStatus
     );
+
     const SummaryCountforAttendance = useSelector(
         (state: RootState) =>
           state.AttendanceList.ISGetSummaryCountforAttendance
@@ -89,6 +97,12 @@ const TAttendance = () => {
       const listAttendanceCalender = useSelector(
         (state: RootState) => state.AttendanceList.listAttendanceCalender
     );
+
+
+    const DeleteAttendance = useSelector(
+        (state: RootState) => state.AttendanceList.DeleteAttendance
+    );
+     
       
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
@@ -121,7 +135,21 @@ const TAttendance = () => {
               asAttendanceDate: (assignedDate),
               asUserId: asUserId
             };
+
+
+            const DeleteAttendanceBody: IDeleteAttendanceBody = 
+            {
+                asSchoolId: Number(asSchoolId),
+                asAttendanceDate: (assignedDate),
+                asAcademicYearId: Number(asAcademicYearId),
+                asStdDivId: Number(asStandardDivisionId),
+             }
+
+
+
             
+
+              
 
     useEffect(() => {
         const ScreensAccessPermission = JSON.parse(sessionStorage.getItem("ScreensAccessPermission"))
@@ -154,9 +182,29 @@ const TAttendance = () => {
         if(assignedDate!=undefined){
             dispatch(GetStudentList(GetStudentDetails));
             dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
+            
         }
         }, [Standardid,assignedDate]);
 
+
+      
+      
+
+
+          const ClickDeleteAttendance = () => {
+            if (window.confirm('Are you sure you want to delete attendance of date  : ' + assignedDate)) {
+                dispatch(CDADeleteAttendance(DeleteAttendanceBody))
+        
+            }
+          }
+    
+    
+
+
+
+         
+
+        
       
   
 
@@ -196,8 +244,7 @@ const TAttendance = () => {
     }
 
     const SaveAttendance = () => {
-
-        const GetSaveStudentAttendance: ISaveAttendance = {
+      const GetSaveStudentAttendance: ISaveAttendance = {
             asStandardDivisionId: Standardid,
             asDate: assignedDate,
             asAcademicYearId: asAcademicYearId,
@@ -207,6 +254,9 @@ const TAttendance = () => {
             asUserId: asTeacherId
         };
         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+        
+        
+
     }
 
     useEffect(() => {
@@ -214,9 +264,25 @@ const TAttendance = () => {
             toast.success(saveResponseMessage);
             dispatch(setSaveResponse());
             dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
-
+           
+           
         }
     }, [saveResponseMessage]);
+
+
+    
+    useEffect(() => {
+        if (DeleteAttendance != '') {
+            toast.success('Attendance deleted successfully!')
+            dispatch(CDAresetDeleteAttendance());
+            dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
+        }
+    }, [DeleteAttendance]);
+
+
+
+    
+
 
     useEffect(() => {
 
@@ -253,11 +319,6 @@ const TAttendance = () => {
 
     }
 
-
-
-
-
-
     const ClickItem = (value) => {
    
         setAssignedDate(value)
@@ -290,6 +351,7 @@ const TAttendance = () => {
                     <Grid container spacing={0.5}>
                         <Grid item xs={3.5}>
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
+                            <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} > Delete  </ButtonPrimary>
                         </Grid><Grid item xs={5}>
                             <ButtonPrimary color='secondary'
                                 onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180, ml: "-6px" }} />}>

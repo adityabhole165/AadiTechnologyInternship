@@ -136,3 +136,10 @@ export interface IGetSummaryCountforAttendanceResult
   
 }
 
+
+export interface IDeleteAttendanceBody{
+    asSchoolId:number,
+    asAttendanceDate:string,
+    asAcademicYearId:number,
+    asStdDivId:number
+ }

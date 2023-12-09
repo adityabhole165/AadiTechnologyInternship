@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAttendance";
 import { getDateFromatDateTime, getDateMonthYearFormatted } from 'src/components/Common/Util';
-import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody, } from "src/interfaces/Teacher/TAttendanceList";
+import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody,IDeleteAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
 const TAttendanceSlice = createSlice({
@@ -20,7 +20,8 @@ const TAttendanceSlice = createSlice({
         SaveResponse: '',
         AYStatus: '',
         ISGetSummaryCountforAttendance: null,
-        listAttendanceCalender: []
+        listAttendanceCalender: [],
+        DeleteAttendance:''
     },
 
     reducers: {
@@ -81,7 +82,16 @@ const TAttendanceSlice = createSlice({
             state.ISGetSummaryCountforAttendance = action.payload.GetSummaryCountforAttendance
             state.listAttendanceCalender = action.payload.listAttendanceCalender;
         
-        }
+        },
+
+        RDeleteAttendance(state, action) {
+            state.DeleteAttendance = action.payload
+        },
+
+        resetDeleteAttendance(state) {
+            state.DeleteAttendance = '';
+          },
+
     }
 });
 
@@ -287,5 +297,21 @@ export const CDASummaryCountforAttendanceBody =
                 })
             );
         };
+
+
+        export const CDADeleteAttendance =
+    (data: IDeleteAttendanceBody): AppThunk =>
+        async (dispatch) => {
+            const response = await GetTAttendanceListApi.DeleteAttendance(data);
+            dispatch(TAttendanceSlice.actions.RDeleteAttendance(response.data));
+        };
+
+
+      
+        export const CDAresetDeleteAttendance =
+        (): AppThunk =>
+          async (dispatch) => {
+            dispatch(TAttendanceSlice.actions.resetDeleteAttendance());
+          }
 
 export default TAttendanceSlice.reducer

@@ -6,7 +6,6 @@ import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import { getDateFormattedDash } from 'src/components/Common/Util';
 function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayList=[] }) {
-
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return ((obj.Status == undefined ? obj.Text3 : obj.Status) == "Y")
@@ -28,15 +27,30 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
   }
 
   const clickPrevNextMonth = (value) => {
-    const newDate = new Date(formattedDate);
-    newDate.setMonth(newDate.getMonth() + value);
-
+    let newDate
+    if(formattedDate.split(" ").length==2)
+      newDate = new Date("1 " +formattedDate)
+    else;
+      newDate = new Date(formattedDate);
+      newDate.setMonth(newDate.getMonth() + value);
     ClickItem(getDateFormattedDash(newDate));
   };
 
   return (
     <Card component={Box} p={2}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
+          <Card  >
+            <ArrowBackIosNewIcon />
+          </Card>
+        </IconButton>
+        {formattedDate}
+
+        <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
+          <Card >
+            <ArrowForwardIosIcon />
+          </Card>
+        </IconButton>
         <Grid container>
           {ArrayList.map((item, i) => (
             <>
@@ -57,18 +71,6 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
           ))}
 
         </Grid>
-        <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
-          <Card  >
-            <ArrowBackIosNewIcon />
-          </Card>
-        </IconButton>
-        {formattedDate}
-
-        <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
-          <Card >
-            <ArrowForwardIosIcon />
-          </Card>
-        </IconButton>
 
 
       </Box>

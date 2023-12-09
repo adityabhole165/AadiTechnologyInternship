@@ -14,6 +14,7 @@ import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import { number } from 'prop-types';
 import DropDown from 'src/libraries/list/DropDown';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
+import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 
 
 const AssignExamMark = () => {
@@ -116,9 +117,26 @@ const HeaderPublish = [
       <div>
         <PageHeader heading='Assign Exam Mark' />
         <div>
+        
+
+
+            <Grid container>
+            <Grid item xs={12}>
+              <h4>Legends</h4>
+              <Box sx={{ display: 'flex', gap: '20px' }}>
+              <DotLegends color='secondary' 
+        text={'No student in class / Subject not applicable to student'} 
+        text1={'Marks entry not started'} 
+        text2={'Marks entry partially done'}
+        text3={'Submit exam marks to the class teacher'} 
+        text4={'Unsubmit Exam Marks'} 
+        text5={'Marks entry completed	'}  />
+              </Box>
+            </Grid>
+          </Grid>
+
           <Grid container>
             <Grid item xs={6}>
-              {/* <IconLegends color='secondary' text='No student in class / Subject not applicable to student' text1='Marks entry not started' text2='Marks entry partially done' text3='	Submit exam marks to the class teacher' text4='	Unsubmit Exam Marks' text5='Marks entry completed' /> */}
             </Grid>
           </Grid>
         </div>
