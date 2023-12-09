@@ -8,14 +8,14 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { useNavigate } from 'react-router-dom';
 import UpcomingEvent from './UpcomingEvent';
 import Icon1 from 'src/libraries/icon/icon1';
-import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody, IGetAssociatedStdLstForTeacherDropDownResult, IGetAllDivisionsForStandardDropDownResult, IGetAllMonthsDropDownResult, IGetYearsForAnnualPalannerDropDownResult, IGetEventsDataListResult } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
-import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
+import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody,  IGetAssociatedStandardsBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
+import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList, CDAAssociatedStandards } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
 import Note from 'src/libraries/Note/Note';
@@ -41,8 +41,7 @@ function EventOverview() {
   const SelectMonthList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList);
   const SelectYearList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList);
   const USGetEventsDataList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList);
-
-
+  
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -50,13 +49,18 @@ function EventOverview() {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId')
   const [date, setDate] = useState<any>({ selectedDate: null });
+
+  //const[selectedDate,SetselectedDate]= useState<any>();
+
   const [assignedYear, setAssignedYear] = useState<any>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
   const [selectStandard, setSelectStandard] = useState('')
   const [selectDivision, setSelectDivision] = useState('')
   const [selectMonth, setSelectMonth] = useState(currentMonth)
   const [selectYear, setSelectYear] = useState(currentYear)
-  const [Standard, setStandard] = useState('')
+ 
+
+  
   const PageNote = ['These events may change due to unavoidable reasons without prior notice'];
   const HeaderPublish = [
     { Id: 1, Header: "Sunday" }, { Id: 2, Header: "Monday" }, { Id: 3, Header: "Tuesday" }
@@ -169,22 +173,29 @@ function EventOverview() {
     asDivisionId: Number(selectDivision)
   };
 
+
   useEffect(() => {
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
     dispatch(GetDivisionList(AllDivisionsForStandardBody));
     dispatch(GetMonthList(GetAllMonthsDropBody));
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+    //dispatch(CDAAssociatedStandards(AssociatedStandardsBody));
+
+    
   }, []);
+
+
+ 
 
 
   useEffect(() => {
 
     if (selectStandard != '' &&
       selectDivision != '' &&
-      selectMonth != '' && selectYear != '')
+      selectMonth != '' && selectYear != ''&& date!='')
       dispatch(CDAGetEventsDataList(GetEventsDataListBody))
 
-  }, [selectStandard, selectDivision, selectMonth, selectYear]);
+  }, [selectStandard, selectDivision, selectMonth, selectYear  ,date]);
 
 
   useEffect(() => {
@@ -208,11 +219,41 @@ function EventOverview() {
   const clicYearDropdown = (value) => {
     setSelectYear(value)
   }
+
+  const ClickOpenDialogbox = (value) => {
+    
+  }
+
+  
+  const ClickClickOpenDialogbox = (value) => {
+    
+  }
+
+  
+  
+
   const ClickItemList = (value) => {
-    alert(value)
+ 
+    const date = value || new Date();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Month_num = new Date(date).getMonth();
+    const Year = new Date(date).getFullYear()
+    const NewDateFormat = `${Month} ${Year}`;
+    
+    setDate({
+     selectedDate:NewDateFormat
+    });
+  setSelectMonth(Month_num.toString())
+  setSelectYear(Year.toString())
 
   }
 
+  // const ClickGetMonth = (value) => {
+   
+  //   setDate({
+  //    selectedDate:getMonthFormatted(new Date())
+  //   });
+  // }
 
   const StartDate = new Date(
     moment(sessionStorage.getItem('StartDate')).format('YYYY-MM')
@@ -258,6 +299,14 @@ function EventOverview() {
             </>)
           }
         </Container>
+
+        <Button variant="outlined" onClick={ClickOpenDialogbox} style={{ marginLeft: 'auto' }}>
+  Add Annual Planner
+</Button>
+
+<Button variant="outlined" onClick={ClickClickOpenDialogbox} style={{ marginLeft: 'auto' }}>
+  EventOverview
+</Button>
         <Grid container>
           <Grid item xs={12}>
             <h4>Legends</h4>
@@ -277,7 +326,6 @@ function EventOverview() {
             <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
           </Grid>
           <Grid item xs={1}>
-
             <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>Select Div :</Typography>
           </Grid>
           <Grid item xs={2}>
@@ -300,9 +348,13 @@ function EventOverview() {
           </Grid>
         </Grid>
         <br></br>
+
         <CardCalender ItemList={USGetEventsDataList} ClickItem={ClickItemList}
-          formattedDate={""} DefaultValue ArrayList={HeaderPublish} />
+          formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
         <Note NoteDetail={PageNote} />
+
+  
+
       </>
       }
     </>
