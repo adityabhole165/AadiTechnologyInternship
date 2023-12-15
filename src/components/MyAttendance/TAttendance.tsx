@@ -352,7 +352,8 @@ const TAttendance = () => {
                         <Grid item xs={3.5}>
                             <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
                             <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} > Delete  </ButtonPrimary>
-                        </Grid><Grid item xs={5}>
+                        </Grid>
+                        <Grid item xs={5}>
                             <ButtonPrimary color='secondary'
                                 onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180, ml: "-6px" }} />}>
                                 Attendance

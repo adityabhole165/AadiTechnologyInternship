@@ -1,9 +1,9 @@
-import { Card, Typography, Grid, Box, IconButton } from '@mui/material'
+import { Card, Typography, Grid, Box, IconButton, TableCell } from '@mui/material'
 import React, { useState } from 'react'
 import CardCal from './CardCal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue }) {
+function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue,ArrayList }) {
 
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -41,11 +41,29 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
             <ArrowForwardIosIcon />
           </Card>
         </IconButton>
-      </Box>
-      <Grid container columnSpacing={1} rowSpacing={1}>
-        {ItemList.map((item, i) => {
+        
+        <Grid container columnSpacing={1} rowSpacing={1}>
+          {ArrayList.map((item, i) => (
+            <>
+
+              <Grid item md={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <TableCell
+                  key={i}
+                  sx={{ textTransform: "capitalize" }}
+
+                >
+                  {" "}
+                  <b>{item.Header}</b>
+                </TableCell>
+              </Grid>
+              
+
+            </>
+
+          ))}
+          {ItemList.map((item, i) => {
           return (
-            <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
+            <Grid item md={1.71} sx={{ textAlign: "center" }} key={i}>
 
               <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
             </Grid>
@@ -53,9 +71,14 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
         })
         }
 
+        </Grid>
 
-
-      </Grid>
+      
+      
+      
+      
+      
+      </Box>
     </Card>
   )
 }
