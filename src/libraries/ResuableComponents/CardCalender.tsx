@@ -38,32 +38,33 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
 
   return (
     <Card component={Box} p={2}>
-      <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+      <Box sx={{ display:"flex" , alignItems: "center", justifyContent:"space-between"}}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon />
           </Card>
         </IconButton>
-        {formattedDate}
+       <Typography sx={{fontWeight:"bold"}}>{formattedDate}</Typography> 
 
         <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
           <Card >
             <ArrowForwardIosIcon />
           </Card>
         </IconButton>
+        </Box>
         <Grid container>
           {ArrayList.map((item, i) => (
             <>
 
               <Grid item xs={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <TableCell
+                <Typography
                   key={i}
                   sx={{ textTransform: "capitalize" }}
 
                 >
                   {" "}
                   <b>{item.Header}</b>
-                </TableCell>
+                </Typography>
               </Grid>
 
             </>
@@ -73,7 +74,8 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
         </Grid>
 
 
-      </Box>
+    
+      <br></br>
       <Grid container columnSpacing={1} rowSpacing={1}>
         {ItemList.map((item, i) => {
           return (

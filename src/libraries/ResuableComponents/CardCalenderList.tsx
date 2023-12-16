@@ -34,7 +34,8 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
             <ArrowBackIosNewIcon />
           </Card>
         </IconButton>
-        {formattedDate}
+        <b>{formattedDate}</b>
+    
 
         <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
           <Card >
@@ -46,13 +47,11 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
           {ArrayList.map((item, i) => (
             <>
 
-              <Grid item md={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+              <Grid item xs={1.5} md={1.71} sx={{ display: "flex" , alignItems:"center"  }}>
                 <TableCell
                   key={i}
-                  sx={{ textTransform: "capitalize" }}
-
-                >
-                  {" "}
+                  sx={{ textTransform: "capitalize" }}>
+                 
                   <b>{item.Header}</b>
                 </TableCell>
               </Grid>

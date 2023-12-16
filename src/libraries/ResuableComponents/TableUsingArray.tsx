@@ -6,7 +6,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Card, TextareaAutosize, MenuItem, FormControl, Select } from '@mui/material';
+import { Card, TextareaAutosize, MenuItem, FormControl, Select, Box } from '@mui/material';
 import ClearIcon from '@mui/icons-material/Clear';
 
 
@@ -15,25 +15,25 @@ function TableUsingArray({ ItemList, HeaderArray }) {
     console.log("ItemList",ItemList)
 
     return (
-        <Paper sx={{ width: '100%', overflow: 'hidden' }} > {/* Add this div for the sticky header */}
-            <TableContainer component={Paper} sx={{ maxHeight: 440 }}>
+        <Box sx={{ width: '100%', overflow: 'hidden' }} > {/* Add this div for the sticky header */}
+            <TableContainer component={Paper} square sx={{ border:"1px solid black" }}>
                 <Table stickyHeader aria-label="sticky table" >
                     <TableHead >
-                        <TableRow>
+                        <TableRow >
                             {HeaderArray.map((item, i) => (
                                 <>
                                 
                                
                                     {i == 0 ? 
                                     <>
-                                      <TableCell key={i} sx={{ textTransform: "capitalize", borderRight: "1px solid black", backgroundColor: "#c5e1a5",
-                                background: "linear-gradient(60deg, #01579b, #80d8ff)"}}
+                                      <TableCell key={i} sx={{ textTransform: "capitalize", backgroundColor: "#c5e1a5",
+                                background: "#90caf9", borderRight:"1px solid black" ,borderBottom:"1px solid black"}}
                                     align="center"><b>{item}</b></TableCell>
                                     
                                     </>:
                                     <>
                                     
-                                    <TableCell key={i} sx={{ textTransform: "capitalize", borderRight: "1px solid black", backgroundColor: "#80deea" 
+                                    <TableCell key={i} sx={{ textTransform: "capitalize", backgroundColor: "#90caf9" , borderRight:"1px solid black" ,borderBottom:"1px solid black" 
                                 }}
                                     align="center"><b>{item}</b></TableCell>
                                     </>
@@ -59,7 +59,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                     </TableBody>
                 </Table>
             </TableContainer>
-        </Paper>
+        </Box>
     );
 }
 

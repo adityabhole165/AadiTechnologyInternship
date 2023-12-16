@@ -19,6 +19,7 @@ import CardToggle1 from 'src/libraries/ResuableComponents/CardToggle1';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import { getAttendanceLegend } from '../Common/Util';
 import BackButton from 'src/libraries/button/BackButton';
+import WebBackButton from 'src/libraries/button/WebBackButton';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -35,18 +36,18 @@ const IndividualAttendance = () => {
   const [ItemList, setItemList] = useState([])
   const [DefaultValue, setDefaultValue] = useState(null)
   const [StudentId, setStudentId] = useState("0");
-  const itemlist2 = [{ id: "Y", Text: "PresentAll" }, { id: "N", Text: "AbsentAll" }]
+  const itemlist2 = [{ id: "Y", Text: "Present All" }, { id: "N", Text: "Absent All" }]
   const [IsPresentAbsent, setIsPresentAbsent] = useState(0)
   const [date, setDate] = useState(new Date());
   const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
   const Note: string = 'Mark  Attendence of Only  individual Student.';
   const [IsClicked, setIsClicked] = useState(false)
   const HeaderPublish = [
-    { Id: 1, Header: "Sunday" }, { Id: 2, Header: "Monday" }, { Id: 3, Header: "Tuesday" }
-    , { Id: 4, Header: "Wednesday" }
-    , { Id: 5, Header: "Thursday" },
-    { Id: 6, Header: "Friday" },
-    { Id: 7, Header: "Saturday" },
+    { Id: 1, Header: "Sun" }, { Id: 2, Header: "Mon" }, { Id: 3, Header: "Tue" }
+    , { Id: 4, Header: "Wed" }
+    , { Id: 5, Header: "Thu" },
+    { Id: 6, Header: "Fri" },
+    { Id: 7, Header: "Sat" },
 
   ]
 
@@ -95,7 +96,7 @@ const IndividualAttendance = () => {
 
   const clickTogle = (value) => {
     setItemList(
-    
+
       ItemList.map((obj) =>
         obj.IsClickable ?
           {
@@ -104,9 +105,9 @@ const IndividualAttendance = () => {
             BackgroundColor: getAttendanceLegend(value),
             Text1: value == "Y" ? "Present" : "Absent"
           } : obj
-          
+
       )
-     
+
     )
     const isClicked = ItemList.some((obj) => obj.IsClickable && obj.Status !== value);
     setIsClicked(isClicked);
@@ -131,7 +132,7 @@ const IndividualAttendance = () => {
     setItemList(value)
     setAttendanceXML("<Attendance>" + getAttendanceString(value) + "</Attendance>")
   }
-console.log( ItemList," setItemList");
+  console.log(ItemList, " setItemList");
 
   const getAttendanceString = (AttendanceList) => {
     var XMLString = ""
@@ -166,58 +167,63 @@ console.log( ItemList," setItemList");
     dispatch(SaveStudentAttendance(SaveAttendance));
   }
   return (
-    <div>
+    <Container maxWidth={'xl'}>
       <Box sx={{ float: "right" }}>
         <Icon6 Note={Note} />
       </Box>
       <PageHeader heading={'Individual Attandance'} subheading={''} />
       <br></br>
-      <Grid container direction="row" >
-          <BackButton FromRoute={'/Teacher/TAttendance/'}/>
-        </Grid>
-      
-      <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
-      <br></br>
-      <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
-      <br></br>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-      </Box>
-      <Grid container>
-        <Grid item xs={6}>
-          <DotLegendTeacher color="primary" text="Present" />
-          <DotLegendTeacher color="error" text="Absent" />
-          <DotLegendTeacher color="success" text="Holiday" />
-          <DotLegendTeacher color="secondary" text="Weekend" />
-        </Grid>
-        <Grid item xs={6}>
-          <DotLegendTeacher color="warning" text="OutSideAcadamicYear" />
-          <DotLegendTeacher color="info" text="LateJoin" />
-          <DotLegendTeacher color="" text="NotAvailabel" />
-        </Grid>
-      </Grid>
-      <CardCalenderList ItemList={ItemList}
-        ClickItem={ClickItem}
-        handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
-        formattedDate={formattedDate} DefaultValue={DefaultValue} ArrayList={HeaderPublish}/>
-      <br></br>
-      <div style={{ textAlign: 'center' }}>
-        <ButtonPrimary
-          style={{ width: '72px', backgroundColor: '#ef5350', marginBottom: '10px' }}
-          onClick={click}
-        >
-          Close
-        </ButtonPrimary>
 
-        <ButtonPrimary disabled={!IsClicked}
-          style={{ width: '72px' }}
-          onClick={SaveFile}
-        >
-          Save
-        </ButtonPrimary>
-      </div> 
-    </div>
-  )
+      <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
+
+        <Grid container>
+      
+        <Grid item xs={2} sm={4} />
+        <Grid item xs={8} sm={4}>
+          <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
+          </Grid>
+          </Grid>
+          <br></br>
+          <CardToggle1 ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
+          <br></br>
+          <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+          </Box>
+          <Grid container>
+            <Grid item xs={6}>
+              <DotLegendTeacher color="primary" text="Present" />
+              <DotLegendTeacher color="error" text="Absent" />
+              <DotLegendTeacher color="success" text="Holiday" />
+              <DotLegendTeacher color="secondary" text="Weekend" />
+            </Grid>
+            <Grid item xs={6}>
+              <DotLegendTeacher color="warning" text="OutSideAcadamicYear" />
+              <DotLegendTeacher color="info" text="LateJoin" />
+              <DotLegendTeacher color="" text="NotAvailabel" />
+            </Grid>
+          </Grid>
+          <br></br>
+          <CardCalenderList ItemList={ItemList}
+            ClickItem={ClickItem}
+            handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
+            formattedDate={formattedDate} DefaultValue={DefaultValue} ArrayList={HeaderPublish} />
+          <br></br>
+          <div style={{ textAlign: 'center' }}>
+            <ButtonPrimary
+              style={{  backgroundColor: '#ef5350'}}
+              onClick={click}
+            >
+              Close
+            </ButtonPrimary>
+          
+            <ButtonPrimary disabled={!IsClicked}
+              onClick={SaveFile} sx={{ml:"3px"}}
+            >
+              Save
+            </ButtonPrimary>
+          </div>
+        </Container>
+        )
 }
-export default IndividualAttendance
+        export default IndividualAttendance
 
 

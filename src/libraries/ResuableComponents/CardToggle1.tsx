@@ -8,14 +8,14 @@ function CardToggle1({ ItemList, clickToggle, defaultvalue }) {
             <Grid container>
                 {ItemList.map((item, i) => (
                     <div key={i}>
-                        <Grid item xs={2}>
+                        <Grid item xs={4}>
                             <ToggleButtonGroup
                                 color="primary"
                                 value={defaultvalue}
                                 exclusive
                                 onChange={() => clickToggle(item.id)}
-                                aria-label="Platform" >
-                                <ToggleButton value={item.id}>{item.Text}</ToggleButton>
+                                aria-label="Platform"  >
+                                <ToggleButton value={item.id} sx={{width:"100px"}}>{item.Text}</ToggleButton>
                             </ToggleButtonGroup>
                         </Grid>
                         </div>

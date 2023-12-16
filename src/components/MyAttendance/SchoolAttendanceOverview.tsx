@@ -73,7 +73,8 @@ useEffect(()=>{
   return (
     <Container maxWidth={'xl'}>
     
-      <Typography variant="h3" pt={2}>Attendance Overview</Typography>
+    
+      <PageHeader heading={'Attendance Overview'} subheading={''} />
 
       <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
         <Typography sx={{ mr: "10px" }}>Select Date</Typography>

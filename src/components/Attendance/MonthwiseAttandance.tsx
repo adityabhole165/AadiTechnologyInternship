@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Box, Grid, } from '@mui/material';
+import { Box, Container, Grid, } from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { TextField } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -14,6 +14,7 @@ import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttend
 import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import BackButton from 'src/libraries/button/BackButton';
+import WebBackButton from 'src/libraries/button/WebBackButton';
 
 const MonthwiseAttandance = () => {
     const dispatch = useDispatch();
@@ -63,44 +64,43 @@ const MonthwiseAttandance = () => {
         navigate('/extended-sidebar/Teacher/TAttendance');
     };
     return (
-        <>
+        <Container maxWidth={'xl'}>
             <PageHeader heading={'Monthwise Attandance'} subheading={''} />
-            <br></br>
-            <Grid container direction="row" >
-          <BackButton FromRoute={'/Teacher/TAttendance/'}/>
-        </Grid>
-      
-            <Box sx={{ float: "right" }}>
-                <Icon6  Note={Note}  />
-            </Box>
-
+              <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
+             <Box sx={{ float: "right" }}>
+                <Icon6 Note={Note} />
+             </Box>
+           <Grid container>
+           <Grid item xs={2} sm={4}/>
+            <Grid item xs={8}  sm={4}>
             <TextField label={'Search by Name'} name="SearchText" type="text" variant="standard"
                 value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth
 
             />
+            </Grid>
+           </Grid>
+         
+         
+      
             <br></br><br></br>
 
 
 
             <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
 
-            <div
-      style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '10vh', 
-      }}
-    >
-      <ButtonPrimary
-        style={{ width: '72px', backgroundColor: '#ef5350', marginBottom: '10px' }}
-        onClick={click}
-      >
-        Close
-      </ButtonPrimary> 
-        </div>
 
-        </>
+            <Box sx={{ textAlign: "center" }} m={2}>
+                <ButtonPrimary
+                    style={{backgroundColor: '#ef5350'}}
+                    onClick={click}
+                >
+                   Close
+                </ButtonPrimary>
+            </Box>
+
+
+
+        </Container>
     )
 }
 export default MonthwiseAttandance

@@ -31,6 +31,8 @@ function Icon1({ Note, }) {
                             sx: {
                                 marginLeft: '70px',
                                 transform: "translate3d(15px, 0.5px, 0px) !important",
+                                backgroundColor:"#80cbc4",
+                                color:"black"
                             }
                         }
                     }}

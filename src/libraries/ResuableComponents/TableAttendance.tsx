@@ -14,16 +14,16 @@ export default function TableAttendace({ItemList ,HeaderArray}) {
     <>
     {ItemList.length===0 ? <> <ErrorMessages Error={'No record found'} /></> :
      <>
-     <TableContainer component={Card}>
+     <TableContainer component={Card} square>
       <Table aria-label="simple table">
       <TableHead >
         <TableRow >
         {HeaderArray.map((item,i)=>(
-       <TableCell key={i} sx={{textTransform:"capitalize" , borderRight:"1px solid black" , backgroundColor:"lightGray"}} align="center" > <b>{item.Header}</b></TableCell>
+       <TableCell key={i} sx={{textTransform:"capitalize" , border:"1px solid black" , backgroundColor:"#80cbc4"}} align="center" > <b>{item.Header}</b></TableCell>
         ))}
            </TableRow>
             </TableHead>
-         <TableBody>
+         <TableBody sx={{border:"1px solid black"}}>
           {ItemList.map((item,i) => (
             <TableRow
               key={i}
@@ -31,7 +31,7 @@ export default function TableAttendace({ItemList ,HeaderArray}) {
             >
              
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text1}} ></TableCell>
-              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text2}} ></TableCell>
+              <TableCell align="left"   dangerouslySetInnerHTML={{ __html: item.Text2}} sx={{width:"600px" }} ></TableCell>
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text3}} ></TableCell>
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text4}} ></TableCell>
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text5}} ></TableCell>
@@ -44,9 +44,9 @@ export default function TableAttendace({ItemList ,HeaderArray}) {
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text12}} ></TableCell>
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text13}} ></TableCell>
               <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text14}} ></TableCell>
-              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text15}} ></TableCell>
-              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text16}} ></TableCell>
-              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text17}} ></TableCell>
+              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text15}} sx={{fontWeight:"bold"}}></TableCell>
+              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text16}} sx={{fontWeight:"bold"}}></TableCell>
+              <TableCell align="center"   dangerouslySetInnerHTML={{ __html: item.Text17}} sx={{fontWeight:"bold"}}></TableCell>
 
               
             </TableRow>
