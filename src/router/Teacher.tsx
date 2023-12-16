@@ -26,6 +26,7 @@ const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/
 const AssignExamMark= Loader(lazy(() => import('src/components/AssignExamMark/AssignExamMark')))
 const AnnualPalnerBaseScreen= Loader(lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
 
+const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/AssignHomework')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -98,6 +99,10 @@ const teacherRoutes = [
     
 
 
+    {
+      path: 'AssignHomework',
+      element: <AssignHomework/>
+    },
 
     ];
   
