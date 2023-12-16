@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
+import SubjectListmainpage from 'src/components/AnnualPlanner/SubjectListmainpage';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
@@ -23,6 +24,8 @@ const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAtt
 const AddAnnualPlaner = Loader(lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner')))
 const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/MonthwiseAttandance')))
 const AssignExamMark= Loader(lazy(() => import('src/components/AssignExamMark/AssignExamMark')))
+const AnnualPalnerBaseScreen= Loader(lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
+
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -76,8 +79,23 @@ const teacherRoutes = [
       path: 'AssignExamMark',
       element: <AssignExamMark/>
     },
+
+    {
+      path: 'AnnualPalnerBaseScreen',
+      element: <AnnualPalnerBaseScreen/>
+    },
     
 
+
+    {
+      path: 'SubjectListmainpage',
+      element: <SubjectListmainpage/>
+    },
+    
+    
+
+    
+    
 
 
 
