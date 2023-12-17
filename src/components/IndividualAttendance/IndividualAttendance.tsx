@@ -1,10 +1,10 @@
 import React from 'react'
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router-dom';
-import Icon6 from 'src/libraries/icon/icon6';
+import Icon1 from 'src/libraries/icon/icon1';
 import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect, } from 'react';
@@ -18,7 +18,6 @@ import { toast } from 'react-toastify';
 import CardToggle1 from 'src/libraries/ResuableComponents/CardToggle1';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import { getAttendanceLegend } from '../Common/Util';
-import BackButton from 'src/libraries/button/BackButton';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -35,21 +34,12 @@ const IndividualAttendance = () => {
   const [ItemList, setItemList] = useState([])
   const [DefaultValue, setDefaultValue] = useState(null)
   const [StudentId, setStudentId] = useState("0");
-  const itemlist2 = [{ id: "Y", Text: "PresentAll" }, { id: "N", Text: "AbsentAll" }]
+  const itemlist2 = [{ id: "Y", Text: "Present" }, { id: "N", Text: "Absent" }]
   const [IsPresentAbsent, setIsPresentAbsent] = useState(0)
   const [date, setDate] = useState(new Date());
   const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
   const Note: string = 'Mark  Attendence of Only  individual Student.';
   const [IsClicked, setIsClicked] = useState(false)
-  const HeaderPublish = [
-    { Id: 1, Header: "Sunday" }, { Id: 2, Header: "Monday" }, { Id: 3, Header: "Tuesday" }
-    , { Id: 4, Header: "Wednesday" }
-    , { Id: 5, Header: "Thursday" },
-    { Id: 6, Header: "Friday" },
-    { Id: 7, Header: "Saturday" },
-
-  ]
-
 
   const StudentList = useSelector((state: RootState) => state.IndividualAttendance.GetStudentName);
   const CalendarForStudent = useSelector((state: RootState) => state.IndividualAttendance.GetCalendarForStudent);
@@ -168,14 +158,9 @@ console.log( ItemList," setItemList");
   return (
     <div>
       <Box sx={{ float: "right" }}>
-        <Icon6 Note={Note} />
+        <Icon1 Note={Note} />
       </Box>
       <PageHeader heading={'Individual Attandance'} subheading={''} />
-      <br></br>
-      <Grid container direction="row" >
-          <BackButton FromRoute={'/Teacher/TAttendance/'}/>
-        </Grid>
-      
       <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
       <br></br>
       <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
@@ -198,23 +183,17 @@ console.log( ItemList," setItemList");
       <CardCalenderList ItemList={ItemList}
         ClickItem={ClickItem}
         handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
-        formattedDate={formattedDate} DefaultValue={DefaultValue} ArrayList={HeaderPublish}/>
+        formattedDate={formattedDate} DefaultValue={DefaultValue} />
       <br></br>
-      <div style={{ textAlign: 'center' }}>
-        <ButtonPrimary
-          style={{ width: '72px', backgroundColor: '#ef5350', marginBottom: '10px' }}
-          onClick={click}
-        >
+
+      <Stack spacing={2} direction="row">
+        <ButtonPrimary color="secondary" onClick={click} fullWidth>
           Close
         </ButtonPrimary>
-
-        <ButtonPrimary disabled={!IsClicked}
-          style={{ width: '72px' }}
-          onClick={SaveFile}
-        >
+        <ButtonPrimary disabled={!IsClicked} color="secondary" onClick={SaveFile} fullWidth>
           Save
         </ButtonPrimary>
-      </div> 
+      </Stack>
     </div>
   )
 }

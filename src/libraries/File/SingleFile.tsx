@@ -5,10 +5,10 @@ import { ChangeFileIntoBase64, CheckFileValidationAdhar } from 'src/components/C
 import Icon5 from '../icon/icon5';
 import { Styles } from 'src/assets/style/student-style';
 
-const SingleFile = ({ValidFileTypes, MaxfileSize, fileError='', ChangeFile}) => {
+const SingleFile = ({ValidFileTypes, MaxfileSize, ChangeFile}) => {
     const classes = Styles();
     const aRef = useRef(null);
-    const [FileError, setFileError] = useState(fileError);
+    const [FileError, setFileError] = useState('');
     const clickFile = async (e) => {
         const multipleFiles = e.target.files;
         let base64URL: any = '';
@@ -26,7 +26,19 @@ const SingleFile = ({ValidFileTypes, MaxfileSize, fileError='', ChangeFile}) => 
             }
         }
     }
-    
+    // const ChangeFileIntoBase64 = (fileData) => {
+    //     return new Promise((resolve, reject) => {
+    //         const fileReader = new FileReader();
+    //         fileReader.readAsDataURL(fileData);
+
+    //         fileReader.onload = () => {
+    //             resolve(fileReader.result);
+    //         };
+    //         fileReader.onerror = (err) => {
+    //             reject(err);
+    //         };
+    //     });
+    // };
     return (
         <Container>
             <Box sx={{ textAlign: "center" }}>

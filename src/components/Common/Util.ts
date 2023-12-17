@@ -20,7 +20,7 @@ export function getMonthYear() {
 }
 export const getAttendanceLegend = (Status) => {
     //return Status=="Y"?"green":Status=="B"?"blue":"orange"
-    return Status == "Y" ? "mediumturquoise" : Status == "B" ? "lightcoral" : Status == "D" ? "lightsalmon " : Status == "L" ? "Skyblue" : Status == "X" ? "#e1bee7" : Status == "N" ? "tomato" : "salmon"
+    return Status == "Y" ? "mediumturquoise" : Status == "B" ? "lightcoral" : Status == "D" ? "lightsalmon " : Status == "L" ? "Skyblue" : Status == "X" ? "plum" : Status == "N" ? "tomato" : "salmon"
 }
 export const getDateMonthYearFormattedDash = (date) => {
     let arrDate = date.split(' ')[0].split('-')
