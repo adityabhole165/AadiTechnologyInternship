@@ -12,7 +12,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 const DynamicList = ({ HeaderList, ItemList,
-    IconList, ClickItem, ClickCheck, IsSelect = 0 }) => {
+    IconList=undefined, ClickItem=undefined, ClickCheck=undefined, IsSelect = 0 }) => {
+        console.log(ItemList,"ItemList")
     const clickCheckbox = (value) => {
         let arr = []
         arr = ItemList.map((Item) => {
@@ -30,11 +31,11 @@ const DynamicList = ({ HeaderList, ItemList,
         ClickCheck({ Id: 0, Value: arr, Action: "Select" })
     }
     const getIsCheckedAll = () => {
-        let IsChecked=true
-        ItemList.map((Item)=>{
-            if(!Item.IsActive){
-            IsChecked=false
-        }
+        let IsChecked = true
+        ItemList.map((Item) => {
+            if (!Item.IsActive) {
+                IsChecked = false
+            }
         })
         return IsChecked
     }
@@ -45,11 +46,11 @@ const DynamicList = ({ HeaderList, ItemList,
                     <TableRow>
                         {HeaderList.map((item, i) => {
                             return (
-                                <TableCell align="right" key={i}>
+                                <TableCell align="center" key={i}>
                                     <b>{item}</b>
-                                    {(IsSelect==2 && i==0) &&
-                                    (<><br></br><Checkbox checked={getIsCheckedAll()} 
-                                    onChange={CheckAll}/></>)}
+                                    {(IsSelect == 2 && i == 0) &&
+                                        (<><br></br><Checkbox checked={getIsCheckedAll()}
+                                            onChange={CheckAll} /></>)}
                                 </TableCell>
                             )
                         })}
@@ -62,16 +63,26 @@ const DynamicList = ({ HeaderList, ItemList,
                             <TableRow key={index}>
                                 {
                                     (IsSelect > 0) &&
-                                    <TableCell align="right">
+                                    <TableCell align="center">
                                         <Checkbox checked={item.IsActive}
                                             onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
                                     </TableCell>
                                 }
-                                <TableCell align="right">{item.Name}</TableCell>
-
-                                {IconList.map((obj, i) => {
+                                {
+                                    item.Text1 != undefined &&
+                                    <TableCell align="center">{item.Text1}</TableCell>
+                                }
+                                {
+                                    item.Text2 != undefined &&
+                                    <TableCell align="center">{item.Text2}</TableCell>
+                                }
+                                {
+                                    item.Text3 != undefined &&
+                                    <TableCell align="center">{item.Text3}</TableCell>
+                                }
+                                {IconList?.map((obj, i) => {
                                     return (
-                                        <TableCell align="right" key={i}
+                                        <TableCell align="center" key={i}
                                             onClick={() => { ClickItem({ Id: item.Id, Action: obj.Action }) }}>
                                             {obj.Icon}
                                         </TableCell>

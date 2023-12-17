@@ -76,6 +76,22 @@ export const GetSubjectListClass =
             dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
         };
 
+        export const GetSubjectList =
+        (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
+            async (dispatch) => {
+                const response = await AssignExamMarkApi.SubjectsExamMarks(data);
+                
+                let a = response.data.map((item, i) => {
+                    return {
+            
+                        Text1:item.StandardDivision,
+                        Text2:item.Subject_Name,
+                        Status:item.STATUS,
+                    }
+                })
+                dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
+            };
+    
 export default AssignExamMarkSlice.reducer
 
 
