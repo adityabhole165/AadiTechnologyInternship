@@ -61,13 +61,17 @@ const AddAnnualPlaner = () => {
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
-  const [asUpdatedById, SetasUpdatedById] = useState<any>();
-
+  const asUpdatedById = localStorage.getItem('Id');
+  const SiteURL = localStorage.getItem('SiteURL');
+  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
   const AnnualplannerBody: IAddAnnualPlannerBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asLinkUrl: base64URL,
-    asUpdatedById: asUpdatedById
+    asSaveFeature:"Event Planner",
+    asFileName:fileName,
+    asFolderName:asFolderName,
+    asBase64String: base64URL,
+    asUpdatedById: Number(asUpdatedById)
   };
   // useEffect(() => {
   // dispatch(addanual(AnnualplannerBody));
