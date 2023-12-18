@@ -1,11 +1,11 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Container, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
 
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectListClass } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
+import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList, GetSubjectListClass } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
 import { RootState } from 'src/store';
 // import IconLegends from '../IconLedends/IconLegends';
 import List2 from 'src/libraries/mainCard/List2';
@@ -15,7 +15,9 @@ import DropDown from 'src/libraries/list/DropDown';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import { Navigate, useNavigate } from 'react-router';
-
+import EditIcon from '@mui/icons-material/Edit';
+import OfflinePinIcon from '@mui/icons-material/OfflinePin';
+import DynamicList from 'src/libraries/list/DynamicList';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -88,7 +90,7 @@ const AssignExamMark = () => {
     //   }, [selectClass,selectClassWiseExam]);
 
     useEffect(() => {
-       dispatch(GetSubjectListClass(GetSubjectListtClass))
+       dispatch(GetSubjectList(GetSubjectListtClass))
       }, [selectClass,ClassWiseExam]);
 
 
@@ -101,7 +103,7 @@ const AssignExamMark = () => {
     SetClassWiseExam(value)
   }
 
-const HeaderPublish = [
+  const HeaderPublish = [
     {Id:1,Header:"Class"},
     {Id:2,Header:"Subject" },
     {Id:3,Header:"Edit" }
@@ -109,11 +111,25 @@ const HeaderPublish = [
     
  ]
 
+ const HeaderList = [
+  "Class",
+  "Subject",
+  "Edit",
+  "Sumbit"
+]
+const [IconList, setIconList] = useState([
+  {Id:1,
+    Icon:(<EditIcon/>), 
+    Action:"Edit"},
+  {Id:1,
+    Icon:(<OfflinePinIcon/>), 
+    Action:"Complete"},
+])
  const clickEdit = () => {
   navigate('/extended-sidebar/Common/EventOverview')
 }
   return (
-    <>
+    <Container>
       <div>
         <PageHeader heading='Assign Exam Mark' />
         <div>
@@ -163,11 +179,12 @@ const HeaderPublish = [
  
 </Grid>
 <h4 >My Subject(s):-</h4>
-       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish} />
-        
+       {/* <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish} /> */}
+        <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
+        IconList={IconList} ClickItem={clickEdit}/>
        
       </div>
-    </>
+    </Container>
   )
 }
 
