@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Grid } from '@mui/material';
+import { Box, Container, Grid } from '@mui/material';
 import { useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -156,7 +156,7 @@ console.log( ItemList," setItemList");
     dispatch(SaveStudentAttendance(SaveAttendance));
   }
   return (
-    <div>
+    <Container>
       <Box sx={{ float: "right" }}>
         <Icon1 Note={Note} />
       </Box>
@@ -194,7 +194,7 @@ console.log( ItemList," setItemList");
           Save
         </ButtonPrimary>
       </Stack>
-    </div>
+    </Container>
   )
 }
 export default IndividualAttendance
