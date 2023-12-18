@@ -381,6 +381,18 @@ const DashboardData = {
       },
 
 
+      {
+        Text1: 'SchoolAttendance',
+        Text2: 'Overview',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: EventIcon,
+        Link: 'Teacher/SchoolAttendanceOverview',
+        index: 2,
+       
+      },
+
+
      
   
       // {
