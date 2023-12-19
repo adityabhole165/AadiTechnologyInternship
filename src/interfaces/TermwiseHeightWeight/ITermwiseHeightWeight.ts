@@ -1,0 +1,52 @@
+import { string } from "prop-types"
+
+export interface IClassTeacherDropdownBody{
+    asSchoolId:number ,
+    asAcademicYearID:number
+}
+
+export interface IClassTeacherDropdownResult{
+        TeacherName: string,
+        Teacher_Id: string,
+        Designation_Id: string,
+        Teacher_First_Name: string,
+        Standard_Name: string,
+        Division_Name: string,
+        Original_Standard_Id: string,
+        Original_Division_Id: string,
+        StandardDivisionId: string
+}
+
+export interface ITermDropdownBody{
+    asSchoolId:number
+}
+
+export interface ITermDropdownResult{
+    Term_Id: string,
+    Term_Name: string
+}
+
+export interface IStudentsListBody{
+    asStdDivId:number ,
+    asAcademic_Year_Id:number ,
+    asSchoolId:number,
+    asTerm_Id:number
+}
+
+export interface IStudentsListResult{
+       Roll_No: string,
+        StudentName: string,
+        Height: string,
+        Weight: string
+}
+
+export interface IUpdateStudentDetailsBody{
+
+    asSchoolId: number,
+    asAcademicYearId: number,
+    asTermId: number,
+    asStandardDivisionId: number,
+    aiUserId: number,
+    StudentHeightWeightDetailsXML: string
+}
+
