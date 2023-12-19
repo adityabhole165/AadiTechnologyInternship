@@ -417,6 +417,20 @@ export const Styles = makeStyles({
     },
   },
 
+  Attandance: {
+    '@media (min-width: 900px)': {
+     marginTop:"-80px"
+
+    },
+  },
+
+  AttandanceError: {
+    '@media (max-width: 900px)': {
+     marginTop:"-680px"
+
+    },
+  },
+
   footer: {
     '@media (max-height: 600px)': {
       // display: "none",
