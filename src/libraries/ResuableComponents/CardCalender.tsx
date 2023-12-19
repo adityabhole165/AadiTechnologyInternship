@@ -37,14 +37,15 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
   };
 
   return (
-    <Card component={Box} p={2}>
+    <Card component={Box} p={2} sx={{backgroundColor:"#dcedc8"}}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon />
           </Card>
         </IconButton>
-        {formattedDate}
+        <b>  {formattedDate}</b>
+      
 
         <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
           <Card >
@@ -55,15 +56,15 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
           {ArrayList.map((item, i) => (
             <>
 
-              <Grid item xs={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <TableCell
+              <Grid item xs={1.71} key={i} >
+                {/* <Box
                   key={i}
-                  sx={{ textTransform: "capitalize" }}
+                  sx={{ textTransform: "capitalize" ,display: "flex", alignItems: "center"}}
 
-                >
+                > */}
                   {" "}
                   <b>{item.Header}</b>
-                </TableCell>
+                {/* </Box> */}
               </Grid>
 
             </>
@@ -77,9 +78,11 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
       <Grid container columnSpacing={1} rowSpacing={1}>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
-
+            <Grid item xs={1.71} sx={{ textAlign: "center"}} key={i}>
+              <Card sx={{padding:"10px"}}>
               <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
+              </Card>
+
             </Grid>
           )
         })

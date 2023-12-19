@@ -27,7 +27,7 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
     <div>
 
-      <Card sx={{
+      <Box sx={{
         height: "60px", alignItems: "center", justifyContent: "center", cursor: 'pointer',
         backgroundColor: item.Value == DefaultValue ? "yellow" : item.BackgroundColor,
       }} onClick={() => onClick(item.Value)} style={{ color: item.ForeColur }}>
@@ -38,7 +38,7 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
         <Typography sx={{color:item.ForeColur}}  dangerouslySetInnerHTML={{ __html: item.Text1}}>
           
         </Typography>
-      </Card>
+      </Box>
 
     </div>
 
