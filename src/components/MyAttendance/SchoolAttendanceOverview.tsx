@@ -73,39 +73,40 @@ useEffect(()=>{
   return (
     <Container maxWidth={'xl'}>
     
-      <Typography variant="h3" pt={2}>Attendance Overview</Typography>
+    
+    <PageHeader heading={'Attendance Overview'} subheading={''} />
 
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <Typography sx={{ mr: "10px" }}>Select Date</Typography>
-        <TextField value={SelectDate} type='date' onChange={(e) => { onSelectDate(e.target.value) }} label={''} size="small" />
-      </Box>
- 
-    {ISWeekendStatusList!==""? 
-     <Typography variant='h6' sx={{color:"red"}}>
-      {ISWeekendStatusList}</Typography> :
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <Typography sx={{ mr: "10px" }}>Select Date</Typography>
+      <TextField value={SelectDate} type='date' onChange={(e) => { onSelectDate(e.target.value) }} label={''} size="small" />
+    </Box>
+
+  {ISWeekendStatusList!==""? 
+   <Typography variant='h6' sx={{color:"red"}}>
+    {ISWeekendStatusList}</Typography> :
 <>
-      <Box sx={{ display: "flex", }}>
-        <Typography>Legend :</Typography>
-        <ClearIcon sx={{ color: "red" }} /> <Typography>Attendance Not  Marked</Typography>
+    <Box sx={{ display: "flex", }}>
+      <Typography>Legend :</Typography>
+      <ClearIcon sx={{ color: "red" }} /> <Typography>Attendance Not  Marked</Typography>
 
-      </Box>
+    </Box>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12}>
-          
-          <TableUsingArray ItemList={ISAttendanceOverviewGridData} HeaderArray={HeaderArray} />
-        </Grid>
-        <div className=""></div>
+    <Grid container spacing={2}>
+      <Grid item xs={12}>
+        
+        <TableUsingArray ItemList={ISAttendanceOverviewGridData} HeaderArray={HeaderArray} />
       </Grid>
-      <br></br>
-      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-        <ButtonPrimary color="error" onClick={click}  >
-          Close
-        </ButtonPrimary>
+      <div className=""></div>
+    </Grid>
+    <br></br>
+    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <ButtonPrimary color="error" onClick={click}  >
+        Close
+      </ButtonPrimary>
 
-      </Box>
+    </Box>
 </>}
-    </Container>
+  </Container>
   )
 }
 
