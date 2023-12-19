@@ -37,7 +37,7 @@ function CardCalender1({ ItemList, ClickItem, formattedDate, DefaultValue, Array
   };
 
   return (
-    <Card component={Box} p={2}>
+    <Box  p={2}>
       <Box sx={{ display:"flex" , alignItems: "center", justifyContent:"space-between"}}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
@@ -87,7 +87,7 @@ function CardCalender1({ ItemList, ClickItem, formattedDate, DefaultValue, Array
         })
         }
       </Grid>
-    </Card>
+    </Box>
   )
 
 }

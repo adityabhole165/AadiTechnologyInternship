@@ -30,7 +30,7 @@ function CardCal1({ item, clickItem, DefaultValue, options = undefined }) {
       <Card sx={{
         height: "90px", alignItems: "center", justifyContent: "center", cursor: 'pointer',
         color: item.Value == DefaultValue ? "yellow" : item.BackgroundColor, width:"90px"
-      }} onClick={() => onClick(item.Value)} style={{ backgroundColor: item.ForeColur , color:"black"}}>
+      }} onClick={() => onClick(item.Value)} style={{ color: item.ForeColur}}>
 
         <Typography >
           {item.Name}

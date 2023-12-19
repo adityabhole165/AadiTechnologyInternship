@@ -368,11 +368,15 @@ const TAttendance = () => {
                     <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
                     <ErrorDetail>{AttendanceStatus}</ErrorDetail>
                     <Box sx={{ display: AYStatus }}>
+                    <Hidden mdUp>
                         <TextField
                             variant="standard"
                             fullWidth
                             label='Absent Roll Numbers'
-                            value={StudentAbsent}></TextField><br></br>
+                            value={StudentAbsent}></TextField>
+                              <br></br>
+                           </Hidden>  
+                          
                         <br></br>
                         <Grid container spacing={0.5}>
                         <Hidden mdDown>
