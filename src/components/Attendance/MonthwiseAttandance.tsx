@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Box, } from '@mui/material';
+import { Box, Container,Grid} from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { TextField } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -12,6 +12,7 @@ import { useEffect, } from 'react';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance'
 import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
+import WebBackButton from 'src/libraries/button/WebBackButton';
 
 const MonthwiseAttandance = () => {
     const dispatch = useDispatch();
@@ -62,20 +63,43 @@ const MonthwiseAttandance = () => {
     };
     return (
         <>
+          <Container maxWidth={'xl'}>
             <PageHeader heading={'Monthwise Attandance'} subheading={''} />
-            <Box sx={{ float: "right" }}>
+              <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
+             <Box sx={{ float: "right" }}>
                 <Icon1 Note={Note} />
-            </Box>
+             </Box>
+           <Grid container>
+           <Grid item xs={2} sm={4}/>
+            <Grid item xs={8}  sm={4}>
             <TextField label={'Search by Name'} name="SearchText" type="text" variant="standard"
-                value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth />
+                value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth
+
+            />
+            </Grid>
+           </Grid>
+         
+         
+      
             <br></br><br></br>
 
 
 
             <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
-            <ButtonPrimary color="secondary" onClick={click} fullWidth>
-                Close
-            </ButtonPrimary>
+
+
+            <Box sx={{ textAlign: "center" }} m={2}>
+                <ButtonPrimary
+                    style={{backgroundColor: '#ef5350'}}
+                    onClick={click}
+                >
+                   Close
+                </ButtonPrimary>
+            </Box>
+
+
+
+        </Container>
         </>
     )
 }
