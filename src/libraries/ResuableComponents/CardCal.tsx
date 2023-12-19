@@ -27,18 +27,21 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
     <div>
 
-      <Box sx={{
-        height: "60px", alignItems: "center", justifyContent: "center", cursor: 'pointer',
-        backgroundColor: item.Value == DefaultValue ? "yellow" : item.BackgroundColor,
-      }} onClick={() => onClick(item.Value)} style={{ color: item.ForeColur }}>
+      <Card sx={{
+        height: "90px", alignItems: "center", justifyContent: "center", cursor: 'pointer',
+        color: item.Value == DefaultValue ? "yellow" : item.BackgroundColor, width:"90px"
+      }} onClick={() => onClick(item.Value)} style={{ backgroundColor: item.ForeColur , color:"black"}}>
 
-        <Typography sx={{ color: item.ForeColur }}>
+        <Typography >
           {item.Name}
         </Typography>
-        <Typography sx={{color:item.ForeColur}}  dangerouslySetInnerHTML={{ __html: item.Text1}}>
+        <b>
+        <Box dangerouslySetInnerHTML={{ __html: item.Text1}}>
           
-        </Typography>
-      </Box>
+          </Box>
+        </b>
+    
+      </Card>
 
     </div>
 

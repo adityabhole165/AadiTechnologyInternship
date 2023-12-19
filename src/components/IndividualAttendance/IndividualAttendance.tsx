@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import CardToggle1 from 'src/libraries/ResuableComponents/CardToggle1';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import { getAttendanceLegend } from '../Common/Util';
+import WebBackButton from 'src/libraries/button/WebBackButton';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -59,6 +60,15 @@ const IndividualAttendance = () => {
     aMonthId: Number(month),
     aYear: year
   }
+
+  const HeaderPublish = [
+    { Id: 1, Header: "Sunday" }, { Id: 2, Header: "Monday" }, { Id: 3, Header: "Tuesday" }
+    , { Id: 4, Header: "Wednesday" }
+    , { Id: 5, Header: "Thursday" },
+    { Id: 6, Header: "Friday" },
+    { Id: 7, Header: "Saturday" },
+
+  ]
 
   useEffect(() => {
     dispatch(getstudentname(IGetStudentNameBody));
@@ -156,45 +166,61 @@ console.log( ItemList," setItemList");
     dispatch(SaveStudentAttendance(SaveAttendance));
   }
   return (
-    <Container>
-      <Box sx={{ float: "right" }}>
-        <Icon1 Note={Note} />
-      </Box>
-      <PageHeader heading={'Individual Attandance'} subheading={''} />
-      <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
-      <br></br>
-      <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
-      <br></br>
-      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-      </Box>
-      <Grid container>
-        <Grid item xs={6}>
-          <DotLegendTeacher color="primary" text="Present" />
-          <DotLegendTeacher color="error" text="Absent" />
-          <DotLegendTeacher color="success" text="Holiday" />
-          <DotLegendTeacher color="secondary" text="Weekend" />
-        </Grid>
-        <Grid item xs={6}>
-          <DotLegendTeacher color="warning" text="OutSideAcadamicYear" />
-          <DotLegendTeacher color="info" text="LateJoin" />
-          <DotLegendTeacher color="" text="NotAvailabel" />
-        </Grid>
-      </Grid>
-      <CardCalenderList ItemList={ItemList}
-        ClickItem={ClickItem}
-        handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
-        formattedDate={formattedDate} DefaultValue={DefaultValue} />
-      <br></br>
+    <Container maxWidth={'xl'}>
+    <Box sx={{ float: "right" }}>
+      <Icon1 Note={Note} />
+    </Box>
+    <PageHeader heading={'Individual Attandance'} subheading={''} />
+    <br></br>
 
-      <Stack spacing={2} direction="row">
-        <ButtonPrimary color="secondary" onClick={click} fullWidth>
-          Close
-        </ButtonPrimary>
-        <ButtonPrimary disabled={!IsClicked} color="secondary" onClick={SaveFile} fullWidth>
-          Save
-        </ButtonPrimary>
-      </Stack>
-    </Container>
+    <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
+
+      <Grid container>
+    
+      <Grid item xs={2} sm={4} />
+      <Grid item xs={8} sm={4}>
+        <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
+        </Grid>
+        </Grid>
+        <br></br>
+        <CardToggle1 ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
+        <br></br>
+        <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        </Box>
+        <Grid container>
+          <Grid item xs={6}>
+            <DotLegendTeacher color="primary" text="Present" />
+            <DotLegendTeacher color="error" text="Absent" />
+            <DotLegendTeacher color="success" text="Holiday" />
+            <DotLegendTeacher color="secondary" text="Weekend" />
+          </Grid>
+          <Grid item xs={6}>
+            <DotLegendTeacher color="warning" text="OutSideAcadamicYear" />
+            <DotLegendTeacher color="info" text="LateJoin" />
+            <DotLegendTeacher color="" text="NotAvailabel" />
+          </Grid>
+        </Grid>
+        <br></br>
+        <CardCalenderList ItemList={ItemList}
+          ClickItem={ClickItem}
+          handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
+          formattedDate={formattedDate} DefaultValue={DefaultValue} ArrayList={HeaderPublish} />
+        <br></br>
+        <div style={{ textAlign: 'center' }}>
+          <ButtonPrimary
+            style={{  backgroundColor: '#ef5350'}}
+            onClick={click}
+          >
+            Close
+          </ButtonPrimary>
+        
+          <ButtonPrimary disabled={!IsClicked}
+            onClick={SaveFile} sx={{ml:"3px"}}
+          >
+            Save
+          </ButtonPrimary>
+        </div>
+      </Container>
   )
 }
 export default IndividualAttendance
