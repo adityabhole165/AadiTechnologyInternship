@@ -12,6 +12,7 @@ import { ButtonPrimary, Item } from 'src/libraries/styled/ButtonStyle';
 import HeightWeightlist from 'src/libraries/ResuableComponents/HeightWeightList';
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
 import { toast } from 'react-toastify';
+import PageHeader from 'src/libraries/heading/PageHeader';
 
 const TermwiseHeightWeight = () => {
 
@@ -141,7 +142,7 @@ return sXML
 
   return (
     <>
-            <h1>Termwise Height-Weight</h1>
+    <PageHeader heading='Termwise Height-Weight' />
             <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }}>
 
             <Grid container spacing={2} justifyContent="center" alignItems="center">
