@@ -35,7 +35,7 @@ const IndividualAttendance = () => {
   const [ItemList, setItemList] = useState([])
   const [DefaultValue, setDefaultValue] = useState(null)
   const [StudentId, setStudentId] = useState("0");
-  const itemlist2 = [{ id: "Y", Text: "Present" }, { id: "N", Text: "Absent" }]
+  const itemlist2 = [{ id: "Y", Text: "Present All" }, { id: "N", Text: "Absent All" }]
   const [IsPresentAbsent, setIsPresentAbsent] = useState(0)
   const [date, setDate] = useState(new Date());
   const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
@@ -62,11 +62,11 @@ const IndividualAttendance = () => {
   }
 
   const HeaderPublish = [
-    { Id: 1, Header: "Sunday" }, { Id: 2, Header: "Monday" }, { Id: 3, Header: "Tuesday" }
-    , { Id: 4, Header: "Wednesday" }
-    , { Id: 5, Header: "Thursday" },
-    { Id: 6, Header: "Friday" },
-    { Id: 7, Header: "Saturday" },
+    { Id: 1, Header: "Sun" }, { Id: 2, Header: "Mon" }, { Id: 3, Header: "Tue" }
+    , { Id: 4, Header: "Wed" }
+    , { Id: 5, Header: "Thu" },
+    { Id: 6, Header: "Fri" },
+    { Id: 7, Header: "Sat" },
 
   ]
 
@@ -195,9 +195,9 @@ console.log( ItemList," setItemList");
             <DotLegendTeacher color="secondary" text="Weekend" />
           </Grid>
           <Grid item xs={6}>
-            <DotLegendTeacher color="warning" text="OutSideAcadamicYear" />
-            <DotLegendTeacher color="info" text="LateJoin" />
-            <DotLegendTeacher color="" text="NotAvailabel" />
+            <DotLegendTeacher color="warning" text="Outside Acadamic Year (OAY)" />
+            <DotLegendTeacher color="info" text="Late Join (LJ)" />
+            <DotLegendTeacher color="" text="Not Available (N/A)" />
           </Grid>
         </Grid>
         <br></br>
@@ -208,14 +208,14 @@ console.log( ItemList," setItemList");
         <br></br>
         <div style={{ textAlign: 'center' }}>
           <ButtonPrimary
-            style={{  backgroundColor: '#ef5350'}}
+            style={{  backgroundColor: '#ef5350', width:"90px"}}
             onClick={click}
           >
             Close
           </ButtonPrimary>
         
           <ButtonPrimary disabled={!IsClicked}
-            onClick={SaveFile} sx={{ml:"3px"}}
+            onClick={SaveFile} sx={{ml:"3px" , width:"90px"}}
           >
             Save
           </ButtonPrimary>

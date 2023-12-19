@@ -38,12 +38,12 @@ export const DotLegendStyledTeacher = styled(Box)(
         margin-top: -${theme.spacing(0.1)};
         border: 1px #303030   solid;
         
-        background: ${color === 'primary' ? theme.colors.gradients.orange2 :
-            color === 'secondary' ? theme.colors.gradients.green1 :
-            color === 'warning' ? theme.colors.gradients.green2 :
-            color === 'info' ? theme.colors.gradients.blue5 :
-            color === 'success' ? theme.colors.gradients.pink1 :
-            color === 'error' ? theme.colors.gradients.navy2 :
+        background: ${color === 'primary' ? "green" :
+            color === 'secondary' ? "purple" :
+            color === 'warning' ? "rgb(245, 88, 245)" :
+            color === 'info' ? "#303f9f" :
+            color === 'success' ? "brown":
+            color === 'error' ? "red":
                     theme.colors.gradients.orange1
         }
     `

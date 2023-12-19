@@ -54,7 +54,7 @@ export const getcalendar = (data: IGetCalendarForStudentBody): AppThunk =>
                 Name: item.Day,
                 Value: getDateMonthYearFormattedDash(item.Attendance_Date),
                 IsActive: false,
-                Text1: item.StatusDescription,
+                Text1: item.Status === "X" ? "N/A" : (item.Status === "O" ? "OAY" : item.Status === "D" ? "W" : item.Status === "B" ? "H" : item.StatusDescription),
                 Text3: item.Status,
                 BackgroundColor: getAttendanceLegend(item.Status),
                 ForeColur: item.StatusForeColur,

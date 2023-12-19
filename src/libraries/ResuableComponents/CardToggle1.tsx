@@ -15,7 +15,7 @@ function CardToggle1({ ItemList, clickToggle, defaultvalue }) {
                                 exclusive
                                 onChange={() => clickToggle(item.id)}
                                 aria-label="Platform" >
-                                <ToggleButton value={item.id}>{item.Text}</ToggleButton>
+                                <ToggleButton value={item.id} sx={{width:"100px", ml:"5px"}}>{item.Text}</ToggleButton>
                             </ToggleButtonGroup>
                         </Grid>
                         </div>

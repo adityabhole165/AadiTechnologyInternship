@@ -3,7 +3,8 @@ import React, { useState } from 'react'
 import CardCal from './CardCal';
 import TableCell from "@mui/material/TableCell";
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
 import { getDateFormattedDash } from 'src/components/Common/Util';
 function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayList=[] }) {
   const clickCard = (Value) => {
@@ -37,34 +38,34 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
   };
 
   return (
-    <Card component={Box} p={2}>
-      <Box sx={{ display:"flex" , alignItems: "center", justifyContent:"space-between"}}>
+    <>
+    <Box sx={{ }}>
+    <Card sx={{ display:"flex" , alignItems: "center" ,justifyContent:"space-between" , backgroundColor:"#f8bbd0"}}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
-          <Card  >
-            <ArrowBackIosNewIcon />
-          </Card>
+          {/* <Card  sx={{backgroundColor:"#f8bbd0"}}> */}
+            <ArrowLeftIcon />
+          {/* </Card> */}
         </IconButton>
        <Typography sx={{fontWeight:"bold"}}>{formattedDate}</Typography> 
 
         <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
-          <Card >
-            <ArrowForwardIosIcon />
-          </Card>
+          {/* <Card > */}
+            <ArrowRightIcon />
+          {/* </Card> */}
         </IconButton>
-        </Box>
-        <Grid container>
+        </Card>
+    </Box>
+
+     <Card component={Box} p={2} mt={1.5}>
+     <Grid container columnSpacing={10} rowSpacing={1}>
           {ArrayList.map((item, i) => (
             <>
 
-              <Grid item xs={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-                <Typography
-                  key={i}
-                  sx={{ textTransform: "capitalize" }}
-
-                >
-                  {" "}
+              <Grid item xs={1.71} sx={{textAlign:"center"}}key={i}>
+            
+                
                   <b>{item.Header}</b>
-                </Typography>
+              
               </Grid>
 
             </>
@@ -76,10 +77,10 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
 
     
       <br></br>
-      <Grid container columnSpacing={1} rowSpacing={1}>
+      <Grid container columnSpacing={10} rowSpacing={1}>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
+            <Grid item xs={1.71} sx={{ textAlign: "center" }} key={i}>
 
               <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
             </Grid>
@@ -87,7 +88,9 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
         })
         }
       </Grid>
-    </Card>
+     </Card>
+        
+    </>
   )
 
 }
