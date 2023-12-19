@@ -8,7 +8,7 @@ import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import moment from 'moment';
 import List1 from 'src/libraries/mainCard/List1';
-import { Box, Container } from '@mui/material';
+import { Box, Container, TextField } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import { useNavigate } from 'react-router-dom';
@@ -118,7 +118,10 @@ function EventOverview() {
   const onUpcomingEvent=()=>{
     navigate ('UpcomingEvent')
   }
+const clickAddAnnual = () => {
+  navigate ('/extended-sidebar/teacher/AddAnnualPlaner')
 
+}
   
   return (
     <>
@@ -126,6 +129,7 @@ function EventOverview() {
     <Container>
     
       <PageHeader heading={'Annual Planner'} subheading={''} />
+      <button onClick={clickAddAnnual}>Add Annual Planner</button>
       <Box sx={{ float: "right" }}>
           <Icon1 Note={Note} />
         </Box>
