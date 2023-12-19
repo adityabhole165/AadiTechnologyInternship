@@ -27,6 +27,7 @@ import TableAttendace from 'src/libraries/ResuableComponents/TableAttendace';
 import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import DotLegendAttandaceCalender from 'src/libraries/summary/DotLegendAttandaceCalender';
+import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 
 const TAttendance = () => {
         const HeaderArray = [
@@ -431,7 +432,7 @@ const TAttendance = () => {
                             </Grid>
 
 
-                            <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem}
+                            <CardCalender1 ItemList={listAttendanceCalender} ClickItem={ClickItem}
                                 formattedDate={assignedDate} DefaultValue ArrayList={HeaderPublish} />
                         </Card>
 
