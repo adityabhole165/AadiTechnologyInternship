@@ -5,7 +5,7 @@ import List26 from '../../libraries/list/List26'
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import { Box, Container, Grid, Avatar, Typography, Hidden, Card } from '@mui/material'
+import { Box, Container, Grid, Avatar, Typography, Hidden, Card ,Link} from '@mui/material'
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
@@ -34,7 +34,18 @@ const TAttendance = () => {
           { Id: 2, Header: 'Boys' },
           { Id: 3, Header: 'Girls' },
           { Id: 4, Header: 'Total' }
+
+    
         ];
+
+        const HeaderPublish = [
+            { Id: 1, Header: "Sun" }, { Id: 2, Header: "Mon" }, { Id: 3, Header: "Tue" }
+            , { Id: 4, Header: "Wed" }
+            , { Id: 5, Header: "Thu" },
+            { Id: 6, Header: "Fri" },
+            { Id: 7, Header: "Sat" },
+    
+        ]
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -331,96 +342,111 @@ const TAttendance = () => {
     return (
         <Container maxWidth={'xl'}>
 
-            <PageHeader heading="Attendance" subheading=''></PageHeader>
-            <Grid container spacing={2}>
-                <Grid item xs={12} md={6}>
-                {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown> : <span><b>Class : </b>{singleStdName}</span>}
-            <br />
-            <br />
+        <PageHeader heading="Attendance" subheading=''></PageHeader>
+        <Hidden mdDown>
+        <Card sx={{ backgroundColor: "lightYellow", marginBottom: "10px" }}>
+            
+           <Box sx={{textAlign:"center" ,color:"blue"}} p={0.5}>
+           <Link href={"/extended-sidebar/Teacher/SchoolAttendanceOverview"} style={{borderBottom:"2px solid green" , textDecoration:"none"}}>School Attendace Overview</Link>  
+           </Box>
+           <Box sx={{ display: 'flex' ,justifyContent:"center" }} mb={1}>
+                            <Card  sx={{backgroundColor:"green" , padding:"5px"}}>Count :</Card>
+                            <Card  sx={{backgroundColor:"green" , padding:"5px" , ml:"4px"}}> {SummaryCountforAttendance?.TotalStudents} </Card>
 
-            <Box sx={{ display: onlySelectedClass }}>
-                <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
-                <ErrorDetail>{AttendanceStatus}</ErrorDetail>
-                <Box sx={{ display: AYStatus }}>
-                    <TextField
-                        variant="standard"
-                        fullWidth
-                        label='Absent Roll Numbers'
-                        value={StudentAbsent}></TextField><br></br>
-                    <br></br>
-                    <Grid container spacing={0.5}>
-                        <Grid item xs={3.5}>
-                            <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
-                            <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} > Delete  </ButtonPrimary>
-                        </Grid><Grid item xs={5}>
-                            <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180, ml: "-6px" }} />}>
-                                Attendance
-                            </ButtonPrimary>
-                        </Grid><Grid item xs={3.5}>
-                            <ButtonPrimary color='secondary'
-                                onClick={() => clickNav('MissingAttandence/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<Avatar sx={{ width: 22, height: 20, ml: "-8px", filter: " brightness(0) invert(1) " }}
-                                    src={
-                                        "/imges/missingA.png"
-                                    }
-                                />}>
-                                Missing
-                            </ButtonPrimary>
+                        </Box>
+           
+        </Card>
+        </Hidden>
+        <Grid container spacing={2}>
+            <Grid item xs={12} md={6}>
+                {stdlist.length > 1 ? <Dropdown Array={stdlist} handleChange={handleChange} label='Select Class' defaultValue={Standardid}></Dropdown> : <span><b>Class : </b>{singleStdName}</span>}
+                <br />
+                <br />
+
+                <Box sx={{ display: onlySelectedClass }}>
+                    <DateSelector date={assignedDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+                    <ErrorDetail>{AttendanceStatus}</ErrorDetail>
+                    <Box sx={{ display: AYStatus }}>
+                        <TextField
+                            variant="standard"
+                            fullWidth
+                            label='Absent Roll Numbers'
+                            value={StudentAbsent}></TextField><br></br>
+                        <br></br>
+                        <Grid container spacing={0.5}>
+                        <Hidden mdDown>
+                        <Grid item  md={3}/>
+                        </Hidden>
+                            <Grid item xs={3.5} md={3}>
+                                <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
+                                
+                            </Grid>
+                            <Hidden mdDown>
+                            <Grid item  xs={3}>
+                            <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} fullWidth > Delete  </ButtonPrimary>
+                            </Grid>
+                            </Hidden>
+                         
+                            <Hidden mdUp>
+                            <Grid item xs={5}>
+                                <ButtonPrimary color='secondary'
+                                    onClick={() => clickNav('Tview/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<VisibilityIcon sx={{ fontSize: 180, ml: "-6px" }} />}>
+                                    Attendance
+                                </ButtonPrimary>
+                            </Grid><Grid item xs={3.5}>
+                                <ButtonPrimary color='secondary'
+                                    onClick={() => clickNav('MissingAttandence/' + assignedDate + '/' + Standardid)} fullWidth endIcon={<Avatar sx={{ width: 22, height: 20, ml: "-8px", filter: " brightness(0) invert(1) " }}
+                                        src={
+                                            "/imges/missingA.png"
+                                        }
+                                    />}>
+                                    Missing
+                                </ButtonPrimary>
+                            </Grid>
+                            </Hidden>
                         </Grid>
-                    </Grid>
-                    <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
-                </Box>
-            </Box>
-                </Grid>
-                <Hidden mdDown>
-                <Grid item md={6} >
-                <Grid container>
-           
-               
-                <Box sx={{ display: 'flex' }}>
-                <Typography variant="h4">Count:</Typography>
-                <Typography pl={2}> {SummaryCountforAttendance?.TotalStudents} </Typography>
-                    
-                 </Box>
-<Card component={Box} p={2}>
-   <Grid container>
-   <Grid item xs={6}>
-          <DotLegendAttandaceCalender color="primary" text="Done " />
-          <DotLegendAttandaceCalender color="info" text="Not Done" />
-          <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
-        </Grid>
-   
-        <Grid item xs={6}>
-          <DotLegendAttandaceCalender color="Warning" text="Weekend" />
-          <DotLegendAttandaceCalender color="Suceess" text="OutSideAcadamicYear" />
-          
-        </Grid>
-        </Grid>
-         
-     
-                <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem} 
-                formattedDate={assignedDate} DefaultValue/>
-                  </Card>
-                 
-       <Box sx={{display:"flex" ,alignItems:"center",textAlign:"center",justifyContent:"center"}}>
-       <ListStyle sx={{ml:"16px" , mt:"26px" , backgroundColor:"#e1bee7",width:"300px"}}>
-                    <Box sx={{textAlign:"center"}}>
-                        <Typography  onClick={ClickNavigate} variant='h4'>Attendace Overview</Typography>
-                      
+                        <List26 Dataa={RollNoList} getAbsetNumber={getAbsetNumber} assignedDate={assignedDate}></List26>
                     </Box>
-                </ListStyle>
-       </Box>
-                  </Grid>
-               <br></br>
-               
-               {SummaryCountforAttendance!=null && 
-            <TableAttendace  ItemList={SummaryCountforAttendance.GetSummaryCountList} HeaderArray={HeaderArray} />}
-                
-                </Grid>
-                </Hidden>
+                </Box>
             </Grid>
-           
-        </Container>
+            <Hidden mdDown>
+                <Grid item md={6} >
+                    <Grid container>
+
+
+             
+                        <Card component={Box} p={2} mt={2}>
+                            <Grid container>
+                                <Grid item xs={6}>
+                                    <DotLegendAttandaceCalender color="primary" text="Done " />
+                                    <DotLegendAttandaceCalender color="info" text="Not Done" />
+                                    <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
+                                </Grid>
+
+                                <Grid item xs={6}>
+                                    <DotLegendAttandaceCalender color="Warning" text="Weekend" />
+                                    <DotLegendAttandaceCalender color="Suceess" text="OutSideAcadamicYear" />
+
+                                </Grid>
+                            </Grid>
+
+
+                            <CardCalender ItemList={listAttendanceCalender} ClickItem={ClickItem}
+                                formattedDate={assignedDate} DefaultValue ArrayList={HeaderPublish} />
+                        </Card>
+
+
+                    </Grid>
+                    <br></br>
+
+                    {SummaryCountforAttendance != null &&
+                        <TableAttendace ItemList={SummaryCountforAttendance.GetSummaryCountList} HeaderArray={HeaderArray} />}
+
+                </Grid>
+            </Hidden>
+        </Grid>
+
+    </Container>
     )
 }
 

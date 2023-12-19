@@ -37,34 +37,34 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
   };
 
   return (
-    <Card component={Box} p={2} sx={{backgroundColor:"#dcedc8"}}>
-      <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+    <Card component={Box} p={2}>
+      <Box sx={{ display:"flex" , alignItems: "center", justifyContent:"space-between"}}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon />
           </Card>
         </IconButton>
-        <b>  {formattedDate}</b>
-      
+       <Typography sx={{fontWeight:"bold"}}>{formattedDate}</Typography> 
 
         <IconButton onClick={() => clickPrevNextMonth(1)} sx={{ float: 'right' }}>
           <Card >
             <ArrowForwardIosIcon />
           </Card>
         </IconButton>
+        </Box>
         <Grid container>
           {ArrayList.map((item, i) => (
             <>
 
-              <Grid item xs={1.71} key={i} >
-                {/* <Box
+              <Grid item xs={1.71} sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <Typography
                   key={i}
-                  sx={{ textTransform: "capitalize" ,display: "flex", alignItems: "center"}}
+                  sx={{ textTransform: "capitalize" }}
 
-                > */}
+                >
                   {" "}
                   <b>{item.Header}</b>
-                {/* </Box> */}
+                </Typography>
               </Grid>
 
             </>
@@ -74,15 +74,14 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
         </Grid>
 
 
-      </Box>
+    
+      <br></br>
       <Grid container columnSpacing={1} rowSpacing={1}>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={1.71} sx={{ textAlign: "center"}} key={i}>
-              <Card sx={{padding:"10px"}}>
-              <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
-              </Card>
+            <Grid item xs={2} sx={{ textAlign: "center" }} key={i}>
 
+              <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
             </Grid>
           )
         })
