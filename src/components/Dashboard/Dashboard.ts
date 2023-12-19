@@ -407,7 +407,34 @@ const DashboardData = {
       // },
     ],
     items2:[
-    
+      {
+        Text1: 'AddDaily ',
+        Text2: 'Log ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/AddDailyLog',
+        index: 13,
+      },
+      {
+        Text1: 'Termwise ',
+        Text2: 'HeightWeight ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/TermwiseHeightWeight',
+        index: 11,
+      },
+      {
+        Text1: 'Assign  ',
+        Text2: 'Homework',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/AssignHomework',
+        index: 6,
+      },
+	  
       {
         Text1: 'Attendance  ',
         Text2: '',
