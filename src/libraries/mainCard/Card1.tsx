@@ -5,17 +5,17 @@ import { BoxStyle, ListStyle } from '../styled/CardStyle';
 
 function Card1({
   header,
-  text1,
-  text2,
-  text3,
-  text4,
-  text5,
-  text6,
-  Color,
+  text1="",
+  text2="",
+  text3="",
+  text4="",
+  text5="",
+  text6="",
+  Color="",
   FileName = '',
   margin = '',
   clickCard=undefined,
-  Textcolor
+  Textcolor=""
 }) {
 
   return (

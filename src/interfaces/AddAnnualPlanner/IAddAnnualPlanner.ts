@@ -1,7 +1,10 @@
 export interface IAddAnnualPlannerBody{
     asSchoolId:number,
     asAcademicYearId:number,
-    asLinkUrl:string,
+    asSaveFeature:string,
+    asFileName:string,
+    asFolderName:string,
+    asBase64String:string,
     asUpdatedById:number
    }
 

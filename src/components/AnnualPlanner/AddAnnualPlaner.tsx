@@ -83,8 +83,10 @@ const AddAnnualPlaner = () => {
   };
   useEffect(() => {
     dispatch(GetFile(GetFileDetailsBody));
-  }, [FileDetails]);
-
+  }, []);
+useEffect(()=>{
+  
+},[FileDetails])
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId)
