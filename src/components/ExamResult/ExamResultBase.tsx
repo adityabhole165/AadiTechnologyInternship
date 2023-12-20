@@ -9,8 +9,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { Box, Grid, Typography } from '@mui/material';
 
 import Card1 from 'src/libraries/mainCard/Card1';
-import ListEditIcon from 'src/libraries/ResuableComponents/Dynamiclist1';
-import Dynamiclist1 from 'src/libraries/ResuableComponents/Dynamiclist1';
+
 const ExamResultBase = () => {
     const dispatch = useDispatch();
     const asSchoolId = localStorage.getItem("localSchoolId")
@@ -134,7 +133,6 @@ const ExamResultBase = () => {
  
 </Grid>
 <br></br>
-<Dynamiclist1  ItemList={ClassPassFailDetailsForTest}  HeaderArray={HeaderPublish} clickEdit={clickEdit}/>
 
     </div>
   )
