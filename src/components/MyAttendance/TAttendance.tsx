@@ -163,18 +163,26 @@ const TAttendance = () => {
     }
 
 
+    const ClassTeacherBody: IClassTeacherDropdownBody = {
+    
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearID: Number(asAcademicYearId)
 
+
+    }
 
     useEffect(() => {
-        const ClassTeacherBody: IClassTeacherDropdownBody = {
-    
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearID: Number(asAcademicYearId)
-
-    
-        }
+        
         dispatch(TeacherNameList(ClassTeacherBody))
       }, []);
+
+
+      useEffect(() => {
+        if (ClassTeacherDropdown.length > 0 
+          ) {
+            setselectClasstecaher(ClassTeacherDropdown[0].Value)
+        }
+      }, [ClassTeacherDropdown]);
 
 
     useEffect(() => {
@@ -210,7 +218,7 @@ const TAttendance = () => {
             dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
 
         }
-    }, [Standardid, assignedDate]);
+    }, [Standardid, assignedDate,selectClasstecaher]);
 
 
 

@@ -19,6 +19,7 @@ import CardToggle1 from 'src/libraries/ResuableComponents/CardToggle1';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import { getAttendanceLegend } from '../Common/Util';
 import WebBackButton from 'src/libraries/button/WebBackButton';
+import Iconhelp from 'src/libraries/icon/Iconhelp';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -39,7 +40,7 @@ const IndividualAttendance = () => {
   const [IsPresentAbsent, setIsPresentAbsent] = useState(0)
   const [date, setDate] = useState(new Date());
   const formattedDate = ` ${date.toLocaleString('default', { month: 'short' })} ${date.getFullYear()}`;
-  const Note: string = 'Mark  Attendence of Only  individual Student.';
+  const Note: string = 'Mark the monthly attendance of individual students.';
   const [IsClicked, setIsClicked] = useState(false)
 
   const StudentList = useSelector((state: RootState) => state.IndividualAttendance.GetStudentName);
@@ -167,14 +168,13 @@ console.log( ItemList," setItemList");
   }
   return (
     <Container maxWidth={'xl'}>
-    <Box sx={{ float: "right" }}>
-      <Icon1 Note={Note} />
-    </Box>
+  
     <PageHeader heading={'Individual Attendance'} subheading={''} />
     <br></br>
-
     <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
-
+    <Box sx={{ float: "right" }}>
+              <Iconhelp  Note={Note}/>
+           </Box>
       <Grid container>
     
       <Grid item xs={2} sm={4} />
