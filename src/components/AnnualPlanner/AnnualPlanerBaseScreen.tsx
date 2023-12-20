@@ -234,9 +234,9 @@ function AnnualPalnerBaseScreen() {
             <AnnualPlanerLegend color='Events' text='Events' />
           </Box>
    
-      <Grid container spacing={2}>
+      <Grid container spacing={2} >
         <Grid item xs={1}>
-          <Card sx={{backgroundColor:"#dcedc8"}}>
+          <Card sx={{backgroundColor:"#BEDAE3"}}>
           <Typography component={Box}  p={0.5}>Select Std :</Typography>
           </Card>
         
@@ -245,7 +245,7 @@ function AnnualPalnerBaseScreen() {
           <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
         </Grid>
         <Grid item xs={1}>
-        <Card sx={{backgroundColor:"#dcedc8"}}>
+        <Card sx={{backgroundColor:"#BEDAE3"}}>
           <Typography component={Box}  p={0.5}>Select Div :</Typography>
           </Card>
         </Grid>
@@ -253,7 +253,7 @@ function AnnualPalnerBaseScreen() {
           <Dropdown Array={SelectDivisionList} handleChange={clickdivisionDropdown} defaultValue={selectDivision} label={"Select Division"} />
         </Grid>
         <Grid item xs={1.2}>
-        <Card sx={{backgroundColor:"#dcedc8"}}>
+        <Card sx={{backgroundColor:"#BEDAE3"}}>
           <Typography component={Box}  p={0.5}>Select Month : </Typography>
           </Card>
         </Grid>
@@ -261,7 +261,7 @@ function AnnualPalnerBaseScreen() {
           <Dropdown Array={SelectMonthList} handleChange={clicMonthDropdown} defaultValue={selectMonth} label={"Select Month"} />
         </Grid>
         <Grid item xs={1}>
-        <Card sx={{backgroundColor:"#dcedc8"}}>
+        <Card sx={{backgroundColor:"#BEDAE3"}}>
           <Typography component={Box}  p={0.5}>Select Year :</Typography>
           </Card>
         </Grid>

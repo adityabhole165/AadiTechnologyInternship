@@ -40,7 +40,7 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
   return (
     <>
     <Box sx={{ }}>
-    <Card sx={{ display:"flex" , alignItems: "center" ,justifyContent:"space-between" , backgroundColor:"#f8bbd0"}}>
+    <Card sx={{ display:"flex" , alignItems: "center" ,justifyContent:"space-between" , backgroundColor:"#BEDAE3"}}>
         <IconButton onClick={() => clickPrevNextMonth(-1)} sx={{ float: 'left' }}>
           {/* <Card  sx={{backgroundColor:"#f8bbd0"}}> */}
             <ArrowLeftIcon />
@@ -56,7 +56,7 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
         </Card>
     </Box>
 
-     <Card component={Box} p={2} mt={1.5}>
+     <Card component={Box} p={2} mt={1.5} >
      <Grid container columnSpacing={10} rowSpacing={1}>
           {ArrayList.map((item, i) => (
             <>

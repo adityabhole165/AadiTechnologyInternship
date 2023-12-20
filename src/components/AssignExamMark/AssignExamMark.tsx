@@ -18,6 +18,7 @@ import { Navigate, useNavigate } from 'react-router';
 import EditIcon from '@mui/icons-material/Edit';
 import OfflinePinIcon from '@mui/icons-material/OfflinePin';
 import DynamicList from 'src/libraries/list/DynamicList';
+import { logoURL } from '../Common/Util';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -75,12 +76,22 @@ const AssignExamMark = () => {
   //SubjectList
  
     const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        aTeacherId: aTeacherId,
-        asExamId: 608,
-        asAllowPartialSubmit: "",
-        asStandardDivisionId: asStandardDivisionId
+        // asSchoolId: asSchoolId,
+        // asAcademicYearId: asAcademicYearId,
+        // aTeacherId: aTeacherId,
+        // asExamId: 608,
+        // asAllowPartialSubmit: "",
+        // asStandardDivisionId: asStandardDivisionId
+
+
+        
+          "asSchoolId": 18,
+          "asAcademicYearId": 54,
+          "aTeacherId": 2325,
+          "asExamId": 608,
+          "asAllowPartialSubmit": "",
+          "asStandardDivisionId": 1282
+        
      }
 
     // useEffect(() => {
@@ -179,10 +190,10 @@ const [IconList, setIconList] = useState([
  
 </Grid>
 <h4 >My Subject(s):-</h4>
-       {/* <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish} /> */}
-        <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
+       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish} />
+        {/* <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
         IconList={IconList} ClickItem={clickEdit}/>
-       
+        */}
       </div>
     </Container>
   )

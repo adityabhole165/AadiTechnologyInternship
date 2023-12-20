@@ -29,7 +29,7 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
       <Card  component={Box} py={1} sx={{
         height: "100px",width:"120px", cursor: 'pointer',
-        color: item.Value == DefaultValue ? "yellow" : item.BackgroundColor, backgroundColor:"pink"
+        color: item.Value == DefaultValue ? "yellow" : item.BackgroundColor, backgroundColor:"#BEDAE3"
       }} onClick={() => onClick(item.Value)} style={{ color: item.ForeColur }}>
 
         <Typography >

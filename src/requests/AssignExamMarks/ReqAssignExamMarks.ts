@@ -86,7 +86,8 @@ export const GetSubjectListClass =
             
                         Text1:item.StandardDivision,
                         Text2:item.Subject_Name,
-                        Status:item.STATUS,
+                        Text3:item.Is_Submitted,
+                        Text4:item.STATUS,
                     }
                 })
                 dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
