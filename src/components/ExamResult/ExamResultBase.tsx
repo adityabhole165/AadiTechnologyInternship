@@ -3,138 +3,121 @@ import PageHeader from 'src/libraries/heading/PageHeader'
 import { useDispatch } from 'react-redux';
 import { getAllTestsForClass, getClassPassFailDetailsForTest, getClassTeachers } from 'src/requests/ExamResult/RequestExamResult';
 import { IGetAllTestsForClassBody, IGetClassPassFailDetailsForTestBody, IGetClassTeachersBody } from 'src/interfaces/ExamResult/IExamResult';
-import DropdownNew from 'src/libraries/dropdown/DropdownNew';
 import { RootState, useSelector } from 'src/store';
+import EditIcon from '@mui/icons-material/Edit';
+import DynamicList from 'src/libraries/list/DynamicList'
+import { Box, Container, Grid, Typography } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { Box, Grid, Typography } from '@mui/material';
-
-import Card1 from 'src/libraries/mainCard/Card1';
+import { useNavigate } from 'react-router';
 
 const ExamResultBase = () => {
-    const dispatch = useDispatch();
-    const asSchoolId = localStorage.getItem("localSchoolId")
-    const asAcademicYearId = sessionStorage.getItem("AcademicYearId")
-    const [StandardDivisionId, setStandardDivisionId] = useState("0")
-    const [TestId, setTestId] = useState("0")
-
-
-  const Itemlist = [ 
-        
-      { Id:"1", Text1:"4", Text2:"Miss Sakshi Anand Battale", Text3:"Absent", IsActive:true, Text4:"4",Text5:"Absent",Text6:"5",Text7:"Absent", Text8:"9", Text9:"1011",},
-      { Id:"2",  Text1:"4", Text2:"Miss Sakshi Anand Battale", Text3:"Absent", IsActive:true, Text4:"4",Text5:"Absent",Text6:"5",Text7:"Absent", Text8:"9", Text9:"1011",},
-      { Id:"3",  Text1:"4", Text2:"Miss Sakshi Anand Battale", Text3:"Absent", IsActive:true, Text4:"4",Text5:"Absent",Text6:"5",Text7:"Absent", Text8:"9", Text9:"1011",},
-      
-  ]
-
-
-  const HeaderPublish = [
-      {Id:1,Header:""},
-      {Id:2,Header:"Subject"},
-      {Id:3,Header:"pass"},
-      {Id:4,Header:"Fail"},
-      {Id:5,Header:"Absent"},
-      {Id:6,Header:" Exempted"},
-      {Id:7,Header:" Late Joinee"},
-      {Id:8,Header:" Total"},
-      {Id:9,Header:" Edit Mark"},
-     ]
-
-    
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const asSchoolId = localStorage.getItem("localSchoolId")
+  const asAcademicYearId = sessionStorage.getItem("AcademicYearId")
+  const [StandardDivisionId, setStandardDivisionId] = useState("0")
+  const [TestId, setTestId] = useState("0")
+  
+  const [IconList, setIconList] = useState([])
   const ClassTeachers: any = useSelector((state: RootState) => state.ExamResult.ClassTeachers);
-  console.log(ClassTeachers,"ClassTeachers");
-  
+  const IsSubmitted: any = useSelector((state: RootState) => state.ExamResult.IsSubmitted);
+  const HeaderList: any = useSelector((state: RootState) => state.ExamResult.HeaderList);
   const ClassPassFailDetailsForTest: any = useSelector((state: RootState) => state.ExamResult.ClassPassFailDetailsForTest);
-
-          console.log(ClassPassFailDetailsForTest,"ClassPassFailDetailsForTest")
-
   const AllTestsForClass: any = useSelector((state: RootState) => state.ExamResult.AllTestsForClass);
-  console.log(AllTestsForClass,"AllTestsForClass");
   
 
-    const ClassTeachersBody:IGetClassTeachersBody = {
-        asSchoolId:asSchoolId,
-        asAcademicYearId:asAcademicYearId
-    }
-    const AllTestsForClassBody:IGetAllTestsForClassBody = {
-        asSchoolId:asSchoolId,
-        asAcademicYearId:asAcademicYearId,
-        asStandardDivisionId:StandardDivisionId
-    }
-    const ClassPassFailDetailsForTestBody:IGetClassPassFailDetailsForTestBody = {
-        asSchoolId:Number(asSchoolId),
-        asAcademicYearId:Number(asAcademicYearId),
-        asStdDivId:StandardDivisionId,
-        aiTestId:TestId
-    }
+  const ClassTeachersBody: IGetClassTeachersBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+  }
+  const AllTestsForClassBody: IGetAllTestsForClassBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId
+  }
+  const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStdDivId: StandardDivisionId,
+    aiTestId: TestId
+  }
+  useEffect(() => {
+    if (IsSubmitted == "N")
+      setIconList([])
 
-    useEffect(()=>{
-        dispatch(getClassTeachers(ClassTeachersBody));
-    },[])
-    useEffect(()=>{
-        if(ClassTeachers.length>0){
-            setStandardDivisionId(ClassTeachers[1].Value)
+    if (IsSubmitted == "Y")
+      setIconList([
+        {
+          Id: 1,
+          Icon: (<EditIcon />),
+          Action: "Edit"
+        },
+      ])
+  }, [IsSubmitted])
+  useEffect(() => {
+    dispatch(getClassTeachers(ClassTeachersBody));
+  }, [])
+  useEffect(() => {
+    if (ClassTeachers.length > 0) {
+      setStandardDivisionId(ClassTeachers[1].Value)
     }
-    },[ClassTeachers])
-    useEffect(()=>{
-        if(StandardDivisionId!=="0")
-        dispatch(getAllTestsForClass(AllTestsForClassBody));
-    },[StandardDivisionId])
+  }, [ClassTeachers])
+  useEffect(() => {
+    if (StandardDivisionId !== "0")
+      dispatch(getAllTestsForClass(AllTestsForClassBody));
+  }, [StandardDivisionId])
 
-    useEffect(()=>{
-        if(AllTestsForClass.length>0)
-            setTestId(AllTestsForClass[0].Value)
-    },[AllTestsForClass])
+  useEffect(() => {
+    if (AllTestsForClass.length > 0)
+      setTestId(AllTestsForClass[0].Value)
+  }, [AllTestsForClass])
 
-    useEffect(()=>{
-        dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
-    },[TestId])
-    
-    const clickTeacher = (value) => {
-        setStandardDivisionId(value)
-    }
-    const clickExam = (value) => {
-        setTestId(value)
-    }
+  useEffect(() => {
+    dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
+  }, [TestId])
 
-    const clickEdit = (value) => {
-     
+  const clickTeacher = (value) => {
+    setStandardDivisionId(value)
+  }
+  const clickExam = (value) => {
+    setTestId(value)
+  }
+
+  const ClickItem = (value) => {
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks');
   }
   return (
-    <div>
+    <Container>
       <PageHeader heading={'Exam Results'} subheading={''} />
-    
 
- 
+      <Grid container spacing={2} justifyContent="center" alignItems="center">
+        {/* <Grid item xs={2}>
+          <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>
+            Select Class Teacher:
+          </Typography>
+        </Grid> */}
+        <Grid item xs={4}>
+          <Dropdown Array={ClassTeachers} handleChange={clickTeacher}
+            label={"Teacher"} defaultValue={StandardDivisionId} />
+          <br></br>
+        </Grid>
 
+        {/* <Grid item xs={2}>
+          <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>
+            Select Exam :
+          </Typography>
+        </Grid> */}
+        <Grid item xs={4}>
+          <Dropdown Array={AllTestsForClass} handleChange={clickExam}
+            label={"Exam"} defaultValue={TestId} />
+          <br></br>
+        </Grid>
 
-
-   <Grid container spacing={2} justifyContent="center" alignItems="center">
-  <Grid item xs={1.5}>
-    <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>
-    Select Class Teacher:
-    </Typography>
-  </Grid>
-  <Grid item xs={2}>
-  <Dropdown Array={AllTestsForClass} handleChange={clickExam} 
-      label={"Exam"} defaultValue={TestId}/>
-    <br></br>
-  </Grid>
-  
-  <Grid item xs={1}>
-    <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>
-     Select Exam :
-    </Typography>
-  </Grid>
-  <Grid item xs={2}>
-  <Dropdown Array={ClassTeachers} handleChange={clickTeacher} 
-      label={"Teacher"} defaultValue={StandardDivisionId}/>
-    <br></br>
-  </Grid>
- 
-</Grid>
-<br></br>
-
-    </div>
+      </Grid>
+      <br></br>
+      <DynamicList HeaderList={HeaderList} ItemList={ClassPassFailDetailsForTest}
+        IconList={IconList} ClickItem={ClickItem} />
+    </Container>
   )
 }
 

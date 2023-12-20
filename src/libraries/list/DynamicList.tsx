@@ -13,7 +13,6 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 const DynamicList = ({ HeaderList, ItemList,
     IconList=undefined, ClickItem=undefined, ClickCheck=undefined, IsSelect = 0 }) => {
-        console.log(ItemList,"ItemList")
     const clickCheckbox = (value) => {
         let arr = []
         arr = ItemList.map((Item) => {
@@ -62,6 +61,11 @@ const DynamicList = ({ HeaderList, ItemList,
                         return (
                             <TableRow key={index}>
                                 {
+                                item.map((obj, i) => {
+                                    return(<TableCell align="center" key={i}>{obj}</TableCell>)
+                                })
+                                }
+                                {/* {
                                     (IsSelect > 0) &&
                                     <TableCell align="center">
                                         <Checkbox checked={item.IsActive}
@@ -79,7 +83,7 @@ const DynamicList = ({ HeaderList, ItemList,
                                 {
                                     item.Text3 != undefined &&
                                     <TableCell align="center">{item.Text3}</TableCell>
-                                }
+                                } */}
                                 {IconList?.map((obj, i) => {
                                     return (
                                         <TableCell align="center" key={i}

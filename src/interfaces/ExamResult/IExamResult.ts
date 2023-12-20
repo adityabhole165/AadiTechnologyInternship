@@ -32,15 +32,35 @@ export interface IGetClassPassFailDetailsForTestBody {
     aiTestId: string
 }
 export interface IGetClassPassFailDetailsForTestResult {
-    LstClassPassFailDetailsForTest:[{
-    Subject_Id: number,
-    Subject_Name: string,
-    Standard_Division_Id: number,
-    SchoolWise_Test_Id: number,
-    Is_Submitted: string,
-    Sort_Order: number,
-    ExamStatus: string,
-    Count: number,
-    OriginalSubjectId: number,
-    ExamStatusSortOrder: number}]
+    LstClassPassFailDetailsForTest: [{
+        Subject_Id: number,
+        Subject_Name: string,
+        Standard_Division_Id: number,
+        SchoolWise_Test_Id: number,
+        Is_Submitted: string,
+        Sort_Order: number,
+        ExamStatus: string,
+        Count: number,
+        OriginalSubjectId: number,
+        ExamStatusSortOrder: number
+    }],
+    LstExamStatusForTest: [{
+        ExamStatus: string,
+        StandardDivisionId: number,
+        SchoolWiseTestId: number,
+        ExamStatusSortOrder: 2
+    }],
+    LstGetFileDetails:[{
+        Subject_Id:number,
+        Subject_Name:string,
+        Standard_Division_Id:number,
+        SchoolWise_Test_Id:number,
+        Is_Submitted:string,
+        Sort_Order:number,
+        ExamStatus:string,
+        Count:number,
+        OriginalSubjectId:number,
+        ExamStatusSortOrder:number
+    }]
+
 }

@@ -1,6 +1,7 @@
 import { Suspense, lazy } from 'react';
 import { Navigate } from 'react-router-dom';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
+
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 
@@ -27,6 +28,7 @@ const AnnualPalnerBaseScreen= Loader(lazy(() => import('src/components/AnnualPla
 const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/AssignHomework')))
 const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight')))
 const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
+const SubjectExamMarks= Loader(lazy(() => import('src/components/ExamResult/SubjectExamMarks')))
 
 const teacherRoutes = [
     {
@@ -77,6 +79,11 @@ const teacherRoutes = [
       path: 'ExamResult',
       element: <ExamResultBase/>
     },
+    {
+      path: 'SubjectExamMarks',
+      element: <SubjectExamMarks/>
+    },
+    
     {
       path: 'AssignExamMark',
       element: <AssignExamMark/>
