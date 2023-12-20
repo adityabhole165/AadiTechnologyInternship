@@ -15,6 +15,7 @@ import ClearIcon from '@mui/icons-material/Clear';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import Attendance from 'src/requests/Attendance/Attendance';
 import { GetAttendanceStatus } from 'src/requests/TAttendance/TAttendance';
+import Iconhelp from 'src/libraries/icon/Iconhelp';
 
 const SchoolAttendanceOverview = () => {
 
@@ -25,9 +26,12 @@ const SchoolAttendanceOverview = () => {
   const [SelectDate, SetSelectDate] = useState(new Date().toISOString().split('T')[0]);
   const [HeaderArray, setHeaderArray] = useState(["Standard / Division."])
   const ISAttendanceOverviewGridData = useSelector((state: RootState) => state.SchoolAttendance.AttendanceOverviewGridData);
-  const ISAttendanceOverviewDivArray = useSelector((state: RootState) => state.SchoolAttendance.AttendanceOverviewDivArray);  
+  const ISAttendanceOverviewDivArray = useSelector((state: RootState) => state.SchoolAttendance.AttendanceOverviewDivArray);
   const ISWeekendStatusList = useSelector((state: RootState) => state.SchoolAttendance.WeekendStatusList);
-  
+
+  const Note: string = 'Displays the attendance status for all divisions and standards for  chosen date..';
+
+
   useEffect(() => {
     setHeaderArray(["Standard | Division"])
     if (ISAttendanceOverviewDivArray.length > 0) {
@@ -40,10 +44,10 @@ const SchoolAttendanceOverview = () => {
     }
   }, [ISAttendanceOverviewDivArray])
 
-  
-useEffect(()=>{
 
-},[ISWeekendStatusList])
+  useEffect(() => {
+
+  }, [ISWeekendStatusList])
 
   const GetSchoolAttendanceOverview: IGetSchoolAttendanceOverviewBody = {
     asSchoolId: asSchoolId,
@@ -64,49 +68,57 @@ useEffect(()=>{
 
 
   useEffect(() => {
-   
+
     dispatch(GetStudentAttendance(GetSchoolAttendanceOverview));
   }, [SelectDate]);
-    
+
 
 
   return (
     <Container maxWidth={'xl'}>
-    
-    
-    <PageHeader heading={'Attendance Overview'} subheading={''} />
 
-    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <Typography sx={{ mr: "10px" }}>Select Date</Typography>
-      <TextField value={SelectDate} type='date' onChange={(e) => { onSelectDate(e.target.value) }} label={''} size="small" />
-    </Box>
 
-  {ISWeekendStatusList!==""? 
-   <Typography variant='h6' sx={{color:"red"}}>
-    {ISWeekendStatusList}</Typography> :
-<>
-    <Box sx={{ display: "flex", }}>
-      <Typography>Legend :</Typography>
-      <ClearIcon sx={{ color: "red" }} /> <Typography>Attendance Not  Marked</Typography>
+      <PageHeader heading={'Attendance Overview'} subheading={''} />
+      <Box sx={{ float: "right" }}>
+        <Iconhelp Note={Note} />
+      </Box>
+      <Box sx={{ float: "right" }}>
+      <Typography sx={{ color: 'red', }}> * Mandatory fields </Typography>
+      </Box>
 
-    </Box>
+      <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", margin: "auto", marginLeft: "300px" }}>
+  <Typography sx={{ mr: "10px" }}>Select Date</Typography>
+  <TextField value={SelectDate} type='date' onChange={(e) => { onSelectDate(e.target.value) }} label={''} size="small" />
+  <Typography sx={{ color: 'red' }}> * </Typography>
+</Box>
 
-    <Grid container spacing={2}>
-      <Grid item xs={12}>
-        
-        <TableUsingArray ItemList={ISAttendanceOverviewGridData} HeaderArray={HeaderArray} />
-      </Grid>
-      <div className=""></div>
-    </Grid>
-    <br></br>
-    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
-      <ButtonPrimary color="error" onClick={click}  >
-        Close
-      </ButtonPrimary>
 
-    </Box>
-</>}
-  </Container>
+      {ISWeekendStatusList !== "" ?
+        <Typography variant='h6' sx={{ color: "red" }}>
+          {ISWeekendStatusList}</Typography> :
+        <>
+          <Box sx={{ display: "flex", }}>
+            <Typography>Legend :</Typography>
+            <ClearIcon sx={{ color: "red" }} /> <Typography>Attendance Not  Marked</Typography>
+
+          </Box>
+
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+
+              <TableUsingArray ItemList={ISAttendanceOverviewGridData} HeaderArray={HeaderArray} />
+            </Grid>
+            <div className=""></div>
+          </Grid>
+          <br></br>
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
+            <ButtonPrimary color="error" onClick={click}  >
+              Close
+            </ButtonPrimary>
+
+          </Box>
+        </>}
+    </Container>
   )
 }
 
