@@ -4,6 +4,7 @@ export const HeadingStyle= styled(Typography)( ({ theme }) =>`
 
 font-weight: 500;
 font-size: 20px;
+padding-top:40px;
 color: black;
 margin: auto;
 text-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);

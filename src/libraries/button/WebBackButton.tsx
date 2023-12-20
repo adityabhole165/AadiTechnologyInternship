@@ -30,7 +30,7 @@ function WebBackButton({ FromRoute }) {
           sx={{
             background: `${theme.colors.gradients.listColor}`,
             position: 'absolute',
-            top: '18px',
+            top: '60px',
            // left: '20px',
             width: '35px !important',
             height: '10px !important',

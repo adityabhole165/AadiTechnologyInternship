@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, ReactNode ,useState } from 'react';
 import { Box, alpha, lighten, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
@@ -6,6 +6,9 @@ import school5 from 'src/assets/img/school5.jpg';
 import Sidebar from './Sidebar';
 import Header from './Header';
 import Basenav from '../BaseNavigation/index'
+import SubHeaderNavBar from './Header/SubHeaderNavBar';
+import SubHeader from './Header/SubHeader';
+import WebSideBar from './Sidebar/WebSideBar';
 
 interface ExtendedSidebarLayoutProps {
   children?: ReactNode;
@@ -13,7 +16,11 @@ interface ExtendedSidebarLayoutProps {
 
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
+  const [openDrawer, setOpenDrawer] = useState(false);
 
+  const toggleDrawer = () => {
+    setOpenDrawer(!openDrawer);
+  };
   return (
     <>
       <Box
@@ -44,7 +51,24 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         }}
       >
         <Header />
-        {/* <Sidebar /> */}
+       
+        <SubHeaderNavBar/>
+        <SubHeader toggleDrawer={toggleDrawer}></SubHeader>
+
+        {openDrawer && (
+        <Box
+          sx={{
+            position: 'absolute',
+            width: '15%',
+            // bottom: 0,
+            mt:"120px",
+            height: '100%',
+            transition: 'width 0.3s ease-in-out', // Transition effect
+          }}
+        >
+          <WebSideBar />
+        </Box>)}
+       
         <Box sx={{  position: "fixed",
                        bottom: 0,
                        flex: 1,
@@ -69,6 +93,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
             display: 'block',
             flex: 1,
              pt: `${theme.header.height}`,
+             ml:  openDrawer ? "9%" :"0"
             // [theme.breakpoints.up('lg')]: {
             //   ml: `${theme.sidebar.width}`
             // }
