@@ -43,7 +43,7 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
           </Card>
         </IconButton>
         
-        <Grid container columnSpacing={1} rowSpacing={1}>
+        <Grid container columnSpacing={7} rowSpacing={1}>
           {ArrayList.map((item, i) => (
             
          <Grid item xs={1.5} md={1.71} sx={{ textAlign: "center" }} key={i}>

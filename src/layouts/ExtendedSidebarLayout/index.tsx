@@ -51,7 +51,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         }}
       >
         <Header />
-       
+       {/* nevbarhide */}
         <SubHeaderNavBar/>
         <SubHeader toggleDrawer={toggleDrawer}></SubHeader>
 
@@ -68,7 +68,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         >
           <WebSideBar />
         </Box>)}
-       
+        {/* nevbarhide */}
         <Box sx={{  position: "fixed",
                        bottom: 0,
                        flex: 1,

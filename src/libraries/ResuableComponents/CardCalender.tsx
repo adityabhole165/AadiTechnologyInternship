@@ -77,10 +77,10 @@ function CardCalender({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayL
 
     
       <br></br>
-      <Grid container columnSpacing={10} rowSpacing={1}>
+      <Grid container columnSpacing={7} rowSpacing={1}>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={1.71} sx={{ textAlign: "center" }} key={i}>
+            <Grid item lg={1.71} sx={{ textAlign: "center" }} key={i}>
 
               <CardCal item={item} clickItem={() => ClickItem(item.Value)} DefaultValue={DefaultValue} />
             </Grid>

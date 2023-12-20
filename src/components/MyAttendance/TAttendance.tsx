@@ -9,8 +9,8 @@ import { Box, Container, Grid, Avatar, Typography, Hidden, Card, Link } from '@m
 import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
 import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
 import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
-import { IGetSummaryCountforAttendanceBody, IDeleteAttendanceBody } from "src/interfaces/Teacher/TAttendanceList";
-import { CDASummaryCountforAttendanceBody, CDADeleteAttendance, CDAresetDeleteAttendance } from "src/requests/TAttendance/TAttendance"
+import { IGetSummaryCountforAttendanceBody, IDeleteAttendanceBody , IClassTeacherDropdownBody} from "src/interfaces/Teacher/TAttendanceList";
+import { CDASummaryCountforAttendanceBody, CDADeleteAttendance, CDAresetDeleteAttendance, TeacherNameList } from "src/requests/TAttendance/TAttendance"
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { TextField } from '@mui/material'
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -68,7 +68,8 @@ const TAttendance = () => {
         new Date().toISOString()
     );
     const [asUserId, SetUserId] = useState();
-
+    const [selectClasstecaher, setselectClasstecaher] = useState('')
+  
 
     // Date selector Start
     const [asAbsentRollNos, setAbsentRollNos] = useState('');
@@ -117,6 +118,9 @@ const TAttendance = () => {
     );
 
 
+    const ClassTeacherDropdown = useSelector((state: RootState) => state.AttendanceList.ClassTeacherList)
+    console.log("ClassTeacherDropdown", ClassTeacherDropdown)
+
     const GetStudentDetails: IStudentsDetails = {
         asStdDivId: Standardid,
         asDate: assignedDate,
@@ -161,7 +165,16 @@ const TAttendance = () => {
 
 
 
+    useEffect(() => {
+        const ClassTeacherBody: IClassTeacherDropdownBody = {
+    
+            asSchoolId: Number(asSchoolId),
+            asAcademicYearID: Number(asAcademicYearId)
 
+    
+        }
+        dispatch(TeacherNameList(ClassTeacherBody))
+      }, []);
 
 
     useEffect(() => {
@@ -337,6 +350,11 @@ const TAttendance = () => {
         setAssignedDate(value)
     }
 
+
+    const clickClassTecher = (value) => {
+        setselectClasstecaher(value)
+      }
+
     const ClickNavigate = () => {
         navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview')
     }
@@ -346,14 +364,14 @@ const TAttendance = () => {
 
             <PageHeader heading="Attendance" subheading=''></PageHeader>
             <Hidden mdDown>
-                <Card sx={{ backgroundColor: "#b2dfdb", marginBottom: "10px" }}>
+                <Card sx={{ backgroundColor: "#16a085", marginBottom: "10px" }}>
 
                     <Box sx={{ textAlign: "center", color: "blue" }} p={0.5}>
                         <Link href={"/extended-sidebar/Teacher/SchoolAttendanceOverview"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}>School Attendace Overview</Link>
                     </Box>
                     <Box sx={{ display: 'flex', justifyContent: "center" }} mb={1}>
-                        <Card sx={{ backgroundColor: "green", padding: "5px" }}>Count :</Card>
-                        <Card sx={{ backgroundColor: "green", padding: "5px", ml: "4px" }}> {SummaryCountforAttendance?.TotalStudents} </Card>
+                        <Card sx={{ backgroundColor: "#cbd28f", padding: "5px" }}>Count :</Card>
+                        <Card sx={{ backgroundColor: "#cbd28f", padding: "5px", ml: "4px" }}> {SummaryCountforAttendance?.TotalStudents} </Card>
 
                     </Box>
 
@@ -376,10 +394,29 @@ const TAttendance = () => {
             </Hidden>
            
             <Hidden mdDown>
-                <Card component={Box} p={1} mt={1} sx={{ display: "flex", justifyContent: "center", alignItems: "center" }} >
-                    <ButtonPrimary>Individual Attendace</ButtonPrimary>
-                    <ButtonPrimary sx={{ ml: "10px" }}> Monthwise  Attendace</ButtonPrimary>
-                    <TextField sx={{ ml: "10px" }} />
+                <Card component={Box} p={1} mt={1}  >
+                    <Grid container spacing={3}>
+                    <Grid item xs={3}/>
+
+                        <Grid item xs={2}>
+                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}>Individual Attendace</Card>
+  
+                        </Grid>
+                        <Grid item xs={2}>
+                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}> Monthwise  Attendace</Card>
+
+                        </Grid>
+                        <Grid item xs={2}> 
+               <Dropdown Array={ClassTeacherDropdown} handleChange={clickClassTecher} defaultValue={selectClasstecaher} />
+
+                        </Grid>
+
+                    </Grid>
+                    
+                      
+
+                
+
                 </Card>
 
             </Hidden>
@@ -487,6 +524,11 @@ const TAttendance = () => {
                 </Hidden>
             </Grid>
 
+           
+        
+        
+      
+       
         </Container>
     )
 }
