@@ -57,6 +57,8 @@ const TAttendance = () => {
     let asTeacherId = "0"
     let IsClassTeacher = sessionStorage.getItem("IsClassTeacher")
     const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+    const TeacherId = (sessionStorage.getItem('TeacherId'));
+
     const [Standardid, setStandardid] = useState<string>();
 
     const [assignedDate, setAssignedDate] = useState<string>();
@@ -68,7 +70,7 @@ const TAttendance = () => {
         new Date().toISOString()
     );
     const [asUserId, SetUserId] = useState();
-    const [selectClasstecaher, setselectClasstecaher] = useState('')
+    const [selectClasstecaher, setselectClasstecaher] = useState(asStandardDivisionId)
   
 
     // Date selector Start
@@ -177,12 +179,12 @@ const TAttendance = () => {
       }, []);
 
 
-      useEffect(() => {
-        if (ClassTeacherDropdown.length > 0 
-          ) {
-            setselectClasstecaher(ClassTeacherDropdown[0].Value)
-        }
-      }, [ClassTeacherDropdown]);
+    //   useEffect(() => {
+    //     if (ClassTeacherDropdown.length > 0 
+    //       ) {
+    //         setselectClasstecaher(ClassTeacherDropdown[0].Value)
+    //     }
+    //   }, [ClassTeacherDropdown]);
 
 
     useEffect(() => {
