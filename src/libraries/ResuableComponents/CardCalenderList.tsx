@@ -49,7 +49,7 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
          <Grid item xs={1.5} md={1.71} sx={{ textAlign: "center" }} key={i}>
               
           <Box  sx={{
-        width:"70px"
+        width:"120px"
       }}>      
         <Typography  sx={{ textTransform: "capitalize" , textAlign: "center" , fontWeight:"bold"}}>{item.Header}</Typography>
         </Box> 

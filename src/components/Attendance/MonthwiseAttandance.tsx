@@ -64,7 +64,7 @@ const MonthwiseAttandance = () => {
     return (
         <>
           <Container maxWidth={'xl'}>
-            <PageHeader heading={'Monthwise Attandance'} subheading={''} />
+            <PageHeader heading={'Monthwise Attendance'} subheading={''} />
               <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
              <Box sx={{ float: "right" }}>
                 <Icon1 Note={Note} />

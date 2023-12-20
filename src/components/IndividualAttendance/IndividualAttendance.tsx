@@ -170,7 +170,7 @@ console.log( ItemList," setItemList");
     <Box sx={{ float: "right" }}>
       <Icon1 Note={Note} />
     </Box>
-    <PageHeader heading={'Individual Attandance'} subheading={''} />
+    <PageHeader heading={'Individual Attendance'} subheading={''} />
     <br></br>
 
     <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
