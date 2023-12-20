@@ -369,6 +369,8 @@ const TAttendance = () => {
                     <Box sx={{ textAlign: "center", color: "blue" }} p={0.5}>
                         <Link href={"/extended-sidebar/Teacher/SchoolAttendanceOverview"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}>School Attendace Overview</Link>
                     </Box>
+
+
                     <Box sx={{ display: 'flex', justifyContent: "center" }} mb={1}>
                         <Card sx={{ backgroundColor: "#cbd28f", padding: "5px" }}>Count :</Card>
                         <Card sx={{ backgroundColor: "#cbd28f", padding: "5px", ml: "4px" }}> {SummaryCountforAttendance?.TotalStudents} </Card>
@@ -399,11 +401,19 @@ const TAttendance = () => {
                     <Grid item xs={3}/>
 
                         <Grid item xs={2}>
-                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}>Individual Attendace</Card>
+                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}> 
+                        
+                        <Link href={"/extended-sidebar/Teacher/IndidualAttendance"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}>Individual Attendace</Link>
+
+                        
+                          </Card>
   
                         </Grid>
                         <Grid item xs={2}>
-                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}> Monthwise  Attendace</Card>
+                        <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}> 
+                        <Link href={"/extended-sidebar/Teacher/MonthwiseAttendance"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}>Monthwise  Attendace</Link>
+                        
+                        </Card>
 
                         </Grid>
                         <Grid item xs={2}> 
