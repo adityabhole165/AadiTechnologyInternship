@@ -394,7 +394,7 @@ const DashboardData = {
 
 
       {
-        Text1: 'ExamResultBase',
+        Text1: 'ExamResult',
         Text2: '',
         Color: '#ef5350',
         iconColor: '#f0483e ',
