@@ -109,8 +109,8 @@ useEffect(()=>{
   };
   const clickFileName = () => {
     if (FileDetails !== '') {
-      window.open(
-        '/RITeSchool/DOWNLOADS/Event%20Planner/' + FileDetails.LinkUrl
+      window.open(localStorage.getItem('SiteURL') +
+        '/RITeSchool/DOWNLOADS/Event%20Planner/' + FileDetails[0].LinkUrl
       );
       // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
@@ -129,6 +129,9 @@ useEffect(()=>{
   };
   return (
     <div>
+      <br></br>
+      <br></br>
+      <br></br>
       <Button variant="outlined" onClick={ClickOpenDialogbox}>
         Add Annual Planner
       </Button>
