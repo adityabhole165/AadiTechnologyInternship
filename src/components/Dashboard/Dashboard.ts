@@ -393,6 +393,22 @@ const DashboardData = {
       },
 
 
+      {
+        Text1: 'ExamResultBase',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: EventIcon,
+        Link: 'Teacher/ExamResultBase',
+        index: 7,
+       
+      },
+
+
+
+      
+
+
      
   
       // {

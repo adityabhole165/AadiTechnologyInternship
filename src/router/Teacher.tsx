@@ -76,7 +76,7 @@ const teacherRoutes = [
       element: <MonthwiseAttandance/>
     },
     {
-      path: 'ExamResult',
+      path: 'ExamResultBase',
       element: <ExamResultBase/>
     },
     {

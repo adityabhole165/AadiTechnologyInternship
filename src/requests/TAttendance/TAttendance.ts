@@ -327,9 +327,9 @@ export const CDASummaryCountforAttendanceBody =
               
               let abc = response.data.map((item, i) => {
                 return {
-                  Id: item.Teacher_Id,
+                  Id: item.StandardDivisionId,
                   Name: item.TeacherName,
-                  Value: item.Teacher_Id,
+                  Value: item.StandardDivisionId,
                 } 
               })
               dispatch(TAttendanceSlice.actions.TeacherNameList(abc))
