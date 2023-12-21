@@ -8,7 +8,7 @@ export interface IAssignClassBody {
 
 export interface IAssignClassResult {
 
-    SchoolWise_Standard_Division_Id: string,
+    Standard_Division_Id: string,
     StandardDivision: string
 }
 
@@ -35,7 +35,7 @@ export interface ISubjectsExamMarksStatusForClassBody {
     asAcademicYearId:number,
     aTeacherId:number,
     asExamId:number,
-    asAllowPartialSubmit:string,
+   
     asStandardDivisionId:number  
     
 }

@@ -5,16 +5,14 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import DeleteIcon from '@mui/icons-material/Delete';
-import CheckIcon from '@mui/icons-material/Check';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
 
+import CheckIcon from '@mui/icons-material/Check';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 // ... (your other imports)
 
-function ListEditIcon1({ ItemList, clickEdit, HeaderArray }) {
+function ListEditIcon1({ ItemList, clickEdit, HeaderArray , clicksubmit }) {
   return (
     <div>
       <TableContainer component={Card}>
@@ -43,6 +41,10 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray }) {
                   {item.Text2}
                 </TableCell>
 
+               
+
+
+
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text3 === 'Y' ? (
                     <CheckIcon />
@@ -52,8 +54,18 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray }) {
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text4 !== 'Complete' ? <TurnedInIcon /> : item.Text4}
+                  
+
+                  {item.Text4 !== 'Complete' ? (
+                    <AssignmentIcon  onClick={() => clicksubmit(item.Id)}/>
+                    
+                  ) : (
+                    item.Text4
+                  )}
                 </TableCell>
+
+               
+
               </TableRow>
             ))}
           </TableBody>

@@ -6,6 +6,8 @@ import TaskIcon from '@mui/icons-material/Task';
 import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import CheckIcon from '@mui/icons-material/Check';
 import BadgeIcon from '@mui/icons-material/Badge';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+
 
 const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
   return (
@@ -26,7 +28,7 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
       </Box>
 
       <Box sx={{ display: 'flex', maxWidth: '300px' }}>
-        <TurnedInIcon style={{ color: '#ff5722' }} />
+        <AssignmentIcon style={{ color: '#ff5722' }} />
         <Typography> {text3}</Typography>
       </Box>
 

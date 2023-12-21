@@ -36,9 +36,9 @@ export const GetAssignExamMarkList =
             const response = await AssignExamMarkApi.AssignClass(data);
             let a = response.data.map((item, i) => {
                 return {
-                    Id: item.SchoolWise_Standard_Division_Id,
+                    Id: item.Standard_Division_Id,
                     Name: item.StandardDivision,
-                    Value: item.SchoolWise_Standard_Division_Id,
+                    Value: item.Standard_Division_Id,
                 }
             })
             dispatch(AssignExamMarkSlice.actions.getAssignExamMark(a));
@@ -60,21 +60,21 @@ export const GetClassWiseExam =
         };
 
 //SubjectList
-export const GetSubjectListClass =
-    (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
-        async (dispatch) => {
-            const response = await AssignExamMarkApi.SubjectsExamMarks(data);
+// export const GetSubjectListClass =
+//     (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
+//         async (dispatch) => {
+//             const response = await AssignExamMarkApi.SubjectsExamMarks(data);
             
-            let a = response.data.map((item, i) => {
-                return {
+//             let a = response.data.map((item, i) => {
+//                 return {
             
-                    Text1:item.StandardDivision,
-                    Text2:item.Subject_Name,
-                    Text3:item.STATUS,
-                }
-            })
-            dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
-        };
+//                     Text1:item.StandardDivision,
+//                     Text2:item.Subject_Name,
+//                     Text3:item.STATUS,
+//                 }
+//             })
+//             dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
+//         };
 
         export const GetSubjectList =
         (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>

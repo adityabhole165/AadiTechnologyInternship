@@ -5,7 +5,7 @@ import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClas
 
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList, GetSubjectListClass } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
+import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
 import { RootState } from 'src/store';
 // import IconLegends from '../IconLedends/IconLegends';
 import List2 from 'src/libraries/mainCard/List2';
@@ -75,24 +75,7 @@ const AssignExamMark = () => {
 
   //SubjectList
  
-    const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
-        // asSchoolId: asSchoolId,
-        // asAcademicYearId: asAcademicYearId,
-        // aTeacherId: aTeacherId,
-        // asExamId: 608,
-        // asAllowPartialSubmit: "",
-        // asStandardDivisionId: asStandardDivisionId
-
-
-        
-          "asSchoolId": 18,
-          "asAcademicYearId": 54,
-          "aTeacherId": 2325,
-          "asExamId": 608,
-          "asAllowPartialSubmit": "",
-          "asStandardDivisionId": 1282
-        
-     }
+  
 
     // useEffect(() => {
     //     if (selectClass != '' &&
@@ -101,6 +84,15 @@ const AssignExamMark = () => {
     //   }, [selectClass,selectClassWiseExam]);
 
     useEffect(() => {
+
+      const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        aTeacherId: aTeacherId,
+        asExamId: ClassWiseExam,
+        asStandardDivisionId: selectClass
+     }
+
        dispatch(GetSubjectList(GetSubjectListtClass))
       }, [selectClass,ClassWiseExam]);
 
@@ -122,12 +114,7 @@ const AssignExamMark = () => {
     
  ]
 
- const HeaderList = [
-  "Class",
-  "Subject",
-  "Edit",
-  "Sumbit"
-]
+ 
 const [IconList, setIconList] = useState([
   {Id:1,
     Icon:(<EditIcon/>), 
@@ -190,7 +177,7 @@ const [IconList, setIconList] = useState([
  
 </Grid>
 <h4 >My Subject(s):-</h4>
-       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish} />
+       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish}  clicksubmit={""}/>
         {/* <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
         IconList={IconList} ClickItem={clickEdit}/>
         */}
