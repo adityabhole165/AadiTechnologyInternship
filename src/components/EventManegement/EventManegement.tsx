@@ -24,6 +24,7 @@ import { toast } from 'react-toastify';
 //import Test from '../../libraries/ResuableComponents/Test';
 import { Toast } from 'react-toastify/dist/components';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy'
+import TabulerList from 'src/libraries/ResuableComponents/TabularList';
 
 const EventsManagement = () => {
     const dispatch = useDispatch();
@@ -61,21 +62,19 @@ const EventsManagement = () => {
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
     // const AllData = { EventTitle, EventDescription, EventStartDate, EventEndDate, IteamList };
-  
+
 
     const EventLisst = useSelector((state: RootState) => state.EventsManagement.EventListt);
 
     const EventDetaill = useSelector((state: RootState) => state.EventsManagement.EventDetailss);
 
     const ClassesAndDivisionss = useSelector((state: RootState) => state.EventsManagement.AllClassesAndDivisionss);
-    
+
     const ClassesAndDivisionss1 = useSelector((state: RootState) => state.EventsManagement.AllClassesAndDivisionss1);
-    
-  
+
     const StandardAndDivisionCheckBoxx = useSelector((state: RootState) => state.EventsManagement.SelectedStandardAndDivisionCheckBoxx);
-    
-   
-    const SvaeUpdateeEvent = useSelector((state: RootState) => state.EventsManagement.UpdateEventt);
+
+    const SvaeUpdateeEvent = useSelector((state: RootState) => state.EventsManagement.SaveUpdateEventt);
 
     const DeleteeEvent = useSelector((state: RootState) => state.EventsManagement.DeleteEventt);
 
@@ -87,8 +86,8 @@ const EventsManagement = () => {
         const EventListBody: IEventListBody = {
 
             "asEventDate": "2008-06-19",
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
+            "asSchoolId": 18,
+            "asAcademicYearId": 39,
             "asStandardId": 871,
             "asDivisionId": 1199
         }
@@ -100,23 +99,26 @@ const EventsManagement = () => {
     useEffect(() => {
 
         const EDetails: IEventDetailsBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
+            "asSchoolId": 18,
+            "asAcademicYearId": 39,
             "asEventId": 18
         }
         dispatch(GetEventdetail(EDetails))
     }, []);
 
-    
-    useEffect(()=>{
-setitemList(ClassesAndDivisionss)
-    },[ClassesAndDivisionss])
+
+    useEffect(() => {
+        setitemList(ClassesAndDivisionss)
+    }, [ClassesAndDivisionss])
+
+
     //3.GetAllClassesAndDivisions
     useEffect(() => {
 
         const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
+
+            "asSchoolId": 18,
+            "asAcademicYearId": 54
         }
         dispatch(GetAllClassAndDivision(AllClassesAndDivisionBody))
     }, []);
@@ -125,31 +127,20 @@ setitemList(ClassesAndDivisionss)
     useEffect(() => {
 
         const StandardAndDivisionBody: ISelectedStandardAndDivisionCheckBoxBody = {
-            asSchoolId: asSchoolId ,
-            "asEventId": 39
+            "asSchoolId": 18,
+            "asEventId": 443
         }
         dispatch(GetSelectedStandardAndDivisionCheckBoxx(StandardAndDivisionBody))
     }, []);
 
     //6.SaveUpadateEvent
     useEffect(() => {
-
-        const UpdateEventBody: IUpdateEventBody = {
-            "asEventId": 830,
-            "asEventName": "createAPIi",
-            "asEventDescription": "",
-            "asEventStartDate": "12-14-2023",
-            "asEventEndDate": "12-15-2023",
-            "asDisplayOnHomepage": false,
-            "asEventImageName": "MohsinInamdar",
-            "asSchoolId": 18,
-            "asAcademicYearId": 45,
-            "asInsertedById": "754",
-            "asUpdatedById": "754",
-            "asStandardDivisions": StandardDivisionXML
+        if (SvaeUpdateeEvent !== '') {
+            toast.success(SvaeUpdateeEvent, { toastId: 'success1' })
+            // dispatch(saveEventManagement(EventManagementBody))
+            //dispatch(resetMessage());
         }
-        dispatch(GetupdateEvent(UpdateEventBody))
-    }, []);
+    }, [SvaeUpdateeEvent])
 
     //7.DeleteEvent
     const DeleteEventBody: IDeleteEventBody = {
@@ -208,13 +199,21 @@ setitemList(ClassesAndDivisionss)
 
         }
 
-        useEffect(() => {
-            if (SvaeUpdateeEvent !== '') {
-                toast.success("Student(s) height - weight saved successfully!!!", { toastId: 'success1' })
-                // dispatch(saveEventManagement(EventManagementBody))
-                //dispatch(resetMessage());
-            }
-        }, [SvaeUpdateeEvent])
+        const UpdateEventBody: IUpdateEventBody = {
+            "asEventId": 830,
+            "asEventName": "createAPIi",
+            "asEventDescription": "",
+            "asEventStartDate": "12-14-2023",
+            "asEventEndDate": "12-15-2023",
+            "asDisplayOnHomepage": false,
+            "asEventImageName": "MohsinInamdar",
+            "asSchoolId": 18,
+            "asAcademicYearId": 45,
+            "asInsertedById": "754",
+            "asUpdatedById": "754",
+            "asStandardDivisions": StandardDivisionXML
+        }
+        dispatch(GetupdateEvent(UpdateEventBody))
     }
 
 
@@ -223,7 +222,8 @@ setitemList(ClassesAndDivisionss)
         setEventDescription('');
         setEventStartDate('');
         setEventEndDate('');
-        setFileName('')
+        setFileName('');
+        
 
     };
 
@@ -265,28 +265,6 @@ setitemList(ClassesAndDivisionss)
         }
     }
 
-    // const [MyList, setMyList] = useState([
-    //     { Id: "1", Name: "A", Value: "1", ParentId: "101", IsActive: false },
-    //     { Id: "2", Name: "B", Value: "2", ParentId: "101", IsActive: false },
-    //     { Id: "3", Name: "C", Value: "3", ParentId: "101", IsActive: false },
-    //     { Id: "4", Name: "D", Value: "4", ParentId: "101", IsActive: false },
-    //     { Id: "5", Name: "A", Value: "5", ParentId: "102", IsActive: false },
-    //     { Id: "6", Name: "B", Value: "6", ParentId: "102", IsActive: false },
-    //     { Id: "7", Name: "C", Value: "7", ParentId: "102", IsActive: false },
-    //     { Id: "8", Name: "A", Value: "8", ParentId: "103", IsActive: false },
-    //     { Id: "9", Name: "B", Value: "9", ParentId: "103", IsActive: false },
-    //     { Id: "10", Name: "A", Value: "10", ParentId: "104", IsActive: false },
-    //     { Id: "11", Name: "B", Value: "11", ParentId: "104", IsActive: false }
-    // ])
-
-
-    // const [ParentList, setParentList] = useState([
-    //     { Id: "101", Name: "Nursery", Value: "101" },
-    //     { Id: "102", Name: "Jr.Kg.", Value: "102" },
-    //     { Id: "103", Name: "1", Value: "103" },
-    //     { Id: "104", Name: "2", Value: "104" }
-    // ])
-
     const ClickChild = (value) => {
         setitemList(value)
     }
@@ -296,7 +274,7 @@ setitemList(ClassesAndDivisionss)
             <PageHeader heading={'Event(s) Management'} subheading={''} /> <br></br><br></br>
 
             <Container maxWidth="md">
-                {/* <TabulerList ItemList={EventLisst} clickEdit={clickEventEdit} clickDelete={clickeventDelete} /><br></br> */}
+                <TabulerList ItemList={EventLisst} clickEdit={clickEventEdit} clickDelete={clickeventDelete} /><br></br>
 
                 <TextField label="Event Title"
                     value={EventTitle}
@@ -355,9 +333,8 @@ setitemList(ClassesAndDivisionss)
                     </Grid>
                 </Grid><br></br><br></br>
 
-                {/* <Test clickList={clickList} /> */}
-                <SelectListHierarchy ItemList={ItemList} ParentList={ClassesAndDivisionss1} 
-                ClickChild={ClickChild} >
+                <SelectListHierarchy ItemList={ItemList} ParentList={ClassesAndDivisionss1}
+                    ClickChild={ClickChild} >
                 </SelectListHierarchy>
 
                 <Grid item xs={6}>

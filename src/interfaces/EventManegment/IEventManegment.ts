@@ -84,9 +84,7 @@ export interface IEventListBody {
   
   }
   
- 
-  
-  //6.UpadateEvent
+  //6.SaveUpadateEvent
   export interface IUpdateEventBody {
   
     asEventId: number,

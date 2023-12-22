@@ -12,10 +12,9 @@ const EventDescriptionSlice = createSlice({
     EventDetailss: [],
     AllClassesAndDivisionss: [],
     AllClassesAndDivisionss1: [],
-
     SelectedStandardAndDivisionCheckBoxx: [],
     SaveEventt: "",
-    UpdateEventt: "",
+    SaveUpdateEventt: "",
     DeleteEventt: "",
     DeleteEventImagee: ""
 
@@ -32,7 +31,7 @@ const EventDescriptionSlice = createSlice({
       state.AllClassesAndDivisionss = action.payload;
     },
 
-     getAllClassesAndDivisionss1(state, action) {
+    getAllClassesAndDivisionss1(state, action) {
       state.AllClassesAndDivisionss1 = action.payload;
     },
     getSelectedStandardAndDivisionCheckBoxx(state, action) {
@@ -41,15 +40,18 @@ const EventDescriptionSlice = createSlice({
     getSaveEventt(state, action) {
       state.SaveEventt = action.payload;
     },
-    getUpdateEventt(state, action) {
-      state.UpdateEventt = action.payload;
+    getSaveUpdateEventt(state, action) {
+      state.SaveUpdateEventt = action.payload;
     },
     getDeleteEventt(state, action) {
       state.DeleteEventt = action.payload;
     },
     getDeleteEventImagee(state, action) {
       state.DeleteEventImagee = action.payload;
-    }
+    },
+    resetMessage(state) {
+      state.SaveUpdateEventt = ""
+   }
   }
 });
 
@@ -59,9 +61,9 @@ export const GetEventtList =
     async (dispatch) => {
       const response = await GetEventDescriptionApi.EventList(data);
       let a = response.data.map((item, i) => {
- 
+
         return {
-          Text1: item.Event_Name 
+          Text1: item.Event_Name
 
         }
       })
@@ -100,23 +102,23 @@ export const GetAllClassAndDivision =
           Name: item.Division_Name,
           Value: item.SchoolWise_Standard_Division_Id,
           ParentId: item.Standard_Id,
-          IsActive:false
+          IsActive: false
         }
       })
 
-        let arr = []
-        let arrStd = []
-        response.data.map((item, i) => {
-        if(!arrStd.includes(item.Standard_Id)){
-          
+      let arr = []
+      let arrStd = []
+      response.data.map((item, i) => {
+        if (!arrStd.includes(item.Standard_Id)) {
+
           arrStd.push(item.Standard_Id)
-        arr.push({
-          Id:  item.Standard_Id,
-          Name: item.Standard_Name,
-          Value:item.Standard_Id,
-          IsActive:false
-        })
-      }
+          arr.push({
+            Id: item.Standard_Id,
+            Name: item.Standard_Name,
+            Value: item.Standard_Id,
+            IsActive: false
+          })
+        }
       })
       // console.log(arr,"arr")
 
@@ -134,15 +136,12 @@ export const GetSelectedStandardAndDivisionCheckBoxx =
       dispatch(EventDescriptionSlice.actions.getSelectedStandardAndDivisionCheckBoxx(response.data))
     }
 
-
-
-
 //6.UpadteEvent
 export const GetupdateEvent =
   (data: IUpdateEventBody): AppThunk =>
     async (dispatch) => {
-      const response = await GetEventDescriptionApi.UpdateEvent(data);
-      dispatch(EventDescriptionSlice.actions.getUpdateEventt(response.data));
+      const response = await GetEventDescriptionApi.SaveUpdateEvent(data);
+      dispatch(EventDescriptionSlice.actions.getSaveUpdateEventt(response.data));
     };
 
 //7.DeletEvent
@@ -171,5 +170,12 @@ export const GetDeleteEventImagee =
       // })
       dispatch(EventDescriptionSlice.actions.getDeleteEventImagee(response.data));
     };
+
+
+    export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(EventDescriptionSlice.actions.resetMessage());
+        }
 
 export default EventDescriptionSlice.reducer
