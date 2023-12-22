@@ -20,20 +20,22 @@ const TermwiseHeightWeight = () => {
   const navigate = useNavigate();
 
   const [SelectTeacher, setSelectTeacher] = useState(0);
-  const [SelectTerm, setSelectTerm] = useState();
+  const [SelectTerm, setSelectTerm] = useState(0);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+
   const UserId = Number(localStorage.getItem('UserId'));
 
   const ClassTeacherDropdown = useSelector((state: RootState) => state.TermwiseHtWt.ClassTeacherList)
-  //console.log("ClassTeacherDropdown", ClassTeacherDropdown)
+  console.log("ClassTeacherDropdown", ClassTeacherDropdown)
   const TermDropdown = useSelector((state: RootState) => state.TermwiseHtWt.TermwiseTermList)
-  //console.log("TermDropdown", TermDropdown)
+  console.log("TermDropdown", TermDropdown)
   const StudentList = useSelector((state: RootState) => state.TermwiseHtWt.Student)
-  //console.log("StudentList", StudentList)
+  console.log("StudentList", StudentList)
   const UpdateStudentDetails = useSelector((state: RootState) => state.TermwiseHtWt.UpdateStudent)
-  //console.log("UpdateStudentDetails", UpdateStudentDetails)
+  console.log("UpdateStudentDetails", UpdateStudentDetails)
 
   const [Itemlist, setItemlist] = useState([]);
   useEffect(()=>{
@@ -67,12 +69,17 @@ const TermwiseHeightWeight = () => {
   }, []);
 
   useEffect(() => {
+    if (TermDropdown.length > 0)
+        setSelectTerm(TermDropdown[0].Id)
+}, [TermDropdown]);
+
+  useEffect(() => {
     const StudentlistBody: IStudentsListBody = {
 
       asStdDivId:SelectTeacher,
       asAcademic_Year_Id:asAcademicYearId,
       asSchoolId:asSchoolId,
-      asTerm_Id:SelectTerm
+      asTerm_Id: Number(SelectTerm)
 
     }
     dispatch(studentdetails(StudentlistBody))
@@ -86,9 +93,9 @@ const TermwiseHeightWeight = () => {
     console.log(Itemlist,"----")
     let sXML = "<ArrayOfStudentInfoForHeightWeight xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns:xsd='http://www.w3.org/2001/XMLSchema'>"
     Itemlist.map((Item)=>{
-      sXML = sXML + "<StudentInfoForHeightWeight><RollNo>" +  Item.Text1 + "</RollNo><YearWiseStudentId>"+ Item.YearWiseStudentId+ 
+      sXML = sXML + "<StudentInfoForHeightWeight><RollNo>" +  Item.Text1 + "</RollNo><YearWiseStudentId>"+ Item.Text6+ 
                             "</YearWiseStudentId><Height>" +  Item.Text3 + "</Height><Weight>" +  Item.Text4 + "</Weight><IsLeftStudent>"
-                            +  Item.IsLeftStudent + "</IsLeftStudent></StudentInfoForHeightWeight>"
+                            +  Item.Text5 + "</IsLeftStudent></StudentInfoForHeightWeight>"
                             
 
     })
@@ -135,6 +142,7 @@ return sXML
 
     }
   }
+  
 
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/TExamschedule')

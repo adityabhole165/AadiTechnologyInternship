@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { ISaveDailyLogBody ,IGetAllHomeworkDailyLogsBody,IGetAllHomeworkDailyLogsResult} from "src/interfaces/AddDailyLog/IAddDailyLog";
+import { ISaveDailyLogBody ,IGetAllHomeworkDailyLogsBody,IGetAllHomeworkDailyLogsResult,IGetHomeworkDailyLogBody,IGetHomeworkDailyLogResult,IDeleteHomeworkDailyLogBody,IPublishUnpublishHomeworkDailylogBody} from "src/interfaces/AddDailyLog/IAddDailyLog";
 
 const SaveDailyLog = (data:ISaveDailyLogBody) => {
     return http.post('Teacher/SaveDailyLog',data);
@@ -7,18 +7,22 @@ const SaveDailyLog = (data:ISaveDailyLogBody) => {
 const GetAllHomeworkDailyLogs = (data:IGetAllHomeworkDailyLogsBody) => {
     return http.post<IGetAllHomeworkDailyLogsResult[]>('Teacher/GetAllHomeworkDailyLogs',data);
 };
-// const StudentList = (data:IStudentsListBody) => {
-//     return http.post<IStudentsListResult[]>('Teacher/GetStudentListToCaptureHeighthWeight',data);
-// };
-// const UpdateStudentList = (data:IUpdateStudentDetailsBody) => {
-//     return http.post('Teacher/UpdateStudentDetailsForHeightWeight',data);
-// };
+const GetHomeworkDailyLog = (data:IGetHomeworkDailyLogBody) => {
+    return http.post<IGetHomeworkDailyLogResult[]>('Teacher/GetHomeworkDailyLog',data);
+};
+const DeleteHomeworkDailyLog = (data:IDeleteHomeworkDailyLogBody) => {
+    return http.post('Teacher/DeleteHomeworkDailyLog',data);
+};
+const PublishUnpublishHomeworkDailylog = (data:IPublishUnpublishHomeworkDailylogBody) => {
+    return http.post('Teacher/PublishUnpublishHomeworkDailylog',data);
+};
 
 const DailyLogApi ={
     SaveDailyLog,
     GetAllHomeworkDailyLogs,
-    
-    
+    GetHomeworkDailyLog,
+    DeleteHomeworkDailyLog,
+    PublishUnpublishHomeworkDailylog
 }
 
 export default DailyLogApi

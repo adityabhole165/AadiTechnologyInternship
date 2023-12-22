@@ -63,12 +63,15 @@ export const TeacherNameList =
         let responseData = response.data.map((item) => {
      
             return{
-                Id:item. Roll_No,
-                Text1:item.Roll_No,
-                Text2: item.StudentName==="1"?"color=red":item.StudentName,
+                Id:item. RollNo,
+                Text1:item.RollNo,
+                Text2: item.StudentName,
                 Text3: item.Height,
                 Text4: item.Weight,
-              
+                Text5: item.IsLeftStudent,
+                Text6: item.YearWiseStudentId,
+
+                // ==="1"?"color=red":item.StudentName
             }
         })
         dispatch(TermwiseHeightWeightSlice.actions.studentdetails(responseData));
