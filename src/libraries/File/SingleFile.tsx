@@ -5,15 +5,20 @@ import { ChangeFileIntoBase64, CheckFileValidationAdhar } from 'src/components/C
 import Icon5 from '../icon/icon5';
 import { Styles } from 'src/assets/style/student-style';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-
-const SingleFile = ({ValidFileTypes, MaxfileSize, errorMessage = '', ChangeFile}) => {
+import ImageIcon from '@mui/icons-material/Image';
+import DeleteIcon from '@mui/icons-material/Delete';
+const SingleFile = ({ ValidFileTypes, MaxfileSize, ChangeFile, 
+    errorMessage = '', clickDelete = undefined, filePath = "", FileName ="" }) => {
     const classes = Styles();
     const aRef = useRef(null);
     const [FileError, setFileError] = useState('');
-    const [FileName, setFileName] = useState('');
-    useEffect(()=>{
+    useEffect(() => {
         setFileError(errorMessage)
-    },[errorMessage])
+    }, [errorMessage])
+    useEffect(() => {
+        if(FileName=="")
+        aRef.current.value = null;
+    }, [FileName])
     const clickFile = async (e) => {
         const multipleFiles = e.target.files;
         let base64URL: any = '';
@@ -22,44 +27,54 @@ const SingleFile = ({ValidFileTypes, MaxfileSize, errorMessage = '', ChangeFile}
             if (isValid == null) {
                 base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
                 setFileError('')
-                setFileName(multipleFiles[i].name)
-                ChangeFile({Name:multipleFiles[i].name, 
-                    Value:base64URL.slice(base64URL.indexOf(',') + 1),
-                    FileExtension:multipleFiles[i].name.split('.').at(-1)})
+                ChangeFile({
+                    Name: multipleFiles[i].name,
+                    Value: base64URL.slice(base64URL.indexOf(',') + 1),
+                    FileExtension: multipleFiles[i].name.split('.').at(-1)
+                })
             } else {
                 setFileError(isValid)
-                setFileName('')
                 aRef.current.value = null;
             }
         }
     }
     const handleClick = event => {
         aRef.current.click();
-      };
+    };
+    const clickImage = () => {
+        if(filePath!="")
+        window.open(filePath)
+    }
     return (
         <Container>
             <Box sx={{ textAlign: "center" }}>
-            <Stack alignItems={"center"}>
-        <Box sx={{ display: "flex", mt: "5px" }}>
-            <div onClick={handleClick} >
-          <CloudUploadIcon sx={{ mt: "-2px" }} />
-          
-          <Typography sx={{ mt: "2px", fontWeight: "bold", ml: "2px", fontSize: "12px" }}>Upload files </Typography>
-          </div>
-          <Box sx={{ width: '200px', overflow: "hidden", textOverflow: "ellipsis", mt: "2px", }}>
-            {(FileName == '') ?
-              " No file selected" : FileName}
-          </Box>
-        </Box></Stack>
+                <Stack alignItems={"center"}>
+                    <Box sx={{ display: "flex", mt: "5px" }} onClick={handleClick}>
+                        <CloudUploadIcon sx={{ mt: "-2px" }} />
+                        <Typography sx={{ mt: "2px", fontWeight: "bold", ml: "2px", fontSize: "12px" }}>Upload files </Typography>
+                        <Box sx={{ width: '200px', overflow: "hidden", textOverflow: "ellipsis", mt: "2px", }}>
+                            {(FileName == '') ?
+                                " No file selected" : FileName}
+                        </Box>
+                    </Box></Stack>
 
-            <input ref={aRef} type="file" onChange={clickFile} 
-                style={{ display: 'none' }} />
+                <input ref={aRef} type="file" onChange={clickFile}
+                    style={{ display: 'none' }} />
             </Box>
             <Box className={classes.iIconSupport}>
                 <Icon5 Note={"Supports only " + ValidFileTypes.join(', ') + " files types up to 3 MB"} />
             </Box>
 
+            <Box sx={{ textAlign: "center" }}>
+                {filePath != "" &&
+            (<>
+            <ImageIcon onClick={clickImage}/>
+            <DeleteIcon onClick={clickDelete}/>
+            </>)
+        }
+            </Box>
             {FileError && <Errormessage Error={FileError} />}
+
         </Container>
     )
 }
