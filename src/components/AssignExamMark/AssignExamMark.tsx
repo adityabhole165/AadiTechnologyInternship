@@ -5,9 +5,9 @@ import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClas
 
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList, ReqSubmitMarksTeacher } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
+import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList, ReqSubmitMarksTeacher, resetMessage } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
 import { RootState } from 'src/store';
-// import IconLegends from '../IconLedends/IconLegends';
+
 import List2 from 'src/libraries/mainCard/List2';
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import { number } from 'prop-types';
@@ -89,18 +89,7 @@ const AssignExamMark = () => {
     asIsSubmitted:asIsSubmitted
  } 
 
-    // const ChangeFile = (value) => {
-    //   setFileName(value.Name);
-    //   setbase64URL(value.Value);
-    //   console.log('filevalue', value);
-    // };
-
-    const ChangeFile = (value) => {
-      setFileName(value.Name);
-      setbase64URL(value.Value);
-      setIsFileUploaded(true);
-      console.log('filevalue', value);
-  };
+    
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam))
@@ -147,8 +136,7 @@ const ClickSubmit = () => {
   useEffect(() => {
     if(UsSubmitMarksTeacher!=""){
     toast.success(UsSubmitMarksTeacher);
-    // dispatch(ResetMessage());
-
+     dispatch(resetMessage());
     dispatch(GetSubjectList(GetSubjectListtClass))
 
     }

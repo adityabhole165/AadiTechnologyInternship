@@ -10,7 +10,8 @@ const AssignExamMarkSlice = createSlice({
         ISAssignExam: [],
         ISAssignClassExam: [],
         ISSubjectListClass: [],
-        ISSubmitMarksTeacher:""
+        ISSubmitMarksTeacher:"",
+        ISSubmitMarksRest:""
 
     },
     reducers: {
@@ -31,6 +32,10 @@ const AssignExamMarkSlice = createSlice({
         RSubmitMarksTeacher(state, action) {
             state.ISSubmitMarksTeacher = action.payload
         },
+
+        resetMessage(state) {
+            state.ISSubmitMarksRest = ""
+        }
     }
 });
 
@@ -107,7 +112,11 @@ export const ReqSubmitMarksTeacher =
       dispatch(AssignExamMarkSlice.actions.RSubmitMarksTeacher(response.data))
     }
 
-
+    export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AssignExamMarkSlice.actions.resetMessage());
+        }
 
 
     
