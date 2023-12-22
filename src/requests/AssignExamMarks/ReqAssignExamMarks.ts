@@ -1,5 +1,5 @@
 
-import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
+import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult , ISubmitTestMarksToClassTeacherBody} from "src/interfaces/AssignExamMarks/IAssignExamMarks"
 import AssignExamMarkApi from "src/api/ApiAssignExamMarks/ApiAssignExamMarks"
 import { createSlice } from "@reduxjs/toolkit"
 import { AppThunk } from "src/store";
@@ -9,7 +9,9 @@ const AssignExamMarkSlice = createSlice({
     initialState: {
         ISAssignExam: [],
         ISAssignClassExam: [],
-        ISSubjectListClass: []
+        ISSubjectListClass: [],
+        ISSubmitMarksTeacher:"",
+        ISSubmitMarksRest:""
 
     },
     reducers: {
@@ -26,6 +28,14 @@ const AssignExamMarkSlice = createSlice({
         getsubjectList(state, action) {
             state.ISSubjectListClass = action.payload
         },
+
+        RSubmitMarksTeacher(state, action) {
+            state.ISSubmitMarksTeacher = action.payload
+        },
+
+        resetMessage(state) {
+            state.ISSubmitMarksRest = ""
+        }
     }
 });
 
@@ -83,7 +93,7 @@ export const GetClassWiseExam =
                 
                 let a = response.data.map((item, i) => {
                     return {
-            
+                        Id: item.Subject_Id,
                         Text1:item.StandardDivision,
                         Text2:item.Subject_Name,
                         Text3:item.Is_Submitted,
@@ -92,6 +102,23 @@ export const GetClassWiseExam =
                 })
                 dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
             };
+
+           
+
+export const ReqSubmitMarksTeacher =
+  (data: ISubmitTestMarksToClassTeacherBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.SubmitMarksTeacher(data)
+      dispatch(AssignExamMarkSlice.actions.RSubmitMarksTeacher(response.data))
+    }
+
+    export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AssignExamMarkSlice.actions.resetMessage());
+        }
+
+
     
 export default AssignExamMarkSlice.reducer
 

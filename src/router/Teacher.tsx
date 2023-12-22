@@ -29,6 +29,7 @@ const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/As
 const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight')))
 const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
 const SubjectExamMarks= Loader(lazy(() => import('src/components/ExamResult/SubjectExamMarks')))
+const EventManegement= Loader(lazy(() => import('src/components/EventManegement/EventManegement')))
 
 const teacherRoutes = [
     {
@@ -107,6 +108,10 @@ const teacherRoutes = [
     {
       path: 'AddDailyLog',
       element: <AddDailyLog/>
+    },
+    {
+      path: 'EventManegement',
+      element: <EventManegement/>
     },
 
     ];

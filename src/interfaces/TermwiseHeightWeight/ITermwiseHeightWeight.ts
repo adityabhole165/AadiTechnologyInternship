@@ -34,9 +34,17 @@ export interface IStudentsListBody{
 }
 
 export interface IStudentsListResult{
-       Roll_No: string,
+    Standard_Id: string,
+        Division_Id: string,
+        YearWiseStudentId: string,
         StudentName: string,
-        Height: string,
+        Academic_Year_Id: string,
+        RollNo: string,
+        SchoolWise_Standard_Division_Id: string,
+        IsLeftStudent: string,
+        Joining_Date: string,
+        Teacher_Id: string,
+        Height:string,
         Weight: string
 }
 

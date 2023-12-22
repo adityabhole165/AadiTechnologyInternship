@@ -22,7 +22,7 @@ const AssignHomework = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate()
 
-    const [SelectTeacher, setSelectTeacher] = useState(Number(sessionStorage.getItem('TeacherId')));
+    const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
     const [SelectClass, setSelectClass] = useState(0);
     const [subjectDetailList, setSubjectDetailList] = useState([]);
     const [MySubject, setMySubject] = useState();
@@ -35,21 +35,23 @@ const AssignHomework = () => {
     const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
 
 console.log("ScreensAccessPermission",ScreensAccessPermission)
-// const GetScreenPermission=(value)=>{
-//     let perm = "N"
-//     ScreensAccessPermission.map((item)=>{
-//         if(item.ScreenName==="Attendance")
-//         perm = item
-//     })
-// }
-    const TeacherList = useSelector((state: RootState) => state.TeacherNameList.TeacherList)
+
+const GetScreenPermission=()=>{
+    let perm = "N"
+    ScreensAccessPermission.map((item)=>{
+        if(item.ScreenName==="Assign Homework")
+        perm = item.IsFullAccess
+    })
+    return perm;
+}
+    const TeacherList :any  = useSelector((state: RootState) => state.TeacherNameList.TeacherList)
     console.log("TeacherList", TeacherList)
     const ClassList = useSelector((State: RootState) => State.TeacherNameList.ClassList)
     console.log("ClassList", ClassList)
-    const SubjectDetailLists: any = useSelector((State: RootState) => State.TeacherNameList.SubjectList)
+    const SubjectDetailLists :any = useSelector((State: RootState) => State.TeacherNameList.SubjectList)
     console.log("SubjectDetailList", subjectDetailList)
 
-    const FullAccessTeacher: any = useSelector((State: RootState) => State.TeacherNameList.ClassTeacherList)
+    const FullAccessTeacher :any = useSelector((State: RootState) => State.TeacherNameList.ClassTeacherList)
     console.log("FullAccessTeacher", FullAccessTeacher)
 
     useEffect(() => {
@@ -63,7 +65,7 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asShowHomeworkToClassTeacher: asShowHomeworkToClassTeacher,
-            aTeacherId: SelectTeacher
+            aTeacherId: (GetScreenPermission()=="Y"?0:SelectTeacher)
         }
         dispatch(TeacherNameList(GetTeacher))
     }, []);
@@ -80,6 +82,7 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
             asAcademicYearId: asAcademicYearId,
             aTeacherId: SelectTeacher
         }
+
         dispatch(ClassName(GetClassD))
     }, [SelectTeacher]);
 
@@ -93,7 +96,6 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
     
             asSchoolId:asSchoolId ,
             asAcademicYearID:asAcademicYearId 
-    
         }
         dispatch(FullTeacherName(fullClassTeacherBody))
       }, []);
@@ -142,7 +144,7 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
     }
 
     const onClick = () => {
-        navigate('/extended-sidebar/Teacher/TExamschedule')
+        navigate('/extended-sidebar/Teacher/AddDailyLog')
     }
     console.log(asStandardDivisionId, "--", SelectClass)
 
@@ -160,11 +162,11 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
     </Typography>
   </Grid>
   <Grid item xs={2} >
-    {/* <DropDown itemList={FullAccessTeacher} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/>
-    // sessionStorage.getItem("StudentName") */}
-
-     <DropDown itemList={TeacherList} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/>
-
+    {/* {GetScreenPermission()=="Y"?
+    <DropDown itemList={FullAccessTeacher} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/>:
+    sessionStorage.getItem("StudentName")
+    } */}
+      <DropDown itemList={TeacherList} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/> 
    <br></br>
     <br></br>
   </Grid>

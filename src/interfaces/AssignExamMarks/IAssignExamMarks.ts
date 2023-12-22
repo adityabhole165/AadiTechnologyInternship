@@ -55,3 +55,16 @@ export interface ISubjectsExamMarksStatusForClassBodyResult {
     AllowPartialSubmit: string,
     IsXseedSubject: string
 }
+
+
+export interface ISubmitTestMarksToClassTeacherBody 
+
+    {
+        asStandardDivisionId:string,
+        asSubjectId:string,
+        asTestId:string,    
+        asSchoolId:string,
+        asAcademicYearId:string,
+        asIsSubmitted:string
+     } 
+

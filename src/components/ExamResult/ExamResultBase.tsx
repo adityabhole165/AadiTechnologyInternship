@@ -140,7 +140,7 @@ const ExamResultBase = () => {
       </Grid>
       <br></br>
       <Box mb={1}>
-      <Card sx={{ backgroundColor: "#4dd0e1", height: '40px', width: '74vw', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid white' }}>
+      <Card sx={{ backgroundColor: "#4dd0e1", height: '40px', width: '55vw', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid white' }}>
         
         <h4 style={{ margin: 0 , color: 'balck'}}>Subject</h4>
       </Card>

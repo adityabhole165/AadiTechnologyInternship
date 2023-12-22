@@ -55,7 +55,7 @@ const TermwiseHeightWeightList = ({ ItemList, onTextChange, onTextChange2, Heade
             </Grid>
             <Grid item xs={3}>
 
-              <Typography  variant="subtitle1">{item.Text2}</Typography>
+              <Typography  variant="subtitle1"  style={{ color: item.Text5 ==="1" ? 'red' : 'inherit' }}>{item.Text2}</Typography>
             </Grid>
             <Grid item xs={3}>
             <TextField id="outlined-basic" value={item.Text3} variant="outlined" 
