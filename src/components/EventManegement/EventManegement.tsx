@@ -21,7 +21,6 @@ import Checkbox from '@mui/material/Checkbox';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import SingleFile from 'src/libraries/File/SingleFile';
 import { toast } from 'react-toastify';
-import TabulerList from 'src/libraries/ResuableComponents/TabularList';
 //import Test from '../../libraries/ResuableComponents/Test';
 import { Toast } from 'react-toastify/dist/components';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy'
@@ -52,7 +51,7 @@ const EventsManagement = () => {
     const [ErrorEventTitle, setErrorEventTitle] = useState('')
     const [EventEndDate, setEventEndDate] = useState('')
     const [ErrorEventEndDate, setErrorEventEndDate] = useState('')
-    const [IteamList, setitemList] = useState('')
+    const [ItemList, setitemList] = useState([])
     const [ErrorIteamList, setErrorIteamList] = useState('')
     const [EList, setEList] = useState(0)
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
@@ -61,7 +60,7 @@ const EventsManagement = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
-    const AllData = { EventTitle, EventDescription, EventStartDate, EventEndDate, IteamList };
+    // const AllData = { EventTitle, EventDescription, EventStartDate, EventEndDate, IteamList };
   
 
     const EventLisst = useSelector((state: RootState) => state.EventsManagement.EventListt);
@@ -69,9 +68,13 @@ const EventsManagement = () => {
     const EventDetaill = useSelector((state: RootState) => state.EventsManagement.EventDetailss);
 
     const ClassesAndDivisionss = useSelector((state: RootState) => state.EventsManagement.AllClassesAndDivisionss);
-
+    
+    const ClassesAndDivisionss1 = useSelector((state: RootState) => state.EventsManagement.AllClassesAndDivisionss1);
+    
+  
     const StandardAndDivisionCheckBoxx = useSelector((state: RootState) => state.EventsManagement.SelectedStandardAndDivisionCheckBoxx);
-
+    
+   
     const SvaeUpdateeEvent = useSelector((state: RootState) => state.EventsManagement.UpdateEventt);
 
     const DeleteeEvent = useSelector((state: RootState) => state.EventsManagement.DeleteEventt);
@@ -104,6 +107,10 @@ const EventsManagement = () => {
         dispatch(GetEventdetail(EDetails))
     }, []);
 
+    
+    useEffect(()=>{
+setitemList(ClassesAndDivisionss)
+    },[ClassesAndDivisionss])
     //3.GetAllClassesAndDivisions
     useEffect(() => {
 
@@ -258,30 +265,30 @@ const EventsManagement = () => {
         }
     }
 
-    const [MyList, setMyList] = useState([
-        { Id: "1", Name: "A", Value: "1", ParentId: "101", IsActive: false },
-        { Id: "2", Name: "B", Value: "2", ParentId: "101", IsActive: false },
-        { Id: "3", Name: "C", Value: "3", ParentId: "101", IsActive: false },
-        { Id: "4", Name: "D", Value: "4", ParentId: "101", IsActive: false },
-        { Id: "5", Name: "A", Value: "5", ParentId: "102", IsActive: false },
-        { Id: "6", Name: "B", Value: "6", ParentId: "102", IsActive: false },
-        { Id: "7", Name: "C", Value: "7", ParentId: "102", IsActive: false },
-        { Id: "8", Name: "A", Value: "8", ParentId: "103", IsActive: false },
-        { Id: "9", Name: "B", Value: "9", ParentId: "103", IsActive: false },
-        { Id: "10", Name: "A", Value: "10", ParentId: "104", IsActive: false },
-        { Id: "11", Name: "B", Value: "11", ParentId: "104", IsActive: false }
-    ])
+    // const [MyList, setMyList] = useState([
+    //     { Id: "1", Name: "A", Value: "1", ParentId: "101", IsActive: false },
+    //     { Id: "2", Name: "B", Value: "2", ParentId: "101", IsActive: false },
+    //     { Id: "3", Name: "C", Value: "3", ParentId: "101", IsActive: false },
+    //     { Id: "4", Name: "D", Value: "4", ParentId: "101", IsActive: false },
+    //     { Id: "5", Name: "A", Value: "5", ParentId: "102", IsActive: false },
+    //     { Id: "6", Name: "B", Value: "6", ParentId: "102", IsActive: false },
+    //     { Id: "7", Name: "C", Value: "7", ParentId: "102", IsActive: false },
+    //     { Id: "8", Name: "A", Value: "8", ParentId: "103", IsActive: false },
+    //     { Id: "9", Name: "B", Value: "9", ParentId: "103", IsActive: false },
+    //     { Id: "10", Name: "A", Value: "10", ParentId: "104", IsActive: false },
+    //     { Id: "11", Name: "B", Value: "11", ParentId: "104", IsActive: false }
+    // ])
 
 
-    const [ParentList, setParentList] = useState([
-        { Id: "101", Name: "Nursery", Value: "101" },
-        { Id: "102", Name: "Jr.Kg.", Value: "102" },
-        { Id: "103", Name: "1", Value: "103" },
-        { Id: "104", Name: "2", Value: "104" }
-    ])
+    // const [ParentList, setParentList] = useState([
+    //     { Id: "101", Name: "Nursery", Value: "101" },
+    //     { Id: "102", Name: "Jr.Kg.", Value: "102" },
+    //     { Id: "103", Name: "1", Value: "103" },
+    //     { Id: "104", Name: "2", Value: "104" }
+    // ])
 
     const ClickChild = (value) => {
-        setMyList(value)
+        setitemList(value)
     }
 
     return (
@@ -349,7 +356,8 @@ const EventsManagement = () => {
                 </Grid><br></br><br></br>
 
                 {/* <Test clickList={clickList} /> */}
-                <SelectListHierarchy ItemList={MyList} ParentList={ParentList} ClickChild={ClickChild} >
+                <SelectListHierarchy ItemList={ItemList} ParentList={ClassesAndDivisionss1} 
+                ClickChild={ClickChild} >
                 </SelectListHierarchy>
 
                 <Grid item xs={6}>

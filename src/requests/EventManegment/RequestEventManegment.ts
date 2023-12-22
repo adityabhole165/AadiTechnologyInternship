@@ -11,6 +11,8 @@ const EventDescriptionSlice = createSlice({
     EventListt: [],
     EventDetailss: [],
     AllClassesAndDivisionss: [],
+    AllClassesAndDivisionss1: [],
+
     SelectedStandardAndDivisionCheckBoxx: [],
     SaveEventt: "",
     UpdateEventt: "",
@@ -28,6 +30,10 @@ const EventDescriptionSlice = createSlice({
     },
     getAllClassesAndDivisionss(state, action) {
       state.AllClassesAndDivisionss = action.payload;
+    },
+
+     getAllClassesAndDivisionss1(state, action) {
+      state.AllClassesAndDivisionss1 = action.payload;
     },
     getSelectedStandardAndDivisionCheckBoxx(state, action) {
       state.SelectedStandardAndDivisionCheckBoxx = action.payload;
@@ -87,7 +93,37 @@ export const GetAllClassAndDivision =
   (data: IAllClassesAndDivisionsBody): AppThunk =>
     async (dispatch) => {
       const response = await GetEventDescriptionApi.AllClassesAndDivisions(data);
-      dispatch(EventDescriptionSlice.actions.getAllClassesAndDivisionss(response.data))
+      let responseData = response.data.map((item, i) => {
+
+        return {
+          Id: item.SchoolWise_Standard_Division_Id,
+          Name: item.Division_Name,
+          Value: item.SchoolWise_Standard_Division_Id,
+          ParentId: item.Standard_Id,
+          IsActive:false
+        }
+      })
+
+        let arr = []
+        let arrStd = []
+        response.data.map((item, i) => {
+        if(!arrStd.includes(item.Standard_Id)){
+          
+          arrStd.push(item.Standard_Id)
+        arr.push({
+          Id:  item.Standard_Id,
+          Name: item.Standard_Name,
+          Value:item.Standard_Id,
+          IsActive:false
+        })
+      }
+      })
+      // console.log(arr,"arr")
+
+
+      dispatch(EventDescriptionSlice.actions.getAllClassesAndDivisionss(responseData))
+      dispatch(EventDescriptionSlice.actions.getAllClassesAndDivisionss1(arr))
+
     }
 
 //4.SelectedStandardAndDivisionCheckBoxx
