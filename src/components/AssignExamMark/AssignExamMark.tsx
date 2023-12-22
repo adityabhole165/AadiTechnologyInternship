@@ -97,17 +97,18 @@ const AssignExamMark = () => {
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: asStandardDivisionId
   };
-  
+
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam));
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, []);
 
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0) {
+    if (ClassWiseExamDropdown.length > 0 && ClassDropdown.length > 0) {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+      SetSelectClass(ClassDropdown[0].Value);
     }
-  }, [ClassWiseExamDropdown]);
+  }, [ClassWiseExamDropdown, ClassDropdown]);
 
   // useEffect(() => {
   //   dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
@@ -120,22 +121,19 @@ const AssignExamMark = () => {
       asTestId: ClassWiseExam,
       asSchoolId: String(asSchoolId),
       asAcademicYearId: String(asAcademicYearId),
-      asIsSubmitted: "Y"
+      asIsSubmitted: 'Y'
     };
-  
+
     dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
-};
+  };
 
   useEffect(() => {
-  
     if (UsSubmitMarksTeacher != '') {
       toast.success(UsSubmitMarksTeacher);
       dispatch(resetMessage());
       dispatch(GetSubjectList(GetSubjectListtClass));
     }
   }, [UsSubmitMarksTeacher]);
-
-  
 
   useEffect(() => {
     dispatch(GetSubjectList(GetSubjectListtClass));
