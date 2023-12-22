@@ -93,7 +93,7 @@ export const GetClassWiseExam =
                 
                 let a = response.data.map((item, i) => {
                     return {
-            
+                        Id: item.Subject_Id,
                         Text1:item.StandardDivision,
                         Text2:item.Subject_Name,
                         Text3:item.Is_Submitted,
