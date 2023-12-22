@@ -84,21 +84,7 @@ export interface IEventListBody {
   
   }
   
-  // //5.SaveEvent
-  // export interface ISaveEventBody {
-  
-  //   asEventName: string,
-  //   asEventDescription: string,
-  //   asEventStartDate: string,
-  //   asEventEndDate: string,
-  //   asDisplayOnHomepage: boolean,
-  //   asEventImageName: string,
-  //   asSchoolId: number,
-  //   asAcademicYearId: number,
-  //   asInsertedById: string,
-  //   asUpdatedById: string,
-  //   asStandardDivisions: string
-  // }
+ 
   
   //6.UpadateEvent
   export interface IUpdateEventBody {

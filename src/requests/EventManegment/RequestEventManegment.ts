@@ -98,13 +98,7 @@ export const GetSelectedStandardAndDivisionCheckBoxx =
       dispatch(EventDescriptionSlice.actions.getSelectedStandardAndDivisionCheckBoxx(response.data))
     }
 
-//5.SaveEvent
-// export const saveEventManagement =
-//   (data: ISaveEventBody): AppThunk =>
-//     async (dispatch) => {
-//       const response = await GetEventDescriptionApi.SaveEvent(data);
-//       dispatch(EventDescriptionSlice.actions.getSaveEventt(response.data));
-//     };
+
 
 
 //6.UpadteEvent
