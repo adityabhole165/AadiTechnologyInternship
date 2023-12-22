@@ -71,6 +71,7 @@ import AssignExamMarkSlice from 'src/requests/AssignExamMarks/ReqAssignExamMarks
 import AssignHomeworkSlice from 'src/requests/AssignHomework/RequestAssignHomework';
 import TermwiseHeightWeightSlice from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import DailyLogSlice from 'src/requests/AddDailyLog/RequestAddDailyLog';
+import EventDescriptionSlice from 'src/requests/EventManegment/RequestEventManegment'
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -148,7 +149,7 @@ const rootReducer = combineReducers({
     TeacherNameList:AssignHomeworkSlice,
     TermwiseHtWt :TermwiseHeightWeightSlice,
     AddDailyLog : DailyLogSlice,
-
+    EventsManagement:EventDescriptionSlice,
 });
 
 export default rootReducer;

@@ -424,6 +424,15 @@ const DashboardData = {
     ],
     items2:[
       {
+        Text1: 'Event ',
+        Text2: 'Manegement ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/EventManegement',
+        index: 14,
+      },
+      {
         Text1: 'AddDaily ',
         Text2: 'Log ',
         Color: '#81c784',
