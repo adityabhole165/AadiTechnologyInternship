@@ -1,11 +1,11 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
-import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
+import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult , ISubmitTestMarksToClassTeacherBody} from "src/interfaces/AssignExamMarks/IAssignExamMarks"
 
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
+import { GetAssignExamMarkList, GetClassWiseExam, GetSubjectList, ReqSubmitMarksTeacher } from 'src/requests/AssignExamMarks/ReqAssignExamMarks'
 import { RootState } from 'src/store';
 // import IconLegends from '../IconLedends/IconLegends';
 import List2 from 'src/libraries/mainCard/List2';
@@ -19,14 +19,24 @@ import EditIcon from '@mui/icons-material/Edit';
 import OfflinePinIcon from '@mui/icons-material/OfflinePin';
 import DynamicList from 'src/libraries/list/DynamicList';
 import { logoURL } from '../Common/Util';
+import { toast } from 'react-toastify';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
+  const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
+  const MaxfileSize = 3000000;
+  const [fileName, setFileName] = useState('');
+  const [base64URL, setbase64URL] = useState('');
+  const [isFileUploaded, setIsFileUploaded] = useState(false);
 
   const [selectClass, SetSelectClass] = useState()
   const [ClassWiseExam, SetClassWiseExam] = useState()
+  const [asSubjectId, SetasSubjectId] = useState()
+  const [asIsSubmitted, SetasIsSubmitted] = useState()
+  const [asTestId, SetasTestId] = useState()
+  
+
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -40,8 +50,18 @@ const AssignExamMark = () => {
 
   const SubjectListmarkClass = useSelector((state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass)
 
+  const UsSubmitMarksTeacher = useSelector((state: RootState) => state.AssignExamMarkSlice.ISSubmitMarksTeacher)
+   console.log(UsSubmitMarksTeacher,"UsSubmitMarksTeacher");
+   
   //ClassDrpdown
- 
+
+  const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    aTeacherId: aTeacherId,
+    asExamId: ClassWiseExam,
+    asStandardDivisionId: selectClass
+ } 
     const GetAssignExam: IAssignClassBody = {
 
       asSchoolId: asSchoolId,
@@ -56,10 +76,31 @@ const AssignExamMark = () => {
 
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: asStandardDivisionId
+      asStandardDivisionId:asStandardDivisionId
 
     }
+    const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody =
+   {
+    asStandardDivisionId:String(asStandardDivisionId),
+    asSubjectId:asSubjectId,
+    asTestId:asTestId,
+    asSchoolId:String(asSchoolId),
+    asAcademicYearId:String(asAcademicYearId),
+    asIsSubmitted:asIsSubmitted
+ } 
 
+    // const ChangeFile = (value) => {
+    //   setFileName(value.Name);
+    //   setbase64URL(value.Value);
+    //   console.log('filevalue', value);
+    // };
+
+    const ChangeFile = (value) => {
+      setFileName(value.Name);
+      setbase64URL(value.Value);
+      setIsFileUploaded(true);
+      console.log('filevalue', value);
+  };
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam))
@@ -73,25 +114,23 @@ const AssignExamMark = () => {
 }, [ClassWiseExamDropdown]);
 
 
-  //SubjectList
- 
-  
 
-    // useEffect(() => {
-    //     if (selectClass != '' &&
-    //     selectClassWiseExam != '' )
-    //       dispatch(GetSubjectListClass(GetSubjectListtClass))
-    //   }, [selectClass,selectClassWiseExam]);
+useEffect(() => {
+  dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody))
+}, []);
+
+const ClickSubmit = () => {
+    dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody))
+
+}
+
+
+
+
+
+ 
 
     useEffect(() => {
-
-      const GetSubjectListtClass: ISubjectsExamMarksStatusForClassBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        aTeacherId: aTeacherId,
-        asExamId: ClassWiseExam,
-        asStandardDivisionId: selectClass
-     }
 
        dispatch(GetSubjectList(GetSubjectListtClass))
       }, [selectClass,ClassWiseExam]);
@@ -105,6 +144,15 @@ const AssignExamMark = () => {
     
     SetClassWiseExam(value)
   }
+  useEffect(() => {
+    if(UsSubmitMarksTeacher!=""){
+    toast.success(UsSubmitMarksTeacher);
+    // dispatch(ResetMessage());
+
+    dispatch(GetSubjectList(GetSubjectListtClass))
+
+    }
+  }, [UsSubmitMarksTeacher]);
 
   const HeaderPublish = [
     {Id:1,Header:"Class"},
@@ -115,14 +163,7 @@ const AssignExamMark = () => {
  ]
 
  
-const [IconList, setIconList] = useState([
-  {Id:1,
-    Icon:(<EditIcon/>), 
-    Action:"Edit"},
-  {Id:1,
-    Icon:(<OfflinePinIcon/>), 
-    Action:"Complete"},
-])
+
  const clickEdit = () => {
   navigate('/extended-sidebar/Common/EventOverview')
 }
@@ -177,11 +218,14 @@ const [IconList, setIconList] = useState([
  
 </Grid>
 <h4 >My Subject(s):-</h4>
-       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish}  clicksubmit={""}/>
+       <ListEditIcon1 ItemList={SubjectListmarkClass}  clickEdit={clickEdit}  HeaderArray={HeaderPublish}  clicksubmit={ClickSubmit}/>
         {/* <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
         IconList={IconList} ClickItem={clickEdit}/>
         */}
       </div>
+
+     
+
     </Container>
   )
 }

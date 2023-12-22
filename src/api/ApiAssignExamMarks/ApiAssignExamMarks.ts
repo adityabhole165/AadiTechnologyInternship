@@ -1,4 +1,4 @@
-import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
+import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubmitTestMarksToClassTeacherBody, ISubjectsExamMarksStatusForClassBodyResult  } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
 import http from "../../requests/SchoolService/schoolServices";
 
 //ClassDropdown
@@ -16,10 +16,15 @@ const SubjectsExamMarks = (data: ISubjectsExamMarksStatusForClassBody) => {
     return http.post<ISubjectsExamMarksStatusForClassBodyResult[]>('Teacher/GetSubjectsExamMarksStatusForClass', data);
 };
 
+const SubmitMarksTeacher= (data:ISubmitTestMarksToClassTeacherBody) => {
+    return http.post<"">('Homework/SubmitTestMarksToClassTeacher', data);
+};
+
 const AssignExamMarkApi = {
     AssignClass,
     ClasswiseExamDropdown,
-    SubjectsExamMarks
+    SubjectsExamMarks,
+    SubmitMarksTeacher
 }
 
 export default AssignExamMarkApi

@@ -1,5 +1,5 @@
 
-import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult } from "src/interfaces/AssignExamMarks/IAssignExamMarks"
+import { IAssignClassBody, IAssignClassResult, IClasswiseExamDropdownBody, IClasswiseExamDropdownResult, ISubjectsExamMarksStatusForClassBody, ISubjectsExamMarksStatusForClassBodyResult , ISubmitTestMarksToClassTeacherBody} from "src/interfaces/AssignExamMarks/IAssignExamMarks"
 import AssignExamMarkApi from "src/api/ApiAssignExamMarks/ApiAssignExamMarks"
 import { createSlice } from "@reduxjs/toolkit"
 import { AppThunk } from "src/store";
@@ -9,7 +9,8 @@ const AssignExamMarkSlice = createSlice({
     initialState: {
         ISAssignExam: [],
         ISAssignClassExam: [],
-        ISSubjectListClass: []
+        ISSubjectListClass: [],
+        ISSubmitMarksTeacher:""
 
     },
     reducers: {
@@ -25,6 +26,10 @@ const AssignExamMarkSlice = createSlice({
 
         getsubjectList(state, action) {
             state.ISSubjectListClass = action.payload
+        },
+
+        RSubmitMarksTeacher(state, action) {
+            state.ISSubmitMarksTeacher = action.payload
         },
     }
 });
@@ -92,6 +97,19 @@ export const GetClassWiseExam =
                 })
                 dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
             };
+
+           
+
+export const ReqSubmitMarksTeacher =
+  (data: ISubmitTestMarksToClassTeacherBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AssignExamMarkApi.SubmitMarksTeacher(data)
+      dispatch(AssignExamMarkSlice.actions.RSubmitMarksTeacher(response.data))
+    }
+
+
+
+
     
 export default AssignExamMarkSlice.reducer
 
