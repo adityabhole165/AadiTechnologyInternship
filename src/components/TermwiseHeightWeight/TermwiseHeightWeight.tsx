@@ -145,7 +145,7 @@ return sXML
   
 
   const onClickBack = () => {
-    navigate('/extended-sidebar/Teacher/TExamschedule')
+    navigate('/extended-sidebar/Teacher/ExamResultBase')
 }
 
   return (
