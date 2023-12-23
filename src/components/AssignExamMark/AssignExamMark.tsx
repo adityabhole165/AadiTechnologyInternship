@@ -104,11 +104,18 @@ const AssignExamMark = () => {
   }, []);
 
   useEffect(() => {
-    if (ClassWiseExamDropdown.length > 0 && ClassDropdown.length > 0) {
-      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+    if ( ClassDropdown.length > 0) {
       SetSelectClass(ClassDropdown[0].Value);
     }
-  }, [ClassWiseExamDropdown, ClassDropdown]);
+  }, [ ClassDropdown]);
+
+
+  useEffect(() => {
+    if (ClassWiseExamDropdown.length > 0) {
+      SetClassWiseExam(ClassWiseExamDropdown[0].Value);
+      
+    }
+  }, [ClassWiseExamDropdown ]);
 
   // useEffect(() => {
   //   dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
