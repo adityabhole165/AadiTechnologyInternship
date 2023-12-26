@@ -8,6 +8,7 @@ function Note({NoteDetail}) {
         <CardDetail2>
         <b>Note :</b>
         { NoteDetail == undefined || NoteDetail.length == 0  ? null :
+        NoteDetail.length==1?NoteDetail[0]:
                 NoteDetail.map((elm,i)=>{
                       return(
                           <div key={i}> {elm} </div>
