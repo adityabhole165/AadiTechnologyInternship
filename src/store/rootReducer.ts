@@ -72,6 +72,8 @@ import AssignHomeworkSlice from 'src/requests/AssignHomework/RequestAssignHomewo
 import TermwiseHeightWeightSlice from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import DailyLogSlice from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import EventDescriptionSlice from 'src/requests/EventManegment/RequestEventManegment'
+import AssignPrePrimaryGradesSlice from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades'
+
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -150,6 +152,7 @@ const rootReducer = combineReducers({
     TermwiseHtWt :TermwiseHeightWeightSlice,
     AddDailyLog : DailyLogSlice,
     EventsManagement:EventDescriptionSlice,
+    AssignPrePrimaryGrades:AssignPrePrimaryGradesSlice
 });
 
 export default rootReducer;

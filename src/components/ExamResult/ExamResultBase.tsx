@@ -87,6 +87,11 @@ const ExamResultBase = () => {
   const ClickItem = (value) => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks');
   }
+
+  const TermwiseHighwight = (value) => {
+    navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
+  }
+
   return (
     <Container>
       <PageHeader heading={'Exam Results'} subheading={''} />
@@ -155,8 +160,8 @@ const ExamResultBase = () => {
   <Button variant="contained" color="primary">PUBLISH</Button>
   <Button variant="contained" color="primary">UNPUBLISH</Button>
   <Button variant="contained" color="primary">Progress Remarks</Button>
-  <Button variant="contained" color="primary">Transfer Optional Subject Marks</Button>
-  <Button variant="contained" color="primary">Termwise Height-Weight</Button>
+  <Button variant="contained" color="primary"  >Transfer Optional Subject Marks</Button>
+  <Button variant="contained" color="primary" onClick={TermwiseHighwight}>Termwise Height-Weight</Button>
 </Box>
         
          

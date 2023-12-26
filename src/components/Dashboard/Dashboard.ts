@@ -405,6 +405,29 @@ const DashboardData = {
       },
 
 
+      {
+        Text1: 'AssignExamMark',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: EventIcon,
+        Link: 'Teacher/AssignExamMark',
+        index: 7,
+       
+      },
+
+      {
+        Text1: 'AssignPrePrimary',
+        Text2: 'Grades',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon,
+        Link: 'Teacher/AssignPrePrimaryGrades',
+        index: 8,
+       
+      },
+
+
 
       
 
