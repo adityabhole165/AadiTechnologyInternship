@@ -11,6 +11,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { useNavigate } from 'react-router';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import Note from 'src/libraries/Note/Note';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const ExamResultBase = () => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const ExamResultBase = () => {
   const asAcademicYearId = sessionStorage.getItem("AcademicYearId")
   const [StandardDivisionId, setStandardDivisionId] = useState("0")
   const [TestId, setTestId] = useState("0")
+  const [DisplayNote,setDisplayNote]=useState([])
 
   const [IconList, setIconList] = useState([])
   const ClassTeachers: any = useSelector((state: RootState) => state.ExamResult.ClassTeachers);
@@ -26,8 +28,9 @@ const ExamResultBase = () => {
   const HeaderList: any = useSelector((state: RootState) => state.ExamResult.HeaderList);
   const ClassPassFailDetailsForTest: any = useSelector((state: RootState) => state.ExamResult.ClassPassFailDetailsForTest);
   const AllTestsForClass: any = useSelector((state: RootState) => state.ExamResult.AllTestsForClass);
+  const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
-
+  
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
@@ -44,10 +47,13 @@ const ExamResultBase = () => {
     aiTestId: TestId
   }
   useEffect(() => {
-    if (IsSubmitted == "N")
+    if (IsSubmitted == "N"){
       setIconList([])
+      setDisplayNote(["Not all results for this exam have been submitted."])
+    }
 
     if (IsSubmitted == "Y")
+    setDisplayNote(["Results for this exam have been published."])
       setIconList([
         {
           Id: 1,
@@ -56,6 +62,7 @@ const ExamResultBase = () => {
         },
       ])
   }, [IsSubmitted])
+
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, [])
@@ -93,22 +100,11 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   }
 
+
   return (
     <Container>
       <PageHeader heading={'Exam Results'} subheading={''} />
-      {IsSubmitted === 'Y' ?
-        (<Note NoteDetail={["Results for this exam have been published."]} />)
-        : (
-          <Card sx={{
-            backgroundColor: "#f8bbd0", height: '35px',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            border: '1px solid #000'
-          }}>
-
-            <h4 style={{ margin: 0, color: '#9c27b0' }}>Not all results for this exam have been submitted.</h4>
-
-          </Card>
-        )}
+      <Note NoteDetail={DisplayNote} />
       <br></br>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
 
@@ -120,11 +116,6 @@ const ExamResultBase = () => {
 
         </Grid>
 
-        {/* <Grid item xs={2}>
-          <Typography component={Box} sx={{ border: "1px solid black" }} p={0.5}>
-            Select Exam :
-          </Typography>
-        </Grid> */}
         <Grid item xs={4}>
           <Dropdown Array={AllTestsForClass} handleChange={clickExam}
             label={"Exam"} defaultValue={TestId} />
@@ -136,18 +127,15 @@ const ExamResultBase = () => {
       </Grid>
       <br></br>
       <Box mb={1}>
-        <Card sx={{
-          backgroundColor: "#4dd0e1", height: '40px',
-          display: 'flex', alignItems: 'center', justifyContent: 'center', border: '1px solid white'
-        }}>
+      </Box>
+      {loading ?
+        (<SuspenseLoader />) :
 
-          <h4 style={{ margin: 0, color: 'balck' }}>Subject</h4>
-        </Card>
-      </Box>
-      <Box mb={1}>
-        <DynamicList HeaderList={HeaderList} ItemList={ClassPassFailDetailsForTest}
-          IconList={IconList} ClickItem={ClickItem} />
-      </Box>
+        (<Box mb={1}>
+          <DynamicList HeaderList={HeaderList} ItemList={ClassPassFailDetailsForTest}
+            IconList={IconList} ClickItem={ClickItem} />
+        </Box>)
+      }
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
         <Button variant="contained" color="primary">VIEW PROGRESS REPORT</Button>
         <Button variant="contained" color="primary">GENERATE TOPPERS</Button>
