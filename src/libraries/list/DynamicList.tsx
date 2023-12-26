@@ -1,4 +1,4 @@
-import { Checkbox, Grid } from '@mui/material'
+import { Checkbox, Grid, Grow } from '@mui/material'
 import React from 'react'
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -39,6 +39,7 @@ const DynamicList = ({ HeaderList, ItemList,
         return IsChecked
     }
     return (
+      
         <TableContainer component={Paper}>
             <Table sx={{ minWidth: 650 }} aria-label="simple table">
                 <TableHead>
@@ -56,7 +57,11 @@ const DynamicList = ({ HeaderList, ItemList,
 
                     </TableRow>
                 </TableHead>
-                <TableBody>
+                <Grow
+        in={true}
+        style={{ transformOrigin: '0 0 1' }}
+        {...{ timeout: 1500 }}
+      ><TableBody>
                     {ItemList.map((item, index) => {
                         return (
                             <TableRow key={index}>
@@ -98,9 +103,12 @@ const DynamicList = ({ HeaderList, ItemList,
 
                         )
                     })}
+                    
                 </TableBody>
+                </Grow>
             </Table>
         </TableContainer>
+        
     )
 }
 
