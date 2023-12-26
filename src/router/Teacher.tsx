@@ -30,6 +30,9 @@ const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHei
 const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
 const SubjectExamMarks= Loader(lazy(() => import('src/components/ExamResult/SubjectExamMarks')))
 const EventManegement= Loader(lazy(() => import('src/components/EventManegement/EventManegement')))
+const SubjectListmainpage= Loader(lazy(() => import('src/components/Subjectexammark/SubjectListmainpage')))
+const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')))
+
 
 const teacherRoutes = [
     {
@@ -113,6 +116,20 @@ const teacherRoutes = [
       path: 'EventManegement',
       element: <EventManegement/>
     },
+
+    {
+      path: 'SubjectListmainpage',
+      element: <SubjectListmainpage/>
+    },
+
+    {
+      path: 'AssignPrePrimaryGrades',
+      element: <AssignPrePrimaryGrades/>
+    },
+
+  
+
+    
 
     ];
   
