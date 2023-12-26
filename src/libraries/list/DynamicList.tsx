@@ -87,7 +87,7 @@ const DynamicList = ({ HeaderList, ItemList,
                                 {IconList?.map((obj, i) => {
                                     return (
                                         <TableCell align="center" key={i}
-                                            onClick={() => { ClickItem({ Id: item.Id, Action: obj.Action }) }}>
+                                            onClick={() => { ClickItem({ Id: i, Action: obj.Action }) }}>
                                             {obj.Icon}
                                         </TableCell>
                                     )
