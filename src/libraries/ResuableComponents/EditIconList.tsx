@@ -1,5 +1,4 @@
 
-
 import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -13,7 +12,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
-// ... (your other imports)
+
 
 function EditIconList({ ItemList, clickEdit, HeaderArray , clicksubmit }) {
   return (
@@ -44,31 +43,23 @@ function EditIconList({ ItemList, clickEdit, HeaderArray , clicksubmit }) {
                   {item.Text2}
                 </TableCell>
 
-               
+               <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+  {item.Text3 === '3' ? (
+    <CheckIcon />
+  ) : item.Text3 === '2' ? (
+    <TaskIcon onClick={() => clickEdit(item.Id)} />
+  ) : (
+    <CheckIcon />
+  )}
+</TableCell>
 
-
-
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text3 === '1' ? (
-                 <TaskIcon onClick={() => clickEdit(item.Id)} />
-
-                  ) : (
-                    <CheckIcon />
-                  )}
-                </TableCell> 
-
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  
-
-                  {item.Text4 !== '1' ? (
-                    <AssignmentIcon  onClick={() => clicksubmit(item.Id)}/>
-                    
-                  ) : (
-                    item.Text4
-                  )}
-                </TableCell>
-
-               
+<TableCell sx={{ textTransform: 'capitalize' }} align="center">
+  {item.Text4 === '2' ? (
+    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
+  ) : (
+    "Marks already submitted"
+  )}
+        </TableCell>
 
               </TableRow>
             ))}

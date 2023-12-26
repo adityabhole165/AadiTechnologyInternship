@@ -27,10 +27,7 @@ const AssignPrePrimaryGrades = () => {
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const asStandardDivisionId = Number(
-    sessionStorage.getItem('StandardDivisionId')
-  );
+  
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
   );
@@ -56,7 +53,7 @@ const AssignPrePrimaryGrades = () => {
   const GetTeacherXseedSubjectsBody: IGetTeacherXseedSubjectsBody = {
     asSchoolId: asSchoolId,
     asAcademicYear_ID: asAcademicYearId,
-    asTeacherId: selectTeacher,
+    asTeacherId: 2396,
     asAssessmentId: 27
   };
 
@@ -107,67 +104,79 @@ const AssignPrePrimaryGrades = () => {
   return (
     <>
       <Container>
-        <Grid container>
-          <Grid item xs={12}>
-            <h4>Legends</h4>
-            <Box sx={{ display: 'flex', gap: '20px' }}>
+          <div>
+          <Grid container>
+            <Grid item xs={10}>
+              <h4>Legends</h4>
+              <Box sx={{ display: 'flex', gap: '20px' }}>
               <LegendsIcon
-                color="secondary"
-                text1={'Marks entry not started'}
-                text2={'Marks entry partially done'}
-                text3={'Submit exam marks to the class teacher'}
-                text5={'Marks entry completed	'}
-              />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.3}
-            >
-             Assessment:
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Dropdown
-              Array={USGetTestwiseTerm}
-              handleChange={clickSelectTerm}
-              defaultValue={SelectTerm}
-              label={''}
-            />
-
-            <br></br>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.5}
-            >
-              Subject Teacher :
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Dropdown
-              Array={USGetClassTeachers}
-              handleChange={clickSelectClass}
-              defaultValue={selectTeacher}
-              label={''}
-            />
-            <br></br>
-          </Grid>
-        </Grid>
-        <EditIconList
-          ItemList={USGetTeacherXseedSubjects}
-          clickEdit={clickEdit}
-          HeaderArray={HeaderPublish}
-          clicksubmit={ClickSubmit}
+          color="secondary"
+          text1={'Marks entry not started'}
+          text2={'Marks entry partially done'}
+          text3={'Submit exam marks to the class teacher'}
+          text5={'Marks entry completed '}
         />
-      </Container>
+              </Box>
+            </Grid>
+          </Grid>
+
+          <Grid container>
+            <Grid item xs={12}></Grid>
+          </Grid>
+        </div>
+  <br></br>
+  <Grid
+    container
+    spacing={2}
+    justifyContent="center"
+    alignItems="center"
+  >
+    <Grid item xs={2}>
+      <Typography
+        component={Box}
+        sx={{ border: '1px solid black' }}
+        p={0.3}
+      >
+        Assessment:
+      </Typography>
+    </Grid>
+    <Grid item xs={2}>
+      <Dropdown
+        Array={USGetTestwiseTerm}
+        handleChange={clickSelectTerm}
+        defaultValue={SelectTerm}
+        label={''}
+      />
+      <br></br>
+    </Grid>
+    <Grid item xs={2}>
+      <Typography
+        component={Box}
+        sx={{ border: '1px solid black' }}
+        p={0.5}
+      >
+        Subject Teacher :
+      </Typography>
+    </Grid>
+    <Grid item xs={2}>
+      <Dropdown
+        Array={USGetClassTeachers}
+        handleChange={clickSelectClass}
+        defaultValue={selectTeacher}
+        label={''}
+      />
+    
+    </Grid>
+  </Grid>
+  <br></br>
+  <EditIconList
+    ItemList={USGetTeacherXseedSubjects}
+    clickEdit={clickEdit}
+    HeaderArray={HeaderPublish}
+    clicksubmit={ClickSubmit}
+  />
+</Container>
+
     </>
   );
 };
