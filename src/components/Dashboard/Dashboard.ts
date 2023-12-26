@@ -428,6 +428,21 @@ const DashboardData = {
       },
 
 
+      {
+        Text1: 'Progress',
+        Text2: 'Remarks',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon,
+        Link: 'Teacher/ProgressRemarks',
+        index: 7,
+       
+      },
+
+
+
+      
+
 
       
 

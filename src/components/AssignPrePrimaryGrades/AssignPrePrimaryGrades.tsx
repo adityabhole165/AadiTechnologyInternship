@@ -172,6 +172,7 @@ const AssignPrePrimaryGrades = () => {
   <EditIconList
     ItemList={USGetTeacherXseedSubjects}
     clickEdit={clickEdit}
+    clickEdit1={""}
     HeaderArray={HeaderPublish}
     clicksubmit={ClickSubmit}
   />

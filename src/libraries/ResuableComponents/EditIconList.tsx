@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TaskIcon from '@mui/icons-material/Task';
+import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
 
 import CheckIcon from '@mui/icons-material/Check';
 import AssignmentIcon from '@mui/icons-material/Assignment';
@@ -14,7 +15,7 @@ import { Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 
 
-function EditIconList({ ItemList, clickEdit, HeaderArray , clicksubmit }) {
+function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdit1}) {
   return (
     <div>
       <TableContainer component={Card}>
@@ -43,23 +44,26 @@ function EditIconList({ ItemList, clickEdit, HeaderArray , clicksubmit }) {
                   {item.Text2}
                 </TableCell>
 
-               <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-  {item.Text3 === '3' ? (
-    <CheckIcon />
-  ) : item.Text3 === '2' ? (
-    <TaskIcon onClick={() => clickEdit(item.Id)} />
-  ) : (
-    <CheckIcon />
-  )}
-</TableCell>
+                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                  {item.Text3 === '3' ? (
+                    <CheckIcon />
+                  ) : item.Text3 === '2' ? (
+                    <TaskIcon onClick={() => clickEdit(item.Id)} />
+                  ) : (
+                    <MarkEmailReadIcon  onClick={() => clickEdit1(item.Id)} />
+                  )}
+                </TableCell>
 
-<TableCell sx={{ textTransform: 'capitalize' }} align="center">
-  {item.Text4 === '2' ? (
-    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
-  ) : (
-    "Marks already submitted"
-  )}
-        </TableCell>
+                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                  {item.Text3 === '2' ? (
+                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
+
+                  ) : item.Text3 === '3' ? (
+                    "Marks already submitted."
+                  ) : (
+                    " Mark Cannot be Submitted."
+                  )}
+                </TableCell>
 
               </TableRow>
             ))}
