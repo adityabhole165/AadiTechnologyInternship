@@ -98,7 +98,7 @@ export const getClassPassFailDetailsForTest =
         response.data?.LstClassPassFailDetailsForTest.map((item) => {
           if (item.ExamStatusSortOrder == Column &&
             item.Subject_Id == Row) {
-            returnVal = IsSubmitted=="Y"?item.Count:"-";
+            returnVal = IsSubmitted=="Y"?item.Count.toString():"-";
           }
         })
         return returnVal
