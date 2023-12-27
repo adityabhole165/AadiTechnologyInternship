@@ -1,8 +1,7 @@
 import { Checkbox, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material'
 import React from 'react'
 
-const SelectListHierarchy = ({ ItemList, ParentList,
-    ClickChild = undefined, ClickParent = undefined, }) => {
+const SelectListHierarchy = ({ ItemList, ParentList,ClickChild }) => {
     const ClickChildCheckbox = (value) => {
         let arr = []
         arr = ItemList.map((Item) => {
@@ -17,7 +16,6 @@ const SelectListHierarchy = ({ ItemList, ParentList,
             return Item.Id === value ?
                 { ...Item, IsActive: !Item.IsActive } : Item
         })
-        ClickParent(arr)
         CheckChildAll(value);
     }
     const CheckParentAll = (value) => {

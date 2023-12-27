@@ -295,6 +295,7 @@ const studentRoutes = [
   path: 'SchoolWeb',
   element: <SchoolWeb/>
 },
-  ];
+
+];
 
 export default studentRoutes;

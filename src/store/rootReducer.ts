@@ -71,6 +71,10 @@ import AssignExamMarkSlice from 'src/requests/AssignExamMarks/ReqAssignExamMarks
 import AssignHomeworkSlice from 'src/requests/AssignHomework/RequestAssignHomework';
 import TermwiseHeightWeightSlice from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import DailyLogSlice from 'src/requests/AddDailyLog/RequestAddDailyLog';
+import EventDescriptionSlice from 'src/requests/EventManegment/RequestEventManegment'
+import AssignPrePrimaryGradesSlice from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades'
+import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks'
+import FinalResultSlice from 'src/requests/FinalResult/RequestFinalResult'
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -148,7 +152,10 @@ const rootReducer = combineReducers({
     TeacherNameList:AssignHomeworkSlice,
     TermwiseHtWt :TermwiseHeightWeightSlice,
     AddDailyLog : DailyLogSlice,
-
+    EventsManagement:EventDescriptionSlice,
+    AssignPrePrimaryGrades:AssignPrePrimaryGradesSlice,
+    ProgressRemarkSlice:ProgressRemarkSlice,
+    FinalResult:FinalResultSlice
 });
 
 export default rootReducer;

@@ -405,6 +405,44 @@ const DashboardData = {
       },
 
 
+      {
+        Text1: 'AssignExamMark',
+        Text2: '',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: EventIcon,
+        Link: 'Teacher/AssignExamMark',
+        index: 7,
+       
+      },
+
+      {
+        Text1: 'AssignPrePrimary',
+        Text2: 'Grades',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon,
+        Link: 'Teacher/AssignPrePrimaryGrades',
+        index: 8,
+       
+      },
+
+
+      {
+        Text1: 'Progress',
+        Text2: 'Remarks',
+        Color: '#ef5350',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon,
+        Link: 'Teacher/ProgressRemarks',
+        index: 7,
+       
+      },
+
+
+
+      
+
 
       
 
@@ -424,6 +462,15 @@ const DashboardData = {
     ],
     items2:[
       {
+        Text1: 'Event ',
+        Text2: 'Manegement ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/EventManegement',
+        index: 14,
+      },
+      {
         Text1: 'AddDaily ',
         Text2: 'Log ',
         Color: '#81c784',
@@ -431,6 +478,15 @@ const DashboardData = {
         Icon: AssignmentIcon,
         Link: 'Teacher/AddDailyLog',
         index: 13,
+      },
+      {
+        Text1: 'Final ',
+        Text2: 'Result ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/FinalResult',
+        index: 36,
       },
       {
         Text1: 'Termwise ',

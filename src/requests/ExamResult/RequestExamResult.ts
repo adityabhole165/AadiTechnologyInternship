@@ -94,11 +94,11 @@ export const getClassPassFailDetailsForTest =
       dispatch(SliceExamResult.actions.GetIsSubmitted(IsSubmitted));
 
       const GetItem = (Column, Row) => {
-        let returnVal = 0
+        let returnVal = "0"
         response.data?.LstClassPassFailDetailsForTest.map((item) => {
           if (item.ExamStatusSortOrder == Column &&
             item.Subject_Id == Row) {
-            returnVal = item.Count;
+            returnVal = IsSubmitted=="Y"?item.Count.toString():"-";
           }
         })
         return returnVal

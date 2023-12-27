@@ -29,7 +29,10 @@ const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/As
 const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight')))
 const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
 const SubjectExamMarks= Loader(lazy(() => import('src/components/ExamResult/SubjectExamMarks')))
-
+const EventManegement= Loader(lazy(() => import('src/components/EventManegement/EventManegement')))
+const SubjectListmainpage= Loader(lazy(() => import('src/components/Subjectexammark/SubjectListmainpage')))
+const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')))
+const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/ProgressRemarks')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -108,6 +111,36 @@ const teacherRoutes = [
       path: 'AddDailyLog',
       element: <AddDailyLog/>
     },
+    {
+      path: 'EventManegement',
+      element: <EventManegement/>
+    },
+
+    {
+      path: 'SubjectListmainpage',
+      element: <SubjectListmainpage/>
+    },
+
+    {
+      path: 'AssignPrePrimaryGrades',
+      element: <AssignPrePrimaryGrades/>
+    },
+
+    {
+      path: 'AssignPrePrimaryGrades',
+      element: <AssignPrePrimaryGrades/>
+    },
+
+
+    {
+      path: 'ProgressRemarks',
+      element: <ProgressRemarks/>
+    },
+
+    
+  
+
+    
 
     {
       path: 'AddDailyLog/:Id/:ClassName',
