@@ -33,7 +33,7 @@ const EventManegement= Loader(lazy(() => import('src/components/EventManegement/
 const SubjectListmainpage= Loader(lazy(() => import('src/components/Subjectexammark/SubjectListmainpage')))
 const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')))
 const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/ProgressRemarks')))
-
+const FinalResult= Loader(lazy(()=>import('src/components/FinalResult/FinalResult')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -137,7 +137,10 @@ const teacherRoutes = [
       path: 'ProgressRemarks',
       element: <ProgressRemarks/>
     },
-
+    {
+      path:'FinalResult',
+      element:<FinalResult/>
+    },
 
     
   
