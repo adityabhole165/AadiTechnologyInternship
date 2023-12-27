@@ -58,8 +58,12 @@ const FinalResult = () => {
     //   ];
     return (
         <Container>
-            <Grid container spacing={1} alignItems="center">
+            <br></br>
+            <br></br>
+            <br></br>
+            <br></br>
 
+            <Grid container spacing={1} alignItems="center">
                 <Grid item xs={3}>
                     <Typography margin={'1px'}>
                         <b>Select Teacher:</b>
@@ -67,7 +71,6 @@ const FinalResult = () => {
                 </Grid>
                 <Grid item xs={3} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-
                         <Dropdown
                             Array={GetClassTeachers}
                             handleChange={clickTeacherDropdown}
@@ -76,7 +79,6 @@ const FinalResult = () => {
                         />
                     </Box>
                 </Grid>
-
                 <Grid item xs={6}>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Red' }}>
                         Toppers

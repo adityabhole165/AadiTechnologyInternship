@@ -1,10 +1,10 @@
 import axios from "axios";
 
 export default axios.create({
-  // baseURL: "http://192.168.1.61:81/",
+  baseURL: "http://192.168.1.45:81/",
   // baseURL: "http://localhost:44307/",
   // baseURL: "http://schoolappapi.aaditechnology.com/",
-  baseURL: "https://mobileappapi.regulusit.net/",
+ // baseURL: "https://mobileappapi.regulusit.net/",
   // baseURL: "https://riteschoolmobileservicehttpsnewui.riteschool.com",
   //baseURL: "https://schooltempapi.riteschool.com/",
   // baseURL: "http://192.168.1.80:85/", 
