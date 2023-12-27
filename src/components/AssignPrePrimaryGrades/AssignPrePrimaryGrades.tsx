@@ -5,12 +5,12 @@ import { RootState } from 'src/store';
 import {
   IGetTestwiseTermBody,
   IGetClassTeachersBody,
-  IGetTeacherXseedSubjectsBody
+  IGetTeacherXseedSubjectsBody,ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import {
   CDAGetTestwiseTerm,
   CDAGetClassTeachers,
-  CDAGetTeacherXseedSubjects
+  CDAGetTeacherXseedSubjects,CDASubmitExamMarksStatus
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { Grid, Box, Container, Typography } from '@mui/material';
 import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
@@ -41,6 +41,13 @@ const AssignPrePrimaryGrades = () => {
       state.AssignPrePrimaryGrades.ISGetTeacherXseedSubjectsBody
   );
 
+
+  const USSubmitExamMarksStatus: any = useSelector(
+    (state: RootState) =>
+      state.AssignPrePrimaryGrades.ISSubmitExamMarksStatus
+  );
+console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
+
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId
   };
@@ -56,6 +63,22 @@ const AssignPrePrimaryGrades = () => {
     asTeacherId: 2396,
     asAssessmentId: 27
   };
+
+
+  const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
+    {
+      "asStandard_Division_Id":1278,
+      "asAssessmentId":26,
+      "asSubjectId":2357,
+      "asAcademicYearId":54,
+      "asSchoolId":18,
+      "asInserted_By_id":5488,
+      "asInsertDate":"12/26/2023 5:37:25 PM"
+  }
+  
+
+  
+
 
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
@@ -88,6 +111,13 @@ const AssignPrePrimaryGrades = () => {
   useEffect(() => {
     dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
   }, [selectTeacher]);
+
+
+  useEffect(() => {
+    dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+  }, []);
+
+
 
   const clickSelectTerm = (value) => {
     SetSelectTerm(value);

@@ -55,3 +55,16 @@ export interface   IGetTeacherXseedSubjectsBody
         IsXseedSubject: string,
         IncompleteRollNoString: string
     }
+
+
+    export interface   ISubmitExamMarksStatusBody{
+        
+            asStandard_Division_Id:Number,
+            asAssessmentId:Number,
+            asSubjectId:Number,
+            asAcademicYearId:Number,
+            asSchoolId:Number,
+            asInserted_By_id:Number,
+            asInsertDate:string
+        
+    }

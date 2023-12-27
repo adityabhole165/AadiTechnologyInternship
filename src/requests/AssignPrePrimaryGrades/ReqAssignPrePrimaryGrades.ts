@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IGetTestwiseTermBody, IGetClassTeachersBody, IGetTeacherXseedSubjectsBody} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
+import { IGetTestwiseTermBody, IGetClassTeachersBody, IGetTeacherXseedSubjectsBody, ISubmitExamMarksStatusBody} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
 import { AppThunk } from "src/store";
 import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades'
 
@@ -10,7 +10,8 @@ const AssignPrePrimaryGradesSlice = createSlice({
   initialState: {
     ISGetTestwiseTerm:[],
     ISGetClassTeachers:[],
-    ISGetTeacherXseedSubjectsBody:[]
+    ISGetTeacherXseedSubjectsBody:[],
+    ISSubmitExamMarksStatus:""
 
   },
   reducers: {
@@ -24,6 +25,10 @@ const AssignPrePrimaryGradesSlice = createSlice({
 
     RGetTeacherXseedSubjects  (state, action) {
       state.ISGetTeacherXseedSubjectsBody = action.payload
+    },
+
+    RSubmitExamMarksStatus  (state, action) {
+      state.ISSubmitExamMarksStatus = action.payload
     },
    
   }
@@ -72,6 +77,17 @@ const AssignPrePrimaryGradesSlice = createSlice({
         })
 
         dispatch(AssignPrePrimaryGradesSlice.actions.RGetTeacherXseedSubjects(TeacherXseedSubjects));
+    }
+
+
+
+    export const CDASubmitExamMarksStatus= (data: ISubmitExamMarksStatusBody): AppThunk =>
+    async (dispatch) => {
+        const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(data);
+       console.log(response,"response----------");
+       
+
+        dispatch(AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data));
     }
 
 

@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IGetTestwiseTermBody,IGetTestwiseTermResult, IGetClassTeachersResult,IGetClassTeachersBody, IGetTeacherXseedSubjectsBody, IGetTeacherXseedSubjectsResult} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
+import { IGetTestwiseTermBody,IGetTestwiseTermResult, IGetClassTeachersResult,IGetClassTeachersBody, IGetTeacherXseedSubjectsBody, IGetTeacherXseedSubjectsResult, ISubmitExamMarksStatusBody} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
 
   const GetTestwiseTermA = (data: IGetTestwiseTermBody) => {
     return http.post<IGetTestwiseTermResult[]>('Teacher/GetTestwiseTerm',data);
@@ -7,17 +7,21 @@ import { IGetTestwiseTermBody,IGetTestwiseTermResult, IGetClassTeachersResult,IG
 
 
   const GetClassTeachers = (data: IGetClassTeachersBody) => {
-    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeacherss',data);
+    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeachers',data);
   };
 
   const GetTeacherXseedSubjects = (data: IGetTeacherXseedSubjectsBody) => {
     return http.post<IGetTeacherXseedSubjectsResult[]>('Teacher/GetTeacherXseedSubjects',data);
   };
 
+  const SubmitExamMarksStatus = (data: ISubmitExamMarksStatusBody) => {
+    return http.post<"">('Teacher/SubmitExamMarksStatus',data);
+  };
 
   const ApiAssignPrePrimaryGrades={
     GetTestwiseTermA,
     GetClassTeachers,
-    GetTeacherXseedSubjects
+    GetTeacherXseedSubjects,
+    SubmitExamMarksStatus
   }
   export default  ApiAssignPrePrimaryGrades
