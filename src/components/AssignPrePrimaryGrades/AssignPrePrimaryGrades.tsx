@@ -25,9 +25,13 @@ const AssignPrePrimaryGrades = () => {
 
   const [selectTeacher, SetselectTeacher] = useState();
   const [SelectTerm, SetSelectTerm] = useState();
+  const [CurrentDate, SetCurrentDate] = useState();
+
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+  const asTeacherId = sessionStorage.getItem('TeacherId');
   
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
@@ -65,29 +69,28 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
     asAssessmentId: SelectTerm
   };
 
-
   const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
-    {
-      asStandard_Division_Id:1278,
-      asAssessmentId:26,
-      asSubjectId:2357,
-      asAcademicYearId:54,
-      asSchoolId:18,
-      asInserted_By_id:5488,
-      asInsertDate:"12/26/2023 5:37:25 PM"
-  }
+  {
+    asStandard_Division_Id:StandardDivisionId,
+    asAssessmentId:SelectTerm,
+    asSubjectId:2357,
+    asAcademicYearId:asAcademicYearId,
+    asSchoolId:asSchoolId,
+    asInserted_By_id: Number(asTeacherId),
+    asInsertDate:CurrentDate
+}
   
 
-  const ClickSubmit1 = (value) => {
+  const ClickSubmit = (value) => {
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
     {
-      asStandard_Division_Id:1278,
-      asAssessmentId:26,
-      asSubjectId:2357,
-      asAcademicYearId:54,
-      asSchoolId:18,
-      asInserted_By_id:5488,
-      asInsertDate:"12/26/2023 5:37:25 PM"
+      asStandard_Division_Id:StandardDivisionId,
+      asAssessmentId:SelectTerm,
+      asSubjectId:value,
+      asAcademicYearId:asAcademicYearId,
+      asSchoolId:asSchoolId,
+      asInserted_By_id:Number(asTeacherId),
+      asInsertDate:CurrentDate
   }
 
   dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
@@ -140,7 +143,11 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
 
   useEffect(() => {
     dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+
   }, []);
+
+
+
 
 
 
@@ -154,7 +161,11 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
   const clickEdit = () => {
     navigate('/extended-sidebar/Common/EventOverview');
   };
-  const ClickSubmit = (value) => {};
+  
+
+  const clickEdit1 = () => {
+    navigate('/extended-sidebar/Common/EventOverview');
+  };
 
   return (
     <>
@@ -227,7 +238,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
   <EditIconList
     ItemList={USGetTeacherXseedSubjects}
     clickEdit={clickEdit}
-    clickEdit1={""}
+    clickEdit1={clickEdit1}
     HeaderArray={HeaderPublish}
     clicksubmit={ClickSubmit}
   />

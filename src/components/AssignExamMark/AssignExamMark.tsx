@@ -38,18 +38,11 @@ import { toast } from 'react-toastify';
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
-  const MaxfileSize = 3000000;
-  const [fileName, setFileName] = useState('');
-  const [base64URL, setbase64URL] = useState('');
-  const [isFileUploaded, setIsFileUploaded] = useState(false);
+ 
 
   const [selectClass, SetSelectClass] = useState();
   const [ClassWiseExam, SetClassWiseExam] = useState();
-  const [asSubjectId, SetasSubjectId] = useState();
-  const [asIsSubmitted, SetasIsSubmitted] = useState();
-  const [asTestId, SetasTestId] = useState();
-
+  
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -117,9 +110,7 @@ const AssignExamMark = () => {
     }
   }, [ClassWiseExamDropdown ]);
 
-  // useEffect(() => {
-  //   dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
-  // }, []);
+ 
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -154,14 +145,7 @@ const AssignExamMark = () => {
     SetClassWiseExam(value);
   };
 
-  // useEffect(() => {
-  //   if (UsSubmitMarksTeacher != '') {
-  //     toast.success(UsSubmitMarksTeacher);
-  //     dispatch(resetMessage());
 
-  //     dispatch(GetSubjectList(GetSubjectListtClass));
-  //   }
-  // }, [UsSubmitMarksTeacher]);
 
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
