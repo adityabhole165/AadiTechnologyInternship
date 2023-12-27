@@ -7,7 +7,7 @@ import { IGetTestwiseTermBody,IGetTestwiseTermResult, IGetClassTeachersResult,IG
 
 
   const GetClassTeachers = (data: IGetClassTeachersBody) => {
-    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeachers',data);
+    return http.post<IGetClassTeachersResult[]>('Teacher/GetClassTeacherss',data);
   };
 
   const GetTeacherXseedSubjects = (data: IGetTeacherXseedSubjectsBody) => {

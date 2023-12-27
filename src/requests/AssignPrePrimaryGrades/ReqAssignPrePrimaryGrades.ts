@@ -11,8 +11,8 @@ const AssignPrePrimaryGradesSlice = createSlice({
     ISGetTestwiseTerm:[],
     ISGetClassTeachers:[],
     ISGetTeacherXseedSubjectsBody:[],
-    ISSubmitExamMarksStatus:""
-
+    ISSubmitExamMarksStatus:"",
+    ISSubmitMarksRest:""
   },
   reducers: {
     RGetTestwiseTerm  (state, action) {
@@ -30,6 +30,9 @@ const AssignPrePrimaryGradesSlice = createSlice({
     RSubmitExamMarksStatus  (state, action) {
       state.ISSubmitExamMarksStatus = action.payload
     },
+    resetMessage(state) {
+      state.ISSubmitMarksRest = ""
+  }
    
   }
 });
@@ -90,6 +93,11 @@ const AssignPrePrimaryGradesSlice = createSlice({
         dispatch(AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data));
     }
 
+    export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AssignPrePrimaryGradesSlice.actions.resetMessage());
+        }
 
 
 export default AssignPrePrimaryGradesSlice.reducer

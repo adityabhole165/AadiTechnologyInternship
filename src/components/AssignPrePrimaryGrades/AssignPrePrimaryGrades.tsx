@@ -10,13 +10,14 @@ import {
 import {
   CDAGetTestwiseTerm,
   CDAGetClassTeachers,
-  CDAGetTeacherXseedSubjects,CDASubmitExamMarksStatus
+  CDAGetTeacherXseedSubjects,CDASubmitExamMarksStatus,resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { Grid, Box, Container, Typography } from '@mui/material';
 import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
@@ -60,24 +61,48 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
   const GetTeacherXseedSubjectsBody: IGetTeacherXseedSubjectsBody = {
     asSchoolId: asSchoolId,
     asAcademicYear_ID: asAcademicYearId,
-    asTeacherId: 2396,
-    asAssessmentId: 27
+    asTeacherId: selectTeacher,
+    asAssessmentId: SelectTerm
   };
 
 
   const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
     {
-      "asStandard_Division_Id":1278,
-      "asAssessmentId":26,
-      "asSubjectId":2357,
-      "asAcademicYearId":54,
-      "asSchoolId":18,
-      "asInserted_By_id":5488,
-      "asInsertDate":"12/26/2023 5:37:25 PM"
+      asStandard_Division_Id:1278,
+      asAssessmentId:26,
+      asSubjectId:2357,
+      asAcademicYearId:54,
+      asSchoolId:18,
+      asInserted_By_id:5488,
+      asInsertDate:"12/26/2023 5:37:25 PM"
   }
   
 
+  const ClickSubmit1 = (value) => {
+    const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
+    {
+      asStandard_Division_Id:1278,
+      asAssessmentId:26,
+      asSubjectId:2357,
+      asAcademicYearId:54,
+      asSchoolId:18,
+      asInserted_By_id:5488,
+      asInsertDate:"12/26/2023 5:37:25 PM"
+  }
+
+  dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+  };
   
+
+  useEffect(() => {
+    if (USSubmitExamMarksStatus != '') {
+      toast.success(USSubmitExamMarksStatus);
+      dispatch(resetMessage());
+      dispatch(CDAGetTeacherXseedSubjects(USSubmitExamMarksStatus));
+    }
+  }, [USSubmitExamMarksStatus]);
+
+
 
 
   const HeaderPublish = [
@@ -110,7 +135,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
 
   useEffect(() => {
     dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
-  }, [selectTeacher]);
+  }, [selectTeacher, SelectTerm]);
 
 
   useEffect(() => {
