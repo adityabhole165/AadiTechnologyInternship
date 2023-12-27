@@ -489,6 +489,15 @@ const DashboardData = {
         index: 36,
       },
       {
+        Text1: 'Student ',
+        Text2: 'Records ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: CakeIcon,
+        Link: 'Teacher/StudentRecords',
+        index: 37,
+      },
+      {
         Text1: 'Termwise ',
         Text2: 'HeightWeight ',
         Color: '#81c784',

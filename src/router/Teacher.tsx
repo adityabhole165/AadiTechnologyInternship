@@ -34,6 +34,7 @@ const SubjectListmainpage= Loader(lazy(() => import('src/components/Subjectexamm
 const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')))
 const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/ProgressRemarks')))
 const FinalResult=Loader(lazy(()=>import('src/components/FinalResult/FinalResult')))
+const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/StudentRecords')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -142,7 +143,10 @@ const teacherRoutes = [
       path:'FinalResult',
       element:<FinalResult/>
     },
-  
+  {
+    path:'StudentRecords',
+    element:<StudentRecords/>
+  },
 
     
 

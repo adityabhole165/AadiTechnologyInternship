@@ -75,7 +75,7 @@ import EventDescriptionSlice from 'src/requests/EventManegment/RequestEventManeg
 import AssignPrePrimaryGradesSlice from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades'
 import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks'
 import FinalResultSlice from 'src/requests/FinalResult/RequestFinalResult'
-
+import StudentRecordsSlice from'src/requests/StudentRecords/RequestStudentRecords'
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -155,7 +155,8 @@ const rootReducer = combineReducers({
     EventsManagement:EventDescriptionSlice,
     AssignPrePrimaryGrades:AssignPrePrimaryGradesSlice,
     ProgressRemarkSlice:ProgressRemarkSlice,
-    FinalResult:FinalResultSlice
+    FinalResult:FinalResultSlice,
+    StudentRecords:StudentRecordsSlice
 });
 
 export default rootReducer;
