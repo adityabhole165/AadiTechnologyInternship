@@ -11,7 +11,7 @@ import Card1 from 'src/libraries/mainCard/Card1';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import List2 from 'src/libraries/mainCard/List2';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { Navigate, useNavigate } from 'react-router';
+import { Navigate, useNavigate, useParams } from 'react-router';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { green } from '@mui/material/colors';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
@@ -20,7 +20,9 @@ import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworkl
 
 const AssignHomework = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+    const{Id} = useParams();
+    
 
     const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
     const [SelectClass, setSelectClass] = useState(0);
@@ -39,7 +41,7 @@ console.log("ScreensAccessPermission",ScreensAccessPermission)
 const GetScreenPermission=()=>{
     let perm = "N"
     ScreensAccessPermission.map((item)=>{
-        if(item.ScreenName==="Assign Homework")
+        if(item.ScreenName==="Assign Homework") 
         perm = item.IsFullAccess
     })
     return perm;
@@ -88,7 +90,7 @@ const GetScreenPermission=()=>{
 
     useEffect(() => {
         if (ClassList.length > 0)
-            setSelectClass(ClassList[0].Id)
+            setSelectClass(ClassList[1].Id)
     }, [ClassList]);
 
     useEffect(() => {
@@ -134,6 +136,15 @@ const GetScreenPermission=()=>{
         setSelectClass(value)
     }
 
+    const getClassName = () => {
+        let className = ""
+        ClassList.map((item)=>{
+            if(item.Value == SelectClass)
+            className = item.Name
+        })
+        
+    return className;
+    }
     const clickItem = (value) => {
         navigate('/extended-sidebar/Teacher/TExamschedule')
         // value.map((item) => {
@@ -144,7 +155,7 @@ const GetScreenPermission=()=>{
     }
 
     const onClick = () => {
-        navigate('/extended-sidebar/Teacher/AddDailyLog')
+        navigate('/extended-sidebar/Teacher/AddDailyLog/'+SelectClass+'/'+getClassName())
     }
     console.log(asStandardDivisionId, "--", SelectClass)
 

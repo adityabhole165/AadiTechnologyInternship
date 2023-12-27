@@ -39,7 +39,7 @@ export const TeacherNameList =
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.Teacher_Id,
-        } 
+        }  
       })
       dispatch(AssignHomeworkSlice.actions.TeacherNameList(abc))
     }

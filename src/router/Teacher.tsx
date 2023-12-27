@@ -109,6 +109,14 @@ const teacherRoutes = [
       element: <AddDailyLog/>
     },
 
+    {
+      path: 'AddDailyLog/:Id/:ClassName',
+      element: <AddDailyLog/>
+    },
+
+    
+
+
     ];
   
   export default teacherRoutes;
