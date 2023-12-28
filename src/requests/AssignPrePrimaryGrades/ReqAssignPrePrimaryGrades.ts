@@ -72,6 +72,7 @@ const AssignPrePrimaryGradesSlice = createSlice({
         const response = await ApiAssignPrePrimaryGrades.GetTeacherXseedSubjects(data);
         let TeacherXseedSubjects = response.data.map((item, i) => {
             return {
+                 Id:item.SubjectId,
                 Text1: item.StandardDivision,
                 Text2: item.Subject_Name,
                 Text3: item.EditStatus,

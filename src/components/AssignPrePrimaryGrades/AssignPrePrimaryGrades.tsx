@@ -18,6 +18,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import PageHeader from 'src/libraries/PageHeaderDocs';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
@@ -25,8 +26,9 @@ const AssignPrePrimaryGrades = () => {
 
   const [selectTeacher, SetselectTeacher] = useState();
   const [SelectTerm, SetSelectTerm] = useState();
-const [dateState, setDateState] = useState('');
-const Subjectid = localStorage.getItem('SubjectId')
+  const [dateState, setDateState] = useState('');
+  const [Subjectid, setSubjectid ]= useState('');
+
 
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -74,25 +76,14 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
     asAssessmentId: SelectTerm
   };
 
-//   const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
-//   {
-//     asStandard_Division_Id:StandardDivisionId,
-//     asAssessmentId:SelectTerm,
-//     asSubjectId:2357,
-//     asAcademicYearId:asAcademicYearId,
-//     asSchoolId:asSchoolId,
-//     asInserted_By_id: selectTeacher,
-//     asInsertDate: dateState
 
-// }
-  
 
-  const ClickSubmit = () => {
+  const ClickSubmit = (value) => {
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
     {
       asStandard_Division_Id:StandardDivisionId,
       asAssessmentId:SelectTerm,
-      asSubjectId: Number(Subjectid),
+      asSubjectId: Number(value),
       asAcademicYearId:asAcademicYearId,
       asSchoolId:asSchoolId,
       asInserted_By_id:selectTeacher,
@@ -164,10 +155,6 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
   }, [selectTeacher, SelectTerm]);
 
 
-  // useEffect(() => {
-  //   dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
-
-  // }, []);
 
 
 
@@ -182,7 +169,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
     SetselectTeacher(value);
   };
   const clickEdit = () => {
-    navigate('/extended-sidebar/Common/EventOverview');
+    navigate('/extended-sidebar/Teacher/examresult');
   };
   
 
@@ -192,8 +179,11 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
   return (
     <>
+    
       <Container>
-          <div>
+      {/* <PageHeader heading={'AssignPre-PrimaryGrades'} subheading={''} /> */}
+
+          
           <Grid container>
             <Grid item xs={10}>
               <h4>Legends</h4>
@@ -212,7 +202,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
           <Grid container>
             <Grid item xs={12}></Grid>
           </Grid>
-        </div>
+        
   <br></br>
   <Grid
     container

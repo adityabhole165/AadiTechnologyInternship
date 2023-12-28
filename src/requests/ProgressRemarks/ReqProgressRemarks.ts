@@ -115,15 +115,15 @@ async (dispatch) => {
     export const CDAStudentListToCaptureHeighthWeight = (data: IStudentListToCaptureHeighthWeightBody): AppThunk =>
     async (dispatch) => {
         const response = await ApiProgressRemark. StudentListToCaptureHeighthWeight(data);
-        // let ClassTeachers = response.data.map((item, i) => {
-        //     return {
-        //         Id: item.Teacher_Id,
-        //         Name: item.TeacherName,
-        //         Value: item.Teacher_Id,
-        //     }
-        // })
+        let StudentList = response.data.map((item, i) => {
+            return {
+                Id: item.Standard_Id,
+                Name: item.StudentName,
+                Value: item.Standard_Id,
+            }
+        })
 
-        dispatch(ProgressRemarkSlice.actions.RStudentListToCaptureHeighthWeight(response.data));
+        dispatch(ProgressRemarkSlice.actions.RStudentListToCaptureHeighthWeight(StudentList));
     }
 
 

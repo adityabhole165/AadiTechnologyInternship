@@ -1,13 +1,21 @@
 
- import React from 'react'
+ import React, { useState } from 'react'
  import {  useEffect } from 'react';
  import { useDispatch, useSelector } from 'react-redux';
  import { RootState } from 'src/store';
  import { IAllPrimaryClassTeachersBody, IGetTestwiseTermBody,IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListToCaptureHeighthWeightBody, IGetAllStudentswiseRemarkDetailsBody} from "src/interfaces/ProgressRemarks/IProgressRemarks"
  import { CDAGetClassTeachers, CDAGetTestwiseTerm, CDAStudentswiseRemarkDetailsToExport, CDAUpdateAllStudentsRemarkDetails, CDAStudentListToCaptureHeighthWeight, CDAGetAllStudentswiseRemarkDetails} from "src/requests/ProgressRemarks/ReqProgressRemarks"
+import { Box, Container, Grid, Typography,Stack } from '@mui/material';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import Notes from 'src/libraries/ResuableComponents/Notes';
+import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 
  const ProgressRemarks = () => {
    const dispatch = useDispatch();
+   const [selectTeacher, SetselectTeacher] = useState();
+   const [SelectTerm, SetSelectTerm] = useState();
+   const [StudentList, SetStudentList] = useState();
 
    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -34,7 +42,21 @@
   const USGetAllStudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails);
  console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails--6");
  
-    
+const Note1  =["Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique."]
+const Hedaer1=["Suggested Adjectives:"]
+
+const Note2  =["Always, Commonly, Consistently, Daily, Frequently, Monthly, Never, Occasionally, Often, Rarely, Regularly Typically, Usually, Weekly.."]
+const Hedaer2=["Suggested Adverbs ::"]
+
+const Note3  =["Click on the button available for each student and remark type to add configured Remark Templates."]
+const Hedaer3=["..."]
+
+const Note4  =["After specific interval of time entered data will be saved automatically."]
+const Hedaer4=["Note:"]
+
+const Note5  =["User can not change or update any data once summative exam is published."]
+const Hedaer5=["Note:"]
+      
     const GetTestwiseTermBody: IGetTestwiseTermBody = {
         asSchoolId:18
       };
@@ -86,7 +108,17 @@ const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsBody 
 }
 
 
+const clickSelectTerm = (value) => {
+  SetSelectTerm(value);
+};
 
+const clickSelectClass = (value) => {
+  SetselectTeacher(value);
+};
+
+const clickStudentList = (value) => {
+  SetStudentList(value);
+};
 
    useEffect(() => {
      dispatch(CDAGetClassTeachers(ClassTeachersBody));
@@ -114,7 +146,90 @@ const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsBody 
   }, []);
 
    return (
-     <div>AssignPre-PrimaryGrades</div>
+   <>
+   <PageHeader heading={'Progress Remarks'} subheading={''} />
+     <Container>
+     
+
+
+     <Grid
+    container
+    spacing={2}
+    justifyContent="center"
+    alignItems="center"
+  >
+    <Grid item xs={2}>
+      <Typography
+        component={Box}
+        sx={{ border: '1px solid black' }}
+        p={0.3}
+      >
+        Subject Teacher:
+      </Typography>
+    </Grid>
+    <Grid item xs={2}>
+      <Dropdown
+        Array={USClassTeachers}
+        handleChange={clickSelectTerm}
+        defaultValue={SelectTerm}
+        label={''}
+      />
+      <br></br>
+    </Grid>
+    <Grid item xs={2}>
+      <Typography
+        component={Box}
+        sx={{ border: '1px solid black' }}
+        p={0.5}
+      >
+        Term:
+      </Typography>
+    </Grid>
+    <Grid item xs={2}>
+      <Dropdown
+        Array={USGetTestwiseTerm}
+        handleChange={clickSelectClass}
+        defaultValue={selectTeacher}
+        label={''}
+      />
+    
+    </Grid>
+
+
+
+    <Grid item xs={2}>
+      <Typography
+        component={Box}
+        sx={{ border: '1px solid black' }}
+        p={0.5}
+      >
+        StudentList:
+      </Typography>
+    </Grid>
+    <Grid item xs={2}>
+      <Dropdown
+        Array={StudentListToCaptureHeighthWeight}
+        handleChange={clickStudentList}
+        defaultValue={StudentList}
+        label={''}
+      />
+    
+    </Grid>
+   
+   
+  </Grid>
+  
+   <Notes NoteDetail={Note1} Header={Hedaer1}/>
+   <Notes NoteDetail={Note2} Header={Hedaer2}/>
+   <Notes NoteDetail={Note3} Header={Hedaer3}/>
+   <Notes NoteDetail={Note4} Header={Hedaer4}/>
+   <Notes NoteDetail={Note5} Header={Hedaer5}/>
+  
+  <Stack >
+    <DotLegendTeacher text="Left Students" color="error"  />
+    </Stack>
+  </Container>
+   </>
    )
  }
 
