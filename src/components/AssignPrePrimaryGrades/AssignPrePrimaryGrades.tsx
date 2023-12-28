@@ -78,10 +78,10 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
 
 
-  const ClickSubmit = (value) => {
+  const ClickSubmit = (value, StandardDivisionID) => {
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
     {
-      asStandard_Division_Id:StandardDivisionId,
+      asStandard_Division_Id:StandardDivisionID,
       asAssessmentId:SelectTerm,
       asSubjectId: Number(value),
       asAcademicYearId:asAcademicYearId,
@@ -99,7 +99,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
     if (USSubmitExamMarksStatus != '') {
       toast.success(USSubmitExamMarksStatus);
       dispatch(resetMessage());
-      dispatch(CDAGetTeacherXseedSubjects(USSubmitExamMarksStatus));
+      dispatch(CDAGetTeacherXseedSubjects(GetTeacherXseedSubjectsBody));
     }
   }, [USSubmitExamMarksStatus]);
 

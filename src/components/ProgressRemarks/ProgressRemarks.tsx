@@ -11,9 +11,13 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Notes from 'src/libraries/ResuableComponents/Notes';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useNavigate } from 'react-router';
+
 
  const ProgressRemarks = () => {
    const dispatch = useDispatch();
+   const navigate = useNavigate();
    const [selectTeacher, SetselectTeacher] = useState();
    const [SelectTerm, SetSelectTerm] = useState();
    const [StudentList, SetStudentList] = useState();
@@ -171,6 +175,12 @@ useEffect(() => {
     dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
   }, []);
 
+
+  const ExamResult = (value) => {
+    navigate('/extended-sidebar/Teacher/ExamResultBase');
+  }
+
+
    return (
    <>
    <PageHeader heading={'Progress Remarks'} subheading={''} />
@@ -256,6 +266,24 @@ useEffect(() => {
     </Stack>
 
     <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails}/>
+    
+      <br></br>
+   
+      <Grid item xs={6}  >
+        <ButtonPrimary onClick={ExamResult} variant="contained" style={{ backgroundColor: 'red', color: 'white'  ,}}>
+          Back
+        </ButtonPrimary > 
+        <ButtonPrimary  variant="contained" style={{ backgroundColor: '#0091ea', color: 'white' }}>
+          SAVE
+        </ButtonPrimary>
+        <ButtonPrimary  variant="contained" style={{ backgroundColor: '#0091ea', color: 'white' }}>
+          EXPORT
+        </ButtonPrimary>
+      </Grid>
+   
+
+        
+
   </Container>
    </>
    )

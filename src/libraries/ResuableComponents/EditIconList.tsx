@@ -15,6 +15,8 @@ import EditIcon from '@mui/icons-material/Edit';
 
 
 function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdit1}) {
+  console.log(ItemList,"ItemList");
+  
   return (
     <div>
       <TableContainer component={Card}>
@@ -55,7 +57,7 @@ function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdi
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text4 === '2' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
+                    <AssignmentIcon onClick={() => clicksubmit(item.SubjectId, item.StandardDivisionID)} />
 
                   ) : item.Text4 === '3' ? (
                     "Marks already submitted."

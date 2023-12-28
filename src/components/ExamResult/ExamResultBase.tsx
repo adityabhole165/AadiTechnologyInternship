@@ -100,6 +100,10 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   }
 
+  const ProgressRemark = (value) => {
+    navigate('/extended-sidebar/Teacher/ProgressRemarks');
+  }
+
 
   return (
     <Container>
@@ -141,7 +145,7 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary">GENERATE TOPPERS</Button>
         <Button variant="contained" color="primary">PUBLISH</Button>
         <Button variant="contained" color="primary">UNPUBLISH</Button>
-        <Button variant="contained" color="primary">Progress Remarks</Button>
+        <Button variant="contained" color="primary" onClick={ProgressRemark}>Progress Remarks</Button>
         <Button variant="contained" color="primary"  >Transfer Optional Subject Marks</Button>
         <Button variant="contained" color="primary" onClick={TermwiseHighwight}>Termwise Height-Weight</Button>
       </Box>
