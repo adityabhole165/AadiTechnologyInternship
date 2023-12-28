@@ -1,8 +1,8 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IAllPrimaryClassTeachersBody,IAllPrimaryClassTeachersResult, IGetTestwiseTermBody,IGetTestwiseTermResult, IStudentswiseRemarkDetailsToExportBody,IStudentswiseRemarkDetailsToExportResult, IUpdateAllStudentsRemarkDetailsBody, IStudentListToCaptureHeighthWeightBody, IStudentListToCaptureHeighthWeightResult, IGetAllStudentswiseRemarkDetailsBody,IGetAllStudentswiseRemarkDetailsResult} from "src/interfaces/ProgressRemarks/IProgressRemarks"
+import { IAllPrimaryClassTeachersBody,IAllPrimaryClassTeachersResult, IGetTestwiseTermBody,IGetTestwiseTermResult, IStudentswiseRemarkDetailsToExportBody,IStudentswiseRemarkDetailsToExportResult, IUpdateAllStudentsRemarkDetailsBody, IStudentListDropDowntBody, IStudentListDropDownResult, IGetAllStudentswiseRemarkDetailsBody,IGetAllStudentswiseRemarkDetailsResult} from "src/interfaces/ProgressRemarks/IProgressRemarks"
 
   const ClassTeachers= (data: IAllPrimaryClassTeachersBody) => {
-    return http.post<IAllPrimaryClassTeachersResult[]>('Teacher/GetClassTeachers',data);
+    return http.post<IAllPrimaryClassTeachersResult[]>('Teacher/GetAllPrimaryClassTeachers1',data);
   };
 
   const GetTestwiseTerm = (data: IGetTestwiseTermBody) => {
@@ -17,8 +17,8 @@ import { IAllPrimaryClassTeachersBody,IAllPrimaryClassTeachersResult, IGetTestwi
     return http.post<"">('Teacher/UpdateAllStudentsRemarkDetails',data);
   };
 
-  const StudentListToCaptureHeighthWeight = (data: IStudentListToCaptureHeighthWeightBody) => {
-    return http.post<IStudentListToCaptureHeighthWeightResult[]>('Teacher/GetStudentListToCaptureHeighthWeight',data);
+  const StudentListDropDown = (data: IStudentListDropDowntBody) => {
+    return http.post<IStudentListDropDownResult[]>('Teacher/GetStudentListToAssignRemark',data);
   };
 
   const GetAllStudentswiseRemarkDetails = (data: IGetAllStudentswiseRemarkDetailsBody) => {
@@ -31,7 +31,7 @@ import { IAllPrimaryClassTeachersBody,IAllPrimaryClassTeachersResult, IGetTestwi
     GetTestwiseTerm,
     StudentswiseRemarkDetailsToExport,
     UpdateAllStudentsRemarkDetails,
-    StudentListToCaptureHeighthWeight,
+    StudentListDropDown,
     GetAllStudentswiseRemarkDetails
   }
   export default  ApiProgressRemark

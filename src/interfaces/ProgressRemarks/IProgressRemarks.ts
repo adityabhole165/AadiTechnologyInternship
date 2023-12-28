@@ -1,7 +1,8 @@
 export interface IAllPrimaryClassTeachersBody
 {
 asSchoolId:Number,
-asAcademicYearId:Number
+asAcademicYearId:Number,
+asUserId:Number
 }
 
 
@@ -30,7 +31,80 @@ Term_Id: string,
 Term_Name: string
 }
 
+export interface IStudentListDropDowntBody
+    
+{
+    asStandard_Division_Id:Number,
+    asAcademicYearId:Number,
+    asSchoolId:Number,
+    asTerm_Id:Number
+}
 
+
+export interface IStudentListDropDownResult
+
+{
+    Standard_Id: string,
+    Division_Id: string,
+    Student_Id: string,
+    Student_Name: string,
+    Academic_Year_Id: string,
+    Roll_No: string,
+    SchoolWise_Standard_Division_Id: string,
+    SchoolLeft_Date: string,
+    Joining_Date: string,
+    Teacher_Id: string
+}
+    
+export interface IGetAllStudentswiseRemarkDetailsBody
+
+{
+    asSchoolId:Number,
+    asAcademicYearId:Number,
+    asStandardDivId:Number,
+    asStudentId:Number,
+    asTermId:Number
+}
+
+
+
+
+export interface IGetAllStudentswiseRemarkDetailsResult
+{
+    RollNo: string,
+    YearwiseStudentId: string,
+    StudentName: string,
+    Remark: string,
+    StudentwiseRemarkId: string,
+    StandardDivisionId: string,
+    RemarkName: string,
+    RemarkConfigId:string,
+    TermId: string,
+    SalutationId: string,
+    FName: string,
+    MName: string,
+    LName: string,
+    IsPassedAndPromoted: Number,
+    IsLeftStudent: string,
+    OldRemark: string
+}
+
+
+export interface IUpdateAllStudentsRemarkDetailsBody{
+
+    StudentwiseRemarkXML:string
+    asSchoolId:Number,
+    asAcademicYearId:Number,
+    asInsertedById:Number,
+    asStandardDivId:Number,
+    asTermId:Number
+    
+    
+    }
+    
+    
+    
+   
 
 export interface IStudentswiseRemarkDetailsToExportBody
 {
@@ -71,78 +145,3 @@ export interface IStudentswiseRemarkDetailsToExportResult{
 
 }
 
-
-export interface IUpdateAllStudentsRemarkDetailsBody{
-
-StudentwiseRemarkXML:string
-asSchoolId:Number,
-asAcademicYearId:Number,
-asInsertedById:Number,
-asStandardDivId:Number,
-asTermId:Number
-
-
-}
-
-
-
-export interface IStudentListToCaptureHeighthWeightBody
-
-    {
-        asStdDivId:Number ,
-    asAcademic_Year_Id:Number ,
-    asSchoolId:Number,
-    asTerm_Id:Number
-}
-    
-
-
-export interface IStudentListToCaptureHeighthWeightResult
-
-{
-    Standard_Id: string,
-    Division_Id: string,
-    YearWiseStudentId: string,
-    StudentName: string,
-    Academic_Year_Id: string,
-    RollNo: string,
-    SchoolWise_Standard_Division_Id: string
-    IsLeftStudent: string,
-    Joining_Date: string,
-    Teacher_Id:string,
-    Height: string,
-    Weight:string
-}
-    
-export interface IGetAllStudentswiseRemarkDetailsBody
-
-{
-    asSchoolId:Number,
-    asAcademicYearId:Number,
-    asStandardDivId:Number,
-    asStudentId:Number,
-    asTermId:Number
-}
-
-
-
-
-export interface IGetAllStudentswiseRemarkDetailsResult
-{
-    RollNo: string,
-    YearwiseStudentId: string,
-    StudentName: string,
-    Remark: string,
-    StudentwiseRemarkId: string,
-    StandardDivisionId: string,
-    RemarkName: string,
-    RemarkConfigId:string,
-    TermId: string,
-    SalutationId: string,
-    FName: string,
-    MName: string,
-    LName: string,
-    IsPassedAndPromoted: Number,
-    IsLeftStudent: string,
-    OldRemark: string
-}

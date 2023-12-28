@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { IAllPrimaryClassTeachersBody,IGetTestwiseTermBody,IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListToCaptureHeighthWeightBody, IGetAllStudentswiseRemarkDetailsBody} from "src/interfaces/ProgressRemarks/IProgressRemarks"
+import { IAllPrimaryClassTeachersBody,IGetTestwiseTermBody,IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListDropDowntBody, IGetAllStudentswiseRemarkDetailsBody} from "src/interfaces/ProgressRemarks/IProgressRemarks"
 import { AppThunk } from "src/store";
 import ApiProgressRemark from 'src/api/ProgressRemarks/ApiProgressRemarks'
 
@@ -12,7 +12,7 @@ const ProgressRemarkSlice = createSlice({
     ISGetClassTeachers:[],
     ISStudentswiseRemarkDetailsToExport:{},
     ISUpdateAllStudentsRemarkDetailsBody:"",
-    ISStudentListToCaptureHeighthWeight:[],
+    ISStudentListDropDown:[],
     ISGetAllStudentswiseRemarkDetails:[]
     
 
@@ -34,8 +34,8 @@ const ProgressRemarkSlice = createSlice({
         state.ISUpdateAllStudentsRemarkDetailsBody = action.payload
       },
 
-      RStudentListToCaptureHeighthWeight  (state, action) {
-        state.ISStudentListToCaptureHeighthWeight = action.payload
+      RStudentListDropDown  (state, action) {
+        state.ISStudentListDropDown = action.payload
       },
 
       RSGetAllStudentswiseRemarkDetails  (state, action) {
@@ -112,18 +112,18 @@ async (dispatch) => {
     }
 
 
-    export const CDAStudentListToCaptureHeighthWeight = (data: IStudentListToCaptureHeighthWeightBody): AppThunk =>
+    export const CDAStudentListDropDown = (data: IStudentListDropDowntBody): AppThunk =>
     async (dispatch) => {
-        const response = await ApiProgressRemark. StudentListToCaptureHeighthWeight(data);
+        const response = await ApiProgressRemark. StudentListDropDown(data);
         let StudentList = response.data.map((item, i) => {
             return {
-                Id: item.Standard_Id,
-                Name: item.StudentName,
-                Value: item.Standard_Id,
+                Id: item.Student_Id,
+                Name: item.Student_Name,
+                Value: item.Student_Id,
             }
         })
-
-        dispatch(ProgressRemarkSlice.actions.RStudentListToCaptureHeighthWeight(StudentList));
+          
+        dispatch(ProgressRemarkSlice.actions.RStudentListDropDown(StudentList));
     }
 
 

@@ -3,8 +3,8 @@
  import {  useEffect } from 'react';
  import { useDispatch, useSelector } from 'react-redux';
  import { RootState } from 'src/store';
- import { IAllPrimaryClassTeachersBody, IGetTestwiseTermBody,IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListToCaptureHeighthWeightBody, IGetAllStudentswiseRemarkDetailsBody} from "src/interfaces/ProgressRemarks/IProgressRemarks"
- import { CDAGetClassTeachers, CDAGetTestwiseTerm, CDAStudentswiseRemarkDetailsToExport, CDAUpdateAllStudentsRemarkDetails, CDAStudentListToCaptureHeighthWeight, CDAGetAllStudentswiseRemarkDetails} from "src/requests/ProgressRemarks/ReqProgressRemarks"
+ import { IAllPrimaryClassTeachersBody, IGetTestwiseTermBody,IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListDropDowntBody, IGetAllStudentswiseRemarkDetailsBody} from "src/interfaces/ProgressRemarks/IProgressRemarks"
+ import { CDAGetClassTeachers, CDAGetTestwiseTerm, CDAStudentswiseRemarkDetailsToExport, CDAUpdateAllStudentsRemarkDetails, CDAStudentListDropDown, CDAGetAllStudentswiseRemarkDetails} from "src/requests/ProgressRemarks/ReqProgressRemarks"
 import { Box, Container, Grid, Typography,Stack } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -27,20 +27,15 @@ import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
   
 
    const USClassTeachers: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetClassTeachers);
-    console.log(USClassTeachers,"USClassTeachers====2");
 
     const StudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentswiseRemarkDetailsToExport);
-    console.log(StudentswiseRemarkDetails,"StudentswiseRemarkDetails3");
 
     const UpdateAllStudentsRemarkDetail: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISUpdateAllStudentsRemarkDetailsBody);
-     console.log(UpdateAllStudentsRemarkDetail,"UpdateAllStudentsRemarkDetail4");
      
 
-    const StudentListToCaptureHeighthWeight: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentListToCaptureHeighthWeight);
-  console.log(StudentListToCaptureHeighthWeight,"StudentListToCaptureHeighthWeight5");
+    const USStudentListDropDown: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentListDropDown);
   
   const USGetAllStudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails);
- console.log(USGetAllStudentswiseRemarkDetails,"USGetAllStudentswiseRemarkDetails--6");
  
 const Note1  =["Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique."]
 const Hedaer1=["Suggested Adjectives:"]
@@ -64,7 +59,8 @@ const Hedaer5=["Note:"]
    const ClassTeachersBody: IAllPrimaryClassTeachersBody =
    {
     "asSchoolId":18,
-    "asAcademicYearId":54
+    "asAcademicYearId":54,
+     asUserId:4463
    }
 
    const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
@@ -89,12 +85,12 @@ const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
 }
 
 
-const StudentListToCaptureHeighthWeightBody: IStudentListToCaptureHeighthWeightBody =
+const StudentListDropDowntBody: IStudentListDropDowntBody =
 {
-    "asStdDivId":1266 ,
-"asAcademic_Year_Id":54 ,
-"asSchoolId":18,
-"asTerm_Id":1
+  "asStandard_Division_Id":1266,
+        "asAcademicYearId":54,
+        "asSchoolId":18,
+        "asTerm_Id":1
 }
 
 
@@ -120,6 +116,30 @@ const clickStudentList = (value) => {
   SetStudentList(value);
 };
 
+useEffect(() => {
+  if (USClassTeachers.length > 0) {
+    SetselectTeacher(USClassTeachers[0].Value);
+
+  }
+}, [USClassTeachers ]);
+useEffect(() => {
+  if (USStudentListDropDown.length > 0) {
+    SetStudentList(USStudentListDropDown[0].Value);
+
+  }
+}, [USStudentListDropDown ]);
+
+useEffect(() => {
+  if (USGetTestwiseTerm.length > 0) {
+    SetSelectTerm(USGetTestwiseTerm[0].Value);
+
+  }
+}, [USGetTestwiseTerm ]);
+
+
+
+
+
    useEffect(() => {
      dispatch(CDAGetClassTeachers(ClassTeachersBody));
  }, []);
@@ -138,7 +158,7 @@ const clickStudentList = (value) => {
 
 
   useEffect(() => {
-    dispatch(CDAStudentListToCaptureHeighthWeight(StudentListToCaptureHeighthWeightBody));
+    dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
   }, []);
 
   useEffect(() => {
@@ -208,7 +228,7 @@ const clickStudentList = (value) => {
     </Grid>
     <Grid item xs={2}>
       <Dropdown
-        Array={StudentListToCaptureHeighthWeight}
+        Array={USStudentListDropDown}
         handleChange={clickStudentList}
         defaultValue={StudentList}
         label={''}
