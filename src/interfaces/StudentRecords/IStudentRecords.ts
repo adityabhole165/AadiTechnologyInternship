@@ -2,11 +2,13 @@ export interface IGetTeacherListBody {
     asSchoolId: number,
     asAcademicYearId: number,
     asUserId: number,
-    HasFullAccess: String
+    HasFullAccess: string
 }
 export interface IGetTeacherListResult {
-    StdDivId: number,
-    TeacherName: string
+    lstAssociatedTeacher: [{
+        StdDivId: number,
+        TeacherName: string
+    }]
 }
 export interface IGetAllStudentStatusBody {
     asSchoolId: string,

@@ -10,7 +10,7 @@ export interface IClassTeacherListRsult
     Teacher_First_Name:string,
     Standard_Name:string,
     Division_Name:string,
-    Original_Standard_Id:string,
+    Original_Standard_Id:string, 
     Original_Division_Id:string,
     SchoolWise_Standard_Division_Id:string
 

@@ -3,7 +3,7 @@ import http from "../../requests/SchoolService/schoolServices"
 
 const ClassTeacherList=
 (data:IGetTeacherListBody) => {
-    return http.post<IGetTeacherListResult[]>('Homework/GetTeacherList', data)
+    return http.post<IGetTeacherListResult>('Homework/GetTeacherList', data)
 };
 const AllStudentStatus=
 (data:IGetAllStudentStatusBody) => {

@@ -24,17 +24,17 @@ const StudentRecordsSlice=createSlice({
 export const GetTeachersList =
     (data: IGetTeacherListBody): AppThunk =>
         async (dispatch) => {
-            const response = await StudentRecordsApi.ClassTeacherList(data);
-            let abc = response.data.map((item, i) => {
+            const response = await StudentRecordsApi.ClassTeacherList(data)
+
+            let abc = response.data.lstAssociatedTeacher.map((item, i) => {
                 return {
-                  Id: item.StdDivId,
+                  Id: item.TeacherName,
                   Name: item.TeacherName,
-                  Value: item.StdDivId,
+                  Value: item.StdDivId ,
                 }  
               })
-              console.log(abc,"abc");
-              
            dispatch(StudentRecordsSlice.actions.TeacherList(abc));
+
         };
         export const GetAllStudentStatuss =
         (data: IGetAllStudentStatusBody): AppThunk =>

@@ -46,9 +46,7 @@ const FinalResultSlice = createSlice({
                 Id: item.Teacher_Id,
                 Name: item.TeacherName,
                 Value: item.Teacher_Id,
-              }  
-              
-              
+              }                
             })
             dispatch(FinalResultSlice.actions.classTeacherList(abc))
           }

@@ -34,16 +34,16 @@ const FinalResult = () => {
     }, [])
 
     const ClassTeachersBody: IClassTeacherListBody = {
-        "asSchoolId": 18,
-        "asAcademicYearId": 54
+        asSchoolId: 18,
+        asAcademicYearId: 54
     }
     const PagedStudentBody: IGetPagedStudentBody = {
-        "asSchoolId": "18",
-        "asAcademicyearId": "54",
-        "asStandardDivisionId": "1266",
-        "SortExp": "ORDER BY Roll_No ",
-        "prm_StartIndex": 0,
-        "PageSize": 20
+        asSchoolId: "18",
+        asAcademicyearId: "54",
+        asStandardDivisionId: "1266",
+        SortExp: "ORDER BY Roll_No" ,
+        prm_StartIndex: 0,
+        PageSize: 20
     }
     const clickTeacherDropdown = (value) => {
 

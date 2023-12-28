@@ -2,21 +2,22 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'src/store'
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 //import DynamicList from 'src/libraries/list/DynamicList'
 import { IGetTeacherListBody,IGetAllStudentStatusBody } from 'src/interfaces/StudentRecords/IStudentRecords';
 import { GetTeachersList,GetAllStudentStatuss } from 'src/requests/StudentRecords/RequestStudentRecords';
-import { Box, Container, Grid, Typography } from '@mui/material'
-
+import { Box, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from '@mui/material'
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import CheckBox from '@mui/icons-material/CheckBox';
+import DropDown from 'src/libraries/list/DropDown';
 const StudentRecords = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState();
-    
+    const [SearchText, setSearchText] = useState("")
+    const [StudentStatusList, setStudentStatusList] = useState([])
+
     const GetTeachers = useSelector((state: RootState) => state.StudentRecords.ClassTeachers);
-    console.log("GetClassTeachers", GetTeachers)
 
     const GetStatusStudents = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
-    console.log("GetStatusStudents", GetStatusStudents)
 
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
@@ -24,7 +25,10 @@ const StudentRecords = () => {
     useEffect(() => {
         dispatch(GetAllStudentStatuss(GetStudentStatusBody))
     }, [])
-    
+    useEffect(() => {
+        setStudentStatusList(GetStatusStudents)
+    }, [GetStatusStudents])
+
 
     const TeachersBody: IGetTeacherListBody = {
         "asSchoolId": 18,
@@ -50,30 +54,61 @@ const StudentRecords = () => {
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
+    const changeSearchText = (value) => {
+        setSearchText(value)
+        if (value == "") {
 
-    return (
+            setStudentStatusList(GetStatusStudents)
+        } else {
+            setStudentStatusList(StudentStatusList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
+        }
+
+    }
+    return ( 
         <Container>
         <br></br>
         <br></br>
         <br></br>
         <br></br>
 
-        <Grid container spacing={1} alignItems="center">
-            <Grid item xs={3}>
-                <Typography margin={'1px'}>
+        <Grid container spacing={10} alignItems="center">
+            <Grid item xs={2}>
+                <Typography marginLeft={'1px'}>
                     <b>Class Teacher:</b>
                 </Typography>
             </Grid>
-            <Grid item xs={3} >
-                <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                    <Dropdown
-                        Array={GetTeachers}
-                        handleChange={clickTeacherDropdown}
-                        defaultValue={SelectTeacher}
-                        label={SelectTeacher}
-                    />
+            <Grid item xs={2} >
+                <Box sx={{ marginRight: "500px", width: '180%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
+                    <DropDown
+                            itemList={GetTeachers}
+                            ClickItem={clickTeacherDropdown}
+                            Label={SelectTeacher} 
+                            DefaultValue={SelectTeacher}                    />
                 </Box>
             </Grid>
+            <Grid item xs={2}>
+                <Typography margin={'1px'}>
+                    <b>Reg No/Name:</b>
+                </Typography>
+            </Grid>
+            <Grid item xs={2} >
+                <Box sx={{ marginRight: "0px", width: '110%', padding: "15px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
+                </Box>
+            </Grid>
+            <Grid item xs={2}>
+            <Box sx={{ marginRight: "0px", width: '80%', padding: "1px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" ,backgroundColor:"lightblue"}}>
+            <TextField label={'Search'} name="SearchText" type="text" variant="standard"
+                value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth/>
+            </Box>
+            </Grid>
+
+            <Grid item xs={4}>
+                <Typography margin={'1px'}>
+                <FormControlLabel control={<Checkbox  />} label="Show only Rise and Shine Students" />
+                </Typography>
+            </Grid>
+            
+
             </Grid>
             </Container>
        )

@@ -12,7 +12,7 @@ const GetStudentResult=
     return http.post<IGetPagedStudentResult>('Homework/GetPagedStudentResult', data)
 };
 
-
+ 
 const FinalResultApi={
     ClassTeacherList,
     GetStudentResult
