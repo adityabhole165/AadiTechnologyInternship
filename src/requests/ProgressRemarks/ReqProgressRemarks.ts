@@ -130,15 +130,16 @@ async (dispatch) => {
     export const CDAGetAllStudentswiseRemarkDetails = (data: IGetAllStudentswiseRemarkDetailsBody): AppThunk =>
     async (dispatch) => {
         const response = await ApiProgressRemark. GetAllStudentswiseRemarkDetails(data);
-        // let ClassTeachers = response.data.map((item, i) => {
-        //     return {
-        //         Id: item.Teacher_Id,
-        //         Name: item.TeacherName,
-        //         Value: item.Teacher_Id,
-        //     }
-        // })
+        let RemarkList = response.data.map((item, i) => {
+            return {
+                Text1: item.RollNo,
+                Text2: item.StudentName,
+                Text3: item.Remark,
+                Text4: item.OldRemark,
+            }
+        })
 
-        dispatch(ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(response.data));
+        dispatch(ProgressRemarkSlice.actions.RSGetAllStudentswiseRemarkDetails(RemarkList));
     }
 
 

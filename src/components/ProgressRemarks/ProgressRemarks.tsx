@@ -10,6 +10,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Notes from 'src/libraries/ResuableComponents/Notes';
 import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
+import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 
  const ProgressRemarks = () => {
    const dispatch = useDispatch();
@@ -36,7 +37,8 @@ import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
     const USStudentListDropDown: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentListDropDown);
   
   const USGetAllStudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails);
- 
+        console.log();
+        
 const Note1  =["Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique."]
 const Hedaer1=["Suggested Adjectives:"]
 
@@ -51,6 +53,10 @@ const Hedaer4=["Note:"]
 
 const Note5  =["User can not change or update any data once summative exam is published."]
 const Hedaer5=["Note:"]
+
+const HeaderArray = [
+  {Id:1,Header:"Roll No."},{Id:2,Header:"Name" },{Id:3,Header:"Remark" } 
+]
       
     const GetTestwiseTermBody: IGetTestwiseTermBody = {
         asSchoolId:18
@@ -248,6 +254,8 @@ useEffect(() => {
   <Stack >
     <DotLegendTeacher text="Left Students" color="error"  />
     </Stack>
+
+    <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails}/>
   </Container>
    </>
    )

@@ -141,6 +141,7 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
       }
     }, [USGetClassTeachers ]);
+    
 
   useEffect(() => {
     dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
