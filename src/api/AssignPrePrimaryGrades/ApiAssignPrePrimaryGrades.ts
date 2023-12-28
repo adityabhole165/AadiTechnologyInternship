@@ -2,7 +2,7 @@ import http from "../../requests/SchoolService/schoolServices";
 import { IGetTestwiseTermBody,IGetTestwiseTermResult, IGetClassTeachersResult,IGetClassTeachersBody, IGetTeacherXseedSubjectsBody, IGetTeacherXseedSubjectsResult, ISubmitExamMarksStatusBody} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
 
   const GetTestwiseTermA = (data: IGetTestwiseTermBody) => {
-    return http.post<IGetTestwiseTermResult[]>('Teacher/GetTestwiseTerm',data);
+    return http.post<IGetTestwiseTermResult[]>('Teacher/GetAssessmentDropdown',data);
   };
 
 

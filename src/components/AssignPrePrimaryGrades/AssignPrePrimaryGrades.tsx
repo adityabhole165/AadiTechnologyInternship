@@ -25,36 +25,41 @@ const AssignPrePrimaryGrades = () => {
 
   const [selectTeacher, SetselectTeacher] = useState();
   const [SelectTerm, SetSelectTerm] = useState();
-  const [CurrentDate, SetCurrentDate] = useState();
+const [dateState, setDateState] = useState('');
+const Subjectid = localStorage.getItem('SubjectId')
 
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-  const asTeacherId = sessionStorage.getItem('TeacherId');
   
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
   );
-
+  console.log(USGetTestwiseTerm,"USGetTestwiseTerm--1");
+  
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetClassTeachers
   );
-
+ console.log(USGetClassTeachers,"USGetClassTeachers-----2");
+ 
   const USGetTeacherXseedSubjects: any = useSelector(
     (state: RootState) =>
       state.AssignPrePrimaryGrades.ISGetTeacherXseedSubjectsBody
   );
-
+  console.log(USGetTeacherXseedSubjects,"USGetTeacherXseedSubjects-----3");
+  
 
   const USSubmitExamMarksStatus: any = useSelector(
     (state: RootState) =>
       state.AssignPrePrimaryGrades.ISSubmitExamMarksStatus
   );
-console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
+console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
-    asSchoolId: asSchoolId
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+
   };
 
   const GetClassTeachersBody: IGetClassTeachersBody = {
@@ -69,28 +74,30 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
     asAssessmentId: SelectTerm
   };
 
-  const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
-  {
-    asStandard_Division_Id:StandardDivisionId,
-    asAssessmentId:SelectTerm,
-    asSubjectId:2357,
-    asAcademicYearId:asAcademicYearId,
-    asSchoolId:asSchoolId,
-    asInserted_By_id: Number(asTeacherId),
-    asInsertDate:CurrentDate
-}
+//   const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
+//   {
+//     asStandard_Division_Id:StandardDivisionId,
+//     asAssessmentId:SelectTerm,
+//     asSubjectId:2357,
+//     asAcademicYearId:asAcademicYearId,
+//     asSchoolId:asSchoolId,
+//     asInserted_By_id: selectTeacher,
+//     asInsertDate: dateState
+
+// }
   
 
-  const ClickSubmit = (value) => {
+  const ClickSubmit = () => {
     const SubmitExamMarksStatusBody: ISubmitExamMarksStatusBody = 
     {
       asStandard_Division_Id:StandardDivisionId,
       asAssessmentId:SelectTerm,
-      asSubjectId:value,
+      asSubjectId: Number(Subjectid),
       asAcademicYearId:asAcademicYearId,
       asSchoolId:asSchoolId,
-      asInserted_By_id:Number(asTeacherId),
-      asInsertDate:CurrentDate
+      asInserted_By_id:selectTeacher,
+      asInsertDate: String (dateState)
+
   }
 
   dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
@@ -106,7 +113,23 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
   }, [USSubmitExamMarksStatus]);
 
 
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'numeric',
+        day: 'numeric',
+        hour: 'numeric',
+        minute: 'numeric',
+        second: 'numeric',
+        hour12: true,
+      });
+      setDateState(formattedDate);
+    };
 
+    getCurrentDateTime();
+  }, []);
 
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
@@ -141,10 +164,10 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus");
   }, [selectTeacher, SelectTerm]);
 
 
-  useEffect(() => {
-    dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
+  // useEffect(() => {
+  //   dispatch(CDASubmitExamMarksStatus(SubmitExamMarksStatusBody));
 
-  }, []);
+  // }, []);
 
 
 

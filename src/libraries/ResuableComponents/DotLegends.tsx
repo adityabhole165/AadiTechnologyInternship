@@ -7,6 +7,7 @@ import TurnedInIcon from '@mui/icons-material/TurnedIn';
 import CheckIcon from '@mui/icons-material/Check';
 import BadgeIcon from '@mui/icons-material/Badge';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import EditOffIcon from '@mui/icons-material/EditOff';
 
 
 const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
@@ -18,7 +19,7 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
       </Box>
 
       <Box sx={{ display: 'flex', maxWidth: '300px' }}>
-        <MarkEmailReadIcon style={{ color: '#76ff03' }} />
+        <EditOffIcon style={{ color: '#76ff03' }} />
         <Typography> {text1}</Typography>
       </Box>
 

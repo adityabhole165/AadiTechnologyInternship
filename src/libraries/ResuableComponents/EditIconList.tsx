@@ -7,8 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TaskIcon from '@mui/icons-material/Task';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
-
+import EditOffIcon from '@mui/icons-material/EditOff';
 import CheckIcon from '@mui/icons-material/Check';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Card } from '@mui/material';
@@ -50,15 +49,15 @@ function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdi
                   ) : item.Text3 === '2' ? (
                     <TaskIcon onClick={() => clickEdit(item.Id)} />
                   ) : (
-                    <MarkEmailReadIcon  onClick={() => clickEdit1(item.Id)} />
+                    <EditOffIcon  onClick={() => clickEdit1(item.Id)} />
                   )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text3 === '2' ? (
+                  {item.Text4 === '2' ? (
                     <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
 
-                  ) : item.Text3 === '3' ? (
+                  ) : item.Text4 === '3' ? (
                     "Marks already submitted."
                   ) : (
                     " Mark Cannot be Submitted."

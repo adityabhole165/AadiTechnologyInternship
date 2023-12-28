@@ -42,9 +42,9 @@ const AssignPrePrimaryGradesSlice = createSlice({
         const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
         let TestwiseTerm = response.data.map((item, i) => {
             return {
-                Id: item.Term_Id,
-                Name: item.Term_Name,
-                Value: item.Term_Id,
+                Id: item.AssessmentId,
+                Name: item.Name,
+                Value: item.AssessmentId,
             }
         })
 
@@ -74,7 +74,7 @@ const AssignPrePrimaryGradesSlice = createSlice({
             return {
                 Text1: item.StandardDivision,
                 Text2: item.Subject_Name,
-                Text3: item.IsXseedSubject,
+                Text3: item.EditStatus,
                 Text4:item.SubmitStatus
             }
         })

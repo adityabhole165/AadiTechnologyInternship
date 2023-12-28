@@ -1,12 +1,14 @@
 export interface   IGetTestwiseTermBody{
+           
+            asAcademicYearId:Number,
             asSchoolId:Number
 
     }
 
     export interface   IGetTestwiseTermResult
     {
-        Term_Id: string,
-        Term_Name: string
+        AssessmentId : string,
+        Name: string
     }
 
 
@@ -22,15 +24,14 @@ export interface   IGetClassTeachersBody{
 
 export interface   IGetClassTeachersResult
 {
-        TeacherName: string,
         Teacher_Id: string,
+        TeacherName: string,
         Designation_Id: string,
-        Teacher_First_Name:string,
-        Standard_Name: string,
-        Division_Name: string,
-        Original_Standard_Id: string,
-        Original_Division_Id: string,
-        SchoolWise_Standard_Division_Id:string
+        Teacher_First_Name: string,
+        DesignationSortOrder: string,
+        Teacher_Middle_Name: string,
+        Teacher_Last_Name: string
+
 }
 
 
