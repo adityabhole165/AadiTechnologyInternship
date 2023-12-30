@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import { IGetTeacherListBody,IGetAllStudentStatusBody } from "src/interfaces/StudentRecords/IStudentRecords";
+import { IGetTeacherListBody,IGetAllStudentStatusBody ,IGetTeacherListResult,IGetAllStudentStatusResult} from "src/interfaces/StudentRecords/IStudentRecords";
 import StudentRecordsApi from "src/api/StudentRecords/ApiStudentRecords";
 import { log } from "console";
 

@@ -26,8 +26,6 @@ const StudentRecords = () => {
 
     const GetTeachers = useSelector((state: RootState) => state.StudentRecords.ClassTeachers);
    // console.log("GetTeachers",GetTeachers);
-    
-
     const GetStatusStudents = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
     console.log(GetStatusStudents,"GetStatusStudents");
     const HeaderList = ["Registration Number", "Roll No.", "Class", "Name", "Action For Me", "Action"]
@@ -39,9 +37,7 @@ const StudentRecords = () => {
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
     }, [])
-    useEffect(() => {
-        console.log(SelectTeacher,"SelectTeacher");
-        
+    useEffect(() => {        
         dispatch(GetAllStudentStatuss(GetStudentStatusBody))
     }, [SelectTeacher])
     useEffect (()=>{
@@ -95,8 +91,6 @@ setShowRiseAndShine(value)
     }
     return ( 
         <Container>
-        <br></br>
-        <br></br>
         <br></br>
         <br></br>
 

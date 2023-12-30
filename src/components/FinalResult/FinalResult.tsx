@@ -16,6 +16,13 @@ import EditIcon from '@mui/icons-material/Edit';
 const FinalResult = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState("0");
+    
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+    const asUpdatedById = localStorage.getItem('Id');
+    const Id = Number(sessionStorage.getItem('Id'));
+
     const HeaderList = ["Roll No.","Student Name","Marks","Percentage",
     "Grade Name","View"]
     const IconList = [
@@ -41,16 +48,16 @@ const FinalResult = () => {
 
     useEffect(() => {
         dispatch(GetStudentResultList(PagedStudentBody))
-    }, [])
+    }, [SelectTeacher])
 
     const ClassTeachersBody: IClassTeacherListBody = {
-        asSchoolId: 18,
-        asAcademicYearId: 54
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId
     }
     const PagedStudentBody: IGetPagedStudentBody = {
-        asSchoolId: "18",
-        asAcademicyearId: "54",
-        asStandardDivisionId: "1266",
+        asSchoolId: asSchoolId.toString(),
+        asAcademicyearId: asAcademicYearId.toString(),
+        asStandardDivisionId: SelectTeacher,
         SortExp: "ORDER BY Roll_No" ,
         prm_StartIndex: 0,
         PageSize: 20
