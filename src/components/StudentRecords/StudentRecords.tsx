@@ -12,35 +12,50 @@ import DropDown from 'src/libraries/list/DropDown';
 const StudentRecords = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState();
-    const [SearchText, setSearchText] = useState("")
     const [StudentStatusList, setStudentStatusList] = useState([])
+    const [showRiseAndShine, setShowRiseAndShine] = useState(false);
+    const [regNoOrName, setRegNoOrName] = useState('');
+
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+    const asUpdatedById = localStorage.getItem('Id');
+    const Id = Number(sessionStorage.getItem('Id'));
 
     const GetTeachers = useSelector((state: RootState) => state.StudentRecords.ClassTeachers);
+   // console.log("GetTeachers",GetTeachers);
+    
 
     const GetStatusStudents = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
-
+     //console.log("GetStatusStudents",GetStatusStudents);
+     
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
     }, [])
     useEffect(() => {
+        console.log(SelectTeacher,"SelectTeacher");
+        
         dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-    }, [])
+    }, [SelectTeacher])
+    useEffect (()=>{
+        dispatch(GetAllStudentStatuss(GetStudentStatusBody))
+    },[])
     useEffect(() => {
         setStudentStatusList(GetStatusStudents)
     }, [GetStatusStudents])
 
 
     const TeachersBody: IGetTeacherListBody = {
-        "asSchoolId": 18,
-        "asAcademicYearId": 54,
-        "asUserId": 4463,
+        "asSchoolId":asSchoolId ,
+        "asAcademicYearId": asAcademicYearId,
+        "asUserId": Id,
         "HasFullAccess": "false"
     }
     const GetStudentStatusBody:IGetAllStudentStatusBody={
 
     "asSchoolId":"18",
    "asAcademicYearId":"54",
-   "asStdDivId":"0",
+   "asStdDivId":SelectTeacher,
    "asFilter":" ",
    "sortExpression":"",
    "sortDirection":"ASC",
@@ -54,16 +69,33 @@ const StudentRecords = () => {
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
-    const changeSearchText = (value) => {
-        setSearchText(value)
-        if (value == "") {
+    const Search = () => {
+        let filteredList = GetStatusStudents;
 
-            setStudentStatusList(GetStatusStudents)
-        } else {
-            setStudentStatusList(StudentStatusList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
+        if (SelectTeacher) {
+            filteredList = filteredList.filter((item) => item.asStdDivId === SelectTeacher);
         }
 
-    }
+        if (regNoOrName) {
+            filteredList = filteredList.filter((item) =>
+                item.Text2.toLowerCase().includes(regNoOrName.toLowerCase())
+            );
+        }
+
+        if (showRiseAndShine) {
+            filteredList = filteredList.filter((item) => item.IncludeRiseAndShine === 'Y');
+        }
+
+        setStudentStatusList(filteredList);
+    };
+
+    const handleCheckboxChange = (e) => {
+        setShowRiseAndShine(e.target.checked);
+    };
+    const handleRegNoOrNameChange = (e) => {
+        setRegNoOrName(e.target.value);
+    };
+
     return ( 
         <Container>
         <br></br>
@@ -92,23 +124,28 @@ const StudentRecords = () => {
                 </Typography>
             </Grid>
             <Grid item xs={2} >
-                <Box sx={{ marginRight: "0px", width: '110%', padding: "15px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                </Box>
+            <TextField label=""
+                    value={""}
+                    variant="standard"
+                    onChange={handleRegNoOrNameChange}
+                    /><br></br>
+
             </Grid>
             <Grid item xs={2}>
-            <Box sx={{ marginRight: "0px", width: '80%', padding: "1px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" ,backgroundColor:"lightblue"}}>
-            <TextField label={'Search'} name="SearchText" type="text" variant="standard"
-                value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth/>
-            </Box>
+            <ButtonPrimary onClick={Search} variant='contained' style={{ marginRight: "150px", backgroundColor: 'green' }}>
+                Search
+              </ButtonPrimary>
+
             </Grid>
 
             <Grid item xs={4}>
                 <Typography margin={'1px'}>
-                <FormControlLabel control={<Checkbox  />} label="Show only Rise and Shine Students" />
+                <FormControlLabel
+                        control={<Checkbox checked={showRiseAndShine} onChange={handleCheckboxChange} />}
+                        label="Show only Rise and Shine Students"
+                    />
                 </Typography>
             </Grid>
-            
-
             </Grid>
             </Container>
        )
