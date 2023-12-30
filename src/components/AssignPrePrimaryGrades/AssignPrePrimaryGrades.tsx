@@ -18,7 +18,7 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
-import PageHeader from 'src/libraries/PageHeaderDocs';
+import PageHeader from 'src/libraries/heading/PageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
@@ -38,25 +38,21 @@ const AssignPrePrimaryGrades = () => {
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetTestwiseTerm
   );
-  console.log(USGetTestwiseTerm,"USGetTestwiseTerm--1");
   
   const USGetClassTeachers: any = useSelector(
     (state: RootState) => state.AssignPrePrimaryGrades.ISGetClassTeachers
   );
- console.log(USGetClassTeachers,"USGetClassTeachers-----2");
  
   const USGetTeacherXseedSubjects: any = useSelector(
     (state: RootState) =>
       state.AssignPrePrimaryGrades.ISGetTeacherXseedSubjectsBody
   );
-  console.log(USGetTeacherXseedSubjects,"USGetTeacherXseedSubjects-----3");
   
 
   const USSubmitExamMarksStatus: any = useSelector(
     (state: RootState) =>
       state.AssignPrePrimaryGrades.ISSubmitExamMarksStatus
   );
-console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
     asSchoolId: asSchoolId,
@@ -180,15 +176,16 @@ console.log(USSubmitExamMarksStatus,"USSubmitExamMarksStatus-------4");
 
   return (
     <>
-    
+        
+       
       <Container>
-      {/* <PageHeader heading={'AssignPre-PrimaryGrades'} subheading={''} /> */}
-
+      <PageHeader heading={"AssignPre-PrimaryGrades"} subheading={''} />
+    
           
           <Grid container>
             <Grid item xs={10}>
               <h4>Legends</h4>
-              <Box sx={{ display: 'flex', gap: '20px' }}>
+              <Box sx={{ display: 'flex', gap: '20px', justifyContent:"center" }}>
               <LegendsIcon
           color="secondary"
           text1={'Marks entry not started'}
