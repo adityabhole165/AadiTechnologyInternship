@@ -76,8 +76,7 @@ const StudentRecords = () => {
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
-    const changeSearchText = (value) => {
-        setSearchText(value)
+    const clickSearch = (value) => {
         if (value == "") {
 
             setStudentStatusList(GetStatusStudents)
@@ -87,6 +86,12 @@ const StudentRecords = () => {
     }
     const ClickItem = () =>{
 
+    }
+    const handleRegNoOrNameChange = (value) =>{
+
+    }
+    const handleCheckboxChange = (value) =>{
+setShowRiseAndShine(value)
     }
     return ( 
         <Container>
@@ -124,7 +129,7 @@ const StudentRecords = () => {
 
             </Grid>
             <Grid item xs={2}>
-            <ButtonPrimary onClick={Search} variant='contained' style={{ marginRight: "150px", backgroundColor: 'green' }}>
+            <ButtonPrimary onClick={clickSearch} variant='contained' style={{ marginRight: "150px", backgroundColor: 'green' }}>
                 Search
               </ButtonPrimary>
 
@@ -133,12 +138,16 @@ const StudentRecords = () => {
             <Grid item xs={4}>
                 <Typography margin={'1px'}>
                 <FormControlLabel
-                        control={<Checkbox checked={showRiseAndShine} onChange={handleCheckboxChange} />}
+                        control={<Checkbox checked={showRiseAndShine} 
+                        onChange={(e)=>{handleCheckboxChange(e.target.checked)}} />}
                         label="Show only Rise and Shine Students"
                     />
                 </Typography>
             </Grid>
-            
+            <Grid item xs={12}>
+                <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
+                ClickItem={ClickItem} IconList={IconList}/>
+            </Grid>
 
             </Grid>
             </Container>
