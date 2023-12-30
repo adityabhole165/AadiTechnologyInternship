@@ -9,6 +9,8 @@ import { Box, Checkbox, Container, FormControlLabel, Grid, TextField, Typography
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import CheckBox from '@mui/icons-material/CheckBox';
 import DropDown from 'src/libraries/list/DropDown';
+import DynamicList2 from 'src/libraries/list/DynamicList2';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 const StudentRecords = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState();
@@ -27,8 +29,13 @@ const StudentRecords = () => {
     
 
     const GetStatusStudents = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
-     //console.log("GetStatusStudents",GetStatusStudents);
-     
+    console.log(GetStatusStudents,"GetStatusStudents");
+    const HeaderList = ["Registration Number", "Roll No.", "Class", "Name", "Action For Me", "Action"]
+    const IconList = [{
+            Id: 1,
+            Icon: (<VisibilityIcon />),
+            Action: "View"
+    }]
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
     }, [])
@@ -69,33 +76,18 @@ const StudentRecords = () => {
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
-    const Search = () => {
-        let filteredList = GetStatusStudents;
+    const changeSearchText = (value) => {
+        setSearchText(value)
+        if (value == "") {
 
-        if (SelectTeacher) {
-            filteredList = filteredList.filter((item) => item.asStdDivId === SelectTeacher);
+            setStudentStatusList(GetStatusStudents)
+        } else {
+            setStudentStatusList(StudentStatusList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
         }
+    }
+    const ClickItem = () =>{
 
-        if (regNoOrName) {
-            filteredList = filteredList.filter((item) =>
-                item.Text2.toLowerCase().includes(regNoOrName.toLowerCase())
-            );
-        }
-
-        if (showRiseAndShine) {
-            filteredList = filteredList.filter((item) => item.IncludeRiseAndShine === 'Y');
-        }
-
-        setStudentStatusList(filteredList);
-    };
-
-    const handleCheckboxChange = (e) => {
-        setShowRiseAndShine(e.target.checked);
-    };
-    const handleRegNoOrNameChange = (e) => {
-        setRegNoOrName(e.target.value);
-    };
-
+    }
     return ( 
         <Container>
         <br></br>
@@ -146,6 +138,8 @@ const StudentRecords = () => {
                     />
                 </Typography>
             </Grid>
+            
+
             </Grid>
             </Container>
        )

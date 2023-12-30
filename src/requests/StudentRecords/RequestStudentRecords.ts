@@ -40,7 +40,16 @@ export const GetTeachersList =
         (data: IGetAllStudentStatusBody): AppThunk =>
             async (dispatch) => {
                 const response = await StudentRecordsApi.AllStudentStatus(data);
-               dispatch(StudentRecordsSlice.actions.GetStudentStatus(response.data));
+                let StudentList = response.data.map((item)=>{
+                    return {Id:item.SchoolWiseStudentId,
+                    Text1:item.RegNo,
+                    Text2:item.RollNo,
+                    Text3:item.Class,
+                    Text4:item.Name,
+                    Text5: item.ReadyToSubmitCount==0?"":"Unread-" + item.ReadyToSubmitCount.toString()
+                }
+                  })
+               dispatch(StudentRecordsSlice.actions.GetStudentStatus(StudentList));
             };
     
 export default StudentRecordsSlice.reducer

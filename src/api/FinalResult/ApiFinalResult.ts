@@ -9,7 +9,7 @@ const ClassTeacherList=
 
 const GetStudentResult=
 (data:IGetPagedStudentBody) => {
-    return http.post<IGetPagedStudentResult>('Homework/GetPagedStudentResult', data)
+    return http.post<IGetPagedStudentResult[]>('Homework/GetPagedStudentResult', data)
 };
 
  
