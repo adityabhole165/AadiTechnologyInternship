@@ -11,10 +11,20 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { Box, Container, Grid, Typography } from '@mui/material'
 import DropdownNew from 'src/libraries/dropdown/DropdownNew'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
+import DynamicList2 from 'src/libraries/list/DynamicList2'
+import EditIcon from '@mui/icons-material/Edit';
 const FinalResult = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState("0");
-
+    const HeaderList = ["Roll No.","Student Name","Marks","Percentage",
+    "Grade Name","View"]
+    const IconList = [
+        {
+          Id: 1,
+          Icon: (<EditIcon />),
+          Action: "Edit"
+        },
+      ]
     // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     // const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
@@ -49,13 +59,10 @@ const FinalResult = () => {
 
         setSelectTeacher(value)
     }
+    const ClickItem = (value) => {
 
-    // const HeaderList = [
-    //     { Id: 1, Header: 'Class' },
-    //     { Id: 2, Header: 'Subject' },
-    //     { Id: 3, Header: 'Edit' },
-    //     { Id: 4, Header: 'Sumbit' }
-    //   ];
+    }
+    
     return (
         <Container>
             <br></br>
@@ -105,8 +112,8 @@ const FinalResult = () => {
                     </ButtonPrimary>
                 </Grid>
             </Grid>
-             {/* <DynamicList HeaderList={HeaderList} ItemList={""}
-        IconList={""} ClickItem={""} />  */}
+              <DynamicList2 HeaderList={HeaderList} ItemList={GetStudentLists}
+        IconList={IconList} ClickItem={ClickItem} />  
         </Container>
     )
 }
