@@ -61,7 +61,7 @@ export interface IGetPagedStudentResult{
     Is_ResultGenrated:string,
     Total_Marks_Scored: number,
     Total_Marks: number,
-    Marks: number,
+    Marks: string,
     Percentage: string,
     Grade_Name: string,
     Status:string

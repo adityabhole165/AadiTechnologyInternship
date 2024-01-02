@@ -5,32 +5,36 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ClassTechersList, GetStudentResultList } from 'src/requests/FinalResult/RequestFinalResult'
 import { RootState } from 'src/store'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-//import DynamicList from 'src/libraries/list/DynamicList'
-
-
 import { Box, Container, Grid, Typography } from '@mui/material'
-import DropdownNew from 'src/libraries/dropdown/DropdownNew'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import EditIcon from '@mui/icons-material/Edit';
+import AddBoxTwoToneIcon from '@mui/icons-material/AddBoxTwoTone';
 const FinalResult = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState();
-    
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUpdatedById = localStorage.getItem('Id');
-    const Id = Number(sessionStorage.getItem('Id'));
+    const TeacherId = Number(sessionStorage.getItem('TeacherId'));
+    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
-    const HeaderList = ["Roll No.","Student Name","Marks","Percentage",
-    "Grade Name","View"]
+    const HeaderList = ["Roll No.", "Student Name", "Marks", "Percentage",
+        "Grade Name","Generate", "View"]
     const IconList = [
+
         {
-          Id: 1,
-          Icon: (<EditIcon />),
-          Action: "Edit"
+            Id: 1,
+            Icon: (<AddBoxTwoToneIcon />),
+            Action: "AddBoxTwoToneIcon"
         },
-      ]
+
+        {
+            Id: 2,
+            Icon: (<EditIcon />),
+            Action: "Edit"
+        },
+    ]
     // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     // const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
@@ -44,33 +48,34 @@ const FinalResult = () => {
     useEffect(() => {
         dispatch(ClassTechersList(ClassTeachersBody))
     }, [])
-    
+
 
     useEffect(() => {
-        if(SelectTeacher!="0")
-        dispatch(GetStudentResultList(PagedStudentBody))
+        if (SelectTeacher != "0")
+            dispatch(GetStudentResultList(PagedStudentBody))
     }, [SelectTeacher])
 
     const ClassTeachersBody: IClassTeacherListBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId
     }
-      const PagedStudentBody: IGetPagedStudentBody = {
-        asSchoolId: asSchoolId.toString(),
-        asAcademicyearId: asAcademicYearId.toString(),
-        asStandardDivisionId: SelectTeacher,
-        SortExp: "ORDER BY Roll_No" ,
-        prm_StartIndex: 1,
-        PageSize: 20
+    const PagedStudentBody: IGetPagedStudentBody = {
+        
+            asSchoolId:asSchoolId.toString(),
+            asAcademicyearId:asAcademicYearId.toString(),
+            asStandardDivisionId:SelectTeacher,
+            SortExp:"ORDER BY Roll_No" ,
+            prm_StartIndex:0,
+            PageSize:20
+         
     }
     const clickTeacherDropdown = (value) => {
-
         setSelectTeacher(value)
     }
     const ClickItem = (value) => {
 
     }
-    
+
     return (
         <Container>
             <br></br>
@@ -81,7 +86,7 @@ const FinalResult = () => {
             <Grid container spacing={1} alignItems="center">
                 <Grid item xs={3}>
                     <Typography margin={'1px'}>
-                        <b>Select Teacher:</b>
+                        <b>Select Class Teacher:</b>
                     </Typography>
                 </Grid>
                 <Grid item xs={3} >
@@ -101,8 +106,10 @@ const FinalResult = () => {
                 </Grid>
                 <br></br>
                 <br></br>
-                <DynamicList2 HeaderList={HeaderList} ItemList={GetStudentLists}
-        IconList={IconList} ClickItem={ClickItem} /> 
+                {GetStudentLists != undefined &&
+                    <DynamicList2 HeaderList={HeaderList} ItemList={GetStudentLists}
+                        IconList={IconList} ClickItem={ClickItem} />
+                }
                 <Grid item xs={12} >
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
                         Generate All
@@ -118,7 +125,7 @@ const FinalResult = () => {
                     </ButtonPrimary>
                 </Grid>
             </Grid>
- 
+
         </Container>
     )
 }
