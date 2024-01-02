@@ -119,6 +119,11 @@ const TAttendance = () => {
         (state: RootState) => state.AttendanceList.DeleteAttendance
     );
 
+    const getAssignedDateStatus = () => {
+        let a = listAttendanceCalender.filter((item)=> item.Value == assignedDate)
+        return a.length>0?a[0].Text3:""
+    }
+
 
     const ClassTeacherDropdown = useSelector((state: RootState) => state.AttendanceList.ClassTeacherList)
     console.log("ClassTeacherDropdown", ClassTeacherDropdown)
@@ -246,6 +251,7 @@ const TAttendance = () => {
 
     const getCurrentDate = (newDate?: Date) => {
         setAssignedDate(getDateFormatted(newDate));
+        
     };
 
     const popupateDate = () => {
@@ -396,11 +402,12 @@ const TAttendance = () => {
                         <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
 
                     </Grid>
+                    {getAssignedDateStatus() == "Done" &&
 
                     <Grid item xs={1}>
                         <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} fullWidth > Delete  </ButtonPrimary>
                     </Grid>
-
+}
                 </Grid>
 
             </Hidden>
@@ -475,11 +482,13 @@ const TAttendance = () => {
                                         <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
 
                                     </Grid>
+                                    {getAssignedDateStatus() == "Done" &&
                                     <Hidden mdDown>
                                     <Grid item xs={3}>
                                         <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} fullWidth > Delete  </ButtonPrimary>
                                     </Grid>
-                                </Hidden>
+                                    </Hidden>
+                                }
 
                            
                                     <Grid item xs={5}>

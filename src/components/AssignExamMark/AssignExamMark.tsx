@@ -88,12 +88,11 @@ const AssignExamMark = () => {
   const GetAssignClassWiseExam: IClasswiseExamDropdownBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: asStandardDivisionId
+    asStandardDivisionId: selectClass
   };
 
   useEffect(() => {
     dispatch(GetAssignExamMarkList(GetAssignExam));
-    dispatch(GetClassWiseExam(GetAssignClassWiseExam));
   }, []);
 
   useEffect(() => {
@@ -101,6 +100,11 @@ const AssignExamMark = () => {
       SetSelectClass(ClassDropdown[0].Value);
     }
   }, [ ClassDropdown]);
+
+
+  useEffect(() => {
+    dispatch(GetClassWiseExam(GetAssignClassWiseExam));
+  }, [ selectClass]);
 
 
   useEffect(() => {
@@ -134,11 +138,14 @@ const AssignExamMark = () => {
   }, [UsSubmitMarksTeacher]);
 
   useEffect(() => {
+    console.log(selectClass,"selectClass");
+    
     dispatch(GetSubjectList(GetSubjectListtClass));
   }, [selectClass, ClassWiseExam]);
 
   const onClickClass = (value) => {
     SetSelectClass(value);
+    
   };
 
   const clickClassWiseExam = (value) => {
