@@ -15,11 +15,10 @@ import DynamicList2 from 'src/libraries/list/DynamicList2'
 import EditIcon from '@mui/icons-material/Edit';
 const FinalResult = () => {
     const dispatch = useDispatch();
-    const [SelectTeacher, setSelectTeacher] = useState("0");
+    const [SelectTeacher, setSelectTeacher] = useState();
     
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const asUpdatedById = localStorage.getItem('Id');
     const Id = Number(sessionStorage.getItem('Id'));
 
@@ -45,8 +44,10 @@ const FinalResult = () => {
     useEffect(() => {
         dispatch(ClassTechersList(ClassTeachersBody))
     }, [])
+    
 
     useEffect(() => {
+        if(SelectTeacher!="0")
         dispatch(GetStudentResultList(PagedStudentBody))
     }, [SelectTeacher])
 
@@ -54,12 +55,12 @@ const FinalResult = () => {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId
     }
-    const PagedStudentBody: IGetPagedStudentBody = {
+      const PagedStudentBody: IGetPagedStudentBody = {
         asSchoolId: asSchoolId.toString(),
         asAcademicyearId: asAcademicYearId.toString(),
         asStandardDivisionId: SelectTeacher,
         SortExp: "ORDER BY Roll_No" ,
-        prm_StartIndex: 0,
+        prm_StartIndex: 1,
         PageSize: 20
     }
     const clickTeacherDropdown = (value) => {
@@ -98,29 +99,26 @@ const FinalResult = () => {
                         Toppers
                     </ButtonPrimary>
                 </Grid>
+                <br></br>
+                <br></br>
+                <DynamicList2 HeaderList={HeaderList} ItemList={GetStudentLists}
+        IconList={IconList} ClickItem={ClickItem} /> 
                 <Grid item xs={12} >
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
                         Generate All
                     </ButtonPrimary>
-                </Grid>
-                <Grid item xs={12}>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
                         View Result All
                     </ButtonPrimary>
-                </Grid>
-                <Grid item xs={12}>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
                         Publish
                     </ButtonPrimary>
-                </Grid>
-                <Grid item xs={12}>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
                         Unpublish
                     </ButtonPrimary>
                 </Grid>
             </Grid>
-              <DynamicList2 HeaderList={HeaderList} ItemList={GetStudentLists}
-        IconList={IconList} ClickItem={ClickItem} />  
+ 
         </Container>
     )
 }

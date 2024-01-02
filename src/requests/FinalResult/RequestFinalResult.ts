@@ -55,7 +55,7 @@ export const GetStudentResultList =
     (data: IGetPagedStudentBody): AppThunk =>
         async (dispatch) => {
             const response = await FinalResultApi.GetStudentResult(data);
-            let StudentList = response.data.map((item)=>{
+            let StudentList = response.data?.map((item)=>{
               return {Id:item.SchoolWise_Student_Id,
               Text1:item.Roll_No,
               Text2:item.Name,
