@@ -10,6 +10,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import EditIcon from '@mui/icons-material/Edit';
 import AddBoxTwoToneIcon from '@mui/icons-material/AddBoxTwoTone';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 const FinalResult = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState();
@@ -19,14 +20,14 @@ const FinalResult = () => {
     const TeacherId = Number(sessionStorage.getItem('TeacherId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
 
-    const HeaderList = ["Roll No.", "Student Name", "Marks", "Percentage",
-        "Grade Name","Generate", "View"]
+    const HeaderList = ["Roll No.", "Student Name", "Total", "%",
+        "Grade","Result","Generate", "View","Grace"]
     const IconList = [
 
         {
             Id: 1,
-            Icon: (<AddBoxTwoToneIcon />),
-            Action: "AddBoxTwoToneIcon"
+            Icon: (<AssignmentIcon />),
+            Action: "AssignmentIcon"
         },
 
         {

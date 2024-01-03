@@ -62,7 +62,9 @@ export const GetStudentResultList =
               Text2:item.Name,
               Text3:item.Marks,
               Text4:item.Percentage,
-              Text5:item.Grade_Name
+              Text5:item.Grade_Name,              
+              Text6:item.Result,
+
             }
             })
            dispatch(FinalResultSlice.actions.PageStudentList(StudentList));

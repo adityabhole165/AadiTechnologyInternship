@@ -92,6 +92,10 @@ const DynamicList2 = ({ HeaderList, ItemList,
                                     item.Text5 != undefined &&
                                     <TableCell align="center">{item.Text5}</TableCell>
                                 }
+                                {
+                                    item.Text6 != undefined &&
+                                    <TableCell align="center">{item.Text6}</TableCell>
+                                }
                                 
                                 {IconList?.map((obj, i) => {
                                     return (
