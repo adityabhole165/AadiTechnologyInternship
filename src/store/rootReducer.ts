@@ -76,6 +76,7 @@ import AssignPrePrimaryGradesSlice from 'src/requests/AssignPrePrimaryGrades/Req
 import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks'
 import FinalResultSlice from 'src/requests/FinalResult/RequestFinalResult'
 import StudentRecordsSlice from'src/requests/StudentRecords/RequestStudentRecords'
+import FinalResultToppersSlice from 'src/requests/FinalResult/RequestFinalResultToppers'
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -156,7 +157,8 @@ const rootReducer = combineReducers({
     AssignPrePrimaryGrades:AssignPrePrimaryGradesSlice,
     ProgressRemarkSlice:ProgressRemarkSlice,
     FinalResult:FinalResultSlice,
-    StudentRecords:StudentRecordsSlice
+    StudentRecords:StudentRecordsSlice,
+    FinalResultToppers:FinalResultToppersSlice
 });
 
 export default rootReducer;

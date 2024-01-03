@@ -489,6 +489,15 @@ const DashboardData = {
         index: 36,
       },
       {
+        Text1: 'FinalResult ',
+        Text2: 'Toppers',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/FinalResultToppers',
+        index: 38,
+      },
+      {
         Text1: 'Student ',
         Text2: 'Records ',
         Color: '#81c784',

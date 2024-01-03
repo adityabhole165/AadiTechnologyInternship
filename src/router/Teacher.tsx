@@ -35,6 +35,7 @@ const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPre
 const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/ProgressRemarks')))
 const FinalResult=Loader(lazy(()=>import('src/components/FinalResult/FinalResult')))
 const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/StudentRecords')))
+const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/FinalResultToppers')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -154,6 +155,10 @@ const teacherRoutes = [
       path: 'AddDailyLog/:Id/:ClassName',
       element: <AddDailyLog/>
     },
+    {
+      path:'FinalResultToppers',
+      element:<FinalResultToppers/>
+    }
 
     
 
