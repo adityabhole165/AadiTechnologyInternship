@@ -105,6 +105,27 @@ const ExamResultBase = () => {
   }
 
 
+  const getExamName = () => {
+    let ExamName = ""
+    AllTestsForClass.map((item)=>{
+        if(item.Value == TestId)
+        ExamName = item.Name
+    })
+    return ExamName;
+  }
+
+  const getTeacherName = () => {
+    let TeacherName = ""
+    ClassTeachers.map((item)=>{
+        if(item.Value == StandardDivisionId)
+        TeacherName = item.Name
+    })
+    return TeacherName;
+  }
+  const onClickUnpublish= (value) => {
+    navigate('/extended-sidebar/Teacher/ExamResultUnpublish/'+TestId+'/'+StandardDivisionId+'/'+getExamName()+'/'+getTeacherName());
+  }
+
   return (
     <Container>
       <PageHeader heading={'Exam Results'} subheading={''} />
@@ -144,7 +165,7 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary">VIEW PROGRESS REPORT</Button>
         <Button variant="contained" color="primary">GENERATE TOPPERS</Button>
         <Button variant="contained" color="primary">PUBLISH</Button>
-        <Button variant="contained" color="primary">UNPUBLISH</Button>
+        <Button onClick={onClickUnpublish} variant="contained" color="primary">UNPUBLISH</Button>
         <Button variant="contained" color="primary" onClick={ProgressRemark}>Progress Remarks</Button>
         <Button variant="contained" color="primary"  >Transfer Optional Subject Marks</Button>
         <Button variant="contained" color="primary" onClick={TermwiseHighwight}>Termwise Height-Weight</Button>

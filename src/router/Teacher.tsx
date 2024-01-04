@@ -36,6 +36,8 @@ const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/
 const FinalResult=Loader(lazy(()=>import('src/components/FinalResult/FinalResult')))
 const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/StudentRecords')))
 const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/FinalResultToppers')))
+const ExamResultUnpublish=Loader(lazy(()=>import('src/components/ExamResultUnpublish/ExamResultUnpublish')))
+
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -158,8 +160,15 @@ const teacherRoutes = [
     {
       path:'FinalResultToppers',
       element:<FinalResultToppers/>
-    }
-
+    },
+    {
+      path: 'ExamResultUnpublish',
+      element: <ExamResultUnpublish/>
+    },
+    {
+      path: 'ExamResultUnpublish/:ExamId/:TeacherId/:ExamName/:TeacherName',
+      element: <ExamResultUnpublish/>
+    },
     
 
 

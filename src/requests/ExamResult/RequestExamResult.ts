@@ -50,7 +50,7 @@ export const getClassTeachers =
       const ClassTeachersList =
         response.data.map((item, index) => {
           return {
-            Id: index,
+            Id: item.SchoolWise_Standard_Division_Id,
             Name: item.TeacherName,
             Value: item.SchoolWise_Standard_Division_Id
           }
@@ -67,7 +67,7 @@ export const getAllTestsForClass =
       const AllTestsForClass =
         response.data.map((item, index) => {
           return {
-            Id: index,
+            Id: item.SchoolwiseTestId,
             Name: item.SchoolwiseTestName,
             Value: item.SchoolwiseTestId
           }

@@ -77,6 +77,8 @@ import ProgressRemarkSlice from 'src/requests/ProgressRemarks/ReqProgressRemarks
 import FinalResultSlice from 'src/requests/FinalResult/RequestFinalResult'
 import StudentRecordsSlice from'src/requests/StudentRecords/RequestStudentRecords'
 import FinalResultToppersSlice from 'src/requests/FinalResult/RequestFinalResultToppers'
+import UnPublishTestSlice from'src/requests/ExamResultUnpublish/RequestExamResultUnpublish'
+
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -158,7 +160,8 @@ const rootReducer = combineReducers({
     ProgressRemarkSlice:ProgressRemarkSlice,
     FinalResult:FinalResultSlice,
     StudentRecords:StudentRecordsSlice,
-    FinalResultToppers:FinalResultToppersSlice
+    FinalResultToppers:FinalResultToppersSlice,
+    unpublishtest:UnPublishTestSlice
 });
 
 export default rootReducer;

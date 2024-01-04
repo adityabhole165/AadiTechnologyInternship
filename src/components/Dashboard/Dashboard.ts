@@ -462,7 +462,17 @@ const DashboardData = {
     ],
     items2:[
       {
-        Text1: 'Event ',
+        Text1: 'ExamResult  ',
+        Text2: 'Unpublish',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/ExamResultUnpublish',
+        index: 15,
+      },
+
+      {
+        Text1: 'Event ', 
         Text2: 'Manegement ',
         Color: '#81c784',
         iconColor: '#424242',

@@ -3,6 +3,7 @@ import { AppThunk } from 'src/store';
 import DailyLogApi from 'src/api/AddDailyLog/ApiAddDailyLog';
 import { ISaveDailyLogBody ,IGetAllHomeworkDailyLogsBody,IGetHomeworkDailyLogBody,IDeleteHomeworkDailyLogBody,IPublishUnpublishHomeworkDailylogBody} from "src/interfaces/AddDailyLog/IAddDailyLog";
 import {  getDateMonthYearFormatted  } from 'src/components/Common/Util';
+import { log } from 'console';
 
 
 const DailyLogSlice = createSlice({
@@ -12,10 +13,10 @@ const DailyLogSlice = createSlice({
         GetAllHomework:[],
         GetHomeworkDailyLog:[],
         DeleteHomework:"",
-        ResetDailyLog : "",
+        ResetDelete : "",
         FilePath:"",
-        PublishUnpublish:""
-        
+        PublishUnpublish:"",
+        ISGetfile:""
     },
 
     reducers: {
@@ -31,8 +32,8 @@ const DailyLogSlice = createSlice({
         deletedailylog(state, action) {
             state.DeleteHomework = action.payload;
         },
-        ResetDeletedLog (state) {
-            state.ResetDailyLog = "";
+        ResetDeleteLog (state) {
+            state.ResetDelete = "";
         },
         resetFilepath (state) {
             state.FilePath = "";
@@ -40,6 +41,12 @@ const DailyLogSlice = createSlice({
         PublishUnpublishHomework(state, action) {
             state.PublishUnpublish = action.payload;
         },
+
+        RGetfile(state, action) {
+          state.ISGetfile = action.payload;
+      },
+
+        
     }
 });
 export const Savedailylog =
@@ -55,14 +62,27 @@ export const Savedailylog =
         let responseData = response.data.map((item) => {
      
             return{
-            
+              Id: item.Id,
                 Text1: getDateMonthYearFormatted(item.Date),
                 Text2: item.AttchmentName,
                 Text3: item.IsPublished
             }
         })
 
+
+        let GetFile = response.data.map((item) => {
+     
+          return{
+              Id: item.Id,
+              Text1: item.AttchmentName,
+          }
+      })
+
+
         dispatch(DailyLogSlice.actions.getalldailylog(responseData));
+        dispatch(DailyLogSlice.actions.RGetfile(GetFile));
+      
+        
     };
 
     export const getdailylog =
@@ -88,10 +108,10 @@ export const Savedailylog =
       dispatch(DailyLogSlice.actions.deletedailylog(response.data))
     }
     
-    export const ResetDeletedLog =
+    export const ResetDeleteLog =
   (): AppThunk =>
     async (dispatch) => {
-      dispatch(DailyLogSlice.actions.ResetDeletedLog())
+      dispatch(DailyLogSlice.actions.ResetDeleteLog())
     }
 
     export const PublishUnpublishHomework =
