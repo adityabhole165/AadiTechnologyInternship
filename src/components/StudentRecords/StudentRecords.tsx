@@ -13,21 +13,22 @@ import DynamicList2 from 'src/libraries/list/DynamicList2';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 const StudentRecords = () => {
     const dispatch = useDispatch();
-    const [SelectTeacher, setSelectTeacher] = useState();
+    const [SelectTeacher, setSelectTeacher] = useState("0");
     const [StudentStatusList, setStudentStatusList] = useState([])
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
-    const [regNoOrName, setRegNoOrName] = useState('');
+    const [regNoOrName, setRegNoOrName] = useState("");
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+    const TeacherId = Number(sessionStorage.getItem('TeacherId'));
     const asUpdatedById = localStorage.getItem('Id');
     const Id = Number(sessionStorage.getItem('Id'));
 
     const GetTeachers = useSelector((state: RootState) => state.StudentRecords.ClassTeachers);
-   // console.log("GetTeachers",GetTeachers);
-    const GetStatusStudents = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
-    console.log(GetStatusStudents,"GetStatusStudents");
+   console.log(GetTeachers,"GetTeachers");
+    const GetStatusStudents: any = useSelector((state: RootState) => state.StudentRecords.StudentStatus);
+    // console.log(GetStatusStudents,"GetStatusStudents");
     const HeaderList = ["Registration Number", "Roll No.", "Class", "Name", "Action For Me", "Action"]
     const IconList = [{
             Id: 1,
@@ -37,63 +38,74 @@ const StudentRecords = () => {
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
     }, [])
+    // useEffect(() => {        
+    //     if(SelectTeacher!="0")
+    //     dispatch(GetAllStudentStatuss(GetStudentStatusBody))
+    // }, [SelectTeacher])
+    
     useEffect(() => {        
+        if(SelectTeacher!="0")
         dispatch(GetAllStudentStatuss(GetStudentStatusBody))
     }, [SelectTeacher])
-    useEffect (()=>{
-        dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-    },[])
+    
     useEffect(() => {
-        setStudentStatusList(GetStatusStudents)
-    }, [GetStatusStudents])
-
+        if(GetTeachers.length>0)
+        setSelectTeacher(GetTeachers[0].Value)
+    }, [GetTeachers])
+   
+    
 
     const TeachersBody: IGetTeacherListBody = {
-        "asSchoolId":asSchoolId ,
-        "asAcademicYearId": asAcademicYearId,
-        "asUserId": Id,
-        "HasFullAccess": "false"
+         asSchoolId:asSchoolId,
+        asAcademicYearId:asAcademicYearId,
+        asUserId:Id,
+        HasFullAccess:"false"
+      
+      
+      
     }
     const GetStudentStatusBody:IGetAllStudentStatusBody={
-
-    "asSchoolId":"18",
-   "asAcademicYearId":"54",
-   "asStdDivId":SelectTeacher,
-   "asFilter":" ",
-   "sortExpression":"",
-   "sortDirection":"ASC",
-   "StartIndex":0,
-   "EndIndex":20,
-   "ShowSaved":true,
-   "IncludeRiseAndShine":false,
-   "HasEditAccess":"N",
-   "UserId":4463
+        asSchoolId:asSchoolId.toString(),
+        "asAcademicYearId":asAcademicYearId.toString(),
+        "asStdDivId":SelectTeacher,
+        "asFilter":regNoOrName.toString(),
+        "sortExpression":"",
+        "sortDirection":"ASC",
+        "StartIndex":0,
+        "EndIndex":20,
+        "ShowSaved":true,
+        "IncludeRiseAndShine":showRiseAndShine,
+        "HasEditAccess":"N",
+        "UserId":Id
     }
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
     const clickSearch = (value) => {
-        if (value == "") {
-
-            setStudentStatusList(GetStatusStudents)
-        } else {
-            setStudentStatusList(StudentStatusList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
-        }
+        //  setShowRiseAndShine(value)
+        //  setSelectTeacher(value)
+        //  setRegNoOrName(value)
+        dispatch(GetAllStudentStatuss(GetStudentStatusBody))
+      
     }
+       
     const ClickItem = () =>{
 
     }
     const handleRegNoOrNameChange = (value) =>{
-
+        setRegNoOrName(value)
     }
     const handleCheckboxChange = (value) =>{
 setShowRiseAndShine(value)
     }
+
+
     return ( 
         <Container>
         <br></br>
         <br></br>
-
+<br></br>
+<br></br>
         <Grid container spacing={10} alignItems="center">
             <Grid item xs={2}>
                 <Typography marginLeft={'1px'}>
@@ -105,7 +117,7 @@ setShowRiseAndShine(value)
                     <DropDown
                             itemList={GetTeachers}
                             ClickItem={clickTeacherDropdown}
-                            Label={SelectTeacher} 
+                            Label={""} 
                             DefaultValue={SelectTeacher}                    />
                 </Box>
             </Grid>
@@ -116,9 +128,7 @@ setShowRiseAndShine(value)
             </Grid>
             <Grid item xs={2} >
             <TextField label=""
-                    value={""}
-                    variant="standard"
-                    onChange={handleRegNoOrNameChange}
+                    value={regNoOrName} onChange={(e) => { handleRegNoOrNameChange(e.target.value) }} fullWidth
                     /><br></br>
 
             </Grid>
@@ -139,8 +149,10 @@ setShowRiseAndShine(value)
                 </Typography>
             </Grid>
             <Grid item xs={12}>
+                {GetStatusStudents != undefined &&
                 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
                 ClickItem={ClickItem} IconList={IconList}/>
+            }
             </Grid>
 
             </Grid>
