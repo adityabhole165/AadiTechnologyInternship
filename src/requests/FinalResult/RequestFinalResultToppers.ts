@@ -72,7 +72,20 @@ export const ClassdropdownList =
                 (data:IGetClassToppersListBOdy): AppThunk =>
                     async (dispatch) => {
                         const response = await FinalResultToppersApi.ClassToppersList(data)
-                        dispatch(FinalResultToppersSlice.actions.ToppersList(response.data))
+                        console.log(response,"abc-------------------");
+
+                         let abc = response.data.GetTopperList.map((item, i) => {
+                             return {
+                               Text1: item.Student_Name,
+                               Text2: item.Total_Marks,
+                               Text3: item.Marks_Scored,
+                               Text4: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~",""),
+                             }                
+                           })
+                        dispatch(FinalResultToppersSlice.actions.ToppersList(abc))
+                        
                     };
+                        
+                    
                  
 export default FinalResultToppersSlice.reducer

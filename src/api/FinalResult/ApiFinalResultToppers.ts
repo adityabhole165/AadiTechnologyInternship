@@ -15,7 +15,7 @@ const ClassSubjectDropdown=
 };
 const ClassToppersList=
 (data:IGetClassToppersListBOdy)=>{
-    return http.post<IGetClassToppersListResult[]>('Teacher/GetClassTopperList',data)
+    return http.post<IGetClassToppersListResult>('Teacher/GetClassTopperList',data)
 };
 const FinalResultToppersApi={
     ClassDropdown,

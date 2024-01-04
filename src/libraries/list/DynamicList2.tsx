@@ -86,7 +86,7 @@ const DynamicList2 = ({ HeaderList, ItemList,
                                 }
                                 {
                                     item.Text4 != undefined &&
-                                    <TableCell align="center">{item.Text4}</TableCell>
+                                    <TableCell align="center"><img src={item.Text4}/></TableCell>
                                 }
                                 {
                                     item.Text5 != undefined &&

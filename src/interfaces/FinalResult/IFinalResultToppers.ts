@@ -1,3 +1,5 @@
+import { string } from "prop-types"
+
 export interface IGetClassDropdownBody {
     asSchoolId: number,
     asAcademicYearId: number
@@ -40,13 +42,32 @@ export interface IGetClassToppersListBOdy {
     asSubjectId: number
 }
 export interface IGetClassToppersListResult {
-    TopperRank: string,
-    Rank_Image: string,
-    Student_Id: string,
-    Roll_No: string,
-    Student_Name: string,
-    Marks_Scored: string,
-    Total_Marks: string,
-    Marks: string,
-    Standard: string
+
+    GetTopperList: [{
+        TopperRank: string,
+        Rank_Image: string,
+        Student_Id: string,
+        Roll_No: string,
+        Student_Name: string,
+        Marks_Scored: string,
+        Total_Marks: string,
+        Marks: string,
+        Standard: string
+    }];
+    GetSelectedSubjectTopperList: [
+        {
+            TopperRank: string,
+            Rank_Image: string,
+            Student_Id: string,
+            Subject_Id: string,
+            Subject_Name: string,
+            Roll_No: string,
+            Student_Name: string,
+            Total_Marks_Scored: string,
+            Subject_Total_Marks: string,
+            Marks: string,
+            Standard: string
+        }
+    ]
+
 }

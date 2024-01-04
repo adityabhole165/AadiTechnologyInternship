@@ -5,12 +5,22 @@ import { IGetClassDropdownBody, IGetexamDropdownBody, IGetClassSubjectDropdownBo
 import { ClassdropdownList, ClassExamList, ClassSubjectList, ClassTopperList } from 'src/requests/FinalResult/RequestFinalResultToppers'
 import { RootState, useDispatch } from 'src/store';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
+import DynamicList2 from 'src/libraries/list/DynamicList2';
+import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
+
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
     const [SelectClass, setClass] = useState();
     const [SelectExam, setExam] = useState("0");
     const [SelectSubject, setSubject] = useState("0");
+    const [radioBtn, setRadioBtn] = useState("1");
+
+
+const RadioList = [{ Value: "1", Name: "Class Toppers" },
+  { Value: "2", Name: "Standard Toppers" }]
+
+    const HeaderList = ["Rank","Roll No.", "Student Name","Marks"]
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -50,14 +60,14 @@ const FinalResultToppers = () => {
         asStandardDivisionId: 1266
     }
     const SujectDropdownBody: IGetClassSubjectDropdownBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asSchoolId:18,
+        asAcademicYearId: 54,
         asStandardDivId: 1270,
         asExamId: 609
     }
     const ToppersListBody: IGetClassToppersListBOdy = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
+        asSchoolId:18,
+        asAcademicYearId: 54,
         asStandardDivId: 1270,
         asExamId: 609,
         asSubjectId: 2324
@@ -71,11 +81,24 @@ const FinalResultToppers = () => {
     const clickSubjectDropdown = (value) => {
         setSubject(value)
     }
+    const ClickRadio = (value) => {
+        setRadioBtn(value);
+        console.log(value)
+      }
+     
+    const ClickItem = () => {
+    
+    }
     return (
         <Container>
             <br></br>
             <br></br>
             <br></br>
+            <RadioButton1
+        Array={RadioList}
+        ClickRadio={ClickRadio}
+        defaultValue={radioBtn}
+        Label={""} />
             <Grid container spacing={1} alignItems="center">
                 <Grid item xs={6}>
                     <Typography margin={'1px'}>
@@ -122,6 +145,10 @@ const FinalResultToppers = () => {
                         />
                     </Box>
                 </Grid>
+                
+                  <DynamicList2 HeaderList={HeaderList} ItemList={GetToppersList}
+                        IconList={[]} ClickItem={ClickItem} />
+                 
                 </Grid>
                 </Container>
     )
