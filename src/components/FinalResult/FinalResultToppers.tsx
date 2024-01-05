@@ -7,7 +7,8 @@ import { RootState, useDispatch } from 'src/store';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
-
+import DynamicList from 'src/libraries/list/DynamicList';
+import PageHeader from 'src/libraries/heading/PageHeader';
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
@@ -20,12 +21,14 @@ const FinalResultToppers = () => {
 const RadioList = [{ Value: "1", Name: "Class Toppers" },
   { Value: "2", Name: "Standard Toppers" }]
 
-    const HeaderList = ["Rank","Roll No.", "Student Name","Marks"]
+    const HeaderList = ["Rank","Roll No.", "Student Name","Marks"];
+
+    //const HeaderList1 = ["Roll No.", "Student Name"];
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
+    const StandardDivisionId=Number(sessionStorage.getItem('StandardDivisionId'));
     const GetClassdropdown = useSelector((state: RootState) => state.FinalResultToppers.ClassDropdownList);
     console.log("GetClassdropdown", GetClassdropdown)
 
@@ -57,7 +60,7 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
     const ExamDropdownBody: IGetexamDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: 1266
+        asStandardDivisionId: StandardDivisionId
     }
     const SujectDropdownBody: IGetClassSubjectDropdownBody = {
         asSchoolId:18,
@@ -90,10 +93,13 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
     
     }
     return (
+        
         <Container>
             <br></br>
             <br></br>
             <br></br>
+            <PageHeader heading='Toppers' />
+
             <RadioButton1
         Array={RadioList}
         ClickRadio={ClickRadio}
@@ -148,7 +154,13 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
                 
                   <DynamicList2 HeaderList={HeaderList} ItemList={GetToppersList}
                         IconList={[]} ClickItem={ClickItem} />
+                        
+                 <br></br>
+                 <br></br>
                  
+                 {/* <DynamicList HeaderList={HeaderList1} ItemList={GetToppersList}
+                        IconList={[]} ClickItem={ClickItem} /> */}
+
                 </Grid>
                 </Container>
     )

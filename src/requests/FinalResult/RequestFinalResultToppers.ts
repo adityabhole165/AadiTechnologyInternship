@@ -10,7 +10,8 @@ const FinalResultToppersSlice = createSlice({
         ClassDropdownList: [],
         ExamDropdownList:[],
         SubjectDropdownList:[],
-        ClassToppers:[]
+        ClassToppers:[],
+        SubjectToppers:[]
     },
     reducers: {
         classList(state, action) {
@@ -25,6 +26,9 @@ const FinalResultToppersSlice = createSlice({
         ToppersList(state,action){
             state.ClassToppers=action.payload;
         },
+        SubjectToppersList(state,action){
+            state.SubjectToppers=action.payload;
+        }
     }
 })
 export const ClassdropdownList =
@@ -76,16 +80,25 @@ export const ClassdropdownList =
 
                          let abc = response.data.GetTopperList.map((item, i) => {
                              return {
-                               Text1: item.Student_Name,
-                               Text2: item.Total_Marks,
-                               Text3: item.Marks_Scored,
-                               Text4: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~",""),
+                               Text77: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~",""),
+                               Text2: item.Roll_No,
+                               Text3: item.Student_Name,
+                               Text4: item.Marks
                              }                
                            })
                         dispatch(FinalResultToppersSlice.actions.ToppersList(abc))
                         
-                    };
+                    
                         
+                    let xyz= response.data.GetSelectedSubjectTopperList.map((item, i) => {
+                        return {
+                          Text1: item.Roll_No,
+                          Text2: item.Student_Name,
+                        }                
+                      })
+                   dispatch(FinalResultToppersSlice.actions.SubjectToppersList(xyz))
+                   
+               };
                     
                  
 export default FinalResultToppersSlice.reducer

@@ -70,13 +70,13 @@ const DynamicList = ({ HeaderList, ItemList,
                                     return(<TableCell align="center" key={i}>{obj}</TableCell>)
                                 })
                                 }
-                                {/* {
+                                 {/* {
                                     (IsSelect > 0) &&
                                     <TableCell align="center">
                                         <Checkbox checked={item.IsActive}
                                             onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
                                     </TableCell>
-                                }
+                                } */}
                                 {
                                     item.Text1 != undefined &&
                                     <TableCell align="center">{item.Text1}</TableCell>
@@ -88,7 +88,7 @@ const DynamicList = ({ HeaderList, ItemList,
                                 {
                                     item.Text3 != undefined &&
                                     <TableCell align="center">{item.Text3}</TableCell>
-                                } */}
+                                } 
                                 {IconList?.map((obj, i) => {
                                     return (
                                         <TableCell align="center" key={i}

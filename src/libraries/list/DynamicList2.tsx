@@ -72,7 +72,13 @@ const DynamicList2 = ({ HeaderList, ItemList,
                                             onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
                                     </TableCell>
                                 } */}
-                                {
+
+
+{
+                                    item.Text77 != undefined &&
+                                    <TableCell align="center"><img src={item.Text77}/></TableCell>
+                                }
+                               {
                                     item.Text1 != undefined &&
                                     <TableCell align="center">{item.Text1}</TableCell>
                                 }
@@ -86,7 +92,7 @@ const DynamicList2 = ({ HeaderList, ItemList,
                                 }
                                 {
                                     item.Text4 != undefined &&
-                                    <TableCell align="center"><img src={item.Text4}/></TableCell>
+                                    <TableCell align="center">{item.Text4}</TableCell>
                                 }
                                 {
                                     item.Text5 != undefined &&

@@ -5,15 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ClassTechersList, GetStudentResultList } from 'src/requests/FinalResult/RequestFinalResult'
 import { RootState } from 'src/store'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { Box, Container, Grid, Typography } from '@mui/material'
+import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import EditIcon from '@mui/icons-material/Edit';
 import AddBoxTwoToneIcon from '@mui/icons-material/AddBoxTwoTone';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import PageHeader from 'src/libraries/heading/PageHeader'
+import { useNavigate } from 'react-router'
 const FinalResult = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [SelectTeacher, setSelectTeacher] = useState();
+    
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asUpdatedById = localStorage.getItem('Id');
@@ -76,6 +80,10 @@ const FinalResult = () => {
     const ClickItem = (value) => {
 
     }
+    const Toppers = (value) => {
+        navigate('/extended-sidebar/Teacher/FinalResultToppers' );
+      }
+    
 
     return (
         <Container>
@@ -83,7 +91,7 @@ const FinalResult = () => {
             <br></br>
             <br></br>
             <br></br>
-
+            <PageHeader heading='Final Result' />
             <Grid container spacing={1} alignItems="center">
                 <Grid item xs={3}>
                     <Typography margin={'1px'}>
@@ -101,9 +109,7 @@ const FinalResult = () => {
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Red' }}>
-                        Toppers
-                    </ButtonPrimary>
+                <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }} onClick={Toppers}> Toppers  </ButtonPrimary>
                 </Grid>
                 <br></br>
                 <br></br>
@@ -112,18 +118,10 @@ const FinalResult = () => {
                         IconList={IconList} ClickItem={ClickItem} />
                 }
                 <Grid item xs={12} >
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
-                        Generate All
-                    </ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
-                        View Result All
-                    </ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
-                        Publish
-                    </ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>
-                        Unpublish
-                    </ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Generate All</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>View Result All</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Publish</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Unpublish</ButtonPrimary>
                 </Grid>
             </Grid>
 
