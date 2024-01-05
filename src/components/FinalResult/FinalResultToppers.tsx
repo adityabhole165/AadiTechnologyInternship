@@ -9,6 +9,7 @@ import DynamicList2 from 'src/libraries/list/DynamicList2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import DynamicList from 'src/libraries/list/DynamicList';
 import PageHeader from 'src/libraries/heading/PageHeader';
+import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
@@ -23,7 +24,7 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
 
     const HeaderList = ["Rank","Roll No.", "Student Name","Marks"];
 
-    //const HeaderList1 = ["Roll No.", "Student Name"];
+    const HeaderList1 = ["Roll No.", "Student Name"];
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -41,12 +42,16 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
     const GetToppersList = useSelector((state: RootState) => state.FinalResultToppers.ClassToppers);
     console.log("GetToppersList", GetToppersList)
 
+    const GetSubjectToppersList = useSelector((state: RootState) => state.FinalResultToppers.SubjectToppers);
+    console.log("GetToppersList", GetToppersList)
+
+
     useEffect(() => {
         dispatch(ClassdropdownList(ClassDropdownBody))
     }, [])
     useEffect(() => {
         dispatch(ClassExamList(ExamDropdownBody))
-    }, [])
+    }, [SelectClass])
     useEffect(() => {
         dispatch(ClassSubjectList(SujectDropdownBody))
     }, [])
@@ -60,20 +65,20 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
     const ExamDropdownBody: IGetexamDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: StandardDivisionId
+        asStandardDivisionId: SelectClass
     }
     const SujectDropdownBody: IGetClassSubjectDropdownBody = {
         asSchoolId:18,
         asAcademicYearId: 54,
         asStandardDivId: 1270,
-        asExamId: 609
+        asExamId:609
     }
     const ToppersListBody: IGetClassToppersListBOdy = {
         asSchoolId:18,
         asAcademicYearId: 54,
         asStandardDivId: 1270,
-        asExamId: 609,
-        asSubjectId: 2324
+        asExamId:609,
+        asSubjectId:2324
     }
     const clickClassDropdown = (value) => {
         setClass(value)
@@ -155,8 +160,9 @@ const RadioList = [{ Value: "1", Name: "Class Toppers" },
                   <DynamicList2 HeaderList={HeaderList} ItemList={GetToppersList}
                         IconList={[]} ClickItem={ClickItem} />
                         
-                 <br></br>
-                 <br></br>
+                        <Container>
+                        <TableAttendace ItemList={GetSubjectToppersList} HeaderArray={HeaderList1} />
+                        </Container>
                  
                  {/* <DynamicList HeaderList={HeaderList1} ItemList={GetToppersList}
                         IconList={[]} ClickItem={ClickItem} /> */}

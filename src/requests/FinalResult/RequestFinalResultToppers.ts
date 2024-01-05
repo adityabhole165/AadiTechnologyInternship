@@ -37,9 +37,9 @@ export const ClassdropdownList =
             const response = await FinalResultToppersApi.ClassDropdown(data)
             let abc = response.data.map((item, i) => {
                 return {
-                  Id: item.Division_Name,
+                  Id: item.SchoolWise_Standard_Division_Id,
                   Name: item.StandardDivision,
-                  Value: item.Division_Name,
+                  Value: item.SchoolWise_Standard_Division_Id,
                 }                
               })  
             dispatch(FinalResultToppersSlice.actions.classList(abc))
