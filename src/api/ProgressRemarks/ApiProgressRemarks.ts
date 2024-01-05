@@ -10,7 +10,7 @@ import { IAllPrimaryClassTeachersBody,IAllPrimaryClassTeachersResult, IGetTestwi
   };
 
   const StudentswiseRemarkDetailsToExport = (data: IStudentswiseRemarkDetailsToExportBody) => {
-    return http.post<IStudentswiseRemarkDetailsToExportResult[]>('Teacher/GetStudentswiseRemarkDetailsToExport',data);
+    return http.post<IStudentswiseRemarkDetailsToExportResult>('Teacher/GetStudentswiseRemarkDetailsToExport',data);
   };
 
   const UpdateAllStudentsRemarkDetails = (data: IUpdateAllStudentsRemarkDetailsBody) => {

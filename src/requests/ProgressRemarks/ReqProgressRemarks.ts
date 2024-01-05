@@ -85,15 +85,18 @@ async (dispatch) => {
     export const CDAStudentswiseRemarkDetailsToExport = (data: IStudentswiseRemarkDetailsToExportBody): AppThunk =>
     async (dispatch) => {
         const response = await ApiProgressRemark. StudentswiseRemarkDetailsToExport(data);
-        // let ClassTeachers = response.data.map((item, i) => {
-        //     return {
-        //         Id: item.Teacher_Id,
-        //         Name: item.TeacherName,
-        //         Value: item.Teacher_Id,
-        //     }
-        // })
+        
+            const ExlFile = response.data.listStudentDetails.map((item, i)=>{
+            return {
+                ...item
+               
+        }
+    });
+        
 
-        dispatch(ProgressRemarkSlice.actions.RstudentswiseRemarkDetailsToExport(response.data));
+        dispatch(ProgressRemarkSlice.actions.RstudentswiseRemarkDetailsToExport(ExlFile));
+     
+        return response.data.listRemarkDetails;
     }
 
 
