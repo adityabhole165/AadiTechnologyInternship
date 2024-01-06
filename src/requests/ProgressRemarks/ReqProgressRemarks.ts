@@ -11,6 +11,8 @@ const ProgressRemarkSlice = createSlice({
     ISGetTestwiseTerm:[],
     ISGetClassTeachers:[],
     ISStudentswiseRemarkDetailsToExport:{},
+    ISStudentswiseRemarkDetailsToExport1:{},
+    ISStudentswiseRemarkDetailsToExport2:{},
     ISUpdateAllStudentsRemarkDetailsBody:"",
     ISStudentListDropDown:[],
     ISGetAllStudentswiseRemarkDetails:[]
@@ -28,6 +30,14 @@ const ProgressRemarkSlice = createSlice({
 
     RstudentswiseRemarkDetailsToExport  (state, action) {
         state.ISStudentswiseRemarkDetailsToExport = action.payload
+      },
+
+       RstudentswiseRemarkDetailsToExport1  (state, action) {
+        state.ISStudentswiseRemarkDetailsToExport1 = action.payload
+      },
+
+       RstudentswiseRemarkDetailsToExport2  (state, action) {
+        state.ISStudentswiseRemarkDetailsToExport2 = action.payload
       },
 
       RSUpdateAllStudentsRemarkDetailsBody  (state, action) {
@@ -90,13 +100,32 @@ async (dispatch) => {
             return {
                 ...item
                
-        }
-    });
+          }
+           });
+
+           const ExlFile1 = response.data.listRemarkDetails.map((item, i)=>{
+            return {
+                ...item
+               
+          }
+           });
+
+
+           const ExlFile2 = response.data.listTermDetails.map((item, i)=>{
+            return {
+                ...item
+               
+          }
+           });
         
 
         dispatch(ProgressRemarkSlice.actions.RstudentswiseRemarkDetailsToExport(ExlFile));
+        dispatch(ProgressRemarkSlice.actions.RstudentswiseRemarkDetailsToExport1(ExlFile1));
+        dispatch(ProgressRemarkSlice.actions.RstudentswiseRemarkDetailsToExport2(ExlFile2));
      
+        return response.data.listStudentDetails;
         return response.data.listRemarkDetails;
+        return response.data.listTermDetails;
     }
 
 
