@@ -37,7 +37,7 @@ const FinalResult=Loader(lazy(()=>import('src/components/FinalResult/FinalResult
 const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/StudentRecords')))
 const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/FinalResultToppers')))
 const ExamResultUnpublish=Loader(lazy(()=>import('src/components/ExamResultUnpublish/ExamResultUnpublish')))
-
+const AddHomework=Loader(lazy(()=>import('src/components/AssignHomework/AddHomework')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -169,7 +169,10 @@ const teacherRoutes = [
       path: 'ExamResultUnpublish/:ExamId/:TeacherId/:ExamName/:TeacherName',
       element: <ExamResultUnpublish/>
     },
-    
+    {
+      path: 'AddHomework',
+      element: <AddHomework/>
+    },
 
 
     ];

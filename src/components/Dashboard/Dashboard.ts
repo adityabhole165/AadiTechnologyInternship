@@ -439,7 +439,16 @@ const DashboardData = {
        
       },
 
-
+      {
+        Text1: 'AddHomework',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#f0483e ',
+        Icon: CakeIcon ,
+        Link: 'Teacher/AddHomework',
+        index: 27,
+       
+      },
 
       
 
