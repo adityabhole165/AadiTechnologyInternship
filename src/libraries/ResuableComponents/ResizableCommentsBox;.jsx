@@ -17,18 +17,12 @@ function ResizableCommentsBox({ ItemList, HeaderArray }) {
 
   const TextChange = (index, newText) => {
     const newTextValues = [...textValues];
-    const words = newText.split(/\s+/); // Split by any white spaces
-    if (words.length <= 300) {
       newTextValues[index] = newText;
       setTextValues(newTextValues);
-    }
+    
   };
 
-  const remainingWords = (text) => {
-    const words = text.split(/\s+/); // Split by any white spaces
-    return Math.max(300 - words.length, 0);
-  };
-
+  
   return (
     <div>
       <TableContainer component={Card}>
@@ -62,9 +56,7 @@ function ResizableCommentsBox({ ItemList, HeaderArray }) {
                     style={{ width: '100%' }}
                     rowsMax={10}
                   />
-                  <Typography variant="body2" color="textSecondary" align="right">
-                    Remaining words: {remainingWords(textValues[i])}
-                  </Typography>
+                
                 </TableCell>
               </TableRow>
             ))}
