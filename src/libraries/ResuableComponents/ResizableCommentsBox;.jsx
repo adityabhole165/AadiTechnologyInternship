@@ -54,7 +54,7 @@ function ResizableCommentsBox({ ItemList, HeaderArray }) {
                     value={textValues[i]}
                     onChange={(e) => TextChange(i, e.target.value)}
                     style={{ width: '100%' }}
-                    rowsMax={10}
+                    rowsMax={6}
                   />
                 
                 </TableCell>

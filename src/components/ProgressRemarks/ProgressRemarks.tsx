@@ -15,6 +15,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import Switch from '@mui/material/Switch';
 import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
+import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 
 
 const ProgressRemarks = () => {
@@ -217,18 +218,111 @@ const ProgressRemarks = () => {
   return (
     <>
       <PageHeader heading={'Progress Remarks'} subheading={''} />
-      <Switch
-        checked={showScreenOne}
-        onChange={() => setShowScreenOne(!showScreenOne)}
-        color="primary"
-      />
+      <Typography variant="h6" gutterBottom>
+    {showScreenOne ? 'Hide Notes' : ' Show Notes'}
+  </Typography>
+    
+
+      <IOSStyledSwitch  label={""} checked={showScreenOne} onChange={() => setShowScreenOne(!showScreenOne)}/>
       {showScreenOne ? (
 
         <Grid item xs={6}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Paper>
-                <Stack >
+                {/* <Stack >
+                  <DotLegendTeacher text="Left Students" color="error" />
+                </Stack>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.3}
+                    >
+                      Subject Teacher:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USClassTeachers}
+                      handleChange={clickSelectTerm}
+                      defaultValue={SelectTerm}
+                      label={''}
+                    />
+                    <br></br>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.5}
+                    >
+                      Term:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USGetTestwiseTerm}
+                      handleChange={clickSelectClass}
+                      defaultValue={selectTeacher}
+                      label={''}
+                    />
+
+                  </Grid>
+
+
+
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.5}
+                    >
+                      StudentList:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USStudentListDropDown}
+                      handleChange={clickStudentList}
+                      defaultValue={StudentList}
+                      label={''}
+                    />
+
+                  </Grid>
+
+
+                </Grid> */}
+
+                <Notes NoteDetail={Note1} Header={Hedaer1} />
+                <Notes NoteDetail={Note2} Header={Hedaer2} />
+                <Notes NoteDetail={Note3} Header={Hedaer3} />
+                <Notes NoteDetail={Note4} Header={Hedaer4} />
+                <Notes NoteDetail={Note5} Header={Hedaer5} />
+                <Box style={{ display: 'flex', justifyContent: 'center' }}>
+                  <ButtonPrimary
+                    onClick={ExamResult}
+                    variant="contained"
+                    style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
+                  >
+                    Back
+                  </ButtonPrimary>
+
+                  <ExportToExcel File1={StudentswiseRemarkDetails}   
+                  File2={StudentswiseRemarkDetails1} 
+                  File3={StudentswiseRemarkDetails2}/>
+                </Box>
+              </Paper>
+            </Grid>
+            <Grid item xs={6}>
+              <Paper>
+              <Stack >
                   <DotLegendTeacher text="Left Students" color="error" />
                 </Stack>
                 <Grid
@@ -297,30 +391,6 @@ const ProgressRemarks = () => {
 
 
                 </Grid>
-
-                <Notes NoteDetail={Note1} Header={Hedaer1} />
-                <Notes NoteDetail={Note2} Header={Hedaer2} />
-                <Notes NoteDetail={Note3} Header={Hedaer3} />
-                <Notes NoteDetail={Note4} Header={Hedaer4} />
-                <Notes NoteDetail={Note5} Header={Hedaer5} />
-                <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ButtonPrimary
-                    onClick={ExamResult}
-                    variant="contained"
-                    style={{ backgroundColor: 'red', color: 'white', marginRight: '10px' }}
-                  >
-                    Back
-                  </ButtonPrimary>
-
-                  <ExportToExcel File1={StudentswiseRemarkDetails}   
-                  File2={StudentswiseRemarkDetails1} 
-                  File3={StudentswiseRemarkDetails2}/>
-                </Box>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper>
-
                 <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
 
                 <br></br>
@@ -354,7 +424,76 @@ const ProgressRemarks = () => {
         <Grid item xs={6}>
           <Paper>
 
-            <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
+          <Stack >
+                  <DotLegendTeacher text="Left Students" color="error" />
+                </Stack>
+                <Grid
+                  container
+                  spacing={2}
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.3}
+                    >
+                      Subject Teacher:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USClassTeachers}
+                      handleChange={clickSelectTerm}
+                      defaultValue={SelectTerm}
+                      label={''}
+                    />
+                    <br></br>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.5}
+                    >
+                      Term:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USGetTestwiseTerm}
+                      handleChange={clickSelectClass}
+                      defaultValue={selectTeacher}
+                      label={''}
+                    />
+
+                  </Grid>
+
+
+
+                  <Grid item xs={2}>
+                    <Typography
+                      component={Box}
+                      sx={{ border: '1px solid black' }}
+                      p={0.5}
+                    >
+                      StudentList:
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={2}>
+                    <Dropdown
+                      Array={USStudentListDropDown}
+                      handleChange={clickStudentList}
+                      defaultValue={StudentList}
+                      label={''}
+                    />
+
+                  </Grid>
+
+
+                </Grid>
+                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
 
             <br></br>
 
