@@ -162,6 +162,10 @@ const teacherRoutes = [
       element:<FinalResultToppers/>
     },
     {
+      path:'FinalResultToppers/:TeacherId',
+      element:<FinalResultToppers/>
+    },
+    {
       path: 'ExamResultUnpublish',
       element: <ExamResultUnpublish/>
     },

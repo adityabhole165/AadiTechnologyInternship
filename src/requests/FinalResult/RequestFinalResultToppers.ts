@@ -52,9 +52,9 @@ export const ClassdropdownList =
                 const response = await FinalResultToppersApi.ClassExamDropdown(data)
                 let abc = response.data.map((item, i) => {
                     return {
-                      Id: item.Original_SchoolWise_Test_Id,
+                      Id: item.SchoolWise_Test_Id,
                       Name: item.SchoolWise_Test_Name,
-                      Value: item.Original_SchoolWise_Test_Id,
+                      Value: item.SchoolWise_Test_Id,
                     }                
                   })
                 dispatch(FinalResultToppersSlice.actions.ExamList(abc))
@@ -67,7 +67,7 @@ export const ClassdropdownList =
                         return {
                           Id: item.Subject_Id,
                           Name: item.Subject_Name,
-                          Value: item.Subject_Name,
+                          Value: item.Subject_Id,
                         }                
                       })
                     dispatch(FinalResultToppersSlice.actions.SubjectList(abc))

@@ -81,7 +81,7 @@ const FinalResult = () => {
 
     }
     const Toppers = (value) => {
-        navigate('/extended-sidebar/Teacher/FinalResultToppers' );
+        navigate('/extended-sidebar/Teacher/FinalResultToppers/'+SelectTeacher);
       }
     
 
