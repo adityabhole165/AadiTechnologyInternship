@@ -312,7 +312,9 @@ const ProgressRemarks = () => {
                     Back
                   </ButtonPrimary>
 
-                  <ExportToExcel File1={StudentswiseRemarkDetails} File2={StudentswiseRemarkDetails1} File3={StudentswiseRemarkDetails2} />
+                  <ExportToExcel File1={StudentswiseRemarkDetails}   
+                  File2={StudentswiseRemarkDetails1} 
+                  File3={StudentswiseRemarkDetails2}/>
                 </Box>
               </Paper>
             </Grid>

@@ -3,6 +3,8 @@ import ReactExport from 'react-export-excel';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 
 const ExportToExcel = ({ File1, File2=[], File3=[] }) => {
+  
+  
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
@@ -31,9 +33,9 @@ const ExportToExcel = ({ File1, File2=[], File3=[] }) => {
           ))}
       </ExcelSheet>
 
-      <ExcelSheet data={File3} name="Sheet2">
-        {File2.length > 0 &&
-          Object.keys(File2[0]).map((key) => (
+      <ExcelSheet data={File3} name="Sheet3">
+        {File3.length > 0 &&
+          Object.keys(File3[0]).map((key) => (
             <ExcelColumn key={key} label={key} value={key} />
           ))}
       </ExcelSheet>
