@@ -38,6 +38,7 @@ const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/Stude
 const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/FinalResultToppers')))
 const ExamResultUnpublish=Loader(lazy(()=>import('src/components/ExamResultUnpublish/ExamResultUnpublish')))
 const AddHomework=Loader(lazy(()=>import('src/components/AssignHomework/AddHomework')))
+const StandardToppers=Loader(lazy(()=>import('src/components/FinalResult/StandardToppers')))
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -164,6 +165,10 @@ const teacherRoutes = [
     {
       path:'FinalResultToppers/:TeacherId',
       element:<FinalResultToppers/>
+    },
+    {
+      path:'StandardToppers',
+      element:<StandardToppers/>
     },
     {
       path: 'ExamResultUnpublish',

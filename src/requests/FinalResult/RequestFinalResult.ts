@@ -21,22 +21,6 @@ const FinalResultSlice = createSlice({
         }
     }
 })
-// export const ClassTechersList =
-//     (data: IClassTeacherListBody): AppThunk =>
-//         async (dispatch) => {
-//             const response = await FinalResultApi.ClassTeacherList(data);
-
-//             let abc =response.data.map((item,i)=>{
-
-//                 return{
-//                     Id:item.Teacher_Id,
-//                     Name:item.TeacherName,
-//                     Value:item.Teacher_Id
-//                 }
-//             })
-//             dispatch(FinalResultSlice.actions.classTeacherList(abc));
-//         };
-
         export const ClassTechersList =
         (data: IClassTeacherListBody): AppThunk =>
           async (dispatch) => {

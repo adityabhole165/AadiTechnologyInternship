@@ -1,44 +1,33 @@
-import { string } from "prop-types"
-
-export interface IGetClassDropdownBody {
-    asSchoolId: number,
-    asAcademicYearId: number,
-    asTeacherId:number
-}
-export interface IGetClassDropdownResult {
-    SchoolWise_Standard_Division_Id: string,
-    StandardDivision: string
-}
-export interface IGetexamDropdownBody {
-    asSchoolId: number,
-    asAcademicYearId: number,
-    asStandardDivisionId: number
-}
-export interface IGetExamDropdownResult {
-    SchoolWise_Test_Id: string,
-    SchoolWise_Test_Name: string,
-    Original_SchoolWise_Test_Id: string,
-    Sort_Order: string
-}
-export interface IGetClassSubjectDropdownBody {
-    asSchoolId: number,
+export interface IGetStandardExamDropdownBody {
+    asSchoolId:Number, 
+     asAcademicYearId:Number,
+       asStandardId:Number
+    }
+    export interface IGetStandardExamDropdownResult{
+        SchoolWise_Test_Id: String,
+        SchoolWise_Test_Name:String,
+        Original_SchoolWise_Test_Id: String,
+        Sort_Order: String
+    }
+    export interface IGetSubjectDropdownBody{
+        asSchoolId: number,
     asAcademicYearId: number,
     asStandardDivId: number,
     asExamId: number
 }
-export interface IGetClassSubjectDropdownResult {
+export interface IGetSubjectDropdownResult {
     Subject_Id: string,
     Subject_Name: string
 
 }
-export interface IGetClassToppersListBOdy {
+export interface IGetStandardToppersListBOdy {
     asSchoolId: number,
     asAcademicYearId: number,
-    asStandardDivId: number,
+    asStandardId: number,
     asExamId: number,
     asSubjectId: number
 }
-export interface IGetClassToppersListResult {
+export interface IGetStandardToppersListResult {
 
     GetTopperList: [{
         TopperRank: string,

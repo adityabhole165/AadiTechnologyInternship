@@ -78,6 +78,7 @@ import FinalResultSlice from 'src/requests/FinalResult/RequestFinalResult'
 import StudentRecordsSlice from'src/requests/StudentRecords/RequestStudentRecords'
 import FinalResultToppersSlice from 'src/requests/FinalResult/RequestFinalResultToppers'
 import UnPublishTestSlice from'src/requests/ExamResultUnpublish/RequestExamResultUnpublish'
+import StandardToppersSlice from 'src/requests/FinalResult/RqstandardToppers'
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -161,7 +162,8 @@ const rootReducer = combineReducers({
     FinalResult:FinalResultSlice,
     StudentRecords:StudentRecordsSlice,
     FinalResultToppers:FinalResultToppersSlice,
-    unpublishtest:UnPublishTestSlice
+    unpublishtest:UnPublishTestSlice,
+    StandardToppers:StandardToppersSlice
 });
 
 export default rootReducer;

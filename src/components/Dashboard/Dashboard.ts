@@ -517,6 +517,15 @@ const DashboardData = {
         index: 38,
       },
       {
+        Text1: 'Standard ',
+        Text2: 'Toppers',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/StandardToppers',
+        index: 39,
+      },
+      {
         Text1: 'Student ',
         Text2: 'Records ',
         Color: '#81c784',

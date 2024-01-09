@@ -14,8 +14,9 @@ import ToppersList from 'src/libraries/list/ToppersList';
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
     const { TeacherId } = useParams();
+       //alert(TeacherId)
 
-    const [SelectClass, setClass] = useState();
+    const [SelectClass, setClass] = useState(TeacherId);
     const [SelectExam, setExam] = useState( "0");
     const [SelectSubject, setSubject] = useState("0");
     const [radioBtn, setRadioBtn] = useState("1");
@@ -32,6 +33,7 @@ const FinalResultToppers = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+    const asTeacherId=Number(sessionStorage.getItem('TeacherId'));
     const GetClassdropdown = useSelector((state: RootState) => state.FinalResultToppers.ClassDropdownList);
     console.log("GetClassdropdown", GetClassdropdown)
 
@@ -51,7 +53,7 @@ const FinalResultToppers = () => {
     useEffect(() => {
         dispatch(ClassdropdownList(ClassDropdownBody))
     }, [TeacherId])
-
+console.log(TeacherId,"TeacherId")
     useEffect(() => {
         dispatch(ClassExamList(ExamDropdownBody))
     }, [SelectClass])
@@ -68,33 +70,36 @@ const FinalResultToppers = () => {
 
 
     useEffect(() => {
-        if (GetExamdropdown.length == 0 &&
+        if (GetClassdropdown.length == 0 &&
+            GetExamdropdown.length == 0 &&
             GetSubjectdropdown.length > 0) {
+            setClass(GetClassdropdown[0].value)
             setExam(GetExamdropdown[0].Value)
             setSubject(GetSubjectdropdown[0].Value)
         }
-    }, [GetExamdropdown, GetSubjectdropdown]);
+    }, [ GetClassdropdown,GetExamdropdown, GetSubjectdropdown]);
 
 
     const ClassDropdownBody: IGetClassDropdownBody = {
         asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId
+        asAcademicYearId: asAcademicYearId,
+        asTeacherId:asTeacherId
     }
     const ExamDropdownBody: IGetexamDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: SelectClass
+        asStandardDivisionId: Number(SelectClass)
     }
     const SujectDropdownBody: IGetClassSubjectDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: SelectClass,
+        asStandardDivId:  Number(SelectClass),
         asExamId: Number(SelectExam)
     }
     const ToppersListBody: IGetClassToppersListBOdy = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: SelectClass,
+        asStandardDivId:  Number(SelectClass),
         asExamId: Number(SelectExam),
         asSubjectId: Number(SelectSubject)
     }
