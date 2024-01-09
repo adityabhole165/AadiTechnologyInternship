@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -66,8 +66,30 @@ function ResizableCommentsBox({ ItemList, HeaderArray, NoteClick }) {
     setCharCounts2(newCharCounts);
   };
 
+  const tableContainerRef = useRef(null);
+
+ 
+  const scrollToBottom = () => {
+    if (tableContainerRef.current) {
+      tableContainerRef.current.scrollTop = tableContainerRef.current.scrollHeight;
+    }
+  };
+
+  useEffect(() => {
+    scrollToBottom(); 
+  }, [ItemList]);
+
+
+
   return (
-    <div>
+    <div
+    style={{
+      maxHeight: '800px',
+      overflowY: 'auto',
+      scrollBehavior: 'smooth', 
+    }}
+    ref={tableContainerRef}
+  >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
