@@ -21,7 +21,7 @@ const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [SelectTeacher, setSelectTeacher] = useState(0);
+  const [SelectTeacher, setSelectTeacher] = useState(0); 
   const [SelectTerm, setSelectTerm] = useState(0);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -225,7 +225,7 @@ return sXML
   {(SelectTeacher >0) && (
     <div>
 <ButtonPrimary onClick={onClickSave}  variant="contained" >
-              Save
+              SAVE
             </ButtonPrimary> 
             <br></br>   
             <br></br> 
@@ -235,7 +235,7 @@ return sXML
             
         <Grid item xs={6}>
             <ButtonPrimary onClick={onClickBack} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               Back
+               BACK
             </ButtonPrimary> 
             </Grid>
       </Grid>

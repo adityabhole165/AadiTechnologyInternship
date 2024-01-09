@@ -84,14 +84,13 @@ export const Savedailylog =
       
         
     };
-
+ 
     export const getdailylog =
-  (data: IGetHomeworkDailyLogBody): AppThunk =>
-    async (dispatch) => {
-      const response = await DailyLogApi.GetHomeworkDailyLog(data)
-      dispatch(DailyLogSlice.actions.getdailylog(response.data))
-    }
-
+    (data: IGetHomeworkDailyLogBody): AppThunk =>
+      async (dispatch) => {
+        const response = await DailyLogApi.GetHomeworkDailyLog(data);
+        dispatch(DailyLogSlice.actions.getdailylog(response.data));
+      };
 
     export const ResetFilePath =
     (): AppThunk =>
@@ -107,6 +106,7 @@ export const Savedailylog =
       
       dispatch(DailyLogSlice.actions.deletedailylog(response.data))
     }
+    
     
     export const ResetDeleteLog =
   (): AppThunk =>

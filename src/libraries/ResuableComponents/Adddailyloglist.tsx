@@ -46,8 +46,8 @@ function Adddailyloglist({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  <Link href={""} onClick={() => clickView(item.Id)}>
-                    clickhere
+                  <Link href={""} onClick={() => clickView(item.Text2)}>
+                  clickhere
                   </Link>
                 </TableCell>
                 

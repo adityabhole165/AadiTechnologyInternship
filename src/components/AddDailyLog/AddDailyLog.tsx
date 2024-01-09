@@ -13,6 +13,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SingleFile from 'src/libraries/File/SingleFile';
 import BackButton from 'src/libraries/button/BackButton';
 import { getDateMonthYearFormatted } from '../Common/Util';
+import moment from 'moment';
 
 const AddDailyLog = () => {
 
@@ -22,7 +23,8 @@ const AddDailyLog = () => {
     
 
     const [dateState, setDateState] = useState('');
-
+    const [dateSearch, setDateSearch] = useState('');
+    const [dateSearchError, setDateSearchError] = useState('');
     const [dateError, setDateError] = useState('');
     const [fileName, setFileName] = useState('');
     const [fileNameError, setFileNameError] = useState('');
@@ -36,7 +38,7 @@ const AddDailyLog = () => {
   const GetAllHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.GetAllHomework)
   console.log("GetAllHomeworkDailyLogs", GetAllHomeworkDailyLogs)
   const GetHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.GetHomeworkDailyLog)
-  console.log("GetHomeworkDailyLogs", GetHomeworkDailyLogs)
+  console.log("GetHomeworkDailyLogs----", GetHomeworkDailyLogs)
   const DeleteHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.DeleteHomework)
   console.log("DeleteHomeworkDailyLogs", DeleteHomeworkDailyLogs)
   const PublishUnpublishHomeworkDailylog: any = useSelector((state: RootState) => state.AddDailyLog.PublishUnpublish)
@@ -69,7 +71,7 @@ const AddDailyLog = () => {
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
 
     asSchoolId:asSchoolId,
-    asFilter:"",
+    asFilter:dateSearch,
     asStdDivId:Number(Id),
     asSortExpression:"Date",
     asStartIndex:0,
@@ -79,7 +81,7 @@ const AddDailyLog = () => {
   useEffect(() => {
     
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
-  }, []);
+  }, [dateSearch]);
 
   // useEffect(() => {
   //   const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
@@ -97,19 +99,7 @@ const AddDailyLog = () => {
 
   
     
-  useEffect(() => {
-  const getCurrentDateTime = () => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString('en-US', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-    setDateState(formattedDate);
-  };
-
-  getCurrentDateTime();
-}, []);
+  
     
 const [isPublish, setIsPublish] = useState(true);
 
@@ -141,19 +131,24 @@ const [isPublish, setIsPublish] = useState(true);
 
 
    
+  let d = ''
   useEffect(() =>{
     console.log(GetHomeworkDailyLogs,"GetStudentDetail")
-    if (GetHomeworkDailyLogs !== null) {
-      //setLogId(GetHomeworkDailyLogs.LogId)     
-      setDateState(GetHomeworkDailyLogs.dateState)
-      setFileName(GetHomeworkDailyLogs.fileName)
-      setbase64URL(GetHomeworkDailyLogs.base64URL)
+    if (GetHomeworkDailyLogs.length > 0) {
+      // setDateState(GetHomeworkDailyLogs.dateState)
+      let da = GetHomeworkDailyLogs[0].Date.split(" ")[0]
+      let dateFormat = da.split("-")[2] + "-" + da.split("-")[1]+"-" + da.split("-")[0]
+      setDateState(dateFormat)
+
+      setFileName(GetHomeworkDailyLogs[0].AttchmentName)
+      // setbase64URL(GetHomeworkDailyLogs[0].base64URL)
     }
   }, [GetHomeworkDailyLogs]);
+console.log(dateState,"dateState")
 
 
-  
   const clickEdit1=(value)=>{
+    setLogId(value)
       const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
   
        
@@ -164,18 +159,6 @@ const [isPublish, setIsPublish] = useState(true);
       dispatch(getdailylog(GetHomeworkDailyLogsBody))
     }; 
   
-  // const clickDelete=()=>{
-  //   console.log(id , "iD")
-  // }
-  
-  // useEffect(() => {
-  //   if (DeleteHomeworkDailyLogs!== '') {
-  //     toast.success(DeleteHomeworkDailyLogs, { toastId: 'success1' })
-  //    //dispatch(ResetDeletedLog());
-  //    dispatch(deletedailylog(DeleteHomeworkDailyLogsBody))
-  //   }
-  // }, [DeleteHomeworkDailyLogs]); 
-
   const clickDelete = (value) => {
     if (confirm('Are You Sure you want to delete The Daily Log')) {
       const DeleteLog: IDeleteHomeworkDailyLogBody =
@@ -195,19 +178,15 @@ const [isPublish, setIsPublish] = useState(true);
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
 
 } 
-  
  
 
-const clickFileName = () => {
+const clickFileName = (value) => {
   if (GetFileUS !== '') {
     window.open(localStorage.getItem('SiteURL') +
-      '/RITeSchool/DOWNLOADS/Homework/DailyLog/' + GetFileUS
+      '/RITeSchool/DOWNLOADS/Homework/DailyLog/' + value
     );
-     localStorage.getItemItem("SiteURL", window.location.pathname)
   }
 };
-  
-  
   
   
   const onClickBack = () => {
@@ -233,6 +212,31 @@ const clickFileName = () => {
     }
   };
 
+  // const handleChange2 = (e) => {
+  //   const selectedDate = e.target.value;
+  //   setDateSearch(selectedDate);
+  //   dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+
+  //   // Validate date
+  //   if (!selectedDate) {
+  //     setDateSearchError('Date should not be blank.');
+  //   } else {
+  //     const currentDate = new Date();
+  //     const selectedDateObj = new Date(selectedDate);
+
+  //     if (selectedDateObj > currentDate) {
+  //       setDateSearchError('Future dates are disabled.');
+  //     } else {
+  //       setDateSearchError('');
+  //     }
+  //   }
+  // };
+
+  const onSelectDate = (value) => {
+    setDateSearch(value)
+   // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+  }
+
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
@@ -244,7 +248,7 @@ const clickFileName = () => {
     aHomeWorkLogId:LogId,
     asStdDivId:Number(Id),
      asDate:dateState,
-     asAttachmentName:fileName, 
+     asAttachmentName:base64URL==""?"":fileName, 
      asSchoolId:asSchoolId,
      asAcademicYearId:Number(asAcademicYearId),
       asInsertedById:TeacherId,
@@ -255,7 +259,7 @@ const clickFileName = () => {
 
 
 const onClickSave=() =>{
-
+debugger
     let isError = false;
     if (dateState == '') {
       setDateError('Field should not be blank')
@@ -265,10 +269,10 @@ const onClickSave=() =>{
       setFileNameError('Field should not be blank')
       isError = true
     }
-   else if (base64URL == '') {
-    setbase64URLError('Field should not be blank')
-    isError = true
-  }
+  //  else if (base64URL == '') {
+  //   setbase64URLError('Field should not be blank')
+  //   isError = true
+  // }
 
     if (!isError) {
     dispatch(Savedailylog(SaveDailylogBody))
@@ -292,15 +296,27 @@ const ResetForm = () => {
   setFileName('');
   setbase64URL('');
 
-  //setItemList(prev => prev.map((item) => { return { ...item, IsActive: false } }))
-
 };
 
 const onClickCancel=() =>{
   ResetForm()
 }
 
- 
+
+useEffect(() => {
+  const getCurrentDateTime = () => {
+    const currentDate = new Date();
+    const formattedDate = currentDate.toLocaleString('en-US', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+    });
+    setDateState(formattedDate);
+  };
+
+  getCurrentDateTime();
+}, []);
+
 
   return (
     <>
@@ -338,7 +354,10 @@ const onClickCancel=() =>{
   </Grid>
   
   <Grid item xs={1}>
-  <TextField  type='date' value={dateState} onChange={handleChange} variant='standard' error={dateError !== ''} helperText={dateError} InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
+  <TextField  type='date' value={dateState} onChange={handleChange} variant='standard' 
+  //  defaultValue={dateState !=="" ? moment(dateState).format('DD-MMM-YYYY') : ""}
+  error={dateError !== ''} helperText={dateError} InputLabelProps={{ shrink: true }} 
+  inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
   {/* <span style={{ color: 'red' }}>{dateError}</span> */}
    
   <div style={{  color: 'red' }}>
@@ -360,6 +379,9 @@ const onClickCancel=() =>{
             ValidFileTypes={ValidFileTypes}
             MaxfileSize={MaxfileSize}
             ChangeFile={ChangeFile}
+            // errorMessage={fileNameError}
+            // filePath={base64URL}
+            FileName={fileName}
           ></SingleFile>{''}
           
   </Grid>
@@ -392,21 +414,21 @@ const onClickCancel=() =>{
     <b>Date :</b>
     </Typography>
   </Grid>
-  
-  <Grid item xs={1}>
-  <TextField  type='date' value={dateState} onChange={handleChange} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
-  <span style={{ color: 'red' }}>{dateError}</span>
    
+  <Grid item xs={1}>
+  {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
+  <TextField value={dateSearch} type='date' onChange={(e) => { onSelectDate(e.target.value) }} size="small" InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
   </Grid>
   </Grid>
-      <br />
+<br></br>
+
       {/* {GetAllHomeworkDailyLogs?.IsPublished} */}
         <Adddailyloglist ItemList={GetAllHomeworkDailyLogs}  clickView={clickFileName} HeaderArray={HeaderPublish1}  clickEdit={clickEdit1} clickDelete={clickDelete}  clickpublish={Changestaus}/>
 <br></br>
 <div>
         <Grid item xs={6}>
             <ButtonPrimary onClick={onClickBack} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               Back
+               BACK
             </ButtonPrimary> 
             </Grid>
     </div>

@@ -123,13 +123,13 @@ const ExamResultUnpublish = () => {
   <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
   <Grid item xs={1}>
 <ButtonPrimary  onClick={onClickUnpublish} variant="contained" >
-              <b>UnPublish</b>
+              <b>UNPUBLISH</b>
             </ButtonPrimary>
             </Grid> 
             
         <Grid item xs={1}>
             <ButtonPrimary onClick={onClickCancel} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               Close
+               CLOSE
             </ButtonPrimary> 
             </Grid>
       </Grid> 
