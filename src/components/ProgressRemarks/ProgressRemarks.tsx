@@ -70,7 +70,7 @@ const ProgressRemarks = () => {
   const Hedaer5 = ["Note:"]
 
   const HeaderArray = [
-    { Id: 1, Header: "Roll No." }, { Id: 2, Header: "Name" }, { Id: 3, Header: "Remark" }
+    { Id: 1, Header: "Roll No." }, { Id: 2, Header: "Name" }, { Id: 3, Header: "Remark" }, , { Id: 4, Header: "Behaviour" },, { Id: 5, Header: "Attitude" }  
   ]
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
@@ -339,7 +339,7 @@ const ProgressRemarks = () => {
 
                 </Grid>
                 
-                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
+                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} NoteClick={ExamResult} />
 
                 <br></br>
 
@@ -443,7 +443,7 @@ const ProgressRemarks = () => {
                 </Grid>
                 
                 
-                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
+                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} NoteClick={ExamResult} />
                 
                 
             <br></br>

@@ -167,14 +167,15 @@ async (dispatch) => {
                 Text1: item.RollNo,
                 Text2: item.StudentName,
                 Text3: item.Remark,
-                Text4: item.YearwiseStudentId,
-                Text5: item.StudentwiseRemarkId ,
-                Text6: item.RemarkConfigId,
-                Text7: item.RemarkConfigId,
-                Text8: item.SalutationId,
-                Text9: item.IsPassedAndPromoted,
-                Text10: item.IsLeftStudent,
-
+                // Text4: item.YearwiseStudentId,
+                // Text5: item.StudentwiseRemarkId ,
+                // Text6: item.RemarkConfigId,
+                // Text7: item.RemarkConfigId,
+                // Text8: item.SalutationId,
+                // Text9: item.IsPassedAndPromoted,
+                // Text10: item.IsLeftStudent,
+                Text4: item.OldRemark,
+                Text5: item.RemarkName,
             }
         })
 
