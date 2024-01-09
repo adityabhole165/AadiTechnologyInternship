@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,7 +12,6 @@ import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
-import Switch from '@mui/material/Switch';
 import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
 import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 
@@ -21,7 +19,8 @@ import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [selectTeacher, SetselectTeacher] = useState();
+  
+  const [selectTeacher, SetselectTeacher] = useState( (sessionStorage.getItem('TeacherId')));
   const [SelectTerm, SetSelectTerm] = useState();
   const [StudentList, SetStudentList] = useState('');
   const [showScreenOne, setShowScreenOne] = useState(true);
@@ -34,7 +33,7 @@ const ProgressRemarks = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-
+  
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
@@ -88,19 +87,12 @@ const ProgressRemarks = () => {
 
   const ExportButton = () => {
   const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
-  
-    // asSchoolId: asSchoolId,
-    // asAcademicYearId: asAcademicYearId,
-    // asStandardDivId: asStandardDivisionId,
-    // asStudentId:Number(StudentList),
-    // asTermId: SelectTerm
-
     {
        asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asStandardDivId: asStandardDivisionId,
+      asStandardDivId:asStandardDivisionId,
       asStudentId:Number(StudentList),
-      "asTermId":SelectTerm
+      asTermId:SelectTerm
   }
   dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody));
 
@@ -140,7 +132,7 @@ const ProgressRemarks = () => {
       StudentwiseRemarkXML: String(getXML),
         asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asInsertedById: selectTeacher,
+      asInsertedById: Number(selectTeacher),
       asStandardDivId: asStandardDivisionId,
       asTermId: SelectTerm
   
@@ -153,7 +145,7 @@ const ProgressRemarks = () => {
 
   const StudentListDropDowntBody: IStudentListDropDowntBody =
   {
-    asStandard_Division_Id: selectTeacher,
+    asStandard_Division_Id: Number(selectTeacher),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asTerm_Id: SelectTerm
@@ -208,13 +200,7 @@ const ProgressRemarks = () => {
     dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody));
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
-  // }, []);
+  
 
 
   useEffect(() => {
@@ -272,11 +258,11 @@ const ProgressRemarks = () => {
                   </ButtonPrimary>
                    
 
-                    <ButtonPrimary onClick={ExportButton}>   <ExportToExcel File1={StudentswiseRemarkDetails}   
+                     <ExportToExcel File1={StudentswiseRemarkDetails}   
                   File2={StudentswiseRemarkDetails1} 
-                  File3={StudentswiseRemarkDetails2}/>     </ButtonPrimary>
+                  File3={StudentswiseRemarkDetails2}  ExportExcel={ExportButton} />   
                 
-
+                {/* <ButtonPrimary onClick={ExportButton}>   </ButtonPrimary> */}
 
                 </Box>
               </Paper>

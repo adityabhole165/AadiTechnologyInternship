@@ -2,16 +2,22 @@ import React from 'react';
 import ReactExport from 'react-export-excel';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 
-const ExportToExcel = ({ File1, File2=[], File3=[] }) => {
-  
-  
+const ExportToExcel = ({ File1, File2 = [], File3 = [], ExportExcel }) => {
   const ExcelFile = ReactExport.ExcelFile;
   const ExcelSheet = ReactExport.ExcelFile.ExcelSheet;
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
+  const ExportClick = () => {
+   
+    if (ExportExcel) {
+      ExportExcel();
+    }
+  };
+
   const Button = (
     <ButtonPrimary
       style={{ background: 'green', color: 'white', padding: '8px' }}
+      onClick={ExportClick} 
     >
       Export
     </ButtonPrimary>
@@ -40,8 +46,6 @@ const ExportToExcel = ({ File1, File2=[], File3=[] }) => {
           ))}
       </ExcelSheet>
     </ExcelFile>
-    
-    
   );
 };
 
