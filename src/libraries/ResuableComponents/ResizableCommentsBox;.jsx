@@ -66,19 +66,7 @@ function ResizableCommentsBox({ ItemList, HeaderArray, NoteClick }) {
     setCharCounts2(newCharCounts);
   };
 
-  const tableContainerRef = useRef(null);
-
- 
-  const scrollToBottom = () => {
-    if (tableContainerRef.current) {
-      tableContainerRef.current.scrollTop = tableContainerRef.current.scrollHeight;
-    }
-  };
-
-  useEffect(() => {
-    scrollToBottom(); 
-  }, [ItemList]);
-
+  
 
 
   return (
@@ -88,7 +76,7 @@ function ResizableCommentsBox({ ItemList, HeaderArray, NoteClick }) {
       overflowY: 'auto',
       scrollBehavior: 'smooth', 
     }}
-    ref={tableContainerRef}
+  
   >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
