@@ -82,9 +82,9 @@ async (dispatch) => {
         const response = await ApiProgressRemark. ClassTeachers(data);
         let ClassTeachers = response.data.map((item, i) => {
             return {
-                Id: item.Teacher_Id,
+                Id: item.SchoolWise_Standard_Division_Id,
                 Name: item.TeacherName,
-                Value: item.Teacher_Id,
+                Value: item.SchoolWise_Standard_Division_Id,
             }
         })
 
@@ -167,7 +167,14 @@ async (dispatch) => {
                 Text1: item.RollNo,
                 Text2: item.StudentName,
                 Text3: item.Remark,
-                Text4: item.OldRemark,
+                Text4: item.YearwiseStudentId,
+                Text5: item.StudentwiseRemarkId ,
+                Text6: item.RemarkConfigId,
+                Text7: item.RemarkConfigId,
+                Text8: item.SalutationId,
+                Text9: item.IsPassedAndPromoted,
+                Text10: item.IsLeftStudent,
+
             }
         })
 

@@ -23,7 +23,7 @@ const ProgressRemarks = () => {
   const navigate = useNavigate();
   const [selectTeacher, SetselectTeacher] = useState();
   const [SelectTerm, SetSelectTerm] = useState();
-  const [StudentList, SetStudentList] = useState();
+  const [StudentList, SetStudentList] = useState('');
   const [showScreenOne, setShowScreenOne] = useState(true);
 
   const toggleScreens = () => {
@@ -31,7 +31,9 @@ const ProgressRemarks = () => {
   };
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-
+  const asStandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
 
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
@@ -73,43 +75,88 @@ const ProgressRemarks = () => {
   ]
 
   const GetTestwiseTermBody: IGetTestwiseTermBody = {
-    asSchoolId: 18
+    asSchoolId: asSchoolId
   };
 
   const ClassTeachersBody: IAllPrimaryClassTeachersBody =
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: 4463
+    asUserId: SelectTerm
   }
 
+
+  const ExportButton = () => {
   const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivId: 1266,
-    asStudentId: 0,
-    asTermId: 1
-  }
+  
+    // asSchoolId: asSchoolId,
+    // asAcademicYearId: asAcademicYearId,
+    // asStandardDivId: asStandardDivisionId,
+    // asStudentId:Number(StudentList),
+    // asTermId: SelectTerm
 
-  const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-  {
-    StudentwiseRemarkXML: "<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><StudentwiseRemarkConfigDetails><YearwiseStudentId>37608</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37609</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37610</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37611</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37612</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37613</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37614</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37615</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37616</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37617</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37618</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37619</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37620</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37621</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37622</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37623</YearwiseStudentId><StudentwiseRemarkId>2775928</StudentwiseRemarkId><Remark>She can easily express probabilities as ratios, fractions and percent. She can sort materials into groups using simple properties and can recognise and name common materials.</Remark><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37625</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37652</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37626</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails><StudentwiseRemarkConfigDetails><YearwiseStudentId>37627</YearwiseStudentId><StudentwiseRemarkId>0</StudentwiseRemarkId><Remark /><RemarkConfigId>0</RemarkConfigId><RemarkMaster><RemarkConfigId>17</RemarkConfigId></RemarkMaster><SalutationId>0</SalutationId><IsPassedAndPromoted>false</IsPassedAndPromoted><IsLeftStudent>0</IsLeftStudent></StudentwiseRemarkConfigDetails></ArrayOfStudentwiseRemarkConfigDetails>",
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asInsertedById: 4463,
-    asStandardDivId: 1266,
-    asTermId: 1
-
+    {
+       asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivId: asStandardDivisionId,
+      asStudentId:Number(StudentList),
+      "asTermId":SelectTerm
   }
+  dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody));
+
+}
+
+
+  const getXML = () => {
+    let sXML = "<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
+  
+    USStudentListDropDown.forEach((Item) => {
+      sXML += "<StudentwiseRemarkConfigDetails>" +
+                  "<YearwiseStudentId>" + Item.Text4 + "</YearwiseStudentId>" +
+                  "<StudentwiseRemarkId>" + Item.Text5 + "</StudentwiseRemarkId>" +
+                  "<Remark />" +
+                  "<RemarkConfigId>" + Item.Text6 + "</RemarkConfigId>" +
+                  "<RemarkMaster><RemarkConfigId>" + Item.Text7 + "</RemarkConfigId></RemarkMaster>" +
+                  "<SalutationId>" + Item.Text8 + "</SalutationId>" +
+                  "<IsPassedAndPromoted>" + Item.Text9 + "</IsPassedAndPromoted>" +
+                  "<IsLeftStudent>" + Item.Text10 + "</IsLeftStudent>" +
+              "</StudentwiseRemarkConfigDetails>";
+  
+            
+  
+    });
+  
+    sXML += "</ArrayOfStudentwiseRemarkConfigDetails>";
+    console.log( "XMLLLLLLLL-----------",getXML)
+    return sXML;
+  };
+  
+
+
+  const UpdateRemark=()=>{
+
+    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
+    {
+      StudentwiseRemarkXML: String(getXML),
+        asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asInsertedById: selectTeacher,
+      asStandardDivId: asStandardDivisionId,
+      asTermId: SelectTerm
+  
+    }
+    dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
+     
+  }
+  
 
 
   const StudentListDropDowntBody: IStudentListDropDowntBody =
   {
-    asStandard_Division_Id: 1266,
+    asStandard_Division_Id: selectTeacher,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asTerm_Id: 1
+    asTerm_Id: SelectTerm
   }
 
 
@@ -117,9 +164,9 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId: 1266,
-    asStudentId: 0,
-    asTermId: 1
+    asStandardDivId:Number (selectTeacher),
+    asStudentId:Number(StudentList),
+    asTermId: Number (SelectTerm)
   }
 
 
@@ -136,24 +183,18 @@ const ProgressRemarks = () => {
   };
 
   useEffect(() => {
-    if (USClassTeachers.length > 0) {
-      SetselectTeacher(USClassTeachers[0].Value);
-
-    }
-  }, [USClassTeachers]);
-  useEffect(() => {
-    if (USStudentListDropDown.length > 0) {
-      SetStudentList(USStudentListDropDown[0].Value);
-
-    }
-  }, [USStudentListDropDown]);
-
-  useEffect(() => {
     if (USGetTestwiseTerm.length > 0) {
       SetSelectTerm(USGetTestwiseTerm[0].Value);
 
     }
   }, [USGetTestwiseTerm]);
+ 
+
+ 
+
+
+  
+
 
 
 
@@ -167,43 +208,27 @@ const ProgressRemarks = () => {
     dispatch(CDAGetTestwiseTerm(GetTestwiseTermBody));
   }, []);
 
-  useEffect(() => {
-    dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody));
+  // }, []);
 
-  useEffect(() => {
-    dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
+  // }, []);
 
 
   useEffect(() => {
     dispatch(CDAStudentListDropDown(StudentListDropDowntBody));
-  }, []);
+  }, [selectTeacher]);
 
   useEffect(() => {
     dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody));
-  }, []);
+  }, [selectTeacher,SelectTerm,StudentList]);
 
 
   const ExamResult = (value) => {
     navigate('/extended-sidebar/Teacher/ExamResultBase');
   }
-
-  const dataSet1 = [
-    {
-      name1: 'Johson',
-      amount1: 30000,
-      sex1: 'M',
-      is_married1: true,
-    },
-    {
-      name1: 'Monika',
-      amount1: 355000,
-      sex1: 'F',
-      is_married1: false,
-    },
-
-  ];
 
 
 
@@ -230,75 +255,7 @@ const ProgressRemarks = () => {
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <Paper>
-                {/* <Stack >
-                  <DotLegendTeacher text="Left Students" color="error" />
-                </Stack>
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.3}
-                    >
-                      Subject Teacher:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Dropdown
-                      Array={USClassTeachers}
-                      handleChange={clickSelectTerm}
-                      defaultValue={SelectTerm}
-                      label={''}
-                    />
-                    <br></br>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.5}
-                    >
-                      Term:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Dropdown
-                      Array={USGetTestwiseTerm}
-                      handleChange={clickSelectClass}
-                      defaultValue={selectTeacher}
-                      label={''}
-                    />
-
-                  </Grid>
-
-
-
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.5}
-                    >
-                      StudentList:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Dropdown
-                      Array={USStudentListDropDown}
-                      handleChange={clickStudentList}
-                      defaultValue={StudentList}
-                      label={''}
-                    />
-
-                  </Grid>
-
-
-                </Grid> */}
+          
 
                 <Notes NoteDetail={Note1} Header={Hedaer1} />
                 <Notes NoteDetail={Note2} Header={Hedaer2} />
@@ -313,10 +270,14 @@ const ProgressRemarks = () => {
                   >
                     Back
                   </ButtonPrimary>
+                   
 
-                  <ExportToExcel File1={StudentswiseRemarkDetails}   
+                    <ButtonPrimary onClick={ExportButton}>   <ExportToExcel File1={StudentswiseRemarkDetails}   
                   File2={StudentswiseRemarkDetails1} 
-                  File3={StudentswiseRemarkDetails2}/>
+                  File3={StudentswiseRemarkDetails2}/>     </ButtonPrimary>
+                
+
+
                 </Box>
               </Paper>
             </Grid>
@@ -343,9 +304,9 @@ const ProgressRemarks = () => {
                   <Grid item xs={2}>
                     <Dropdown
                       Array={USClassTeachers}
-                      handleChange={clickSelectTerm}
-                      defaultValue={SelectTerm}
-                      label={''}
+                      handleChange={clickSelectClass}
+                      defaultValue={selectTeacher}
+                      label={'Select'}
                     />
                     <br></br>
                   </Grid>
@@ -361,8 +322,8 @@ const ProgressRemarks = () => {
                   <Grid item xs={2}>
                     <Dropdown
                       Array={USGetTestwiseTerm}
-                      handleChange={clickSelectClass}
-                      defaultValue={selectTeacher}
+                      handleChange={clickSelectTerm}
+                      defaultValue={SelectTerm}
                       label={''}
                     />
 
@@ -384,13 +345,14 @@ const ProgressRemarks = () => {
                       Array={USStudentListDropDown}
                       handleChange={clickStudentList}
                       defaultValue={StudentList}
-                      label={''}
+                      label={"All"}
                     />
 
                   </Grid>
 
 
                 </Grid>
+                
                 <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
 
                 <br></br>
@@ -445,9 +407,9 @@ const ProgressRemarks = () => {
                   <Grid item xs={2}>
                     <Dropdown
                       Array={USClassTeachers}
-                      handleChange={clickSelectTerm}
-                      defaultValue={SelectTerm}
-                      label={''}
+                      handleChange={clickSelectClass}
+                      defaultValue={selectTeacher}
+                      label={'Select'}
                     />
                     <br></br>
                   </Grid>
@@ -463,8 +425,8 @@ const ProgressRemarks = () => {
                   <Grid item xs={2}>
                     <Dropdown
                       Array={USGetTestwiseTerm}
-                      handleChange={clickSelectClass}
-                      defaultValue={selectTeacher}
+                      handleChange={clickSelectTerm}
+                      defaultValue={SelectTerm}
                       label={''}
                     />
 
@@ -486,20 +448,23 @@ const ProgressRemarks = () => {
                       Array={USStudentListDropDown}
                       handleChange={clickStudentList}
                       defaultValue={StudentList}
-                      label={''}
+                      label={"All"}
                     />
 
                   </Grid>
 
 
                 </Grid>
+                
+                
                 <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} />
-
+                
+                
             <br></br>
 
 
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
-              <ButtonPrimary variant="contained" style={{ backgroundColor: '#0091ea', color: 'white', marginRight: '10px' }}>
+              <ButtonPrimary variant="contained" style={{ backgroundColor: '#0091ea', color: 'white', marginRight: '10px' }} onClick={UpdateRemark}>
                 SAVE
               </ButtonPrimary>
               <ButtonPrimary

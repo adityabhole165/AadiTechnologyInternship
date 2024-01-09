@@ -16,7 +16,8 @@ export interface IAllPrimaryClassTeachersResult
     Division_Name: string,
     Original_Standard_Id: string,
     Original_Division_Id: string,
-    StandardDivisionId: string
+    StandardDivisionId: string,
+    SchoolWise_Standard_Division_Id:string
 }
 
 
