@@ -1,3 +1,15 @@
+export interface IGetStandardDropdownBody{
+    asSchoolId:Number,
+    asAcademicYearId:Number,
+    asTeacherId:Number
+}
+export interface IGetStandardDropdownResult{
+    Standard_Name: String,
+        Original_Standard_Id: String,
+        Standard_Id: String
+}
+
+
 export interface IGetStandardExamDropdownBody {
     asSchoolId:Number, 
      asAcademicYearId:Number,

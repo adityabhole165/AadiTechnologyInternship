@@ -1,5 +1,11 @@
 import http from "../../requests/SchoolService/schoolServices"
-import { IGetStandardExamDropdownBody,IGetStandardExamDropdownResult ,IGetSubjectDropdownBody,IGetSubjectDropdownResult,IGetStandardToppersListBOdy,IGetStandardToppersListResult} from "src/interfaces/FinalResult/IStandardToppers"
+import { IGetStandardDropdownBody,IGetStandardDropdownResult,IGetStandardExamDropdownBody,IGetStandardExamDropdownResult ,IGetSubjectDropdownBody,IGetSubjectDropdownResult,IGetStandardToppersListBOdy,IGetStandardToppersListResult} from "src/interfaces/FinalResult/IStandardToppers"
+
+
+const StandardDropdownList=
+(data:IGetStandardDropdownBody)=>{
+    return http.post<IGetStandardDropdownResult[]>('Teacher/GetStandardsDropDown',data)
+};
 
 const StandardExamDropdown=
 (data:IGetStandardExamDropdownBody)=>{
@@ -18,7 +24,8 @@ const StandardToppersList=
 const StandardToppersApi={
     StandardExamDropdown,
     ClassSubjectDropdown,
-    StandardToppersList
+    StandardToppersList,
+    StandardDropdownList
 }
 
 export default StandardToppersApi
