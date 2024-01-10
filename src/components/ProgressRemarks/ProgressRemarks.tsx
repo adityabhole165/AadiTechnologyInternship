@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,6 +15,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { useNavigate } from 'react-router';
 import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
 import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 
 const ProgressRemarks = () => {
@@ -33,7 +35,7 @@ const ProgressRemarks = () => {
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  
+  const asUserId = Number(sessionStorage.getItem('Id'));
   const USGetTestwiseTerm: any = useSelector(
     (state: RootState) => state.ProgressRemarkSlice.ISGetTestwiseTerm
   );
@@ -81,7 +83,7 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asUserId: SelectTerm
+    asUserId: asUserId
   }
 
 
@@ -99,47 +101,44 @@ const ProgressRemarks = () => {
 }
 
 
-  const getXML = () => {
+   const getXML = () =>{
+   
     let sXML = "<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-  
-    USStudentListDropDown.forEach((Item) => {
-      sXML += "<StudentwiseRemarkConfigDetails>" +
-                  "<YearwiseStudentId>" + Item.Text4 + "</YearwiseStudentId>" +
-                  "<StudentwiseRemarkId>" + Item.Text5 + "</StudentwiseRemarkId>" +
-                  "<Remark />" +
-                  "<RemarkConfigId>" + Item.Text6 + "</RemarkConfigId>" +
-                  "<RemarkMaster><RemarkConfigId>" + Item.Text7 + "</RemarkConfigId></RemarkMaster>" +
-                  "<SalutationId>" + Item.Text8 + "</SalutationId>" +
-                  "<IsPassedAndPromoted>" + Item.Text9 + "</IsPassedAndPromoted>" +
-                  "<IsLeftStudent>" + Item.Text10 + "</IsLeftStudent>" +
-              "</StudentwiseRemarkConfigDetails>";
-  
-            
-  
-    });
-  
-    sXML += "</ArrayOfStudentwiseRemarkConfigDetails>";
-    console.log( "XMLLLLLLLL-----------",getXML)
-    return sXML;
-  };
+    USGetAllStudentswiseRemarkDetails.map((Item)=>{
+      sXML = sXML + "<StudentwiseRemarkConfigDetails><YearwiseStudentId>" + Item.Text11 + "</YearwiseStudentId>" +
+      "<StudentwiseRemarkId>" + Item.Text12 + "</StudentwiseRemarkId>" +
+       "<Remark />"+
+      "<RemarkConfigId>" + Item.Text6 + "</RemarkConfigId>" +
+      "<RemarkMaster><RemarkConfigId>" + Item.Text7 + "</RemarkConfigId></RemarkMaster>" +
+      "<SalutationId>" + Item.Text8 + "</SalutationId>" +
+      "<IsPassedAndPromoted>" + Item.Text9 + "</IsPassedAndPromoted>" +
+      "<IsLeftStudent>" + Item.Text10 + "</IsLeftStudent></StudentwiseRemarkConfigDetails>" 
+    })
+    sXML =  sXML + "</ArrayOfStudentwiseRemarkConfigDetails>"
+
+    console.log( "XMLLLLLLLL",sXML)
+    return sXML
+  }
+
+
   
 
 
   const UpdateRemark=()=>{
 
     const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-    {
-      StudentwiseRemarkXML: String(getXML),
-        asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asInsertedById: Number(selectTeacher),
-      asStandardDivId: asStandardDivisionId,
-      asTermId: SelectTerm
-  
-    }
+  {
+    StudentwiseRemarkXML: getXML(),
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asInsertedById: Number(selectTeacher),
+    asStandardDivId:  Number(selectTeacher),
+    asTermId: Number(SelectTerm)
+  }
     dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
      
   }
+  
   
 
 
@@ -258,12 +257,11 @@ const ProgressRemarks = () => {
                   </ButtonPrimary>
                    
 
-                     <ExportToExcel File1={StudentswiseRemarkDetails}   
-                  File2={StudentswiseRemarkDetails1} 
-                  File3={StudentswiseRemarkDetails2}  ExportExcel={ExportButton} />   
+                  <ExportToExcel File1={StudentswiseRemarkDetails}   
+                   File2={StudentswiseRemarkDetails1} 
+                   File3={StudentswiseRemarkDetails2}  ExportExcel={ExportButton} />   
                 
-                {/* <ButtonPrimary onClick={ExportButton}>   </ButtonPrimary> */}
-
+                
                 </Box>
               </Paper>
             </Grid>
@@ -288,12 +286,13 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USClassTeachers}
-                      handleChange={clickSelectClass}
+                  <SearchableDropdown
+                      ItemList={USClassTeachers}
+                      onChange={clickSelectClass}
                       defaultValue={selectTeacher}
-                      label={'Select'}
+                      label={'Subject Teacher'}
                     />
+                   
                     <br></br>
                   </Grid>
                   <Grid item xs={2}>
@@ -306,9 +305,9 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USGetTestwiseTerm}
-                      handleChange={clickSelectTerm}
+                    <SearchableDropdown
+                      ItemList={USGetTestwiseTerm}
+                      onChange={clickSelectTerm}
                       defaultValue={SelectTerm}
                       label={''}
                     />
@@ -327,9 +326,9 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USStudentListDropDown}
-                      handleChange={clickStudentList}
+                    <SearchableDropdown
+                      ItemList={USStudentListDropDown}
+                      onChange={clickStudentList}
                       defaultValue={StudentList}
                       label={"All"}
                     />
@@ -345,9 +344,9 @@ const ProgressRemarks = () => {
 
 
                 <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ButtonPrimary variant="contained" style={{ backgroundColor: '#0091ea', color: 'white', marginRight: '10px' }}>
-                    SAVE
-                  </ButtonPrimary>
+                <ButtonPrimary variant="contained" style={{ backgroundColor: '#0091ea', color: 'white', marginRight: '10px' }} onClick={UpdateRemark}>
+                SAVE
+              </ButtonPrimary>
                   <ButtonPrimary
                     variant="contained"
                     style={{ backgroundColor: 'Red', color: 'White', marginRight: '10px' }}
@@ -391,12 +390,13 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USClassTeachers}
-                      handleChange={clickSelectClass}
+                  <SearchableDropdown
+                      ItemList={USClassTeachers}
+                      onChange={clickSelectClass}
                       defaultValue={selectTeacher}
                       label={'Select'}
                     />
+
                     <br></br>
                   </Grid>
                   <Grid item xs={2}>
@@ -409,9 +409,9 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USGetTestwiseTerm}
-                      handleChange={clickSelectTerm}
+                  <SearchableDropdown
+                      ItemList={USGetTestwiseTerm}
+                      onChange={clickSelectTerm}
                       defaultValue={SelectTerm}
                       label={''}
                     />
@@ -430,9 +430,9 @@ const ProgressRemarks = () => {
                     </Typography>
                   </Grid>
                   <Grid item xs={2}>
-                    <Dropdown
-                      Array={USStudentListDropDown}
-                      handleChange={clickStudentList}
+                    <SearchableDropdown
+                      ItemList={USStudentListDropDown}
+                      onChange={clickStudentList}
                       defaultValue={StudentList}
                       label={"All"}
                     />
@@ -440,15 +440,10 @@ const ProgressRemarks = () => {
                   </Grid>
 
 
-                </Grid>
-                
-                
+                </Grid> 
                 <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} NoteClick={ExamResult} />
                 
-                
             <br></br>
-
-
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
               <ButtonPrimary variant="contained" style={{ backgroundColor: '#0091ea', color: 'white', marginRight: '10px' }} onClick={UpdateRemark}>
                 SAVE
@@ -470,15 +465,10 @@ const ProgressRemarks = () => {
           </Paper>
         </Grid>
       )}
-
-
-
-
-
     </>
-
-
   )
 }
 
 export default ProgressRemarks
+
+
