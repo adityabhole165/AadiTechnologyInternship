@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import { IGetStandardExamDropdownBody ,IGetSubjectDropdownBody,IGetStandardToppersListBOdy} from "src/interfaces/FinalResult/IStandardToppers";
+import { IGetStandardExamDropdownBody ,IGetSubjectDropdownBody,IGetStandardToppersListBOdy,IGetStandardDropdownBody} from "src/interfaces/FinalResult/IStandardToppers";
 import StandardToppersApi from "src/api/FinalResult/ApiStandardToppers";
 
 const StandardToppersSlice = createSlice({
     name: 'FinalResultToppers',
 
     initialState: {
+        StandardDropdown:[],
         ExamDropdownList:[],
         SubjectDropdownList:[],
         StandardToppers:[],
@@ -14,6 +15,9 @@ const StandardToppersSlice = createSlice({
 
     },
     reducers: {
+      StandardList(state, action) {
+        state.StandardDropdown = action.payload;
+    },
         ExamList(state, action) {
             state.ExamDropdownList = action.payload;
         },
@@ -28,6 +32,22 @@ const StandardToppersSlice = createSlice({
         }
     } 
 })
+export const StandardDropdownList =
+(data: IGetStandardDropdownBody): AppThunk =>
+    async (dispatch) => {
+        const response = await StandardToppersApi.StandardDropdownList(data)
+        
+        let abc = response.data.map((item, i) => {
+            return {
+              Id: item.Standard_Id,
+              Name: item.Standard_Name,
+              Value: item.Standard_Id,
+            }                
+          })
+        dispatch(StandardToppersSlice.actions.StandardList(abc))
+        
+    };
+
 
 export const StandardExamList =
 (data: IGetStandardExamDropdownBody): AppThunk =>
@@ -59,8 +79,6 @@ export const StandardExamList =
                 (data:IGetStandardToppersListBOdy): AppThunk =>
                     async (dispatch) => {
                         const response = await StandardToppersApi.StandardToppersList(data)
-                        console.log(response,"abc-------------------");
-
                          let abc = response.data.GetTopperList.map((item, i) => {
                              return {
                                Text77: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~",""),
@@ -71,9 +89,7 @@ export const StandardExamList =
                              }                
                            })
                         dispatch(StandardToppersSlice.actions.ToppersList(abc))
-                        
-                    
-                        
+                  
                     let xyz= response.data.GetSelectedSubjectTopperList.map((item, i) => {
                         return {
                           Text1: item.Roll_No,

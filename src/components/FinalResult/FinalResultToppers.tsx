@@ -53,7 +53,7 @@ const FinalResultToppers = () => {
     useEffect(() => {
         dispatch(ClassdropdownList(ClassDropdownBody))
     }, [TeacherId])
-console.log(TeacherId,"TeacherId")
+    
     useEffect(() => {
         dispatch(ClassExamList(ExamDropdownBody))
     }, [SelectClass])
@@ -83,7 +83,7 @@ console.log(TeacherId,"TeacherId")
     const ClassDropdownBody: IGetClassDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asTeacherId:asTeacherId
+        asTeacherId:Number(TeacherId)
     }
     const ExamDropdownBody: IGetexamDropdownBody = {
         asSchoolId: asSchoolId,
