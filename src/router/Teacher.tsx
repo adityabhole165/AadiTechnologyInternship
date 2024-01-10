@@ -39,6 +39,9 @@ const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/Fina
 const ExamResultUnpublish=Loader(lazy(()=>import('src/components/ExamResultUnpublish/ExamResultUnpublish')))
 const AddHomework=Loader(lazy(()=>import('src/components/AssignHomework/AddHomework')))
 const StandardToppers=Loader(lazy(()=>import('src/components/FinalResult/StandardToppers')))
+const HomeworkSubjectList=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkSubjectList')))
+const HomeworkDocuments=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkDocuments ')))
+
 const teacherRoutes = [
     {
       path: 'TAttendance',
@@ -182,7 +185,14 @@ const teacherRoutes = [
       path: 'AddHomework',
       element: <AddHomework/>
     },
-
+    {
+      path: 'HomeworkSubjectList',
+      element: <HomeworkSubjectList/>
+    },
+    {
+      path:'HomeworkDocuments',
+      element:<HomeworkDocuments/>
+    },
 
     ];
   

@@ -1,0 +1,71 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { AppThunk } from "src/store";
+import HomeworkSubjectListApi from "src/api/AssignHomework/ApiHomeworkSubjectList";
+import {IGetSubjectListForTeacherBody,IPublishUnPublishHomeworkBody ,IGetAllHomeworkDocumentsBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
+import { getDateMonthYearFormatted } from "src/components/Common/Util";
+
+const HomeworkSubjectListSlice = createSlice({
+    name: 'HomeworkSubjectList',
+    initialState: {
+        SubjectListForTeacher: [],
+        PublishUnPublishHomework: "",
+        ISSubmitMarksRest: "",
+        GetAllHomeworkDocuments: [],
+    },
+
+    reducers: {
+        getSubjectList(state, action) {
+            state.SubjectListForTeacher = action.payload;
+        },
+        getPublishunpublish(state, action) {
+            state.PublishUnPublishHomework = action.payload;
+        },
+        resetMessage(state) {
+            state.ISSubmitMarksRest = ""
+        },
+        getallhomeworkdocument(state, action) {
+            state.GetAllHomeworkDocuments = action.payload;
+        },
+    }
+});
+export const homeworklistforteacher =
+    (data: IGetSubjectListForTeacherBody): AppThunk =>
+        async (dispatch) => {
+            const response = await HomeworkSubjectListApi.ApiHomeworkSubjectList(data);
+            let a = response.data.map((item, i) => {
+                return {
+                    Id: item.Id,
+                    Text1: item.Subject,
+                    Text2: item.Title,
+                    Text3: getDateMonthYearFormatted(item.AssignedDate),
+                    Text4: getDateMonthYearFormatted(item.CompleteByDate),
+                    Text5: item.AttachmentPath,
+                    Text7: item.IsPublished,
+
+                }
+            })
+
+            dispatch(HomeworkSubjectListSlice.actions.getSubjectList(a));
+        };
+        export const GetPublishUnpublishHomework =
+        (data: IPublishUnPublishHomeworkBody): AppThunk =>
+            async (dispatch) => {
+                const response = await HomeworkSubjectListApi.PublishUnpublish(data);
+                dispatch(HomeworkSubjectListSlice.actions.getPublishunpublish(response.data))
+            }
+
+            export const resetMessage =
+            (): AppThunk =>
+                async (dispatch) => {
+                    dispatch(HomeworkSubjectListSlice.actions.resetMessage());
+                }
+        
+                export const GetAllHomeworkDocuments =
+                (data: IGetAllHomeworkDocumentsBody): AppThunk =>
+                    async (dispatch) => {
+                        const response = await HomeworkSubjectListApi.GetAllHomeworkDocuments(data);
+                        dispatch(HomeworkSubjectListSlice.actions.getallhomeworkdocument(response.data))
+                    }
+
+
+        export default HomeworkSubjectListSlice.reducer

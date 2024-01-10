@@ -11,6 +11,8 @@ import CheckBox from '@mui/icons-material/CheckBox';
 import DropDown from 'src/libraries/list/DropDown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import PageHeader from 'src/libraries/heading/PageHeader'
+import Icon1 from 'src/libraries/icon/icon1';
 const StudentRecords = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState("0");
@@ -35,6 +37,10 @@ const StudentRecords = () => {
             Icon: (<VisibilityIcon />),
             Action: "View"
     }]
+    
+    const Note: string = "Principal and Counsellor can see those students to whom details are submitted by class teacher(s).If Principal or Counsellor is a class teacher of any class then on selection of same class, he / she can see all students to whom details of selected class. 	Status column will show unread, unsubmitted student records and comments."
+    
+
     useEffect(() => {
         dispatch(GetTeachersList(TeachersBody))
     }, [])
@@ -54,6 +60,7 @@ const StudentRecords = () => {
     }, [GetTeachers])
    
     
+    
 
     const TeachersBody: IGetTeacherListBody = {
          asSchoolId:asSchoolId,
@@ -66,17 +73,17 @@ const StudentRecords = () => {
     }
     const GetStudentStatusBody:IGetAllStudentStatusBody={
         asSchoolId:asSchoolId.toString(),
-        "asAcademicYearId":asAcademicYearId.toString(),
-        "asStdDivId":SelectTeacher,
-        "asFilter":regNoOrName.toString(),
-        "sortExpression":"",
-        "sortDirection":"ASC",
-        "StartIndex":0,
-        "EndIndex":20,
-        "ShowSaved":true,
-        "IncludeRiseAndShine":showRiseAndShine,
-        "HasEditAccess":"N",
-        "UserId":Id
+        asAcademicYearId:asAcademicYearId.toString(),
+        asStdDivId:SelectTeacher,
+        asFilter:regNoOrName.toString(),
+        sortExpression:"",
+        sortDirection:"ASC",
+        StartIndex:0,
+        EndIndex:20,
+        ShowSaved:true,
+        IncludeRiseAndShine:showRiseAndShine,
+        HasEditAccess:"N",
+        UserId:Id
     }
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
@@ -98,15 +105,21 @@ const StudentRecords = () => {
     const handleCheckboxChange = (value) =>{
 setShowRiseAndShine(value)
     }
-
+    
 
     return ( 
         <Container>
         <br></br>
         <br></br>
+        <PageHeader heading={'Student Record List'} subheading={''} />
 <br></br>
 <br></br>
+<Box sx={{ float: "right" }}>
+              
+              <Icon1  Note={Note}/>
+           </Box>
         <Grid container spacing={10} alignItems="center">
+            
             <Grid item xs={2}>
                 <Typography marginLeft={'1px'}>
                     <b>Class Teacher:</b>
@@ -149,7 +162,7 @@ setShowRiseAndShine(value)
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                {GetStatusStudents != undefined &&
+                {GetStatusStudents != undefined && 
                 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
                 ClickItem={ClickItem} IconList={IconList}/>
             }
