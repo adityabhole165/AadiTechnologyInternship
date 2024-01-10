@@ -86,13 +86,16 @@ function SelectSchool() {
 
     useEffect(() => {
         if ((value !== undefined) && (value !== null)) {
+            console.log(value,"value")
             window.sessionStorage.setItem("authenticateuser", JSON.stringify(value));
             sessionStorage.setItem("SchoolId", value.SchoolId);
             localStorage.setItem("localSchoolId", value.SchoolId);
             localStorage.setItem("SchoolName", value.SchoolName);
             localStorage.setItem("SiteURL", value.SiteURL);
             localStorage.setItem("TermsSchoolName", value.TermsSchoolName);
+            localStorage.setItem("FolderName", value.FolderName);
             setimg_src(logoURL + value.TermsSchoolName?.split(' ').join('%20') + "_logo.png");
+            
         }
     }, [value])
 
