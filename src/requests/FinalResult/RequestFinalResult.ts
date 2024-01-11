@@ -41,7 +41,7 @@ export const GetStudentResultList =
             const response = await FinalResultApi.GetStudentResult(data);
             let StudentList = response.data?.map((item)=>{
               return {
-                Id:item.Division_id,
+                Id:item.SchoolWise_Standard_Division_Id,
               Text1:item.Roll_No,
               Text2:item.Name,
               Text3:item.Marks,
