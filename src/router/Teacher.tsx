@@ -155,8 +155,6 @@ const teacherRoutes = [
     element:<StudentRecords/>
   },
 
-    
-
     {
       path: 'AddDailyLog/:Id/:ClassName',
       element: <AddDailyLog/>
@@ -189,11 +187,14 @@ const teacherRoutes = [
       path: 'HomeworkSubjectList',
       element: <HomeworkSubjectList/>
     },
+    // {
+    //   path:'HomeworkDocuments/Id',
+    //   element:<HomeworkDocuments/>
+    // },  
     {
       path:'HomeworkDocuments',
       element:<HomeworkDocuments/>
-    },
-
+    },  
     ];
   
   export default teacherRoutes;
