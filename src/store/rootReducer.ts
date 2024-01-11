@@ -81,6 +81,8 @@ import UnPublishTestSlice from'src/requests/ExamResultUnpublish/RequestExamResul
 import StandardToppersSlice from 'src/requests/FinalResult/RqstandardToppers'
 import AddHomeworkSlice from'src/requests/AssignHomework/requestAddHomework'
 import HomeworkSubjectListSlice from'src/requests/AssignHomework/requestHomeworkSubjetList'
+import HomeworkdocumentSlice from'src/requests/AssignHomework/requestHomeworkDocuments'
+
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
     Support: SliceSupport,
@@ -166,7 +168,8 @@ const rootReducer = combineReducers({
     unpublishtest:UnPublishTestSlice,
     StandardToppers:StandardToppersSlice,
     AddHomework:AddHomeworkSlice,
-    HomeworkSubjectList:HomeworkSubjectListSlice
+    HomeworkSubjectList:HomeworkSubjectListSlice,
+    Homeworkdocument:HomeworkdocumentSlice,
 });
 
 export default rootReducer;
