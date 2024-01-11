@@ -15,6 +15,8 @@ import { Grid } from '@mui/material';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
+  const { Id} = useParams();
+  alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -32,15 +34,15 @@ const HomeworkDocuments = () => {
   console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
 
   const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
-    "asSchoolId": asSchoolId,
-    "asHomeworkId": 18187,
-    "asAcademicyearId": asAcademicYearId
+    asSchoolId: asSchoolId,
+    asHomeworkId: Number(Id),
+    asAcademicyearId: asAcademicYearId
   }
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
   }, []);
   const ClickDelete = (Id) =>{
-alert(Id)
+
 
   }
 
@@ -52,8 +54,7 @@ alert(Id)
       <br></br>
       
       <PageHeader heading={'Documents'}/>
-      
-      
+        
       
       <Grid item xs={12}>
                 {AllHomeworkDocuments != undefined && 

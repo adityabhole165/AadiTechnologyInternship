@@ -82,6 +82,7 @@ import StandardToppersSlice from 'src/requests/FinalResult/RqstandardToppers'
 import AddHomeworkSlice from'src/requests/AssignHomework/requestAddHomework'
 import HomeworkSubjectListSlice from'src/requests/AssignHomework/requestHomeworkSubjetList'
 import HomeworkdocumentSlice from'src/requests/AssignHomework/requestHomeworkDocuments'
+import ViewHomeworkSlice from 'src/requests/AssignHomework/requestViewHomework';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -170,6 +171,7 @@ const rootReducer = combineReducers({
     AddHomework:AddHomeworkSlice,
     HomeworkSubjectList:HomeworkSubjectListSlice,
     Homeworkdocument:HomeworkdocumentSlice,
+    ViewHomework:ViewHomeworkSlice,
 });
 
 export default rootReducer;

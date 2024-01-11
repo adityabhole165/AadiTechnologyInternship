@@ -11,9 +11,11 @@ import { toast } from 'react-toastify';
 import { Box, Grid, TextField, Typography } from '@mui/material';
 import DropDown from "src/libraries/list/DropDown"
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import id from 'date-fns/locale/id';
 const HomeworkSubjectList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   const [HomeworkS, setHomeworkS] = useState("0")
   const [AssignedDate, setAssignedDate] = useState("")
   const [Title, setTitle] = useState("");
@@ -55,9 +57,9 @@ const HomeworkSubjectList = () => {
     asAssignedDate: AssignedDate
   }
   const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
-    "asSchoolId": asSchoolId,
-    "asHomeworkId":Number(Id),
-    "asAcademicyearId": asAcademicYearId
+    asSchoolId: asSchoolId,
+    asHomeworkId:Number(Id),
+    asAcademicyearId: asAcademicYearId
   }
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
@@ -109,7 +111,7 @@ const HomeworkSubjectList = () => {
   }
   const clickView = (Id) => {
     
-    navigate('/extended-sidebar/Teacher/HomeworkDocuments'  + Id)
+    navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id)
   } 
 
   const clickFileName = (value) => {
@@ -119,12 +121,17 @@ const HomeworkSubjectList = () => {
     }
   
 };
+const clickTitle = (Id) => {
+  alert(Id)
+  navigate('/extended-sidebar/Teacher/ViewHomework/'  + Id)
+} 
 
   return (
     <div>
       <br></br>
       <br></br>
       <br></br>
+
       {/* <Grid item xs={4}>
   <DropDown
     itemList={HomeworkStatus}
@@ -134,6 +141,7 @@ const HomeworkSubjectList = () => {
     
   />
 </Grid> */}
+
       <Grid container spacing={2}>
         <Grid item xs={4}>
           <DropDown itemList={HomeworkStatus} ClickItem={clickHomeworkStatus} DefaultValue={HomeworkS} Label={''} />
@@ -179,7 +187,7 @@ const HomeworkSubjectList = () => {
 
       <br></br>
       <br></br>
-      <Assignedhomeworklist ItemList={Subjectlistsforteacher} clickView={""} clickDelete={""} clickEdit={""} clickVisibilityIcon={clickView} clickpublish={clickPublishUnpublish}
+      <Assignedhomeworklist ItemList={Subjectlistsforteacher} clickView={clickTitle} clickDelete={""} clickEdit={""} clickVisibilityIcon={clickView} clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish} clickAttachment={clickFileName} /><br></br>
       <br></br>
 

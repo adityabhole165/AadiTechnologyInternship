@@ -92,6 +92,7 @@ const StudentRecords = () => {
         //  setShowRiseAndShine(value)
         //  setSelectTeacher(value)
         //  setRegNoOrName(value)
+        
         dispatch(GetAllStudentStatuss(GetStudentStatusBody))
       
     }
