@@ -70,14 +70,13 @@ const FinalResultToppers = () => {
 
 
     useEffect(() => {
-        if (GetClassdropdown.length == 0 &&
+        if (
             GetExamdropdown.length == 0 &&
             GetSubjectdropdown.length > 0) {
-            setClass(GetClassdropdown[0].value)
             setExam(GetExamdropdown[0].Value)
             setSubject(GetSubjectdropdown[0].Value)
         }
-    }, [ GetClassdropdown,GetExamdropdown, GetSubjectdropdown]);
+    }, [GetExamdropdown, GetSubjectdropdown]);
 
 
     const ClassDropdownBody: IGetClassDropdownBody = {
