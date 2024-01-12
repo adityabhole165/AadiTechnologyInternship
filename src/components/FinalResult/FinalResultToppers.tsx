@@ -32,7 +32,6 @@ const FinalResultToppers = () => {
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
     const GetClassdropdown = useSelector((state: RootState) => state.FinalResultToppers.ClassDropdownList);
     console.log("GetClassdropdown", GetClassdropdown)
@@ -71,7 +70,7 @@ const FinalResultToppers = () => {
 
     useEffect(() => {
         if (
-            GetExamdropdown.length == 0 &&
+            GetExamdropdown.length > 0 &&
             GetSubjectdropdown.length > 0) {
             setExam(GetExamdropdown[0].Value)
             setSubject(GetSubjectdropdown[0].Value)

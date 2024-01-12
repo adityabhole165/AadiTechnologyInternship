@@ -9,6 +9,7 @@ import { Box, Button, Container, Grid, Typography } from '@mui/material'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import EditIcon from '@mui/icons-material/Edit';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddBoxTwoToneIcon from '@mui/icons-material/AddBoxTwoTone';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import PageHeader from 'src/libraries/heading/PageHeader'
@@ -36,8 +37,8 @@ const FinalResult = () => {
 
         {
             Id: 2,
-            Icon: (<EditIcon />),
-            Action: "Edit"
+            Icon: (<VisibilityIcon />),
+            Action: "VisibilityIcon"
         },
     ]
     // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -80,8 +81,17 @@ const FinalResult = () => {
     const ClickItem = (value) => {
 
     }
+
+    const getTeacherId = () => {
+        let TeacherId = ""
+        GetClassTeachers.map((item)=>{
+            if(item.Value == SelectTeacher)
+            TeacherId = item.Id
+        })
+        return TeacherId;
+    }
     const Toppers = (value) => {
-        navigate('/extended-sidebar/Teacher/FinalResultToppers/'+SelectTeacher);
+        navigate('/extended-sidebar/Teacher/FinalResultToppers/'+getTeacherId());
       }
     
 
