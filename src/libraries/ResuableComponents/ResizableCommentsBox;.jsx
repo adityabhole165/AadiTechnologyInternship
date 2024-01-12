@@ -1,4 +1,4 @@
-import React, { useState, useEffect,useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,73 +11,49 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
-function ResizableCommentsBox({ ItemList, HeaderArray, NoteClick }) {
-  const [textValues, setTextValues] = useState([]);
-  const [textValues1, setTextValues1] = useState([]);
-  const [textValues2, setTextValues2] = useState([]);
-  const [charCounts, setCharCounts] = useState([]);
-  const [charCounts1, setCharCounts1] = useState([]);
-  const [charCounts2, setCharCounts2] = useState([]);
-
-  useEffect(() => {
-    setTextValues(ItemList.map((item) => item.Text3));
-    setCharCounts(ItemList.map((item) => 300 - item.Text3.length)); 
-  }, [ItemList]);
-
-  useEffect(() => {
-    setTextValues1(ItemList.map((item) => item.Text4));
-    setCharCounts1(ItemList.map((item) => 300 - item.Text4.length)); 
-  }, [ItemList]);
-
-  useEffect(() => {
-    setTextValues2(ItemList.map((item) => item.Text5));
-    setCharCounts2(ItemList.map((item) => 300 - item.Text5.length)); 
-  }, [ItemList]);
-
-
-  const TextChange = (index, newText) => {
-    const newTextValues = [...textValues];
-    newTextValues[index] = newText;
-    setTextValues(newTextValues);
-
-    const newCharCounts = [...charCounts];
-    newCharCounts[index] = 300 - newText.length;
-    setCharCounts(newCharCounts);
+function ResizableCommentsBox({
+  ItemList,
+  HeaderArray,
+  NoteClick,
+  setTextValues,
+  setTextValues1,
+  setTextValues2,
+}) {
+  const TextChange = (value) => {
+    if (value.Value.length <= 300) {
+      ItemList = ItemList.map((item) =>
+        item.Id === value.Id ? { ...item, Text3: value.Value } : item
+      );
+      setTextValues(ItemList);
+    }
   };
 
-  const TextChange1 = (index, newText) => {
-    const newTextValues = [...textValues1];
-    newTextValues[index] = newText;
-    setTextValues1(newTextValues);
-
-    const newCharCounts = [...charCounts];
-    newCharCounts[index] = 300 - newText.length;
-    setCharCounts1(newCharCounts);
+  const TextChange1 = (value) => {
+    if (value.Value.length <= 300) {
+      ItemList = ItemList.map((item) =>
+        item.Id === value.Id ? { ...item, Text4: value.Value } : item
+      );
+      setTextValues1(ItemList);
+    }
   };
 
-
-  const TextChange2 = (index, newText) => {
-    const newTextValues = [...textValues2];
-    newTextValues[index] = newText;
-    setTextValues2(newTextValues);
-
-    const newCharCounts = [...charCounts];
-    newCharCounts[index] = 300 - newText.length;
-    setCharCounts2(newCharCounts);
+  const TextChange2 = (value) => {
+    if (value.Value.length <= 300) {
+      ItemList = ItemList.map((item) =>
+        item.Id === value.Id ? { ...item, Text5: value.Value } : item
+      );
+      setTextValues2(ItemList);
+    }
   };
-
-  
-
 
   return (
     <div
-    style={{
-      maxHeight: '800px',
-      overflowY: 'auto',
-      scrollBehavior: 'smooth', 
-    }}
-  
-  >
+      style={{
+        maxHeight: '800px',
+        overflowY: 'auto',
+        scrollBehavior: 'smooth',
+      }}
+    >
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
@@ -102,67 +78,73 @@ function ResizableCommentsBox({ ItemList, HeaderArray, NoteClick }) {
               <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
                 <TableCell align="center">{item.Text1}</TableCell>
                 <TableCell align="center">{item.Text2}</TableCell>
-                <TableCell align="center">  
-                  <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <TextareaAutosize 
-                      value={textValues[i]}
-                      onChange={(e) => TextChange(i, e.target.value)}
-                     
-                      rowsMax={3}
-                      maxLength={100} 
-                    />
-                    <IconButton onClick={() => NoteClick(i)}>
-                      <MoreVertIcon />
-                    </IconButton>
-                    <Typography variant="caption" color={charCounts[i] < 0 ? 'error' : 'initial'}>
-                      ({Math.max(0, charCounts[i])})
-                    </Typography>
-                  </div>
-                </TableCell>
-
-
-
-                <TableCell align="center"> 
+                <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize
-                      value={textValues1[i]}
-                      onChange={(e) => TextChange1(i, e.target.value)}
-                     
-                      rowsMax={3}
-                      maxLength={100} 
+                      id={`outlined-basic-${i}`}
+                      value={item.Text3}
+                      variant="outlined"
+                      onChange={(e) => {
+                        TextChange({ Id: item.Id, Value: e.target.value });
+                      }}
+                      maxLength={300}
+                      style={{ width: '200px' }}
                     />
+                    
                     <IconButton onClick={() => NoteClick(i)}>
                       <MoreVertIcon />
                     </IconButton>
-                    <Typography variant="caption" color={charCounts[i] < 0 ? 'error' : 'initial'}>
-                      ({Math.max(0, charCounts1[i])})
+                    <Typography variant="caption" color="textSecondary">
+                      ({300 - item.Text3.length})
                     </Typography>
                   </div>
                 </TableCell>
 
-                <TableCell align="center">  
+                <TableCell align="center">
                   <div style={{ display: 'flex', alignItems: 'center' }}>
                     <TextareaAutosize
-                      value={textValues2[i]}
-                      onChange={(e) => TextChange2(i, e.target.value)}
-                  
-                      rowsMax={3}
-                      maxLength={100} 
+                      id={`outlined-basic-${i}`}
+                      value={item.Text4}
+                      variant="outlined"
+                      onChange={(e) => {
+                        TextChange1({ Id: item.Id, Value: e.target.value });
+                      }}
+                      maxLength={300}
+                      style={{ width: '200px' }}
                     />
+                    
                     <IconButton onClick={() => NoteClick(i)}>
                       <MoreVertIcon />
                     </IconButton>
-                    <Typography variant="caption" color={charCounts[i] < 0 ? 'error' : 'initial'}>
-                      ({Math.max(0, charCounts2[i])})
+                    <Typography variant="caption" color="textSecondary">
+                      ({300 - item.Text4.length})
                     </Typography>
                   </div>
                 </TableCell>
 
-
-         
-
-
-
+                <TableCell align="center">
+                  <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <TextareaAutosize
+                      id={`outlined-basic-${i}`}
+                      value={item.Text5}
+                      variant="outlined"
+                      onChange={(e) => {
+                        TextChange2({ Id: item.Id, Value: e.target.value });
+                      }}
+                      maxLength={300}
+                      style={{ width: '200px' }}
+                    />
+                    
+                    <IconButton onClick={() => NoteClick(i)}>
+                      <MoreVertIcon />
+                    </IconButton>
+                    <Typography variant="caption" color="textSecondary">
+                    ({300 - item.Text5.length})
+                     
+                    </Typography>
+                   
+                  </div>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

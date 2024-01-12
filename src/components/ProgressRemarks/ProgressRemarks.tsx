@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'src/store';
 import { IAllPrimaryClassTeachersBody, IGetTestwiseTermBody, IStudentswiseRemarkDetailsToExportBody, IUpdateAllStudentsRemarkDetailsBody, IStudentListDropDowntBody, IGetAllStudentswiseRemarkDetailsBody } from "src/interfaces/ProgressRemarks/IProgressRemarks"
-import { CDAGetClassTeachers, CDAGetTestwiseTerm, CDAStudentswiseRemarkDetailsToExport, CDAUpdateAllStudentsRemarkDetails, CDAStudentListDropDown, CDAGetAllStudentswiseRemarkDetails } from "src/requests/ProgressRemarks/ReqProgressRemarks"
+import { CDAGetClassTeachers, CDAGetTestwiseTerm, CDAStudentswiseRemarkDetailsToExport, CDAUpdateAllStudentsRemarkDetails, CDAStudentListDropDown, CDAGetAllStudentswiseRemarkDetails,CDAresetSaveMassage } from "src/requests/ProgressRemarks/ReqProgressRemarks"
 import { Box, Container, Grid, Typography, Stack, Paper } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -16,7 +16,7 @@ import { useNavigate } from 'react-router';
 import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
 import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-
+import { toast } from 'react-toastify';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -41,7 +41,10 @@ const ProgressRemarks = () => {
   );
   console.log(USGetTestwiseTerm, "USGetTestwiseTerm==1");
 
-
+ 
+  
+  
+ 
   const USClassTeachers: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetClassTeachers);
 
   const StudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentswiseRemarkDetailsToExport);
@@ -55,6 +58,39 @@ const ProgressRemarks = () => {
   const USStudentListDropDown: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISStudentListDropDown);
 
   const USGetAllStudentswiseRemarkDetails: any = useSelector((state: RootState) => state.ProgressRemarkSlice.ISGetAllStudentswiseRemarkDetails);
+
+  const [Itemlist, setItemlist] = useState([]);
+
+
+  useEffect(()=>{
+    setItemlist(USGetAllStudentswiseRemarkDetails)
+
+  },[USGetAllStudentswiseRemarkDetails])
+
+//    const [charCounts, setCharCounts] = useState([]);
+//  useEffect(() => {
+//     setCharCounts(Itemlist.map((item) => 300 - item.Text3.length)); 
+//   }, [Itemlist]);
+ 
+
+//   const CharCounts1 =(value)=>{
+//     setCharCounts(value)
+   
+//   }
+
+  const TextValues =(value)=>{
+    setItemlist(value)
+   
+console.log(value,"value-----")  }
+  const TextValues1 =(value)=>{
+    setItemlist(value)
+   
+  }
+  const TextValues2 =(value)=>{
+    setItemlist(value)
+   
+  }
+
 
   const Note1 = ["Attentive, Capable, Careful, Cheerful, Confident, Cooperative, Courteous, Creative, Dynamic, Eager, Energetic, Generous, Hardworking, Helpful, Honest, Imaginative, Independent, Industrious, Motivated, Organized Outgoing, Pleasant, Polite, Resourceful, Sincere, Unique."]
   const Hedaer1 = ["Suggested Adjectives:"]
@@ -104,47 +140,53 @@ const ProgressRemarks = () => {
    const getXML = () =>{
    
     let sXML = "<ArrayOfStudentwiseRemarkConfigDetails xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">";
-    USGetAllStudentswiseRemarkDetails.map((Item)=>{
-      sXML = sXML + "<StudentwiseRemarkConfigDetails><YearwiseStudentId>" + Item.Text11 + "</YearwiseStudentId>" +
+    Itemlist.map((Item)=>{
+      sXML = sXML + "<StudentwiseRemarkConfigDetails>   <YearwiseStudentId>" + Item.Text11 + "</YearwiseStudentId>" +
       "<StudentwiseRemarkId>" + Item.Text12 + "</StudentwiseRemarkId>" +
-       "<Remark />"+
-      "<RemarkConfigId>" + Item.Text6 + "</RemarkConfigId>" +
-      "<RemarkMaster><RemarkConfigId>" + Item.Text7 + "</RemarkConfigId></RemarkMaster>" +
-      "<SalutationId>" + Item.Text8 + "</SalutationId>" +
+      "<Remark>"+Item.Text3+"</Remark>"+
+      "<RemarkConfigId>" + Item.Text7 + "</RemarkConfigId>" +
+      "<RemarkMaster><RemarkConfigId>" + Item.Text6 + "</RemarkConfigId></RemarkMaster>" +
+      "<SalutationId>" + Item.Text8+ "</SalutationId>" +
       "<IsPassedAndPromoted>" + Item.Text9 + "</IsPassedAndPromoted>" +
-      "<IsLeftStudent>" + Item.Text10 + "</IsLeftStudent></StudentwiseRemarkConfigDetails>" 
+      "<IsLeftStudent>" + Item.Text10 + "</IsLeftStudent>   </StudentwiseRemarkConfigDetails>" 
     })
     sXML =  sXML + "</ArrayOfStudentwiseRemarkConfigDetails>"
-
+  
     console.log( "XMLLLLLLLL",sXML)
+  
     return sXML
   }
 
-
   
-
-
-  const UpdateRemark=()=>{
-
-    const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
+  
+  const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
   {
     StudentwiseRemarkXML: getXML(),
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(selectTeacher),
-    asStandardDivId:  Number(selectTeacher),
+    asStandardDivId:  asStandardDivisionId,
     asTermId: Number(SelectTerm)
   }
+  
+  const UpdateRemark=()=>{
     dispatch(CDAUpdateAllStudentsRemarkDetails(UpdateAllStudentsRemarkDetailsBody));
-     
+
+    // dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)) ;
   }
   
-  
+  useEffect(() => {
+    if (UpdateAllStudentsRemarkDetail != '') {
+        toast.success(UpdateAllStudentsRemarkDetail)
+        dispatch(CDAresetSaveMassage());
+        dispatch(CDAGetAllStudentswiseRemarkDetails(GetAllStudentswiseRemarkDetailsBody)) ;
+    }
+}, [UpdateAllStudentsRemarkDetail]);
 
 
   const StudentListDropDowntBody: IStudentListDropDowntBody =
   {
-    asStandard_Division_Id: Number(selectTeacher),
+    asStandard_Division_Id:asStandardDivisionId,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asTerm_Id: SelectTerm
@@ -155,9 +197,9 @@ const ProgressRemarks = () => {
   {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
-    asStandardDivId:Number (selectTeacher),
+    asStandardDivId:asStandardDivisionId,
     asStudentId:Number(StudentList),
-    asTermId: Number (SelectTerm)
+    asTermId: Number (SelectTerm),
   }
 
 
@@ -338,7 +380,8 @@ const ProgressRemarks = () => {
 
                 </Grid>
                 
-                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} NoteClick={ExamResult} />
+                {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
+                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} />
 
                 <br></br>
 
@@ -440,8 +483,10 @@ const ProgressRemarks = () => {
                   </Grid>
 
 
+
                 </Grid> 
-                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={USGetAllStudentswiseRemarkDetails} NoteClick={ExamResult} />
+                <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} />
+
                 
             <br></br>
             <Box style={{ display: 'flex', justifyContent: 'center' }}>

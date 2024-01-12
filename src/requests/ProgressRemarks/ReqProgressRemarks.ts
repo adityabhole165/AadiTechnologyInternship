@@ -15,7 +15,8 @@ const ProgressRemarkSlice = createSlice({
     ISStudentswiseRemarkDetailsToExport2:{},
     ISUpdateAllStudentsRemarkDetailsBody:"",
     ISStudentListDropDown:[],
-    ISGetAllStudentswiseRemarkDetails:[]
+    ISGetAllStudentswiseRemarkDetails:[],
+    ISresetSaveMassage:""
     
 
   },
@@ -51,10 +52,10 @@ const ProgressRemarkSlice = createSlice({
       RSGetAllStudentswiseRemarkDetails  (state, action) {
         state.ISGetAllStudentswiseRemarkDetails = action.payload
       },
-
-      
-
-      
+     
+      RresetSaveMassage(state) {
+        state.ISresetSaveMassage = '';
+      },
 
    
    
@@ -82,9 +83,9 @@ async (dispatch) => {
         const response = await ApiProgressRemark. ClassTeachers(data);
         let ClassTeachers = response.data.map((item, i) => {
             return {
-                Id: item.SchoolWise_Standard_Division_Id,
+                Id: item.Teacher_Id,
                 Name: item.TeacherName,
-                Value: item.SchoolWise_Standard_Division_Id,
+                Value: item.Teacher_Id,
             }
         })
 
@@ -164,7 +165,7 @@ async (dispatch) => {
         const response = await ApiProgressRemark. GetAllStudentswiseRemarkDetails(data);
         let RemarkList = response.data.map((item, i) => {
             return {
-                
+                Id: i,
                 Text1: item.RollNo,
                 Text2: item.StudentName,
                 Text3: item.Remark,
@@ -177,6 +178,8 @@ async (dispatch) => {
                 Text10: item.IsLeftStudent,
                 Text11: item.YearwiseStudentId,
                 Text12: item.StudentwiseRemarkId ,
+                Text13:item.Remark,
+               
             }
         })
 
@@ -184,7 +187,11 @@ async (dispatch) => {
     }
 
 
-   
+    export const CDAresetSaveMassage =
+    (): AppThunk =>
+      async (dispatch) => {
+        dispatch(ProgressRemarkSlice.actions.RresetSaveMassage());
+      }
 
      
 
