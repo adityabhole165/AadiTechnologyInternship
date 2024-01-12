@@ -16,7 +16,7 @@ import { Grid } from '@mui/material';
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
   const { Id } = useParams();
-  alert(Id)
+  // alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
@@ -46,7 +46,7 @@ const HomeworkDocuments = () => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
   }, []);
   const ClickDelete = (Id) => {
-    alert(Id)
+    
     if (confirm('Are You Sure you want to delete The List')) {
     const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
       asSchoolId: asSchoolId,

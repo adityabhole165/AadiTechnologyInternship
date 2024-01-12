@@ -39,6 +39,7 @@ export const homeworklistforteacher =
                     Text2: item.Title,
                     Text3: getDateMonthYearFormatted(item.AssignedDate),
                     Text4: getDateMonthYearFormatted(item.CompleteByDate),
+                    Text6:item.flag,
                     Text5: item.AttachmentPath,
                     Text7: item.IsPublished,
 

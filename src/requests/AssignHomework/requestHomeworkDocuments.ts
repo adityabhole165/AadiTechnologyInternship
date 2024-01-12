@@ -8,7 +8,7 @@ const HomeworkdocumentSlice = createSlice({
     name: 'HomeworkDocuments',
     initialState: {
         GetAllHomeworkDocuments: [],
-        DeleteHomeworkDocument: "",
+        DeleteHomeworkDocument: null,
  
     },
 
@@ -23,22 +23,30 @@ const HomeworkdocumentSlice = createSlice({
     }
 });
 
-export const GetAllHomeworkDocuments =
-    (data: IGetAllHomeworkDocumentsBody): AppThunk =>
-        async (dispatch) => {
-            const response = await ApiHomeworkDocuments.GetAllHomeworkDocuments(data);
-            let StudentList = response.data.map((item)=>{
-                return {
-                Id:item.Id,
-                Text1:item.AttachmentName,
-                
-               // Text5: item.ReadyToSubmitCount==0?"":"Unread-" + item.ReadyToSubmitCount.toString()
-            }
-            
-              })
-            dispatch(HomeworkdocumentSlice.actions.getallhomeworkdocument(StudentList))
-            
-        }
+export const GetAllHomeworkDocuments = (data: IGetAllHomeworkDocumentsBody): AppThunk => async (dispatch) => {
+    try {
+      const response = await ApiHomeworkDocuments.GetAllHomeworkDocuments(data);
+  
+      if (response && response.data && Array.isArray(response.data)) {
+        let StudentList = response.data.map((item) => {
+          return {
+            Id: item.Id,
+            Text1: item.AttachmentName,
+            // Text5: item.ReadyToSubmitCount == 0 ? "" : "Unread-" + item.ReadyToSubmitCount.toString()
+          };
+        });
+  
+        dispatch(HomeworkdocumentSlice.actions.getallhomeworkdocument(StudentList));
+      } else {
+        console.error('Invalid response format:', response);
+        // Handle the case where the response or response.data is not as expected
+      }
+    } catch (error) {
+      console.error('An error occurred while fetching homework documents:', error);
+      // Handle the error as needed
+    }
+  };
+  
         export const DeleteDocument =
         (data: IDeleteHomeworkDocumentBody): AppThunk =>
             async (dispatch) => {

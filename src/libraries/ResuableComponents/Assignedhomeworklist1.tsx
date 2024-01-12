@@ -62,10 +62,12 @@ const Assignedhomeworklist1 = ({ ItemList, HeaderArray, clickDelete, clickEdit, 
 
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text5 !== "" ? (
-                    <VisibilityIcon style={{ color: 'black' }} onClick={() => clickVisibilityIcon(item.Id)} />
-                  ) : (
+                  {item.Text6 == 0 ? (
                     null
+
+                  ) : (
+                    <VisibilityIcon style={{ color: 'black' }} onClick={() => clickVisibilityIcon(item.Id)} />
+
                   )}
                 </TableCell>
 
