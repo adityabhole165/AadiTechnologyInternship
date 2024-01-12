@@ -17,9 +17,12 @@ export interface IGetHomeworkDetailBody {
     Details: string,
     SubjectId: number,
     flag: string
- 
-    
-    
-   
+  
  }
- 
+ export interface IDeleteHomeworkDocumentBody {
+   asSchoolId:number,
+   asUpdatedById:number,
+   asHomeworkId:number,
+   asAcademicYearId:number
+  
+}

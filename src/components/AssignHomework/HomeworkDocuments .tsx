@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { RootState } from 'src/store'
-import {  IGetAllHomeworkDocumentsBody } from "src/interfaces/AssignHomework/IHomeworkDocuments";
-import {   GetAllHomeworkDocuments } from "src/requests/AssignHomework/requestHomeworkDocuments";
+import { IGetAllHomeworkDocumentsBody, IDeleteHomeworkDocumentBody } from "src/interfaces/AssignHomework/IHomeworkDocuments";
+import { GetAllHomeworkDocuments, DeleteDocument } from "src/requests/AssignHomework/requestHomeworkDocuments";
 import { useNavigate, useParams } from "react-router"
 import Assignedhomeworklist from "src/libraries/ResuableComponents/Assignedhomeworklist1"
 import { toast } from 'react-toastify';
@@ -15,7 +15,7 @@ import { Grid } from '@mui/material';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
-  const { Id} = useParams();
+  const { Id } = useParams();
   alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -23,27 +23,39 @@ const HomeworkDocuments = () => {
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
 
-  const HeaderList = ["FileName ", "Delete", ]
-    const IconList = [{
-            Id: 1,
-            Icon: (<CancelIcon />),
-            Action: "View"
-    }]
+  const HeaderList = ["FileName ", "Delete",]
+  const IconList = [{
+    Id: 1,
+    Icon: (<CancelIcon />),
+    Action: "View"
+  }]
 
   const AllHomeworkDocuments = useSelector((state: RootState) => state.Homeworkdocument.GetAllHomeworkDocuments);
-  console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
+  //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
+
+  const DeleteHomeworkDocument = useSelector((state: RootState) => state.Homeworkdocument.DeleteHomeworkDocument);
+  console.log(DeleteHomeworkDocument, "DeleteHomeworkDocument....")
 
   const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
     asSchoolId: asSchoolId,
     asHomeworkId: Number(Id),
     asAcademicyearId: asAcademicYearId
   }
+
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
   }, []);
-  const ClickDelete = (Id) =>{
-
-
+  const ClickDelete = (Id) => {
+    alert(Id)
+    if (confirm('Are You Sure you want to delete The List')) {
+    const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
+      asSchoolId: asSchoolId,
+      asUpdatedById: Number(asTeacherId),
+      asHomeworkId: Number(Id),
+      asAcademicYearId: asAcademicYearId
+    }
+    dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
+  }
   }
 
 
@@ -52,18 +64,18 @@ const HomeworkDocuments = () => {
       <br></br>
       <br></br>
       <br></br>
-      
-      <PageHeader heading={'Documents'}/>
-        
-      
+
+      <PageHeader heading={'Documents'} />
+
+
       <Grid item xs={12}>
-                {AllHomeworkDocuments != undefined && 
-                <DynamicList2 HeaderList={HeaderList} ItemList={AllHomeworkDocuments}
-                ClickItem={ClickDelete} IconList={IconList}/>
-            }
-            </Grid>
-      
-       </div>
+        {AllHomeworkDocuments != undefined &&
+          <DynamicList2 HeaderList={HeaderList} ItemList={AllHomeworkDocuments}
+            ClickItem={ClickDelete} IconList={IconList} />
+        }
+      </Grid>
+
+    </div>
   )
 }
 

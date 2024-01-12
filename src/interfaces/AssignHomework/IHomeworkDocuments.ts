@@ -18,3 +18,10 @@ export interface IGetAllHomeworkDocumentsResult {
         UpdateDate: string
    
 }
+export interface IDeleteHomeworkDocumentBody {
+    asSchoolId:number,
+    asUpdatedById:number,
+    asHomeworkId:number,
+    asAcademicYearId:number
+   
+}
