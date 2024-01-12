@@ -33,20 +33,16 @@ const FinalResultToppers = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
+
     const GetClassdropdown = useSelector((state: RootState) => state.FinalResultToppers.ClassDropdownList);
-    console.log("GetClassdropdown", GetClassdropdown)
 
     const GetExamdropdown = useSelector((state: RootState) => state.FinalResultToppers.ExamDropdownList);
-    console.log("GetExamdropdown", GetExamdropdown)
 
     const GetSubjectdropdown: any = useSelector((state: RootState) => state.FinalResultToppers.SubjectDropdownList);
-    console.log("GetSubjectdropdown", GetSubjectdropdown)
 
     const GetToppersList = useSelector((state: RootState) => state.FinalResultToppers.ClassToppers);
-    console.log("GetToppersList", GetToppersList)
 
     const GetSubjectToppersList = useSelector((state: RootState) => state.FinalResultToppers.SubjectToppers);
-    console.log("GetToppersList", GetToppersList)
 
 
     useEffect(() => {
@@ -66,17 +62,20 @@ const FinalResultToppers = () => {
     }, [SelectClass, SelectExam, SelectSubject])
 
 
-
+    useEffect(() => {
+        if (GetClassdropdown.length > 0)
+        setClass(GetClassdropdown[0].Id)
+    }, [GetClassdropdown]);
 
     useEffect(() => {
-        if (
-            GetExamdropdown.length > 0 &&
-            GetSubjectdropdown.length > 0) {
-            setExam(GetExamdropdown[0].Value)
-            setSubject(GetSubjectdropdown[0].Value)
-        }
-    }, [GetExamdropdown, GetSubjectdropdown]);
-
+        if (GetExamdropdown.length > 0)
+        setExam(GetExamdropdown[0].Id)
+    }, [GetExamdropdown]);
+    
+    useEffect(() => {
+        if (GetSubjectdropdown.length > 0)
+        setSubject(GetSubjectdropdown[0].Id)
+    }, [GetSubjectdropdown]);
 
     const ClassDropdownBody: IGetClassDropdownBody = {
         asSchoolId: asSchoolId,

@@ -11,7 +11,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-const DynamicList2 = ({ HeaderList, ItemList,
+const FinalResultList = ({ HeaderList, ItemList,
     IconList=undefined, ClickItem=undefined, ClickCheck=undefined, IsSelect = 0 }) => {
     const clickCheckbox = (value) => {
         let arr = []
@@ -65,14 +65,35 @@ const DynamicList2 = ({ HeaderList, ItemList,
                     {ItemList.map((item, index) => {
                         return (
                             <TableRow key={index}>
-                                {/* {
-                                    (IsSelect > 0) &&
-                                    <TableCell align="center">
-                                        <Checkbox checked={item.IsActive}
-                                            onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
-                                    </TableCell>
-                                } */}
-
+                                {ItemList.length === 0 ? (
+                            <TableRow>
+                                <TableCell colSpan={HeaderList.length} align="center">
+                                    No data available
+                                </TableCell>
+                            </TableRow>
+                        ) : (
+                            ItemList.map((item, index) => (
+                                <TableRow key={index}>
+                                    {Object.values(item).map((value, i) => (
+                                        <TableCell align="center" key={i}>
+                                            {value !== undefined && value !== "" ? value : "N/A"}
+                                        </TableCell>
+                                    ))}
+                                    {IconList?.map((obj, i) => (
+                                        <TableCell
+                                            align="center"
+                                            
+                                            key={i}
+                                            onClick={() => {
+                                                ClickItem({ Id: i, Action: obj.Action });
+                                            }}
+                                        >
+                                            {obj.Icon}
+                                        </TableCell>
+                                    ))}
+                                </TableRow>
+                            ))
+                        )}
 
 {
                                     item.Text77 != undefined &&
@@ -126,4 +147,4 @@ const DynamicList2 = ({ HeaderList, ItemList,
     )
 }
 
-export default DynamicList2
+export default FinalResultList
