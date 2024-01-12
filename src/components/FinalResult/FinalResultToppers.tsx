@@ -14,10 +14,10 @@ import ToppersList from 'src/libraries/list/ToppersList';
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
     const { TeacherId } = useParams();
-       //alert(TeacherId)
+    //alert(TeacherId)
 
     const [SelectClass, setClass] = useState(TeacherId);
-    const [SelectExam, setExam] = useState( "0");
+    const [SelectExam, setExam] = useState("0");
     const [SelectSubject, setSubject] = useState("0");
     const [radioBtn, setRadioBtn] = useState("1");
 
@@ -33,7 +33,7 @@ const FinalResultToppers = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const asTeacherId=Number(sessionStorage.getItem('TeacherId'));
+    const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
     const GetClassdropdown = useSelector((state: RootState) => state.FinalResultToppers.ClassDropdownList);
     console.log("GetClassdropdown", GetClassdropdown)
 
@@ -53,7 +53,7 @@ const FinalResultToppers = () => {
     useEffect(() => {
         dispatch(ClassdropdownList(ClassDropdownBody))
     }, [TeacherId])
-    
+
     useEffect(() => {
         dispatch(ClassExamList(ExamDropdownBody))
     }, [SelectClass])
@@ -82,7 +82,7 @@ const FinalResultToppers = () => {
     const ClassDropdownBody: IGetClassDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asTeacherId:Number(TeacherId)
+        asTeacherId: Number(TeacherId)
     }
     const ExamDropdownBody: IGetexamDropdownBody = {
         asSchoolId: asSchoolId,
@@ -92,13 +92,13 @@ const FinalResultToppers = () => {
     const SujectDropdownBody: IGetClassSubjectDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId:  Number(SelectClass),
+        asStandardDivId: Number(SelectClass),
         asExamId: Number(SelectExam)
     }
     const ToppersListBody: IGetClassToppersListBOdy = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId:  Number(SelectClass),
+        asStandardDivId: Number(SelectClass),
         asExamId: Number(SelectExam),
         asSubjectId: Number(SelectSubject)
     }
@@ -130,10 +130,10 @@ const FinalResultToppers = () => {
             <br></br>
             <br></br>
             <PageHeader heading='Toppers' />
-<div>            
-    
-    <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
-                </div>
+            <div>
+
+                <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
+            </div>
 
             <Grid container spacing={1} alignItems="center">
                 <Grid item xs={6}>
@@ -143,7 +143,7 @@ const FinalResultToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetClassdropdown} handleChange={clickClassDropdown}  defaultValue={SelectClass}  label={SelectClass}/>
+                        <Dropdown Array={GetClassdropdown} handleChange={clickClassDropdown} defaultValue={SelectClass} label={SelectClass} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -153,7 +153,7 @@ const FinalResultToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown  Array={GetExamdropdown}  handleChange={clickExamDropdown}  defaultValue={SelectExam}  label={SelectExam}/>
+                        <Dropdown Array={GetExamdropdown} handleChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -163,17 +163,41 @@ const FinalResultToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"}/>
+                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
                     </Box>
                 </Grid>
 
                 <DynamicList2 HeaderList={HeaderList} ItemList={GetToppersList}
                     IconList={[]} ClickItem={ClickItem} />
-                
+
                 <PageHeader heading=' Subject Toppers' />
-                <Container>
-                    <ToppersList headers={HeaderList1} data={GetSubjectToppersList} />
-                </Container>
+                <Grid container>
+                    {
+                        GetSubjectToppersList.map((item, i) => {
+                            return (<>
+                                {!(i % 3) && (
+                                    <Grid container item xs={12} justifyContent="center">
+
+                                        {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
+                                        {/* <Container> */}
+                                        {item.Subject}
+                                        {/* </Container> */}
+                                    </Grid>
+                                )}
+
+                                <Grid item xs={4} xl={4} justifyContent="center">
+                                    <Container>
+                                        <img src={item.Rank_Image} /> MarKs:{item.Marks}
+                                    </Container>
+                                    <br></br>
+                                    <ToppersList headers={HeaderList1}
+                                        data={item.Students} />
+                                </Grid>
+
+                            </>)
+                        })
+                    }
+                </Grid>
 
 
             </Grid>
