@@ -30,6 +30,7 @@
     import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 
     import { Styles } from 'src/assets/style/student-style';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
     const TAttendance = () => {
         const HeaderArray = [
             { Id: 1, Header: '' },
@@ -418,20 +419,20 @@
                     <Grid container spacing={2}>
                         <Grid item xs={5} />
                         <Grid item xs={1}>
-                            <ButtonPrimary onClick={SaveMsg} fullWidth>Save</ButtonPrimary>
+                            <ButtonPrimary onClick={SaveMsg} fullWidth>SAVE</ButtonPrimary>
 
                         </Grid>
                         {getAssignedDateStatus() == "Done" &&
 
                         <Grid item xs={1}>
-                            <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} fullWidth > Delete  </ButtonPrimary>
+                            <ButtonPrimary color='error' onClick={() => ClickDeleteAttendance()} fullWidth > DELETE  </ButtonPrimary>
                         </Grid>
     }
                     </Grid>
 
                 </Hidden>
             
-                <Hidden mdDown>
+                {/* <Hidden mdDown> */}
                     <Card component={Box} p={1} mt={1}  >
                         <Grid container spacing={3}>
                         <Grid item xs={3}/>
@@ -447,13 +448,13 @@
                             </Grid>
                             <Grid item xs={2}>
                             <Card sx={{ backgroundColor :"pink" , textAlign:"center"} } component={Box} p={0.7}> 
-                            <Link href={"/extended-sidebar/Teacher/MonthwiseAttendance"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}>Monthwise  Attendace</Link>
+                            <Link href={"/extended-sidebar/Teacher/MonthwiseAttendance"} style={{ borderBottom: "2px solid green", textDecoration: "none" }}> MonthWise Attendance</Link>
                             
                             </Card>
 
                             </Grid>
                             <Grid item xs={2}> 
-                <Dropdown Array={ClassTeacherDropdown} handleChange={clickClassTecher} defaultValue={selectClasstecaher} />
+                  <SearchableDropdown ItemList={ClassTeacherDropdown} onChange={clickClassTecher} defaultValue={selectClasstecaher} />
 
                             </Grid>
 
@@ -465,7 +466,7 @@
 
                     </Card>
 
-                </Hidden>
+                {/* </Hidden> */}
                 <Hidden mdDown>
                 <ErrorDetail sx={{mt:"10px"}}>{AttendanceStatus}</ErrorDetail>
                 </Hidden>

@@ -113,7 +113,7 @@ const SchoolAttendanceOverview = () => {
           <br></br>
           <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center" }}>
             <ButtonPrimary color="error" onClick={click}  >
-              Close
+              CLOSE
             </ButtonPrimary>
 
           </Box>
