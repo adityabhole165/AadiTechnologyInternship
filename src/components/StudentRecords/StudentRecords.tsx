@@ -21,6 +21,7 @@ const StudentRecords = () => {
     const [StudentStatusList, setStudentStatusList] = useState([])
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
     const [regNoOrName, setRegNoOrName] = useState("");
+    const [StudentList, setStudentList] = useState([])
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -60,7 +61,10 @@ const StudentRecords = () => {
         if(GetTeachers.length>0)
         setSelectTeacher(GetTeachers[0].Value)
     }, [GetTeachers])
-   
+    useEffect(() => {
+        setStudentList(GetStatusStudents)
+    }, [GetStatusStudents])
+
     
     
 
@@ -92,18 +96,19 @@ const StudentRecords = () => {
     }
     console.log(regNoOrName,"regNoOrName----")
     const clickSearch = (value) => {
+        
         //  setShowRiseAndShine(value)
         //  setSelectTeacher(value)
         //  setRegNoOrName(value)
 
-        if (GetStatusStudents && GetStatusStudents.length === 0 )
-         {
-            toast.success("No Records Found")
+        // if (GetStatusStudents && GetStatusStudents.length === 0 )
+        //  {
+        //     toast.success("No Records Found")
             
-        }
-        
+        // }
+        // setMonthWiseAttendanceList(value)
             dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-    
+           
     }
 
     
@@ -176,14 +181,20 @@ setShowRiseAndShine(value)
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-            {GetStatusStudents && GetStatusStudents.length === 0 ? (
-    <Typography>No Records Found</Typography>
-)
- :
+            
+{/* 
+ 
 <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
-ClickItem={ClickItem} IconList={IconList}/>
-}
-               
+ClickItem={ClickItem} IconList={IconList}/> */}
+
+<Grid item xs={12}>
+    {StudentList && StudentList.length === 0 ? (
+        <Typography>No Records Found</Typography>
+    ) : (
+        <DynamicList2 HeaderList={HeaderList} ItemList={StudentList} ClickItem={ClickItem} IconList={IconList} />
+    )}
+</Grid>
+
            
             </Grid>
 
