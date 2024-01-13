@@ -72,6 +72,7 @@ const HomeworkSubjectList = () => {
 
   const clickPublishUnpublish = (Id) => {
     alert(Id)
+    navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
     const updatedIsPublish = !isPublish;
 
     const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {

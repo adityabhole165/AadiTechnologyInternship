@@ -13,6 +13,8 @@ import DynamicList2 from 'src/libraries/list/DynamicList2';
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import PageHeader from 'src/libraries/heading/PageHeader'
 import Icon1 from 'src/libraries/icon/icon1';
+import { toast } from 'react-toastify';
+
 const StudentRecords = () => {
     const dispatch = useDispatch();
     const [SelectTeacher, setSelectTeacher] = useState("0");
@@ -88,15 +90,26 @@ const StudentRecords = () => {
     const clickTeacherDropdown = (value) => {
         setSelectTeacher(value)
     }
+    console.log(regNoOrName,"regNoOrName----")
     const clickSearch = (value) => {
         //  setShowRiseAndShine(value)
         //  setSelectTeacher(value)
         //  setRegNoOrName(value)
+
+        if (GetStatusStudents && GetStatusStudents.length === 0 )
+         {
+            toast.success("No Records Found")
+            
+        }
         
-        dispatch(GetAllStudentStatuss(GetStudentStatusBody))
-      
+            dispatch(GetAllStudentStatuss(GetStudentStatusBody))
+    
     }
-       
+
+    
+    
+
+
     const ClickItem = () =>{
 
     }
@@ -163,10 +176,15 @@ setShowRiseAndShine(value)
                 </Typography>
             </Grid>
             <Grid item xs={12}>
-                {GetStatusStudents != undefined && 
-                <DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
-                ClickItem={ClickItem} IconList={IconList}/>
-            }
+            {GetStatusStudents && GetStatusStudents.length === 0 ? (
+    <Typography>No Records Found</Typography>
+)
+ :
+<DynamicList2 HeaderList={HeaderList} ItemList={GetStatusStudents}
+ClickItem={ClickItem} IconList={IconList}/>
+}
+               
+           
             </Grid>
 
             </Grid>

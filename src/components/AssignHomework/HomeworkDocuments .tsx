@@ -11,10 +11,12 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import CancelIcon from '@mui/icons-material/Cancel';
 
-import { Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { Id } = useParams();
   // alert(Id)
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -57,7 +59,9 @@ const HomeworkDocuments = () => {
     dispatch(DeleteDocument(DeleteHomeworkDocumentBody))
   }
   }
-
+  const click = () => {
+    navigate('/extended-sidebar/Teacher/AddHomework');
+};
 
   return (
     <div>
@@ -74,6 +78,14 @@ const HomeworkDocuments = () => {
             ClickItem={ClickDelete} IconList={IconList} />
         }
       </Grid>
+      <Box sx={{ textAlign: "center" }} m={2}>
+                <ButtonPrimary
+                    style={{backgroundColor: '#ef5350'}}
+                    onClick={click}
+                >
+                   CLOSE
+                </ButtonPrimary>
+            </Box>
 
     </div>
   )
