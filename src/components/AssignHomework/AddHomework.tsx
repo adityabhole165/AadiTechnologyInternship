@@ -23,6 +23,7 @@ import SingleFile from 'src/libraries/File/SingleFile'
 import SubjectList from 'src/libraries/ResuableComponents/SubjectList'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import VisibilityIcon from '@mui/icons-material/Visibility';
+import HomeworkSubjectList from'src/components/AssignHomework/HomeworkSubjectList'
 //import{HomeworkSubjectList} from 'src/components/AssignHomework/HomeworkSubjectList'
 
 const AddHomework = () => {
@@ -335,7 +336,7 @@ const AddHomework = () => {
                 </ButtonPrimary>
             </Box>
             <br></br><br></br>
-
+            <HomeworkSubjectList />
 
 
 

@@ -191,6 +191,10 @@ const teacherRoutes = [
       element: <AddHomework/>
     },
     {
+      path: 'AddHomework/:ClassId/:ClassName/:TeacherId/:TeacherName/:SubjectName',
+      element: <AddHomework/>
+    },
+    {
       path: 'HomeworkSubjectList',
       element: <HomeworkSubjectList/>
     },

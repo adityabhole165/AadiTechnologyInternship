@@ -145,6 +145,30 @@ const GetScreenPermission=()=>{
         
     return className;
     }
+    const getClassTeacherName = () => {
+        let classTeacherName = ""
+        TeacherList.map((item)=>{
+            if(item.Value == SelectTeacher)
+            classTeacherName = item.Name
+        })
+        
+    return classTeacherName;
+    }
+    const getSubjectName = () => {
+        let getSubjectName = ""
+        SubjectDetailLists.map((item)=>{
+            if(item.Value == Id)
+            getSubjectName = item.Text2
+        })
+        
+    return getSubjectName;
+    }
+
+    const clickItem1 = (value) => {
+        navigate('/extended-sidebar/Teacher/AddHomework'+'/'+SelectClass+'/'+getClassName()+'/'+SelectTeacher+'/'+getClassTeacherName()+'/'+getSubjectName())
+        
+    }
+
     const clickItem = (value) => {
         navigate('/extended-sidebar/Teacher/TExamschedule')
         // value.map((item) => {
@@ -210,7 +234,7 @@ const GetScreenPermission=()=>{
                     <Box sx={{ paddingBottom: "3px", }}>
                         <Box style={{ textAlign: 'left', paddingBottom: "40px", width: '400px' }}>
 
-                            <Assignhomeworklist ItemList={subjectDetailList} clickAssign={clickItem} HeaderArray={HeaderOfTable} />
+                            <Assignhomeworklist ItemList={subjectDetailList} clickAssign={clickItem1} HeaderArray={HeaderOfTable} />
 
                         </Box>
                     </Box>
