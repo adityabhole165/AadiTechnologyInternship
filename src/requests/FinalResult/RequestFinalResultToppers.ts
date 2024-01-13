@@ -63,12 +63,14 @@ export const ClassSubjectList =
   (data: IGetClassSubjectDropdownBody): AppThunk =>
     async (dispatch) => {
       const response = await FinalResultToppersApi.ClassSubjectDropdown(data)
-      let abc = response.data.map((item, i) => {
-        return {
+      let abc = [{Id:"0", Name:"All", Value:"0"}]
+      
+      response.data.map((item, i) => {
+        abc.push({
           Id: item.Subject_Id,
           Name: item.Subject_Name,
           Value: item.Subject_Id,
-        }
+        })
       })
       dispatch(FinalResultToppersSlice.actions.SubjectList(abc))
     };
@@ -76,8 +78,6 @@ export const ClassTopperList =
   (data: IGetClassToppersListBOdy): AppThunk =>
     async (dispatch) => {
       const response = await FinalResultToppersApi.ClassToppersList(data)
-      console.log(response, "abc-------------------");
-
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Text77: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~", ""),

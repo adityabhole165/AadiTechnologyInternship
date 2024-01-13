@@ -27,7 +27,7 @@ const FinalResultSlice = createSlice({
             const response = await  FinalResultApi.ClassTeacherList(data)
             let abc = response.data.map((item, i) => {
               return {
-                Id: item.SchoolWise_Standard_Division_Id,
+                Id: item.Teacher_Id,
                 Name: item.TeacherName,
                 Value: item.SchoolWise_Standard_Division_Id,
               }                
@@ -44,10 +44,10 @@ export const GetStudentResultList =
                 Id:item.SchoolWise_Standard_Division_Id,
               Text1:item.Roll_No,
               Text2:item.Name,
-              Text3:item.Marks,
-              Text4:item.Percentage,
-              Text5:item.Grade_Name,              
-              Text6:item.Result,
+              Text3:item.Marks==""?"N/A":item.Marks,
+              Text4:item.Percentage==""?"N/A":item.Percentage,
+              Text5:item.Grade_Name==""?"N/A":item.Grade_Name,              
+              Text6:item.Result==""?"N/A":item.Result,
 
             }
             })

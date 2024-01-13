@@ -471,6 +471,24 @@ const DashboardData = {
     ],
     items2:[
       {
+        Text1: 'AddLessonPlan ',
+        Text2: ' ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/AddLessonPlan',
+        index: 33,
+      },
+      {
+        Text1: 'LessonPlan ',
+        Text2: 'BaseScreen ',
+        Color: '#81c784',
+        iconColor: '#424242',
+        Icon: AssignmentIcon,
+        Link: 'Teacher/LessonPlanBaseScreen',
+        index: 15,
+      },
+      {
         Text1: 'ExamResult  ',
         Text2: 'Unpublish',
         Color: '#81c784',
