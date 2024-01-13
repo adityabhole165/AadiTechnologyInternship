@@ -53,7 +53,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         <Header />
        {/* nevbarhide */}
         <SubHeaderNavBar/>
-        <SubHeader toggleDrawer={toggleDrawer}></SubHeader>
+        {/* <SubHeader toggleDrawer={toggleDrawer}></SubHeader> */}
 
         {openDrawer && (
         <Box
