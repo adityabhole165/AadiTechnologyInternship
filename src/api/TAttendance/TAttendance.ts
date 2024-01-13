@@ -1,6 +1,6 @@
 import StandardAttendance ,{GetStandardDivisionsResult}from "src/interfaces/Teacher/TAttendance";
 import GetClassAttendance, { IGetStudentDetails, ISaveAttendance ,IGetAttendanceStatus,
-    IGetAttendanceStatusResult,GetStudentDetailsResult,IGetClassAttendanceResult, IGetSummaryCountforAttendanceBody,IGetSummaryCountforAttendanceResult,IDeleteAttendanceBody, IClassTeacherDropdownBody, IClassTeacherDropdownResult} from "src/interfaces/Teacher/TAttendanceList";
+    IGetAttendanceStatusResult,GetStudentDetailsResult,IGetClassAttendanceResult, IGetSummaryCountforAttendanceBody,IGetSummaryCountforAttendanceResult,IDeleteAttendanceBody, IGetClassTeachersBodynew,IGetClassTeachersResultnew} from "src/interfaces/Teacher/TAttendanceList";
 
 import http from "../../requests/SchoolService/schoolServices";
 
@@ -35,8 +35,9 @@ const DeleteAttendance = (data:IDeleteAttendanceBody) => {
     return http.post<''>('Teacher/DeleteAttendance',data);  
 }
 
-const ClassTeacherDropdown = (data:IClassTeacherDropdownBody) => {
-    return http.post<IClassTeacherDropdownResult[]>('Teacher/GetAllPrimaryClassTeachers',data);
+
+const ClassTeacherDropdownnew = (data:IGetClassTeachersBodynew) => {
+    return http.post<IGetClassTeachersResultnew[]>('Teacher/GetClassTeachers',data);
 };
 
 
@@ -48,7 +49,7 @@ const GetTAttendanceListApi={
     GetAttendanceStatus,
     GetSummaryCountforAttendance,
     DeleteAttendance,
-    ClassTeacherDropdown
+    ClassTeacherDropdownnew
     
     
 }
