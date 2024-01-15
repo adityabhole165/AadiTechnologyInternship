@@ -9,8 +9,8 @@
     import { getStandard, GetSaveAttendanceStatus, GetStudentList, setSaveResponse } from 'src/requests/TAttendance/TAttendance';
     import ITAttendance, { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
     import { IGetAttendanceStatus, ISaveAttendance } from "src/interfaces/Teacher/TAttendanceList";
-    import { IGetSummaryCountforAttendanceBody, IDeleteAttendanceBody , IClassTeacherDropdownBody} from "src/interfaces/Teacher/TAttendanceList";
-    import { CDASummaryCountforAttendanceBody, CDADeleteAttendance, CDAresetDeleteAttendance, TeacherNameList } from "src/requests/TAttendance/TAttendance"
+    import { IGetSummaryCountforAttendanceBody, IDeleteAttendanceBody  ,IGetClassTeachersBodynew} from "src/interfaces/Teacher/TAttendanceList";
+    import { CDASummaryCountforAttendanceBody, CDADeleteAttendance, CDAresetDeleteAttendance,  CDAGetTeacherNameList } from "src/requests/TAttendance/TAttendance"
     import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
     import { TextField } from '@mui/material'
     import PageHeader from 'src/libraries/heading/PageHeader';
@@ -31,6 +31,7 @@
 
     import { Styles } from 'src/assets/style/student-style';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import DropDown from 'src/libraries/list/DropDown';
     const TAttendance = () => {
         const HeaderArray = [
             { Id: 1, Header: '' },
@@ -71,7 +72,8 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
             new Date().toISOString()
         );
         const [asUserId, SetUserId] = useState();
-        const [selectClasstecaher, setselectClasstecaher] = useState(asStandardDivisionId)
+        // const [selectClasstecaher, setselectClasstecaher] = useState( (sessionStorage.getItem('TeacherId')));
+        const [selectClasstecahernew, setselectClasstecahernew] = useState( (sessionStorage.getItem('TeacherId')));
     
 
         // Date selector Start
@@ -82,12 +84,13 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
             (state: RootState) => state.StandardAttendance.stdlist
         );
 
-
+    
 
         const RollNoList = useSelector(
             (state: RootState) => state.AttendanceList.StudentList
         );
 
+    console.log(RollNoList,"stdlist--");
       
         const StudentAbsent = useSelector(
             (state: RootState) => state.AttendanceList.StudentAbsent
@@ -121,18 +124,29 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
         const DeleteAttendance = useSelector(
             (state: RootState) => state.AttendanceList.DeleteAttendance
         );
+        const ClassTeacherDropdownnew = useSelector((state: RootState) => state.AttendanceList.ISClassTeacherList)
+
 
         const getAssignedDateStatus = () => {
             let a = listAttendanceCalender.filter((item)=> item.Value == assignedDate)
             return a.length>0?a[0].Text3:""
         }
 
+        const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
 
-        const ClassTeacherDropdown = useSelector((state: RootState) => state.AttendanceList.ClassTeacherList)
-        console.log("ClassTeacherDropdown", ClassTeacherDropdown)
+        console.log("ScreensAccessPermission",ScreensAccessPermission)
+        const GetScreenPermission=()=>{
+            let perm = "N"
+            ScreensAccessPermission.map((item)=>{
+                if(item.ScreenName==="Attendance") 
+                perm = item.IsFullAccess
+            })
+            return perm;
+        }
+       
 
         const GetStudentDetails: IStudentsDetails = {
-            asStdDivId: selectClasstecaher,
+            asStdDivId: selectClasstecahernew,
             asDate: assignedDate,
             asAcademicYearId: asAcademicYearId,
             asSchoolId: asSchoolId
@@ -172,27 +186,23 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
             asStdDivId: Number(asStandardDivisionId),
         }
 
-
-        const ClassTeacherBody: IClassTeacherDropdownBody = {
-        
-            asSchoolId: Number(asSchoolId),
-            asAcademicYearID: Number(asAcademicYearId)
-
-
-        }
-
         useEffect(() => {
-            
-            dispatch(TeacherNameList(ClassTeacherBody))
+            const ClassTeachernewBody: IGetClassTeachersBodynew =
+            {
+                asSchoolId: Number(asSchoolId),
+                 asAcademicYearId: Number(asAcademicYearId),
+                 asTeacherId: Number(GetScreenPermission()=="Y"?0:selectClasstecahernew)
+        
+        }
+             dispatch(CDAGetTeacherNameList(ClassTeachernewBody))
         }, []);
-
-
-        //   useEffect(() => {
-        //     if (ClassTeacherDropdown.length > 0 
-        //       ) {
-        //         setselectClasstecaher(ClassTeacherDropdown[0].Value)
-        //     }
-        //   }, [ClassTeacherDropdown]);
+        
+          useEffect(() => {
+            if (ClassTeacherDropdownnew.length > 0 
+              ) {
+                setselectClasstecahernew(ClassTeacherDropdownnew[0].Value)
+            }
+          }, [ClassTeacherDropdownnew]);
 
 
         useEffect(() => {
@@ -228,12 +238,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
                 dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
 
             }
-        }, [Standardid, assignedDate,selectClasstecaher ]);
-
-
-
-
-
+        }, [Standardid, assignedDate,selectClasstecahernew ]);
 
         const ClickDeleteAttendance = () => {
             if (window.confirm('Are you sure you want to delete attendance of date  : ' + assignedDate)) {
@@ -241,17 +246,6 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 
             }
         }
-
-
-
-
-
-
-
-
-
-
-
         const getCurrentDate = (newDate?: Date) => {
             setAssignedDate(getDateFormatted(newDate));
             
@@ -386,10 +380,11 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
             setAssignedDate(value)
         }
 
-
-        const clickClassTecher = (value) => {
-            setselectClasstecaher(value)
+        const clickClassTechernew = (value) => {
+            setselectClasstecahernew(value)
         }
+       
+       
 
         const ClickNavigate = () => {
             navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview')
@@ -454,14 +449,13 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 
                             </Grid>
                             <Grid item xs={2}> 
-                  <SearchableDropdown ItemList={ClassTeacherDropdown} onChange={clickClassTecher} defaultValue={selectClasstecaher} />
+                  <SearchableDropdown ItemList={ClassTeacherDropdownnew} onChange={clickClassTechernew} defaultValue={selectClasstecahernew} />
+
 
                             </Grid>
 
                         </Grid>
                         
-                        
-
                     
 
                     </Card>

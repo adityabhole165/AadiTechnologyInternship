@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Container, FormControlLabel, Grid, Radio, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { IGetClassDropdownBody, IGetexamDropdownBody, IGetClassSubjectDropdownBody, IGetClassToppersListBOdy } from 'src/interfaces/FinalResult/IFinalResultToppers'
@@ -129,8 +129,7 @@ const FinalResultToppers = () => {
             <br></br>
             <PageHeader heading='Toppers' />
             <div>
-
-                <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
+                 <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
             </div>
 
             <Grid container spacing={1} alignItems="center">

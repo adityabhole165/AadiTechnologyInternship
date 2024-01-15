@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import GetTAttendanceListApi from "src/api/TAttendance/TAttendance";
 import StandardAttendance, { IStudentsDetails } from "src/interfaces/Teacher/TAttendance";
 import { getDateFromatDateTime, getDateMonthYearFormatted } from 'src/components/Common/Util';
-import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody,IDeleteAttendanceBody, IClassTeacherDropdownBody } from "src/interfaces/Teacher/TAttendanceList";
+import AttendanceData, { IGetStudentDetails, IGetAttendanceStatus, ISaveAttendance, IGetSummaryCountforAttendanceBody,IDeleteAttendanceBody, IGetClassTeachersBodynew } from "src/interfaces/Teacher/TAttendanceList";
 import { AppThunk } from "src/store";
 
 const TAttendanceSlice = createSlice({
@@ -22,7 +22,7 @@ const TAttendanceSlice = createSlice({
         ISGetSummaryCountforAttendance: null,
         listAttendanceCalender: [],
         DeleteAttendance:'',
-        ClassTeacherList:[]
+         ISClassTeacherList:[]
     },
 
     reducers: {
@@ -93,8 +93,10 @@ const TAttendanceSlice = createSlice({
             state.DeleteAttendance = '';
           },
 
-          TeacherNameList(state, action) {
-            state.ClassTeacherList = action.payload;
+          
+
+         RTeacherNameList(state, action) {
+            state.ISClassTeacherList = action.payload;
         },
 
     }
@@ -319,22 +321,29 @@ export const CDASummaryCountforAttendanceBody =
             dispatch(TAttendanceSlice.actions.resetDeleteAttendance());
           }
 
-          export const TeacherNameList =
-          (data: IClassTeacherDropdownBody): AppThunk =>
-            async (dispatch) => {
-              const response = await GetTAttendanceListApi.ClassTeacherDropdown(data)
-              console.log(response,'response----');
-              
-              let abc = response.data.map((item, i) => {
-                return {
-                  Id: item.StandardDivisionId,
-                  Name: item.TeacherName,
-                  Value: item.StandardDivisionId,
-                } 
-              })
-              dispatch(TAttendanceSlice.actions.TeacherNameList(abc))
-            };
+         
         
+
+
+            export const CDAGetTeacherNameList =
+            (data: IGetClassTeachersBodynew): AppThunk =>
+              async (dispatch) => {
+                const response = await GetTAttendanceListApi.ClassTeacherDropdownnew(data)
+                console.log(response,'response----');
+                
+                let abc = response.data.map((item, i) => {
+                  return {
+                    Id: item.Teacher_Id,
+                    Name: item.TeacherName,
+                    Value: item.SchoolWise_Standard_Division_Id,
+                  } 
+                })
+                dispatch(TAttendanceSlice.actions.RTeacherNameList(abc))
+                console.log(abc, "newdp----");
+                
+              };
+          
+  
 
 
 
