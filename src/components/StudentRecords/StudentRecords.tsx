@@ -61,6 +61,7 @@ const StudentRecords = () => {
         if(GetTeachers.length>0)
         setSelectTeacher(GetTeachers[0].Value)
     }, [GetTeachers])
+    
     useEffect(() => {
         setStudentList(GetStatusStudents)
     }, [GetStatusStudents])
