@@ -73,10 +73,12 @@ const Assignedhomeworklist1 = ({ ItemList, HeaderArray, clickDelete, clickEdit, 
 
                
                    <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  <ButtonPrimary   onClick={() => clickpublish(item.Id)}>
+                  <ButtonPrimary   onClick={() => clickpublish(item.Id) 
+                  }>
                     {item.Text7 === "True" ? 'Publish' : 'Unpublish'  } 
                   </ButtonPrimary>
                 </TableCell>
+                
 
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">

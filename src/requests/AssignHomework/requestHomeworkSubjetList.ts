@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
 import HomeworkSubjectListApi from "src/api/AssignHomework/ApiHomeworkSubjectList";
-import {IGetSubjectListForTeacherBody,IPublishUnPublishHomeworkBody ,IGetAllHomeworkDocumentsBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
+import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody, IDeleteHomeworkBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
 import { getDateMonthYearFormatted } from "src/components/Common/Util";
 
 const HomeworkSubjectListSlice = createSlice({
@@ -11,6 +11,7 @@ const HomeworkSubjectListSlice = createSlice({
         PublishUnPublishHomework: "",
         ISSubmitMarksRest: "",
         GetAllHomeworkDocuments: [],
+        DeleteHomework: "",
     },
 
     reducers: {
@@ -26,6 +27,9 @@ const HomeworkSubjectListSlice = createSlice({
         getallhomeworkdocument(state, action) {
             state.GetAllHomeworkDocuments = action.payload;
         },
+        deletehomework(state, action) {
+            state.DeleteHomework = action.payload;
+        },
     }
 });
 export const homeworklistforteacher =
@@ -39,7 +43,7 @@ export const homeworklistforteacher =
                     Text2: item.Title,
                     Text3: getDateMonthYearFormatted(item.AssignedDate),
                     Text4: getDateMonthYearFormatted(item.CompleteByDate),
-                    Text6:item.flag,
+                    Text6: item.flag,
                     Text5: item.AttachmentPath,
                     Text7: item.IsPublished,
 
@@ -48,25 +52,30 @@ export const homeworklistforteacher =
 
             dispatch(HomeworkSubjectListSlice.actions.getSubjectList(a));
         };
-        export const GetPublishUnpublishHomework =
-        (data: IPublishUnPublishHomeworkBody): AppThunk =>
-            async (dispatch) => {
-                const response = await HomeworkSubjectListApi.PublishUnpublish(data);
-                dispatch(HomeworkSubjectListSlice.actions.getPublishunpublish(response.data))
-            }
+export const GetPublishUnpublishHomework =
+    (data: IPublishUnPublishHomeworkBody): AppThunk =>
+        async (dispatch) => {
+            const response = await HomeworkSubjectListApi.PublishUnpublish(data);
+            dispatch(HomeworkSubjectListSlice.actions.getPublishunpublish(response.data))
+        }
 
-            export const resetMessage =
-            (): AppThunk =>
-                async (dispatch) => {
-                    dispatch(HomeworkSubjectListSlice.actions.resetMessage());
-                }
-        
-                export const GetAllHomeworkDocuments =
-                (data: IGetAllHomeworkDocumentsBody): AppThunk =>
-                    async (dispatch) => {
-                        const response = await HomeworkSubjectListApi.GetAllHomeworkDocuments(data);
-                        dispatch(HomeworkSubjectListSlice.actions.getallhomeworkdocument(response.data))
-                    }
+export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(HomeworkSubjectListSlice.actions.resetMessage());
+        }
 
+export const GetAllHomeworkDocuments =
+    (data: IGetAllHomeworkDocumentsBody): AppThunk =>
+        async (dispatch) => {
+            const response = await HomeworkSubjectListApi.GetAllHomeworkDocuments(data);
+            dispatch(HomeworkSubjectListSlice.actions.getallhomeworkdocument(response.data))
+        }
+export const HomeworkDelete =
+    (data: IDeleteHomeworkBody): AppThunk =>
+        async (dispatch) => {
+            const response = await HomeworkSubjectListApi.Deletehomework(data);
+            dispatch(HomeworkSubjectListSlice.actions.deletehomework(response.data))
+        }
 
-        export default HomeworkSubjectListSlice.reducer
+export default HomeworkSubjectListSlice.reducer

@@ -3,8 +3,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { RootState } from 'src/store'
-import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
-import { homeworklistforteacher, GetPublishUnpublishHomework, resetMessage, GetAllHomeworkDocuments } from "src/requests/AssignHomework/requestHomeworkSubjetList";
+import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody,IDeleteHomeworkBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
+import { homeworklistforteacher, GetPublishUnpublishHomework, resetMessage, GetAllHomeworkDocuments,HomeworkDelete } from "src/requests/AssignHomework/requestHomeworkSubjetList";
 import { useNavigate, useParams } from "react-router"
 import Assignedhomeworklist from "src/libraries/ResuableComponents/Assignedhomeworklist1"
 import { toast } from 'react-toastify';
@@ -48,6 +48,8 @@ const HomeworkSubjectList = () => {
   //console.log(PublishUnpublishHomework, "PublishUnpublishHomework....")
   const AllHomeworkDocuments = useSelector((state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments);
   //           console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
+  const DeleteHomework = useSelector((state: RootState) => state.AddHomework.DeleteHomework);
+  console.log(DeleteHomework, "DeleteHomework....")
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -62,6 +64,7 @@ const HomeworkSubjectList = () => {
     asHomeworkId:Number(Id),
     asAcademicyearId: asAcademicYearId
   }
+  
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
   }, []);
@@ -96,7 +99,20 @@ const HomeworkSubjectList = () => {
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
-
+  
+  const clickDelete = (Id) => {
+    alert(Id)
+    if (confirm('Are You Sure you want to delete The List')) {
+      const DeleteHomeworkBody: IDeleteHomeworkBody =
+      {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asHomeworkId: Id,
+        asUpdatedById: Number(asUpdatedById)
+      }
+      dispatch(HomeworkDelete(DeleteHomeworkBody))
+    }
+  }
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value)
     setAssignedDate(value)
@@ -125,7 +141,8 @@ const HomeworkSubjectList = () => {
 };
 const clickTitle = (Id) => {
   alert(Id)
-  navigate('/extended-sidebar/Teacher/ViewHomework/'  + Id)
+  navigate('/extended-sidebar/Teacher/ViewHomework/'+ Id)
+  
 } 
 
   return (
@@ -189,7 +206,7 @@ const clickTitle = (Id) => {
 
       <br></br>
       <br></br>
-      <Assignedhomeworklist ItemList={Subjectlistsforteacher} clickView={clickTitle} clickDelete={""} clickEdit={""} clickVisibilityIcon={clickView} clickpublish={clickPublishUnpublish}
+      <Assignedhomeworklist ItemList={Subjectlistsforteacher} clickView={clickTitle} clickDelete={clickDelete} clickEdit={""} clickVisibilityIcon={clickView} clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish} clickAttachment={clickFileName} /><br></br>
       <br></br>
       

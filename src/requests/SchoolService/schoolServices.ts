@@ -2,7 +2,7 @@ import axios from "axios";
 
 export default axios.create({
  // baseURL: "http://192.168.1.53:81/",
-  baseURL: "http://192.168.1.34:81/",
+  baseURL: "http://192.168.1.41:81/",
 
   // baseURL: "http://localhost:44307/",
   // baseURL: "http://schoolappapi.aaditechnology.com/",

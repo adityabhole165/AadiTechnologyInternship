@@ -29,13 +29,13 @@ const AddUnpublish = () => {
 
     const Unpublish = () => {
         const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
-            "asSchoolId": asSchoolId,
-            "asAcademicYearId": asAcademicYearId,
-            "asHomeworkId":Number(Id),
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asHomeworkId:Number(Id),
             "asReason": "",
-            "asUpdatedById": asTeacherId,
-            "asIsPublish": false,
-            "asIsSMSSent": true
+            asUpdatedById: asTeacherId,
+            asIsPublish: false,
+            asIsSMSSent: true
         }
         dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
 

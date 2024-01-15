@@ -71,9 +71,9 @@ const AddHomework = () => {
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const asUpdatedById = localStorage.getItem('Id');
     const asTeacherId = sessionStorage.getItem('TeacherId');
-    const asFolderName = localStorage.getItem('FolderName');
-     //let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1]
-    //let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1]
+    const SiteURL = localStorage.getItem('SiteURL');
+    // const asFolderName = localStorage.getItem('FolderName');
+    let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
 
 
     const SaveHomework = useSelector((state: RootState) => state.AddHomework.SaveHomework);
