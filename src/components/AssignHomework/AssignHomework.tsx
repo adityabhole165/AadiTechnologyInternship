@@ -243,7 +243,7 @@ const GetScreenPermission=()=>{
                 {(asStandardDivisionId == SelectClass) && (
                 <div>
                     <ButtonPrimary onClick={onClick} variant="contained">
-                        Add Daily Log
+                        ADD DAILY LOG
                     </ButtonPrimary>
                 </div>)
             }
