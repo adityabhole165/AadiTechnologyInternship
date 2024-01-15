@@ -17,6 +17,8 @@ import CloseIcon from '@mui/icons-material/Close';
 import CheckIcon from '@mui/icons-material/Check';
 import PreviewIcon from '@mui/icons-material/Preview';
 import { useNavigate } from 'react-router';
+import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
+import { getDateFormat1 } from '../Common/Util';
 
 const LessonPlanBaseScreen = () => {
 
@@ -30,9 +32,10 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = (sessionStorage.getItem('StudentName'));
 
 
-    const [StartDate, setStartDate] = useState();
-  const [EndDate, setEndDate] = useState();
-
+    const [StartDate, setStartDate]:any = useState("getDateFormat1");
+  const [EndDate, setEndDate]:any = useState("getDateFormat1");
+  console.log("StartDate---", StartDate)
+  console.log("EndDate---", StartDate)
 
   const LessonPlanList = useSelector((state: RootState) => state.LessonPlanBase.LessonList)
   console.log("LessonPlanList", LessonPlanList)
@@ -80,8 +83,8 @@ const LessonPlanBaseScreen = () => {
         asStartIndex:0,
          asEndIndex:20, 
          asIsRecordCount:0, 
-         asStartDate:StartDate, 
-         asEndDate:EndDate, 
+         asStartDate:null, 
+         asEndDate:null, 
          asRecordCount:null
 
     }
@@ -89,13 +92,50 @@ const LessonPlanBaseScreen = () => {
   }, []);
 
 
+  
+
   const onSelectStartDate = (value) => {
     setStartDate(value)
 
+    if(StartDate !== ""){
+      const GetLessonPlanListBody1: IGetLessonPlanListBody = {
+
+        asSchoolId:asSchoolId, 
+        asAcademicYearId:asAcademicYearId,
+         asUserId:asUserId, 
+         asReportingUserId:asUserId,
+          asStartIndex:0,
+           asEndIndex:20, 
+           asIsRecordCount:0, 
+           asStartDate:StartDate, 
+           asEndDate:null, 
+           asRecordCount:null
+  
+      }
+      dispatch(lessonplanlist(GetLessonPlanListBody1))
+    }
   }
+
   const onSelectEndDate = (value) => {
     setEndDate(value)
    
+    // if(EndDate !== ""){
+    //   const GetLessonPlanListBody: IGetLessonPlanListBody = {
+
+    //     asSchoolId:asSchoolId, 
+    //     asAcademicYearId:asAcademicYearId,
+    //      asUserId:asUserId, 
+    //      asReportingUserId:asUserId,
+    //       asStartIndex:0,
+    //        asEndIndex:20, 
+    //        asIsRecordCount:0, 
+    //        asStartDate:null, 
+    //        asEndDate:EndDate, 
+    //        asRecordCount:null
+  
+    //   }
+    //   dispatch(lessonplanlist(GetLessonPlanListBody))
+    // }
   }
 
   const HeaderList = ["Start Date", "End Date","View Remark ","Edit","Delete","Export","Submit Status"];
@@ -118,7 +158,7 @@ const LessonPlanBaseScreen = () => {
             <Grid item xs={12}>
               <h4>Legends</h4>
               <Box sx={{ display: 'flex', gap: '20px' }}>
-                <DotLegends
+                <DotLegends2
                   color="secondary"
                   text={
                     ''

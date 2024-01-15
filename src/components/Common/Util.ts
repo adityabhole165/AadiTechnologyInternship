@@ -159,6 +159,13 @@ export const getDateFormat = (date) => {
     return `${Day}-${Month}-${Year}`;
 }
 
+export const getDateFormat1 = (date) => {
+    date = date || new Date();
+    const Day = new Date(date).getDate();
+    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Year = new Date(date).getFullYear();
+    return `${Year}-${Month}-${Day}`;
+}
 export const getHomeworkDateFormatted = (date) => {
     date = date || new Date();
     const Day = new Date(date).getDate();

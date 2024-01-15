@@ -43,10 +43,10 @@ const HomeworkSubjectList=Loader(lazy(()=>import('src/components/AssignHomework/
 const HomeworkDocuments=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkDocuments ')))
 const ViewHomework=Loader(lazy(()=>import('src/components/AssignHomework/ViewHomework')))
 const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
-// const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
+//const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
 
-// const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
-// const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
+const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
+const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
 
 
 const teacherRoutes = [
@@ -215,7 +215,14 @@ const teacherRoutes = [
       path: 'AddUnpublish/:Id',
       element: <AddUnpublish/>
     },
-	
+    {
+      path: 'AddLessonPlan',
+      element: <AddLessonPlan/>
+    },
+    {
+      path: 'LessonPlanBaseScreen',
+      element: <LessonPlanBaseScreen/>
+    },
 
     ];
   
