@@ -24,6 +24,7 @@ import SubjectList from 'src/libraries/ResuableComponents/SubjectList'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import HomeworkSubjectList from'src/components/AssignHomework/HomeworkSubjectList'
+import { getDateFormat1 } from '../Common/Util'
 //import{HomeworkSubjectList} from 'src/components/AssignHomework/HomeworkSubjectList'
 
 const AddHomework = () => {
@@ -40,9 +41,9 @@ const AddHomework = () => {
     const [ErrorSubjectlist, ErrorsetSubjectlist] = useState('')
     const [ErrorTitle, setErrorTitle] = useState('')
     const [SearchText, setSearchText] = useState("")
-    const [AssignedDate, setAssignedDate] = useState('')
-    const [ErrorAssignedDate, setErrorAssignedDate] = useState('')
-    const [CompleteDate, setCompleteDate] = useState('')
+    const [AssignedDate, setAssignedDate]:any = useState('getDateFormat1')
+    const [ErrorAssignedDate, setErrorAssignedDate]:any = useState('')
+    const [CompleteDate, setCompleteDate] = useState('getDateFormat1')
     const [ErrorCompleteDate, setErrorCompleteDate] = useState('')
     const [Attachment, setAttechment] = useState('')
     const [Details, setDetails] = useState('')
@@ -169,6 +170,10 @@ const AddHomework = () => {
     const Back = () => {
         navigate('/extended-sidebar/Teacher/AssignHomework')
     }
+    const onSelectDate = (value) => {
+        setCompleteDate(value)
+       // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+      }
 
     return (
         <>
@@ -270,7 +275,7 @@ const AddHomework = () => {
                                 inputProps={{ type: 'date' }} value={CompleteDate}
                                 onChange={(e) => {
                                     setCompleteDate(e.target.value);
-                                    // console.log('EndDate :', e.target.value);
+                                    
                                 }}
                                 variant="standard"
                             // error={ErrorCompleteDate !== ''}

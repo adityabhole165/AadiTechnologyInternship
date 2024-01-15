@@ -38,10 +38,6 @@ const HomeworkSubjectList = () => {
     { Id: "3", Name: "CompleteByDate", Value: "CompleteByDate" }
   ]
 
-
-
-
-
   const Subjectlistsforteacher = useSelector((state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher);
   //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
   const PublishUnpublishHomework = useSelector((state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework);

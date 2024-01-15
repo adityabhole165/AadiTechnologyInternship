@@ -116,14 +116,16 @@ export const SubjectListforTeacher =
     (data: IGetTeacherSubjectAndClassSubjectBody): AppThunk =>
         async (dispatch) => {
             const response = await AddHomeworkApi.ApiTeacheSubjectlist(data);
-            let a = response.data.map((item, i) => {
-                return {
+            let abc = [{Id:"0", Name:"All", Value:"0"}]
+      
+             response.data.map((item, i) => {
+                abc.push({
                     Id: item.Subject_Id,
                     Name: item.Subject_Name,
                     Value: item.Subject_Id,
-                }
+                })
             })
-            dispatch(AddHomeworkSlice.actions.RTeacherSubjectList(a))
+            dispatch(AddHomeworkSlice.actions.RTeacherSubjectList(abc))
 
         }
 
