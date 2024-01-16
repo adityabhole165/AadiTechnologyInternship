@@ -1,31 +1,32 @@
-export interface IGetStandardDropdownBody{
-    asSchoolId:Number,
-    asAcademicYearId:Number,
-    asTeacherId:Number
+export interface IGetStandardDropdownBody {
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asTeacherId: Number
 }
-export interface IGetStandardDropdownResult{
+export interface IGetStandardDropdownResult {
     Standard_Name: String,
-        Original_Standard_Id: String,
-        Standard_Id: String
+    Original_Standard_Id: String,
+    Standard_Id: String
 }
 
 
 export interface IGetStandardExamDropdownBody {
-    asSchoolId:Number, 
-     asAcademicYearId:Number,
-       asStandardId:Number
-    }
-    export interface IGetStandardExamDropdownResult{
-        SchoolWise_Test_Id: String,
-        SchoolWise_Test_Name:String,
-        Original_SchoolWise_Test_Id: String,
-        Sort_Order: String
-    }
-    export interface IGetSubjectDropdownBody{
-        asSchoolId: number,
+    asSchoolId: Number,
+    asAcademicYearId: Number,
+    asStandardId: Number
+}
+export interface IGetStandardExamDropdownResult {
+    SchoolWise_Test_Id: String,
+    SchoolWise_Test_Name: String,
+    Original_SchoolWise_Test_Id: String,
+    Sort_Order: String
+}
+export interface IGetSubjectDropdownBody {
+    asSchoolId: number,
     asAcademicYearId: number,
     asStandardDivId: number,
     asExamId: number
+    
 }
 export interface IGetSubjectDropdownResult {
     Subject_Id: string,

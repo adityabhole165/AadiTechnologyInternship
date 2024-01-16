@@ -30,11 +30,10 @@ const StandardToppers = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
     const GetStandarddropdown = useSelector((state: RootState) => state.StandardToppers.StandardDropdown);
-    console.log("GetStandarddropdown------", GetStandarddropdown)
 
     const GetExamdropdown = useSelector((state: RootState) => state.StandardToppers.ExamDropdownList);
 
-    const GetSubjectdropdown: any = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownList);
+    const GetSubjectdropdown = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownList);
 
     const GetStandardToppersList = useSelector((state: RootState) => state.StandardToppers.StandardToppers);
 
@@ -43,35 +42,36 @@ const StandardToppers = () => {
     useEffect(() => {
         dispatch(StandardDropdownList(StandardDropdownBody))
     }, [TeacherId])
-
     useEffect(() => {
         dispatch(StandardExamList(ExamDropdownBody))
     }, [SelectStandard])
-
     useEffect(() => {
         dispatch(StandardSubjectList(SujectDropdownBody))
-    }, [SelectExam])
+    }, [SelectStandard,SelectExam])
     useEffect(() => {
         dispatch(StandardTopperList(StandardToppersBody))
     }, [SelectStandard,SelectExam, SelectSubject])
 
+     useEffect(() => {
+        if (GetStandarddropdown.length > 0)
+        setStandard(GetStandarddropdown[0].Id)
+    }, [GetStandarddropdown]);
+
     useEffect(() => {
-        if (
-            GetStandarddropdown.length==0&&
-            GetExamdropdown.length == 0 &&
-            GetSubjectdropdown.length > 0) {
-            setStandard(GetStandarddropdown[0].value)
-            setExam(GetExamdropdown[0].Value)
-            setSubject(GetSubjectdropdown[0].Value)
-        }
-    }, [GetStandarddropdown,GetExamdropdown, GetSubjectdropdown]);
+        if (GetExamdropdown.length > 0)
+        setExam(GetExamdropdown[0].Id)
+    }, [GetExamdropdown]);
+    
+    useEffect(() => {
+        if (GetSubjectdropdown.length > 0)
+        setSubject(GetSubjectdropdown[0].Id)
+    }, [GetSubjectdropdown]);
 
     const StandardDropdownBody: IGetStandardDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asTeacherId:Number(TeacherId)
     }
-
     const ExamDropdownBody: IGetStandardExamDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -80,15 +80,15 @@ const StandardToppers = () => {
     const SujectDropdownBody: IGetSubjectDropdownBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivId: Number(SelectStandard),
+        asStandardDivId:Number(SelectStandard),
         asExamId: Number(SelectExam)
     }
     const StandardToppersBody: IGetStandardToppersListBOdy = {
-        asSchoolId: 18,
-        asAcademicYearId: 54,
-        asStandardId: 1066,
-        asExamId: 609,
-        asSubjectId: 2324
+        asSchoolId:asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardId:Number(SelectStandard),
+        asExamId:Number(SelectExam),
+        asSubjectId:Number(SelectSubject)
     }
     const clickStandardDropdown = (value) => {
         setStandard(value)
