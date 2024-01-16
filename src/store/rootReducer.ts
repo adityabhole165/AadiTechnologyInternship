@@ -85,6 +85,8 @@ import HomeworkdocumentSlice from'src/requests/AssignHomework/requestHomeworkDoc
 import ViewHomeworkSlice from 'src/requests/AssignHomework/requestViewHomework';
 import AddLessonPlanSlice from'src/requests/LessonPlan/RequestAddLessonPlan'
 import LessonPlanBaseScreenSlice from'src/requests/LessonPlan/RequestLessonPlanBaseScreen'
+import PrePrimaryResultSlice from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult'
+import SliceRequisition from 'src/requests/Requisition/RequestRequisition'
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -175,7 +177,9 @@ const rootReducer = combineReducers({
     Homeworkdocument:HomeworkdocumentSlice,
     ViewHomework:ViewHomeworkSlice,
     addlessonplan :AddLessonPlanSlice,
-    LessonPlanBase : LessonPlanBaseScreenSlice 
+    LessonPlanBase : LessonPlanBaseScreenSlice ,
+    PrePrimaryResult:PrePrimaryResultSlice,
+    SliceRequisition:SliceRequisition
 });
 
 export default rootReducer;
