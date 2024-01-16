@@ -3,6 +3,7 @@ import { Box, Grid, TextField, TextareaAutosize, Typography } from '@mui/materia
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from "react-router"
+import { toast } from 'react-toastify';
 import { IPublishUnPublishHomeworkBody } from 'src/interfaces/AssignHomework/IAddUnpublish';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetPublishUnpublishHomework, } from "src/requests/AssignHomework/requestAddUnpublish";
@@ -41,6 +42,8 @@ const AddUnpublish = () => {
 
     }
 
+    
+
 
     return (
         <div>
@@ -50,7 +53,7 @@ const AddUnpublish = () => {
 
             <Grid container spacing={2} mt={0.5}>
                 <Grid item xs={6}>
-                    <Typography fontSize={'10px'} >Details :</Typography>
+                    <Typography fontSize={'10px'} > <h4>Unpublish Reason :</h4> </Typography>
                 </Grid>
 
                 <Grid item xs={6}>

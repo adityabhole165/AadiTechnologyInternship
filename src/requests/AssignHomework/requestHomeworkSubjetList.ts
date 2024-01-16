@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
 import HomeworkSubjectListApi from "src/api/AssignHomework/ApiHomeworkSubjectList";
-import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody, IDeleteHomeworkBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
+import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody, IDeleteHomeworkBody,IGetHomeworkDetailBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
 import { getDateMonthYearFormatted } from "src/components/Common/Util";
 
 const HomeworkSubjectListSlice = createSlice({
@@ -12,6 +12,7 @@ const HomeworkSubjectListSlice = createSlice({
         ISSubmitMarksRest: "",
         GetAllHomeworkDocuments: [],
         DeleteHomework: "",
+        GetHomeworkDetail:{},
     },
 
     reducers: {
@@ -30,6 +31,10 @@ const HomeworkSubjectListSlice = createSlice({
         deletehomework(state, action) {
             state.DeleteHomework = action.payload;
         },
+        gethomeworkdetail(state, action) {
+              state.GetHomeworkDetail = action.payload;
+        },
+       
     }
 });
 export const homeworklistforteacher =
@@ -77,5 +82,13 @@ export const HomeworkDelete =
             const response = await HomeworkSubjectListApi.Deletehomework(data);
             dispatch(HomeworkSubjectListSlice.actions.deletehomework(response.data))
         }
+        export const GetHomeworkDetails =
+        (data: IGetHomeworkDetailBody): AppThunk =>
+            async (dispatch) => {
+                const response = await HomeworkSubjectListApi.GetHomeworkDetails(data);
+                console.log(response,"response-----------");
+                
+                dispatch(HomeworkSubjectListSlice.actions.gethomeworkdetail(response.data))
+            }
 
 export default HomeworkSubjectListSlice.reducer

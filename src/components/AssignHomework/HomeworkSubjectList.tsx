@@ -3,8 +3,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect, useState, useRef } from 'react'
 import { RootState } from 'src/store'
-import { IGetSubjectListForTeacherBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody,IDeleteHomeworkBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
-import { homeworklistforteacher, GetPublishUnpublishHomework, resetMessage, GetAllHomeworkDocuments,HomeworkDelete } from "src/requests/AssignHomework/requestHomeworkSubjetList";
+import { IGetSubjectListForTeacherBody, IGetHomeworkDetailBody, IPublishUnPublishHomeworkBody, IGetAllHomeworkDocumentsBody, IDeleteHomeworkBody } from "src/interfaces/AssignHomework/IHomeworkSubjectList";
+import { homeworklistforteacher, GetPublishUnpublishHomework, resetMessage, GetAllHomeworkDocuments, HomeworkDelete, GetHomeworkDetails } from "src/requests/AssignHomework/requestHomeworkSubjetList";
 import { useNavigate, useParams } from "react-router"
 import Assignedhomeworklist from "src/libraries/ResuableComponents/Assignedhomeworklist1"
 import { toast } from 'react-toastify';
@@ -16,7 +16,7 @@ import AddHomework from 'src/components/AssignHomework/AddHomework'
 const HomeworkSubjectList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
+
   const [HomeworkS, setHomeworkS] = useState("0")
   const [AssignedDate, setAssignedDate] = useState("")
   const [Title, setTitle] = useState("");
@@ -26,7 +26,7 @@ const HomeworkSubjectList = () => {
   const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
-  const { Id ,  } = useParams();
+  const { Id, } = useParams();
   const HeaderPublish = [
     { Id: 1, Header: "Subject 	" }, { Id: 2, Header: " 	Title" }, { Id: 3, Header: "Assigned Date" },
     { Id: 4, Header: " 	Complete By Date" }, { Id: 5, Header: " Attachment" }, { Id: 6, Header: "View" }, { Id: 7, Header: "Publish/Unpublish" },
@@ -43,8 +43,10 @@ const HomeworkSubjectList = () => {
   const PublishUnpublishHomework = useSelector((state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework);
   //console.log(PublishUnpublishHomework, "PublishUnpublishHomework....")
   const AllHomeworkDocuments = useSelector((state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments);
-  //           console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
+  //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
   const DeleteHomework = useSelector((state: RootState) => state.AddHomework.DeleteHomework);
+  const HomeworkDetail: any = useSelector((state: RootState) => state.AddHomework.GetHomeworkDetail);
+  console.log(HomeworkDetail, "HomeworkDetail....")
   console.log(DeleteHomework, "DeleteHomework....")
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
@@ -57,10 +59,17 @@ const HomeworkSubjectList = () => {
   }
   const IGetAllHomeworkDocuments: IGetAllHomeworkDocumentsBody = {
     asSchoolId: asSchoolId,
-    asHomeworkId:Number(Id),
+    asHomeworkId: Number(Id),
     asAcademicyearId: asAcademicYearId
   }
-  
+  const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+    asSchoolId: asSchoolId,
+    asAcademicyearId: asAcademicYearId,
+    asHomeworkId: 18190
+  }
+  useEffect(() => {
+    dispatch(GetHomeworkDetails(GetHomeworkDetailBody))
+  }, []);
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments))
   }, []);
@@ -95,7 +104,7 @@ const HomeworkSubjectList = () => {
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
-  
+
   const clickDelete = (Id) => {
     alert(Id)
     if (confirm('Are You Sure you want to delete The List')) {
@@ -124,22 +133,22 @@ const HomeworkSubjectList = () => {
 
   }
   const clickView = (Id) => {
-    
+
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id)
-  } 
+  }
 
   const clickFileName = (value) => {
 
     if (value !== "") {
       window.open(localStorage.getItem('SiteURL') + "/RITeSchool/DOWNLOADS/Homework/" + value);
     }
-  
-};
-const clickTitle = (Id) => {
-  alert(Id)
-  navigate('/extended-sidebar/Teacher/ViewHomework/'+ Id)
-  
-} 
+
+  };
+  const clickTitle = (Id) => {
+    alert(Id)
+    navigate('/extended-sidebar/Teacher/ViewHomework/' + Id)
+
+  }
 
   return (
     <div>
@@ -205,7 +214,7 @@ const clickTitle = (Id) => {
       <Assignedhomeworklist ItemList={Subjectlistsforteacher} clickView={clickTitle} clickDelete={clickDelete} clickEdit={""} clickVisibilityIcon={clickView} clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish} clickAttachment={clickFileName} /><br></br>
       <br></br>
-      
+
 
 
 
