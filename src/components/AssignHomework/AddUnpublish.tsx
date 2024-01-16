@@ -27,23 +27,24 @@ const AddUnpublish = () => {
     const ClickBack = () => {
         navigate('/extended-sidebar/Teacher/AddHomework')
     }
-
     const Unpublish = () => {
+        const newAsIsPublish = !PublishUnpublishHomework; 
+    
         const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
-            asHomeworkId:Number(Id),
+            asHomeworkId: Number(Id),
             asReason: Details,
             asUpdatedById: asTeacherId,
-            asIsPublish: false,
+            asIsPublish: newAsIsPublish,
             asIsSMSSent: true
         }
+    
         dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-
     }
-
     
 
+    
 
     return (
         <div>
