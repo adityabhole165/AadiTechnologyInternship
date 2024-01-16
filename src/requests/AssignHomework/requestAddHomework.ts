@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
 import AddHomeworkApi from "src/api/AssignHomework/apiAddHomework";
-import { IGetHomeworkListForTeacherBody, IPublishUnPublishHomeworkBody, IGetHomeworkDetailBody, IDeleteHomeworkBody, ISaveHomeworkBody, IDeleteHomeworkDocumentBody, IGetTeacherSubjectAndClassSubjectBody, IGetSubjectListForTeacherBody, IAllPublishUnpublishAddHomeworkBody, IGetAllHomeworkDocumentsBody } from "src/interfaces/AssignHomework/IAddHomework";
+import { IGetHomeworkListForTeacherBody, IPublishUnPublishHomeworkBody, IGetHomeworkDetailBody, IDeleteHomeworkBody, ISaveHomeworkBody, IDeleteHomeworkDocumentBody, IGetTeacherSubjectAndClassSubjectBody, IGetSubjectListForTeacherBody, IAllPublishUnpublishAddHomeworkBody, IGetAllHomeworkDocumentsBody ,} from "src/interfaces/AssignHomework/IAddHomework";
 import { getDateMonthYearFormatted } from "src/components/Common/Util";
 
 const AddHomeworkSlice = createSlice({
@@ -9,7 +9,7 @@ const AddHomeworkSlice = createSlice({
     initialState: {
         HomeworkListForTeacher: [],
         PublishUnPublishHomework: "",
-        GetHomeworkDetail: null,
+        GetHomeworkDetail: {},
         DeleteHomework: "",
         SaveHomework: "",
         DeleteHomeworkDocument: "",
@@ -28,8 +28,7 @@ const AddHomeworkSlice = createSlice({
             state.PublishUnPublishHomework = action.payload;
         },
         gethomeworkdetail(state, action) {
-            if(action.payload.length>0)
-            state.GetHomeworkDetail = action.payload[0];
+            state.GetHomeworkDetail = action.payload;
         },
         deletehomework(state, action) {
             state.DeleteHomework = action.payload;

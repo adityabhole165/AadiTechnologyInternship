@@ -14,8 +14,8 @@ import { ChangeFileIntoBase64, CheckFileValidation } from '../Common/Util'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'src/store'
-import { ISaveHomeworkBody, IGetTeacherSubjectAndClassSubjectBody } from "src/interfaces/AssignHomework/IAddHomework";
-import { HomeworkSave, SubjectListforTeacher } from "src/requests/AssignHomework/requestAddHomework";
+import { ISaveHomeworkBody, IGetTeacherSubjectAndClassSubjectBody,IGetHomeworkDetailBody } from "src/interfaces/AssignHomework/IAddHomework";
+import { HomeworkSave, SubjectListforTeacher,GetHomeworkDetails } from "src/requests/AssignHomework/requestAddHomework";
 import { useNavigate, useParams } from "react-router"
 import { toast } from "react-toastify"
 import DropDown from "src/libraries/list/DropDown"
@@ -24,11 +24,10 @@ import SubjectList from 'src/libraries/ResuableComponents/SubjectList'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import HomeworkSubjectList from'src/components/AssignHomework/HomeworkSubjectList'
-import { getDateFormat1 } from '../Common/Util'
 //import{HomeworkSubjectList} from 'src/components/AssignHomework/HomeworkSubjectList'
 
 const AddHomework = () => {
-    const { ClassId, ClassName, TeacherId, TeacherName, SubjectName } = useParams();
+    const { ClassId, ClassName, TeacherId, TeacherName, SubjectName,Id} = useParams();
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -41,9 +40,9 @@ const AddHomework = () => {
     const [ErrorSubjectlist, ErrorsetSubjectlist] = useState('')
     const [ErrorTitle, setErrorTitle] = useState('')
     const [SearchText, setSearchText] = useState("")
-    const [AssignedDate, setAssignedDate]:any = useState('getDateFormat1')
+    const [AssignedDate, setAssignedDate]:any = useState('')
     const [ErrorAssignedDate, setErrorAssignedDate]:any = useState('')
-    const [CompleteDate, setCompleteDate] = useState('getDateFormat1')
+    const [CompleteDate, setCompleteDate] = useState('')
     const [ErrorCompleteDate, setErrorCompleteDate] = useState('')
     const [Attachment, setAttechment] = useState('')
     const [Details, setDetails] = useState('')
@@ -81,6 +80,9 @@ const AddHomework = () => {
     //console.log(SaveHomework, "SaveHomework....")
     const ClassSubject = useSelector((state: RootState) => state.AddHomework.Subjectlist);
     //console.log(ClassSubject, "ClassSubject....")
+
+    const HomeworkDetail = useSelector((state: RootState) => state.AddHomework.GetHomeworkDetail);
+    console.log(HomeworkDetail, "HomeworkDetail..ssss..")
 
     const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody = {
         asSchoolId: asSchoolId,
@@ -170,11 +172,21 @@ const AddHomework = () => {
     const Back = () => {
         navigate('/extended-sidebar/Teacher/AssignHomework')
     }
-    const onSelectDate = (value) => {
-        setCompleteDate(value)
-       // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
-      }
-
+    // const onSelectDate = (value) => {
+    //     setCompleteDate(value)
+    //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+    //   }
+    // useEffect(() => {
+    //     console.log(HomeworkDetail, "GetStudentDetail")
+    //     if (HomeworkDetail !== "") {
+    //         setHomeworkId(HomeworkDetail.Id)
+    //         setAssignedDate(HomeworkDetail.AssignedDate)
+    //         setCompleteDate(HomeworkDetail.CompleteByDate)
+    //         setTitle(HomeworkDetail.Title)
+    //         setAttechment(HomeworkDetail.AttachmentPath)
+    //         setDetails(HomeworkDetail.Details)
+    //     }
+    // }, [HomeworkDetail]);
     return (
         <>
             <br></br>

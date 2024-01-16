@@ -10,7 +10,7 @@ const PublishUnpublish = (data: IPublishUnPublishHomeworkBody) => {
 };
 
 const HomeworkDetail = (data: IGetHomeworkDetailBody) => {
-    return http.post<IGetHomeworkDetailResult[]>('Homework/GetHomeworkDetails', data);
+    return http.post<IGetHomeworkDetailResult>('Homework/GetHomeworkDetails', data);
 };
 const Deletehomework = (data: IDeleteHomeworkBody) => {
     return http.post('Teacher/DeleteHomework', data);

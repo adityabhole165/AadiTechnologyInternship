@@ -33,7 +33,7 @@ const AddUnpublish = () => {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId,
             asHomeworkId:Number(Id),
-            "asReason": "",
+            asReason: Details,
             asUpdatedById: asTeacherId,
             asIsPublish: false,
             asIsSMSSent: true

@@ -67,9 +67,6 @@ export interface IGetHomeworkDetailBody {
     asSchoolId:number,
     asAcademicyearId:number,
     asHomeworkId:number,
-    
-  
-    
 }
 export interface IGetHomeworkDetailResult {
     Id: number,
@@ -84,5 +81,4 @@ export interface IGetHomeworkDetailResult {
     SubjectId: number,
     flag: string
     
-
 }

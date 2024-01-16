@@ -145,7 +145,7 @@ export interface IGetSubjectListForTeacherResult {
     AttachmentPath: string,
     AssignedDate: string,
     CompleteByDate: string,
-    IsPublished: string,
+    IsPublished: boolean,
     Subject: string,
     SubjectId: string,
     StandardDivisionId: string,

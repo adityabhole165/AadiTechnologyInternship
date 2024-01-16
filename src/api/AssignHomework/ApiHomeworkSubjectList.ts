@@ -16,7 +16,7 @@ const Deletehomework = (data: IDeleteHomeworkBody) => {
 const GetHomeworkDetails = (data: IGetHomeworkDetailBody) => {
     return http.post<IGetHomeworkDetailResult>('Homework/GetHomeworkDetails', data);
 };
-console.log(GetHomeworkDetails,"GetHomeworkDetails---");
+console.log(GetHomeworkDetails,"GetHomeworkDetailskkkk");
 
 const HomeworkListTeacher ={
     ApiHomeworkSubjectList,
