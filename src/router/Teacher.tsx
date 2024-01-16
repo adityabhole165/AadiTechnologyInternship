@@ -47,6 +47,9 @@ const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpu
 
 const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
 const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
+const PrePrimaryResult=Loader(lazy(()=>import('src/components/PrePrimaryResult/PrePrimaryResult')))
+const Requisition=Loader(lazy(()=>import('src/components/Requisition/Requisition')))
+
 
 
 const teacherRoutes = [
@@ -222,6 +225,14 @@ const teacherRoutes = [
     {
       path: 'LessonPlanBaseScreen',
       element: <LessonPlanBaseScreen/>
+    },
+    {
+      path: 'PrePrimaryResult',
+      element: <PrePrimaryResult/>
+    },
+    {
+      path: 'Requisition',
+      element: <Requisition/>
     },
 
     ];
