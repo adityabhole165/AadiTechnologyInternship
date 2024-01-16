@@ -176,10 +176,12 @@ const AddHomework = () => {
     //     setCompleteDate(value)
     //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
     //   }
+
+    
     // useEffect(() => {
     //     console.log(HomeworkDetail, "GetStudentDetail")
     //     if (HomeworkDetail !== "") {
-    //         setHomeworkId(HomeworkDetail.Id)
+    //         setHomeworkId(HomeworkDetail.Id.toString)
     //         setAssignedDate(HomeworkDetail.AssignedDate)
     //         setCompleteDate(HomeworkDetail.CompleteByDate)
     //         setTitle(HomeworkDetail.Title)
@@ -187,6 +189,7 @@ const AddHomework = () => {
     //         setDetails(HomeworkDetail.Details)
     //     }
     // }, [HomeworkDetail]);
+
     return (
         <>
             <br></br>

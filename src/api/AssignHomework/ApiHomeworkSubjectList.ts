@@ -14,7 +14,7 @@ const Deletehomework = (data: IDeleteHomeworkBody) => {
     return http.post('Teacher/DeleteHomework', data);
 };
 const GetHomeworkDetails = (data: IGetHomeworkDetailBody) => {
-    return http.post<IGetHomeworkDetailResult>('Homework/GetHomeworkDetails', data);
+    return http.post<IGetHomeworkDetailResult[]>('Homework/GetHomeworkDetails', data);
 };
 console.log(GetHomeworkDetails,"GetHomeworkDetailskkkk");
 
