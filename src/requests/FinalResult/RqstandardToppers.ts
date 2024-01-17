@@ -66,15 +66,14 @@ export const StandardSubjectList =
   (data: IGetSubjectDropdownBody): AppThunk =>
     async (dispatch) => {
       const response = await StandardToppersApi.ClassSubjectDropdown(data)
-      let abc = [{ Id: "0", Name: "All", Value: "0" }]
-
-      response.data.map((item, i) => {
-        abc.push({
+      let abc = response.data.map((item, i) => {
+        return{
           Id: item.Subject_Id,
           Name: item.Subject_Name,
           Value: item.Subject_Id,
-        })
+        }
       })
+console.log(abc,"--------------------------------");
 
 
       dispatch(StandardToppersSlice.actions.SubjectList(abc))
@@ -95,6 +94,16 @@ export const StandardTopperList =
       })
       dispatch(StandardToppersSlice.actions.ToppersList(abc))
 
+
+      // let xyz = response.data.GetSelectedSubjectTopperList.map((item,i) => {
+      //   return{
+      //     Text1:item.Roll_No,
+      //     Text2:item.Student_Name
+      //   }
+      // })
+      //   dispatch(StandardToppersSlice.actions.SubjectToppersList(xyz))
+      // console.log(xyz,"xyzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz");
+      
       let Subjects = []
       response.data.GetSelectedSubjectTopperList.map((item, i) => {
         if (!Subjects.includes(item.Subject_Name + "#" +

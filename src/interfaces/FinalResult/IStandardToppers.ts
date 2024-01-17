@@ -24,7 +24,7 @@ export interface IGetStandardExamDropdownResult {
 export interface IGetSubjectDropdownBody {
     asSchoolId: number,
     asAcademicYearId: number,
-    asStandardDivId: number,
+    asStandardId: number,
     asExamId: number
     
 }

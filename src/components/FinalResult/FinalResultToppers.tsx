@@ -8,22 +8,25 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { useParams } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
     const { TeacherId } = useParams();
+    const navigate  = useNavigate();
     //alert(TeacherId)
 
     const [SelectClass, setClass] = useState(TeacherId);
     const [SelectExam, setExam] = useState("0");
     const [SelectSubject, setSubject] = useState("0");
-    const [radioBtn, setRadioBtn] = useState("1");
+    const [Radio, setRadio] = useState();
+    const [StandardRadio, setStandardRadio] = useState();
+    
 
 
-    const RadioList = [{ Value: "1", Name: "Class Toppers" },
-    { Value: "2", Name: "Standard Toppers" }]
+    const RadioList = [{Id: "1", Name: "Class Toppers" },
+    { Id: "2", Name: "Standard Toppers" }]
 
     const HeaderList = ["Rank", "Roll No.", "Student Name", "Marks"];
 
@@ -64,17 +67,17 @@ const FinalResultToppers = () => {
 
     useEffect(() => {
         if (GetClassdropdown.length > 0)
-        setClass(GetClassdropdown[0].Id)
+            setClass(GetClassdropdown[0].Id)
     }, [GetClassdropdown]);
 
     useEffect(() => {
         if (GetExamdropdown.length > 0)
-        setExam(GetExamdropdown[0].Id)
+            setExam(GetExamdropdown[0].Id)
     }, [GetExamdropdown]);
-    
+
     useEffect(() => {
         if (GetSubjectdropdown.length > 0)
-        setSubject(GetSubjectdropdown[0].Id)
+            setSubject(GetSubjectdropdown[0].Id)
     }, [GetSubjectdropdown]);
 
     const ClassDropdownBody: IGetClassDropdownBody = {
@@ -109,14 +112,29 @@ const FinalResultToppers = () => {
     const clickSubjectDropdown = (value) => {
         setSubject(value)
     }
-    const ClickRadio = (value) => {
-        setRadioBtn(value);
-        if (value === "1") {
-            dispatch(ClassdropdownList(ClassDropdownBody))
-        }
-        else if (value === "2") {
+    // const ClickRadio = (Id) => {
+    //     setClassRadio(Id);
+    //     setStandardRadio(Id)
+    //     if (Id === "1") {
+    //         dispatch(ClassdropdownList(ClassDropdownBody))
+    //     }
+    //     else if (Id === "2") {
+    //     }
+    // }
+
+    const ClickRadio = (Id) => {
+        setRadio(Id);
+        //setStandardRadio(Id)
+
+        if (Id === "1") {
+        navigate('/extended-sidebar/Teacher/FinalResultToppers');
+           
+        } else if (Id === "2") {
+        navigate('/extended-sidebar/Teacher/StandardToppers');
+           
         }
     }
+
 
     const ClickItem = () => {
 
@@ -129,7 +147,7 @@ const FinalResultToppers = () => {
             <br></br>
             <PageHeader heading='Toppers' />
             <div>
-                 <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
+                <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={Radio} Label={""} />
             </div>
 
             <Grid container spacing={1} alignItems="center">

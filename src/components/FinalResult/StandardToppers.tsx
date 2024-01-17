@@ -47,7 +47,7 @@ const StandardToppers = () => {
     }, [SelectStandard])
     useEffect(() => {
         dispatch(StandardSubjectList(SujectDropdownBody))
-    }, [SelectStandard,SelectExam])
+    }, [])
     useEffect(() => {
         dispatch(StandardTopperList(StandardToppersBody))
     }, [SelectStandard,SelectExam, SelectSubject])
@@ -78,10 +78,10 @@ const StandardToppers = () => {
         asStandardId:Number(SelectStandard)
     }
     const SujectDropdownBody: IGetSubjectDropdownBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId:Number(SelectStandard),
-        asExamId: Number(SelectExam)
+        asSchoolId: 18,
+        asAcademicYearId: 54,
+        asStandardId:1066,
+        asExamId:609
     }
     const StandardToppersBody: IGetStandardToppersListBOdy = {
         asSchoolId:asSchoolId,
