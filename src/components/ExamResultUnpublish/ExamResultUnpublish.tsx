@@ -48,7 +48,7 @@ const ExamResultUnpublish = () => {
         if (!isError) {
             ResetForm()  
         } 
-        if(UnPublishTest != ''){
+        if(Reason != ''){
             navigate('/extended-sidebar/Teacher/ExamResultBase')
             }
       }

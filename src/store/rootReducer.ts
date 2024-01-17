@@ -82,11 +82,12 @@ import StandardToppersSlice from 'src/requests/FinalResult/RqstandardToppers'
 import AddHomeworkSlice from'src/requests/AssignHomework/requestAddHomework'
 import HomeworkSubjectListSlice from'src/requests/AssignHomework/requestHomeworkSubjetList'
 import HomeworkdocumentSlice from'src/requests/AssignHomework/requestHomeworkDocuments'
-import ViewHomeworkSlice from 'src/requests/AssignHomework/requestViewHomework';
+import ViewHomeworkSlice from 'src/requests/AssignHomework/requestViewHomework'
 import AddLessonPlanSlice from'src/requests/LessonPlan/RequestAddLessonPlan'
 import LessonPlanBaseScreenSlice from'src/requests/LessonPlan/RequestLessonPlanBaseScreen'
 import PrePrimaryResultSlice from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult'
 import SliceRequisition from 'src/requests/Requisition/RequestRequisition'
+import FinalUnPublishTestSlice from 'src/requests/FinalResultUnpublish/RequestFinalResultUnpublish';
 
 const rootReducer = combineReducers({
     FeedBack: SliceFeedback,
@@ -179,7 +180,8 @@ const rootReducer = combineReducers({
     addlessonplan :AddLessonPlanSlice,
     LessonPlanBase : LessonPlanBaseScreenSlice ,
     PrePrimaryResult:PrePrimaryResultSlice,
-    SliceRequisition:SliceRequisition
+    SliceRequisition:SliceRequisition,
+    Finalunpublish:FinalUnPublishTestSlice
 });
 
 export default rootReducer;
