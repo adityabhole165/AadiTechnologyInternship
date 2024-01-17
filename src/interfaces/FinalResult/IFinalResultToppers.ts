@@ -1,44 +1,44 @@
 import { string } from "prop-types"
 
-export interface IGetClassDropdownBody {
+export interface IGetClassDropdownBodyCT {
     asSchoolId: number,
     asAcademicYearId: number,
     asTeacherId:number
 }
-export interface IGetClassDropdownResult {
+export interface IGetClassDropdownResultCT {
     SchoolWise_Standard_Division_Id: string,
     StandardDivision: string
 }
-export interface IGetexamDropdownBody {
+export interface IGetexamDropdownBodyCT {
     asSchoolId: number,
     asAcademicYearId: number,
     asStandardDivisionId: number
 }
-export interface IGetExamDropdownResult {
+export interface IGetExamDropdownResultCT {
     SchoolWise_Test_Id: string,
     SchoolWise_Test_Name: string,
     Original_SchoolWise_Test_Id: string,
     Sort_Order: string
 }
-export interface IGetClassSubjectDropdownBody {
+export interface IGetClassSubjectDropdownBodyCT {
     asSchoolId: number,
     asAcademicYearId: number,
     asStandardDivId: number,
     asExamId: number
 }
-export interface IGetClassSubjectDropdownResult {
+export interface IGetClassSubjectDropdownResultCT {
     Subject_Id: string,
     Subject_Name: string
 
 }
-export interface IGetClassToppersListBOdy {
+export interface IGetClassToppersListBOdyCT {
     asSchoolId: number,
     asAcademicYearId: number,
     asStandardDivId: number,
     asExamId: number,
     asSubjectId: number
 }
-export interface IGetClassToppersListResult {
+export interface IGetClassToppersListResultCT {
 
     GetTopperList: [{
         TopperRank: string,

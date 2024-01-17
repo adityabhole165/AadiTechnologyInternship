@@ -1,40 +1,40 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import { IGetClassDropdownBody, IGetexamDropdownBody, IGetClassSubjectDropdownBody, IGetClassToppersListBOdy } from "src/interfaces/FinalResult/IFinalResultToppers";
-import FinalResultToppersApi from "src/api/FinalResult/ApiFinalResultToppers";
+import { IGetClassDropdownBodyCT, IGetexamDropdownBodyCT, IGetClassSubjectDropdownBodyCT, IGetClassToppersListBOdyCT } from "src/interfaces/FinalResult/IFinalResultToppers";
+import FinalResultToppersApiCT from "src/api/FinalResult/ApiFinalResultToppers";
 
 const FinalResultToppersSlice = createSlice({
   name: 'FinalResultToppers',
 
   initialState: {
-    ClassDropdownList: [],
-    ExamDropdownList: [],
-    SubjectDropdownList: [],
-    ClassToppers: [],
-    SubjectToppers: []
+    ClassDropdownListCT: [],
+    ExamDropdownListCT: [],
+    SubjectDropdownListCT: [],
+    ClassToppersCT: [],
+    SubjectToppersCT: []
   },
   reducers: {
-    classList(state, action) {
-      state.ClassDropdownList = action.payload;
+    classListCT(state, action) {
+      state.ClassDropdownListCT = action.payload;
     },
-    ExamList(state, action) {
-      state.ExamDropdownList = action.payload;
+    ExamListCT(state, action) {
+      state.ExamDropdownListCT = action.payload;
     },
-    SubjectList(state, action) {
-      state.SubjectDropdownList = action.payload;
+    SubjectListCT(state, action) {
+      state.SubjectDropdownListCT = action.payload;
     },
-    ToppersList(state, action) {
-      state.ClassToppers = action.payload;
+    ToppersListCT(state, action) {
+      state.ClassToppersCT = action.payload;
     },
-    SubjectToppersList(state, action) {
-      state.SubjectToppers = action.payload;
+    SubjectToppersListCT(state, action) {
+      state.SubjectToppersCT = action.payload;
     }
   }
 })
-export const ClassdropdownList =
-  (data: IGetClassDropdownBody): AppThunk =>
+export const ClassdropdownListCT =
+  (data: IGetClassDropdownBodyCT): AppThunk =>
     async (dispatch) => {
-      const response = await FinalResultToppersApi.ClassDropdown(data)
+      const response = await FinalResultToppersApiCT.ClassDropdownCT(data)
       let abc = response.data.map((item, i) => {
         return {
           Id: item.SchoolWise_Standard_Division_Id,
@@ -42,14 +42,14 @@ export const ClassdropdownList =
           Value: item.SchoolWise_Standard_Division_Id,
         }
       })
-      dispatch(FinalResultToppersSlice.actions.classList(abc))
+      dispatch(FinalResultToppersSlice.actions.classListCT(abc))
       console.log(abc, "abc");
 
     };
-export const ClassExamList =
-  (data: IGetexamDropdownBody): AppThunk =>
+export const ClassExamListCT =
+  (data: IGetexamDropdownBodyCT): AppThunk =>
     async (dispatch) => {
-      const response = await FinalResultToppersApi.ClassExamDropdown(data)
+      const response = await FinalResultToppersApiCT.ClassExamDropdownCT(data)
       let abc = response.data.map((item, i) => {
         return {
           Id: item.SchoolWise_Test_Id,
@@ -57,12 +57,12 @@ export const ClassExamList =
           Value: item.SchoolWise_Test_Id,
         }
       })
-      dispatch(FinalResultToppersSlice.actions.ExamList(abc))
+      dispatch(FinalResultToppersSlice.actions.ExamListCT(abc))
     };
-export const ClassSubjectList =
-  (data: IGetClassSubjectDropdownBody): AppThunk =>
+export const ClassSubjectListCT =
+  (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
     async (dispatch) => {
-      const response = await FinalResultToppersApi.ClassSubjectDropdown(data)
+      const response = await FinalResultToppersApiCT.ClassSubjectDropdownCT(data)
       let abc = [{Id:"0", Name:"All", Value:"0"}]
       
       response.data.map((item, i) => {
@@ -72,12 +72,12 @@ export const ClassSubjectList =
           Value: item.Subject_Id,
         })
       })
-      dispatch(FinalResultToppersSlice.actions.SubjectList(abc))
+      dispatch(FinalResultToppersSlice.actions.SubjectListCT(abc))
     };
-export const ClassTopperList =
-  (data: IGetClassToppersListBOdy): AppThunk =>
+export const ClassTopperListCT =
+  (data: IGetClassToppersListBOdyCT): AppThunk =>
     async (dispatch) => {
-      const response = await FinalResultToppersApi.ClassToppersList(data)
+      const response = await FinalResultToppersApiCT.ClassToppersListCT(data)
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Text77: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~", ""),
@@ -86,7 +86,7 @@ export const ClassTopperList =
           Text4: item.Marks
         }
       })
-      dispatch(FinalResultToppersSlice.actions.ToppersList(abc))
+      dispatch(FinalResultToppersSlice.actions.ToppersListCT(abc))
 
 
 
@@ -121,7 +121,7 @@ export const ClassTopperList =
       console.log(responseData, "Subjects")
 
 
-      dispatch(FinalResultToppersSlice.actions.SubjectToppersList(responseData))
+      dispatch(FinalResultToppersSlice.actions.SubjectToppersListCT(responseData))
 
 
     };

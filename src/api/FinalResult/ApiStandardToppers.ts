@@ -1,31 +1,31 @@
 import http from "../../requests/SchoolService/schoolServices"
-import { IGetStandardDropdownBody,IGetStandardDropdownResult,IGetStandardExamDropdownBody,IGetStandardExamDropdownResult ,IGetSubjectDropdownBody,IGetSubjectDropdownResult,IGetStandardToppersListBOdy,IGetStandardToppersListResult} from "src/interfaces/FinalResult/IStandardToppers"
+import { IGetStandardDropdownBodyST,IGetStandardDropdownResultST,IGetStandardExamDropdownBodyST,IGetStandardExamDropdownResultST ,IGetSubjectDropdownBodyST,IGetSubjectDropdownResultST,IGetStandardToppersListBOdyST,IGetStandardToppersListResultST} from "src/interfaces/FinalResult/IStandardToppers"
 
 
-const StandardDropdownList=
-(data:IGetStandardDropdownBody)=>{
-    return http.post<IGetStandardDropdownResult[]>('Teacher/GetStandardsDropDown',data)
+const StandardDropdownListST=
+(data:IGetStandardDropdownBodyST)=>{
+    return http.post<IGetStandardDropdownResultST[]>('Teacher/GetStandardsDropDown',data)
 };
 
-const StandardExamDropdown=
-(data:IGetStandardExamDropdownBody)=>{
-    return http.post<IGetStandardExamDropdownResult[]>('Teacher/GetStandardExamDropDown',data)
+const StandardExamDropdownST=
+(data:IGetStandardExamDropdownBodyST)=>{
+    return http.post<IGetStandardExamDropdownResultST[]>('Teacher/GetStandardExamDropDown',data)
 };
-const ClassSubjectDropdown=
-(data:IGetSubjectDropdownBody)=>{
-    return http.post<IGetSubjectDropdownResult[]>('Teacher/GetStandardSubjectsDropDown',data)
+const ClassSubjectDropdownST=
+(data:IGetSubjectDropdownBodyST)=>{
+    return http.post<IGetSubjectDropdownResultST[]>('Teacher/GetStandardSubjectsDropDown',data)
 };
-const StandardToppersList=
-(data:IGetStandardToppersListBOdy)=>{
-    return http.post<IGetStandardToppersListResult>('Teacher/GetStandardTopperList',data)
+const StandardToppersListST=
+(data:IGetStandardToppersListBOdyST)=>{
+    return http.post<IGetStandardToppersListResultST>('Teacher/GetStandardTopperList',data)
 };
 
 
-const StandardToppersApi={
-    StandardExamDropdown,
-    ClassSubjectDropdown,
-    StandardToppersList,
-    StandardDropdownList
+const StandardToppersApiST={
+    StandardExamDropdownST,
+    ClassSubjectDropdownST,
+    StandardToppersListST,
+    StandardDropdownListST
 }
 
-export default StandardToppersApi
+export default StandardToppersApiST

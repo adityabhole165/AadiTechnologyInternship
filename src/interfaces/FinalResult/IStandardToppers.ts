@@ -1,46 +1,46 @@
-export interface IGetStandardDropdownBody {
+export interface IGetStandardDropdownBodyST {
     asSchoolId: Number,
     asAcademicYearId: Number,
     asTeacherId: Number
 }
-export interface IGetStandardDropdownResult {
+export interface IGetStandardDropdownResultST {
     Standard_Name: String,
     Original_Standard_Id: String,
     Standard_Id: String
 }
 
 
-export interface IGetStandardExamDropdownBody {
+export interface IGetStandardExamDropdownBodyST {
     asSchoolId: Number,
     asAcademicYearId: Number,
     asStandardId: Number
 }
-export interface IGetStandardExamDropdownResult {
+export interface IGetStandardExamDropdownResultST {
     SchoolWise_Test_Id: String,
     SchoolWise_Test_Name: String,
     Original_SchoolWise_Test_Id: String,
     Sort_Order: String
 }
-export interface IGetSubjectDropdownBody {
+export interface IGetSubjectDropdownBodyST {
     asSchoolId: number,
     asAcademicYearId: number,
     asStandardId: number,
     asExamId: number
     
 }
-export interface IGetSubjectDropdownResult {
+export interface IGetSubjectDropdownResultST {
     Subject_Id: string,
     Subject_Name: string
 
 }
-export interface IGetStandardToppersListBOdy {
+export interface IGetStandardToppersListBOdyST {
     asSchoolId: number,
     asAcademicYearId: number,
     asStandardId: number,
     asExamId: number,
     asSubjectId: number
 }
-export interface IGetStandardToppersListResult {
+export interface IGetStandardToppersListResultST {
 
     GetTopperList: [{
         TopperRank: string,

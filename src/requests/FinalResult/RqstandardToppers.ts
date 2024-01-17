@@ -1,41 +1,41 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
-import { IGetStandardExamDropdownBody, IGetSubjectDropdownBody, IGetStandardToppersListBOdy, IGetStandardDropdownBody } from "src/interfaces/FinalResult/IStandardToppers";
-import StandardToppersApi from "src/api/FinalResult/ApiStandardToppers";
+import { IGetStandardExamDropdownBodyST, IGetSubjectDropdownBodyST, IGetStandardToppersListBOdyST, IGetStandardDropdownBodyST } from "src/interfaces/FinalResult/IStandardToppers";
+import StandardToppersApiST from "src/api/FinalResult/ApiStandardToppers";
 
 const StandardToppersSlice = createSlice({
   name: 'FinalResultToppers',
 
   initialState: {
-    StandardDropdown: [],
-    ExamDropdownList: [],
-    SubjectDropdownList: [],
-    StandardToppers: [],
-    StandardSubjectToppers: []
+    StandardDropdownST: [],
+    ExamDropdownListST: [],
+    SubjectDropdownListST: [],
+    StandardTopperST: [],
+    StandardSubjectToppersST: []
 
   },
   reducers: {
-    StandardList(state, action) {
-      state.StandardDropdown = action.payload;
+    StandardListST(state, action) {
+      state.StandardDropdownST = action.payload;
     },
-    ExamList(state, action) {
-      state.ExamDropdownList = action.payload;
+    ExamListST(state, action) {
+      state.ExamDropdownListST = action.payload;
     },
-    SubjectList(state, action) {
-      state.SubjectDropdownList = action.payload;
+    SubjectListST(state, action) {
+      state.SubjectDropdownListST = action.payload;
     },
-    ToppersList(state, action) {
-      state.StandardToppers = action.payload;
+    ToppersListST(state, action) {
+      state.StandardTopperST = action.payload;
     },
-    SubjectToppersList(state, action) {
-      state.StandardSubjectToppers = action.payload;
+    SubjectToppersListST(state, action) {
+      state.StandardSubjectToppersST = action.payload;
     }
   }
 })
-export const StandardDropdownList =
-  (data: IGetStandardDropdownBody): AppThunk =>
+export const StandardDropdownListST =
+  (data: IGetStandardDropdownBodyST): AppThunk =>
     async (dispatch) => {
-      const response = await StandardToppersApi.StandardDropdownList(data)
+      const response = await StandardToppersApiST.StandardDropdownListST(data)
 
       let abc = response.data.map((item, i) => {
         return {
@@ -44,15 +44,15 @@ export const StandardDropdownList =
           Value: item.Standard_Id,
         }
       })
-      dispatch(StandardToppersSlice.actions.StandardList(abc))
+      dispatch(StandardToppersSlice.actions.StandardListST(abc))
 
     };
 
 
-export const StandardExamList =
-  (data: IGetStandardExamDropdownBody): AppThunk =>
+export const StandardExamListST =
+  (data: IGetStandardExamDropdownBodyST): AppThunk =>
     async (dispatch) => {
-      const response = await StandardToppersApi.StandardExamDropdown(data)
+      const response = await StandardToppersApiST.StandardExamDropdownST(data)
       let abc = response.data.map((item, i) => {
         return {
           Id: item.SchoolWise_Test_Id,
@@ -60,12 +60,12 @@ export const StandardExamList =
           Value: item.SchoolWise_Test_Id,
         }
       })
-      dispatch(StandardToppersSlice.actions.ExamList(abc))
+      dispatch(StandardToppersSlice.actions.ExamListST(abc))
     };
-export const StandardSubjectList =
-  (data: IGetSubjectDropdownBody): AppThunk =>
+export const StandardSubjectListST =
+  (data: IGetSubjectDropdownBodyST): AppThunk =>
     async (dispatch) => {
-      const response = await StandardToppersApi.ClassSubjectDropdown(data)
+      const response = await StandardToppersApiST.ClassSubjectDropdownST(data)
       let abc = [{Id:"0", Name:"All", Value:"0"}]
       response.data.map((item, i) => {
         abc.push({
@@ -74,13 +74,13 @@ export const StandardSubjectList =
           Value: item.Subject_Id,
         })
       })
-      dispatch(StandardToppersSlice.actions.SubjectList(abc))
+      dispatch(StandardToppersSlice.actions.SubjectListST(abc))
     };
 
-export const StandardTopperList =
-  (data: IGetStandardToppersListBOdy): AppThunk =>
+export const StandardTopperListST =
+  (data: IGetStandardToppersListBOdyST): AppThunk =>
     async (dispatch) => {
-      const response = await StandardToppersApi.StandardToppersList(data)
+      const response = await StandardToppersApiST.StandardToppersListST(data)
       let abc = response.data.GetTopperList.map((item, i) => {
         return {
           Text77: localStorage.getItem("SiteURL") + item.Rank_Image.replace("~", ""),
@@ -90,7 +90,7 @@ export const StandardTopperList =
           Text5: item.Marks
         }
       })
-      dispatch(StandardToppersSlice.actions.ToppersList(abc))
+      dispatch(StandardToppersSlice.actions.ToppersListST(abc))
 
 
       // let xyz = response.data.GetSelectedSubjectTopperList.map((item,i) => {
@@ -133,7 +133,7 @@ export const StandardTopperList =
       console.log(responseData, "Subjects")
 
 
-      dispatch(StandardToppersSlice.actions.SubjectToppersList(responseData))
+      dispatch(StandardToppersSlice.actions.SubjectToppersListST(responseData))
 
     };
 

@@ -12,7 +12,7 @@ function TermAndCondition() {
 
 
   const RadioList = [{ Value: "1", Name: "I accept the Term of Use" },
-  { Value: "2", Name: "I do not accept the Term of Use" }]
+       { Value: "2", Name: "I do not accept the Term of Use" }]
 
 
 

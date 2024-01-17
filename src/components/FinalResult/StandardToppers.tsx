@@ -8,106 +8,110 @@ import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
-import { IGetStandardExamDropdownBody, IGetSubjectDropdownBody, IGetStandardToppersListBOdy, IGetStandardDropdownBody } from 'src/interfaces/FinalResult/IStandardToppers';
-import { StandardDropdownList, StandardExamList, StandardSubjectList, StandardTopperList } from 'src/requests/FinalResult/RqstandardToppers';
+import { IGetStandardExamDropdownBodyST, IGetSubjectDropdownBodyST, IGetStandardToppersListBOdyST, IGetStandardDropdownBodyST } from 'src/interfaces/FinalResult/IStandardToppers';
+import { StandardDropdownListST, StandardExamListST, StandardSubjectListST, StandardTopperListST } from 'src/requests/FinalResult/RqstandardToppers';
 
 const StandardToppers = () => {
     const RadioList = [{ Value: "1", Name: "Class Toppers" },
     { Value: "2", Name: "Standard Toppers" }]
 
-    const HeaderList = ["Rank", "Class", "Roll No.", "Student Name", "Marks"];
-    const HeaderList1 = ["Roll No.", "Student Name"];
+    const HeaderListST = ["Rank", "Class", "Roll No.", "Student Name", "Marks"];
+    const HeaderList1ST = ["Roll No.", "Student Name"];
 
     const dispatch = useDispatch();
     const { TeacherId } = useParams();
-    const [SelectStandard, setStandard] = useState(TeacherId);
-    const [SelectExam, setExam] = useState("0");
-    const [SelectSubject, setSubject] = useState("0");
-    const [radioBtn, setRadioBtn] = useState();
+    const [SelectStandardST, setStandardST] = useState(TeacherId);
+    const [SelectExamST, setExamST] = useState("0");
+    const [SelectSubjectST, setSubjectST] = useState("0");
+    const [radioBtnST, setRadioBtnST] = useState();
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-    const GetStandarddropdown = useSelector((state: RootState) => state.StandardToppers.StandardDropdown);
+    const GetStandarddropdownST = useSelector((state: RootState) => state.StandardToppers.StandardDropdownST);
 
-    const GetExamdropdown = useSelector((state: RootState) => state.StandardToppers.ExamDropdownList);
+    const GetExamdropdownST = useSelector((state: RootState) => state.StandardToppers.ExamDropdownListST);
 
-    const GetSubjectdropdown = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownList);
+    const GetSubjectdropdownST = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownListST);
 
-    const GetStandardToppersList = useSelector((state: RootState) => state.StandardToppers.StandardToppers);
+    const GetStandardToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
 
-    const GetSubjectToppersList = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppers);
+    const GetSubjectToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
 
     useEffect(() => {
-        dispatch(StandardDropdownList(StandardDropdownBody))
+        dispatch(StandardDropdownListST(StandardDropdownBodyST))
     }, [TeacherId])
     useEffect(() => {
-        dispatch(StandardExamList(ExamDropdownBody))
-    }, [SelectStandard])
+        dispatch(StandardExamListST(ExamDropdownBodyST))
+    }, [SelectStandardST])
     useEffect(() => {
-        dispatch(StandardSubjectList(SujectDropdownBody))
-    }, [SelectStandard,SelectExam])
+        dispatch(StandardSubjectListST(SujectDropdownBodyST))
+    }, [SelectStandardST,SelectExamST])
     useEffect(() => {
-        dispatch(StandardTopperList(StandardToppersBody))
-    }, [SelectStandard,SelectExam, SelectSubject])
+        dispatch(StandardTopperListST(StandardToppersBodyST))
+    }, [SelectStandardST,SelectExamST, SelectSubjectST])
 
      useEffect(() => {
-        if (GetStandarddropdown.length > 0)
-        setStandard(GetStandarddropdown[0].Id)
-    }, [GetStandarddropdown]);
+        if (GetStandarddropdownST.length > 0)
+        setStandardST(GetStandarddropdownST[0].Id)
+    }, [GetStandarddropdownST]);
 
     useEffect(() => {
-        if (GetExamdropdown.length > 0)
-        setExam(GetExamdropdown[0].Id)
-    }, [GetExamdropdown]);
+        if (GetExamdropdownST.length > 0)
+        setExamST(GetExamdropdownST[0].Id)
+    }, [GetExamdropdownST]);
     
     useEffect(() => {
-        if (GetSubjectdropdown.length > 0)
-        setSubject(GetSubjectdropdown[0].Id)
-    }, [GetSubjectdropdown]);
+        if (GetSubjectdropdownST.length > 0)
+        setSubjectST(GetSubjectdropdownST[0].Id)
+    }, [GetSubjectdropdownST]);
 
-    const StandardDropdownBody: IGetStandardDropdownBody = {
+    const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asTeacherId:Number(TeacherId)
     }
-    const ExamDropdownBody: IGetStandardExamDropdownBody = {
+    const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardId:Number(SelectStandard)
+        asStandardId:Number(SelectStandardST)
     }
-    const SujectDropdownBody: IGetSubjectDropdownBody = {
+    const SujectDropdownBodyST: IGetSubjectDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardId:Number(SelectStandard),
-        asExamId:Number(SelectExam)
+        asStandardId:Number(SelectStandardST),
+        asExamId:Number(SelectExamST)
     }
-    const StandardToppersBody: IGetStandardToppersListBOdy = {
+    const StandardToppersBodyST: IGetStandardToppersListBOdyST = {
         asSchoolId:asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardId:Number(SelectStandard),
-        asExamId:Number(SelectExam),
-        asSubjectId:Number(SelectSubject)
+        asStandardId:Number(SelectStandardST),
+        asExamId:Number(SelectExamST),
+        asSubjectId:Number(SelectSubjectST)
     }
-    const clickStandardDropdown = (value) => {
-        setStandard(value)
+    const clickStandardDropdownST = (value) => {
+        setStandardST(value)
     }
-    const clickExamDropdown = (value) => {
-        setExam(value)
+    const clickExamDropdownST = (value) => {
+        setExamST(value)
     }
-    const clickSubjectDropdown = (value) => {
-        setSubject(value)
+    const clickSubjectDropdownST = (value) => {
+        setSubjectST(value)
     }
-    const ClickItem = () => {
+    const ClickItemST = () => {
 
     }
-    const ClickRadio = (value) => {
-        setRadioBtn(value);
+
+    //
+
+    
+    const ClickRadioST = (value) => {
+        setRadioBtnST(value);
     }
     return (
         <Container>
             <PageHeader heading='StandardToppers' />
-            <RadioButton1 Array={RadioList} ClickRadio={ClickRadio} defaultValue={radioBtn} Label={""} />
+            <RadioButton1 Array={RadioList} ClickRadio={ClickRadioST} defaultValue={radioBtnST} Label={""} />
             <Grid container spacing={1} alignItems="center">
                 <Grid item xs={6}>
                     <Typography margin={'1px'}>
@@ -116,7 +120,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetStandarddropdown} handleChange={clickStandardDropdown} defaultValue={SelectStandard} label={SelectStandard} />
+                        <Dropdown Array={GetStandarddropdownST} handleChange={clickStandardDropdownST} defaultValue={SelectStandardST} label={SelectStandardST} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -126,7 +130,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetExamdropdown} handleChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
+                        <Dropdown Array={GetExamdropdownST} handleChange={clickExamDropdownST} defaultValue={SelectExamST} label={SelectExamST} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -136,16 +140,16 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
+                        <Dropdown Array={GetSubjectdropdownST} handleChange={clickSubjectDropdownST} defaultValue={SelectSubjectST} label={"All"} />
                     </Box>
                 </Grid>
-                <DynamicList2 HeaderList={HeaderList} ItemList={GetStandardToppersList}
-                    IconList={[]} ClickItem={ClickItem} />
+                <DynamicList2 HeaderList={HeaderListST} ItemList={GetStandardToppersListST}
+                    IconList={[]} ClickItem={ClickItemST} />
 
                 <PageHeader heading=' Subject Toppers' />
                 <Grid container>
                     {
-                        GetSubjectToppersList.map((item, i) => {
+                        GetSubjectToppersListST.map((item, i) => {
                             return (<>
                                 {!(i % 3) && (
                                     <Grid container item xs={12} justifyContent="center">
@@ -162,7 +166,7 @@ const StandardToppers = () => {
                                         <img src={item.Rank_Image} /> MarKs:{item.Marks}
                                     </Container>
                                     <br></br>
-                                    <ToppersList headers={HeaderList1}
+                                    <ToppersList headers={HeaderList1ST}
                                         data={item.Students} />
                                 </Grid>
 
