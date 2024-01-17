@@ -2,14 +2,13 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { RootState, useDispatch } from 'src/store';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
-import { IGetStandardExamDropdownBodyST, IGetSubjectDropdownBodyST, IGetStandardToppersListBOdyST, IGetStandardDropdownBodyST } from 'src/interfaces/FinalResult/IStandardToppers';
-import { StandardDropdownListST, StandardExamListST, StandardSubjectListST, StandardTopperListST } from 'src/requests/FinalResult/RqstandardToppers';
+import { IGetStandardExamDropdownBody, IGetSubjectDropdownBody, IGetStandardToppersListBOdy, IGetStandardDropdownBody } from 'src/interfaces/FinalResult/IStandardToppers';
+import { StandardDropdownList, StandardExamList, StandardSubjectList, StandardTopperList } from 'src/requests/FinalResult/RqstandardToppers';
 
 const StandardToppers = () => {
     const RadioList = [{ Value: "1", Name: "Class Toppers" },
@@ -120,7 +119,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetStandarddropdownST} handleChange={clickStandardDropdownST} defaultValue={SelectStandardST} label={SelectStandardST} />
+                        <Dropdown Array={GetStandarddropdown} handleChange={clickStandardDropdown} defaultValue={SelectStandard} label={SelectStandard} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -130,7 +129,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetExamdropdownST} handleChange={clickExamDropdownST} defaultValue={SelectExamST} label={SelectExamST} />
+                        <Dropdown Array={GetExamdropdown} handleChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -140,7 +139,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetSubjectdropdownST} handleChange={clickSubjectDropdownST} defaultValue={SelectSubjectST} label={"All"} />
+                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
                     </Box>
                 </Grid>
                 <DynamicList2 HeaderList={HeaderListST} ItemList={GetStandardToppersListST}

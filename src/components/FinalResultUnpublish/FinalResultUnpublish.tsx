@@ -5,8 +5,8 @@ import { useNavigate, useParams } from 'react-router';
 import PageHeader from 'src/libraries/heading/PageHeader'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState } from 'src/store';
-import { IUnPublishTestBody } from "src/interfaces/ExamResultUnpublish/IExamResultUnpublish";
-import { UnPublishButton } from 'src/requests/ExamResultUnpublish/RequestExamResultUnpublish';
+import { IUnPublishFinalResultBody,IUnPublishFinalResultResult } from "src/interfaces/FinalResultUnpublish/IFinalResultUnpublish";
+import { UnPublishclick } from 'src/requests/FinalResultUnpublish/RequestFinalResultUnpublish';
 
 const FinalResultUnpublish = () => {
 
@@ -20,40 +20,51 @@ const FinalResultUnpublish = () => {
       const asSchoolId = Number(localStorage.getItem('localSchoolId'));
       const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
 
-      const UnPublishTest :any  = useSelector((state: RootState) => state.unpublishtest.UnPublish)
-    console.log("UnPublishTest", UnPublishTest)
+      const UnPublishFinalResult = useSelector((state: RootState) => state.Finalunpublish.UnPublishfinal)
+    console.log("UnPublishFinalResult", UnPublishFinalResult)
 
-const Exam = ["Final Result"]
 
-        // const UnPublishTestBody: IUnPublishTestBody = {
 
-        //     asSchoolId:asSchoolId,
-        //     asStandardDivId:Number(TeacherId),
-        //     asAcademicYearId:asAcademicYearId,
-        //     asSchoolWise_Test_Id:Number(ExamId),
-        //     asUnPublishReason:Reason
-        // }
+        
+            const UnPublishBody: IUnPublishFinalResultBody = {
 
-    // const onClickUnpublish = () => {
+                asSchoolId:asSchoolId,
+                asAcademicYearId:asAcademicYearId,
+                asStandardDivId:Number(SelectTeacher),
+                asUnPublishReason:Reason
+                    }
 
-    //     let isError = false;
-    //     if (Reason == '') {
-    //         setReasonError('Field should not be blank')
-    //       isError = true
+         useEffect(() => {
+            dispatch(UnPublishclick(UnPublishBody))
+          }, []);
+
+          const Exam = ["Final Result"]
+        
+    const onClickUnpublish = () => {
+
+        let isError = false;
+        if (Reason == '') {
+            setReasonError('Field should not be blank')
+          isError = true
       
-    //     } 
-    //     // if (!isError) {
-    //     // dispatch(UnPublishButton(UnPublishTestBody))
+        } 
+        if (!isError) {
+            dispatch(UnPublishclick(UnPublishBody))
        
-    //     }  
-    //     if (!isError) {
-    //         ResetForm()  
-    //     } 
-    //     if(UnPublishTest != ''){
-    //         navigate('/extended-sidebar/Teacher/ExamResultBase')
-    //         }
-    //   }
+        }  
+        if (!isError) {
+            ResetForm()  
+        } 
+        if(Reason != ''){
+            navigate('/extended-sidebar/Teacher/FinalResult')
+            }
+      }
 
+     
+
+      const ResetForm = () => {
+        setReason('');
+    };
 
     const onClickCancel = () => {
         navigate('/extended-sidebar/Teacher/FinalResult')
@@ -118,7 +129,7 @@ const Exam = ["Final Result"]
   <div >
   <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
   <Grid item xs={1}>
-<ButtonPrimary   variant="contained" >
+<ButtonPrimary onClick={onClickUnpublish}  variant="contained" >
               <b>UNPUBLISH</b>
             </ButtonPrimary>
             </Grid> 
