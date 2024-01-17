@@ -7,8 +7,9 @@ import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
-import { IGetStandardExamDropdownBody, IGetSubjectDropdownBody, IGetStandardToppersListBOdy, IGetStandardDropdownBody } from 'src/interfaces/FinalResult/IStandardToppers';
-import { StandardDropdownList, StandardExamList, StandardSubjectList, StandardTopperList } from 'src/requests/FinalResult/RqstandardToppers';
+import { IGetStandardExamDropdownBodyST, IGetSubjectDropdownBodyST, IGetStandardToppersListBOdyST, IGetStandardDropdownBodyST } from 'src/interfaces/FinalResult/IStandardToppers';
+import { StandardDropdownListST, StandardExamListST, StandardSubjectListST, StandardTopperListST } from 'src/requests/FinalResult/RqstandardToppers';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 
 const StandardToppers = () => {
     const RadioList = [{ Value: "1", Name: "Class Toppers" },
@@ -119,7 +120,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetStandarddropdown} handleChange={clickStandardDropdown} defaultValue={SelectStandard} label={SelectStandard} />
+                        <Dropdown Array={GetStandarddropdownST} handleChange={clickStandardDropdownST} defaultValue={SelectStandardST} label={SelectStandardST} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -129,7 +130,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetExamdropdown} handleChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
+                        <Dropdown Array={GetExamdropdownST} handleChange={clickExamDropdownST} defaultValue={SelectExamST} label={SelectExamST} />
                     </Box>
                 </Grid>
                 <Grid item xs={6}>
@@ -139,7 +140,7 @@ const StandardToppers = () => {
                 </Grid>
                 <Grid item xs={6} >
                     <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
+                        <Dropdown Array={GetSubjectdropdownST} handleChange={clickSubjectDropdownST} defaultValue={SelectSubjectST} label={"All"} />
                     </Box>
                 </Grid>
                 <DynamicList2 HeaderList={HeaderListST} ItemList={GetStandardToppersListST}
