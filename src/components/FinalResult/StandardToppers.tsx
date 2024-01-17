@@ -23,8 +23,7 @@ const StandardToppers = () => {
     const [SelectStandard, setStandard] = useState(TeacherId);
     const [SelectExam, setExam] = useState("0");
     const [SelectSubject, setSubject] = useState("0");
-    const [radioBtn, setRadioBtn] = useState("2");
-
+    const [radioBtn, setRadioBtn] = useState();
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -47,7 +46,7 @@ const StandardToppers = () => {
     }, [SelectStandard])
     useEffect(() => {
         dispatch(StandardSubjectList(SujectDropdownBody))
-    }, [])
+    }, [SelectStandard,SelectExam])
     useEffect(() => {
         dispatch(StandardTopperList(StandardToppersBody))
     }, [SelectStandard,SelectExam, SelectSubject])
@@ -78,10 +77,10 @@ const StandardToppers = () => {
         asStandardId:Number(SelectStandard)
     }
     const SujectDropdownBody: IGetSubjectDropdownBody = {
-        asSchoolId: 18,
-        asAcademicYearId: 54,
-        asStandardId:1066,
-        asExamId:609
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardId:Number(SelectStandard),
+        asExamId:Number(SelectExam)
     }
     const StandardToppersBody: IGetStandardToppersListBOdy = {
         asSchoolId:asSchoolId,
@@ -144,9 +143,33 @@ const StandardToppers = () => {
                     IconList={[]} ClickItem={ClickItem} />
 
                 <PageHeader heading=' Subject Toppers' />
-                <Container>
-                    <ToppersList headers={HeaderList1} data={GetSubjectToppersList} />
-                </Container>
+                <Grid container>
+                    {
+                        GetSubjectToppersList.map((item, i) => {
+                            return (<>
+                                {!(i % 3) && (
+                                    <Grid container item xs={12} justifyContent="center">
+
+                                        {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
+                                        {/* <Container> */}
+                                        {item.Subject}
+                                        {/* </Container> */}
+                                    </Grid>
+                                )}
+
+                                <Grid item xs={4} xl={4} justifyContent="center">
+                                    <Container>
+                                        <img src={item.Rank_Image} /> MarKs:{item.Marks}
+                                    </Container>
+                                    <br></br>
+                                    <ToppersList headers={HeaderList1}
+                                        data={item.Students} />
+                                </Grid>
+
+                            </>)
+                        })
+                    }
+                </Grid>
 
             </Grid>
         </Container>

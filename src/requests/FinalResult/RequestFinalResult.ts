@@ -29,7 +29,7 @@ const FinalResultSlice = createSlice({
               return {
                 Id: item.Teacher_Id,
                 Name: item.TeacherName,
-                Value: item.SchoolWise_Standard_Division_Id,
+                Value: item.StdDivId,
               }                
             })
             dispatch(FinalResultSlice.actions.classTeacherList(abc))

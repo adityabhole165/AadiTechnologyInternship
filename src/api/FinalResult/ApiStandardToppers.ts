@@ -13,7 +13,7 @@ const StandardExamDropdown=
 };
 const ClassSubjectDropdown=
 (data:IGetSubjectDropdownBody)=>{
-    return http.post<IGetSubjectDropdownResult[]>('Teacher/GetClassSubjectsDropDown',data)
+    return http.post<IGetSubjectDropdownResult[]>('Teacher/GetStandardSubjectsDropDown',data)
 };
 const StandardToppersList=
 (data:IGetStandardToppersListBOdy)=>{

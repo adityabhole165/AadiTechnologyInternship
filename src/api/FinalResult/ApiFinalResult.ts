@@ -3,7 +3,7 @@ import { IClassTeacherListBody,IClassTeacherListRsult ,IGetPagedStudentBody,IGet
 
 const ClassTeacherList=
 (data:IClassTeacherListBody) => {
-    return http.post<IClassTeacherListRsult[]>('Teacher/GetClassTeachers', data)
+    return http.post<IClassTeacherListRsult[]>('Teacher/GetClassTeachersDropdown', data)
 };
 
 

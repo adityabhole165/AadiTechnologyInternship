@@ -4,16 +4,11 @@ export interface IClassTeacherListBody{
 }
 export interface IClassTeacherListRsult
     {
-    TeacherName:string,
-    Teacher_Id:string,
-    Designation_Id:string,
-    Teacher_First_Name:string,
-    Standard_Name:string,
-    Division_Name:string,
-    Original_Standard_Id:string, 
-    Original_Division_Id:string,
-    SchoolWise_Standard_Division_Id:string
-
+        Teacher_Id: string,
+        StdDivId: string,
+        TeacherName:string,
+        Original_Standard_Id: string,
+        Original_Division_Id: string
 }
 export interface IGetPagedStudentBody{
     asSchoolId:string,
