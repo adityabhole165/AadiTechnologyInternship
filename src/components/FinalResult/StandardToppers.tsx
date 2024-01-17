@@ -2,7 +2,6 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { RootState, useDispatch } from 'src/store';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -10,6 +9,7 @@ import { useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
 import { IGetStandardExamDropdownBody, IGetSubjectDropdownBody, IGetStandardToppersListBOdy, IGetStandardDropdownBody } from 'src/interfaces/FinalResult/IStandardToppers';
 import { StandardDropdownList, StandardExamList, StandardSubjectList, StandardTopperList } from 'src/requests/FinalResult/RqstandardToppers';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const StandardToppers = () => {
     const RadioList = [{ Value: "1", Name: "Class Toppers" },
@@ -115,9 +115,7 @@ const StandardToppers = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetStandarddropdown} handleChange={clickStandardDropdown} defaultValue={SelectStandard} label={SelectStandard} />
-                    </Box>
+                        <SearchableDropdown ItemList={GetStandarddropdown} onChange={clickStandardDropdown} defaultValue={SelectStandard} label={SelectStandard} />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography margin={'1px'}>
@@ -125,9 +123,7 @@ const StandardToppers = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetExamdropdown} handleChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
-                    </Box>
+                        <SearchableDropdown ItemList={GetExamdropdown} onChange={clickExamDropdown} defaultValue={SelectExam} label={SelectExam} />
                 </Grid>
                 <Grid item xs={6}>
                     <Typography margin={'1px'}>
@@ -135,9 +131,7 @@ const StandardToppers = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={6} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown Array={GetSubjectdropdown} handleChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
-                    </Box>
+                        <SearchableDropdown ItemList={GetSubjectdropdown} onChange={clickSubjectDropdown} defaultValue={SelectSubject} label={"All"} />
                 </Grid>
                 <DynamicList2 HeaderList={HeaderList} ItemList={GetStandardToppersList}
                     IconList={[]} ClickItem={ClickItem} />
