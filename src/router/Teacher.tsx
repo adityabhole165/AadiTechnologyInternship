@@ -43,7 +43,7 @@ const HomeworkSubjectList=Loader(lazy(()=>import('src/components/AssignHomework/
 const HomeworkDocuments=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkDocuments ')))
 const ViewHomework=Loader(lazy(()=>import('src/components/AssignHomework/ViewHomework')))
 const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
-//const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
+const FinalResultUnpublish=Loader(lazy(()=>import('src/components/FinalResultUnpublish/FinalResultUnpublish')))
 
 const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
 const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
@@ -235,6 +235,10 @@ const teacherRoutes = [
       element: <Requisition/>
     },
 
+    {
+      path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
+      element: <FinalResultUnpublish/>
+    },
     ];
   
   export default teacherRoutes;

@@ -1,4 +1,4 @@
-import { Grid, Stack, TextField, Typography } from '@mui/material';
+import { Container, Grid, Stack, TextField, Typography } from '@mui/material';
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import PageHeader from 'src/libraries/heading/PageHeader'
@@ -37,7 +37,7 @@ const AddLessonPlan = () => {
 
     }
     dispatch(classnamelist(ClassListBody))
-  }, []);
+  }, [TeacherId]);
 
 
   const onClickClass =(value) =>{
@@ -60,6 +60,7 @@ const AddLessonPlan = () => {
   }
 
   return (
+    <Container>
     <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", }}>
 
       <PageHeader heading='Lesson Plan Details' />
@@ -110,7 +111,7 @@ const AddLessonPlan = () => {
   <Grid item xs={1}>
     <Typography >
       <b>Class:</b>
-    </Typography>
+    </Typography>  
   </Grid>
   <Grid item xs={2} >
   <DropDown itemList={ClassListDropdown} ClickItem={onClickClass} DefaultValue={SelectClass} Label={"Select"} />
@@ -145,6 +146,7 @@ const AddLessonPlan = () => {
                BACK
             </ButtonPrimary> 
     </div>
+    </Container>
   )
 }
 

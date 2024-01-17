@@ -23,3 +23,16 @@ export interface IGetLessonPlanListResult{
        IsSuggisitionRead:string,
        SubmitedByReportingUser:string
 }
+
+export interface IDeleteLessonPlanBody{
+
+   asSchoolId:Number, 
+   asAcademicYearId:Number,
+   asUpdatedById:Number,
+   asUserId:Number,
+   aasStartDate:string,
+   aasEndDate:string
+}
+
+export interface IDeleteLessonPlanResult{
+}

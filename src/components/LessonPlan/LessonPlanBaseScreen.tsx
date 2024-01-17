@@ -5,8 +5,8 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import PageHeader from 'src/libraries/heading/PageHeader'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState } from 'src/store';
-import { IGetLessonPlanListBody,IGetLessonPlanListResult } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
-import { lessonplanlist } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
+import { IGetLessonPlanListBody,IDeleteLessonPlanBody } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
+import { lessonplanlist,deletelessonplan,resetdeleteplan } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import DynamicList from 'src/libraries/list/DynamicList';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import EditIcon from '@mui/icons-material/Edit';
@@ -19,6 +19,7 @@ import PreviewIcon from '@mui/icons-material/Preview';
 import { useNavigate } from 'react-router';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
 import { getDateFormat1 } from '../Common/Util';
+import { toast } from 'react-toastify';
 
 const LessonPlanBaseScreen = () => {
 
@@ -32,88 +33,132 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = (sessionStorage.getItem('StudentName'));
 
 
-    const [StartDate, setStartDate]:any = useState("getDateFormat1");
-  const [EndDate, setEndDate]:any = useState("getDateFormat1");
+    const [StartDate, setStartDate]= useState();
+  const [EndDate, setEndDate] = useState();
   console.log("StartDate---", StartDate)
-  console.log("EndDate---", StartDate)
+  console.log("EndDate---", EndDate)
 
-  const LessonPlanList = useSelector((state: RootState) => state.LessonPlanBase.LessonList)
+  const LessonPlanList : any = useSelector((state: RootState) => state.LessonPlanBase.LessonList)
   console.log("LessonPlanList", LessonPlanList)
+
+  const DeleteLessonPlan: any = useSelector((state: RootState) => state.LessonPlanBase.DeletePlan)
+  console.log("DeleteLessonPlan", DeleteLessonPlan)
 
   const IconList = [
 
     {
         Id: 1,
-        Icon: (<PreviewIcon />),
+        Icon: (<PreviewIcon titleAccess="View Remark"/>),
         Action: "PreviewIcon"
     },
     {
       Id: 2,
-      Icon: (<EditIcon  />),
+      Icon: (<EditIcon titleAccess="Edit" />),
       Action: "EditIcon"
   },
     {
         Id: 3,
-        Icon: (<CloseIcon  style={{ backgroundColor: 'white', color: 'red' }}/>),
+        Icon: (<CloseIcon titleAccess="Delete" style={{ backgroundColor: 'white', color: 'red' }}/>),
         Action: "CloseIcon"
     },
-
-   
-
   {
     Id: 4,
     Icon: (<div style={{ backgroundColor: 'white', color: 'skyblue' }}>Export</div>),
     Action: "RemoveRedEyeIcon2"
 },{
   Id: 5,
-  Icon: (<CheckIcon/>),
-
+  Icon: (<CheckIcon />),
   Action: "RemoveRedEyeIcon2"
 },
 ]
+const GetLessonPlanListBody: IGetLessonPlanListBody = {
 
-
+  asSchoolId:asSchoolId, 
+  asAcademicYearId:asAcademicYearId,
+   asUserId:asUserId, 
+   asReportingUserId:asUserId,
+    asStartIndex:0,
+     asEndIndex:20, 
+     asIsRecordCount:0, 
+     asStartDate:StartDate, 
+     asEndDate:EndDate, 
+     asRecordCount:null
+    }
   useEffect(() => {
-    const GetLessonPlanListBody: IGetLessonPlanListBody = {
+    dispatch(lessonplanlist(GetLessonPlanListBody))
+  }, [StartDate,EndDate]);
 
-      asSchoolId:asSchoolId, 
-      asAcademicYearId:asAcademicYearId,
-       asUserId:asUserId, 
-       asReportingUserId:asUserId,
-        asStartIndex:0,
-         asEndIndex:20, 
-         asIsRecordCount:0, 
-         asStartDate:null, 
-         asEndDate:null, 
-         asRecordCount:null
 
+  // useEffect(() => {
+  //   const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+
+  //     asSchoolId: asSchoolId, 
+  //     asAcademicYearId: asAcademicYearId,
+  //     asUpdatedById: asUserId,
+  //     asUserId: asUserId,
+  //     aasStartDate:StartDate, 
+  //     aasEndDate:EndDate
+
+  //   }
+  //   dispatch(deletelessonplan(DeleteLessonPlanBody))
+  // }, []);
+
+
+  const clickDelete = (value) => {
+    if(value.Action=="CloseIcon"){
+      LessonPlanList.map((item,i)=>{
+        if(i==value){
+          LessonPlanList.map((item,i)=>{
+        if(i==value){
+        //  StartDate = item.Text1
+        //   EndDate = item.Text2
+        }
+      })
+        }
+      })
+    if (confirm('Are You Sure you want to delete The Lesson Plan')) {
+      const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+
+        asSchoolId: asSchoolId, 
+        asAcademicYearId: asAcademicYearId,
+        asUpdatedById: asUserId,
+        asUserId: asUserId,
+        aasStartDate:StartDate,
+        aasEndDate:EndDate
+  
+      }
+      dispatch(deletelessonplan(DeleteLessonPlanBody))
+    }
+
+      if (DeleteLessonPlan!== '') {
+      toast.success(DeleteLessonPlan, { toastId: 'success1' })
+      dispatch(resetdeleteplan());
     }
     dispatch(lessonplanlist(GetLessonPlanListBody))
-  }, []);
+  }
+} 
 
-
-  
 
   const onSelectStartDate = (value) => {
     setStartDate(value)
 
-    if(StartDate !== ""){
-      const GetLessonPlanListBody1: IGetLessonPlanListBody = {
+    // if(StartDate !== ""){
+    //   const GetLessonPlanListBody1: IGetLessonPlanListBody = {
 
-        asSchoolId:asSchoolId, 
-        asAcademicYearId:asAcademicYearId,
-         asUserId:asUserId, 
-         asReportingUserId:asUserId,
-          asStartIndex:0,
-           asEndIndex:20, 
-           asIsRecordCount:0, 
-           asStartDate:StartDate, 
-           asEndDate:null, 
-           asRecordCount:null
+    //     asSchoolId:asSchoolId, 
+    //     asAcademicYearId:asAcademicYearId,
+    //      asUserId:asUserId, 
+    //      asReportingUserId:asUserId,
+    //       asStartIndex:0,
+    //        asEndIndex:20, 
+    //        asIsRecordCount:0, 
+    //        asStartDate:StartDate, 
+    //        asEndDate:null, 
+    //        asRecordCount:null
   
-      }
-      dispatch(lessonplanlist(GetLessonPlanListBody1))
-    }
+    //   }
+    //   dispatch(lessonplanlist(GetLessonPlanListBody1))
+    // }
   }
 
   const onSelectEndDate = (value) => {
@@ -145,6 +190,23 @@ const LessonPlanBaseScreen = () => {
     navigate('/extended-sidebar/Teacher/AddLessonPlan')
 
   }
+
+  const onClickaaaa1 =() =>{
+    navigate('/extended-sidebar/Teacher/AddLessonPlan')
+
+  }
+  const onClickaaaa2 =() =>{
+    navigate('/extended-sidebar/Teacher/AddHomework')
+
+  }
+
+  const ClickEdit = (value) => {
+    if(value.Action=="EditIcon"){
+      navigate('/extended-sidebar/Teacher/AddLessonPlan')
+    }
+
+  }
+
   return (
 
     <>
@@ -156,7 +218,7 @@ const LessonPlanBaseScreen = () => {
      <Paper>
           <Grid container>
             <Grid item xs={12}>
-              <h4>Legends</h4>
+              <h4 style={{ backgroundColor: 'white', color: 'black' }}>Legends:</h4>
               <Box sx={{ display: 'flex', gap: '20px' }}>
                 <DotLegends2
                   color="secondary"
@@ -217,7 +279,7 @@ const LessonPlanBaseScreen = () => {
             </Grid> 
             
         <Grid item xs={2}>
-            <ButtonPrimary  variant="contained">
+            <ButtonPrimary  variant="contained"> 
                EXPORT ALL
             </ButtonPrimary> 
             </Grid> 
@@ -228,7 +290,7 @@ const LessonPlanBaseScreen = () => {
             <Grid item xs={6}>
 <Paper>
       <DynamicList2 HeaderList={HeaderList} ItemList={LessonPlanList}
-                    IconList={IconList} ClickItem={""} />
+                    IconList={IconList} ClickItem={clickDelete}/>
                 
                 </Paper>
                 </Grid>

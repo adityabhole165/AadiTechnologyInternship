@@ -94,7 +94,17 @@ const FinalResult = () => {
         navigate('/extended-sidebar/Teacher/FinalResultToppers/'+getTeacherId());
       }
     
-
+      const getTeacherName = () => {
+        let TeacherName = ""
+        GetClassTeachers.map((item)=>{
+            if(item.Value == SelectTeacher)
+            TeacherName = item.Name
+        })
+        return TeacherName;
+    }
+      const onClickUnpublish=()=>{
+        navigate('/extended-sidebar/Teacher/FinalResultUnpublish/'+SelectTeacher+'/'+getTeacherName());
+      }
     return (
         <Container>
             <br></br>
@@ -131,7 +141,7 @@ const FinalResult = () => {
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Generate All</ButtonPrimary>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>View Result All</ButtonPrimary>
                     <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Publish</ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Unpublish</ButtonPrimary>
+                    <ButtonPrimary onClick={onClickUnpublish} variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Unpublish</ButtonPrimary>
                 </Grid>
             </Grid>
 
