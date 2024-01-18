@@ -201,12 +201,61 @@ const AddHomework = () => {
     }, [SaveHomework]);
 
 
+    const getIsPublish = (Id) => {
+        let IsPublish = false;
+    
+        Subjectlistsforteacher.forEach((item) => {
+            if (item.Id.toString() === Id.toString()) {
+                // Use ternary operator to assign true or false based on the condition
+                IsPublish = item.Text4 === "False" ? false : true;
+            }
+        });
+    
+        return IsPublish;
+    }
+    
+      const clickPublishUnpublish = (Id) => {
+        alert(Id)
+        let IsPublish = getIsPublish(Id)
+        if(IsPublish){
+        //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
+      } else{
+        const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+            asSchoolId:asSchoolId.toString(),
+           asAcademicYearId:asAcademicYearId.toString(),
+           asHomeWorkLogId:Id,
+           asUnpublishReason:"Yesss",
+           asUpdatedById:TeacherId,
+           IsPublished: Number(IsPublish),
+           IsSMSSent:1
+          }
+    
+          dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
+        }
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     const Back = () => {
         navigate('/extended-sidebar/Teacher/AssignHomework')
     }
     const clickTitle1 = (Id) => {
         navigate('/extended-sidebar/Teacher/ViewHomework/'  + Id)
       } 
+      const Back1 = () => {
+        (navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id))
+    }
       const Changevalue=(value)=>{
         alert(value)
         setitemPublish(value);
@@ -414,22 +463,22 @@ const AddHomework = () => {
             <br></br>
             <SubjectList1 ItemList={Subjectlistsforteacher} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} />
 
-       {/* <Grid item xs={8}>  
+       <Grid item xs={8}>  
 <ButtonPrimary
-           onClick={""}
+           onClick={clickPublishUnpublish}
            variant='contained'
            style={{ marginRight: "8px", backgroundColor: 'green' }}>
            PUBLISHALL
          </ButtonPrimary>
          <ButtonPrimary
-           onClick={""}
+           onClick={Back1}
            variant='contained'
            style={{ marginRight: "8px", backgroundColor: 'green' }}>
            UNPUBLISHALL
          </ButtonPrimary>
-         </Grid> */}
+         </Grid>
 
-
+         
 
 
 
