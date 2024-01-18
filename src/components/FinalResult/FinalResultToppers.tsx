@@ -198,7 +198,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
    
     const ClickRadio = (value) => {
         setRadioBtn(value);
-        console.log(value)
+        
       }
 
 

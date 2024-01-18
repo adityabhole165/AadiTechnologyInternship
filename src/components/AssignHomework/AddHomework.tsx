@@ -357,6 +357,24 @@ const AddHomework = () => {
             </Box>
             <br></br><br></br>
             <HomeworkSubjectList />
+            <br></br>
+            <br></br>
+            {/* <SubjectList ItemList={Subjectlistsforteacher} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} /> */}
+{/*        
+       <Grid item xs={8}>  
+<ButtonPrimary
+           onClick={Cancle}
+           variant='contained'
+           style={{ marginRight: "8px", backgroundColor: 'green' }}>
+           PUBLISHALL
+         </ButtonPrimary>
+         <ButtonPrimary
+           onClick={Cancle}
+           variant='contained'
+           style={{ marginRight: "8px", backgroundColor: 'green' }}>
+           UNPUBLISHALL
+         </ButtonPrimary>
+         </Grid> */}
 
 
 
