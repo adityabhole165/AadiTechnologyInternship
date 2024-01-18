@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AppThunk } from "src/store";
 import ApiRequisition from 'src/api/Requisition/APIRequisition';
 import { IGetRequisitionStatusBody,IGetPagedRequisitionBody } from "src/interfaces/Requisition/IRequisition";
+import { getDateFromatDateTime, getDateMonthYearFormatted } from "src/components/Common/Util";
 
 const SliceRequisition = createSlice({
     name: 'Requisition',
@@ -30,7 +31,7 @@ const SliceRequisition = createSlice({
           const response = await ApiRequisition.RequisitionApi(data);
           let abc = response.data.map((item, i) => {
             return {
-              Id: item.StatusID,
+              Id: item.Inserted_By_id,
               Name: item.StatusName,
               Value: item.StatusID
             }                
@@ -47,7 +48,10 @@ const SliceRequisition = createSlice({
                 Text1: item.RequisitionCode,
                 Text2:item.RequisitionName,
                 Text3:item.StatusName,
+
                 Text4:item.CreaterName,
+           
+                Text5:getDateMonthYearFormatted(item.Created_Date),
                  Text7:item.Editble,
                 Text8:item.IsDelete,
                 Text11:item.School_Id,

@@ -24,7 +24,7 @@ const StatusRequisition = () => {
   
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-
+  const asUserId = Number(localStorage.getItem('UserId'));
   const [SelectResult,setSelectResult]= useState(0)
   const [SelectRequisition,setRequisiton]= useState(0)
   const [regNoOrName, setRegNoOrName] = useState("");
@@ -54,9 +54,13 @@ const IconList = [
   );
   console.log(Requision, 'StatusRequisition');
 
+  const [PagedRequisition, setPagedRequisition] = useState([])
   const GetPagedRequisition = useSelector(
     (state: RootState) => state.SliceRequisition.RequisitionList
   );
+  useEffect(()=>{
+    setPagedRequisition(GetPagedRequisition)
+  },[GetPagedRequisition])
   console.log(GetPagedRequisition, 'GetPagedRequisitionList');
 
   
@@ -76,7 +80,7 @@ const IconList = [
       asEndIndex:15,
       asSortExp:"ORDER BY Created_Date desc",
       asStatusID:SelectResult,
-      asUserId:3584
+      asUserId:Number(asUserId)
     };
       
     const GetRequisitionStatusDropdown=(value)=>{
@@ -93,14 +97,26 @@ const IconList = [
       navigate('/extended-sidebar/Teacher/examresult')
   
     }
-    const clickSearch = (value) => {
-      //  setShowRiseAndShine(value)
-      //  setSelectTeacher(value)
-      //  setRegNoOrName(value)
-      dispatch(RequisitionListt(RequisitionList))
-    
-  }
+    const clickReset = () => {
+      setPagedRequisition(GetPagedRequisition)
+setRegNoOrName("")
+    }
+    const clickSearch = () => {
+      if (regNoOrName === "") {
+       
+          setPagedRequisition(GetPagedRequisition);
+      } else {
+          
+          setPagedRequisition(GetPagedRequisition.filter(item => {
+              const text1Match = item.Text1.toLowerCase().includes(regNoOrName.toLowerCase());
+              const text2Match = item.Text2.toLowerCase().includes(regNoOrName.toLowerCase());
+              return text1Match || text2Match;
+          }));
+      }
+  };
+  
   const handleRegNoOrNameChange = (value) =>{
+    
     setRegNoOrName(value)
 }
 
@@ -140,12 +156,18 @@ const IconList = [
               </ButtonPrimary>
 
             </Grid>
+        <Grid item xs={2}>
+            <ButtonPrimary onClick={clickReset} variant='contained' style={{ marginRight: "150px", backgroundColor: 'green' }}>
+                Reset
+              </ButtonPrimary>
+
+            </Grid>
   <ButtonPrimary variant="contained" onClick={onClickAdd}>
                Add</ButtonPrimary>
   <ButtonPrimary  variant="contained" onClick={onClickBack} style={{ backgroundColor: 'Red', color: 'white' }}>
                BACK
             </ButtonPrimary>     
-  <DynamicList2 HeaderList={HeaderList} ItemList={GetPagedRequisition}
+  <DynamicList2 HeaderList={HeaderList} ItemList={PagedRequisition}
                         IconList={IconList} ClickItem={ClickItem} />
                     
 
