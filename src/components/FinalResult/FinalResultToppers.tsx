@@ -58,7 +58,7 @@ const GetStandarddropdownST = useSelector((state: RootState) => state.StandardTo
 const GetExamdropdownST = useSelector((state: RootState) => state.StandardToppers.ExamDropdownListST);
 const GetSubjectdropdownST = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownListST);
 const GetStandardToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
-       console.log(GetStandardToppersListST,"GetStandardToppersListST");
+
 const GetSubjectToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
 //
 
@@ -259,7 +259,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
             <DynamicList2 HeaderList={HeaderListCT} ItemList={GetToppersListCT}
                 IconList={[]} ClickItem={ClickItem} />
 
-            <PageHeader heading=' Subject Toppers' />
+            {/* <PageHeader heading=' Subject Toppers' /> */}
             <Grid container>
                 {
                     GetSubjectToppersListCT.map((item, i) => {

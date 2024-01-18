@@ -14,8 +14,8 @@ import { ChangeFileIntoBase64, CheckFileValidation } from '../Common/Util'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle'
 import { useDispatch, useSelector } from 'react-redux'
 import { RootState } from 'src/store'
-import { ISaveHomeworkBody, IGetTeacherSubjectAndClassSubjectBody,IGetHomeworkDetailBody } from "src/interfaces/AssignHomework/IAddHomework";
-import { HomeworkSave, SubjectListforTeacher,GetHomeworkDetails } from "src/requests/AssignHomework/requestAddHomework";
+import { ISaveHomeworkBody, IGetTeacherSubjectAndClassSubjectBody,IGetHomeworkDetailBody,IAllPublishUnpublishAddHomeworkBody,IGetSubjectListForTeacherBody} from "src/interfaces/AssignHomework/IAddHomework";
+import { HomeworkSave, SubjectListforTeacher,GetHomeworkDetails,PublishUnpublishAllHomework,GetTeacherSubjectList } from "src/requests/AssignHomework/requestAddHomework";
 import { useNavigate, useParams } from "react-router"
 import { toast } from "react-toastify"
 import DropDown from "src/libraries/list/DropDown"
@@ -24,7 +24,8 @@ import SubjectList from 'src/libraries/ResuableComponents/SubjectList'
 import DynamicList2 from 'src/libraries/list/DynamicList2'
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import HomeworkSubjectList from'src/components/AssignHomework/HomeworkSubjectList'
-//import{HomeworkSubjectList} from 'src/components/AssignHomework/HomeworkSubjectList'
+import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1'
+
 
 const AddHomework = () => {
     const { ClassId, ClassName, TeacherId, TeacherName, SubjectName,Id} = useParams();
@@ -59,6 +60,10 @@ const AddHomework = () => {
     const [base64URLError1, setErrorbase64URL1] = useState('');
     const [itemPublish, setitemPublish] = useState([])
 
+    const HeaderPublish1 = [
+        { Id: 1, Header: "SR.No 	" }, { Id: 2, Header: "Subject" }, { Id: 3, Header: "Title" },
+        { Id: 4, Header: "Is Published? " }, { Id: 5, Header: "Complete By Date" }, 
+      ]
 
     const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
     const ValidFileTypes1 = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
@@ -80,9 +85,12 @@ const AddHomework = () => {
     //console.log(SaveHomework, "SaveHomework....")
     const ClassSubject = useSelector((state: RootState) => state.AddHomework.Subjectlist);
     //console.log(ClassSubject, "ClassSubject....")
-
+    const AllPublishUnPublishHomework = useSelector((state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT);
+    console.log(AllPublishUnPublishHomework, "AllPublishUnPublishHomework....")
     const HomeworkDetail = useSelector((state: RootState) => state.AddHomework.GetHomeworkDetail);
-    console.log(HomeworkDetail, "HomeworkDetail..ssss..")
+    // console.log(HomeworkDetail, "HomeworkDetail..ssss..")
+    const Subjectlistsforteacher = useSelector((state: RootState) => state.AddHomework.SubjectListTeacher);
+    // console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
 
     const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody = {
         asSchoolId: asSchoolId,
@@ -90,11 +98,35 @@ const AddHomework = () => {
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: StandardDivisionId
     }
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+        asSchoolId:asSchoolId.toString(),
+       asAcademicYearId:asAcademicYearId.toString(),
+       asHomeWorkLogId:"2717",
+       "asUnpublishReason":"Yesss'",
+       "asUpdatedById":"4463",
+       "IsPublished":0,
+       "IsSMSSent":1
+      }
 
+       const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
+
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: StandardDivisionId,
+        asHomeWorkStatus: "All",
+        "asHomeworkTitle": "",
+        "asAssignedDate": "2023-04-18 00:00:00"
+    }
+
+  useEffect(() => {
+    dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody))
+}, []);
     useEffect(() => {
         dispatch(SubjectListforTeacher(GetTeacherSubjectAndClassSubjectBody))
     }, []);
-
+    useEffect(() => {
+        dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
+    }, []);
     const clickSubjectList = (value) => {
         setSubjectlist(value)
     }
@@ -172,6 +204,21 @@ const AddHomework = () => {
     const Back = () => {
         navigate('/extended-sidebar/Teacher/AssignHomework')
     }
+    const clickTitle1 = (Id) => {
+        navigate('/extended-sidebar/Teacher/ViewHomework/'  + Id)
+      } 
+      const Changevalue=(value)=>{
+        alert(value)
+        setitemPublish(value);
+        value.map((item)=>{ 
+          return (item.IsActive?
+  
+  
+          value = value + item.Id + ",":"")
+        })
+      }
+
+
     // const onSelectDate = (value) => {
     //     setCompleteDate(value)
     //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
@@ -189,6 +236,12 @@ const AddHomework = () => {
     //         setDetails(HomeworkDetail.Details)
     //     }
     // }, [HomeworkDetail]);
+
+    
+
+
+
+
 
     return (
         <>
@@ -359,17 +412,17 @@ const AddHomework = () => {
             <HomeworkSubjectList />
             <br></br>
             <br></br>
-            {/* <SubjectList ItemList={Subjectlistsforteacher} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} /> */}
-{/*        
-       <Grid item xs={8}>  
+            <SubjectList1 ItemList={Subjectlistsforteacher} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} />
+
+       {/* <Grid item xs={8}>  
 <ButtonPrimary
-           onClick={Cancle}
+           onClick={""}
            variant='contained'
            style={{ marginRight: "8px", backgroundColor: 'green' }}>
            PUBLISHALL
          </ButtonPrimary>
          <ButtonPrimary
-           onClick={Cancle}
+           onClick={""}
            variant='contained'
            style={{ marginRight: "8px", backgroundColor: 'green' }}>
            UNPUBLISHALL
