@@ -53,7 +53,7 @@ function Adddailyloglist({
                 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   <ButtonPrimary   onClick={() => clickpublish(item.Id)}>
-                    {item.Text3 === "True" ? 'Publish' : 'Unpublish'  } 
+                    {item.Text3 === "True" ? 'UnPublish' : 'Publish'  } 
                   </ButtonPrimary>
                 </TableCell>
 

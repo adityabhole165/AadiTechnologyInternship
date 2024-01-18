@@ -140,7 +140,7 @@ const [isPublish, setIsPublish] = useState(true);
       let dateFormat = da.split("-")[2] + "-" + da.split("-")[1]+"-" + da.split("-")[0]
       setDateState(dateFormat)
 
-      setFileName(GetHomeworkDailyLogs[0].AttchmentName)
+      //setFileName(GetHomeworkDailyLogs[0].AttchmentName)
       // setbase64URL(GetHomeworkDailyLogs[0].base64URL)
     }
   }, [GetHomeworkDailyLogs]);
@@ -245,30 +245,30 @@ const clickFileName = (value) => {
 
   const SaveDailylogBody: ISaveDailyLogBody = {
 
-    aHomeWorkLogId:LogId,
-    asStdDivId:Number(Id),
+     aHomeWorkLogId:LogId,
+     asStdDivId:Number(Id),
      asDate:dateState,
-     asAttachmentName:base64URL==""?"":fileName, 
+     asAttachmentName:fileName==""?null:fileName, 
      asSchoolId:asSchoolId,
      asAcademicYearId:Number(asAcademicYearId),
       asInsertedById:TeacherId,
       asSaveFeature:"Assign Homework",
-      asFolderName:asFolderName,
-      asBase64String:base64URL
+      asFolderName:"PPSN Website",
+      asBase64String:base64URL==""?null:base64URL
 }
 
 
 const onClickSave=() =>{
-debugger
     let isError = false;
     if (dateState == '') {
       setDateError('Field should not be blank')
       isError = true
   
-    } else if (fileName == '') {
-      setFileNameError('Field should not be blank')
-      isError = true
-    }
+    } 
+    // else if (fileName == '') {
+    //   setFileNameError('Field should not be blank')
+    //   isError = true
+    // }
   //  else if (base64URL == '') {
   //   setbase64URLError('Field should not be blank')
   //   isError = true
