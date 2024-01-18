@@ -119,17 +119,15 @@ const FinalResult = () => {
                     </Typography>
                 </Grid>
                 <Grid item xs={3} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        <Dropdown
+    <Dropdown
                             Array={GetClassTeachers}
                             handleChange={clickTeacherDropdown}
                             defaultValue={SelectTeacher}
                             label={SelectTeacher}
                         />
-                    </Box>
                 </Grid>
                 <Grid item xs={6}>
-                <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }} onClick={Toppers}> Toppers  </ButtonPrimary>
+                <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }} onClick={Toppers}> TOPPERS  </ButtonPrimary>
                 </Grid>
                 <br></br>
                 <br></br>
@@ -138,10 +136,10 @@ const FinalResult = () => {
                         IconList={IconList} ClickItem={ClickItem} />
                 }
                 <Grid item xs={12} >
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Generate All</ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>View Result All</ButtonPrimary>
-                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Publish</ButtonPrimary>
-                    <ButtonPrimary onClick={onClickUnpublish} variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>Unpublish</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>GENERATE ALL</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>VIEW RESULT ALL</ButtonPrimary>
+                    <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>PUBLISH</ButtonPrimary>
+                    <ButtonPrimary onClick={onClickUnpublish} variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }}>UNPUBLISH</ButtonPrimary>
                 </Grid>
             </Grid>
 
