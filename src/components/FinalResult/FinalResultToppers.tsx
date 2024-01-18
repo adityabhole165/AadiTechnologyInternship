@@ -13,14 +13,11 @@ import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useNavigate, useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
-import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
     const { TeacherId } = useParams();
-    const navigate  = useNavigate();
-    //alert(TeacherId)
-
+    
     const [SelectClassCT, setClassCT] = useState(TeacherId);
     const [SelectExamCT, setExamCT] = useState("0");
     const [SelectSubjectCT, setSubjectCT] = useState("0");
@@ -57,8 +54,8 @@ const FinalResultToppers = () => {
 const GetStandarddropdownST = useSelector((state: RootState) => state.StandardToppers.StandardDropdownST);
 const GetExamdropdownST = useSelector((state: RootState) => state.StandardToppers.ExamDropdownListST);
 const GetSubjectdropdownST = useSelector((state: RootState) => state.StandardToppers.SubjectDropdownListST);
-const GetStandardToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
-
+const GetStandardToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardTopperST);
+       console.log(GetStandardToppersListST,"GetStandardToppersListST");
 const GetSubjectToppersListST = useSelector((state: RootState) => state.StandardToppers.StandardSubjectToppersST);
 //
 
@@ -93,7 +90,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
     }, [GetSubjectdropdownCT]);
 
 
-    //
+    
     useEffect(() => {
         dispatch(StandardDropdownListST(StandardDropdownBodyST))
     }, [TeacherId])
@@ -147,7 +144,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
         asExamId: Number(SelectExamCT),
         asSubjectId: Number(SelectSubjectCT)
     }
-    //
+    
 
     const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
         asSchoolId: asSchoolId,
@@ -207,7 +204,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
     }
     return (
         <>
-               
+                
                <br></br>
         <br></br>
         <br></br>
@@ -221,7 +218,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
 
 
 
-        <PageHeader heading='Toppers' />
+        <PageHeader heading=' Class Toppers' />
         
 
         <Grid container spacing={1} alignItems="center">
@@ -231,9 +228,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                 </Typography>
             </Grid>
             <Grid item xs={6} >
-                <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                     <Dropdown Array={GetClassdropdownCT} handleChange={clickClassDropdownCT} defaultValue={SelectClassCT} label={SelectClassCT} />
-                </Box>
             </Grid>
             <Grid item xs={6}>
                 <Typography margin={'1px'}>
@@ -241,9 +236,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                 </Typography>
             </Grid>
             <Grid item xs={6} >
-                <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                     <Dropdown Array={GetExamdropdownCT} handleChange={clickExamDropdownCT} defaultValue={SelectExamCT} label={SelectExamCT} />
-                </Box>
             </Grid>
             <Grid item xs={6}>
                 <Typography margin={'1px'}>
@@ -251,15 +244,13 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                 </Typography>
             </Grid>
             <Grid item xs={6} >
-                <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                     <Dropdown Array={GetSubjectdropdownCT} handleChange={clickSubjectDropdownCT} defaultValue={SelectSubjectCT} label={"All"} />
-                </Box>
             </Grid>
 
             <DynamicList2 HeaderList={HeaderListCT} ItemList={GetToppersListCT}
                 IconList={[]} ClickItem={ClickItem} />
 
-            {/* <PageHeader heading=' Subject Toppers' /> */}
+            <PageHeader heading=' Subject Toppers' />
             <Grid container>
                 {
                     GetSubjectToppersListCT.map((item, i) => {
@@ -267,11 +258,11 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                             {!(i % 3) && (
                                 <Grid container item xs={12} justifyContent="center">
 
-                                    {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                    {/* <Container> */}
-                                    {item.Subject}
-                                    {/* </Container> */}
-                                </Grid>
+                                  {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
+                                      {/* <Container> */}
+                                      {item.Subject}
+                                      {/* </Container> */}
+                                 </Grid>
                             )}
 
                             <Grid item xs={4} xl={4} justifyContent="center">
@@ -290,7 +281,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
 
 
         </Grid>
-    </Container> :
+    </Container> : 
           <Container>
           <PageHeader heading='StandardToppers' />
           <Grid container spacing={1} alignItems="center">
@@ -300,9 +291,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                   </Typography>
               </Grid>
               <Grid item xs={6} >
-                  <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                       <Dropdown Array={GetStandarddropdownST} handleChange={clickStandardDropdownST} defaultValue={SelectStandardST} label={SelectStandardST} />
-                  </Box>
               </Grid>
               <Grid item xs={6}>
                   <Typography margin={'1px'}>
@@ -310,9 +299,7 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                   </Typography>
               </Grid>
               <Grid item xs={6} >
-                  <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                       <Dropdown Array={GetExamdropdownST} handleChange={clickExamDropdownST} defaultValue={SelectExamST} label={SelectExamST} />
-                  </Box>
               </Grid>
               <Grid item xs={6}>
                   <Typography margin={'1px'}>
@@ -320,10 +307,11 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
                   </Typography>
               </Grid>
               <Grid item xs={6} >
-                  <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                       <Dropdown Array={GetSubjectdropdownST} handleChange={clickSubjectDropdownST} defaultValue={SelectSubjectST} label={"All"} />
-                  </Box>
               </Grid>
+              <br></br>
+              <br></br>
+              <br></br>
               <DynamicList2 HeaderList={HeaderListST} ItemList={GetStandardToppersListST}
                   IconList={[]} ClickItem={ClickItemST} />
           
@@ -358,8 +346,8 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
           
           </Grid>
           </Container>
-      }
- 
+      
+                }
 </>
     )
 }
