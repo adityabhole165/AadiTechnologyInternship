@@ -8,12 +8,13 @@ import { Savedailylog,getalldailylog,getdailylog,deletedailylog, ResetFilePath,R
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import { toast } from 'react-toastify';
 import { Navigate,useNavigate, useParams } from 'react-router';
-import { Container, Grid, TextField, Typography } from '@mui/material';
+import { Box, Container, Grid, TextField, Typography } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SingleFile from 'src/libraries/File/SingleFile';
 import BackButton from 'src/libraries/button/BackButton';
 import { getDateMonthYearFormatted } from '../Common/Util';
 import moment from 'moment';
+import Icon5 from 'src/libraries/icon/icon5';
 
 const AddDailyLog = () => {
 
@@ -48,8 +49,8 @@ const AddDailyLog = () => {
 
   const HeaderPublish1 = [
     {Id:1,Header:"Date"},
-    {Id:2,Header:"attechmnet" },
-    {Id:3,Header:"publish/unpublish" }
+    {Id:2,Header:"Attachment" },
+    {Id:3,Header:"Publish/UnPublish" }
     ,{Id:4,Header:"Edit" },
     {Id:5,Header:"Delete" }
     
@@ -386,7 +387,9 @@ useEffect(() => {
           
   </Grid>
   </Grid>
-
+  <Box >
+                <Icon5 Note={"Supports only BMP, DOC, DOCX, JPG, JPEG, PNG, BMP, PDF, XLS, XLSX files types up to 5 MB"} />
+            </Box>
   <br></br>
 
   <div >
