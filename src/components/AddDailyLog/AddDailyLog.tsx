@@ -393,13 +393,13 @@ useEffect(() => {
   <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
   <Grid item xs={1}>
 <ButtonPrimary  onClick={onClickSave} variant="contained" >
-              <b>Save</b>
+              <b>SAVE</b>
             </ButtonPrimary>
             </Grid> 
             
         <Grid item xs={1}>
             <ButtonPrimary onClick={onClickCancel} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               Cancel
+               CANCEL
             </ButtonPrimary> 
             </Grid>
       </Grid> 
