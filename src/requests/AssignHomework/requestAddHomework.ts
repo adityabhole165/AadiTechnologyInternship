@@ -148,7 +148,7 @@ export const GetTeacherSubjectList =
 
                 return {
                     Id: item.Id,
-                    Text1: item.Id,
+                    // Text1: item.Id,
                     Text2: item.Subject,
                     Text3: item.Title,
                     Text4: item.IsPublished,
