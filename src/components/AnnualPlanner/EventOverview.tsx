@@ -43,7 +43,8 @@ function EventOverview() {
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
-    const Month = new Date(date).toLocaleString('default', { month: 'short' });
+    const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
+
     const Month_num = new Date(date).getMonth();
     const Year = new Date(date).getFullYear()
     const NewDateFormat = `${Month} ${Year}`;
