@@ -26,6 +26,7 @@ import { CardDetail2, ListStyle } from '../styled/CardStyle';
     setAssignedMonth: PropTypes.string,
     SetassignedMonth_num : PropTypes.string,
     setCurrentDate : PropTypes.string,
+    
 
   }
 
@@ -110,7 +111,6 @@ const useStyles = makeStyles({
           >  
           <ListStyle sx={{
             background: BirthDate == presentDateMonth || BirthDate == NewDateFormat && presentDateMonth < BirthDate
-            // background: PresentDateFormat == BirthDate || BirthDate === presentDateMonth
            ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
                }}>
            
@@ -136,4 +136,3 @@ const useStyles = makeStyles({
   }
   
   export default List17;
-  
