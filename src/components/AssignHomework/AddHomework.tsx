@@ -77,6 +77,7 @@ const AddHomework = () => {
     const asUpdatedById = localStorage.getItem('Id');
     const asTeacherId = sessionStorage.getItem('TeacherId');
     const SiteURL = localStorage.getItem('SiteURL');
+    const [SubjectList, setSubjectList] = useState([])
     // const asFolderName = localStorage.getItem('FolderName');
     let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
 
@@ -92,6 +93,10 @@ const AddHomework = () => {
     const Subjectlistsforteacher = useSelector((state: RootState) => state.AddHomework.SubjectListTeacher);
     // console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
 
+    useEffect(()=>{
+
+        setSubjectList(Subjectlistsforteacher)
+    },[Subjectlistsforteacher])
     const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody = {
         asSchoolId: asSchoolId,
         aTeacherId: Number(asTeacherId),
@@ -117,6 +122,9 @@ const AddHomework = () => {
         "asHomeworkTitle": "",
         "asAssignedDate": "2023-04-18 00:00:00"
     }
+
+
+
 
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody))
@@ -204,7 +212,7 @@ const AddHomework = () => {
     const getIsPublish = (Id) => {
         let IsPublish = false;
     
-        Subjectlistsforteacher.forEach((item) => {
+        SubjectList.forEach((item) => {
             if (item.Id.toString() === Id.toString()) {
                 IsPublish = item.Text4 === "False" ? false : true;
             }
@@ -222,7 +230,7 @@ const AddHomework = () => {
         const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
             asSchoolId:asSchoolId.toString(),
            asAcademicYearId:asAcademicYearId.toString(),
-           asHomeWorkLogId:Id,
+           asHomeWorkLogId:getSelectedSubject(),
            asUnpublishReason:"Yesss",
            asUpdatedById:TeacherId,
            IsPublished: Number(IsPublish),
@@ -232,17 +240,6 @@ const AddHomework = () => {
           dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
         }
       }
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -256,17 +253,19 @@ const AddHomework = () => {
         (navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id))
     }
       const Changevalue=(value)=>{
-        alert(value)
-        setitemPublish(value);
-        value.map((item)=>{ 
-          return (item.IsActive?
-  
-  
-          value = value + item.Id + ",":"")
-        })
+        // setitemPublish(value);
+        setSubjectList(value)
+        
       }
 
-
+      const getSelectedSubject = () => {
+        let selectedValue = ""
+        SubjectList.map((item)=>{ 
+            if(item.IsActive)
+                selectedValue = selectedValue + "," + item.Id
+            })
+            return selectedValue
+      }
     // const onSelectDate = (value) => {
     //     setCompleteDate(value)
     //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
@@ -460,7 +459,7 @@ const AddHomework = () => {
             <HomeworkSubjectList />
             <br></br>
             <br></br>
-            <SubjectList1 ItemList={Subjectlistsforteacher} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} />
+            <SubjectList1 ItemList={SubjectList} HeaderArray={HeaderPublish1} onChange={Changevalue} clickchange={""} clickTitle={clickTitle1} />
 
        <Grid item xs={8}>  
 <ButtonPrimary

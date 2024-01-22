@@ -35,11 +35,10 @@ function SubjectList1({ ItemList, HeaderArray, onChange, clickchange, clickTitle
 
     const onClick = (value) => {
         ItemList = ItemList.map((item) => {
-            return item.Id === value.Id ?
-                { ...item, IsActive: !value.IsActive } :
+            return item.Id === value ?
+                { ...item, IsActive: !item.IsActive } :
                 item
         });
-
         onChange(ItemList)
     }
 
@@ -49,10 +48,10 @@ function SubjectList1({ ItemList, HeaderArray, onChange, clickchange, clickTitle
                 <Table aria-label="simple table">
                     <TableHead>
                         <TableRow sx={{ backgroundColor: 'skyblue' }}>
-                            <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                            {/* <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                 <Checkbox checked={IsCheckAll()} onClick={clickAll}></Checkbox>
 
-                            </TableCell>
+                            </TableCell> */}
 
 
 
@@ -67,7 +66,7 @@ function SubjectList1({ ItemList, HeaderArray, onChange, clickchange, clickTitle
                     <TableBody>
                         {ItemList.map((item, i) => (
                             <TableRow key={i}>
-                                <TableCell><Checkbox checked={item.IsActive} onChange={() => { onClick(item) }} /></TableCell>
+                                <TableCell><Checkbox checked={item.IsActive} onChange={() => { onClick(item.Id) }} /></TableCell>
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">{item.Text1}</TableCell>
 
