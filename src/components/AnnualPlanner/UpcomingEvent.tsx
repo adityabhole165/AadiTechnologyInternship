@@ -31,9 +31,11 @@ function UpcomingEvent() {
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
-  const FileName = useSelector(
+  const FileName :any = useSelector(
     (state: RootState) => state.AnnualPlanner.FilePath
   );
+  console.log(FileName,"FileName111");
+  
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
@@ -149,25 +151,48 @@ function UpcomingEvent() {
   const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
   const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] + "01," + selectedDateList[1]) : date.selectedDate)
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
-  const clickFileName = () => {
-    const FilepathBody = {
-      aiSchoolId: asSchoolId,
-      aiAcademicYearId: asAcademicYearId
-    }
-    dispatch(getFilePath(FilepathBody))
-  }
-  useEffect(() => {
 
+
+  const FilepathBody = {
+    aiSchoolId: asSchoolId,
+    aiAcademicYearId: asAcademicYearId
+  }
+
+  useEffect(() => {
+    dispatch(getFilePath(FilepathBody))
+
+  }, []);
+
+
+  
+  const clickFileName = () => {
+   
     if (FileName !== "") {
       window.open(localStorage.getItem('SiteURL') + FileName);
-      dispatch(ResetFilePath());
+     
     }
-  }, [FileName])
+  }
 
+
+  
+
+  
   return (
     <Container>
       <PageHeader heading={'Annual Planner'} subheading={''} />
-      <Typography component="span" sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>Annual Planner</Typography>
+     
+      {FileName !== ""&& (
+        
+      <div>
+        <Typography component="span" sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>
+          Annual Planner
+        </Typography>
+        <br />
+      </div>
+      
+    )}
+
+
       <br/>
       <FormGroup sx={{ display: "inline" }}>
         <FormControlLabel control={<Checkbox checked={event} onChange={(e) => setEvent(e.target.checked)} sx={{
