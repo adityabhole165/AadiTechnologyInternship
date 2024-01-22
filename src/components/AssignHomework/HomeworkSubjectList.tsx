@@ -41,7 +41,7 @@ const HomeworkSubjectList = () => {
   const Subjectlistsforteacher = useSelector((state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher);
   //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
   const PublishUnpublishHomework = useSelector((state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework);
-  //console.log(PublishUnpublishHomework, "PublishUnpublishHomework....")
+  //console.log(PublishUnpublishHomework, "PublishUnpublishHomework.hgy...")
   const AllHomeworkDocuments = useSelector((state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments);
   //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
   const DeleteHomework = useSelector((state: RootState) => state.HomeworkSubjectList.DeleteHomework);

@@ -16,7 +16,7 @@ const AddHomeworkSlice = createSlice({
         Subjectlist: [],
         ISSubmitMarksRest: "",
         FilePath: "",
-        SubjectListTeacher: [],
+        SubjectListTeacher:[],
         AllPublishUnpublishHomeworkT: "",
         GetAllHomeworkDocuments: [],
     },
@@ -144,11 +144,13 @@ export const GetTeacherSubjectList =
     (data: IGetSubjectListForTeacherBody): AppThunk =>
         async (dispatch) => {
             const response = await AddHomeworkApi.GetSubjectListTeacher(data);
+            console.log(response,"response-----");
+            
             let a = response.data.map((item, i) => {
 
                 return {
                     Id: item.Id,
-                    // Text1: item.Id,
+                    Text1: item.Id,
                     Text2: item.Subject,
                     Text3: item.Title,
                     Text4: item.IsPublished,

@@ -61,8 +61,8 @@ const AddHomework = () => {
     const [itemPublish, setitemPublish] = useState([])
 
     const HeaderPublish1 = [
-        { Id: 1, Header: "SR.No 	" }, { Id: 2, Header: "Subject" }, { Id: 3, Header: "Title" },
-        { Id: 4, Header: "Is Published? " }, { Id: 5, Header: "Complete By Date" }, 
+        { Id: 1, Header: " 	" },  { Id: 2, Header: "SR.No 	" }, { Id: 3, Header: "Subject" }, { Id: 4, Header: "Title" },
+        { Id: 5, Header: "Is Published? " }, { Id: 6, Header: "Complete By Date" }, 
       ]
 
     const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG']
@@ -98,15 +98,15 @@ const AddHomework = () => {
         asAcademicYearId: asAcademicYearId,
         asStandardDivisionId: StandardDivisionId
     }
-    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
-        asSchoolId:asSchoolId.toString(),
-       asAcademicYearId:asAcademicYearId.toString(),
-       asHomeWorkLogId:"2717",
-       "asUnpublishReason":"Yesss'",
-       "asUpdatedById":"4463",
-       "IsPublished":0,
-       "IsSMSSent":1
-      }
+    // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
+    //     asSchoolId:asSchoolId.toString(),
+    //    asAcademicYearId:asAcademicYearId.toString(),
+    //    asHomeWorkLogId:"2717",
+    //    "asUnpublishReason":"Yesss'",
+    //    "asUpdatedById":"4463",
+    //    "IsPublished":0,
+    //    "IsSMSSent":1
+    //   }
 
        const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
 
@@ -124,9 +124,9 @@ const AddHomework = () => {
     useEffect(() => {
         dispatch(SubjectListforTeacher(GetTeacherSubjectAndClassSubjectBody))
     }, []);
-    useEffect(() => {
-        dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
-    }, []);
+    // useEffect(() => {
+    //     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
+    // }, []);
     const clickSubjectList = (value) => {
         setSubjectlist(value)
     }
@@ -206,7 +206,6 @@ const AddHomework = () => {
     
         Subjectlistsforteacher.forEach((item) => {
             if (item.Id.toString() === Id.toString()) {
-                // Use ternary operator to assign true or false based on the condition
                 IsPublish = item.Text4 === "False" ? false : true;
             }
         });
