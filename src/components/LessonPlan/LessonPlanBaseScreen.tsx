@@ -33,10 +33,10 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = (sessionStorage.getItem('StudentName'));
 
 
-    const [StartDate, setStartDate]= useState();
-  const [EndDate, setEndDate] = useState();
-  console.log("StartDate---", StartDate)
-  console.log("EndDate---", EndDate)
+    const [asStartDate, setStartDate]= useState();
+  const [asEndDate, setEndDate] = useState();
+  console.log("StartDate---", asStartDate)
+  console.log("EndDate---", asEndDate)
 
   const LessonPlanList : any = useSelector((state: RootState) => state.LessonPlanBase.LessonList)
   console.log("LessonPlanList", LessonPlanList)
@@ -80,13 +80,13 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asStartIndex:0,
      asEndIndex:20, 
      asIsRecordCount:0, 
-     asStartDate:StartDate, 
-     asEndDate:EndDate, 
+     asStartDate:asStartDate, 
+     asEndDate:asEndDate, 
      asRecordCount:null
     }
   useEffect(() => {
     dispatch(lessonplanlist(GetLessonPlanListBody))
-  }, [StartDate,EndDate]);
+  }, [asStartDate,asEndDate]);
 
 
   // useEffect(() => {
@@ -104,12 +104,12 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
   // }, []);
 
 
-  const clickDelete = (value) => {
-    if(value.Action=="CloseIcon"){
+  const clickDelete = (Id) => {
+    if(Id.Action=="CloseIcon"){
       LessonPlanList.map((item,i)=>{
-        if(i==value){
+        if(i==Id){
           LessonPlanList.map((item,i)=>{
-        if(i==value){
+        if(i==Id){
         //  StartDate = item.Text1
         //   EndDate = item.Text2
         }
@@ -123,8 +123,8 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
         asAcademicYearId: asAcademicYearId,
         asUpdatedById: asUserId,
         asUserId: asUserId,
-        aasStartDate:StartDate,
-        aasEndDate:EndDate
+        aasStartDate:asStartDate,
+        aasEndDate:asEndDate
   
       }
       dispatch(deletelessonplan(DeleteLessonPlanBody))
@@ -137,6 +137,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
     dispatch(lessonplanlist(GetLessonPlanListBody))
   }
 } 
+
 
 
   const onSelectStartDate = (value) => {
@@ -251,7 +252,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
   </Grid>
   
   <Grid item xs={2}>
-  <TextField  type='date' value={StartDate} variant='standard' onChange={(e) => { onSelectStartDate(e.target.value) }}/>
+  <TextField  type='date' value={asStartDate} variant='standard' onChange={(e) => { onSelectStartDate(e.target.value) }}/>
   </Grid>
   </Grid>
 <br></br>
@@ -265,7 +266,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
   </Grid>
   
   <Grid item xs={2}>
-  <TextField  type='date' value={EndDate} variant='standard' onChange={(e) => { onSelectEndDate(e.target.value) }}/>
+  <TextField  type='date' value={asEndDate} variant='standard' onChange={(e) => { onSelectEndDate(e.target.value) }}/>
   </Grid>
   </Grid>
   <br></br>
@@ -296,6 +297,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
                 </Grid>
           </Grid>
     </>
+
   )
 }
 

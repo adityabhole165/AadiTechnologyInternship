@@ -13,9 +13,11 @@ import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { useNavigate, useParams } from 'react-router';
 import ToppersList from 'src/libraries/list/ToppersList';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 
 const FinalResultToppers = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const { TeacherId } = useParams();
     
     const [SelectClassCT, setClassCT] = useState(TeacherId);
@@ -197,7 +199,10 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
         setRadioBtn(value);
         
       }
+const onClickClose=()=>{
+    navigate('/extended-sidebar/Teacher/FinalResult')
 
+}
 
     const ClickItem = () => {
 
@@ -346,8 +351,12 @@ const GetSubjectToppersListST = useSelector((state: RootState) => state.Standard
           
           </Grid>
           </Container>
-      
                 }
+                  <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
+  <Grid item xs={2}>
+  <ButtonPrimary onClick={onClickClose} variant='contained' style={{ marginLeft: "60px", backgroundColor: 'red' }}>CLOSE</ButtonPrimary>
+            </Grid> 
+  </Grid>
 </>
     )
 }

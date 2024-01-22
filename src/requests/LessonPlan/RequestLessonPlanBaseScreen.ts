@@ -52,8 +52,7 @@ export const lessonplanlist =
         dispatch(LessonPlanBaseScreenSlice.actions.deletelessonplan(response.data))
       }
 
-      export const resetdeleteplan =
-    (): AppThunk =>
+      export const resetdeleteplan =(): AppThunk =>
       async (dispatch) => {
         dispatch(LessonPlanBaseScreenSlice.actions.resetdeleteplan())
       }
