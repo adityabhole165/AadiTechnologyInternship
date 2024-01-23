@@ -23,6 +23,7 @@ ReactDOM.render(
             {/* <React.StrictMode> */}
             {/* <MapComponent /> */}
             {/* </React.StrictMode> */}
+            {/* kkk */}
         </BrowserRouter>
       </SidebarProvider>
     </Provider>
