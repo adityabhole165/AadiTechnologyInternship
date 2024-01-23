@@ -30,6 +30,7 @@ function App() {
             horizontal: 'right'
           }}
         >
+          {/* kkkkkkkkkkk */}
           <CssBaseline />
           {true ? content : <AppInit />}
         </SnackbarProvider>
