@@ -94,7 +94,7 @@ const IconList = [
   
     }
     const onClickAdd =() =>{
-      navigate('/extended-sidebar/Teacher/examresult')
+      navigate('/extended-sidebar/Teacher/ExamResultBase')
   
     }
     const clickReset = () => {
@@ -108,8 +108,8 @@ setRegNoOrName("")
       } else {
           
           setPagedRequisition(GetPagedRequisition.filter(item => {
-              const text1Match = item.Text1.toLowerCase().includes(regNoOrName.toLowerCase());
-              const text2Match = item.Text2.toLowerCase().includes(regNoOrName.toLowerCase());
+              const text1Match = item.Text2.toLowerCase().includes(regNoOrName.toLowerCase());
+              const text2Match = item.Text4.toLowerCase().includes(regNoOrName.toLowerCase());
               return text1Match || text2Match;
           }));
       }
@@ -132,7 +132,7 @@ setRegNoOrName("")
                          </Typography>
                          </Grid>
                          <Grid item xs={3} >
-                         <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
+                         <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px" }}>
                              
        <DropDown itemList={Requision} ClickItem={GetRequisitionStatusDropdown} DefaultValue={SelectResult} Label={'--Select--'} />
        </Box>
@@ -141,7 +141,7 @@ setRegNoOrName("")
         </Grid>
         <Grid item xs={2}>
                 <Typography margin={'1px'}>
-                    <b>Reg No/Name:</b>
+                    <b>Requisition Name/Requestor:</b>
                 </Typography>
             </Grid>
             <Grid item xs={2} >

@@ -1,5 +1,5 @@
 import http from "../../requests/SchoolService/schoolServices";
-import { IGetRequisitionStatusBody,IGetRequisitionStatusResult,IGetPagedRequisitionBody,IGetPagedRequisitionResult } from "src/interfaces/Requisition/IRequisition";
+import { IGetRequisitionStatusBody,IGetRequisitionStatusResult,IGetPagedRequisitionBody,IGetPagedRequisitionResult,IGetDeleteRequisitionBody,IGetCancelRequisitionBody } from "src/interfaces/Requisition/IRequisition";
 
 const RequisitionApi = (data:IGetRequisitionStatusBody) => {
     return http.post<IGetRequisitionStatusResult[]>('Teacher/GetRequsitionStatus',data);
@@ -7,10 +7,17 @@ const RequisitionApi = (data:IGetRequisitionStatusBody) => {
 const RequisitionListApi = (data:IGetPagedRequisitionBody) => {
     return http.post<IGetPagedRequisitionResult[]>('Teacher/GetPagedRequisition',data);
 };    
-
+const DeleteRequisition = (data: IGetDeleteRequisitionBody) => {
+    return http.post('Teacher/DeleteRequisitionn', data);
+};
+const CancelRequisition = (data: IGetCancelRequisitionBody) => {
+    return http.post('Teacher/CancelRequisition', data);
+};
 const ApiRequisition ={
     RequisitionApi,
-    RequisitionListApi
+    RequisitionListApi,
+    DeleteRequisition,
+    CancelRequisition,
 }
    
  

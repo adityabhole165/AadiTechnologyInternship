@@ -38,3 +38,16 @@ export interface IGetPagedRequisitionResult {
         IsDelete: string,
         IsFinalApproval: string
 }
+export interface IGetDeleteRequisitionBody {
+    
+    asRequisitionId:number,
+    asSchoolId:number
+}
+export interface IGetCancelRequisitionBody {
+
+asRequisitionId:number,
+asReasonText:string,
+asSchoolId:number,
+asUpdatedById:number,
+asCanceledById:number
+}

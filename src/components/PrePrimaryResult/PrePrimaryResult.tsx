@@ -1,8 +1,8 @@
 import React, { useEffect , useState } from 'react';
 import { useDispatch, useSelector  } from 'react-redux';
 import { RootState } from 'src/store';
-import { IGetPrePrimaryResultBody,IGetAssessmentBody,IGetTeacherXseedSubjectsBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
-import {PrePrimary,AssessmentList,TeacherXseedSubjects} from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
+import { IGetPrePrimaryResultBody,IGetAssessmentBody,IGetClassTeacherXseedSubjectsBody,IGetPublishResltBody,IGetUnPublishResltBody } from 'src/interfaces/PrePrimaryResult/IPrePrimaryResult';
+import {PrePrimary,AssessmentList,TeacherXseedSubjects,Published,UnPublished} from 'src/requests/PrePrimaryResult/RequestPrePrimaryResult';
 import { string } from 'prop-types';
 import Dropdown from 'src/libraries/dropdown/Dropdown'
 import PageHeader from 'src/libraries/heading/PageHeader'
@@ -12,9 +12,18 @@ import DynamicList2 from 'src/libraries/list/DynamicList2';
 import DropDown from 'src/libraries/list/DropDown';
 // import { Container } from '@mui/material';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+
+
+
+
 
 const PrePrimaryResult = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
   
   
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -23,16 +32,17 @@ const PrePrimaryResult = () => {
     // const asSchoolId = Number(localStorage.getItem('localSchoolId'));
    
   // const [ClassId , setClassId] = useState('')
-  const [SelectResult,setSelectResult]= useState(0)
-  const [AssessmentResult,setAssessmentResult]= useState(0)
+  const [SelectTeacher,setSelectTeacher]= useState("")
+  const [AssessmentResult,setAssessmentResult]= useState("")
   
   const HeaderList = ["Subject","Edit"]
 const IconList = [
 
   {
+
       Id: 1,
-      Icon: (<AssignmentIcon />),
-      Action: "AssignmentIcon"
+      Icon: (<EditIcon />),
+      Action: "Edit"
   },
 ]
     const PrePrimaryResultt = useSelector(
@@ -44,9 +54,16 @@ const IconList = [
     console.log(Assessmentt, 'GetTestwiseTerm');
 
     const GetTeacherXseedSubjects = useSelector(
-      (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects
-    );
+      (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects);
     console.log(GetTeacherXseedSubjects, 'GetTeacherXseedSubjects');
+
+    const UnPublisheed = useSelector(
+      (state: RootState) => state.PrePrimaryResult.Unpublish);
+    console.log("UnPublishee", UnPublisheed);
+
+    const Publisheed = useSelector(
+      (state: RootState) => state.PrePrimaryResult.publish);
+    console.log(Publisheed, 'Publisheed');
   
     const PrePrimaryResult: IGetPrePrimaryResultBody = {
       asSchoolId:asSchoolId,
@@ -64,18 +81,46 @@ const IconList = [
           dispatch(AssessmentList(AssessmentLists));
         }, []);
 
-        const SubjectsList: IGetTeacherXseedSubjectsBody = {
+        const SubjectsList: IGetClassTeacherXseedSubjectsBody = {
           asSchoolId:asSchoolId,
-          asAcademicYear_ID:asAcademicYearId,
-          asTeacherId:SelectResult,
-          asAssessmentId:AssessmentResult
+          asAcadmeicYearId:asAcademicYearId,
+          asStdDivId:Number(SelectTeacher),
+          asAssessmentId:Number(AssessmentResult)
         };
           useEffect(() => {
             dispatch(TeacherXseedSubjects(SubjectsList));
-          }, [SelectResult,AssessmentResult]);
+          }, [SelectTeacher,AssessmentResult]);
+
+          // const Unpublishee: IGetUnPublishResltBody = {
+          //   "asXseedResultPublishStatusId":140,
+          //   asSchoolId:asSchoolId,
+          //   asAcademic_Year_Id:asAcademicYearId,
+          //   "asAssessmentId":24,
+          //   "asStandardDivisionId":1221,
+          //   "asUnPublishReason":"kiran",
+          //   "asIsPublished":"false",
+          //   "asUpdatedById":455,
+          //   "asUpdateDate":"2023-06-06"
+          //   };
+            // useEffect(() => {
+            //   dispatch(UnPublished(Unpublishee));
+            // }, []);
+
+          const Publishee: IGetPublishResltBody = {
+            "asStandardDivisionId":1240,
+            "asAssessmentId":26,
+            "asIsPublished":"true",
+            "asAcademic_Year_Id":54,
+            "asSchoolId":18,
+           "asInsertedById":5654,
+           "asInsertDate":"2024-06-06"
+            };
+            useEffect(() => {
+              dispatch(Published(Publishee));
+            }, []);
 
       const GetPrPriResultDropdown=(value)=>{
-        setSelectResult(value);
+        setSelectTeacher(value);
       }
       const GetAssessmentDropdown=(value)=>{
         setAssessmentResult(value);
@@ -83,24 +128,96 @@ const IconList = [
       const ClickItem = (value) => {
 
       }
+      // const onClickunpublished =() =>{
+      //   navigate('/extended-sidebar/Teacher/UnPublishReslt')
+    
+      // }
+
+
+
+      const onClickpublished =() =>{
+          if (confirm('Once you publish the result it will be visible to parents/students. Are you sure you want to continue?')) {
+            const Publishee: IGetPublishResltBody =
+              { 
+                "asStandardDivisionId":1240,
+                "asAssessmentId":26,
+                "asIsPublished":"false",
+                "asAcademic_Year_Id":54,
+                "asSchoolId":18,
+               "asInsertedById":5654,
+               "asInsertDate":"2024-06-06"
+             }
+            dispatch(Published(Publishee))
+          }
+      
+            if (Publisheed!== '') {
+            toast.success(Publisheed, { toastId: 'success1' })
+            //dispatch(Published());
+          }
+          dispatch(TeacherXseedSubjects(SubjectsList))
+
+      }
+
+      // const getIsPublish = (Id) => {
+    
+      //   let IsPublish = false
+      //   GetTeacherXseedSubjects.map((item)=>{
+      //     if(item.Id.toString()==Id.toString()){
+      //       IsPublish = item.Text7=="False"?true:false
+      //       return IsPublish;
+      //   }
+      //   })
+      //   return IsPublish
+      // }
+
+      const onClickunpublished = () => {
+        (navigate('/extended-sidebar/Teacher/UnpublishPrePrimaryResult' ))
+    }
+      
+
+
+
+      
+      // const onClickunpublished = (Id) => {
+      //   let IsPublish = getIsPublish(Id)
+      //   if(IsPublish){
+      //     navigate('/extended-sidebar/Teacher/UnPublishReslt/' + Id)
+      // } else{
+      //   const UnPublishBody: IGetUnPublishResltBody = {
+      //     "asXseedResultPublishStatusId":140,
+      //       asSchoolId:asSchoolId,
+      //       asAcademic_Year_Id:asAcademicYearId,
+      //       "asAssessmentId":24,
+      //       "asStandardDivisionId":1221,
+      //       "asUnPublishReason":"kiran",
+      //       "asIsPublished":"false",
+      //       "asUpdatedById":455,
+      //       "asUpdateDate":"2023-06-06"
+      //   }
+      //   dispatch(UnPublished(UnPublishBody));
+    
+      //   }
+      // }
 
 return (
  <Container>
   <br></br>
   <br></br>
   <PageHeader heading='Pre-Primary Result' />
-            <Grid container spacing={0.5} alignItems="center">
+            <Grid container spacing={0.9} alignItems="center">
             <Grid item xs={3}>
                     <Typography margin={'25px'}>
                         <b>Assessment:</b>
                     </Typography>
                     </Grid>
                     <Grid item xs={3} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        
-  <DropDown itemList={Assessmentt} ClickItem={GetAssessmentDropdown} DefaultValue={AssessmentResult} Label={'--Select--'} />
-  </Box>
-   </Grid>
+                    
+                    <SearchableDropdown
+                      ItemList={Assessmentt}
+                      onChange={GetAssessmentDropdown}
+                      defaultValue={AssessmentResult}
+                      label={'--Select Term--'} />    
+               </Grid>
    
                 <Grid item xs={3}>
                     <Typography margin={'20px'}>
@@ -108,15 +225,23 @@ return (
                     </Typography>
                     </Grid>
                     <Grid item xs={3} >
-                    <Box sx={{ marginRight: "0px", width: '110%', padding: "0.9px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                        
-  <DropDown itemList={PrePrimaryResultt} ClickItem={GetPrPriResultDropdown} DefaultValue={SelectResult} Label={'--Select--'} />
-  </Box>
+                    
+  <SearchableDropdown
+                      ItemList={PrePrimaryResultt}
+                      onChange={GetPrPriResultDropdown}
+                      defaultValue={SelectTeacher}
+                      label={'Subject Teacher'}
+                    />
   </Grid>
                
  </Grid>
+ 
  <DynamicList2 HeaderList={HeaderList} ItemList={GetTeacherXseedSubjects}
                         IconList={IconList} ClickItem={ClickItem} />
+ <ButtonPrimary variant="contained" onClick={onClickpublished}>
+         PUBLISH</ButtonPrimary>
+ <ButtonPrimary variant="contained" onClick={onClickunpublished}>
+         UNPUBLISH</ButtonPrimary>
 
  </Container>
 )
