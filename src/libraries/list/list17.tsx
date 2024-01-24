@@ -26,7 +26,6 @@ import { CardDetail2, ListStyle } from '../styled/CardStyle';
     setAssignedMonth: PropTypes.string,
     SetassignedMonth_num : PropTypes.string,
     setCurrentDate : PropTypes.string,
-    
 
   }
 
@@ -103,36 +102,35 @@ const useStyles = makeStyles({
     
     return (
       <>
-     
-         <Grow
-            in={checked}
-            style={{ transformOrigin: '0 0 1' }}
-            {...(checked ? { timeout: 1500 } : {})}
-          >  
-          <ListStyle sx={{
-            background: BirthDate == presentDateMonth || BirthDate == NewDateFormat && presentDateMonth < BirthDate
-           ? "#e9a69a" : `${theme.colors.gradients.pink1}`,
-               }}>
-           
-              <Grid container>
-                
-              <Grid  item xs={9}>
-                <CardDetail2 >
-                  {Name}
-                </CardDetail2>
-                </Grid>
-                <Grid  item xs={3} >
-                <CardDetail2 sx={{float:"right"}}>
-                  {BirthDate}
-                </CardDetail2>
-                </Grid>
-              </Grid>
-           
-          </ListStyle>
-          </Grow>
-      
-      </>
+      <Grow
+        in={checked}
+        style={{ transformOrigin: '0 0 1' }}
+        {...(checked ? { timeout: 1500 } : {})}
+      >
+        <ListStyle
+          sx={{
+            background:
+              BirthDate === presentDateMonth ||
+              (BirthDate === NewDateFormat && presentDateMonth < BirthDate)
+                ? '#e9a69a' 
+                : nearestDate === BirthDate
+                ? '#e9a69a' 
+                : `${theme.colors.gradients.pink1}`,
+          }}
+        >
+          <Grid container>
+            <Grid item xs={9}>
+              <CardDetail2>{Name}</CardDetail2>
+            </Grid>
+            <Grid item xs={3}>
+              <CardDetail2 sx={{ float: 'right' }}>{BirthDate}</CardDetail2>
+            </Grid>
+          </Grid>
+        </ListStyle>
+      </Grow>
+    </>
     );
   }
   
   export default List17;
+  
