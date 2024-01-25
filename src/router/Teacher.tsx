@@ -232,7 +232,7 @@ const teacherRoutes = [
       element: <PrePrimaryResult/>
     },
     {
-      path: 'UnpublishPrePrimaryResult',
+      path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
       element: <UnpublishPrePrimaryResult/>
     },
     {

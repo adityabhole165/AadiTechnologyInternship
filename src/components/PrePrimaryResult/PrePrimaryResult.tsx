@@ -171,7 +171,7 @@ const IconList = [
       // }
 
       const onClickunpublished = () => {
-        (navigate('/extended-sidebar/Teacher/UnpublishPrePrimaryResult' ))
+        navigate('/extended-sidebar/Teacher/UnpublishPrePrimaryResult/ '+ getClassName ()+'/'+getClassName1())
     }
       
 
@@ -198,6 +198,30 @@ const IconList = [
     
       //   }
       // }
+
+
+      const getClassName = () => {
+        let className = ""
+        Assessmentt.map((item)=>{
+            if(item.Value == AssessmentResult)
+            className = item.Name
+        })
+        
+    return className;
+    }
+
+
+    const getClassName1 = () => {
+      let className = ""
+      PrePrimaryResultt.map((item)=>{
+          if(item.Value == SelectTeacher)
+          className = item.Name
+      })
+      
+  return className;
+  }
+
+
 
 return (
  <Container>
@@ -238,10 +262,26 @@ return (
  
  <DynamicList2 HeaderList={HeaderList} ItemList={GetTeacherXseedSubjects}
                         IconList={IconList} ClickItem={ClickItem} />
- <ButtonPrimary variant="contained" onClick={onClickpublished}>
-         PUBLISH</ButtonPrimary>
- <ButtonPrimary variant="contained" onClick={onClickunpublished}>
-         UNPUBLISH</ButtonPrimary>
+ 
+
+         <div>
+  <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
+    <Grid item xs={1}>
+      <ButtonPrimary onClick={onClickpublished} variant="contained">
+        <b>PUBLISH</b>
+      </ButtonPrimary>
+    </Grid>
+
+    <Grid item xs={1} style={{ margin: '0 10px' }}>
+      {/* Adjust the margin value as needed */}
+      <ButtonPrimary onClick={onClickunpublished} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
+      UNPUBLISH
+      </ButtonPrimary>
+    </Grid>
+  </Grid>
+</div>
+
+
 
  </Container>
 )
