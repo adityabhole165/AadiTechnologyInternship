@@ -204,22 +204,29 @@ const MessageList = () => {
     useEffect(() => {
         if (academicYear !== '') {
             dispatch(getMonthYearList(Mbody));
+            // Reset month selection when the academic year changes
+            setMonthYear('');
         }
     }, [academicYear]);
-
+    
+    
     useEffect(() => {
         if (academicYear !== '') {
             dispatch(getListOfMessages(getListBody, activeTab, false));
         }
-    }, [activeTab, isSearchClicked, isRefresh]);
+    }, [activeTab, isSearchClicked, isRefresh, monthYear]);
+    
+    
 
     const clickTab = (value) => {
         setActiveTab(value);
     };
     const clickAcademicYear = (value) => {
         setAcademicYear(value);
-        setMonthYear('0');
+        // Reset month selection when the academic year is changed
+        setMonthYear('');
     };
+    
     const clickMonthYear = (value) => {
         setMonthYear(value);
     };
