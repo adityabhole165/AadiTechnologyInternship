@@ -36,3 +36,33 @@ export interface IDeleteLessonPlanBody{
 
 export interface IDeleteLessonPlanResult{
 }
+
+export interface IGetLessonPlanDetailsForReportBody{
+   asSchoolId:Number,
+   asAcademicYearId:Number,
+   asStartDate:string,
+   asEndDate:string,
+   asUserId:Number,
+   asStandardDivisionId:Number,
+   asSubjectId:Number
+}
+export interface IGetLessonPlanDetailsForReportResult{
+   SrNo:string,
+   SubSrNo:string,
+   StartDate:string,
+   EndDate:string
+   UserId: string,
+   UserName: string,
+   StandardSubject:string,
+   ParameterId: string,
+   Parameter: string,
+   Comment:string,
+   LessonPlanConfigId: string,
+   SubmitDate: string,
+   ParentParameterId:string ,
+   SubjectStartDate:string,
+   SubjectEndDate:string ,
+   SubStartDate:string ,
+   SubEndDate:string 
+
+}

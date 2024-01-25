@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import LessonPlanApi from 'src/api/LessonPlan/ApiLessonPlanBaseScreen';
-import { IGetLessonPlanListBody,IDeleteLessonPlanBody } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
+import { IGetLessonPlanListBody,IDeleteLessonPlanBody,IGetLessonPlanDetailsForReportBody } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
 import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 
 
@@ -12,7 +12,8 @@ const LessonPlanBaseScreenSlice = createSlice({
         
         LessonList:[],
         DeletePlan:"",
-        ResetDeletePlan:""
+        ResetDeletePlan:"",
+        LessonReport:[]
     },
 
     reducers: {
@@ -25,6 +26,9 @@ const LessonPlanBaseScreenSlice = createSlice({
       resetdeleteplan(state) {
         state.ResetDeletePlan = "";
     },
+    LessonPlanDetailsReport(state,action){
+      state.LessonReport=action.payload;
+    }
      
 
         
@@ -51,10 +55,17 @@ export const lessonplanlist =
         const response = await LessonPlanApi.DeleteLessonPlan(data)
         dispatch(LessonPlanBaseScreenSlice.actions.deletelessonplan(response.data))
       }
-
       export const resetdeleteplan =(): AppThunk =>
       async (dispatch) => {
         dispatch(LessonPlanBaseScreenSlice.actions.resetdeleteplan())
       }
 
+      
+      export const GetLessonPlanreport =
+      (data:IGetLessonPlanDetailsForReportBody):AppThunk =>
+      async(dispatch)=> {
+        const response = await LessonPlanApi.LessonPlanReport(data)
+        dispatch(LessonPlanBaseScreenSlice.actions.LessonPlanDetailsReport(response.data))
+
+      }
     export default LessonPlanBaseScreenSlice.reducer;

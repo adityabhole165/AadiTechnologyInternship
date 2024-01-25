@@ -5,8 +5,8 @@ import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import PageHeader from 'src/libraries/heading/PageHeader'
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState } from 'src/store';
-import { IGetLessonPlanListBody,IDeleteLessonPlanBody } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
-import { lessonplanlist,deletelessonplan,resetdeleteplan } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
+import { IGetLessonPlanListBody,IDeleteLessonPlanBody,IGetLessonPlanDetailsForReportBody } from "src/interfaces/LessonPlan/ILessonPlanBaseScreen";
+import { lessonplanlist,deletelessonplan,resetdeleteplan,GetLessonPlanreport } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import DynamicList from 'src/libraries/list/DynamicList';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import EditIcon from '@mui/icons-material/Edit';
@@ -29,6 +29,8 @@ const LessonPlanBaseScreen = () => {
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
+  const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
+
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = (sessionStorage.getItem('StudentName'));
 
@@ -44,6 +46,9 @@ const LessonPlanBaseScreen = () => {
   const DeleteLessonPlan: any = useSelector((state: RootState) => state.LessonPlanBase.DeletePlan)
   console.log("DeleteLessonPlan", DeleteLessonPlan)
 
+const LessonPlanReport: any = useSelector((state: RootState) => state.LessonPlanBase.LessonReport)
+  console.log("LessonPlanReport", LessonPlanReport)
+  
   const IconList = [
 
     {
@@ -84,59 +89,75 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
      asEndDate:asEndDate, 
      asRecordCount:null
     }
+
+   
   useEffect(() => {
     dispatch(lessonplanlist(GetLessonPlanListBody))
   }, [asStartDate,asEndDate]);
 
-
-  // useEffect(() => {
-  //   const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
-
-  //     asSchoolId: asSchoolId, 
-  //     asAcademicYearId: asAcademicYearId,
-  //     asUpdatedById: asUserId,
-  //     asUserId: asUserId,
-  //     aasStartDate:StartDate, 
-  //     aasEndDate:EndDate
-
-  //   }
-  //   dispatch(deletelessonplan(DeleteLessonPlanBody))
-  // }, []);
-
-
-  const clickDelete = (Id) => {
-    if(Id.Action=="CloseIcon"){
-      LessonPlanList.map((item,i)=>{
-        if(i==Id){
-          LessonPlanList.map((item,i)=>{
-        if(i==Id){
-        //  StartDate = item.Text1
-        //   EndDate = item.Text2
-        }
-      })
-        }
-      })
-    if (confirm('Are You Sure you want to delete The Lesson Plan')) {
-      const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
-
-        asSchoolId: asSchoolId, 
-        asAcademicYearId: asAcademicYearId,
-        asUpdatedById: asUserId,
-        asUserId: asUserId,
-        aasStartDate:asStartDate,
-        aasEndDate:asEndDate
-  
-      }
-      dispatch(deletelessonplan(DeleteLessonPlanBody))
-    }
-
-      if (DeleteLessonPlan!== '') {
-      toast.success(DeleteLessonPlan, { toastId: 'success1' })
-      dispatch(resetdeleteplan());
-    }
-    dispatch(lessonplanlist(GetLessonPlanListBody))
+  const GetLessonPlanReportBody:IGetLessonPlanDetailsForReportBody={
+    asSchoolId:asSchoolId,
+    asAcademicYearId:asAcademicYearId,
+    asStartDate:asStartDate,
+    asEndDate:asEndDate,
+    asUserId:asUserId,
+    asStandardDivisionId:asStandardDivisionId,
+    asSubjectId:0
   }
-} 
+  useEffect (()=>{
+    dispatch(GetLessonPlanreport(GetLessonPlanReportBody))
+  },[])
+  
+
+  useEffect(() => {
+    if(DeleteLessonPlan!==""){
+      toast.success(DeleteLessonPlan ,{ toastId: 'success1' })}
+      dispatch(resetdeleteplan());    
+    },
+  [DeleteLessonPlan])
+  const clickDelete=(Id)=>{
+    if(confirm('Are You Sure you want to delete The List')){
+    const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+      asSchoolId: asSchoolId, 
+      asAcademicYearId: asAcademicYearId,
+      asUpdatedById: asUserId,
+      asUserId: asUserId,
+      aasStartDate:asStartDate, 
+      aasEndDate:asEndDate
+    }
+    dispatch(deletelessonplan(DeleteLessonPlanBody))
+  }
+}
+ 
+
+//   const clickDelete = (Id) => {
+//     if(Id.Action=="CloseIcon"){
+//       LessonPlanList.map((item,i)=>{
+//         if(i==Id){
+//           LessonPlanList.map((item,i)=>{
+        
+//       })
+//         }
+//       })
+//     if (confirm('Are You Sure you want to delete The Lesson Plan')) {
+//       const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
+//         asSchoolId: asSchoolId, 
+//         asAcademicYearId: asAcademicYearId,
+//         asUpdatedById: asUserId,
+//         asUserId: asUserId,
+//         aasStartDate:asStartDate,
+//         aasEndDate:asEndDate
+  
+//       }
+//       dispatch(deletelessonplan(DeleteLessonPlanBody))
+//     }
+
+//       if (DeleteLessonPlan!== '') {
+//       toast.success(DeleteLessonPlan, { toastId: 'success1' })
+//     }
+//     dispatch(lessonplanlist(GetLessonPlanListBody))
+//   }
+// } 
 
 
 
@@ -186,7 +207,9 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
 
   const HeaderList = ["Start Date", "End Date","View Remark ","Edit","Delete","Export","Submit Status"];
 
-
+const OnClickExportAll=()=>{
+  dispatch(GetLessonPlanreport(GetLessonPlanReportBody))
+}
   const onClickAdd =() =>{
     navigate('/extended-sidebar/Teacher/AddLessonPlan')
 
@@ -280,7 +303,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
             </Grid> 
             
         <Grid item xs={2}>
-            <ButtonPrimary  variant="contained"> 
+            <ButtonPrimary  variant="contained" onClick={OnClickExportAll}> 
                EXPORT ALL
             </ButtonPrimary> 
             </Grid> 
