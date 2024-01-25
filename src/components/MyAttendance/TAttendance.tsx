@@ -376,7 +376,7 @@ import DropDown from 'src/libraries/list/DropDown';
             dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
         
             
-            // SaveAttendance();
+             SaveAttendance();
         };
         
 

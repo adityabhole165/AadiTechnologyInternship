@@ -21,6 +21,9 @@ const ExamResultBase = () => {
   const [StandardDivisionId, setStandardDivisionId] = useState("0")
   const [TestId, setTestId] = useState("0")
   const [DisplayNote,setDisplayNote]=useState([])
+  
+  const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
+   console.log("ScreensAccessPermission",ScreensAccessPermission)
 
   const [IconList, setIconList] = useState([])
   const ClassTeachers: any = useSelector((state: RootState) => state.ExamResult.ClassTeachers);
@@ -30,6 +33,15 @@ const ExamResultBase = () => {
   const AllTestsForClass: any = useSelector((state: RootState) => state.ExamResult.AllTestsForClass);
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
+
+  const GetScreenPermission=()=>{
+      let perm = "N"
+      ScreensAccessPermission.map((item)=>{
+          if(item.ScreenName==="Assign Homework") 
+          perm = item.IsFullAccess
+      })
+      return perm;
+  }
   
   const ClassTeachersBody: IGetClassTeachersBody = {
     asSchoolId: asSchoolId,
