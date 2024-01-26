@@ -1,4 +1,5 @@
 import { Typography, Card, Box } from '@mui/material'
+import { clamp } from 'date-fns';
 import React, { useState } from 'react'
 
 function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
@@ -6,9 +7,42 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
   const [isHovered, setIsHovered] = useState(false);
   const fourcolour = ["", "red", "green", "blue", "gray", "orange"]
 
-
-  const [color, setColor] = useState([]);
-
+    const bg ={
+      p : 'rgb(239, 250, 237)',
+      a: 'rgb(250, 238, 237)', 
+      h : 'rgb(227, 196, 193)',
+      w:'rgb(246, 247, 230)',
+      o :'rgb(247, 230, 245)',
+      l: 'rgb(234, 230, 247)',
+      n : 'rgb(246, 247, 230) ', 
+    }
+    const data ={
+      p : 'Present',
+      a: 'Absent', 
+      h : 'Holiday',
+      w:'Weekwend',
+     o: 'OutSide',
+     l :'Late',
+     n: 'Not Available'
+    }
+    const color ={
+      p : 'rgb(14, 240, 14)',
+      a: 'rgb(245, 17, 17)', 
+      Holiday : 'success',
+       Weekend:'secondary',
+      outside :'warning',
+      late: 'info',
+      n : 'rgb(', 
+    }
+  
+    const cardStyle= {
+     
+       py:0,
+     height : '15vh',
+     fontSize :'20px',
+     
+     
+    }
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -27,18 +61,19 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
     <div>
 
-      <Card  component={Box} py={1} sx={{
-        height: "100px",width:"120px", cursor: 'pointer',
-        color: item.Value == DefaultValue ? "yellow" : item.BackgroundColor, backgroundColor:"#BEDAE3"
-      }} onClick={() => onClick(item.Value)} style={{ color: item.ForeColur }}>
-
-        <Typography >
-          {item.Name}
-        </Typography>
-        <b>
-        <Box dangerouslySetInnerHTML={{ __html: item.Text1}}>
-          
+      <Card  component={Box} py={0} sx={{backgroundColor:bg[item.Text1], ...cardStyle, fontWeight:'700'}} textAlign='center'>
+           <Box dangerouslySetInnerHTML={{ __html: item.Name}}>
           </Box>
+        <Typography sx={{color: color[item.Text1]}}    >
+          <b>
+
+          {data[item.Text1]}
+          </b>
+        </Typography>
+        {/* <Typography >
+         {bg['a']}
+        </Typography> */}
+        <b>
         </b>
     
       </Card>
