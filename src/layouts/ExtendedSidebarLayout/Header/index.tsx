@@ -39,6 +39,9 @@ import { NavLink } from 'react-router-dom';
 import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
 import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
+import Email from '@mui/icons-material/Email';
+import LibraryBooks from '@mui/icons-material/LibraryBooks';
+import LocalLibrary from '@mui/icons-material/LocalLibrary';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import { useTranslation } from 'react-i18next';
 import { IAuthenticateUser, IAuthenticateUserResult, IStaffDetailsForloginBody } from 'src/interfaces/Authentication/Login';
@@ -123,6 +126,9 @@ const UserBoxDescription = styled(Typography)(
 
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
+  const [userprofile, setuserprofile] = useState('')
+  // const [img_src, setimg_src] = useState('')
+  // const [siblingList, setsiblingList] = useState()
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
@@ -132,18 +138,31 @@ function Header() {
   const RollNo = sessionStorage.getItem("RollNo");
   const ImgUrl = sessionStorage.getItem("PhotoFilePath")
   const UserLoginDetails1 = localStorage.getItem('UserLoginDetails1')
-
-  let userprofile = ''
-  let img_src = ''
+  let img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png"
   let siblingList: any = [];
+  useEffect(() => {
+    localdata()
+  
+  
+  }, [])
+  
+   function localdata(){
     if (sessionStorage.length > 0) {
-      userprofile = ImgUrl?.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg'
-      img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    setuserprofile( ImgUrl?.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg')
     }
   
-    if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
-      siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
-    }
+  
+  
+  if (localStorage.length > 0) {
+    
+    img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
+    
+  }
+  
+  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
+    siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
+  }
+}
   const schoolId = localStorage.getItem("localSchoolId");
 
   const { t }: { t: any } = useTranslation();
@@ -340,7 +359,8 @@ function Header() {
   );
   const GetAllActiveNotices = useSelector(
     (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
-  );
+    );
+    const SchoolName = localStorage.getItem('SchoolName');
   const StudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
@@ -416,12 +436,22 @@ function Header() {
       >
         <img src={img_src} className={classes.smalllogo} />
       </Stack>
-      <Stack direction="row" spacing={1} alignItems="center">
+      <Stack 
+      direction='row'
+      sx={{pb:2}}
+      >
+           <h1 >{SchoolName}</h1>
+
+      </Stack>
+      <Stack direction="row" display='flex' spacing={2} alignItems="center" sx={{pb:2}}>
+        <Tooltip title='Account'>
         <IconButton
           size="small"
+         
           sx={{
             width: 35,
-            height: 35,
+            height: 70,
+
             '&:hover': {
               color: `${theme.colors.alpha.trueWhite[100]}`,
               background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
@@ -430,8 +460,9 @@ function Header() {
           ref={ref}
           onClick={handleOpen}
         >
-          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add" />
+          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "gray", height: 40 }} variant="rounded" aria-label="add" />
         </IconButton>
+        </Tooltip>
         <Popover
           disableScrollLock
           anchorEl={ref.current}
@@ -445,14 +476,15 @@ function Header() {
             vertical: 'center',
             horizontal: 'center'
           }}
+          
         >
           <MenuUserBox
             sx={{
-              minWidth: 600
+              minWidth: 250
             }}
             display="flex"
           >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{ height: 55 }} />
+            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{ height: 70 }} />
             <UserBoxText>
               <UserBoxLabel className="popoverTypo">
                 {Name}
@@ -500,6 +532,39 @@ function Header() {
             >
               <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
               <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</UserBoxLabel>} />
+            </ListItem>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/common/changePassword"}
+              component={NavLink}
+            >
+              <Email fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Email</UserBoxLabel>} />
+            </ListItem>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/common/changePassword"}
+              component={NavLink}
+            >
+              <LibraryBooks fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  > User Guide</UserBoxLabel>} />
+            </ListItem>
+            <ListItem
+              onClick={() => {
+                handleClose();
+              }}
+              button
+              to={"/extended-sidebar/common/changePassword"}
+              component={NavLink}
+            >
+              <LocalLibrary fontSize="small" sx={{ color: "#053082" }} />
+              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Knowledge Base</UserBoxLabel>} />
             </ListItem>
             <ListItem
               onClick={() => {
@@ -651,9 +716,9 @@ function Header() {
               </Button>
             </Box>) : <div />}
         </Popover>
-        <Avatar sx={{ backgroundColor: "#90caf9", height: 50 }} variant="rounded" aria-label="add">
-          <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 50 }} />
-        </Avatar>
+        {/* <Avatar sx={{ backgroundColor: "#0564c8", height: 40 }} variant="rounded" aria-label="add">
+          <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 20 }} />
+        </Avatar> */}
         {/* <ThemeSettings /> */}
       </Stack>
 

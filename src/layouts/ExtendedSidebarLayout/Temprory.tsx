@@ -16,7 +16,7 @@ import Header from './Header';
 import MenuTwoTone from '@mui/icons-material/MenuTwoTone';
 import User from '@mui/icons-material/ManageAccounts';
 import { logoURL } from 'src/components/Common/Util';
-import { Grid, IconButton, Stack } from '@mui/material';
+import { Grid, IconButton, Stack, Toolbar } from '@mui/material';
 import { POSITION } from 'react-toastify/dist/utils';
 import { Styles } from 'src/assets/style/student-style';
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
@@ -136,9 +136,11 @@ const toggleDrawer =
 
       }
       }>
+        <Toolbar title='Close'>
         <IconButton onClick={event} sx={{backgroundColor:'rgba(255, 25, 67, 0.1)'}} className='p-3 m-3'  size='small' color='error' >
           <CropSquareTwoTone color='error'  className='text-3xl'/>
         </IconButton>
+        </Toolbar>
       </Box>
       <Box
       

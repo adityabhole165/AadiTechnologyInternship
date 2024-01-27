@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Container, Box, Tabs, Tab } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Container, Box, Tabs, Tab, Tooltip } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SubHeader from './SubHeader';
 
@@ -31,10 +31,12 @@ function SubHeaderNavBar( {toggleDrawer}) {
 
 
                     <Typography sx={{   p: "5px", color: "white" }}>
-                      
+                      <Tooltip title='Sidebar'>
+
                     <IconButton edge="start" color="inherit" onClick={toggleDrawer} sx={{ ml: 0 }}>
                     <MenuIcon />
                     </IconButton>
+                      </Tooltip>
                     </Typography>
                     <Tabs
                         value={value}

@@ -15,20 +15,14 @@ interface PageHeaderProps {
   subheading?: string;
 }
 
-// const RootWrapper = styled(Box)(
-//   ({ theme }) => `
-//         margin-top: ${theme.spacing(2)};
-//         margin-bottom: ${theme.spacing(2)};
-        
-// `
-// );
+
 
 const PageHeader: FC<PageHeaderProps> = ({ heading, subheading="" }) => {
   const theme = useTheme();
 
   return (
     <RootWrapper display="flex" alignItems="center">
-      <HeadingStyle>{heading}</HeadingStyle>
+      <HeadingStyle sx={{m:0, p:0}}>{heading}</HeadingStyle>
       {subheading && (
         <Typography
           variant="subtitle2"
