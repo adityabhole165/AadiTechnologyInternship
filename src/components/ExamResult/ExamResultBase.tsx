@@ -18,7 +18,9 @@ const ExamResultBase = () => {
   const navigate = useNavigate();
   const asSchoolId = localStorage.getItem("localSchoolId")
   const asAcademicYearId = sessionStorage.getItem("AcademicYearId")
-  const [StandardDivisionId, setStandardDivisionId] = useState("0")
+  const [StandardDivisionId, setStandardDivisionId] = useState( (sessionStorage.getItem('TeacherId')));
+  //const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
+
   const [TestId, setTestId] = useState("0")
   const [DisplayNote,setDisplayNote]=useState([])
   
@@ -35,17 +37,20 @@ const ExamResultBase = () => {
 
 
   const GetScreenPermission=()=>{
-      let perm = "N"
-      ScreensAccessPermission.map((item)=>{
-          if(item.ScreenName==="Assign Homework") 
-          perm = item.IsFullAccess
-      })
-      return perm;
-  }
+    let perm = "N"
+    ScreensAccessPermission.map((item)=>{
+        if(item.ScreenName==="Exam Results") 
+        perm = item.IsFullAccess
+    })
+    return perm;
+}
+  
   
   const ClassTeachersBody: IGetClassTeachersBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId:Number(asAcademicYearId),
+    asTeacherId:Number (GetScreenPermission()=="Y"?0:StandardDivisionId)
+
   }
   const AllTestsForClassBody: IGetAllTestsForClassBody = {
     asSchoolId: asSchoolId,

@@ -1,6 +1,9 @@
 export interface IGetClassTeachersBody {
-    asAcademicYearId: string,
-    asSchoolId: string
+    
+        asSchoolId:number,
+    asAcademicYearId:number,
+    asTeacherId:number
+
 }
 export interface IGetClassTeachersResult {
     TeacherName: string,
