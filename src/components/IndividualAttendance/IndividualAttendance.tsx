@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Container, Grid, IconButton, TextField } from '@mui/material';
+import { Box, Container, Divider, Grid, IconButton, InputBase, Paper, TextField, Tooltip } from '@mui/material';
 import { useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -23,6 +23,9 @@ import WebBackButton from 'src/libraries/button/WebBackButton';
 import Iconhelp from 'src/libraries/icon/Iconhelp';
 import { useTheme } from '@mui/styles';
 import Reply from '@mui/icons-material/Reply';
+import Help from '@mui/icons-material/QuestionMark';
+import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import AccountBoxTwoTone from '@mui/icons-material/AccountBoxTwoTone';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -59,11 +62,11 @@ const IndividualAttendance = () => {
    
 
 
-  const changeSearchText = (value) => {
-    setSearchText(value)
+//   const changeSearchText = (value) => {
+//     setSearchText(value)
     
 
-}
+// }
   
 
 //   const StudentList=[
@@ -501,7 +504,7 @@ const IndividualAttendance = () => {
     setIsPresentAbsent(0)
     setStudentId(value)
   }
-
+  
   const clickTogle = (value) => {
     setItemList(
     
@@ -577,48 +580,55 @@ const IndividualAttendance = () => {
   return (
     <Container sx={{mt:2}} maxWidth={'xl'}>
        <Grid  container>
-                <Grid item margin={0} padding={0} xs={12} lg={3}>
-                <PageHeader heading={'Individual Attendance'} subheading={''} />
+                <Grid item margin={0} padding={0} xs={3} lg={3}>
+                    <PageHeader heading={'Individual Attendance'} subheading={''} />
                    
-
                 </Grid>
+                <Grid item xs={1} />
 
-                <Grid sx={{ mt: 2, display: 'flow',  p:0 }} item xs={8} md={5} lg={6}>
+                <Grid sx={{ mt: 2  }} item xs={6} lg={8}>
+                <Grid container direction='row-reverse' >
 
 
-                <Dropdown  itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
-            
-
-                 
-                  
-                </Grid>
-
-             
-
-                <Grid item xs={1} lg={2}/>
-                
-          
-                <Grid item sx={{ mt: 2 }} xs={3} lg={1}>
-                    <Grid container>
-                      <Grid item xs={4}md={2} lg={0}/>
-                        <Grid item xs={3} lg={3}>
-                            <Iconhelp Note={Note} />
-
-                        </Grid>
-                        <Grid item xs={1} lg={0}/>
-                       <Grid item xs={4} lg={5}>
-                        <WebBackButton 
-                        icon={<Reply/>}FromRoute={'/Teacher/TAttendance/'} />
-                          </Grid>
-                   
+                        <WebBackButton icon={<Reply/>} FromRoute={'/Teacher/TAttendance/'} />
+                         <Tooltip title='Help'>
+                      <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
+                           <Help /> 
+                        </IconButton>
+                         </Tooltip>
+                      <Paper
+                   component="form"
+                sx={{  display: 'flex', justifyContent:"flex-end", alignItems: 'center', my:0, py:0, mx:0,  flexWrap:'nowrap'}}
+                         >
+      
+                             {search ?
+                        <>
+                         <Dropdown width='400px' itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
+                        
+                      {/* <InputBase
+                        sx={{ ml: 1, flex: 1, width:'450px' }}
+                        placeholder="Search Text"
+                        inputProps={{ 'aria-label': 'search Text' }}
+                        /> */}
+                      <IconButton type="button"  aria-label="search">
+                        <CloseTwoTone/>
+                      </IconButton>
+                        </>:''}
+                      <Divider sx={{ height: 28 }} orientation="vertical" />
+                      
+                      <IconButton onClick={()=>setSearch(!search)} color="primary"                  aria-label="directions">
+                            <Tooltip title='search'>
+                            <SearchIcon />
+                            </Tooltip>
+                      </IconButton>
+                      </Paper>
                     </Grid>
-
                 </Grid>
-            </Grid>
-  
-    
-   
+       </Grid> 
+           
+            
           <Box sx={{my:1}}>
+
         <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
           </Box>
         

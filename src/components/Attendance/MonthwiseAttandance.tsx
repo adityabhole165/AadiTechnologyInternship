@@ -24,7 +24,7 @@ import { useTheme } from '@emotion/react';
 import Help from '@mui/icons-material/QuestionMark';
 
 const MonthwiseAttandance = () => {
-    const [search, setSearch] = useState(true)
+    const [search, setSearch] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));

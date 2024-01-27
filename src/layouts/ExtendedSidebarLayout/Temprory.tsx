@@ -16,7 +16,7 @@ import Header from './Header';
 import MenuTwoTone from '@mui/icons-material/MenuTwoTone';
 import User from '@mui/icons-material/ManageAccounts';
 import { logoURL } from 'src/components/Common/Util';
-import { Grid, IconButton, Stack, Toolbar } from '@mui/material';
+import { Grid, IconButton, Stack, Toolbar, useMediaQuery } from '@mui/material';
 import { POSITION } from 'react-toastify/dist/utils';
 import { Styles } from 'src/assets/style/student-style';
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
@@ -73,6 +73,15 @@ const sideList =[
   {title:'Exam Shedule', icon:<Dataset/>},
   {title:'Final Result', icon:<FactCheck/>},
 ]
+const activeStyle={
+  backgroundColor:'rgb(40, 160, 235)',
+  color:'white',
+  ":hover":{
+    backgroundColor:'rgb(40, 160, 235)',
+  color:'white',
+  }
+
+}
 const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -110,11 +119,11 @@ const toggleDrawer =
        {sideList.map((text, index) => (
           <ListItem key={index}  disablePadding>
             {text.title == 'Attendance'?
-            <ListItemButton className='p-8'  sx={{backgroundColor:'rgb(40, 160, 235)'}} >
-              <ListItemIcon sx={{minWidth:'35px'}}>
+            <ListItemButton className='p-8'  sx={activeStyle} >
+              <ListItemIcon aria-disabled sx={{minWidth:'35px', color:'white'}}>
                {text.icon}
               </ListItemIcon>
-              <ListItemText primary={text.title} />
+              <ListItemText disableTypography sx={{}} primary={text.title} />
             </ListItemButton>:
             <ListItemButton   sx={buttonStyle} >
               <ListItemIcon sx={{minWidth:'35px'}}>
@@ -124,8 +133,9 @@ const toggleDrawer =
             </ListItemButton>}
           </ListItem>
         ))}
+       
       </List>
-      
+     
    
       <Box
       
@@ -143,7 +153,6 @@ const toggleDrawer =
         </Toolbar>
       </Box>
       <Box
-      
       sx={{
         position:'absolute',
         bottom:0,
@@ -156,7 +165,7 @@ const toggleDrawer =
         <Grid className='p-8'  container>
        
           <Grid item xs={4}sx={ActionStyle} textAlign='center'  >
-           
+        
           <User/>
              
           </Grid>

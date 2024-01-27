@@ -4,7 +4,9 @@ import CardCal from './CardCal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue,ArrayList }) {
-
+   const yearStyle ={
+    fontSize :'40px',
+   }
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return ((obj.Status == undefined ? obj.Text3 : obj.Status) == "Y")
@@ -29,20 +31,26 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
   return (
     <Card component={Box} p={2}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <Box display='flex' justifyContent='space-between'>
+
         <IconButton onClick={() => handlePrevMonth()} sx={{ float: 'left' }}>
           <Card  >
-            <ArrowBackIosNewIcon />
+            <ArrowBackIosNewIcon sx={{mt:1}} />
           </Card>
         </IconButton>
-        <b>{formattedDate}</b>
+       <h2>
+       <b>{formattedDate}</b>
+       </h2>
+      
     
 
         <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
           <Card >
-            <ArrowForwardIosIcon />
+            <ArrowForwardIosIcon sx={{mt:1}}/>
           </Card>
         </IconButton>
         
+        </Box>
         <Grid container columnSpacing={0} rowSpacing={0}>
           {ArrayList.map((item, i) => (
             
