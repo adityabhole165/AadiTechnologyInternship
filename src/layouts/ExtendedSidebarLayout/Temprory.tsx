@@ -31,7 +31,7 @@ import TableChart from '@mui/icons-material/TableChart';
 import Dataset from '@mui/icons-material/CalendarViewMonth';
 import FactCheck from '@mui/icons-material/FactCheck';
 import CropSquareTwoTone from '@mui/icons-material/CloseSharp';
-
+import { useNavigate } from 'react-router';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({opend, event}) {
@@ -62,9 +62,11 @@ const buttonStyle ={
 
 }
 
+
 const sideList =[
   {title:' Dashboard', icon:<Dashboard/>},
-  {title:'Annual Planner', icon:<CalendarToday/>},
+  {title: 'IndidualAttendance', icon: <CalendarToday /> },
+  
   {title:'Assign Homework', icon:<Assignment/>},
   {title:'Attendance', icon:<DateRange/>},
   {title:'Assign Exam Marks', icon:<FeaturedPlayList/>},
@@ -82,6 +84,49 @@ const activeStyle={
   }
 
 }
+
+
+
+
+
+const navigate = useNavigate();
+
+
+const handleIconClick = (title) => {
+  switch (title) {
+    case ' Dashboard':
+      navigate('/extended-sidebar/landing/landing');
+      break;
+    case 'IndidualAttendance':
+      navigate('/extended-sidebar/Teacher/IndidualAttendance');
+      break;
+    case 'Assign Homework':
+      navigate('/extended-sidebar/Teacher/AssignHomework');
+      break;
+    case 'Attendance':
+      navigate('/extended-sidebar/Teacher/TAttendance');
+      break;
+    case 'Assign Exam Marks':
+      navigate('/extended-sidebar/Teacher/AssignExamMark');
+      break;
+    case 'Change Password':
+      navigate('/extended-sidebar/common/changePassword');
+      break;
+    case 'Exam Result':
+      navigate('/extended-sidebar/Teacher/ExamResultBase');
+      break;
+    case 'Exam Schedule':
+      navigate('/extended-sidebar/Teacher/Texamschedule');;
+      break;
+    case 'Final Result':
+      navigate('/extended-sidebar/Teacher/FinalResult');
+      break;
+    default:
+      break;
+  }
+};
+
+
 const toggleDrawer =
     (anchor: Anchor, open: boolean) =>
     (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -125,7 +170,7 @@ const toggleDrawer =
               </ListItemIcon>
               <ListItemText disableTypography sx={{}} primary={text.title} />
             </ListItemButton>:
-            <ListItemButton   sx={buttonStyle} >
+            <ListItemButton     sx={buttonStyle} onClick={() => handleIconClick(text.title)} >
               <ListItemIcon sx={{minWidth:'35px'}}>
                {text.icon}
               </ListItemIcon>
