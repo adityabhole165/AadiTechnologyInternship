@@ -43,39 +43,28 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
           </Card>
         </IconButton>
         
-        <Grid container columnSpacing={0} rowSpacing={1}>
+        <Grid container columnSpacing={0} rowSpacing={0}>
           {ArrayList.map((item, i) => (
             
-         <Grid item xs={1.7} md={1.7} sx={{ textAlign: "center" }} key={i}>
+         <Grid item xs={1.7} md={1.7} sx={{ textAlign: "center", pt:0 }} key={i}>
               
           <Box  sx={{
        
       }}>      
         <Typography  sx={{ textTransform: "capitalize" , textAlign: "center" , fontWeight:"bold"}}>{item.Header}</Typography>
         </Box> 
-              </Grid>
-              
-
-            
-
+         </Grid>
           ))}
           {ItemList.map((item, i) => {
           return (
-            <Grid item border='black' md={1.7} sx={{ textAlign: "center" , p:0}} key={i}>
+            <Grid item border='1px solid black' md={1.7} sx={{ textAlign: "center" , pt:0}} key={i}>
 
               <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
             </Grid>
           )
         })
         }
-
         </Grid>
-
-      
-      
-      
-      
-      
       </Box>
     </Card>
   )

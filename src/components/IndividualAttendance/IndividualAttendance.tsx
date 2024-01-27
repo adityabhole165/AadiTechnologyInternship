@@ -589,67 +589,15 @@ const IndividualAttendance = () => {
                 <Dropdown  itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
             
 
-                    {/* {search ?
-                        <TextField label={'Search by Name'}
-                            name="SearchText"
-                            type="text"
-                            size='small'
-                            variant="outlined"
-                            id="outlined-search"
-                            sx={(theme) => ({ flex: 1 })}
-
-                            value={SearchText} onChange={(e) => { changeSearchText(e.target.value); } } fullWidth />
-                         <InputBase
-                           sx={{ ml: 1, flex: 1,  }}
-                        placeholder="Search Google Maps"
-                           inputProps={{ 'aria-label': 'search google maps' }}
-                           />
-                        : ''}
-
-
-                    <IconButton onClick={() => setSearch(!search)} type="button" sx={{ position: 'absolute', right: '0px' }} aria-label="search">
-                        <SearchIcon />
-                    </IconButton> */}
-
-                    {/* <Grid sx={{position:'relative'}} xs={1}> */}
-
-                    {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
-                    {/* <IconButton  sx={{ p: '10px' }} aria-label="directions"> */}
-                    {/* <Iconhelp   Note={Note}/> */}
-                    {/* </IconButton> */}
-                    {/* </Grid> */}
+                 
+                  
                 </Grid>
 
-                {/* </Paper> */}
-                {/* <TextField label={'Search by Name'}
-     name="SearchText"
-     type="text"
-     size='small'
-      variant="outlined"
-    id="outlined-search"
-     sx={(theme)=>({mt:5})}
-
-        value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth
-
-    /> */}
+             
 
                 <Grid item xs={1} lg={2}/>
                 
-                {/* <Grid sx={(theme)=>({
-        display:'flex',
-        mt: 2,
-        bgcolor:'primary.600'
-     
-
-    })} item xs={1}>
-        
-    
-     
-    <Box sx={{ }} >
-      
-      <Iconhelp  Note={Note}/>
-   </Box>
-    </Grid> */}
+          
                 <Grid item sx={{ mt: 2 }} xs={3} lg={1}>
                     <Grid container>
                       <Grid item xs={4}md={2} lg={0}/>
@@ -662,19 +610,7 @@ const IndividualAttendance = () => {
                         <WebBackButton 
                         icon={<Reply/>}FromRoute={'/Teacher/TAttendance/'} />
                           </Grid>
-                        {/* <Grid item xs={9}>
-                            <Box sx={{ textAlign: "right", marginTop: '' }}>
-                                <ButtonPrimary
-                                    color='secondary'
-                                    style={{ marginBottom: '20px' }}
-                                    onClick={click}
-                                    className='bold'
-                                >
-                                    Back
-                                </ButtonPrimary>
-                            </Box>
-
-                        </Grid> */}
+                   
                     </Grid>
 
                 </Grid>
@@ -682,24 +618,11 @@ const IndividualAttendance = () => {
   
     
    
-    {/* <PageHeader heading={'Individual Attendance'} subheading={''} />
-    <Box sx={{ float: "right", display:'flex' }}>
-             
-             <Iconhelp  Note={Note}/>
-           <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
-           </Box>
-      <Grid container>
-    
-      <Grid item xs={2} sm={4} />
-      <Grid item xs={8} sm={4}>
-        <Dropdown itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
-        </Grid>
-        </Grid> */}
           <Box sx={{my:1}}>
         <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
           </Box>
         
-    
+          
        
         <br></br>
         <CardCalenderList ItemList={CalendarForStudent}
