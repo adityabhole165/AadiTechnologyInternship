@@ -19,9 +19,11 @@ const UnpublishPrePrimaryResult = () => {
 
       const[Reason,setReason]=useState('');
     const[ReasonError,setReasonError]=useState('');
-
+    const [currentDate, setCurrentDate] = useState(new Date());
       const asSchoolId = Number(localStorage.getItem('localSchoolId'));
       const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+      const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+      const asTeacherId = sessionStorage.getItem('TeacherId');
 
       const UnPublishTest :any  = useSelector((state: RootState) => state.unpublishtest.UnPublish)
     console.log("UnPublishTest", UnPublishTest)
@@ -31,15 +33,15 @@ const UnpublishPrePrimaryResult = () => {
         console.log("UnPublisheedd", UnPublisheed);
   
         const Unpublishee: IGetUnPublishResltBody = {
-          "asXseedResultPublishStatusId":140,
-          "asSchoolId":asSchoolId,
-          "asAcademic_Year_Id":asAcademicYearId,
-          "asAssessmentId":24,
-          "asStandardDivisionId":1221,
-          "asUnPublishReason":"kiran",
-          "asIsPublished":"false",
-          "asUpdatedById":455,
-          "asUpdateDate":"2023-06-06"
+          asXseedResultPublishStatusId:140,
+          asSchoolId:asSchoolId,
+          asAcademic_Year_Id:asAcademicYearId,
+          asAssessmentId:24,
+          asStandardDivisionId: Number(asStandardDivisionId),
+          asUnPublishReason:Reason,
+          asIsPublished:"false",
+          asUpdatedById:Number(asTeacherId),
+          asUpdateDate:currentDate.toISOString(),
             };
 
 

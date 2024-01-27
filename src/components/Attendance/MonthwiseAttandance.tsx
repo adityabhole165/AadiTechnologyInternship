@@ -47,7 +47,7 @@ const MonthwiseAttandance = () => {
 
     const theme = useTheme();
     const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
-        asSchoolId: asSchoolId,
+        asSchoolId: asSchoolId, 
         asAcademicyearId: asAcademicYearId,
         asStanardDivisionId: StandardDivisionId,
         TopRanker: 1000,
