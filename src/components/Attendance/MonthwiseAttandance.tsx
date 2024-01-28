@@ -24,26 +24,44 @@ import { useTheme } from '@emotion/react';
 import Help from '@mui/icons-material/QuestionMark';
 
 const MonthwiseAttandance = () => {
-    const [search, setSearch] = useState(false)
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const StudentId = Number(sessionStorage.getItem('StudentId'))
+    const StudentId = Number(sessionStorage.getItem('StudentId'));
 
     const HeaderArray = [{ Id: 1, Header: "Roll No." }, { Id: 2, scope:'row', Header: "Student Name", align :' left'  }, { Id: 3, Header: "Mar" }, { Id: 4, Header: "Apr" }, { Id: 5, Header: "May" }, { Id: 6, Header: "Jun" }
         , { Id: 7, Header: "Jul" }, { Id: 8,Header: "Aug" }, { Id: 9, Header: "Sep" }, { Id: 10, Header: "Oct" }, { Id: 10, Header: "Nov" }, { Id: 10, Header: "Dec" }, { Id: 11, Header: "Jan" }, { Id: 12, Header: "Feb" }, { Id: 13,scope:'row', Header: "Present Days" }, { Id: 14, scope:'row',Header: "Total Days" }, { Id: 15, Header: "%" }]
-    const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([])
-    const [SearchText, setSearchText] = useState("")
     const Note: string = "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days."
 
     const MonthWiseAttendance = useSelector((state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance);
-       
- 
 
-
-
+        const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([MonthWiseAttendance]);
+        const [search, setSearch] = useState(false);
+        const [SearchText, setSearchText] = useState("");
+      
+        const changeSearchText = () => {
+          if (SearchText === "") {
+            setMonthWiseAttendanceList(MonthWiseAttendance);
+          } else {
+            setMonthWiseAttendanceList(
+              MonthWiseAttendance.filter((item) => {
+                return item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+              })
+            );
+          }
+        };
+      
+        const SearchNameChange = (value) => {
+          setSearchText(value);
+        };
+      
+        const clickReset = () => {
+          setMonthWiseAttendanceList(MonthWiseAttendance);
+          setSearchText("");
+        };
+      
 
     const theme = useTheme();
     const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
@@ -64,16 +82,7 @@ const MonthwiseAttandance = () => {
         setMonthWiseAttendanceList(MonthWiseAttendance)
     }, [MonthWiseAttendance])
 
-    const changeSearchText = (value) => {
-        setSearchText(value)
-        if (value == "") {
-
-            setMonthWiseAttendanceList(MonthWiseAttendance)
-        } else {
-            setMonthWiseAttendanceList(MonthWiseAttendanceList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
-        }
-
-    }
+ 
     const click = () => {
         navigate('/extended-sidebar/Teacher/TAttendance');
     };
@@ -105,30 +114,53 @@ const MonthwiseAttandance = () => {
                        
 
                     
-                      <Paper
-                   component="form"
-                sx={{  display: 'flex', justifyContent:"flex-end", alignItems: 'center', my:0, py:0, mx:0,  flexWrap:'nowrap'}}
-                         >
-      
-                             {search ?
-                        <>
-                      <InputBase
-                        sx={{ ml: 1, flex: 1, width:'450px' }}
-                        placeholder="Search Text"
-                        inputProps={{ 'aria-label': 'search Text' }}
-                        />
-                      <IconButton type="button"  aria-label="search">
-                        <CloseTwoTone/>
-                      </IconButton>
-                        </>:''}
-                      <Divider sx={{ height: 28 }} orientation="vertical" />
-                      
-                      <IconButton onClick={()=>setSearch(!search)} color="primary"                  aria-label="directions">
-                            <Tooltip title='search'>
-                            <SearchIcon />
-                            </Tooltip>
-                      </IconButton>
-                      </Paper>
+                         <Paper
+        component="form"
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          my: 0,
+          py: 0,
+          mx: 0,
+          flexWrap: 'nowrap',
+        }}
+      >
+        {search ? (
+          <>
+            <InputBase
+              sx={{ ml: 1, flex: 1, width: '450px' }}
+              placeholder="Search Text"
+              inputProps={{ 'aria-label': 'search Text' }}
+              value={SearchText}
+              onChange={(e) => SearchNameChange(e.target.value)}
+            />
+          
+
+            <IconButton type="button" aria-label="search"   >
+              <CloseTwoTone onClick={clickReset} />
+            </IconButton>
+          </>
+        ) : (
+          ''
+        )}
+        <Divider sx={{ height: 28 }} orientation="vertical" />
+
+        <IconButton
+          onClick={() => {
+            setSearch(!search);
+            changeSearchText();
+          }}
+          color="primary"
+          aria-label="directions"
+        >
+          <Tooltip title="search">
+            <SearchIcon />
+          </Tooltip>
+        </IconButton>
+      </Paper>
+
+
                     </Grid>
                 </Grid>
                 </Grid> 
@@ -138,7 +170,7 @@ const MonthwiseAttandance = () => {
 
             
 
-            <TableAttendace ItemList={MonthWiseAttendance} HeaderArray={HeaderArray} />
+            <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
 
             </Container>
         <Box sx={{ textAlign: "center", gap: '10px' }} m={2}>   

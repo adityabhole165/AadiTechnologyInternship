@@ -121,8 +121,25 @@ const activeStyle = {
 };
 
 
+const ClickUser = (value) => {
+  navigate('/extended-sidebar/Student/Profile');
+}
+const [isOpen, setOpen] = useState<boolean>(false);
+const handleClose = (): void => {
+  setOpen(false);
+};
 
-
+const handleLogout = async (): Promise<void> => {
+  try {
+    handleClose();
+    //localStorage.clear();
+    localStorage.removeItem("auth")
+    sessionStorage.clear(); 
+    navigate('/');
+  } catch (err) {
+    console.error(err);
+  }
+};
 
 
 
@@ -207,7 +224,7 @@ const toggleDrawer =
        
           <Grid item xs={4}sx={ActionStyle} textAlign='center'  >
         
-          <User/>
+           <User onClick={ClickUser}></User>
              
           </Grid>
           <Grid item xs={4}sx={ActionStyle} textAlign='center' >
@@ -217,7 +234,7 @@ const toggleDrawer =
           </Grid>
           <Grid item xs={4} sx={ActionStyle}  textAlign='center'  >
            
-          <PowerOutLined />
+          <PowerOutLined onClick={handleLogout}/> 
              
           </Grid>
     
