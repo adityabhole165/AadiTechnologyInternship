@@ -34,16 +34,52 @@ import CropSquareTwoTone from '@mui/icons-material/CloseSharp';
 import { useNavigate } from 'react-router';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
-export default function SwipeableTemporaryDrawer({opend, event}) {
-    const theme = useTheme();
-    const classes = Styles();
-    const [opent, setopent] = useState(opend ? opend:'false')
-     const [imgsrc, setimgsrc] = useState( logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png")
+export default function SwipeableTemporaryDrawer({ opend, event }) {
+  const theme = useTheme();
+  const classes = Styles();
+  const [opent, setopent] = useState(opend ? opend : 'false');
+  const [imgsrc, setimgsrc] = useState(logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png");
   const [state, setState] = useState({
-   
     left: false,
-   
   });
+  const [activeItem, setActiveItem] = useState(null);
+  const navigate = useNavigate();
+
+  const IconClick = (title) => {
+    setActiveItem(title);
+    switch (title)  {
+      case ' Dashboard':
+        navigate('/extended-sidebar/landing/landing');
+        break;
+      case 'IndidualAttendance':
+        navigate('/extended-sidebar/Teacher/IndidualAttendance');
+        break;
+      case 'Assign Homework':
+        navigate('/extended-sidebar/Teacher/AssignHomework');
+        break;
+      case 'Attendance':
+        navigate('/extended-sidebar/Teacher/TAttendance');
+        break;
+      case 'Assign Exam Marks':
+        navigate('/extended-sidebar/Teacher/AssignExamMark');
+        break;
+      case 'Change Password':
+        navigate('/extended-sidebar/common/changePassword');
+        break;
+      case 'Exam Result':
+        navigate('/extended-sidebar/Teacher/ExamResultBase');
+        break;
+      case 'Exam Schedule':
+        navigate('/extended-sidebar/Teacher/Texamschedule');;
+        break;
+      case 'Final Result':
+        navigate('/extended-sidebar/Teacher/FinalResult');
+        break;
+      default:
+        break;
+    }
+  };
+
 const ActionStyle = {
   backgroundColor :'rgb(40, 160, 235)',
   pt:1,
@@ -75,56 +111,21 @@ const sideList =[
   {title:'Exam Shedule', icon:<Dataset/>},
   {title:'Final Result', icon:<FactCheck/>},
 ]
-const activeStyle={
-  backgroundColor:'rgb(40, 160, 235)',
-  color:'white',
-  ":hover":{
-    backgroundColor:'rgb(40, 160, 235)',
-  color:'white',
-  }
-
-}
-
-
-
-
-
-const navigate = useNavigate();
-
-
-const handleIconClick = (title) => {
-  switch (title) {
-    case ' Dashboard':
-      navigate('/extended-sidebar/landing/landing');
-      break;
-    case 'IndidualAttendance':
-      navigate('/extended-sidebar/Teacher/IndidualAttendance');
-      break;
-    case 'Assign Homework':
-      navigate('/extended-sidebar/Teacher/AssignHomework');
-      break;
-    case 'Attendance':
-      navigate('/extended-sidebar/Teacher/TAttendance');
-      break;
-    case 'Assign Exam Marks':
-      navigate('/extended-sidebar/Teacher/AssignExamMark');
-      break;
-    case 'Change Password':
-      navigate('/extended-sidebar/common/changePassword');
-      break;
-    case 'Exam Result':
-      navigate('/extended-sidebar/Teacher/ExamResultBase');
-      break;
-    case 'Exam Schedule':
-      navigate('/extended-sidebar/Teacher/Texamschedule');;
-      break;
-    case 'Final Result':
-      navigate('/extended-sidebar/Teacher/FinalResult');
-      break;
-    default:
-      break;
+const activeStyle = {
+  backgroundColor: 'rgb(40, 160, 235)', 
+  color: 'white',
+  ":hover": {
+    backgroundColor: 'rgb(40, 160, 235)',
+    color: 'white',
   }
 };
+
+
+
+
+
+
+
 
 
 const toggleDrawer =
@@ -142,8 +143,8 @@ const toggleDrawer =
       setState({ ...state, [anchor]: open });
     };
 
-  const list = (anchor: Anchor) => (
-    <Box
+    const list = (anchor: Anchor) => (
+      <Box
       sx={{ width: anchor === 'top' || anchor === 'bottom' ? 'auto' : 250 }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
@@ -161,25 +162,20 @@ const toggleDrawer =
       {/* <img src={imgsrc} alt='photo' /> */}
       <Divider />
       <List>
-       {sideList.map((text, index) => (
-          <ListItem key={index}  disablePadding>
-            {text.title == 'Attendance'?
-            <ListItemButton className='p-8'  sx={activeStyle} >
-              <ListItemIcon aria-disabled sx={{minWidth:'35px', color:'white'}}>
-               {text.icon}
-              </ListItemIcon>
-              <ListItemText disableTypography sx={{}} primary={text.title} />
-            </ListItemButton>:
-            <ListItemButton     sx={buttonStyle} onClick={() => handleIconClick(text.title)} >
-              <ListItemIcon sx={{minWidth:'35px'}}>
-               {text.icon}
-              </ListItemIcon>
-              <ListItemText primary={text.title} />
-            </ListItemButton>}
-          </ListItem>
-        ))}
-       
-      </List>
+      {sideList.map((text, index) => (
+        <ListItem key={index} disablePadding>
+          <ListItemButton
+            sx={text.title === activeItem ? activeStyle : buttonStyle}
+            onClick={() => IconClick(text.title)}
+          >
+            <ListItemIcon sx={{ minWidth: '35px' }}>
+              {text.icon}
+            </ListItemIcon>
+            <ListItemText primary={text.title} />
+          </ListItemButton>
+        </ListItem>
+      ))}
+    </List>
      
    
       <Box
