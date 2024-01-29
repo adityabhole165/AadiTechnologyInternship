@@ -65,7 +65,7 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
           ))}
           {ItemList.map((item, i) => {
           return (
-            <Grid item border='1px solid black' md={1.7} sx={{ textAlign: "center" , pt:0}} key={i}>
+            <Grid item border='0.5px solid #ebebeb' md={1.7} sx={{ textAlign: "center" , pt:0}} key={i}>
 
               <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
             </Grid>

@@ -38,7 +38,7 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
     const cardStyle= {
      
        
-     height : '15vh',
+     
      fontSize :'40px',
      
      
@@ -61,10 +61,10 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
     <div>
 
-      <Card  component={Box} py={0} my={0} sx={{backgroundColor:bg[item.Text1.split('')[0].toLowerCase()], ...cardStyle, fontWeight:'700'}} textAlign='center' display='flex'  alignItems='center' justifyContent='center'>
+      <Card  component={Box} py={0} my={0} sx={{backgroundColor:bg[item.Text1.split('')[0].toLowerCase()],color:color[item.Text1.split('')[0].toLowerCase()], ...cardStyle, fontWeight:'700'}} textAlign='center' display='flex'  alignItems='center' justifyContent='center'>
            <Box dangerouslySetInnerHTML={{ __html: item.Name}}>
           </Box>
-        {/* <Typography sx={{color: color[item.Text1.split('')[0].toLowerCase()]}}    >
+        {/* <Typography sx={{color: color[String(item.Text1).split('')[0].toLowerCase()]}}    >
           <b>
 
           {item.Text1}
