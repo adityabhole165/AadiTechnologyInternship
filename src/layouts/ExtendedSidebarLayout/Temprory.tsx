@@ -16,7 +16,7 @@ import Header from './Header';
 import MenuTwoTone from '@mui/icons-material/MenuTwoTone';
 import User from '@mui/icons-material/ManageAccounts';
 import { logoURL } from 'src/components/Common/Util';
-import { Grid, IconButton, Stack, Toolbar, useMediaQuery } from '@mui/material';
+import { Grid, IconButton, Stack, Toolbar, Tooltip, useMediaQuery } from '@mui/material';
 import { POSITION } from 'react-toastify/dist/utils';
 import { Styles } from 'src/assets/style/student-style';
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
@@ -32,6 +32,7 @@ import Dataset from '@mui/icons-material/CalendarViewMonth';
 import FactCheck from '@mui/icons-material/FactCheck';
 import CropSquareTwoTone from '@mui/icons-material/CloseSharp';
 import { useNavigate } from 'react-router';
+import Reply from '@mui/icons-material/Reply';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({ opend, event }) {
@@ -200,15 +201,18 @@ const toggleDrawer =
       sx={{
         position:'absolute',
         top:0,
-       
-
       }
       }>
-        <Toolbar title='Close'>
+        <Tooltip title='Back'>
+        <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
+         <Reply/> 
+         </IconButton>
+        </Tooltip>
+        {/* <Toolbar title='Close'>
         <IconButton onClick={event} sx={{backgroundColor:'rgba(255, 25, 67, 0.1)'}} className='p-3 m-3'  size='small' color='error' >
           <CropSquareTwoTone color='error'  className='text-3xl'/>
         </IconButton>
-        </Toolbar>
+        </Toolbar> */}
       </Box>
       <Box
       sx={{

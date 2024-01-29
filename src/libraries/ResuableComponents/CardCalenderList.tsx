@@ -33,22 +33,25 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
         <Box display='flex' justifyContent='space-between'>
 
+       <h1>
+       <b>{formattedDate}</b>
+       </h1>
+      
+        
+
+
+<div>
         <IconButton onClick={() => handlePrevMonth()} sx={{ float: 'left' }}>
           <Card  >
             <ArrowBackIosNewIcon sx={{mt:1}} />
           </Card>
         </IconButton>
-       <h2>
-       <b>{formattedDate}</b>
-       </h2>
-      
-    
-
         <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
           <Card >
             <ArrowForwardIosIcon sx={{mt:1}}/>
           </Card>
         </IconButton>
+</div>
         
         </Box>
         <Grid container columnSpacing={0} rowSpacing={0}>

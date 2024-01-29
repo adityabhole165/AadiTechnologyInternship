@@ -26,20 +26,20 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
      n: 'Not Available'
     }
     const color ={
-      p : 'rgb(14, 240, 14)',
-      a: 'rgb(245, 17, 17)', 
-      Holiday : 'success',
-       Weekend:'secondary',
-      outside :'warning',
-      late: 'info',
-      n : 'rgb(', 
+      p : '#008000',
+      a: '#FF0001', 
+      h : '#a52a2a',
+      w :'#800080',
+      o :'rgba(245,88,245,1)',
+      l: '#303f9f',
+      n : 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)', 
     }
   
     const cardStyle= {
      
        
      
-     fontSize :'40px',
+     fontSize :'20px',
      
      
     }

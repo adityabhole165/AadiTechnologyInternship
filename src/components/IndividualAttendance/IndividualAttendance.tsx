@@ -24,6 +24,7 @@ import Iconhelp from 'src/libraries/icon/Iconhelp';
 import { useTheme } from '@mui/styles';
 import Reply from '@mui/icons-material/Reply';
 import Help from '@mui/icons-material/QuestionMark';
+import SaveAlt from '@mui/icons-material/SaveAlt';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import AccountBoxTwoTone from '@mui/icons-material/AccountBoxTwoTone';
 
@@ -62,398 +63,6 @@ const IndividualAttendance = () => {
    
 
 
-//   const changeSearchText = (value) => {
-//     setSearchText(value)
-    
-
-// }
-  
-
-//   const StudentList=[
-//     {
-//         "Id": "1 -  Miss Akshara Amit Bhosale",
-//         "Name": "1 -  Miss Akshara Amit Bhosale",
-//         "Value": "33902"
-//     },
-//     {
-//         "Id": "2 -  Miss Mansvi Sachin Bhosale",
-//         "Name": "2 -  Miss Mansvi Sachin Bhosale",
-//         "Value": "38562"
-//     },
-//     {
-//         "Id": "3 -  Miss Vidhi Nikhil Ekatpure",
-//         "Name": "3 -  Miss Vidhi Nikhil Ekatpure",
-//         "Value": "33860"
-//     },
-//     {
-//         "Id": "4 -  Miss Avya Shubham Ghule",
-//         "Name": "4 -  Miss Avya Shubham Ghule",
-//         "Value": "33922"
-//     },
-//     {
-//         "Id": "5 -  Miss Shreya Vaibhav Hemane",
-//         "Name": "5 -  Miss Shreya Vaibhav Hemane",
-//         "Value": "33857"
-//     },
-//     {
-//         "Id": "6 -  Miss Aarvi Sunil Jathar",
-//         "Name": "6 -  Miss Aarvi Sunil Jathar",
-//         "Value": "33923"
-//     },
-//     {
-//         "Id": "7 -  Miss Athashree Ajit Kashid",
-//         "Name": "7 -  Miss Athashree Ajit Kashid",
-//         "Value": "33847"
-//     },
-    
-   
-// ]
-
-
-
-//  const CalendarForStudent=[
-//   {
-//       "Id": 0,
-//       "Name": "<b>1</b>",
-//       "Value": "1/1/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "p",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 1,
-//       "Name": "2",
-//       "Value": "1/2/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "a",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 2,
-//       "Name": "3",
-//       "Value": "1/3/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "h",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 3,
-//       "Name": "4",
-//       "Value": "1/4/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 4,
-//       "Name": "5",
-//       "Value": "1/5/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "h",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 5,
-//       "Name": "6",
-//       "Value": "1/6/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "l",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 6,
-//       "Name": "7",
-//       "Value": "1/7/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 7,
-//       "Name": "8",
-//       "Value": "1/8/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "p",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 8,
-//       "Name": "9",
-//       "Value": "1/9/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 9,
-//       "Name": "10",
-//       "Value": "1/10/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "a",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 10,
-//       "Name": "11",
-//       "Value": "1/11/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 11,
-//       "Name": "12",
-//       "Value": "1/12/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "g",
-//       "Text3": "x",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 12,
-//       "Name": "13",
-//       "Value": "1/13/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 13,
-//       "Name": "14",
-//       "Value": "1/14/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 14,
-//       "Name": "15",
-//       "Value": "1/15/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 15,
-//       "Name": "16",
-//       "Value": "1/16/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "o",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 16,
-//       "Name": "17",
-//       "Value": "1/17/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "l",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 17,
-//       "Name": "18",
-//       "Value": "1/18/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 18,
-//       "Name": "19",
-//       "Value": "1/19/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 19,
-//       "Name": "20",
-//       "Value": "1/20/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 20,
-//       "Name": "21",
-//       "Value": "1/21/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 21,
-//       "Name": "22",
-//       "Value": "1/22/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 22,
-//       "Name": "23",
-//       "Value": "1/23/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 23,
-//       "Name": "24",
-//       "Value": "1/24/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 24,
-//       "Name": "25",
-//       "Value": "1/25/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 25,
-//       "Name": "26",
-//       "Value": "1/26/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "h",
-//       "Text3": "B",
-//       "BackgroundColor": "lightcoral",
-//       "ForeColur": "brown",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 26,
-//       "Name": "27",
-//       "Value": "1/27/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 27,
-//       "Name": "28",
-//       "Value": "1/28/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "w",
-//       "Text3": "D",
-//       "BackgroundColor": "lightsalmon ",
-//       "ForeColur": "red",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 28,
-//       "Name": "29",
-//       "Value": "1/29/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 29,
-//       "Name": "30",
-//       "Value": "1/30/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   },
-//   {
-//       "Id": 30,
-//       "Name": "31",
-//       "Value": "1/31/2024-undefined-undefined",
-//       "IsActive": false,
-//       "Text1": "n",
-//       "Text3": "X",
-//       "BackgroundColor": "plum",
-//       "ForeColur": "#a9a9a9",
-//       "IsClickable": false
-//   }
-// ]
 
   
   const IGetStudentNameBody: IGetStudentNameBody = {
@@ -592,14 +201,28 @@ const IndividualAttendance = () => {
 
                         <WebBackButton icon={<Reply/>} FromRoute={'/Teacher/TAttendance/'} />
                          <Tooltip title='Help'>
-                      <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
+                      <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1,  height: '36px !important',":hover":{backgroundColor:'gray'}}} >
                            <Help /> 
+                        </IconButton>
+                         </Tooltip>
+                         <Tooltip title='Present Mark'>
+                      <IconButton  sx={{ color:'white',backgroundColor:'gray',  height: '36px !important',":hover":{backgroundColor:'gray'}}} >
+                          <SaveAlt/>
+                        </IconButton>
+                         </Tooltip>
+                         <Tooltip title='Present Mark'>
+                      <IconButton  sx={{ color:'white', height: '36px !important',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'rgb(245, 17, 17)'}}} >
+                          <h3>A</h3>
+                        </IconButton>
+                         </Tooltip>
+                         <Tooltip title='Present Mark'>
+                      <IconButton  sx={{ color:'white',backgroundColor:'gray',  height: '36px !important',":hover":{backgroundColor:'green'}}} >
+                          <h3>P</h3>
                         </IconButton>
                          </Tooltip>
                       <Paper
                    component="form"
-                sx={{  display: 'flex', justifyContent:"flex-end", alignItems: 'center', my:0, py:0, mx:0,  flexWrap:'nowrap'}}
-                         >
+                sx={{  display: 'flex', justifyContent:"flex-end", alignItems: 'center', my:0, py:0, mr:1 ,ml:0,  flexWrap:'nowrap'}}>
       
                              {search ?
                         <>
@@ -654,14 +277,15 @@ const IndividualAttendance = () => {
         <br></br>
         <div style={{ textAlign: 'center' }}>
           <ButtonPrimary
+          color='secondary'
             style={{  backgroundColor: '#ef5350', width:"90px"}}
             onClick={click}
           >
-            Close
+            Back
           </ButtonPrimary>
         
           <ButtonPrimary disabled={!IsClicked}
-          color='secondary'
+          color='success'
             onClick={SaveFile} 
             sx={{ml:1 , width:"90px"}}
           >
