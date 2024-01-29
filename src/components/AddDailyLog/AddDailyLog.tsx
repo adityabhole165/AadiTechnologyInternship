@@ -15,7 +15,7 @@ import BackButton from 'src/libraries/button/BackButton';
 import { getDateMonthYearFormatted } from '../Common/Util';
 import moment from 'moment';
 import Icon5 from 'src/libraries/icon/icon5';
-
+//monali
 const AddDailyLog = () => {
 
   const dispatch = useDispatch();
