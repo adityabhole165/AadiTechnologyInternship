@@ -44,6 +44,7 @@ function StaffBirthday() {
     setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
+  
   useEffect(() => {
     setCurrentDate();
   }, []);
@@ -102,7 +103,8 @@ function StaffBirthday() {
       ) : (
         <>
           {staffBirthdayList.map((item: GetstaffBirthdayList, i) => (
-            <List17 Name={item.Name} BirthDate={item.BirthDate} key={i} />
+            <List17 Name={item.Name} BirthDate={item.BirthDate} key={i} 
+            CalendarMonth = {date.selectedDate}/>
           ))}
         </>
       )}
