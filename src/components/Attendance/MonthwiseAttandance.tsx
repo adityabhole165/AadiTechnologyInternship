@@ -104,7 +104,7 @@ const MonthwiseAttandance = () => {
 
 
                         <WebBackButton icon={<ReplyIcon/>} FromRoute={'/Teacher/TAttendance/'} />
-                         <Tooltip title='Help'>
+                        <Tooltip title={Note}>
                       <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
                            <Help /> 
                         </IconButton>
