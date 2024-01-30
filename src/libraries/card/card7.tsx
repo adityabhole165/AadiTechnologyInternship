@@ -79,6 +79,8 @@ function Card7({
   const navigate = useNavigate();
   const FromTo = From + ',' + To
 
+
+  
   const saveMessageBody = (replyFwd) => {
     const path =
       replyFwd === "Reply" ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply` :
@@ -96,6 +98,7 @@ function Card7({
       }
       return arr.join(',');
     }
+    
     localStorage.setItem("ViewMessageData", JSON.stringify(
       {
         From: replyFwd === "Reply" ? From : replyFwd === "ReplyAll" ? getExcludeMe() :
@@ -105,9 +108,10 @@ function Card7({
         Text: Text,
         Attachment: replyFwd === "Edit" ? [] : AttachmentArray,
         ID: ID,
-        CC: replyFwd === "ReplyAll" ? Cc : "",
-        CCReceiverUserId: replyFwd === "ReplyAll" ? ReplyallCCRecieverId : ""
+        CC: (replyFwd === "ReplyAll" || replyFwd === "Edit") ? Cc : "",
+        CCReceiverUserId: (replyFwd === "ReplyAll" || replyFwd === "Edit") ? ReplyallCCRecieverId : ""
       }))
+
   }
   const { FromRoute } = useParams();
 
