@@ -334,50 +334,53 @@ import DropDown from 'src/libraries/list/DropDown';
                 setOnlySelectedClass('');
             }
         }, [stdlist]);
-        // const SaveMsg = () => {
-        //     if (
-        //         AttendanceStatus === "Selected date is holiday." ||
-        //         AttendanceStatus === "Selected date is weekend."
-        //     ) {
-        //         if (!window.confirm('Are you sure to mark Attendance on selected weekend/holiday?')) {
-        //             setAbsentRollNos('');
-        //             return null;
-        //         }
+        const SaveMsg = () => {
+
+            
+            if (
+                AttendanceStatus === "Selected date is holiday." ||
+                AttendanceStatus === "Selected date is weekend."
+            ) {
+                if (!window.confirm('Are you sure to mark Attendance on selected weekend/holiday?')) {
+                    setAbsentRollNos('');
+                    return null;
+                }
               
 
-        //     }
-        //     if (window.confirm('All the student are marked as absent. Are you sure you want to save the attendance' )) {
-        //         dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+            }
+            if (window.confirm('All the student are marked as absent. Are you sure you want to save the attendance' )) {
+                dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
     
     
-        //         }
+                }
             
            
-        //     SaveAttendance();
-        // };
-
-        const SaveMsg = () => {
-            if (
-                !(AttendanceStatus === "Selected date is holiday." || AttendanceStatus === "Selected date is weekend.")
-                && !window.confirm('Are you sure to mark Attendance on a non-holiday/weekend?')
-            ) {
-                
-                setAbsentRollNos('');
-                return null;
-            }
-        
-            if (!window.confirm('All the students are marked as absent. Are you sure you want to save the attendance?')) {
-               
-                setAbsentRollNos('');
-                return null;
-            }
-        
-           
-            dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
-        
-            
-             SaveAttendance();
+            SaveAttendance();
         };
+        
+
+        // const SaveMsg = () => {
+        //     if (
+        //         !(AttendanceStatus === "Selected date is holiday." || AttendanceStatus === "Selected date is weekend.")
+        //         && !window.confirm('Are you sure to mark Attendance on a non-holiday/weekend?')
+        //     ) {
+                
+        //         setAbsentRollNos('');
+        //         return null;
+        //     }
+        
+        //     if (!window.confirm('All the students are marked as absent. Are you sure you want to save the attendance?')) {
+               
+        //         setAbsentRollNos('');
+        //         return null;
+        //     }
+        
+           
+        //     dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+        
+            
+        //      //SaveAttendance();
+        // };
         
 
         
