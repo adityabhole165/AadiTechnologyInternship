@@ -154,18 +154,18 @@ const GetScreenPermission=()=>{
         
     return classTeacherName;
     }
-    const getSubjectName = () => {
-        let getSubjectName = ""
-        SubjectDetailLists.map((item)=>{
-            if(item.Value == Id)
-            getSubjectName = item.Text2
-        })
+    // const getSubjectName = () => {
+    //     let getSubjectName = ""
+    //     SubjectDetailLists.map((item)=>{
+    //         if(item.Value == Id)
+    //         getSubjectName = item.Text2
+    //     })
         
-    return getSubjectName;
-    }
+    // return getSubjectName;
+    // }
 
     const clickItem1 = (value) => {
-        navigate('/extended-sidebar/Teacher/AddHomework'+'/'+SelectClass+'/'+getClassName()+'/'+SelectTeacher+'/'+getClassTeacherName()+'/'+getSubjectName())
+        navigate('/extended-sidebar/Teacher/AddHomework'+'/'+SelectClass+'/'+getClassName()+'/'+SelectTeacher+'/'+getClassTeacherName())
         
     }
 

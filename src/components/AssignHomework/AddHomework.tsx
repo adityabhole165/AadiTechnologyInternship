@@ -76,11 +76,13 @@ const AddHomework = () => {
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const asUpdatedById = localStorage.getItem('Id');
     const asTeacherId = sessionStorage.getItem('TeacherId');
-    const SiteURL = localStorage.getItem('SiteURL');
+    // const SiteURL = localStorage.getItem('SiteURL');
     const [SubjectList, setSubjectList] = useState([])
     // const asFolderName = localStorage.getItem('FolderName');
+    // let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
+    const SiteURL = localStorage.getItem('SiteURL');
     let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
-
+  
 
     const SaveHomework = useSelector((state: RootState) => state.AddHomework.SaveHomework);
     //console.log(SaveHomework, "SaveHomework....")
@@ -162,7 +164,7 @@ const AddHomework = () => {
             asInsertedById: Number(asTeacherId),
             asFileName: File1,
             asSaveFeature: "Homework",
-            asFolderName: asFolderName,
+            asFolderName:"PPSN Website",
             asBase64String: base64URL,
             asBase64String2: base64URL1
         }
@@ -325,7 +327,7 @@ const AddHomework = () => {
                     </Grid>
 
                     <Grid item xs={6}>
-                        <Box sx={{ display: "flex", textAlign: 'center', border: "1px solid #000", padding: "8px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)' }}>
+                        <Box sx={{ display: "flex", textAlign: 'center', width: "300px",border: "1px solid #000", padding: "8px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)' }}>
 
                             <DropDown itemList={ClassSubject} ClickItem={clickSubjectList} DefaultValue={Subjectlist} Label={"Select Subject"} /><br></br>
                         </Box>
@@ -341,8 +343,8 @@ const AddHomework = () => {
                     </Grid>
 
                     <Grid item xs={6}>
-                        {/* <TextField value={Title} onChange={(e) => { setTitle(e.target.value) }} variant="standard" error={ErrorTitle !== ''} helperText={ErrorTitle} label={''} /> */}
-                        <TextField value={SubjectName} />
+                        <TextField value={Title} onChange={(e) => { setTitle(e.target.value) }} variant="standard" error={ErrorTitle !== ''} helperText={ErrorTitle} label={''} />
+                        {/* <TextField value={SubjectName} /> */}
                         {/* <TextField
                             value={Subject}
                             onChange={(e) => {

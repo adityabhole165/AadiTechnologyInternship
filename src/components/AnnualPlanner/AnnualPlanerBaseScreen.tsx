@@ -25,9 +25,11 @@ function AnnualPalnerBaseScreen() {
   const dispatch = useDispatch();
   const SelectStandardList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList);
   const SelectDivisionList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList);
+  console.log(SelectDivisionList,"SelectDivisionListv");
   const SelectMonthList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList);
   const SelectYearList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList);
   const USGetEventsDataList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList);
+console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
@@ -132,6 +134,7 @@ function AnnualPalnerBaseScreen() {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     "asStandardId": 1062,
+    
   }
   const GetEventsDataListBody: IGetEventsDataListBody =
   {
