@@ -1,8 +1,9 @@
 
 import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, IconButton, Container, Box, Tabs, Tab } from '@mui/material';
+import { AppBar, Toolbar, Typography, IconButton, Container, Box, Tabs, Tab, Tooltip, ButtonGroup, Button } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import SubHeader from './SubHeader';
+import NavBarItem from './NavbarItem';
 
 function SubHeaderNavBar( {toggleDrawer}) {
     const [value, setValue] = React.useState('0');
@@ -31,24 +32,45 @@ function SubHeaderNavBar( {toggleDrawer}) {
 
 
                     <Typography sx={{   p: "5px", color: "white" }}>
-                      
+                      <Tooltip title='Sidebar'>
+
                     <IconButton edge="start" color="inherit" onClick={toggleDrawer} sx={{ ml: 0 }}>
                     <MenuIcon />
                     </IconButton>
+                      </Tooltip>
                     </Typography>
-                    <Tabs
+
+
+
+                     <ButtonGroup>
+                        <Button variant='contained' sx={{backgroundColor:'transparent' }}>
+                        <NavBarItem Item='ggg' key=''></NavBarItem>
+
+                        </Button>
+                        <Button sx={{":hover":{
+                            backgroundColor:'#fff'
+                        }}}>
+                        <NavBarItem Item='ggg' key=''></NavBarItem>
+
+                        </Button>
+                        <Button>
+                        <NavBarItem Item='ggg' key=''></NavBarItem>
+
+                        </Button>
+                     </ButtonGroup>
+
+                    {/* <Tabs
                         value={value}
                         onChange={handleChange}
                         indicatorColor='primary'
-                        // TabIndicatorProps={{sx:{'backgroundColor':'#fff','color':'blue'}}}
                         variant="scrollable"
                         scrollButtons="auto"
                         aria-label="primary example"
                       >
 
                         <Tab value='0' label={
-
-                       <Typography sx={{   p: "5px", color: "white" }}>Syllabus</Typography>
+                            
+                            <Typography sx={{   p: "5px", color: "white" }}>Syllabus</Typography>
                         }>
                         </Tab>
                         <Tab value='1' label={
@@ -57,12 +79,7 @@ function SubHeaderNavBar( {toggleDrawer}) {
                         }>
 
                         </Tab>
-                        {/* <Tab value='3'>
-                        <Tab value='4'>
-                        
-                        <Typography sx={{   color: "white" }}>PTA</Typography>
-                        </Tab>
-                    </Tab> */}
+                      
                     <Tab value='3' label={
                         <Typography sx={{  color: "white" }}>Transport</Typography>}></Tab>
                         <Tab value='4' label={
@@ -72,7 +89,7 @@ function SubHeaderNavBar( {toggleDrawer}) {
                                 <Tab value='6' label={
                     <Typography sx={{   color: "white" }}>Homework</Typography>}></Tab>
                      
-                    </Tabs>
+                    </Tabs> */}
 
                 </Toolbar>
             </AppBar>

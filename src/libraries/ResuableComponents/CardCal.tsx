@@ -26,19 +26,19 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
      n: 'Not Available'
     }
     const color ={
-      p : 'rgb(14, 240, 14)',
-      a: 'rgb(245, 17, 17)', 
-      Holiday : 'success',
-       Weekend:'secondary',
-      outside :'warning',
-      late: 'info',
-      n : 'rgb(', 
+      p : '#008000',
+      a: '#FF0001', 
+      h : '#a52a2a',
+      w :'#800080',
+      o :'rgba(245,88,245,1)',
+      l: '#303f9f',
+      n : 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)', 
     }
   
     const cardStyle= {
      
-       py:0,
-     height : '15vh',
+       
+     
      fontSize :'20px',
      
      
@@ -61,18 +61,16 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
 
     <div>
 
-      <Card  component={Box} py={0} sx={{backgroundColor:bg[item.Text1], ...cardStyle, fontWeight:'700'}} textAlign='center'>
+      <Card  component={Box} py={0} my={0} sx={{backgroundColor:bg[item.Text1.split('')[0].toLowerCase()],color:color[item.Text1.split('')[0].toLowerCase()], ...cardStyle, fontWeight:'700'}} textAlign='center' display='flex'  alignItems='center' justifyContent='center'>
            <Box dangerouslySetInnerHTML={{ __html: item.Name}}>
           </Box>
-        <Typography sx={{color: color[item.Text1]}}    >
+        {/* <Typography sx={{color: color[String(item.Text1).split('')[0].toLowerCase()]}}    >
           <b>
 
-          {data[item.Text1]}
+          {item.Text1}
           </b>
-        </Typography>
-        {/* <Typography >
-         {bg['a']}
         </Typography> */}
+      
         <b>
         </b>
     

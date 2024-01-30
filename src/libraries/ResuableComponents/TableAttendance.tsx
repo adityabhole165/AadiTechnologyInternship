@@ -86,11 +86,11 @@ export default function TableAttendace({ItemList ,HeaderArray}) {
       <TableHead >
         <TableRow >
         {HeaderArray.map((item,i)=>(
-       <TableCell key={i} scope={item.scope ? item.scope:'a'} sx={{textTransform:"capitalize" , border:"1px solid black" , backgroundColor:"#80cbc4", padding:0, marginLeft:0, }} align="center" > <b>{item.Header}</b></TableCell>
+       <TableCell key={i} scope={item.scope ? item.scope:'a'} sx={{textTransform:"capitalize" , backgroundColor:"rgb(40, 160, 235)", padding:0, marginLeft:0,minWidth:'42px' }} align="center" > <b>{item.Header}</b></TableCell>
         ))}
            </TableRow>
             </TableHead>
-         <TableBody sx={{border:"1px solid black"}}>
+         <TableBody >
           {ItemList.map((item,i) => (
             <>
            

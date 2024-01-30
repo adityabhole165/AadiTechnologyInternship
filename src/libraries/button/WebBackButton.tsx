@@ -1,15 +1,17 @@
 import ReplyIcon from '@mui/icons-material/Reply';
 import PropTypes from 'prop-types';
-import { useTheme, Fab } from '@mui/material';
+import { useTheme, Fab, useMediaQuery, Tooltip } from '@mui/material';
 
 import { Link as RouterLink } from 'react-router-dom';
+import { ButtonPrimary } from '../styled/ButtonStyle';
 
 WebBackButton.propTypes = {
   FromRoute: PropTypes?.string
 };
 
-function WebBackButton({ FromRoute }) {
+function WebBackButton({ FromRoute , icon}) {
   const theme = useTheme();
+  const ismobile = useMediaQuery('(max-width:600px)')
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace('/schoolList', '');
@@ -26,20 +28,33 @@ function WebBackButton({ FromRoute }) {
         color="primary"
         style={{ textDecoration: 'none' }}
       >
+        <Tooltip title='Back'>
+
+        {/* {ismobile ? */}
         <Fab
+        
           sx={{
-            background: `${theme.colors.gradients.listColor}`,
-            position: 'absolute',
-            top: '60px',
-           // left: '20px',
-            width: '35px !important',
-            height: '10px !important',
-            borderRadius: '4px !important',
-            // boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
-          }}
-        >
-          <ReplyIcon />
-        </Fab>
+            background: `gray`,
+            position: 'relative',
+            // top: '60px',
+             
+              color:'#fff',
+            width: '40px !important',
+            height: '12px !important',
+            borderRadius: '15% !important',
+            ":hover":{
+                    backgroundColor:'gray'
+            },
+           
+            boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+          }} >
+          {icon ? icon :''}
+        </Fab> 
+        </Tooltip>
+        {/* :  */}
+        {/* <ButtonPrimary  color={'secondary'} sx={(theme)=>({bgcolor: 'primary.50'})}>Back
+        </ButtonPrimary> */}
+        {/* } */}
       </RouterLink>
     </>
   );

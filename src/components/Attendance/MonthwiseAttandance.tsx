@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState } from 'react'
-import { Box, Container,Divider,Grid, IconButton, InputBase, ListItemSecondaryAction, Paper, } from '@mui/material';
+import { Box, Container,Divider,Fab,Grid, IconButton, InputBase, ListItemSecondaryAction, Paper, Tooltip, } from '@mui/material';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { TextField } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -15,6 +15,13 @@ import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import WebBackButton from 'src/libraries/button/WebBackButton';
 import Iconhelp from 'src/libraries/icon/Iconhelp';
 import DirectionsIcon from '@mui/icons-material/Directions';
+import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import MenuBook from '@mui/icons-material/MenuBook';
+import MenuTwoTone from '@mui/icons-material/MenuTwoTone';
+import Search from '@mui/icons-material/Search';
+import ReplyIcon from '@mui/icons-material/Reply';
+import { useTheme } from '@emotion/react';
+import Help from '@mui/icons-material/QuestionMark';
 
 const MonthwiseAttandance = () => {
     const dispatch = useDispatch();
@@ -22,18 +29,43 @@ const MonthwiseAttandance = () => {
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const StudentId = Number(sessionStorage.getItem('StudentId'))
-    const [search, setSearch] = useState(false)
-    const HeaderArray = [{ Id: 1, Header: "Roll No." }, { Id: 2, Header: "Student Name" }, { Id: 3, Header: "Mar" }, { Id: 4, Header: "Apr" }, { Id: 5, Header: "May" }, { Id: 6, Header: "Jun" }
-        , { Id: 7, Header: "Jul" }, { Id: 8, Header: "Aug" }, { Id: 9, Header: "Sep" }, { Id: 10, Header: "Oct" }, { Id: 10, Header: "Nov" }, { Id: 10, Header: "Dec" }, { Id: 11, Header: "Jan" }, { Id: 12, Header: "Feb" }, { Id: 13, Header: "Present Days" }, { Id: 14, Header: "Total Days" }, { Id: 15, Header: "%" }]
-    const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([])
-    const [SearchText, setSearchText] = useState("")
+    const StudentId = Number(sessionStorage.getItem('StudentId'));
+
+    const HeaderArray = [{ Id: 1, Header: "Roll No." }, { Id: 2, scope:'row', Header: "Student Name", align :' left'  }, { Id: 3, Header: "Mar" }, { Id: 4, Header: "Apr" }, { Id: 5, Header: "May" }, { Id: 6, Header: "Jun" }
+        , { Id: 7, Header: "Jul" }, { Id: 8,Header: "Aug" }, { Id: 9, Header: "Sep" }, { Id: 10, Header: "Oct" }, { Id: 10, Header: "Nov" }, { Id: 10, Header: "Dec" }, { Id: 11, Header: "Jan" }, { Id: 12, Header: "Feb" }, { Id: 13,scope:'row', Header: "Present Days" }, { Id: 14, scope:'row',Header: "Total Days" }, { Id: 15, Header: "%" }]
     const Note: string = "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days."
 
     const MonthWiseAttendance = useSelector((state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance);
 
+        const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([MonthWiseAttendance]);
+        const [search, setSearch] = useState(false);
+        const [SearchText, setSearchText] = useState("");
+      
+        const changeSearchText = () => {
+          if (SearchText === "") {
+            setMonthWiseAttendanceList(MonthWiseAttendance);
+          } else {
+            setMonthWiseAttendanceList(
+              MonthWiseAttendance.filter((item) => {
+                return item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+              })
+            );
+          }
+        };
+      
+        const SearchNameChange = (value) => {
+          setSearchText(value);
+        };
+      
+        const clickReset = () => {
+          setMonthWiseAttendanceList(MonthWiseAttendance);
+          setSearchText("");
+        };
+      
+
+    const theme = useTheme();
     const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
-        asSchoolId: asSchoolId,
+        asSchoolId: asSchoolId, 
         asAcademicyearId: asAcademicYearId,
         asStanardDivisionId: StandardDivisionId,
         TopRanker: 1000,
@@ -50,165 +82,112 @@ const MonthwiseAttandance = () => {
         setMonthWiseAttendanceList(MonthWiseAttendance)
     }, [MonthWiseAttendance])
 
-    const changeSearchText = (value) => {
-        setSearchText(value)
-        if (value == "") {
-
-            setMonthWiseAttendanceList(MonthWiseAttendance)
-        } else {
-            setMonthWiseAttendanceList(MonthWiseAttendanceList.filter((item) => { return item.Text2.toLowerCase().includes(value.toLowerCase()) }))
-        }
-
-    }
+ 
     const click = () => {
         navigate('/extended-sidebar/Teacher/TAttendance');
     };
     return (
-        <>
-          <div style={{marginLeft:'70px', marginRight:'50px', marginTop:'15px'}}>
-            {/* <Container sx={{marginTop:'20px'}} > */}
-             
-           <Grid sx={{margintop:'20vh'}} container >
-           <Grid item margin={0} padding={0} xs={3} >
-            <PageHeader heading={'Month Wise Attendance'}  subheading={''} />
-              {/* <Box  sx={{float :'right'}} >
-              
-            <Iconhelp  Note={Note}/> */}
-           {/* </Box> */}
+     
+          <>
+          {/* <div style={{ marginLeft: '70px', marginRight: '50px', marginTop: '15px' }}> */}
+            <Container sx={{marginTop:'20px'}}  maxWidth='xl' >
 
-           </Grid>
-           
-            <Grid sx={{mt:5, display:'flex', justifyContent:'flex-end', position:'relative' }} item xs={6}  >
-            
+            <Grid  container>
+                <Grid item margin={0} padding={0} xs={3} lg={3}>
+                    <PageHeader heading={'Month Wise Attendance'} subheading={''} />
+                   
+                </Grid>
+                <Grid item xs={1} />
 
-                  
-            {/* <Paper
-            component="form"
-              sx={{ p: '2px 4px', display: 'flex', alignItems: 'center', position:'relative' }}
-               > */}
-       
-          {search ? 
-          <TextField label={'Search by Name'}
-          name="SearchText" 
-          type="text"
-          size='small'
-           variant="outlined"
-         id="outlined-search"
-          sx={(theme)=>({flex:1 })}
+                <Grid sx={{ mt: 2  }} item xs={6} lg={8}>
+                <Grid container direction='row-reverse' >
 
-             value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth
 
-         />
-        //  <InputBase
-        //    sx={{ ml: 1, flex: 1,  }}
-        // placeholder="Search Google Maps"
-        //    inputProps={{ 'aria-label': 'search google maps' }}
-        //    />
-            :''}
+                        <WebBackButton icon={<ReplyIcon/>} FromRoute={'/Teacher/TAttendance/'} />
+                        <Tooltip title={Note}>
+                      <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
+                           <Help /> 
+                        </IconButton>
+                         </Tooltip>
+
+                     
+                       
+
+                    
+                         <Paper
+        component="form"
+        sx={{
+          display: 'flex',
+          justifyContent: 'flex-end',
+          alignItems: 'center',
+          my: 0,
+          py: 0,
+          mx: 0,
+          flexWrap: 'nowrap',
+        }}
+      >
+        {search ? (
+          <>
+            <InputBase
+              sx={{ ml: 1, flex: 1, width: '450px' }}
+              placeholder="Search Text"
+              inputProps={{ 'aria-label': 'search Text' }}
+              value={SearchText}
+              onChange={(e) => SearchNameChange(e.target.value)}
+            />
           
 
-      <IconButton  type="button" sx={{ position:'absolute', right:'8px' }} aria-label="search">
-        {/* <SearchIcon /> */}
-      </IconButton>
-      
-      {/* <Grid sx={{position:'relative'}} xs={1}> */}
+            <IconButton type="button" aria-label="search"   >
+              <CloseTwoTone onClick={clickReset} />
+            </IconButton>
+          </>
+        ) : (
+          ''
+        )}
+        <Divider sx={{ height: 28 }} orientation="vertical" />
 
-      {/* <Divider sx={{ height: 28, m: 0.5 }} orientation="vertical" /> */}
-      {/* <IconButton  sx={{ p: '10px' }} aria-label="directions"> */}
-      {/* <Iconhelp   Note={Note}/> */}
-      {/* </IconButton> */}
-      {/* </Grid> */}
-   </Grid>
-   
-    {/* </Paper> */}
-            {/* <TextField label={'Search by Name'}
-             name="SearchText" 
-             type="text"
-             size='small'
-              variant="outlined"
-            id="outlined-search"
-             sx={(theme)=>({mt:5})}
+        <IconButton
+          onClick={() => {
+            setSearch(!search);
+            changeSearchText();
+          }}
+          color="primary"
+          aria-label="directions"
+        >
+          <Tooltip title="search">
+            <SearchIcon />
+          </Tooltip>
+        </IconButton>
+      </Paper>
 
-                value={SearchText} onChange={(e) => { changeSearchText(e.target.value) }} fullWidth
-
-            /> */}
-            
-            <Grid item xs={1}/>
-            <Grid item sx={{position:'relative'}} xs={1}>
-            <IconButton onClick={()=>setSearch(!search)} type="button" sx={{ position:'absolute', right:'8px', bottom:'12px' }} aria-label="search">
-        <SearchIcon />
-      </IconButton>
-            </Grid>
-            {/* <Grid sx={(theme)=>({
-                display:'flex',
-                mt: 2,
-                bgcolor:'primary.600'
-             
-
-            })} item xs={1}>
-                
-            
-             
-            <Box sx={{ }} >
-              
-              <Iconhelp  Note={Note}/>
-           </Box>
-            </Grid> */}
-            <Grid item sx={{marginTop:'45px'}} xs={1}>
-                <Grid container>
-                    <Grid item xs={3}>
-                     <Iconhelp  Note={Note}/>
-
-                    </Grid>
-                    {/* <Grid item xs={5}>
-                      <WebBackButton FromRoute={'/Teacher/TAttendance/'} />
-                    </Grid> */}
-                    <Grid item xs={9}>
-                      <Box sx={{ textAlign:"right", marginTop:''}} >
-                <ButtonPrimary
-                    style={{backgroundColor: '#ef5350', marginBottom:'20px'}}
-                    onClick={click}
-                    className='bold'
-                >
-                   Close
-                </ButtonPrimary>
-                      </Box>
 
                     </Grid>
                 </Grid>
-                
-            </Grid>
-           </Grid>
-           {/* <Grid container>
-            <Grid item xs={4} sm={4}>bbbbbbbbbbbb</Grid>
-            <Grid item xs={4} sm={4}>bbbbbbbbbbbb</Grid>
-            <Grid item xs={4} sm={4}>bbbbbbbbbbbb</Grid>
-           </Grid> */}
-           {/* </Container> */}
-         
-      
-          
+                </Grid> 
+           
            
 
-            <TableAttendace ItemList={MonthWiseAttendance} HeaderArray={HeaderArray} />
 
-                </div>
+            
 
-            <Box sx={{ textAlign: "center", gap:'10px' }}  m={2}>
-                {/* <ButtonPrimary sx={{paddingX:'20px', marginRight:'10px'}}
-                >Back</ButtonPrimary> */}
+            <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
+
+            </Container>
+        <Box sx={{ textAlign: "center", gap: '10px' }} m={2}>   
                 <ButtonPrimary
-                    style={{backgroundColor: '#ef5350'}}
+                    style={{ backgroundColor: '#ef5350' }}
                     onClick={click}
                     className='bold'
                 >
-                   Close
+                    Back
                 </ButtonPrimary>
             </Box>
+            
+            </>
 
 
         
-        </>
+ 
     )
 }
 export default MonthwiseAttandance

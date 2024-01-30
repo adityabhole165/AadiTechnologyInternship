@@ -30,7 +30,7 @@ import { CardDetail2, ListStyle } from '../styled/CardStyle';
   }
 
   
-  function List17({ Name, BirthDate}) {
+  function List17({ Name, BirthDate, CalendarMonth=""}) {
     const [checked, setChecked] = useState(true);
     const theme = useTheme();
     const classes = Styles();
@@ -58,6 +58,9 @@ import { CardDetail2, ListStyle } from '../styled/CardStyle';
     const PresentDateFormat = `${PresntDay} ${PresentMonth}`;
 
     const presentDate = moment(new Date()).format("DD MMM")
+    const presentYear = moment(new Date()).format("yyyy")
+    const CalendarYear = CalendarMonth.substr(CalendarMonth.length - 4)
+    const IsHighlight = presentYear == CalendarYear
     const currentDayInMilli = new Date(presentDate).getTime();
     const oneDay = 1000 * 60 * 60 * 24;
     const nextDayInMilli = currentDayInMilli + oneDay;
@@ -110,10 +113,10 @@ const useStyles = makeStyles({
         <ListStyle
           sx={{
             background:
-              BirthDate === presentDateMonth ||
-              (BirthDate === NewDateFormat && presentDateMonth < BirthDate)
+              (IsHighlight && BirthDate === presentDateMonth ||
+              (BirthDate === NewDateFormat && presentDateMonth < BirthDate))
                 ? '#e9a69a' 
-                : nearestDate === BirthDate
+                : (IsHighlight && nearestDate === BirthDate)
                 ? '#e9a69a' 
                 : `${theme.colors.gradients.pink1}`,
           }}

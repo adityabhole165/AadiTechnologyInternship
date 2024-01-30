@@ -1,5 +1,5 @@
 import { FC, ReactNode ,useState } from 'react';
-import { Box, SwipeableDrawer, alpha, lighten, useTheme } from '@mui/material';
+import { Box, SwipeableDrawer, alpha, lighten, useMediaQuery, useTheme } from '@mui/material';
 import { Outlet } from 'react-router-dom';
 import ThemeSettings from 'src/layouts/components/ThemeSettings';
 import school5 from 'src/assets/img/school5.jpg';
@@ -17,6 +17,7 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
+  const isMobile = useMediaQuery('min-width : 600px ')
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -99,21 +100,15 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
           </SwipeableDrawer>
           </Box>
         {/* nevbarhide */}
-        <Box sx={{  position: "fixed",
+       {isMobile ?  ' ' :  <Box sx={{  position: "fixed",
                        bottom: 0,
                        flex: 1,
-                    
-                    
                        width: "100%",
                         zIndex: 9999,
-                       
-                        // pt:0,
-                        // [theme.breakpoints.up('lg')]: {
-                        //   ml: `${theme.sidebar.width}`
-                        // }
                        }} >
                    <Basenav />
                      </Box>
+}
 
 
         <Box

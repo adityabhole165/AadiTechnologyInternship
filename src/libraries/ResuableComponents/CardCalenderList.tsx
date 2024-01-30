@@ -4,7 +4,9 @@ import CardCal from './CardCal';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue,ArrayList }) {
-
+   const yearStyle ={
+    fontSize :'40px',
+   }
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return ((obj.Status == undefined ? obj.Text3 : obj.Status) == "Y")
@@ -29,53 +31,51 @@ function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMont
   return (
     <Card component={Box} p={2}>
       <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
+        <Box display='flex' justifyContent='space-between'>
+
+       <h1>
+       <b>{formattedDate}</b>
+       </h1>
+      
+        
+
+
+<div>
         <IconButton onClick={() => handlePrevMonth()} sx={{ float: 'left' }}>
           <Card  >
-            <ArrowBackIosNewIcon />
+            <ArrowBackIosNewIcon sx={{mt:1}} />
           </Card>
         </IconButton>
-        <b>{formattedDate}</b>
-    
-
         <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
           <Card >
-            <ArrowForwardIosIcon />
+            <ArrowForwardIosIcon sx={{mt:1}}/>
           </Card>
         </IconButton>
+</div>
         
-        <Grid container columnSpacing={0} rowSpacing={1}>
+        </Box>
+        <Grid container columnSpacing={0} rowSpacing={0}>
           {ArrayList.map((item, i) => (
             
-         <Grid item xs={1.7} md={1.7} sx={{ textAlign: "center" }} key={i}>
+         <Grid item xs={1.7} md={1.7} sx={{ textAlign: "center", pt:0 }} key={i}>
               
           <Box  sx={{
        
       }}>      
         <Typography  sx={{ textTransform: "capitalize" , textAlign: "center" , fontWeight:"bold"}}>{item.Header}</Typography>
         </Box> 
-              </Grid>
-              
-
-            
-
+         </Grid>
           ))}
           {ItemList.map((item, i) => {
           return (
-            <Grid item md={1.7} sx={{ textAlign: "center" , p:0}} key={i}>
+            <Grid item border='0.5px solid #ebebeb' md={1.7} sx={{ textAlign: "center" , pt:0}} key={i}>
 
               <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
             </Grid>
           )
         })
         }
-
         </Grid>
-
-      
-      
-      
-      
-      
       </Box>
     </Card>
   )

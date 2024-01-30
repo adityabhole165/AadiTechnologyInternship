@@ -1,4 +1,4 @@
-import { ToggleButton, ToggleButtonGroup, Typography, Grid } from '@mui/material'
+import { ToggleButton, ToggleButtonGroup, Typography, Grid, Tooltip } from '@mui/material'
 import React from 'react'
 
 function CardToggle1({ ItemList, clickToggle, defaultvalue }) {
@@ -9,6 +9,7 @@ function CardToggle1({ ItemList, clickToggle, defaultvalue }) {
                 {ItemList.map((item, i) => (
                     <div key={i}>
                         <Grid item xs={2}>
+                            <Tooltip title={item.Text}>
                             <ToggleButtonGroup
                                 color="primary"
                                 value={defaultvalue}
@@ -17,6 +18,7 @@ function CardToggle1({ ItemList, clickToggle, defaultvalue }) {
                                 aria-label="Platform" >
                                 <ToggleButton value={item.id} sx={{width:"100px", ml:"5px"}}>{item.Text}</ToggleButton>
                             </ToggleButtonGroup>
+                            </Tooltip>
                         </Grid>
                         </div>
                 ))}

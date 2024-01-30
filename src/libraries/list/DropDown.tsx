@@ -1,10 +1,10 @@
 import React from 'react'
 import { MenuItem ,FormControl ,InputLabel ,Select ,Box ,NativeSelect} from '@mui/material'
-function DropDown({itemList, ClickItem , DefaultValue ,Label }) {
+function DropDown({itemList, ClickItem , DefaultValue ,Label, width }) {
   return (
     <div>
-    <Box >
-    <FormControl fullWidth>
+    <Box width={width}>
+    <FormControl sx={{mx:1}} fullWidth>
         <NativeSelect fullWidth
                 value={DefaultValue}
                 onChange={(e) => ClickItem(e.target.value)}
