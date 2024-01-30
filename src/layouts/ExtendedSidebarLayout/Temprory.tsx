@@ -55,8 +55,8 @@ export default function SwipeableTemporaryDrawer({ opend, event }) {
       case 'MonthwiseAttendance':
         navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
         break;
-      case 'Assign Homework':
-        navigate('/extended-sidebar/Teacher/AssignHomework');
+      case 'SchoolAttendanceOverview':
+        navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview');
         break;
       case 'Attendance':
         navigate('/extended-sidebar/Teacher/TAttendance');
@@ -104,7 +104,7 @@ const sideList =[
   {title:' Dashboard', icon:<Dashboard/>},
   {title: 'MonthwiseAttendance', icon: <CalendarToday /> },
   
-  {title:'Assign Homework', icon:<Assignment/>},
+  {title:'SchoolAttendanceOverview', icon:<Assignment/>},
   {title:'Attendance', icon:<DateRange/>},
   {title:'Assign Exam Marks', icon:<FeaturedPlayList/>},
   {title:'Change Password', icon:<Password/>},
