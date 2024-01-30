@@ -62,7 +62,6 @@ function Card4({
           </BoxWrapper>
 
           {Attachments.length === 0 ? null : (
-            <>
               <BoxWrapper>
                 <CardDetail1> {ViewDetail.AttachmentPath}</CardDetail1>
                 <CardDetail3
@@ -73,6 +72,9 @@ function Card4({
 
                   {Attachments}
                 </CardDetail3>
+                
+              </BoxWrapper>
+          )}
                 {
                   MoreAttachments.map((Attachments,i) => {
                     return (
@@ -89,9 +91,6 @@ function Card4({
                   }
                   )
                 }
-              </BoxWrapper>
-            </>
-          )}
 
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
