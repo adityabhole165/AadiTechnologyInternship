@@ -56,12 +56,15 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
       clickItem(Value)
   }
 
+console.log(item.Text1,"Text1",item.Text1.split('')[0],"----",item);
 
   return (
 
     <div>
 
-      <Card  component={Box} py={0} my={0} sx={{backgroundColor:bg[item.Text1.split('')[0].toLowerCase()],color:color[item.Text1.split('')[0].toLowerCase()], ...cardStyle, fontWeight:'700'}} textAlign='center' display='flex'  alignItems='center' justifyContent='center'>
+      <Card  component={Box} py={0} my={0}
+      //  sx={{backgroundColor:bg[item.Text1.split('')[0].toLowerCase()],color:color[item.Text1.split('')[0].toLowerCase()], ...cardStyle, fontWeight:'700'}}
+        textAlign='center' display='flex'  alignItems='center' justifyContent='center'>
            <Box dangerouslySetInnerHTML={{ __html: item.Name}}>
           </Box>
         {/* <Typography sx={{color: color[String(item.Text1).split('')[0].toLowerCase()]}}    >

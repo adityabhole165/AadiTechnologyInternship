@@ -15,6 +15,7 @@ export interface  IGetAssociatedStdLstForTeacherDropDownResult
     Teacher_Id: string,
     Standard_Name: string,
     User_Id: string
+    
 }
 
 export interface  IGetAllDivisionsForStandardDropDownBody
@@ -24,6 +25,7 @@ export interface  IGetAllDivisionsForStandardDropDownBody
     asSchoolId:number,
     asAcademicYearId:number,
     asStandardId:number
+    
     }
 
     export interface  IGetAllDivisionsForStandardDropDownResult

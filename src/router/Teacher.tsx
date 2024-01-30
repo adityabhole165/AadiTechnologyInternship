@@ -24,7 +24,7 @@ const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAtt
 const AddAnnualPlaner = Loader(lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner')))
 const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/MonthwiseAttandance')))
 const AssignExamMark= Loader(lazy(() => import('src/components/AssignExamMark/AssignExamMark')))
-const AnnualPalnerBaseScreen= Loader(lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
+const AnnualPlanerBaseScreen= Loader(lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
 const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/AssignHomework')))
 const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight')))
 const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
@@ -113,8 +113,8 @@ const teacherRoutes = [
     },
 
     {
-      path: 'AnnualPalnerBaseScreen',
-      element: <AnnualPalnerBaseScreen/>
+      path: 'AnnualPlanerBaseScreen',
+      element: <AnnualPlanerBaseScreen/>
     },
     
 

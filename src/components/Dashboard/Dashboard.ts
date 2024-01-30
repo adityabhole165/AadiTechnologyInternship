@@ -370,12 +370,12 @@ const DashboardData = {
       },
 
       {
-        Text1: 'AnnualPalner',
+        Text1: 'AnnualPlaner',
         Text2: 'BaseScreen',
         Color: '#ef5350',
         iconColor: '#f0483e ',
         Icon: EventIcon,
-        Link: 'Teacher/AnnualPalnerBaseScreen',
+        Link: 'Teacher/AnnualPlanerBaseScreen',
         index: 2,
        
       },

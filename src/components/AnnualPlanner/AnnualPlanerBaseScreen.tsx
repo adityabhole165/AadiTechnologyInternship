@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
@@ -16,18 +17,25 @@ import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
 import Note from 'src/libraries/Note/Note';
 import AnnualPlanerLegend from 'src/libraries/summary/AnnualPlanerLegend';
 import Icon1 from 'src/libraries/icon/icon1';
+import CardCalenderList from 'src/libraries/ResuableComponents/CardCalenderList';
 
-function AnnualPalnerBaseScreen() {
+const AnnualPlanerBaseScreen = () => {
+
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
   const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
 
   const dispatch = useDispatch();
   const SelectStandardList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList);
+  console.log(SelectStandardList,"SelectStandardListv");
   const SelectDivisionList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList);
   console.log(SelectDivisionList,"SelectDivisionListv");
   const SelectMonthList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList);
+  console.log(SelectMonthList,"SelectMonthListtt");
+  
   const SelectYearList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList);
+  console.log(SelectYearList,"SelectYearListt");
+  
   const USGetEventsDataList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList);
 console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
@@ -150,13 +158,21 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
   useEffect(() => {
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
-    dispatch(GetDivisionList(AllDivisionsForStandardBody));
-    dispatch(GetMonthList(GetAllMonthsDropBody));
-    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
-    //dispatch(CDAAssociatedStandards(AssociatedStandardsBody));
-
-
+   
   }, []);
+  useEffect(() => {
+    dispatch(GetDivisionList(AllDivisionsForStandardBody));
+   
+  }, []);
+  useEffect(() => {
+    dispatch(GetMonthList(GetAllMonthsDropBody));
+   
+  }, []);
+  useEffect(() => {
+    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+   
+  }, []);
+  
 
 
 
@@ -224,65 +240,69 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
 
 
+
+
+
+
   return (
-
     <Container maxWidth={'xl'}>
-      <PageHeader heading={'Annual Planner'} subheading={''} />
-      <Box sx={{ float: "right" }}>
-        <Icon1 Note={Note} />
-      </Box>
-        <Box sx={{ display: 'flex', gap: '20px' }}>
-            <AnnualPlanerLegend color='Holiday' text='Holidays' />
-            <AnnualPlanerLegend color='Exam' text='Exams' />
-            <AnnualPlanerLegend color='Events' text='Events' />
-          </Box>
-   
-      <Grid container spacing={2} >
-        <Grid item xs={1}>
-          <Card sx={{backgroundColor:"#BEDAE3"}}>
-          <Typography component={Box}  p={0.5}>Select Std :</Typography>
-          </Card>
-        
-        </Grid>
-        <Grid item xs={2}>
-          <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
-        </Grid>
-        <Grid item xs={1}>
+    <PageHeader heading={'Annual Planner'} subheading={''} />
+    <Box sx={{ float: "right" }}>
+      <Icon1 Note={Note} />
+    </Box>
+      <Box sx={{ display: 'flex', gap: '20px' }}>
+          <AnnualPlanerLegend color='Holiday' text='Holidays' />
+          <AnnualPlanerLegend color='Exam' text='Exams' />
+          <AnnualPlanerLegend color='Events' text='Events' />
+        </Box>
+ 
+    <Grid container spacing={2} >
+      <Grid item xs={1}>
         <Card sx={{backgroundColor:"#BEDAE3"}}>
-          <Typography component={Box}  p={0.5}>Select Div :</Typography>
-          </Card>
-        </Grid>
-        <Grid item xs={2}>
-          <Dropdown Array={SelectDivisionList} handleChange={clickdivisionDropdown} defaultValue={selectDivision} label={"Select Division"} />
-        </Grid>
-        <Grid item xs={1.2}>
-        <Card sx={{backgroundColor:"#BEDAE3"}}>
-          <Typography component={Box}  p={0.5}>Select Month : </Typography>
-          </Card>
-        </Grid>
-        <Grid item xs={1.8}>
-          <Dropdown Array={SelectMonthList} handleChange={clicMonthDropdown} defaultValue={selectMonth} label={"Select Month"} />
-        </Grid>
-        <Grid item xs={1}>
-        <Card sx={{backgroundColor:"#BEDAE3"}}>
-          <Typography component={Box}  p={0.5}>Select Year :</Typography>
-          </Card>
-        </Grid>
-        <Grid item xs={2}>
-          <Dropdown Array={SelectYearList} handleChange={clicYearDropdown} defaultValue={selectYear} label={"Select Year"} />
-        </Grid>
+        <Typography component={Box}  p={0.5}>Select Std :</Typography>
+        </Card>
+      
       </Grid>
-      <br></br>
+      <Grid item xs={2}>
+        <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
+      </Grid>
+      <Grid item xs={1}>
+      <Card sx={{backgroundColor:"#BEDAE3"}}>
+        <Typography component={Box}  p={0.5}>Select Div :</Typography>
+        </Card>
+      </Grid>
+      <Grid item xs={2}>
+        <Dropdown Array={SelectDivisionList} handleChange={clickdivisionDropdown} defaultValue={selectDivision} label={"Select Division"} />
+      </Grid>
+      <Grid item xs={1.2}>
+      <Card sx={{backgroundColor:"#BEDAE3"}}>
+        <Typography component={Box}  p={0.5}>Select Month : </Typography>
+        </Card>
+      </Grid>
+      <Grid item xs={1.8}>
+        <Dropdown Array={SelectMonthList} handleChange={clicMonthDropdown} defaultValue={selectMonth} label={"Select Month"} />
+      </Grid>
+      <Grid item xs={1}>
+      <Card sx={{backgroundColor:"#BEDAE3"}}>
+        <Typography component={Box}  p={0.5}>Select Year :</Typography>
+        </Card>
+      </Grid>
+      <Grid item xs={2}>
+        <Dropdown Array={SelectYearList} handleChange={clicYearDropdown} defaultValue={selectYear} label={"Select Year"} />
+      </Grid>
+    </Grid>
+    <br></br>
 
-      <CardCalender ItemList={USGetEventsDataList} ClickItem={ClickItemList}
-        formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
+    <CardCalender ItemList={USGetEventsDataList} ClickItem={ClickItemList}
+      formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
 
 
 
-    </Container>
+  </Container>
 
 
-  );
+);
+  
 }
 
-export default AnnualPalnerBaseScreen;
+export default AnnualPlanerBaseScreen
