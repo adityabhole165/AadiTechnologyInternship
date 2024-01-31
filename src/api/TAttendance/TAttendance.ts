@@ -37,7 +37,7 @@ const DeleteAttendance = (data:IDeleteAttendanceBody) => {
 
 
 const ClassTeacherDropdownnew = (data:IGetClassTeachersBodynew) => {
-    return http.post<IGetClassTeachersResultnew[]>('Teacher/GetClassTeachers',data);
+    return http.post<IGetClassTeachersResultnew[]>('Teacher/GetAllPrimaryClassTeacherss',data);
 };
 
 

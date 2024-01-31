@@ -190,8 +190,9 @@ import DropDown from 'src/libraries/list/DropDown';
             const ClassTeachernewBody: IGetClassTeachersBodynew =
             {
                 asSchoolId: Number(asSchoolId),
-                 asAcademicYearId: Number(asAcademicYearId),
-                 asTeacherId: Number(GetScreenPermission()=="Y"?0:selectClasstecahernew)
+                asAcadmicYearId: Number(asAcademicYearId),
+                asTeacher_id: Number(GetScreenPermission()=="Y"?0:selectClasstecahernew)
+                 
         
         }
              dispatch(CDAGetTeacherNameList(ClassTeachernewBody))
