@@ -214,7 +214,7 @@ const MessageList = () => {
         if (academicYear !== '') {
             dispatch(getListOfMessages(getListBody, activeTab, false));
         }
-    }, [activeTab, isSearchClicked, isRefresh, monthYear]);
+    }, [activeTab, isSearchClicked, isRefresh, ]);
     
     
 
