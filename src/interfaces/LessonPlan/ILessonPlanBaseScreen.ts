@@ -7,8 +7,8 @@ export interface IGetLessonPlanListBody{
      asStartIndex:number,
       asEndIndex:number, 
       asIsRecordCount:number,
-       asStartDate:number, 
-       asEndDate:number, 
+       asStartDate:string, 
+       asEndDate:string, 
        asRecordCount:number
 }
 
@@ -26,15 +26,12 @@ export interface IGetLessonPlanListResult{
 
 export interface IDeleteLessonPlanBody{
 
-   asSchoolId:Number, 
-   asAcademicYearId:Number,
-   asUpdatedById:Number,
-   asUserId:Number,
+   asSchoolId:number, 
+   asAcademicYearId:number,
+   asUpdatedById:number,
+   asUserId:number,
    aasStartDate:string,
    aasEndDate:string
-}
-
-export interface IDeleteLessonPlanResult{
 }
 
 export interface IGetLessonPlanDetailsForReportBody{

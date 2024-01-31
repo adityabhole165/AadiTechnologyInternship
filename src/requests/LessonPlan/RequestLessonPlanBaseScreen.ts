@@ -41,13 +41,16 @@ export const lessonplanlist =
       let abc = response.data.map((item, i) => {
         return {
             Id:i,
-            Text1:  getDateMonthYearFormatted(item.StartDate),
-            Text2: getDateMonthYearFormatted(item.EndDate),
+            Text1:item.StartDate,
+            Text2:item.EndDate,
+            Text7:item.IsSubmitted
            // Text6: "Export"
             
         }   
       })
       dispatch(LessonPlanBaseScreenSlice.actions.lessonplanlist(abc))
+      console.log(abc,"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+      
     }
     export const deletelessonplan =
     (data: IDeleteLessonPlanBody): AppThunk =>

@@ -46,11 +46,8 @@ const FinalResult = () => {
 
 
     const GetClassTeachers = useSelector((state: RootState) => state.FinalResult.ClassTeachers);
-    console.log("GetClassTeachersS", GetClassTeachers)
-
     const GetStudentLists = useSelector((state: RootState) => state.FinalResult.StudentResultList);
-    console.log("GetStudentLists", GetStudentLists)
-
+    
     useEffect(() => {
         dispatch(ClassTechersList(ClassTeachersBody))
     }, [])
