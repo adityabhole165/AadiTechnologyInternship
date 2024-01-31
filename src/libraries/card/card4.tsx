@@ -75,23 +75,23 @@ function Card4({
                 
               </BoxWrapper>
           )}
-                {
-                  MoreAttachments.map((Attachments,i) => {
-                    return (
-                      <CardDetail3
-                        onClick={(event: React.MouseEvent<HTMLElement>) => {
-                          window.open(file_path + Attachments);
-                        }} color="#628def"
-                        key={i}
-                      >
-
-                        {Attachments}
-                      </CardDetail3>
-                    )
-                  }
-                  )
-                }
-
+              {
+  MoreAttachments.map((Attachments, i) => {
+    return (
+      <>
+        <CardDetail1>{ViewDetail.AttachmentPath}</CardDetail1>
+        <CardDetail3
+          onClick={(event: React.MouseEvent<HTMLElement>) => {
+            window.open(file_path + Attachments);
+          }}
+          color="#628def"
+        >
+          {Attachments}
+        </CardDetail3>
+        </>
+    );
+  })
+}
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
             <CardDetail2>  {

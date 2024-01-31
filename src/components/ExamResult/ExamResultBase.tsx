@@ -23,7 +23,7 @@ const ExamResultBase = () => {
 
   const [TestId, setTestId] = useState("0")
   const [DisplayNote,setDisplayNote]=useState([])
-  
+
   const ScreensAccessPermission = JSON.parse(sessionStorage.getItem('ScreensAccessPermission'));
    console.log("ScreensAccessPermission",ScreensAccessPermission)
 
@@ -142,6 +142,17 @@ const ExamResultBase = () => {
   const onClickUnpublish= (value) => {
     navigate('/extended-sidebar/Teacher/ExamResultUnpublish/'+TestId+'/'+StandardDivisionId+'/'+getExamName()+'/'+getTeacherName());
   }
+  const getTeacherId = () => {
+    let TeacherId = ""
+    ClassTeachers.map((item)=>{
+        if(item.Value == StandardDivisionId)
+        TeacherId = item.Id
+    })
+    return TeacherId;
+}
+  const Toppers = (value) => {
+    navigate('/extended-sidebar/Teacher/FinalResultToppers/'+getTeacherId());
+  }
 
   return (
     <Container>
@@ -164,7 +175,7 @@ const ExamResultBase = () => {
           <br></br>
 
         </Grid>
-        <ButtonPrimary >Topper</ButtonPrimary>
+        <ButtonPrimary variant='contained' style={{ marginLeft: "60px", backgroundColor: 'Blue' }} onClick={Toppers}> TOPPERS  </ButtonPrimary>
 
       </Grid>
       <br></br>

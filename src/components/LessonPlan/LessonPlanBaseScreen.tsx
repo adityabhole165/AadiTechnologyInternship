@@ -35,10 +35,10 @@ const LessonPlanBaseScreen = () => {
   const TeacherName = (sessionStorage.getItem('StudentName'));
 
 
-    const [asStartDate, setStartDate]= useState();
-  const [asEndDate, setEndDate] = useState();
-  console.log("StartDate---", asStartDate)
-  console.log("EndDate---", asEndDate)
+    const [StartDate, setStartDate]= useState();
+  const [EndDate, setEndDate] = useState();
+  console.log("StartDate---", StartDate)
+  console.log("EndDate---", EndDate)
 
   const LessonPlanList : any = useSelector((state: RootState) => state.LessonPlanBase.LessonList)
   console.log("LessonPlanList", LessonPlanList)
@@ -85,21 +85,21 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asStartIndex:0,
      asEndIndex:20, 
      asIsRecordCount:0, 
-     asStartDate:asStartDate, 
-     asEndDate:asEndDate, 
+     asStartDate:StartDate, 
+     asEndDate:EndDate, 
      asRecordCount:null
     }
 
    
   useEffect(() => {
     dispatch(lessonplanlist(GetLessonPlanListBody))
-  }, [asStartDate,asEndDate]);
+  }, [StartDate,EndDate]);
 
   const GetLessonPlanReportBody:IGetLessonPlanDetailsForReportBody={
     asSchoolId:asSchoolId,
     asAcademicYearId:asAcademicYearId,
-    asStartDate:asStartDate,
-    asEndDate:asEndDate,
+    asStartDate:StartDate,
+    asEndDate:EndDate,
     asUserId:asUserId,
     asStandardDivisionId:asStandardDivisionId,
     asSubjectId:0
@@ -107,7 +107,7 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
   useEffect (()=>{
     dispatch(GetLessonPlanreport(GetLessonPlanReportBody))
   },[])
-  
+   
 
   useEffect(() => {
     if(DeleteLessonPlan!==""){
@@ -116,19 +116,27 @@ const GetLessonPlanListBody: IGetLessonPlanListBody = {
     },
   [DeleteLessonPlan])
   const clickDelete=(Id)=>{
+    if(Id.Action=="CloseIcon"){
+             LessonPlanList.map((item,i)=>{
+               if(i==Id){
+                 LessonPlanList.map((item,i)=>{
+              
+             })
+               }
+             })
     if(confirm('Are You Sure you want to delete The List')){
     const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
       asSchoolId: asSchoolId, 
       asAcademicYearId: asAcademicYearId,
       asUpdatedById: asUserId,
       asUserId: asUserId,
-      aasStartDate:asStartDate, 
-      aasEndDate:asEndDate
+      aasStartDate:StartDate, 
+      aasEndDate:EndDate
     }
     dispatch(deletelessonplan(DeleteLessonPlanBody))
   }
 }
- 
+}
 
 //   const clickDelete = (Id) => {
 //     if(Id.Action=="CloseIcon"){
@@ -275,7 +283,7 @@ const OnClickExportAll=()=>{
   </Grid>
   
   <Grid item xs={2}>
-  <TextField  type='date' value={asStartDate} variant='standard' onChange={(e) => { onSelectStartDate(e.target.value) }}/>
+  <TextField  type='date' value={StartDate} variant='standard' onChange={(e) => { onSelectStartDate(e.target.value) }}/>
   </Grid>
   </Grid>
 <br></br>
@@ -289,7 +297,7 @@ const OnClickExportAll=()=>{
   </Grid>
   
   <Grid item xs={2}>
-  <TextField  type='date' value={asEndDate} variant='standard' onChange={(e) => { onSelectEndDate(e.target.value) }}/>
+  <TextField  type='date' value={EndDate} variant='standard' onChange={(e) => { onSelectEndDate(e.target.value) }}/>
   </Grid>
   </Grid>
   <br></br>
