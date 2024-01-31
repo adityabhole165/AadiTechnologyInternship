@@ -42,24 +42,9 @@ function SubHeaderNavBar( {toggleDrawer}) {
 
 
 
-                     <ButtonGroup>
-                        <Button variant='contained' sx={{backgroundColor:'transparent' }}>
-                        <NavBarItem Item='ggg' key=''></NavBarItem>
+                   
 
-                        </Button>
-                        <Button sx={{":hover":{
-                            backgroundColor:'#fff'
-                        }}}>
-                        <NavBarItem Item='ggg' key=''></NavBarItem>
-
-                        </Button>
-                        <Button>
-                        <NavBarItem Item='ggg' key=''></NavBarItem>
-
-                        </Button>
-                     </ButtonGroup>
-
-                    {/* <Tabs
+                    <Tabs
                         value={value}
                         onChange={handleChange}
                         indicatorColor='primary'
@@ -87,9 +72,11 @@ function SubHeaderNavBar( {toggleDrawer}) {
                             <Tab value='5' label={
                                 <Typography sx={{   color: "white" }}>Attendance</Typography>}></Tab>
                                 <Tab value='6' label={
-                    <Typography sx={{   color: "white" }}>Homework</Typography>}></Tab>
+                    <Typography sx={{   color: "white" }}>Homework</Typography>}>
+
+                    </Tab>
                      
-                    </Tabs> */}
+                    </Tabs>
 
                 </Toolbar>
             </AppBar>

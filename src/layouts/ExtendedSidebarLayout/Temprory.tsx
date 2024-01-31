@@ -33,6 +33,7 @@ import FactCheck from '@mui/icons-material/FactCheck';
 import CropSquareTwoTone from '@mui/icons-material/CloseSharp';
 import { useNavigate } from 'react-router';
 import Reply from '@mui/icons-material/Reply';
+import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
 export default function SwipeableTemporaryDrawer({ opend, event }) {
@@ -55,8 +56,8 @@ export default function SwipeableTemporaryDrawer({ opend, event }) {
       case 'MonthwiseAttendance':
         navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
         break;
-      case 'SchoolAttendanceOverview':
-        navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview');
+      case 'Assign Homework':
+        navigate('/extended-sidebar/Teacher/AssignHomework');
         break;
       case 'Attendance':
         navigate('/extended-sidebar/Teacher/TAttendance');
@@ -104,7 +105,7 @@ const sideList =[
   {title:' Dashboard', icon:<Dashboard/>},
   {title: 'MonthwiseAttendance', icon: <CalendarToday /> },
   
-  {title:'SchoolAttendanceOverview', icon:<Assignment/>},
+  {title:'Assign Homework', icon:<Assignment/>},
   {title:'Attendance', icon:<DateRange/>},
   {title:'Assign Exam Marks', icon:<FeaturedPlayList/>},
   {title:'Change Password', icon:<Password/>},
@@ -175,7 +176,7 @@ const toggleDrawer =
         spacing={2}
         
       >
-        <img onClick={event} src={imgsrc} className={classes.smalllogo}/>
+        <img src={imgsrc} className={classes.smalllogo}/>
       </Stack>
       {/* <img src={imgsrc} alt='photo' /> */}
       <Divider />
@@ -204,8 +205,8 @@ const toggleDrawer =
       }
       }>
         <Tooltip title='Back'>
-        <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
-         <Reply/> 
+        <IconButton onClick={event} sx={{ color:'white',backgroundColor:'gray', mx:1, my:.5 ,":hover":{backgroundColor:'gray'}}} >
+         <CloseTwoTone/> 
          </IconButton>
         </Tooltip>
         {/* <Toolbar title='Close'>

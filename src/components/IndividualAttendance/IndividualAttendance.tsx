@@ -1,5 +1,5 @@
-import React from 'react'
-import { Box, Container, Divider, Grid, IconButton, InputBase, Paper, TextField, Tooltip } from '@mui/material';
+import React, { useRef } from 'react'
+import { Box, Button, Card, Container, Divider, Grid, IconButton, InputBase, Paper, Popover, TextField, Tooltip, Typography } from '@mui/material';
 import { useState } from 'react'
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -24,7 +24,7 @@ import Iconhelp from 'src/libraries/icon/Iconhelp';
 import { useTheme } from '@mui/styles';
 import Reply from '@mui/icons-material/Reply';
 import Help from '@mui/icons-material/QuestionMark';
-import SaveAlt from '@mui/icons-material/SaveAlt';
+import SaveAlt from '@mui/icons-material/Save';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import AccountBoxTwoTone from '@mui/icons-material/AccountBoxTwoTone';
 
@@ -152,7 +152,20 @@ const IndividualAttendance = () => {
     setItemList(value)
     setAttendanceXML("<Attendance>" + getAttendanceString(value) + "</Attendance>")
   }
+  const ref = useRef<any>(null);
+  const [isOpenSave, setOpenSave] = useState<boolean>(false);
+  const [isOpenPresent, setOpenPresent] = useState<boolean>(false);
+  const [isOpenAbsent, setOpenAbsent] = useState<boolean>(false);
 
+  const handleSave = (): void => {
+    setOpenSave(!isOpenSave);
+  };
+  const handlePresent = (): void => {
+    setOpenPresent(!isOpenPresent);
+  };
+  const handleAbsent = (): void => {
+    setOpenAbsent(!isOpenAbsent);
+  };
 
   const getAttendanceString = (AttendanceList) => {
     var XMLString = ""
@@ -205,21 +218,75 @@ const IndividualAttendance = () => {
                            <Help /> 
                         </IconButton>
                          </Tooltip>
-                         <Tooltip title='Present Mark'>
-                      <IconButton  sx={{ color:'white',backgroundColor:'gray',  height: '36px !important',":hover":{backgroundColor:'gray'}}} >
+                      <IconButton onClick={handleSave}  sx={{ color:'white',backgroundColor:'gray',  height: '36px !important',":hover":{backgroundColor:'gray'}}} >
+                         <Tooltip title='Save'>
                           <SaveAlt/>
-                        </IconButton>
                          </Tooltip>
+                        </IconButton>
+                         <Popover
+                            disableScrollLock
+                            anchorEl={ref.current}
+                            onClose={()=>setOpenSave(!isOpenSave)}
+                            open={isOpenSave}
+                            anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center'
+                       }}
+                       transformOrigin={{
+                         vertical: 'center',
+                         horizontal: 'center'
+                       }}
+                       
+                     >
+                      <Card  sx={{py:5}} >
+                       <Box width={400} gap={5} alignContent='center' mx={2} >
+                       <Typography color='' mb={3} textAlign={'center'}>
+                       Are you sure, Do you want to change update?
+                       </Typography>
+                       <Stack direction='row' gap={7} mx={5} justifyContent='space-between'>
+                         <Button  variant='outlined' sx={{px:6}} color='error' onClick={handleSave}>Cancel</Button>
+                         <Button  variant='contained' sx={{px:6,backgroundColor:'rgb(40, 160, 235)', color:'white'}}  color='primary'>Confirm</Button>
+                       </Stack>
+                       </Box>
+                      </Card>
+                    </Popover>
+                      <IconButton onClick={handleAbsent}  sx={{ color:'white', height: '36px !important', width:"36px",backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'rgb(245, 17, 17)'}}} >
+                         <Tooltip title='Absent All'>
+                          <h5>A</h5>
+                         </Tooltip>
+                        </IconButton>
+                           <Popover
+                            disableScrollLock
+                            anchorEl={ref.current}
+                            onClose={()=>setOpenAbsent(!isOpenAbsent)}
+                            open={isOpenAbsent}
+                            anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center'
+                       }}
+                       transformOrigin={{
+                         vertical: 'center',
+                         horizontal: 'center'
+                       }}
+                       
+                     >
+                      <Card  sx={{py:5}} >
+                       <Box width={400} gap={5} alignContent='center' mx={2} >
+                       <Typography color='' mb={3} textAlign={'center'}>
+                       Are you sure you want the chosen student to be marked as absent on each day?
+                       </Typography>
+                       <Stack direction='row' gap={7} mx={5} justifyContent='space-between'>
+                         <Button  variant='outlined' sx={{px:6}} color='error' onClick={handleAbsent}>Cancel</Button>
+                         <Button  variant='contained' sx={{px:6,backgroundColor:'rgb(40, 160, 235)', color :'white'}}  color='primary' >Confirm</Button>
+                       </Stack>
+                       </Box>
+                      </Card>
+                    </Popover>
+                      <IconButton onClick={handlePresent}  sx={{ color:'white',backgroundColor:'gray', width:"36px",  height: '36px !important',":hover":{backgroundColor:'green'}}} >
                          <Tooltip title='Present Mark'>
-                      <IconButton  sx={{ color:'white', height: '36px !important',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'rgb(245, 17, 17)'}}} >
-                          <h3>A</h3>
-                        </IconButton>
+                          <h5>P</h5>
                          </Tooltip>
-                         <Tooltip title='Present Mark'>
-                      <IconButton  sx={{ color:'white',backgroundColor:'gray',  height: '36px !important',":hover":{backgroundColor:'green'}}} >
-                          <h3>P</h3>
                         </IconButton>
-                         </Tooltip>
                       <Paper
                    component="form"
                 sx={{  display: 'flex', justifyContent:"flex-end", alignItems: 'center', my:0, py:0, mr:1 ,ml:0,  flexWrap:'nowrap'}}>
@@ -227,12 +294,6 @@ const IndividualAttendance = () => {
                              {search ?
                         <>
                          <Dropdown width='400px' itemList={StudentList} ClickItem={clickStudent} DefaultValue={StudentId} Label={'SelectStudent'} />
-                        
-                      {/* <InputBase
-                        sx={{ ml: 1, flex: 1, width:'450px' }}
-                        placeholder="Search Text"
-                        inputProps={{ 'aria-label': 'search Text' }}
-                        /> */}
                       <IconButton type="button"  aria-label="search">
                         <CloseTwoTone/>
                       </IconButton>
@@ -250,11 +311,7 @@ const IndividualAttendance = () => {
        </Grid> 
            
             
-          <Box sx={{my:1}}>
-
-        <CardToggle1  ItemList={itemlist2} clickToggle={clickTogle} defaultvalue={IsPresentAbsent} />
-          </Box>
-        
+       
           
        
         <br></br>
@@ -262,8 +319,8 @@ const IndividualAttendance = () => {
           ClickItem={ClickItem}
           handlePrevMonth={handlePrevMonth} handleNextMonth={handleNextMonth}
           formattedDate={formattedDate} DefaultValue={DefaultValue} ArrayList={HeaderPublish} />
-           <Grid container sx={{ mt:2}}>
-          <Grid item sx={{}} gap={5} display='flex' xs={12} lg={12}>
+           <Grid container sx={{ mt:2, mx:2}}>
+          <Grid item sx={{}} gap={6} display='flex' xs={12} lg={12}>
             <DotLegendTeacher color="primary" text="Present" />
             <DotLegendTeacher color="error" text="Absent" />
             <DotLegendTeacher color="success" text="Holiday" />
@@ -275,23 +332,51 @@ const IndividualAttendance = () => {
           </Grid>
         </Grid>
         <br></br>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', gap:6 }}>
           <ButtonPrimary
           color='secondary'
-            style={{  backgroundColor: '#ef5350', width:"90px"}}
+            style={{   width:"90px"}}
             onClick={click}
           >
             Back
           </ButtonPrimary>
         
           <ButtonPrimary disabled={!IsClicked}
-          color='success'
-            onClick={SaveFile} 
-            sx={{ml:1 , width:"90px"}}
+             
+            onClick={handleSave} 
+            sx={{ml:1 , width:"90px", backgroundColor:'rgb(40, 160, 235),', color:'white'}}
+            
           >
             Save
           </ButtonPrimary>
         </div>
+        <Popover
+                            disableScrollLock
+                            anchorEl={ref.current}
+                            onClose={()=>setOpenPresent(!isOpenPresent)}
+                            open={isOpenPresent}
+                            anchorOrigin={{
+                            vertical: 'center',
+                            horizontal: 'center'
+                       }}
+                       transformOrigin={{
+                         vertical: 'center',
+                         horizontal: 'center'
+                       }}
+                       
+                     >
+                      <Card  sx={{py:5}} >
+                       <Box width={400} gap={5} alignContent='center' mx={2} >
+                       <Typography color='' mb={3} textAlign={'center'}>
+                       Are you sure you want the chosen student to be marked as present on each day?
+                       </Typography>
+                       <Stack direction='row' gap={7} mx={5} justifyContent='space-between'>
+                         <Button  variant='outlined' sx={{px:6}} color='error' onClick={handlePresent}>Cancel</Button>
+                         <Button  variant='contained' sx={{px:6, backgroundColor:'rgb(40, 160, 235)', color:'white'}}  color='primary' >Confirm</Button>
+                       </Stack>
+                       </Box>
+                      </Card>
+                    </Popover>
       </Container>
   )
 }

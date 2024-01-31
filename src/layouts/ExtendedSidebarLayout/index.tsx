@@ -17,7 +17,7 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery('min-width : 600px ')
+  const isMobile = useMediaQuery('(max-width : 600px )')
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -85,10 +85,7 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
           }}
         > 
           <SwipeableDrawer
-           sx={{
-                
-               
-               }}
+           sx={{ }}
             anchor='left'
             open={state['left']}
             onClose={toggleDrawer('left', false)}
@@ -100,14 +97,14 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
           </SwipeableDrawer>
           </Box>
         {/* nevbarhide */}
-       {isMobile ?  ' ' :  <Box sx={{  position: "fixed",
+       {isMobile ?    <Box sx={{  position: "fixed",
                        bottom: 0,
                        flex: 1,
                        width: "100%",
                         zIndex: 9999,
                        }} >
                    <Basenav />
-                     </Box>
+                     </Box>:''
 }
 
 

@@ -177,18 +177,6 @@ function Header() {
   const handleClose = (): void => {
     setOpen(false);
   };
-
-  const handleLogout = async (): Promise<void> => {
-    try {
-      handleClose();
-      localStorage.removeItem("auth");
-      sessionStorage.clear();
-      navigate('/');
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const handleCloseApp = async (): Promise<void> => {
     try {
       handleClose();
@@ -197,7 +185,16 @@ function Header() {
       console.error(err);
     }
   };
-
+  const handleLogout = async (): Promise<void> => {
+    try {
+      handleClose();
+      localStorage.removeItem("auth")
+      sessionStorage.clear();
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const deviceRegistrationFCM = async (userId) => {
     const data: IPushNotificationFCM = {
