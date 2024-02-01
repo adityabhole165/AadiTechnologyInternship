@@ -7,15 +7,12 @@ import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupIcon from '@mui/icons-material/Group';
 import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
-import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import {
   Avatar,
   Box,
   Button,
   Divider,
-  IconButton,
   List,
   ListItem,
   ListItemButton,
@@ -468,29 +465,6 @@ function Header() {
           alignItems="center"
           sx={{ pb: 2 }}
         >
-          <Stack
-            direction={'row'}
-            justifyContent={'space-between'}
-            alignItems={'center'}
-            gap={1}
-          >
-            <IconButton
-              color={'primary'}
-              sx={{
-                background: (theme) => alpha(theme.palette.primary.main, 0.2)
-              }}
-            >
-              <NotificationsTwoToneIcon />
-            </IconButton>
-            <IconButton
-              color={'error'}
-              sx={{
-                background: (theme) => alpha(theme.palette.error.main, 0.2)
-              }}
-            >
-              <LogoutTwoToneIcon />
-            </IconButton>
-          </Stack>
           <Tooltip title="Account">
             <ListItemButton
               sx={{

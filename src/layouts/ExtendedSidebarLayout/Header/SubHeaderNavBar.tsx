@@ -1,247 +1,278 @@
-import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone';
-import Email from '@mui/icons-material/Email';
-import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import LocalLibrary from '@mui/icons-material/LocalLibrary';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
+import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
+import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
 import {
   AppBar,
+  Box,
   IconButton,
   List,
   ListItem,
-  ListItemText,
-  Popover,
+  ListItemButton,
+  Menu,
+  MenuItem,
   Stack,
-  Tab,
-  Tabs,
   Tooltip,
   Typography,
-  styled
+  alpha
 } from '@mui/material';
-import React, { useRef, useState } from 'react';
-import { NavLink } from 'react-router-dom';
-import { Detail1 } from 'src/libraries/styled/CardStyle';
-
-const UserBoxLabel = styled(Typography)(
-  ({ theme }) => `
-    font-weight: ${theme.typography.fontWeightBold};
-    color: ${theme.sidebar.menuItemColor};
-    display: block;
-    @media (max-width: 280px) {
-      font-size: 11px;
-    };
-    &.popoverTypo {
-      color: ${theme.palette.secondary.main};
-    }
-`
-);
+import React from 'react';
 
 function SubHeaderNavBar({ toggleDrawer }) {
-  const [value, setValue] = React.useState('0');
-  const ref = useRef<any>(null);
-  const [isOpen, setOpen] = useState<boolean>(false);
-  const activeStyle = {
-    backgroundColor: 'white'
-  };
-
-  const handleOpen = (): void => {
-    setOpen(true);
-  };
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
-  const handleClose = (): void => {
-    setOpen(false);
-  };
+  const [pages, setPages] = React.useState([
+    {
+      name: "Counsellor's Corner",
+      anchor: null,
+      options: [
+        {
+          name: 'Self Discipline',
+          link: ''
+        },
+        {
+          name: 'Social Media',
+          link: ''
+        },
+        {
+          name: 'Effective Study Skills',
+          link: ''
+        },
+        {
+          name: 'Bullying - Copy',
+          link: ''
+        },
+        {
+          name: 'Benefit of pets for human health',
+          link: ''
+        },
+        {
+          name: 'Angry Child Outbursts',
+          link: ''
+        },
+        {
+          name: 'AUTISM WORKSHOP',
+          link: ''
+        },
+        {
+          name: 'Rashmi Gupta',
+          link: ''
+        },
+        {
+          name: 'Remedial Teaching',
+          link: ''
+        },
+        {
+          name: 'Why having choices should be a choice for children?',
+          link: ''
+        },
+        {
+          name: 'learning  difficulty2',
+          link: ''
+        },
+        {
+          name: 'cyber Safety',
+          link: ''
+        },
+        {
+          name: 'Learning Difficulty',
+          link: ''
+        }
+      ]
+    },
+    {
+      name: 'PTA',
+      anchor: null,
+      options: null
+    },
+    {
+      name: 'Pre-Primary Activities',
+      anchor: null,
+      options: null
+    },
+    {
+      name: 'Syllabus',
+      anchor: null,
+      options: [
+        {
+          name: 'Standard I',
+          link: ''
+        },
+        {
+          name: 'Standard II',
+          link: ''
+        },
+        {
+          name: 'Standard III',
+          link: ''
+        },
+        {
+          name: 'Standard IV',
+          link: ''
+        },
+        {
+          name: 'Standard V',
+          link: ''
+        },
+        {
+          name: 'Standard VI',
+          link: ''
+        },
+        {
+          name: 'Standard VI',
+          link: ''
+        },
+        {
+          name: 'Standard VII',
+          link: ''
+        },
+        {
+          name: 'Standard IX',
+          link: ''
+        },
+        {
+          name: 'Standard IV',
+          link: ''
+        },
+        {
+          name: 'Standard X',
+          link: ''
+        },
+        {
+          name: 'Exam Paper Pattern',
+          link: ''
+        }
+      ]
+    },
+    {
+      name: 'Practice Worksheet',
+      anchor: null,
+      options: []
+    },
+    {
+      name: 'School Club',
+      anchor: null,
+      options: []
+    },
+    {
+      name: 'Mediclaim',
+      anchor: null,
+      options: []
+    },
+    {
+      name: 'Eloquium e-Newsletter',
+      anchor: null,
+      options: []
+    },
+    {
+      name: 'Question Bank',
+      anchor: null,
+      options: []
+    },
+    {
+      name: 'Support',
+      anchor: null,
+      options: []
+    }
+  ]);
 
   return (
     <div>
       <AppBar
         position="fixed"
         sx={{
-          ml: '100px',
           mt: '60px',
           zIndex: 1201,
-          backgroundColor: 'rgb(40, 160, 235)',
-          display: 'flex',
-          aligItems: 'center',
-          justifyContent: 'space-between'
+          backgroundColor: 'rgb(40, 160, 235)'
         }}
       >
         <Stack
           direction={'row'}
-          justifyContent={'space-between'}
           alignItems={'center'}
+          justifyContent={'space-between'}
+          px={2}
         >
           <Stack direction={'row'} alignItems={'center'}>
             <Typography sx={{ p: '5px', color: 'white' }}>
               <Tooltip title="Sidebar">
-                <IconButton
-                  edge="start"
-                  color="inherit"
-                  onClick={toggleDrawer}
-                  sx={{ ml: 0 }}
-                >
+                <IconButton edge="start" color="inherit" onClick={toggleDrawer}>
                   <MenuIcon />
                 </IconButton>
               </Tooltip>
             </Typography>
-            <Tabs
-              value={value}
-              onChange={handleChange}
+            <List
               sx={{
-                '& .MuiTabs-indicator': {
-                  backgroundColor: 'white'
-                }
+                flexDirection: 'row',
+                p: 0,
+                m: 0
               }}
-              variant="scrollable"
-              scrollButtons="auto"
-              aria-label="primary example"
             >
-              <Tab
-                value="0"
-                sx={{
-                  '&.Mui-selected': {
-                    color: (theme) => theme.palette.primary.main
-                  },
-                  '&:hover': {
-                    '&.Mui-selected': {
-                      color: (theme) => theme.palette.primary.main
-                    }
-                  }
-                }}
-                label={'Syllabus'}
-              ></Tab>
-              <Tab
-                value="1"
-                label={
-                  <Typography sx={{ color: 'white' }}>
-                    Practice WorkSheet
-                  </Typography>
-                }
-              ></Tab>
-
-              <Tab
-                value="3"
-                label={
-                  <Typography sx={{ color: 'white' }}>Transport</Typography>
-                }
-              ></Tab>
-              <Tab
-                value="4"
-                label={<Typography sx={{ color: 'white' }}>NavBar</Typography>}
-              ></Tab>
-              <Tab
-                value="5"
-                label={
-                  <Typography sx={{ color: 'white' }}>Attendance</Typography>
-                }
-              ></Tab>
-              <Tab
-                value="6"
-                label={
-                  <Typography sx={{ color: 'white' }}>Homework</Typography>
-                }
-              ></Tab>
-            </Tabs>
+              <ListItem sx={{ p: 0 }}>
+                {pages.map((page, key) => (
+                  <Box key={key}>
+                    <ListItemButton
+                      sx={{
+                        color: 'white',
+                        '&:hover': {
+                          color: 'black'
+                        },
+                        px: 1
+                      }}
+                      key={key}
+                      onClick={(e) => {
+                        let pagesCpy = [...pages];
+                        pagesCpy[key].anchor = e.currentTarget;
+                        setPages(pagesCpy);
+                      }}
+                    >
+                      {page.name}
+                      {page?.options && page?.options.length > 0 && (
+                        <KeyboardArrowDownIcon />
+                      )}
+                    </ListItemButton>
+                    {page?.options && (
+                      <Menu
+                        id={`${page.name}-menu`}
+                        anchorEl={page.anchor}
+                        open={Boolean(page.anchor)}
+                        onClose={() => {
+                          page.anchor = null;
+                          setPages([...pages]);
+                        }}
+                        MenuListProps={{
+                          'aria-labelledby': 'basic-button'
+                        }}
+                        sx={{
+                          '& .MuiMenu-paper': {
+                            padding: 0
+                          }
+                        }}
+                      >
+                        {page?.options.map((option, key) => (
+                          <MenuItem key={key}>{option.name}</MenuItem>
+                        ))}
+                      </Menu>
+                    )}
+                  </Box>
+                ))}
+              </ListItem>
+            </List>
           </Stack>
-          <Stack direction={'row'} alignItems={'center'} pr={1}>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
             <IconButton
-              color={'secondary'}
               sx={{
-                border: (theme) => `2px solid ${theme.palette.secondary.main}`
+                color: 'white',
+                background: (theme) => alpha(theme.palette.common.white, 0.2)
               }}
-              ref={ref}
-              onClick={handleOpen}
             >
-              <ContactSupportTwoToneIcon />
+              <NotificationsTwoToneIcon />
             </IconButton>
-            <Popover
-              disableScrollLock
-              anchorEl={ref.current}
-              onClose={handleClose}
-              open={isOpen}
-              anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right'
+            <IconButton
+              sx={{
+                color: 'white',
+                background: (theme) => alpha(theme.palette.common.white, 0.2)
               }}
             >
-              <List
-                sx={{
-                  p: 1
-                }}
-                component="nav"
-              >
-                <ListItem
-                  onClick={() => {
-                    handleClose();
-                  }}
-                  button
-                  to={'/extended-sidebar/common/changePassword'}
-                  component={NavLink}
-                >
-                  <Email fontSize="small" sx={{ color: '#053082' }} />
-                  <ListItemText
-                    primary={
-                      <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
-                        Email
-                      </UserBoxLabel>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    handleClose();
-                  }}
-                  button
-                  to={'/extended-sidebar/common/changePassword'}
-                  component={NavLink}
-                >
-                  <LibraryBooks fontSize="small" sx={{ color: '#053082' }} />
-                  <ListItemText
-                    primary={
-                      <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
-                        {' '}
-                        User Guide
-                      </UserBoxLabel>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    handleClose();
-                  }}
-                  button
-                  to={'/extended-sidebar/common/changePassword'}
-                  component={NavLink}
-                >
-                  <LocalLibrary fontSize="small" sx={{ color: '#053082' }} />
-                  <ListItemText
-                    primary={
-                      <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
-                        Knowledge Base
-                      </UserBoxLabel>
-                    }
-                  />
-                </ListItem>
-                <ListItem
-                  onClick={() => {
-                    handleClose();
-                  }}
-                  button
-                  to={'/extended-sidebar/Student/Feedback'}
-                  component={NavLink}
-                >
-                  <FeedbackTwoToneIcon
-                    fontSize="small"
-                    sx={{ color: '#053082' }}
-                  />
-                  <ListItemText primary={<Detail1>Feedback</Detail1>} />
-                </ListItem>
-              </List>
-            </Popover>
+              <LogoutTwoToneIcon />
+            </IconButton>
           </Stack>
         </Stack>
       </AppBar>
