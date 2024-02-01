@@ -27,6 +27,8 @@ const ViewEvent = Loader(lazy(() => import('src/components/AnnualPlanner/ViewEve
 const StaffBirthday = Loader(lazy(() => import('src/components/StaffBirthday/StaffBirthday')));
 const VideoGallery2 = Loader(lazy(() => import('src/components/VideoGallery2/VideoAlbum')))
 const UpcomingEvent = Loader(lazy(()=> import('src/components/AnnualPlanner/UpcomingEvent')))
+const AnnualPlanerBaseScreen = Loader(lazy(()=> import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
+
 const commonRoutes = [
     {
         path: 'pta',
@@ -115,6 +117,11 @@ const commonRoutes = [
         path: 'StaffBirthday',
         element: <StaffBirthday />
     },
+    {
+        path: 'AnnualPlanerBaseScreen',
+        element: <AnnualPlanerBaseScreen />
+    },
+
 ]
 
 export default commonRoutes;

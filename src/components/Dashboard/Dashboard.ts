@@ -344,7 +344,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#35abd9',
         Icon: VideoLibraryIcon,
-        Link: 'Common/VideoGallery/VideoAlbum',
+        Link: '/VideoGallery/VideoAlbum',
         index: 5,
       },
       {
@@ -375,7 +375,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e ',
         Icon: EventIcon,
-        Link: 'Teacher/AnnualPlanerBaseScreen',
+        Link: 'Common/AnnualPlanerBaseScreen',
         index: 2,
        
       },

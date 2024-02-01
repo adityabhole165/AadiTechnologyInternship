@@ -216,7 +216,7 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
 
   const ClickItemList = (value) => {
-
+    navigate('/extended-sidebar/Teacher/EventManegement')
     const date = value || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();

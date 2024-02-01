@@ -122,6 +122,7 @@ export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => 
       Text2: item.Event_Desc,
       ForeColur: item.Event_ForeColor,
       BackgroundColor: item.Event_BackColor,
+      IsClickable:  parseInt(item.Day)
     };
   });
   EventsDataList.sort((a, b) => a.Name - b.Name);
