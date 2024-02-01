@@ -13,7 +13,7 @@ import UpcomingEvent from './UpcomingEvent';
 import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
 import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import CardCalender from 'src/libraries/ResuableComponents/CardCalender';
+import CardCalenderAP from 'src/libraries/ResuableComponents/CardCalenderAP';
 import Note from 'src/libraries/Note/Note';
 import AnnualPlanerLegend from 'src/libraries/summary/AnnualPlanerLegend';
 import Icon1 from 'src/libraries/icon/icon1';
@@ -293,7 +293,7 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
     </Grid>
     <br></br>
 
-    <CardCalender ItemList={USGetEventsDataList} ClickItem={ClickItemList}
+    <CardCalenderAP ItemList={USGetEventsDataList} ClickItem={ClickItemList}
       formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
 
 

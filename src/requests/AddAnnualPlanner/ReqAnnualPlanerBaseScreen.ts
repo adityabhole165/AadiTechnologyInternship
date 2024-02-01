@@ -72,7 +72,7 @@ export const GetDivisionList =
       const response = await ApiAnnualPlanerBaseScreen.DivisionDropDown(data)
       let a = response.data.map((item, i) => {
         return {
-          Id: item.division_name,
+          Id: item.division_id,
           Name: item.division_name,
           Value: item.division_id
         }
