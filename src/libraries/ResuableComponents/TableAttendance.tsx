@@ -1,4 +1,3 @@
-import styled from '@emotion/styled';
 import { Card, Modal } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -14,47 +13,18 @@ const nameCellStyle = {
   width: '900px',
   fontSize: '5px',
   py: 0.5,
-  cursor: 'pointer',
-  ' &:hover': {
-    backgroundColor: 'lightblue',
-    color: 'gray'
-  }
+  cursor: 'pointer'
 };
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
-  '&:nth-of-type(odd)': {
-    backgroundColor: theme.palette.action.hover,
-    fontFamily: 'inherit',
-    ' &:hover': {
-      backgroundColor: 'lightblue'
-    }
-  },
-  // hide last border
-  '&:last-child td, &:last-child th': {
-    border: '1px'
-  }
-}));
 const rowStyle = {
   ' &:hover': {
     backgroundColor: 'lightblue'
   }
 };
-const cellstyle = {
-  py: 0.5,
-  px: 1,
-  ' &:hover': {
-    backgroundColor: 'lwhitsmoke',
-    color: 'black'
-  }
-};
+
 const dangercellstyle = {
   py: 0.5,
-  px: 1,
-  color: 'red',
-  ' &:hover': {
-    backgroundColor: 'lwhitsmoke',
-    color: 'black'
-  }
+  px: 1
 };
 
 export default function TableAttendace({ ItemList, HeaderArray }) {
@@ -104,13 +74,12 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
               <TableBody>
                 {ItemList.map((item, i) => (
                   <>
-                    <StyledTableRow key={i} sx={rowStyle}>
+                    <TableRow key={i} sx={rowStyle}>
                       {item.Text17 > 75 ? (
                         <>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
-                            className="text-3xl  font-bold"
+                            sx={{ py: 0.5 }}
                             dangerouslySetInnerHTML={{ __html: item.Text1 }}
                           ></TableCell>
                           <TableCell
@@ -126,58 +95,58 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text4 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text5 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text6 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text7 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text8 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text9 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text10 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text11 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text12 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={{ ...cellstyle }}
                             dangerouslySetInnerHTML={{ __html: item.Text13 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
                             dangerouslySetInnerHTML={{ __html: item.Text14 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="center"
@@ -194,16 +163,15 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                           <TableCell
                             align="center"
                             dangerouslySetInnerHTML={{ __html: item.Text17 }}
-                            sx={{ fontWeight: 'bold', ...cellstyle }}
+                            sx={{ fontWeight: 'bold', py: 0.5 }}
                           ></TableCell>
                         </>
                       ) : (
                         <>
                           <TableCell
                             align="center"
-                            sx={cellstyle}
-                            className="text-3xl  font-bold"
                             dangerouslySetInnerHTML={{ __html: item.Text1 }}
+                            sx={{ py: 0.5 }}
                           ></TableCell>
                           <TableCell
                             align="left"
@@ -297,7 +265,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                           ></TableCell>
                         </>
                       )}
-                    </StyledTableRow>
+                    </TableRow>
                   </>
                 ))}
               </TableBody>

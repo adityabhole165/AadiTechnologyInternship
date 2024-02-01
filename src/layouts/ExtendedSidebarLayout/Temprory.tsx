@@ -12,14 +12,13 @@ import Password from '@mui/icons-material/Password';
 import PowerOutLined from '@mui/icons-material/PowerSettingsNew';
 import SettingsTwoTone from '@mui/icons-material/SettingsTwoTone';
 import TableChart from '@mui/icons-material/TableChart';
-import { Grid, IconButton, Stack, Tooltip } from '@mui/material';
+import { Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -43,37 +42,6 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
 
   const IconClick = (title) => {
     setActiveItem(title);
-    switch (title) {
-      case ' Dashboard':
-        navigate('/extended-sidebar/landing/landing');
-        break;
-      case 'MonthwiseAttendance':
-        navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
-        break;
-      case 'Assign Homework':
-        navigate('/extended-sidebar/Teacher/AssignHomework');
-        break;
-      case 'Attendance':
-        navigate('/extended-sidebar/Teacher/TAttendance');
-        break;
-      case 'Assign Exam Marks':
-        navigate('/extended-sidebar/Teacher/AssignExamMark');
-        break;
-      case 'Change Password':
-        navigate('/extended-sidebar/common/changePassword');
-        break;
-      case 'Exam Result':
-        navigate('/extended-sidebar/Teacher/ExamResultBase');
-        break;
-      case 'Exam Schedule':
-        navigate('/extended-sidebar/Teacher/Texamschedule');
-        break;
-      case 'Final Result':
-        navigate('/extended-sidebar/Teacher/FinalResult');
-        break;
-      default:
-        break;
-    }
   };
 
   const ActionStyle = {
@@ -92,16 +60,52 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const buttonStyle = {};
 
   const sideList = [
-    { title: ' Dashboard', icon: <Dashboard /> },
-    { title: 'MonthwiseAttendance', icon: <CalendarToday /> },
+    {
+      title: ' Dashboard',
+      icon: <Dashboard />,
+      link: '/extended-sidebar/landing/landing'
+    },
+    {
+      title: 'MonthwiseAttendance',
+      icon: <CalendarToday />,
+      link: '/extended-sidebar/Teacher/MonthwiseAttendance'
+    },
 
-    { title: 'Assign Homework', icon: <Assignment /> },
-    { title: 'Attendance', icon: <DateRange /> },
-    { title: 'Assign Exam Marks', icon: <FeaturedPlayList /> },
-    { title: 'Change Password', icon: <Password /> },
-    { title: 'Exam Result', icon: <TableChart /> },
-    { title: 'Exam Shedule', icon: <Dataset /> },
-    { title: 'Final Result', icon: <FactCheck /> }
+    {
+      title: 'Assign Homework',
+      icon: <Assignment />,
+      link: '/extended-sidebar/Teacher/AssignHomework'
+    },
+    {
+      title: 'Attendance',
+      icon: <DateRange />,
+      link: '/extended-sidebar/Teacher/TAttendance'
+    },
+    {
+      title: 'Assign Exam Marks',
+      icon: <FeaturedPlayList />,
+      link: '/extended-sidebar/Teacher/AssignExamMark'
+    },
+    {
+      title: 'Change Password',
+      icon: <Password />,
+      link: '/extended-sidebar/common/changePassword'
+    },
+    {
+      title: 'Exam Result',
+      icon: <TableChart />,
+      link: '/extended-sidebar/Teacher/ExamResultBase'
+    },
+    {
+      title: 'Exam Shedule',
+      icon: <Dataset />,
+      link: '/extended-sidebar/Teacher/Texamschedule'
+    },
+    {
+      title: 'Final Result',
+      icon: <FactCheck />,
+      link: '/extended-sidebar/Teacher/FinalResult'
+    }
   ];
   const activeStyle = {
     backgroundColor: 'rgb(40, 160, 235)',
@@ -153,13 +157,33 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       <Divider />
       <List>
         {sideList.map((text, index) => (
-          <ListItem key={index} disablePadding>
+          <ListItem
+            key={index}
+            sx={{
+              px: 0,
+              py: 0.5
+            }}
+          >
             <ListItemButton
               sx={text.title === activeItem ? activeStyle : buttonStyle}
-              onClick={() => IconClick(text.title)}
+              onClick={() => {
+                navigate(text.link);
+                IconClick(text.title);
+              }}
             >
-              <ListItemIcon sx={{ minWidth: '35px' }}>{text.icon}</ListItemIcon>
-              <ListItemText primary={text.title} />
+              <ListItemIcon
+                sx={{
+                  color: text.title === activeItem ? 'white' : 'black',
+                  minWidth: '35px'
+                }}
+              >
+                {text.icon}
+              </ListItemIcon>
+              <Typography
+                sx={{ color: text.title === activeItem ? 'white' : 'black' }}
+              >
+                {text.title}
+              </Typography>
             </ListItemButton>
           </ListItem>
         ))}

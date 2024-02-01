@@ -1,11 +1,4 @@
-import {
-  Box,
-  SwipeableDrawer,
-  alpha,
-  lighten,
-  useMediaQuery,
-  useTheme
-} from '@mui/material';
+import { Box, SwipeableDrawer, alpha, lighten, useTheme } from '@mui/material';
 import { FC, ReactNode, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 import Basenav from '../BaseNavigation/index';
@@ -19,7 +12,6 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery('(max-width : 600px )');
   const [state, setState] = useState({
     top: false,
     left: false,
@@ -96,22 +88,6 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
             />
           </SwipeableDrawer>
         </Box>
-        {/* nevbarhide */}
-        {isMobile ? (
-          <Box
-            sx={{
-              position: 'fixed',
-              bottom: 0,
-              flex: 1,
-              width: '100%',
-              zIndex: 9999
-            }}
-          >
-            <Basenav />
-          </Box>
-        ) : (
-          ''
-        )}
 
         <Box
           sx={{
@@ -127,6 +103,17 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
             sx={{ position: 'absolute', width: '100%', paddingBottom: '100px' }}
           >
             <Outlet />
+            <Box
+              sx={{
+                position: 'fixed',
+                bottom: 0,
+                flex: 1,
+                width: '100%',
+                zIndex: 9999
+              }}
+            >
+              <Basenav />
+            </Box>
           </Box>
         </Box>
       </Box>
