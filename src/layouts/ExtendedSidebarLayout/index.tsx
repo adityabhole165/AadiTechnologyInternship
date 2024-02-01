@@ -1,14 +1,16 @@
-import { FC, ReactNode ,useState } from 'react';
-import { Box, SwipeableDrawer, alpha, lighten, useMediaQuery, useTheme } from '@mui/material';
+import {
+  Box,
+  SwipeableDrawer,
+  alpha,
+  lighten,
+  useMediaQuery,
+  useTheme
+} from '@mui/material';
+import { FC, ReactNode, useState } from 'react';
 import { Outlet } from 'react-router-dom';
-import ThemeSettings from 'src/layouts/components/ThemeSettings';
-import school5 from 'src/assets/img/school5.jpg';
-import Sidebar from './Sidebar';
+import Basenav from '../BaseNavigation/index';
 import Header from './Header';
-import Basenav from '../BaseNavigation/index'
 import SubHeaderNavBar from './Header/SubHeaderNavBar';
-import SubHeader from './Header/SubHeader';
-import WebSideBar from './Sidebar/WebSideBar';
 import SwipeableTemporaryDrawer from './Temprory';
 
 interface ExtendedSidebarLayoutProps {
@@ -17,39 +19,28 @@ interface ExtendedSidebarLayoutProps {
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery('(max-width : 600px )')
+  const isMobile = useMediaQuery('(max-width : 600px )');
   const [state, setState] = useState({
     top: false,
     left: false,
     bottom: false,
-    right: false,
+    right: false
   });
 
-  const toggleDrawer =
-  (anchor: Anchor, open: boolean) =>
-  (event: React.KeyboardEvent | React.MouseEvent) => {
-    if (
-      event &&
-      event.type === 'keydown' &&
-      ((event as React.KeyboardEvent).key === 'Tab' ||
-        (event as React.KeyboardEvent).key === 'Shift')
-    ) {
-      return;
-    }
-
+  const toggleDrawer = (anchor: Anchor, open: boolean) => {
     setState({ ...state, [anchor]: open });
   };
- 
+
   return (
     <>
       <Box
         sx={{
-          backgroundColor: "#EAF1F5",
+          backgroundColor: '#EAF1F5',
           flex: 1,
           height: '100%',
           width: '100%',
-          position:"fixed",
-          overflowY: "scroll",
+          position: 'fixed',
+          overflowY: 'scroll',
 
           '.MuiPageTitle-wrapper': {
             background:
@@ -70,43 +61,57 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
         }}
       >
         <Header />
-       {/* nevbarhide */}
+        {/* nevbarhide */}
         {/* <SubHeaderNavBar/> */}
-        <SubHeaderNavBar toggleDrawer={toggleDrawer('left', true)} />
+        <SubHeaderNavBar
+          toggleDrawer={() => {
+            toggleDrawer('left', true);
+          }}
+        />
 
         <Box
           sx={{
             position: 'absolute',
             width: '12%',
             bottom: 0,
-            mt:"10px",
+            mt: '10px',
             height: '100%',
-            transition: 'width 0.3s ease-in-out', // Transition effect
+            transition: 'width 0.3s ease-in-out'
           }}
-        > 
+        >
           <SwipeableDrawer
-           sx={{ }}
-            anchor='left'
+            sx={{}}
+            anchor="left"
             open={state['left']}
-            onClose={toggleDrawer('left', false)}
-            onOpen={toggleDrawer('left', true)}
-            hideBackdrop
-             disableBackdropTransition
+            onClose={() => {
+              toggleDrawer('left', false);
+            }}
+            onOpen={() => {
+              toggleDrawer('left', true);
+            }}
           >
-          <SwipeableTemporaryDrawer event={toggleDrawer('left', false)} opend={false}/>
+            <SwipeableTemporaryDrawer
+              toggleDrawer={toggleDrawer}
+              opend={false}
+            />
           </SwipeableDrawer>
-          </Box>
+        </Box>
         {/* nevbarhide */}
-       {isMobile ?    <Box sx={{  position: "fixed",
-                       bottom: 0,
-                       flex: 1,
-                       width: "100%",
-                        zIndex: 9999,
-                       }} >
-                   <Basenav />
-                     </Box>:''
-}
-
+        {isMobile ? (
+          <Box
+            sx={{
+              position: 'fixed',
+              bottom: 0,
+              flex: 1,
+              width: '100%',
+              zIndex: 9999
+            }}
+          >
+            <Basenav />
+          </Box>
+        ) : (
+          ''
+        )}
 
         <Box
           sx={{
@@ -114,17 +119,15 @@ const ExtendedSidebarLayout: FC<ExtendedSidebarLayoutProps> = () => {
             zIndex: 5,
             display: 'block',
             flex: 1,
-             pt: `${theme.header.height}`,
-             
-            // [theme.breakpoints.up('lg')]: {
-            //   ml: `${theme.sidebar.width}`
-            // }
+            pt: `${theme.header.height}`
           }}
         >
-          <Box display="block" sx={{position:'absolute',width:'100%',paddingBottom:"100px"}}>
+          <Box
+            display="block"
+            sx={{ position: 'absolute', width: '100%', paddingBottom: '100px' }}
+          >
             <Outlet />
           </Box>
-       
         </Box>
       </Box>
     </>

@@ -1,193 +1,184 @@
-import React from 'react'
-import { useState } from 'react'
-import { Box, Container,Divider,Fab,Grid, IconButton, InputBase, ListItemSecondaryAction, Paper, Tooltip, } from '@mui/material';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { TextField } from '@mui/material';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { useNavigate } from 'react-router-dom';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, } from 'react';
-import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance'
-import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
+import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import Help from '@mui/icons-material/QuestionMark';
+import ReplyIcon from '@mui/icons-material/Reply';
 import SearchIcon from '@mui/icons-material/Search';
+import {
+  Box,
+  Container,
+  Divider,
+  IconButton,
+  InputBase,
+  Paper,
+  Stack,
+  Tooltip
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
 import WebBackButton from 'src/libraries/button/WebBackButton';
-import Iconhelp from 'src/libraries/icon/Iconhelp';
-import DirectionsIcon from '@mui/icons-material/Directions';
-import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
-import MenuBook from '@mui/icons-material/MenuBook';
-import MenuTwoTone from '@mui/icons-material/MenuTwoTone';
-import Search from '@mui/icons-material/Search';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { useTheme } from '@emotion/react';
-import Help from '@mui/icons-material/QuestionMark';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
+import { RootState } from 'src/store';
 
 const MonthwiseAttandance = () => {
-    const dispatch = useDispatch();
-    const navigate = useNavigate();
-    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-    const StandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
-    const StudentId = Number(sessionStorage.getItem('StudentId'));
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const StandardDivisionId = Number(
+    sessionStorage.getItem('StandardDivisionId')
+  );
+  const HeaderArray = [
+    { Id: 1, Header: 'Roll No.' },
+    { Id: 2, Header: 'Student Name', align: 'left' },
+    { Id: 3, Header: 'Mar' },
+    { Id: 4, Header: 'Apr' },
+    { Id: 5, Header: 'May' },
+    { Id: 6, Header: 'Jun' },
+    { Id: 7, Header: 'Jul' },
+    { Id: 8, Header: 'Aug' },
+    { Id: 9, Header: 'Sep' },
+    { Id: 10, Header: 'Oct' },
+    { Id: 10, Header: 'Nov' },
+    { Id: 10, Header: 'Dec' },
+    { Id: 11, Header: 'Jan' },
+    { Id: 12, Header: 'Feb' },
+    { Id: 13, scope: 'row', Header: 'Present Days' },
+    { Id: 14, scope: 'row', Header: 'Total Days' },
+    { Id: 15, Header: '%' }
+  ];
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const StudentId = Number(sessionStorage.getItem('StudentId'));
+  const Note: string =
+    "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days.";
+  const MonthWiseAttendance = useSelector(
+    (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
+  );
+  const [search, setSearch] = useState(false);
+  const [SearchText, setSearchText] = useState('');
+  const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([
+    MonthWiseAttendance
+  ]);
+  const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
+    asSchoolId: asSchoolId,
+    asAcademicyearId: asAcademicYearId,
+    asStanardDivisionId: StandardDivisionId,
+    TopRanker: 1000,
+    Student_Id: StudentId,
+    SortExp: ' ORDER BY [Roll_No] ASC',
+    prm_StartIndex: 0,
+    PageSize: 100
+  };
 
-    const HeaderArray = [{ Id: 1, Header: "Roll No." }, { Id: 2, scope:'row', Header: "Student Name", align :' left'  }, { Id: 3, Header: "Mar" }, { Id: 4, Header: "Apr" }, { Id: 5, Header: "May" }, { Id: 6, Header: "Jun" }
-        , { Id: 7, Header: "Jul" }, { Id: 8,Header: "Aug" }, { Id: 9, Header: "Sep" }, { Id: 10, Header: "Oct" }, { Id: 10, Header: "Nov" }, { Id: 10, Header: "Dec" }, { Id: 11, Header: "Jan" }, { Id: 12, Header: "Feb" }, { Id: 13,scope:'row', Header: "Present Days" }, { Id: 14, scope:'row',Header: "Total Days" }, { Id: 15, Header: "%" }]
-    const Note: string = "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days."
+  const changeSearchText = () => {
+    if (SearchText === '') {
+      setMonthWiseAttendanceList(MonthWiseAttendance);
+    } else {
+      setMonthWiseAttendanceList(
+        MonthWiseAttendance.filter((item) => {
+          return item.Text2.toLowerCase().includes(SearchText.toLowerCase());
+        })
+      );
+    }
+  };
 
-    const MonthWiseAttendance = useSelector((state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance);
+  const SearchNameChange = (value) => {
+    setSearchText(value);
+  };
 
-        const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([MonthWiseAttendance]);
-        const [search, setSearch] = useState(false);
-        const [SearchText, setSearchText] = useState("");
-      
-        const changeSearchText = () => {
-          if (SearchText === "") {
-            setMonthWiseAttendanceList(MonthWiseAttendance);
-          } else {
-            setMonthWiseAttendanceList(
-              MonthWiseAttendance.filter((item) => {
-                return item.Text2.toLowerCase().includes(SearchText.toLowerCase());
-              })
-            );
-          }
-        };
-      
-        const SearchNameChange = (value) => {
-          setSearchText(value);
-        };
-      
-        const clickReset = () => {
-          setMonthWiseAttendanceList(MonthWiseAttendance);
-          setSearchText("");
-        };
-      
+  const clickReset = () => {
+    setMonthWiseAttendanceList(MonthWiseAttendance);
+    setSearchText('');
+  };
 
-    const theme = useTheme();
-    const GetMonthwiseAttendanceBody: IGetMonthwiseAttendanceBody = {
-        asSchoolId: asSchoolId, 
-        asAcademicyearId: asAcademicYearId,
-        asStanardDivisionId: StandardDivisionId,
-        TopRanker: 1000,
-        Student_Id: StudentId,
-        SortExp: " ORDER BY [Roll_No] ASC",
-        prm_StartIndex: 0,
-        PageSize: 100
-    };
+  useEffect(() => {
+    dispatch(getattendance(GetMonthwiseAttendanceBody));
+  }, []);
 
-    useEffect(() => {
-        dispatch(getattendance(GetMonthwiseAttendanceBody));
-    }, []);
-    useEffect(() => {
-        setMonthWiseAttendanceList(MonthWiseAttendance)
-    }, [MonthWiseAttendance])
+  useEffect(() => {
+    setMonthWiseAttendanceList(MonthWiseAttendance);
+  }, [MonthWiseAttendance]);
 
- 
-    const click = () => {
-        navigate('/extended-sidebar/Teacher/TAttendance');
-    };
-    return (
-     
-          <>
-          {/* <div style={{ marginLeft: '70px', marginRight: '50px', marginTop: '15px' }}> */}
-            <Container sx={{marginTop:'20px'}}  maxWidth='xl' >
-
-            <Grid  container>
-                <Grid item margin={0} padding={0} xs={3} lg={3}>
-                    <PageHeader heading={'Month Wise Attendance'} subheading={''} />
-                   
-                </Grid>
-                <Grid item xs={1} />
-
-                <Grid sx={{ mt: 2  }} item xs={6} lg={8}>
-                <Grid container direction='row-reverse' >
-
-
-                        <WebBackButton icon={<ReplyIcon/>} FromRoute={'/Teacher/TAttendance/'} />
-                        <Tooltip title={Note}>
-                      <IconButton  sx={{ color:'white',backgroundColor:'gray', mx:1 ,":hover":{backgroundColor:'gray'}}} >
-                           <Help /> 
-                        </IconButton>
-                         </Tooltip>
-
-                     
-                       
-
-                    
-                         <Paper
-        component="form"
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-          my: 0,
-          py: 0,
-          mx: 0,
-          flexWrap: 'nowrap',
-        }}
-      >
-        {search ? (
-          <>
-            <InputBase
-              sx={{ ml: 1, flex: 1, width: '450px' }}
-              placeholder="Search Text"
-              inputProps={{ 'aria-label': 'search Text' }}
-              value={SearchText}
-              onChange={(e) => SearchNameChange(e.target.value)}
-            />
-          
-
-            <IconButton type="button" aria-label="search"   >
-              <CloseTwoTone onClick={clickReset} />
-            </IconButton>
-          </>
-        ) : (
-          ''
-        )}
-        <Divider sx={{ height: 28 }} orientation="vertical" />
-
-        <IconButton
-          onClick={() => {
-            setSearch(!search);
-            changeSearchText();
-          }}
-          color="primary"
-          aria-label="directions"
+  const click = () => {
+    navigate('/extended-sidebar/Teacher/TAttendance');
+  };
+  return (
+    <>
+      <Container sx={{ marginTop: '20px' }} maxWidth="xl">
+        <Stack
+          flexDirection={'row'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
         >
-          <Tooltip title="search">
-            <SearchIcon />
-          </Tooltip>
-        </IconButton>
-      </Paper>
+          <Box>
+            <PageHeader heading={'Month Wise Attendance'} subheading={''} />
+          </Box>
+          <Stack flexDirection={'row'} alignItems={'center'} gap={1}>
+            <Paper
+              component="form"
+              sx={{
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                flexWrap: 'nowrap'
+              }}
+            >
+              {search ? (
+                <>
+                  <InputBase
+                    sx={{ ml: 1, flex: 1, width: '450px' }}
+                    placeholder="Search Text"
+                    inputProps={{ 'aria-label': 'search Text' }}
+                    value={SearchText}
+                    onChange={(e) => SearchNameChange(e.target.value)}
+                  />
 
-
-                    </Grid>
-                </Grid>
-                </Grid> 
-           
-           
-
-
-            
-
-            <TableAttendace ItemList={MonthWiseAttendanceList} HeaderArray={HeaderArray} />
-
-            </Container>
-        <Box sx={{ textAlign: "center", gap: '10px' }} m={2}>   
-                <ButtonPrimary
-                    style={{ backgroundColor: '#ef5350' }}
-                    onClick={click}
-                    className='bold'
+                  <IconButton type="button" aria-label="search">
+                    <CloseTwoTone onClick={clickReset} />
+                  </IconButton>
+                </>
+              ) : (
+                ''
+              )}
+              <Divider sx={{ height: 28 }} orientation="vertical" />
+              <Tooltip title="search">
+                <IconButton
+                  onClick={() => {
+                    setSearch(!search);
+                    changeSearchText();
+                  }}
+                  color="primary"
+                  aria-label="directions"
                 >
-                    Back
-                </ButtonPrimary>
-            </Box>
-            
-            </>
+                  <SearchIcon />
+                </IconButton>
+              </Tooltip>
+            </Paper>
+            <Tooltip title={Note}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'gray',
+                  ':hover': { backgroundColor: 'gray' }
+                }}
+              >
+                <Help />
+              </IconButton>
+            </Tooltip>
+            <WebBackButton
+              icon={<ReplyIcon />}
+              FromRoute={'/Teacher/TAttendance/'}
+            />
+          </Stack>
+        </Stack>
 
-
-        
- 
-    )
-}
-export default MonthwiseAttandance
+        <TableAttendace
+          ItemList={MonthWiseAttendanceList}
+          HeaderArray={HeaderArray}
+        />
+      </Container>
+    </>
+  );
+};
+export default MonthwiseAttandance;

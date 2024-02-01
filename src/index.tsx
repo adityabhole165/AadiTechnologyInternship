@@ -1,48 +1,45 @@
+import { defineCustomElements } from '@ionic/pwa-elements/loader';
+import 'nprogress/nprogress.css';
 import ReactDOM from 'react-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { BrowserRouter } from 'react-router-dom';
-import ScrollTop from 'src/utils/hooks/useScrollTop';
-import 'nprogress/nprogress.css';
 import { Provider } from 'react-redux';
-import store from 'src/store';
+import { BrowserRouter } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import App from 'src/App';
 import { SidebarProvider } from 'src/contexts/SidebarContext';
 import * as serviceWorker from 'src/serviceWorker';
-import 'react-toastify/dist/ReactToastify.css';
-import { ToastContainer } from 'react-toastify';
-import { defineCustomElements } from '@ionic/pwa-elements/loader';
-import React from 'react';
+import store from 'src/store';
+import ScrollTop from 'src/utils/hooks/useScrollTop';
 
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={store}>
       <SidebarProvider>
         <BrowserRouter>
+          <ToastContainer
+            position="top-center"
+            autoClose={2500}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+          />
           <ScrollTop />
-            <App />
-            {/* <React.StrictMode> */}
-            {/* <MapComponent /> */}
-            {/* </React.StrictMode> */}
-            {/* kkk */}
+          <App />
         </BrowserRouter>
       </SidebarProvider>
     </Provider>
-    <ToastContainer
-      position="top-center"
-      autoClose={2500}
-      hideProgressBar={false}
-      newestOnTop={false}
-      closeOnClick
-      rtl={false}
-      pauseOnFocusLoss
-      draggable
-      pauseOnHover
-    />
-    <script type="text/javascript">  function preventBack() {window.history.forward()}  setTimeout("preventBack()", 0);  window.onunload = function () {null};</script>
+    {/* <script type="text/javascript">
+        function preventBack() {window.history.forward()} 
+      setTimeout("preventBack()", 0);  window.onunload = function () {null};
+    </script> */}
   </HelmetProvider>,
-  
+
   document.getElementById('root')
-  
 );
 defineCustomElements(window);
 
