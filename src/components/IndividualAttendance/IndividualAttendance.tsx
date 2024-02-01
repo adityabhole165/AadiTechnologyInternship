@@ -1,5 +1,4 @@
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import Reply from '@mui/icons-material/Reply';
 import SaveAlt from '@mui/icons-material/Save';
@@ -234,11 +233,7 @@ const IndividualAttendance = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <PageHeader
-          heading={'Individual Attendance'}
-          subheading={''}
-          icon={<CoPresentTwoToneIcon />}
-        />
+        <PageHeader heading={'Individual Attendance'} subheading={''} />
         <Stack direction={'row'} gap={1}>
           <Paper
             component="form"
@@ -477,18 +472,17 @@ const IndividualAttendance = () => {
           <WebBackButton icon={<Reply />} FromRoute={'/Teacher/TAttendance/'} />
         </Stack>
       </Stack>
-      <Box sx={{ my: 1 }}>
-        <Divider />
+      <Box mt={1.5}>
+        <CardCalenderList
+          ItemList={CalendarForStudent}
+          ClickItem={ClickItem}
+          handlePrevMonth={handlePrevMonth}
+          handleNextMonth={handleNextMonth}
+          formattedDate={formattedDate}
+          DefaultValue={DefaultValue}
+          ArrayList={HeaderPublish}
+        />
       </Box>
-      <CardCalenderList
-        ItemList={CalendarForStudent}
-        ClickItem={ClickItem}
-        handlePrevMonth={handlePrevMonth}
-        handleNextMonth={handleNextMonth}
-        formattedDate={formattedDate}
-        DefaultValue={DefaultValue}
-        ArrayList={HeaderPublish}
-      />
       <br></br>
       <Dialog
         onClose={() => setOpenPresent(!isOpenPresent)}

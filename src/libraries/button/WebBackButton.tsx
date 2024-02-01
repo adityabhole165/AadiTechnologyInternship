@@ -37,12 +37,10 @@ function WebBackButton({ FromRoute, icon }) {
               color: '#fff',
               width: '40px !important',
               height: '12px !important',
-              borderRadius: '15% !important',
+              borderRadius: 0,
               ':hover': {
                 backgroundColor: 'gray'
-              },
-
-              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+              }
             }}
           >
             {icon ? icon : ''}

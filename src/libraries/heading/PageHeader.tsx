@@ -1,7 +1,6 @@
 import { Box, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { FC } from 'react';
-import { RootWrapper } from '../styled/HeadingStyled';
 
 interface PageHeaderProps {
   heading: string;
@@ -9,33 +8,30 @@ interface PageHeaderProps {
   icon?: any;
 }
 
-const PageHeader: FC<PageHeaderProps> = ({
-  heading,
-  subheading = '',
-  icon
-}) => {
+const PageHeader: FC<PageHeaderProps> = ({ heading, subheading = '' }) => {
   const theme = useTheme();
 
   return (
-    <RootWrapper display="flex" alignItems="center" gap={1}>
-      {icon && (
+    <Box display="flex" alignItems="center" gap={1}>
+      <Typography
+        variant={'h3'}
+        sx={{
+          fontWeight: 'normal',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 0.5,
+          my: 0
+        }}
+      >
         <Box
           sx={{
-            height: 40,
-            width: 40,
-            boxShadow: 3,
-            backgroundColor: 'white',
-            color: theme.palette.primary.main,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: 1
+            height: '3px',
+            width: '10px',
+            backgroundColor: (theme) => theme.palette.primary.main
           }}
-        >
-          {icon}
-        </Box>
-      )}
-      <Typography variant={'h3'}>{heading}</Typography>
+        ></Box>
+        {heading}
+      </Typography>
       {subheading && (
         <Typography
           variant="subtitle2"
@@ -46,7 +42,7 @@ const PageHeader: FC<PageHeaderProps> = ({
           {subheading}
         </Typography>
       )}
-    </RootWrapper>
+    </Box>
   );
 };
 

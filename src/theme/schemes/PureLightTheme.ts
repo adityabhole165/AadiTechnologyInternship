@@ -4,7 +4,7 @@ import { alpha, createTheme, darken, lighten } from '@mui/material';
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: '#8593fe',
+  primary: '#28a0eb',
   secondary: '#6E759F',
   success: '#57CA22',
   warning: '#FFA319',

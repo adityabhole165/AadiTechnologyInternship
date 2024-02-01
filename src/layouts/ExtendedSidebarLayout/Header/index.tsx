@@ -3,11 +3,11 @@ import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceTo
 import { IPushNotificationFCM } from 'src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration';
 
 import { App } from '@capacitor/app';
-import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupIcon from '@mui/icons-material/Group';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import {
   Avatar,
   Box,
@@ -543,7 +543,7 @@ function Header() {
             />
             <List
               sx={{
-                p: 1
+                p: 0
               }}
               component="nav"
             >
@@ -551,17 +551,27 @@ function Header() {
                 onClick={() => {
                   handleClose();
                 }}
-                button
                 to={'/extended-sidebar/Student/Profile'}
                 component={NavLink}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.3)
+                  }
+                }}
               >
-                <AccountBoxTwoToneIcon
-                  fontSize="small"
-                  sx={{ color: '#053082' }}
+                <AccountBoxIcon
+                  sx={{
+                    height: 25,
+                    width: 25,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    mr: 2
+                  }}
                 />
                 <ListItemText
                   primary={
-                    <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
                       Profile
                     </UserBoxLabel>
                   }
@@ -571,17 +581,27 @@ function Header() {
                 onClick={() => {
                   handleClose();
                 }}
-                button
                 to={'/extended-sidebar/common/changePassword'}
                 component={NavLink}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.3)
+                  }
+                }}
               >
-                <LockOpenTwoToneIcon
-                  fontSize="small"
-                  sx={{ color: '#053082' }}
+                <LockOpenIcon
+                  sx={{
+                    height: 25,
+                    width: 25,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    mr: 2
+                  }}
                 />
                 <ListItemText
                   primary={
-                    <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
                       Change Password
                     </UserBoxLabel>
                   }
@@ -597,11 +617,11 @@ function Header() {
                     component={NavLink}
                     style={{ background: 'white !important' }}
                   >
-                    <GroupIcon fontSize="small" sx={{ color: '#053082' }} />
+                    <GroupIcon />
                     <ListItemText
                       primary={
                         <UserBoxLabel
-                          sx={{ color: 'blue', fontWeight: 'bold' }}
+                          sx={{ fontWeight: 'bold' }}
                           onClick={() => {
                             loginToSibling(
                               siblingList[0].UserName,
@@ -622,14 +642,11 @@ function Header() {
                   component={NavLink}
                   style={{ background: 'white' }}
                 >
-                  <GroupIcon
-                    fontSize="small"
-                    sx={{ color: '#053082', marginBottom: '42px' }}
-                  />
+                  <GroupIcon sx={{ marginBottom: '42px' }} />
                   <ul
                     style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
                   >
-                    <Typography sx={{ color: 'blue', fontWeight: 'bold' }}>
+                    <Typography sx={{ fontWeight: 'bold' }}>
                       Sibling Login{' '}
                     </Typography>
                     {siblingList?.map((sibling: any, i) => {
@@ -638,7 +655,6 @@ function Header() {
                           <li
                             style={{
                               textDecoration: 'underline',
-                              color: 'blueviolet',
                               paddingLeft: '10px'
                             }}
                             key={i}
@@ -667,11 +683,11 @@ function Header() {
                     component={NavLink}
                     style={{ background: 'white !important' }}
                   >
-                    <GroupIcon fontSize="small" sx={{ color: '#053082' }} />
+                    <GroupIcon />
                     <ListItemText
                       primary={
                         <UserBoxLabel
-                          sx={{ color: 'blue', fontWeight: 'bold' }}
+                          sx={{ fontWeight: 'bold' }}
                           onClick={() => {
                             loginToSibling(
                               LoginStaffKid[0].UserName,
@@ -692,10 +708,7 @@ function Header() {
                   component={NavLink}
                   style={{ background: 'white' }}
                 >
-                  <GroupIcon
-                    fontSize="small"
-                    sx={{ color: '#053082', marginBottom: '42px' }}
-                  />
+                  <GroupIcon sx={{ marginBottom: '42px' }} />
                   <ul
                     style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
                   >
@@ -727,24 +740,31 @@ function Header() {
               )}
             </List>
             <Divider />
-            <Box m={1}>
-              <List sx={{ p: 0, px: 1 }}>
+            <Box>
+              <List sx={{ p: 0 }}>
                 <ListItem
                   onClick={handleLogout}
                   to={'/extended-sidebar/Student/Profile'}
                   component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
                 >
                   <ExitToAppIcon
-                    fontSize="small"
                     sx={{
-                      mr: 1,
+                      height: 25,
+                      width: 25,
+                      color: 'black',
                       fontWeight: 'bold',
-                      color: '#053082'
+                      mr: 2
                     }}
                   />
                   <ListItemText
                     primary={
-                      <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
                         Sign out
                       </UserBoxLabel>
                     }
@@ -756,17 +776,13 @@ function Header() {
             localStorage.getItem('deviceType') === 'ios' ? (
               <Box m={1}>
                 <Button color="primary" fullWidth onClick={handleCloseApp}>
-                  <PowerSettingsNewTwoToneIcon
-                    fontSize="small"
+                  <PowerSettingsNewIcon
                     sx={{
                       mr: 1,
-                      fontWeight: 'bold',
-                      color: '#053082'
+                      fontWeight: 'bold'
                     }}
                   />
-                  <UserBoxLabel sx={{ color: 'blue', fontWeight: 'bold' }}>
-                    Exit
-                  </UserBoxLabel>
+                  <UserBoxLabel sx={{ fontWeight: 'bold' }}>Exit</UserBoxLabel>
                 </Button>
               </Box>
             ) : (

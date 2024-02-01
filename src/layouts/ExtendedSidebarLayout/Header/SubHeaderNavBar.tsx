@@ -81,12 +81,12 @@ function SubHeaderNavBar({ toggleDrawer }) {
     {
       name: 'PTA',
       anchor: null,
-      options: null
+      options: []
     },
     {
       name: 'Pre-Primary Activities',
       anchor: null,
-      options: null
+      options: []
     },
     {
       name: 'Syllabus',
