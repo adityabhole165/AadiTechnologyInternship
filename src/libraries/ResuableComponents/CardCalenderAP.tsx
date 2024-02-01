@@ -60,7 +60,7 @@ const CardCalenderAP = ({ ItemList, ClickItem, formattedDate, DefaultValue, Arra
         </Card>
     </Box>
 
-     <Card component={Box} p={2} mt={1.5} >
+    <Card component={Box} p={2} mt={1.5} >
      <Grid container columnSpacing={10} rowSpacing={1}>
           {ArrayList.map((item, i) => (
             <>
@@ -93,6 +93,7 @@ const CardCalenderAP = ({ ItemList, ClickItem, formattedDate, DefaultValue, Arra
         }
       </Grid>
      </Card>
+
         
     </>
 

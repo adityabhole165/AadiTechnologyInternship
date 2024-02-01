@@ -5,19 +5,19 @@ import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
 import { RootState } from 'src/store';
 import PageHeader from 'src/libraries/heading/PageHeader';
-
-import { Box, Button, Container, Grid, Typography ,Card} from '@mui/material';
+import { Box, Button, Container, Grid, Typography, Card } from '@mui/material';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import UpcomingEvent from './UpcomingEvent';
-import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
-import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
+import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody, IGetAssociatedStandardsBodyP } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
+import { GetStandardList, GetDivisionList, GetMonthList, GetYearList, CDAGetEventsDataList, AssociatedStandardListP } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen'
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import CardCalenderAP from 'src/libraries/ResuableComponents/CardCalenderAP';
 import Note from 'src/libraries/Note/Note';
 import AnnualPlanerLegend from 'src/libraries/summary/AnnualPlanerLegend';
 import Icon1 from 'src/libraries/icon/icon1';
 import CardCalenderList from 'src/libraries/ResuableComponents/CardCalenderList';
+import AddAnnualPlaner from './AddAnnualPlaner';
 
 const AnnualPlanerBaseScreen = () => {
 
@@ -27,23 +27,19 @@ const AnnualPlanerBaseScreen = () => {
 
   const dispatch = useDispatch();
   const SelectStandardList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList);
-  console.log(SelectStandardList,"SelectStandardListv");
   const SelectDivisionList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList);
-  console.log(SelectDivisionList,"SelectDivisionListv");
   const SelectMonthList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList);
-  console.log(SelectMonthList,"SelectMonthListtt");
-  
   const SelectYearList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList);
-  console.log(SelectYearList,"SelectYearListt");
-  
   const USGetEventsDataList: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList);
-console.log(USGetEventsDataList,"USGetEventsDataListvvv");
+  const GetAssociatedStandardListP: any = useSelector((state: RootState) => state.AnnualPlanerBaseScreen.IGetAssociatedStandardsP);
+  console.log(GetAssociatedStandardListP, "AssociatedStandardListPppp");
 
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
+  const TeacherId = sessionStorage.getItem('TeacherId');
   const RoleId = sessionStorage.getItem('RoleId')
   const [date, setDate] = useState<any>({ selectedDate: null });
 
@@ -55,6 +51,7 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
   const [selectDivision, setSelectDivision] = useState('')
   const [selectMonth, setSelectMonth] = useState(currentMonth)
   const [selectYear, setSelectYear] = useState(currentYear)
+  const [AssociatedStandardP, setAssociatedStandardP] = useState('0')
 
 
   const Note: string =
@@ -109,6 +106,8 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
   }, [assignedMonth_num]);
 
 
+
+
   const body: IEventList = {
     asMonth: assignedMonth_num,
     asAcademicYearId: asAcademicYearId,
@@ -141,8 +140,8 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
   {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    "asStandardId": 1062,
-    
+    asStandardId: 1062,
+
   }
   const GetEventsDataListBody: IGetEventsDataListBody =
   {
@@ -154,25 +153,33 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
     asStandardId: Number(selectStandard),
     asDivisionId: Number(selectDivision)
   };
+  const AssociatesStandardP: IGetAssociatedStandardsBodyP =
+  {
+    asSchoolId: 18,
+    asAcademicYearId: 54
+  };
+  useEffect(() => {
+    dispatch(AssociatedStandardListP(AssociatesStandardP));
 
+  }, []);
 
   useEffect(() => {
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
-   
+
   }, []);
   useEffect(() => {
     dispatch(GetDivisionList(AllDivisionsForStandardBody));
-   
+
   }, []);
   useEffect(() => {
     dispatch(GetMonthList(GetAllMonthsDropBody));
-   
+
   }, []);
   useEffect(() => {
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
-   
+
   }, []);
-  
+
 
 
 
@@ -199,6 +206,9 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
 
   const clickStandardDropdown = (value) => {
     setSelectStandard(value)
+  }
+  const clickStandardDropdownP = (value) => {
+    setAssociatedStandardP(value)
   }
   const clickdivisionDropdown = (value) => {
     setSelectDivision(value)
@@ -237,72 +247,109 @@ console.log(USGetEventsDataList,"USGetEventsDataListvvv");
   //    selectedDate:getMonthFormatted(new Date())
   //   });
   // }
+  const clickFileName = (value) => {
 
+    if (value !== "") {
+      window.open(localStorage.getItem('SiteURL') + "/RITeSchool/DOWNLOADS/Event%20Planner/" + value);
+    }
 
+  };
 
+  const clickEventsoverview= (value) => {
+
+    navigate('/extended-sidebar/Teacher/EventOverview')
+
+  };
 
 
 
 
   return (
     <Container maxWidth={'xl'}>
-    <PageHeader heading={'Annual Planner'} subheading={''} />
-    <Box sx={{ float: "right" }}>
-      <Icon1 Note={Note} />
-    </Box>
-      <Box sx={{ display: 'flex', gap: '20px' }}>
-          <AnnualPlanerLegend color='Holiday' text='Holidays' />
-          <AnnualPlanerLegend color='Exam' text='Exams' />
-          <AnnualPlanerLegend color='Events' text='Events' />
-        </Box>
- 
-    <Grid container spacing={2} >
-      <Grid item xs={1}>
-        <Card sx={{backgroundColor:"#BEDAE3"}}>
-        <Typography component={Box}  p={0.5}>Select Std :</Typography>
-        </Card>
-      
-      </Grid>
-      <Grid item xs={2}>
-        <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
-      </Grid>
-      <Grid item xs={1}>
-      <Card sx={{backgroundColor:"#BEDAE3"}}>
-        <Typography component={Box}  p={0.5}>Select Div :</Typography>
-        </Card>
-      </Grid>
-      <Grid item xs={2}>
-        <Dropdown Array={SelectDivisionList} handleChange={clickdivisionDropdown} defaultValue={selectDivision} label={"Select Division"} />
-      </Grid>
-      <Grid item xs={1.2}>
-      <Card sx={{backgroundColor:"#BEDAE3"}}>
-        <Typography component={Box}  p={0.5}>Select Month : </Typography>
-        </Card>
-      </Grid>
-      <Grid item xs={1.8}>
-        <Dropdown Array={SelectMonthList} handleChange={clicMonthDropdown} defaultValue={selectMonth} label={"Select Month"} />
-      </Grid>
-      <Grid item xs={1}>
-      <Card sx={{backgroundColor:"#BEDAE3"}}>
-        <Typography component={Box}  p={0.5}>Select Year :</Typography>
-        </Card>
-      </Grid>
-      <Grid item xs={2}>
-        <Dropdown Array={SelectYearList} handleChange={clicYearDropdown} defaultValue={selectYear} label={"Select Year"} />
-      </Grid>
-    </Grid>
-    <br></br>
+      <PageHeader heading={'Annual Planner'} subheading={''} />
+      <Box sx={{ float: "right" }}>
+        <Icon1 Note={Note} />
+      </Box>
 
-    <CardCalenderAP ItemList={USGetEventsDataList} ClickItem={ClickItemList}
-      formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
+      <Grid container spacing={12} >
+        <Grid item xs={2}>
+          <Box sx={{ display: 'flex', gap: '20px' }}>
+            <AnnualPlanerLegend color='Holiday' text='Holidays' />
+            <AnnualPlanerLegend color='Exam' text='Exams' />
+            <AnnualPlanerLegend color='Events' text='Events' />
+          </Box>
+        </Grid>
+        <Grid item xs={2}>
+          <AddAnnualPlaner />
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant="outlined" onClick={clickFileName}>
+            Annual Planner
+          </Button>
+        </Grid>
+        <Grid item xs={2}>
+          <Button variant="outlined" onClick={clickEventsoverview}>
+            Events Overview
+          </Button>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} >
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: "#BEDAE3" }}>
+            <Typography component={Box} p={0.5}>Select Std :</Typography>
+          </Card>
+
+        </Grid>
+        <Grid item xs={2}>
+          <Dropdown Array={GetAssociatedStandardListP} handleChange={clickStandardDropdownP} defaultValue={AssociatedStandardP} />
+        </Grid>
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: "#BEDAE3" }}>
+            <Typography component={Box} p={0.5}>Select Std :</Typography>
+          </Card>
+
+        </Grid>
+        <Grid item xs={2}>
+          <Dropdown Array={SelectStandardList} handleChange={clickStandardDropdown} defaultValue={selectStandard} />
+        </Grid>
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: "#BEDAE3" }}>
+            <Typography component={Box} p={0.5}>Select Div :</Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={2}>
+          <Dropdown Array={SelectDivisionList} handleChange={clickdivisionDropdown} defaultValue={selectDivision} label={"Select Division"} />
+        </Grid>
+        <Grid item xs={1.2}>
+          <Card sx={{ backgroundColor: "#BEDAE3" }}>
+            <Typography component={Box} p={0.5}>Select Month : </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={1.8}>
+          <Dropdown Array={SelectMonthList} handleChange={clicMonthDropdown} defaultValue={selectMonth} label={"Select Month"} />
+        </Grid>
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: "#BEDAE3" }}>
+            <Typography component={Box} p={0.5}>Select Year :</Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={2}>
+          <Dropdown Array={SelectYearList} handleChange={clicYearDropdown} defaultValue={selectYear} label={"Select Year"} />
+        </Grid>
+      </Grid>
+      <br></br>
+
+      <CardCalenderAP ItemList={USGetEventsDataList} ClickItem={ClickItemList}
+        formattedDate={date.selectedDate} DefaultValue ArrayList={HeaderPublish} />
 
 
 
-  </Container>
+    </Container>
 
 
-);
-  
+  );
+
 }
 
 export default AnnualPlanerBaseScreen

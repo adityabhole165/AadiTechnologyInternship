@@ -1,6 +1,6 @@
 
 import http from "../../requests/SchoolService/schoolServices";
-import { IGetAssociatedStdLstForTeacherDropDownBody,  IGetAllDivisionsForStandardDropDownBody , IGetAllMonthsDropDownBody ,IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody , IGetAssociatedStdLstForTeacherDropDownResult , IGetAllDivisionsForStandardDropDownResult , IGetAllMonthsDropDownResult ,IGetYearsForAnnualPalannerDropDownResult ,IGetEventsDataListResult} from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
+import { IGetAssociatedStdLstForTeacherDropDownBody,  IGetAllDivisionsForStandardDropDownBody , IGetAllMonthsDropDownBody ,IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody , IGetAssociatedStdLstForTeacherDropDownResult , IGetAllDivisionsForStandardDropDownResult , IGetAllMonthsDropDownResult ,IGetYearsForAnnualPalannerDropDownResult ,IGetEventsDataListResult,IGetAssociatedStandardsBodyP,IGetAssociatedStandardsResultP} from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
 
 const  StandardDropDown = (data: IGetAssociatedStdLstForTeacherDropDownBody) => {
  return http.post<IGetAssociatedStdLstForTeacherDropDownResult[]>('Teacher/GetAssociatedStdLstForTeacherDropDown',data);
@@ -20,6 +20,9 @@ const  YearsDropDown= (data: IGetYearsForAnnualPalannerDropDownBody) => {
 const  EventsDataList= (data: IGetEventsDataListBody) => {
     return http.post<IGetEventsDataListResult[]>('Teacher/GetEventsDataList',data);
 };
+const AssociatedStandardP = (data: IGetAssociatedStandardsBodyP) => {
+    return http.post< IGetAssociatedStandardsResultP[]>('Teacher/GetAssociatedStandards',data);
+   };
 
 const ApiAnnualPlanerBaseScreen ={
    
@@ -27,7 +30,8 @@ const ApiAnnualPlanerBaseScreen ={
     DivisionDropDown,
     MonthsDropDown,
     YearsDropDown,
-    EventsDataList
+    EventsDataList,
+    AssociatedStandardP
 }
 
 

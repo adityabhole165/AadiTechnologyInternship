@@ -89,3 +89,15 @@ export interface   IGetEventsDataListBody
         Standard_Id: string
 
     }
+    export interface   IGetAssociatedStandardsBodyP
+    {
+        asSchoolId:number,
+        asAcademicYearId:number
+    }
+    export interface   IGetAssociatedStandardsResultP
+    {
+        school_id: string,
+        original_standard_id:string,
+        standard_id: string,
+        standard_name: string
+    }

@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AppThunk } from 'src/store';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
-import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
+import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody,IGetAssociatedStandardsBodyP } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
 
 const AnnualPlanerBaseScreenSlice = createSlice({
   name: 'AnnualPlanerBaseScreen',
@@ -14,6 +14,7 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     ISSelectMonthList: [],
     ISSelectYearList: [],
     ISEventsDataList: [],
+    IGetAssociatedStandardsP:[],
   },
   reducers: {
     addanual(state, action) {
@@ -41,6 +42,10 @@ const AnnualPlanerBaseScreenSlice = createSlice({
 
     REventsDataList(state, action) {
       state.ISEventsDataList = action.payload;
+    },
+
+    AssociatedStandardsP(state, action) {
+      state.IGetAssociatedStandardsP = action.payload;
     },
 
   }
@@ -129,6 +134,21 @@ export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => 
 
   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
 };
+
+export const AssociatedStandardListP =
+  (data: IGetAssociatedStandardsBodyP): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.AssociatedStandardP(data)
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.original_standard_id,
+          Name: item.standard_name,
+          Value: item.original_standard_id
+        }
+      })
+
+      dispatch(AnnualPlanerBaseScreenSlice.actions.AssociatedStandardsP(a))
+    }
 
 export default AnnualPlanerBaseScreenSlice.reducer;
 
