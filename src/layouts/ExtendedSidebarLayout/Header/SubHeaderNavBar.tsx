@@ -91,18 +91,28 @@ function SubHeaderNavBar({ toggleDrawer }) {
             <Tabs
               value={value}
               onChange={handleChange}
-              indicatorColor="primary"
+              sx={{
+                '& .MuiTabs-indicator': {
+                  backgroundColor: 'white'
+                }
+              }}
               variant="scrollable"
               scrollButtons="auto"
               aria-label="primary example"
             >
               <Tab
                 value="0"
-                label={
-                  <Typography sx={{ p: '5px', color: 'white' }}>
-                    Syllabus
-                  </Typography>
-                }
+                sx={{
+                  '&.Mui-selected': {
+                    color: (theme) => theme.palette.primary.main
+                  },
+                  '&:hover': {
+                    '&.Mui-selected': {
+                      color: (theme) => theme.palette.primary.main
+                    }
+                  }
+                }}
+                label={'Syllabus'}
               ></Tab>
               <Tab
                 value="1"

@@ -1,4 +1,4 @@
-import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import CoPresentTwoToneIcon from '@mui/icons-material/CoPresentTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import Reply from '@mui/icons-material/Reply';
@@ -9,6 +9,10 @@ import {
   Button,
   Card,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Divider,
   IconButton,
   Paper,
@@ -257,7 +261,7 @@ const IndividualAttendance = () => {
                   Label={'SelectStudent'}
                 />
                 <IconButton type="button" aria-label="search">
-                  <CloseTwoTone />
+                  <CloseTwoToneIcon />
                 </IconButton>
               </>
             ) : (
@@ -338,6 +342,53 @@ const IndividualAttendance = () => {
               </Box>
             </Card>
           </Popover>
+          <Dialog
+            onClose={() => setOpenAbsent(!isOpenAbsent)}
+            open={isOpenAbsent}
+            fullWidth
+            maxWidth={'xs'}
+          >
+            <DialogTitle
+              variant={'h3'}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              Mark all as Absent
+              <IconButton
+                onClick={() => {
+                  setOpenAbsent(!isOpenAbsent);
+                }}
+              >
+                <CloseTwoToneIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent dividers>
+              <Box py={2}>
+                <Typography variant={'h4'} textAlign={'center'}>
+                  Are you sure you want the chosen student to be marked as
+                  absent on each day?
+                </Typography>
+              </Box>
+            </DialogContent>
+            <DialogActions sx={{ px: 3, py: 2 }}>
+              <Button variant="outlined" color="error" onClick={handleAbsent}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'rgb(40, 160, 235)',
+                  color: 'white'
+                }}
+                color="primary"
+              >
+                Confirm
+              </Button>
+            </DialogActions>
+          </Dialog>
           <IconButton
             onClick={handleAbsent}
             sx={{
@@ -352,67 +403,65 @@ const IndividualAttendance = () => {
               <h5>A</h5>
             </Tooltip>
           </IconButton>
-          <Popover
-            disableScrollLock
-            anchorEl={ref.current}
+          <Dialog
             onClose={() => setOpenSave(!isOpenSave)}
             open={isOpenSave}
-            anchorOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
-            }}
-            transformOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
-            }}
+            fullWidth
+            maxWidth={'xs'}
           >
-            <Card sx={{ py: 5 }}>
-              <Box width={400} gap={5} alignContent="center" mx={2}>
-                <Typography color="" mb={3} textAlign={'center'}>
+            <DialogTitle
+              variant={'h3'}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              Save Changes
+              <IconButton
+                onClick={() => {
+                  setOpenSave(!isOpenSave);
+                }}
+              >
+                <CloseTwoToneIcon />
+              </IconButton>
+            </DialogTitle>
+            <DialogContent dividers>
+              <Box py={2}>
+                <Typography variant={'h4'} textAlign={'center'}>
                   Are you sure, Do you want to change update?
                 </Typography>
-                <Stack
-                  direction="row"
-                  gap={7}
-                  mx={5}
-                  justifyContent="space-between"
-                >
-                  <Button
-                    variant="outlined"
-                    sx={{ px: 6 }}
-                    color="error"
-                    onClick={handleSave}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      px: 6,
-                      backgroundColor: 'rgb(40, 160, 235)',
-                      color: 'white'
-                    }}
-                    color="primary"
-                  >
-                    Confirm
-                  </Button>
-                </Stack>
               </Box>
-            </Card>
-          </Popover>
-          <IconButton
-            onClick={handleSave}
-            sx={{
-              color: 'white',
-              backgroundColor: 'gray',
-              height: '36px !important',
-              ':hover': { backgroundColor: 'gray' }
-            }}
-          >
-            <Tooltip title="Save">
+            </DialogContent>
+            <DialogActions sx={{ py: 2, px: 3 }}>
+              <Button variant="outlined" color="error" onClick={handleSave}>
+                Cancel
+              </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: 'rgb(40, 160, 235)',
+                  color: 'white'
+                }}
+                color="primary"
+              >
+                Update
+              </Button>
+            </DialogActions>
+          </Dialog>
+          <Tooltip title="Save">
+            <IconButton
+              onClick={handleSave}
+              sx={{
+                color: 'white',
+                backgroundColor: 'gray',
+                height: '36px !important',
+                ':hover': { backgroundColor: 'gray' }
+              }}
+            >
               <SaveAlt />
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
           <Tooltip title="Help">
             <IconButton
               sx={{
@@ -441,55 +490,54 @@ const IndividualAttendance = () => {
         ArrayList={HeaderPublish}
       />
       <br></br>
-      <Popover
-        disableScrollLock
-        anchorEl={ref.current}
+      <Dialog
         onClose={() => setOpenPresent(!isOpenPresent)}
         open={isOpenPresent}
-        anchorOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
-        transformOrigin={{
-          vertical: 'center',
-          horizontal: 'center'
-        }}
+        fullWidth
+        maxWidth={'xs'}
       >
-        <Card sx={{ py: 5 }}>
-          <Box width={400} gap={5} alignContent="center" mx={2}>
-            <Typography color="" mb={3} textAlign={'center'}>
+        <DialogTitle
+          variant={'h3'}
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
+          }}
+          color={'success'}
+        >
+          Mark all as Present
+          <IconButton
+            onClick={() => {
+              setOpenPresent(!isOpenPresent);
+            }}
+          >
+            <CloseTwoToneIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent dividers>
+          <Box py={2}>
+            <Typography variant={'h4'} textAlign={'center'}>
               Are you sure you want the chosen student to be marked as present
               on each day?
             </Typography>
-            <Stack
-              direction="row"
-              gap={7}
-              mx={5}
-              justifyContent="space-between"
-            >
-              <Button
-                variant="outlined"
-                sx={{ px: 6 }}
-                color="error"
-                onClick={handlePresent}
-              >
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  px: 6,
-                  backgroundColor: 'rgb(40, 160, 235)',
-                  color: 'white'
-                }}
-                color="primary"
-              >
-                Confirm
-              </Button>
-            </Stack>
           </Box>
-        </Card>
-      </Popover>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, py: 2 }}>
+          <Button variant="outlined" color="error" onClick={handlePresent}>
+            Cancel
+          </Button>
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: 'rgb(40, 160, 235)',
+              color: 'white'
+            }}
+            color="primary"
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };

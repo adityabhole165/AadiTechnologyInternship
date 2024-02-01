@@ -1,10 +1,10 @@
-import { alpha, createTheme, lighten, darken } from '@mui/material';
 import '@mui/lab/themeAugmentation';
+import { alpha, createTheme, darken, lighten } from '@mui/material';
 
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: '#8593fe',
+  primary: '#28A0EB',
   secondary: '#6E759F',
   success: '#57CA22',
   warning: '#FFA319',
@@ -22,10 +22,11 @@ const colors = {
     disableButton: '#cccccc',
     listColor: '#fdfdfd',
     selectedlistColor: '#D9DDE2',
-    HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
-    pageBackground:'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
-    containerBackground:'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
-    accordianHeadercolor:'#7b3c9c',
+    HighlightedlistColor:
+      'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
+    pageBackground: 'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
+    containerBackground: 'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
+    accordianHeadercolor: '#7b3c9c',
     blue1: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue2: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue3: 'linear-gradient(127.55deg, #141E30 3.73%, #243B55 92.26%)',
@@ -43,8 +44,8 @@ const colors = {
     green2: 'linear-gradient(to bottom, #00b09b, #96c93d)',
     black1: 'linear-gradient(100.66deg, #434343 6.56%, #000000 93.57%)',
     black2: 'linear-gradient(60deg, #29323c 0%, #485563 100%)',
-    red:'linear-gradient(65deg, #12c2e9 0%, #c471ed, #f64f59 100%)',
-    pink:'linear-gradient(65deg, #D3CCE3 0%, #E9E4F0, #f64f59 50%)',
+    red: 'linear-gradient(65deg, #12c2e9 0%, #c471ed, #f64f59 100%)',
+    pink: 'linear-gradient(65deg, #D3CCE3 0%, #E9E4F0, #f64f59 50%)'
   },
   shadows: {
     success:
@@ -147,17 +148,15 @@ export const GreyGooseTheme = createTheme({
   // direction: i18n.dir(),
   colors: {
     gradients: {
-
-   
       primayButton: colors.gradients.primayButton,
-      secondaryButton:colors.gradients.secondaryButton,
-      disableButton:colors.gradients.disableButton,
+      secondaryButton: colors.gradients.secondaryButton,
+      disableButton: colors.gradients.disableButton,
       listColor: colors.gradients.listColor,
       selectedlistColor: colors.gradients.selectedlistColor,
-      HighlightedlistColor:colors.gradients.HighlightedlistColor,
-      pageBackground:colors.gradients.  pageBackground,
-      containerBackground:colors.gradients. containerBackground,
-      accordianHeadercolor:colors.gradients.accordianHeadercolor,
+      HighlightedlistColor: colors.gradients.HighlightedlistColor,
+      pageBackground: colors.gradients.pageBackground,
+      containerBackground: colors.gradients.containerBackground,
+      accordianHeadercolor: colors.gradients.accordianHeadercolor,
       blue1: colors.gradients.blue1,
       blue2: colors.gradients.blue2,
       blue3: colors.gradients.blue3,
@@ -168,15 +167,15 @@ export const GreyGooseTheme = createTheme({
       orange3: colors.gradients.orange3,
       purple1: colors.gradients.purple1,
       purple3: colors.gradients.purple3,
-      navy2:colors.gradients.navy2,
+      navy2: colors.gradients.navy2,
       pink1: colors.gradients.pink1,
       pink2: colors.gradients.pink2,
       green1: colors.gradients.green1,
       green2: colors.gradients.green2,
       black1: colors.gradients.black1,
       black2: colors.gradients.black2,
-      red:colors.gradients.red,
-      pink:colors.gradients.pink
+      red: colors.gradients.red,
+      pink: colors.gradients.pink
     },
     shadows: {
       success: colors.shadows.success,

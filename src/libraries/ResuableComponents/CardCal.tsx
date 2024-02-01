@@ -1,18 +1,32 @@
 import { Box } from '@mui/material';
 import { useState } from 'react';
 
-function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
+function CardCal({
+  item,
+  clickItem,
+  DefaultValue,
+  options = undefined,
+  legendColors
+}) {
   const [isHovered, setIsHovered] = useState(false);
   const fourcolour = ['', 'red', 'green', 'blue', 'gray', 'orange'];
 
+  function hexToRGBA(hex: string, opacity: number) {
+    let r = parseInt(hex.slice(1, 3), 16),
+      g = parseInt(hex.slice(3, 5), 16),
+      b = parseInt(hex.slice(5, 7), 16);
+
+    return `rgba(${r}, ${g}, ${b}, ${opacity})`;
+  }
+
   const bg = {
-    p: 'rgb(239, 250, 237)',
-    a: 'rgb(250, 238, 237)',
-    h: 'rgba(249, 219, 218, 1)',
-    w: 'rgb(246, 247, 230)',
-    o: 'rgb(247, 230, 245)',
-    l: 'rgb(234, 230, 247)',
-    n: 'rgb(246, 247, 230) '
+    p: hexToRGBA(legendColors.p, 0.2),
+    a: hexToRGBA(legendColors.a, 0.2),
+    h: hexToRGBA(legendColors.h, 0.2),
+    w: hexToRGBA(legendColors.w, 0.2),
+    o: hexToRGBA(legendColors.o, 0.1),
+    l: hexToRGBA(legendColors.l, 0.2),
+    n: hexToRGBA(legendColors.n, 0.2)
   };
   const data = {
     p: 'Present',
@@ -23,15 +37,15 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
     l: 'Late',
     n: 'Not Available'
   };
-  const color = {
-    p: '#008000',
-    a: '#FF0001',
-    h: '#a52a2a',
-    w: '#800080',
-    o: 'rgba(245,88,245,1)',
-    l: '#303f9f',
-    n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
-  };
+  // const color = {
+  //   p: '#008000',
+  //   a: '#b73839',
+  //   h: '#a52a2a',
+  //   w: '#800080',
+  //   o: 'rgba(245,88,245,1)',
+  //   l: '#303f9f',
+  //   n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
+  // };
 
   const cardStyle = {
     heihgt: '15vh',
@@ -57,7 +71,7 @@ function CardCal({ item, clickItem, DefaultValue, options = undefined }) {
         my={0}
         sx={{
           backgroundColor: bg[item.Text1.split('')[0].toLowerCase()],
-          color: color[item.Text1.split('')[0].toLowerCase()],
+          color: legendColors[item.Text1.split('')[0].toLowerCase()],
           ...cardStyle,
           fontWeight: '700',
           height: '10vh'

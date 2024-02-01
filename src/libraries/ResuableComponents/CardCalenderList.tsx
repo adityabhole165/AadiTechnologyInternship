@@ -1,14 +1,6 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import {
-  Box,
-  Card,
-  Grid,
-  IconButton,
-  Stack,
-  Typography,
-  alpha
-} from '@mui/material';
+import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
 import DotLegendTeacher from '../summary/DotLegendTeacher';
 import CardCal from './CardCal';
 function CardCalenderList({
@@ -20,8 +12,14 @@ function CardCalenderList({
   DefaultValue,
   ArrayList
 }) {
-  const yearStyle = {
-    fontSize: '40px'
+  const legendColors = {
+    p: '#008000',
+    a: '#b73839',
+    h: '#792ba7',
+    w: '#bdbdbd',
+    o: '#aa3daa',
+    l: '#303f9f',
+    n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
   };
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -42,7 +40,7 @@ function CardCalenderList({
   };
 
   return (
-    <Card component={Box} p={2}>
+    <Box sx={{ backgroundColor: 'white' }} p={2}>
       <Box
         sx={{
           alignItems: 'center',
@@ -80,14 +78,17 @@ function CardCalenderList({
         </Box>
         <Grid container sx={{ my: 2 }}>
           <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendTeacher color="primary" text="Present" />
-            <DotLegendTeacher color="error" text="Absent" />
-            <DotLegendTeacher color="success" text="Holiday" />
-            <DotLegendTeacher color="secondary" text="Weekend" />
+            <DotLegendTeacher color={legendColors.p} text="Present" />
+            <DotLegendTeacher color={legendColors.a} text="Absent" />
+            <DotLegendTeacher color={legendColors.h} text="Holiday" />
+            <DotLegendTeacher color={legendColors.w} text="Weekend" />
 
-            <DotLegendTeacher color="warning" text="Outside Acadamic Year " />
-            <DotLegendTeacher color="info" text="Late Join " />
-            <DotLegendTeacher color="" text="Not Available " />
+            <DotLegendTeacher
+              color={legendColors.o}
+              text="Outside Acadamic Year "
+            />
+            <DotLegendTeacher color={legendColors.l} text="Late Join " />
+            <DotLegendTeacher color={legendColors.n} text="Not Available " />
           </Grid>
         </Grid>
         <Grid container spacing={0}>
@@ -125,13 +126,14 @@ function CardCalenderList({
                   item={item}
                   clickItem={clickCard}
                   DefaultValue={DefaultValue}
+                  legendColors={legendColors}
                 />
               </Grid>
             );
           })}
         </Grid>
       </Box>
-    </Card>
+    </Box>
   );
 }
 export default CardCalenderList;
