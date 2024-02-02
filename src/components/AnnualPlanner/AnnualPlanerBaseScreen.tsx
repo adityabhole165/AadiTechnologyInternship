@@ -257,7 +257,7 @@ const AnnualPlanerBaseScreen = () => {
 
   const clickEventsoverview= (value) => {
 
-    navigate('/extended-sidebar/Teacher/EventOverview')
+    navigate('/extended-sidebar/common/EventOverview')
 
   };
 
