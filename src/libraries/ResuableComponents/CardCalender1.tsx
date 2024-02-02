@@ -1,15 +1,11 @@
-import {
-  Box,
-  Button,
-  Grid,
-  IconButton,
-  Typography,
-  alpha
-} from '@mui/material';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { Box, Grid, IconButton, Typography, alpha } from '@mui/material';
 
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
+import { red } from '@mui/material/colors';
 import { getDateFormattedDash } from 'src/components/Common/Util';
+import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
 function CardCalender1({
   ItemList,
@@ -21,7 +17,8 @@ function CardCalender1({
   getAssignedDateStatus,
   ClickDeleteAttendance,
   clickNav,
-  Standardid
+  Standardid,
+  AttendanceStatus
 }) {
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -53,7 +50,7 @@ function CardCalender1({
 
   return (
     <Box p={2}>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           alignItems: 'center',
@@ -61,19 +58,8 @@ function CardCalender1({
           gap: 1
         }}
       >
-        {getAssignedDateStatus() == 'Done' && (
-          <>
-            <Box>
-              <Button
-                variant={'contained'}
-                color="error"
-                onClick={() => ClickDeleteAttendance()}
-                fullWidth
-              >
-                Delete
-              </Button>
-            </Box>
-            <Box>
+        <>
+          <Box>
               <Button
                 variant={'contained'}
                 color="secondary"
@@ -97,9 +83,8 @@ function CardCalender1({
                 Missing
               </Button>
             </Box>
-          </>
-        )}
-      </Box>
+        </>
+      </Box> */}
       <Box
         sx={{
           mt: 1,
@@ -108,30 +93,74 @@ function CardCalender1({
           justifyContent: 'space-between'
         }}
       >
-        <IconButton
-          onClick={() => clickPrevNextMonth(-1)}
-          sx={{
-            color: (theme) => theme.palette.primary.main,
-            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2)
-          }}
-        >
-          <ChevronLeftTwoToneIcon />
-        </IconButton>
-        <Typography sx={{ fontWeight: 'bold' }} variant={'h4'}>
-          {formattedDate}
-        </Typography>
+        <Box>
+          <Typography sx={{ fontWeight: 'bold' }} variant={'h4'}>
+            {formattedDate} |{' '}
+            <span
+              style={{
+                fontWeight: 'normal',
+                fontSize: '14px',
+                color: red[500]
+              }}
+            >
+              {AttendanceStatus}
+            </span>
+          </Typography>
+        </Box>
 
-        <IconButton
-          onClick={() => clickPrevNextMonth(1)}
+        <Box
           sx={{
-            color: (theme) => theme.palette.primary.main,
-            backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2)
+            display: 'flex',
+            alignItems: 'center',
+            gap: 1
           }}
         >
-          <ChevronRightTwoToneIcon />
-        </IconButton>
+          {getAssignedDateStatus() == 'Done' && (
+            <IconButton
+              sx={{
+                backgroundColor: (theme) => alpha(theme.palette.error.main, 0.2)
+              }}
+              color="error"
+              onClick={() => ClickDeleteAttendance()}
+            >
+              <DeleteTwoToneIcon />
+            </IconButton>
+          )}
+          <IconButton
+            onClick={() => clickPrevNextMonth(-1)}
+            sx={{
+              color: (theme) => theme.palette.primary.main,
+              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2)
+            }}
+          >
+            <ChevronLeftTwoToneIcon />
+          </IconButton>
+          <IconButton
+            onClick={() => clickPrevNextMonth(1)}
+            sx={{
+              color: (theme) => theme.palette.primary.main,
+              backgroundColor: (theme) => alpha(theme.palette.primary.main, 0.2)
+            }}
+          >
+            <ChevronRightTwoToneIcon />
+          </IconButton>
+        </Box>
       </Box>
-      <br></br>
+      <Grid
+        my={2}
+        item
+        xs={12}
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
+        <DotLegendAttandaceCalender color="primary" text="Done " />
+        <DotLegendAttandaceCalender color="info" text="Not Done" />
+        <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
+        <DotLegendAttandaceCalender color="Warning" text="Weekend" />
+        <DotLegendAttandaceCalender
+          color="Suceess"
+          text="OutSideAcadamicYear"
+        />
+      </Grid>
       <Grid container>
         {ArrayList.map((item, i) => (
           <>

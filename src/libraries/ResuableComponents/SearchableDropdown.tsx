@@ -23,7 +23,8 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '' }) {
         <TextField
           {...params}
           sx={{
-            minWidth: '250px'
+            minWidth: '250px',
+            pl: '10px'
           }}
           variant={'standard'}
           label={label}

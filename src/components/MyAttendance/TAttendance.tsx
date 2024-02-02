@@ -1,13 +1,14 @@
+import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
+import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone';
 import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
+import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
 import {
-  Alert,
   Box,
-  Button,
-  Card,
   Container,
   Grid,
   Hidden,
   IconButton,
+  Paper,
   Stack,
   TextField,
   Tooltip,
@@ -32,7 +33,6 @@ import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
-import DotLegendAttandaceCalender from 'src/libraries/summary/DotLegendAttandaceCalender';
 import {
   CDADeleteAttendance,
   CDAGetTeacherNameList,
@@ -46,7 +46,7 @@ import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import { getDateFormatted } from '../Common/Util';
 
-import { green, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { Styles } from 'src/assets/style/student-style';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
@@ -78,6 +78,7 @@ const TAttendance = () => {
   let IsClassTeacher = sessionStorage.getItem('IsClassTeacher');
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const TeacherId = sessionStorage.getItem('TeacherId');
+  const [search, setSearch] = useState(false);
 
   const [Standardid, setStandardid] = useState<string>();
 
@@ -402,47 +403,99 @@ const TAttendance = () => {
             }
           ></PageHeader>
         </Box>
-        <Stack direction={'row'} gap={2}>
+        <Stack direction={'row'} gap={1}>
           <Box>
-            <Button
-              variant={'contained'}
-              onClick={() => {
-                navigate('/extended-sidebar/Teacher/IndidualAttendance');
-              }}
-            >
-              Individual Attendance
-            </Button>
+            <Tooltip title={'Individual Attendance'}>
+              <IconButton
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/IndidualAttendance');
+                }}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <BadgeTwoToneIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box>
-            <Button
-              variant={'contained'}
-              onClick={() => {
-                navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
-              }}
-            >
-              Monthwise Attendance
-            </Button>
+            <Tooltip title={'Monthwise Attendance'}>
+              <IconButton
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
+                }}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <RecentActorsTwoToneIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
           <Box>
-            <SearchableDropdown
-              ItemList={ClassTeacherDropdownnew}
-              onChange={clickClassTechernew}
-              defaultValue={selectClasstecahernew}
-            />
-          </Box>
-          <Box>
-            <IconButton
-              onClick={SaveMsg}
+            <Paper
+              component="form"
               sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                '&:hover': {
-                  backgroundColor: green[500]
-                }
+                display: 'flex',
+                justifyContent: 'flex-end',
+                alignItems: 'center',
+                my: 0,
+                py: 0,
+                flexWrap: 'nowrap'
               }}
             >
-              <SaveTwoToneIcon />
-            </IconButton>
+              {search ? (
+                <>
+                  <SearchableDropdown
+                    ItemList={ClassTeacherDropdownnew}
+                    onChange={clickClassTechernew}
+                    defaultValue={selectClasstecahernew}
+                  />
+                </>
+              ) : (
+                ''
+              )}
+
+              <IconButton
+                onClick={() => setSearch(!search)}
+                color="primary"
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Tooltip title="search">
+                  <SearchTwoToneIcon />
+                </Tooltip>
+              </IconButton>
+            </Paper>
+          </Box>
+          <Box>
+            <Tooltip title={'Save Attendance'}>
+              <IconButton
+                onClick={SaveMsg}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <SaveTwoToneIcon />
+              </IconButton>
+            </Tooltip>
           </Box>
         </Stack>
       </Stack>
@@ -455,7 +508,11 @@ const TAttendance = () => {
               p: 2
             }}
           >
-            <Typography variant={'h4'} sx={{ marginBottom: 1 }} color={'green'}>
+            <Typography
+              variant={'h4'}
+              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              color={'green'}
+            >
               {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text1}
             </Typography>
             <Stack
@@ -515,7 +572,11 @@ const TAttendance = () => {
               p: 2
             }}
           >
-            <Typography variant={'h4'} sx={{ marginBottom: 1 }} color={'error'}>
+            <Typography
+              variant={'h4'}
+              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              color={'error'}
+            >
               {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text1}
             </Typography>
             <Stack
@@ -577,7 +638,7 @@ const TAttendance = () => {
           >
             <Typography
               variant={'h4'}
-              sx={{ marginBottom: 1 }}
+              sx={{ marginBottom: 1, fontSize: '18px !important' }}
               color={'primary'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text1}
@@ -639,7 +700,10 @@ const TAttendance = () => {
               p: 2
             }}
           >
-            <Typography variant={'h4'} sx={{ marginBottom: 1 }}>
+            <Typography
+              variant={'h4'}
+              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+            >
               {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text1}
             </Typography>
             <Stack
@@ -694,23 +758,7 @@ const TAttendance = () => {
         </Grid>
       </Grid>
 
-      {/* </Hidden> */}
-      <Hidden mdDown>
-        <Box>
-          <Alert
-            severity="warning"
-            sx={{
-              width: 300,
-              mx: 'auto',
-              mt: 2
-            }}
-          >
-            {AttendanceStatus}
-          </Alert>
-        </Box>
-      </Hidden>
-
-      <Grid container spacing={2}>
+      <Grid container spacing={2} mt={2}>
         <Grid item xs={12} md={6}>
           {stdlist.length > 1 ? (
             <Dropdown
@@ -750,7 +798,6 @@ const TAttendance = () => {
                   label="Absent Roll Numbers"
                   value={StudentAbsent}
                 ></TextField>
-                <br></br>
               </Hidden>
               <Box>
                 <List26
@@ -762,60 +809,33 @@ const TAttendance = () => {
             </Box>
           </Box>
         </Grid>
-
-        <Hidden mdDown>
-          <Grid item md={6}>
-            <Grid container>
-              <Card component={Box} p={2} mt={4.5}>
-                <Grid container>
-                  <Grid
-                    item
-                    xs={12}
-                    sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-                  >
-                    <DotLegendAttandaceCalender color="primary" text="Done " />
-                    <DotLegendAttandaceCalender color="info" text="Not Done" />
-                    <DotLegendAttandaceCalender
-                      color="Holiday"
-                      text="Holiday"
-                    />
-                    <DotLegendAttandaceCalender
-                      color="Warning"
-                      text="Weekend"
-                    />
-                    <DotLegendAttandaceCalender
-                      color="Suceess"
-                      text="OutSideAcadamicYear"
-                    />
-                  </Grid>
-
-                  <Grid item xs={6}></Grid>
-                </Grid>
-
-                <CardCalender1
-                  ItemList={listAttendanceCalender}
-                  ClickItem={ClickItem}
-                  formattedDate={assignedDate}
-                  DefaultValue
-                  assignedDate={assignedDate}
-                  ArrayList={HeaderPublish}
-                  ClickDeleteAttendance={ClickDeleteAttendance}
-                  Standardid={Standardid}
-                  clickNav={clickNav}
-                  getAssignedDateStatus={getAssignedDateStatus}
-                />
-              </Card>
-            </Grid>
-            <br></br>
-            {/* 
+        <Grid item xs={12} md={6}>
+          <Grid container>
+            <Box sx={{ backgroundColor: 'white' }}>
+              <CardCalender1
+                ItemList={listAttendanceCalender}
+                ClickItem={ClickItem}
+                formattedDate={assignedDate}
+                DefaultValue
+                assignedDate={assignedDate}
+                ArrayList={HeaderPublish}
+                ClickDeleteAttendance={ClickDeleteAttendance}
+                Standardid={Standardid}
+                AttendanceStatus={AttendanceStatus}
+                clickNav={clickNav}
+                getAssignedDateStatus={getAssignedDateStatus}
+              />
+            </Box>
+          </Grid>
+          <br></br>
+          {/* 
             {SummaryCountforAttendance != null && (
               <TableAttendace
                 ItemList={SummaryCountforAttendance.GetSummaryCountList}
                 HeaderArray={HeaderArray}
               />
             )} */}
-          </Grid>
-        </Hidden>
+        </Grid>
       </Grid>
     </Container>
   );

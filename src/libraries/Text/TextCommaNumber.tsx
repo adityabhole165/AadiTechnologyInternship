@@ -55,9 +55,11 @@ const TextCommaNumber = ({
 
   return (
     <>
-      <br />
       <TextField
-        variant="standard"
+        variant="outlined"
+        sx={{
+          backgroundColor: 'white'
+        }}
         fullWidth
         value={textarray}
         error={getLabel !== defaultLabel}
