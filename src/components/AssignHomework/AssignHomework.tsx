@@ -16,6 +16,7 @@ import DotLegend from 'src/libraries/summary/DotLegend';
 import { green } from '@mui/material/colors';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 
 const AssignHomework = () => {
@@ -201,7 +202,12 @@ const GetScreenPermission=()=>{
     <DropDown itemList={FullAccessTeacher} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/>:
     sessionStorage.getItem("StudentName")
     } */}
-      <DropDown itemList={TeacherList} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/> 
+      <SearchableDropdown
+                      ItemList={TeacherList}
+                      onChange={clickTeacherDropdown}
+                      defaultValue={SelectTeacher.toString()}
+                      
+                    />
    <br></br>
     <br></br>
   </Grid>
@@ -212,8 +218,12 @@ const GetScreenPermission=()=>{
   </Grid>
   
   <Grid item xs={2}>
-  <DropDown itemList={ClassList} ClickItem={clickClass} DefaultValue={SelectClass} Label={"Select Class:"} />
-
+  <SearchableDropdown
+                      ItemList={ClassList}
+                      onChange={clickClass}
+                      defaultValue={SelectClass.toString()}
+                      
+                    />
     <br></br>
   </Grid>
  

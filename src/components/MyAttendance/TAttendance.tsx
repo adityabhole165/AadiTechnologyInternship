@@ -95,6 +95,8 @@ const TAttendance = () => {
     const StudentAbsent = useSelector(
         (state: RootState) => state.AttendanceList.StudentAbsent
     );
+    console.log(StudentAbsent, "StudentAbsentvv");
+
     const AttendanceStatus = useSelector(
         (state: RootState) => state.AttendanceList.AttendanceStatus
     );
@@ -305,7 +307,7 @@ const TAttendance = () => {
     useEffect(() => {
         if (saveResponseMessage != '') {
             toast.success(saveResponseMessage);
-            //dispatch(setSaveResponse());
+            // dispatch(setSaveResponse());
             dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody))
 
 
