@@ -89,7 +89,7 @@ import SlicePrePrimaryResult from 'src/requests/PrePrimaryResult/RequestPrePrima
 import SliceRequisition from 'src/requests/Requisition/RequestRequisition'
 import FinalUnPublishTestSlice from 'src/requests/FinalResultUnpublish/RequestFinalResultUnpublish'
 import UnpublishSlice from 'src/requests/PrePrimaryResult/RequestUnpublishPrePrimaryResult'
-import AddAadharCardDetails from 'src/requests/AddAadharCardDetails/RequestAddAadharCardDetails'
+import SliceAddAadharCardDetails from 'src/requests/AddAadharCardDetails/RequestAddAadharCardDetails'
 
 
 const rootReducer = combineReducers({
@@ -186,7 +186,7 @@ const rootReducer = combineReducers({
     SliceRequisition:SliceRequisition,
     Finalunpublish:FinalUnPublishTestSlice,
     UnpublishSlice:UnpublishSlice,
-    AddAadharCardDetails:SliceAadharCardDetails,
+    AddAadharCardDetails:SliceAddAadharCardDetails,
 
 });
 

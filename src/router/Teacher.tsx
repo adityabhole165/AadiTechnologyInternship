@@ -240,6 +240,10 @@ const teacherRoutes = [
       path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
       element: <FinalResultUnpublish/>
     },
+    {
+      path: 'AddAadharCardDetails',
+      element: <AddAadharCardDetails/>
+    },
     ];
   
   export default teacherRoutes;
