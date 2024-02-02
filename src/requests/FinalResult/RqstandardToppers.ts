@@ -124,7 +124,8 @@ export const StandardTopperListST =
             item.Rank_Image + "#" + item.Marks) {
             child.Students.push({
               Text1:item.Roll_No,
-              Text2: item.Student_Name
+              Text2:item.Standard,
+              Text3: item.Student_Name
             })
           }
         })

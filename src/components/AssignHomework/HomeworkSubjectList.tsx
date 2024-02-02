@@ -13,6 +13,7 @@ import DropDown from "src/libraries/list/DropDown"
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import id from 'date-fns/locale/id';
 import AddHomework from 'src/components/AssignHomework/AddHomework'
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 const HomeworkSubjectList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -45,7 +46,6 @@ const HomeworkSubjectList = () => {
   const AllHomeworkDocuments = useSelector((state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments);
   //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
   const DeleteHomework = useSelector((state: RootState) => state.HomeworkSubjectList.DeleteHomework);
-
   const HomeworkDetail: any = useSelector((state: RootState) => state.HomeworkSubjectList.GetHomeworkDetail);
   console.log(HomeworkDetail, "HomeworkDetail.eeeeee...")
 
@@ -184,7 +184,7 @@ const HomeworkSubjectList = () => {
 
       <Grid container spacing={2}>
         <Grid item xs={4}>
-          <DropDown itemList={HomeworkStatus} ClickItem={clickHomeworkStatus} DefaultValue={HomeworkS} Label={''} />
+          <Dropdown Array={HomeworkStatus} handleChange={clickHomeworkStatus} defaultValue={HomeworkS} label={''} />
           <br></br> <br />
         </Grid>
 

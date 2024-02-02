@@ -97,7 +97,7 @@ const AddUnpublish1 = () => {
            onClick={Unpublish}
            variant='contained'
            style={{ marginRight: "8px", backgroundColor: 'green' }}>
-           PUBLISHALL
+           OK
          </ButtonPrimary>  
         
         AddUnpublish1</div>

@@ -39,7 +39,7 @@ const FinalResultToppers = () => {
     const HeaderListCT = ["Rank", "Roll No.", "Student Name", "Marks"];
     const HeaderList1CT = ["Roll No.", "Student Name"];
     const HeaderListST = ["Rank", "Class", "Roll No.", "Student Name", "Marks"];
-    const HeaderList1ST = ["Roll No.", "Student Name"];
+    const HeaderList1ST = ["Roll No.","Class", "Student Name"];
 
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));

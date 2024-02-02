@@ -41,9 +41,10 @@ export const lessonplanlist =
       let abc = response.data.map((item, i) => {
         return {
             Id:i,
-            Text1:item.StartDate,
-            Text2:item.EndDate,
-            Text7:item.IsSubmitted
+            Text1:getDateMonthYearFormatted(item.StartDate),
+            Text2:getDateMonthYearFormatted(item.EndDate),
+            Text7:item.IsSubmitted,
+            Text5:item.UserId
            // Text6: "Export"
             
         }   

@@ -322,7 +322,7 @@ const OnClickExportAll=()=>{
             <Grid item xs={6}>
 <Paper>
       <DynamicList2 HeaderList={HeaderList} ItemList={LessonPlanList}
-                    IconList={IconList} ClickItem={clickDelete}/>
+                    IconList={IconList} ClickItem={clickDelete} ClickCheck={ClickEdit}/>
                 
                 </Paper>
                 </Grid>
