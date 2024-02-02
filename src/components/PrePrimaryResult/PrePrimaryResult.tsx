@@ -301,7 +301,7 @@ return (
       <ButtonPrimary
   onClick={onClickpublished}
   variant="contained"
-  disabled={!EditStatus.every((status) => status === 'Y')}
+  disabled={!EditStatus.every((status) => status =='Y')}
 >
   <b>PUBLISH</b>
 </ButtonPrimary>
@@ -309,7 +309,7 @@ return (
 <ButtonPrimary
   onClick={onClickunpublished}
   variant="contained"
-  disabled={!EditStatus.every((status) => status === 'Y')}
+  disabled={!EditStatus.every((status) => status =='N')}
 >
   <b>UNPUBLISH</b>
 </ButtonPrimary>
