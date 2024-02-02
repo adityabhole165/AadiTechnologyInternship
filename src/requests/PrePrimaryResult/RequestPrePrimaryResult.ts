@@ -72,6 +72,7 @@ export const PrePrimary =
               Id: item.StandardDivisionID,
             SubjectId: item.SubjectId,
               Text1: item.Subject_Name,
+              Text2: item.EditStatus,
               
        }                
       })

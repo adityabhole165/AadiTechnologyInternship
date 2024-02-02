@@ -16,6 +16,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import EditIcon from '@mui/icons-material/Edit';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import EditiconList2 from 'src/libraries/ResuableComponents/EditiconList2';
 
 
 
@@ -53,7 +54,7 @@ const IconList = [
     const Assessmentt = useSelector((state: RootState) => state.PrePrimaryResult.Assessment );
     console.log(Assessmentt, 'GetTestwiseTerm');
 
-    const GetTeacherXseedSubjects = useSelector(
+    const GetTeacherXseedSubjects : any = useSelector(
       (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects);
     console.log(GetTeacherXseedSubjects, 'GetTeacherXseedSubjects');
 
@@ -260,23 +261,38 @@ return (
                
  </Grid>
  
- <DynamicList2 HeaderList={HeaderList} ItemList={GetTeacherXseedSubjects}
-                        IconList={IconList} ClickItem={ClickItem} />
  
+ <EditiconList2 ItemList={GetTeacherXseedSubjects} clickEdit={ClickItem} HeaderArray={HeaderList} />
 
          <div>
   <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
     <Grid item xs={1}>
-      <ButtonPrimary onClick={onClickpublished} variant="contained">
-        <b>PUBLISH</b>
-      </ButtonPrimary>
+     
+
     </Grid>
 
+
+
+
+    {(GetTeacherXseedSubjects.EditStatus =="Y") && (
+                <div>
+                   <ButtonPrimary onClick={onClickpublished} variant="contained">
+                                        <b>PUBLISH</b>
+                                      </ButtonPrimary>
+                </div>)
+            }
     <Grid item xs={1} style={{ margin: '0 10px' }}>
       {/* Adjust the margin value as needed */}
-      <ButtonPrimary onClick={onClickunpublished} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-      UNPUBLISH
-      </ButtonPrimary>
+      
+
+{(GetTeacherXseedSubjects.EditStatus =="Y") && (
+                <div>
+                   <ButtonPrimary onClick={onClickunpublished} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
+                                         UNPUBLISH
+                                         </ButtonPrimary>
+                </div>)
+            }
+
     </Grid>
   </Grid>
 </div>
