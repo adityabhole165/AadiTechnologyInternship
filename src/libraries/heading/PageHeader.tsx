@@ -4,7 +4,7 @@ import { FC } from 'react';
 
 interface PageHeaderProps {
   heading: string;
-  subheading?: string;
+  subheading?: any;
   icon?: any;
 }
 
@@ -12,7 +12,7 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading = '' }) => {
   const theme = useTheme();
 
   return (
-    <Box display="flex" alignItems="center" gap={1}>
+    <Box>
       <Typography
         variant={'h3'}
         sx={{
@@ -25,23 +25,14 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading = '' }) => {
       >
         <Box
           sx={{
-            height: '3px',
-            width: '10px',
+            height: '24px',
+            width: '5px',
             backgroundColor: (theme) => theme.palette.primary.main
           }}
         ></Box>
         {heading}
       </Typography>
-      {subheading && (
-        <Typography
-          variant="subtitle2"
-          sx={{
-            ml: 2
-          }}
-        >
-          {subheading}
-        </Typography>
-      )}
+      {subheading && <Typography variant="subtitle2">{subheading}</Typography>}
     </Box>
   );
 };

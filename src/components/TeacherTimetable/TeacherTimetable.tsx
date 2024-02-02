@@ -1,24 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import {
-  getTimetable,
-  getAdditional
-} from 'src/requests/Teacher/TMtimetable';
-import ITimetable from 'src/interfaces/Student/TimeTable';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import IWdays, {
-  GetWdaysResult,
-  ItimeTable,
-  GettimeTable
-} from 'src/interfaces/Student/Tmtimetable';
-import Accordion7 from 'src/libraries/accordion/accordion7';
-import ControlledAccordions from 'src/libraries/accordion/accordion';
-import Card30 from 'src/libraries/card/Card30';
 import { Container } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import ITimetable from 'src/interfaces/Student/TimeTable';
+import IWdays, {
+  GettimeTable,
+  ItimeTable
+} from 'src/interfaces/Student/Tmtimetable';
 import CardTimetable from 'src/libraries/card/CardTimetable';
-import CardTimetable2 from 'src/libraries/card/CardTimetable2';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { getTimetable } from 'src/requests/Teacher/TMtimetable';
+import { RootState } from 'src/store';
 function TeacherTimetable() {
   const dispatch = useDispatch();
   const weekdaysList = useSelector(
@@ -41,7 +32,6 @@ function TeacherTimetable() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asStandardDivisionId = sessionStorage.getItem('DivisionId');
   const asTeacherId = sessionStorage.getItem('TeacherId');
-
 
   const tt_body: IWdays = {
     asSchoolId: asSchoolId,
@@ -70,11 +60,11 @@ function TeacherTimetable() {
 
   return (
     <>
-    <Container maxWidth={'xl'}>
-      <PageHeader heading={'Timetable'} subheading={''} />
-      
-      <CardTimetable header={TMTimetable}></CardTimetable>
-      {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}
+      <Container maxWidth={'xl'}>
+        <PageHeader heading={'Timetable'} subheading={''} />
+
+        <CardTimetable header={TMTimetable}></CardTimetable>
+        {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}
       </Container>
     </>
   );

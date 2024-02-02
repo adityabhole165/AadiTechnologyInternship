@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getUnreadMessages } from 'src/requests/Dashboard/Dashboard';
 import { IUnreadMessages } from 'src/interfaces/Student/dashboard';
-import { RootState } from 'src/store';
 import Card9 from 'src/libraries/card/card9';
+import { getUnreadMessages } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 function UnreadMessages() {
   const dispatch = useDispatch();

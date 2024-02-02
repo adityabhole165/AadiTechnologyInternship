@@ -1,8 +1,11 @@
-import { createSlice } from '@reduxjs/toolkit'
-import ApiUploadParentPhoto from 'src/api/UploadParentPhoto/ApiUploadParentPhoto'
+import { createSlice } from '@reduxjs/toolkit';
+import ApiUploadParentPhoto from 'src/api/UploadParentPhoto/ApiUploadParentPhoto';
+import {
+  IGetParentPhotosBody,
+  IsaveParentPhotosBody,
+  ISubmitParentPhotoDetailsBody
+} from 'src/interfaces/Student/IUpoladParentPhoto';
 import { AppThunk } from 'src/store';
-import { IGetParentPhotosBody, IsaveParentPhotosBody, ISubmitParentPhotoDetailsBody } from 'src/interfaces/Student/IUpoladParentPhoto';
-
 
 const SliceUploadParentPhoto = createSlice({
   name: 'UploadParentPhoto',
@@ -11,8 +14,7 @@ const SliceUploadParentPhoto = createSlice({
     GetParentphotos: {},
     SaveParentPhotos: {},
     SubmitParentPhotoDetails: {},
-    Loading: true,
-
+    Loading: true
   },
   reducers: {
     getParentphoto(state, action) {
@@ -38,81 +40,78 @@ const SliceUploadParentPhoto = createSlice({
       state.Loading = false;
     },
     getLoading(state, action) {
-      state.Loading = true
+      state.Loading = true;
     }
   }
 });
 
 export const getParentphoto =
-  (data: IGetParentPhotosBody, activeTab='1'): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.getLoading(true));
-      const response = await ApiUploadParentPhoto.GetParentPhotosApi(data)
-      const UserArray = [
-        {
-          Id: '1',
-          Name: 'Father',
-          Text: response?.data?.ParentPhotoDetails.FatherName,
-          Value: response.data.ParentPhotoDetails.FatherPhoto,
-          IsActive: activeTab==='1'?true:false,
-          ImgUrl: "/imges/father.png",
-          fileName: "",
-          choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
-        },
-        {
-          Id: '2',
-          Name: 'Mother',
-          Text: response.data.ParentPhotoDetails.MotherName,
-          Value: response.data.ParentPhotoDetails.MotherPhoto,
-          IsActive: activeTab==='2'?true:false,
-          ImgUrl: "/imges/mom.png",
-          fileName: "",
-          choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
-        },
-        {
+  (data: IGetParentPhotosBody, activeTab = '1'): AppThunk =>
+  async (dispatch) => {
+    dispatch(SliceUploadParentPhoto.actions.getLoading(true));
+    const response = await ApiUploadParentPhoto.GetParentPhotosApi(data);
+    const UserArray = [
+      {
+        Id: '1',
+        Name: 'Father',
+        Text: response?.data?.ParentPhotoDetails.FatherName,
+        Value: response.data.ParentPhotoDetails.FatherPhoto,
+        IsActive: activeTab === '1' ? true : false,
+        ImgUrl: '/imges/father.png',
+        fileName: '',
+        choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
+      },
+      {
+        Id: '2',
+        Name: 'Mother',
+        Text: response.data.ParentPhotoDetails.MotherName,
+        Value: response.data.ParentPhotoDetails.MotherPhoto,
+        IsActive: activeTab === '2' ? true : false,
+        ImgUrl: '/imges/mom.png',
+        fileName: '',
+        choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
+      },
+      {
+        Id: '3',
+        Name: 'Relative',
+        Text: response.data.ParentPhotoDetails.RelativeName,
+        Value: response.data.ParentPhotoDetails.RelativePhoto,
+        IsActive: activeTab === '3' ? true : false,
+        ImgUrl: '/imges/relative.png',
+        fileName: '',
+        choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
+      }
+    ];
 
-          Id: '3',
-          Name: 'Relative',
-          Text: response.data.ParentPhotoDetails.RelativeName,
-          Value: response.data.ParentPhotoDetails.RelativePhoto,
-          IsActive: activeTab==='3'?true:false,
-          ImgUrl: "/imges/relative.png",
-          fileName: "",
-          choosefileDisable: response?.data?.ParentPhotoDetails.IsPhotosSubmitted
-        },
-      ];
-
-      dispatch(SliceUploadParentPhoto.actions.getParentphoto(UserArray));
-      dispatch(SliceUploadParentPhoto.actions.getParentphotos(response.data));
-    };
-
+    dispatch(SliceUploadParentPhoto.actions.getParentphoto(UserArray));
+    dispatch(SliceUploadParentPhoto.actions.getParentphotos(response.data));
+  };
 
 export const getSaveParentPhotos =
   (data: IsaveParentPhotosBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.getLoading(true));
-      const response = await ApiUploadParentPhoto.saveParentPhotosApi(data)
-      dispatch(SliceUploadParentPhoto.actions.getSaveParentPhotos(response.data));
-    };
-export const resetMessage =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.resetMessage());
-    }
+  async (dispatch) => {
+    dispatch(SliceUploadParentPhoto.actions.getLoading(true));
+    const response = await ApiUploadParentPhoto.saveParentPhotosApi(data);
+    dispatch(SliceUploadParentPhoto.actions.getSaveParentPhotos(response.data));
+  };
+export const resetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(SliceUploadParentPhoto.actions.resetMessage());
+};
 
 export const getSubmitParentPhotoDetails =
   (data: ISubmitParentPhotoDetailsBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.getLoading(true));
-      const response = await ApiUploadParentPhoto.SubmitParentPhotoDetailsApi(data)
-      dispatch(SliceUploadParentPhoto.actions.getSubmitParentPhotoDetails(response.data));
-    };
+  async (dispatch) => {
+    dispatch(SliceUploadParentPhoto.actions.getLoading(true));
+    const response = await ApiUploadParentPhoto.SubmitParentPhotoDetailsApi(
+      data
+    );
+    dispatch(
+      SliceUploadParentPhoto.actions.getSubmitParentPhotoDetails(response.data)
+    );
+  };
 
-export const resetMessage1 =
-  (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceUploadParentPhoto.actions.resetMessage1());
-    }
+export const resetMessage1 = (): AppThunk => async (dispatch) => {
+  dispatch(SliceUploadParentPhoto.actions.resetMessage1());
+};
 
-
-export default SliceUploadParentPhoto.reducer
+export default SliceUploadParentPhoto.reducer;

@@ -1,8 +1,7 @@
-import { Box, Grid, List, Typography, Container, useTheme, Grow, Checkbox, ListItemSecondaryAction } from "@mui/material"
-import { getDayOfYear } from "date-fns/esm";
+import { Box, Checkbox, Grid, List, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useState, useEffect } from "react";
-import { Styles } from "src/assets/style/student-style";
+import { useEffect, useState } from 'react';
+import { Styles } from 'src/assets/style/student-style';
 
 List13.PropTypes = {
   RollNumber: PropTypes.number,
@@ -11,38 +10,44 @@ List13.PropTypes = {
   data: PropTypes.any,
   check: PropTypes.any,
   handleChange: PropTypes.any,
-  handleChange1: PropTypes.any,
-}
+  handleChange1: PropTypes.any
+};
 
-function List13({ RollNumber, StudentName, data, check, handleChange1, getAttendance }) {
+function List13({
+  RollNumber,
+  StudentName,
+  data,
+  check,
+  handleChange1,
+  getAttendance
+}) {
   const classes = Styles();
   const theme = useTheme();
   const [checked, setChecked] = useState(true);
 
-
   const checkedbox = (event) => {
-    setChecked(event.target.checked)
-    handleChange1(event)
-  }
+    setChecked(event.target.checked);
+    handleChange1(event);
+  };
 
   useEffect(() => {
     if (check) {
-      setChecked(true)
+      setChecked(true);
     }
-  }, [check])
+  }, [check]);
 
   return (
     <>
-
-
-      <List className={classes.ListStyle}
+      <List
+        className={classes.ListStyle}
         sx={{
-          background: `${theme.colors.gradients.pink1}`, justifyContent: 'center'
-        }}>
+          background: `${theme.colors.gradients.pink1}`,
+          justifyContent: 'center'
+        }}
+      >
         <Box>
-
-          <Grid container >
-            <Grid item xs={2} md={1} sx={{ mx: "auto", mt: "5px" }}>
+          <Grid container>
+            <Grid item xs={2} md={1} sx={{ mx: 'auto', mt: '5px' }}>
               <Checkbox
                 checked={checked}
                 onChange={(event) => checkedbox(event)}
@@ -55,22 +60,23 @@ function List13({ RollNumber, StudentName, data, check, handleChange1, getAttend
               <Grid xs={12}>
                 <Grid container>
                   <Grid xs={10}>
-                    <Typography sx={{ml:"20px"}}
-                     className={classes.Listfont1}>
+                    <Typography
+                      sx={{ ml: '20px' }}
+                      className={classes.Listfont1}
+                    >
                       {RollNumber}
                     </Typography>
                   </Grid>
                 </Grid>
                 <Grid container>
                   <Grid xs={2.5}>
-                    <Typography>
-
-                    </Typography>
+                    <Typography></Typography>
                   </Grid>
-                  <Grid xs={9}
-                    sx={{ mt: "-18px",ml:"70px",paddingBottom:"-10px" }}>
-                    <Typography
-                      className={classes.Listfont2} >
+                  <Grid
+                    xs={9}
+                    sx={{ mt: '-18px', ml: '70px', paddingBottom: '-10px' }}
+                  >
+                    <Typography className={classes.Listfont2}>
                       {StudentName}
                     </Typography>
                   </Grid>
@@ -80,9 +86,7 @@ function List13({ RollNumber, StudentName, data, check, handleChange1, getAttend
           </Grid>
         </Box>
       </List>
-
-
     </>
-  )
+  );
 }
-export default List13
+export default List13;

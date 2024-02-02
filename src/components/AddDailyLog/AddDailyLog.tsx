@@ -1,87 +1,114 @@
-import React from 'react'
-import PageHeader from 'src/libraries/heading/PageHeader'
-import { useEffect,useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from 'src/store';
-import { ISaveDailyLogBody,IGetAllHomeworkDailyLogsBody,IGetHomeworkDailyLogBody,IDeleteHomeworkDailyLogBody,IPublishUnpublishHomeworkDailylogBody } from "src/interfaces/AddDailyLog/IAddDailyLog";
-import { Savedailylog,getalldailylog,getdailylog,deletedailylog, ResetFilePath,ResetDeleteLog,PublishUnpublishHomework } from 'src/requests/AddDailyLog/RequestAddDailyLog';
-import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
-import { toast } from 'react-toastify';
-import { Navigate,useNavigate, useParams } from 'react-router';
 import { Box, Container, Grid, TextField, Typography } from '@mui/material';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router';
+import { toast } from 'react-toastify';
+import {
+  IDeleteHomeworkDailyLogBody,
+  IGetAllHomeworkDailyLogsBody,
+  IGetHomeworkDailyLogBody,
+  IPublishUnpublishHomeworkDailylogBody,
+  ISaveDailyLogBody
+} from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
-import BackButton from 'src/libraries/button/BackButton';
-import { getDateMonthYearFormatted } from '../Common/Util';
-import moment from 'moment';
+import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon5 from 'src/libraries/icon/icon5';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import {
+  PublishUnpublishHomework,
+  ResetDeleteLog,
+  Savedailylog,
+  deletedailylog,
+  getalldailylog,
+  getdailylog
+} from 'src/requests/AddDailyLog/RequestAddDailyLog';
+import { RootState } from 'src/store';
 //monali
 const AddDailyLog = () => {
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
-    const { Id , ClassName } = useParams();
-    
+  const { Id, ClassName } = useParams();
 
-    const [dateState, setDateState] = useState('');
-    const [dateSearch, setDateSearch] = useState('');
-    const [dateSearchError, setDateSearchError] = useState('');
-    const [dateError, setDateError] = useState('');
-    const [fileName, setFileName] = useState('');
-    const [fileNameError, setFileNameError] = useState('');
-    const [base64URL, setbase64URL] = useState('');
-    const [base64URLError, setbase64URLError] = useState('');
-    const [LogId,setLogId] = useState(0);
-    const [ItemList, setItemList] = useState('');
+  const [dateState, setDateState] = useState('');
+  const [dateSearch, setDateSearch] = useState('');
+  const [dateSearchError, setDateSearchError] = useState('');
+  const [dateError, setDateError] = useState('');
+  const [fileName, setFileName] = useState('');
+  const [fileNameError, setFileNameError] = useState('');
+  const [base64URL, setbase64URL] = useState('');
+  const [base64URLError, setbase64URLError] = useState('');
+  const [LogId, setLogId] = useState(0);
+  const [ItemList, setItemList] = useState('');
 
-  const SaveDailyLog = useSelector((state: RootState) => state.AddDailyLog.Savelog)
-  console.log("SaveDailyLog", SaveDailyLog)
-  const GetAllHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.GetAllHomework)
-  console.log("GetAllHomeworkDailyLogs", GetAllHomeworkDailyLogs)
-  const GetHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.GetHomeworkDailyLog)
-  console.log("GetHomeworkDailyLogs----", GetHomeworkDailyLogs)
-  const DeleteHomeworkDailyLogs: any = useSelector((state: RootState) => state.AddDailyLog.DeleteHomework)
-  console.log("DeleteHomeworkDailyLogs", DeleteHomeworkDailyLogs)
-  const PublishUnpublishHomeworkDailylog: any = useSelector((state: RootState) => state.AddDailyLog.PublishUnpublish)
-  console.log("PublishUnpublishHomeworkDailylog", PublishUnpublishHomeworkDailylog)
-  const GetFileUS: any = useSelector((state: RootState) => state.AddDailyLog.ISGetfile)
-  console.log("GetFileUS", GetFileUS)
+  const SaveDailyLog = useSelector(
+    (state: RootState) => state.AddDailyLog.Savelog
+  );
+  console.log('SaveDailyLog', SaveDailyLog);
+  const GetAllHomeworkDailyLogs: any = useSelector(
+    (state: RootState) => state.AddDailyLog.GetAllHomework
+  );
+  console.log('GetAllHomeworkDailyLogs', GetAllHomeworkDailyLogs);
+  const GetHomeworkDailyLogs: any = useSelector(
+    (state: RootState) => state.AddDailyLog.GetHomeworkDailyLog
+  );
+  console.log('GetHomeworkDailyLogs----', GetHomeworkDailyLogs);
+  const DeleteHomeworkDailyLogs: any = useSelector(
+    (state: RootState) => state.AddDailyLog.DeleteHomework
+  );
+  console.log('DeleteHomeworkDailyLogs', DeleteHomeworkDailyLogs);
+  const PublishUnpublishHomeworkDailylog: any = useSelector(
+    (state: RootState) => state.AddDailyLog.PublishUnpublish
+  );
+  console.log(
+    'PublishUnpublishHomeworkDailylog',
+    PublishUnpublishHomeworkDailylog
+  );
+  const GetFileUS: any = useSelector(
+    (state: RootState) => state.AddDailyLog.ISGetfile
+  );
+  console.log('GetFileUS', GetFileUS);
 
   const HeaderPublish1 = [
-    {Id:1,Header:"Date"},
-    {Id:2,Header:"Attachment" },
-    {Id:3,Header:"Publish/UnPublish" }
-    ,{Id:4,Header:"Edit" },
-    {Id:5,Header:"Delete" }
-    
-  ]
+    { Id: 1, Header: 'Date' },
+    { Id: 2, Header: 'Attachment' },
+    { Id: 3, Header: 'Publish/UnPublish' },
+    { Id: 4, Header: 'Edit' },
+    { Id: 5, Header: 'Delete' }
+  ];
 
-  const ValidFileTypes = ["BMP", "DOC", "DOCX", "JPG", "JPEG", "PNG", "BMP", "PDF", "XLS", "XLSX" ];
+  const ValidFileTypes = [
+    'BMP',
+    'DOC',
+    'DOCX',
+    'JPG',
+    'JPEG',
+    'PNG',
+    'BMP',
+    'PDF',
+    'XLS',
+    'XLSX'
+  ];
   const MaxfileSize = 5000000;
 
-  
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const SiteURL = localStorage.getItem('SiteURL');
-    let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
-
-  
+  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
 
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
-
-    asSchoolId:asSchoolId,
-    asFilter:dateSearch,
-    asStdDivId:Number(Id),
-    asSortExpression:"Date",
-    asStartIndex:0,
-    asEndIndex:20,
-    asUserId:asUserId
-}
+    asSchoolId: asSchoolId,
+    asFilter: dateSearch,
+    asStdDivId: Number(Id),
+    asSortExpression: 'Date',
+    asStartIndex: 0,
+    asEndIndex: 20,
+    asUserId: asUserId
+  };
   useEffect(() => {
-    
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   }, [dateSearch]);
 
   // useEffect(() => {
@@ -96,103 +123,89 @@ const AddDailyLog = () => {
   //   dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody))
   // }, []);
 
-  
-
-  
-    
-  
-    
-const [isPublish, setIsPublish] = useState(true);
+  const [isPublish, setIsPublish] = useState(true);
 
   const Changestaus = (value) => {
+    const updatedIsPublish = !isPublish;
 
-    const updatedIsPublish = !isPublish
+    const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
+      {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asLogId: value,
+        asUpdatedById: TeacherId,
+        asIsPublished: Number(updatedIsPublish)
+      };
 
-    const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
-
-      asSchoolId:Number(asSchoolId),
-      asAcademicYearId:Number(asAcademicYearId),
-      asLogId:value,
-      asUpdatedById:TeacherId,
-      asIsPublished: Number(updatedIsPublish)
-    }
-    
-    dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody))
+    dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
     setIsPublish(updatedIsPublish);
   };
 
-
   useEffect(() => {
-    if (PublishUnpublishHomeworkDailylog != '') { 
+    if (PublishUnpublishHomeworkDailylog != '') {
       toast.success(PublishUnpublishHomeworkDailylog);
       //dispatch(resetMessage());
-      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [PublishUnpublishHomeworkDailylog]);
 
-
-   
-  let d = ''
-  useEffect(() =>{
-    console.log(GetHomeworkDailyLogs,"GetStudentDetail")
+  let d = '';
+  useEffect(() => {
+    console.log(GetHomeworkDailyLogs, 'GetStudentDetail');
     if (GetHomeworkDailyLogs.length > 0) {
       // setDateState(GetHomeworkDailyLogs.dateState)
-      let da = GetHomeworkDailyLogs[0].Date.split(" ")[0]
-      let dateFormat = da.split("-")[2] + "-" + da.split("-")[1]+"-" + da.split("-")[0]
-      setDateState(dateFormat)
+      let da = GetHomeworkDailyLogs[0].Date.split(' ')[0];
+      let dateFormat =
+        da.split('-')[2] + '-' + da.split('-')[1] + '-' + da.split('-')[0];
+      setDateState(dateFormat);
 
       //setFileName(GetHomeworkDailyLogs[0].AttchmentName)
       // setbase64URL(GetHomeworkDailyLogs[0].base64URL)
     }
   }, [GetHomeworkDailyLogs]);
-console.log(dateState,"dateState")
+  console.log(dateState, 'dateState');
 
+  const clickEdit1 = (value) => {
+    setLogId(value);
+    const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      aId: value
+    };
+    dispatch(getdailylog(GetHomeworkDailyLogsBody));
+  };
 
-  const clickEdit1=(value)=>{
-    setLogId(value)
-      const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
-  
-       
-         asSchoolId: Number(asSchoolId),
-         asAcademicYearId: Number(asAcademicYearId),
-          aId:value
-      }
-      dispatch(getdailylog(GetHomeworkDailyLogsBody))
-    }; 
-  
   const clickDelete = (value) => {
     if (confirm('Are You Sure you want to delete The Daily Log')) {
-      const DeleteLog: IDeleteHomeworkDailyLogBody =
-        { 
-        asSchoolId:Number(asSchoolId),
-        asAcademicYearId:Number(asAcademicYearId),
-        asId:value,
-        asUpdatedById:TeacherId
-       }
-      dispatch(deletedailylog(DeleteLog))
+      const DeleteLog: IDeleteHomeworkDailyLogBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asId: value,
+        asUpdatedById: TeacherId
+      };
+      dispatch(deletedailylog(DeleteLog));
     }
 
-      if (DeleteHomeworkDailyLogs!== '') {
-      toast.success(DeleteHomeworkDailyLogs, { toastId: 'success1' })
+    if (DeleteHomeworkDailyLogs !== '') {
+      toast.success(DeleteHomeworkDailyLogs, { toastId: 'success1' });
       dispatch(ResetDeleteLog());
     }
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+  };
 
-} 
- 
+  const clickFileName = (value) => {
+    if (GetFileUS !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') +
+          '/RITeSchool/DOWNLOADS/Homework/DailyLog/' +
+          value
+      );
+    }
+  };
 
-const clickFileName = (value) => {
-  if (GetFileUS !== '') {
-    window.open(localStorage.getItem('SiteURL') +
-      '/RITeSchool/DOWNLOADS/Homework/DailyLog/' + value
-    );
-  }
-};
-  
-  
   const onClickBack = () => {
-    navigate('/extended-sidebar/Teacher/AssignHomework')
-  }
+    navigate('/extended-sidebar/Teacher/AssignHomework');
+  };
 
   const handleChange = (e) => {
     const selectedDate = e.target.value;
@@ -234,210 +247,238 @@ const clickFileName = (value) => {
   // };
 
   const onSelectDate = (value) => {
-    setDateSearch(value)
-   // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
-  }
+    setDateSearch(value);
+    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+  };
 
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
   };
 
-
   const SaveDailylogBody: ISaveDailyLogBody = {
+    aHomeWorkLogId: LogId,
+    asStdDivId: Number(Id),
+    asDate: dateState,
+    asAttachmentName: fileName == '' ? null : fileName,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: Number(asAcademicYearId),
+    asInsertedById: TeacherId,
+    asSaveFeature: 'Assign Homework',
+    asFolderName: 'PPSN Website',
+    asBase64String: base64URL == '' ? null : base64URL
+  };
 
-     aHomeWorkLogId:LogId,
-     asStdDivId:Number(Id),
-     asDate:dateState,
-     asAttachmentName:fileName==""?null:fileName, 
-     asSchoolId:asSchoolId,
-     asAcademicYearId:Number(asAcademicYearId),
-      asInsertedById:TeacherId,
-      asSaveFeature:"Assign Homework",
-      asFolderName:"PPSN Website",
-      asBase64String:base64URL==""?null:base64URL
-}
-
-
-const onClickSave=() =>{
+  const onClickSave = () => {
     let isError = false;
     if (dateState == '') {
-      setDateError('Field should not be blank')
-      isError = true
-  
-    } 
+      setDateError('Field should not be blank');
+      isError = true;
+    }
     // else if (fileName == '') {
     //   setFileNameError('Field should not be blank')
     //   isError = true
     // }
-  //  else if (base64URL == '') {
-  //   setbase64URLError('Field should not be blank')
-  //   isError = true
-  // }
+    //  else if (base64URL == '') {
+    //   setbase64URLError('Field should not be blank')
+    //   isError = true
+    // }
 
     if (!isError) {
-    dispatch(Savedailylog(SaveDailylogBody))
+      dispatch(Savedailylog(SaveDailylogBody));
     }
 
     if (!isError) {
-      ResetForm()
+      ResetForm();
     }
-  }
-
-useEffect(() => {
-  if (SaveDailyLog != '') {
-    toast.success(SaveDailyLog);
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
-  }
-}, [SaveDailyLog]);
-
-
-const ResetForm = () => {
-  setDateState('');
-  setFileName('');
-  setbase64URL('');
-
-};
-
-const onClickCancel=() =>{
-  ResetForm()
-}
-
-
-useEffect(() => {
-  const getCurrentDateTime = () => {
-    const currentDate = new Date();
-    const formattedDate = currentDate.toLocaleString('en-US', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric',
-    });
-    setDateState(formattedDate);
   };
 
-  getCurrentDateTime();
-}, []);
+  useEffect(() => {
+    if (SaveDailyLog != '') {
+      toast.success(SaveDailyLog);
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+    }
+  }, [SaveDailyLog]);
 
+  const ResetForm = () => {
+    setDateState('');
+    setFileName('');
+    setbase64URL('');
+  };
+
+  const onClickCancel = () => {
+    ResetForm();
+  };
+
+  useEffect(() => {
+    const getCurrentDateTime = () => {
+      const currentDate = new Date();
+      const formattedDate = currentDate.toLocaleString('en-US', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+      setDateState(formattedDate);
+    };
+
+    getCurrentDateTime();
+  }, []);
 
   return (
     <>
-        <Container maxWidth={'xl'}>
+      <Container maxWidth={'xl'}>
+        <PageHeader heading="Add Daily Log" />
 
-        <PageHeader heading='Add Daily Log' />
-        
         <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
           Mandatory Fields *
         </div>
 
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+          <Grid item xs={1}>
+            <Typography>
+              <b>Class :</b>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={1}>
+            <TextField value={ClassName} />
+          </Grid>
+        </Grid>
+
+        <br></br>
 
         <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-    <Typography >
-    <b>Class :</b>
-    </Typography>
-  </Grid>
-  
-  <Grid item xs={1}>
-  <TextField value={ClassName}/>
-  </Grid>
-  </Grid>
- 
- <br></br>
+          <Grid item xs={1}>
+            <Typography>
+              <b>Date :</b>
+            </Typography>
+          </Grid>
 
+          <Grid item xs={1}>
+            <TextField
+              type="date"
+              value={dateState}
+              onChange={handleChange}
+              variant="standard"
+              //  defaultValue={dateState !=="" ? moment(dateState).format('DD-MMM-YYYY') : ""}
+              error={dateError !== ''}
+              helperText={dateError}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ max: new Date().toISOString().split('T')[0] }}
+            />
+            {/* <span style={{ color: 'red' }}>{dateError}</span> */}
 
+            <div style={{ color: 'red' }}>*</div>
+          </Grid>
+        </Grid>
 
-
+        <br></br>
         <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-    <Typography  >
-    <b>Date :</b>
-    </Typography>
-  </Grid>
-  
-  <Grid item xs={1}>
-  <TextField  type='date' value={dateState} onChange={handleChange} variant='standard' 
-  //  defaultValue={dateState !=="" ? moment(dateState).format('DD-MMM-YYYY') : ""}
-  error={dateError !== ''} helperText={dateError} InputLabelProps={{ shrink: true }} 
-  inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
-  {/* <span style={{ color: 'red' }}>{dateError}</span> */}
-   
-  <div style={{  color: 'red' }}>
-         *
+          <Grid item xs={1}>
+            <Typography>
+              <b>Attachment :</b>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={1}>
+            <SingleFile
+              ValidFileTypes={ValidFileTypes}
+              MaxfileSize={MaxfileSize}
+              ChangeFile={ChangeFile}
+              // errorMessage={fileNameError}
+              // filePath={base64URL}
+              FileName={fileName}
+            ></SingleFile>
+            {''}
+          </Grid>
+        </Grid>
+        <Box>
+          <Icon5
+            Note={
+              'Supports only BMP, DOC, DOCX, JPG, JPEG, PNG, BMP, PDF, XLS, XLSX files types up to 5 MB'
+            }
+          />
+        </Box>
+        <br></br>
+
+        <div>
+          <Grid
+            container
+            spacing={2}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}
+          >
+            <Grid item xs={1}>
+              <ButtonPrimary onClick={onClickSave} variant="contained">
+                <b>SAVE</b>
+              </ButtonPrimary>
+            </Grid>
+
+            <Grid item xs={1}>
+              <ButtonPrimary
+                onClick={onClickCancel}
+                variant="contained"
+                style={{ backgroundColor: 'red', color: 'white' }}
+              >
+                CANCEL
+              </ButtonPrimary>
+            </Grid>
+          </Grid>
         </div>
-  </Grid>
-  </Grid>
- 
- <br></br>
-  <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-    <Typography >
-    <b>Attachment :</b>
-    </Typography>
-  </Grid>
-  
-  <Grid item xs={1}>
-  <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
-            ChangeFile={ChangeFile}
-            // errorMessage={fileNameError}
-            // filePath={base64URL}
-            FileName={fileName}
-          ></SingleFile>{''}
-          
-  </Grid>
-  </Grid>
-  <Box >
-                <Icon5 Note={"Supports only BMP, DOC, DOCX, JPG, JPEG, PNG, BMP, PDF, XLS, XLSX files types up to 5 MB"} />
-            </Box>
-  <br></br>
 
-  <div >
-  <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center", }}>
-  <Grid item xs={1}>
-<ButtonPrimary  onClick={onClickSave} variant="contained" >
-              <b>SAVE</b>
+        <hr style={{ margin: '20px 0' }} />
+
+        <br />
+        <Grid container spacing={1} justifyContent="center" alignItems="center">
+          <Grid item xs={1}>
+            <Typography>
+              <b>Date :</b>
+            </Typography>
+          </Grid>
+
+          <Grid item xs={1}>
+            {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
+            <TextField
+              value={dateSearch}
+              type="date"
+              onChange={(e) => {
+                onSelectDate(e.target.value);
+              }}
+              size="small"
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ max: new Date().toISOString().split('T')[0] }}
+            />
+          </Grid>
+        </Grid>
+        <br></br>
+
+        {/* {GetAllHomeworkDailyLogs?.IsPublished} */}
+        <Adddailyloglist
+          ItemList={GetAllHomeworkDailyLogs}
+          clickView={clickFileName}
+          HeaderArray={HeaderPublish1}
+          clickEdit={clickEdit1}
+          clickDelete={clickDelete}
+          clickpublish={Changestaus}
+        />
+        <br></br>
+        <div>
+          <Grid item xs={6}>
+            <ButtonPrimary
+              onClick={onClickBack}
+              variant="contained"
+              style={{ backgroundColor: 'red', color: 'white' }}
+            >
+              BACK
             </ButtonPrimary>
-            </Grid> 
-            
-        <Grid item xs={1}>
-            <ButtonPrimary onClick={onClickCancel} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               CANCEL
-            </ButtonPrimary> 
-            </Grid>
-      </Grid> 
-      </div>
-
-      <hr style={{ margin: '20px 0' }} />
-
-      <br />
-      <Grid container spacing={1} justifyContent="center" alignItems="center">
-        <Grid item xs={1}>
-    <Typography  >
-    <b>Date :</b>
-    </Typography>
-  </Grid>
-   
-  <Grid item xs={1}>
-  {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
-  <TextField value={dateSearch} type='date' onChange={(e) => { onSelectDate(e.target.value) }} size="small" InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/>
-  </Grid>
-  </Grid>
-<br></br>
-
-      {/* {GetAllHomeworkDailyLogs?.IsPublished} */}
-        <Adddailyloglist ItemList={GetAllHomeworkDailyLogs}  clickView={clickFileName} HeaderArray={HeaderPublish1}  clickEdit={clickEdit1} clickDelete={clickDelete}  clickpublish={Changestaus}/>
-<br></br>
-<div>
-        <Grid item xs={6}>
-            <ButtonPrimary onClick={onClickBack} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-               BACK
-            </ButtonPrimary> 
-            </Grid>
-    </div>
-   </ Container>
+          </Grid>
+        </div>
+      </Container>
     </>
-  )
-}
+  );
+};
 
-export default AddDailyLog
+export default AddDailyLog;

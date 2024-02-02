@@ -1,23 +1,29 @@
-import PageHeader from 'src/libraries/heading/PageHeader';
-import GetPasswordApi from 'src/api/Authentication/GetPassword';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { TextField, Container, Grid, useTheme, Stack,Box } from '@mui/material';
+import {
+  Box,
+  Container,
+  Grid,
+  Stack,
+  TextField,
+  useTheme
+} from '@mui/material';
 import { useFormik } from 'formik';
-import { toast } from 'react-toastify';
-import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
 import { useNavigate } from 'react-router-dom';
-import Note from 'src/libraries/Note/Note';
-import { HelperText, ListStyle } from 'src/libraries/styled/CardStyle';
+import { toast } from 'react-toastify';
+import GetPasswordApi from 'src/api/Authentication/GetPassword';
+import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
 import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
-import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
+import Note from 'src/libraries/Note/Note';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { HelperText, ListStyle } from 'src/libraries/styled/CardStyle';
 import { ChangePasswordStyle } from 'src/libraries/styled/CommonStyle';
+import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 
 function ForgotPassword() {
   const theme = useTheme();
   const schoolId = localStorage.getItem('localSchoolId');
 
   const submitresult = () => {
-  
     const getPasswordAPIBody: IGetPassword = {
       asSchoolId: schoolId,
       asLogin: formik.values.Login,
@@ -27,17 +33,23 @@ function ForgotPassword() {
     GetPasswordApi.GetPasswordResult(getPasswordAPIBody)
       .then((res: any) => {
         if (res.status === 200 && res.data == null) {
-          toast.success('SMS has been Sent', { toastId: 'success1'});
+          toast.success('SMS has been Sent', { toastId: 'success1' });
           formik.resetForm();
         }
-        if(res.data == 'Provided details are not valid.'){
-          toast.error('Provided details are not valid.', { toastId: 'error1'});
+        if (res.data == 'Provided details are not valid.') {
+          toast.error('Provided details are not valid.', { toastId: 'error1' });
         }
-        if(res.data == 'Login details have already been sent to you. Please try after 24 Hrs.'){
-          toast.error('Login details have already been sent to you. Please try after 24 Hrs.', { toastId: 'error2'});
+        if (
+          res.data ==
+          'Login details have already been sent to you. Please try after 24 Hrs.'
+        ) {
+          toast.error(
+            'Login details have already been sent to you. Please try after 24 Hrs.',
+            { toastId: 'error2' }
+          );
         }
-        if(res.data == 'Failed to send the SMS.'){
-          toast.error('Failed to send the SMS.', { toastId: 'error3'});
+        if (res.data == 'Failed to send the SMS.') {
+          toast.error('Failed to send the SMS.', { toastId: 'error3' });
         }
       })
       .catch((err) => {
@@ -55,7 +67,7 @@ function ForgotPassword() {
       submitresult();
     },
     validate: (values) => {
-      const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/; 
+      const emailRegExp = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 
       const errors: any = {};
       if (!values.Login) {
@@ -66,8 +78,7 @@ function ForgotPassword() {
       }
       if (!values.EmailId) {
         errors.EmailId = 'Email Id should not be blank.';
-      }
-      else if (!emailRegExp.test(values.EmailId)) {
+      } else if (!emailRegExp.test(values.EmailId)) {
         errors.EmailId = 'Invalid email address';
       }
       return errors;
@@ -87,106 +98,106 @@ function ForgotPassword() {
   ];
 
   return (
-<BoxStyle>
-     <Container>
-      <PageHeader heading={'Forgot Password'} subheading={''} />
-      <Grid container>
-    <Grid item xs={3}></Grid>
-    <Grid item xs={12} lg={6}>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="center"
-          gap={1}
-        >
-          <img
-            src="/imges/forgotpassword.png"
-            style={{
-              width: '200px',
-              height: '200px',
-              borderRadius: '50%',
-              boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
-            }}
-          />
-        </Stack>
-        <Box mt={2}>
-        <ListStyle sx={ChangePasswordStyle}>
-          <form onSubmit={formik.handleSubmit}>
-            <TextField
-              fullWidth
-              margin="normal"
-              label={'User Name'}
-              name="Login"
-              type="text"
-              variant="standard"
-              value={formik.values.Login}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
-            />
-            {formik.touched.Login && formik.errors.Login ? (
-              <Errormessage Error={formik.errors.Login} />
-            ) : null
-            }
-            <HelperText >{'Date of Birth'}</HelperText>
-            <TextField
-              fullWidth
-              margin="normal"
-              name="DOB"
-              type="date"
-              variant="standard" 
-              placeholder='DD/MM/YYYY'
-              value={formik.values.DOB}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
-            />
-            {formik.touched.DOB && formik.errors.DOB ? (  
-              <Errormessage Error={formik.errors.DOB} />
-            ) : null
-            }
-            <TextField
-              fullWidth
-              margin="normal"
-              label={'Email Id'}
-              name="EmailId"
-              type="text"
-              variant="standard"
-              value={formik.values.EmailId}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              sx={{ mt: '-0.3rem' }}
-            />
-            {formik.touched.EmailId && formik.errors.EmailId ? (
-              <Errormessage Error={formik.errors.EmailId} />
-            ) : null
-            }
-            <Grid container spacing={2}>
-              <Grid item xs={6}>
-                <ButtonPrimary
-                  color="primary"
-                  onChange={formik.handleChange}
-                  type="submit"
-                  fullWidth
-                >
-                  Submit
-                </ButtonPrimary>
-              </Grid>
-              <Grid item xs={6}>
-                <ButtonPrimary color="secondary" onClick={click} fullWidth>
-                  Cancel
-                </ButtonPrimary>
-              </Grid>
-            </Grid>
-          </form>
-          <Note NoteDetail={note} />
-        </ListStyle>
-        </Box>
+    <BoxStyle>
+      <Container>
+        <PageHeader heading={'Forgot Password'} subheading={''} />
+        <Grid container>
+          <Grid item xs={3}></Grid>
+          <Grid item xs={12} lg={6}>
+            <Stack
+              direction="row"
+              alignItems="center"
+              justifyContent="center"
+              gap={1}
+            >
+              <img
+                src="/imges/forgotpassword.png"
+                style={{
+                  width: '200px',
+                  height: '200px',
+                  borderRadius: '50%',
+                  boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+                }}
+              />
+            </Stack>
+            <Box mt={2}>
+              <ListStyle sx={ChangePasswordStyle}>
+                <form onSubmit={formik.handleSubmit}>
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    label={'User Name'}
+                    name="Login"
+                    type="text"
+                    variant="standard"
+                    value={formik.values.Login}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    sx={{ mt: '-0.3rem' }}
+                  />
+                  {formik.touched.Login && formik.errors.Login ? (
+                    <Errormessage Error={formik.errors.Login} />
+                  ) : null}
+                  <HelperText>{'Date of Birth'}</HelperText>
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    name="DOB"
+                    type="date"
+                    variant="standard"
+                    placeholder="DD/MM/YYYY"
+                    value={formik.values.DOB}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    sx={{ mt: '-0.3rem' }}
+                  />
+                  {formik.touched.DOB && formik.errors.DOB ? (
+                    <Errormessage Error={formik.errors.DOB} />
+                  ) : null}
+                  <TextField
+                    fullWidth
+                    margin="normal"
+                    label={'Email Id'}
+                    name="EmailId"
+                    type="text"
+                    variant="standard"
+                    value={formik.values.EmailId}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
+                    sx={{ mt: '-0.3rem' }}
+                  />
+                  {formik.touched.EmailId && formik.errors.EmailId ? (
+                    <Errormessage Error={formik.errors.EmailId} />
+                  ) : null}
+                  <Grid container spacing={2}>
+                    <Grid item xs={6}>
+                      <ButtonPrimary
+                        color="primary"
+                        onChange={formik.handleChange}
+                        type="submit"
+                        fullWidth
+                      >
+                        Submit
+                      </ButtonPrimary>
+                    </Grid>
+                    <Grid item xs={6}>
+                      <ButtonPrimary
+                        color="secondary"
+                        onClick={click}
+                        fullWidth
+                      >
+                        Cancel
+                      </ButtonPrimary>
+                    </Grid>
+                  </Grid>
+                </form>
+                <Note NoteDetail={note} />
+              </ListStyle>
+            </Box>
+          </Grid>
         </Grid>
-        </Grid>
-        </Container>
-        </BoxStyle>
-   
+      </Container>
+    </BoxStyle>
   );
 }
 

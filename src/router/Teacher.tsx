@@ -1,250 +1,318 @@
 import { Suspense, lazy } from 'react';
-import { Navigate } from 'react-router-dom';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
-
 const Loader = (Component) => (props) =>
-(
-  <Suspense fallback={<SuspenseLoader />}>
-    <Component {...props} />
-  </Suspense>
-);
+  (
+    <Suspense fallback={<SuspenseLoader />}>
+      <Component {...props} />
+    </Suspense>
+  );
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
-const TAttendance = Loader(lazy(() => import('src/components/MyAttendance/TAttendance')))
-const TExamschedule = Loader(lazy(() => import('src/components/TExamschedule/TExamScheduleNew')))
-const TView = Loader(lazy(() => import('src/components/TAttendance/TView')))
-const TeacherTimetable = Loader(lazy(() => import('src/components/TeacherTimetable/TeacherTimetable')));
-const MissingAttandence = Loader(lazy(() => import('src/components/TAttendance/MissingAttandence')))
-const SmsCenter = Loader(lazy(() => import('src/components/Student/SMSCenter/SmsCenter')))
-const  SchoolAttendanceOverview= Loader(lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview')))
-const IndidualAttendance= Loader(lazy(() => import('src/components/IndividualAttendance/IndividualAttendance')))
-const AddAnnualPlaner = Loader(lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner')))
-const MonthwiseAttandance = Loader(lazy(() => import('src/components/Attendance/MonthwiseAttandance')))
-const AssignExamMark= Loader(lazy(() => import('src/components/AssignExamMark/AssignExamMark')))
-const AnnualPlanerBaseScreen= Loader(lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen')))
-const AssignHomework= Loader(lazy(() => import('src/components/AssignHomework/AssignHomework')))
-const TermwiseHeightWeight= Loader(lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight')))
-const AddDailyLog= Loader(lazy(() => import('src/components/AddDailyLog/AddDailyLog')))
-const SubjectExamMarks= Loader(lazy(() => import('src/components/ExamResult/SubjectExamMarks')))
-const EventManegement= Loader(lazy(() => import('src/components/EventManegement/EventManegement')))
-const SubjectListmainpage= Loader(lazy(() => import('src/components/Subjectexammark/SubjectListmainpage')))
-const AssignPrePrimaryGrades= Loader(lazy(() => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')))
-const ProgressRemarks= Loader(lazy(() => import('src/components/ProgressRemarks/ProgressRemarks')))
-const FinalResult=Loader(lazy(()=>import('src/components/FinalResult/FinalResult')))
-const StudentRecords=Loader(lazy(()=>import('src/components/StudentRecords/StudentRecords')))
-const FinalResultToppers=Loader(lazy(()=>import('src/components/FinalResult/FinalResultToppers')))
-const ExamResultUnpublish=Loader(lazy(()=>import('src/components/ExamResultUnpublish/ExamResultUnpublish')))
-const AddHomework=Loader(lazy(()=>import('src/components/AssignHomework/AddHomework')))
-const StandardToppers=Loader(lazy(()=>import('src/components/FinalResult/StandardToppers')))
-const HomeworkSubjectList=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkSubjectList')))
-const HomeworkDocuments=Loader(lazy(()=>import('src/components/AssignHomework/HomeworkDocuments ')))
-const ViewHomework=Loader(lazy(()=>import('src/components/AssignHomework/ViewHomework')))
-const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
-const FinalResultUnpublish=Loader(lazy(()=>import('src/components/FinalResultUnpublish/FinalResultUnpublish')))
+const TAttendance = Loader(
+  lazy(() => import('src/components/MyAttendance/TAttendance'))
+);
+const TExamschedule = Loader(
+  lazy(() => import('src/components/TExamschedule/TExamScheduleNew'))
+);
+const TView = Loader(lazy(() => import('src/components/TAttendance/TView')));
+const TeacherTimetable = Loader(
+  lazy(() => import('src/components/TeacherTimetable/TeacherTimetable'))
+);
+const MissingAttandence = Loader(
+  lazy(() => import('src/components/TAttendance/MissingAttandence'))
+);
+const SmsCenter = Loader(
+  lazy(() => import('src/components/Student/SMSCenter/SmsCenter'))
+);
+const SchoolAttendanceOverview = Loader(
+  lazy(() => import('src/components/MyAttendance/SchoolAttendanceOverview'))
+);
+const IndidualAttendance = Loader(
+  lazy(() => import('src/components/IndividualAttendance/IndividualAttendance'))
+);
+const AddAnnualPlaner = Loader(
+  lazy(() => import('src/components/AnnualPlanner/AddAnnualPlaner'))
+);
+const MonthwiseAttandance = Loader(
+  lazy(() => import('src/components/Attendance/MonthwiseAttandance'))
+);
+const AssignExamMark = Loader(
+  lazy(() => import('src/components/AssignExamMark/AssignExamMark'))
+);
+const AnnualPlanerBaseScreen = Loader(
+  lazy(() => import('src/components/AnnualPlanner/AnnualPlanerBaseScreen'))
+);
+const AssignHomework = Loader(
+  lazy(() => import('src/components/AssignHomework/AssignHomework'))
+);
+const TermwiseHeightWeight = Loader(
+  lazy(() => import('src/components/TermwiseHeightWeight/TermwiseHeightWeight'))
+);
+const AddDailyLog = Loader(
+  lazy(() => import('src/components/AddDailyLog/AddDailyLog'))
+);
+const SubjectExamMarks = Loader(
+  lazy(() => import('src/components/ExamResult/SubjectExamMarks'))
+);
+const EventManegement = Loader(
+  lazy(() => import('src/components/EventManegement/EventManegement'))
+);
+const SubjectListmainpage = Loader(
+  lazy(() => import('src/components/Subjectexammark/SubjectListmainpage'))
+);
+const AssignPrePrimaryGrades = Loader(
+  lazy(
+    () => import('src/components/AssignPrePrimaryGrades/AssignPrePrimaryGrades')
+  )
+);
+const ProgressRemarks = Loader(
+  lazy(() => import('src/components/ProgressRemarks/ProgressRemarks'))
+);
+const FinalResult = Loader(
+  lazy(() => import('src/components/FinalResult/FinalResult'))
+);
+const StudentRecords = Loader(
+  lazy(() => import('src/components/StudentRecords/StudentRecords'))
+);
+const FinalResultToppers = Loader(
+  lazy(() => import('src/components/FinalResult/FinalResultToppers'))
+);
+const ExamResultUnpublish = Loader(
+  lazy(() => import('src/components/ExamResultUnpublish/ExamResultUnpublish'))
+);
+const AddHomework = Loader(
+  lazy(() => import('src/components/AssignHomework/AddHomework'))
+);
+const StandardToppers = Loader(
+  lazy(() => import('src/components/FinalResult/StandardToppers'))
+);
+const HomeworkSubjectList = Loader(
+  lazy(() => import('src/components/AssignHomework/HomeworkSubjectList'))
+);
+const HomeworkDocuments = Loader(
+  lazy(() => import('src/components/AssignHomework/HomeworkDocuments '))
+);
+const ViewHomework = Loader(
+  lazy(() => import('src/components/AssignHomework/ViewHomework'))
+);
+const AddUnpublish = Loader(
+  lazy(() => import('src/components/AssignHomework/AddUnpublish'))
+);
+const FinalResultUnpublish = Loader(
+  lazy(() => import('src/components/FinalResultUnpublish/FinalResultUnpublish'))
+);
 
-const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
-const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
-const PrePrimaryResult=Loader(lazy(()=>import('src/components/PrePrimaryResult/PrePrimaryResult')))
-const Requisition=Loader(lazy(()=>import('src/components/Requisition/Requisition')))
-const UnpublishPrePrimaryResult=Loader(lazy(()=>import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')))
-
-
+const AddLessonPlan = Loader(
+  lazy(() => import('src/components/LessonPlan/AddLessonPlan'))
+);
+const LessonPlanBaseScreen = Loader(
+  lazy(() => import('src/components/LessonPlan/LessonPlanBaseScreen'))
+);
+const PrePrimaryResult = Loader(
+  lazy(() => import('src/components/PrePrimaryResult/PrePrimaryResult'))
+);
+const Requisition = Loader(
+  lazy(() => import('src/components/Requisition/Requisition'))
+);
+const UnpublishPrePrimaryResult = Loader(
+  lazy(
+    () => import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')
+  )
+);
 
 const teacherRoutes = [
-    {
-      path: 'TAttendance',
-      element: <TAttendance/>
-    },
-    {
-      path:'TAttendance/TView/:assignedDate/:StandardId',
-      element:<TView/>
-    },
-    {
-      path: 'TeacherTimetable',
-      element: <TeacherTimetable />
-    },
-   
-    {
-      path: 'TExamschedule',
-      element: <TExamschedule/>
-    },
-    {
-      path: 'TAttendance/MissingAttandence/:assignedDate/:StandardId',
-      element: <MissingAttandence/>
-    },
-    {
-      path: 'smscenter',
-      element: <SmsCenter/>
-    },
-    {
-      path: 'TAttendance/:AssignedDate/:StandardId',
-      element: <TAttendance/>
-    },
-    {
-      path: 'SchoolAttendanceOverview',
-      element: <SchoolAttendanceOverview/>
-    },
-    {
-      path: 'IndidualAttendance',
-      element: <IndidualAttendance/>
-    },
-    {
-      path: 'AddAnnualPlaner',
-      element: <AddAnnualPlaner />
-    },{
-      path: 'MonthwiseAttendance',
-      element: <MonthwiseAttandance/>
-    },
-    {
-      path: 'ExamResultBase',
-      element: <ExamResultBase/>
-    },
-    {
-      path: 'SubjectExamMarks',
-      element: <SubjectExamMarks/>
-    },
-    
-    {
-      path: 'AssignExamMark',
-      element: <AssignExamMark/>
-    },
-
-    {
-      path: 'AnnualPlanerBaseScreen',
-      element: <AnnualPlanerBaseScreen/>
-    },
-    
-
-    {
-      path: 'AssignHomework',
-      element: <AssignHomework/>
-    },
-    {
-      path: 'TermwiseHeightWeight',
-      element: <TermwiseHeightWeight/>
-    },
-
-    {
-      path: 'AddDailyLog',
-      element: <AddDailyLog/>
-    },
-    {
-      path: 'EventManegement',
-      element: <EventManegement/>
-    },
-
-    {
-      path: 'SubjectListmainpage',
-      element: <SubjectListmainpage/>
-    },
-
-    {
-      path: 'AssignPrePrimaryGrades',
-      element: <AssignPrePrimaryGrades/>
-    },
-
-    {
-      path: 'AssignPrePrimaryGrades',
-      element: <AssignPrePrimaryGrades/>
-    },
-
-
-    {
-      path: 'ProgressRemarks',
-      element: <ProgressRemarks/>
-    },
-
-    {
-      path:'FinalResult',
-      element:<FinalResult/>
-    },
   {
-    path:'StudentRecords',
-    element:<StudentRecords/>
+    path: 'TAttendance',
+    element: <TAttendance />
+  },
+  {
+    path: 'TAttendance/TView/:assignedDate/:StandardId',
+    element: <TView />
+  },
+  {
+    path: 'TeacherTimetable',
+    element: <TeacherTimetable />
   },
 
-    {
-      path: 'AddDailyLog/:Id/:ClassName',
-      element: <AddDailyLog/>
-    },
-    {
-      path:'FinalResultToppers',
-      element:<FinalResultToppers/>
-    },
-    {
-      path:'FinalResultToppers/:TeacherId',
-      element:<FinalResultToppers/>
-    },
-    {
-      path:'StandardToppers',
-      element:<StandardToppers/>
-    },
-    {
-      path: 'ExamResultUnpublish',
-      element: <ExamResultUnpublish/>
-    },
-    {
-      path: 'ExamResultUnpublish/:ExamId/:TeacherId/:ExamName/:TeacherName',
-      element: <ExamResultUnpublish/>
-    },
-    {
-      path: 'AddHomework',
-      element: <AddHomework/>
-    },
-    {
-      path: 'AddHomework/:ClassId/:ClassName/:TeacherId/:TeacherName',
-      element: <AddHomework/>
-    },
-    {
-      path: 'HomeworkSubjectList',
-      element: <HomeworkSubjectList/>
-    },
-    {
-      path:'HomeworkDocuments/:Id',
-      element:<HomeworkDocuments/>
-    },  
-    // {
-    //   path:'HomeworkDocuments',
-    //   element:<HomeworkDocuments/>
-    // },  
-    {
-      path: 'ViewHomework/:Id',
-      element: <ViewHomework/>
-    },
-    
-    {
-      path: 'AddUnpublish/:Id',
-      element: <AddUnpublish/>
-    },
-    {
-      path: 'AddLessonPlan',
-      element: <AddLessonPlan/>
-    },
-    {
-      path: 'LessonPlanBaseScreen',
-      element: <LessonPlanBaseScreen/>
-    },
-    {
-      path: 'PrePrimaryResult',
-      element: <PrePrimaryResult/>
-    },
-    {
-      path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
-      element: <UnpublishPrePrimaryResult/>
-    },
-    {
-      path: 'Requisition',
-      element: <Requisition/>
-    },
+  {
+    path: 'TExamschedule',
+    element: <TExamschedule />
+  },
+  {
+    path: 'TAttendance/MissingAttandence/:assignedDate/:StandardId',
+    element: <MissingAttandence />
+  },
+  {
+    path: 'smscenter',
+    element: <SmsCenter />
+  },
+  {
+    path: 'TAttendance/:AssignedDate/:StandardId',
+    element: <TAttendance />
+  },
+  {
+    path: 'SchoolAttendanceOverview',
+    element: <SchoolAttendanceOverview />
+  },
+  {
+    path: 'IndidualAttendance',
+    element: <IndidualAttendance />
+  },
+  {
+    path: 'AddAnnualPlaner',
+    element: <AddAnnualPlaner />
+  },
+  {
+    path: 'MonthwiseAttendance',
+    element: <MonthwiseAttandance />
+  },
+  {
+    path: 'ExamResultBase',
+    element: <ExamResultBase />
+  },
+  {
+    path: 'SubjectExamMarks',
+    element: <SubjectExamMarks />
+  },
 
-    {
-      path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
-      element: <FinalResultUnpublish/>
-    },
-    ];
-  
-  export default teacherRoutes;
-  
+  {
+    path: 'AssignExamMark',
+    element: <AssignExamMark />
+  },
+
+  {
+    path: 'AnnualPlanerBaseScreen',
+    element: <AnnualPlanerBaseScreen />
+  },
+
+  {
+    path: 'AssignHomework',
+    element: <AssignHomework />
+  },
+  {
+    path: 'TermwiseHeightWeight',
+    element: <TermwiseHeightWeight />
+  },
+
+  {
+    path: 'AddDailyLog',
+    element: <AddDailyLog />
+  },
+  {
+    path: 'EventManegement',
+    element: <EventManegement />
+  },
+
+  {
+    path: 'SubjectListmainpage',
+    element: <SubjectListmainpage />
+  },
+
+  {
+    path: 'AssignPrePrimaryGrades',
+    element: <AssignPrePrimaryGrades />
+  },
+
+  {
+    path: 'AssignPrePrimaryGrades',
+    element: <AssignPrePrimaryGrades />
+  },
+
+  {
+    path: 'ProgressRemarks',
+    element: <ProgressRemarks />
+  },
+
+  {
+    path: 'FinalResult',
+    element: <FinalResult />
+  },
+  {
+    path: 'StudentRecords',
+    element: <StudentRecords />
+  },
+
+  {
+    path: 'AddDailyLog/:Id/:ClassName',
+    element: <AddDailyLog />
+  },
+  {
+    path: 'FinalResultToppers',
+    element: <FinalResultToppers />
+  },
+  {
+    path: 'FinalResultToppers/:TeacherId',
+    element: <FinalResultToppers />
+  },
+  {
+    path: 'StandardToppers',
+    element: <StandardToppers />
+  },
+  {
+    path: 'ExamResultUnpublish',
+    element: <ExamResultUnpublish />
+  },
+  {
+    path: 'ExamResultUnpublish/:ExamId/:TeacherId/:ExamName/:TeacherName',
+    element: <ExamResultUnpublish />
+  },
+  {
+    path: 'AddHomework',
+    element: <AddHomework />
+  },
+  {
+    path: 'AddHomework/:ClassId/:ClassName/:TeacherId/:TeacherName',
+    element: <AddHomework />
+  },
+  {
+    path: 'HomeworkSubjectList',
+    element: <HomeworkSubjectList />
+  },
+  {
+    path: 'HomeworkDocuments/:Id',
+    element: <HomeworkDocuments />
+  },
+  // {
+  //   path:'HomeworkDocuments',
+  //   element:<HomeworkDocuments/>
+  // },
+  {
+    path: 'ViewHomework/:Id',
+    element: <ViewHomework />
+  },
+
+  {
+    path: 'AddUnpublish/:Id',
+    element: <AddUnpublish />
+  },
+  {
+    path: 'AddLessonPlan',
+    element: <AddLessonPlan />
+  },
+  {
+    path: 'LessonPlanBaseScreen',
+    element: <LessonPlanBaseScreen />
+  },
+  {
+    path: 'PrePrimaryResult',
+    element: <PrePrimaryResult />
+  },
+  {
+    path: 'UnpublishPrePrimaryResult/:AssessmentName/:TeacherName',
+    element: <UnpublishPrePrimaryResult />
+  },
+  {
+    path: 'Requisition',
+    element: <Requisition />
+  },
+
+  {
+    path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
+    element: <FinalResultUnpublish />
+  }
+];
+
+export default teacherRoutes;

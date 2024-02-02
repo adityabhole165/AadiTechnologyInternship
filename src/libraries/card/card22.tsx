@@ -1,21 +1,14 @@
-import React, { useState } from 'react';
 import { Box, Grid } from '@mui/material';
-import PropTypes from 'prop-types';
-import { GetPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import { makeStyles } from '@mui/styles';
-import { Styles } from 'src/assets/style/student-style';
-import { SRLWrapper } from 'simple-react-lightbox';
-import SimpleReactLightbox from 'simple-react-lightbox';
+import PropTypes from 'prop-types';
+import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
 import 'src/assets/style/Homework_Calci.css';
-import BackButton from '../button/BackButton';
-import ErrorMessages from "src/libraries/ErrorMessages/ErrorMessages";
-import { sitePath } from 'src/components/Common/Util';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 Card22.propTypes = {
   pic: PropTypes.array,
   imgId: PropTypes.string,
-  YearData: PropTypes?.array,
-  
+  YearData: PropTypes?.array
 };
 const useStyles = makeStyles((theme) => ({
   resonsive: {
@@ -62,12 +55,10 @@ function Card22({ pic, imgId }) {
     }
   };
 
-
   return (
     <div>
       <SimpleReactLightbox>
-        
-        <span style={{display:'flex', justifyContent: 'center' }}>
+        <span style={{ display: 'flex', justifyContent: 'center' }}>
           <span>{imgId}</span>
         </span>
 
@@ -80,30 +71,28 @@ function Card22({ pic, imgId }) {
             justifyContent="center"
             sx={{ marginTop: '20px' }}
           >
-             {
-                    (pic === null)?
-                    <ErrorMessages Error={'No message'} />
-                    :
-                   <>
-                  
-            {pic.map((items, i) => {
-              return (
-                <>
-                  <Grid>
-                    <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
-                      <img
-                        src={items.Value}
-                        width="100"
-                        height="100"
-                        alt={items.Name}
-                      />
-                    </Box>
-                  </Grid>
-                </>
-              );
-            })}
-             </>
-                }
+            {pic === null ? (
+              <ErrorMessages Error={'No message'} />
+            ) : (
+              <>
+                {pic.map((items, i) => {
+                  return (
+                    <>
+                      <Grid>
+                        <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
+                          <img
+                            src={items.Value}
+                            width="100"
+                            height="100"
+                            alt={items.Name}
+                          />
+                        </Box>
+                      </Grid>
+                    </>
+                  );
+                })}
+              </>
+            )}
           </Grid>
         </SRLWrapper>
       </SimpleReactLightbox>

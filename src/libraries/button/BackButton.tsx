@@ -1,6 +1,6 @@
 import ReplyIcon from '@mui/icons-material/Reply';
+import { Fab, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { useTheme, Fab } from '@mui/material';
 
 import { Link as RouterLink } from 'react-router-dom';
 
@@ -19,7 +19,7 @@ function BackButton({ FromRoute }) {
         to={
           pageName == '/forgotPassword'
             ? '/schoolList'
-            : (FromRoute == '/schoolnotice' || FromRoute == '/schoolList' )
+            : FromRoute == '/schoolnotice' || FromRoute == '/schoolList'
             ? FromRoute
             : `/${location.pathname.split('/')[1]}` + FromRoute
         }
@@ -34,7 +34,7 @@ function BackButton({ FromRoute }) {
             left: '20px',
             width: '35px !important',
             height: '10px !important',
-            borderRadius: '4px !important',
+            borderRadius: '4px !important'
             // boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
           }}
         >

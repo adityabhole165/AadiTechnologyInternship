@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
-import {
-  IViewSms,
-  GetSMSDetailsResult
-} from 'src/interfaces/Student/SMSCenter';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Card3 from 'src/libraries/card/card3';
-import http from 'src/requests/SchoolService/schoolServices';
+import {
+  GetSMSDetailsResult,
+  IViewSms
+} from 'src/interfaces/Student/SMSCenter';
 import BackButton from 'src/libraries/button/BackButton';
+import Card3 from 'src/libraries/card/card3';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import http from 'src/requests/SchoolService/schoolServices';
 
 function ViewSms() {
   const ViewDetail = {

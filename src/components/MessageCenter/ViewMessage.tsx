@@ -1,26 +1,21 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  GetSentListResult,
-  IViewSent
-} from 'src/interfaces/MessageCenter/Sent_Message';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { useParams } from 'react-router-dom';
-import Card7 from 'src/libraries/card/card7';
-import http from 'src/requests/SchoolService/schoolServices';
-import BackButton from 'src/libraries/button/BackButton';
-import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
-import { GetMessagesResult, IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
-import { compareStringWithoutSpace } from '../Common/Util';
-import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
-import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
-import { RootState } from 'src/store';
+import { IUpdateReadReceiptStatusBody } from 'src/interfaces/MessageCenter/GetList';
 import { IGetDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import { IViewSent } from 'src/interfaces/MessageCenter/Sent_Message';
+import { IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
+import BackButton from 'src/libraries/button/BackButton';
+import Card7 from 'src/libraries/card/card7';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import { getDraftMessage } from 'src/requests/MessageCenter/RequestDraftMessage';
-import CardDraft from 'src/libraries/card/CardDraft';
-import { Box, Typography } from '@mui/material';
+import http from 'src/requests/SchoolService/schoolServices';
+import { GetEnableMessageCenterReadModeForStudent } from 'src/requests/SchoolSetting/schoolSetting';
+import { getUpdateReadReceiptStatus } from 'src/requests/Student/InboxMessage';
+import { RootState } from 'src/store';
+import { compareStringWithoutSpace } from '../Common/Util';
 
-function ViewSms({ }) {
+function ViewSms({}) {
   const dispatch = useDispatch();
   const ViewDetail = {
     From: 'From',
@@ -35,36 +30,34 @@ function ViewSms({ }) {
 
   const [viewSent, setViewSent] = useState(null);
 
-  const [showMessage, setShowMessage] = useState(false)
+  const [showMessage, setShowMessage] = useState(false);
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
   const MessageCenterReadMode: any = useSelector(
-    (state: RootState) => state.getSchoolSettings.EnableMessageCenterReadModeForStudent
+    (state: RootState) =>
+      state.getSchoolSettings.EnableMessageCenterReadModeForStudent
   );
   const GetDraftMessage = useSelector(
     (state: RootState) => state.DraftMessages.DraftMessage
   );
-console.log("GetDraftMessage",GetDraftMessage);
+  console.log('GetDraftMessage', GetDraftMessage);
 
   const DraftMessageBody: IGetDraftMessageBody = {
-
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId,
     aiUserId: UserId,
     aiDraftId: ID
-  }
+  };
 
- 
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(asAcademicYearId),
-    asKey: "",
+    asKey: ''
   };
   const GetViewEventResult = () => {
-   
     const ViewSent_body: IViewSent = {
       asSchoolId: asSchoolId,
       asMessageDetailsId: ID,
@@ -75,39 +68,38 @@ console.log("GetDraftMessage",GetDraftMessage);
       .post('MessageCenter/GetMessage', ViewSent_body)
       .then((resp) => resp.data.GetMessagesResult)
       .then((data) => {
-        console.log(data ,"data")
+        console.log(data, 'data');
         setViewSent(data);
       });
   };
 
- 
+  useEffect(() => {
+    if (GetDraftMessage !== null && GetDraftMessage !== undefined) {
+      setViewSent(GetDraftMessage[0]);
+    }
+  }, [GetDraftMessage]);
 
-  useEffect(()=>{
-    if(GetDraftMessage!==null && GetDraftMessage!==undefined){
-    setViewSent(GetDraftMessage[0]);
-  }
-  },[GetDraftMessage])
-      
-  const SchoolId = localStorage.getItem('localSchoolId')
+  const SchoolId = localStorage.getItem('localSchoolId');
 
   useEffect(() => {
-    if(FromRoute === "Draft")
-      dispatch(getDraftMessage(DraftMessageBody))
-    else
-      GetViewEventResult();
+    if (FromRoute === 'Draft') dispatch(getDraftMessage(DraftMessageBody));
+    else GetViewEventResult();
   }, []);
-  
-  
+
   useEffect(() => {
-    dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody))
+    dispatch(GetEnableMessageCenterReadModeForStudent(GetSettingValueBody));
   }, []);
-  
+
   useEffect(() => {
     if (viewSent !== undefined && viewSent !== null) {
-      if (viewSent.RequestReadReceipt === "True") {
-        let readRecipient = "0"
-        if (confirm("The Sender of this message has requested 'Read Receipt'. Do you want to send it")) {
-          readRecipient = "1"
+      if (viewSent.RequestReadReceipt === 'True') {
+        let readRecipient = '0';
+        if (
+          confirm(
+            "The Sender of this message has requested 'Read Receipt'. Do you want to send it"
+          )
+        ) {
+          readRecipient = '1';
         }
 
         const body: IUpdateReadReceiptStatusBody = {
@@ -118,29 +110,25 @@ console.log("GetDraftMessage",GetDraftMessage);
         };
         dispatch(getUpdateReadReceiptStatus(body));
       }
-      setShowMessage(true)
+      setShowMessage(true);
     }
   }, [viewSent]);
   const isSame = (value1, value2) => {
-    let arr1 = value1.split('(')
-    let arr2 = value2.split('(')
+    let arr1 = value1.split('(');
+    let arr2 = value2.split('(');
     if (arr1[0] === arr1[0]) {
       if (arr1.length > 1 && arr2.length > 1) {
-        if (compareStringWithoutSpace(arr1[1], arr2[1]))
-          return true
+        if (compareStringWithoutSpace(arr1[1], arr2[1])) return true;
       }
-    }
-    else
-      return false
-  }
+    } else return false;
+  };
 
-  const getWithoutHTML = (value) =>{
-    var div = document.createElement("div");
+  const getWithoutHTML = (value) => {
+    var div = document.createElement('div');
     div.innerHTML = value;
-    var text = div.textContent || div.innerText || "";
+    var text = div.textContent || div.innerText || '';
     return text;
-  }
-
+  };
 
   return (
     <>
@@ -149,32 +137,37 @@ console.log("GetDraftMessage",GetDraftMessage);
       <BackButton FromRoute={'/MessageCenter/msgCenter/' + FromRoute} />
 
       <>
-        {
-
-          viewSent === undefined ? null : showMessage && (
-            <Card7
-              ViewDetail={ViewDetail}
-              From={ FromRoute === 'Draft'  ? viewSent.SenderName : viewSent.UserName}
-              InsertDateInFormat={viewSent.InsertDateInFormat}
-              To={(viewSent.RecieverName != null && viewSent.RecieverName != '') ?
-                viewSent.RecieverName : viewSent.DisplayText}
-              // To={viewSent.DisplayText}
-              Cc={viewSent.DisplayTextCc}
-              Body={FromRoute === "Draft"?getWithoutHTML(viewSent.Body):viewSent.Body}
-              Text={viewSent.Subject}
-              Attachments={viewSent.Attachments}
-              ID={ID}
-              ViewSentObject={viewSent}
-              LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
-              MessageCenterReadMode={MessageCenterReadMode}
-            />
-
-       
-          
-          )}
-
-        
-        
+        {viewSent === undefined
+          ? null
+          : showMessage && (
+              <Card7
+                ViewDetail={ViewDetail}
+                From={
+                  FromRoute === 'Draft'
+                    ? viewSent.SenderName
+                    : viewSent.UserName
+                }
+                InsertDateInFormat={viewSent.InsertDateInFormat}
+                To={
+                  viewSent.RecieverName != null && viewSent.RecieverName != ''
+                    ? viewSent.RecieverName
+                    : viewSent.DisplayText
+                }
+                // To={viewSent.DisplayText}
+                Cc={viewSent.DisplayTextCc}
+                Body={
+                  FromRoute === 'Draft'
+                    ? getWithoutHTML(viewSent.Body)
+                    : viewSent.Body
+                }
+                Text={viewSent.Subject}
+                Attachments={viewSent.Attachments}
+                ID={ID}
+                ViewSentObject={viewSent}
+                LoggedInUserNameForMessage={viewSent.LoggedInUserNameForMessage}
+                MessageCenterReadMode={MessageCenterReadMode}
+              />
+            )}
       </>
     </>
   );

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBirthdayList } from 'src/requests/Dashboard/Dashboard';
 import { IBirthdays } from 'src/interfaces/Student/dashboard';
-import { RootState } from 'src/store';
 import Card12 from 'src/libraries/card/Card12';
+import { getBirthdayList } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 function Birthdays() {
   const dispatch = useDispatch();

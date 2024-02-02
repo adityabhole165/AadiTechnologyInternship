@@ -1,10 +1,16 @@
-import http from "../../requests/SchoolService/schoolServices";
-import { IGetUpcomingStaffBdayListBody, IGetUpcomingStaffBdayList} from "src/interfaces/Student/IBirthdays"
+import {
+  IGetUpcomingStaffBdayList,
+  IGetUpcomingStaffBdayListBody
+} from 'src/interfaces/Student/IBirthdays';
+import http from '../../requests/SchoolService/schoolServices';
 
 const Birthdaysapi = (data: IGetUpcomingStaffBdayListBody) => {
-    return http.post<IGetUpcomingStaffBdayList>('Dashboard/GetUpcomingStaffBdayList',data);
-  };
-  const ApiBirthdays ={
-    Birthdaysapi
-  }
-  export default ApiBirthdays;
+  return http.post<IGetUpcomingStaffBdayList>(
+    'Dashboard/GetUpcomingStaffBdayList',
+    data
+  );
+};
+const ApiBirthdays = {
+  Birthdaysapi
+};
+export default ApiBirthdays;

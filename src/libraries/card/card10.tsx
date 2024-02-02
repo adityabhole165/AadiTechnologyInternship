@@ -1,28 +1,18 @@
+import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
+import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   Box,
-  Divider,
   Card,
-  Typography,
-  useTheme,
   Container,
-  Fab,
-  Button,
-  CardHeader,
+  Divider,
   List,
-  Avatar,
-  FormGroup,
-  Grid,
-  styled,
-  TableCell
+  Typography,
+  useTheme
 } from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
-import RefreshRoundedIcon from '@mui/icons-material/RefreshRounded';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@mui/styles';
-import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
+import PropTypes from 'prop-types';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
 import { GetUpcomingEventsResult } from 'src/interfaces/Student/dashboard';
 import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 

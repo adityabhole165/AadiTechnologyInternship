@@ -1,28 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import {
-  Box,
-  Typography,
-  useTheme,
-  Divider,
-  getBottomNavigationUtilityClass,
-  TextField
-} from '@mui/material';
-import { useState, useEffect } from 'react';
-import {
-  Container,
-  Grid,
-  Grow,
-  List,
-  ListItem,
-  ListItemText,
-  Card
-} from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
-import ExpandLess from '@mui/material/Icon/Icon';
-import ExpandMore from '@mui/material/Icon/Icon';
+import { Box, Grow, useTheme } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { display } from '@mui/system';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { Styles } from 'src/assets/style/student-style';
 import { CardDetail2, ListStyle } from '../styled/CardStyle';
 
 Card21.propTypes = {
@@ -34,7 +14,6 @@ Card21.propTypes = {
 };
 
 function Card21({ Gradeormarks, subject }) {
-
   const [checked, setChecked] = useState(true);
   const [expand, setExpand] = useState(false);
   const onClick = () => {
@@ -53,8 +32,7 @@ function Card21({ Gradeormarks, subject }) {
       display: 'flex',
       flexDirection: 'row',
       alignItems: 'center',
-      justifyContent: 'space-between',
-
+      justifyContent: 'space-between'
     }
   });
 
@@ -65,7 +43,6 @@ function Card21({ Gradeormarks, subject }) {
     <div>
       <>
         {Gradeormarks?.length === 0 && subject?.length === 0 ? null : (
-
           <Grow
             in={checked}
             style={{ transformOrigin: '0 0 1' }}
@@ -74,7 +51,7 @@ function Card21({ Gradeormarks, subject }) {
             <ListStyle>
               <Box>
                 <Box className={clas.timesx}>
-                  <CardDetail2 >
+                  <CardDetail2>
                     {subject.map((sub, index) => {
                       return (
                         <div key={index}>
@@ -84,27 +61,22 @@ function Card21({ Gradeormarks, subject }) {
                     })}
                   </CardDetail2>
                   <Box>
-                  { 
-                    Gradeormarks.length != 0 &&
-                    <CardDetail2
-                    sx={{ color: 'blueviolet' }}
-                    >
-                    {Gradeormarks.map((mark, index1) => {
-                      return (
-                          <div key={index1}>
-                            <div >{mark == 'Exempt'? 'Exempted' :mark}</div>
-                          </div>
-                      );
-                    })}
-                    </CardDetail2>
-                  }
+                    {Gradeormarks.length != 0 && (
+                      <CardDetail2 sx={{ color: 'blueviolet' }}>
+                        {Gradeormarks.map((mark, index1) => {
+                          return (
+                            <div key={index1}>
+                              <div>{mark == 'Exempt' ? 'Exempted' : mark}</div>
+                            </div>
+                          );
+                        })}
+                      </CardDetail2>
+                    )}
                   </Box>
                 </Box>
               </Box>
-
             </ListStyle>
           </Grow>
-
         )}
       </>
     </div>

@@ -1,23 +1,36 @@
-import { useTheme, Box, } from '@mui/material';
-import 'src/assets/style/Bday.css';
-import React, { useEffect, useState } from 'react';
+import { Box } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import DashboardData from './Dashboard';
-import Card2 from 'src/libraries/mainCard/Card2';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useNavigate } from 'react-router-dom';
+import 'src/assets/style/Bday.css';
 import {
-  getModulesPermission, getModulesPermissionsResultt, getGetSettingValue,
-  getGetSettingSubTeacher, getLibrarySchoolSetting, getTransportCommitteeForStudent, ShowAadharCardForStudent, EnableOnlineExamM, getParentPhotoUpload, getEnableHomeworkModule, getShowITRReportOnStudentLogin
-} from 'src/requests/SchoolSetting/schoolSetting';
-import { IgetModulesPermission, IGetScreensAccessPermissions, IGetSettingValueBody } from 'src/interfaces/SchoolSetting/schoolSettings';
-import { getMessageCount } from 'src/requests/Dashboard/Dashboard'
+  IGetScreensAccessPermissions,
+  IGetSettingValueBody,
+  IgetModulesPermission
+} from 'src/interfaces/SchoolSetting/schoolSettings';
 import { INewMessageCount } from 'src/interfaces/Student/dashboard';
+import Card2 from 'src/libraries/mainCard/Card2';
+import { getMessageCount } from 'src/requests/Dashboard/Dashboard';
+import {
+  EnableOnlineExamM,
+  ShowAadharCardForStudent,
+  getEnableHomeworkModule,
+  getGetSettingSubTeacher,
+  getGetSettingValue,
+  getLibrarySchoolSetting,
+  getModulesPermission,
+  getModulesPermissionsResultt,
+  getParentPhotoUpload,
+  getShowITRReportOnStudentLogin,
+  getTransportCommitteeForStudent
+} from 'src/requests/SchoolSetting/schoolSetting';
+import { RootState } from 'src/store';
 import NewRelease from '../Authentication/NewRelease/NewRelease';
 import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
-import { useNavigate } from 'react-router-dom';
 import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
+import DashboardData from './Dashboard';
 
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -28,14 +41,16 @@ const Text = styled(Box)(({ theme }) => ({
 }));
 
 function LandingPage() {
-  
-const UserLoginDetails1 = useSelector(
-  (state: RootState) => state.Dashboard.UserLoginDetails
-);
+  const UserLoginDetails1 = useSelector(
+    (state: RootState) => state.Dashboard.UserLoginDetails
+  );
 
-if(UserLoginDetails1 !== null){
-localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
-}
+  if (UserLoginDetails1 !== null) {
+    localStorage.setItem(
+      'UserLoginDetails1',
+      UserLoginDetails1.LastLoginDetails
+    );
+  }
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [showBday, setShowBday] = useState(false);
@@ -46,7 +61,8 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     (state: RootState) => state.getSchoolSettings.SchoolTrasnportIsEnabled
   );
   const TransportCommitteeForStudent: any = useSelector(
-    (state: RootState) => state.getSchoolSettings.EnableTransportCommitteeForStudentLogin
+    (state: RootState) =>
+      state.getSchoolSettings.EnableTransportCommitteeForStudentLogin
   );
   const ExternalLibrarySite: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ExternalLibrarySite
@@ -65,32 +81,29 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
     (state: RootState) => state.Dashboard.MessageCount
   );
   const AllowParentPhoto: any = useSelector(
-    (state: RootState) => state.getSchoolSettings.AllowParentPhotoUploadFromStudentLogin
+    (state: RootState) =>
+      state.getSchoolSettings.AllowParentPhotoUploadFromStudentLogin
   );
-    const showAaadharCard: any = useSelector(
-      (state: RootState) => state.getSchoolSettings.ShowAadharCardForStudent
-    );
-    const showOnlineExam: any = useSelector(
-      (state: RootState) => state.getSchoolSettings.EnableOnlineExamModule
-    );
-    const EnableHomeworkModule: any = useSelector(
-      (state: RootState) => state.getSchoolSettings.EnableHomeworkModuleForStudentLogin
-    );
+  const showAaadharCard: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.ShowAadharCardForStudent
+  );
+  const showOnlineExam: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.EnableOnlineExamModule
+  );
+  const EnableHomeworkModule: any = useSelector(
+    (state: RootState) =>
+      state.getSchoolSettings.EnableHomeworkModuleForStudentLogin
+  );
 
-    const getShowITRReportOnStudent: any = useSelector(
-      (state: RootState) => state.getSchoolSettings.ShowITRReportOnStudentLogin
-    );
+  const getShowITRReportOnStudent: any = useSelector(
+    (state: RootState) => state.getSchoolSettings.ShowITRReportOnStudentLogin
+  );
 
-  
-
-
-    
   const asSchoolId = localStorage.getItem('localSchoolId');
   const RoleId = sessionStorage.getItem('RoleId');
   const userId = sessionStorage.getItem('Id');
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
   const DOB = sessionStorage.getItem('DOB');
-
 
   const getModulePermissionBody: IgetModulesPermission = {
     asSchoolId: asSchoolId,
@@ -110,50 +123,46 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
   const GetSettingValueBody: IGetSettingValueBody = {
     asSchoolId: parseInt(asSchoolId),
     aiAcademicYearId: parseInt(AcademicYearId),
-    asKey: "",
+    asKey: ''
   };
 
   const getNewMessageCount: INewMessageCount = {
     asSchoolId: asSchoolId,
     asUserId: userId,
-    asAcademicYearId: AcademicYearId,
+    asAcademicYearId: AcademicYearId
   };
-
 
   const curYear = new Date().getFullYear();
   const date = DOB;
   const day = new Date(date).getDate();
-  const month = new Date(date).toLocaleString('default', { month: "short" });
+  const month = new Date(date).toLocaleString('default', { month: 'short' });
   const year = new Date(date).getFullYear();
-  const newdate = `${day} ${month} ${curYear}`
+  const newdate = `${day} ${month} ${curYear}`;
 
   useEffect(() => {
     if (RoleId == '3') {
       dispatch(getModulesPermission(getModulePermissionBody));
       dispatch(getGetSettingValue(GetSettingValueBody));
-      dispatch(getGetSettingSubTeacher(GetSettingValueBody))
-      dispatch(getLibrarySchoolSetting(GetSettingValueBody))
-      dispatch(getTransportCommitteeForStudent(GetSettingValueBody)) 
-      dispatch(ShowAadharCardForStudent(GetSettingValueBody)) 
-      dispatch(EnableOnlineExamM(GetSettingValueBody)) 
-      dispatch(getParentPhotoUpload(GetSettingValueBody)) 
-      dispatch(getEnableHomeworkModule(GetSettingValueBody)) 
-      dispatch(getShowITRReportOnStudentLogin(GetSettingValueBody)) 
+      dispatch(getGetSettingSubTeacher(GetSettingValueBody));
+      dispatch(getLibrarySchoolSetting(GetSettingValueBody));
+      dispatch(getTransportCommitteeForStudent(GetSettingValueBody));
+      dispatch(ShowAadharCardForStudent(GetSettingValueBody));
+      dispatch(EnableOnlineExamM(GetSettingValueBody));
+      dispatch(getParentPhotoUpload(GetSettingValueBody));
+      dispatch(getEnableHomeworkModule(GetSettingValueBody));
+      dispatch(getShowITRReportOnStudentLogin(GetSettingValueBody));
     }
     localStorage.setItem('url', window.location.pathname);
     dispatch(getModulesPermissionsResultt(getScreensAccessPermissions));
     dispatch(getMessageCount(getNewMessageCount));
     if (isBetweenDate(newdate, 6)) {
       if (localStorage.getItem('DOBSeen') == newdate) {
-        setShowBday(false)
+        setShowBday(false);
+      } else {
+        setShowBday(true);
+        localStorage.setItem('DOBSeen', newdate);
       }
-      else {
-        setShowBday(true)
-        localStorage.setItem('DOBSeen', newdate)
-      }
-    }
-    else
-      setShowBday(false)
+    } else setShowBday(false);
   }, []);
   let items1 = [];
   let items2 = [];
@@ -162,35 +171,42 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
   if (RoleId === '3') {
     items1 = DashboardData.Student.items1.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName === (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission) &&
-          (el.ModulesPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items1 = items1.filter((el) => {
-      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
-    })
+      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true;
+    });
     // items1 = items1.filter((el) => {
     //   return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true
     // })
 
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName ===
-          (el.ModulesPermission === undefined
-            ? f.ModuleName
-            : el.ModulesPermission) && (el.ModulesPermission === undefined
-              ? true
-              : f.IsEnabled === true);
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items3 = DashboardData.Student.items3.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName ===
-          (el.ModulesPermission === undefined
-            ? f.ModuleName
-            : el.ModulesPermission) && (el.ModulesPermission === undefined
-              ? true
-              : f.IsEnabled === true);
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
   }
@@ -198,77 +214,92 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
   if (RoleId === '3') {
     items1 = DashboardData.Student.items1.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName ===
-          (el.ModulesPermission === undefined
-            ? f.ModuleName
-            : el.ModulesPermission) && (el.ModulesPermission === undefined
-              ? true
-              : f.IsEnabled === true);
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items1 = items1.filter((el) => {
-      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true
-    })
+      return el.Text1 == 'Transport' ? SchoolTrasnportIsEnabled : true;
+    });
     items1 = items1.filter((el) => {
-      return el.Text1 == 'Library' ? isLibrarySchoolSetting : true
-    })
+      return el.Text1 == 'Library' ? isLibrarySchoolSetting : true;
+    });
     items1 = items1.filter((el) => {
-      return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true
-    })
+      return el.Text2 == 'Committee' ? TransportCommitteeForStudent : true;
+    });
     items2 = DashboardData.Student.items2.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName ===
-          (el.ModulesPermission === undefined
-            ? f.ModuleName
-            : el.ModulesPermission) && (el.ModulesPermission === undefined
-              ? true
-              : f.IsEnabled === true);
-      });   
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
+      });
     });
     items2 = items2.filter((el) => {
-      return el.Text1 == 'Homework ' ? EnableHomeworkModule : true
-    })
-   
+      return el.Text1 == 'Homework ' ? EnableHomeworkModule : true;
+    });
+
     items3 = DashboardData.Student.items3.filter((el) => {
       return ModulesPermission.some((f) => {
-        return f.ModuleName === (el.ModulesPermission === undefined ? f.ModuleName : el.ModulesPermission) &&
-          (el.ModulesPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ModuleName ===
+            (el.ModulesPermission === undefined
+              ? f.ModuleName
+              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items3 = items3.filter((el) => {
-      return el.Text1 == 'Subject ' ? SubTeacherEnabled : true
-    })
+      return el.Text1 == 'Subject ' ? SubTeacherEnabled : true;
+    });
     items3 = items3.filter((el) => {
-      return el.Text1 == 'Update ' ? showAaadharCard : true
-    })
+      return el.Text1 == 'Update ' ? showAaadharCard : true;
+    });
     items3 = items3.filter((el) => {
-      return el.Text1 == 'Online' ? showOnlineExam : true
-    })
+      return el.Text1 == 'Online' ? showOnlineExam : true;
+    });
     items3 = items3.filter((el) => {
-      return el.Text1 == ' O-Progress ' ? showOnlineExam : true
-    })
+      return el.Text1 == ' O-Progress ' ? showOnlineExam : true;
+    });
     items3 = items3.filter((el) => {
-      return el.Text1 == 'Upload' ? AllowParentPhoto : true
-    })
+      return el.Text1 == 'Upload' ? AllowParentPhoto : true;
+    });
 
     items3 = items3.filter((el) => {
-      return el.Text1 == 'Income' ? getShowITRReportOnStudent : true
-    })
-    
+      return el.Text1 == 'Income' ? getShowITRReportOnStudent : true;
+    });
   }
 
-
-  if (RoleId === '6' || RoleId === '1' ) {
+  if (RoleId === '6' || RoleId === '1') {
     items1 = DashboardData.Admin.items1.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) &&
-          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ScreenName ===
+            (el.ScreenPermission === undefined
+              ? f.ScreenName
+              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items2 = DashboardData.Admin.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) &&
-          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ScreenName ===
+            (el.ScreenPermission === undefined
+              ? f.ScreenName
+              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
   }
@@ -276,46 +307,89 @@ localStorage.setItem('UserLoginDetails1',UserLoginDetails1.LastLoginDetails)
   if (RoleId === '2') {
     items1 = DashboardData.Teacher.items1.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName === (el.ScreenPermission === undefined ? f.ScreenName : el.ScreenPermission) &&
-          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ScreenName ===
+            (el.ScreenPermission === undefined
+              ? f.ScreenName
+              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
     items2 = DashboardData.Teacher.items2.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return (el.Text1.trim() === "Attendance" &&
-          sessionStorage.getItem("IsClassTeacher") === "N" && f.IsFullAccess === "N") ?
-          false :
-          f.ScreenName === (el.ScreenPermission === undefined ?
-            f.ScreenName : el.ScreenPermission) && (el.ScreenPermission === undefined ?
-              true :
-              f.IsEnabled === true);
+        return el.Text1.trim() === 'Attendance' &&
+          sessionStorage.getItem('IsClassTeacher') === 'N' &&
+          f.IsFullAccess === 'N'
+          ? false
+          : f.ScreenName ===
+              (el.ScreenPermission === undefined
+                ? f.ScreenName
+                : el.ScreenPermission) &&
+              (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
     items3 = DashboardData.Teacher.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
-        return f.ScreenName.replace(/ /g, '') === (el.ScreenPermission === undefined ? f.ScreenName.replace(/ /g, '') : 
-          el.ScreenPermission.replace(/ /g, '')) &&
-          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
+        return (
+          f.ScreenName.replace(/ /g, '') ===
+            (el.ScreenPermission === undefined
+              ? f.ScreenName.replace(/ /g, '')
+              : el.ScreenPermission.replace(/ /g, '')) &&
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
+        );
       });
     });
   }
 
-  let header2 = RoleId === '3'  ? 'Student' : 'Teacher' &&  (RoleId === '1') ? 'Communication' :'Teacher';
-  let header3 = RoleId === '6' || RoleId === '2'  ? 'Communication' : 'Exam & Communication';
-  let header4 = RoleId === '1' && 'Communication'
-  const [forceUpdate, setForceUpdate] = useState(false)
-  
+  let header2 =
+    RoleId === '3'
+      ? 'Student'
+      : 'Teacher' && RoleId === '1'
+      ? 'Communication'
+      : 'Teacher';
+  let header3 =
+    RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
+  let header4 = RoleId === '1' && 'Communication';
+  const [forceUpdate, setForceUpdate] = useState(false);
+
   return (
     <>
-      <NewRelease/> 
+      <NewRelease />
       {showBday && <BdayPopUp />}
-      <SchoolNoticeBoard/>
-      <Card2 items={items1} heading={'School'} rowsCol="4"
-        Messagecount={Messagecount.MESSAGECOUNT} ExternalLibrarySite={ExternalLibrarySite}></Card2>
+      <SchoolNoticeBoard />
+      <Card2
+        items={items1}
+        heading={'School'}
+        rowsCol="4"
+        Messagecount={Messagecount.MESSAGECOUNT}
+        ExternalLibrarySite={ExternalLibrarySite}
+      ></Card2>
       {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />} */}
-      { (RoleId != '6')  && <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
-      { (RoleId == '6'  ) && <Card2 items={items2} heading={header3} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />}
-      {(RoleId == '2' || RoleId == '3') && <Card2 items={items3} heading={header3} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT}></Card2>}
+      {RoleId != '6' && (
+        <Card2
+          items={items2}
+          heading={header2}
+          rowsCol="4"
+          Messagecount={Messagecount.MESSAGECOUNT}
+        />
+      )}
+      {RoleId == '6' && (
+        <Card2
+          items={items2}
+          heading={header3}
+          rowsCol="4"
+          Messagecount={Messagecount.MESSAGECOUNT}
+        />
+      )}
+      {(RoleId == '2' || RoleId == '3') && (
+        <Card2
+          items={items3}
+          heading={header3}
+          rowsCol="4"
+          Messagecount={Messagecount.MESSAGECOUNT}
+        ></Card2>
+      )}
     </>
   );
 }

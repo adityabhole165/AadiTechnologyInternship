@@ -1,4 +1,4 @@
-import { Grid, List, Typography, Container, useTheme } from '@mui/material';
+import { Grid, List, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import { makeStyles } from '@mui/styles';

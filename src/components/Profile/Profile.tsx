@@ -1,6 +1,5 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 
-import Card24 from 'src/libraries/card/Card24';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Card6 from 'src/libraries/mainCard/Card6';
 function Profile() {
@@ -10,7 +9,7 @@ function Profile() {
         backgroundColor: '#bbdefb',
         position: 'fixed',
         width: '100%',
-        overflow: "scroll",
+        overflow: 'scroll',
         height: '100%'
       }}
     >

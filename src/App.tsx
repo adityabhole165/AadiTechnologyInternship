@@ -1,13 +1,13 @@
 import { useRoutes } from 'react-router-dom';
 import router from 'src/router';
 
-import { SnackbarProvider } from 'notistack';
 import AdapterDateFns from '@mui/lab/AdapterDateFns';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import { SnackbarProvider } from 'notistack';
 
 import { CssBaseline } from '@mui/material';
-import ThemeProvider from './theme/ThemeProvider';
 import AppInit from './libraries/AppInit';
+import ThemeProvider from './theme/ThemeProvider';
 
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
@@ -33,7 +33,6 @@ function App() {
               horizontal: 'right'
             }}
           >
-            {/* kkkkkkkkkkk */}
             <CssBaseline />
             {true ? content : <AppInit />}
           </SnackbarProvider>

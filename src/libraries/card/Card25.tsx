@@ -1,16 +1,14 @@
-import { Box, Card, Typography, useTheme, Container, Fab } from '@mui/material';
+import { Container, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
 import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
+import { Styles } from 'src/assets/style/student-style';
 import BackButton from '../button/BackButton';
 
 import {
-  CardDetail3,
+  BoxWrapper,
   CardDetail1,
   CardDetail2,
-  ListStyle,
-  BoxWrapper
+  ListStyle
 } from '../styled/CardStyle';
 
 Card25.propTypes = {
@@ -21,7 +19,7 @@ Card25.propTypes = {
   ViewDetail: PropTypes.object
 };
 
-function Card25({ ViewDetail, From, To, Date, Text, FromURL='Received' }) {
+function Card25({ ViewDetail, From, To, Date, Text, FromURL = 'Received' }) {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -29,7 +27,7 @@ function Card25({ ViewDetail, From, To, Date, Text, FromURL='Received' }) {
   return (
     <>
       <Container>
-        <BackButton FromRoute={'/SMSCenter/smsCenter/'+FromURL}/>
+        <BackButton FromRoute={'/SMSCenter/smsCenter/' + FromURL} />
         <ListStyle
           sx={{
             background: `${theme.colors.gradients.pink1}`

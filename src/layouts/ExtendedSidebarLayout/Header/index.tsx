@@ -498,12 +498,8 @@ function Header() {
             onClose={handleClose}
             open={isOpen}
             anchorOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
-            }}
-            transformOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
+              vertical: 'bottom',
+              horizontal: 'right'
             }}
           >
             <MenuUserBox

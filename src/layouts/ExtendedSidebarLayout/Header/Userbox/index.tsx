@@ -1,36 +1,33 @@
 import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import student from "src/assets/img/stuff/student.jpg"
 
+import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
+import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
 import {
   Avatar,
   Box,
   Button,
   Divider,
-  MenuList,
-  alpha,
   IconButton,
-  MenuItem,
   ListItemText,
+  MenuItem,
+  MenuList,
   Popover,
   Typography,
+  alpha,
   styled,
   useTheme
 } from '@mui/material';
-import { useTranslation } from 'react-i18next';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
-import Chart from 'react-apexcharts';
 import type { ApexOptions } from 'apexcharts';
+import Chart from 'react-apexcharts';
+import { useTranslation } from 'react-i18next';
 import Text from 'src/libraries/Text';
-import MonetizationOnTwoToneIcon from '@mui/icons-material/MonetizationOnTwoTone';
-import ContactSupportIcon from '@mui/icons-material/ContactSupport';
 
-const studnetprofile = sessionStorage.getItem("PhotoFilePath");
-const StudentName = sessionStorage.getItem("StudentName");
-  const Class = sessionStorage.getItem("Class");
-  const RollNo = sessionStorage.getItem("RollNo");
+const studnetprofile = sessionStorage.getItem('PhotoFilePath');
+const StudentName = sessionStorage.getItem('StudentName');
+const Class = sessionStorage.getItem('Class');
+const RollNo = sessionStorage.getItem('RollNo');
 
 const DotLegend = styled('span')(
   ({ theme }) => `
@@ -118,7 +115,6 @@ const UserBoxDescription = styled(Typography)(
 `
 );
 
-
 function HeaderUserbox() {
   const { t }: { t: any } = useTranslation();
   const theme = useTheme();
@@ -139,7 +135,7 @@ function HeaderUserbox() {
   const handleLogout = async (): Promise<void> => {
     try {
       handleClose();
-      localStorage.removeItem("auth")
+      localStorage.removeItem('auth');
       navigate('/');
     } catch (err) {
       console.error(err);
@@ -217,7 +213,10 @@ function HeaderUserbox() {
   return (
     <>
       <UserBoxButton color="primary" ref={ref} onClick={handleOpen}>
-        <UserAvatar alt="user.name" src={`data:image/png;base64,${studnetprofile}`} />
+        <UserAvatar
+          alt="user.name"
+          src={`data:image/png;base64,${studnetprofile}`}
+        />
       </UserBoxButton>
       <Popover
         disableScrollLock
@@ -239,12 +238,14 @@ function HeaderUserbox() {
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt="user.name" src={`data:image/png;base64,${studnetprofile}`} />
+          <Avatar
+            variant="rounded"
+            alt="user.name"
+            src={`data:image/png;base64,${studnetprofile}`}
+          />
           <UserBoxText>
             <UserBoxLabel variant="body1">{StudentName}</UserBoxLabel>
-            <UserBoxDescription variant="body2">
-             ( {Class} )
-            </UserBoxDescription>
+            <UserBoxDescription variant="body2">( {Class} )</UserBoxDescription>
           </UserBoxText>
         </MenuUserBox>
         <Divider
@@ -328,7 +329,7 @@ function HeaderUserbox() {
         <Box m={1}>
           <Button color="primary" fullWidth onClick={handleLogout}>
             <PowerSettingsNewTwoToneIcon
-            fontSize="small"
+              fontSize="small"
               sx={{
                 mr: 1
               }}

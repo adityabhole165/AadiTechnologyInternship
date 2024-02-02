@@ -2,11 +2,11 @@ import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 
 import {
-  CardDetail3,
+  BoxWrapper,
   CardDetail1,
   CardDetail2,
-  ListStyle,
-  BoxWrapper
+  CardDetail3,
+  ListStyle
 } from '../styled/CardStyle';
 
 Card3.propTypes = {

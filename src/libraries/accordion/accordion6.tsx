@@ -1,18 +1,17 @@
-import * as React from 'react';
-import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
-import AccordionDetails from '@mui/material/AccordionDetails';
-import { useState } from 'react';
-import { Styles } from 'src/assets/style/student-style';
-import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container, Grid, List, useTheme } from '@mui/material';
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
 import PropTypes from 'prop-types';
+import * as React from 'react';
+import { Styles } from 'src/assets/style/student-style';
 import {
-  OnlineExams,
   MarkInformation,
+  OnlineExams,
   Subjects
 } from 'src/interfaces/Student/OnlineExamProgressReport';
-import { Container, Grid, List, useTheme } from '@mui/material';
 
 Accordion6.propTypes = {
   Student: PropTypes.array,

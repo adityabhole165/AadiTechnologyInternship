@@ -1,49 +1,49 @@
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import {
-  Container,
-  TextField,
+  Box,
+  Button,
+  Card,
+  Checkbox,
+  ClickAwayListener,
+  Divider,
   FormControl,
   NativeSelect,
-  ClickAwayListener,
-  Tooltip,
-  Button,
-  Checkbox,
-} from '@mui/material';
-import {
+  Stack,
   Table,
-  TableContainer,
-  TableRow,
-  TableHead,
-  TableCell,
   TableBody,
-  Box,
-  Typography,
-  Card,
-  Divider,
-  Stack
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  TextField,
+  Tooltip,
+  Typography
 } from '@mui/material';
+import { useFormik } from 'formik';
 import moment from 'moment';
 import { ChangeEvent, useEffect, useState } from 'react';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import Buttons from 'src/libraries/buttons/button';
 import { Link as RouterLink } from 'react-router-dom';
-import 'src/assets/style/teacher.css';
-import AttendanceData, { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
-import {
-  getAttendanceDataList,
- getStandardList,
-  GetStudentDetailsList,
-  GetAttendanceStatus,
-} from 'src/requests/TAttendance/TAttendance';
-import ITAttendance, {
-  GetStandardDivisionsResult,IStudentsDetails
-} from 'src/interfaces/Teacher/TAttendance';
-import { useFormik } from 'formik';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
 import { toast } from 'react-toastify';
+import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
+import 'src/assets/style/teacher.css';
+import ITAttendance, {
+  GetStandardDivisionsResult,
+  IStudentsDetails
+} from 'src/interfaces/Teacher/TAttendance';
+import AttendanceData, {
+  ISaveAttendance
+} from 'src/interfaces/Teacher/TAttendanceList';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import Buttons from 'src/libraries/buttons/button';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import {
+  GetAttendanceStatus,
+  GetStudentDetailsList,
+  getAttendanceDataList,
+  getStandardList
+} from 'src/requests/TAttendance/TAttendance';
+import { RootState } from 'src/store';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -69,8 +69,8 @@ function Attendance() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [open, setOpen] = useState(false);
   const [assignedDate, setAssignedDate] = useState<string>(currentDate);
-  const [ifTrue,setifTrue] = useState(true);
-  const [SelectAllChecckBox,setSelectAllChecckBox] = useState(true);
+  const [ifTrue, setifTrue] = useState(true);
+  const [SelectAllChecckBox, setSelectAllChecckBox] = useState(true);
 
   // start
   const RollNoList = useSelector(
@@ -83,7 +83,7 @@ function Attendance() {
     (state: RootState) => state.AttendanceList.SaveAttendanceStatus
   );
 
-  const [AllPresentOrAllAbsent,setAllPresentOrAllAbsent] = useState("");
+  const [AllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
   const [selectedRollNo, setSelectedRollNo] = useState<string[]>([]);
   const [selectedStudentId, setselectedStudentId] = useState<number[]>([]);
   const [AbsentyObject, setAbsentyObject] = useState<any>({
@@ -94,14 +94,19 @@ function Attendance() {
   const handleSelectAllRollNo = (
     event: ChangeEvent<HTMLInputElement>
   ): void => {
-    setifTrue(false)
+    setifTrue(false);
     setSelectedRollNo(
-      !event.target.checked ? RollNoList?.map((data) => (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber) : []
+      !event.target.checked
+        ? RollNoList?.map((data) =>
+            data.RollNumber.length == 1
+              ? '0' + data.RollNumber
+              : data.RollNumber
+          )
+        : []
     );
     setselectedStudentId(
       event.target.checked ? RollNoList?.map((data) => data.StudentId) : []
     );
-
   };
 
   const handleSelectOne = (
@@ -109,13 +114,13 @@ function Attendance() {
     RollId: string,
     StudentId: number
   ): void => {
-    setifTrue(false)
+    setifTrue(false);
     if (!selectedRollNo.includes(RollId)) {
       setSelectedRollNo((prevSelected) => [...prevSelected, RollId]);
       setselectedStudentId((prevSelected) => [...prevSelected, StudentId]);
     } else {
       setSelectedRollNo((prevSelected) =>
-        prevSelected.filter((id) =>  id !== RollId)
+        prevSelected.filter((id) => id !== RollId)
       );
       setselectedStudentId((prevSelected) =>
         prevSelected.filter((id) => id !== StudentId)
@@ -163,15 +168,16 @@ function Attendance() {
     asSchoolId: asSchoolId
   };
 
-  const SaveAttendance : ISaveAttendance ={
-    asStandardDivisionId :StandardId,
-    asDate:assignedDate,
-    asAbsentRollNos:selectedRollNo.toString(),
-    asAllPresentOrAllAbsent: selectedRollNo.length == RollNoList?.length ? "A" : "",
-    asUserId:asTeacherId,
-    asSchoolId:asSchoolId,
-    asAcademicYearId:asAcademicYearId
-}
+  const SaveAttendance: ISaveAttendance = {
+    asStandardDivisionId: StandardId,
+    asDate: assignedDate,
+    asAbsentRollNos: selectedRollNo.toString(),
+    asAllPresentOrAllAbsent:
+      selectedRollNo.length == RollNoList?.length ? 'A' : '',
+    asUserId: asTeacherId,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+  };
 
   //End Save attendance Here
 
@@ -237,13 +243,13 @@ function Attendance() {
   };
 
   const handleChange = (e) => {
-    setSelectAllChecckBox(false)
-    setifTrue(true)
+    setSelectAllChecckBox(false);
+    setifTrue(true);
     setStandardId(e.target.value);
   };
 
   const handleChange1 = (e) => {
-    setifTrue(false)
+    setifTrue(false);
     setSelectedRollNo(e.target.value);
   };
 
@@ -254,20 +260,24 @@ function Attendance() {
       response: ''
     },
     onSubmit: (values) => {
-      if(selectedRollNo.length !== 0){
+      if (selectedRollNo.length !== 0) {
         setselectedValues(selectedRollNo);
         GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
-        .then((resp) => {
-          if(resp.status == 200) {
-            toast.success('Attendance saved for the valid roll number(s) !!!');
-          }
-        })
-        .catch((err) => {
-          alert('error network');
-        });
+          .then((resp) => {
+            if (resp.status == 200) {
+              toast.success(
+                'Attendance saved for the valid roll number(s) !!!'
+              );
+            }
+          })
+          .catch((err) => {
+            alert('error network');
+          });
       }
-      if(selectedRollNo.length == 0){
-        toast.error('Please enter absent roll numbers or select either option.');
+      if (selectedRollNo.length == 0) {
+        toast.error(
+          'Please enter absent roll numbers or select either option.'
+        );
       }
     }
   });
@@ -435,7 +445,8 @@ function Attendance() {
           <RouterLink
             style={{ textDecoration: 'none' }}
             to={
-              `/${location.pathname.split('/')[1]
+              `/${
+                location.pathname.split('/')[1]
               }/Teacher/Tattendance/MissingAttandence/` + assignedDate
             }
           >
@@ -474,9 +485,13 @@ function Attendance() {
                       </TableHead>
                       <TableBody>
                         {RollNoList?.map((data) => {
-                          const isSelected = ifTrue ? true : !selectedRollNo.includes(
-                            (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber
-                          );
+                          const isSelected = ifTrue
+                            ? true
+                            : !selectedRollNo.includes(
+                                data.RollNumber.length == 1
+                                  ? '0' + data.RollNumber
+                                  : data.RollNumber
+                              );
                           return (
                             <TableRow
                               key={data.RollNumber}
@@ -493,7 +508,9 @@ function Attendance() {
                                   onChange={(event) =>
                                     handleSelectOne(
                                       event,
-                                      (data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber,
+                                      data.RollNumber.length == 1
+                                        ? '0' + data.RollNumber
+                                        : data.RollNumber,
                                       data.StudentId
                                     )
                                   }
@@ -504,7 +521,11 @@ function Attendance() {
 
                               <TableCell align="center">
                                 {' '}
-                                <b>{(data.RollNumber.length == 1) ? "0"+data.RollNumber : data.RollNumber}</b>{' '}
+                                <b>
+                                  {data.RollNumber.length == 1
+                                    ? '0' + data.RollNumber
+                                    : data.RollNumber}
+                                </b>{' '}
                               </TableCell>
                               <TableCell align="center">
                                 <b>{data.StudentName}</b>

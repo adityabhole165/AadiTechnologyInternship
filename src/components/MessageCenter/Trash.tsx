@@ -1,26 +1,23 @@
-import { useState, useEffect } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Avatar, Box, Container } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
+import { IgetList } from 'src/interfaces/MessageCenter/GetList';
+import { GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import List3 from 'src/libraries/list/List3';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   getNextPageTrashList,
   getTrashList
 } from 'src/requests/MessageCenter/MessaageCenter';
-import { GetTrashMessagesResult } from 'src/interfaces/MessageCenter/MessageCenter';
 import { RootState } from 'src/store';
-import List3 from 'src/libraries/list/List3';
-import { IgetList } from 'src/interfaces/MessageCenter/GetList';
-import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { Button, Container, Box, Avatar } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { toast } from 'react-toastify';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import {
-  ButtonPrimary,
-
-} from 'src/libraries/styled/ButtonStyle';
 
 const PageIndex = 2; // Initial page index
 
@@ -103,8 +100,8 @@ function Trash() {
     asFilter: '',
     asPageIndex: 1,
     asMonthId: '0',
-    asOperator:"",
-    asDate:""
+    asOperator: '',
+    asDate: ''
   };
 
   useEffect(() => {
@@ -210,8 +207,8 @@ function Trash() {
         asFilter: '',
         asPageIndex: pageIndex,
         asMonthId: '0',
-        asOperator:"",
-        asDate:""
+        asOperator: '',
+        asDate: ''
       };
       MessageCenterApi.GetTrashList(UpdatedBody)
         .then((response) => {
@@ -237,8 +234,21 @@ function Trash() {
         <>
           <Container>
             <Box display="flex" justifyContent="flex-end">
-              <ButtonPrimary color="primary" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
-              <ButtonPrimary color="secondary" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonPrimary>
+              <ButtonPrimary
+                color="primary"
+                endIcon={<DeleteIcon />}
+                onClick={() => moveToTrash()}
+              >
+                DELETE
+              </ButtonPrimary>
+              &nbsp;&nbsp;
+              <ButtonPrimary
+                color="secondary"
+                endIcon={<ReplayIcon />}
+                onClick={() => Reset()}
+              >
+                RESET
+              </ButtonPrimary>
             </Box>
           </Container>
           <br />

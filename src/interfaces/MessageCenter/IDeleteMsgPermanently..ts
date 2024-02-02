@@ -1,21 +1,19 @@
 export interface IDeleteMessagePermanentlyBody {
-
-    asSchoolId: string,
-    asAcademicYearId: string,
-    asUserId: string,
-    asMessageIds: string,
+  asSchoolId: string;
+  asAcademicYearId: string;
+  asUserId: string;
+  asMessageIds: string;
 }
 
 export interface IDeleteMessagePermanentlyResult {
-
-    DeletionMessage: string
+  DeletionMessage: string;
 }
 export interface IUnDeleteMessagesBody {
-    asSchoolId : string ,
-    asMessageRecieverDetailsIds : string ,
-    asMessageDetailsIds : string ,
+  asSchoolId: string;
+  asMessageRecieverDetailsIds: string;
+  asMessageDetailsIds: string;
 }
 
 export interface IUnDeleteMessagesResult {
-    Message: string
+  Message: string;
 }

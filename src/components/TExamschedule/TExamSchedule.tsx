@@ -1,28 +1,22 @@
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import IGetAllStandards, {
-  IGetExamsList
-} from 'src/interfaces/Teacher/TExamSchedule';
-import {
-  GetSelectStandardRes,
-  GetSelectExamRes
-} from 'src/requests/TExamschedule/TExamschedule';
-import { GetExamsListResult } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetStandardListResult } from 'src/interfaces/Teacher/TExamSchedule';
-import { GetExamListResult } from 'src/interfaces/Teacher/TExamSchedule';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { useEffect, useState } from 'react';
 import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
-import List15 from 'src/libraries/list/List15';
-import Icon4 from 'src/libraries/icon/icon4';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { IExamList } from 'src/interfaces/Student/ExamSchedule';
-import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
+import IGetAllStandards, {
+  GetExamListResult,
+  IGetExamsList
+} from 'src/interfaces/Teacher/TExamSchedule';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import Card1 from 'src/libraries/mainCard/Card1';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import DotLegend from 'src/libraries/summary/DotLegend';
+import { ViewExamDataRess } from 'src/requests/Examschedule/Examschedule';
+import {
+  GetSelectExamRes,
+  GetSelectStandardRes
+} from 'src/requests/TExamschedule/TExamschedule';
+import { RootState } from 'src/store';
 
 function Texamschedule() {
   const dispatch = useDispatch();

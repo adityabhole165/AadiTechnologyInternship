@@ -1,22 +1,23 @@
-import React from 'react';
-import {  CardDetail4, ListStyle } from '../styled/CardStyle';
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 import {
   CardDetail,
-  CardDetail1,
   CardDetail2,
-  CardDetail3,
+  CardDetail4,
+  ListStyle
 } from '../styled/CardStyle';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
 // import CurrencyRupeeRoundedIcon from '@mui/icons-material/CurrencyRupeeRounded';
-
 
 function Card5({ text1, text2, clickIcon }) {
   return (
     <div>
-    <ListStyle>
+      <ListStyle>
         <CardDetail>
-          <CardDetail4><b>{text1}</b>&nbsp;:&nbsp; {text2}</CardDetail4>
-          <CardDetail2 onClick={clickIcon}>{<FileDownloadOutlinedIcon />}</CardDetail2>
+          <CardDetail4>
+            <b>{text1}</b>&nbsp;:&nbsp; {text2}
+          </CardDetail4>
+          <CardDetail2 onClick={clickIcon}>
+            {<FileDownloadOutlinedIcon />}
+          </CardDetail2>
         </CardDetail>
       </ListStyle>
     </div>

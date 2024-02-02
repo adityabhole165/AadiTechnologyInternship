@@ -1,4 +1,3 @@
-
 // export interface IAttendance{
 //     asStandardId: string,
 //     asDivisionId: string,
@@ -10,71 +9,64 @@
 // }
 
 export interface IAttendance {
-    asStandardId: string,
-    asDivisionId: string,
-    asStudentId: string,
-    asMonth: number,
-    asYear: number,
-    asAcademicYearId: string,
-    asSchoolId: string
+  asStandardId: string;
+  asDivisionId: string;
+  asStudentId: string;
+  asMonth: number;
+  asYear: number;
+  asAcademicYearId: string;
+  asSchoolId: string;
 }
 
 export interface GetStudentAttendaceForMonthResult {
-    Attendance_Date: string;
-    Day: string;
-    Status: string;
-    PresentDays: string;
-    TotalAttendanceDays: string;
-    TotalWorkingDays: string;
-    DailyAttendanceList: any;
+  Attendance_Date: string;
+  Day: string;
+  Status: string;
+  PresentDays: string;
+  TotalAttendanceDays: string;
+  TotalWorkingDays: string;
+  DailyAttendanceList: any;
 }
-
-
-
 
 //////Attendance topper
 export interface IGetAttendanceToppersBody {
-
-    aiSchoolId: string,
-    aiAcademicYearId: string,
-    StandardDivisionId: string,
-    TopRanker: string,
-    aiStudentId: string
-
+  aiSchoolId: string;
+  aiAcademicYearId: string;
+  StandardDivisionId: string;
+  TopRanker: string;
+  aiStudentId: string;
 }
 
 export interface IGetAttendanceToppersResult {
-    StudentAttendance: IStudentAttendance,
-    AttendanceDetails: [IStudentAttendance]
+  StudentAttendance: IStudentAttendance;
+  AttendanceDetails: [IStudentAttendance];
 }
 export interface IStudentAttendance {
-    RankImagePath: string,
-    RollNo: number,
-    StudentName: string,
-    PresentDays: string,
-    TotalDays: string,
-    Percentage: string,
-    MonthwiseDays: [IMonthwiseDays]
+  RankImagePath: string;
+  RollNo: number;
+  StudentName: string;
+  PresentDays: string;
+  TotalDays: string;
+  Percentage: string;
+  MonthwiseDays: [IMonthwiseDays];
 }
 
 export interface IMonthwiseDays {
-    MonthIndex: number,
-    MonthName: string,
-    Days: string
+  MonthIndex: number;
+  MonthName: string;
+  Days: string;
 }
 
 ///// Old Attendance
 export interface IGetAcademicYearsForOldAttendanceBody {
-
-    aiSchoolId: string,
-    aiStudentId: string,
-    abIncludeCurrentYear: string
+  aiSchoolId: string;
+  aiStudentId: string;
+  abIncludeCurrentYear: string;
 }
 export interface IGetAcademicYearsForOldAttendanceResult {
-
-    AcademicYearId: string,
-    AcademicYearName: string
+  AcademicYearId: string;
+  AcademicYearName: string;
 }
 export interface IAcademicYearData {
-    AcademicYearDetails: IGetAcademicYearsForOldAttendanceResult[]
+  AcademicYearDetails: IGetAcademicYearsForOldAttendanceResult[];
 }

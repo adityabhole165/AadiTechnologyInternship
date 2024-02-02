@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
 import { ThemeProvider } from '@mui/material';
-import { themeCreator } from './base';
 import { StylesProvider } from '@mui/styles';
+import React, { useState } from 'react';
+import { themeCreator } from './base';
 // import { CacheProvider } from '@emotion/react';
 // import createCache from '@emotion/cache';
 // import stylisRTLPlugin from 'stylis-plugin-rtl';
@@ -19,7 +19,7 @@ export const ThemeContext = React.createContext(
 
 const ThemeProviderWrapper: React.FC = (props) => {
   const curThemeName = 'PurpleFlowTheme';
- 
+
   const [themeName, _setThemeName] = useState(curThemeName);
   const theme = themeCreator(themeName);
   const setThemeName = (themeName: string): void => {

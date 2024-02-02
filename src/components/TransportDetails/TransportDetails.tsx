@@ -1,26 +1,23 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransportDetails';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import {
+  Box,
+  Container,
+  Grow,
+  ToggleButton,
+  ToggleButtonGroup
+} from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
 import { GetStudentTransportDetailsBody } from 'src/interfaces/Student/ITransportDetails';
-import Card8 from 'src/libraries/mainCard/Card8';
-import { Container, Grid, ToggleButton, Box, ToggleButtonGroup, Typography, Avatar, Grow } from '@mui/material';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import Card10 from 'src/libraries/mainCard/Card10';
-import Note from 'src/libraries/Note/Note';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import { useNavigate  } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
-
-import Map from './Map';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import Card8 from 'src/libraries/mainCard/Card8';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { getTransportDetails } from 'src/requests/TransportDetails/RequestTransportDetails';
+import { RootState } from 'src/store';
 
 function TransportDetails() {
-  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const RouteDetails: any = useSelector(
@@ -36,16 +33,15 @@ function TransportDetails() {
     (state: RootState) => state.TransportDetails.Loading
   );
 
-  const [showMyStop, setShowMyStop] = useState(true)
+  const [showMyStop, setShowMyStop] = useState(true);
   const [alignment, setAlignment] = React.useState('1');
   const [isRefresh, setIsRefresh] = React.useState(false);
 
   const handleChange = (
     event: React.MouseEvent<HTMLElement>,
-    newAlignment: string,
+    newAlignment: string
   ) => {
-    if (newAlignment != null)
-      setAlignment(newAlignment);
+    if (newAlignment != null) setAlignment(newAlignment);
   };
 
   // useEffect(()=>{
@@ -54,62 +50,73 @@ function TransportDetails() {
   // },[])
   const { PickDrop } = useParams();
   useEffect(() => {
-    setAlignment(PickDrop==="Drop Vehicle Tracking"?'2':'1');
-  },[])
+    setAlignment(PickDrop === 'Drop Vehicle Tracking' ? '2' : '1');
+  }, []);
   useEffect(() => {
     const TransportBody: GetStudentTransportDetailsBody = {
       aiUserId: parseInt(sessionStorage.getItem('Id')),
       aiSchoolId: parseInt(localStorage.getItem('localSchoolId')),
       aiAcademicYearId: parseInt(sessionStorage.getItem('AcademicYearId')),
       aiTypeId: parseInt(alignment)
-    }
+    };
     dispatch(getTransportDetails(TransportBody));
-     }, [alignment, isRefresh]);
+  }, [alignment, isRefresh]);
 
-        const refresh = () => window.location.reload()
-        const variableToPass = alignment === "1" ? "Pick-up Vehicle Tracking" : "Drop Vehicle Tracking";
-        
-        const Map=()=>{
-          navigate ('/extended-sidebar/Student/TransportDetails/Map/' + variableToPass + `/`+ alignment)
-   
-       }
+  const refresh = () => window.location.reload();
+  const variableToPass =
+    alignment === '1' ? 'Pick-up Vehicle Tracking' : 'Drop Vehicle Tracking';
 
- 
+  const Map = () => {
+    navigate(
+      '/extended-sidebar/Student/TransportDetails/Map/' +
+        variableToPass +
+        `/` +
+        alignment
+    );
+  };
+
   return (
     <Container>
       <PageHeader heading={'Transport Details'} subheading={''} />
-      
-      <Box sx={{ display: "flex", justifyContent: "space-between" , mb:"25px" }}>
+
+      <Box
+        sx={{ display: 'flex', justifyContent: 'space-between', mb: '25px' }}
+      >
         <ToggleButtonGroup
           value={alignment}
           exclusive
           onChange={handleChange}
           sx={{ mb: 0.5 }}
         >
-          <ToggleButton value="1"
-          >Pick-up</ToggleButton>
+          <ToggleButton value="1">Pick-up</ToggleButton>
           <ToggleButton value="2">Drop</ToggleButton>
         </ToggleButtonGroup>
       </Box>
-     
-      <Grow in={true}
+
+      <Grow
+        in={true}
         style={{ transformOrigin: '0 0 0' }}
         {...(true ? { timeout: 1500 } : {})}
       >
         <Box>
-          {loading ? <SuspenseLoader />
-            :
-            RouteDetails.length === 0 ?
-              <ErrorMessages Error={(alignment === "1" ? "Pick-up " : "Drop") + " is not associated yet"} /> :
+          {loading ? (
+            <SuspenseLoader />
+          ) : RouteDetails.length === 0 ? (
+            <ErrorMessages
+              Error={
+                (alignment === '1' ? 'Pick-up ' : 'Drop') +
+                ' is not associated yet'
+              }
+            />
+          ) : (
+            <>
+              <Card8 itemList={RouteDetails} />
 
-              (<>
-                <Card8 itemList={RouteDetails} />
-           
-           <ButtonPrimary onClick={Map}  sx={{mt:"25px" , float:"right"}}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</ButtonPrimary>
-            
+              <ButtonPrimary onClick={Map} sx={{ mt: '25px', float: 'right' }}>
+                {alignment === '1' ? 'Pick-up' : 'Drop'} Vehicle Tracking
+              </ButtonPrimary>
 
-
-                {/* {OtherTrackingDetails.ShowStops ?
+              {/* {OtherTrackingDetails.ShowStops ?
                   <>
                     {StopDetails?.map((item, i) => {
                       return (
@@ -118,7 +125,7 @@ function TransportDetails() {
                     })
 
                     } */}
-                    {/* <Grid container spacing={2} sx={{ mb: "10px" }}>
+              {/* <Grid container spacing={2} sx={{ mb: "10px" }}>
                       <Grid item xs={6}>
                         <ButtonPrimary fullWidth color={showMyStop ? 'primary' : 'warning'} onClick={() => { setShowMyStop(false) }}>
                           Show All Stops
@@ -132,7 +139,7 @@ function TransportDetails() {
                     </Grid>
                   </> : null} */}
 
-                {/* {OtherTrackingDetails.TrackingURI !== "" ?
+              {/* {OtherTrackingDetails.TrackingURI !== "" ?
                   <><Grid container>
                     <Grid item xs={11}>
                       <Typography variant='h5' sx={{ textAlign: "center", mb: 1 }}>{alignment === "1" ? "Pick-up" : "Drop"} Vehicle Tracking</Typography>
@@ -150,22 +157,13 @@ function TransportDetails() {
                     }
                   </> : null
                 } */}
-
-              
-
-                
-              </>
-              )}
+            </>
+          )}
         </Box>
-        
-        
-        </Grow>
-        {/* <Map/> */}
-
-       
-        
+      </Grow>
+      {/* <Map/> */}
     </Container>
-  )
+  );
 }
 
-export default TransportDetails
+export default TransportDetails;

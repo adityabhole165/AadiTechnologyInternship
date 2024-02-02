@@ -1,20 +1,25 @@
-
-import { useEffect, useState } from 'react';
-import BooksDetails from './BooksDetails';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Typography, Container, Grid, IconButton, Avatar, Hidden } from '@mui/material';
-import { ButtonPrimary, ButtonPrimaryLab } from 'src/libraries/styled/ButtonStyle';
-import { useNavigate } from 'react-router';
-import { IBooksDetails } from 'src/interfaces/Student/Library';
-import { RootState } from 'src/store';
-import { getBookDetailslist } from 'src/requests/Library/Library';
-import SearchForm from 'src/libraries/card/SearchForm';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
+import {
+  Avatar,
+  Container,
+  Grid,
+  Hidden,
+  IconButton,
+  Typography
+} from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { IBooksDetails } from 'src/interfaces/Student/Library';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import SearchForm from 'src/libraries/card/SearchForm';
 import TableCard from 'src/libraries/card/TableCard';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { ButtonPrimaryLab } from 'src/libraries/styled/ButtonStyle';
+import { getBookDetailslist } from 'src/requests/Library/Library';
+import { RootState } from 'src/store';
+import BooksDetails from './BooksDetails';
 
 function Library() {
   const dispatch = useDispatch();
@@ -30,9 +35,7 @@ function Library() {
     (state: RootState) => state.library.BooksDetaiLs
   );
 
-  const loading = useSelector(
-    (state: RootState) => state.library.Loading
-  );
+  const loading = useSelector((state: RootState) => state.library.Loading);
 
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asStandardID = sessionStorage.getItem('StandardId');
@@ -40,8 +43,7 @@ function Library() {
   const [ascending, setAscending] = useState('asc');
 
   useEffect(() => {
-   
-    setStandard(Standard)
+    setStandard(Standard);
   }, []);
 
   useEffect(() => {
@@ -52,112 +54,181 @@ function Library() {
       asAuthorName: author,
       asPublisher: publisher,
       asLanguage: Language,
-      aiStandardId: Standard === "" ? asStandardID : Standard,
+      aiStandardId: Standard === '' ? asStandardID : Standard,
       aiMediaType: 2,
       aiBookId: 0,
-      aiParentStaffId: "0",
+      aiParentStaffId: '0',
       aiEndIndex: 20,
-      aiStartRowIndex: "0",
-      asSortExpression: "Order by Book_Title " + ascending
+      aiStartRowIndex: '0',
+      asSortExpression: 'Order by Book_Title ' + ascending
     };
     dispatch(getBookDetailslist(BooksDetails_body));
-  }, [bookTitle, accessionNo, author, publisher, Standard, Language, ascending]);
+  }, [
+    bookTitle,
+    accessionNo,
+    author,
+    publisher,
+    Standard,
+    Language,
+    ascending
+  ]);
 
   const clickNav = (path) => {
-    navigate('/extended-sidebar/Student/Library/' + path)
-  }
+    navigate('/extended-sidebar/Student/Library/' + path);
+  };
 
-  const clickFilter = ({ bookTitle, accessionNo, author, publisher, Language, Standard }) => {
-    setBookTitle(bookTitle)
-    setAccessionNo(accessionNo)
-    setAuthor(author)
-    setPublisher(publisher)
-    setLanguage(Language)
-    setStandard(Standard)
-  }
+  const clickFilter = ({
+    bookTitle,
+    accessionNo,
+    author,
+    publisher,
+    Language,
+    Standard
+  }) => {
+    setBookTitle(bookTitle);
+    setAccessionNo(accessionNo);
+    setAuthor(author);
+    setPublisher(publisher);
+    setLanguage(Language);
+    setStandard(Standard);
+  };
 
   const clickCloseIcon = () => {
     setShowFilter(!showFilter);
-    setBookTitle('')
-    setAccessionNo('')
-    setAuthor('')
-    setPublisher('')
-    setLanguage('')
-    setStandard('')
-  }
+    setBookTitle('');
+    setAccessionNo('');
+    setAuthor('');
+    setPublisher('');
+    setLanguage('');
+    setStandard('');
+  };
 
   const sortClick = () => {
-    setAscending(ascending === "asc" ? "desc" : "asc")
-  }
+    setAscending(ascending === 'asc' ? 'desc' : 'asc');
+  };
 
-  const HeaderArray = [{Id:1, Header:"BookTitle"},{Id:2, Header:"Accession No."},{Id:3, Header:"Author"} ,{Id:4, Header:"Publisher"},{Id:5, Header:"Language"} ,{Id:6, Header:"Standards"}
-  ,{Id:7, Header:"Available"} ,{Id:8, Header:"Total"},{Id:9, Header:"Claim"}
-   ]
+  const HeaderArray = [
+    { Id: 1, Header: 'BookTitle' },
+    { Id: 2, Header: 'Accession No.' },
+    { Id: 3, Header: 'Author' },
+    { Id: 4, Header: 'Publisher' },
+    { Id: 5, Header: 'Language' },
+    { Id: 6, Header: 'Standards' },
+    { Id: 7, Header: 'Available' },
+    { Id: 8, Header: 'Total' },
+    { Id: 9, Header: 'Claim' }
+  ];
 
   return (
     <Container maxWidth={'xl'}>
       <PageHeader heading={'Library'} subheading={''} />
-       <Grid container spacing={1}>
-       {(!showFilter) ? (<>
-        <Grid container item md={2} xs={12} columnSpacing={1} >
-        <Grid item md={12} xs={5} direction={{xs:"row", sm:"column"}}>
-              <ButtonPrimaryLab fullWidth onClick={() => { clickNav('ClaimedBook') }}>Claimed Books</ButtonPrimaryLab >
-            </Grid>
-            <Grid item md={12} xs={5} direction={{ xs: "row", sm: "column" }} >
-              <ButtonPrimaryLab fullWidth onClick={() => { clickNav('Bookswithme') }} >Books With Me</ButtonPrimaryLab >
-            </Grid>
-            <Hidden mdUp>
-              <Grid item xs={2}>
-                <img src={"/imges/SearchBook.png"} style={{ width: 30, height: 27, }} onClick={() => { setShowFilter(!showFilter) }} />
-              </Grid>
-            </Hidden>
-          </Grid>
-        </>):(
+      <Grid container spacing={1}>
+        {!showFilter ? (
           <>
-           <Grid item md={10} xs={12}>
-            <SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />
-           </Grid>
-          </>)}
-          <Hidden mdDown>
+            <Grid container item md={2} xs={12} columnSpacing={1}>
+              <Grid item md={12} xs={5} direction={{ xs: 'row', sm: 'column' }}>
+                <ButtonPrimaryLab
+                  fullWidth
+                  onClick={() => {
+                    clickNav('ClaimedBook');
+                  }}
+                >
+                  Claimed Books
+                </ButtonPrimaryLab>
+              </Grid>
+              <Grid item md={12} xs={5} direction={{ xs: 'row', sm: 'column' }}>
+                <ButtonPrimaryLab
+                  fullWidth
+                  onClick={() => {
+                    clickNav('Bookswithme');
+                  }}
+                >
+                  Books With Me
+                </ButtonPrimaryLab>
+              </Grid>
+              <Hidden mdUp>
+                <Grid item xs={2}>
+                  <img
+                    src={'/imges/SearchBook.png'}
+                    style={{ width: 30, height: 27 }}
+                    onClick={() => {
+                      setShowFilter(!showFilter);
+                    }}
+                  />
+                </Grid>
+              </Hidden>
+            </Grid>
+          </>
+        ) : (
+          <>
+            <Grid item md={10} xs={12}>
+              <SearchForm
+                clickFilter={clickFilter}
+                clickCloseIcon={clickCloseIcon}
+              />
+            </Grid>
+          </>
+        )}
+        <Hidden mdDown>
           <Grid item sm={10} xs={12}>
-            <SearchForm clickFilter={clickFilter} clickCloseIcon={clickCloseIcon} />
-           </Grid>
-          </Hidden>
-        
-        </Grid>
+            <SearchForm
+              clickFilter={clickFilter}
+              clickCloseIcon={clickCloseIcon}
+            />
+          </Grid>
+        </Hidden>
+      </Grid>
 
-      <Grid container >
+      <Grid container>
         <Grid item xs={1.5} />
         <Grid item xs={9}>
-          <Typography sx={{ textAlign: "center", padding: "10px", color: "black" }} variant="h4">Books Details</Typography>
+          <Typography
+            sx={{ textAlign: 'center', padding: '10px', color: 'black' }}
+            variant="h4"
+          >
+            Books Details
+          </Typography>
         </Grid>
         <Grid item xs={1.5}>
-          <Avatar variant="square" sx={{ height: 25, width: 55, color: "black", mt: "8px", float: "right", mr: "10px" }}>
+          <Avatar
+            variant="square"
+            sx={{
+              height: 25,
+              width: 55,
+              color: 'black',
+              mt: '8px',
+              float: 'right',
+              mr: '10px'
+            }}
+          >
             <IconButton onClick={() => sortClick()}>
-              {ascending === 'asc' ? <ArrowDropUpIcon /> :
-                <ArrowDropDownIcon />}
-              {ascending === 'asc' ? (<Typography>A-Z</Typography>) : (<Typography>Z-A</Typography>)}
+              {ascending === 'asc' ? (
+                <ArrowDropUpIcon />
+              ) : (
+                <ArrowDropDownIcon />
+              )}
+              {ascending === 'asc' ? (
+                <Typography>A-Z</Typography>
+              ) : (
+                <Typography>Z-A</Typography>
+              )}
             </IconButton>
           </Avatar>
         </Grid>
       </Grid>
-      {loading ?
-        <SuspenseLoader /> :
+      {loading ? (
+        <SuspenseLoader />
+      ) : (
         <>
-        <Hidden smUp>
-        <BooksDetails GetBookList={GetBookList}/>
-        </Hidden>
-         <Hidden smDown>
-         <TableCard ItemList={GetBookList} HeaderArray={HeaderArray}/>
-         </Hidden>
-        
+          <Hidden smUp>
+            <BooksDetails GetBookList={GetBookList} />
+          </Hidden>
+          <Hidden smDown>
+            <TableCard ItemList={GetBookList} HeaderArray={HeaderArray} />
+          </Hidden>
         </>
-      
-      }
-      
+      )}
     </Container>
-
-
   );
 }
 export default Library;

@@ -1,20 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux';
-import { IStudentsDetails } from 'src/interfaces/Teacher/TAttendance';
-import List26 from 'src/libraries/list/List26'
-import { GetStudentDetailsList, GetStudentList } from 'src/requests/TAttendance/TAttendance';
-import { RootState } from 'src/store';
-import StandardAttendance, { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import AttendanceData, { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
-import { getStandardList, GetSaveAttendanceStatus } from "src/requests/TAttendance/TAttendance"
-import { Container, FormControl, NativeSelect, TextField, Button, Typography } from '@mui/material';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import { Button, Container, TextField, Typography } from '@mui/material';
 import moment from 'moment';
-import Buttons from 'src/libraries/buttons/button';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import GetTAttendanceListApi from 'src/api/TAttendance/TAttendance';
-import { toast } from 'react-toastify';
+import StandardAttendance, {
+  IStudentsDetails
+} from 'src/interfaces/Teacher/TAttendance';
+import { ISaveAttendance } from 'src/interfaces/Teacher/TAttendanceList';
+import Buttons from 'src/libraries/buttons/button';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-
+import PageHeader from 'src/libraries/heading/PageHeader';
+import {
+  GetSaveAttendanceStatus,
+  GetStudentList,
+  getStandardList
+} from 'src/requests/TAttendance/TAttendance';
+import { RootState } from 'src/store';
 
 function TeacherAttendance() {
   const dispatch = useDispatch();
@@ -44,23 +45,23 @@ function TeacherAttendance() {
   // const handleClick = value => {
   //   setCount(value);
   // };
-  const handleClick = value => {
+  const handleClick = (value) => {
     if (value.length !== 0) {
       setCount(value);
-      GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance)
+      GetTAttendanceListApi.SaveStudentAttendanceDetails(SaveAttendance);
     }
   };
 
   const GetStudentDetails: IStudentsDetails = {
     asStdDivId: sessionStorage.getItem('StandardDivisionId'),
     asDate: assignedDate,
-    asAcademicYearId:sessionStorage.getItem('AcademicYearId'),
+    asAcademicYearId: sessionStorage.getItem('AcademicYearId'),
     asSchoolId: localStorage.getItem('localSchoolId')
   };
 
   const TeacherStandard: StandardAttendance = {
     asSchoolId: localStorage.getItem('localSchoolId'),
-    asAcademicyearId: sessionStorage.getItem('AcademicYearId'),  
+    asAcademicyearId: sessionStorage.getItem('AcademicYearId'),
     asTeacherId: sessionStorage.getItem('TeacherId')
   };
 
@@ -68,21 +69,18 @@ function TeacherAttendance() {
     asStandardDivisionId: StandardId,
     asDate: assignedDate,
     asAbsentRollNos: count,
-    asAllPresentOrAllAbsent: "",
+    asAllPresentOrAllAbsent: '',
     asUserId: asTeacherId,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
-  }
-
+  };
 
   useEffect(() => {
     dispatch(getStandardList(TeacherStandard));
-
-  }, [])
+  }, []);
   useEffect(() => {
     dispatch(GetStudentList(GetStudentDetails));
-    dispatch(GetSaveAttendanceStatus(SaveAttendance))
-
+    dispatch(GetSaveAttendanceStatus(SaveAttendance));
   }, [StandardId, date]);
 
   const getCurrentDate = (newDate?: Date) => {
@@ -121,16 +119,13 @@ function TeacherAttendance() {
     setStandardId(value);
   };
 
-  const changeText=()=>{
-
-  }
-
+  const changeText = () => {};
 
   return (
     <>
       <PageHeader heading={'Attendance'} subheading={''} />
       <Container>
-      <Dropdown Array={StandardAttendance} handleChange={handleChange} />
+        <Dropdown Array={StandardAttendance} handleChange={handleChange} />
       </Container>
       <Buttons
         date={date.selectedDate}
@@ -139,45 +134,35 @@ function TeacherAttendance() {
         Close={undefined}
       />
       <Container>
-       <TextField
-                    fullWidth
-                    id="standard-basic"
-                    label={
-                        <Typography sx={{ color: 'black' }}>
-                            Absent Numbers
-                        </Typography>
-                    }
-                    variant="standard"
-                    className="form-check-input"
-                    size="medium"
-                    name="response"
-                    disabled={true}
-                    // value={count}
-                    sx={{ mb: 1 }}
+        <TextField
+          fullWidth
+          id="standard-basic"
+          label={
+            <Typography sx={{ color: 'black' }}>Absent Numbers</Typography>
+          }
+          variant="standard"
+          className="form-check-input"
+          size="medium"
+          name="response"
+          disabled={true}
+          // value={count}
+          sx={{ mb: 1 }}
+        />
 
-                />
-
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        onClick={event => handleClick}
-      >
-        Save
-      </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          onClick={(event) => handleClick}
+        >
+          Save
+        </Button>
       </Container>
-      {
-        (StandardId != "0") ?
-          <>
-          
-              {/* <List26 Dataa={RollNoList} getAbsetNumber={handleClick} /> */}
-            
-          </>
-
-          : null
-      }
+      {StandardId != '0' ? (
+        <>{/* <List26 Dataa={RollNoList} getAbsetNumber={handleClick} /> */}</>
+      ) : null}
     </>
-  )
+  );
 }
 
-export default TeacherAttendance
+export default TeacherAttendance;

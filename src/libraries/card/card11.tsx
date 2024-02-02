@@ -1,14 +1,14 @@
-import PropTypes from 'prop-types';
 import {
-  Container,
-  useTheme,
-  Typography,
   Box,
+  Container,
   Grow,
-  List
+  List,
+  Typography,
+  useTheme
 } from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
+import PropTypes from 'prop-types';
 import { useState } from 'react';
+import { Styles } from 'src/assets/style/student-style';
 
 Card11.PropTypes = {
   PDays: PropTypes.string,

@@ -1,7 +1,7 @@
-import { Box, Typography, styled, AccordionSummary } from '@mui/material';
+import { AccordionSummary, Box, Typography, styled } from '@mui/material';
 
 export const AccordianHeader = styled(Box)(
-  ({ theme,color }) => `
+  ({ theme, color }) => `
   
     cursor: pointer;
     display:flex;
@@ -15,10 +15,9 @@ export const AccordianHeader = styled(Box)(
         ? theme.colors.gradients.selectedlistColor
         : color === 'info'
         ? theme.colors.gradients.pageBackground
-         : color === 'red'
+        : color === 'red'
         ? theme.colors.gradients.red
         : theme.colors.gradients.listColor
-        
     };
   `
 );
@@ -31,7 +30,9 @@ export const Header1 = styled(Typography)(
   font-size:12px;
   font-weight:bold;
   font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -43,7 +44,9 @@ export const HeaderAcc = styled(Typography)(
   font-size:14px;
 
   font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -54,7 +57,9 @@ export const Header3 = styled(Typography)(
    margin-bottom: 5px;
   align-items: center;
   font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -74,30 +79,29 @@ export const CardDetail1 = styled(Typography)(
   font-family: Roboto;
   font-size:12px;
   float:${align};
-`);
+`
+);
 export const CardDetail2 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-right: 10px;
   font-family: Roboto;
-  font-size:12px;
+  font-size: 12px;
 `;
 export const CardDetail3 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-left: 20px;
   font-family: Roboto;
-  font-size:12px;
+  font-size: 12px;
 `;
 export const CardDetail4 = styled(Typography)`
-margin-top: 1px;
-margin-left: 5px;
-margin-bottom: 2px;
-font-family: Roboto;
-font-size:12px;
-font-weight:bold;
-
-
+  margin-top: 1px;
+  margin-left: 5px;
+  margin-bottom: 2px;
+  font-family: Roboto;
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 export const CardWrapper1 = styled(Typography)`
@@ -130,27 +134,24 @@ export const CardDetailH = styled(Box)`
 `;
 
 export const Accordionsummary = styled(AccordionSummary)`
- background-color:red;
- box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
- margin-bottom: 10px;
- height:50px;
- min-height:40px;
- font-size:14px;
- @media (max-width: 280px) {
-  font-size: 12px;
-};
-
+  background-color: red;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  height: 50px;
+  min-height: 40px;
+  font-size: 14px;
+  @media (max-width: 280px) {
+    font-size: 12px;
+  } ;
 `;
 
 export const Accordionsummary1 = styled(AccordionSummary)`
-
- box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-//  height:60px;
- font-size:14px;
- @media (max-width: 280px) {
-  font-size: 12px;
-};
-
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  //  height:60px;
+  font-size: 14px;
+  @media (max-width: 280px) {
+    font-size: 12px;
+  } ;
 `;
 export const CardDetailTopper = styled(Typography)`
   margin-top: 4px;

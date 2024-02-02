@@ -1,41 +1,65 @@
-import { Container, TextField, Box, FormControl, Grid, Typography,Hidden, InputAdornment, useTheme, TextareaAutosize, Fab, ClickAwayListener, Tooltip, Checkbox,Divider } from '@mui/material';
-import React, { useEffect, useRef, useState } from 'react';
-import { useNavigate } from 'react-router';
-import { Styles } from 'src/assets/style/student-style';
-import { useSelector, useDispatch } from 'react-redux';
-import { RootState } from 'src/store';
-import { AttachmentFile, ISendMessage } from '../../interfaces/MessageCenter/MessageCenter';
-import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import { useLocation } from 'react-router-dom';
-import { addRecipients, ContactGroupUsers } from 'src/requests/MessageCenter/MessaageCenter';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import ReplyIcon from '@mui/icons-material/Reply';
-import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
-import IconButton from '@mui/material/IconButton';
-import DeleteIcon from '@mui/icons-material/Delete';
-import { BoxContent, CardDetail8, ListStyle, Wordbreak, Wordbreak1 } from 'src/libraries/styled/CardStyle';
-import AddReciepents from './AddReciepents';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { textAlign } from '@mui/system';
-import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
-import { FormHelperText } from '@mui/material';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { isFutureDateTime, formatAMPM, toolbarOptions } from '../Common/Util';
-import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
-import TimePicker from '@mui/lab/TimePicker';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import ReactQuill from 'react-quill';
+import DeleteIcon from '@mui/icons-material/Delete';
+import FilePresentRoundedIcon from '@mui/icons-material/FilePresentRounded';
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import ReplyIcon from '@mui/icons-material/Reply';
+import TimePicker from '@mui/lab/TimePicker';
+import {
+  Box,
+  Checkbox,
+  ClickAwayListener,
+  Container,
+  Fab,
+  FormHelperText,
+  Grid,
+  InputAdornment,
+  TextField,
+  Tooltip,
+  Typography,
+  useTheme
+} from '@mui/material';
+import IconButton from '@mui/material/IconButton';
+import { useFormik } from 'formik';
+import React, { useEffect, useRef, useState } from 'react';
 import 'react-quill/dist/quill.snow.css';
-import {getSaveDraftMessage ,getDraftMessage ,getAllDraftMessage ,resetSaveDraftMessage} from 'src/requests/MessageCenter/RequestDraftMessage'
-import { IGetAllDraftMessageBody, IGetDraftMessageBody, ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
-import { ReadRecipient, messageCenter, messageCenterCale } from 'src/libraries/styled/CommonStyle';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import MessageCenterApi from 'src/api/MessageCenter/MessageCenter';
+import { Styles } from 'src/assets/style/student-style';
+import { ISaveDraftMessageBody } from 'src/interfaces/MessageCenter/IDraftMessage';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
+import Errormessages from 'src/libraries/ErrorMessages/Errormessage';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import {
+  BoxContent,
+  CardDetail8,
+  ListStyle,
+  Wordbreak1
+} from 'src/libraries/styled/CardStyle';
+import {
+  ReadRecipient,
+  messageCenter,
+  messageCenterCale
+} from 'src/libraries/styled/CommonStyle';
+import {
+  ContactGroupUsers,
+  addRecipients
+} from 'src/requests/MessageCenter/MessaageCenter';
+import {
+  getSaveDraftMessage,
+  resetSaveDraftMessage
+} from 'src/requests/MessageCenter/RequestDraftMessage';
+import { RootState } from 'src/store';
+import {
+  AttachmentFile,
+  ISendMessage
+} from '../../interfaces/MessageCenter/MessageCenter';
+import { formatAMPM, isFutureDateTime } from '../Common/Util';
+import AddReciepents from './AddReciepents';
 function Form13() {
-  
   const RecipientsList: any = useSelector(
     (state: RootState) => state.MessageCenter.RecipientsName
   );
@@ -56,15 +80,20 @@ function Form13() {
     ''
   );
   const PageName = pageName.slice(0, 5);
-  const ViewData = localStorage.getItem("ViewMessageData");
-  const View = (ViewData === null || ViewData === "") ? "" : JSON.parse(ViewData)
-  const From = (ViewData === null || ViewData === "") ? "" : View.From;
-  const Text = (ViewData === null || ViewData === "") ? "" : View.Text;
-  const AttachmentArray = (ViewData === null || ViewData === "" || View.Attachment == "") ? "null" : View.Attachment.join(',');
-  const ID = (ViewData === null || ViewData === "") ? "" : View.ID;
-  const FromUserID = (ViewData === null || ViewData === "") ? "" : View.FromUserID;
-  const CC = (ViewData === null || ViewData === "") ? "" :View.CC
-  const CcReceiverUserId = (ViewData === null || ViewData === "") ? "" :View.CCReceiverUserId
+  const ViewData = localStorage.getItem('ViewMessageData');
+  const View = ViewData === null || ViewData === '' ? '' : JSON.parse(ViewData);
+  const From = ViewData === null || ViewData === '' ? '' : View.From;
+  const Text = ViewData === null || ViewData === '' ? '' : View.Text;
+  const AttachmentArray =
+    ViewData === null || ViewData === '' || View.Attachment == ''
+      ? 'null'
+      : View.Attachment.join(',');
+  const ID = ViewData === null || ViewData === '' ? '' : View.ID;
+  const FromUserID =
+    ViewData === null || ViewData === '' ? '' : View.FromUserID;
+  const CC = ViewData === null || ViewData === '' ? '' : View.CC;
+  const CcReceiverUserId =
+    ViewData === null || ViewData === '' ? '' : View.CCReceiverUserId;
 
   const ReplyRecipientNameId = {
     ReplyRecipientName: From,
@@ -98,13 +127,12 @@ function Form13() {
   const [Base64URLOfAttachment, setBase64URLOfAttachment] = useState([]);
   const [finalBase642New, setFinalBase642New] = useState<any>([]);
   const [loading, setLoading] = useState(false);
-  const [isMobile , setIsMobile ] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const aRef = useRef(null);
 
-  const originalMessageBody = localStorage.getItem("messageBody")
+  const originalMessageBody = localStorage.getItem('messageBody');
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
-  useEffect(() => {
-  }, [finalBase642New])
+  useEffect(() => {}, [finalBase642New]);
   useEffect(() => {
     if (PageName == 'Reply' || PageName == 'ReplyAll') {
       const PayLoadObject = {
@@ -116,7 +144,6 @@ function Form13() {
   }, []);
 
   useEffect(() => {
- 
     if (AttachmentArray != undefined) {
       if (AttachmentArray != 'null') {
         const a = AttachmentArray.split(',');
@@ -129,18 +156,21 @@ function Form13() {
           };
           finalBase642.push(AttachmentFile);
           finalBase642Duplicate.push(AttachmentFile);
-          FileNameOfAttachment.push(AttachmentFile.FileName)
-          Base64URLOfAttachment.push(AttachmentFile.Base64URL)
+          FileNameOfAttachment.push(AttachmentFile.FileName);
+          Base64URLOfAttachment.push(AttachmentFile.Base64URL);
         }
         setArrayOfAttachment((prev) => [...prev]);
         setFinalBase642Duplicate((prev) => [...prev]);
-        setFileNameOfAttachment((prev) => [...prev])
-        setBase64URLOfAttachment((prev) => [...prev])
+        setFileNameOfAttachment((prev) => [...prev]);
+        setBase64URLOfAttachment((prev) => [...prev]);
       }
       for (let key in FileNameOfAttachment) {
-        finalBase642New.push({ FileName: FileNameOfAttachment[key], Base64URL: Base64URLOfAttachment[key] })
+        finalBase642New.push({
+          FileName: FileNameOfAttachment[key],
+          Base64URL: Base64URLOfAttachment[key]
+        });
       }
-      setFinalBase642New((prev) => [...prev])
+      setFinalBase642New((prev) => [...prev]);
       //setFinalBase642New(prev => [...prev, finalBase642New])
     }
   }, [AttachmentArray]);
@@ -166,18 +196,18 @@ function Form13() {
   const [displayOfCCRecipients, setdisplayOfCCRecipients] = useState('none');
   const [displayOfComposePage, setdisplayOfComposePage] = useState('block');
   const [scheduleMessage, setscheduleMessage] = useState('none');
-  const [requestReadReceipt, setRequestReadReceipt] = useState(false)
+  const [requestReadReceipt, setRequestReadReceipt] = useState(false);
   const [scheduleDate, setscheduleDate] = useState<string>('');
   const [requestSchedule, setRequestSchedule] = useState(false);
   const [requestScheduleMsg, setRequestScheduleMsg] = useState('');
   const [schTimeerror, setSchTimeerror] = useState('');
   const [scheduleTime, setscheduleTime] = useState<string>('');
   const [subjecterror, setSubjecterror] = useState('');
-  const [contenterror , setContenterror] = useState('')
+  const [contenterror, setContenterror] = useState('');
   let dataShow: any = [];
   const Note: string =
     'Supports only .bmp, .doc, .docx, .jpg, .jpeg, .pdf, .png, .pps, .ppsx, .ppt, .pptx, .xls, .xlsx files types with total size upto 20 MB.';
-    const NoteSchedule: string =
+  const NoteSchedule: string =
     'e.g. 07:00 AM. You can schedule message for next 7 days. For scheduled message, recipients wont get notification on mobile.';
 
   const AcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -193,11 +223,11 @@ function Form13() {
     asScholId: localschoolId,
     asAcademicYearId: AcademicYearId,
     asGroupId: RecipientsObject.ContactGroup.toString(),
-    aiIsForUser: "0"
-  }
+    aiIsForUser: '0'
+  };
 
   useEffect(() => {
-    dispatch(ContactGroupUsers(contactgrpuserBody))
+    dispatch(ContactGroupUsers(contactgrpuserBody));
   }, [RecipientsObject.ContactGroup]);
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
@@ -214,9 +244,8 @@ function Form13() {
             FileName: fileName,
             Base64URL: DataAttachment
           };
-          setFinalBase642New(prev => [...prev, AttachmentFile])
+          setFinalBase642New((prev) => [...prev, AttachmentFile]);
         }
-
       }
     } else {
       for (let i = 0; i < multipleFiles.length; i++) {
@@ -231,7 +260,7 @@ function Form13() {
             FileName: fileName,
             Base64URL: DataAttachment
           };
-          setFinalBase642New(array => [...array, AttachmentFile])
+          setFinalBase642New((array) => [...array, AttachmentFile]);
         }
       }
     }
@@ -240,8 +269,34 @@ function Form13() {
   const CheckValidation = (fileData) => {
     const fileExtension = fileData?.name?.split('.').at(-1);
     setfileExtension(fileExtension);
-    const allowedFileTypes = ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc',
-      'docx', 'jpg', 'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx'];
+    const allowedFileTypes = [
+      'BMP',
+      'DOC',
+      'DOCX',
+      'JPG',
+      'JPEG',
+      'PDF',
+      'PNG',
+      'PPS',
+      'PPSX',
+      'PPT',
+      'PPTX',
+      'XLS',
+      'XLSX',
+      'bmp',
+      'doc',
+      'docx',
+      'jpg',
+      'jpeg',
+      'pdf',
+      'png',
+      'pps',
+      'ppsx',
+      'ppt',
+      'pptx',
+      'xls',
+      'xlsx'
+    ];
 
     if (fileExtension != undefined || null) {
       if (!allowedFileTypes.includes(fileExtension)) {
@@ -277,7 +332,7 @@ function Form13() {
   };
 
   const sendMessage = () => {
-    setLoading(true)
+    setLoading(true);
     const sendMessageAPIBody: ISendMessage = {
       asSchoolId: localschoolId,
       aoMessage: {
@@ -292,21 +347,24 @@ function Form13() {
         InsertedById: UserId,
         Attachment: '',
         ScheduleDateTime: requestSchedule ? scheduleDate + ' ' + strTime : '',
-        RequestReadReceipt: requestReadReceipt ? "1" : "0"
+        RequestReadReceipt: requestReadReceipt ? '1' : '0'
       },
       asIsForward: `${PageName === 'Forwa' ? 'Y' : 'N'}`,
       asIsSoftwareCordinator: 0,
-      asMessageId: ID != undefined || ID != "" ? parseInt(ID) : 0,
+      asMessageId: ID != undefined || ID != '' ? parseInt(ID) : 0,
       asSchoolName: SchoolName,
       asSelectedStDivId: RecipientsObject.ClassId.toString(),
-      asSelectedUserIds: RecipientsObject.RecipientId.toString() +','+ ContactGRPusers.toString(),
-   
+      asSelectedUserIds:
+        RecipientsObject.RecipientId.toString() +
+        ',' +
+        ContactGRPusers.toString(),
+
       sIsReply: `${PageName === 'Reply' ? 'Y' : 'N'}`,
       attachmentFile: finalBase642New,
       asFileName: fileName,
       asSelectedUserIdsCc: RecipientsCCObject.RecipientId.toString(),
       asSelectedStDivIdCc: RecipientsCCObject.ClassId.toString(),
-      asIsSoftwareCordinatorCc: "",
+      asIsSoftwareCordinatorCc: '',
       asDisplayTextCc: RecipientsCCObject.RecipientName.toString()
     };
 
@@ -314,56 +372,62 @@ function Form13() {
       .then((res: any) => {
         if (res.status === 200) {
           setdisabledStateOfSend(true);
-          if (scheduleMessage == 'block' && scheduleDate !== '' && value !== undefined) {
-            toast.success('Message scheduled successfully', { toastId: 'success1' });
+          if (
+            scheduleMessage == 'block' &&
+            scheduleDate !== '' &&
+            value !== undefined
+          ) {
+            toast.success('Message scheduled successfully', {
+              toastId: 'success1'
+            });
           } else {
             toast.success('Message sent successfully', { toastId: 'success1' });
           }
-          localStorage.setItem("messageBody", '');
+          localStorage.setItem('messageBody', '');
           setTimeout(RediretToSentPage, 100);
-          setLoading(false)
-
+          setLoading(false);
         }
       })
       .catch((err) => {
         toast.error('Message did not sent successfully', { toastId: 'error1' });
-        localStorage.setItem("messageBody", '');
+        localStorage.setItem('messageBody', '');
         setdisabledStateOfSend(false);
-        setLoading(false)
-
+        setLoading(false);
       });
   };
-
 
   const formik = useFormik({
     initialValues: {
       To: '',
       Cc: '',
-      Subject: PageName == 'Forwa' ? "FW: " + Text : '' 
-      || PageName == 'Reply' ? "RE: " + Text : ''
-      || PageName == 'Edit' ? Text : '',
-      Content:PageName == 'Edit' ? Text : '',
-      Attachment: PageName == 'Edit' && null,
+      Subject:
+        PageName == 'Forwa'
+          ? 'FW: ' + Text
+          : '' || PageName == 'Reply'
+          ? 'RE: ' + Text
+          : '' || PageName == 'Edit'
+          ? Text
+          : '',
+      Content: PageName == 'Edit' ? Text : '',
+      Attachment: PageName == 'Edit' && null
     },
     onSubmit: (values) => {
       let valid = false;
       if (requestSchedule) {
         if (scheduleDate + value) {
-          valid = true
+          valid = true;
         }
         if (scheduleDate.length == 0) {
-          setRequestScheduleMsg('Schedule Date and Time should not be blank')
-          valid = false
-        } else
-          if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
-            setSchTimeerror('Please select future time')
-            valid = false
-          } else {
-            setRequestScheduleMsg('')
-          }
-      }
-      else {
-        valid = true
+          setRequestScheduleMsg('Schedule Date and Time should not be blank');
+          valid = false;
+        } else if (!isFutureDateTime(scheduleDate + ' ' + strTime)) {
+          setSchTimeerror('Please select future time');
+          valid = false;
+        } else {
+          setRequestScheduleMsg('');
+        }
+      } else {
+        valid = true;
       }
       if (valid) {
         sendMessage();
@@ -385,7 +449,8 @@ function Form13() {
     }
   });
 
-  const AttachmentFilePath = localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
+  const AttachmentFilePath =
+    localStorage.getItem('SiteURL') + '/RITeSchool/Uploads/';
 
   const TodayDate = new Date();
   const curTimeH = TodayDate.getHours() % 12 || 12;
@@ -432,39 +497,46 @@ function Form13() {
     setRecipientsObject(e);
     setdisplayOfRecipients('none');
     setdisplayOfComposePage('block');
-
   };
   const RecipientsCCListFun = (e) => {
     setRecipientsCCObject(e);
     setdisplayOfCCRecipients('none');
     setdisplayOfComposePage('block');
-
   };
 
   useEffect(() => {
     if (
-      !(ReplyRecipientNameId.ReplyRecipientName === undefined ||
-        ReplyRecipientNameId.ReplyRecipientName === "")) {
+      !(
+        ReplyRecipientNameId.ReplyRecipientName === undefined ||
+        ReplyRecipientNameId.ReplyRecipientName === ''
+      )
+    ) {
       RecipientsObject.RecipientName.push(
         ReplyRecipientNameId.ReplyRecipientName
       );
-      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID)
+      RecipientsObject.RecipientId.push(ReplyRecipientNameId.ReplyRecipientID);
     }
-    if (!(ReplyAllRecipientNameId.ReplyAllRecipientName ===undefined ||
-      ReplyAllRecipientNameId.ReplyAllRecipientID === "")){
-        RecipientsCCObject.RecipientName.push(
-          ReplyAllRecipientNameId.ReplyAllRecipientName
-        );
-        RecipientsCCObject.RecipientId.push(ReplyAllRecipientNameId.ReplyAllRecipientID)
-      }
+    if (
+      !(
+        ReplyAllRecipientNameId.ReplyAllRecipientName === undefined ||
+        ReplyAllRecipientNameId.ReplyAllRecipientID === ''
+      )
+    ) {
+      RecipientsCCObject.RecipientName.push(
+        ReplyAllRecipientNameId.ReplyAllRecipientName
+      );
+      RecipientsCCObject.RecipientId.push(
+        ReplyAllRecipientNameId.ReplyAllRecipientID
+      );
+    }
   }, []);
 
   const handleRemoveListItems = (fileName, fileData) => {
     setFinalBase642New((current) =>
       current.filter((obj) => obj.FileName !== fileName)
-    )
+    );
     aRef.current.value = null;
-  }
+  };
   const [value, setValue] = React.useState(new Date());
   let hours = value.getHours();
   let minutes = value.getMinutes();
@@ -474,91 +546,84 @@ function Form13() {
   let strTime = hours + ':' + minutes + ' ' + ampm;
 
   const clickTime = (value) => {
-    const time = formatAMPM(value)
+    const time = formatAMPM(value);
     if (scheduleDate !== '') {
-      checkScheduleValidation(scheduleDate + " " + time)
+      checkScheduleValidation(scheduleDate + ' ' + time);
     }
-    setValue(value)
-  }
+    setValue(value);
+  };
 
   const scheduleDateAndTime = (e) => {
-
-    if (scheduleDate !== "") {
-      setRequestScheduleMsg('')
+    if (scheduleDate !== '') {
+      setRequestScheduleMsg('');
     }
     if (scheduleDate !== '') {
-    checkScheduleValidation(e.target.value + " " + strTime)
+      checkScheduleValidation(e.target.value + ' ' + strTime);
     }
     setscheduleDate(e.target.value);
-
   };
   const checkScheduleValidation = (DateTime) => {
     if (isFutureDateTime(DateTime)) {
-      setSchTimeerror('')
+      setSchTimeerror('');
+    } else {
+      setSchTimeerror('Please select future time');
     }
-    else {
-      setSchTimeerror('Please select future time')
-    }
-  }
-  const [showCC, setShowCC] = useState(false)
+  };
+  const [showCC, setShowCC] = useState(false);
   const clickHide = () => {
-    setShowCC(!showCC)
-  }
+    setShowCC(!showCC);
+  };
 
   const handleResize = () => {
-    
     if (window.innerWidth >= 900) {
-        setIsMobile(true)
+      setIsMobile(true);
     } else {
-        setIsMobile(false)
+      setIsMobile(false);
     }
-}
-window.addEventListener('resize', handleResize)
-
-
-
+  };
+  window.addEventListener('resize', handleResize);
 
   const SaveDraftBody: ISaveDraftMessageBody = {
-      aiDraftId:ID,
-       aoMessage: {
-        SenderUserId:UserId,
-        SchoolId:localschoolId,
-        AcademicYearId:AcademicYearId,
-        ReceiverUserId:RecipientsObject.RecipientId.toString() +','+ ContactGRPusers.toString(),
-        DisplayText:RecipientsObject.RecipientName.toString(),
-        Subject:formik.values.Subject,
-        Body:formik.values.Content,
-        ReceiverUserIdCc:'',
-        DisplayTextCc:RecipientsCCObject.RecipientName.toString()
-      }}
+    aiDraftId: ID,
+    aoMessage: {
+      SenderUserId: UserId,
+      SchoolId: localschoolId,
+      AcademicYearId: AcademicYearId,
+      ReceiverUserId:
+        RecipientsObject.RecipientId.toString() +
+        ',' +
+        ContactGRPusers.toString(),
+      DisplayText: RecipientsObject.RecipientName.toString(),
+      Subject: formik.values.Subject,
+      Body: formik.values.Content,
+      ReceiverUserIdCc: '',
+      DisplayTextCc: RecipientsCCObject.RecipientName.toString()
+    }
+  };
 
-     
+  const SaveDraft = () => {
+    let isError = false;
+    if (formik.values.Subject === '') {
+      setSubjecterror('Subject is required');
+      isError = true;
+    }
+    if (formik.values.Content === '') {
+      setContenterror('Content is required');
+      isError = true;
+    } else {
+      dispatch(getSaveDraftMessage(SaveDraftBody));
+    }
+  };
 
-        const SaveDraft = () =>{
-          let isError = false
-          if (formik.values.Subject === ''){
-            setSubjecterror('Subject is required')
-            isError = true
-          }
-         if(formik.values.Content === '') {
-          setContenterror('Content is required')
-          isError = true
-         }
-          else{
-            dispatch(getSaveDraftMessage(SaveDraftBody))
-          }
-        
-        }
-
-        useEffect(() => {
-          if (SaveDraftM !== '') {
-            toast.success(SaveDraftM, { toastId: 'success1' })
-            dispatch(resetSaveDraftMessage());
-           }
-        }, [SaveDraftM])
+  useEffect(() => {
+    if (SaveDraftM !== '') {
+      toast.success(SaveDraftM, { toastId: 'success1' });
+      dispatch(resetSaveDraftMessage());
+    }
+  }, [SaveDraftM]);
   return (
     <>
-      <Container sx={{ display: displayOfComposePage }} maxWidth = {'xl'}>
+      <Container sx={{ display: displayOfComposePage }} maxWidth={'xl'}>
         <span
           onClick={() => {
             navigate(-1);
@@ -567,7 +632,9 @@ window.addEventListener('resize', handleResize)
           <Fab
             className={classes.backArrow}
             sx={{
-              position: 'absolute', top: '30px', left: '35px',
+              position: 'absolute',
+              top: '30px',
+              left: '35px',
               background: `${theme.colors.gradients.pink1}`
             }}
           >
@@ -576,41 +643,51 @@ window.addEventListener('resize', handleResize)
         </span>
         <ListStyle>
           <form onSubmit={formik.handleSubmit}>
-          <Grid container spacing={1}>
-            <Grid item xs={12}>
-          <FormHelperText >To</FormHelperText>
-          </Grid>
-              <Grid item xs={12} sm={8} md={10}sx={{mt:"-5px"}}>
-            {/* <FormControl fullWidth> */}
-            
-              <TextField multiline id="" fullWidth disabled
-                value={RecipientsObject.RecipientName.map(obj => obj?.trim()).join('; ')}
-                onChange={formik.handleChange}
-                sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px" }}
-              />
-              <Box mt={0.5}>
-                {RecipientsList.length == 0 ? (
-                  <ErrorMessage1 Error={formik.errors.To} />
-                ) : null}
-              </Box>
+            <Grid container spacing={1}>
+              <Grid item xs={12}>
+                <FormHelperText>To</FormHelperText>
+              </Grid>
+              <Grid item xs={12} sm={8} md={10} sx={{ mt: '-5px' }}>
+                {/* <FormControl fullWidth> */}
+
+                <TextField
+                  multiline
+                  id=""
+                  fullWidth
+                  disabled
+                  value={RecipientsObject.RecipientName.map((obj) =>
+                    obj?.trim()
+                  ).join('; ')}
+                  onChange={formik.handleChange}
+                  sx={{
+                    height: '50px',
+                    overflow: 'auto',
+                    border: '0.1px solid #c4c5c5',
+                    borderRadius: '5.3px'
+                  }}
+                />
+                <Box mt={0.5}>
+                  {RecipientsList.length == 0 ? (
+                    <ErrorMessage1 Error={formik.errors.To} />
+                  ) : null}
+                </Box>
               </Grid>
               {loading && <SuspenseLoader />}
               <Grid item xs={6} sm={2} md={1}>
-              
-                  <ButtonPrimary fullWidth color="primary"
-                    onClick={(e) => RecipientButton(e)}
-                  >
-                    Add Recipients
-                  </ButtonPrimary>
-                </Grid>
-                <Grid item xs={6}  sm={2} md={1}>
-                  <ButtonPrimary fullWidth color="primary"
-                    onClick={clickHide}
-                  >
-                    Add Cc
-                  </ButtonPrimary>
-                </Grid>
-                {/* <Hidden smDown>
+                <ButtonPrimary
+                  fullWidth
+                  color="primary"
+                  onClick={(e) => RecipientButton(e)}
+                >
+                  Add Recipients
+                </ButtonPrimary>
+              </Grid>
+              <Grid item xs={6} sm={2} md={1}>
+                <ButtonPrimary fullWidth color="primary" onClick={clickHide}>
+                  Add Cc
+                </ButtonPrimary>
+              </Grid>
+              {/* <Hidden smDown>
                 <Box pl={1}>
 
                   <Box sx={{ display: "flex" }}>
@@ -623,30 +700,44 @@ window.addEventListener('resize', handleResize)
                   </Box>
                 </Box>
               </Hidden> */}
-              {showCC && <>
-                <Grid item xs={12}>
-                <FormHelperText sx={{}}>Cc</FormHelperText>
+              {showCC && (
+                <>
+                  <Grid item xs={12}>
+                    <FormHelperText sx={{}}>Cc</FormHelperText>
                   </Grid>
-              <Grid item xs={12} sm={12} sx={{ml:"-10px" ,mt:"-5px"}}>
-          
-                <TextField multiline id="" fullWidth disabled 
-                  value={RecipientsCCObject.RecipientName.map(obj => obj?.trim()).join('; ')}
-                  onChange={formik.handleChange}
-                  sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px",marginLeft:"8px" }}
-                />
-              </Grid>
-              
-              <Grid item sm={3} xs={12}>
-                <Box mt={1} >
-                  <ButtonPrimary fullWidth
-                    onClick={(e) => RecipientCCButton(e)}
-                    color="primary">
-                    Add Cc Recipients
-                  </ButtonPrimary>
-                </Box>
-                </Grid>
-                {/* <Grid item sm={10.5} /> */}
-                {/* <Hidden smDown>
+                  <Grid item xs={12} sm={12} sx={{ ml: '-10px', mt: '-5px' }}>
+                    <TextField
+                      multiline
+                      id=""
+                      fullWidth
+                      disabled
+                      value={RecipientsCCObject.RecipientName.map((obj) =>
+                        obj?.trim()
+                      ).join('; ')}
+                      onChange={formik.handleChange}
+                      sx={{
+                        height: '50px',
+                        overflow: 'auto',
+                        border: '0.1px solid #c4c5c5',
+                        borderRadius: '5.3px',
+                        marginLeft: '8px'
+                      }}
+                    />
+                  </Grid>
+
+                  <Grid item sm={3} xs={12}>
+                    <Box mt={1}>
+                      <ButtonPrimary
+                        fullWidth
+                        onClick={(e) => RecipientCCButton(e)}
+                        color="primary"
+                      >
+                        Add Cc Recipients
+                      </ButtonPrimary>
+                    </Box>
+                  </Grid>
+                  {/* <Grid item sm={10.5} /> */}
+                  {/* <Hidden smDown>
                   <Box sx={{ display: "flex" }}>
                     <TextField
                       sx={{ width: "300px", ml: "10px" }}
@@ -657,206 +748,233 @@ window.addEventListener('resize', handleResize)
                     <ButtonPrimary sx={{ width: "10px", ml: "6px", mt: "20px" }}>Clear</ButtonPrimary>
                   </Box>
                 </Hidden> */}
-
-              </>}
-            {/* </FormControl> */}
-            <Grid xs={12} pl={1}>
-            <TextField fullWidth margin="normal" label='Subject :'
-              name="Subject" type="text" autoComplete="off"
-              variant="standard"
-              value={formik.values.Subject}
-              onChange={formik.handleChange}
-              sx={{ mt: "5px"}}
-            />
-            <Errormessages Error={subjecterror} />
-            <Box mb={0.4}>
-              {formik.touched.Subject && formik.errors.Subject ? (
-                <ErrorMessage1 Error={formik.errors.Subject} />
-              ) : null}
-            </Box>
-            </Grid>
-            <Grid item xs={10} sm={5.5} md={5.5} lg={4.5}>
-            <input ref={aRef} type="file" multiple onChange={fileChangedHandler} style={{ width: '280px', overflow: "hidden", textOverflow: "ellipsis" }} />
-            <Box sx={{mt:"15px" , width:"300px"}}>
-              <Errormessages Error={fileerror} />
-            </Box>
-            </Grid>
-            <Grid item xs={2}  sm={1} md={0.5} lg={0.5} sx={{mt:"5px"}}>
-               <ClickAwayListener onClickAway={handleClickAway}>
-               <Tooltip
-                PopperProps={{
-                  disablePortal: true
-                }}
-                onClose={handleClick}
-
-                disableFocusListener disableHoverListener disableTouchListener arrow
-                open={open} title={Note} placement="left"
-                componentsProps={{
-                  tooltip: {
-                      sx: {
-                          marginLeft: '70px',
-                          transform: "translate3d(15px, 0.5px, 0px) !important",
-                      }
-                  }
-              }}
-              >
-                <IconButton onClick={handleClick}>
-                <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px',mt:"-10px"}}
-                />
-                </IconButton>
-             
-              </Tooltip>
-            </ClickAwayListener>
-            </Grid>
-
-          
-        <Grid item xs={12} >
-        {finalBase642New == undefined ||
-              finalBase642New.length == 0
-              || PageName == 'Reply'
-              ? null :
-              (
-                <div >
-                 
-                  <Typography>Attachment(s):</Typography>
-               
-                  {
-                    finalBase642New.map((obj, i) => {
-                      return (<>
-                      
-                      <Box key={obj.FileName} sx={{display:"flex" }}>
-                         
-                            
-                         <FilePresentRoundedIcon sx={{ color: 'blue' }} />
-                    
-                       
-                         <CardDetail8 sx={{ mt: '1px'}}>
-                           {obj.FileName.slice(0, 25)}
-                         </CardDetail8>
-                    
-                         <IconButton  aria-label="delete" title="Delete"
-                           onClick={() =>
-                             handleRemoveListItems(
-                               obj.FileName,
-                               obj.Base64URL
-                             )
-                           }
-                         
-                         >
-                           <DeleteIcon
-                             sx={{ color: 'red' , mt:"-4px"}}
-                           />
-                         </IconButton >
-                       
-                    
-                  
-                   </Box>  
-           
-               
-                 
-                  
-                      </>)
-                    })
-                  }
-                </div>
+                </>
               )}
-            </Grid>
-        
-     
-       
-                  <Grid item xs={12}  sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
-                  <Checkbox onChange={() => setRequestReadReceipt(!requestReadReceipt)} size="small" sx={{ ml: "-10px" }} />
-                  <Typography sx={{ display: 'inline-block' }}>
-                    Request Read Receipt ?
-                  </Typography>
-                  </Grid>
-              
-
-                  <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{mt:'-10px'}}>
-                  <Checkbox onChange={scheduleMessageCheckBox} onClick={() => setRequestSchedule(!requestSchedule)} size="small" sx={{ ml: "-10px" }} />
-                  <Typography sx={{ display: 'inline-block' }}>
-                    Schedule Message at
-                  </Typography>
-                 </Grid>
-               <Grid item xs={2}  sm={1} md={1} lg={1} >
-               <ClickAwayListener onClickAway={handleClickAwayS}>
-               <Tooltip
-                PopperProps={{
-                  disablePortal: true
-                }}
-                onClose={handleClickS}
-
-                disableFocusListener disableHoverListener disableTouchListener arrow
-                open={Sopen} title={NoteSchedule} placement="left"
-              componentsProps={{
-                  tooltip: {
-                      sx: {
-                          marginLeft: '70px',
-                          transform: "translate3d(15px, 0.5px, 0px) !important",
-                      }
-                  }
-              }}
-              >
-                 <IconButton onClick={handleClickS}>
-                 <InfoTwoToneIcon type="button"
-                 sx={{ color: 'navy', fontSize: '20px',mt:"-8px"}}
+              {/* </FormControl> */}
+              <Grid xs={12} pl={1}>
+                <TextField
+                  fullWidth
+                  margin="normal"
+                  label="Subject :"
+                  name="Subject"
+                  type="text"
+                  autoComplete="off"
+                  variant="standard"
+                  value={formik.values.Subject}
+                  onChange={formik.handleChange}
+                  sx={{ mt: '5px' }}
                 />
-                 </IconButton>
-              
-              </Tooltip>
-            </ClickAwayListener>
-            </Grid>
-          
-            
-            <Grid item xs={6} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
-              <TextField sx={{ display: scheduleMessage }}
-                type="date" id="outlined-required" variant="standard"
-                onChange={scheduleDateAndTime}
-                inputProps={{ min: MinDate, max: MaxDate }}
-                fullWidth
-              />
-            </Grid>
+                <Errormessages Error={subjecterror} />
+                <Box mb={0.4}>
+                  {formik.touched.Subject && formik.errors.Subject ? (
+                    <ErrorMessage1 Error={formik.errors.Subject} />
+                  ) : null}
+                </Box>
+              </Grid>
+              <Grid item xs={10} sm={5.5} md={5.5} lg={4.5}>
+                <input
+                  ref={aRef}
+                  type="file"
+                  multiple
+                  onChange={fileChangedHandler}
+                  style={{
+                    width: '280px',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis'
+                  }}
+                />
+                <Box sx={{ mt: '15px', width: '300px' }}>
+                  <Errormessages Error={fileerror} />
+                </Box>
+              </Grid>
+              <Grid item xs={2} sm={1} md={0.5} lg={0.5} sx={{ mt: '5px' }}>
+                <ClickAwayListener onClickAway={handleClickAway}>
+                  <Tooltip
+                    PopperProps={{
+                      disablePortal: true
+                    }}
+                    onClose={handleClick}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    arrow
+                    open={open}
+                    title={Note}
+                    placement="left"
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          marginLeft: '70px',
+                          transform: 'translate3d(15px, 0.5px, 0px) !important'
+                        }
+                      }
+                    }}
+                  >
+                    <IconButton onClick={handleClick}>
+                      <InfoTwoToneIcon
+                        type="button"
+                        sx={{ color: 'navy', fontSize: '20px', mt: '-10px' }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </ClickAwayListener>
+              </Grid>
 
+              <Grid item xs={12}>
+                {finalBase642New == undefined ||
+                finalBase642New.length == 0 ||
+                PageName == 'Reply' ? null : (
+                  <div>
+                    <Typography>Attachment(s):</Typography>
 
-            <Grid item xs={6} sm={3} md={3} lg={2} sx={{ display: scheduleMessage , mt:"2px" }} >
-              <TimePicker 
-                value={value}
-                onChange={clickTime}
-                renderInput={(params) =>
-                  <TextField {...params} variant="standard" size="small" sx={messageCenterCale} 
-                    InputProps={{
-                      startAdornment: (
-                        <InputAdornment position="start">
-                          <AccessTimeIcon fontSize='small'  />
-                        </InputAdornment>
-                      ),
-                    }} fullWidth
-                  />}
-              />
+                    {finalBase642New.map((obj, i) => {
+                      return (
+                        <>
+                          <Box key={obj.FileName} sx={{ display: 'flex' }}>
+                            <FilePresentRoundedIcon sx={{ color: 'blue' }} />
 
-         
-            </Grid>
-          
-        
-            
-             <Grid item xs={12} sx={{ mt: '-10px' ,mb:"6px" , ml:"5px"}}>
-        
-           <ErrorMessage1 Error={schTimeerror} />
-           <ErrorMessage1 Error={requestScheduleMsg} />
-       
-     
-        </Grid> 
-       
-            <Grid item xs={12} sx={messageCenter}>
-            <TextField fullWidth multiline rows={4}
-                 margin="normal" label='Content :' name="Content" type="text"
-                 variant="outlined" sx={{ mt:"30px" }}
-                 value={formik.values.Content}
-                 onChange={formik.handleChange}
-               />
+                            <CardDetail8 sx={{ mt: '1px' }}>
+                              {obj.FileName.slice(0, 25)}
+                            </CardDetail8>
+
+                            <IconButton
+                              aria-label="delete"
+                              title="Delete"
+                              onClick={() =>
+                                handleRemoveListItems(
+                                  obj.FileName,
+                                  obj.Base64URL
+                                )
+                              }
+                            >
+                              <DeleteIcon sx={{ color: 'red', mt: '-4px' }} />
+                            </IconButton>
+                          </Box>
+                        </>
+                      );
+                    })}
+                  </div>
+                )}
+              </Grid>
+
+              <Grid item xs={12} sm={6.5} md={6.5} lg={2.5} sx={ReadRecipient}>
+                <Checkbox
+                  onChange={() => setRequestReadReceipt(!requestReadReceipt)}
+                  size="small"
+                  sx={{ ml: '-10px' }}
+                />
+                <Typography sx={{ display: 'inline-block' }}>
+                  Request Read Receipt ?
+                </Typography>
+              </Grid>
+
+              <Grid item xs={10} sm={4.5} md={4.5} lg={2} sx={{ mt: '-10px' }}>
+                <Checkbox
+                  onChange={scheduleMessageCheckBox}
+                  onClick={() => setRequestSchedule(!requestSchedule)}
+                  size="small"
+                  sx={{ ml: '-10px' }}
+                />
+                <Typography sx={{ display: 'inline-block' }}>
+                  Schedule Message at
+                </Typography>
+              </Grid>
+              <Grid item xs={2} sm={1} md={1} lg={1}>
+                <ClickAwayListener onClickAway={handleClickAwayS}>
+                  <Tooltip
+                    PopperProps={{
+                      disablePortal: true
+                    }}
+                    onClose={handleClickS}
+                    disableFocusListener
+                    disableHoverListener
+                    disableTouchListener
+                    arrow
+                    open={Sopen}
+                    title={NoteSchedule}
+                    placement="left"
+                    componentsProps={{
+                      tooltip: {
+                        sx: {
+                          marginLeft: '70px',
+                          transform: 'translate3d(15px, 0.5px, 0px) !important'
+                        }
+                      }
+                    }}
+                  >
+                    <IconButton onClick={handleClickS}>
+                      <InfoTwoToneIcon
+                        type="button"
+                        sx={{ color: 'navy', fontSize: '20px', mt: '-8px' }}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </ClickAwayListener>
+              </Grid>
+
+              <Grid item xs={6} sm={3.5} md={3.5} lg={2} sx={messageCenterCale}>
+                <TextField
+                  sx={{ display: scheduleMessage }}
+                  type="date"
+                  id="outlined-required"
+                  variant="standard"
+                  onChange={scheduleDateAndTime}
+                  inputProps={{ min: MinDate, max: MaxDate }}
+                  fullWidth
+                />
+              </Grid>
+
+              <Grid
+                item
+                xs={6}
+                sm={3}
+                md={3}
+                lg={2}
+                sx={{ display: scheduleMessage, mt: '2px' }}
+              >
+                <TimePicker
+                  value={value}
+                  onChange={clickTime}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="standard"
+                      size="small"
+                      sx={messageCenterCale}
+                      InputProps={{
+                        startAdornment: (
+                          <InputAdornment position="start">
+                            <AccessTimeIcon fontSize="small" />
+                          </InputAdornment>
+                        )
+                      }}
+                      fullWidth
+                    />
+                  )}
+                />
+              </Grid>
+
+              <Grid item xs={12} sx={{ mt: '-10px', mb: '6px', ml: '5px' }}>
+                <ErrorMessage1 Error={schTimeerror} />
+                <ErrorMessage1 Error={requestScheduleMsg} />
+              </Grid>
+
+              <Grid item xs={12} sx={messageCenter}>
+                <TextField
+                  fullWidth
+                  multiline
+                  rows={4}
+                  margin="normal"
+                  label="Content :"
+                  name="Content"
+                  type="text"
+                  variant="outlined"
+                  sx={{ mt: '30px' }}
+                  value={formik.values.Content}
+                  onChange={formik.handleChange}
+                />
                 <Errormessages Error={contenterror} />
-              {/* {isMobile  ? 
+                {/* {isMobile  ? 
                  <TextField fullWidth multiline rows={4}
                  margin="normal" label='Content :' name="Content" type="text"
                  variant="outlined" sx={{ mt: "16px" }}
@@ -866,52 +984,60 @@ window.addEventListener('resize', handleResize)
             
                <ReactQuill value={formik.values.Content} onChange={formik.handleChange} modules={toolbarOptions} />
             } */}
-         
 
-            <Box mb={0.4}>
-              {formik.touched.Content && formik.errors.Content ? (
-                <ErrorMessage1 Error={formik.errors.Content} />
-              ) : null}
-            </Box>
-            </Grid>
-            <Grid item xs={12} sm={12} sx={{mt:"-15px"}}>
-            {PageName === 'Reply' || PageName === 'Forwa' ? (
-              <>
-                <FormHelperText sx={{ml:"3px"}}>Original message</FormHelperText>
-                <BoxContent>
-                  <Wordbreak1 dangerouslySetInnerHTML={{ __html: MSGBody }} />
-                </BoxContent>
-              </>
-            ) : null}
+                <Box mb={0.4}>
+                  {formik.touched.Content && formik.errors.Content ? (
+                    <ErrorMessage1 Error={formik.errors.Content} />
+                  ) : null}
+                </Box>
               </Grid>
-            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
-              <ButtonPrimary color="primary" type="submit" fullWidth
-                onClick={formik.handleChange}
-                disabled={disabledStateOfSend}
-              >
-                Send
-              </ButtonPrimary>
-            </Grid>
-            <Grid item xs={6} sm={2} sx={{mt:"-5px"}}>
-              <ButtonPrimary color="primary"  fullWidth 
-                onClick={SaveDraft}
-              >
-                Save as Draft
-              </ButtonPrimary>
-            </Grid>
+              <Grid item xs={12} sm={12} sx={{ mt: '-15px' }}>
+                {PageName === 'Reply' || PageName === 'Forwa' ? (
+                  <>
+                    <FormHelperText sx={{ ml: '3px' }}>
+                      Original message
+                    </FormHelperText>
+                    <BoxContent>
+                      <Wordbreak1
+                        dangerouslySetInnerHTML={{ __html: MSGBody }}
+                      />
+                    </BoxContent>
+                  </>
+                ) : null}
+              </Grid>
+              <Grid item xs={6} sm={2} sx={{ mt: '-5px' }}>
+                <ButtonPrimary
+                  color="primary"
+                  type="submit"
+                  fullWidth
+                  onClick={formik.handleChange}
+                  disabled={disabledStateOfSend}
+                >
+                  Send
+                </ButtonPrimary>
+              </Grid>
+              <Grid item xs={6} sm={2} sx={{ mt: '-5px' }}>
+                <ButtonPrimary color="primary" fullWidth onClick={SaveDraft}>
+                  Save as Draft
+                </ButtonPrimary>
+              </Grid>
             </Grid>
           </form>
         </ListStyle>
       </Container>
       <div style={{ display: displayOfRecipients }}>
-        <AddReciepents RecipientName={RecipientsObject.RecipientName}
+        <AddReciepents
+          RecipientName={RecipientsObject.RecipientName}
           RecipientId={RecipientsObject.RecipientId}
-          recipientListClick={RecipientsListFun}></AddReciepents>
+          recipientListClick={RecipientsListFun}
+        ></AddReciepents>
       </div>
       <div style={{ display: displayOfCCRecipients }}>
-        <AddReciepents RecipientName={RecipientsCCObject.RecipientName}
+        <AddReciepents
+          RecipientName={RecipientsCCObject.RecipientName}
           RecipientId={RecipientsCCObject.RecipientId}
-          recipientListClick={RecipientsCCListFun}></AddReciepents>
+          recipientListClick={RecipientsCCListFun}
+        ></AddReciepents>
       </div>
     </>
   );

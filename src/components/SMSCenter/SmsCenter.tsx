@@ -1,20 +1,17 @@
-import React, { useEffect, useState } from 'react';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
-import { Link } from 'react-router-dom';
-import { Styles } from 'src/assets/style/student-style';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Outlet } from 'react-router-dom';
+import Container from '@mui/material/Container';
+import Grid from '@mui/material/Grid';
 import PropTypes from 'prop-types';
-import ISent, {
-  GetAllSentSMSPermissionAndCountsResult
-} from 'src/interfaces/AdminSMSCenter/SentSMS';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
-import { CardDetail7, CardDetailB } from 'src/libraries/styled/CardStyle';
+import { Link, Outlet } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
+import ISent from 'src/interfaces/AdminSMSCenter/SentSMS';
 import ButtonTab from 'src/libraries/button/ButtonTab';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { CardDetailB } from 'src/libraries/styled/CardStyle';
+import { getSMSListt } from 'src/requests/AdminSMSCenter/SentSMS';
+import { RootState } from 'src/store';
 
 import { useParams } from 'react-router';
 SMSCenter.PropTypes = {
@@ -30,9 +27,9 @@ function SMSCenter() {
 
   const pathname = window.location.pathname;
   const pageName =
-    pathname.indexOf('/extended-sidebar/SMSCenter/smsCenter/') === -1 ?
-      pathname.replace('/extended-sidebar/SMSCenter/smsCenter', '') :
-      pathname.replace('/extended-sidebar/SMSCenter/smsCenter/', '');
+    pathname.indexOf('/extended-sidebar/SMSCenter/smsCenter/') === -1
+      ? pathname.replace('/extended-sidebar/SMSCenter/smsCenter', '')
+      : pathname.replace('/extended-sidebar/SMSCenter/smsCenter/', '');
 
   const body: ISent = {
     asUserId: sessionStorage.getItem('Id'),
@@ -41,7 +38,6 @@ function SMSCenter() {
   };
 
   useEffect(() => {
-
     dispatch(getSMSListt(body));
     setActiveTab(pageName === '' ? 'Received' : pageName);
   }, []);
@@ -53,7 +49,6 @@ function SMSCenter() {
   const clickTab = (value) => {
     setActiveTab(value);
   };
-
 
   return (
     <>

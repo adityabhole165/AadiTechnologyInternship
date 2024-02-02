@@ -210,9 +210,9 @@ function SubHeaderNavBar({ toggleDrawer }) {
                   <Box key={key}>
                     <ListItemButton
                       sx={{
-                        color: 'white',
+                        color: (theme) => theme.palette.common.white,
                         '&:hover': {
-                          color: 'black'
+                          color: (theme) => theme.palette.primary.main
                         },
                         px: 1
                       }}
@@ -228,7 +228,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         <KeyboardArrowDownIcon />
                       )}
                     </ListItemButton>
-                    {page?.options && (
+                    {page?.options && page?.options.length > 0 && (
                       <Menu
                         id={`${page.name}-menu`}
                         anchorEl={page.anchor}

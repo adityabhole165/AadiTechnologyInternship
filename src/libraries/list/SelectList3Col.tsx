@@ -1,8 +1,5 @@
-import ErrorMessages from '../ErrorMessages/ErrorMessages';
 import ListCard4ColSel from '../card/ListCard4ColSel';
-import { Box, Stack } from '@mui/material';
-import { MessageStyle } from '../styled/CommonStyle';
-const SelectList3Col = ({ Itemlist, refreshData, ActiveTab ,DeleteDraft}) => {
+const SelectList3Col = ({ Itemlist, refreshData, ActiveTab, DeleteDraft }) => {
   const clickSingle = (value) => {
     Itemlist = Itemlist.map((obj) =>
       obj.Id === value.name ? { ...obj, isActive: value.checked } : obj
@@ -12,11 +9,15 @@ const SelectList3Col = ({ Itemlist, refreshData, ActiveTab ,DeleteDraft}) => {
 
   return (
     <div>
-     {
-        Itemlist.map((item, index) => (
-          <ListCard4ColSel key={index} Item={item} onChange={clickSingle} ActiveTab={ActiveTab}  DeleteDraft={DeleteDraft}/>
-        ))
-      }
+      {Itemlist.map((item, index) => (
+        <ListCard4ColSel
+          key={index}
+          Item={item}
+          onChange={clickSingle}
+          ActiveTab={ActiveTab}
+          DeleteDraft={DeleteDraft}
+        />
+      ))}
     </div>
   );
 };

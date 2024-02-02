@@ -1,30 +1,25 @@
-import { useDispatch } from 'react-redux';
+import { useTheme } from '@mui/material';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Styles } from 'src/assets/style/student-style';
+import ISelectExam, {
+  GetExamsListResult,
+  GetSelectExamListResult,
+  IExamList
+} from 'src/interfaces/Student/ExamSchedule';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import Icon3 from 'src/libraries/icon/icon3';
+import Card1 from 'src/libraries/mainCard/Card1';
+import DotLegend from 'src/libraries/summary/DotLegend';
 import {
   GetSelectExamList,
   ViewExamDataRess
 } from 'src/requests/Examschedule/Examschedule';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { styled, useTheme } from '@mui/material';
-import ISelectExam, {
-  GetSelectExamListResult
-} from 'src/interfaces/Student/ExamSchedule';
-import {
-  IExamList,
-  GetExamsListResult
-} from 'src/interfaces/Student/ExamSchedule';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
-import List6 from 'src/libraries/list/List6';
-import Card1 from 'src/libraries/mainCard/Card1';
-import { Styles } from 'src/assets/style/student-style';
 import http from 'src/requests/SchoolService/schoolServices';
-import Icon3 from 'src/libraries/icon/icon3';
-import DotLegend from 'src/libraries/summary/DotLegend';
-import Grid from '@mui/material/Grid';
+import { RootState } from 'src/store';
 
 function ExamSchedule() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -87,7 +82,7 @@ function ExamSchedule() {
 
   const theme = useTheme();
   const classes = Styles();
- 
+
   return (
     <Container>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
@@ -134,7 +129,7 @@ function ExamSchedule() {
               Color=""
               margin=""
               FileName=""
-              Textcolor=''
+              Textcolor=""
               key=""
             />
           </>

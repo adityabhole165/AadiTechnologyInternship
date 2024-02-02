@@ -1,13 +1,12 @@
-import http from "../../requests/SchoolService/schoolServices";
-import { IUnPublishFinalResultBody,IUnPublishFinalResultResult } from "src/interfaces/FinalResultUnpublish/IFinalResultUnpublish";
+import { IUnPublishFinalResultBody } from 'src/interfaces/FinalResultUnpublish/IFinalResultUnpublish';
+import http from '../../requests/SchoolService/schoolServices';
 
-const UnPublishFinalResult = (data:IUnPublishFinalResultBody) => {
-    return http.post('Teacher/UnPublishFinalResult',data);
+const UnPublishFinalResult = (data: IUnPublishFinalResultBody) => {
+  return http.post('Teacher/UnPublishFinalResult', data);
 };
 
-const UnPublishApi ={
-    UnPublishFinalResult,
-    
-}
+const UnPublishApi = {
+  UnPublishFinalResult
+};
 
-export default UnPublishApi
+export default UnPublishApi;

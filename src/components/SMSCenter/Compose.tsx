@@ -1,41 +1,48 @@
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container, TextField, Button, FormControl, Tooltip, Typography, Grid, Card, Box, NativeSelect, ClickAwayListener, useTheme, Fab, } from '@mui/material';
-import { useState, useMemo } from 'react';
-import { useNavigate } from 'react-router';
-import { Styles } from 'src/assets/style/student-style';
-import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
-import { toast } from 'react-toastify';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { getAComposeSMSTemplateList, sendSMS } from 'src/requests/AdminSMSCenter/AComposeSMS';
-import ACompose_SendSMS, { MessageTemplateSMSCenter } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
-import { GetSMSTemplates } from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
-import { RootState } from 'src/store';
-import { useDispatch, useSelector } from 'react-redux';
+import {
+  Box,
+  Container,
+  FormControl,
+  Grid,
+  NativeSelect,
+  TextField,
+  useTheme
+} from '@mui/material';
 import { useFormik } from 'formik';
-import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import { useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import GetMessageTemplateAdminSMSListApi from 'src/api/AdminSMSCenter/AComposeSMS';
+import { Styles } from 'src/assets/style/student-style';
+import ACompose_SendSMS, {
+  GetSMSTemplates,
+  MessageTemplateSMSCenter
+} from 'src/interfaces/AdminSMSCenter/ACompose_SendSMS';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
+import Note from 'src/libraries/Note/Note';
+import BackButton from 'src/libraries/button/BackButton';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CardDetail2, ListStyle } from 'src/libraries/styled/CardStyle';
-import BackButton from 'src/libraries/button/BackButton';
+import { getAComposeSMSTemplateList } from 'src/requests/AdminSMSCenter/AComposeSMS';
+import { RootState } from 'src/store';
 import AddReciepents from '../MessageCenter/AddReciepents';
-import Note from 'src/libraries/Note/Note';
 
 const Compose = () => {
-
   // Navigation Themes & Classes =================================
   const classes = Styles();
   const navigate = useNavigate();
   const theme = useTheme();
   toast.configure();
 
-  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] = useState<any>('none');
-  const [displayOfCompose_Page, setdisplayOfCompose_Page] = useState<any>('block');
-  const [RecipientsArray, setRecipientsArray] = useState(
-    {
-      RecipientName: [],
-      RecipientId: []
-    }
-  );
+  const [displayOfTo_RecipientsPage, setdisplayOfTo_RecipientsPage] =
+    useState<any>('none');
+  const [displayOfCompose_Page, setdisplayOfCompose_Page] =
+    useState<any>('block');
+  const [RecipientsArray, setRecipientsArray] = useState({
+    RecipientName: [],
+    RecipientId: []
+  });
 
   const To_Recipients_Page = (e) => {
     setdisplayOfTo_RecipientsPage('block');
@@ -46,9 +53,12 @@ const Compose = () => {
   const Note1: string =
     'Do not use any website URL or mobile number in SMS text.Such SMS will not get delivered to selected recipient(s)';
 
-  const getAComposeSMSTemplate: any = useSelector((state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList);
+  const getAComposeSMSTemplate: any = useSelector(
+    (state: RootState) => state.getAComposeSMS.AComposeSMSTemplateList
+  );
   const TemplateList = getAComposeSMSTemplate.GetSMSTemplates;
-  const [ContentTemplateDependent, setContentTemplateDependent] = useState<any>();
+  const [ContentTemplateDependent, setContentTemplateDependent] =
+    useState<any>();
   const [TemplateRegistrationId, setTemplateRegistrationId] = useState();
   let confirmationDone;
   const [contentError, setcontentError] = useState<any>(); // For content Error
@@ -56,42 +66,39 @@ const Compose = () => {
   const [initialCount, setCharacterCount] = useState(0);
 
   const handleChangeForTemplate = (e) => {
-    if(e.target.value != '')
-    {
-        const indexValue = e.target.value.indexOf(',')
-        const templateId = e.target.value.slice(0, indexValue);
-        const templateText = e.target.value.slice(indexValue,).replace(',', '');
+    if (e.target.value != '') {
+      const indexValue = e.target.value.indexOf(',');
+      const templateId = e.target.value.slice(0, indexValue);
+      const templateText = e.target.value.slice(indexValue).replace(',', '');
 
-        if (templateText.length >= 300) {
-          toast.error('More than 300 characters not allowed');
+      if (templateText.length >= 300) {
+        toast.error('More than 300 characters not allowed');
+      }
+      if (templateText.length >= 1 && templateText.length <= 160) {
+        setinitialMessage(1);
+        setContentTemplateDependent(templateText);
+        setTemplateRegistrationId(templateId);
+      }
+      if (templateText.length > 160) {
+        {
+          confirmationDone = confirm(
+            'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
+          );
         }
-        if (templateText.length >= 1 && templateText.length <= 160) {
-          setinitialMessage(1);
-          setContentTemplateDependent(templateText);
-          setTemplateRegistrationId(templateId)
-        }
-        if (templateText.length > 160) {
-          {
-            confirmationDone = confirm(
-              'SMS will be send in 2 parts for each selected user(s). Are you sure to continue?'
-            );
-          }
-          setinitialMessage(2);
-          setContentTemplateDependent(templateText);
-          setTemplateRegistrationId(templateId)
-        }
-        if (templateText.length == 0) {
-          setinitialMessage(0);
-        }
-        setCharacterCount(templateText.length);
-    }
-      else{
-        setContentTemplateDependent('');
-        setCharacterCount(0)
+        setinitialMessage(2);
+        setContentTemplateDependent(templateText);
+        setTemplateRegistrationId(templateId);
+      }
+      if (templateText.length == 0) {
         setinitialMessage(0);
+      }
+      setCharacterCount(templateText.length);
+    } else {
+      setContentTemplateDependent('');
+      setCharacterCount(0);
+      setinitialMessage(0);
     }
   };
-
 
   const ContentFieldBlur = (e) => {
     setcontentError(false);
@@ -137,7 +144,9 @@ const Compose = () => {
   const asUserId = sessionStorage.getItem('Id');
   const schoolName = localStorage.getItem('SchoolName');
   const userRoleId = sessionStorage.getItem('RoleId');
-  const SchoolSettingsValue = JSON.parse(localStorage.getItem('SchoolSettingsValue'));
+  const SchoolSettingsValue = JSON.parse(
+    localStorage.getItem('SchoolSettingsValue')
+  );
   const senderUserName = SchoolSettingsValue.SMSSenderUserName;
 
   const getTemplateAPIBody: MessageTemplateSMSCenter = {
@@ -160,8 +169,12 @@ const Compose = () => {
       if (RecipientsArray.RecipientName.toString().length == 0) {
         errors.To = 'Atleast one recipient should be selected.';
       }
-      if (ContentTemplateDependent == undefined || ContentTemplateDependent == '') {
-        errors.Content = 'SMS content should not be blank please select SMS Template';
+      if (
+        ContentTemplateDependent == undefined ||
+        ContentTemplateDependent == ''
+      ) {
+        errors.Content =
+          'SMS content should not be blank please select SMS Template';
       }
       return errors;
     }
@@ -169,12 +182,11 @@ const Compose = () => {
 
   // Send SMS
   const submitResult = () => {
-
     const sendSMSAPIBody: ACompose_SendSMS = {
       asSchoolId: asSchoolId,
       aoMessage: {
         Body: ContentTemplateDependent,
-        Subject: "",
+        Subject: '',
         SenderName: senderUserName,
         DisplayText: RecipientsArray.RecipientName.toString(),
         SenderUserId: asUserId,
@@ -182,38 +194,38 @@ const Compose = () => {
         AcademicYearId: asAcademicYearId,
         SchoolId: asSchoolId,
         InsertedById: asUserId,
-        Attachment: ""
+        Attachment: ''
       },
       asSelectedUserIds: RecipientsArray.RecipientId.toString(),
-      asSelectedStDivId: "",
+      asSelectedStDivId: '',
       asIsSoftwareCordinator: 0,
       asMessageId: 0,
-      sIsReply: "N",
-      asIsForward: "N",
+      sIsReply: 'N',
+      asIsForward: 'N',
       asSchoolName: schoolName,
       asTemplateRegistrationId: TemplateRegistrationId
-    }
+    };
     GetMessageTemplateAdminSMSListApi.SendSMS(sendSMSAPIBody)
       .then((res: any) => {
         if (res.status === 200) {
           toast.success('SMS sent successfully');
-          navigate('/extended-sidebar/SMSCenter/smsCenter')
+          navigate('/extended-sidebar/SMSCenter/smsCenter');
           formik.resetForm();
         }
       })
       .catch((err) => {
         toast.error('SMS does not sent successfully');
       });
-  }
-
+  };
 
   // SMS Template
   useMemo(() => {
     dispatch(getAComposeSMSTemplateList(getTemplateAPIBody));
   }, []);
 
-  const note =
-    ['Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).'];
+  const note = [
+    'Do not use any website URL or mobile number in SMS text. Such SMS will not get delivered to selected recipient(s).'
+  ];
   const [open1, setOpen1] = useState(false);
   const handleClick1 = () => {
     setOpen1((prev) => !prev);
@@ -234,10 +246,10 @@ const Compose = () => {
     setdisplayOfTo_RecipientsPage('none');
     setdisplayOfCompose_Page('block');
   };
-const onContentChange = (value) => {
-  setContentTemplateDependent(value)
-  setCharacterCount(value.length)
-}
+  const onContentChange = (value) => {
+    setContentTemplateDependent(value);
+    setCharacterCount(value.length);
+  };
   return (
     <Container>
       <PageHeader heading={'Compose SMS'} subheading={''} />
@@ -259,10 +271,10 @@ const onContentChange = (value) => {
                   value={senderUserName}
                 />
 
-                <Box sx={{ mt: "15px" }}>
+                <Box sx={{ mt: '15px' }}>
                   <TextField
                     name="To"
-                    placeholder='To'
+                    placeholder="To"
                     multiline
                     className={classes.InputField}
                     onChange={ToFieldChange}
@@ -289,11 +301,8 @@ const onContentChange = (value) => {
               </FormControl>
 
               <Grid container>
-                <Grid item md={3} >
-                  <ButtonPrimary
-                    fullWidth
-                    onClick={To_Recipients_Page}
-                  >
+                <Grid item md={3}>
+                  <ButtonPrimary fullWidth onClick={To_Recipients_Page}>
                     Add Recipients
                   </ButtonPrimary>
                 </Grid>
@@ -310,16 +319,23 @@ const onContentChange = (value) => {
                         onChange={handleChangeForTemplate}
                         style={{ borderRadius: '2px solid black' }}
                       >
-                        <option value=''>Select SMS Template Name</option>
+                        <option value="">Select SMS Template Name</option>
                         {TemplateList == undefined || TemplateList.length == 0
                           ? null
                           : TemplateList?.map((items: GetSMSTemplates, i) => {
-                            return (
-                                <option value={items.registration_Number + "," + items.Template} key={i}>
+                              return (
+                                <option
+                                  value={
+                                    items.registration_Number +
+                                    ',' +
+                                    items.Template
+                                  }
+                                  key={i}
+                                >
                                   {items.Template_Name}
                                 </option>
-                            );
-                          })}
+                              );
+                            })}
                       </NativeSelect>
                     }
                   </FormControl>
@@ -356,13 +372,10 @@ const onContentChange = (value) => {
               </div>
               <br />
               <Grid container>
-                <Grid item xs={12} >
+                <Grid item xs={12}>
                   <ButtonPrimary
-
-
                     type="submit"
                     fullWidth
-
                     onClick={formik.handleChange}
                   >
                     Send
@@ -375,9 +388,11 @@ const onContentChange = (value) => {
         </>
       </Box>
       <div style={{ display: displayOfTo_RecipientsPage }}>
-        <AddReciepents RecipientName={RecipientsArray.RecipientName} 
-        RecipientId={RecipientsArray.RecipientId}
-        recipientListClick={RecipientsListFun}></AddReciepents>
+        <AddReciepents
+          RecipientName={RecipientsArray.RecipientName}
+          RecipientId={RecipientsArray.RecipientId}
+          recipientListClick={RecipientsListFun}
+        ></AddReciepents>
       </div>
     </Container>
   );

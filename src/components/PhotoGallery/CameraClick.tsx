@@ -1,6 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
-import { Camera, CameraResultType, CameraSource, Photo } from '@capacitor/camera';
+import {
+  Camera,
+  CameraResultType,
+  CameraSource,
+  Photo
+} from '@capacitor/camera';
 interface UserPhoto {
   filepath: string;
   webviewPath?: string;
@@ -25,7 +30,10 @@ export async function base64FromPath(path: string): Promise<string> {
 }
 const CameraClick = () => {
   const [photos, setPhotos] = useState<UserPhoto[]>([]);
-  const savePicture = async (photo: Photo, fileName: string): Promise<UserPhoto> => {
+  const savePicture = async (
+    photo: Photo,
+    fileName: string
+  ): Promise<UserPhoto> => {
     const base64Data = await base64FromPath(photo.webPath!);
 
     // Use webPath to display the new image instead of base64 since it's
@@ -41,26 +49,24 @@ const CameraClick = () => {
       const photo = await Camera.getPhoto({
         resultType: CameraResultType.Uri,
         source: CameraSource.Camera,
-        quality: 55,
+        quality: 55
       });
       const fileName = new Date().getTime() + '.jpeg';
       const savedFileImage = await savePicture(photo, fileName);
 
-      const newPhotos = [
-        savedFileImage,
-      ];
+      const newPhotos = [savedFileImage];
       setPhotos(newPhotos);
     } catch (error) {
-      console.error("Failed to browse image");
+      console.error('Failed to browse image');
     } finally {
-      console.log("Handled")
+      console.log('Handled');
     }
   };
 
   return {
     photos,
-    takePhoto,
+    takePhoto
   };
-}
+};
 
-export default CameraClick
+export default CameraClick;

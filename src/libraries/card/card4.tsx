@@ -1,18 +1,13 @@
-import { Box, Card, Typography, useTheme, Container, Fab } from '@mui/material';
+import { Container, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import BackButton from '../button/BackButton';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { useNavigate } from 'react-router-dom';
 import {
-  CardDetail3,
+  BoxWrapper,
   CardDetail1,
   CardDetail2,
-  ListStyle,
-  BoxWrapper
+  CardDetail3,
+  ListStyle
 } from '../styled/CardStyle';
-import { sitePath } from 'src/components/Common/Util';
 
 Card4.propTypes = {
   Title: PropTypes.string,
@@ -22,7 +17,7 @@ Card4.propTypes = {
   CompletedDate: PropTypes.string,
   Attachments: PropTypes.string,
   Details: PropTypes.string,
-  MoreAttachments: PropTypes.arrayOf(PropTypes.string),
+  MoreAttachments: PropTypes.arrayOf(PropTypes.string)
 };
 
 function Card4({
@@ -36,14 +31,14 @@ function Card4({
   MoreAttachments
 }) {
   const theme = useTheme();
-  const file_path = localStorage.getItem('SiteURL') + '/RITeSchool/DOWNLOADS/Homework/';
+  const file_path =
+    localStorage.getItem('SiteURL') + '/RITeSchool/DOWNLOADS/Homework/';
 
   const classes = Styles();
   return (
     <>
       <Container>
-        <ListStyle
-        >
+        <ListStyle>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.SubjectName}</CardDetail1>
             <CardDetail3>{SubjectName}</CardDetail3>
@@ -62,50 +57,47 @@ function Card4({
           </BoxWrapper>
 
           {Attachments.length === 0 ? null : (
-              <BoxWrapper>
-                <CardDetail1> {ViewDetail.AttachmentPath}</CardDetail1>
+            <BoxWrapper>
+              <CardDetail1> {ViewDetail.AttachmentPath}</CardDetail1>
+              <CardDetail3
+                onClick={(event: React.MouseEvent<HTMLElement>) => {
+                  window.open(file_path + Attachments);
+                }}
+                color="#628def"
+              >
+                {Attachments}
+              </CardDetail3>
+            </BoxWrapper>
+          )}
+          {MoreAttachments.map((Attachments, i) => {
+            return (
+              <>
+                <CardDetail1>{ViewDetail.AttachmentPath}</CardDetail1>
                 <CardDetail3
                   onClick={(event: React.MouseEvent<HTMLElement>) => {
                     window.open(file_path + Attachments);
-                  }} color="#628def"
+                  }}
+                  color="#628def"
                 >
-
                   {Attachments}
                 </CardDetail3>
-                
-              </BoxWrapper>
-          )}
-              {
-  MoreAttachments.map((Attachments, i) => {
-    return (
-      <>
-        <CardDetail1>{ViewDetail.AttachmentPath}</CardDetail1>
-        <CardDetail3
-          onClick={(event: React.MouseEvent<HTMLElement>) => {
-            window.open(file_path + Attachments);
-          }}
-          color="#628def"
-        >
-          {Attachments}
-        </CardDetail3>
-        </>
-    );
-  })
-}
+              </>
+            );
+          })}
           <BoxWrapper>
             <CardDetail1> {ViewDetail.Details}</CardDetail1>
-            <CardDetail2>  {
-              Details.split("\n").map(function (item, i) {
+            <CardDetail2>
+              {' '}
+              {Details.split('\n').map(function (item, i) {
                 return (
                   <span key={i}>
                     {item}
                     <br />
                   </span>
-                )
-              })
-            }</CardDetail2>
+                );
+              })}
+            </CardDetail2>
           </BoxWrapper>
-
         </ListStyle>
       </Container>
     </>

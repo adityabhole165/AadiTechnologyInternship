@@ -1,8 +1,8 @@
 import React from 'react';
 
 import { Theme } from '@mui/material';
-import { PureLightTheme } from './schemes/PureLightTheme';
 import { GreyGooseTheme } from './schemes/GreyGooseTheme';
+import { PureLightTheme } from './schemes/PureLightTheme';
 import { PurpleFlowTheme } from './schemes/PurpleFlowTheme';
 
 export function themeCreator(theme: string): Theme {
@@ -14,14 +14,14 @@ declare module '@mui/material/styles' {
     colors: {
       gradients: {
         primayButton: string;
-        secondaryButton:string;
-        disableButton:string;
-        listColor: string,
-        selectedlistColor: string,
-        HighlightedlistColor:string,
-        pageBackground:string,
-        containerBackground:string,
-        accordianHeadercolor:string,
+        secondaryButton: string;
+        disableButton: string;
+        listColor: string;
+        selectedlistColor: string;
+        HighlightedlistColor: string;
+        pageBackground: string;
+        containerBackground: string;
+        accordianHeadercolor: string;
         blue1: string;
         blue2: string;
         blue3: string;
@@ -32,15 +32,15 @@ declare module '@mui/material/styles' {
         orange3: string;
         purple1: string;
         purple3: string;
-        navy2:string;
+        navy2: string;
         pink1: string;
         pink2: string;
         green1: string;
         green2: string;
         black1: string;
         black2: string;
-        red:string;
-        pink:string; //addedd
+        red: string;
+        pink: string; //addedd
       };
       shadows: {
         success: string;
@@ -147,12 +147,12 @@ declare module '@mui/material/styles' {
         primayButton: string;
         secondaryButton: string;
         disableButton: string;
-        listColor: string,
-        selectedlistColor: string,
-        HighlightedlistColor:string,
-        pageBackground:string,
-        containerBackground:string,
-        accordianHeadercolor:string,
+        listColor: string;
+        selectedlistColor: string;
+        HighlightedlistColor: string;
+        pageBackground: string;
+        containerBackground: string;
+        accordianHeadercolor: string;
         blue1: string;
         blue2: string;
         blue3: string;
@@ -163,15 +163,15 @@ declare module '@mui/material/styles' {
         orange3: string;
         purple1: string;
         purple3: string;
-        navy2:string;
+        navy2: string;
         pink1: string;
         pink2: string;
         green1: string;
         green2: string;
         black1: string;
         black2: string;
-        red:string;
-        pink:string; //added
+        red: string;
+        pink: string; //added
       };
       shadows: {
         success: string;

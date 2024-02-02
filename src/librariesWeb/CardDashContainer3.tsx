@@ -1,21 +1,20 @@
-import React from 'react'
-import { Grid ,Box} from '@mui/material';
+import { Grid } from '@mui/material';
 
-import PhotoCardDash from './PhotoCardDash';
 import BirthdayDashboard from './BirthdayDashboard';
+import PhotoCardDash from './PhotoCardDash';
 function CardDashContainer3() {
   return (
     <div>
-     <Grid container spacing={2} >
-    <Grid item  sm={6} md={12}>
-     <BirthdayDashboard/>
+      <Grid container spacing={2}>
+        <Grid item sm={6} md={12}>
+          <BirthdayDashboard />
+        </Grid>
+        <Grid item sm={6} md={12}>
+          <PhotoCardDash />
+        </Grid>
       </Grid>
-      <Grid item sm={6} md={12}>
-       <PhotoCardDash/>
-      </Grid>
-    </Grid> 
-</div>
-  )
+    </div>
+  );
 }
 
-export default CardDashContainer3
+export default CardDashContainer3;

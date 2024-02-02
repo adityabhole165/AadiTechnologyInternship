@@ -1,21 +1,19 @@
 export interface IGetMenuDetailsBody {
-    aiSchoolId: number,
-    aiUserRoleId: string
+  aiSchoolId: number;
+  aiUserRoleId: string;
 }
 
 export interface IGetMenuDetailsResult {
-    MenuDetails: [MenuDetails]
-    
-
+  MenuDetails: [MenuDetails];
 }
 export interface MenuDetails {
-    MenuId: number,
-    MenuName: string,
-    Priority: number,
-    ParentMenuId: number,
-    MenuContent: string,
-    MenuTypeId: number,
-    LinkName: string,
-    FilePath: string,
-    LevelIndex: number
+  MenuId: number;
+  MenuName: string;
+  Priority: number;
+  ParentMenuId: number;
+  MenuContent: string;
+  MenuTypeId: number;
+  LinkName: string;
+  FilePath: string;
+  LevelIndex: number;
 }

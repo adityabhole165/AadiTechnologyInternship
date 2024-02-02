@@ -1,44 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ISchoolList,
-  GetAllSchoolsResult
-} from 'src/interfaces/Authentication/SchoolList';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import {
-  getSchoolList,
-  getSchoolSettingsValue
-} from 'src/requests/Authentication/SchoolList';
-import { RootState } from 'src/store';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LoginApi from 'src/api/Authentication/Login';
-import {
-  IAuthenticateUser,
-  IAuthenticateUserResult
-} from 'src/interfaces/Authentication/Login';
-import { useNavigate } from 'react-router-dom';
-import FormControl from '@mui/material/FormControl';
-import InputAdornment from '@mui/material/InputAdornment';
-import IconButton from '@mui/material/IconButton';
+import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
-import school2 from 'src/assets/img/Shool_Logo/school2.png';
-import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
-import { Styles } from 'src/assets/style/student-style';
-import { toast } from 'react-toastify';
-import { useFormik } from 'formik';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
-import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
-import {
-  CardDetail10,
-  CardDetail11,
-  InputStyle,
-  UsernameStyle
-} from 'src/libraries/styled/CardStyle';
 import {
   Button,
   Dialog,
@@ -46,17 +8,50 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
-  Fab,
-  Paper,
   Typography
 } from '@mui/material';
-import { logoURL } from 'src/components/Common/Util';
-import PushNotification from '../../../libraries/PushNotification/PushNotification';
-import { IPushNotificationFCM } from 'src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration';
+import Autocomplete from '@mui/material/Autocomplete';
+import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import InputAdornment from '@mui/material/InputAdornment';
+import TextField from '@mui/material/TextField';
+import { useFormik } from 'formik';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import LoginApi from 'src/api/Authentication/Login';
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
+import regulas from 'src/assets/img/Shool_Logo/regulas.jpg';
+import { Styles } from 'src/assets/style/student-style';
+import { logoURL } from 'src/components/Common/Util';
+import {
+  IAuthenticateUser,
+  IAuthenticateUserResult
+} from 'src/interfaces/Authentication/Login';
+import {
+  GetAllSchoolsResult,
+  ISchoolList
+} from 'src/interfaces/Authentication/SchoolList';
+import { ISchoolSettings } from 'src/interfaces/Authentication/SchoolSettings';
+import { IPushNotificationFCM } from 'src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration';
 import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import {
+  CardDetail10,
+  CardDetail11,
+  InputStyle,
+  UsernameStyle
+} from 'src/libraries/styled/CardStyle';
+import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
+import {
+  getSchoolList,
+  getSchoolSettingsValue
+} from 'src/requests/Authentication/SchoolList';
 import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
-import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import { RootState } from 'src/store';
 
 function SelectSchool() {
   // Test

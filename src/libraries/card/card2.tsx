@@ -1,13 +1,11 @@
-import { Box, Card, Typography, useTheme, Container } from '@mui/material';
+import { Container, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
-import BackButton from '../button/BackButton';
 import {
-  CardDetail3,
+  BoxWrapper,
   CardDetail1,
   CardDetail2,
-  ListStyle,
-  BoxWrapper
+  ListStyle
 } from '../styled/CardStyle';
 
 Card2.propTypes = {
