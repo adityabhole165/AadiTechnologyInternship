@@ -43,6 +43,7 @@ const HomeworkDocuments=Loader(lazy(()=>import('src/components/AssignHomework/Ho
 const ViewHomework=Loader(lazy(()=>import('src/components/AssignHomework/ViewHomework')))
 const AddUnpublish=Loader(lazy(()=>import('src/components/AssignHomework/AddUnpublish')))
 const FinalResultUnpublish=Loader(lazy(()=>import('src/components/FinalResultUnpublish/FinalResultUnpublish')))
+const AddAadharCardDetails=Loader(lazy(()=>import('src/components/AddAadharCardDetails/AddAadharCardDetails')))
 
 const AddLessonPlan=Loader(lazy(()=>import('src/components/LessonPlan/AddLessonPlan')))
 const LessonPlanBaseScreen=Loader(lazy(()=>import('src/components/LessonPlan/LessonPlanBaseScreen')))
