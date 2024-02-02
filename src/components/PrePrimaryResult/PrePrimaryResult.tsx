@@ -36,7 +36,16 @@ const PrePrimaryResult = () => {
   const [SelectTeacher,setSelectTeacher]= useState("")
   const [AssessmentResult,setAssessmentResult]= useState("")
   
-  const HeaderList = ["Subject","Edit"]
+
+
+  
+  const HeaderPublish = [
+    { Id: 1, Header: 'Subject' },
+    { Id: 2, Header: 'Edit' }
+   
+    
+  ];
+
 const IconList = [
 
   {
@@ -262,7 +271,7 @@ return (
  </Grid>
  
  
- <EditiconList2 ItemList={GetTeacherXseedSubjects} clickEdit={ClickItem} HeaderArray={HeaderList} />
+ <EditiconList2 ItemList={GetTeacherXseedSubjects} clickEdit={ClickItem} HeaderArray={HeaderPublish} />
 
          <div>
   <Grid container spacing={2} style={{ flexDirection: "row", justifyContent: "center", alignItems: "center" }}>
