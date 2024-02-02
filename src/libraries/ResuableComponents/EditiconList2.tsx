@@ -10,6 +10,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import { Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
+import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
 // ... (your other imports)
 
 function EditiconList2({ ItemList, clickEdit, HeaderArray  }) {
@@ -41,7 +42,7 @@ function EditiconList2({ ItemList, clickEdit, HeaderArray  }) {
                   {item.Text2 === "Y" ? (
                     <EditIcon onClick={() => clickEdit(item.Id)} />
                   ) : (
-                   ""
+                   <ImageNotSupportedIcon/>
                   )}
                 </TableCell>
 
