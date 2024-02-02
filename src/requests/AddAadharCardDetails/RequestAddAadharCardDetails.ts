@@ -6,18 +6,18 @@ import { IGetAddAadharCardDetailsBody,IGetSubmitAadharDetailsBody } from 'src/in
 const SliceAddAadharCardDetails = createSlice({
     name: 'AddAadharCardDetails',
     initialState: {
-        AddAadharCardDetails:[],
-        SubmitAadharCardDetails:""
+        AddAadharCardDetailsS:[],
+        SubmitAadharCardDetailsS:""
        
     },
     reducers : {
         AddAadharCardDetailss(state , action)
             {
-                state.AddAadharCardDetails=action.payload;
+                state.AddAadharCardDetailsS=action.payload;
             },
         SubmitAadharDetails(state,action)    
            {
-               state.SubmitAadharCardDetails=action.payload
+               state.SubmitAadharCardDetailsS=action.payload
            },
         }
     });
