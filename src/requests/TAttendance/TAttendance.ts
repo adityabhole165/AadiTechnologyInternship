@@ -140,6 +140,8 @@ export const GetStudentList =
     (data: IGetStudentDetails): AppThunk =>
         async (dispatch) => {
             const response = await GetTAttendanceListApi.GetStudentDetails(data);
+            console.log(response,"responsehhhhh");
+            
             let studentList = null;
             let message = 'There are no students in the class.'
             let AYmsg = "Attendance date should be within the current academic year"
