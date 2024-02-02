@@ -38,6 +38,7 @@ const PrePrimaryResult = () => {
   
 
 
+
   
   const HeaderPublish = [
     { Id: 1, Header: 'Subject' },
@@ -66,6 +67,7 @@ const IconList = [
     const GetTeacherXseedSubjects : any = useSelector(
       (state: RootState) => state.PrePrimaryResult.TeacherXseedSubjects);
     console.log(GetTeacherXseedSubjects, 'GetTeacherXseedSubjects');
+    const [EditStatus, setEditStatus] = useState<string[]>(Array(GetTeacherXseedSubjects.length).fill(""));
 
     const UnPublisheed = useSelector(
       (state: RootState) => state.PrePrimaryResult.Unpublish);
@@ -97,9 +99,15 @@ const IconList = [
           asStdDivId:Number(SelectTeacher),
           asAssessmentId:Number(AssessmentResult)
         };
-          useEffect(() => {
-            dispatch(TeacherXseedSubjects(SubjectsList));
-          }, [SelectTeacher,AssessmentResult]);
+        useEffect(() => {
+          dispatch(TeacherXseedSubjects(SubjectsList));
+        }, [SelectTeacher, AssessmentResult]);
+        
+        useEffect(() => {
+          // Assuming GetTeacherXseedSubjects is an array with one item, you may need to adjust accordingly
+          setEditStatus(GetTeacherXseedSubjects.map((item) => item.Text2 || ""));
+        }, [GetTeacherXseedSubjects]);
+        
 
           // const Unpublishee: IGetUnPublishResltBody = {
           //   "asXseedResultPublishStatusId":140,
@@ -135,8 +143,9 @@ const IconList = [
       const GetAssessmentDropdown=(value)=>{
         setAssessmentResult(value);
       }
-      const ClickItem = (value) => {
-
+      const ClickItem = (Id) => {
+       console.log(Id);
+       
       }
       // const onClickunpublished =() =>{
       //   navigate('/extended-sidebar/Teacher/UnPublishReslt')
@@ -283,24 +292,34 @@ return (
 
 
 
-    {(GetTeacherXseedSubjects.EditStatus =="Y") && (
-                <div>
-                   <ButtonPrimary onClick={onClickpublished} variant="contained">
-                                        <b>PUBLISH</b>
-                                      </ButtonPrimary>
-                </div>)
-            }
     <Grid item xs={1} style={{ margin: '0 10px' }}>
       {/* Adjust the margin value as needed */}
       
 
-{(GetTeacherXseedSubjects.EditStatus =="Y") && (
-                <div>
-                   <ButtonPrimary onClick={onClickunpublished} variant="contained" style={{ backgroundColor: 'red', color: 'white' }}>
-                                         UNPUBLISH
-                                         </ButtonPrimary>
-                </div>)
-            }
+
+
+      <ButtonPrimary
+  onClick={onClickpublished}
+  variant="contained"
+  disabled={!EditStatus.every((status) => status === 'Y')}
+>
+  <b>PUBLISH</b>
+</ButtonPrimary>
+
+<ButtonPrimary
+  onClick={onClickunpublished}
+  variant="contained"
+  disabled={!EditStatus.every((status) => status === 'Y')}
+>
+  <b>UNPUBLISH</b>
+</ButtonPrimary>
+
+
+
+
+
+
+
 
     </Grid>
   </Grid>
