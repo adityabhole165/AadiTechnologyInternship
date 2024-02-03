@@ -176,19 +176,19 @@ function SubHeaderNavBar({ toggleDrawer }) {
           link: ''
         },
         {
-          name: 'Knowledge',
+          name: 'Knowledge Base',
+          link: ''
+        },
+        // {
+        //   name: 'Email',
+        //   link: ''
+        // },
+        {
+          name: 'Feedback',
           link: ''
         },
         {
           name: 'Contact Us',
-          link: ''
-        },
-        {
-          name: 'Email',
-          link: ''
-        },
-        {
-          name: 'Feedback',
           link: ''
         }
       ]
@@ -278,22 +278,26 @@ function SubHeaderNavBar({ toggleDrawer }) {
             </List>
           </Stack>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
-            <IconButton
-              sx={{
-                color: 'white',
-                background: (theme) => alpha(theme.palette.common.white, 0.2)
-              }}
-            >
-              <NotificationsTwoToneIcon />
-            </IconButton>
-            <IconButton
-              sx={{
-                color: 'white',
-                background: (theme) => alpha(theme.palette.common.white, 0.2)
-              }}
-            >
-              <LogoutTwoToneIcon />
-            </IconButton>
+            <Tooltip title={'Notifications'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  background: (theme) => alpha(theme.palette.common.white, 0.2)
+                }}
+              >
+                <NotificationsTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={'Logout'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  background: (theme) => alpha(theme.palette.common.white, 0.2)
+                }}
+              >
+                <LogoutTwoToneIcon />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Stack>
       </AppBar>

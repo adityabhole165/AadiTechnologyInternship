@@ -1,6 +1,6 @@
-import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
-import HelpIcon from '@mui/icons-material/Help';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
   Container,
@@ -100,6 +100,9 @@ const SchoolAttendanceOverview = () => {
               onChange={(e) => {
                 onSelectDate(e.target.value);
               }}
+              sx={{
+                backgroundColor: 'white'
+              }}
               label={'Select Date'}
               size="small"
             />
@@ -115,7 +118,7 @@ const SchoolAttendanceOverview = () => {
                   }
                 }}
               >
-                <HelpIcon />
+                <QuestionMarkIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -130,7 +133,7 @@ const SchoolAttendanceOverview = () => {
                   }
                 }}
               >
-                <ArrowBackIcon />
+                <ReplyIcon />
               </IconButton>
             </Tooltip>
           </Box>

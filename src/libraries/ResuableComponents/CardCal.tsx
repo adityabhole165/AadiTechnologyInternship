@@ -37,15 +37,6 @@ function CardCal({
     l: 'Late',
     n: 'Not Available'
   };
-  // const color = {
-  //   p: '#008000',
-  //   a: '#b73839',
-  //   h: '#a52a2a',
-  //   w: '#800080',
-  //   o: 'rgba(245,88,245,1)',
-  //   l: '#303f9f',
-  //   n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
-  // };
 
   const cardStyle = {
     heihgt: '15vh',

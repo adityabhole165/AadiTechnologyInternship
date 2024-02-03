@@ -50,11 +50,14 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     color: '#fff',
     ':hover': {
       backgroundColor: '#fff',
-      color: 'rgb(40, 160, 235)'
+      color: (theme) => theme.palette.primary.main,
+
+      cursor: 'pointer'
     }
   };
   const activebuttonStyle = {
-    backgrounColor: 'rgb(40, 160, 235)',
+    backgrounColor: (theme) => theme.palette.primary.main,
+    cursor: 'pointer',
     color: 'white'
   };
   const buttonStyle = {};

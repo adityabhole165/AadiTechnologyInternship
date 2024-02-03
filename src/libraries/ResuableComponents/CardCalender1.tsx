@@ -156,22 +156,7 @@ function CardCalender1({
           </IconButton>
         </Box>
       </Box>
-      <Grid
-        my={2}
-        item
-        xs={12}
-        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
-      >
-        <DotLegendAttandaceCalender color="primary" text="Done " />
-        <DotLegendAttandaceCalender color="info" text="Not Done" />
-        <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
-        <DotLegendAttandaceCalender color="Warning" text="Weekend" />
-        <DotLegendAttandaceCalender
-          color="Suceess"
-          text="OutSideAcadamicYear"
-        />
-      </Grid>
-      <Grid container>
+      <Grid container sx={{ mt: 2 }}>
         {ArrayList.map((item, i) => (
           <>
             <Grid
@@ -206,6 +191,21 @@ function CardCalender1({
             </Grid>
           );
         })}
+      </Grid>
+      <Grid
+        mt={2}
+        item
+        xs={12}
+        sx={{ display: 'flex', alignItems: 'center', gap: 1 }}
+      >
+        <DotLegendAttandaceCalender color="primary" text="Done " />
+        <DotLegendAttandaceCalender color="info" text="Not Done" />
+        <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
+        <DotLegendAttandaceCalender color="Warning" text="Weekend" />
+        <DotLegendAttandaceCalender
+          color="Suceess"
+          text="OutSideAcadamicYear"
+        />
       </Grid>
     </Box>
   );

@@ -424,6 +424,7 @@ const TAttendance = () => {
               <Typography
                 color={'primary'}
                 sx={{ cursor: 'pointer' }}
+                fontWeight={'bold'}
                 onClick={() => {
                   navigate(
                     '/extended-sidebar/Teacher/SchoolAttendanceOverview'
@@ -462,10 +463,10 @@ const TAttendance = () => {
                 onClick={() => setSearch(!search)}
                 color="primary"
                 sx={{
-                  color: 'white',
-                  backgroundColor: grey[600],
+                  color: (theme) => theme.palette.primary.main,
+                  backgroundColor: 'white',
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: 'white'
                   }
                 }}
               >

@@ -1,4 +1,4 @@
-import { TextField } from '@mui/material';
+import { Box, TextField } from '@mui/material';
 import {
   checkIsNumber,
   isRepeat,
@@ -54,11 +54,11 @@ const TextCommaNumber = ({
   };
 
   return (
-    <>
+    <Box sx={{ backgroundColor: 'white' }} p={1}>
       <TextField
-        variant="outlined"
-        sx={{
-          backgroundColor: 'white'
+        variant="standard"
+        InputLabelProps={{
+          shrink: true
         }}
         fullWidth
         value={textarray}
@@ -66,7 +66,7 @@ const TextCommaNumber = ({
         label={getLabel}
         onChange={(e) => SetTextData2(e.target.value)}
       />
-    </>
+    </Box>
   );
 };
 
