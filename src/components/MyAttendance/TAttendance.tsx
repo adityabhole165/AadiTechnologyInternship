@@ -370,11 +370,13 @@ const TAttendance = () => {
       }
       return;
     } else {
-      if (asAllPresentOrAllAbsent == 'P') {
+      if (asAllPresentOrAllAbsent == 'P' || asAllPresentOrAllAbsent == 'N') {
         showAlert({
           title: 'Please Confirm',
           message:
-            'All the student are marked as absent. Are you sure you want to save the attendance?',
+            'All the student are marked as ' +
+            (asAllPresentOrAllAbsent == 'P' ? 'present' : 'absent') +
+            '. Are you sure you want to save the attendance?',
           variant: 'warning',
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
