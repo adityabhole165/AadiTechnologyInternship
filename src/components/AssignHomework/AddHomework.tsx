@@ -111,12 +111,12 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-    {
-      asSchoolId: asSchoolId,
-      aTeacherId: Number(asTeacherId),
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: StandardDivisionId
-    };
+  {
+    asSchoolId: asSchoolId,
+    aTeacherId: Number(asTeacherId),
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId
+  };
   // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
   //     asSchoolId:asSchoolId.toString(),
   //    asAcademicYearId:asAcademicYearId.toString(),
@@ -233,15 +233,15 @@ const AddHomework = () => {
       //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
     } else {
       const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-        {
-          asSchoolId: asSchoolId.toString(),
-          asAcademicYearId: asAcademicYearId.toString(),
-          asHomeWorkLogId: getSelectedSubject(),
-          asUnpublishReason: 'Yesss',
-          asUpdatedById: TeacherId,
-          IsPublished: Number(IsPublish),
-          IsSMSSent: 1
-        };
+      {
+        asSchoolId: asSchoolId.toString(),
+        asAcademicYearId: asAcademicYearId.toString(),
+        asHomeWorkLogId: getSelectedSubject(),
+        asUnpublishReason: 'Yesss',
+        asUpdatedById: TeacherId,
+        IsPublished: Number(IsPublish),
+        IsSMSSent: 1
+      };
 
       dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
     }
@@ -438,8 +438,8 @@ const AddHomework = () => {
                   setCompleteDate(e.target.value);
                 }}
                 variant="standard"
-                // error={ErrorCompleteDate !== ''}
-                // helperText={ErrorCompleteDate}
+              // error={ErrorCompleteDate !== ''}
+              // helperText={ErrorCompleteDate}
               />
             </Box>
           </Grid>
