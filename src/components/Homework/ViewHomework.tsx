@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import {
   IViewHomework,
   IViewHomeworkResponse
 } from 'src/interfaces/Student/Homework';
-import http from 'src/requests/SchoolService/schoolServices';
+import BackButton from 'src/libraries/button/BackButton';
 import Card4 from 'src/libraries/card/card4';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import BackButton from 'src/libraries/button/BackButton';
+import http from 'src/requests/SchoolService/schoolServices';
 
 function ViewHomework() {
-  const { Id,SelectedDate } = useParams();
+  const { Id, SelectedDate } = useParams();
 
   const [viewHomework, setViewhomework] = useState<IViewHomeworkResponse>();
   const ViewDetail = {
@@ -47,16 +47,22 @@ function ViewHomework() {
   return (
     <>
       <PageHeader heading={'View Homework'} subheading={''} />
-   
-        <BackButton FromRoute={"/Student/Homework/"} />
-    
+
+      <BackButton FromRoute={'/Student/Homework/'} />
+
       {viewHomework === undefined ? null : (
         <Card4
           ViewDetail={ViewDetail}
           Title={viewHomework.Title}
           SubjectName={viewHomework.SubjectName}
-          Assignedate={viewHomework.AssignedDate.replace("-"," ").replace("-"," ")}
-          CompletedDate={viewHomework.CompleteByDate.replace("-"," ").replace("-"," ")}
+          Assignedate={viewHomework.AssignedDate.replace('-', ' ').replace(
+            '-',
+            ' '
+          )}
+          CompletedDate={viewHomework.CompleteByDate.replace('-', ' ').replace(
+            '-',
+            ' '
+          )}
           Details={viewHomework.Details}
           Attachments={viewHomework.AttachmentPath}
           MoreAttachments={viewHomework.MoreAttachments}

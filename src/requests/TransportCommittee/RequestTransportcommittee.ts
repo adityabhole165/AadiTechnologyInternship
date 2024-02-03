@@ -1,36 +1,39 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppThunk } from 'src/store';
 import ApiTransportCommittee from 'src/api/TransportCommittee/ApiTransportCommittee';
-import { IGetTransportCommitteeDetailsBody, IGetTransportCommitteeDetailsResult } from 'src/interfaces/Student/ITransportCommittee';
+import { IGetTransportCommitteeDetailsBody } from 'src/interfaces/Student/ITransportCommittee';
+import { AppThunk } from 'src/store';
 
 const SliceTransportcommittee = createSlice({
-    name: 'TransportCommittee',
-    initialState: {
-        TeachersCommittee: [],
-        ParentCommittee: [],
-        Loading: true,
+  name: 'TransportCommittee',
+  initialState: {
+    TeachersCommittee: [],
+    ParentCommittee: [],
+    Loading: true
+  },
+  reducers: {
+    getTransportCommittee(state, action) {
+      state.TeachersCommittee =
+        action.payload.GetTransportCommitteeDetails?.TeachersCommittee;
+      state.ParentCommittee =
+        action.payload.GetTransportCommitteeDetails?.ParentCommittee;
+      state.Loading = false;
     },
-    reducers: {
-        getTransportCommittee(state, action) {
-            state.TeachersCommittee=action.payload.GetTransportCommitteeDetails?.TeachersCommittee;
-            state.ParentCommittee=action.payload.GetTransportCommitteeDetails?.ParentCommittee;
-            state.Loading = false;
-        },
-        
 
-        getLoading(state, action) {
-            state.Loading = true
-        }
+    getLoading(state, action) {
+      state.Loading = true;
     }
+  }
 });
 
 export const getTransportCommittee =
-  (data:IGetTransportCommitteeDetailsBody): AppThunk =>
+  (data: IGetTransportCommitteeDetailsBody): AppThunk =>
   async (dispatch) => {
     dispatch(SliceTransportcommittee.actions.getLoading(true));
     const response = await ApiTransportCommittee.GetTransportCommittee(data);
-    dispatch(SliceTransportcommittee.actions.getTransportCommittee(response.data));
-    console.log("response",response.data)
+    dispatch(
+      SliceTransportcommittee.actions.getTransportCommittee(response.data)
+    );
+    console.log('response', response.data);
   };
 
-  export default SliceTransportcommittee.reducer
+export default SliceTransportcommittee.reducer;

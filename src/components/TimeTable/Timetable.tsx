@@ -1,12 +1,11 @@
-import  { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import {  getTimetable } from 'src/requests/Student/Timetable';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import { Container } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import ITimetable from 'src/interfaces/Student/TimeTable';
 import Card30 from 'src/libraries/card/Card30';
-import { Container } from '@mui/material';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { getTimetable } from 'src/requests/Student/Timetable';
+import { RootState } from 'src/store';
 
 function Timetable() {
   const dispatch = useDispatch();
@@ -27,14 +26,14 @@ function Timetable() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getTimetable(body));
   }, []);
 
   return (
     <Container>
       <PageHeader heading={'Timetable'} subheading={''} />
-      
+
       <Card30 header={TimetableList}></Card30>
     </Container>
   );

@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { IYearList } from 'src/interfaces/Student/PhotoGallary';
+import { IPhotoAlbum } from 'src/interfaces/Student/dashboard';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
-import { IPhotoAlbum } from 'src/interfaces/Student/dashboard';
-import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 
-import { RootState } from 'src/store';
 import Card17 from 'src/libraries/card/Card17';
+import { RootState } from 'src/store';
 
 function PhotoAlbum() {
   const dispatch = useDispatch();

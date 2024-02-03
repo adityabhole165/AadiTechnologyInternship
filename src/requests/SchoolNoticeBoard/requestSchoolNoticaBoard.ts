@@ -1,66 +1,60 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import type { PayloadAction } from '@reduxjs/toolkit';
-import { AppThunk } from 'src/store';
-import { IGetAllActiveNoticesBody, IGetNoticeBoardDetailsBody } from "src/interfaces/Student/ISchoolNoticeBoard";
+import { createSlice } from '@reduxjs/toolkit';
 import SchoolNoticeApi from 'src/api/SchoolNoticeBoard/ApiSchoolNoticeBoard';
-
-
+import {
+  IGetAllActiveNoticesBody,
+  IGetNoticeBoardDetailsBody
+} from 'src/interfaces/Student/ISchoolNoticeBoard';
+import { AppThunk } from 'src/store';
 
 const SliceSchoolNoticeBoard = createSlice({
   name: 'schoolnotice',
   initialState: {
     SchoolNoticeBoard: [],
-    AllActiveNotices:[],
+    AllActiveNotices: [],
     Loading: true
   },
   reducers: {
     getSchoolNoticeBoard(state, action) {
       state.SchoolNoticeBoard = action.payload.NoticeBoardDetails;
       state.Loading = false;
-
     },
 
     getAllActiveNotices(state, action) {
       state.AllActiveNotices = action.payload.GetSchoolNoticesResult;
       state.Loading = false;
-
     },
 
-     getAllNoticeRecet(state) {
+    getAllNoticeRecet(state) {
       state.AllActiveNotices = [];
     },
- 
+
     getLoading(state, action) {
-      state.Loading = true
+      state.Loading = true;
       state.SchoolNoticeBoard = [];
     }
   }
 });
 
-
 export const getSchoolNoticeBoard =
   (data: IGetNoticeBoardDetailsBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
-      const response = await SchoolNoticeApi.GetNoticeBoardList(data);
-      dispatch(SliceSchoolNoticeBoard.actions.getSchoolNoticeBoard(response.data));
-    };
+  async (dispatch) => {
+    dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
+    const response = await SchoolNoticeApi.GetNoticeBoardList(data);
+    dispatch(
+      SliceSchoolNoticeBoard.actions.getSchoolNoticeBoard(response.data)
+    );
+  };
 
-    export const getAllActiveNotices =
+export const getAllActiveNotices =
   (data: IGetAllActiveNoticesBody): AppThunk =>
-    async (dispatch) => {
-      // dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
-      const response = await SchoolNoticeApi.GetAllActiveNotices(data);
-      dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
-    };
+  async (dispatch) => {
+    // dispatch(SliceSchoolNoticeBoard.actions.getLoading(true));
+    const response = await SchoolNoticeApi.GetAllActiveNotices(data);
+    dispatch(SliceSchoolNoticeBoard.actions.getAllActiveNotices(response.data));
+  };
 
-   export const getAllNoticeRecet =
-    (): AppThunk =>
-      async (dispatch) => {
-        dispatch(SliceSchoolNoticeBoard.actions.getAllNoticeRecet());
-      }
+export const getAllNoticeRecet = (): AppThunk => async (dispatch) => {
+  dispatch(SliceSchoolNoticeBoard.actions.getAllNoticeRecet());
+};
 
-
-
-
-export default SliceSchoolNoticeBoard.reducer
+export default SliceSchoolNoticeBoard.reducer;

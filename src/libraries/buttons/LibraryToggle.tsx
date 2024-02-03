@@ -1,6 +1,5 @@
-import React from 'react';
-import { Button, CardHeader } from '@mui/material';
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
+import { Button, CardHeader } from '@mui/material';
 
 function LibraryToggle({ title1, title2, toggleClick }) {
   return (

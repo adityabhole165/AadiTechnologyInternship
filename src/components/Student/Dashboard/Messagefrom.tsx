@@ -1,10 +1,9 @@
-import List7 from 'src/libraries/list/List7';
-import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { IMsgfrom } from 'src/interfaces/Student/dashboard';
+import List7 from 'src/libraries/list/List7';
 import { getmsgfrom } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 function Messagefrom() {
   const dispatch = useDispatch();

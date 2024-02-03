@@ -1,23 +1,37 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { ResetFilePath, getEventList, getEvents, getFilePath } from 'src/requests/AnnualPlanner/AnnualPlanner';
-import IGetEventsInMonth, { IEventList } from 'src/interfaces/Common/AnnualPlanner';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import {
+  Box,
+  Checkbox,
+  Container,
+  FormControlLabel,
+  FormGroup,
+  Typography
+} from '@mui/material';
 import moment from 'moment';
-import List1 from 'src/libraries/mainCard/List1';
-import { Container, Checkbox, Box, FormGroup, FormControlLabel, Typography } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import IGetEventsInMonth, {
+  IEventList
+} from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { useNavigate } from 'react-router-dom';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import MonthSelector from 'src/libraries/buttons/MonthSelector';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
+import List1 from 'src/libraries/mainCard/List1';
+import {
+  getEvents,
+  getFilePath
+} from 'src/requests/AnnualPlanner/AnnualPlanner';
+import { RootState } from 'src/store';
 function UpcomingEvent() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear, Pholiday, Pevent, Pexam } = useParams();
 
-  const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
+  const BackMonth = new Date(
+    Number(DateFromyear),
+    Number(DateFrommon)
+  ).getMonth();
 
   const dispatch = useDispatch();
   const eventList = useSelector(
@@ -31,11 +45,11 @@ function UpcomingEvent() {
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
-  const FileName :any = useSelector(
+  const FileName: any = useSelector(
     (state: RootState) => state.AnnualPlanner.FilePath
   );
-  console.log(FileName,"FileName111");
-  
+  console.log(FileName, 'FileName111');
+
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
@@ -46,9 +60,9 @@ function UpcomingEvent() {
   const [date, setDate] = useState<any>({ selectedDate: null });
   const [assignedYear, setAssignedYear] = useState<any>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
-  const [holiday, setHoliday] = useState(false)
-  const [event, setEvent] = useState(true)
-  const [exam, setExam] = useState(false)
+  const [holiday, setHoliday] = useState(false);
+  const [event, setEvent] = useState(true);
+  const [exam, setExam] = useState(false);
 
   const GetEventsInMonthBody: IGetEventsInMonth = {
     asSchoolId: asSchoolId,
@@ -59,34 +73,36 @@ function UpcomingEvent() {
     abIncludeEvents: event.toString(),
     abIncludeHolidays: holiday.toString(),
     abIncludeExams: exam.toString()
-  }
+  };
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();
-    const Year = new Date(date).getFullYear()
+    const Year = new Date(date).getFullYear();
     const NewDateFormat = `${Month} ${Year}`;
     setDate({
       selectedDate: NewDateFormat
     });
-    SetassignedMonth_num(BackMonth)
-    setAssignedYear(DateFromyear)
+    SetassignedMonth_num(BackMonth);
+    setAssignedYear(DateFromyear);
     setAssignedYear(Year);
     SetassignedMonth_num(Month_num + 1);
   }
 
   useEffect(() => {
     if (Pholiday !== undefined) {
-      setHoliday(Pholiday === 'false' ? false : true)
-      setEvent(Pevent === 'false' ? false : true)
-      setExam(Pexam === 'false' ? false : true)
+      setHoliday(Pholiday === 'false' ? false : true);
+      setEvent(Pevent === 'false' ? false : true);
+      setExam(Pexam === 'false' ? false : true);
     }
-    localStorage.setItem("url", window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     setCurrentDate();
     if (DateFrommon != undefined) {
       setDate({
-        selectedDate: `${new Date(BackMonth + '/01/' + DateFromyear).toLocaleString('default', { month: 'short' })} ${DateFromyear}`
+        selectedDate: `${new Date(
+          BackMonth + '/01/' + DateFromyear
+        ).toLocaleString('default', { month: 'short' })} ${DateFromyear}`
       });
     }
   }, []);
@@ -94,7 +110,7 @@ function UpcomingEvent() {
   useEffect(() => {
     if (DateFrommon || DateFromyear != undefined) {
       SetassignedMonth_num(DateFrommon);
-      setAssignedYear(DateFromyear)
+      setAssignedYear(DateFromyear);
     }
   }, [DateFrommon, DateFromyear]);
 
@@ -118,8 +134,10 @@ function UpcomingEvent() {
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.includes('-') ? selectedDate.split("-") : selectedDate.split(" ");
-    const updatedDate = Date.parse(dateValues[0] + "01," + dateValues[1])
+    const dateValues = selectedDate.includes('-')
+      ? selectedDate.split('-')
+      : selectedDate.split(' ');
+    const updatedDate = Date.parse(dateValues[0] + '01,' + dateValues[1]);
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() - 1);
     setCurrentDate(currentDayInMilli);
@@ -127,8 +145,10 @@ function UpcomingEvent() {
 
   const getNextDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.includes('-') ? selectedDate.split("-") : selectedDate.split(" ");
-    const updatedDate = Date.parse(dateValues[0] + "01," + dateValues[1])
+    const dateValues = selectedDate.includes('-')
+      ? selectedDate.split('-')
+      : selectedDate.split(' ');
+    const updatedDate = Date.parse(dateValues[0] + '01,' + dateValues[1]);
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
@@ -148,76 +168,101 @@ function UpcomingEvent() {
   const EndDate = new Date(
     moment(sessionStorage.getItem('EndDate')).format('YYYY-MM')
   );
-  const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
-  const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] + "01," + selectedDateList[1]) : date.selectedDate)
+  const selectedDateList =
+    typeof date.selectedDate === 'string'
+      ? date.selectedDate.split(' ')
+      : date.selectedDate;
+  const formatSelectedDate = Array.isArray(selectedDateList)
+    ? Date.parse(selectedDateList[0] + '01,' + selectedDateList[1])
+    : date.selectedDate;
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
-
 
   const FilepathBody = {
     aiSchoolId: asSchoolId,
     aiAcademicYearId: asAcademicYearId
-  }
+  };
 
   useEffect(() => {
-    dispatch(getFilePath(FilepathBody))
-
+    dispatch(getFilePath(FilepathBody));
   }, []);
 
-
-  
   const clickFileName = () => {
-   
-    if (FileName !== "") {
+    if (FileName !== '') {
       window.open(localStorage.getItem('SiteURL') + FileName);
-     
     }
-  }
+  };
 
-
-  
-
-  
   return (
     <Container>
       <PageHeader heading={'Annual Planner'} subheading={''} />
-     
-      {FileName !== ""&& (
-        
-      <div>
-        <Typography component="span" sx={{ color: 'brown', textDecoration: 'underline' }} onClick={clickFileName}>
-          Annual Planner
-        </Typography>
-        <br />
-      </div>
-      
-    )}
 
+      {FileName !== '' && (
+        <div>
+          <Typography
+            component="span"
+            sx={{ color: 'brown', textDecoration: 'underline' }}
+            onClick={clickFileName}
+          >
+            Annual Planner
+          </Typography>
+          <br />
+        </div>
+      )}
 
-      <br/>
-      <FormGroup sx={{ display: "inline" }}>
-        <FormControlLabel control={<Checkbox checked={event} onChange={(e) => setEvent(e.target.checked)} sx={{
-          color: '#757575',
-          '&.Mui-checked': {
-            color: '#aeeded',
-          },
-          borderColor: 'black',
-        }} size="small" />} label="Event" />
-        <FormControlLabel control={<Checkbox checked={holiday} onChange={(e) => setHoliday(e.target.checked)} sx={{
-          color: '#757575',
-          '&.Mui-checked': {
-            color: '#ffcdd2',
-          },
-          borderColor: 'black',
-        }} size="small" />} label="Holiday" />
-        <FormControlLabel control={<Checkbox checked={exam} onChange={(e) => setExam(e.target.checked)} sx={{
-          color: '#757575',
-          '&.Mui-checked': {
-            color: '#d8eb88',
-
-          },
-          borderColor: 'black',
-        }} size="small" />} label="Exam" />
-        <Box sx={{ float: "right", mt: "10px" }}>
+      <br />
+      <FormGroup sx={{ display: 'inline' }}>
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={event}
+              onChange={(e) => setEvent(e.target.checked)}
+              sx={{
+                color: '#757575',
+                '&.Mui-checked': {
+                  color: '#aeeded'
+                },
+                borderColor: 'black'
+              }}
+              size="small"
+            />
+          }
+          label="Event"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={holiday}
+              onChange={(e) => setHoliday(e.target.checked)}
+              sx={{
+                color: '#757575',
+                '&.Mui-checked': {
+                  color: '#ffcdd2'
+                },
+                borderColor: 'black'
+              }}
+              size="small"
+            />
+          }
+          label="Holiday"
+        />
+        <FormControlLabel
+          control={
+            <Checkbox
+              checked={exam}
+              onChange={(e) => setExam(e.target.checked)}
+              sx={{
+                color: '#757575',
+                '&.Mui-checked': {
+                  color: '#d8eb88'
+                },
+                borderColor: 'black'
+              }}
+              size="small"
+            />
+          }
+          label="Exam"
+        />
+        <Box sx={{ float: 'right', mt: '10px' }}>
           <Icon1 Note={Note} />
         </Box>
       </FormGroup>
@@ -228,22 +273,34 @@ function UpcomingEvent() {
         NextDate={getNextDate}
         Close={undefined}
       />
-      {loading ?
+      {loading ? (
         <SuspenseLoader />
-        :
-        (<>
-          {StartDate.getTime() <= date1.getTime() && EndDate.getTime() >= date1.getTime() ?
-            (<>
-
-              <List1 items={eventListInMoth} linkParams={'/' + assignedMonth_num +
-                '/' + assignedYear + '/' + holiday + '/' + event + '/' + exam}></List1>
-
-            </>) :
+      ) : (
+        <>
+          {StartDate.getTime() <= date1.getTime() &&
+          EndDate.getTime() >= date1.getTime() ? (
+            <>
+              <List1
+                items={eventListInMoth}
+                linkParams={
+                  '/' +
+                  assignedMonth_num +
+                  '/' +
+                  assignedYear +
+                  '/' +
+                  holiday +
+                  '/' +
+                  event +
+                  '/' +
+                  exam
+                }
+              ></List1>
+            </>
+          ) : (
             <ErrorMessages Error={'Selected date is outside academic year'} />
-          }
-        </>)
-      }
-
+          )}
+        </>
+      )}
     </Container>
   );
 }

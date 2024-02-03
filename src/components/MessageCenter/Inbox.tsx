@@ -1,26 +1,23 @@
-import { useState, useEffect } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
+import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Avatar, Box, Container } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
+import { IgetList } from 'src/interfaces/MessageCenter/GetList';
 import { GetInboxMessageResult } from 'src/interfaces/MessageCenter/InboxMessage';
-import { RootState } from 'src/store';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List3 from 'src/libraries/list/List3';
-import { IgetList } from 'src/interfaces/MessageCenter/GetList';
-import { Button, Container, Box, Avatar } from '@mui/material';
-import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   getInboxList,
   getNextPageInboxList
 } from 'src/requests/Student/InboxMessage';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { toast } from 'react-toastify';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import InboxMessageApi from 'src/api/MessageCenter/InboxMessage';
-import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import {
-  ButtonPrimary,
- 
-} from 'src/libraries/styled/ButtonStyle';
+import { RootState } from 'src/store';
 
 const PageIndex = 2; // Initial page index
 
@@ -104,8 +101,8 @@ function Inbox() {
     asFilter: '',
     asPageIndex: 1,
     asMonthId: '0',
-    asOperator:"",
-    asDate:""
+    asOperator: '',
+    asDate: ''
   };
 
   useEffect(() => {
@@ -121,8 +118,6 @@ function Inbox() {
   );
 
   const handleChange = (event) => {
-
-
     setChecked(true);
     const { value, name, checked } = event;
     // const { value, name } = event.target;
@@ -157,7 +152,7 @@ function Inbox() {
 
     MoveToTrashApi.MoveToTrash(trashbody)
       .then((data) => {
-        if (pageName == 'Inbox'){
+        if (pageName == 'Inbox') {
           toast.success('Message has been moved to the trash.');
           dispatch(getNextPageInboxList(getList));
         }
@@ -195,7 +190,9 @@ function Inbox() {
       setdisplayMoveToTop('none');
     }
     if (
-      ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570
+      ScrollableDivRefference.scrollHeight -
+        ScrollableDivRefference.scrollTop <=
+      570
     ) {
       setpageIndexUpdated(true);
       const UpdatedBody: IgetList = {
@@ -207,8 +204,8 @@ function Inbox() {
         asFilter: '',
         asPageIndex: pageIndex,
         asMonthId: '0',
-        asOperator:"",
-        asDate:""
+        asOperator: '',
+        asDate: ''
       };
       InboxMessageApi.GetInboxList(UpdatedBody)
         .then((response) => {
@@ -234,8 +231,21 @@ function Inbox() {
         <>
           <Container>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
-              <ButtonPrimary  color="primary" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
-              <ButtonPrimary color="secondary" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonPrimary>
+              <ButtonPrimary
+                color="primary"
+                endIcon={<DeleteIcon />}
+                onClick={() => moveToTrash()}
+              >
+                DELETE
+              </ButtonPrimary>
+              &nbsp;&nbsp;
+              <ButtonPrimary
+                color="secondary"
+                endIcon={<ReplayIcon />}
+                onClick={() => Reset()}
+              >
+                RESET
+              </ButtonPrimary>
             </Box>
           </Container>
           <br />

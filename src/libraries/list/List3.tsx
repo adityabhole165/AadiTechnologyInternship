@@ -1,15 +1,15 @@
 import {
   Box,
-  Typography,
-  useTheme,
-  List,
   Container,
   Grid,
+  List,
+  Typography,
+  useTheme
 } from '@mui/material';
 
-import { Link as RouterLink, useParams, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { Link as RouterLink, useLocation, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import CheckboxImg from '../card/CheckboxImg';
 
@@ -23,8 +23,15 @@ List3.propTypes = {
   Id: PropTypes?.any
 };
 
-function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent, Id }) {
-
+function List3({
+  data,
+  handleChange,
+  check,
+  Attachments,
+  FromRoute,
+  pointerEvent,
+  Id
+}) {
   const [checked, setChecked] = useState(false);
 
   const checkedbox = (event) => {
@@ -33,8 +40,7 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
   };
 
   const location = useLocation();
-  const PageName = location.pathname.split('/')[2]
-
+  const PageName = location.pathname.split('/')[2];
 
   const theme = useTheme();
   const classes = Styles();
@@ -52,18 +58,16 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
         <List
           className={classes.ListStyle}
           sx={{
-            background: checked ?
-              `${theme.colors.gradients.selectedlistColor}` :
-              `${theme.colors.gradients.listColor}`
+            background: checked
+              ? `${theme.colors.gradients.selectedlistColor}`
+              : `${theme.colors.gradients.listColor}`
           }}
         >
           <Box>
             <Grid container>
               <Grid item xs={2} md={1} sx={{ mx: 'auto' }}>
-
-
                 <CheckboxImg
-                  checked={PageName == "SMSCenter" ? check : checked}
+                  checked={PageName == 'SMSCenter' ? check : checked}
                   onChange={(event) => checkedbox(event)}
                   value={data.Id}
                   name={data.Name}
@@ -74,25 +78,27 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
                 <RouterLink
                   key={data.Id}
                   to={
-                    `/${location.pathname.split('/')[1]
-                    }/MessageCenter/viewMSg/` + data.DetailsId + FromRoute
+                    `/${
+                      location.pathname.split('/')[1]
+                    }/MessageCenter/viewMSg/` +
+                    data.DetailsId +
+                    FromRoute
                   }
                   color="primary"
-                  style={{ textDecoration: 'none', pointerEvents: pointerEvent }}
+                  style={{
+                    textDecoration: 'none',
+                    pointerEvents: pointerEvent
+                  }}
                 >
                   <Grid item xs={12}>
-                    <Typography
-                      className={classes.Listfont1}
-                    >
+                    <Typography className={classes.Listfont1}>
                       {data.Subject}
                       {data.Name}
                     </Typography>
                   </Grid>
                   <Grid container xs={12}>
                     <Grid item xs={6}>
-                      <Typography >
-                        {data.UserName}
-                      </Typography>
+                      <Typography>{data.UserName}</Typography>
                     </Grid>
 
                     <Grid xs={6}>
@@ -115,7 +121,6 @@ function List3({ data, handleChange, check, Attachments, FromRoute, pointerEvent
           </Box>
         </List>
       </Container>
-
     </>
   );
 }

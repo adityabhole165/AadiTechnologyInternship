@@ -1,9 +1,9 @@
-import { ListSubheader, alpha, Box, List, styled } from '@mui/material';
-import { useLocation, matchPath } from 'react-router-dom';
+import { Box, List, alpha, styled } from '@mui/material';
+import { useTranslation } from 'react-i18next';
+import { matchPath, useLocation } from 'react-router-dom';
 import SidebarMenuItem from './item';
 import menuItems, { MenuItem } from './items';
-import { useTranslation } from 'react-i18next';
-import teacherMenuItems from './teacher'
+import teacherMenuItems from './teacher';
 const MenuWrapper = styled(Box)(
   ({ theme }) => `
   .MuiList-root {
@@ -157,7 +157,6 @@ const renderSidebarMenuItems = ({
     <List component="div">
       {items.reduce((ev, item) => reduceChildRoutes({ ev, item, path }), [])}
     </List>
-
   </SubMenuWrapper>
 );
 
@@ -231,48 +230,43 @@ function SidebarMenu() {
   const location = useLocation();
   const { t }: { t: any } = useTranslation();
 
- const RoleId = sessionStorage.getItem('RoleId');
- if(RoleId == '2'){
-    const data:any = teacherMenuItems
- }
- else if (RoleId == '3'){
-  const data:any = teacherMenuItems
- }
- 
+  const RoleId = sessionStorage.getItem('RoleId');
+  if (RoleId == '2') {
+    const data: any = teacherMenuItems;
+  } else if (RoleId == '3') {
+    const data: any = teacherMenuItems;
+  }
 
   return (
-   
     <>
-   {
-     (RoleId == "3")?
-     <>
-     {menuItems.map((section) => (
-     <MenuWrapper key={section.heading}>
-       <List  component="div">
-         {renderSidebarMenuItems({
-           items: section.items,
-           path: location.pathname
-         })}
-       </List>
-     </MenuWrapper>
-   ))} 
-   </>: null 
-   }
-    {
-     (RoleId == "2")?
-     <>
-     {teacherMenuItems.map((section) => (
-     <MenuWrapper key={section.heading}>
-       <List  component="div">
-         {renderSidebarMenuItems({
-           items: section.items,
-           path: location.pathname
-         })}
-       </List>
-     </MenuWrapper>
-   ))} 
-   </>: null 
-   }
+      {RoleId == '3' ? (
+        <>
+          {menuItems.map((section) => (
+            <MenuWrapper key={section.heading}>
+              <List component="div">
+                {renderSidebarMenuItems({
+                  items: section.items,
+                  path: location.pathname
+                })}
+              </List>
+            </MenuWrapper>
+          ))}
+        </>
+      ) : null}
+      {RoleId == '2' ? (
+        <>
+          {teacherMenuItems.map((section) => (
+            <MenuWrapper key={section.heading}>
+              <List component="div">
+                {renderSidebarMenuItems({
+                  items: section.items,
+                  path: location.pathname
+                })}
+              </List>
+            </MenuWrapper>
+          ))}
+        </>
+      ) : null}
     </>
   );
 }

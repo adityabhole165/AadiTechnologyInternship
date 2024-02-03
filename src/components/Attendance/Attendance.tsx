@@ -1,20 +1,18 @@
-import { IAttendance } from 'src/interfaces/Student/Attendance';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { RootState } from 'src/store';
-import { useEffect } from 'react';
-import { getAttendanceList } from 'src/requests/Attendance/Attendance';
-import DotLegend from 'src/libraries/summary/summary';
 import { Box, Container } from '@mui/material';
-import { GetStudentAttendaceForMonthResult } from 'src/interfaces/Student/Attendance';
-import http from 'src/requests/SchoolService/schoolServices';
-import { useState } from 'react';
-import Card1 from 'src/libraries/mainCard/Card1';
-import { Calender1 } from 'src/components/Attendance/Calender';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-
+import { Calender1 } from 'src/components/Attendance/Calender';
+import {
+  GetStudentAttendaceForMonthResult,
+  IAttendance
+} from 'src/interfaces/Student/Attendance';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import Card1 from 'src/libraries/mainCard/Card1';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import DotLegend from 'src/libraries/summary/summary';
+import { getAttendanceList } from 'src/requests/Attendance/Attendance';
+import http from 'src/requests/SchoolService/schoolServices';
 
 function Attendance() {
   const dispatch = useDispatch();
@@ -49,57 +47,79 @@ function Attendance() {
         setAttendanceData(data);
       });
   };
-  
+
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
+    localStorage.setItem('url', window.location.pathname);
+  }, []);
 
   useEffect(() => {
     dispatch(getAttendanceList(body));
     GetAttendanceresult(body);
   }, [month, year]);
 
-  const AttendanceTopper=()=>{
-    navigate ('AttendanceTopper')
-  }
-  
+  const AttendanceTopper = () => {
+    navigate('AttendanceTopper');
+  };
 
   return (
     <Container>
       <PageHeader heading={'Attendance'} subheading={''} />
-      <Box sx={{mb:"15px" , float:"right"}} >
-      <ButtonPrimary onClick={AttendanceTopper} >Attendance Toppers </ButtonPrimary>
+      <Box sx={{ mb: '15px', float: 'right' }}>
+        <ButtonPrimary onClick={AttendanceTopper}>
+          Attendance Toppers{' '}
+        </ButtonPrimary>
       </Box>
-      
+
       <DotLegend />
       <br />
-      <Box sx={{ marginTop: '-10px' ,marginBottom:"10px"}}>
+      <Box sx={{ marginTop: '-10px', marginBottom: '10px' }}>
         <Calender1
           month={setMonth}
           year={setYear}
           AttendenceData={AttendanceData?.DailyAttendanceList}
         />
       </Box>
-      <Box >
+      <Box>
         {AttendanceData === undefined ? null : (
           <>
             <Card1
-              header='School working days '
+              header="School working days "
               text3={AttendanceData.TotalAttendanceDays}
-              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
+              text2=""
+              text1=""
+              text4=""
+              text5=""
+              text6=""
+              Color=""
+              margin=""
+              Textcolor=""
             />
             <Card1
-              header='Total present days '
+              header="Total present days "
               text3={AttendanceData.PresentDays}
-              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
+              text2=""
+              text1=""
+              text4=""
+              text5=""
+              text6=""
+              Color=""
+              margin=""
+              Textcolor=""
             />
             <Card1
-              header=' Total absent days'
-              text3={
+              header=" Total absent days"
+              text3={(
                 Number(AttendanceData.TotalAttendanceDays) -
                 Number(AttendanceData.PresentDays)
-              }
-              text2="" text1="" text4="" text5="" text6="" Color="" margin="" Textcolor=''
+              ).toString()}
+              text2=""
+              text1=""
+              text4=""
+              text5=""
+              text6=""
+              Color=""
+              margin=""
+              Textcolor=""
             />
           </>
         )}

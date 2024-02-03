@@ -1,9 +1,5 @@
-import React from 'react'
-
 function UnreadMessage() {
-  return (
-    <div>UnreadMessage</div>
-  )
+  return <div>UnreadMessage</div>;
 }
 
-export default UnreadMessage
+export default UnreadMessage;

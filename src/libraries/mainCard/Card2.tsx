@@ -1,9 +1,14 @@
-import { useState } from 'react';
-import { Grid, useTheme, Container } from '@mui/material';
+import { Container, Grid, useTheme } from '@mui/material';
 import Card3 from 'src/libraries/mainCard/Card3';
 import { CardHeading, CardStyle } from '../styled/DashboardStyled';
 
-function Card2({ items, heading, rowsCol,Messagecount,ExternalLibrarySite="" }) {
+function Card2({
+  items,
+  heading,
+  rowsCol,
+  Messagecount,
+  ExternalLibrarySite = ''
+}) {
   //rowsCol
   const width = 12 / rowsCol;
 

@@ -1,106 +1,118 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { IGetTestwiseTermBody, IGetClassTeachersBody, IGetTeacherXseedSubjectsBody, ISubmitExamMarksStatusBody} from "src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades"
-import { AppThunk } from "src/store";
-import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades'
-
-
+import { createSlice } from '@reduxjs/toolkit';
+import ApiAssignPrePrimaryGrades from 'src/api/AssignPrePrimaryGrades/ApiAssignPrePrimaryGrades';
+import {
+  IGetClassTeachersBody,
+  IGetTeacherXseedSubjectsBody,
+  IGetTestwiseTermBody,
+  ISubmitExamMarksStatusBody
+} from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
+import { AppThunk } from 'src/store';
 
 const AssignPrePrimaryGradesSlice = createSlice({
   name: 'AssignPrePrimary',
   initialState: {
-    ISGetTestwiseTerm:[],
-    ISGetClassTeachers:[],
-    ISGetTeacherXseedSubjectsBody:[],
-    ISSubmitExamMarksStatus:"",
-    ISSubmitMarksRest:""
+    ISGetTestwiseTerm: [],
+    ISGetClassTeachers: [],
+    ISGetTeacherXseedSubjectsBody: [],
+    ISSubmitExamMarksStatus: '',
+    ISSubmitMarksRest: ''
   },
   reducers: {
-    RGetTestwiseTerm  (state, action) {
-      state.ISGetTestwiseTerm = action.payload
+    RGetTestwiseTerm(state, action) {
+      state.ISGetTestwiseTerm = action.payload;
     },
 
-    RGetClassTeachers  (state, action) {
-      state.ISGetClassTeachers = action.payload
+    RGetClassTeachers(state, action) {
+      state.ISGetClassTeachers = action.payload;
     },
 
-    RGetTeacherXseedSubjects  (state, action) {
-      state.ISGetTeacherXseedSubjectsBody = action.payload
+    RGetTeacherXseedSubjects(state, action) {
+      state.ISGetTeacherXseedSubjectsBody = action.payload;
     },
 
-    RSubmitExamMarksStatus  (state, action) {
-      state.ISSubmitExamMarksStatus = action.payload
+    RSubmitExamMarksStatus(state, action) {
+      state.ISSubmitExamMarksStatus = action.payload;
     },
     resetMessage(state) {
-      state.ISSubmitMarksRest = ""
-  }
-   
+      state.ISSubmitMarksRest = '';
+    }
   }
 });
 
-    export const CDAGetTestwiseTerm = (data: IGetTestwiseTermBody): AppThunk =>
-    async (dispatch) => {
-        const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
-        let TestwiseTerm = response.data.map((item, i) => {
-            return {
-                Id: item.AssessmentId,
-                Name: item.Name,
-                Value: item.AssessmentId,
-            }
-        })
+export const CDAGetTestwiseTerm =
+  (data: IGetTestwiseTermBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAssignPrePrimaryGrades.GetTestwiseTermA(data);
+    let TestwiseTerm = response.data.map((item, i) => {
+      return {
+        Id: item.AssessmentId,
+        Name: item.Name,
+        Value: item.AssessmentId
+      };
+    });
 
-        dispatch(AssignPrePrimaryGradesSlice.actions.RGetTestwiseTerm(TestwiseTerm));
-    }
+    dispatch(
+      AssignPrePrimaryGradesSlice.actions.RGetTestwiseTerm(TestwiseTerm)
+    );
+  };
 
+export const CDAGetClassTeachers =
+  (data: IGetClassTeachersBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
+    let ClassTeachers = response.data.map((item, i) => {
+      return {
+        Id: item.Teacher_Id,
+        Name: item.TeacherName,
+        Value: item.Teacher_Id
+      };
+    });
 
-    export const CDAGetClassTeachers = (data: IGetClassTeachersBody): AppThunk =>
-    async (dispatch) => {
-        const response = await ApiAssignPrePrimaryGrades.GetClassTeachers(data);
-        let ClassTeachers = response.data.map((item, i) => {
-            return {
-                Id: item.Teacher_Id,
-                Name: item.TeacherName,
-                Value: item.Teacher_Id,
-            }
-        })
+    dispatch(
+      AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers)
+    );
+  };
 
-        dispatch(AssignPrePrimaryGradesSlice.actions.RGetClassTeachers(ClassTeachers));
-    }
+export const CDAGetTeacherXseedSubjects =
+  (data: IGetTeacherXseedSubjectsBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAssignPrePrimaryGrades.GetTeacherXseedSubjects(
+      data
+    );
+    let TeacherXseedSubjects = response.data.map((item, i) => {
+      return {
+        Id: i,
+        SubjectId: item.SubjectId,
+        StandardDivisionID: item.StandardDivisionID,
+        Text1: item.StandardDivision,
+        Text2: item.Subject_Name,
+        Text3: item.EditStatus,
+        Text4: item.SubmitStatus
+      };
+    });
 
+    dispatch(
+      AssignPrePrimaryGradesSlice.actions.RGetTeacherXseedSubjects(
+        TeacherXseedSubjects
+      )
+    );
+  };
 
-    export const CDAGetTeacherXseedSubjects= (data: IGetTeacherXseedSubjectsBody): AppThunk =>
-    async (dispatch) => {
-        const response = await ApiAssignPrePrimaryGrades.GetTeacherXseedSubjects(data);
-        let TeacherXseedSubjects = response.data.map((item, i) => {
-            return {
-                Id:i,
-                SubjectId:item.SubjectId,
-                StandardDivisionID:item.StandardDivisionID,
-                Text1: item.StandardDivision,
-                Text2: item.Subject_Name,
-                Text3: item.EditStatus,
-                Text4:item.SubmitStatus
-            }
-        })
+export const CDASubmitExamMarksStatus =
+  (data: ISubmitExamMarksStatusBody): AppThunk =>
+  async (dispatch) => {
+    const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(
+      data
+    );
+    console.log(response, 'response----------');
 
-        dispatch(AssignPrePrimaryGradesSlice.actions.RGetTeacherXseedSubjects(TeacherXseedSubjects));
-    }
+    dispatch(
+      AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data)
+    );
+  };
 
+export const resetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(AssignPrePrimaryGradesSlice.actions.resetMessage());
+};
 
-
-    export const CDASubmitExamMarksStatus= (data: ISubmitExamMarksStatusBody): AppThunk =>
-    async (dispatch) => {
-        const response = await ApiAssignPrePrimaryGrades.SubmitExamMarksStatus(data);
-       console.log(response,"response----------");
-       
-
-        dispatch(AssignPrePrimaryGradesSlice.actions.RSubmitExamMarksStatus(response.data));
-    }
-
-    export const resetMessage =
-    (): AppThunk =>
-        async (dispatch) => {
-            dispatch(AssignPrePrimaryGradesSlice.actions.resetMessage());
-        }
-
-
-export default AssignPrePrimaryGradesSlice.reducer
+export default AssignPrePrimaryGradesSlice.reducer;

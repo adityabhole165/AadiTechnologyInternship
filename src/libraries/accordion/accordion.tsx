@@ -1,11 +1,11 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Container, Grow, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
-import { Container, Grow, useTheme } from '@mui/material';
+import { useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import List1 from '../mainCard/List1';
 
@@ -28,15 +28,14 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
         id: index,
         header: 'Lec no.' + item.LectureNumber,
         text3: item.Subject,
-        text2:'',
-        text1:'',
+        text2: '',
+        text1: '',
         backgroundColor: '#c8dccb',
         mx: '-15px'
       };
     }
   );
 
-  
   return (
     <div>
       <Container>
@@ -63,9 +62,7 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
                 <b>{Days}</b>
               </Typography>
             </AccordionSummary>
-            <AccordionDetails
-              sx={{ borderRadius: 1, mb: '10px' }}
-            >
+            <AccordionDetails sx={{ borderRadius: 1, mb: '10px' }}>
               {<List1 items={Data1}></List1>}
             </AccordionDetails>
           </Accordion>

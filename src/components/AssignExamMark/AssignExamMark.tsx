@@ -1,18 +1,15 @@
 import { Box, Container, Grid, Typography } from '@mui/material';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   IAssignClassBody,
-  IAssignClassResult,
   IClasswiseExamDropdownBody,
-  IClasswiseExamDropdownResult,
   ISubjectsExamMarksStatusForClassBody,
-  ISubjectsExamMarksStatusForClassBodyResult,
   ISubmitTestMarksToClassTeacherBody
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
-import PageHeader from 'src/libraries/heading/PageHeader';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import {
   GetAssignExamMarkList,
   GetClassWiseExam,
@@ -22,27 +19,18 @@ import {
 } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
 
-import List2 from 'src/libraries/mainCard/List2';
-import AccessibilityIcon from '@mui/icons-material/Accessibility';
-import { number } from 'prop-types';
-import DropDown from 'src/libraries/list/DropDown';
-import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
-import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
-import { Navigate, useNavigate } from 'react-router';
-import EditIcon from '@mui/icons-material/Edit';
-import OfflinePinIcon from '@mui/icons-material/OfflinePin';
-import DynamicList from 'src/libraries/list/DynamicList';
-import { logoURL } from '../Common/Util';
+import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
+import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
- 
 
   const [selectClass, SetSelectClass] = useState();
   const [ClassWiseExam, SetClassWiseExam] = useState();
-  
+
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const aTeacherId = Number(sessionStorage.getItem('TeacherId'));
@@ -96,25 +84,20 @@ const AssignExamMark = () => {
   }, []);
 
   useEffect(() => {
-    if ( ClassDropdown.length > 0) {
+    if (ClassDropdown.length > 0) {
       SetSelectClass(ClassDropdown[0].Value);
     }
-  }, [ ClassDropdown]);
-
+  }, [ClassDropdown]);
 
   useEffect(() => {
     dispatch(GetClassWiseExam(GetAssignClassWiseExam));
-  }, [ selectClass]);
-
+  }, [selectClass]);
 
   useEffect(() => {
     if (ClassWiseExamDropdown.length > 0) {
       SetClassWiseExam(ClassWiseExamDropdown[0].Value);
-      
     }
-  }, [ClassWiseExamDropdown ]);
-
- 
+  }, [ClassWiseExamDropdown]);
 
   const ClickSubmit = (value) => {
     const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
@@ -138,21 +121,18 @@ const AssignExamMark = () => {
   }, [UsSubmitMarksTeacher]);
 
   useEffect(() => {
-    console.log(selectClass,"selectClass");
-    
+    console.log(selectClass, 'selectClass');
+
     dispatch(GetSubjectList(GetSubjectListtClass));
   }, [selectClass, ClassWiseExam]);
 
   const onClickClass = (value) => {
     SetSelectClass(value);
-    
   };
 
   const clickClassWiseExam = (value) => {
     SetClassWiseExam(value);
   };
-
-
 
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },

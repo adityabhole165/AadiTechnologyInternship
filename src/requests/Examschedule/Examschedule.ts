@@ -1,45 +1,41 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import GetSelectExamApi from "../../api/ExamsSchedule/ExamsSchedule";
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import {
+  default as IExamList,
+  default as ISelectExam
+} from 'src/interfaces/Student/ExamSchedule';
 import { AppThunk } from 'src/store';
-import ISelectExam from 'src/interfaces/Student/ExamSchedule';
-import IExamList from 'src/interfaces/Student/ExamSchedule';
+import GetSelectExamApi from '../../api/ExamsSchedule/ExamsSchedule';
 
 const SelectExamslice = createSlice({
+  name: 'selectexam',
+  initialState: {
+    SelectExamData: [],
+    ExamData: []
+  },
 
-    name: 'selectexam',
-    initialState: {
-        SelectExamData: [],
-        ExamData:       []
+  reducers: {
+    getSelectExam(state, action) {
+      state.SelectExamData = action.payload?.GetExamsForStandardResult;
     },
 
-    reducers: {
-        getSelectExam(state, action) {
-            state.SelectExamData = action.payload?.GetExamsForStandardResult;
-        
-        },
-
-        ViewExamDataRes(state, action){
-            state.ExamData = action.payload?.GetExamSchedulesResult;
-  
-        }
+    ViewExamDataRes(state, action) {
+      state.ExamData = action.payload?.GetExamSchedulesResult;
     }
+  }
 });
 
-
 export const GetSelectExamList =
-  (data:ISelectExam): AppThunk =>
+  (data: ISelectExam): AppThunk =>
   async (dispatch) => {
     const response = await GetSelectExamApi.GetSelectExamList(data);
     dispatch(SelectExamslice.actions.getSelectExam(response?.data));
   };
 
-  export const ViewExamDataRess =
-  (data:IExamList):AppThunk => 
-  async (dispatch)=> {
+export const ViewExamDataRess =
+  (data: IExamList): AppThunk =>
+  async (dispatch) => {
     const response = await GetSelectExamApi.GetExamsList(data);
     dispatch(SelectExamslice.actions.ViewExamDataRes(response?.data));
-   
   };
 
-  export default SelectExamslice.reducer 
+export default SelectExamslice.reducer;

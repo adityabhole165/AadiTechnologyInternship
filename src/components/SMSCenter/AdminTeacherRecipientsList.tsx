@@ -1,25 +1,52 @@
-import {Box, TextField,FormGroup,Button,FormControlLabel,Checkbox,RadioGroup,Radio,FormControl,NativeSelect,Container,Fab,useTheme} from '@mui/material';
+import ReplyIcon from '@mui/icons-material/Reply';
+import {
+  Box,
+  Checkbox,
+  Container,
+  Fab,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+  NativeSelect,
+  Radio,
+  RadioGroup,
+  TextField,
+  useTheme
+} from '@mui/material';
+import PropTypes from 'prop-types';
 import { useEffect, useMemo, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import {GetAdminAndprincipalUsers,IUsergroup,IGetStudentsUser,GetStudentsUserResult} from 'src/interfaces/AdminSMSCenter/To';
+import { Styles } from 'src/assets/style/student-style';
+import {
+  GetAdminAndprincipalUsers,
+  GetStudentsUserResult,
+  IGetStudentsUser,
+  IUsergroup
+} from 'src/interfaces/AdminSMSCenter/To';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Icon2 from 'src/libraries/icon/icon2';
 import List3 from 'src/libraries/list/List3';
-import {GetGetAdminAndprincipalUsers,GetUser,GetStudent} from 'src/requests/AdminSMSCenter/To';
+import {
+  GetGetAdminAndprincipalUsers,
+  GetStudent,
+  GetUser
+} from 'src/requests/AdminSMSCenter/To';
 import { RootState } from 'src/store';
-import PropTypes from 'prop-types';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { Styles } from 'src/assets/style/student-style';
 
 AdminTeacherRecipientsList.propTypes = {
   displayProperty: PropTypes.any,
   RecipientsListDetails: PropTypes.any,
   ReplyRecipient: PropTypes?.any,
-  PageName:PropTypes?.string
+  PageName: PropTypes?.string
 };
 
-function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,ReplyRecipient,PageName}){
+function AdminTeacherRecipientsList({
+  displayProperty,
+  RecipientsListDetails,
+  ReplyRecipient,
+  PageName
+}) {
   toast.configure();
 
   const [RecipientsArray, setRecipientsArray] = useState({
@@ -36,7 +63,8 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
 
   const [PrincipalChecked, setPrincipalChecked] = useState<any>();
 
-  const [EntireSchookIsChecked, setEntireSchookIsChecked] = useState('selected');
+  const [EntireSchookIsChecked, setEntireSchookIsChecked] =
+    useState('selected');
 
   // Input value for teacher list ,student list ,other staff and admin staff
   const [valueFor_APi, ChnageValueForAPI] = useState();
@@ -46,10 +74,12 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
   const dispatch = useDispatch();
 
   // Api for Admin principle and Software co-ordinator
-  const GetAdminAndprincipalUsersApiBody: any = useSelector((state: RootState) =>
+  const GetAdminAndprincipalUsersApiBody: any = useSelector(
+    (state: RootState) =>
       state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
-  const StaffAndAdmin = GetAdminAndprincipalUsersApiBody.GetAdminAndprincipalUsersResult;
+  const StaffAndAdmin =
+    GetAdminAndprincipalUsersApiBody.GetAdminAndprincipalUsersResult;
 
   // Check box labels/ names for input box Admin ,Principle ,SWCo_ordinator
   let AdminName;
@@ -260,7 +290,7 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
     asStdDivId: stdDivId,
     asUserId: asUserId,
     asSelectedUserGroup: valueFor_APi,
-    abIsSMSCenter: ((PageName=='SMSCenter')? true : false)
+    abIsSMSCenter: PageName == 'SMSCenter' ? true : false
   };
 
   // Standared List
@@ -445,7 +475,7 @@ function AdminTeacherRecipientsList({ displayProperty, RecipientsListDetails,Rep
               sx={{
                 display: EntireSchoolDependent,
                 marginLeft: 22,
-                marginTop: `${RoleName == 'Student' ? '-90px' : '-175px'} ` ,
+                marginTop: `${RoleName == 'Student' ? '-90px' : '-175px'} `,
                 border: '2px solid black',
                 borderRadius: '10px',
                 width: '8.5rem',

@@ -1,19 +1,25 @@
-import http from "../../requests/SchoolService/schoolServices";
-import {IInboxList} from "../../interfaces/MessageCenter/InboxMessage"
-import { IgetList,GetMessagesResult,
-  IUpdateReadReceiptStatusBody, IUpdateReadReceiptStatusResult} from "src/interfaces/MessageCenter/GetList";
+import {
+  GetMessagesResult,
+  IUpdateReadReceiptStatusBody,
+  IUpdateReadReceiptStatusResult,
+  IgetList
+} from 'src/interfaces/MessageCenter/GetList';
+import http from '../../requests/SchoolService/schoolServices';
 
 const GetInboxList = (data: IgetList) => {
-  return http.post<GetMessagesResult>('MessageCenter/GetMessages',data);
+  return http.post<GetMessagesResult>('MessageCenter/GetMessages', data);
 };
 
 const UpdateReadReceiptStatus = (data: IUpdateReadReceiptStatusBody) => {
-  return http.post<IUpdateReadReceiptStatusResult>('MessageCenter/UpdateReadReceiptStatus',data);
+  return http.post<IUpdateReadReceiptStatusResult>(
+    'MessageCenter/UpdateReadReceiptStatus',
+    data
+  );
 };
 
-const InboxMessageApi  ={
-    GetInboxList,
-    UpdateReadReceiptStatus
-}
+const InboxMessageApi = {
+  GetInboxList,
+  UpdateReadReceiptStatus
+};
 
-export default InboxMessageApi ;
+export default InboxMessageApi;

@@ -1,19 +1,19 @@
-import {
-  Box,
-  Divider,
-  Card,
-  Typography,
-  useTheme,
-  Container,
-  List,
-  Avatar,
-  FormGroup,
-  Grid
-} from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
 import ArrowForwardTwoToneIcon from '@mui/icons-material/ArrowForwardTwoTone';
+import {
+  Avatar,
+  Box,
+  Card,
+  Container,
+  Divider,
+  FormGroup,
+  Grid,
+  List,
+  Typography,
+  useTheme
+} from '@mui/material';
 import PropTypes from 'prop-types';
+import { Link as RouterLink, useLocation } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
 import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 
 Card9.propTypes = {

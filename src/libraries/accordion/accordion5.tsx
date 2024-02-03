@@ -1,14 +1,14 @@
-import * as React from 'react';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Box, Container, Grid, Grow, List, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
+import Typography from '@mui/material/Typography';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
-import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import PropTypes from 'prop-types';
-import { Box, Container, Grow, Grid, List, useTheme } from '@mui/material';
 
 Accordion5.propTypes = {
   Title: PropTypes.string,

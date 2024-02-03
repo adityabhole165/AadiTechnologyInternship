@@ -1,15 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import { Card, Typography } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Card, Typography } from '@mui/material';
 import TextareaAutosize from '@mui/material/TextareaAutosize';
-import IconButton from '@mui/material/IconButton';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 function ResizableCommentsBox({
   ItemList,
@@ -17,7 +15,7 @@ function ResizableCommentsBox({
   NoteClick,
   setTextValues,
   setTextValues1,
-  setTextValues2,
+  setTextValues2
 }) {
   const TextChange = (value) => {
     if (value.Value.length <= 300) {
@@ -51,7 +49,7 @@ function ResizableCommentsBox({
       style={{
         maxHeight: '800px',
         overflowY: 'auto',
-        scrollBehavior: 'smooth',
+        scrollBehavior: 'smooth'
       }}
     >
       <TableContainer component={Card}>
@@ -64,7 +62,7 @@ function ResizableCommentsBox({
                   sx={{
                     textTransform: 'capitalize',
                     borderRight: '1px solid black',
-                    backgroundColor: '#81d4fa',
+                    backgroundColor: '#81d4fa'
                   }}
                   align="center"
                 >
@@ -75,7 +73,10 @@ function ResizableCommentsBox({
           </TableHead>
           <TableBody>
             {ItemList.map((item, i) => (
-              <TableRow key={i} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+              <TableRow
+                key={i}
+                sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+              >
                 <TableCell align="center">{item.Text1}</TableCell>
                 <TableCell align="center">{item.Text2}</TableCell>
                 <TableCell align="center">
@@ -90,7 +91,7 @@ function ResizableCommentsBox({
                       maxLength={300}
                       style={{ width: '200px' }}
                     />
-                    
+
                     <IconButton onClick={() => NoteClick(i)}>
                       <MoreVertIcon />
                     </IconButton>
@@ -112,7 +113,7 @@ function ResizableCommentsBox({
                       maxLength={300}
                       style={{ width: '200px' }}
                     />
-                    
+
                     <IconButton onClick={() => NoteClick(i)}>
                       <MoreVertIcon />
                     </IconButton>
@@ -134,15 +135,13 @@ function ResizableCommentsBox({
                       maxLength={300}
                       style={{ width: '200px' }}
                     />
-                    
+
                     <IconButton onClick={() => NoteClick(i)}>
                       <MoreVertIcon />
                     </IconButton>
                     <Typography variant="caption" color="textSecondary">
-                    ({300 - item.Text5.length})
-                     
+                      ({300 - item.Text5.length})
                     </Typography>
-                   
                   </div>
                 </TableCell>
               </TableRow>

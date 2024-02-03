@@ -1,29 +1,26 @@
-import { useRef, useState ,useEffect } from 'react';
-import { NavLink } from 'react-router-dom';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 
+import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
+import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
 import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
+import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
 import {
   Avatar,
   Box,
   Button,
   Divider,
-  alpha,
+  IconButton,
   List,
   ListItem,
   ListItemText,
   Popover,
-  IconButton,
   Typography,
+  alpha,
   styled,
   useTheme
 } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import InboxTwoToneIcon from '@mui/icons-material/InboxTwoTone';
-import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
-import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
 
 const MenuUserBox = styled(Box)(
   ({ theme }) => `
@@ -65,10 +62,10 @@ function SidebarTopSection() {
   const { t }: { t: any } = useTranslation();
   const theme = useTheme();
 
-  const Name = sessionStorage.getItem("StudentName");
-  const Class = sessionStorage.getItem("Class");
-  const RollNo = sessionStorage.getItem("RollNo");
-  const studnetprofile = sessionStorage.getItem("PhotoFilePath")
+  const Name = sessionStorage.getItem('StudentName');
+  const Class = sessionStorage.getItem('Class');
+  const RollNo = sessionStorage.getItem('RollNo');
+  const studnetprofile = sessionStorage.getItem('PhotoFilePath');
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -88,17 +85,17 @@ function SidebarTopSection() {
     try {
       handleClose();
       //localStorage.clear();
-      localStorage.removeItem("auth")
-      sessionStorage.clear(); 
+      localStorage.removeItem('auth');
+      sessionStorage.clear();
       navigate('/');
     } catch (err) {
       console.error(err);
     }
   };
 
-useEffect(() =>{
-  // alert("call api")
-})
+  useEffect(() => {
+    // alert("call api")
+  });
 
   return (
     <Box
@@ -128,27 +125,27 @@ useEffect(() =>{
       >
         {Name}
       </Typography>
-      {
-        (RollNo != undefined ?<>
-        <Typography
-        variant="subtitle1"
-        sx={{
-          color: `${theme.colors.alpha.trueWhite[100]}`
-        }}
-      >
-      Class : {Class} 
-      </Typography>
-      <Typography
-        variant="subtitle1"
-        sx={{
-          color: `${theme.colors.alpha.trueWhite[100]}`
-        }}
-      >
-       Roll No. : {RollNo}
-      </Typography>
-        </>:null)
-      }
-      
+      {RollNo != undefined ? (
+        <>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              color: `${theme.colors.alpha.trueWhite[100]}`
+            }}
+          >
+            Class : {Class}
+          </Typography>
+          <Typography
+            variant="subtitle1"
+            sx={{
+              color: `${theme.colors.alpha.trueWhite[100]}`
+            }}
+          >
+            Roll No. : {RollNo}
+          </Typography>
+        </>
+      ) : null}
+
       <IconButton
         size="small"
         sx={{
@@ -188,20 +185,22 @@ useEffect(() =>{
           }}
           display="flex"
         >
-          <Avatar variant="rounded" alt="user.name" src={`data:image/png;base64,${studnetprofile}`} />
+          <Avatar
+            variant="rounded"
+            alt="user.name"
+            src={`data:image/png;base64,${studnetprofile}`}
+          />
           <UserBoxText>
-          <UserBoxLabel className="popoverTypo" variant="body1">
+            <UserBoxLabel className="popoverTypo" variant="body1">
               {Name}
-          </UserBoxLabel>
-            {
-              (RollNo != undefined ? <>
-             
-              <UserBoxDescription className="popoverTypo" variant="body2">
-              {Class}
-              </UserBoxDescription> </>
-              : null )
-            }
-           
+            </UserBoxLabel>
+            {RollNo != undefined ? (
+              <>
+                <UserBoxDescription className="popoverTypo" variant="body2">
+                  {Class}
+                </UserBoxDescription>{' '}
+              </>
+            ) : null}
           </UserBoxText>
         </MenuUserBox>
         <Divider
@@ -220,28 +219,32 @@ useEffect(() =>{
               handleClose();
             }}
             button
-            to={"/extended-sidebar/Student/Profile"}
+            to={'/extended-sidebar/Student/Profile'}
             component={NavLink}
           >
-            <AccountBoxTwoToneIcon fontSize="small" sx={{color:"blue"}}/>
-            <ListItemText sx={{color:"blue"}} primary={t('Profile')} />
+            <AccountBoxTwoToneIcon fontSize="small" sx={{ color: 'blue' }} />
+            <ListItemText sx={{ color: 'blue' }} primary={t('Profile')} />
           </ListItem>
           <ListItem
             onClick={() => {
               handleClose();
             }}
             button
-            to={"/extended-sidebar/Student/changePassword"}
+            to={'/extended-sidebar/Student/changePassword'}
             component={NavLink}
           >
-            <LockOpenTwoToneIcon fontSize="small" sx={{color:"blue"}} />
-            <ListItemText sx={{color:"blue"}} primary={t('Change Password')} />
+            <LockOpenTwoToneIcon fontSize="small" sx={{ color: 'blue' }} />
+            <ListItemText
+              sx={{ color: 'blue' }}
+              primary={t('Change Password')}
+            />
           </ListItem>
         </List>
         <Divider />
         <Box m={1}>
           <Button color="primary" fullWidth onClick={handleLogout}>
-            <PowerSettingsNewTwoToneIcon fontSize="small"
+            <PowerSettingsNewTwoToneIcon
+              fontSize="small"
               sx={{
                 mr: 1
               }}

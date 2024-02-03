@@ -1,19 +1,16 @@
-import { Typography, useTheme, Container, Card, Grid } from '@mui/material';
-import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
+import { Container, useTheme } from '@mui/material';
 import { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
 import { ButtonPrimary } from '../styled/ButtonStyle';
-import { CardStyle } from '../styled/CommonStyle';
 import {
-  CardWrapper,
-  ListStyle,
-  CardDetail1,
   BoxWrapper,
+  CardDetail1,
   CardDetail2,
+  ListStyle,
   Wordbreak
 } from '../styled/CardStyle';
-import { useNavigate } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { CardStyle } from '../styled/CommonStyle';
 
 function CardDraft({
   ViewDetail,
@@ -28,8 +25,7 @@ function CardDraft({
   ViewSentObject,
   LoggedInUserNameForMessage = '',
   MessageCenterReadMode,
-  InsertDateInFormat,
-  
+  InsertDateInFormat
 }) {
   const theme = useTheme();
   let attachment = Attachments;
@@ -50,28 +46,26 @@ function CardDraft({
       AttachmentArray.push(property);
       attachmentObj.push(AttachmentFile);
     }
-  } 
+  }
   const classes = Styles();
   const BODY = Body.replace(/(\r\n|\r|\n)/g, '<br>');
   const FromUserID = ViewSentObject.SenderUserId;
-  const ReplyallRecieverId = ViewSentObject.ReceiverUserId
-  const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc
-  const IsSender = UserID === FromUserID
+  const ReplyallRecieverId = ViewSentObject.ReceiverUserId;
+  const ReplyallCCRecieverId = ViewSentObject.ReceiverUserIdCc;
+  const IsSender = UserID === FromUserID;
   const navigate = useNavigate();
   const { FromRoute } = useParams();
 
+  const navigateToInBox = () => {
+    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox');
+  };
 
-  const navigateToInBox =()=>{
-    navigate('/extended-sidebar/MessageCenter/msgCenter/Inbox' )
-  }
-
- const  navigateToEdit = () =>{
-  navigate('/extended-sidebar/MessageCenter/Compose/Edit')
- }
+  const navigateToEdit = () => {
+    navigate('/extended-sidebar/MessageCenter/Compose/Edit');
+  };
   return (
     <>
       <Container maxWidth={'xl'}>
-      
         <ListStyle sx={CardStyle}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
@@ -88,17 +82,16 @@ function CardDraft({
 
             <CardDetail2>{To}</CardDetail2>
           </BoxWrapper>
-          {Cc !== '' && 
-          <>
-          { To === LoggedInUserNameForMessage ?
-              null :
-            <BoxWrapper>
-              <CardDetail1> {ViewDetail.Cc}</CardDetail1>
-              <CardDetail2>{Cc}</CardDetail2>
-            </BoxWrapper>
-          }
-          </>
-}
+          {Cc !== '' && (
+            <>
+              {To === LoggedInUserNameForMessage ? null : (
+                <BoxWrapper>
+                  <CardDetail1> {ViewDetail.Cc}</CardDetail1>
+                  <CardDetail2>{Cc}</CardDetail2>
+                </BoxWrapper>
+              )}
+            </>
+          )}
 
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Subject}</CardDetail1>
@@ -127,12 +120,12 @@ function CardDraft({
             <CardDetail1> {ViewDetail.Body}</CardDetail1>
 
             <Wordbreak dangerouslySetInnerHTML={{ __html: BODY }} />
-
           </BoxWrapper>
         </ListStyle>
-           <ButtonPrimary onClick={navigateToInBox}>Go to InBox</ButtonPrimary>
-           <ButtonPrimary sx={{ml:"5px"}} onClick={navigateToEdit}>Edit</ButtonPrimary>
-        
+        <ButtonPrimary onClick={navigateToInBox}>Go to InBox</ButtonPrimary>
+        <ButtonPrimary sx={{ ml: '5px' }} onClick={navigateToEdit}>
+          Edit
+        </ButtonPrimary>
       </Container>
     </>
   );

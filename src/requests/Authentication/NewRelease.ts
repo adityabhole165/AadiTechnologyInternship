@@ -1,30 +1,25 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import Newrelease from "../../api/Authentication/NewRelease";
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { INewRelease } from 'src/interfaces/Authentication/NewRelease';
 import { AppThunk } from 'src/store';
-import { INewRelease } from "src/interfaces/Authentication/NewRelease"
-import LoginApi from 'src/api/Authentication/Login';
-import { IStaffDetailsForloginBody } from 'src/interfaces/Authentication/Login';
+import Newrelease from '../../api/Authentication/NewRelease';
 
 const NewReleaseslice = createSlice({
   name: 'NewRelease',
   initialState: {
     Release: null
-
   },
   reducers: {
     getRelease(state, action) {
       state.Release = action.payload;
-    },
-
+    }
   }
 });
 
 export const getNewRelease =
   (data: INewRelease): AppThunk =>
-    async (dispatch) => {
-      const response = await Newrelease.NewRelease (data);
-      dispatch(NewReleaseslice.actions.getRelease(response.data));
-    };
+  async (dispatch) => {
+    const response = await Newrelease.NewRelease(data);
+    dispatch(NewReleaseslice.actions.getRelease(response.data));
+  };
 
-export default NewReleaseslice.reducer
+export default NewReleaseslice.reducer;

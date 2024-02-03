@@ -1,66 +1,50 @@
 import { useContext, useEffect, useRef, useState } from 'react';
-import { IPushNotificationFCM } from "src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration";
 import RegisterDeviceTokenApi from 'src/api/RegisterDeviceToken/RegisterDeviceToken';
+import { IPushNotificationFCM } from 'src/interfaces/FCMDeviceRegistration/FCMDeviceRegistration';
 
+import { App } from '@capacitor/app';
+import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import ExitToAppIcon from '@mui/icons-material/ExitToApp';
+import GroupIcon from '@mui/icons-material/Group';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
 import {
-  Box,
-  alpha,
-  Stack,
-  lighten,
-  Divider,
-  IconButton,
-  Tooltip,
-  styled,
-  useTheme,
   Avatar,
-  Popover,
-  Typography,
+  Box,
+  Button,
+  Divider,
   List,
   ListItem,
+  ListItemButton,
   ListItemText,
-  Button,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
-  NativeSelect
+  Popover,
+  Stack,
+  Tooltip,
+  Typography,
+  alpha,
+  lighten,
+  styled,
+  useTheme
 } from '@mui/material';
-import MenuTwoToneIcon from '@mui/icons-material/MenuTwoTone';
-import FeedbackIcon from '@mui/icons-material/Feedback';
-import { SidebarContext } from 'src/contexts/SidebarContext';
-import GroupIcon from '@mui/icons-material/Group';
-import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import HeaderButtons from './Buttons';
-import HeaderUserbox from './Userbox';
-import { Styles } from 'src/assets/style/student-style'
+import { useTranslation } from 'react-i18next';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { NavLink } from 'react-router-dom';
-import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
-import AccountBoxTwoToneIcon from '@mui/icons-material/AccountBoxTwoTone';
-import LockOpenTwoToneIcon from '@mui/icons-material/LockOpenTwoTone';
-import Email from '@mui/icons-material/Email';
-import LibraryBooks from '@mui/icons-material/LibraryBooks';
-import LocalLibrary from '@mui/icons-material/LocalLibrary';
-import PowerSettingsNewTwoToneIcon from '@mui/icons-material/PowerSettingsNewTwoTone';
-import { useTranslation } from 'react-i18next';
-import { IAuthenticateUser, IAuthenticateUserResult, IStaffDetailsForloginBody } from 'src/interfaces/Authentication/Login';
-import LoginApi from 'src/api/Authentication/Login';
 import { toast } from 'react-toastify';
-import ThemeSettings from 'src/layouts/components/ThemeSettings';
+import LoginApi from 'src/api/Authentication/Login';
+import { Styles } from 'src/assets/style/student-style';
 import { logoURL } from 'src/components/Common/Util';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
-import { App } from '@capacitor/app';
-import { Detail1 } from 'src/libraries/styled/CardStyle';
-import ContactSupportTwoToneIcon from '@mui/icons-material/ContactSupportTwoTone';
-import FeedbackTwoToneIcon from '@mui/icons-material/FeedbackTwoTone';
-import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
-import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
+import { SidebarContext } from 'src/contexts/SidebarContext';
+import {
+  IAuthenticateUser,
+  IAuthenticateUserResult,
+  IStaffDetailsForloginBody
+} from 'src/interfaces/Authentication/Login';
 import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBoard';
-import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
+import { ISaveUserLoginDetailsBody } from 'src/interfaces/Student/dashboard';
+import { Stafflogin } from 'src/requests/Authentication/StaffKidLogin';
+import { getSaveUserLoginDetail } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 const HeaderWrapper = styled(Box)(
   ({ theme }) => `
@@ -122,48 +106,54 @@ const UserBoxDescription = styled(Typography)(
 `
 );
 
-
-
 function Header() {
   const { sidebarToggle, toggleSidebar } = useContext(SidebarContext);
-  const [userprofile, setuserprofile] = useState('')
+  const [userprofile, setuserprofile] = useState('');
   // const [img_src, setimg_src] = useState('')
   // const [siblingList, setsiblingList] = useState()
   const theme = useTheme();
   const classes = Styles();
   const dispatch = useDispatch();
 
-  const Name = sessionStorage.getItem("StudentName");
-  const Class = sessionStorage.getItem("Class");
-  const RollNo = sessionStorage.getItem("RollNo");
-  const ImgUrl = sessionStorage.getItem("PhotoFilePath")
-  const UserLoginDetails1 = localStorage.getItem('UserLoginDetails1')
-  let img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png"
+  const Name = sessionStorage.getItem('StudentName');
+  const DesignationName = sessionStorage.getItem('DesignationName');
+  const Class = sessionStorage.getItem('Class');
+  const RollNo = sessionStorage.getItem('RollNo');
+  const ImgUrl = sessionStorage.getItem('PhotoFilePath');
+  const UserLoginDetails1 = localStorage.getItem('UserLoginDetails1');
+  let img_src =
+    logoURL +
+    localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
+    '_logo.png';
   let siblingList: any = [];
   useEffect(() => {
-    localdata()
-  
-  
-  }, [])
-  
-   function localdata(){
+    localdata();
+  }, []);
+
+  function localdata() {
     if (sessionStorage.length > 0) {
-    setuserprofile( ImgUrl?.length != 0 ? 'data:image/png;base64,' + ImgUrl : '/imges/defualtUser.jpg')
+      setuserprofile(
+        ImgUrl?.length != 0
+          ? 'data:image/png;base64,' + ImgUrl
+          : '/imges/defualtUser.jpg'
+      );
     }
-  
-  
-  
-  if (localStorage.length > 0) {
-    
-    img_src = logoURL + localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') + "_logo.png";
-    
+
+    if (localStorage.length > 0) {
+      img_src =
+        logoURL +
+        localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
+        '_logo.png';
+    }
+
+    if (
+      localStorage.getItem('RoleName') === 'Student' &&
+      sessionStorage.getItem('StudentSiblingList') !== ''
+    ) {
+      siblingList = JSON.parse(sessionStorage.getItem('StudentSiblingList'));
+    }
   }
-  
-  if (localStorage.getItem("RoleName") === 'Student' && sessionStorage.getItem("StudentSiblingList") !== "") {
-    siblingList = JSON.parse(sessionStorage.getItem("StudentSiblingList"))
-  }
-}
-  const schoolId = localStorage.getItem("localSchoolId");
+  const schoolId = localStorage.getItem('localSchoolId');
 
   const { t }: { t: any } = useTranslation();
   const navigate = useNavigate();
@@ -188,7 +178,7 @@ function Header() {
   const handleLogout = async (): Promise<void> => {
     try {
       handleClose();
-      localStorage.removeItem("auth")
+      localStorage.removeItem('auth');
       sessionStorage.clear();
       navigate('/');
     } catch (err) {
@@ -202,24 +192,28 @@ function Header() {
       asUserId: userId.toString(),
       asRegistrationId: localStorage.getItem('FCMdeviceToken'),
       asDeviceId: localStorage.getItem('deviceId'),
-      asDeviceType: ((localStorage.getItem('deviceType') === 'ios') ? 'APPLE' : localStorage.getItem('deviceType'))
-    }
-    const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data)
-  }
+      asDeviceType:
+        localStorage.getItem('deviceType') === 'ios'
+          ? 'APPLE'
+          : localStorage.getItem('deviceType')
+    };
+    const response: any = await RegisterDeviceTokenApi.RegisterFCMToken(data);
+  };
   const setSession = async (response) => {
-    const result: IAuthenticateUserResult = await response.data.AuthenticateUserResult
-    const studentDetails: any = await response.data.StudentDetails
-    const teacherDetails: any = await response.data.TeacherDetails
-    const adminDetails: any = await response.data.AdminStaffDetails.GetAdminStaffResult
+    const result: IAuthenticateUserResult = await response.data
+      .AuthenticateUserResult;
+    const studentDetails: any = await response.data.StudentDetails;
+    const teacherDetails: any = await response.data.TeacherDetails;
+    const adminDetails: any = await response.data.AdminStaffDetails
+      .GetAdminStaffResult;
     const UserLoginD: ISaveUserLoginDetailsBody = {
       asSchoolId: schoolId,
       asUserId: result.Id
-    }
-    dispatch(getSaveUserLoginDetail(UserLoginD))
+    };
+    dispatch(getSaveUserLoginDetail(UserLoginD));
 
-
-    if (result.RoleName === "Student") {
-      sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+    if (result.RoleName === 'Student') {
+      sessionStorage.setItem('AuthenticateUserResult', JSON.stringify(result));
       sessionStorage.setItem('DivisionId', studentDetails.DivisionId);
       sessionStorage.setItem('Class', studentDetails.Class);
       sessionStorage.setItem('StandardId', studentDetails.StandardId);
@@ -227,10 +221,19 @@ function Header() {
       sessionStorage.setItem('AcademicYearId', studentDetails.AcademicYearId);
       sessionStorage.setItem('AcademicYear', studentDetails.AcademicYear);
       sessionStorage.setItem('StudentId', studentDetails.StudentId);
-      sessionStorage.setItem('StandardDivisionId', studentDetails.StandardDivisionId);
+      sessionStorage.setItem(
+        'StandardDivisionId',
+        studentDetails.StandardDivisionId
+      );
       sessionStorage.setItem('Address', studentDetails.Address);
-      sessionStorage.setItem('ResidencePhoneNumber', studentDetails.ResidencePhoneNumber);
-      sessionStorage.setItem('CasteAndSubCaste', studentDetails.CasteAndSubCaste);
+      sessionStorage.setItem(
+        'ResidencePhoneNumber',
+        studentDetails.ResidencePhoneNumber
+      );
+      sessionStorage.setItem(
+        'CasteAndSubCaste',
+        studentDetails.CasteAndSubCaste
+      );
       sessionStorage.setItem('UDISENumber', studentDetails.UDISENumber);
       sessionStorage.setItem('BirthPlace', studentDetails.BirthPlace);
       sessionStorage.setItem('Nationality', studentDetails.Nationality);
@@ -241,7 +244,10 @@ function Header() {
       sessionStorage.setItem('Language', studentDetails.asLanguage);
       sessionStorage.setItem('ParentStaffID', studentDetails.aiParentStaffId);
       sessionStorage.setItem('StartRowIndex', studentDetails.aiStartRowIndex);
-      sessionStorage.setItem('SortRowIndexExpression', studentDetails.asSortExpression);
+      sessionStorage.setItem(
+        'SortRowIndexExpression',
+        studentDetails.asSortExpression
+      );
       sessionStorage.setItem('BookTittleName', studentDetails.asBookTitle);
       sessionStorage.setItem('UserName', studentDetails.asUserName);
       sessionStorage.setItem('ExamID', studentDetails.asExamId);
@@ -250,70 +256,84 @@ function Header() {
       sessionStorage.setItem('MobileNumber2', studentDetails.MobileNumber2);
       sessionStorage.setItem('Religion', studentDetails.Religion);
       sessionStorage.setItem('CategoryName', studentDetails.CategoryName);
-      sessionStorage.setItem('FamilyPhotoFilePath', studentDetails.FamilyPhotoFilePath);
-      sessionStorage.setItem('SchoolwiseStudentId', studentDetails.SchoolwiseStudentId);
+      sessionStorage.setItem(
+        'FamilyPhotoFilePath',
+        studentDetails.FamilyPhotoFilePath
+      );
+      sessionStorage.setItem(
+        'SchoolwiseStudentId',
+        studentDetails.SchoolwiseStudentId
+      );
       // sessionStorage.setItem("StudentSiblingList", result.StudentSiblingList === undefined ?
       //     "" : JSON.stringify(result.StudentSiblingList));
-      sessionStorage.setItem("StudentSiblingList", studentDetails.StudentSiblingList === undefined ?
-        "" : JSON.stringify(studentDetails.StudentSiblingList));
+      sessionStorage.setItem(
+        'StudentSiblingList',
+        studentDetails.StudentSiblingList === undefined
+          ? ''
+          : JSON.stringify(studentDetails.StudentSiblingList)
+      );
     }
 
-
-    if (result.RoleName === "Teacher") {
-      sessionStorage.setItem("AuthenticateUserResult", JSON.stringify(result));
+    if (result.RoleName === 'Teacher') {
+      sessionStorage.setItem('AuthenticateUserResult', JSON.stringify(result));
       sessionStorage.setItem('TeacherId', teacherDetails.TeacherId);
       sessionStorage.setItem('Address', teacherDetails.Address);
       sessionStorage.setItem('IsClassTeacher', teacherDetails.IsClassTeacher);
       sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
       sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
       sessionStorage.setItem('StandardId', teacherDetails.StandardId);
-      sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
+      sessionStorage.setItem(
+        'StandardDivisionId',
+        teacherDetails.StandardDivisionId
+      );
       sessionStorage.setItem('ClassName', teacherDetails.ClassName);
       sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
       sessionStorage.setItem('EndDate', teacherDetails.EndDate);
       sessionStorage.setItem('StartDate', teacherDetails.StartDate);
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
-      sessionStorage.setItem("DOB", teacherDetails.DOB);
-      sessionStorage.setItem("MobileNumber", teacherDetails.MobileNumber);
+      sessionStorage.setItem('DOB', teacherDetails.DOB);
+      sessionStorage.setItem('MobileNumber', teacherDetails.MobileNumber);
     }
 
-    if (result.RoleName === "Admin Staff") {
+    if (result.RoleName === 'Admin Staff') {
       sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);
       sessionStorage.setItem('Address', adminDetails.Address);
       sessionStorage.setItem('DesignationName', adminDetails.DesignationName);
       sessionStorage.setItem('EndDate', adminDetails.EndDate);
       sessionStorage.setItem('StartDate', adminDetails.StartDate);
-      sessionStorage.setItem("DOB", adminDetails.DOB);
+      sessionStorage.setItem('DOB', adminDetails.DOB);
       sessionStorage.setItem('SchoolName', adminDetails.SchoolName);
       sessionStorage.setItem('asSchoolName', adminDetails.asSchoolName);
       sessionStorage.setItem('MobileNumber', adminDetails.MobileNumber);
     }
 
-    sessionStorage.setItem("Id", result.Id);
-    sessionStorage.setItem("RoleId", result.RoleId);
-    sessionStorage.setItem("StudentName", result.Name);
-    sessionStorage.setItem("PhotoFilePath", result.PhotoFilePath);
-    sessionStorage.setItem("Userlogin", result.UserLogin);
-    sessionStorage.setItem("TermsAccepted", result.TermsAccepted);
-    sessionStorage.setItem("LastPasswordChangeDate", result.LastPasswordChangeDate);
+    sessionStorage.setItem('Id', result.Id);
+    sessionStorage.setItem('RoleId', result.RoleId);
+    sessionStorage.setItem('StudentName', result.Name);
+    sessionStorage.setItem('PhotoFilePath', result.PhotoFilePath);
+    sessionStorage.setItem('Userlogin', result.UserLogin);
+    sessionStorage.setItem('TermsAccepted', result.TermsAccepted);
+    sessionStorage.setItem(
+      'LastPasswordChangeDate',
+      result.LastPasswordChangeDate
+    );
 
-    localStorage.setItem("UserId", result.Id);
-    localStorage.setItem("RoleName", result.RoleName);
+    localStorage.setItem('UserId', result.Id);
+    localStorage.setItem('RoleName', result.RoleName);
 
-    const url = localStorage.getItem("url");
+    const url = localStorage.getItem('url');
 
     if (url != null && url !== '/') {
       navigate(url);
+    } else if (
+      result.RoleName == 'Student' ||
+      result.RoleName == 'Teacher' ||
+      result.RoleName == 'Admin Staff'
+    ) {
+      navigate('/extended-sidebar/landing/landing');
     }
-    else
-      if (result.RoleName == "Student" ||
-        result.RoleName == "Teacher" ||
-        result.RoleName == "Admin Staff") {
-        navigate('/extended-sidebar/landing/landing');
-      }
     // deviceRegistrationFCM(result.Id)
-  }
-
+  };
 
   const loginToSibling = async (siblingUserLogin, siblingPassword) => {
     const body: IAuthenticateUser = {
@@ -322,23 +342,22 @@ function Header() {
       asSchoolId: schoolId,
       asIsSiblingLogin: true
     };
-    getNewLogin(body)
-  }
+    getNewLogin(body);
+  };
   const getNewLogin = async (body) => {
-    const response: any = await LoginApi.AuthenticateUser(body)
+    const response: any = await LoginApi.AuthenticateUser(body);
     if (response.data != null) {
-      localStorage.setItem("auth", JSON.stringify(response));
+      localStorage.setItem('auth', JSON.stringify(response));
       setSession(response);
+    } else {
+      toast.error('Invalid Username or Password');
+      navigate('/');
     }
-    else {
-      toast.error("Invalid Username or Password");
-      navigate('/')
-    }
-  }
+  };
 
   const Notification = () => {
-    navigate('Student/Notification')
-  }
+    navigate('Student/Notification');
+  };
 
   const [isOnline, setIsOnline] = useState(navigator.onLine);
 
@@ -359,8 +378,8 @@ function Header() {
   );
   const GetAllActiveNotices = useSelector(
     (state: RootState) => state.SchoolNoticeBoard.AllActiveNotices
-    );
-    const SchoolName = localStorage.getItem('SchoolName');
+  );
+  const SchoolName = localStorage.getItem('SchoolName');
   const StudentId = sessionStorage.getItem('StudentId');
   const RoleId = sessionStorage.getItem('RoleId');
   const SchoolId = localStorage.getItem('localSchoolId');
@@ -369,18 +388,17 @@ function Header() {
   const Staffkid: IStaffDetailsForloginBody = {
     aiSchoolId: SchoolId,
     aiAcademicYearId: AcademicYearId,
-    aiYearwiseStudentId: RoleId === "3" ? StudentId : "0",
+    aiYearwiseStudentId: RoleId === '3' ? StudentId : '0',
     aiUserId: UserId
-  }
+  };
   const ActiveNoticesBody: IGetAllActiveNoticesBody = {
     asSchoolId: SchoolId,
     asUserId: UserId
   };
 
   useEffect(() => {
-    dispatch(Stafflogin(Staffkid))
-
-  }, [])
+    dispatch(Stafflogin(Staffkid));
+  }, []);
   // useEffect(() => {
   //   const timer = setInterval(() => {
   //     dispatch(getAllActiveNotices(ActiveNoticesBody));
@@ -406,324 +424,374 @@ function Header() {
 
   const Toaster = () => {
     if (!isOnline) {
-      toast.error('No internet connection', { toastId: 'success1' })
+      toast.error('No internet connection', { toastId: 'success1' });
     }
-  }
-  const LoginTo = RoleId === "3" ? "Login To Staff" : "Login To Child"
+  };
+  const LoginTo = RoleId === '3' ? 'Login To Staff' : 'Login To Child';
 
-  return (<>
-    <HeaderWrapper
-      display="flex"
-      alignItems="center"
-      sx={{
-        boxShadow:
-          theme.palette.mode === 'dark'
-            ? '0 1px 0 ' +
-            alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-            ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
-            : '0px 2px 8px -3px ' +
-            alpha(theme.colors.alpha.black[100], 0.2) +
-            ', 0px 5px 22px -4px ' +
-            alpha(theme.colors.alpha.black[100], 0.1)
-      }}
-    >
-      {Toaster()}
-      <Stack
-        direction="row"
-        divider={<Divider orientation="vertical" flexItem />}
+  return (
+    <>
+      <HeaderWrapper
+        display="flex"
         alignItems="center"
-        spacing={2}
+        sx={{
+          boxShadow:
+            theme.palette.mode === 'dark'
+              ? '0 1px 0 ' +
+                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+                ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
+              : '0px 2px 8px -3px ' +
+                alpha(theme.colors.alpha.black[100], 0.2) +
+                ', 0px 5px 22px -4px ' +
+                alpha(theme.colors.alpha.black[100], 0.1)
+        }}
       >
-        <img src={img_src} className={classes.smalllogo} />
-      </Stack>
-      <Stack 
-      direction='row'
-      sx={{pb:2}}
-      >
-           <h1 >{SchoolName}</h1>
-
-      </Stack>
-      <Stack direction="row" display='flex' spacing={2} alignItems="center" sx={{pb:2}}>
-        <Tooltip title='Account'>
-        <IconButton
-          size="small"
-         
-          sx={{
-            width: 35,
-            height: 70,
-
-            '&:hover': {
-              color: `${theme.colors.alpha.trueWhite[100]}`,
-              background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
-            }
-          }}
-          ref={ref}
-          onClick={handleOpen}
+        {Toaster()}
+        <Stack
+          direction="row"
+          divider={<Divider orientation="vertical" flexItem />}
+          alignItems="center"
+          spacing={2}
         >
-          <Avatar alt="user.name" src={userprofile} sx={{ backgroundColor: "gray", height: 40 }} variant="rounded" aria-label="add" />
-        </IconButton>
-        </Tooltip>
-        <Popover
-          disableScrollLock
-          anchorEl={ref.current}
-          onClose={handleClose}
-          open={isOpen}
-          anchorOrigin={{
-            vertical: 'center',
-            horizontal: 'center'
-          }}
-          transformOrigin={{
-            vertical: 'center',
-            horizontal: 'center'
-          }}
-          
+          <img src={img_src} className={classes.smalllogo} />
+        </Stack>
+        <Stack direction="row" sx={{ pb: 2 }}>
+          <h1>{SchoolName}</h1>
+        </Stack>
+        <Stack
+          direction="row"
+          display="flex"
+          spacing={2}
+          alignItems="center"
+          sx={{ pb: 2 }}
         >
-          <MenuUserBox
-            sx={{
-              minWidth: 250
-            }}
-            display="flex"
-          >
-            <Avatar variant="rounded" alt="user.name" src={userprofile} sx={{ height: 70 }} />
-            <UserBoxText>
-              <UserBoxLabel className="popoverTypo">
-                {Name}
-              </UserBoxLabel>
-              {
-                (RollNo != undefined ? <>
-
-                  <UserBoxDescription className="popoverTypo" >
-                    {Class}
-                  </UserBoxDescription> </>
-                  : null)
-              }
-              <UserBoxDescription className="popoverTypo"> {UserLoginDetails1} </UserBoxDescription>
-            </UserBoxText>
-          </MenuUserBox>
-          <Divider
-            sx={{
-              mb: 0
-            }}
-          />
-          <List
-            sx={{
-              p: 1
-            }}
-            component="nav"
-          >
-            <ListItem
-              onClick={() => {
-                handleClose();
+          <Tooltip title="Account">
+            <ListItemButton
+              sx={{
+                '&:hover': {
+                  color: `${theme.colors.alpha.trueWhite[100]}`,
+                  background: `${alpha(theme.colors.alpha.trueWhite[100], 0.2)}`
+                },
+                display: 'flex',
+                alignItems: 'center',
+                gap: 1
               }}
-              button
-              to={"/extended-sidebar/Student/Profile"}
-              component={NavLink}
+              ref={ref}
+              onClick={handleOpen}
             >
-              <AccountBoxTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Profile</UserBoxLabel>} />
-            </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/common/changePassword"}
-              component={NavLink}
-            >
-              <LockOpenTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Change Password</UserBoxLabel>} />
-            </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/common/changePassword"}
-              component={NavLink}
-            >
-              <Email fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Email</UserBoxLabel>} />
-            </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/common/changePassword"}
-              component={NavLink}
-            >
-              <LibraryBooks fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  > User Guide</UserBoxLabel>} />
-            </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/common/changePassword"}
-              component={NavLink}
-            >
-              <LocalLibrary fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Knowledge Base</UserBoxLabel>} />
-            </ListItem>
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/Student/Feedback"}
-              component={NavLink}
-            >
-              <FeedbackTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<Detail1>Feedback</Detail1 >} />
-            </ListItem>
-
-            <ListItem
-              onClick={() => {
-                handleClose();
-              }}
-              button
-              to={"/extended-sidebar/Student/Support"}
-              component={NavLink}
-            >
-              <ContactSupportTwoToneIcon fontSize="small" sx={{ color: "#053082" }} />
-              <ListItemText primary={<Detail1>Support</Detail1 >} />
-            </ListItem>
-            {siblingList?.length == 0 ? (
-              <>
-              </>
-            ) : siblingList?.length == 1 ?
-              (
-                <>
-                  <ListItem
-                    button
-                    to={""}
-                    component={NavLink}
-                    style={{ background: 'white !important' }}
-                  >
-                    <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
-                    <ListItemText
-                      primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}
-                        onClick={() => {
-                          loginToSibling(siblingList[0].UserName, siblingList[0].Password);
-                        }}
-                      >Sibling Login</UserBoxLabel>} />
-                  </ListItem>
-                </>
-              ) :
-              <ListItem
-                button
-                to={""}
-                component={NavLink}
-                style={{ background: 'white' }}
-              >
-                <GroupIcon fontSize="small" sx={{ color: "#053082", marginBottom: '42px' }} />
-                <ul style={{ listStyle: 'none', padding: '0px', margin: '0px' }}>
-                  <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography>
-                  {
-                    siblingList?.map(
-                      (sibling: any, i) => {
-                        return (
-                          <>
-                            <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
-                              onClick={() => {
-                                loginToSibling(sibling.UserName, sibling.Password);
-                              }}
-                            >{sibling.FullName}</li>
-                          </>
-                        );
-                      }
-                    )
-                  }
-                </ul>
-              </ListItem>
-            }
-            {LoginStaffKid.length == 0 ? (
-              <>
-              </>
-            ) : LoginStaffKid.length == 1 ?
-              (
-                <>
-                  <ListItem
-                    button
-                    to={""}
-                    component={NavLink}
-                    style={{ background: 'white !important' }}
-                  >
-                    <GroupIcon fontSize="small" sx={{ color: "#053082" }} />
-                    <ListItemText
-                      primary={<UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}
-                        onClick={() => {
-                          loginToSibling(LoginStaffKid[0].UserName, LoginStaffKid[0].Password);
-                        }}
-                      >{LoginTo}</UserBoxLabel>} />
-                  </ListItem>
-                </>
-              ) :
-              <ListItem
-                button
-                to={""}
-                component={NavLink}
-                style={{ background: 'white' }}
-              >
-                <GroupIcon fontSize="small" sx={{ color: "#053082", marginBottom: '42px' }} />
-                <ul style={{ listStyle: 'none', padding: '0px', margin: '0px' }}>
-                  {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
-                  {
-                    LoginStaffKid?.map(
-                      (StaffKid: any, i) => {
-                        return (
-                          <>
-                            <li style={{ textDecoration: "underline", color: 'blueviolet', paddingLeft: '10px' }} key={i}
-                              onClick={() => {
-                                loginToSibling(StaffKid.UserName, StaffKid.Password);
-                              }}
-                            >{StaffKid.StudentName}</li>
-                          </>
-                        );
-                      }
-                    )
-                  }
-                </ul>
-              </ListItem>
-            }
-          </List>
-          <Divider />
-          <Box m={1}>
-            <Button color="primary" fullWidth onClick={handleLogout}>
-              <ExitToAppIcon fontSize="small"
-                sx={{
-                  mr: 1,
-                  fontWeight: "bold",
-                  color: "#053082"
-                }}
+              <Avatar
+                alt="user.name"
+                src={userprofile}
+                sx={{ backgroundColor: 'gray', height: 40 }}
+                variant="rounded"
+                aria-label="add"
               />
-              <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Sign Out</UserBoxLabel>
-            </Button>
-          </Box>
-          {(window.localStorage.getItem('deviceType') === 'android' ||
-            localStorage.getItem('deviceType') === 'ios') ? (
-            <Box m={1}>
-              <Button color="primary" fullWidth onClick={handleCloseApp}>
-                <PowerSettingsNewTwoToneIcon fontSize="small"
+              <Box>
+                <Typography fontWeight={'bold'}>{Name}</Typography>
+                <Typography>{DesignationName}</Typography>
+              </Box>
+            </ListItemButton>
+          </Tooltip>
+          <Popover
+            disableScrollLock
+            anchorEl={ref.current}
+            onClose={handleClose}
+            open={isOpen}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right'
+            }}
+          >
+            <MenuUserBox
+              sx={{
+                minWidth: 250
+              }}
+              display="flex"
+            >
+              <Avatar
+                variant="rounded"
+                alt="user.name"
+                src={userprofile}
+                sx={{ height: 70 }}
+              />
+              <UserBoxText>
+                <UserBoxLabel className="popoverTypo">{Name}</UserBoxLabel>
+                <Typography className="popoverTypo">
+                  {DesignationName}
+                </Typography>
+                {RollNo != undefined ? (
+                  <>
+                    <UserBoxDescription className="popoverTypo">
+                      {Class}
+                    </UserBoxDescription>{' '}
+                  </>
+                ) : null}
+                <UserBoxDescription className="popoverTypo">
+                  {' '}
+                  {UserLoginDetails1}{' '}
+                </UserBoxDescription>
+              </UserBoxText>
+            </MenuUserBox>
+            <Divider
+              sx={{
+                mb: 0
+              }}
+            />
+            <List
+              sx={{
+                p: 0
+              }}
+              component="nav"
+            >
+              <ListItem
+                onClick={() => {
+                  handleClose();
+                }}
+                to={'/extended-sidebar/Student/Profile'}
+                component={NavLink}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.3)
+                  }
+                }}
+              >
+                <AccountBoxIcon
                   sx={{
-                    mr: 1,
-                    fontWeight: "bold",
-                    color: "#053082"
+                    height: 25,
+                    width: 25,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    mr: 2
                   }}
                 />
-                <UserBoxLabel sx={{ color: "blue", fontWeight: "bold" }}  >Exit</UserBoxLabel>
-              </Button>
-            </Box>) : <div />}
-        </Popover>
-        {/* <Avatar sx={{ backgroundColor: "#0564c8", height: 40 }} variant="rounded" aria-label="add">
+                <ListItemText
+                  primary={
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                      Profile
+                    </UserBoxLabel>
+                  }
+                />
+              </ListItem>
+              <ListItem
+                onClick={() => {
+                  handleClose();
+                }}
+                to={'/extended-sidebar/common/changePassword'}
+                component={NavLink}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: (theme) =>
+                      alpha(theme.palette.primary.main, 0.3)
+                  }
+                }}
+              >
+                <LockOpenIcon
+                  sx={{
+                    height: 25,
+                    width: 25,
+                    color: 'black',
+                    fontWeight: 'bold',
+                    mr: 2
+                  }}
+                />
+                <ListItemText
+                  primary={
+                    <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                      Change Password
+                    </UserBoxLabel>
+                  }
+                />
+              </ListItem>
+              {siblingList?.length == 0 ? (
+                <></>
+              ) : siblingList?.length == 1 ? (
+                <>
+                  <ListItem
+                    button
+                    to={''}
+                    component={NavLink}
+                    style={{ background: 'white !important' }}
+                  >
+                    <GroupIcon />
+                    <ListItemText
+                      primary={
+                        <UserBoxLabel
+                          sx={{ fontWeight: 'bold' }}
+                          onClick={() => {
+                            loginToSibling(
+                              siblingList[0].UserName,
+                              siblingList[0].Password
+                            );
+                          }}
+                        >
+                          Sibling Login
+                        </UserBoxLabel>
+                      }
+                    />
+                  </ListItem>
+                </>
+              ) : (
+                <ListItem
+                  button
+                  to={''}
+                  component={NavLink}
+                  style={{ background: 'white' }}
+                >
+                  <GroupIcon sx={{ marginBottom: '42px' }} />
+                  <ul
+                    style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                  >
+                    <Typography sx={{ fontWeight: 'bold' }}>
+                      Sibling Login{' '}
+                    </Typography>
+                    {siblingList?.map((sibling: any, i) => {
+                      return (
+                        <>
+                          <li
+                            style={{
+                              textDecoration: 'underline',
+                              paddingLeft: '10px'
+                            }}
+                            key={i}
+                            onClick={() => {
+                              loginToSibling(
+                                sibling.UserName,
+                                sibling.Password
+                              );
+                            }}
+                          >
+                            {sibling.FullName}
+                          </li>
+                        </>
+                      );
+                    })}
+                  </ul>
+                </ListItem>
+              )}
+              {LoginStaffKid.length == 0 ? (
+                <></>
+              ) : LoginStaffKid.length == 1 ? (
+                <>
+                  <ListItem
+                    button
+                    to={''}
+                    component={NavLink}
+                    style={{ background: 'white !important' }}
+                  >
+                    <GroupIcon />
+                    <ListItemText
+                      primary={
+                        <UserBoxLabel
+                          sx={{ fontWeight: 'bold' }}
+                          onClick={() => {
+                            loginToSibling(
+                              LoginStaffKid[0].UserName,
+                              LoginStaffKid[0].Password
+                            );
+                          }}
+                        >
+                          {LoginTo}
+                        </UserBoxLabel>
+                      }
+                    />
+                  </ListItem>
+                </>
+              ) : (
+                <ListItem
+                  button
+                  to={''}
+                  component={NavLink}
+                  style={{ background: 'white' }}
+                >
+                  <GroupIcon sx={{ marginBottom: '42px' }} />
+                  <ul
+                    style={{ listStyle: 'none', padding: '0px', margin: '0px' }}
+                  >
+                    {/* <Typography sx={{ color: "blue", fontWeight: "bold" }}>Sibling Login </Typography> */}
+                    {LoginStaffKid?.map((StaffKid: any, i) => {
+                      return (
+                        <>
+                          <li
+                            style={{
+                              textDecoration: 'underline',
+                              color: 'blueviolet',
+                              paddingLeft: '10px'
+                            }}
+                            key={i}
+                            onClick={() => {
+                              loginToSibling(
+                                StaffKid.UserName,
+                                StaffKid.Password
+                              );
+                            }}
+                          >
+                            {StaffKid.StudentName}
+                          </li>
+                        </>
+                      );
+                    })}
+                  </ul>
+                </ListItem>
+              )}
+            </List>
+            <Divider />
+            <Box>
+              <List sx={{ p: 0 }}>
+                <ListItem
+                  onClick={handleLogout}
+                  to={'/extended-sidebar/Student/Profile'}
+                  component={NavLink}
+                  sx={{
+                    '&:hover': {
+                      backgroundColor: (theme) =>
+                        alpha(theme.palette.primary.main, 0.3)
+                    }
+                  }}
+                >
+                  <ExitToAppIcon
+                    sx={{
+                      height: 25,
+                      width: 25,
+                      color: 'black',
+                      fontWeight: 'bold',
+                      mr: 2
+                    }}
+                  />
+                  <ListItemText
+                    primary={
+                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
+                        Sign out
+                      </UserBoxLabel>
+                    }
+                  />
+                </ListItem>
+              </List>
+            </Box>
+            {window.localStorage.getItem('deviceType') === 'android' ||
+            localStorage.getItem('deviceType') === 'ios' ? (
+              <Box m={1}>
+                <Button color="primary" fullWidth onClick={handleCloseApp}>
+                  <PowerSettingsNewIcon
+                    sx={{
+                      mr: 1,
+                      fontWeight: 'bold'
+                    }}
+                  />
+                  <UserBoxLabel sx={{ fontWeight: 'bold' }}>Exit</UserBoxLabel>
+                </Button>
+              </Box>
+            ) : (
+              <div />
+            )}
+          </Popover>
+          {/* <Avatar sx={{ backgroundColor: "#0564c8", height: 40 }} variant="rounded" aria-label="add">
           <NotificationsIcon fontSize="large" onClick={Notification} sx={{ height: 20 }} />
         </Avatar> */}
-        {/* <ThemeSettings /> */}
-      </Stack>
-
-    </HeaderWrapper>
-  </>
+          {/* <ThemeSettings /> */}
+        </Stack>
+      </HeaderWrapper>
+    </>
   );
 }
 

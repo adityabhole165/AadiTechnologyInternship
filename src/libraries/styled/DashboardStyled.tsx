@@ -1,4 +1,4 @@
-import { Box, Typography, styled, Card,Badge } from '@mui/material';
+import { Badge, Box, Card, Typography, styled } from '@mui/material';
 export const CardHeading = styled(Typography)`
   margin-left: 10px;
   margin-top: 3px;
@@ -19,9 +19,8 @@ export const IconCard = styled(Box)`
   text-align: center;
 `;
 export const IconCardSize = styled(Box)`
- 
-  width:70px;
-  height:70px;
+  width: 70px;
+  height: 70px;
   @media (max-width: 320px) {
     width: 60px;
     height: 65px;
@@ -68,9 +67,8 @@ text-decoration:none;
 color:black;
 line-height: 1.3rem;
 `;
-export const BadgeStyle= styled(Badge)`
-margin-top:10px;
-// margin-left: 15px;
-// margin-right: 30px; 
-
+export const BadgeStyle = styled(Badge)`
+  margin-top: 10px;
+  // margin-left: 15px;
+  // margin-right: 30px;
 `;

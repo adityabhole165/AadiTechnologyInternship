@@ -1,8 +1,6 @@
-import React from 'react';
-import { Container, Grid,useTheme } from '@mui/material';
-import { ClassNames } from '@emotion/react';
+import { Grid, useTheme } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
-import { CardDetail1, CardDetail3, ListStyle } from '../styled/CardStyle';
+import { CardDetail3, ListStyle } from '../styled/CardStyle';
 
 function Card28({ Student }) {
   const theme = useTheme();
@@ -17,32 +15,32 @@ function Card28({ Student }) {
   }
 
   return (
-    
-      <ListStyle sx={{ background: `${theme.colors.gradients.HighlightedlistColor}`}}>
-        <Grid container>
-          <Grid item xs={12}>
-            <CardDetail3>
-              <b>Name:</b> {UserName}
-            </CardDetail3>
-          </Grid>
-          <Grid item xs={3}>
-            <CardDetail3>
-              <b> Roll no:</b> {RollNo}
-            </CardDetail3>
-          </Grid>
-          <Grid item xs={3}>
-            <CardDetail3>
-              <b>Class:</b> {Class}
-            </CardDetail3>
-          </Grid>
-          <Grid item xs={6}>
-            <CardDetail3>
-              <b> Year:</b> {AcademicYear}
-            </CardDetail3>
-          </Grid>
+    <ListStyle
+      sx={{ background: `${theme.colors.gradients.HighlightedlistColor}` }}
+    >
+      <Grid container>
+        <Grid item xs={12}>
+          <CardDetail3>
+            <b>Name:</b> {UserName}
+          </CardDetail3>
         </Grid>
-      </ListStyle>
-   
+        <Grid item xs={3}>
+          <CardDetail3>
+            <b> Roll no:</b> {RollNo}
+          </CardDetail3>
+        </Grid>
+        <Grid item xs={3}>
+          <CardDetail3>
+            <b>Class:</b> {Class}
+          </CardDetail3>
+        </Grid>
+        <Grid item xs={6}>
+          <CardDetail3>
+            <b> Year:</b> {AcademicYear}
+          </CardDetail3>
+        </Grid>
+      </Grid>
+    </ListStyle>
   );
 }
 

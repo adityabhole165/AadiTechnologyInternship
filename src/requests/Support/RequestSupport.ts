@@ -1,41 +1,39 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import ApiSupport from 'src/api/Support/ApiSupport';
+import { ISaveStudentDetailsForSupportBody } from 'src/interfaces/Student/ISupport';
 import { AppThunk } from 'src/store';
-import ApiSupport from 'src/api/Support/ApiSupport'
-import {ISaveStudentDetailsForSupportBody } from 'src/interfaces/Student/ISupport';
 
 const SliceSupport = createSlice({
-    name: 'Support',
-    initialState: {
-      SaveSupport:{},
-      Loading: true,
+  name: 'Support',
+  initialState: {
+    SaveSupport: {},
+    Loading: true
+  },
+  reducers: {
+    GetSaveSupport(state, action) {
+      state.Loading = false;
+      state.SaveSupport = action.payload;
     },
-    reducers: {
-        GetSaveSupport(state, action) {
-          state.Loading = false;
-          state.SaveSupport = action.payload;
-        },
-        getLoading (state,action) {
-            state.Loading = true
-            state.SaveSupport = {};
-        },
-        ResetSubmitSupport(state){
-          state.SaveSupport = '';
-        },
-        }
-      });
+    getLoading(state, action) {
+      state.Loading = true;
+      state.SaveSupport = {};
+    },
+    ResetSubmitSupport(state) {
+      state.SaveSupport = '';
+    }
+  }
+});
 
-    export const getSaveSupport =
+export const getSaveSupport =
   (data: ISaveStudentDetailsForSupportBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceSupport.actions.getLoading(true));
-      const response = await ApiSupport.SaveSupportapi(data)
-      dispatch(SliceSupport.actions.GetSaveSupport(response.data));
-    };
+  async (dispatch) => {
+    dispatch(SliceSupport.actions.getLoading(true));
+    const response = await ApiSupport.SaveSupportapi(data);
+    dispatch(SliceSupport.actions.GetSaveSupport(response.data));
+  };
 
-    export const ResetMessage =
-    (): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceSupport.actions.ResetSubmitSupport());
-    };
+export const ResetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(SliceSupport.actions.ResetSubmitSupport());
+};
 
-export default SliceSupport.reducer
+export default SliceSupport.reducer;

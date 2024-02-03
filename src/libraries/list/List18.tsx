@@ -1,16 +1,8 @@
-import {
-  Box,
-  Typography,
-  useTheme,
-  List,
-  Container,
-  Grow,
-  Grid
-} from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
 import ScheduleIcon from '@mui/icons-material/Schedule';
+import { Container, Grow, useTheme } from '@mui/material';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
+import { Styles } from 'src/assets/style/student-style';
 import {
   CardDetail,
   CardDetail1,
@@ -77,7 +69,6 @@ function List18({
                   />
                 ) : null}
                 {Time} {date}
-         
               </CardDetail2>
             </CardDetail>
           </ListStyle>

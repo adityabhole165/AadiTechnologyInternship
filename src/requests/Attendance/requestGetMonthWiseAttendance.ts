@@ -1,23 +1,25 @@
-import { createSlice } from "@reduxjs/toolkit";
-import  GetMonthwiseAttendanceapi from 'src/api/Attendance/apiGetMonthwiseAttendance'
-import { IGetMonthwiseAttendanceBody } from "src/interfaces/MonthwiseAttendance/IMonthwiseAttendance";
-import { AppThunk } from "src/store";
+import { createSlice } from '@reduxjs/toolkit';
+import GetMonthwiseAttendanceapi from 'src/api/Attendance/apiGetMonthwiseAttendance';
+import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
+import { AppThunk } from 'src/store';
 
 const MonthwiseAttendanceSlice = createSlice({
-    name: 'Attendance',
-    initialState: {
-      GetMonthwiseAttendance:[],
-    },
-    reducers: {
-        getmonthwiseattendance(state,action) {
-            state.GetMonthwiseAttendance = action.payload
-        },
+  name: 'Attendance',
+  initialState: {
+    GetMonthwiseAttendance: []
+  },
+  reducers: {
+    getmonthwiseattendance(state, action) {
+      state.GetMonthwiseAttendance = action.payload;
     }
-    });
-  
-  export const getattendance =(data: IGetMonthwiseAttendanceBody): AppThunk =>
-   async (dispatch) => {const response = await GetMonthwiseAttendanceapi.MonthwiseAttendance(data);
-     let a = response.data.map((item, i) => {
+  }
+});
+
+export const getattendance =
+  (data: IGetMonthwiseAttendanceBody): AppThunk =>
+  async (dispatch) => {
+    const response = await GetMonthwiseAttendanceapi.MonthwiseAttendance(data);
+    let a = response.data.map((item, i) => {
       return {
         Text1: item.RollNo,
         Text2: item.StudentName,
@@ -35,12 +37,10 @@ const MonthwiseAttendanceSlice = createSlice({
         Text14: item.Feb,
         Text15: item.PresentDays,
         Text16: item.TotalDays,
-        Text17: item.Percentage,
-      }
-      })
-        dispatch(MonthwiseAttendanceSlice.actions. getmonthwiseattendance(a));
-       };
-  
-  export default MonthwiseAttendanceSlice.reducer
+        Text17: item.Percentage
+      };
+    });
+    dispatch(MonthwiseAttendanceSlice.actions.getmonthwiseattendance(a));
+  };
 
-    
+export default MonthwiseAttendanceSlice.reducer;

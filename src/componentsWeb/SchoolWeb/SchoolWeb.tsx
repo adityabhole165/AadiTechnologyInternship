@@ -1,9 +1,5 @@
-import React from 'react'
-
 function SchoolWeb() {
-  return (
-    <div>SchoolWeb</div>
-  )
+  return <div>SchoolWeb</div>;
 }
 
-export default SchoolWeb
+export default SchoolWeb;

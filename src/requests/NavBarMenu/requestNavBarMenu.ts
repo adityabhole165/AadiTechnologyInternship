@@ -1,13 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppThunk } from 'src/store';
 import ApiGetMenuDetails from 'src/api/NavBarMenu/ApiNavbarMenu';
 import { IGetMenuDetailsBody } from 'src/interfaces/Student/INavbarMenu';
+import { AppThunk } from 'src/store';
 
 const SliceNavbarMenu = createSlice({
   name: 'NavBarMenus',
   initialState: {
     GetNavbarMenuDetails: [],
-    Loading: true,
+    Loading: true
   },
   reducers: {
     getNavbarMenuDetails(state, action) {
@@ -31,28 +31,26 @@ const SliceNavbarMenu = createSlice({
       state.Loading = false;
     },
     getLoading(state, action) {
-      state.Loading = true
+      state.Loading = true;
     }
   }
 });
 
-
 export const getNavbarMenuDetails =
   (data: IGetMenuDetailsBody): AppThunk =>
-    async (dispatch) => {
-      dispatch(SliceNavbarMenu.actions.getLoading(true));
-      const response = await ApiGetMenuDetails.GetMenuDetailsApi(data)
-      // console.log(response,"response",response.data.MenuDetails)
-      // const itemlist = response?.data.MenuDetails.map((item) => {
-      //     return {
-      //       id: item.MenuId,
-      //       Name: item.MenuName,
-      //       Value: item.MenuId,
-      //     }
-      //   })
-      dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(response.data));
-      // dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails([]));
-
-    };
+  async (dispatch) => {
+    dispatch(SliceNavbarMenu.actions.getLoading(true));
+    const response = await ApiGetMenuDetails.GetMenuDetailsApi(data);
+    // console.log(response,"response",response.data.MenuDetails)
+    // const itemlist = response?.data.MenuDetails.map((item) => {
+    //     return {
+    //       id: item.MenuId,
+    //       Name: item.MenuName,
+    //       Value: item.MenuId,
+    //     }
+    //   })
+    dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails(response.data));
+    // dispatch(SliceNavbarMenu.actions.getNavbarMenuDetails([]));
+  };
 
 export default SliceNavbarMenu.reducer;

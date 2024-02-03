@@ -1,7 +1,7 @@
-import { Box, Typography, styled, AccordionSummary } from '@mui/material';
+import { AccordionSummary, Box, Typography, styled } from '@mui/material';
 
 export const AccordianHeader = styled(Box)(
-  ({ theme,color }) => `
+  ({ theme, color }) => `
   
     cursor: pointer;
     display:flex;
@@ -15,10 +15,9 @@ export const AccordianHeader = styled(Box)(
         ? theme.colors.gradients.selectedlistColor
         : color === 'info'
         ? theme.colors.gradients.pageBackground
-         : color === 'red'
+        : color === 'red'
         ? theme.colors.gradients.red
         : theme.colors.gradients.listColor
-        
     };
   `
 );
@@ -30,8 +29,10 @@ export const Header1 = styled(Typography)(
   align-items: center;
   font-size:12px;
   font-weight:bold;
-  font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -42,8 +43,10 @@ export const HeaderAcc = styled(Typography)(
   align-items: center;
   font-size:14px;
 
-  font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -53,8 +56,10 @@ export const Header3 = styled(Typography)(
   margin-top: 5px;
    margin-bottom: 5px;
   align-items: center;
-  font-family: Roboto;
-  color: ${color==='secondary'?theme.colors.gradients.accordianHeadercolor:''}
+  
+  color: ${
+    color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
+  }
   `
 );
 
@@ -71,96 +76,84 @@ export const CardDetail1 = styled(Typography)(
   margin-top: 1px;
   margin-left: 6px;
   margin-bottom: 2px;
-  font-family: Roboto;
+  
   font-size:12px;
   float:${align};
-`);
+`
+);
 export const CardDetail2 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-right: 10px;
-  font-family: Roboto;
-  font-size:12px;
+
+  font-size: 12px;
 `;
 export const CardDetail3 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-left: 20px;
-  font-family: Roboto;
-  font-size:12px;
+
+  font-size: 12px;
 `;
 export const CardDetail4 = styled(Typography)`
-margin-top: 1px;
-margin-left: 5px;
-margin-bottom: 2px;
-font-family: Roboto;
-font-size:12px;
-font-weight:bold;
+  margin-top: 1px;
+  margin-left: 5px;
+  margin-bottom: 2px;
 
-
+  font-size: 12px;
+  font-weight: bold;
 `;
 
 export const CardWrapper1 = styled(Typography)`
   border-top: 0.1px solid gray;
   display: flex;
-  font-family: Roboto;
 `;
 export const CardDetail = styled(Box)`
   border-top: 0.1px solid gray;
   display: flex;
   justify-content: space-between;
-  font-family: Roboto;
 `;
 
 export const CardDetaiAtt = styled(Box)`
   border-bottom: 0.1px solid gray;
   display: flex;
-
-  font-family: Roboto;
 `;
 export const CardDetailB = styled(Box)`
   border-bottom: 0.1px solid gray;
   display: flex;
   justify-content: space-between;
-  font-family: Roboto;
 `;
 export const CardDetailH = styled(Box)`
   display: flex;
-  font-family: Roboto;
 `;
 
 export const Accordionsummary = styled(AccordionSummary)`
- background-color:red;
- box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
- margin-bottom: 10px;
- height:50px;
- min-height:40px;
- font-size:14px;
- @media (max-width: 280px) {
-  font-size: 12px;
-};
-
+  background-color: red;
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+  height: 50px;
+  min-height: 40px;
+  font-size: 14px;
+  @media (max-width: 280px) {
+    font-size: 12px;
+  } ;
 `;
 
 export const Accordionsummary1 = styled(AccordionSummary)`
-
- box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
-//  height:60px;
- font-size:14px;
- @media (max-width: 280px) {
-  font-size: 12px;
-};
-
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  //  height:60px;
+  font-size: 14px;
+  @media (max-width: 280px) {
+    font-size: 12px;
+  } ;
 `;
 export const CardDetailTopper = styled(Typography)`
   margin-top: 4px;
   margin-left: 30px;
   margin-bottom: 5px;
-  font-family: Roboto;
 `;
 export const CardDetailTopper1 = styled(Typography)`
   margin-top: 4px;
   margin-left: 10px;
   margin-bottom: 4px;
-  font-family: Roboto;
 `;

@@ -1,39 +1,38 @@
-import { FC } from 'react';
+import { Box, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
-import { HeadingStyle ,RootWrapper } from '../styled/HeadingStyled';
-import {
-  styled,
-  Typography,
-  Box,
-  Divider,
-  useTheme,
-  Container
-} from '@mui/material';
+import { FC } from 'react';
 
 interface PageHeaderProps {
   heading: string;
-  subheading?: string;
+  subheading?: any;
+  icon?: any;
 }
 
-
-
-const PageHeader: FC<PageHeaderProps> = ({ heading, subheading="" }) => {
+const PageHeader: FC<PageHeaderProps> = ({ heading, subheading = '' }) => {
   const theme = useTheme();
 
   return (
-    <RootWrapper display="flex" alignItems="center">
-      <HeadingStyle sx={{m:0, p:0}}>{heading}</HeadingStyle>
-      {subheading && (
-        <Typography
-          variant="subtitle2"
+    <Box>
+      <Typography
+        variant={'h3'}
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          gap: 1,
+          my: 0
+        }}
+      >
+        <Box
           sx={{
-            ml: 2
+            height: '24px',
+            width: '5px',
+            backgroundColor: (theme) => theme.palette.primary.main
           }}
-        >
-          {subheading}
-        </Typography>
-      )}
-    </RootWrapper>
+        ></Box>
+        {heading}
+      </Typography>
+      {subheading && <Typography variant="subtitle2">{subheading}</Typography>}
+    </Box>
   );
 };
 

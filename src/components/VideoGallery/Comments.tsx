@@ -1,15 +1,15 @@
-import React, { useEffect } from 'react';
+import { Container } from '@mui/material';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { getcommentS } from 'src/requests/VideoGallery/VideoGallery';
-import { Icomments, Getcomments } from 'src/interfaces/Common/VideoGallery';
 import { useParams } from 'react-router-dom';
+import { Getcomments, Icomments } from 'src/interfaces/Common/VideoGallery';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import BackButton from 'src/libraries/button/BackButton';
-import { Container } from '@mui/material';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import List11 from 'src/libraries/list/List11';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import { getcommentS } from 'src/requests/VideoGallery/VideoGallery';
+import { RootState } from 'src/store';
 
 function Comments() {
   const { VideoID, FromRoute } = useParams();
@@ -30,24 +30,26 @@ function Comments() {
 
   return (
     <div>
-      <BackButton FromRoute={"/Common/VideoGallery/VideoAlbum"} />
+      <BackButton FromRoute={'/Common/VideoGallery/VideoAlbum'} />
       <Container>
         <PageHeader heading={'Comments'} subheading={''} />
-        {loading ?
-          <SuspenseLoader /> :
-          comment.length === 0 ?
-            <ErrorMessages Error={'No records found'} /> :
-            (<>
-              {
-                comment.map((items: Getcomments, i) => (
-                  <List11 key={i} VideoID={items.VideoId}
-                    Title={items.VideoComment} VideoUrl={items.VideoUrl}
-                    FromRoute={"/Comments"}
-                  />
-                ))
-              }
-            </>)
-        }
+        {loading ? (
+          <SuspenseLoader />
+        ) : comment.length === 0 ? (
+          <ErrorMessages Error={'No records found'} />
+        ) : (
+          <>
+            {comment.map((items: Getcomments, i) => (
+              <List11
+                key={i}
+                VideoID={items.VideoId}
+                Title={items.VideoComment}
+                VideoUrl={items.VideoUrl}
+                FromRoute={'/Comments'}
+              />
+            ))}
+          </>
+        )}
       </Container>
     </div>
   );

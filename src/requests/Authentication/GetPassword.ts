@@ -1,29 +1,25 @@
-import { createSlice, nanoid, createAsyncThunk } from '@reduxjs/toolkit'
-import GetPasswordApi from "../../api/Authentication/GetPassword";
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
+import { IGetPassword } from 'src/interfaces/Authentication/GetPassword';
 import { AppThunk } from 'src/store';
-import { IGetPassword } from "src/interfaces/Authentication/GetPassword"
+import GetPasswordApi from '../../api/Authentication/GetPassword';
 
 const GetPasswordslice = createSlice({
   name: 'GetPassword',
   initialState: {
-    Password: [],
-
+    Password: []
   },
   reducers: {
     getPassword(state, action) {
       state.Password = action.payload.GetPasswordResult;
-    },
-
+    }
   }
 });
 
 export const getPassword =
   (data: IGetPassword): AppThunk =>
-    async (dispatch) => {
-      const response = await GetPasswordApi.GetPasswordResult(data);
-      dispatch(GetPasswordslice.actions.getPassword(response.data));
-    };
+  async (dispatch) => {
+    const response = await GetPasswordApi.GetPasswordResult(data);
+    dispatch(GetPasswordslice.actions.getPassword(response.data));
+  };
 
-
-export default GetPasswordslice.reducer
+export default GetPasswordslice.reducer;

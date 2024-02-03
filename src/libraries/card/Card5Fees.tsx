@@ -1,29 +1,12 @@
-import {
-  Box,
-  Divider,
-  Card,
-  Typography,
-  useTheme,
-  Container,
-  Grid,
-  Fab
-} from '@mui/material';
-import PropTypes from 'prop-types';
-import { saveAs } from 'file-saver';
-import { Styles } from 'src/assets/style/student-style';
-import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import BackButton from '../button/BackButton';
+import { Box, Container, Typography } from '@mui/material';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import {
-  CardDetail1,
-  ListStyle,
   CardDetail,
-  CardDetail3,
+  CardDetail1,
   CardDetail2,
-  CardDetail8,
-  CardDetail9,
+  ListStyle,
   Wordbreak
 } from '../styled/CardStyle';
 
@@ -36,40 +19,62 @@ Card5Fees.propTypes = {
   Name: PropTypes.string
 };
 
-function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceiptFile ,clickIcon}) {
-
+function Card5Fees({
+  item,
+  Content,
+  FileName,
+  Name,
+  internalFees,
+  downloadReceiptFile,
+  clickIcon
+}) {
   const Toaster = () => {
-    toast.success('This feature is coming soon. Please download receipt form web app.')
-  }
+    toast.success(
+      'This feature is coming soon. Please download receipt form web app.'
+    );
+  };
   return (
     <>
       <Container>
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
 
-          <CardDetail2 dangerouslySetInnerHTML={{ __html: Content }}></CardDetail2>
+          <CardDetail2
+            dangerouslySetInnerHTML={{ __html: Content }}
+          ></CardDetail2>
 
-          <CardDetail
-
-          >
-            <Wordbreak sx={{ mt: "5px" }}>  {FileName}</Wordbreak>
+          <CardDetail>
+            <Wordbreak sx={{ mt: '5px' }}> {FileName}</Wordbreak>
 
             <Box>
               {FileName === '' ? null : (
                 <>
-                  <Box
-                    sx={{ marginTop: '1px' }}>
+                  <Box sx={{ marginTop: '1px' }}>
                     <a>
-                      {internalFees == "internalFees" ?
-                        <FileDownloadOutlinedIcon onClick={()=>{clickIcon(item.ReceiptNo, item.InternalFeeDetailsId,item.SerialNo)}} /> :
+                      {internalFees == 'internalFees' ? (
+                        <FileDownloadOutlinedIcon
+                          onClick={() => {
+                            clickIcon(
+                              item.ReceiptNo,
+                              item.InternalFeeDetailsId,
+                              item.SerialNo
+                            );
+                          }}
+                        />
+                      ) : (
                         <>
-                        {item.IsConcessionFee == true ? null :
-                        <FileDownloadOutlinedIcon 
-                        onClick={()=>{downloadReceiptFile(item.ReceiptNo, item.AccountHeaderId)}} />}
+                          {item.IsConcessionFee == true ? null : (
+                            <FileDownloadOutlinedIcon
+                              onClick={() => {
+                                downloadReceiptFile(
+                                  item.ReceiptNo,
+                                  item.AccountHeaderId
+                                );
+                              }}
+                            />
+                          )}
                         </>
-                      }
-
-
+                      )}
                     </a>
                   </Box>
                 </>
@@ -77,7 +82,6 @@ function Card5Fees({ item, Content, FileName, Name, internalFees, downloadReceip
             </Box>
           </CardDetail>
           <Typography mt={-0.5}>{item.PaidDateString}</Typography>
-
         </ListStyle>
       </Container>
     </>

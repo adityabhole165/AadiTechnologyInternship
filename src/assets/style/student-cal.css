@@ -1,25 +1,25 @@
 .multi-locale-days .rmdp-day {
-    width: 43px;
-    height: 40px;
-    position: relative;
-    /* background-color: #f3e9e9; */
-  }
-  .rmdp-day span, .rmdp-week-day {
-    color: black;
-    font-weight: 900;
-    }
-
-    .rmdp-arrow-container {
-      margin: 0 5px;
-      width: 20px;
-  }
-  .rmdp-arrow-container:hover {
-   background-color: GRAY;
-   border-radius: inherit;
+  width: 43px;
+  height: 40px;
+  position: relative;
+  /* background-color: #f3e9e9; */
+}
+.rmdp-day span,
+.rmdp-week-day {
+  color: black;
+  font-weight: 900;
 }
 
+.rmdp-arrow-container {
+  margin: 0 5px;
+  width: 20px;
+}
+.rmdp-arrow-container:hover {
+  background-color: GRAY;
+  border-radius: inherit;
+}
 
-.css-1mlz7v0-MuiPaper-root{
+.css-1mlz7v0-MuiPaper-root {
   background-color: red !important;
 }
 
@@ -28,100 +28,96 @@
   color: black;
   /* text-shadow: 0px 7px 8px grey; */
   font-size: 16px;
-    font-weight: 600;
+  font-weight: 600;
 }
 
-.rmdp-week, .rmdp-ym {
+.rmdp-week,
+.rmdp-ym {
   display: flex;
   justify-content: space-evenly;
 }
 
-  .rmdp-day-picker{
-    display: contents !important;
-  }
-  .rmdp-calendar  {
-    width: 100% !important;
-  }
- .rmdp-shadow {
-    width: 100% !important;
-  }
-
-  .rmdp-arrow {
-    color: solid #000000 !important ;
+.rmdp-day-picker {
+  display: contents !important;
+}
+.rmdp-calendar {
+  width: 100% !important;
+}
+.rmdp-shadow {
+  width: 100% !important;
 }
 
-  @media (max-height: 1440px) ,(max-width: 708px) { 
-    .rmdp-calendar {
-      padding: 5px !important;
+.rmdp-arrow {
+  color: solid #000000 !important ;
+}
+
+@media (max-height: 1440px), (max-width: 708px) {
+  .rmdp-calendar {
+    padding: 5px !important;
   }
   .multi-locale-days .rmdp-day {
     width: 50px !important;
     height: 50px !important;
     position: relative;
-}
-.rmdp-week-day {
-  height: 28px;
-  width: 60px !important;
-}
-
-
+  }
+  .rmdp-week-day {
+    height: 28px;
+    width: 60px !important;
+  }
 }
 
-@media (max-height: 450px), (max-width: 450px){
+@media (max-height: 450px), (max-width: 450px) {
   .rmdp-header {
     /* height: 32px; */
     line-height: 32px;
+  }
+
+  .rmdp-week-day {
+    height: 28px;
+    width: 51px;
+  }
+  @media (min-width: 323px) and (max-width: 416px) {
+    .css-w36a57-MuiBadge-badge {
+      margin-top: -5px !important;
+      margin-right: -10px !important;
+      padding: 4px 3px !important;
+      height: 15px !important;
+      border-radius: 13px !important;
+    }
+  }
+
+  @media (min-width: 301px) and (max-width: 322px) {
+    .css-w36a57-MuiBadge-badge {
+      margin-top: -5px !important;
+      margin-right: -6px !important;
+      padding: 4px 1px !important;
+      height: 14px !important;
+      border-radius: 13px !important;
+    }
+  }
+
+  @media (min-width: 417px) and (max-width: 643px) {
+    .css-w36a57-MuiBadge-badge {
+      margin-top: -5px !important;
+      margin-right: -11px !important;
+      padding: 4px 3px !important;
+      height: 15px !important;
+      border-radius: 13px !important;
+    }
+  }
 }
 
-.rmdp-week-day {
-  height: 28px;
-  width: 51px;
-}
-@media (min-width:323px) and ( max-width:416px){
-.css-w36a57-MuiBadge-badge {
-  margin-top: -5px !important;
-  margin-right: -10px !important;
-  padding: 4px 3px !important;
-  height: 15px !important;
-  border-radius: 13px !important;
- }}
-
- @media (min-width:301px) and ( max-width:322px){
-  .css-w36a57-MuiBadge-badge {
-    margin-top: -5px !important;
-    margin-right: -6px !important;
-    padding: 4px 1px !important;
-    height: 14px !important;
-    border-radius: 13px !important;
-   }}
-  
-     @media (min-width:417px) and ( max-width:643px){
-      .css-w36a57-MuiBadge-badge {
-        margin-top: -5px !important;
-        margin-right: -11px !important;
-        padding: 4px 3px !important;
-        height: 15px !important;
-        border-radius: 13px !important;
-       }}
-      
+.css-1o5qx5h {
+  right: -11px !important ;
+  top: -3px !important;
+  padding: 1px !important;
 }
 
-
-
-.css-1o5qx5h{
-  right:-11px!important ;
-  top:-3px!important;
-  padding:1px!important;
-  
-}
-
-.css-wrtzuf-MuiBadge-badge{
+.css-wrtzuf-MuiBadge-badge {
   font-size: 10px;
-  
-
 }
 
-  /* .rmdp-wrapper {
+/* .rmdp-wrapper {
     width: max-content;
     text-align: center;
     background-color: white;

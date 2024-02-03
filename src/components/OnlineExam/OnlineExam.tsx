@@ -1,25 +1,22 @@
-import { useDispatch } from 'react-redux';
+import Container from '@mui/material/Container';
+import FormControl from '@mui/material/FormControl';
+import NativeSelect from '@mui/material/NativeSelect';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { Link as RouterLink } from 'react-router-dom';
+import IOnlineTest, {
+  GetAllSubjectsForExamdata,
+  GetAllTestsForStudentdata,
+  IOnlineTestSubject
+} from 'src/interfaces/Student/OnlineExam';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import Card1 from 'src/libraries/mainCard/Card1';
 import {
   GetOnlineExamList,
   GetOnlineExamSubjectList
 } from 'src/requests/Student/OnlineExam';
-import { useSelector } from 'react-redux';
 import { RootState } from 'src/store';
-import IOnlineTest, {
-  GetAllTestsForStudentdata,
-  GetAllSubjectsForExamdata,
-  IOnlineTestSubject
-} from 'src/interfaces/Student/OnlineExam';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { useEffect, useState } from 'react';
-import Container from '@mui/material/Container';
-import FormControl from '@mui/material/FormControl';
-import NativeSelect from '@mui/material/NativeSelect';
-import List6 from 'src/libraries/list/List6';
-import Card4 from 'src/libraries/mainCard/Card4';
-import Card1 from 'src/libraries/mainCard/Card1';
-import { Link as RouterLink } from 'react-router-dom';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 
 const onlineExam = () => {
   const dispatch = useDispatch();
@@ -71,8 +68,9 @@ const onlineExam = () => {
   return (
     <Container>
       <PageHeader heading={'Online Exam Schedule'} subheading={''} />
-    {OnlineExamList.length === 0 ? 
-    <ErrorMessages Error={'No exam has been scheduled'} /> :
+      {OnlineExamList.length === 0 ? (
+        <ErrorMessages Error={'No exam has been scheduled'} />
+      ) : (
         <FormControl
           sx={{ marginTop: '50px', m: 1, width: '100%', marginLeft: '0px' }}
         >
@@ -93,7 +91,7 @@ const onlineExam = () => {
             </NativeSelect>
           }
         </FormControl>
-}
+      )}
       {SubjectList?.map((subjectList: GetAllSubjectsForExamdata, i) => {
         return (
           <>
@@ -108,7 +106,7 @@ const onlineExam = () => {
               }
               style={{ textDecoration: 'none' }}
             >
-              <Card1 
+              <Card1
                 header={subjectList.SubjectName}
                 text1=""
                 text2={subjectList.StartTime + '-' + subjectList.EndTime}
@@ -119,7 +117,7 @@ const onlineExam = () => {
                 Color=""
                 margin=""
                 FileName=""
-                Textcolor=''
+                Textcolor=""
                 key=""
               />
             </RouterLink>

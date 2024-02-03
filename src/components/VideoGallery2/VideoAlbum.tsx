@@ -1,18 +1,15 @@
-import PageHeader from 'src/libraries/heading/PageHeader';
-import MonthYearselector from '../PhotoGallery/MonthYearselector';
-import List1 from 'src/libraries/mainCard/List1';
-import { IYearList } from 'src/interfaces/Student/PhotoGallary';
-import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect, useState } from 'react';
-import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
-import {
-  GetVideoGalleryResult,
-  IVideoList
-} from 'src/interfaces/Common/VideoGallery';
-import { RootState } from 'src/store';
 import { Container } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IVideoList } from 'src/interfaces/Common/VideoGallery';
+import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import List1 from 'src/libraries/mainCard/List1';
+import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
+import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
+import { RootState } from 'src/store';
+import MonthYearselector from '../PhotoGallery/MonthYearselector';
 const VideoAlbum = () => {
   const YearList: any = useSelector(
     (state: RootState) => state.PhotoGalllary.YearList
@@ -20,12 +17,11 @@ const VideoAlbum = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    localStorage.setItem("url", window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getYearList(YearBody));
-    setMonth((new Date).getMonth() + 1)
-    setYear((new Date).getFullYear())
-
-  }, [])
+    setMonth(new Date().getMonth() + 1);
+    setYear(new Date().getFullYear());
+  }, []);
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState(0);
 
@@ -41,7 +37,6 @@ const VideoAlbum = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
-
 
   const changeMonth = (value) => {
     setMonth(value);
@@ -64,15 +59,17 @@ const VideoAlbum = () => {
 
   return (
     <Container>
-      <PageHeader heading='Video Gallery' subheading={''} />
-      <MonthYearselector month={month} onChange={changeMonth} year={year} YearData={YearList} newChange={changeYear} />
-      {loading ?
-        <SuspenseLoader />
-        :
-        <List1 items={VideoList} />
-      }
+      <PageHeader heading="Video Gallery" subheading={''} />
+      <MonthYearselector
+        month={month}
+        onChange={changeMonth}
+        year={year}
+        YearData={YearList}
+        newChange={changeYear}
+      />
+      {loading ? <SuspenseLoader /> : <List1 items={VideoList} />}
     </Container>
-  )
-}
+  );
+};
 
-export default VideoAlbum
+export default VideoAlbum;

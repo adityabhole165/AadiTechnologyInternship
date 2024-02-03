@@ -1,9 +1,16 @@
+import {
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow
+} from '@mui/material';
 import React from 'react';
-import { Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 
 interface TableListProps {
   headers: string[];
-  
+
   data: any[]; // Modify 'any[]' to the type of your data if known
 }
 
@@ -12,7 +19,7 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
     <Paper>
       <Table>
         <TableHead>
-        <TableRow sx={{backgroundColor:"#4dd0e1"}}>
+          <TableRow sx={{ backgroundColor: '#4dd0e1' }}>
             {headers.map((header, index) => (
               <TableCell key={index}>{header}</TableCell>
             ))}

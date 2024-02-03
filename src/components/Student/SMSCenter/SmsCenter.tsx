@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import { Box, Container, Hidden, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSmsList, getMobileNumber } from 'src/requests/Student/SMSCenter';
-import { RootState } from 'src/store';
-import { ISmsList, IMobileNumber } from 'src/interfaces/Student/SMSCenter';
+import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
-import { Container, Typography, Box, Hidden } from '@mui/material';
 import { CardDetail2 } from 'src/libraries/styled/CardStyle';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import Note from 'src/libraries/Note/Note';
 import { NoteStyle } from 'src/libraries/styled/NoteStyle';
+import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
+import { RootState } from 'src/store';
 
 const PageNumber = 1;
 
@@ -47,10 +46,9 @@ function SmsCenter() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url", window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     dispatch(getSmsList(SmsList_body));
     dispatch(getMobileNumber(MobileNumber_body));
-
   }, [page]);
 
   const Data = SmsList.map((item, index) => {
@@ -65,34 +63,35 @@ function SmsCenter() {
 
   const scrollToEnd = () => {
     setpage(page + 1);
-  }
+  };
 
   return (
     <Container>
       <PageHeader heading={' Received SMS'} subheading={''} />
 
-      <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
-
+      <Box
+        display="flex"
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+        sx={{ mb: 2 }}
+      >
         <CardDetail2>
-          <b>Mobile Number(s) : </b> {MobileNumber.replace(";",", ")}
+          <b>Mobile Number(s) : </b> {MobileNumber.replace(';', ', ')}
         </CardDetail2>
         <Hidden mdUp>
-        <Icon1 Note={Note} />
+          <Icon1 Note={Note} />
         </Hidden>
-       
-    
       </Box>
       <Hidden mdDown>
-      <NoteStyle>
-      <Typography sx={{mt:"-6px"}} p={0.6}>{Note}</Typography>
-      </NoteStyle>
+        <NoteStyle>
+          <Typography sx={{ mt: '-6px' }} p={0.6}>
+            {Note}
+          </Typography>
+        </NoteStyle>
       </Hidden>
-     
-   
-      
-      {loading ? 
-        <SuspenseLoader />
-       :<List1 items={Data} />}
+
+      {loading ? <SuspenseLoader /> : <List1 items={Data} />}
     </Container>
   );
 }

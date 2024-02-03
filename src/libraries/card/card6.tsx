@@ -1,18 +1,17 @@
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
+import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
-  Divider,
   Card,
-  Typography,
-  useTheme,
   Container,
-  Fab
+  Divider,
+  Fab,
+  Typography,
+  useTheme
 } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import BackButton from '../button/BackButton';
 import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
+import { Styles } from 'src/assets/style/student-style';
 
 Card6.propTypes = {
   Content: PropTypes.string,
@@ -26,11 +25,10 @@ Card6.propTypes = {
 function Card6({ Content, FileName, Name }) {
   const theme = useTheme();
   const navigate = useNavigate();
-  const file_path = localStorage.getItem("siteURL") + '/DOWNLOADS/School%20Notices/' + FileName;
-  
-    // 'http://riteschool_old.aaditechnology.com/RITeSchool' +
-    
-    
+  const file_path =
+    localStorage.getItem('siteURL') + '/DOWNLOADS/School%20Notices/' + FileName;
+
+  // 'http://riteschool_old.aaditechnology.com/RITeSchool' +
 
   const classes = Styles();
   return (
@@ -42,15 +40,18 @@ function Card6({ Content, FileName, Name }) {
             marginTop: 10
           }}
         >
-          <Box >
-            <Fab className={classes.backArrow}
+          <Box>
+            <Fab
+              className={classes.backArrow}
               sx={{
                 background: `${theme.colors.gradients.pink1}`,
-                position: 'absolute',
-
+                position: 'absolute'
               }}
-              onClick={() => { navigate(-1) }}
-              ><ReplyIcon />
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              <ReplyIcon />
             </Fab>
           </Box>
           <Box p={2}>

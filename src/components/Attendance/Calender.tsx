@@ -1,9 +1,9 @@
-import 'react-multi-date-picker/styles/layouts/prime.css';
+import { Box, Grow } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { Calendar } from 'react-multi-date-picker';
-import React, { useState, useEffect } from 'react';
-import { Container, Box, Grow } from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
+import 'react-multi-date-picker/styles/layouts/prime.css';
 import 'src/assets/style/student-cal.css';
+import { Styles } from 'src/assets/style/student-style';
 
 export function Calender1({ month, year, AttendenceData }) {
   const classes = Styles();
@@ -53,59 +53,57 @@ export function Calender1({ month, year, AttendenceData }) {
 
   return (
     <>
-    
-        {AttendenceData === undefined ? null : (
-          <Grow
-            in={checked}
-            style={{ transformOrigin: '0 0 1' }}
-            {...(checked ? { timeout: 1500 } : {})}
+      {AttendenceData === undefined ? null : (
+        <Grow
+          in={checked}
+          style={{ transformOrigin: '0 0 1' }}
+          {...(checked ? { timeout: 1500 } : {})}
+        >
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            className="multi-locale-days"
           >
-            <Box
-              display="flex"
-              justifyContent="center"
-              alignItems="center"
-              className="multi-locale-days"
-            >
-              <Calendar
-                weekDays={['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']}
-                mapDays={({ date }) => {
-                  month(date.month.number);
-                  year(date.year);
+            <Calendar
+              weekDays={['SU', 'MO', 'TU', 'WE', 'TH', 'FR', 'SA']}
+              mapDays={({ date }) => {
+                month(date.month.number);
+                year(date.year);
 
-                  if (statusW.includes(date.day))
-                    return {
-                      style: { background: 'yellow', borderRadius: '6px' }
-                    };
-                  if (statusY.includes(date.day))
-                    return {
-                      style: { background: '#2abf2a', borderRadius: '6px' }
-                    };
-                  if (statusN.includes(date.day))
-                    return {
-                      style: { background: '#f33737', borderRadius: '6px' }
-                    };
-                  if (statusX.includes(date.day))
-                    return {
-                      style: { background: '#b2a4dd', borderRadius: '6px' }
-                    };
-                  if (statusH.includes(date.day))
-                    return {
-                      style: { background: '#ebbb0b', borderRadius: '6px' }
-                    };
-                  if (statusO.includes(date.day))
-                    return {
-                      style: { background: '#bdbdbd', borderRadius: '6px' }
-                    };
-                  if (statusL.includes(date.day))
-                    return {
-                      style: { background: '#00b8d4', borderRadius: '6px' }
-                    };
-                }}
-              ></Calendar>
-            </Box>
-          </Grow>
-        )}
-     
+                if (statusW.includes(date.day))
+                  return {
+                    style: { background: 'yellow', borderRadius: '6px' }
+                  };
+                if (statusY.includes(date.day))
+                  return {
+                    style: { background: '#2abf2a', borderRadius: '6px' }
+                  };
+                if (statusN.includes(date.day))
+                  return {
+                    style: { background: '#f33737', borderRadius: '6px' }
+                  };
+                if (statusX.includes(date.day))
+                  return {
+                    style: { background: '#b2a4dd', borderRadius: '6px' }
+                  };
+                if (statusH.includes(date.day))
+                  return {
+                    style: { background: '#ebbb0b', borderRadius: '6px' }
+                  };
+                if (statusO.includes(date.day))
+                  return {
+                    style: { background: '#bdbdbd', borderRadius: '6px' }
+                  };
+                if (statusL.includes(date.day))
+                  return {
+                    style: { background: '#00b8d4', borderRadius: '6px' }
+                  };
+              }}
+            ></Calendar>
+          </Box>
+        </Grow>
+      )}
     </>
   );
 }

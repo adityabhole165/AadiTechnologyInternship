@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
-import AccordionPTA from './accordionPTA'
-import {useState} from 'react'
+import { useState } from 'react';
+import AccordionPTA from './accordionPTA';
 
 Accordion1.propTypes = {
   Parent: PropTypes.array,
@@ -9,7 +9,6 @@ Accordion1.propTypes = {
 };
 
 function Accordion1({ Parent, Teacher, headingg }) {
-  
   const [expanded, setExpanded] = useState<string | false>(false);
   const handleChange = (panel) => (event, isExpanded) => {
     setExpanded(isExpanded ? panel : false);
@@ -22,8 +21,8 @@ function Accordion1({ Parent, Teacher, headingg }) {
       text1: item.TeacherDesignation,
       text2: '',
       backgroundColor: item.RealatedSection === '2' ? 'info' : '',
-      RelatedSection: item.RealatedSection === '2' ? '2' : '0',
-    }
+      RelatedSection: item.RealatedSection === '2' ? '2' : '0'
+    };
   });
 
   const Data1 = Parent.map((item, index) => {
@@ -31,18 +30,17 @@ function Accordion1({ Parent, Teacher, headingg }) {
       id: index,
       header: item.ParentName,
       text1: item.ParentDesignation,
-      text2: item.MobileNumber1 ,
+      text2: item.MobileNumber1,
       text3: item.Class,
       text4: item.MobileNumber2,
       text6: item.ContactTime,
-      backgroundColor: '',
-
+      backgroundColor: ''
     };
   });
   return (
     <>
       <AccordionPTA
-        name='panel1'
+        name="panel1"
         header={headingg.PTA_Member}
         Data={Data}
         isExpanded={expanded === 'panel1'}
@@ -50,15 +48,13 @@ function Accordion1({ Parent, Teacher, headingg }) {
       />
 
       <AccordionPTA
-        name='panel2'
+        name="panel2"
         header={headingg.PTA}
         Data={Data1}
         isExpanded={expanded === 'panel2'}
         handleChange={handleChange('panel2')}
       />
-
     </>
   );
 }
 export default Accordion1;
-

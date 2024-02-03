@@ -1,11 +1,10 @@
-import Card10 from 'src/libraries/card/card10';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getEventsList } from 'src/requests/Dashboard/Dashboard';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { IUpcomingEventsList } from 'src/interfaces/Student/dashboard';
 import { useTheme } from '@mui/material';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { IUpcomingEventsList } from 'src/interfaces/Student/dashboard';
+import Card10 from 'src/libraries/card/card10';
+import { getEventsList } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 function UpcomingEvents() {
   const theme = useTheme();

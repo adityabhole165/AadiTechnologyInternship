@@ -1,29 +1,35 @@
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Styles } from 'src/assets/style/student-style';
+import {
+  Container,
+  FormControl,
+  Grid,
+  NativeSelect,
+  styled,
+  useTheme
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import List14 from 'src/libraries/list/List14';
-import { Container, Fab, FormControl, NativeSelect, useTheme } from '@mui/material';
-import Buttons from 'src/libraries/buttons/button';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { styled, Grid } from '@mui/material';
-import BackButton from 'src/libraries/button/BackButton';
 import { useNavigate, useParams } from 'react-router-dom';
-import AttendanceData, { IGetClassAttendanceResult } from 'src/interfaces/Teacher/TAttendanceList';
-import ITAttendance, { GetStandardDivisionsResult } from 'src/interfaces/Teacher/TAttendance';
-import { getAttendanceDataList, getStandardList } from 'src/requests/TAttendance/TAttendance';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { getDateFormatted } from '../Common/Util'
+import { Styles } from 'src/assets/style/student-style';
+import ITAttendance from 'src/interfaces/Teacher/TAttendance';
+import AttendanceData, {
+  IGetClassAttendanceResult
+} from 'src/interfaces/Teacher/TAttendanceList';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import BackButton from 'src/libraries/button/BackButton';
 import DateSelector from 'src/libraries/buttons/DateSelector';
-import { DotLegend1 } from 'src/libraries/styled/DotLegendStyled';
-import {DotLegendStyled1} from 'src/libraries/styled/DotLegendStyled';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import List14 from 'src/libraries/list/List14';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import {
-
-  CardDetail7,
-
-} from 'src/libraries/styled/CardStyle';
-
+  DotLegend1,
+  DotLegendStyled1
+} from 'src/libraries/styled/DotLegendStyled';
+import {
+  getAttendanceDataList,
+  getStandardList
+} from 'src/requests/TAttendance/TAttendance';
+import { RootState } from 'src/store';
+import { getDateFormatted } from '../Common/Util';
 
 const TView = () => {
   const { assignedDate } = useParams();
@@ -66,13 +72,12 @@ const TView = () => {
     setgetDate(getDateFormatted(newDate));
   };
 
-
   useEffect(() => {
     dispatch(getStandardList(body));
   }, []);
 
   useEffect(() => {
-    if (getStandardId!="undefined") {
+    if (getStandardId != 'undefined') {
       dispatch(getAttendanceDataList(body1));
     }
   }, [getDate, getStandardId]);
@@ -100,16 +105,17 @@ const TView = () => {
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Year = new Date(date).getFullYear();
     const NewDateFormat = `${Day}-${Month}-${Year}`;
-    setgetDate(NewDateFormat)
-  }
-
+    setgetDate(NewDateFormat);
+  };
 
   return (
     <Container>
       <PageHeader heading={'View Attendance'} subheading={''} />
 
-      <Grid container direction="row" >
-          <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
+      <Grid container direction="row">
+        <BackButton
+          FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}
+        />
       </Grid>
 
       <Grid container>
@@ -138,27 +144,29 @@ const TView = () => {
 
       <>
         <>
-          <FormControl
-            fullWidth
-            sx={{ mt: '0.2rem', mb: '-2' }}
-          >
-            <NativeSelect value={getStandardId} onChange={(e) => handleChange(e)}>
+          <FormControl fullWidth sx={{ mt: '0.2rem', mb: '-2' }}>
+            <NativeSelect
+              value={getStandardId}
+              onChange={(e) => handleChange(e)}
+            >
               <option>Select Class</option>
-              {getTeacherAttendance.map(
-                (items, i) => {
-                  return (
-                      <option value={items.Value} key={i}>
-                        {items.Name}
-                      </option>
-                  );
-                }
-              )}
+              {getTeacherAttendance.map((items, i) => {
+                return (
+                  <option value={items.Value} key={i}>
+                    {items.Name}
+                  </option>
+                );
+              })}
             </NativeSelect>
             <br></br>
           </FormControl>
         </>
         <br></br>
-        <DateSelector date={getDate} setCurrentDate={getCurrentDate} Close={getCurrentDate} ></DateSelector>
+        <DateSelector
+          date={getDate}
+          setCurrentDate={getCurrentDate}
+          Close={getCurrentDate}
+        ></DateSelector>
       </>
       {getAttendanceData.length > 1 ? (
         getAttendanceData.map((items: IGetClassAttendanceResult, i) => (
@@ -182,9 +190,13 @@ const TView = () => {
             <div key={i}>
               {i === 0 && items.Status == 'O' ? (
                 <>
-                <div style={{marginTop:'120px !important'}}>
-                  <ErrorMessages Error={'Attendance date should be within current academic year.'}/>
-                </div>
+                  <div style={{ marginTop: '120px !important' }}>
+                    <ErrorMessages
+                      Error={
+                        'Attendance date should be within current academic year.'
+                      }
+                    />
+                  </div>
                 </>
               ) : i === 0 && items.Status == 'W' ? (
                 <>
@@ -202,7 +214,7 @@ const TView = () => {
                 </>
               ) : i === 0 && items.Status == 'N' ? (
                 <>
-                <ErrorMessages Error={'Attendance not yet marked.'} />
+                  <ErrorMessages Error={'Attendance not yet marked.'} />
                 </>
               ) : new Date(getDate) > currentDate ? (
                 <>

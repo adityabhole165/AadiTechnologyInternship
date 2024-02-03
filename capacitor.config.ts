@@ -5,11 +5,11 @@ const config: CapacitorConfig = {
   appName: 'RITeSchool',
   webDir: 'build',
   bundledWebRuntime: false,
-  server:{
-    androidScheme:"http",
+  server: {
+    androidScheme: 'http',
     cleartext: true,
     //allowNavigation:["https://schooltempapi.riteschool.com/"]
-    allowNavigation:["http://schoolappapi.aaditechnology.com/"]
+    allowNavigation: ['http://schoolappapi.aaditechnology.com/']
   }
 };
 

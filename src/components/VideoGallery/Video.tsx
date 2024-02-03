@@ -1,19 +1,24 @@
+import {
+  Box,
+  Container,
+  FormControl,
+  Grid,
+  MenuItem,
+  Select
+} from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
-import { RootState } from 'src/store';
 import {
   GetVideoGalleryResult,
   IVideoList
 } from 'src/interfaces/Common/VideoGallery';
-import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
-import List10 from 'src/libraries/list/List10';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container, FormControl, Grid, MenuItem, Select } from '@mui/material';
-import { makeStyles } from '@mui/styles';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { Box, useTheme } from '@mui/material';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
+import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
+import { RootState } from 'src/store';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,8 +67,8 @@ function VideoGallary() {
   };
 
   useEffect(() => {
-    localStorage.setItem("url",window.location.pathname)
-  },[])
+    localStorage.setItem('url', window.location.pathname);
+  }, []);
 
   useEffect(() => {
     dispatch(getVideoss(VideoList_body));
@@ -121,7 +126,8 @@ function VideoGallary() {
             //   key={i}
             //   FromRoute={"/VideoGallery"}
             // />
-          <></>))}
+            <></>
+          ))}
         </>
       )}
     </>
