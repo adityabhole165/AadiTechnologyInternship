@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import LessonPlanApi from 'src/api/LessonPlan/ApiLessonPlanBaseScreen';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
   IDeleteLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
@@ -38,9 +39,8 @@ export const lessonplanlist =
     let abc = response.data.map((item, i) => {
       return {
         Id: i,
-        Text1: item.StartDate,
-        Text2: item.EndDate,
-        Text7: item.IsSubmitted
+        Text1: getDateMonthYearFormatted(item.StartDate),
+        Text2: getDateMonthYearFormatted(item.EndDate)
         // Text6: "Export"
       };
     });

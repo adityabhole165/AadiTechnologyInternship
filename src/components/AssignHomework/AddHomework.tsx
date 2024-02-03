@@ -34,7 +34,7 @@ const AddHomework = () => {
   const [Status, setStatus] = useState('');
   const [Title, setTitle] = useState('');
   const [Subject, setSubjectName] = useState('');
-  const [Subjectlist, setSubjectlist] = useState('');
+  const [SubjectId, setSubjectId] = useState('');
   const [ErrorSubjectlist, ErrorsetSubjectlist] = useState('');
   const [ErrorTitle, setErrorTitle] = useState('');
   const [SearchText, setSearchText] = useState('');
@@ -111,12 +111,12 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-  {
-    asSchoolId: asSchoolId,
-    aTeacherId: Number(asTeacherId),
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
-  };
+    {
+      asSchoolId: asSchoolId,
+      aTeacherId: Number(asTeacherId),
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivisionId: StandardDivisionId
+    };
   // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
   //     asSchoolId:asSchoolId.toString(),
   //    asAcademicYearId:asAcademicYearId.toString(),
@@ -146,7 +146,7 @@ const AddHomework = () => {
   //     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
   // }, []);
   const clickSubjectList = (value) => {
-    setSubjectlist(value);
+    setSubjectId(value);
   };
   const ChangeFile = (value) => {
     setFile(value.Name);
@@ -159,7 +159,7 @@ const AddHomework = () => {
   const SaveFile = () => {
     const HomeworkSaveBody: ISaveHomeworkBody = {
       asTitle: Title,
-      asSubjectId: Number(Subjectlist),
+      asSubjectId: Number(SubjectId),
       asStandardDivisionId: StandardDivisionId,
       asAttachmentPath: File,
       asDetails: Details,
@@ -233,15 +233,15 @@ const AddHomework = () => {
       //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
     } else {
       const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-      {
-        asSchoolId: asSchoolId.toString(),
-        asAcademicYearId: asAcademicYearId.toString(),
-        asHomeWorkLogId: getSelectedSubject(),
-        asUnpublishReason: 'Yesss',
-        asUpdatedById: TeacherId,
-        IsPublished: Number(IsPublish),
-        IsSMSSent: 1
-      };
+        {
+          asSchoolId: asSchoolId.toString(),
+          asAcademicYearId: asAcademicYearId.toString(),
+          asHomeWorkLogId: getSelectedSubject(),
+          asUnpublishReason: 'Yesss',
+          asUpdatedById: TeacherId,
+          IsPublished: Number(IsPublish),
+          IsSMSSent: 1
+        };
 
       dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
     }
@@ -338,7 +338,7 @@ const AddHomework = () => {
                 width={'100%'}
                 itemList={ClassSubject}
                 ClickItem={clickSubjectList}
-                DefaultValue={Subjectlist}
+                DefaultValue={SubjectId}
                 Label={'Select Subject'}
               />
               <br></br>
@@ -438,8 +438,8 @@ const AddHomework = () => {
                   setCompleteDate(e.target.value);
                 }}
                 variant="standard"
-              // error={ErrorCompleteDate !== ''}
-              // helperText={ErrorCompleteDate}
+                // error={ErrorCompleteDate !== ''}
+                // helperText={ErrorCompleteDate}
               />
             </Box>
           </Grid>
@@ -491,7 +491,9 @@ const AddHomework = () => {
       <br></br>
       <br></br>
       <SubjectList1
-        ItemList={SubjectList}
+        ItemList={SubjectList.filter((item) => {
+          return item.SubjectId !== SubjectId;
+        })}
         HeaderArray={HeaderPublish1}
         onChange={Changevalue}
         clickchange={''}

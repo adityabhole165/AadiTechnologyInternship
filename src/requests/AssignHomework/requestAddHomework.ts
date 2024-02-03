@@ -152,6 +152,7 @@ export const GetTeacherSubjectList =
     let a = response.data.map((item, i) => {
       return {
         Id: item.Id,
+        SubjectId: item.SubjectId,
         Text1: item.Id,
         Text2: item.Subject,
         Text3: item.Title,
