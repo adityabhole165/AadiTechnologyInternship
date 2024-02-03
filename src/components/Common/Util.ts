@@ -111,10 +111,11 @@ export const formatAMPM = (date) => {
 
 export const getDateFormatted = (date) => {
   date = date || new Date();
-  const Day = new Date(date).getDate();
+  let Day = new Date(date).getDate();
+  
   const Month = new Date(date).toLocaleString('default', { month: 'short' });
   const Year = new Date(date).getFullYear();
-  return `${Day} ${Month} ${Year}`;
+  return `${Day<10?"0"+Day.toString():Day.toString()} ${Month} ${Year}`;
 };
 
 export const getDateFormattedDash = (date) => {

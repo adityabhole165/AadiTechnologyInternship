@@ -112,7 +112,7 @@ const TAttendance = () => {
     (state: RootState) => state.AttendanceList.StudentList
   );
 
-  console.log(RollNoList, 'stdlist--');
+  // console.log(RollNoList, 'stdlist--');
 
   const StudentAbsent = useSelector(
     (state: RootState) => state.AttendanceList.StudentAbsent
@@ -153,7 +153,7 @@ const TAttendance = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  console.log('ScreensAccessPermission', ScreensAccessPermission);
+  // console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission.map((item) => {

@@ -35,7 +35,7 @@ function CardCal1({
           justifyContent: 'center',
           flexDirection: 'column',
           cursor: 'pointer',
-          color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
+          // color: item.Value == DefaultValue ? 'yellow' : item.BackgroundColor,
           backgroundColor:
             item.Value === assignedDate
               ? (theme) => alpha(theme.palette.primary.main, 0.2)

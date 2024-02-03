@@ -186,7 +186,7 @@ function CardCalender1({
                 item={item}
                 clickItem={() => ClickItem(item.Value)}
                 DefaultValue={DefaultValue}
-                assignedDate={assignedDate}
+                assignedDate={formattedDate}
               />
             </Grid>
           );
