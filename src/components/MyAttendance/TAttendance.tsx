@@ -4,7 +4,12 @@ import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Button,
   Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
   Grid,
   Hidden,
   IconButton,
@@ -835,6 +840,17 @@ const TAttendance = () => {
             )} */}
         </Grid>
       </Grid>
+      <Dialog open={true} fullWidth maxWidth={'sm'}>
+        <DialogTitle
+          sx={{
+            backgroundColor: (theme) => theme.palette.primary.main
+          }}
+        ></DialogTitle>
+        <DialogContent dividers></DialogContent>
+        <DialogActions>
+          <Button>NA</Button>
+        </DialogActions>
+      </Dialog>
     </Container>
   );
 };
