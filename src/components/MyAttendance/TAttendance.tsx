@@ -1,7 +1,7 @@
-import BadgeTwoToneIcon from '@mui/icons-material/BadgeTwoTone';
-import RecentActorsTwoToneIcon from '@mui/icons-material/RecentActorsTwoTone';
-import SaveTwoToneIcon from '@mui/icons-material/SaveTwoTone';
-import SearchTwoToneIcon from '@mui/icons-material/SearchTwoTone';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PersonIcon from '@mui/icons-material/Person';
+import SaveIcon from '@mui/icons-material/Save';
+import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Container,
@@ -384,60 +384,22 @@ const TAttendance = () => {
         }}
       >
         <Box>
-          <PageHeader
-            heading="Attendance"
-            subheading={
-              <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
-                <Typography
-                  color={'primary'}
-                  sx={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    navigate(
-                      '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                    );
-                  }}
-                >
-                  Count: {SummaryCountforAttendance?.TotalStudents}
-                </Typography>
-              </Tooltip>
-            }
-          ></PageHeader>
+          <PageHeader heading="Attendance"></PageHeader>
         </Box>
-        <Stack direction={'row'} gap={1}>
+        <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <Tooltip title={'Individual Attendance'}>
-              <IconButton
+            <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
+              <Typography
+                color={'primary'}
+                sx={{ cursor: 'pointer' }}
                 onClick={() => {
-                  navigate('/extended-sidebar/Teacher/IndidualAttendance');
-                }}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[600],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
+                  navigate(
+                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
+                  );
                 }}
               >
-                <BadgeTwoToneIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Monthwise Attendance'}>
-              <IconButton
-                onClick={() => {
-                  navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
-                }}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[600],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <RecentActorsTwoToneIcon />
-              </IconButton>
+                Count: {SummaryCountforAttendance?.TotalStudents}
+              </Typography>
             </Tooltip>
           </Box>
           <Box>
@@ -476,11 +438,49 @@ const TAttendance = () => {
                 }}
               >
                 <Tooltip title="search">
-                  <SearchTwoToneIcon />
+                  <SearchIcon />
                 </Tooltip>
               </IconButton>
             </Paper>
           </Box>
+
+          <Box>
+            <Tooltip title={'Individual Attendance'}>
+              <IconButton
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/IndidualAttendance');
+                }}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <PersonIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={'Monthwise Attendance'}>
+              <IconButton
+                onClick={() => {
+                  navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
+                }}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[600],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <CalendarMonthIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+
           <Box>
             <Tooltip title={'Save Attendance'}>
               <IconButton
@@ -493,7 +493,7 @@ const TAttendance = () => {
                   }
                 }}
               >
-                <SaveTwoToneIcon />
+                <SaveIcon />
               </IconButton>
             </Tooltip>
           </Box>
@@ -776,8 +776,6 @@ const TAttendance = () => {
               </span>
             </Hidden>
           )}
-          <br />
-          <br />
 
           <Box sx={{ display: onlySelectedClass }}>
             <Hidden mdUp>

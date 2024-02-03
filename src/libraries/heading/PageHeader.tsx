@@ -16,10 +16,9 @@ const PageHeader: FC<PageHeaderProps> = ({ heading, subheading = '' }) => {
       <Typography
         variant={'h3'}
         sx={{
-          fontWeight: 'normal',
           display: 'flex',
           alignItems: 'center',
-          gap: 0.5,
+          gap: 1,
           my: 0
         }}
       >

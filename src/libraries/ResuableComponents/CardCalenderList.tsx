@@ -76,22 +76,8 @@ function CardCalenderList({
             </IconButton>
           </Stack>
         </Box>
-        <Grid container sx={{ my: 2 }}>
-          <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendTeacher color={legendColors.p} text="Present" />
-            <DotLegendTeacher color={legendColors.a} text="Absent" />
-            <DotLegendTeacher color={legendColors.h} text="Holiday" />
-            <DotLegendTeacher color={legendColors.w} text="Weekend" />
 
-            <DotLegendTeacher
-              color={legendColors.o}
-              text="Outside Acadamic Year "
-            />
-            <DotLegendTeacher color={legendColors.l} text="Late Join " />
-            <DotLegendTeacher color={legendColors.n} text="Not Available " />
-          </Grid>
-        </Grid>
-        <Grid container spacing={0}>
+        <Grid container spacing={0} sx={{ mt: 2 }}>
           {ArrayList.map((item, i) => (
             <Grid
               item
@@ -131,6 +117,21 @@ function CardCalenderList({
               </Grid>
             );
           })}
+        </Grid>
+        <Grid container sx={{ mt: 2 }}>
+          <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
+            <DotLegendTeacher color={legendColors.p} text="Present" />
+            <DotLegendTeacher color={legendColors.a} text="Absent" />
+            <DotLegendTeacher color={legendColors.h} text="Holiday" />
+            <DotLegendTeacher color={legendColors.w} text="Weekend" />
+
+            <DotLegendTeacher
+              color={legendColors.o}
+              text="Outside Acadamic Year "
+            />
+            <DotLegendTeacher color={legendColors.l} text="Late Join " />
+            <DotLegendTeacher color={legendColors.n} text="Not Available " />
+          </Grid>
         </Grid>
       </Box>
     </Box>

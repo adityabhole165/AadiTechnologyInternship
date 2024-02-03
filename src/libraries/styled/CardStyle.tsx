@@ -13,7 +13,7 @@ export const CardDetail1 = styled(Typography)`
   font-size: 12px;
   // margin-left: 5px;
   color: black;
-  font-family: Roboto;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -21,19 +21,19 @@ export const CardDetail1 = styled(Typography)`
 export const CardDetail2 = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   cursor: pointer;
 `;
 
 export const NewCard = styled(Typography)`
   font-size: 12px;
-  font-family: Roboto;
+
   margin-left: -20px;
 `;
 export const DateWidth = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   cursor: pointer;
   margin-right: -5px;
   width: 75px;
@@ -41,7 +41,7 @@ export const DateWidth = styled(Typography)`
 export const DateWidth1 = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   cursor: pointer;
   margin-right: -5px;
   width: 40px;
@@ -55,7 +55,7 @@ export const HelperText = styled(FormHelperText)`
 export const CardDetail7 = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   margin-left: -5px;
   margin-top: -3px;
 
@@ -70,7 +70,7 @@ export const CardDetail7 = styled(Typography)`
 export const CardDetailB = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   margin-left: 5px;
   margin-top: -3px;
 
@@ -85,7 +85,6 @@ export const CardDetailB = styled(Typography)`
 export const CardDetail8 = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
 
   @media (max-width: 320px) {
     font-size: 11px;
@@ -99,7 +98,7 @@ export const CardDetail8 = styled(Typography)`
 export const Wordbreak = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   @media (max-width: 320px) {
     width: 250px;
     word-wrap: break-word;
@@ -121,7 +120,7 @@ export const Wordbreak = styled(Typography)`
 export const Wordbreak1 = styled(Typography)`
   font-size: 12px;
   color: black;
-  font-family: Roboto;
+
   padding: 10px;
   overflow: scroll;
 
@@ -156,7 +155,6 @@ export const BoxContent = styled(Box)`
 export const CardDetail3 = styled(Typography)`
   font-size: 12px;
 
-  font-family: Roboto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -164,7 +162,6 @@ export const CardDetail3 = styled(Typography)`
 export const BoxDetail1 = styled(Typography)`
   font-size: 12px;
 
-  font-family: Roboto;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -174,7 +171,7 @@ export const BoxDetail2 = styled(Typography)`
   font-size: 12px;
   width: 200px;
   color: black;
-  font-family: Roboto;
+
   // white-space: nowrap;
   // overflow: hidden;
   // text-overflow: ellipsis;
@@ -182,7 +179,7 @@ export const BoxDetail2 = styled(Typography)`
 
 export const CardD = styled(Typography)`
   font-size: 12px;
-  font-family: Roboto;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -192,7 +189,7 @@ export const CardD = styled(Typography)`
 export const CardDetail5 = styled(Typography)`
   font-size: 12px;
   margin-right: -50px;
-  font-family: Roboto;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -201,19 +198,16 @@ export const CardDetail4 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
   margin-top: 5px;
-  font-family: Roboto;
 `;
 export const CardDetailA = styled(Typography)`
   font-size: 12px;
   margin-left: 10px;
   margin-top: 6px;
-  font-family: Roboto;
 `;
 export const CardDetailR = styled(Typography)`
   font-size: 12px;
   margin-left: 16px;
   margin-top: 6px;
-  font-family: Roboto;
 `;
 
 export const CardDetail6 = styled(Typography)`
@@ -221,13 +215,11 @@ export const CardDetail6 = styled(Typography)`
   font-size: 12px;
   margin-left: 5px;
   color: black;
-  font-family: Roboto;
 `;
 
 export const CardDetail9 = styled(Typography)`
   font-size: 12px;
   // margin-left: 5px;
-  font-family: Roboto;
 `;
 
 export const CardDetail = styled(Box)(
@@ -452,7 +444,7 @@ export const ItemSize = styled(Box)(
   ({ theme }) => `
   font-size: 12px;
   color: black;
- font-family: Roboto;
+ 
  cursor: pointer;
  margin-left:5px;
 

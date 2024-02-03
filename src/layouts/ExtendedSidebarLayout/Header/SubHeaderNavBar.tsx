@@ -181,7 +181,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
         sx={{
           mt: '60px',
           zIndex: 1201,
-          backgroundColor: 'rgb(40, 160, 235)'
+          backgroundColor: (theme) => theme.palette.primary.main
         }}
       >
         <Stack

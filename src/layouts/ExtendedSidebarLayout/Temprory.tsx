@@ -45,7 +45,7 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   };
 
   const ActionStyle = {
-    backgroundColor: 'rgb(40, 160, 235)',
+    backgroundColor: (theme) => theme.palette.primary.main,
     pt: 1,
     color: '#fff',
     ':hover': {
@@ -108,9 +108,9 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
     }
   ];
   const activeStyle = {
-    backgroundColor: 'rgb(40, 160, 235)',
+    backgroundColor: (theme) => theme.palette.primary.main,
     ':hover': {
-      backgroundColor: 'rgb(40, 160, 235)'
+      backgroundColor: (theme) => theme.palette.primary.main
     }
   };
 

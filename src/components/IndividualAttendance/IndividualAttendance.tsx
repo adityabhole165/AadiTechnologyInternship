@@ -326,7 +326,7 @@ const IndividualAttendance = () => {
                     variant="contained"
                     sx={{
                       px: 6,
-                      backgroundColor: 'rgb(40, 160, 235)',
+                      backgroundColor: (theme) => theme.palette.primary.main,
                       color: 'white'
                     }}
                     color="primary"
@@ -375,7 +375,7 @@ const IndividualAttendance = () => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: 'rgb(40, 160, 235)',
+                  backgroundColor: (theme) => theme.palette.primary.main,
                   color: 'white'
                 }}
                 color="primary"
@@ -435,7 +435,7 @@ const IndividualAttendance = () => {
               <Button
                 variant="contained"
                 sx={{
-                  backgroundColor: 'rgb(40, 160, 235)',
+                  backgroundColor: (theme) => theme.palette.primary.main,
                   color: 'white'
                 }}
                 color="primary"
@@ -523,7 +523,7 @@ const IndividualAttendance = () => {
           <Button
             variant="contained"
             sx={{
-              backgroundColor: 'rgb(40, 160, 235)',
+              backgroundColor: (theme) => theme.palette.primary.main,
               color: 'white'
             }}
             color="primary"

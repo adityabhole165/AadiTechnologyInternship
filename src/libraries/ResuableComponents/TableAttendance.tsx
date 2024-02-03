@@ -59,7 +59,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                       sx={{
                         textTransform: 'capitalize',
                         color: 'white',
-                        backgroundColor: 'rgb(40, 160, 235)',
+                        backgroundColor: (theme) => theme.palette.primary.main,
                         paddingTop: 0,
                         paddingBottom: 0
                       }}

@@ -29,7 +29,7 @@ export const Header1 = styled(Typography)(
   align-items: center;
   font-size:12px;
   font-weight:bold;
-  font-family: Roboto;
+  
   color: ${
     color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
   }
@@ -43,7 +43,7 @@ export const HeaderAcc = styled(Typography)(
   align-items: center;
   font-size:14px;
 
-  font-family: Roboto;
+  
   color: ${
     color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
   }
@@ -56,7 +56,7 @@ export const Header3 = styled(Typography)(
   margin-top: 5px;
    margin-bottom: 5px;
   align-items: center;
-  font-family: Roboto;
+  
   color: ${
     color === 'secondary' ? theme.colors.gradients.accordianHeadercolor : ''
   }
@@ -76,7 +76,7 @@ export const CardDetail1 = styled(Typography)(
   margin-top: 1px;
   margin-left: 6px;
   margin-bottom: 2px;
-  font-family: Roboto;
+  
   font-size:12px;
   float:${align};
 `
@@ -85,21 +85,21 @@ export const CardDetail2 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-right: 10px;
-  font-family: Roboto;
+
   font-size: 12px;
 `;
 export const CardDetail3 = styled(Typography)`
   margin-top: 8px;
   margin-bottom: 4px;
   margin-left: 20px;
-  font-family: Roboto;
+
   font-size: 12px;
 `;
 export const CardDetail4 = styled(Typography)`
   margin-top: 1px;
   margin-left: 5px;
   margin-bottom: 2px;
-  font-family: Roboto;
+
   font-size: 12px;
   font-weight: bold;
 `;
@@ -107,30 +107,24 @@ export const CardDetail4 = styled(Typography)`
 export const CardWrapper1 = styled(Typography)`
   border-top: 0.1px solid gray;
   display: flex;
-  font-family: Roboto;
 `;
 export const CardDetail = styled(Box)`
   border-top: 0.1px solid gray;
   display: flex;
   justify-content: space-between;
-  font-family: Roboto;
 `;
 
 export const CardDetaiAtt = styled(Box)`
   border-bottom: 0.1px solid gray;
   display: flex;
-
-  font-family: Roboto;
 `;
 export const CardDetailB = styled(Box)`
   border-bottom: 0.1px solid gray;
   display: flex;
   justify-content: space-between;
-  font-family: Roboto;
 `;
 export const CardDetailH = styled(Box)`
   display: flex;
-  font-family: Roboto;
 `;
 
 export const Accordionsummary = styled(AccordionSummary)`
@@ -157,11 +151,9 @@ export const CardDetailTopper = styled(Typography)`
   margin-top: 4px;
   margin-left: 30px;
   margin-bottom: 5px;
-  font-family: Roboto;
 `;
 export const CardDetailTopper1 = styled(Typography)`
   margin-top: 4px;
   margin-left: 10px;
   margin-bottom: 4px;
-  font-family: Roboto;
 `;

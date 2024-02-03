@@ -9,6 +9,7 @@ import { CssBaseline } from '@mui/material';
 import AppInit from './libraries/AppInit';
 import ThemeProvider from './theme/ThemeProvider';
 
+import '@fontsource-variable/nunito-sans';
 import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';

@@ -1,5 +1,12 @@
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { Box, Grid, IconButton, Typography, alpha } from '@mui/material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography,
+  alpha
+} from '@mui/material';
 
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
@@ -94,7 +101,7 @@ function CardCalender1({
         }}
       >
         <Box>
-          <Typography sx={{ fontWeight: 'bold' }} variant={'h4'}>
+          <Typography sx={{ fontWeight: 'normal !important' }} variant={'h3'}>
             {formattedDate} |{' '}
             <span
               style={{
@@ -116,15 +123,18 @@ function CardCalender1({
           }}
         >
           {getAssignedDateStatus() == 'Done' && (
-            <IconButton
-              sx={{
-                backgroundColor: (theme) => alpha(theme.palette.error.main, 0.2)
-              }}
-              color="error"
-              onClick={() => ClickDeleteAttendance()}
-            >
-              <DeleteTwoToneIcon />
-            </IconButton>
+            <Tooltip title="Delete">
+              <IconButton
+                sx={{
+                  backgroundColor: (theme) =>
+                    alpha(theme.palette.error.main, 0.2)
+                }}
+                color="error"
+                onClick={() => ClickDeleteAttendance()}
+              >
+                <DeleteTwoToneIcon />
+              </IconButton>
+            </Tooltip>
           )}
           <IconButton
             onClick={() => clickPrevNextMonth(-1)}

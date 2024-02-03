@@ -111,7 +111,7 @@ const MonthwiseAttandance = () => {
           alignItems={'center'}
           justifyContent={'space-between'}
         >
-          <Box>
+          <Box sx={{ pt: 2, pb: 1 }}>
             <PageHeader heading={'Month Wise Attendance'} subheading={''} />
           </Box>
           <Stack flexDirection={'row'} alignItems={'center'} gap={1}>

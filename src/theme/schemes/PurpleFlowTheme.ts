@@ -4,7 +4,7 @@ import { alpha, createTheme, darken, lighten } from '@mui/material';
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: '#28a0eb',
+  primary: '#324b84',
   secondary: '#000',
   success: '#57CA22',
   warning: '#FFA319',
@@ -634,7 +634,7 @@ export const PurpleFlowTheme = createTheme({
           marginRight: -8
         },
         containedPrimary: {
-          color: colors.alpha.white[100],
+          color: colors.alpha.white[100]
         },
         containedSecondary: {
           backgroundColor: colors.secondary.main,
@@ -1222,7 +1222,7 @@ export const PurpleFlowTheme = createTheme({
     borderRadius: 0
   },
   typography: {
-    fontFamily: 'Roboto',
+    fontFamily: 'Nunito Sans Variable',
 
     h1: {
       fontWeight: 700,
