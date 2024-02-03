@@ -1,6 +1,4 @@
-import { Grid } from '@mui/material';
-import { Container } from '@mui/material';
-import BackButton from 'src/libraries/button/BackButton';
+import { Container, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 
 Card23.propTypes = {
@@ -8,12 +6,11 @@ Card23.propTypes = {
 };
 
 function Card23({ pic }) {
-
   return (
     <>
-      <Container sx={{mt:"60px"}}>
-        <Grid container item xs={12} justifyContent="center" >
-          <Grid item xs={11} >
+      <Container sx={{ mt: '60px' }}>
+        <Grid container item xs={12} justifyContent="center">
+          <Grid item xs={11}>
             <a>
               <iframe
                 width="100% "

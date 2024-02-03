@@ -1,12 +1,11 @@
-import http from "../../requests/SchoolService/schoolServices";
-import { IGetUnPublishResltBody} from "src/interfaces/PrePrimaryResult/IUnpublishPrePrimaryResult";
+import { IGetUnPublishResltBody } from 'src/interfaces/PrePrimaryResult/IUnpublishPrePrimaryResult';
+import http from '../../requests/SchoolService/schoolServices';
 
 const UnPublishReslt = (data: IGetUnPublishResltBody) => {
-    return http.post('Teacher/UnPublishReslt', data);
+  return http.post('Teacher/UnPublishReslt', data);
 };
 
-const ApiPrePrimaryResult ={
-    
-    UnPublishReslt,
-}
+const ApiPrePrimaryResult = {
+  UnPublishReslt
+};
 export default ApiPrePrimaryResult;

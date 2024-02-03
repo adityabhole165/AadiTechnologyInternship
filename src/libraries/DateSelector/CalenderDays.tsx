@@ -1,16 +1,13 @@
-import React from 'react'
-import CardCal from '../ResuableComponents/CardCal'
+import CardCal from '../ResuableComponents/CardCal';
 
-const CalenderDays = ({ItemList, DefaultDate, ClickDate}) => {
+const CalenderDays = ({ ItemList, DefaultDate, ClickDate }) => {
   return (
     <div>
-        {ItemList?.map((Item)=>{
-            <CardCal item={Item} clickItem={ClickDate}/>
-        })
-
-        }
+      {ItemList?.map((Item) => {
+        <CardCal item={Item} clickItem={ClickDate} />;
+      })}
     </div>
-  )
-}
+  );
+};
 
-export default CalenderDays
+export default CalenderDays;

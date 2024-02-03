@@ -1,13 +1,12 @@
-import http from "../../requests/SchoolService/schoolServices";
-import { IUnPublishTestBody } from "src/interfaces/ExamResultUnpublish/IExamResultUnpublish";
+import { IUnPublishTestBody } from 'src/interfaces/ExamResultUnpublish/IExamResultUnpublish';
+import http from '../../requests/SchoolService/schoolServices';
 
-const UnPublishTest = (data:IUnPublishTestBody) => {
-    return http.post('Teacher/UnPublishTest',data);
+const UnPublishTest = (data: IUnPublishTestBody) => {
+  return http.post('Teacher/UnPublishTest', data);
 };
 
-const UnPublishTestApi ={
-    UnPublishTest,
-    
-}
+const UnPublishTestApi = {
+  UnPublishTest
+};
 
-export default UnPublishTestApi
+export default UnPublishTestApi;

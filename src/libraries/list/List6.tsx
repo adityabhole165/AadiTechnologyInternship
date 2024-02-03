@@ -1,27 +1,11 @@
-import {
-  Box,
-  Typography,
-  useTheme,
-  List,
-  Container,
-  Grow,
-  Divider
-} from '@mui/material';
-import React, { useState, useEffect } from 'react';
+import { Box, Container, Grow, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 // import ShowMoreText from "react-show-more-text";
-import ExpandLess from '@mui/material/Icon/Icon';
-import ExpandMore from '@mui/material/Icon/Icon';
 import { makeStyles } from '@mui/styles';
 import { Link as RouterLink } from 'react-router-dom';
-import {
-  CardDetail,
-  CardDetail1,
-  CardDetail3,
-  ListStyle
-} from '../styled/CardStyle';
-import Note from 'src/libraries/Note/Note';
+import { CardDetail, CardDetail1, ListStyle } from '../styled/CardStyle';
 
 List6.propTypes = {
   StartDate: PropTypes.string,
@@ -94,67 +78,63 @@ function List6({
   const clas = useStyles();
 
   return (
-   
-      <Container>
-        <Grow
-          in={checked}
-          style={{ transformOrigin: '0 0 1' }}
-          {...(checked ? { timeout: 1500 } : {})}
-        >
-          <ListStyle>
-            <CardDetail1 sx={{ marginBottom: '25px !important' }}>
-             
-                {SubjectName}
-                {TestType !== '' ? <b>{'-' + ' ' + TestType}</b> : null}
-       
+    <Container>
+      <Grow
+        in={checked}
+        style={{ transformOrigin: '0 0 1' }}
+        {...(checked ? { timeout: 1500 } : {})}
+      >
+        <ListStyle>
+          <CardDetail1 sx={{ marginBottom: '25px !important' }}>
+            {SubjectName}
+            {TestType !== '' ? <b>{'-' + ' ' + TestType}</b> : null}
+          </CardDetail1>
+
+          <CardDetail>
+            <CardDetail1 sx={{ marginTop: '-25px' }}>{StartDate}</CardDetail1>
+            <CardDetail1 sx={{ marginTop: '-25px' }}>
+              {StartTime}-{EndTime}
             </CardDetail1>
+          </CardDetail>
 
-            <CardDetail>
-              <CardDetail1 sx={{ marginTop: '-25px' }}>{StartDate}</CardDetail1>
-              <CardDetail1 sx={{ marginTop: '-25px' }}>
-                {StartTime}-{EndTime}
+          {Description !== ' ' ? (
+            <>
+              <CardDetail1 sx={{ color: 'darkmagenta' }}>
+                <b>{Description}</b>
               </CardDetail1>
-            </CardDetail>
-
-            {Description !== ' ' ? (
-              <>
-                <CardDetail1 sx={{ color: 'darkmagenta' }}>
-                  <b>{Description}</b>
-                </CardDetail1>
-              </>
-            ) : null}
-            {ExamId !== undefined ? (
-              <>
-                <RouterLink
-                  to={
-                    `/${
-                      location.pathname.split('/')[1]
-                    }/Student/onlineExamDetails/` +
-                    ExamId +
-                    '/' +
-                    SubjectId
-                  }
+            </>
+          ) : null}
+          {ExamId !== undefined ? (
+            <>
+              <RouterLink
+                to={
+                  `/${
+                    location.pathname.split('/')[1]
+                  }/Student/onlineExamDetails/` +
+                  ExamId +
+                  '/' +
+                  SubjectId
+                }
+              >
+                <Box
+                  display="flex"
+                  flexDirection="row"
+                  justifyContent="right"
+                  sx={{ marginRight: '18px' }}
                 >
-                  <Box
-                    display="flex"
-                    flexDirection="row"
-                    justifyContent="right"
-                    sx={{ marginRight: '18px' }}
+                  <Typography
+                    className={classes.Listfont1}
+                    sx={{ color: 'blue', marginRight: '6px' }}
                   >
-                    <Typography
-                      className={classes.Listfont1}
-                      sx={{ color: 'blue', marginRight: '6px' }}
-                    >
-                      Exam
-                    </Typography>
-                  </Box>
-                </RouterLink>
-              </>
-            ) : null}
-          </ListStyle>
-        </Grow>
-      </Container>
-
+                    Exam
+                  </Typography>
+                </Box>
+              </RouterLink>
+            </>
+          ) : null}
+        </ListStyle>
+      </Grow>
+    </Container>
   );
 }
 

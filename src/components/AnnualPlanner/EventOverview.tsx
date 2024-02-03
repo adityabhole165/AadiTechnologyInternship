@@ -1,23 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
-import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import { Box, Container } from '@mui/material';
 import moment from 'moment';
-import List1 from 'src/libraries/mainCard/List1';
-import { Box, Container, TextField } from '@mui/material';
-import { useParams } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { useNavigate } from 'react-router-dom';
-import UpcomingEvent from './UpcomingEvent';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import MonthSelector from 'src/libraries/buttons/MonthSelector';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
+import List1 from 'src/libraries/mainCard/List1';
+import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
+import { RootState } from 'src/store';
+import UpcomingEvent from './UpcomingEvent';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
-  const BackMonth = new Date(Number(DateFromyear), Number(DateFrommon)).getMonth();
+  const BackMonth = new Date(
+    Number(DateFromyear),
+    Number(DateFrommon)
+  ).getMonth();
 
   const dispatch = useDispatch();
   const eventList = useSelector(
@@ -29,7 +31,7 @@ function EventOverview() {
   );
 
   const Note: string =
-  'These events may change due to unavoidable reasons without prior notice.';
+    'These events may change due to unavoidable reasons without prior notice.';
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -40,29 +42,30 @@ function EventOverview() {
   const [assignedYear, setAssignedYear] = useState<any>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
 
-
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('en-US', { month: 'short' });
 
     const Month_num = new Date(date).getMonth();
-    const Year = new Date(date).getFullYear()
+    const Year = new Date(date).getFullYear();
     const NewDateFormat = `${Month} ${Year}`;
     setDate({
       selectedDate: NewDateFormat
     });
-    SetassignedMonth_num(BackMonth)
-    setAssignedYear(DateFromyear)
+    SetassignedMonth_num(BackMonth);
+    setAssignedYear(DateFromyear);
     setAssignedYear(Year);
     SetassignedMonth_num(Month_num + 1);
   }
 
   useEffect(() => {
-    localStorage.setItem("url", window.location.pathname)
+    localStorage.setItem('url', window.location.pathname);
     setCurrentDate();
     if (DateFrommon != undefined) {
       setDate({
-        selectedDate: `${new Date(BackMonth + '/01/' + DateFromyear).toLocaleString('default', { month: 'short' })} ${DateFromyear}`
+        selectedDate: `${new Date(
+          BackMonth + '/01/' + DateFromyear
+        ).toLocaleString('default', { month: 'short' })} ${DateFromyear}`
       });
     }
   }, []);
@@ -70,10 +73,9 @@ function EventOverview() {
   useEffect(() => {
     if (DateFrommon || DateFromyear != undefined) {
       SetassignedMonth_num(DateFrommon);
-      setAssignedYear(DateFromyear)
+      setAssignedYear(DateFromyear);
     }
   }, [DateFrommon, DateFromyear]);
-
 
   useEffect(() => {
     if (assignedMonth_num !== undefined) {
@@ -83,8 +85,10 @@ function EventOverview() {
 
   const getPreviousDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.includes('-')? selectedDate.split("-"):selectedDate.split(" ");
-    const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
+    const dateValues = selectedDate.includes('-')
+      ? selectedDate.split('-')
+      : selectedDate.split(' ');
+    const updatedDate = Date.parse(dateValues[0] + '01,' + dateValues[1]);
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() - 1);
     setCurrentDate(currentDayInMilli);
@@ -92,8 +96,10 @@ function EventOverview() {
 
   const getNextDate = () => {
     const { selectedDate } = date;
-    const dateValues = selectedDate.includes('-')? selectedDate.split("-"):selectedDate.split(" ");
-    const updatedDate = Date.parse(dateValues[0] +"01," + dateValues[1])
+    const dateValues = selectedDate.includes('-')
+      ? selectedDate.split('-')
+      : selectedDate.split(' ');
+    const updatedDate = Date.parse(dateValues[0] + '01,' + dateValues[1]);
     const currentDayInMilli = new Date(updatedDate);
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
@@ -113,50 +119,58 @@ function EventOverview() {
   const EndDate = new Date(
     moment(sessionStorage.getItem('EndDate')).format('YYYY-MM')
   );
-  const selectedDateList = ((typeof date.selectedDate === 'string') ? date.selectedDate.split(" ") : date.selectedDate)
-  const formatSelectedDate = ((Array.isArray(selectedDateList)) ? Date.parse(selectedDateList[0] +"01," + selectedDateList[1]) : date.selectedDate)
+  const selectedDateList =
+    typeof date.selectedDate === 'string'
+      ? date.selectedDate.split(' ')
+      : date.selectedDate;
+  const formatSelectedDate = Array.isArray(selectedDateList)
+    ? Date.parse(selectedDateList[0] + '01,' + selectedDateList[1])
+    : date.selectedDate;
   const date1 = new Date(moment(formatSelectedDate).format('YYYY-MM'));
-  const onUpcomingEvent=()=>{
-    navigate ('UpcomingEvent')
-  }
-const clickAddAnnual = () => {
-  navigate ('/extended-sidebar/teacher/AddAnnualPlaner')
+  const onUpcomingEvent = () => {
+    navigate('UpcomingEvent');
+  };
+  const clickAddAnnual = () => {
+    navigate('/extended-sidebar/teacher/AddAnnualPlaner');
+  };
 
-}
-  
   return (
     <>
-    {RoleId === "3" ?  <UpcomingEvent/> : <>
-    <Container>
-    
-      <PageHeader heading={'Annual Planner'} subheading={''} />
-      <button onClick={clickAddAnnual}>Add Annual Planner</button>
-      <Box sx={{ float: "right" }}>
-          <Icon1 Note={Note} />
-        </Box>
-      <MonthSelector
-        date={date.selectedDate}
-        PrevDate={getPreviousDate}
-        NextDate={getNextDate}
-        Close={undefined}
-      />
-      {loading ? 
-        <SuspenseLoader />
-       : 
-       (<>
-          {StartDate.getTime() <= date1.getTime() && EndDate.getTime() >= date1.getTime() ?
-            (<>
-
-              <List1 items={eventList}></List1>
-
-            </>) :
-            <ErrorMessages Error={'Selected date is outside academic year'} />
-          }
-        </>)
-      }
-      </Container>
-    </>
-    }
+      {RoleId === '3' ? (
+        <UpcomingEvent />
+      ) : (
+        <>
+          <Container>
+            <PageHeader heading={'Annual Planner'} subheading={''} />
+            <button onClick={clickAddAnnual}>Add Annual Planner</button>
+            <Box sx={{ float: 'right' }}>
+              <Icon1 Note={Note} />
+            </Box>
+            <MonthSelector
+              date={date.selectedDate}
+              PrevDate={getPreviousDate}
+              NextDate={getNextDate}
+              Close={undefined}
+            />
+            {loading ? (
+              <SuspenseLoader />
+            ) : (
+              <>
+                {StartDate.getTime() <= date1.getTime() &&
+                EndDate.getTime() >= date1.getTime() ? (
+                  <>
+                    <List1 items={eventList}></List1>
+                  </>
+                ) : (
+                  <ErrorMessages
+                    Error={'Selected date is outside academic year'}
+                  />
+                )}
+              </>
+            )}
+          </Container>
+        </>
+      )}
     </>
   );
 }

@@ -1,31 +1,16 @@
-import {
-  Box,
-  Divider,
-  Card,
-  Typography,
-  useTheme,
-  Container,
-  Grid,
-  Fab
-} from '@mui/material';
-import PropTypes from 'prop-types';
-import { saveAs } from 'file-saver';
-import { Styles } from 'src/assets/style/student-style';
-import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import BackButton from '../button/BackButton';
+import { Box, Container, Divider, useTheme } from '@mui/material';
+import { saveAs } from 'file-saver';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
 import {
-  CardDetail1,
-  ListStyle,
   CardDetail,
-  CardDetail3,
+  CardDetail1,
   CardDetail2,
-  CardDetail8,
-  CardDetail9,
+  ListStyle,
   Wordbreak
 } from '../styled/CardStyle';
-import { sitePath } from 'src/components/Common/Util';
 
 Card5.propTypes = {
   Content: PropTypes.string,
@@ -46,14 +31,16 @@ function Card5({ Content, FileName, Name }) {
 
   const download = (e) => {
     saveAs(
-      localStorage.getItem('SiteURL') + '/RITeSchool/' +
+      localStorage.getItem('SiteURL') +
+        '/RITeSchool/' +
         '/DOWNLOADS/School%20Notices/' +
         FileName
     );
   };
 
   const file_path =
-  localStorage.getItem('SiteURL')+'/RITeSchool/' +
+    localStorage.getItem('SiteURL') +
+    '/RITeSchool/' +
     '/DOWNLOADS/School%20Notices/' +
     FileName;
 
@@ -65,18 +52,17 @@ function Card5({ Content, FileName, Name }) {
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
           <Divider />
-          <CardDetail2 dangerouslySetInnerHTML={{ __html: Content }}></CardDetail2>
+          <CardDetail2
+            dangerouslySetInnerHTML={{ __html: Content }}
+          ></CardDetail2>
 
-          <CardDetail
-          
-          >
-            <Wordbreak sx={{mt:"5px"}}>  {FileName}</Wordbreak>
-          
+          <CardDetail>
+            <Wordbreak sx={{ mt: '5px' }}> {FileName}</Wordbreak>
+
             <Box>
               {FileName === '' ? null : (
                 <>
-                  <Box
-                    sx={{marginTop: '1px'}}>
+                  <Box sx={{ marginTop: '1px' }}>
                     <a>
                       <FileDownloadOutlinedIcon onClick={download} />
                     </a>
@@ -85,7 +71,6 @@ function Card5({ Content, FileName, Name }) {
               )}
             </Box>
           </CardDetail>
-      
         </ListStyle>
       </Container>
     </>

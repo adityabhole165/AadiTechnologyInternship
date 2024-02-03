@@ -1,22 +1,24 @@
-
-import React, { useState } from 'react';
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import CheckIcon from '@mui/icons-material/Check';
+import EditOffIcon from '@mui/icons-material/EditOff';
+import TaskIcon from '@mui/icons-material/Task';
+import { Card } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import TaskIcon from '@mui/icons-material/Task';
-import EditOffIcon from '@mui/icons-material/EditOff';
-import CheckIcon from '@mui/icons-material/Check';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Card } from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
 
+function EditIconList({
+  ItemList,
+  clickEdit,
+  HeaderArray,
+  clicksubmit,
+  clickEdit1
+}) {
+  console.log(ItemList, 'ItemList');
 
-function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdit1}) {
-  console.log(ItemList,"ItemList");
-  
   return (
     <div>
       <TableContainer component={Card}>
@@ -51,21 +53,23 @@ function EditIconList({ ItemList, clickEdit, HeaderArray, clicksubmit , clickEdi
                   ) : item.Text3 === '2' ? (
                     <TaskIcon onClick={() => clickEdit(item.Id)} />
                   ) : (
-                    <EditOffIcon  onClick={() => clickEdit1(item.Id)} />
+                    <EditOffIcon onClick={() => clickEdit1(item.Id)} />
                   )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text4 === '2' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.SubjectId, item.StandardDivisionID)} />
-
+                    <AssignmentIcon
+                      onClick={() =>
+                        clicksubmit(item.SubjectId, item.StandardDivisionID)
+                      }
+                    />
                   ) : item.Text4 === '3' ? (
-                    "Marks already submitted."
+                    'Marks already submitted.'
                   ) : (
-                    " Mark Cannot be Submitted."
+                    ' Mark Cannot be Submitted.'
                   )}
                 </TableCell>
-
               </TableRow>
             ))}
           </TableBody>

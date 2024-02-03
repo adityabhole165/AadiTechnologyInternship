@@ -1,31 +1,22 @@
-import type { ReactNode } from 'react';
-import AccountTreeTwoToneIcon from '@mui/icons-material/AccountTreeTwoTone';
-import DateRange from '@mui/icons-material/DateRange';
-import Person from '@mui/icons-material/Person';
-import Event from '@mui/icons-material/Event';
-import Sms from '@mui/icons-material/Sms';
-import People from '@mui/icons-material/People';
-import Assignment from '@mui/icons-material/Assignment';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import MenuBook  from  '@mui/icons-material/MenuBook';
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
-import Inbox from '@mui/icons-material/Inbox';
-import VideoCameraBackIcon from '@mui/icons-material/VideoCameraBack';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
-import EventNoteIcon from '@mui/icons-material/EventNote';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import AssessmentIcon from '@mui/icons-material/Assessment';
-import LockOpenIcon from '@mui/icons-material/LockOpen';
-import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
-import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
-import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import LaptopIcon from '@mui/icons-material/Laptop'; 
+import Assignment from '@mui/icons-material/Assignment';
 import CakeIcon from '@mui/icons-material/Cake';
- 
+import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
+import DateRange from '@mui/icons-material/DateRange';
+import Event from '@mui/icons-material/Event';
+import EventNoteIcon from '@mui/icons-material/EventNote';
+import ForwardToInboxIcon from '@mui/icons-material/ForwardToInbox';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import MenuBook from '@mui/icons-material/MenuBook';
+import MonetizationOnIcon from '@mui/icons-material/MonetizationOn';
+import People from '@mui/icons-material/People';
+import Person from '@mui/icons-material/Person';
+import PhotoLibraryIcon from '@mui/icons-material/PhotoLibrary';
+import Sms from '@mui/icons-material/Sms';
+import TapAndPlayIcon from '@mui/icons-material/TapAndPlay';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
+import type { ReactNode } from 'react';
 
 export interface MenuItem {
   link?: string;
@@ -56,7 +47,7 @@ const menuItems: MenuItems[] = [
         icon: DateRange,
         link: '/extended-sidebar/Student/holidays'
       },
-     
+
       {
         name: 'PTA',
         icon: Person,
@@ -71,7 +62,7 @@ const menuItems: MenuItems[] = [
         name: 'Subject Teacher',
         icon: People,
         link: '/extended-sidebar/Student/SubjectTeacher'
-      }, 
+      },
       {
         name: 'SMS Center',
         icon: Sms,
@@ -87,7 +78,7 @@ const menuItems: MenuItems[] = [
         icon: MonetizationOnIcon,
         link: '/extended-sidebar/Student/Fees'
       },
-      
+
       {
         name: 'Annual Planner',
         icon: Event,
@@ -149,24 +140,22 @@ const menuItems: MenuItems[] = [
         link: '/extended-sidebar/Student/TeacherTimetable'
       },
       {
-      
         name: 'TExam Schedule',
         icon: VideoLibraryIcon,
         link: '/extended-sidebar/Student/Texamschedule'
       },
       {
         name: 'Staff Birthdays',
-        icon: CakeIcon ,
+        icon: CakeIcon,
         link: '/extended-sidebar/Student/AstaffBirthday'
       },
       {
         name: 'Admin SMS Center',
         icon: ForwardToInboxIcon,
         link: '/extended-sidebar/SMSCenter/smsCenter'
-      },
-  
+      }
     ]
-  },
+  }
 ];
 
 export default menuItems;

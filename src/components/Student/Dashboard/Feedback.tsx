@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
-import List8 from 'src/libraries/list/List8';
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { IFeedbackList } from 'src/interfaces/Student/dashboard';
+import List8 from 'src/libraries/list/List8';
 import { getFeedback } from 'src/requests/Dashboard/Dashboard';
+import { RootState } from 'src/store';
 
 function Feedback() {
   const dispatch = useDispatch();

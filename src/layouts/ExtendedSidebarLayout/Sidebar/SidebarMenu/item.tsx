@@ -1,22 +1,22 @@
-import { FC, ReactNode, useState, useContext } from 'react';
-import { NavLink as RouterLink } from 'react-router-dom';
 import clsx from 'clsx';
+import { FC, ReactNode, useContext, useState } from 'react';
+import { NavLink as RouterLink } from 'react-router-dom';
 import { SidebarContext } from 'src/contexts/SidebarContext';
 
-import PropTypes from 'prop-types';
-import {
-  Button,
-  Tooltip,
-  Badge,
-  Collapse,
-  ListItem,
-  TooltipProps,
-  tooltipClasses,
-  styled
-} from '@mui/material';
-import { useTranslation } from 'react-i18next';
 import ExpandLessTwoToneIcon from '@mui/icons-material/ExpandLessTwoTone';
 import ExpandMoreTwoToneIcon from '@mui/icons-material/ExpandMoreTwoTone';
+import {
+  Badge,
+  Button,
+  Collapse,
+  ListItem,
+  Tooltip,
+  TooltipProps,
+  styled,
+  tooltipClasses
+} from '@mui/material';
+import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 
 interface SidebarMenuItemProps {
   children?: ReactNode;

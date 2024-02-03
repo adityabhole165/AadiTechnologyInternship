@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from 'react';
-import {
-  IEventDetails,
-  GetEventsDetailsResult
-} from 'src/interfaces/Common/AnnualPlanner';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import Card2 from 'src/libraries/card/card2';
-import http from 'src/requests/SchoolService/schoolServices';
+import {
+  GetEventsDetailsResult,
+  IEventDetails
+} from 'src/interfaces/Common/AnnualPlanner';
 import BackButton from 'src/libraries/button/BackButton';
+import Card2 from 'src/libraries/card/card2';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import http from 'src/requests/SchoolService/schoolServices';
 
 function ViewEvent() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
 
-  const { Id , AssigMonth,AssigYear,DateFrommon,DateFromyear,holiday,event, exam } = useParams();
+  const {
+    Id,
+    AssigMonth,
+    AssigYear,
+    DateFrommon,
+    DateFromyear,
+    holiday,
+    event,
+    exam
+  } = useParams();
   const [viewEvent, setViewEvent] = useState<GetEventsDetailsResult>();
   const ViewDetail = {
     Title: 'Event Title',
@@ -44,13 +53,33 @@ function ViewEvent() {
   return (
     <>
       <PageHeader heading={'View Event'} subheading={''} />
-       {exam===undefined?
-       AssigMonth===undefined?
-      <BackButton FromRoute={'/Common/EventOverview/UpcomingEvent'} />:
-      <BackButton FromRoute={'/Common/EventOverview' + '/' + AssigMonth + '/' + AssigYear} />:
-      <BackButton FromRoute={'/Common/EventOverview' + '/' + DateFrommon + '/' + DateFromyear 
-      + '/' + holiday + '/' + event + '/' + exam} />
-    }
+      {exam === undefined ? (
+        AssigMonth === undefined ? (
+          <BackButton FromRoute={'/Common/EventOverview/UpcomingEvent'} />
+        ) : (
+          <BackButton
+            FromRoute={
+              '/Common/EventOverview' + '/' + AssigMonth + '/' + AssigYear
+            }
+          />
+        )
+      ) : (
+        <BackButton
+          FromRoute={
+            '/Common/EventOverview' +
+            '/' +
+            DateFrommon +
+            '/' +
+            DateFromyear +
+            '/' +
+            holiday +
+            '/' +
+            event +
+            '/' +
+            exam
+          }
+        />
+      )}
       {viewEvent === undefined ? null : (
         <Card2
           ViewDetail={ViewDetail}

@@ -1,91 +1,102 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import AnnualPlannerApi from "../../api/AnnualPlanner/AnnualPlanner";
+import { createSlice } from '@reduxjs/toolkit';
+import IGetEventsInMonth, {
+  IEventList,
+  IGetFilePathBody
+} from 'src/interfaces/Common/AnnualPlanner';
 import { AppThunk } from 'src/store';
-import IGetUpcomingEventBody, {IEventList, IGetFilePathBody} from 'src/interfaces/Common/AnnualPlanner';
-import IGetEventsInMonth from 'src/interfaces/Common/AnnualPlanner';
+import AnnualPlannerApi from '../../api/AnnualPlanner/AnnualPlanner';
 
 const AnnualPlannerSlice = createSlice({
   name: 'Annual Planner',
-  initialState:{
-    EventList:[],
-    Event:[], 
-    Loading : true,
-    FilePath:""
+  initialState: {
+    EventList: [],
+    Event: [],
+    Loading: true,
+    FilePath: ''
   },
   reducers: {
-    getEventList (state,action){
-      state.EventList=action.payload;
-      state.Loading = false
+    getEventList(state, action) {
+      state.EventList = action.payload;
+      state.Loading = false;
     },
     getEvents(state, action) {
       state.Event = action.payload;
       state.Loading = false;
-  },
-    getLoading (state,action) {
-        state.Loading = true
-        state.EventList = [];
     },
-    getFilepath (state,action) {
+    getLoading(state, action) {
+      state.Loading = true;
+      state.EventList = [];
+    },
+    getFilepath(state, action) {
       state.FilePath = action.payload;
-  },
-  resetFilepath (state) {
-    state.FilePath = "";
-}
-  }   
+    },
+    resetFilepath(state) {
+      state.FilePath = '';
+    }
+  }
 });
 
 export const getEventList =
-  (data:IEventList): AppThunk =>
+  (data: IEventList): AppThunk =>
   async (dispatch) => {
-
     dispatch(AnnualPlannerSlice.actions.getLoading(true));
     const response = await AnnualPlannerApi.GetEventOverviewList(data);
-    let Data = []
+    let Data = [];
     Data = response.data.GetEventsInMonthResult?.map((item, index) => {
-    return {
-      id: index,
-      header: item.Description,
-      text1: 'Standard : ' + item.StandardList,
-      text3: item.StartDate,
-      linkPath: '/Common/viewevent/' + item.Id + '/' + data.asMonth + '/' + data.asYear
-    };
-  });
+      return {
+        id: index,
+        header: item.Description,
+        text1: 'Standard : ' + item.StandardList,
+        text3: item.StartDate,
+        linkPath:
+          '/Common/viewevent/' +
+          item.Id +
+          '/' +
+          data.asMonth +
+          '/' +
+          data.asYear
+      };
+    });
     dispatch(AnnualPlannerSlice.actions.getEventList(Data));
-
   };
 
-  export const getEvents =
-    (body: IGetEventsInMonth): AppThunk =>
-        async (dispatch) => {
-            dispatch(AnnualPlannerSlice.actions.getLoading(true));
+export const getEvents =
+  (body: IGetEventsInMonth): AppThunk =>
+  async (dispatch) => {
+    dispatch(AnnualPlannerSlice.actions.getLoading(true));
 
-            const response = await AnnualPlannerApi.GetEventsMonth(body);
-            let UpcomingEventList = response.data.GetEventsInMonthResult.map((item, index) => {
-                return {
-                    Id: item.Id,
-                    header: item.Description,      
-                    text1: item.DisplayDate,  
-                    text2:'',
-                    text3:item.EventComment,
-                    backgroundColor: item.TypeId === 1 ? "green2" : item.TypeId === 2 ? "green1" :"pink2",
-                    linkPath:  item.TypeId === 1 ? '/Common/viewevent/' + item.Id: undefined ,
-                    Textcolor: item.TypeId === 1 ? "#42a5f5" : item.TypeId === 2 ? "" :"",
-                }
-            })
-           
-            dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
-          
+    const response = await AnnualPlannerApi.GetEventsMonth(body);
+    let UpcomingEventList = response.data.GetEventsInMonthResult.map(
+      (item, index) => {
+        return {
+          Id: item.Id,
+          header: item.Description,
+          text1: item.DisplayDate,
+          text2: '',
+          text3: item.EventComment,
+          backgroundColor:
+            item.TypeId === 1
+              ? 'green2'
+              : item.TypeId === 2
+              ? 'green1'
+              : 'pink2',
+          linkPath:
+            item.TypeId === 1 ? '/Common/viewevent/' + item.Id : undefined,
+          Textcolor: item.TypeId === 1 ? '#42a5f5' : item.TypeId === 2 ? '' : ''
         };
-        export const getFilePath =
-  (data:IGetFilePathBody): AppThunk =>
+      }
+    );
+
+    dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
+  };
+export const getFilePath =
+  (data: IGetFilePathBody): AppThunk =>
   async (dispatch) => {
     const response = await AnnualPlannerApi.GetFilePath(data);
     dispatch(AnnualPlannerSlice.actions.getFilepath(response.data));
   };
-  export const ResetFilePath =
-  (): AppThunk =>
-  async (dispatch) => {
-    dispatch(AnnualPlannerSlice.actions.resetFilepath());
-  };
+export const ResetFilePath = (): AppThunk => async (dispatch) => {
+  dispatch(AnnualPlannerSlice.actions.resetFilepath());
+};
 
-export default AnnualPlannerSlice.reducer
+export default AnnualPlannerSlice.reducer;

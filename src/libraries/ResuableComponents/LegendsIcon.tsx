@@ -1,19 +1,18 @@
-import { Typography, Box } from '@mui/material';
-import React from 'react';
-import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import MarkEmailReadIcon from '@mui/icons-material/MarkEmailRead';
-import TaskIcon from '@mui/icons-material/Task';
-import TurnedInIcon from '@mui/icons-material/TurnedIn';
-import CheckIcon from '@mui/icons-material/Check';
-import BadgeIcon from '@mui/icons-material/Badge';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import CheckIcon from '@mui/icons-material/Check';
 import EditOffIcon from '@mui/icons-material/EditOff';
+import TaskIcon from '@mui/icons-material/Task';
+import { Box, Typography } from '@mui/material';
 
-const LegendsIcon = ({  text1={}, text2={},  text5={}, text3={}, color }) => {
+const LegendsIcon = ({
+  text1 = {},
+  text2 = {},
+  text5 = {},
+  text3 = {},
+  color
+}) => {
   return (
     <>
-      
-
       <Box sx={{ display: 'flex', maxWidth: '300px' }}>
         <EditOffIcon style={{ color: '#76ff03' }} />
         <Typography> {text1}</Typography>
@@ -28,8 +27,6 @@ const LegendsIcon = ({  text1={}, text2={},  text5={}, text3={}, color }) => {
         <AssignmentIcon style={{ color: '#ff5722' }} />
         <Typography> {text3}</Typography>
       </Box>
-
-      
 
       <Box sx={{ display: 'flex', maxWidth: '300px' }}>
         <CheckIcon style={{ color: '#607d8b' }} />

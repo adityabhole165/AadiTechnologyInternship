@@ -1,13 +1,12 @@
+import { IMoveToTrash } from '../../interfaces/MessageCenter/MoveToTrash';
+import http from '../../requests/SchoolService/schoolServices';
 
-import http from "../../requests/SchoolService/schoolServices";
-import {IMoveToTrash} from "../../interfaces/MessageCenter/MoveToTrash"
+const MoveToTrash = (data: IMoveToTrash) => {
+  return http.post<IMoveToTrash>('MessageCenter/MoveToTrash', data);
+};
 
-  const MoveToTrash = (data: IMoveToTrash) => {
-    return http.post<IMoveToTrash>('MessageCenter/MoveToTrash',data);
-  };
-  
-const MoveToTrashApi  ={
-    MoveToTrash
-}
+const MoveToTrashApi = {
+  MoveToTrash
+};
 
-export default MoveToTrashApi ;
+export default MoveToTrashApi;

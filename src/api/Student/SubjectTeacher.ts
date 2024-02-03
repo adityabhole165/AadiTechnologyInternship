@@ -1,13 +1,12 @@
-import http from "../../requests/SchoolService/schoolServices";
-import ISubjectTeacher from "src/interfaces/Student/SubjectTeacher";
+import ISubjectTeacher from 'src/interfaces/Student/SubjectTeacher';
+import http from '../../requests/SchoolService/schoolServices';
 
+const GetSubjectTeacherList = (data: ISubjectTeacher) => {
+  return http.post<ISubjectTeacher>('Student/GetSubjectTeacher', data);
+};
 
-const GetSubjectTeacherList = (data:ISubjectTeacher) => {
-    return http.post<ISubjectTeacher>('Student/GetSubjectTeacher',data);
-  };
+const SubjectTeacherApi = {
+  GetSubjectTeacherList
+};
 
-  const SubjectTeacherApi={
-    GetSubjectTeacherList 
-  }
-
-  export default SubjectTeacherApi
+export default SubjectTeacherApi;

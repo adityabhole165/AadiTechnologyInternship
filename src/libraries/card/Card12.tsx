@@ -1,41 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import {
-  Box,
-  Card,
-  Typography,
-  useTheme,
-  Container,
-  List,
-  Avatar,
-  ListItem,
-  Stack,
-  Divider,
-  IconButton,
-  Popover,
-  Grow,
-  Slide
-} from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import PropTypes from 'prop-types';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ReplayIcon from '@mui/icons-material/Replay';
+import SettingsIcon from '@mui/icons-material/Settings';
 import {
+  Avatar,
+  Box,
+  Card,
+  Container,
+  Divider,
+  List,
+  Popover,
+  Slide,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
+import {
+  blue,
   deepOrange,
   green,
+  orange,
   purple,
-  blue,
-  red,
-  yellow,
-  orange
+  red
 } from '@mui/material/colors';
-import CheckIcon from '@mui/icons-material/Check';
-import ReplayIcon from '@mui/icons-material/Replay';
-import CloseIcon from '@mui/icons-material/Close';
-import SettingsIcon from '@mui/icons-material/Settings';
-import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
-import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
+import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 
 Card12.propTypes = {
   data: PropTypes.array,

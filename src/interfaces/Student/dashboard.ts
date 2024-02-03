@@ -1,120 +1,110 @@
 //Unread Messages
 export interface IUnreadMessages {
-    aiSchoolId: string,
-    aiAcademicYrId: string,
-    aiReceiverId: string,
-    aiReceiverRoleId: string,
-    asProfilePicUpdDt: string
+  aiSchoolId: string;
+  aiAcademicYrId: string;
+  aiReceiverId: string;
+  aiReceiverRoleId: string;
+  asProfilePicUpdDt: string;
 }
 
 //Upcoming Events
 export interface IUpcomingEventsList {
-    aiSchoolId: string,
-    aiAcademicYrId: string,
-    asUserRoleId: string,
-    aiUserId: string,
-    aiUserRoleId: string,
-    isScreenFullAccess: string
+  aiSchoolId: string;
+  aiAcademicYrId: string;
+  asUserRoleId: string;
+  aiUserId: string;
+  aiUserRoleId: string;
+  isScreenFullAccess: string;
 }
 
 export interface GetUpcomingEventsResult {
-    EventTitle: string,
-    StandardName: string,
-    EndDateUniversal: string,
-    StartDate: string,
-    EventType:string
-
+  EventTitle: string;
+  StandardName: string;
+  EndDateUniversal: string;
+  StartDate: string;
+  EventType: string;
 }
 
 //Birthdays
 export interface IBirthdays {
-    aiSchoolId: string,
-    aiAcademicYrId: string,
-    aiUserRoleId: string,
-    asView: any
+  aiSchoolId: string;
+  aiAcademicYrId: string;
+  aiUserRoleId: string;
+  asView: any;
 }
 
 export interface GetUpcomingStaffBdayList {
-    Date: string,
-    UserName: string,
-    PhotoPath: string
+  Date: string;
+  UserName: string;
+  PhotoPath: string;
 }
 
 //Photo album
 export interface IPhotoAlbum {
-    aiSchoolId: string,
-    aiMonth: any,
-    aiYear: any,
-    abSetPreviousMonth: string,
-    aiUserId: string
-
+  aiSchoolId: string;
+  aiMonth: any;
+  aiYear: any;
+  abSetPreviousMonth: string;
+  aiUserId: string;
 }
 export interface IPhotoAlbumResult {
-     Name:string,
-     UserId: Number,
-     Id:Number,
-     Year:Number,
-     ImageList:[{
-        Description: string,
-        ImageId: Number,
-        ImagePath: string
-     }],
-     Month: Number,
+  Name: string;
+  UserId: Number;
+  Id: Number;
+  Year: Number;
+  ImageList: [
+    {
+      Description: string;
+      ImageId: Number;
+      ImagePath: string;
+    }
+  ];
+  Month: Number;
 }
 
 // Feedback
 export interface IFeedbackList {
-    
-    aiUserRoleId:number,
-    aiFeedbackTypeId:number,
-    asFeedBackFor:string,
-    aiSchoolId:number,
-    sortDirection:string,
-    asStartDate:string,
-    asEndDate:string,
-    sortExpression:string,
-    startRowIndex:number,
-    iEndIndex:number,
-    abIsServiceCall:boolean,
-    asDesignationId:string, 
-    abIsAccountsCumAdminOfficer:boolean
-
+  aiUserRoleId: number;
+  aiFeedbackTypeId: number;
+  asFeedBackFor: string;
+  aiSchoolId: number;
+  sortDirection: string;
+  asStartDate: string;
+  asEndDate: string;
+  sortExpression: string;
+  startRowIndex: number;
+  iEndIndex: number;
+  abIsServiceCall: boolean;
+  asDesignationId: string;
+  abIsAccountsCumAdminOfficer: boolean;
 }
 export interface GetFeedbackResult {
-    UserName:string,
-    Text: string,
-    Date: string,
-   
+  UserName: string;
+  Text: string;
+  Date: string;
 }
 
 export interface IMsgfrom {
-    
-        aiSchoolId:number 
+  aiSchoolId: number;
 }
 
 export interface GetFMsgfromResult {
-   
-    ConfigureMenuContent:string,
-   
+  ConfigureMenuContent: string;
 }
 export interface INewMessageCount {
-    asSchoolId:string,
-    asUserId:string,
-    asAcademicYearId:string,
+  asSchoolId: string;
+  asUserId: string;
+  asAcademicYearId: string;
 }
 export interface GetNewMessageCountResult {
-   
-    MESSAGECOUNT: number,
-   
+  MESSAGECOUNT: number;
 }
 // user save login details
 
 export interface ISaveUserLoginDetailsBody {
-    asSchoolId:string,
-    asUserId:string
+  asSchoolId: string;
+  asUserId: string;
 }
 export interface ISaveUserLoginDetailsResult {
-    LastLoginDetails: string
-
+  LastLoginDetails: string;
 }
-

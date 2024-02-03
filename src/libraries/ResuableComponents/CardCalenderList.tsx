@@ -1,95 +1,140 @@
-import { Card, Typography, Grid, Box, IconButton, TableCell } from '@mui/material'
-import React, { useState } from 'react'
-import CardCal from './CardCal';
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
-function CardCalenderList({ ItemList, ClickItem, handlePrevMonth, handleNextMonth, formattedDate, DefaultValue, ArrayList }) {
-  const yearStyle = {
-    fontSize: '40px',
-  }
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
+import DotLegendTeacher from '../summary/DotLegendTeacher';
+import CardCal from './CardCal';
+function CardCalenderList({
+  ItemList,
+  ClickItem,
+  handlePrevMonth,
+  handleNextMonth,
+  formattedDate,
+  DefaultValue,
+  ArrayList
+}) {
+  const legendColors = {
+    p: '#008000',
+    a: '#b73839',
+    h: '#792ba7',
+    w: '#bdbdbd',
+    o: '#aa3daa',
+    l: '#303f9f',
+    n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
+  };
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
-      return ((obj.Status == undefined ? obj.Text3 : obj.Status) == "Y")
-    }
+      return (obj.Status == undefined ? obj.Text3 : obj.Status) == 'Y';
+    };
     let returnVal = ItemList.map((obj) =>
+      obj.Value === Value
+        ? {
+            ...obj,
+            Status: checkStatus(obj) ? 'N' : 'Y',
+            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+            Text1: checkStatus(obj) ? 'Absent' : 'Present'
+          }
+        : obj
+    );
 
-      obj.Value === Value ?
-        {
-          ...obj,
-          Status: checkStatus(obj) ? "N" : "Y",
-          BackgroundColor: checkStatus(obj) ? "tomato" : "mediumturquoise",
-          Text1: checkStatus(obj) ? "Absent" : "Present",
+    ClickItem(returnVal);
+  };
 
-        } :
-        obj
-    )
-
-    ClickItem(returnVal)
-  }
-
-  const getDateFromMonth = (formattedDate) => {
-    let newDate;
-    if (formattedDate.split(" ").length === 2) {
-      newDate = new Date("1 " + formattedDate);
-    } else {
-      newDate = new Date(formattedDate);
-    }
-    return newDate.getDay() * 1.7;
-  }
-  
   return (
-    <Card component={Box} p={2}>
-      <Box sx={{ alignItems: "center", justifyContent: "center", textAlign: "center" }}>
-        <Box display='flex' justifyContent='space-between'>
-
-          <h1>
+    <Box sx={{ backgroundColor: 'white' }} p={2}>
+      <Box
+        sx={{
+          alignItems: 'center',
+          justifyContent: 'center',
+          textAlign: 'center'
+        }}
+      >
+        <Box display="flex" justifyContent="space-between">
+          <Typography m={0} variant={'h3'}>
             <b>{formattedDate}</b>
-          </h1>
+          </Typography>
 
-
-
-
-          <div>
-            <IconButton onClick={() => handlePrevMonth()} sx={{ float: 'left' }}>
-              <Card  >
-                <ArrowBackIosNewIcon sx={{ mt: 1 }} />
-              </Card>
+          <Stack direction={'row'} gap={1}>
+            <IconButton
+              color={'primary'}
+              sx={{
+                backgroundColor: (theme) =>
+                  alpha(theme.palette.primary.main, 0.2)
+              }}
+              onClick={() => handlePrevMonth()}
+            >
+              <ArrowBackIosNewIcon />
             </IconButton>
-            <IconButton onClick={() => handleNextMonth()} sx={{ float: 'right' }}>
-              <Card >
-                <ArrowForwardIosIcon sx={{ mt: 1 }} />
-              </Card>
+            <IconButton
+              color={'primary'}
+              sx={{
+                backgroundColor: (theme) =>
+                  alpha(theme.palette.primary.main, 0.2)
+              }}
+              onClick={() => handleNextMonth()}
+            >
+              <ArrowForwardIosIcon />
             </IconButton>
-          </div>
-
+          </Stack>
         </Box>
-        <Grid container columnSpacing={0} rowSpacing={0}>
+
+        <Grid container spacing={0} sx={{ mt: 2 }}>
           {ArrayList.map((item, i) => (
-
-            <Grid item xs={1.7} md={1.7} sx={{ textAlign: "center", pt: 0 }} key={i}>
-
-              <Box sx={{
-
-              }}>
-                <Typography sx={{ textTransform: "capitalize", textAlign: "center", fontWeight: "bold" }}>{item.Header}</Typography>
+            <Grid
+              item
+              xs={1.7}
+              md={1.7}
+              sx={{ textAlign: 'center', pt: 0 }}
+              key={i}
+            >
+              <Box sx={{}}>
+                <Typography
+                  sx={{
+                    textTransform: 'capitalize',
+                    textAlign: 'center',
+                    fontWeight: 'bold'
+                  }}
+                >
+                  {item.Header}
+                </Typography>
               </Box>
             </Grid>
           ))}
-          <Grid item xs={getDateFromMonth(formattedDate)} md={getDateFromMonth(formattedDate)} sx={{ textAlign: "center", pt: 0 }}>-
-          </Grid>
-          
           {ItemList.map((item, i) => {
             return (
-              <Grid item border='0.5px solid #ebebeb' md={1.7} sx={{ textAlign: "center", pt: 0 }} key={i}>
-
-                <CardCal item={item} clickItem={clickCard} DefaultValue={DefaultValue} />
+              <Grid
+                item
+                border="0.5px solid #ebebeb"
+                md={1.7}
+                sx={{ textAlign: 'center', pt: 0 }}
+                key={i}
+              >
+                <CardCal
+                  item={item}
+                  clickItem={clickCard}
+                  DefaultValue={DefaultValue}
+                  legendColors={legendColors}
+                />
               </Grid>
-            )
-          })
-          }
+            );
+          })}
+        </Grid>
+        <Grid container sx={{ mt: 2 }}>
+          <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
+            <DotLegendTeacher color={legendColors.p} text="Present" />
+            <DotLegendTeacher color={legendColors.a} text="Absent" />
+            <DotLegendTeacher color={legendColors.h} text="Holiday" />
+            <DotLegendTeacher color={legendColors.w} text="Weekend" />
+
+            <DotLegendTeacher
+              color={legendColors.o}
+              text="Outside Acadamic Year "
+            />
+            <DotLegendTeacher color={legendColors.l} text="Late Join " />
+            <DotLegendTeacher color={legendColors.n} text="Not Available " />
+          </Grid>
         </Grid>
       </Box>
-    </Card>
-  )
+    </Box>
+  );
 }
-export default CardCalenderList
+export default CardCalenderList;

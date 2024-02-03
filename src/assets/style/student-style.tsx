@@ -1,4 +1,3 @@
-import { red } from '@mui/material/colors';
 import { makeStyles } from '@mui/styles';
 
 export const Styles = makeStyles({
@@ -18,8 +17,7 @@ export const Styles = makeStyles({
   smalllogo: {
     // width: '100%',
     margin: 'auto',
-    maxHeight: 70,
-
+    maxHeight: 70
   },
   check: {
     fontWeight: 'bold !important',
@@ -221,9 +219,8 @@ export const Styles = makeStyles({
     fontWeight: 'bold',
     fontSize: '12px !important',
     '@media (max-width: 280px)': {
-      fontSize: "10px !important",
-
-    },
+      fontSize: '10px !important'
+    }
   },
   Autocomplete: {
     background: 'black'
@@ -338,7 +335,7 @@ export const Styles = makeStyles({
     transform: 'rotateZ(-36deg)',
     marginRight: '-20px',
     float: 'right',
-    position: "absolute"
+    position: 'absolute'
   },
 
   ListFont5: {
@@ -358,82 +355,71 @@ export const Styles = makeStyles({
     marginLeft: '-20px',
 
     fontSize: '12px !important',
-    color: 'black',
-
+    color: 'black'
   },
 
   iIconExamSchedule: {
-
-    fontSize: "20px !important",
+    fontSize: '20px !important',
     marginTop: '10px',
-    backgroundColor: "#e8a0e7",
-    borderRadius: "50px",
-    marginRight: "-15px",
+    backgroundColor: '#e8a0e7',
+    borderRadius: '50px',
+    marginRight: '-15px',
     '@media (max-width: 280px)': {
-      fontSize: "15px !important",
-      marginTop: '10px',
-    },
+      fontSize: '15px !important',
+      marginTop: '10px'
+    }
   },
 
   iIconTExamSchedule: {
-
-    fontSize: "20px !important",
+    fontSize: '20px !important',
     marginTop: '20px',
-    backgroundColor: "#e8a0e7",
-    borderRadius: "50px",
-    marginRight: "8px",
+    backgroundColor: '#e8a0e7',
+    borderRadius: '50px',
+    marginRight: '8px',
     '@media (max-width: 280px)': {
-      fontSize: "15px !important",
-      marginRight: "10px",
-    },
+      fontSize: '15px !important',
+      marginRight: '10px'
+    }
   },
 
   iIconSupport: {
-
-    fontSize: "20px !important",
-
-
+    fontSize: '20px !important',
 
     '@media (max-width: 280px)': {
-      fontSize: "15px !important",
-      // marginTop: '20px',  
-    },
+      fontSize: '15px !important'
+      // marginTop: '20px',
+    }
   },
 
   checkboxSize: {
-
-    fontSize: "16px !important",
+    fontSize: '16px !important',
 
     '@media (max-width: 280px)': {
-      fontSize: "14px !important",
-
-    },
+      fontSize: '14px !important'
+    }
   },
 
   IconSize: {
     '@media (min-width: 600px)': {
-      fontSize: "40px !important",
-
-    },
+      fontSize: '40px !important'
+    }
   },
 
   Attandance: {
     '@media (min-width: 900px)': {
-     marginTop:"-80px"
-
-    },
+      marginTop: '-80px'
+    }
   },
 
   AttandanceError: {
     '@media (max-width: 900px)': {
-     marginTop:"-680px"
-
-    },
+      marginTop: '-680px'
+    }
   },
 
   footer: {
     '@media (max-height: 600px)': {
       // display: "none",
     }
-  },
+  }
 });

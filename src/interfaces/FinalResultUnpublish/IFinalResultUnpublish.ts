@@ -1,12 +1,8 @@
-export interface IUnPublishFinalResultBody{
+export interface IUnPublishFinalResultBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asStandardDivId: number;
+  asUnPublishReason: string;
+}
 
-    asSchoolId:number,
-    asAcademicYearId:number,
-    asStandardDivId:number,
-    asUnPublishReason:string
- }
- 
- export interface IUnPublishFinalResultResult{
- 
-    
- }
+export interface IUnPublishFinalResultResult {}

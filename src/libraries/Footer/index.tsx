@@ -29,11 +29,7 @@ function Footer() {
           variant="subtitle1"
         >
           Crafted by{' '}
-          <Link
-            href=""
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="" target="_blank" rel="noopener noreferrer">
             BloomUI.com
           </Link>
         </Typography>

@@ -1,18 +1,16 @@
-import { Typography,Box } from '@mui/material'
-import React from 'react'
-import { CardDetail2, CardDetail7 } from '../styled/CardStyle'
-import { DotLegendStyled } from '../styled/DotLegendStyled'
-const DotLegend = ({text,color}) => {
+import { Box } from '@mui/material';
+import { CardDetail7 } from '../styled/CardStyle';
+import { DotLegendStyled } from '../styled/DotLegendStyled';
+const DotLegend = ({ text, color }) => {
   return (
-    <Box sx={{display:"flex"}}>
-    <DotLegendStyled color={color}/>
-  
-        <CardDetail7> {text} </CardDetail7>
-    
-    
+    <Box sx={{ display: 'flex' }}>
+      <DotLegendStyled color={color} />
+
+      <CardDetail7> {text} </CardDetail7>
+
       <br />
     </Box>
-  )
-}
+  );
+};
 
-export default DotLegend
+export default DotLegend;

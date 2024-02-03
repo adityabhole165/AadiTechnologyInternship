@@ -1,29 +1,22 @@
-import React, { useState } from 'react';
-import { useTheme, Grid } from '@mui/material';
-import { useNavigate } from 'react-router-dom';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, Container, Grid, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import { Container, Card } from '@mui/material';
 import PropTypes from 'prop-types';
-import { Styles } from 'src/assets/style/student-style';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { RootState } from 'src/store';
 import { useSelector } from 'react-redux';
-import { Link as RouterLink, useLocation } from 'react-router-dom';
-
+import { Styles } from 'src/assets/style/student-style';
+import { RootState } from 'src/store';
 
 Card15.propTypes = {
   FeeAmount: PropTypes.object
 };
 
 function Card15({ FeeAmount }) {
-
   const theme = useTheme();
   const classes = Styles();
   const Summery: any = useSelector((state: RootState) => state.Fees.FeesData2);
-
 
   return (
     <>

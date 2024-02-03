@@ -1,33 +1,33 @@
+import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Card,
+  Checkbox,
   Container,
-  TextField,
+  Fab,
   FormControl,
   FormControlLabel,
-  Checkbox,
   Radio,
-  RadioGroup
+  RadioGroup,
+  TextField,
+  useTheme
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
 import { IUserGroupList } from 'src/interfaces/MessageCenter/MessageCenter';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import List3 from 'src/libraries/list/List3';
 import {
-  addRecipients,
   getAdminstaffList,
-  getTeacherList,
-  removeRecipients
+  getTeacherList
 } from 'src/requests/MessageCenter/MessaageCenter';
 import { RootState } from 'src/store';
-import { useNavigate } from 'react-router-dom';
-import ReplyIcon from '@mui/icons-material/Reply';
-import { useTheme, Fab } from '@mui/material';
-import { Styles } from 'src/assets/style/student-style';
 
-
-const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) => {
-
+const Recipients = ({
+  displayProperty,
+  RecipientsListDetails,
+  ReplyRecipient
+}) => {
   let navigate = useNavigate();
   const theme = useTheme();
   const classes = Styles();
@@ -39,12 +39,10 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const AdminStaffList: any = useSelector(
     (state: RootState) => state.MessageCenter.AdminStaffList
   );
-  const [RecipientsArray,setRecipientsArray] = useState(
-    {
-      RecipientName : [],
-      RecipientId : []
-    }
-  );
+  const [RecipientsArray, setRecipientsArray] = useState({
+    RecipientName: [],
+    RecipientId: []
+  });
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -77,67 +75,84 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
   const [Id, setId] = useState({ DetailInfo: [], recieverInfo: [] });
 
   const handleChange = (event) => {
-
     setChecked(true);
     const { value, name, checked } = event;
     const { DetailInfo, recieverInfo } = Id;
 
     if (checked) {
-      RecipientsArray.RecipientName.push(event.name)
-      RecipientsArray.RecipientId.push(event.value.toString())
+      RecipientsArray.RecipientName.push(event.name);
+      RecipientsArray.RecipientId.push(event.value.toString());
       setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
       setId({
         DetailInfo: [...DetailInfo, value],
         recieverInfo: [...recieverInfo, name]
       });
     } else {
-      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(event.name);
-      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
+      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(
+        event.name
+      );
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(
+        indexOfRedipientName,
+        1
+      );
       let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(event.value);
-      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(
+        indexOfRedipientId,
+        1
+      );
       setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
       setId({
         DetailInfo: DetailInfo.filter((event) => event !== value),
         recieverInfo: recieverInfo.filter((event) => event !== name)
       });
     }
 
-    RecipientsListDetails(RecipientsArray)
+    RecipientsListDetails(RecipientsArray);
   };
 
   const handleCheckBox = (e) => {
     if (e.target.checked) {
       RecipientsArray.RecipientName.push(e.target.name);
       RecipientsArray.RecipientId.push(e.target.value.toString());
-      setRecipientsArray((prev)=>{
-        return{
-          RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
-    } else {
-      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(e.target.name);
-      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(indexOfRedipientName,1);
-      let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(e.target.value);
-      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(indexOfRedipientId,1);
       setRecipientsArray((prev) => {
-        return{
-            RecipientName : [...prev.RecipientName],
-            RecipientId : [...prev.RecipientId]
-        }
-      })
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
+    } else {
+      let indexOfRedipientName = RecipientsArray.RecipientName.indexOf(
+        e.target.name
+      );
+      let splicedArrayOfRecipientName = RecipientsArray.RecipientName.splice(
+        indexOfRedipientName,
+        1
+      );
+      let indexOfRedipientId = RecipientsArray.RecipientId.indexOf(
+        e.target.value
+      );
+      let splicedArrayOfRecipientId = RecipientsArray.RecipientId.splice(
+        indexOfRedipientId,
+        1
+      );
+      setRecipientsArray((prev) => {
+        return {
+          RecipientName: [...prev.RecipientName],
+          RecipientId: [...prev.RecipientId]
+        };
+      });
     }
-    RecipientsListDetails(RecipientsArray)
+    RecipientsListDetails(RecipientsArray);
   };
 
   const handleRadioButtons = (e) => {
@@ -150,18 +165,18 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
     dispatch(getAdminstaffList(AdminstaffList));
   }, [selectedUserGroup]);
 
-  useEffect(()=>{
-    if(ReplyRecipient.ReplyRecipientName != undefined){
+  useEffect(() => {
+    if (ReplyRecipient.ReplyRecipientName != undefined) {
       RecipientsArray.RecipientName.push(ReplyRecipient.ReplyRecipientName);
-      RecipientsArray.RecipientId.push(ReplyRecipient.ReplyRecipientID.toString());
+      RecipientsArray.RecipientId.push(
+        ReplyRecipient.ReplyRecipientID.toString()
+      );
     }
-  },[])
+  }, []);
 
   return (
     <div>
-      <span
-      onClick={() => displayProperty("none")}
-      >
+      <span onClick={() => displayProperty('none')}>
         <Fab
           className={classes.backArrow}
           sx={{
@@ -191,43 +206,43 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
           <form>
             <FormControl>
               <div style={{ display: 'flex' }}>
-                  <FormControlLabel
-                    sx={{marginLeft:'-18px',mt:'-40px'}}
-                    control={
-                      <Checkbox
-                        name={'Software Co-ordinator'}
-                        onChange={handleCheckBox}
-                        checked={RecipientsArray.RecipientName.includes(
-                          'Software Co-ordinator'
-                        )}
-                        value={'1'}
-                        id={'1'}
-                      />
-                    }
-                    label="Software Co-ordinator"
-                  />
+                <FormControlLabel
+                  sx={{ marginLeft: '-18px', mt: '-40px' }}
+                  control={
+                    <Checkbox
+                      name={'Software Co-ordinator'}
+                      onChange={handleCheckBox}
+                      checked={RecipientsArray.RecipientName.includes(
+                        'Software Co-ordinator'
+                      )}
+                      value={'1'}
+                      id={'1'}
+                    />
+                  }
+                  label="Software Co-ordinator"
+                />
 
-                  <FormControl >
-                    <RadioGroup
-                      aria-labelledby="demo-controlled-radio-buttons-group"
-                      name="controlled-radio-buttons-group"
-                      onClick={handleRadioButtons}
-                      sx={{marginLeft:'-10px'}}
-                    >
-                      <FormControlLabel
-                        value={2}
-                        control={<Radio />}
-                        name="RecipientList"
-                        label="Teacher List"
-                      />
-                      <FormControlLabel
-                        value={6}
-                        control={<Radio />}
-                        name="RecipientList"
-                        label="Admin Staff"
-                      />
-                    </RadioGroup>
-                  </FormControl>
+                <FormControl>
+                  <RadioGroup
+                    aria-labelledby="demo-controlled-radio-buttons-group"
+                    name="controlled-radio-buttons-group"
+                    onClick={handleRadioButtons}
+                    sx={{ marginLeft: '-10px' }}
+                  >
+                    <FormControlLabel
+                      value={2}
+                      control={<Radio />}
+                      name="RecipientList"
+                      label="Teacher List"
+                    />
+                    <FormControlLabel
+                      value={6}
+                      control={<Radio />}
+                      name="RecipientList"
+                      label="Admin Staff"
+                    />
+                  </RadioGroup>
+                </FormControl>
               </div>
             </FormControl>
           </form>
@@ -238,9 +253,8 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
           ? TeacherList == undefined || TeacherList.length == 0
             ? null
             : TeacherList.map((item, i) => {
-                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
-                  item.Name
-                );
+                const RecipientsListBoolean =
+                  RecipientsArray.RecipientName.includes(item.Name);
                 return (
                   <>
                     <List3
@@ -258,9 +272,8 @@ const Recipients = ({displayProperty, RecipientsListDetails, ReplyRecipient}) =>
           ? AdminStaffList == undefined || AdminStaffList.length == 0
             ? null
             : AdminStaffList.map((item, i) => {
-                const RecipientsListBoolean = RecipientsArray.RecipientName.includes(
-                  item.Name
-                );
+                const RecipientsListBoolean =
+                  RecipientsArray.RecipientName.includes(item.Name);
                 return (
                   <>
                     <List3

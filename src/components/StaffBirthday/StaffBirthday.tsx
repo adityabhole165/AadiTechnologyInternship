@@ -1,19 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
+import { Container, useTheme } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { Container, styled, useTheme } from '@mui/material';
 import IstaffBirthday, {
   GetstaffBirthdayList
 } from 'src/interfaces/Common/StaffBirthday';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import MonthSelector from 'src/libraries/buttons/MonthSelector';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import List17 from 'src/libraries/list/list17';
-import MonthSelector from 'src/libraries/buttons/MonthSelector';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
+import {
+  DotLegend1,
+  DotLegendStyled1
+} from 'src/libraries/styled/DotLegendStyled';
+import { getstaffBirthday } from 'src/requests/StaffBirthday/StaffBirthday';
+import { RootState } from 'src/store';
 
 function StaffBirthday() {
   const dispatch = useDispatch();
@@ -21,7 +23,6 @@ function StaffBirthday() {
   const staffBirthdayList = useSelector(
     (state: RootState) => state.staffBirthday.staffBirthdayData
   );
-
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -44,7 +45,7 @@ function StaffBirthday() {
     setAssignedMonth(Month);
     SetassignedMonth_num(Month_num + 1);
   }
-  
+
   useEffect(() => {
     setCurrentDate();
   }, []);
@@ -69,7 +70,6 @@ function StaffBirthday() {
     asSchoolId: asSchoolId
   };
 
- 
   useEffect(() => {
     dispatch(getstaffBirthday(body));
   }, [assignedMonth]);
@@ -79,32 +79,34 @@ function StaffBirthday() {
   return (
     <Container>
       <PageHeader heading={'Staff Birthdays'} subheading={''} />
-      
-        <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: '#e9a69a' }}
-            />
-                   
 
-            <CardDetail7>Upcoming Birthday</CardDetail7>
-          </DotLegend1>
-          <br />
-       <MonthSelector
+      <DotLegend1>
+        <DotLegendStyled1
+          className={classes.border}
+          style={{ background: '#e9a69a' }}
+        />
+
+        <CardDetail7>Upcoming Birthday</CardDetail7>
+      </DotLegend1>
+      <br />
+      <MonthSelector
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
         Close={undefined}
       />
 
-     
       {staffBirthdayList.length === 0 ? (
         <ErrorMessages Error={'No birthdays are available'} />
       ) : (
         <>
           {staffBirthdayList.map((item: GetstaffBirthdayList, i) => (
-            <List17 Name={item.Name} BirthDate={item.BirthDate} key={i} 
-            CalendarMonth = {date.selectedDate}/>
+            <List17
+              Name={item.Name}
+              BirthDate={item.BirthDate}
+              key={i}
+              CalendarMonth={date.selectedDate}
+            />
           ))}
         </>
       )}

@@ -1,12 +1,12 @@
 export default interface IstaffBirthday {
-    asMonth:Number,
-    asAcademicyearId:string,
-    asSchoolId:string
+  asMonth: Number;
+  asAcademicyearId: string;
+  asSchoolId: string;
 }
 
 export interface GetstaffBirthdayList {
-Name :string;
-Designation: string;
-BirthDate; string;
-
+  Name: string;
+  Designation: string;
+  BirthDate;
+  string;
 }

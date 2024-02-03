@@ -1,34 +1,34 @@
-import { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getNextPageSentList, getSentList } from 'src/requests/Student/Sentmessage';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { GetSentListResult } from 'src/interfaces/MessageCenter/Sent_Message';
-import List3 from 'src/libraries/list/List3';
-import { IgetList } from 'src/interfaces/MessageCenter/GetList';
-import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
-import { Button, Container, Box } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import ReplayIcon from '@mui/icons-material/Replay';
-import { toast } from 'react-toastify';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import SentMessageApi from 'src/api/Student/SentMessage';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import KeyboardArrowUpRoundedIcon from '@mui/icons-material/KeyboardArrowUpRounded';
-import { Avatar } from '@mui/material';
+import ReplayIcon from '@mui/icons-material/Replay';
+import { Avatar, Box, Container } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
+import MoveToTrashApi from 'src/api/MessageCenter/MoveToTrash';
+import SentMessageApi from 'src/api/Student/SentMessage';
+import { IgetList } from 'src/interfaces/MessageCenter/GetList';
+import { GetSentListResult } from 'src/interfaces/MessageCenter/Sent_Message';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import List3 from 'src/libraries/list/List3';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-
+import {
+  getNextPageSentList,
+  getSentList
+} from 'src/requests/Student/Sentmessage';
+import { RootState } from 'src/store';
 
 const PageIndex = 2; // Initial page index
 
 function SentMessage() {
   const dispatch = useDispatch();
 
-  const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index 
+  const [pageIndex, setpageIndex] = useState<number>(PageIndex); // Page index
   const [NextPageData, setNextPageData] = useState<any>(); // Next pages data modifications
   const [ManipulatedData, setManipulatedData] = useState([]); // Modified Array for rendering
-  const [displayMoveToTop,setdisplayMoveToTop] = useState<string>("none");
-  const [pageIndexUpdated,setpageIndexUpdated] = useState(false);
+  const [displayMoveToTop, setdisplayMoveToTop] = useState<string>('none');
+  const [pageIndexUpdated, setpageIndexUpdated] = useState(false);
 
   const pathname = window.location.pathname;
   const pageName = pathname.replace(
@@ -39,18 +39,16 @@ function SentMessage() {
   // Original Array
   const GetSentMessagesList = useSelector(
     (state: RootState) => state.Sent__Message.SentList
-  ); 
-  const loading:boolean = useSelector(
+  );
+  const loading: boolean = useSelector(
     (state: RootState) => state.Sent__Message.Loading
   );
-  const FilterData:boolean = useSelector(
+  const FilterData: boolean = useSelector(
     (state: RootState) => state.Sent__Message.FilterData
   );
 
-
-  
-  // First time modification 
-  if (GetSentMessagesList != undefined) { 
+  // First time modification
+  if (GetSentMessagesList != undefined) {
     if (ManipulatedData.length == 0 && pageIndexUpdated == false) {
       GetSentMessagesList.forEach((element) => {
         if (element != undefined) {
@@ -58,24 +56,30 @@ function SentMessage() {
         }
       });
     }
-  // For Filter
-  if(FilterData == true){
-    if(ManipulatedData.length != 0 && GetSentMessagesList.length != 0){
-      ManipulatedData.length = 0;
-      GetSentMessagesList.forEach((element) => {
-        if (element != undefined) {
-          ManipulatedData.push(element);
-        }
-      });
+    // For Filter
+    if (FilterData == true) {
+      if (ManipulatedData.length != 0 && GetSentMessagesList.length != 0) {
+        ManipulatedData.length = 0;
+        GetSentMessagesList.forEach((element) => {
+          if (element != undefined) {
+            ManipulatedData.push(element);
+          }
+        });
+      } else {
+        ManipulatedData.length = 0;
+      }
     }
-    else{
-      ManipulatedData.length = 0;
-    }
-  }
-  // After page increment data modifications
+    // After page increment data modifications
     else {
-      if (NextPageData != undefined && ManipulatedData.length != 0 && pageIndexUpdated == true) {
-        if (NextPageData.GetScheduledSMSResult != undefined && NextPageData.GetScheduledSMSResult.length != 0) {
+      if (
+        NextPageData != undefined &&
+        ManipulatedData.length != 0 &&
+        pageIndexUpdated == true
+      ) {
+        if (
+          NextPageData.GetScheduledSMSResult != undefined &&
+          NextPageData.GetScheduledSMSResult.length != 0
+        ) {
           if (
             NextPageData.GetScheduledSMSResult[0].DetailsId !=
             ManipulatedData[0].DetailsId
@@ -107,8 +111,8 @@ function SentMessage() {
     asFilter: '',
     asPageIndex: 1,
     asMonthId: '0',
-    asOperator:"",
-    asDate:""
+    asOperator: '',
+    asDate: ''
   };
 
   useEffect(() => {
@@ -118,9 +122,7 @@ function SentMessage() {
   const [checked, setChecked] = useState(true);
   const [Id, setId] = useState({ DetailInfo: [] });
 
-
   const handleChange = (event) => {
-
     setChecked(true);
     const { value, name, checked } = event;
     // const { value, name } = event.target;
@@ -129,22 +131,19 @@ function SentMessage() {
 
     if (checked) {
       setId({
-        DetailInfo: [...DetailInfo, value],
+        DetailInfo: [...DetailInfo, value]
         // recieverInfo: [...recieverInfo, name]
       });
     } else {
       setId({
-        DetailInfo: DetailInfo.filter((event) => event !== value),
+        DetailInfo: DetailInfo.filter((event) => event !== value)
         // recieverInfo: recieverInfo.filter((event) => event !== name)
       });
     }
   };
 
-  
-
   // Selected data delete operation
   const moveToTrash = () => {
-  
     const joinDetails = Id.DetailInfo.join(';');
     const trashbody: any = {
       asSchoolId: asSchoolId,
@@ -162,7 +161,7 @@ function SentMessage() {
         }
         setChecked(false);
         setId({
-          DetailInfo: [],
+          DetailInfo: []
           // recieverInfo: []
         });
       })
@@ -175,7 +174,7 @@ function SentMessage() {
   const Reset = () => {
     setChecked(false);
     setId({
-      DetailInfo: [],
+      DetailInfo: []
       // recieverInfo: []
     });
   };
@@ -189,13 +188,17 @@ function SentMessage() {
 
   const scrolling = (): void => {
     // (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) Page end condition
-    if(ScrollableDivRefference.scrollTop >= 400){
-      setdisplayMoveToTop("flex")
+    if (ScrollableDivRefference.scrollTop >= 400) {
+      setdisplayMoveToTop('flex');
     }
-    if(ScrollableDivRefference.scrollTop < 400){
-      setdisplayMoveToTop("none")
+    if (ScrollableDivRefference.scrollTop < 400) {
+      setdisplayMoveToTop('none');
     }
-    if (ScrollableDivRefference.scrollHeight - ScrollableDivRefference.scrollTop <= 570) { 
+    if (
+      ScrollableDivRefference.scrollHeight -
+        ScrollableDivRefference.scrollTop <=
+      570
+    ) {
       setpageIndexUpdated(true);
       const UpdatedBody: IgetList = {
         asUserId: UserId,
@@ -206,10 +209,10 @@ function SentMessage() {
         asFilter: '',
         asPageIndex: pageIndex,
         asMonthId: '0',
-        asOperator:"",
-        asDate:""
+        asOperator: '',
+        asDate: ''
       };
-      SentMessageApi.GetSentMessageList(UpdatedBody) 
+      SentMessageApi.GetSentMessageList(UpdatedBody)
         .then((response) => {
           setNextPageData(response.data);
         })
@@ -223,9 +226,9 @@ function SentMessage() {
   const MoveToTop = (e) => {
     ScrollableDivRefference.scrollTo({ top: 0, behavior: 'smooth' });
     setTimeout(() => {
-      setdisplayMoveToTop("none")
+      setdisplayMoveToTop('none');
     }, 10);
-  }
+  };
 
   return (
     <>
@@ -233,8 +236,21 @@ function SentMessage() {
         <>
           <Container>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
-            <ButtonPrimary color="primary" endIcon={<DeleteIcon />} onClick={() => moveToTrash()}>DELETE</ButtonPrimary>&nbsp;&nbsp;
-              <ButtonPrimary color="secondary" endIcon={<ReplayIcon />} onClick={() => Reset()}>RESET</ButtonPrimary>
+              <ButtonPrimary
+                color="primary"
+                endIcon={<DeleteIcon />}
+                onClick={() => moveToTrash()}
+              >
+                DELETE
+              </ButtonPrimary>
+              &nbsp;&nbsp;
+              <ButtonPrimary
+                color="secondary"
+                endIcon={<ReplayIcon />}
+                onClick={() => Reset()}
+              >
+                RESET
+              </ButtonPrimary>
             </Box>
           </Container>
           <br />
@@ -252,20 +268,11 @@ function SentMessage() {
           overflow: 'auto'
         }}
       >
-        {
-        loading 
-        ? 
-        (
+        {loading ? (
           <SuspenseLoader />
-        ) 
-        : 
-        ManipulatedData === null || ManipulatedData.length == 0 
-        ? 
-        (
+        ) : ManipulatedData === null || ManipulatedData.length == 0 ? (
           <ErrorMessages Error={'No message found'} />
-        ) 
-        : 
-        (
+        ) : (
           <>
             {ManipulatedData.map(
               (GetSentMessagesListitems: GetSentListResult, i) => (
@@ -282,12 +289,23 @@ function SentMessage() {
           </>
         )}
         <Avatar
-        sx={{display:displayMoveToTop, position: 'fixed', bottom: '95px', zIndex: '4', left: '15px',p:'2px',width: 50, height: 50,backgroundColor:"white",boxShadow:
-        '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'}} 
-        onClick={MoveToTop} // Close function 
-      > 
-        <KeyboardArrowUpRoundedIcon fontSize="large" color='success'  />
-      </Avatar>
+          sx={{
+            display: displayMoveToTop,
+            position: 'fixed',
+            bottom: '95px',
+            zIndex: '4',
+            left: '15px',
+            p: '2px',
+            width: 50,
+            height: 50,
+            backgroundColor: 'white',
+            boxShadow:
+              '5px 5px 10px rgba(163, 177, 198, 0.4), -5px -5px 10px rgba(255, 255, 255, 0.3) !important'
+          }}
+          onClick={MoveToTop} // Close function
+        >
+          <KeyboardArrowUpRoundedIcon fontSize="large" color="success" />
+        </Avatar>
       </div>
     </>
   );

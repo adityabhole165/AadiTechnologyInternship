@@ -1,28 +1,27 @@
-import { TextField, Container, Grid, Card, Fab, useTheme } from '@mui/material';
-import { useState, useEffect } from 'react';
+import { Card, Container, Grid, TextField } from '@mui/material';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  GetGetAdminAndprincipalUsers,
-  GetUser,
-  getShowPTA,
-  GetStudent
-} from 'src/requests/AdminSMSCenter/To1';
-import {
   GetAdminAndprincipalUsers,
-  IUsergroup,
   IGetStudentsUser,
+  IUsergroup
 } from 'src/interfaces/AdminSMSCenter/To1';
-import { RootState } from 'src/store';
-import ListSelect from 'src/libraries/list/ListSelect';
+import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import DropdownofAddrecipent from 'src/libraries/dropdown/DropdownofAddrecipent';
+import ListSelect from 'src/libraries/list/ListSelect';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { BorderBox, BorderBox1 } from 'src/libraries/styled/CardStyle';
+import {
+  ContactGroup,
+  GetGetAdminAndprincipalUsers,
+  GetStudent,
+  GetUser,
+  getShowPTA
+} from 'src/requests/AdminSMSCenter/To1';
+import { RootState } from 'src/store';
 import SelectallAddrecipents from './SelectallAddrecipents';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages'
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import { ContactGroup } from 'src/requests/AdminSMSCenter/To1';
-import { IContactGRPBody } from 'src/interfaces/MessageCenter/MessageCenter';
-
 
 const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   let PageName = 'MessageCenter';
@@ -45,25 +44,40 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   const asUserId = sessionStorage.getItem('Id');
 
   const [entireSchool, setEntireSchool] = useState([
-    { Id: 'Entire School', Name: 'Entire School', Value: 'Entire School', isActive: false }
+    {
+      Id: 'Entire School',
+      Name: 'Entire School',
+      Value: 'Entire School',
+      isActive: false
+    }
   ]);
 
   // Api for Admin principle and Software co-ordinator
-  const getGetAdminAndprincipalUsers: any = useSelector((state: RootState) =>
-    state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
+  const getGetAdminAndprincipalUsers: any = useSelector(
+    (state: RootState) =>
+      state.getGetAdminAndprincipalUsers.getGetAdminAndprincipalUsers
   );
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const getuserlist: any = useSelector((state: RootState) => state.getuser1.GetUser);
+  const getuserlist: any = useSelector(
+    (state: RootState) => state.getuser1.GetUser
+  );
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const Loading: any = useSelector((state: RootState) => state.getuser1.Loading);
+  const Loading: any = useSelector(
+    (state: RootState) => state.getuser1.Loading
+  );
   // Api for Teacher list ,Student list ,Other staff and admin staff
-  const getClass: any = useSelector((state: RootState) => state.getuser1.getClass);
+  const getClass: any = useSelector(
+    (state: RootState) => state.getuser1.getClass
+  );
 
-  const getstudentlist: any = useSelector((state: RootState) => state.getuser1.getStudent);
-  const getPTAOption: any = useSelector((state: RootState) => state.getuser1.PTAOption);
+  const getstudentlist: any = useSelector(
+    (state: RootState) => state.getuser1.getStudent
+  );
+  const getPTAOption: any = useSelector(
+    (state: RootState) => state.getuser1.PTAOption
+  );
 
   // const Student = getstudentlist.GetStudentsUserResult;
-
 
   const adminAndprincipalUsersApiBody: GetAdminAndprincipalUsers = {
     asAcademicYearId: academicYearId,
@@ -85,19 +99,18 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
     asSelectedUserGroup: techerStudent1,
     abIsSMSCenter: PageName == 'SMSCenter' ? true : false
   };
-  const showPTA =
-  {
+  const showPTA = {
     asSchoolId: schoolId,
     asUserId: asUserId,
     asAcademicYearId: academicYearId
-  }
+  };
   const ContactgroupBody: IContactGRPBody = {
     asScholId: schoolId,
     asAcademicYearId: academicYearId,
-    asGroupId: "0",
-    asUserRoleId: "3",
+    asGroupId: '0',
+    asUserRoleId: '3',
     asUserId: asUserId
-  } 
+  };
   useEffect(() => {
     dispatch(getShowPTA(showPTA));
   }, []);
@@ -110,32 +123,40 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         { Id: '9', Name: 'Contact group', isActive: false }
       ]);
       if (getPTAOption.ShowPTAOption) {
-        setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
+        setTecherStudent((myArr) => [
+          ...myArr,
+          { Id: '11', Name: 'PTA', isActive: false }
+        ]);
 
         if (!getPTAOption.HideStudentOption) {
-          setTecherStudent(myArr => [...myArr, { Id: '3', Name: 'Student', isActive: false }])
+          setTecherStudent((myArr) => [
+            ...myArr,
+            { Id: '3', Name: 'Student', isActive: false }
+          ]);
         }
       } else {
         if (getPTAOption.HideStudentOption == true) {
-
         }
       }
-    }
-    else if (sessionStorage.getItem('RoleId') === '2') {
+    } else if (sessionStorage.getItem('RoleId') === '2') {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '6', Name: 'Admin Staff', isActive: false },
         { Id: '9', Name: 'Contact group', isActive: false }
       ]);
       if (getPTAOption.ShowPTAOption) {
-        setTecherStudent(myArr => [...myArr, { Id: '11', Name: 'PTA', isActive: false }])
+        setTecherStudent((myArr) => [
+          ...myArr,
+          { Id: '11', Name: 'PTA', isActive: false }
+        ]);
       }
       if (!getPTAOption.HideStudentOption) {
-        setTecherStudent(myArr => [...myArr, { Id: '3', Name: 'Student', isActive: false }])
+        setTecherStudent((myArr) => [
+          ...myArr,
+          { Id: '3', Name: 'Student', isActive: false }
+        ]);
       }
-    }
-
-    else {
+    } else {
       setTecherStudent([
         { Id: '2', Name: 'Teacher', isActive: false },
         { Id: '3', Name: 'Student', isActive: false },
@@ -143,19 +164,16 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
         { Id: '6', Name: 'Admin Staff', isActive: false },
         { Id: '11', Name: 'PTA', isActive: false },
         { Id: '9', Name: 'Contact group', isActive: false }
-
       ]);
     }
-    setSelectedRecipents(RecipientName)
-    setSelectedRecipentsId(RecipientId)
+    setSelectedRecipents(RecipientName);
+    setSelectedRecipentsId(RecipientId);
     //from reply, any recipients need to be selected
     SelectUsersInRecipients(RecipientId);
-
   }, [getPTAOption]);
 
   useEffect(() => {
     dispatch(GetStudent(getStudentsUserAPIBody));
-
   }, [studentlist]);
 
   useEffect(() => {
@@ -169,9 +187,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   // Teacher / Students List / Admin Staff / Other Staff Body
   useEffect(() => {
     if (techerStudent1 == '9') {
-      dispatch(ContactGroup(ContactgroupBody))
-    } else
-      dispatch(GetUser(getUsersInGroupAPIBody));
+      dispatch(ContactGroup(ContactgroupBody));
+    } else dispatch(GetUser(getUsersInGroupAPIBody));
   }, [techerStudent1]); //SendSMS
 
   useEffect(() => {
@@ -179,39 +196,47 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   }, [getuserlist]);
 
   const SelectUsersInRecipients = (RecipentsIds) => {
-    setList(getuserlist?.map((obj) => {
-      return {
-        ...obj,
-        isActive: (isSelected('Contact group') ? contactGroup.includes(obj.Id) :
-          (RecipentsIds.includes(obj.Id)) || isClassSelect())?
-          true : false
-      }
-    }))
-  }
+    setList(
+      getuserlist?.map((obj) => {
+        return {
+          ...obj,
+          isActive: (
+            isSelected('Contact group')
+              ? contactGroup.includes(obj.Id)
+              : RecipentsIds.includes(obj.Id) || isClassSelect()
+          )
+            ? true
+            : false
+        };
+      })
+    );
+  };
 
   const isClassSelect = () => {
     let selectedClass = getClass
       .filter((obj) => obj.Id === Number(studentlist))
       .map((item) => {
-        return item.Name
-      })
+        return item.Name;
+      });
     return selectedRecipents.includes(selectedClass[0]);
-  }
+  };
 
   const classChange = (value) => {
     setStudentlist(value);
-
   };
   const onChange = (value) => {
     setEntireSchool(value);
-    setSelectedRecipents([])
+    setSelectedRecipents([]);
     setSelectedRecipentsId([]);
     setStaffAndAdmin(getGetAdminAndprincipalUsers);
-    setTecherStudent(teacherStudent.map((obj) => { return { ...obj, isActive: false } }));
+    setTecherStudent(
+      teacherStudent.map((obj) => {
+        return { ...obj, isActive: false };
+      })
+    );
     setTeacherStudent1('');
     populateRecipient(value);
     setShow(!show);
-
   };
 
   const teacherStudentChange = (value) => {
@@ -227,36 +252,40 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
 
   const isSelected = (value) => {
-    let returnValue = false
+    let returnValue = false;
     teacherStudent.map((item) => {
-      if (item.Name === value && item.isActive)
-        returnValue = true
-    })
-    return returnValue
-  }
+      if (item.Name === value && item.isActive) returnValue = true;
+    });
+    return returnValue;
+  };
   const isTeacherSelected = () => {
-    let returnValue = false
+    let returnValue = false;
     teacherStudent.map((item) => {
-      if (item.isActive)
-        returnValue = true
-    })
-    return returnValue
-  }
+      if (item.isActive) returnValue = true;
+    });
+    return returnValue;
+  };
   const onChangeTeacher = (value) => {
     setList(value);
     //if student is selected
 
     if (isSelected('Student')) {
-      if ((!value.some(obj => obj.isActive === false))) {
-        removeAllRecipient(value)
+      if (!value.some((obj) => obj.isActive === false)) {
+        removeAllRecipient(value);
         setClassId((prevState) => [...prevState, getSelectedClassId[0]]);
-        setSelectedRecipents((prevState) => [...prevState, getSelectedClassName[0]]);
+        setSelectedRecipents((prevState) => [
+          ...prevState,
+          getSelectedClassName[0]
+        ]);
         // setSelectedRecipentsId((prevState) => [...prevState, getSelectedClassId[0]]);
-      }
-      else {
-        setClassId([])
-        setSelectedRecipents((prevState) => prevState.filter(item => item !== getSelectedClassName[0]));
-        setSelectedRecipentsId((prevState) => prevState.filter(item => item !== getSelectedClassId[0]));
+      } else {
+        setClassId([]);
+        setSelectedRecipents((prevState) =>
+          prevState.filter((item) => item !== getSelectedClassName[0])
+        );
+        setSelectedRecipentsId((prevState) =>
+          prevState.filter((item) => item !== getSelectedClassId[0])
+        );
         populateRecipient(value);
       }
     }
@@ -265,11 +294,17 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
       populateRecipient(value);
     }
   };
-  const getSelectedClassName =
-    getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Name; })
+  const getSelectedClassName = getClass
+    .filter((item) => item.Id == studentlist)
+    .map((obj) => {
+      return obj.Name;
+    });
 
-  const getSelectedClassId =
-    getClass.filter((item) => item.Id == studentlist).map((obj) => { return obj.Id; })
+  const getSelectedClassId = getClass
+    .filter((item) => item.Id == studentlist)
+    .map((obj) => {
+      return obj.Id;
+    });
 
   const adminandSWChange = (value) => {
     setStaffAndAdmin(value);
@@ -277,44 +312,53 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
 
   const populateRecipient = (itemList) => {
-
     itemList?.map((obj) => {
-      if (obj.isActive && 
-        (
-          (!isSelected('Contact group') && !selectedRecipentsId.includes(obj.Id)) ||
-          (isSelected('Contact group') && !contactGroup.includes(obj.Id)) 
-        )) {
+      if (
+        obj.isActive &&
+        ((!isSelected('Contact group') &&
+          !selectedRecipentsId.includes(obj.Id)) ||
+          (isSelected('Contact group') && !contactGroup.includes(obj.Id)))
+      ) {
         setSelectedRecipents((prevState) => [...prevState, obj.Value]);
         if (isSelected('Contact group')) {
-          setContactGroup((prevState) => [...prevState, obj.Id])
-        }
-        else {
+          setContactGroup((prevState) => [...prevState, obj.Id]);
+        } else {
           setSelectedRecipentsId((prevState) => [...prevState, obj.Id]);
         }
-      }
-      else if (!obj.isActive &&
-      (
-        (!isSelected('Contact group') && selectedRecipentsId.includes(obj.Id)) ||
-        (isSelected('Contact group') && contactGroup.includes(obj.Id)) 
-      )
+      } else if (
+        !obj.isActive &&
+        ((!isSelected('Contact group') &&
+          selectedRecipentsId.includes(obj.Id)) ||
+          (isSelected('Contact group') && contactGroup.includes(obj.Id)))
       ) {
-        setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
+        setSelectedRecipents((prevState) =>
+          prevState.filter((item) => item !== obj.Value)
+        );
         if (isSelected('Contact group')) {
-          setContactGroup((prevState) => prevState.filter(item => item !== obj.Id))
-        }
-        else {
-          setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
+          setContactGroup((prevState) =>
+            prevState.filter((item) => item !== obj.Id)
+          );
+        } else {
+          setSelectedRecipentsId((prevState) =>
+            prevState.filter((item) => item !== obj.Id)
+          );
         }
       }
     });
-  }
+  };
   const removeAllRecipient = (itemList) => {
     itemList?.map((obj) => {
-      const itemIndex = selectedRecipentsId.findIndex((item) => item === obj.Id);
-      setSelectedRecipentsId((prevState) => prevState.filter(item => item !== obj.Id));
-      setSelectedRecipents((prevState) => prevState.filter(item => item !== obj.Value));
-    })
-  }
+      const itemIndex = selectedRecipentsId.findIndex(
+        (item) => item === obj.Id
+      );
+      setSelectedRecipentsId((prevState) =>
+        prevState.filter((item) => item !== obj.Id)
+      );
+      setSelectedRecipents((prevState) =>
+        prevState.filter((item) => item !== obj.Value)
+      );
+    });
+  };
   const clickOkay = () => {
     recipientListClick({
       RecipientName: selectedRecipents,
@@ -326,12 +370,27 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <TextField fullWidth disabled multiline placeholder="Selected Recipient"
-          id="body" margin="normal" style={{ scrollBehavior: 'auto' }}
-          value={selectedRecipents.map(obj => obj !== undefined ? obj.trim() : '').join('; ')}
-          sx={{ height: "50px", overflow: 'auto', border: "0.1px solid #c4c5c5", borderRadius: "5.3px", }}
+        <TextField
+          fullWidth
+          disabled
+          multiline
+          placeholder="Selected Recipient"
+          id="body"
+          margin="normal"
+          style={{ scrollBehavior: 'auto' }}
+          value={selectedRecipents
+            .map((obj) => (obj !== undefined ? obj.trim() : ''))
+            .join('; ')}
+          sx={{
+            height: '50px',
+            overflow: 'auto',
+            border: '0.1px solid #c4c5c5',
+            borderRadius: '5.3px'
+          }}
         />
-        <ButtonPrimary onClick={clickOkay} sx={{ mb: "10px" }}>Back to Compose</ButtonPrimary>
+        <ButtonPrimary onClick={clickOkay} sx={{ mb: '10px' }}>
+          Back to Compose
+        </ButtonPrimary>
         <>
           {RoleId === '6' && (
             <BorderBox1>
@@ -340,39 +399,66 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
           )}
           {show === true ? (
             <>
-              <Grid container spacing={2} >
-              <Grid item xs={12} sm={6}>
-              <Grid container spacing={1}>
-                <Grid item xs={6} sm={12}>
-                  <Card>
-                    <BorderBox height={RoleId === '3' ? "50px" : "180px" || RoleId === '2' ? "110px" : "100px"} >
-                      <ListSelect Itemlist={staffAndAdmin} onChange={adminandSWChange} />
-                    </BorderBox>
-                  </Card>
-                  </Grid>
-                  <Grid item xs={6} sm={12}>
-                  <Card>
-                    <BorderBox >
-                      <ListSelect Itemlist={teacherStudent} onChange={teacherStudentChange} isSingleSelect={true} />
-                    </BorderBox>
-                  </Card>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6}>
+                  <Grid container spacing={1}>
+                    <Grid item xs={6} sm={12}>
+                      <Card>
+                        <BorderBox
+                          height={
+                            RoleId === '3'
+                              ? '50px'
+                              : '180px' || RoleId === '2'
+                              ? '110px'
+                              : '100px'
+                          }
+                        >
+                          <ListSelect
+                            Itemlist={staffAndAdmin}
+                            onChange={adminandSWChange}
+                          />
+                        </BorderBox>
+                      </Card>
+                    </Grid>
+                    <Grid item xs={6} sm={12}>
+                      <Card>
+                        <BorderBox>
+                          <ListSelect
+                            Itemlist={teacherStudent}
+                            onChange={teacherStudentChange}
+                            isSingleSelect={true}
+                          />
+                        </BorderBox>
+                      </Card>
+                    </Grid>
                   </Grid>
                 </Grid>
-                 </Grid>
                 <Grid item xs={12} sm={6}>
-                {techerStudent1 === '3' && (
-                    <DropdownofAddrecipent Array={getClass} defaultValue={studentlist}
-                      label="Select Class" handleChange={classChange} />
+                  {techerStudent1 === '3' && (
+                    <DropdownofAddrecipent
+                      Array={getClass}
+                      defaultValue={studentlist}
+                      label="Select Class"
+                      handleChange={classChange}
+                    />
                   )}
 
-                   {Loading ? <SuspenseLoader /> :
-                    list.length === 0 ?  (!isSelected('Student') && isTeacherSelected()) &&
-                      <ErrorMessages Error={'No records found'} /> :
-                      <SelectallAddrecipents Itemlist={list} onChange={onChangeTeacher} />
-                  }
+                  {Loading ? (
+                    <SuspenseLoader />
+                  ) : list.length === 0 ? (
+                    !isSelected('Student') &&
+                    isTeacherSelected() && (
+                      <ErrorMessages Error={'No records found'} />
+                    )
+                  ) : (
+                    <SelectallAddrecipents
+                      Itemlist={list}
+                      onChange={onChangeTeacher}
+                    />
+                  )}
                 </Grid>
-             </Grid>
-                </>
+              </Grid>
+            </>
           ) : null}
         </>
       </Container>

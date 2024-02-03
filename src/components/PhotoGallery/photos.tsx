@@ -1,17 +1,15 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from 'src/store';
-import { getimgs } from 'src/requests/PhotoGallery/PhotoGallery';
-import { Iimg } from 'src/interfaces/Common/PhotoGallery';
-import Card22 from 'src/libraries/card/card22';
 import { useParams } from 'react-router-dom';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { Container } from '@mui/material';
+import { Iimg } from 'src/interfaces/Common/PhotoGallery';
 import BackButton from 'src/libraries/button/BackButton';
-
+import Card22 from 'src/libraries/card/card22';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import { getimgs } from 'src/requests/PhotoGallery/PhotoGallery';
+import { RootState } from 'src/store';
 
 function Photos() {
-  const { imgId,FromRoute,Month,Year} = useParams();
+  const { imgId, FromRoute, Month, Year } = useParams();
 
   const dispatch = useDispatch();
   const img: any = useSelector((state: RootState) => state.Gallery.imgList);
@@ -19,7 +17,7 @@ function Photos() {
 
   const img_body: Iimg = {
     asSchoolId: asSchoolId,
-    asGalleryName: imgId,
+    asGalleryName: imgId
   };
 
   useEffect(() => {
@@ -28,9 +26,11 @@ function Photos() {
   return (
     <div>
       <PageHeader heading={'Album'} subheading={''} />
-     
-          <BackButton FromRoute={"/Common/"+ FromRoute +'/'+ Month +'/'+ Year} />
-    
+
+      <BackButton
+        FromRoute={'/Common/' + FromRoute + '/' + Month + '/' + Year}
+      />
+
       <Card22 pic={img} imgId={imgId} />
     </div>
   );

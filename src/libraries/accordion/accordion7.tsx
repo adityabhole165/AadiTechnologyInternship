@@ -1,20 +1,12 @@
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import { Card, Container, Grid, ListItem, ListItemText } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
-import * as React from 'react';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import Typography from '@mui/material/Typography';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import PropTypes from 'prop-types';
-import {
-  Container,
-  Grid,
-  ListItem,
-  ListItemText,
-  useTheme,
-  Card
-} from '@mui/material';
+import * as React from 'react';
 import { Styles } from 'src/assets/style/student-style';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import { AdditionalLecture } from 'src/interfaces/Student/Tmtimetable';
 
 Accordion7.propTypes = {
@@ -58,7 +50,7 @@ function Accordion7({ Data, additional, AddLectures }) {
             sx={{
               borderRadius: 1,
               borderBottom: 2,
-              mb: 1,
+              mb: 1
             }}
           >
             {/* {!additional == null ? (
@@ -128,9 +120,6 @@ function Accordion7({ Data, additional, AddLectures }) {
             ) : (
               <ErrorMessages Error={'No additional lectures are assigned'} />
             )} */}
-
-
-
 
             <>
               {AddLectures.map((list: AdditionalLecture, index) => (

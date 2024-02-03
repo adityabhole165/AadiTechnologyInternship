@@ -1,24 +1,17 @@
-import { FC, useContext, useRef, useState, MouseEvent } from 'react';
-import {
-  Popover,
-  styled,
-  Button,
-  MenuItem,
-  Menu,
-  Typography,
-  Stack,
-  Divider,
-  Box,
-  Tooltip,
-  Avatar
-} from '@mui/material';
-import { ThemeContext } from 'src/theme/ThemeProvider';
 import CheckTwoToneIcon from '@mui/icons-material/CheckTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import Fab from '@mui/material/Fab';
+import {
+  Avatar,
+  Box,
+  Popover,
+  Stack,
+  Tooltip,
+  Typography,
+  styled
+} from '@mui/material';
+import { FC, MouseEvent, useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import UnfoldMoreTwoToneIcon from '@mui/icons-material/UnfoldMoreTwoTone';
-import { NavLink } from 'react-router-dom';
+import { ThemeContext } from 'src/theme/ThemeProvider';
 
 const ThemeSettingsButton = styled(Box)(
   ({ theme }) => `
@@ -227,7 +220,7 @@ const ThemeSettings: FC = () => {
   const openMenu = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
-  
+
   const closeMenu = () => {
     setAnchorEl(null);
   };
@@ -236,7 +229,13 @@ const ThemeSettings: FC = () => {
     <>
       <ThemeSettingsButton>
         <Tooltip arrow title={t('Theme Settings')}>
-          <Avatar ref={ref} onClick={handleOpen} sx={{ backgroundColor: "#90caf9", width: 35, height: 35 }} variant="rounded" aria-label="add">
+          <Avatar
+            ref={ref}
+            onClick={handleOpen}
+            sx={{ backgroundColor: '#90caf9', width: 35, height: 35 }}
+            variant="rounded"
+            aria-label="add"
+          >
             <SettingsTwoToneIcon fontSize="small" />
           </Avatar>
         </Tooltip>

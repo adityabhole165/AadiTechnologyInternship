@@ -1,46 +1,28 @@
-import { useEffect, useState } from 'react';
+import { Card } from '@mui/material';
 import { styled } from '@mui/material/styles';
-import Grid from '@mui/material/Grid';
-import Container from '@mui/material/Container';
-import {Box,Card} from '@mui/material';
-import SearchIcon from '@mui/icons-material/Search';
-import InboxIcon from '@mui/icons-material/Inbox';
-import AddCircleIcon from '@mui/icons-material/AddCircle';
-import DeleteIcon from '@mui/icons-material/Delete';
-import SendIcon from '@mui/icons-material/Send';
-import { Link } from 'react-router-dom';
-import { Link as RouterLink } from 'react-router-dom';
-import { Styles } from 'src/assets/style/student-style';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import Search from 'src/components/MessageCenter/Search';
-import { Outlet } from 'react-router-dom';
 
 const Item = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
   ...theme.typography.body2,
   padding: theme.spacing(1),
   textAlign: 'center',
-  height:"61px",
-  boxShadow:' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)',
+  height: '61px',
+  boxShadow:
+    ' 5px 5px 10px rgba(163, 177, 198, 0.3), -5px -5px 10px rgba(255, 255, 255, 0.2)',
   color: theme.palette.text.secondary
 }));
 
 function MessaageCenter() {
-
   // useEffect(() => {
   //   localStorage.setItem('url', window.location.pathname);
   // }, []);
-
   // const classes = Styles();
-
   // const pathname = window.location.pathname;
   // const pageName = pathname.replace(
   //   '/extended-sidebar/MessageCenter/msgCenter/',
   //   ''
   // );
-
   // const [FilterData,setFilterData] = useState<boolean>(false);
-
   // const SearchData = (e) => {
   //   // setShow(!e.Apply);
   //   setFilterData(!e.Apply);
@@ -49,36 +31,25 @@ function MessaageCenter() {
   // const handleClick = (e) => {
   //   setShow(!show);
   // };
-
   // //  Close icon
   // const closeIconClicked = (e) =>{
   //   setShow(!e)
   // }
-
   // const iii = document.getElementById('mainDiv2');
   // // console.log(iii);
-
-
   // const scrolling = () => {
   // // console.log(window.scrollY)
-
   //   // console.log(iii);
   //   // console.log(window.innerHeight - document.documentElement.scrollTop);
   //   // console.log(document.documentElement.offsetHeight);
   //   // console.log(iii.scrollTop )
   //   // console.log(iii.offsetHeight)
   // }
-
   // // document.onscroll = function(){
   // //   console.log("hello");
-    
   // // }
-
-
   // return (
   //   <>
-
-
   //     <Container >
   //       <PageHeader heading={'Message Center'} subheading={''} />
   //       {!show && (
@@ -101,7 +72,6 @@ function MessaageCenter() {
   //                           fontSize: '10px',
   //                           backgroundColor: 'gray',
   //                           color: 'white',
-                          
   //                         }
   //                       : { fontSize: '10px' }
   //                   }
@@ -112,7 +82,6 @@ function MessaageCenter() {
   //                 </Item>
   //               </Link>
   //             </Grid>
-
   //             <Grid item xs={3.5}>
   //               <Link
   //                 to="/extended-sidebar/MessageCenter/msgCenter/Sent"  //FilterData
@@ -135,7 +104,6 @@ function MessaageCenter() {
   //                 </Item>
   //               </Link>
   //             </Grid>
-
   //             <Grid item xs={3.5}>
   //               <Link
   //                 to="/extended-sidebar/MessageCenter/msgCenter/Trash"
@@ -158,7 +126,6 @@ function MessaageCenter() {
   //                 </Item>
   //               </Link>
   //             </Grid>
-
   //             <Grid item xs={1.5}>
   //               <SearchIcon
   //                 sx={{
@@ -169,7 +136,6 @@ function MessaageCenter() {
   //                 onClick={handleClick}
   //               />
   //             </Grid>
-
   //             <Grid
   //               item
   //               xs={3}

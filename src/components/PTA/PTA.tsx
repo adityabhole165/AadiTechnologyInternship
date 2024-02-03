@@ -1,22 +1,20 @@
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { getPtaList } from 'src/requests/PTA/PTA';
-import Accordion1 from 'src/libraries/accordion/accordion1';
-import { useSelector } from 'react-redux';
-import { RootState } from 'src/store';
 import { Container } from '@mui/material';
-import IPta from '../../interfaces/Common/PTA';
+import Grid from '@mui/material/Grid';
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import Accordion1 from 'src/libraries/accordion/accordion1';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DotLegend from 'src/libraries/summary/DotLegend';
-import Grid from '@mui/material/Grid';
+import { getPtaList } from 'src/requests/PTA/PTA';
+import { RootState } from 'src/store';
+import IPta from '../../interfaces/Common/PTA';
 
 function pta() {
   const dispatch = useDispatch();
-  
+
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUserId = sessionStorage.getItem('Id');
-
 
   const ParentCommitteeList: any = useSelector(
     (state: RootState) => state.Pta.ParentCommittee
@@ -39,19 +37,24 @@ function pta() {
     dispatch(getPtaList(body));
   }, []);
 
-
   return (
     <Container>
       <PageHeader heading={'Parent Teacher Association'} subheading={''} />
       <div>
-        <Grid container>
-          </Grid><Grid item xs={12}>
-            <DotLegend color='info' text='PTA members associated with section and class' />
+        <Grid container></Grid>
+        <Grid item xs={12}>
+          <DotLegend
+            color="info"
+            text="PTA members associated with section and class"
+          />
         </Grid>
-
       </div>{' '}
       <br />
-      <Accordion1 Parent={ParentCommitteeList} Teacher={TeacherCommitteeList} headingg={data3} />
+      <Accordion1
+        Parent={ParentCommitteeList}
+        Teacher={TeacherCommitteeList}
+        headingg={data3}
+      />
     </Container>
   );
 }

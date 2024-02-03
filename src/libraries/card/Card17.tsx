@@ -1,41 +1,30 @@
-import React, { useState, useEffect } from 'react';
-import {
-  ListItem,
-  Card,
-  useTheme,
-  List,
-  Avatar,
-  Box,
-  Slide,
-  Stack,
-  Divider,
-  IconButton,
-  Typography,
-  Popover,
-  InputLabel,
-  MenuItem,
-  FormControl,
-  Select,
-  Container,
-  TextField
-} from '@mui/material';
-import {
-  deepOrange,
-  green,
-  purple,
-  blue,
-  red,
-  yellow,
-  orange
-} from '@mui/material/colors';
-import CheckIcon from '@mui/icons-material/Check';
-import ReplayIcon from '@mui/icons-material/Replay';
-import CloseIcon from '@mui/icons-material/Close';
-import RefreshIcon from '@mui/icons-material/Refresh';
-import SettingsIcon from '@mui/icons-material/Settings';
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import RefreshIcon from '@mui/icons-material/Refresh';
+import ReplayIcon from '@mui/icons-material/Replay';
+import SettingsIcon from '@mui/icons-material/Settings';
+import {
+  Avatar,
+  Box,
+  Card,
+  Container,
+  Divider,
+  FormControl,
+  List,
+  ListItem,
+  MenuItem,
+  Popover,
+  Select,
+  Slide,
+  Stack,
+  Typography,
+  useTheme
+} from '@mui/material';
+import { green, orange, red } from '@mui/material/colors';
 import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import ErrorMessages2 from 'src/libraries/ErrorMessages/DashboardError';
 
@@ -228,8 +217,11 @@ function Card17({ data, YearData }) {
                                         // mx: 'auto'
                                       }}
                                       alt={slide.Name}
-                                      src={ localStorage.getItem("siteURL") + slide.ImageList[0].ImagePath}
-                                        // 'http://riteschool_old.aaditechnology.com/RITeSchool/' +
+                                      src={
+                                        localStorage.getItem('siteURL') +
+                                        slide.ImageList[0].ImagePath
+                                      }
+                                      // 'http://riteschool_old.aaditechnology.com/RITeSchool/' +
                                     />
                                   </Slide>
 

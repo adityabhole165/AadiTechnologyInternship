@@ -1,9 +1,9 @@
-import { TextField, Box, Tooltip, ClickAwayListener, Fab } from '@mui/material';
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
+import { Box, ClickAwayListener, TextField, Tooltip } from '@mui/material';
 import { useState } from 'react';
-import { AttachmentFile } from '../../interfaces/MessageCenter/MessageCenter';
 import { Styles } from 'src/assets/style/student-style';
-import { CheckFileValidation } from 'src/components/Common/Util'
+import { CheckFileValidation } from 'src/components/Common/Util';
+import { AttachmentFile } from '../../interfaces/MessageCenter/MessageCenter';
 
 const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
   const classes = Styles();
@@ -26,9 +26,37 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
   const fileChangedHandler = async (event) => {
     const multipleFiles = event.target.files;
     for (let i = 0; i < multipleFiles.length; i++) {
-      const allowedFileTypes = 
-        ['BMP', 'DOC', 'DOCX', 'JPG', 'JPEG', 'PDF', 'PNG', 'PPS', 'PPSX', 'PPT', 'PPTX', 'XLS', 'XLSX', 'bmp', 'doc', 'docx', 'jpg', 'jpeg', 'pdf', 'png', 'pps', 'ppsx', 'ppt', 'pptx', 'xls', 'xlsx' ];
-      setFilerror(CheckFileValidation(multipleFiles[i], allowedFileTypes, 20e6));
+      const allowedFileTypes = [
+        'BMP',
+        'DOC',
+        'DOCX',
+        'JPG',
+        'JPEG',
+        'PDF',
+        'PNG',
+        'PPS',
+        'PPSX',
+        'PPT',
+        'PPTX',
+        'XLS',
+        'XLSX',
+        'bmp',
+        'doc',
+        'docx',
+        'jpg',
+        'jpeg',
+        'pdf',
+        'png',
+        'pps',
+        'ppsx',
+        'ppt',
+        'pptx',
+        'xls',
+        'xlsx'
+      ];
+      setFilerror(
+        CheckFileValidation(multipleFiles[i], allowedFileTypes, 20e6)
+      );
 
       let fileName = multipleFiles[i].name;
       let base64URL: any = '';
@@ -45,7 +73,6 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
         FileNameOfAttachment.push(AttachmentFile.FileName);
         Base64URLOfAttachment.push(AttachmentFile.Base64URL);
       }
-
     }
     setFinalBase642((prev) => {
       return [...prev];
@@ -68,7 +95,7 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
       NameOFFile: FileNameOfAttachment,
       Base64UrlOfFile: Base64URLOfAttachment,
       FileBaseandNameObject: finalBase642New
-    })
+    });
   };
 
   const ChangeFileIntoBase64 = (fileData) => {
@@ -115,7 +142,9 @@ const ChooseFile = ({ ObjectOfFileNameAndBase64 }) => {
                   disableFocusListener
                   disableHoverListener
                   disableTouchListener
-                  title={'Supports only .BMP, .DOC, .DOCX, .JPG, .JPEG, .PDF, .PNG, .PPS, .PPSX, .PPT, .PPTX, .XLS, .XLSX files types with total size upto 20 MB.'}
+                  title={
+                    'Supports only .BMP, .DOC, .DOCX, .JPG, .JPEG, .PDF, .PNG, .PPS, .PPSX, .PPT, .PPTX, .XLS, .XLSX files types with total size upto 20 MB.'
+                  }
                   arrow
                   placement="left"
                   componentsProps={{

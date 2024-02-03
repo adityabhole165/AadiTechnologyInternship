@@ -1,23 +1,23 @@
-import PageHeader from 'src/libraries/heading/PageHeader';
+import { Container, Grid, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { RootState } from 'src/store';
 import { useDispatch, useSelector } from 'react-redux';
-import MissingAttandenceInteface from 'src/interfaces/Student/MissingAttandenceInterface';
-import { getMissingAttandenceList } from 'src/requests/Student/MissingAttandenceSlice';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import List16 from 'src/libraries/list/List16';
-import { GetMissingAttandenceData } from 'src/interfaces/Student/MissingAttandenceInterface';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Container, Fab, Grid, useTheme } from '@mui/material';
-import ReplyIcon from '@mui/icons-material/Reply';
 import { Styles } from 'src/assets/style/student-style';
-import { getDateFormatted } from '../Common/Util';
-import DateSelector from 'src/libraries/buttons/DateSelector';
+import MissingAttandenceInteface, {
+  GetMissingAttandenceData
+} from 'src/interfaces/Student/MissingAttandenceInterface';
+import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import BackButton from 'src/libraries/button/BackButton';
+import DateSelector from 'src/libraries/buttons/DateSelector';
+import PageHeader from 'src/libraries/heading/PageHeader';
+import List16 from 'src/libraries/list/List16';
+import { getMissingAttandenceList } from 'src/requests/Student/MissingAttandenceSlice';
+import { RootState } from 'src/store';
+import { getDateFormatted } from '../Common/Util';
 
 function MissingAttandence() {
   // USE PARAMS FOR PREVIOUS PAGES DATE
-  const { assignedDate,StandardId } = useParams();
+  const { assignedDate, StandardId } = useParams();
 
   // VARIABLES
   const dispatch = useDispatch();
@@ -63,10 +63,14 @@ function MissingAttandence() {
     <>
       <Container>
         <PageHeader heading={'Missing Attendance'} subheading={''} />
-        <Grid container direction="row" >
-          <BackButton FromRoute={'/Teacher/TAttendance/' + assignedDate + '/' + StandardId}/>
+        <Grid container direction="row">
+          <BackButton
+            FromRoute={
+              '/Teacher/TAttendance/' + assignedDate + '/' + StandardId
+            }
+          />
         </Grid>
-        
+
         <DateSelector
           date={getDate}
           setCurrentDate={getCurrentDate}
@@ -87,7 +91,11 @@ function MissingAttandence() {
                   {' '}
                   {i === 0 && items.Status == 'A' ? (
                     <>
-                      <ErrorMessages Error={'Attendance date should be within the current academic year'} />
+                      <ErrorMessages
+                        Error={
+                          'Attendance date should be within the current academic year'
+                        }
+                      />
                     </>
                   ) : i === 0 && items.Status == 'W' ? (
                     <>

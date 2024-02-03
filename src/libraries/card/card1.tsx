@@ -1,15 +1,15 @@
 import {
   Box,
-  Typography,
-  useTheme,
-  List,
   Container,
+  Grid,
   Grow,
-  Grid
+  List,
+  Typography,
+  useTheme
 } from '@mui/material';
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import { makeStyles } from '@mui/styles';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 
 Card1.propTypes = {

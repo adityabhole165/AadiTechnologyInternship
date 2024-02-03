@@ -1,17 +1,22 @@
-import http from "../../requests/SchoolService/schoolServices";
-import {Iyears,IGetAllMonths,AllAcademicYearsResult,GetAllMonthsResult} from "../../interfaces/MessageCenter/Search"
+import {
+  AllAcademicYearsResult,
+  GetAllMonthsResult,
+  IGetAllMonths,
+  Iyears
+} from '../../interfaces/MessageCenter/Search';
+import http from '../../requests/SchoolService/schoolServices';
 
-  const getyears = (data: Iyears) => {
-    return http.post<AllAcademicYearsResult>('School/GetAllAcademicYears',data);
-  };
+const getyears = (data: Iyears) => {
+  return http.post<AllAcademicYearsResult>('School/GetAllAcademicYears', data);
+};
 
-  const getmonths = (data: IGetAllMonths) => {
-    return http.post<GetAllMonthsResult>('School/GetAllMonths',data);
-  };
-  
-const filterApi  ={
-    getyears,
-    getmonths
-}
+const getmonths = (data: IGetAllMonths) => {
+  return http.post<GetAllMonthsResult>('School/GetAllMonths', data);
+};
 
-export default filterApi ;
+const filterApi = {
+  getyears,
+  getmonths
+};
+
+export default filterApi;

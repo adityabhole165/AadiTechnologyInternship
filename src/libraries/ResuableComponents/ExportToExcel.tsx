@@ -1,4 +1,3 @@
-import React from 'react';
 import ReactExport from 'react-export-excel';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 
@@ -8,7 +7,6 @@ const ExportToExcel = ({ File1, File2 = [], File3 = [], ExportExcel }) => {
   const ExcelColumn = ReactExport.ExcelFile.ExcelColumn;
 
   const ExportClick = () => {
-   
     if (ExportExcel) {
       ExportExcel();
     }
@@ -17,7 +15,7 @@ const ExportToExcel = ({ File1, File2 = [], File3 = [], ExportExcel }) => {
   const Button = (
     <ButtonPrimary
       style={{ background: 'green', color: 'white', padding: '8px' }}
-      onClick={ExportClick} 
+      onClick={ExportClick}
     >
       Export
     </ButtonPrimary>

@@ -1,11 +1,5 @@
-import React from 'react'
-
 function PayinternalFees() {
-  return (
-    <div>
-      payInternalFees
-    </div>
-  )
+  return <div>payInternalFees</div>;
 }
 
-export default PayinternalFees
+export default PayinternalFees;

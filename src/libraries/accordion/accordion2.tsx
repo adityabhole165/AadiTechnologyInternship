@@ -3,19 +3,19 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Box,
   Card,
   CardContent,
-  CardMedia,
   Container,
-  Typography
+  Grid,
+  Grow,
+  Typography,
+  useTheme
 } from '@mui/material';
-import { Grid, Grow, useTheme } from '@mui/material';
-import React, { useState } from 'react';
-import { Styles } from 'src/assets/style/student-style';
 import PropTypes from 'prop-types';
-import { IHomeworkResponse } from 'src/interfaces/Student/Homework';
+import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
+import { Styles } from 'src/assets/style/student-style';
+import { IHomeworkResponse } from 'src/interfaces/Student/Homework';
 
 Accordion2.propTypes = {
   subject: PropTypes.string,
@@ -60,9 +60,7 @@ function Accordion2({ subject, Data, Close, index, expand }) {
             </AccordionSummary>
             <AccordionDetails
               sx={{
-                borderRadius: 1,
-               
-                
+                borderRadius: 1
               }}
             >
               {Data?.map((list: IHomeworkResponse, i) => {

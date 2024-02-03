@@ -1,39 +1,22 @@
-import React, { useState } from 'react';
-import { useEffect, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import {
-  Box,
-  Button,
-  Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  Typography
-} from '@mui/material';
-import { useNavigate } from 'react-router-dom';
-import UpcomingEvent from './UpcomingEvent';
-import DeleteIcon from 'src/libraries/icon/icon1';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import { ResetFilePath } from 'src/requests/AnnualPlanner/AnnualPlanner';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import SingleFile from 'src/libraries/File/SingleFile';
-import { RootState } from 'src/store';
-import PageHeader from 'src/libraries/heading/PageHeader';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import { Button, Dialog, DialogActions, DialogContent } from '@mui/material';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toast } from 'react-toastify';
 import {
   IAddAnnualPlannerBody,
-  IGetFileDetailsBody,
-  IDeleteFileDetailsBody
+  IDeleteFileDetailsBody,
+  IGetFileDetailsBody
 } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
+import SingleFile from 'src/libraries/File/SingleFile';
+import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  addanual,
+  DeleteFile,
   GetFile,
-  DeleteFile
+  addanual
 } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
-import { toast } from 'react-toastify';
-import Delete from '@mui/icons-material/Delete';
-import { number } from 'prop-types';
+import { RootState } from 'src/store';
 
 const AddAnnualPlaner = () => {
   const dispatch = useDispatch();
@@ -63,13 +46,13 @@ const AddAnnualPlaner = () => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asUpdatedById = localStorage.getItem('Id');
   const SiteURL = localStorage.getItem('SiteURL');
-  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length-1]
+  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
   const AnnualplannerBody: IAddAnnualPlannerBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asSaveFeature:"Event Planner",
-    asFileName:fileName,
-    asFolderName:asFolderName,
+    asSaveFeature: 'Event Planner',
+    asFileName: fileName,
+    asFolderName: asFolderName,
     asBase64String: base64URL,
     asUpdatedById: Number(asUpdatedById)
   };
@@ -84,9 +67,7 @@ const AddAnnualPlaner = () => {
   useEffect(() => {
     dispatch(GetFile(GetFileDetailsBody));
   }, []);
-useEffect(()=>{
-  
-},[FileDetails])
+  useEffect(() => {}, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId)
@@ -109,8 +90,10 @@ useEffect(()=>{
   };
   const clickFileName = () => {
     if (FileDetails !== '') {
-      window.open(localStorage.getItem('SiteURL') +
-        '/RITeSchool/DOWNLOADS/Event%20Planner/' + FileDetails[0].LinkUrl
+      window.open(
+        localStorage.getItem('SiteURL') +
+          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+          FileDetails[0].LinkUrl
       );
       // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
@@ -152,7 +135,7 @@ useEffect(()=>{
           <HighlightOffIcon onClick={clickDelete} />
           <ButtonPrimary
             disabled={
-              (fileName.length !== 0 && base64URL.length !== 0) ? false : true
+              fileName.length !== 0 && base64URL.length !== 0 ? false : true
             }
             onClick={clickSubmit}
           >

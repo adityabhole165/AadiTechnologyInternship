@@ -1,10 +1,10 @@
-import { alpha, createTheme, lighten, darken } from '@mui/material';
 import '@mui/lab/themeAugmentation';
+import { alpha, createTheme, darken, lighten } from '@mui/material';
 
 // import i18n from 'src/i18n/i18n';
 
 const themeColors = {
-  primary: '#8593fe',
+  primary: '#324b84',
   secondary: '#000',
   success: '#57CA22',
   warning: '#FFA319',
@@ -23,10 +23,11 @@ const colors = {
     disableButton: '#cccccc',
     listColor: '#fdfdfd',
     selectedlistColor: '#D9DDE2',
-    HighlightedlistColor:'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
-    pageBackground:'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
-    containerBackground:'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
-    accordianHeadercolor:'#7b3c9c',
+    HighlightedlistColor:
+      'linear-gradient(135deg,  #c2dbff 100%,  #c2dbff 100%)',
+    pageBackground: 'linear-gradient(135deg, #bdbdc7 100%, #bdbdc7 100%)',
+    containerBackground: 'linear-gradient(135deg, #fdfdfd 100%, #fdfdfd 100%)',
+    accordianHeadercolor: '#7b3c9c',
     blue1: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue2: 'linear-gradient(135deg, #ABDCFF 0%, #0396FF 100%)',
     blue3: 'linear-gradient(127.55deg, #141E30 3.73%, #243B55 92.26%)',
@@ -44,8 +45,8 @@ const colors = {
     green2: '#aeeded',
     black1: 'linear-gradient(100.66deg, #434343 6.56%, #000000 93.57%)',
     black2: 'linear-gradient(60deg, #29323c 0%, #485563 100%)',
-    red:'#EACAFF',
-    pink:'linear-gradient(65deg, #D3CCE3 0%, #E9E4F0, #f64f59 50%)',
+    red: '#EACAFF',
+    pink: 'linear-gradient(65deg, #D3CCE3 0%, #E9E4F0, #f64f59 50%)'
   },
   shadows: {
     success:
@@ -148,14 +149,14 @@ export const PurpleFlowTheme = createTheme({
   colors: {
     gradients: {
       primayButton: colors.gradients.primayButton,
-      secondaryButton:colors.gradients.secondaryButton,
-      disableButton:colors.gradients.disableButton,
+      secondaryButton: colors.gradients.secondaryButton,
+      disableButton: colors.gradients.disableButton,
       listColor: colors.gradients.listColor,
       selectedlistColor: colors.gradients.selectedlistColor,
-      HighlightedlistColor:colors.gradients.HighlightedlistColor,
-      pageBackground:colors.gradients.  pageBackground,
-      containerBackground:colors.gradients. containerBackground,
-      accordianHeadercolor:colors.gradients.accordianHeadercolor,
+      HighlightedlistColor: colors.gradients.HighlightedlistColor,
+      pageBackground: colors.gradients.pageBackground,
+      containerBackground: colors.gradients.containerBackground,
+      accordianHeadercolor: colors.gradients.accordianHeadercolor,
       blue1: colors.gradients.blue1,
       blue2: colors.gradients.blue2,
       blue3: colors.gradients.blue3,
@@ -166,15 +167,15 @@ export const PurpleFlowTheme = createTheme({
       orange3: colors.gradients.orange3,
       purple1: colors.gradients.purple1,
       purple3: colors.gradients.purple3,
-      navy2:colors.gradients.navy2,
+      navy2: colors.gradients.navy2,
       pink1: colors.gradients.pink1,
       pink2: colors.gradients.pink2,
       green1: colors.gradients.green1,
       green2: colors.gradients.green2,
       black1: colors.gradients.black1,
       black2: colors.gradients.black2,
-      red:colors.gradients.red,
-      pink:colors.gradients.pink1
+      red: colors.gradients.red,
+      pink: colors.gradients.pink1
     },
     shadows: {
       success: colors.shadows.success,
@@ -351,13 +352,7 @@ export const PurpleFlowTheme = createTheme({
     MuiBackdrop: {
       styleOverrides: {
         root: {
-          backgroundColor: alpha(darken(themeColors.primaryAlt, 0.4), 0.2),
-          backdropFilter: 'blur(2px)',
-
-          '&.MuiBackdrop-invisible': {
-            backgroundColor: 'transparent',
-            backdropFilter: 'blur(2px)'
-          }
+          // backgroundColor: alpha(darken(themeColors.primaryAlt, 0.4), 0.2)
         }
       }
     },
@@ -518,9 +513,8 @@ export const PurpleFlowTheme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
-          boxShadow:"0px 8px 15px rgba(0, 0, 0, 0.1)",
-       
-}
+          boxShadow: '0px 8px 15px rgba(0, 0, 0, 0.1)'
+        }
       }
     },
     MuiRadio: {
@@ -639,6 +633,9 @@ export const PurpleFlowTheme = createTheme({
         endIcon: {
           marginRight: -8
         },
+        containedPrimary: {
+          color: colors.alpha.white[100]
+        },
         containedSecondary: {
           backgroundColor: colors.secondary.main,
           color: colors.alpha.white[100],
@@ -679,8 +676,7 @@ export const PurpleFlowTheme = createTheme({
       },
       styleOverrides: {
         root: {
-          borderRadius: 6,
-          
+          borderRadius: 0
         }
       }
     },
@@ -693,13 +689,12 @@ export const PurpleFlowTheme = createTheme({
           color: colors.alpha.black[100],
           background: colors.alpha.white[100],
           transition: 'all .2s',
-          height:"30px",
-          textTransform: "capitalize",
+          height: '30px',
+          textTransform: 'capitalize',
 
           '&:hover, &.Mui-selected, &.Mui-selected:hover': {
             color: colors.alpha.black[100],
-            background: colors.info.main,
-          
+            background: colors.info.main
           }
         }
       }
@@ -707,11 +702,11 @@ export const PurpleFlowTheme = createTheme({
     MuiIconButton: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: 0,
           padding: 6,
 
           '& .MuiTouchRipple-root': {
-            borderRadius: 6
+            borderRadius: 0
           }
         },
         sizeSmall: {
@@ -799,7 +794,7 @@ export const PurpleFlowTheme = createTheme({
     MuiLinearProgress: {
       styleOverrides: {
         root: {
-          borderRadius: 6,
+          borderRadius: 0,
           height: 6
         }
       }
@@ -811,7 +806,7 @@ export const PurpleFlowTheme = createTheme({
             transform: 'none'
           },
           '& .MuiSlider-valueLabel': {
-            borderRadius: 6,
+            borderRadius: 0,
             background: colors.alpha.black[100],
             color: colors.alpha.white[100]
           }
@@ -848,7 +843,7 @@ export const PurpleFlowTheme = createTheme({
           padding: '12px',
 
           '& .MuiListItem-button': {
-            borderRadius: 6,
+            borderRadius: 0,
             margin: '1px 0'
           }
         }
@@ -864,7 +859,7 @@ export const PurpleFlowTheme = createTheme({
         indicator: {
           height: 38,
           minHeight: 38,
-          borderRadius: 6,
+          borderRadius: 0,
           border: '1px solid ' + colors.primary.dark,
           boxShadow: '0px 2px 10px ' + colors.primary.light
         },
@@ -879,7 +874,7 @@ export const PurpleFlowTheme = createTheme({
           padding: 0,
           height: 38,
           minHeight: 38,
-          borderRadius: 6,
+          borderRadius: 0,
           transition: 'color .2s',
           textTransform: 'capitalize',
 
@@ -1025,13 +1020,10 @@ export const PurpleFlowTheme = createTheme({
     },
     MuiTableCell: {
       defaultProps: {
-        variant:"body",
-        color: colors.alpha.black[500],
-      
-
+        variant: 'body',
+        color: colors.alpha.black[500]
       },
       styleOverrides: {
-       
         root: {
           borderBottomColor: colors.alpha.black[10],
           fontSize: 14
@@ -1093,20 +1085,18 @@ export const PurpleFlowTheme = createTheme({
       styleOverrides: {
         root: {
           '@media (min-width:600px)': {
-            paddingLeft:"50px",
-            paddingRight:"50px",
+            paddingLeft: '50px',
+            paddingRight: '50px'
           },
           '@media (min-width:900px)': {
-            paddingLeft:"60px",
-            paddingRight:"60px",
+            paddingLeft: '60px',
+            paddingRight: '60px'
           },
           '@media (min-width:1200px)': {
-            paddingLeft:"100px",
-            paddingRight:"100px",
-          },
-        
+            paddingLeft: '100px',
+            paddingRight: '100px'
+          }
         }
-      
       }
     },
     MuiTimelineItem: {
@@ -1200,7 +1190,7 @@ export const PurpleFlowTheme = createTheme({
         }
       }
     },
- 
+
     MuiTypography: {
       defaultProps: {
         variantMapping: {
@@ -1227,20 +1217,16 @@ export const PurpleFlowTheme = createTheme({
       }
     }
   },
-  
+
   shape: {
-    borderRadius: 6
+    borderRadius: 0
   },
   typography: {
+    fontFamily: 'Nunito Sans Variable',
 
-    fontFamily:
-      'Roboto',
-    
-      
     h1: {
       fontWeight: 700,
-      fontSize: 35,
-     
+      fontSize: 35
     },
     h2: {
       fontWeight: 700,
@@ -1260,30 +1246,29 @@ export const PurpleFlowTheme = createTheme({
       fontWeight: 700,
       fontSize: 12,
       '@media (min-width:600px)': {
-        fontSize: 14},
-   
-    
- 
+        fontSize: 14
+      }
     },
     h6: {
       fontSize: 12,
-      color:"black",
+      color: 'black',
       '@media (min-width:600px)': {
-        fontSize: 14,
-      },
+        fontSize: 14
+      }
     },
-  
+
     body1: {
       fontSize: 12,
-      color:"black",
-    '@media (min-width:600px)': {
-        fontSize: 14,}
+      color: 'black',
+      '@media (min-width:600px)': {
+        fontSize: 14
+      }
     },
     body2: {
       fontSize: 12,
       '@media (min-width:600px)': {
-        fontSize: 14,}
-   
+        fontSize: 14
+      }
     },
     button: {
       fontWeight: 600

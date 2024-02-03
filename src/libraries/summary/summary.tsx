@@ -1,11 +1,9 @@
+import { Grid, useTheme } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
-import { styled, useTheme, Grid, Container } from '@mui/material';
-import { Box } from '@mui/material';
 import { CardDetail7 } from '../styled/CardStyle';
 import { DotLegend1, DotLegendStyled1 } from '../styled/DotLegendStyled';
 
 function summary() {
- 
   const theme = useTheme();
   const classes = Styles();
 
@@ -20,7 +18,6 @@ function summary() {
             />
             <CardDetail7>Present</CardDetail7>
           </DotLegend1>
-          
 
           <DotLegend1>
             <DotLegendStyled1
@@ -51,7 +48,7 @@ function summary() {
               className={classes.border}
               style={{ background: '#b2a4dd' }}
             />
-        
+
             <CardDetail7>Not Available</CardDetail7>
           </DotLegend1>
           <DotLegend1>
@@ -60,18 +57,16 @@ function summary() {
               style={{ background: '#00b8d4' }}
             />
             <CardDetail7>Late Join</CardDetail7>
-           
           </DotLegend1>
         </Grid>
         <Grid item xs={12}>
-        <DotLegend1>
-          <DotLegendStyled1
-            className={classes.border}
-            style={{ background: '#bdbdbd' }}
-          />
-          <CardDetail7>Outside Academic Year</CardDetail7>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: '#bdbdbd' }}
+            />
+            <CardDetail7>Outside Academic Year</CardDetail7>
           </DotLegend1>
-     
         </Grid>
       </Grid>
     </>
