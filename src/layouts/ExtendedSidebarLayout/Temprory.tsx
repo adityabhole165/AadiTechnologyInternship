@@ -222,15 +222,21 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       >
         <Divider className="m-5" />
         <Grid className="p-8" container>
-          <Grid item xs={4} sx={ActionStyle} textAlign="center">
-            <User onClick={ClickUser}></User>
-          </Grid>
-          <Grid item xs={4} sx={ActionStyle} textAlign="center">
-            <SettingsTwoTone />
-          </Grid>
-          <Grid item xs={4} sx={ActionStyle} textAlign="center">
-            <PowerOutLined onClick={handleLogout} />
-          </Grid>
+          <Tooltip title={'Profile'}>
+            <Grid item xs={4} sx={ActionStyle} textAlign="center">
+              <User onClick={ClickUser}></User>
+            </Grid>
+          </Tooltip>
+          <Tooltip title={'Settings'}>
+            <Grid item xs={4} sx={ActionStyle} textAlign="center">
+              <SettingsTwoTone />
+            </Grid>
+          </Tooltip>
+          <Tooltip title={'Logout'}>
+            <Grid item xs={4} sx={ActionStyle} textAlign="center">
+              <PowerOutLined onClick={handleLogout} />
+            </Grid>
+          </Tooltip>
         </Grid>
       </Box>
     </Box>

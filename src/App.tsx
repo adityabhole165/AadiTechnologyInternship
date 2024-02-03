@@ -14,9 +14,13 @@ import '@fontsource/roboto/300.css';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
+import { useContext } from 'react';
+import AlertDialog from './components/AlertComponents';
+import { AlertContext } from './contexts/AlertContext';
 
 function App() {
   const content = useRoutes(router);
+  const alertManager = useContext(AlertContext);
   // const contentWeb = useRoutes(routerWeb);
 
   const deviceType = window.localStorage.getItem('deviceType');
@@ -36,6 +40,17 @@ function App() {
           >
             <CssBaseline />
             {true ? content : <AppInit />}
+            {alertManager.toggleAlert && (
+              <AlertDialog
+                message={alertManager.alertInfo.message}
+                title={alertManager.alertInfo.title}
+                variant={alertManager.alertInfo.variant}
+                confirmButtonText={alertManager.alertInfo.confirmButtonText}
+                cancelButtonText={alertManager.alertInfo.cancelButtonText}
+                onConfirm={alertManager.alertInfo.onConfirm}
+                onCancel={alertManager.alertInfo.onCancel}
+              />
+            )}
           </SnackbarProvider>
         </LocalizationProvider>
       </ThemeProvider>

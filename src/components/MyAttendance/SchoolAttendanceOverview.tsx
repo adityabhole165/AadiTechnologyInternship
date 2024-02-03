@@ -1,12 +1,23 @@
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Container, Grid, TextField, Typography } from '@mui/material';
+import HelpIcon from '@mui/icons-material/Help';
+import {
+  Box,
+  Container,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanceOverview/ISchoolAttendanceOverview';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import Iconhelp from 'src/libraries/icon/Iconhelp';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
 
@@ -70,36 +81,61 @@ const SchoolAttendanceOverview = () => {
   }, [SelectDate]);
 
   return (
-    <Container maxWidth={'xl'}>
-      <PageHeader heading={'Attendance Overview'} subheading={''} />
-      <Box sx={{ float: 'right' }}>
-        <Iconhelp Note={Note} />
-      </Box>
-      <Box sx={{ float: 'right' }}>
-        <Typography sx={{ color: 'red' }}> * Mandatory fields </Typography>
-      </Box>
-
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          margin: 'auto',
-          marginLeft: '300px'
-        }}
+    <Container maxWidth={'xl'} sx={{ mt: 4 }}>
+      <Stack
+        direction={'row'}
+        alignItems={'center'}
+        justifyContent={'space-between'}
+        sx={{ mb: 2 }}
       >
-        <Typography sx={{ mr: '10px' }}>Select Date</Typography>
-        <TextField
-          value={SelectDate}
-          type="date"
-          onChange={(e) => {
-            onSelectDate(e.target.value);
-          }}
-          label={''}
-          size="small"
-        />
-        <Typography sx={{ color: 'red' }}> * </Typography>
-      </Box>
+        <Box>
+          <PageHeader heading={'Attendance Overview'} subheading={''} />
+        </Box>
+        <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Box>
+            <TextField
+              value={SelectDate}
+              variant={'standard'}
+              type="date"
+              onChange={(e) => {
+                onSelectDate(e.target.value);
+              }}
+              label={'Select Date'}
+              size="small"
+            />
+          </Box>
+          <Box>
+            <Tooltip title={Note}>
+              <IconButton
+                sx={{
+                  backgroundColor: grey[600],
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <HelpIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={'Back'}>
+              <IconButton
+                sx={{
+                  backgroundColor: grey[600],
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <ArrowBackIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Stack>
+      </Stack>
 
       {ISWeekendStatusList !== '' ? (
         <Typography variant="h6" sx={{ color: 'red' }}>
@@ -107,12 +143,6 @@ const SchoolAttendanceOverview = () => {
         </Typography>
       ) : (
         <>
-          <Box sx={{ display: 'flex' }}>
-            <Typography>Legend :</Typography>
-            <ClearIcon sx={{ color: 'red' }} />{' '}
-            <Typography>Attendance Not Marked</Typography>
-          </Box>
-
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TableUsingArray
@@ -125,6 +155,11 @@ const SchoolAttendanceOverview = () => {
           <br></br>
         </>
       )}
+      <Box sx={{ display: 'flex' }}>
+        <Typography>Legend :</Typography>
+        <ClearIcon sx={{ color: 'red' }} />{' '}
+        <Typography>Attendance Not Marked</Typography>
+      </Box>
     </Container>
   );
 };

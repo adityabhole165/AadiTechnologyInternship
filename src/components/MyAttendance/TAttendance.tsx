@@ -4,12 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Button,
   Container,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
   Grid,
   Hidden,
   IconButton,
@@ -19,7 +14,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { toast } from 'react-toastify';
@@ -53,6 +48,7 @@ import { getDateFormatted } from '../Common/Util';
 
 import { grey } from '@mui/material/colors';
 import { Styles } from 'src/assets/style/student-style';
+import { AlertContext } from 'src/contexts/AlertContext';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const TAttendance = () => {
@@ -76,6 +72,7 @@ const TAttendance = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const classes = Styles();
+  const { showAlert, closeAlert } = useContext(AlertContext);
   const { AssignedDate, StandardId } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
@@ -84,6 +81,7 @@ const TAttendance = () => {
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const TeacherId = sessionStorage.getItem('TeacherId');
   const [search, setSearch] = useState(false);
+  const [showSaveAttendanceAlert, setShowSaveAttendanceAlert] = useState(false);
 
   const [Standardid, setStandardid] = useState<string>();
 
@@ -254,14 +252,25 @@ const TAttendance = () => {
   }, [Standardid, assignedDate, selectClasstecahernew]);
 
   const ClickDeleteAttendance = () => {
-    if (
-      window.confirm(
-        'Are you sure you want to delete attendance of date  : ' + assignedDate
-      )
-    ) {
-      dispatch(CDADeleteAttendance(DeleteAttendanceBody));
-    }
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'Are you sure you want to delete attendance of date  : ' + assignedDate,
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(CDADeleteAttendance(DeleteAttendanceBody));
+        closeAlert();
+      }
+    });
+
+    return;
   };
+
   const getCurrentDate = (newDate?: Date) => {
     setAssignedDate(getDateFormatted(newDate));
   };
@@ -333,24 +342,42 @@ const TAttendance = () => {
       AttendanceStatus === 'Selected date is holiday.' ||
       AttendanceStatus === 'Selected date is weekend.'
     ) {
-      if (
-        !window.confirm(
-          'Are you sure to mark Attendance on selected weekend/holiday?'
-        )
-      ) {
-        setAbsentRollNos('');
-        return null;
-      }
-    }
-    if (
-      window.confirm(
-        'All the student are marked as absent. Are you sure you want to save the attendance'
-      )
-    ) {
-      dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+      showAlert({
+        title: 'Please Confirm',
+        message: 'Are you sure to mark Attendance on selected weekend/holiday?',
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          setAbsentRollNos('');
+          SaveAttendance();
+          closeAlert();
+        }
+      });
+      return;
     }
 
-    SaveAttendance();
+    showAlert({
+      title: 'Please Confirm',
+      message:
+        'All the student are marked as absent. Are you sure you want to save the attendance?',
+      variant: 'warning',
+      confirmButtonText: 'Confirm',
+      cancelButtonText: 'Cancel',
+      onCancel: () => {
+        closeAlert();
+      },
+      onConfirm: () => {
+        dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+        SaveAttendance();
+        closeAlert();
+      }
+    });
+
+    return;
   };
 
   const clickNav = (value) => {
@@ -840,17 +867,6 @@ const TAttendance = () => {
             )} */}
         </Grid>
       </Grid>
-      <Dialog open={true} fullWidth maxWidth={'sm'}>
-        <DialogTitle
-          sx={{
-            backgroundColor: (theme) => theme.palette.primary.main
-          }}
-        ></DialogTitle>
-        <DialogContent dividers></DialogContent>
-        <DialogActions>
-          <Button>NA</Button>
-        </DialogActions>
-      </Dialog>
     </Container>
   );
 };

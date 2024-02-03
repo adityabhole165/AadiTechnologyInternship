@@ -482,8 +482,8 @@ function Header() {
               <Avatar
                 alt="user.name"
                 src={userprofile}
-                sx={{ backgroundColor: 'gray', height: 40 }}
-                variant="rounded"
+                sx={{ backgroundColor: 'gray', height: 40, width: 40 }}
+                variant="circular"
                 aria-label="add"
               />
               <Box>
@@ -509,10 +509,10 @@ function Header() {
               display="flex"
             >
               <Avatar
-                variant="rounded"
+                variant="circular"
                 alt="user.name"
                 src={userprofile}
-                sx={{ height: 70 }}
+                sx={{ height: 60, width: 60 }}
               />
               <UserBoxText>
                 <UserBoxLabel className="popoverTypo">{Name}</UserBoxLabel>

@@ -758,7 +758,6 @@ export const PurpleFlowTheme = createTheme({
           fontWeight: 'bold',
           height: 24,
           lineHeight: '24px',
-          marginTop: -12,
           color: 'inherit',
           textTransform: 'uppercase'
         }

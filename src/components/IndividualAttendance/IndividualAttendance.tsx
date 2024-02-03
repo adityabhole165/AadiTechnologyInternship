@@ -21,10 +21,11 @@ import {
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
 import { useTheme } from '@mui/styles';
-import { useEffect, useRef, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import {
   IGetCalendarForStudentBody,
   IGetStudentNameBody,
@@ -47,7 +48,7 @@ const IndividualAttendance = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const theme = useTheme();
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(true);
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const StandardDivisionId = Number(
@@ -179,15 +180,56 @@ const IndividualAttendance = () => {
   const [isOpenSave, setOpenSave] = useState<boolean>(false);
   const [isOpenPresent, setOpenPresent] = useState<boolean>(false);
   const [isOpenAbsent, setOpenAbsent] = useState<boolean>(false);
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const handleSave = (): void => {
-    setOpenSave(!isOpenSave);
+    showAlert({
+      title: 'Save Changes',
+      message: 'Are you sure, Do you want to change update?',
+      variant: 'warning',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Update',
+      onConfirm: () => {
+        SaveFile();
+        closeAlert();
+      },
+      onCancel: closeAlert
+    });
+    return;
   };
+
   const handlePresent = (): void => {
-    setOpenPresent(!isOpenPresent);
+    showAlert({
+      title: 'Mark all as Present',
+      message:
+        'Are you sure you want the chosen student to be marked as present on each day?',
+      variant: 'warning',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Confirm',
+      onConfirm: () => {
+        clickTogle('Y');
+        closeAlert();
+      },
+      onCancel: closeAlert
+    });
+    return;
   };
+
   const handleAbsent = (): void => {
-    setOpenAbsent(!isOpenAbsent);
+    showAlert({
+      title: 'Mark all as Absent',
+      message:
+        'Are you sure you want the chosen student to be marked as absent on each day?',
+      variant: 'warning',
+      cancelButtonText: 'Cancel',
+      confirmButtonText: 'Confirm',
+      onConfirm: () => {
+        clickTogle('N');
+        closeAlert();
+      },
+      onCancel: closeAlert
+    });
+    return;
   };
 
   const getAttendanceString = (AttendanceList) => {
@@ -249,7 +291,7 @@ const IndividualAttendance = () => {
             {search ? (
               <>
                 <Dropdown
-                  width="400px"
+                  width="250px"
                   itemList={StudentList}
                   ClickItem={clickStudent}
                   DefaultValue={StudentId}

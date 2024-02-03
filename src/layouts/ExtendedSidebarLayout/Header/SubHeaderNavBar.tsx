@@ -170,7 +170,28 @@ function SubHeaderNavBar({ toggleDrawer }) {
     {
       name: 'Support',
       anchor: null,
-      options: []
+      options: [
+        {
+          name: 'User Guide',
+          link: ''
+        },
+        {
+          name: 'Knowledge',
+          link: ''
+        },
+        {
+          name: 'Contact Us',
+          link: ''
+        },
+        {
+          name: 'Email',
+          link: ''
+        },
+        {
+          name: 'Feedback',
+          link: ''
+        }
+      ]
     }
   ]);
 

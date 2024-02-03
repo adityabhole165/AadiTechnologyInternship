@@ -11,26 +11,29 @@ import { SidebarProvider } from 'src/contexts/SidebarContext';
 import * as serviceWorker from 'src/serviceWorker';
 import store from 'src/store';
 import ScrollTop from 'src/utils/hooks/useScrollTop';
+import { AlertProvider } from './contexts/AlertContext';
 
 ReactDOM.render(
   <HelmetProvider>
     <Provider store={store}>
       <SidebarProvider>
-        <BrowserRouter>
-          <ToastContainer
-            position="top-center"
-            autoClose={2500}
-            hideProgressBar={false}
-            newestOnTop={false}
-            closeOnClick
-            rtl={false}
-            pauseOnFocusLoss
-            draggable
-            pauseOnHover
-          />
-          <ScrollTop />
-          <App />
-        </BrowserRouter>
+        <AlertProvider>
+          <BrowserRouter>
+            <ToastContainer
+              position="top-center"
+              autoClose={2500}
+              hideProgressBar={false}
+              newestOnTop={false}
+              closeOnClick
+              rtl={false}
+              pauseOnFocusLoss
+              draggable
+              pauseOnHover
+            />
+            <ScrollTop />
+            <App />
+          </BrowserRouter>
+        </AlertProvider>
       </SidebarProvider>
     </Provider>
   </HelmetProvider>,

@@ -13,13 +13,13 @@ function TableUsingArray({ ItemList, HeaderArray }) {
 
   return (
     <Box sx={{ width: '100%', overflow: 'hidden' }}>
-      <TableContainer
-        component={Paper}
-        square
-        sx={{ border: '1px solid black' }}
-      >
+      <TableContainer component={Paper} square>
         <Table stickyHeader aria-label="sticky table">
-          <TableHead>
+          <TableHead
+            sx={{
+              backgroundColor: (theme) => theme.palette.primary.main
+            }}
+          >
             <TableRow>
               {HeaderArray.map((item, i) => (
                 <>
@@ -28,11 +28,8 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                       <TableCell
                         key={i}
                         sx={{
-                          textTransform: 'capitalize',
-                          backgroundColor: '#c5e1a5',
-                          background: '#90caf9',
-                          borderRight: '1px solid black',
-                          borderBottom: '1px solid black'
+                          color: 'white',
+                          py: 1
                         }}
                         align="center"
                       >
@@ -44,10 +41,8 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                       <TableCell
                         key={i}
                         sx={{
-                          textTransform: 'capitalize',
-                          backgroundColor: '#90caf9',
-                          borderRight: '1px solid black',
-                          borderBottom: '1px solid black'
+                          color: 'white',
+                          py: 1
                         }}
                         align="center"
                       >
@@ -66,7 +61,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
                   <TableCell
                     key={index}
                     align="center"
-                    sx={{ fontWeight: 'bold' }}
+                    sx={{ fontWeight: 'bold', py: 1 }}
                   >
                     {obj === 'X' ? <ClearIcon sx={{ color: 'red' }} /> : obj}
                   </TableCell>
