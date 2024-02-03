@@ -40,7 +40,8 @@ import {
   CDAresetDeleteAttendance,
   GetSaveAttendanceStatus,
   GetStudentList,
-  getStandard
+  getStandard,
+  setSaveResponse
 } from 'src/requests/TAttendance/TAttendance';
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
@@ -294,10 +295,13 @@ const TAttendance = () => {
   };
 
   const getAbsetNumber = (value) => {
-    if (value === '') setAllPresentOrAllAbsent('P');
-    if (value.split(',').length === RollNoList.length)
+    if (value === '') {
+      setAllPresentOrAllAbsent('P');
+    } else if (value.split(',').length === RollNoList.length) {
       setAllPresentOrAllAbsent('N');
-    else setAllPresentOrAllAbsent('');
+    } else {
+      setAllPresentOrAllAbsent('');
+    }
     setAbsentRollNos(value);
   };
 
@@ -317,7 +321,7 @@ const TAttendance = () => {
   useEffect(() => {
     if (saveResponseMessage != '') {
       toast.success(saveResponseMessage);
-      //dispatch(setSaveResponse());
+      dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
   }, [saveResponseMessage]);
@@ -342,41 +346,53 @@ const TAttendance = () => {
       AttendanceStatus === 'Selected date is holiday.' ||
       AttendanceStatus === 'Selected date is weekend.'
     ) {
-      showAlert({
-        title: 'Please Confirm',
-        message: 'Are you sure to mark Attendance on selected weekend/holiday?',
-        variant: 'warning',
-        confirmButtonText: 'Confirm',
-        cancelButtonText: 'Cancel',
-        onCancel: () => {
-          closeAlert();
-        },
-        onConfirm: () => {
-          setAbsentRollNos('');
-          SaveAttendance();
-          closeAlert();
-        }
-      });
-      return;
-    }
-
-    showAlert({
-      title: 'Please Confirm',
-      message:
-        'All the student are marked as absent. Are you sure you want to save the attendance?',
-      variant: 'warning',
-      confirmButtonText: 'Confirm',
-      cancelButtonText: 'Cancel',
-      onCancel: () => {
-        closeAlert();
-      },
-      onConfirm: () => {
-        dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+      if (asAllPresentOrAllAbsent == 'P') {
+        showAlert({
+          title: 'Please Confirm',
+          message:
+            'Are you sure to mark Attendance on selected weekend/holiday?',
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            setAbsentRollNos('');
+            SaveAttendance();
+            closeAlert();
+          }
+        });
+      } else {
+        setAbsentRollNos('');
         SaveAttendance();
         closeAlert();
       }
-    });
-
+      return;
+    } else {
+      if (asAllPresentOrAllAbsent == 'P') {
+        showAlert({
+          title: 'Please Confirm',
+          message:
+            'All the student are marked as absent. Are you sure you want to save the attendance?',
+          variant: 'warning',
+          confirmButtonText: 'Confirm',
+          cancelButtonText: 'Cancel',
+          onCancel: () => {
+            closeAlert();
+          },
+          onConfirm: () => {
+            dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+            SaveAttendance();
+            closeAlert();
+          }
+        });
+      } else {
+        setAbsentRollNos('');
+        SaveAttendance();
+        closeAlert();
+      }
+    }
     return;
   };
 

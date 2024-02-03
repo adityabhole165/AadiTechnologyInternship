@@ -132,19 +132,19 @@ export const CDAGetEventsDataList =
     );
   };
 
-export const AssociatedStandardListP =
-  (data: IGetAssociatedStandardsBodyP): AppThunk =>
-  async (dispatch) => {
-    const response = await ApiAnnualPlanerBaseScreen.AssociatedStandardP(data);
-    let a = response.data.map((item, i) => {
-      return {
-        Id: item.original_standard_id,
-        Name: item.standard_name,
-        Value: item.original_standard_id
-      };
-    });
+// export const AssociatedStandardListP =
+//   (data: IGetAssociatedStandardsBodyP): AppThunk =>
+//   async (dispatch) => {
+//     const response = await ApiAnnualPlanerBaseScreen.AssociatedStandardP(data);
+//     let a = response.data.map((item, i) => {
+//       return {
+//         Id: item.original_standard_id,
+//         Name: item.standard_name,
+//         Value: item.original_standard_id
+//       };
+//     });
 
-    dispatch(AnnualPlanerBaseScreenSlice.actions.AssociatedStandardsP(a));
-  };
+//     dispatch(AnnualPlanerBaseScreenSlice.actions.AssociatedStandardsP(a));
+//   };
 
 export default AnnualPlanerBaseScreenSlice.reducer;
