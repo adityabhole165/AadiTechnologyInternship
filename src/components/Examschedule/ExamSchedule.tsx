@@ -121,7 +121,7 @@ function ExamSchedule() {
                 (items.TestType !== '' ? '- ' + items.TestType : '')
               }
               text1=""
-              text2={items.StartTime + '-' + items.EndTime}
+              text2={items.StartTime === "00:00" && items.EndTime === "00:00" ? '-' : items.StartTime + '-' + items.EndTime}
               text5={items.Description}
               text3={items.StartDate}
               text4=""
