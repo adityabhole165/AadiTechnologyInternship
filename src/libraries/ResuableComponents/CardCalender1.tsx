@@ -11,7 +11,7 @@ import {
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { red } from '@mui/material/colors';
-import { getDateFormattedDash } from 'src/components/Common/Util';
+import { getDateFormatted } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
 function CardCalender1({
@@ -56,7 +56,7 @@ function CardCalender1({
       newDate = new Date()
     else
       newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
-    ClickItem(getDateFormattedDash(newDate));
+    ClickItem(getDateFormatted(newDate));
   };
   let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay()
   return (
