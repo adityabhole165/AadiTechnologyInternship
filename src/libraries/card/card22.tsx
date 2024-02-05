@@ -1,25 +1,28 @@
-import { Box, Grid } from '@mui/material';
+import React from 'react';
+import { Box, Grid, IconButton } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import PropTypes from 'prop-types';
 import SimpleReactLightbox, { SRLWrapper } from 'simple-react-lightbox';
 import 'src/assets/style/Homework_Calci.css';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
+import DownloadIcon from '@mui/icons-material/Download';
 
 Card22.propTypes = {
   pic: PropTypes.array,
   imgId: PropTypes.string,
   YearData: PropTypes?.array
 };
+
 const useStyles = makeStyles((theme) => ({
   resonsive: {
     width: '150px',
     height: '100px',
-
-    objectfit: 'cover'
+    objectFit: 'cover'
   }
 }));
 
 function Card22({ pic, imgId }) {
+  const classes = useStyles();  
   const options = {
     buttons: {
       backgroundColor: 'rgb(105,105,105)',
@@ -34,7 +37,6 @@ function Card22({ pic, imgId }) {
       showThumbnailsButton: true,
       size: '40px'
     },
-
     settings: {
       overlayColor: 'black'
     },
@@ -75,22 +77,27 @@ function Card22({ pic, imgId }) {
               <ErrorMessages Error={'No message'} />
             ) : (
               <>
-                {pic.map((items, i) => {
-                  return (
-                    <>
-                      <Grid>
-                        <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
-                          <img
-                            src={items.Value}
-                            width="100"
-                            height="100"
-                            alt={items.Name}
-                          />
-                        </Box>
-                      </Grid>
-                    </>
-                  );
-                })}
+                {pic.map((items, i) => (
+                  <Grid key={i}>
+                    <Box sx={{ marginLeft: '10px', fontSize: '20px' }}>
+                      <a
+                        href={items.Value}
+                        download={`download_${i}`} 
+                      >
+                        <img
+                          src={items.Value}
+                          width="100"
+                          height="100"
+                          alt={items.Name}
+                          className={classes.resonsive}
+                        />
+                        <IconButton>
+                          <DownloadIcon />
+                        </IconButton>
+                      </a>
+                    </Box>
+                  </Grid>
+                ))}
               </>
             )}
           </Grid>
@@ -99,4 +106,5 @@ function Card22({ pic, imgId }) {
     </div>
   );
 }
+
 export default Card22;
