@@ -71,6 +71,7 @@ function CardCal({
         display="flex"
         alignItems="center"
         justifyContent="center"
+        onClick={() => { onClick(item.Value) }}
       >
         <Box dangerouslySetInnerHTML={{ __html: item.Name }}></Box>
       </Box>

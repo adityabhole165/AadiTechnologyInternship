@@ -82,12 +82,10 @@ const IndividualAttendance = () => {
   const CalendarForStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
   );
-  console.log(CalendarForStudent, 'CalendarForStudent-----');
 
   const SaveAttendanceforStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.SaveStudentAttendance
   );
-  console.log(SaveAttendanceforStudent, 'SaveAttendanceforStudent');
 
   const IGetStudentNameBody: IGetStudentNameBody = {
     asSchoolId: asSchoolId,
@@ -139,11 +137,11 @@ const IndividualAttendance = () => {
       ItemList.map((obj) =>
         obj.IsClickable
           ? {
-              ...obj,
-              Status: value,
-              BackgroundColor: getAttendanceLegend(value),
-              Text1: value == 'Y' ? 'Present' : 'Absent'
-            }
+            ...obj,
+            Status: value,
+            BackgroundColor: getAttendanceLegend(value),
+            Text1: value == 'Y' ? 'Present' : 'Absent'
+          }
           : obj
       )
     );
@@ -516,7 +514,7 @@ const IndividualAttendance = () => {
       </Stack>
       <Box mt={1.5}>
         <CardCalenderList
-          ItemList={CalendarForStudent}
+          ItemList={ItemList}
           ClickItem={ClickItem}
           handlePrevMonth={handlePrevMonth}
           handleNextMonth={handleNextMonth}
