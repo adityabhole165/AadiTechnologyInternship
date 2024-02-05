@@ -52,6 +52,10 @@ function CardCalender1({
     else;
     newDate = new Date(formattedDate);
     newDate.setMonth(newDate.getMonth() + value);
+    if (newDate.getMonth() == (new Date()).getMonth() && newDate.getFullYear() == (new Date()).getFullYear())
+      newDate = new Date()
+    else
+      newDate = new Date(newDate.getFullYear(), newDate.getMonth(), 1);
     ClickItem(getDateFormattedDash(newDate));
   };
   let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay()

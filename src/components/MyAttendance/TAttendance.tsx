@@ -115,8 +115,6 @@ const TAttendance = () => {
     (state: RootState) => state.AttendanceList.StudentList
   );
 
-  console.log(RollNoList, 'stdlist--');
-
   const StudentAbsent = useSelector(
     (state: RootState) => state.AttendanceList.StudentAbsent
   );
