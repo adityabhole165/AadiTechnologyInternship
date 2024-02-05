@@ -28,17 +28,17 @@ function CardCalenderList({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-            ...obj,
-            Status: checkStatus(obj) ? 'N' : 'Y',
-            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-            Text1: checkStatus(obj) ? 'Absent' : 'Present'
-          }
+          ...obj,
+          Status: checkStatus(obj) ? 'N' : 'Y',
+          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+          Text1: checkStatus(obj) ? 'Absent' : 'Present'
+        }
         : obj
     );
 
     ClickItem(returnVal);
   };
-
+  let dayCount = (new Date("01" + formattedDate).getDay())
   return (
     <Box sx={{ backgroundColor: 'white' }} p={2}>
       <Box
@@ -99,6 +99,13 @@ function CardCalenderList({
               </Box>
             </Grid>
           ))}
+          <Grid
+            item
+            border="0.5px solid #ebebeb"
+            md={1.7 * dayCount}
+            sx={{ textAlign: 'center', pt: 0 }}
+          >
+          </Grid>
           {ItemList.map((item, i) => {
             return (
               <Grid
