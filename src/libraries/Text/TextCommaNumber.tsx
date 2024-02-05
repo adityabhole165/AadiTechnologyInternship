@@ -54,9 +54,8 @@ const TextCommaNumber = ({
   };
 
   return (
-    <Box sx={{ backgroundColor: 'white' }} p={1}>
+    <Box sx={{ backgroundColor: 'white' }}>
       <TextField
-        variant="standard"
         InputLabelProps={{
           shrink: true
         }}

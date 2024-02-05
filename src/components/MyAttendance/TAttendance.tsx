@@ -5,9 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Checkbox,
   Container,
-  FormControlLabel,
   Grid,
   Hidden,
   IconButton,
@@ -872,27 +870,14 @@ const TAttendance = () => {
               </Hidden>
               <Box>
                 <List26
+                  sendmeassagestudent={sendmeassagestudent}
+                  handleCheckboxChange={handleCheckboxChange}
                   Dataa={RollNoList}
                   getAbsetNumber={getAbsetNumber}
                   assignedDate={assignedDate}
                 ></List26>
               </Box>
             </Box>
-            <Grid item xs={4}>
-              <Typography margin={'1px'}>
-                <FormControlLabel
-                  control={
-                    <Checkbox
-                      checked={sendmeassagestudent}
-                      onChange={(e) => {
-                        handleCheckboxChange(e.target.checked);
-                      }}
-                    />
-                  }
-                  label="Send Message to Absent Student(s)"
-                />
-              </Typography>
-            </Grid>
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
