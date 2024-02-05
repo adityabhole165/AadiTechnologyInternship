@@ -113,210 +113,210 @@ export const setSaveResponse = (): AppThunk => async (dispatch) => {
 };
 export const getAttendanceDataList =
   (data: AttendanceData): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetAttendanceData(data);
-    dispatch(TAttendanceSlice.actions.getTAttendanceList(response.data));
-  };
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetAttendanceData(data);
+      dispatch(TAttendanceSlice.actions.getTAttendanceList(response.data));
+    };
 export const getAttendanceStudentList =
   (data: AttendanceData): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetAttendanceData(data);
-    const studentAttendanceList = response.data.map((item, index) => {
-      return {
-        text1: item.RollNumber,
-        text2: item.StudentName,
-        isActive: item.IsPresent,
-        status: item.Status
-      };
-    });
-    dispatch(
-      TAttendanceSlice.actions.getAttendanceStudentList(studentAttendanceList)
-    );
-  };
-
-export const GetStudentDetailsList =
-  (data: IGetStudentDetails): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetStudentDetails(data);
-    dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
-  };
-
-export const GetStudentList =
-  (data: IGetStudentDetails): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetStudentDetails(data);
-    let studentList = null;
-    let message = 'There are no students in the class.';
-    let AYmsg = 'Attendance date should be within the current academic year';
-    let forInvalidAY = '';
-    if (response?.data != null) {
-      studentList = response?.data.map((item, index) => {
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetAttendanceData(data);
+      const studentAttendanceList = response.data.map((item, index) => {
         return {
           text1: item.RollNumber,
           text2: item.StudentName,
-          isActive: item.IsPresent === 'true' ? true : false,
-          status: item.Status,
-          joinDate: item.JoinDate
+          isActive: item.IsPresent,
+          status: item.Status
         };
       });
+      dispatch(
+        TAttendanceSlice.actions.getAttendanceStudentList(studentAttendanceList)
+      );
+    };
 
-      const data2 = {
-        asAcademicYearId: data.asAcademicYearId,
-        asAttendanceDate: data.asDate,
-        asSchoolId: data.asSchoolId,
-        asStanardDivisionId: data.asStdDivId
-      };
-      const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
-      response2.data?.map((item, i) => {
-        message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg;
-        forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
-      });
-    }
-    if (message == 'There are no students in the class.') {
-      forInvalidAY = 'none';
-    } else if (
-      message == 'Attendance date should be within the current academic year'
-    ) {
-      forInvalidAY = 'none';
-    } else {
-      forInvalidAY = '';
-    }
+export const GetStudentDetailsList =
+  (data: IGetStudentDetails): AppThunk =>
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetStudentDetails(data);
+      dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
+    };
 
-    dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
-    dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
-    dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
-  };
+export const GetStudentList =
+  (data: IGetStudentDetails): AppThunk =>
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetStudentDetails(data);
+      let studentList = null;
+      let message = 'There are no students in the class.';
+      let AYmsg = 'Attendance date should be within the current academic year';
+      let forInvalidAY = '';
+      if (response?.data != null) {
+        studentList = response?.data.map((item, index) => {
+          return {
+            text1: item.RollNumber,
+            text2: item.StudentName,
+            isActive: item.IsPresent === 'true' ? true : false,
+            status: item.Status,
+            joinDate: item.JoinDate
+          };
+        });
+
+        const data2 = {
+          asAcademicYearId: data.asAcademicYearId,
+          asAttendanceDate: data.asDate,
+          asSchoolId: data.asSchoolId,
+          asStanardDivisionId: data.asStdDivId
+        };
+        const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
+        response2.data?.map((item, i) => {
+          message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg;
+          forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
+        });
+      }
+      if (message == 'There are no students in the class.') {
+        forInvalidAY = 'none';
+      } else if (
+        message == 'Attendance date should be within the current academic year'
+      ) {
+        forInvalidAY = 'none';
+      } else {
+        forInvalidAY = '';
+      }
+
+      dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
+      dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
+      dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
+    };
 export const getStandard =
   (data: StandardAttendance): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetStandardList(data);
-    const standardList = response.data.map((item) => {
-      return {
-        Value: item.Id,
-        Name: item.Class
-      };
-    });
-    dispatch(TAttendanceSlice.actions.getStandard(standardList));
-  };
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetStandardList(data);
+      const standardList = response.data.map((item) => {
+        return {
+          Value: item.Id,
+          Name: item.Class
+        };
+      });
+      dispatch(TAttendanceSlice.actions.getStandard(standardList));
+    };
 
 export const getStandardList =
   (data: StandardAttendance): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetStandardList(data);
-    const standardList = response.data.map((item) => {
-      return {
-        Value: item.Id,
-        Name: item.Class
-      };
-    });
-    dispatch(TAttendanceSlice.actions.getStandard(standardList));
-  };
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetStandardList(data);
+      const standardList = response.data.map((item) => {
+        return {
+          Value: item.Id,
+          Name: item.Class
+        };
+      });
+      dispatch(TAttendanceSlice.actions.getStandard(standardList));
+    };
 
 export const GetAttendanceStatus =
   (data: IGetAttendanceStatus): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
-    let message = '';
-    response.data?.map((item, i) => {
-      message = item.StatusMessage;
-    });
-    dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
-  };
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetAttendanceStatus(data);
+      let message = '';
+      response.data?.map((item, i) => {
+        message = item.StatusMessage;
+      });
+      dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
+    };
 
 export const GetSaveAttendanceStatus =
   (data: ISaveAttendance): AppThunk =>
-  async (dispatch) => {
-    let response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(
-      data
-    );
-    let responseMsg = '';
+    async (dispatch) => {
+      let response = await GetTAttendanceListApi.SaveStudentAttendanceDetails(
+        data
+      );
+      let responseMsg = '';
 
-    responseMsg = 'Attendance saved for the valid roll number(s) !!!';
+      responseMsg = 'Attendance saved for the valid roll number(s) !!!';
 
-    const GetStudentDetails: IStudentsDetails = {
-      asStdDivId: data.asStandardDivisionId,
-      asDate: data.asDate,
-      asAcademicYearId: data.asAcademicYearId,
-      asSchoolId: data.asSchoolId
+      const GetStudentDetails: IStudentsDetails = {
+        asStdDivId: data.asStandardDivisionId,
+        asDate: data.asDate,
+        asAcademicYearId: data.asAcademicYearId,
+        asSchoolId: data.asSchoolId
+      };
+      dispatch(TAttendanceSlice.actions.getSaveResponse(responseMsg));
+      dispatch(
+        TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data)
+      );
     };
-    dispatch(TAttendanceSlice.actions.getSaveResponse(responseMsg));
-    dispatch(
-      TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data)
-    );
-  };
 export const CDASummaryCountforAttendanceBody =
   (data: IGetSummaryCountforAttendanceBody): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(
-      data
-    );
-    const listAttendanceCalender = response.data.listAttendanceCalender.map(
-      (item, i) => {
-        return {
-          Id: i,
-          Name: getDateFromatDateTime(item.Att_date),
-          Value: getDateMonthYearFormatted(item.Att_date),
-          IsActive: false,
-          Text1: item.Status,
-          Text3: item.Status_Desc,
-          ForeColur: item.Status_ForeColur,
-          BackgroundColor: item.Status_BackColur,
-          IsClickable: true
-        };
-      }
-    );
-
-    const GetSummaryCountforAttendance = {
-      GetSummaryCountList: [
-        {
-          Id: '1',
-          Text1: 'Present Student ',
-          Text2: response.data.listSummaryCountforAttendance.Boys,
-          Text3: response.data.listSummaryCountforAttendance.Girls,
-          Text4: response.data.listSummaryCountforAttendance.Total
-        },
-        {
-          Id: '2',
-          Text1: 'Absent  Student ',
-          Text2: response.data.listAbsentCountforAttendance.Boys,
-          Text3: response.data.listAbsentCountforAttendance.Girls,
-          Text4: response.data.listAbsentCountforAttendance.Total
-        },
-        {
-          Id: '3',
-          Text1: 'Total Student ',
-          Text2: response.data.listtotalCountforAttendance.Boys,
-          Text3: response.data.listtotalCountforAttendance.Girls,
-          Text4: response.data.listtotalCountforAttendance.Total
-        },
-        {
-          Id: '4',
-          Text1: 'Present month summary',
-          Text2: response.data.listPresentGendersAttendance.PresentBoys,
-          Text3: response.data.listPresentGendersAttendance.PresentGirls,
-          Text4: response.data.listPresentGendersAttendance.Total
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetSummaryCountforAttendance(
+        data
+      );
+      const listAttendanceCalender = response.data.listAttendanceCalender.map(
+        (item, i) => {
+          return {
+            Id: i,
+            Name: getDateFromatDateTime(item.Att_date),
+            Value: getDateMonthYearFormatted(item.Att_date),
+            IsActive: false,
+            Text1: item.Status,
+            Text3: item.Status_Desc,
+            ForeColur: item.Status_ForeColur,
+            BackgroundColor: item.Status_BackColur,
+            IsClickable: true
+          };
         }
-      ],
-      TotalStudents:
-        response.data.listTotalStudentAttendance.PresentStudents +
-        '   /    ' +
-        response.data.listTotalStudentAttendance.TotalStudents
-    };
+      );
 
-    dispatch(
-      TAttendanceSlice.actions.RGetSummaryCountforAttendance({
-        GetSummaryCountforAttendance: GetSummaryCountforAttendance,
-        listAttendanceCalender: listAttendanceCalender
-      })
-    );
-  };
+      const GetSummaryCountforAttendance = {
+        GetSummaryCountList: [
+          {
+            Id: '1',
+            Text1: 'Present Student ',
+            Text2: response.data.listSummaryCountforAttendance.Boys,
+            Text3: response.data.listSummaryCountforAttendance.Girls,
+            Text4: response.data.listSummaryCountforAttendance.Total
+          },
+          {
+            Id: '2',
+            Text1: 'Absent  Student ',
+            Text2: response.data.listAbsentCountforAttendance.Boys,
+            Text3: response.data.listAbsentCountforAttendance.Girls,
+            Text4: response.data.listAbsentCountforAttendance.Total
+          },
+          {
+            Id: '3',
+            Text1: 'Total Student ',
+            Text2: response.data.listtotalCountforAttendance.Boys,
+            Text3: response.data.listtotalCountforAttendance.Girls,
+            Text4: response.data.listtotalCountforAttendance.Total
+          },
+          {
+            Id: '4',
+            Text1: 'Present month summary',
+            Text2: response.data.listPresentGendersAttendance.PresentBoys,
+            Text3: response.data.listPresentGendersAttendance.PresentGirls,
+            Text4: response.data.listPresentGendersAttendance.Total
+          }
+        ],
+        TotalStudents:
+          response.data.listTotalStudentAttendance.PresentStudents +
+          '   /    ' +
+          response.data.listTotalStudentAttendance.TotalStudents
+      };
+
+      dispatch(
+        TAttendanceSlice.actions.RGetSummaryCountforAttendance({
+          GetSummaryCountforAttendance: GetSummaryCountforAttendance,
+          listAttendanceCalender: listAttendanceCalender.sort((a, b) => a.Name - b.Name)
+        })
+      );
+    };
 
 export const CDADeleteAttendance =
   (data: IDeleteAttendanceBody): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.DeleteAttendance(data);
-    dispatch(TAttendanceSlice.actions.RDeleteAttendance(response.data));
-  };
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.DeleteAttendance(data);
+      dispatch(TAttendanceSlice.actions.RDeleteAttendance(response.data));
+    };
 
 export const CDAresetDeleteAttendance = (): AppThunk => async (dispatch) => {
   dispatch(TAttendanceSlice.actions.resetDeleteAttendance());
@@ -324,19 +324,19 @@ export const CDAresetDeleteAttendance = (): AppThunk => async (dispatch) => {
 
 export const CDAGetTeacherNameList =
   (data: IGetClassTeachersBodynew): AppThunk =>
-  async (dispatch) => {
-    const response = await GetTAttendanceListApi.ClassTeacherDropdownnew(data);
-    console.log(response, 'response----');
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.ClassTeacherDropdownnew(data);
+      console.log(response, 'response----');
 
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Teacher_Id,
-        Name: item.TeacherName,
-        Value: item.SchoolWise_Standard_Division_Id
-      };
-    });
-    dispatch(TAttendanceSlice.actions.RTeacherNameList(abc));
-    console.log(abc, 'newdp----');
-  };
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Id,
+          Name: item.TeacherName,
+          Value: item.SchoolWise_Standard_Division_Id
+        };
+      });
+      dispatch(TAttendanceSlice.actions.RTeacherNameList(abc));
+      console.log(abc, 'newdp----');
+    };
 
 export default TAttendanceSlice.reducer;
