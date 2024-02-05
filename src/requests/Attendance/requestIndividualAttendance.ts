@@ -38,57 +38,56 @@ const IndividualAttendanceSlice = createSlice({
 
 export const getstudentname =
   (data: IGetStudentNameBody): AppThunk =>
-  async (dispatch) => {
-    const response = await GetStudentNameapi.StudentNameList(data);
-    let a = response.data.map((item, i) => {
-      return {
-        Id: item.StudentName,
-        Name: item.StudentName,
-        Value: item.Student_Id
-      };
-    });
+    async (dispatch) => {
+      const response = await GetStudentNameapi.StudentNameList(data);
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.StudentName,
+          Name: item.StudentName,
+          Value: item.Student_Id
+        };
+      });
 
-    dispatch(IndividualAttendanceSlice.actions.GetStudentname(a));
-  };
+      dispatch(IndividualAttendanceSlice.actions.GetStudentname(a));
+    };
 
 export const getcalendar =
   (data: IGetCalendarForStudentBody): AppThunk =>
-  async (dispatch) => {
-    const response = await GetStudentNameapi.Calendarforstudent(data);
-    let a = response.data.map((item, i) => {
-      return {
-        Id: i,
-        Name: item.Day,
-        Value: getDateMonthYearFormattedDash(item.Attendance_Date),
-        IsActive: false,
-        Text1:
-          item.Status === 'X'
-            ? 'N/A'
-            : item.Status === 'O'
-            ? 'OAY'
-            : item.Status === 'D'
-            ? 'W'
-            : item.Status === 'B'
-            ? 'H'
-            : item.StatusDescription,
-        Text3: item.Status,
-        BackgroundColor: getAttendanceLegend(item.Status),
-        ForeColur: item.StatusForeColur,
-        //IsClickable: (item.Status == "Y" || item.Status == "N" || item.Status == "X"),
-        IsClickable: item.Status == 'Y' || item.Status == 'N'
-      };
-    });
-    //console.log(a,"sdfghj")
+    async (dispatch) => {
+      const response = await GetStudentNameapi.Calendarforstudent(data);
+      let a = response.data.map((item, i) => {
+        return {
+          Id: i,
+          Name: item.Day,
+          Value: getDateMonthYearFormattedDash(item.Attendance_Date),
+          IsActive: false,
+          Text1:
+            item.Status === 'X'
+              ? 'N/A'
+              : item.Status === 'O'
+                ? 'OAY'
+                : item.Status === 'D'
+                  ? 'W'
+                  : item.Status === 'B'
+                    ? 'H'
+                    : item.StatusDescription,
+          Text3: item.Status,
+          BackgroundColor: getAttendanceLegend(item.Status),
+          ForeColur: item.StatusForeColur,
+          IsClickable: (item.Status == "Y" || item.Status == "N" || item.Status == "X"),
+        };
+      });
+      //console.log(a,"sdfghj")
 
-    dispatch(IndividualAttendanceSlice.actions.calendarforstudent(a));
-  };
+      dispatch(IndividualAttendanceSlice.actions.calendarforstudent(a));
+    };
 export const SaveStudentAttendance =
   (data: ISaveStudentAttendanceBody): AppThunk =>
-  async (dispatch) => {
-    const response = await GetStudentNameapi.SaveAttendance(data);
+    async (dispatch) => {
+      const response = await GetStudentNameapi.SaveAttendance(data);
 
-    dispatch(IndividualAttendanceSlice.actions.SaveAttendance(response.data));
-  };
+      dispatch(IndividualAttendanceSlice.actions.SaveAttendance(response.data));
+    };
 
 export const resetMessage = (): AppThunk => async (dispatch) => {
   dispatch(IndividualAttendanceSlice.actions.resetMessage());
