@@ -4,7 +4,9 @@ import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Checkbox,
   Container,
+  FormControlLabel,
   Grid,
   Hidden,
   IconButton,
@@ -83,6 +85,7 @@ const TAttendance = () => {
   const TeacherId = sessionStorage.getItem('TeacherId');
   const [search, setSearch] = useState(false);
   const [showSaveAttendanceAlert, setShowSaveAttendanceAlert] = useState(false);
+  const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
 
   const [Standardid, setStandardid] = useState<string>();
 
@@ -107,12 +110,13 @@ const TAttendance = () => {
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
   );
+  // console.log(stdlist, 'stdlistvv');
 
   const RollNoList = useSelector(
     (state: RootState) => state.AttendanceList.StudentList
   );
 
-  // console.log(RollNoList, 'stdlist--');
+  console.log(RollNoList, 'stdlist--');
 
   const StudentAbsent = useSelector(
     (state: RootState) => state.AttendanceList.StudentAbsent
@@ -421,7 +425,9 @@ const TAttendance = () => {
   const clickClassTechernew = (value) => {
     setselectClasstecahernew(value);
   };
-
+  const handleCheckboxChange = (value) => {
+    setsendmeassagestudent(value);
+  };
   return (
     <Container maxWidth={'xl'}>
       <Stack
@@ -856,6 +862,21 @@ const TAttendance = () => {
                 ></List26>
               </Box>
             </Box>
+            <Grid item xs={4}>
+              <Typography margin={'1px'}>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={sendmeassagestudent}
+                      onChange={(e) => {
+                        handleCheckboxChange(e.target.checked);
+                      }}
+                    />
+                  }
+                  label="Send Message to Absent Student(s)"
+                />
+              </Typography>
+            </Grid>
           </Box>
         </Grid>
         <Grid item xs={12} md={6}>
