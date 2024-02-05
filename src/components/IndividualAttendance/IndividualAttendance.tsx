@@ -499,7 +499,7 @@ const IndividualAttendance = () => {
               <SaveAlt />
             </IconButton>
           </Tooltip>
-          <Tooltip title="Help">
+          <Tooltip title="Mark monthly attendance of an individual student.">
             <IconButton
               sx={{
                 color: 'white',

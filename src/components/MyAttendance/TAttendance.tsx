@@ -1,5 +1,6 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -531,7 +532,22 @@ const TAttendance = () => {
               </IconButton>
             </Tooltip>
           </Box>
-
+          <Box>
+            <Tooltip
+              title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
+            >
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'gray',
+                  height: '36px !important',
+                  ':hover': { backgroundColor: 'gray' }
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
           <Box>
             <Tooltip title={'Save Attendance'}>
               <IconButton

@@ -132,6 +132,9 @@ const SchoolAttendanceOverview = () => {
                     backgroundColor: grey[600]
                   }
                 }}
+                onClick={() => {
+                  navigate(-1);
+                }}
               >
                 <ReplyIcon />
               </IconButton>

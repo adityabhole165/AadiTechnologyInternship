@@ -4,7 +4,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
-  Container,
   Divider,
   IconButton,
   InputBase,
@@ -105,7 +104,12 @@ const MonthwiseAttandance = () => {
   };
   return (
     <>
-      <Container sx={{ marginTop: '20px' }} maxWidth="xl">
+      <Box
+        sx={{
+          marginTop: '20px',
+          px: 3
+        }}
+      >
         <Stack
           flexDirection={'row'}
           alignItems={'center'}
@@ -177,7 +181,7 @@ const MonthwiseAttandance = () => {
           ItemList={MonthWiseAttendanceList}
           HeaderArray={HeaderArray}
         />
-      </Container>
+      </Box>
     </>
   );
 };
