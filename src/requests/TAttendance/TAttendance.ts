@@ -168,7 +168,8 @@ export const GetStudentList =
         };
         const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
         response2.data?.map((item, i) => {
-          message = item.AcademicYearMsg === '' ? item.StatusMessage : AYmsg;
+          
+          message = item.AcademicYearMsg === '' ? item.StatusMessage : item.AcademicYearMsg;
           forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
         });
       }
@@ -181,6 +182,7 @@ export const GetStudentList =
       } else {
         forInvalidAY = '';
       }
+      // console.log(response2,"aaaaaaaa");
 
       dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
       dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
