@@ -54,15 +54,15 @@ function CardCal({
   const onClick = (Value) => {
     if (item.IsClickable) clickItem(Value);
   };
-
+  const index = item.Text1 != undefined ? item.Text1.split('')[0].toLowerCase() : 0
   return (
     <div>
       <Box
         py={0}
         my={0}
         sx={{
-          backgroundColor: bg[item.Text1.split('')[0].toLowerCase()],
-          color: legendColors[item.Text1.split('')[0].toLowerCase()],
+          backgroundColor: bg[index],
+          color: legendColors[index],
           ...cardStyle,
           fontWeight: '700',
           height: '10vh'
