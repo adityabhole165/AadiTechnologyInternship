@@ -34,11 +34,11 @@ function CardCalender1({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-            ...obj,
-            Status: checkStatus(obj) ? 'N' : 'Y',
-            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-            Text1: checkStatus(obj) ? 'Absent' : 'Present'
-          }
+          ...obj,
+          Status: checkStatus(obj) ? 'N' : 'Y',
+          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+          Text1: checkStatus(obj) ? 'Absent' : 'Present'
+        }
         : obj
     );
 
@@ -55,6 +55,7 @@ function CardCalender1({
     ClickItem(getDateFormattedDash(newDate));
   };
 
+  let dayCount = (new Date("01" + formattedDate).getDay())
   return (
     <Box p={2}>
       {/* <Box
@@ -179,9 +180,16 @@ function CardCalender1({
 
       <br></br>
       <Grid container>
+        <Grid
+          item
+          border="0.5px solid #ebebeb"
+          md={1.7 * dayCount}
+          sx={{ textAlign: 'center', pt: 0 }}
+        >
+        </Grid>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={2} sx={{ textAlign: 'center' }} key={i}>
+            <Grid item xs={1.71} sx={{ textAlign: 'center' }} key={i}>
               <CardCal1
                 item={item}
                 clickItem={() => ClickItem(item.Value)}
