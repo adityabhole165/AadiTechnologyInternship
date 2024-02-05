@@ -25,6 +25,7 @@ import {
   GetStandardList,
   GetYearList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import CardCalenderAP from 'src/libraries/ResuableComponents/CardCalenderAP';
 
 const AnnualPlanerBaseScreen = () => {
   const navigate = useNavigate();
@@ -306,7 +307,7 @@ const AnnualPlanerBaseScreen = () => {
       </Grid>
       <br></br>
 
-      <CardCalender
+      <CardCalenderAP
         ItemList={USGetEventsDataList}
         ClickItem={ClickItemList}
         formattedDate={date.selectedDate}
