@@ -57,6 +57,15 @@ function Card22({ pic, imgId }) {
     }
   };
 
+  const handleDownload = (url, filename) => {
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = filename;
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  };
+
   return (
     <div>
       <SimpleReactLightbox>
@@ -91,9 +100,9 @@ function Card22({ pic, imgId }) {
                           alt={items.Name}
                           className={classes.resonsive}
                         />
-                        <IconButton>
-                          <DownloadIcon />
-                        </IconButton>
+                        <IconButton onClick={() => handleDownload(items.Value, `download_${i}`)}>
+                       <DownloadIcon />
+                     </IconButton>
                       </a>
                     </Box>
                   </Grid>
