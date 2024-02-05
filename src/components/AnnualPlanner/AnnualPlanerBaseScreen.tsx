@@ -88,7 +88,19 @@ const AnnualPlanerBaseScreen = () => {
     { Id: 6, Header: 'Fri' },
     { Id: 7, Header: 'Sat' }
   ];
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
 
+  // console.log('ScreensAccessPermission', ScreensAccessPermission);
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+  
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
