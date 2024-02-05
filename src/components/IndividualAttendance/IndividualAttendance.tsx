@@ -97,7 +97,7 @@ const IndividualAttendance = () => {
     aStudentId: Number(StudentId),
     aAcademicYearId: asAcademicYearId,
     aMonthId: Number(month),
-    aYear: year
+    aYear: (new Date(formattedDate)).getFullYear()
   };
 
   const HeaderPublish = [
@@ -157,29 +157,29 @@ const IndividualAttendance = () => {
   const handlePrevMonth = () => {
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() - 1);
-  
+
     if (newDate.getMonth() === 11) {
-      newDate.setFullYear(newDate.getFullYear() );
+      newDate.setFullYear(newDate.getFullYear());
     }
-  
+
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
   };
-  
+
   const handleNextMonth = () => {
     const newDate = new Date(date);
     newDate.setMonth(newDate.getMonth() + 1);
-  
+
     if (newDate.getMonth() === 0) {
-      newDate.setFullYear(newDate.getFullYear() );
+      newDate.setFullYear(newDate.getFullYear());
     }
-  
+
     setDate(newDate);
     setMonth(`${newDate.getMonth() + 1}`);
     setYear(newDate.getFullYear());
   };
-    const [AttendanceXML, setAttendanceXML] = useState('');
+  const [AttendanceXML, setAttendanceXML] = useState('');
   const ClickItem = (value) => {
     setItemList(value);
     setAttendanceXML(
