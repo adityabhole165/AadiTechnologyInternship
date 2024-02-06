@@ -851,58 +851,60 @@ const TAttendance = () => {
           </Box>
         </Grid>
       </Grid>
-
       <Grid container spacing={2} mt={2}>
-        <Grid item xs={12} md={6}>
-          {stdlist.length > 1 ? (
-            <Dropdown
-              Array={stdlist}
-              handleChange={handleChange}
-              label="Select Class"
-              defaultValue={Standardid}
-            ></Dropdown>
-          ) : (
-            <Hidden mdUp>
-              {' '}
-              <span>
-                <b>Class : </b>
-                {singleStdName}
-              </span>
-            </Hidden>
-          )}
-
-          <Box sx={{ display: onlySelectedClass }}>
-            <Hidden mdUp>
-              <DateSelector
-                date={assignedDate}
-                setCurrentDate={getCurrentDate}
-                Close={getCurrentDate}
-              ></DateSelector>
-            </Hidden>
-            <Hidden mdUp>
-              <ErrorDetail>{AttendanceStatus}</ErrorDetail>
-            </Hidden>
-            <Box sx={{ display: AYStatus }}>
+        {SaveIsActive ?
+          <Grid item xs={12} md={6}>
+            {stdlist.length > 1 ? (
+              <Dropdown
+                Array={stdlist}
+                handleChange={handleChange}
+                label="Select Class"
+                defaultValue={Standardid}
+              ></Dropdown>
+            ) : (
               <Hidden mdUp>
-                <TextField
-                  variant="standard"
-                  fullWidth
-                  label="Absent Roll Numbers"
-                  value={StudentAbsent}
-                ></TextField>
+                {' '}
+                <span>
+                  <b>Class : </b>
+                  {singleStdName}
+                </span>
               </Hidden>
-              <Box>
-                <List26
-                  sendmeassagestudent={sendmeassagestudent}
-                  handleCheckboxChange={handleCheckboxChange}
-                  Dataa={RollNoList}
-                  getAbsetNumber={getAbsetNumber}
-                  assignedDate={assignedDate}
-                ></List26>
+            )}
+
+            <Box sx={{ display: onlySelectedClass }}>
+              <Hidden mdUp>
+                <DateSelector
+                  date={assignedDate}
+                  setCurrentDate={getCurrentDate}
+                  Close={getCurrentDate}
+                ></DateSelector>
+              </Hidden>
+              <Hidden mdUp>
+                <ErrorDetail>{AttendanceStatus}</ErrorDetail>
+              </Hidden>
+              <Box sx={{ display: AYStatus }}>
+                <Hidden mdUp>
+                  <TextField
+                    variant="standard"
+                    fullWidth
+                    label="Absent Roll Numbers"
+                    value={StudentAbsent}
+                  ></TextField>
+                </Hidden>
+                <Box>
+                  <List26
+                    sendmeassagestudent={sendmeassagestudent}
+                    handleCheckboxChange={handleCheckboxChange}
+                    Dataa={RollNoList}
+                    getAbsetNumber={getAbsetNumber}
+                    assignedDate={assignedDate}
+                  ></List26>
+                </Box>
               </Box>
             </Box>
-          </Box>
-        </Grid>
+          </Grid> :
+          <Grid item xs={12} md={6}></Grid>
+        }
         <Grid item xs={12} md={6}>
           <Grid container>
             <Box sx={{ backgroundColor: 'white' }}>
@@ -921,14 +923,6 @@ const TAttendance = () => {
               />
             </Box>
           </Grid>
-          <br></br>
-          {/* 
-            {SummaryCountforAttendance != null && (
-              <TableAttendace
-                ItemList={SummaryCountforAttendance.GetSummaryCountList}
-                HeaderArray={HeaderArray}
-              />
-            )} */}
         </Grid>
       </Grid>
     </Container>
