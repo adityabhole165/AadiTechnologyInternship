@@ -45,7 +45,6 @@ import {
   InputStyle,
   UsernameStyle
 } from 'src/libraries/styled/CardStyle';
-import { HeadingStyle } from 'src/libraries/styled/HeadingStyled';
 import {
   getSchoolList,
   getSchoolSettingsValue
@@ -487,8 +486,10 @@ function SelectSchool() {
         <Grid item xs={12} sx={{ mt: '30px' }}>
           <img src={img_src} width="100%" style={{ maxHeight: 200 }} />
         </Grid>
-        <Grid item xs={12}>
-          <HeadingStyle>{SchoolName}</HeadingStyle>
+        <Grid item xs={12} sx={{ px: 2 }}>
+          <Typography variant={'h4'} sx={{ textAlign: 'center' }}>
+            {SchoolName}
+          </Typography>
         </Grid>
         <Box sx={{ maxWidth: '90%' }}>
           <form onSubmit={formik.handleSubmit} noValidate autoComplete="off">
@@ -502,7 +503,6 @@ function SelectSchool() {
                   value={formik.values.userName}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  defaultValue="Normal"
                 />
                 {formik.touched.userName && formik.errors.userName ? (
                   <div className={classes.error}>{formik.errors.userName}</div>
@@ -521,7 +521,6 @@ function SelectSchool() {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
-                  defaultValue="Normal"
                   endAdornment={
                     <InputAdornment position="end">
                       <IconButton

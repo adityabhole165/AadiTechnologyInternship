@@ -1,9 +1,18 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
+import {
+  Box,
+  Grid,
+  IconButton,
+  MenuItem,
+  Stack,
+  TextField,
+  Typography,
+  alpha
+} from '@mui/material';
 import DotLegendTeacher from '../summary/DotLegendTeacher';
 import CardCal from './CardCal';
-function CardCalenderList({
+function AnnualPlannerCalendar({
   ItemList,
   ClickItem,
   handlePrevMonth,
@@ -13,13 +22,9 @@ function CardCalenderList({
   ArrayList
 }) {
   const legendColors = {
-    p: '#008000',
-    a: '#b73839',
-    h: '#792ba7',
-    w: '#bdbdbd',
-    o: '#aa3daa',
-    l: '#303f9f',
-    n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
+    holiday: '#b73839',
+    exam: '#008000',
+    events: '#303f9f'
   };
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -54,6 +59,50 @@ function CardCalenderList({
           </Typography>
 
           <Stack direction={'row'} gap={1}>
+            <Box>
+              <TextField
+                select={true}
+                sx={{ width: '150px' }}
+                label="Select Standard"
+                size={'small'}
+                value={''}
+              >
+                <MenuItem value={''}>Select Standard</MenuItem>
+              </TextField>
+            </Box>
+            <Box>
+              <TextField
+                select={true}
+                sx={{ width: '150px' }}
+                label="Select Division"
+                size={'small'}
+                value={''}
+              >
+                <MenuItem value={''}>Select Division</MenuItem>
+              </TextField>
+            </Box>
+            <Box>
+              <TextField
+                select={true}
+                sx={{ width: '150px' }}
+                label="Select Month"
+                size={'small'}
+                value={''}
+              >
+                <MenuItem value={''}>Select Month</MenuItem>
+              </TextField>
+            </Box>
+            <Box>
+              <TextField
+                select={true}
+                sx={{ width: '150px' }}
+                label="Select Year"
+                size={'small'}
+                value={''}
+              >
+                <MenuItem value={''}>Select Year</MenuItem>
+              </TextField>
+            </Box>
             <IconButton
               color={'primary'}
               sx={{
@@ -128,21 +177,13 @@ function CardCalenderList({
         </Grid>
         <Grid container sx={{ mt: 2 }}>
           <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendTeacher color={legendColors.p} text="Present" />
-            <DotLegendTeacher color={legendColors.a} text="Absent" />
-            <DotLegendTeacher color={legendColors.h} text="Holiday" />
-            <DotLegendTeacher color={legendColors.w} text="Weekend" />
-
-            <DotLegendTeacher
-              color={legendColors.o}
-              text="Outside Acadamic Year "
-            />
-            <DotLegendTeacher color={legendColors.l} text="Late Join " />
-            <DotLegendTeacher color={legendColors.n} text="Not Available " />
+            <DotLegendTeacher color={legendColors.holiday} text="Holiday" />
+            <DotLegendTeacher color={legendColors.exam} text="Exam" />
+            <DotLegendTeacher color={legendColors.events} text="Events" />
           </Grid>
         </Grid>
       </Box>
     </Box>
   );
 }
-export default CardCalenderList;
+export default AnnualPlannerCalendar;

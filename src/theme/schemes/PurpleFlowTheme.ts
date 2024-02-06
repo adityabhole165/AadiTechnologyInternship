@@ -895,9 +895,6 @@ export const PurpleFlowTheme = createTheme({
     },
     MuiMenu: {
       styleOverrides: {
-        paper: {
-          padding: 12
-        },
         list: {
           padding: 12,
 

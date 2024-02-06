@@ -272,8 +272,8 @@ const AnnualPlanerBaseScreen = () => {
   const shouldDisplayDropdown = GetScreenPermission() === 'N' ? 0 : null;
 
   return (
-    <Container maxWidth={'xl'}>
-      <PageHeader heading={'AnnualEventPlanner'} subheading={''} />
+    <Container maxWidth={'xl'} sx={{ mt: 4 }}>
+      <PageHeader heading={'Annual Planner'} subheading={''} />
       <Box sx={{ float: 'right' }}>
         <Icon1 Note={Note} />
       </Box>

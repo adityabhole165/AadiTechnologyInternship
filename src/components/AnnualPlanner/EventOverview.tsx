@@ -1,18 +1,46 @@
-import { Box, Container } from '@mui/material';
+import AddIcon from '@mui/icons-material/Add';
+import BackupIcon from '@mui/icons-material/Backup';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import DeleteIcon from '@mui/icons-material/Delete';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import {
+  Box,
+  Button,
+  Container,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Stack,
+  Tooltip,
+  Typography,
+  styled
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
-import MonthSelector from 'src/libraries/buttons/MonthSelector';
+import AnnualPlannerCalendar from 'src/libraries/ResuableComponents/AnnualPlannerCalendar';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import Icon1 from 'src/libraries/icon/icon1';
-import List1 from 'src/libraries/mainCard/List1';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import UpcomingEvent from './UpcomingEvent';
+
+const VisuallyHiddenInput = styled('input')({
+  overflow: 'hidden',
+  position: 'absolute',
+  bottom: 0,
+  left: 0,
+  top: 0,
+  right: 0,
+  opacity: 0
+});
+
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
@@ -30,6 +58,10 @@ function EventOverview() {
     (state: RootState) => state.AnnualPlanner.Loading
   );
 
+  const CalendarForStudent = useSelector(
+    (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
+  );
+
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
@@ -38,9 +70,24 @@ function EventOverview() {
   const UserId = sessionStorage.getItem('Id');
   const RoleId = sessionStorage.getItem('RoleId');
 
+  const HeaderPublish = [
+    { Id: 1, Header: 'Sun' },
+    { Id: 2, Header: 'Mon' },
+    { Id: 3, Header: 'Tue' },
+    { Id: 4, Header: 'Wed' },
+    { Id: 5, Header: 'Thu' },
+    { Id: 6, Header: 'Fri' },
+    { Id: 7, Header: 'Sat' }
+  ];
+
   const [date, setDate] = useState<any>({ selectedDate: null });
+  const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
   const [assignedYear, setAssignedYear] = useState<any>();
   const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
+  const [annualPlannerFile, setAnnualPlannerFile] = useState<any>();
+  const formattedDate = `${new Date().toLocaleString('default', {
+    month: 'short'
+  })} ${new Date().getFullYear()}`;
 
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
@@ -140,9 +187,82 @@ function EventOverview() {
         <UpcomingEvent />
       ) : (
         <>
-          <Container>
-            <PageHeader heading={'Annual Planner'} subheading={''} />
-            <button onClick={clickAddAnnual}>Add Annual Planner</button>
+          <Container sx={{ mt: 4 }} maxWidth={'xl'}>
+            <Stack
+              direction={'row'}
+              alignItems={'center'}
+              justifyContent={'space-between'}
+            >
+              <Box>
+                <PageHeader heading={'Annual Planner'} subheading={''} />
+              </Box>
+              <Stack direction={'row'} alignItems={'center'} gap={1}>
+                <Box>
+                  <Tooltip title={Note}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[700]
+                        }
+                      }}
+                    >
+                      <PriorityHighIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box>
+                  <Tooltip title={'Help'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[700]
+                        }
+                      }}
+                    >
+                      <QuestionMarkIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box>
+                  <Tooltip title={'Events Overview'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[700]
+                        }
+                      }}
+                    >
+                      <CalendarMonthIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+                <Box>
+                  <Tooltip title={'Add Annual Planner'}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                          backgroundColor: grey[700]
+                        }
+                      }}
+                      onClick={() => {
+                        setOpenAnnualPlannerDialog(true);
+                      }}
+                    >
+                      <AddIcon />
+                    </IconButton>
+                  </Tooltip>
+                </Box>
+              </Stack>
+            </Stack>
+            {/* <button onClick={clickAddAnnual}>Add Annual Planner</button>
             <Box sx={{ float: 'right' }}>
               <Icon1 Note={Note} />
             </Box>
@@ -166,10 +286,100 @@ function EventOverview() {
                     Error={'Selected date is outside academic year'}
                   />
                 )}
+                
               </>
-            )}
+            )} */}
+            <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
+              <AnnualPlannerCalendar
+                ItemList={CalendarForStudent}
+                ClickItem={() => {}}
+                handlePrevMonth={() => {}}
+                handleNextMonth={() => {}}
+                formattedDate={formattedDate}
+                DefaultValue={''}
+                ArrayList={HeaderPublish}
+              />
+            </Box>
           </Container>
         </>
+      )}
+      {openAnnualPlannerDialog && (
+        <Dialog
+          open={openAnnualPlannerDialog}
+          onClose={() => setOpenAnnualPlannerDialog(false)}
+          maxWidth={'sm'}
+          fullWidth
+        >
+          <DialogTitle
+            sx={{
+              py: 1,
+              backgroundColor: (theme) => theme.colors.primary.main
+            }}
+          ></DialogTitle>
+          <DialogContent dividers>
+            <Box>
+              <Typography variant={'h3'}>Upload Annual Planner</Typography>
+              <Box sx={{ mt: 2 }}>
+                {/* while file is not selected */}
+                {!annualPlannerFile && (
+                  <Button
+                    variant={'outlined'}
+                    color={'primary'}
+                    sx={{ width: '100%', py: 3, border: '2px dashed' }}
+                    startIcon={<BackupIcon />}
+                  >
+                    Click to Upload
+                    <VisuallyHiddenInput
+                      type="file"
+                      onChange={(event) => {
+                        setAnnualPlannerFile(event.target.files[0]);
+                      }}
+                    />
+                  </Button>
+                )}
+                {/* while file is selected */}
+                {annualPlannerFile && (
+                  <Box
+                    sx={{
+                      width: '100%',
+                      border: (theme) =>
+                        `2px dashed ${theme.colors.primary.main}`,
+                      display: 'flex',
+                      alignItems: 'center',
+                      fontSize: '18px',
+                      gap: 2,
+                      p: 1
+                    }}
+                  >
+                    <CheckCircleIcon />
+                    {annualPlannerFile?.name}
+                    <IconButton
+                      color={'error'}
+                      onClick={() => {
+                        setAnnualPlannerFile(null);
+                      }}
+                    >
+                      <DeleteIcon />
+                    </IconButton>
+                  </Box>
+                )}
+              </Box>
+            </Box>
+          </DialogContent>
+          <DialogActions sx={{ py: 2, px: 3 }}>
+            <Button
+              onClick={() => {
+                setOpenAnnualPlannerDialog(false);
+              }}
+              color={'error'}
+            >
+              Cancel
+            </Button>
+            <Button onClick={() => {}} color={'primary'} variant={'contained'}>
+              Save
+            </Button>
+          </DialogActions>
+        </Dialog>
       )}
     </>
   );
