@@ -104,6 +104,7 @@ const AddAnnualPlaner = () => {
       toast.success('File Uploaded Successfully', { toastId: 'success1' });
     }
   };
+  
   const clickDelete = (Id) => {
     if (confirm('Are You Sure you want to delete The File')) {
       dispatch(DeleteFile(DeleteFileDetailsBody));
@@ -120,11 +121,14 @@ const AddAnnualPlaner = () => {
       </Button>
       <Dialog open={Open} onClose={ClickCloseDialogbox}>
         <DialogContent>
-          <SingleFile
-            ValidFileTypes={ValidFileTypes}
-            MaxfileSize={MaxfileSize}
-            ChangeFile={ChangeFile}
-          ></SingleFile>{' '}
+          
+           <SingleFile
+                    ValidFileTypes={ValidFileTypes}
+                    MaxfileSize={MaxfileSize}
+                    ChangeFile={ChangeFile}
+                    errorMessage={""}
+                     filePath={clickFileName.toString()}
+                    FileName={fileName}></SingleFile>
           <h6>
             (Supports only .PDF, .PNG and .JPG file type. File size should not
             exceed 2 MB.)

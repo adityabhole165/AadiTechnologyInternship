@@ -1,6 +1,4 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ImageIcon from '@mui/icons-material/Image';
 import { Box, Container, Stack, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
@@ -106,8 +104,8 @@ const SingleFile = ({
       <Box sx={{ textAlign: 'center' }}>
         {filePath != '' && (
           <>
-            <ImageIcon onClick={clickImage} />
-            <DeleteIcon onClick={clickDelete} />
+            {/* <ImageIcon onClick={clickImage} />
+            <DeleteIcon onClick={clickDelete} /> */}
           </>
         )}
       </Box>
