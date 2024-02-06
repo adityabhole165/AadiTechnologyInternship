@@ -501,7 +501,10 @@ const TAttendance = () => {
                 color="primary"
                 sx={{
                   color: (theme) => theme.palette.primary.main,
-                  backgroundColor: 'white'
+                  backgroundColor: 'white',
+                  '&:hover': {
+                    backgroundColor: 'white'
+                  }
                 }}
               >
                 <Tooltip title="search">
@@ -580,10 +583,7 @@ const TAttendance = () => {
                 onClick={SaveMsg}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[600],
-                  '&:hover': {
-                    backgroundColor: 'green'
-                  }
+                  backgroundColor: grey[600]
                 }}
               >
                 <SaveIcon />
