@@ -254,7 +254,7 @@ const AddHomework = () => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
   const Back1 = () => {
-    navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
+    navigate('/extended-sidebar/Teacher/AddUnpublish1/' + Id);
   };
   const Changevalue = (value) => {
     // setitemPublish(value);
@@ -262,12 +262,19 @@ const AddHomework = () => {
   };
 
   const getSelectedSubject = () => {
-    let selectedValue = SubjectList.filter((item) => item.IsActive)
-      .map((item) => item.Id)
-      .join(',');
-
+    let selectedValue = '';
+    SubjectList.map((item) => {
+      if (item.IsActive) selectedValue = selectedValue + ',' + item.Id;
+    });
     return selectedValue;
   };
+  // const getSelectedSubject = () => {
+  //   let selectedValue = SubjectList.filter((item) => item.IsActive)
+  //     .map((item) => item.Id)
+  //     .join(',');
+
+  //   return selectedValue;
+  // };
 
   // const onSelectDate = (value) => {
   //     setCompleteDate(value)

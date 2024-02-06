@@ -132,7 +132,7 @@ const teacherRoutes = [
     element: <TAttendance />
   },
   {
-    path: 'AddUnpublish1/:getSelectedSubject',
+    path: 'AddUnpublish1/:Id',
     element: <AddUnpublish1 />
   },
   {
