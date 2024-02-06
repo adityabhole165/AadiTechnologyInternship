@@ -92,7 +92,7 @@ const AnnualPlanerBaseScreen = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
- console.log('ScreensAccessPermission', ScreensAccessPermission);
+  console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission.map((item) => {
@@ -100,7 +100,7 @@ const AnnualPlanerBaseScreen = () => {
     });
     return perm;
   };
-  
+
   function setCurrentDate(newDate?: Date) {
     const date = newDate || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
@@ -232,7 +232,7 @@ const AnnualPlanerBaseScreen = () => {
   const clicYearDropdown = (value) => {
     setSelectYear(value);
   };
-  
+
   const ClickPreNext = (value) => {
     const date = value || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
@@ -245,10 +245,10 @@ const AnnualPlanerBaseScreen = () => {
     });
     setSelectMonth(Month_num.toString());
     setSelectYear(Year.toString());
-  }
-    const ClickItemList = (value) => {
+  };
+  const ClickItemList = (value) => {
     navigate('/extended-sidebar/Teacher/EventManegement');
-    };
+  };
 
   // const ClickGetMonth = (value) => {
 
@@ -269,7 +269,7 @@ const AnnualPlanerBaseScreen = () => {
   const clickEventsoverview = (value) => {
     navigate('/extended-sidebar/common/EventOverview');
   };
-  const shouldDisplayDropdown = GetScreenPermission() === 'N'? 0:null;
+  const shouldDisplayDropdown = GetScreenPermission() === 'N' ? 0 : null;
 
   return (
     <Container maxWidth={'xl'}>
@@ -286,22 +286,19 @@ const AnnualPlanerBaseScreen = () => {
             <AnnualPlanerLegend color="Events" text="Events" />
           </Box>
         </Grid>
-        
- {shouldDisplayDropdown ? (
-                             
 
-<Grid item xs={2}>
-                          <Button variant="outlined" onClick={clickFileName}>
-                            Annual Planner
-                          </Button>
-                        </Grid>
-                        ) : (
-                          <Grid item xs={2}>
-                              <AddAnnualPlaner />
-                            </Grid>
-                        )}
-       
-       
+        {shouldDisplayDropdown ? (
+          <Grid item xs={2}>
+            <AddAnnualPlaner />
+          </Grid>
+        ) : (
+          <Grid item xs={2}>
+            <Button variant="outlined" onClick={clickFileName}>
+              Annual Planner
+            </Button>
+          </Grid>
+        )}
+
         <Grid item xs={2}>
           <Button variant="outlined" onClick={clickEventsoverview}>
             Events Overview
@@ -309,9 +306,7 @@ const AnnualPlanerBaseScreen = () => {
         </Grid>
       </Grid>
 
-
       <Grid container spacing={2}>
-
         <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
             <Typography component={Box} p={0.5}>
@@ -320,23 +315,22 @@ const AnnualPlanerBaseScreen = () => {
           </Card>
         </Grid>
         {shouldDisplayDropdown ? (
-                            <Grid item xs={2}>
-                            <Dropdown
-                              Array={GetAssociatedStandardListP}
-                              handleChange={clickStandardDropdownP}
-                              defaultValue={AssociatedStandardP}
-                            />
-                          </Grid>
-                        ) : (
-                          <Grid item xs={2}>
-                          <Dropdown
-                            Array={SelectStandardList}
-                            handleChange={clickStandardDropdown}
-                            defaultValue={selectStandard}
-                          />
-                        </Grid>
-                        )}
-       
+          <Grid item xs={2}>
+            <Dropdown
+              Array={GetAssociatedStandardListP}
+              handleChange={clickStandardDropdownP}
+              defaultValue={AssociatedStandardP}
+            />
+          </Grid>
+        ) : (
+          <Grid item xs={2}>
+            <Dropdown
+              Array={SelectStandardList}
+              handleChange={clickStandardDropdown}
+              defaultValue={selectStandard}
+            />
+          </Grid>
+        )}
 
         {/* <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
@@ -345,9 +339,6 @@ const AnnualPlanerBaseScreen = () => {
             </Typography>
           </Card>
         </Grid> */}
-
-       
-
 
         <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
