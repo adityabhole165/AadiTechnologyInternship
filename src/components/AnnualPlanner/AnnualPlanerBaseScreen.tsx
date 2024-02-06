@@ -92,11 +92,11 @@ const AnnualPlanerBaseScreen = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  // console.log('ScreensAccessPermission', ScreensAccessPermission);
+ console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission.map((item) => {
-      if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
+      if (item.ScreenName === 'Annual Planner') perm = item.IsFullAccess;
     });
     return perm;
   };
@@ -269,10 +269,11 @@ const AnnualPlanerBaseScreen = () => {
   const clickEventsoverview = (value) => {
     navigate('/extended-sidebar/common/EventOverview');
   };
+  const shouldDisplayDropdown = GetScreenPermission() === 'N'? 0:null;
 
   return (
     <Container maxWidth={'xl'}>
-      <PageHeader heading={'Annual Planner'} subheading={''} />
+      <PageHeader heading={'AnnualEventPlanner'} subheading={''} />
       <Box sx={{ float: 'right' }}>
         <Icon1 Note={Note} />
       </Box>
@@ -285,14 +286,20 @@ const AnnualPlanerBaseScreen = () => {
             <AnnualPlanerLegend color="Events" text="Events" />
           </Box>
         </Grid>
-        <Grid item xs={2}>
-          <AddAnnualPlaner />
-        </Grid>
-        <Grid item xs={2}>
-          <Button variant="outlined" onClick={clickFileName}>
-            Annual Planner
-          </Button>
-        </Grid>
+        
+ {shouldDisplayDropdown ? (
+                              <Grid item xs={2}>
+                              <AddAnnualPlaner />
+                            </Grid>
+                        ) : (
+                          <Grid item xs={2}>
+                          <Button variant="outlined" onClick={clickFileName}>
+                            Annual Planner
+                          </Button>
+                        </Grid>
+                        )}
+       
+       
         <Grid item xs={2}>
           <Button variant="outlined" onClick={clickEventsoverview}>
             Events Overview
@@ -300,7 +307,9 @@ const AnnualPlanerBaseScreen = () => {
         </Grid>
       </Grid>
 
+
       <Grid container spacing={2}>
+
         <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
             <Typography component={Box} p={0.5}>
@@ -308,27 +317,36 @@ const AnnualPlanerBaseScreen = () => {
             </Typography>
           </Card>
         </Grid>
-        <Grid item xs={2}>
-          <Dropdown
-            Array={GetAssociatedStandardListP}
-            handleChange={clickStandardDropdownP}
-            defaultValue={AssociatedStandardP}
-          />
-        </Grid>
-        <Grid item xs={1}>
+        {shouldDisplayDropdown ? (
+                            <Grid item xs={2}>
+                            <Dropdown
+                              Array={GetAssociatedStandardListP}
+                              handleChange={clickStandardDropdownP}
+                              defaultValue={AssociatedStandardP}
+                            />
+                          </Grid>
+                        ) : (
+                          <Grid item xs={2}>
+                          <Dropdown
+                            Array={SelectStandardList}
+                            handleChange={clickStandardDropdown}
+                            defaultValue={selectStandard}
+                          />
+                        </Grid>
+                        )}
+       
+
+        {/* <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
             <Typography component={Box} p={0.5}>
               Select Std :
             </Typography>
           </Card>
-        </Grid>
-        <Grid item xs={2}>
-          <Dropdown
-            Array={SelectStandardList}
-            handleChange={clickStandardDropdown}
-            defaultValue={selectStandard}
-          />
-        </Grid>
+        </Grid> */}
+
+       
+
+
         <Grid item xs={1}>
           <Card sx={{ backgroundColor: '#BEDAE3' }}>
             <Typography component={Box} p={0.5}>
