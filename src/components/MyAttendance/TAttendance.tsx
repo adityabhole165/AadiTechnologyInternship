@@ -501,10 +501,7 @@ const TAttendance = () => {
                 color="primary"
                 sx={{
                   color: (theme) => theme.palette.primary.main,
-                  backgroundColor: 'white',
-                  '&:hover': {
-                    backgroundColor: 'white'
-                  }
+                  backgroundColor: 'white'
                 }}
               >
                 <Tooltip title="search">
