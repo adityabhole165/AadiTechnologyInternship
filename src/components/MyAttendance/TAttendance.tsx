@@ -163,6 +163,7 @@ const TAttendance = () => {
     return perm;
   };
 
+  const [SaveIsActive, setSaveIsActive] = useState(true)
   const GetStudentDetails: IStudentsDetails = {
     asStdDivId: selectClasstecahernew,
     asDate: assignedDate,
@@ -343,6 +344,8 @@ const TAttendance = () => {
     }
   }, [stdlist]);
   const SaveMsg = () => {
+    if (!SaveIsActive)
+      return
     if (
       AttendanceStatus === 'Selected date is holiday.' ||
       AttendanceStatus === 'Selected date is weekend.'
@@ -425,6 +428,19 @@ const TAttendance = () => {
   const handleCheckboxChange = (value) => {
     setsendmeassagestudent(value);
   };
+  useEffect(() => {
+    if (listAttendanceCalender.length > 0 && assignedDate != '') {
+      listAttendanceCalender.map((item, i) => {
+        if (item.Value === assignedDate) {
+          if (item.Text1.includes('Outside') || (new Date(assignedDate)) > (new Date()))
+            setSaveIsActive(false)
+          else
+            setSaveIsActive(true)
+        }
+      })
+    }
+
+  }, [listAttendanceCalender, assignedDate])
   return (
     <Container maxWidth={'xl'}>
       <Stack
@@ -550,7 +566,18 @@ const TAttendance = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>
+          <Box>{SaveIsActive ?
+            <Tooltip title={'Save Attendance'}>
+              <IconButton
+                onClick={SaveMsg}
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'green'
+                }}
+              >
+                <SaveIcon />
+              </IconButton>
+            </Tooltip> :
             <Tooltip title={'Save Attendance'}>
               <IconButton
                 onClick={SaveMsg}
@@ -558,13 +585,14 @@ const TAttendance = () => {
                   color: 'white',
                   backgroundColor: grey[600],
                   '&:hover': {
-                    backgroundColor: grey[600]
+                    backgroundColor: 'green'
                   }
                 }}
               >
                 <SaveIcon />
               </IconButton>
             </Tooltip>
+          }
           </Box>
         </Stack>
       </Stack>
