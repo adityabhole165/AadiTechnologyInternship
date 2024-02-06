@@ -1,14 +1,11 @@
-import { Card, Typography, Grid, Box, IconButton } from '@mui/material'
-import React, { useState } from 'react'
-import CardCalAP from './CardCalAP';
-import TableCell from "@mui/material/TableCell";
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import ArrowLeftIcon from '@mui/icons-material/ArrowLeft';
+import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Box, Card, Grid, IconButton, Typography } from '@mui/material';
 import { getDateFormattedDash } from 'src/components/Common/Util';
+import CardCalAP from './CardCalAP';
 
 
-const CardCalenderAP = ({ ItemList, ClickItem, formattedDate, DefaultValue, ArrayList=[] }) => {
+const CardCalenderAP = ({ ItemList, ClickItem,ClickPreNext, formattedDate, DefaultValue, ArrayList=[] }) => {
 
 
     const clickCard = (Value) => {
@@ -28,7 +25,7 @@ const CardCalenderAP = ({ ItemList, ClickItem, formattedDate, DefaultValue, Arra
             obj
         )
     
-        ClickItem(returnVal)
+        ClickPreNext(returnVal)
       }
     
       const clickPrevNextMonth = (value) => {
@@ -38,7 +35,7 @@ const CardCalenderAP = ({ ItemList, ClickItem, formattedDate, DefaultValue, Arra
         else;
           newDate = new Date(formattedDate);
           newDate.setMonth(newDate.getMonth() + value);
-        ClickItem(getDateFormattedDash(newDate));
+          ClickPreNext(getDateFormattedDash(newDate));
       };
     
   return (

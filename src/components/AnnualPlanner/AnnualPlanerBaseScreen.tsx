@@ -232,9 +232,8 @@ const AnnualPlanerBaseScreen = () => {
   const clicYearDropdown = (value) => {
     setSelectYear(value);
   };
-
-  const ClickItemList = (value) => {
-    navigate('/extended-sidebar/Teacher/EventManegement');
+  
+  const ClickPreNext = (value) => {
     const date = value || new Date();
     const Month = new Date(date).toLocaleString('default', { month: 'short' });
     const Month_num = new Date(date).getMonth();
@@ -246,7 +245,10 @@ const AnnualPlanerBaseScreen = () => {
     });
     setSelectMonth(Month_num.toString());
     setSelectYear(Year.toString());
-  };
+  }
+    const ClickItemList = (value) => {
+    navigate('/extended-sidebar/Teacher/EventManegement');
+    };
 
   // const ClickGetMonth = (value) => {
 
@@ -378,6 +380,7 @@ const AnnualPlanerBaseScreen = () => {
       <CardCalenderAP
         ItemList={USGetEventsDataList}
         ClickItem={ClickItemList}
+        ClickPreNext={ClickPreNext}
         formattedDate={date.selectedDate}
         DefaultValue
         ArrayList={HeaderPublish}
