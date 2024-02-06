@@ -1,4 +1,10 @@
-import { Container, Grid, Typography } from '@mui/material';
+import {
+  Container,
+  Grid,
+  IconButton,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -26,6 +32,7 @@ import {
   StandardTopperListST
 } from 'src/requests/FinalResult/RqstandardToppers';
 
+import Help from '@mui/icons-material/QuestionMark';
 import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
@@ -58,12 +65,13 @@ const FinalResultToppers = () => {
   const HeaderListCT = ['Rank', 'Roll No.', 'Student Name', 'Marks'];
   const HeaderList1CT = ['Roll No.', 'Student Name'];
   const HeaderListST = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
-  const HeaderList1ST = ['Roll No.', 'Student Name'];
+  const HeaderList1ST = ['Roll No.', 'Class', 'Student Name'];
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
-
+  const Note: string =
+    'Display the first three class/ standard toppers as well as subject toppers of your class/ standard for the selected exam';
   const GetClassdropdownCT = useSelector(
     (state: RootState) => state.FinalResultToppers.ClassDropdownListCT
   );
@@ -234,6 +242,18 @@ const FinalResultToppers = () => {
       <br></br>
       <br></br>
       <br></br>
+
+      <Tooltip title={Note}>
+        <IconButton
+          sx={{
+            color: 'White',
+            backgroundColor: 'gray',
+            ':hover': { backgroundColor: 'gray' }
+          }}
+        >
+          <Help />
+        </IconButton>
+      </Tooltip>
       <div>
         <RadioButton1
           Array={RadioListCT}

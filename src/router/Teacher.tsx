@@ -122,11 +122,18 @@ const UnpublishPrePrimaryResult = Loader(
     () => import('src/components/PrePrimaryResult/UnpublishPrePrimaryResult')
   )
 );
+const AddUnpublish1 = Loader(
+  lazy(() => import('src/components/AssignHomework/AddUnpublish1'))
+);
 
 const teacherRoutes = [
   {
     path: 'TAttendance',
     element: <TAttendance />
+  },
+  {
+    path: 'AddUnpublish1/:getSelectedSubject',
+    element: <AddUnpublish1 />
   },
   {
     path: 'TAttendance/TView/:assignedDate/:StandardId',

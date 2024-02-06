@@ -262,12 +262,13 @@ const AddHomework = () => {
   };
 
   const getSelectedSubject = () => {
-    let selectedValue = '';
-    SubjectList.map((item) => {
-      if (item.IsActive) selectedValue = selectedValue + ',' + item.Id;
-    });
+    let selectedValue = SubjectList.filter((item) => item.IsActive)
+      .map((item) => item.Id)
+      .join(',');
+
     return selectedValue;
   };
+
   // const onSelectDate = (value) => {
   //     setCompleteDate(value)
   //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
@@ -487,9 +488,14 @@ const AddHomework = () => {
       </Grid>
       <br></br>
       <br></br>
-      <HomeworkSubjectList />
+      <HomeworkSubjectList
+        Subjectlistsforteacher={Subjectlistsforteacher.filter((item) => {
+          return item.SubjectId === SubjectId;
+        })}
+      />
       <br></br>
       <br></br>
+
       <SubjectList1
         ItemList={SubjectList.filter((item) => {
           return item.SubjectId !== SubjectId;

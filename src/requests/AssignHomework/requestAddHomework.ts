@@ -78,6 +78,7 @@ export const homeworklistforteacher =
     let a = response.data.map((item, i) => {
       return {
         Id: item.Id,
+        SubjectId: item.SubjectId,
         Text1: item.Subject,
         Text2: item.Title,
         Text3: getDateMonthYearFormatted(item.AssignedDate),

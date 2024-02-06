@@ -1,5 +1,5 @@
 import { Box, Grid, TextField, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { IAllPublishUnpublishAddHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
@@ -25,19 +25,19 @@ const AddUnpublish1 = () => {
   );
   console.log(AllPublishUnPublishHomework, 'AllPublishUnPublishHomework....');
 
-  const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-    {
-      asSchoolId: asSchoolId.toString(),
-      asAcademicYearId: asAcademicYearId.toString(),
-      asHomeWorkLogId: '2717',
-      asUnpublishReason: "Yesss'",
-      asUpdatedById: '4463',
-      IsPublished: 0,
-      IsSMSSent: 1
-    };
-  useEffect(() => {
-    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-  }, []);
+  // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
+  //   {
+  //     asSchoolId: asSchoolId.toString(),
+  //     asAcademicYearId: asAcademicYearId.toString(),
+  //     asHomeWorkLogId: '2717',
+  //     asUnpublishReason: "Yesss'",
+  //     asUpdatedById: '4463',
+  //     IsPublished: 0,
+  //     IsSMSSent: 1
+  //   };
+  // useEffect(() => {
+  //   dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+  // }, []);
 
   const Unpublish = () => {
     const newAsIsPublish = !AllPublishUnPublishHomework;
@@ -48,7 +48,7 @@ const AddUnpublish1 = () => {
         asAcademicYearId: asAcademicYearId.toString(),
         asHomeWorkLogId: Id,
         asUnpublishReason: "Yesss'",
-        asUpdatedById: '4463',
+        asUpdatedById: asTeacherId,
         IsPublished: Number(newAsIsPublish),
         IsSMSSent: 1
       };
@@ -97,14 +97,16 @@ const AddUnpublish1 = () => {
           </ButtonPrimary>
         </Box>
       </Grid>
-      <ButtonPrimary
-        onClick={Unpublish}
-        variant="contained"
-        style={{ marginRight: '8px', backgroundColor: 'green' }}
-      >
-        PUBLISHALL
-      </ButtonPrimary>
-      AddUnpublish1
+      <Grid item xs={6}>
+        <Box sx={{ textAlign: 'center' }} m={2}>
+          <ButtonPrimary
+            style={{ backgroundColor: 'green' }}
+            onClick={Unpublish}
+          >
+            OK
+          </ButtonPrimary>
+        </Box>
+      </Grid>
     </div>
   );
 };
