@@ -2,6 +2,7 @@ import { Box, Button, Card, Container, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
+import { IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import {
   IGetAllDivisionsForStandardDropDownBody,
   IGetAllMonthsDropDownBody,
@@ -24,6 +25,7 @@ import {
   GetStandardList,
   GetYearList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import { GetFile } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import AddAnnualPlaner from './AddAnnualPlaner';
@@ -55,7 +57,12 @@ const AnnualPlanerBaseScreen = () => {
   const GetAssociatedStandardListP: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.IGetAssociatedStandardsP
   );
-  console.log(GetAssociatedStandardListP, 'AssociatedStandardListPppp');
+  // console.log(GetAssociatedStandardListP, 'AssociatedStandardListPppp');
+
+  const FileDetails: any = useSelector(
+    (state: RootState) => state.AddPlanner.getfile
+  );
+  console.log(FileDetails, 'FileDetailss');
 
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
@@ -140,6 +147,13 @@ const AnnualPlanerBaseScreen = () => {
       dispatch(getEventList(body));
     }
   }, [assignedMonth_num]);
+  useEffect(() => {
+    dispatch(GetFile(GetFileDetailsBody));
+  }, []);
+  const GetFileDetailsBody: IGetFileDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId)
+  };
 
   const body: IEventList = {
     asMonth: assignedMonth_num,
@@ -256,13 +270,14 @@ const AnnualPlanerBaseScreen = () => {
   //    selectedDate:getMonthFormatted(new Date())
   //   });
   // }
-  const clickFileName = (value) => {
-    if (value !== '') {
+  const clickFileName = () => {
+    if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
           '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-          value
+          FileDetails[0].LinkUrl
       );
+      // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
   };
 
