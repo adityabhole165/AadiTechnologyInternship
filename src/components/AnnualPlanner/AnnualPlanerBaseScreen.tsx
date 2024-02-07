@@ -287,15 +287,15 @@ const AnnualPlanerBaseScreen = () => {
           </Box>
         </Grid>
 
-        {shouldDisplayDropdown ? (
-          <Grid item xs={2}>
-            <AddAnnualPlaner />
-          </Grid>
-        ) : (
+        {!shouldDisplayDropdown ? (
           <Grid item xs={2}>
             <Button variant="outlined" onClick={clickFileName}>
               Annual Planner
             </Button>
+          </Grid>
+        ) : (
+          <Grid item xs={2}>
+            <AddAnnualPlaner />
           </Grid>
         )}
 
