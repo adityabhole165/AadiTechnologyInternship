@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AppThunk } from 'src/store';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
-import { IGetAssociatedStdLstForTeacherDropDownBody, IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody,IGetAssociatedStandardsBodyP } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
+import { IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsBodyP, IGetAssociatedStdLstForTeacherDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
+import { AppThunk } from 'src/store';
 
 const AnnualPlanerBaseScreenSlice = createSlice({
   name: 'AnnualPlanerBaseScreen',
@@ -114,26 +114,41 @@ export const GetYearList =
       dispatch(AnnualPlanerBaseScreenSlice.actions.RSelectYearList(a))
     }
 
-export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
-  const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
-
-  let EventsDataList = response.data.map((item, i) => {
-    return {
-      Id: "",
-      IsActive: false,
-      Name: parseInt(item.Day),
-      Value: item.Event_Desc,
-      Text1: item.Event_Title,
-      Text2: item.Event_Desc,
-      ForeColur: item.Event_ForeColor,
-      BackgroundColor: item.Event_BackColor,
-      IsClickable:  parseInt(item.Day)
+    export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
+    
+      let EventsDataList = [];
+      let uniqueDays = {}; // To store unique days as keys and Event_Title as values
+    
+      response.data.forEach((item, i) => {
+        if (item.Day) {
+          if (!uniqueDays[item.Day]) {
+            uniqueDays[item.Day] = []; // Initialize an array if Day doesn't exist
+          }
+          uniqueDays[item.Day].push(item.Event_Title); // Store Event_Title for each Day
+        }
+      });
+    
+      Object.keys(uniqueDays).forEach(day => {
+        EventsDataList.push({
+          Id: "",
+          IsActive: false,
+          Name: parseInt(day),
+          Value: "", // You may modify this if there's a specific value you want to assign
+          Text1: uniqueDays[day].join(', '), // Join multiple Event_Titles for the same day
+          Text2: uniqueDays[day].join(', '), // Join multiple Event_Titles for the same day
+          ForeColur: "", // You may modify this if there's a specific value you want to assign
+          BackgroundColor: "", // You may modify this if there's a specific value you want to assign
+          IsClickable: parseInt(day)
+        });
+      });
+    
+      EventsDataList.sort((a, b) => a.Name - b.Name);
+    
+      dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
     };
-  });
-  EventsDataList.sort((a, b) => a.Name - b.Name);
-
-  dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
-};
+    
+    
 
 export const AssociatedStandardListP =
   (data: IGetAssociatedStandardsBodyP): AppThunk =>

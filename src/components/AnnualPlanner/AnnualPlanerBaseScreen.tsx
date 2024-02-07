@@ -271,7 +271,7 @@ const AnnualPlanerBaseScreen = () => {
   //   });
   // }
   const clickFileName = () => {
-    if (FileDetails !== '') {
+     if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
           '/RITeSchool/DOWNLOADS/Event%20Planner/' +
