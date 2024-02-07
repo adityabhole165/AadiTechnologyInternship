@@ -87,7 +87,7 @@ export interface ISelectedStandardAndDivisionCheckBoxResult {
 //6.SaveUpadateEvent
 export interface IUpdateEventBody {
 
-  asEventId: number,
+  // asEventId: number,
   asEventName: string,
   asEventDescription: string,
   asEventStartDate: string,
@@ -98,7 +98,10 @@ export interface IUpdateEventBody {
   asAcademicYearId: number,
   asInsertedById: string,
   asUpdatedById: string,
-  asStandardDivisions: string
+  asStandardDivisions: string,
+  asSaveFeature:string,
+  asFolderName:string,
+  asBase64String:string
 
 }
 

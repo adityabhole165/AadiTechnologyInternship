@@ -58,10 +58,10 @@ const EventsManagement = () => {
 
   const [FileName, setFileName] = useState('');
   const [FileError, setFileError] = useState('');
-  const [FileBase64, setFileBase64] = useState('');
   //const[Event_Id, SetEvent_Id] = useState('')
 
   const [StandardDivisionXML, setStandardDivisionXML] = useState([]);
+  const [base64URL, setbase64URL] = useState('');
 
   const [ErrorEventTitle, setErrorEventTitle] = useState('');
   const [EventEndDate, setEventEndDate] = useState('');
@@ -228,13 +228,12 @@ const EventsManagement = () => {
       setErrorEventEndDate('Event End date should not be blank.');
       isError = true;
     }
-    if (FileName == '' && FileBase64 == '') {
+    if (FileName == '' && base64URL == '') {
       setFileError('Please Choose a file');
       isError = true;
     } else {
     }
     const UpdateEventBody: IUpdateEventBody = {
-      asEventId: Number(Id),
       asEventName: EventTitle,
       asEventDescription: EventDescription,
       asEventStartDate: EventStartDate,
@@ -245,8 +244,12 @@ const EventsManagement = () => {
       asAcademicYearId: asAcademicYearId,
       asInsertedById: TeacherId.toString(),
       asUpdatedById: '754',
-      asStandardDivisions: getEventString()
+      asStandardDivisions: getEventString(),
+      asSaveFeature: 'Event Planner',
+      asFolderName: 'PPSN Website',
+      asBase64String: base64URL
     };
+
     dispatch(GetupdateEvent(UpdateEventBody));
   };
 
@@ -261,7 +264,7 @@ const EventsManagement = () => {
 
   const ChangeFile = (value) => {
     setFileName(value.Name);
-    setFileBase64(value.Value);
+    setbase64URL(value.Value);
   };
 
   const CancelEvent = () => {
