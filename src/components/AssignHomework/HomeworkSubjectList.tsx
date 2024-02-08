@@ -55,9 +55,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
   ];
 
-  // const Subjectlistsforteacher = useSelector(
-  //   (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  // );
+  //const Subjectlistsforteacher = useSelector(
+  //(state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  //);
   //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
@@ -90,9 +90,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     asAcademicyearId: asAcademicYearId
   };
   const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-    asSchoolId: 18,
-    asAcademicyearId: 54,
-    asHomeworkId: 18190
+    asSchoolId: asSchoolId,
+    asAcademicyearId: asAcademicYearId,
+    asHomeworkId: Number(Id)
   };
   useEffect(() => {
     dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
@@ -162,9 +162,19 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const handleTitle = (value) => {
     setTitle(value);
   };
+  // const clickSearch = (value) => {
+  //   dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
+  // };
   const clickSearch = (value) => {
+    setAssignedDate(value);
+    setTitle(value);
+
+    if (Subjectlistsforteacher && Subjectlistsforteacher.length == 0) {
+      toast.success('No Records Found');
+    }
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   };
+
   const clickView = (Id) => {
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
   };
@@ -182,6 +192,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
   const clickEdit = (Id) => {
+    setHomeworkS(Id);
     navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
   };
 
