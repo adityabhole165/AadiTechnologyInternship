@@ -86,7 +86,7 @@ function SubjectList1({
                   </Link>
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text4 === '1' ? <CheckIcon /> : <ClearIcon />}
+                  {item.Text4 === 'True' ? <CheckIcon /> : <ClearIcon />}
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text5}

@@ -7,7 +7,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetPublishUnpublishHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 
-const AddUnpublish1 = () => {
+const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Id } = useParams();
@@ -58,6 +58,10 @@ const AddUnpublish1 = () => {
   const ClickBack = () => {
     navigate('/extended-sidebar/Teacher/AddHomework');
   };
+  const ClickOk = () => {
+    if (Details != '')
+      clickPublishUnpublish(0)
+  }
 
   return (
     <div>
@@ -81,9 +85,9 @@ const AddUnpublish1 = () => {
               setDetails(e.target.value);
             }}
             variant="standard"
-            // error={ErrorDetails !== ''}
-            // helperText={ErrorDetails}
-            // label={''}
+          // error={ErrorDetails !== ''}
+          // helperText={ErrorDetails}
+          // label={''}
           />
         </Grid>
       </Grid>
@@ -91,7 +95,7 @@ const AddUnpublish1 = () => {
         <Box sx={{ textAlign: 'center' }} m={2}>
           <ButtonPrimary
             style={{ backgroundColor: '#ef5350' }}
-            onClick={ClickBack}
+            onClick={ClickCloseDialogbox}
           >
             CLOSE
           </ButtonPrimary>
@@ -101,7 +105,7 @@ const AddUnpublish1 = () => {
         <Box sx={{ textAlign: 'center' }} m={2}>
           <ButtonPrimary
             style={{ backgroundColor: 'green' }}
-            onClick={Unpublish}
+            onClick={() => { ClickOk() }}
           >
             OK
           </ButtonPrimary>

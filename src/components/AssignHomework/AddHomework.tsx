@@ -1,4 +1,4 @@
-import { Box, Card, Grid, TextField, Typography } from '@mui/material';
+import { Box, Card, Dialog, DialogContent, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -22,11 +22,13 @@ import {
   SubjectListforTeacher
 } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
+import AddUnpublish1 from './AddUnpublish1';
 
 const AddHomework = () => {
   const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, Id } =
     useParams();
 
+  const [Open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [HomeworkS, setHomeworkS] = useState('0');
@@ -66,6 +68,12 @@ const AddHomework = () => {
     { Id: 6, Header: 'Complete By Date' }
   ];
 
+  const ClickOpenDialogbox = () => {
+    setOpen(true);
+  };
+  const ClickCloseDialogbox = () => {
+    setOpen(false);
+  };
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const ValidFileTypes1 = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
 
@@ -111,12 +119,12 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-    {
-      asSchoolId: asSchoolId,
-      aTeacherId: Number(asTeacherId),
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: StandardDivisionId
-    };
+  {
+    asSchoolId: asSchoolId,
+    aTeacherId: Number(asTeacherId),
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId
+  };
   // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
   //     asSchoolId:asSchoolId.toString(),
   //    asAcademicYearId:asAcademicYearId.toString(),
@@ -126,6 +134,9 @@ const AddHomework = () => {
   //    "IsPublished":0,
   //    "IsSMSSent":1
   //   }
+  useEffect(() => {
+    setOpen(false)
+  }, [AllPublishUnPublishHomework])
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -226,25 +237,27 @@ const AddHomework = () => {
     return IsPublish;
   };
 
-  const clickPublishUnpublish = (Id) => {
-    alert(Id);
-    let IsPublish = getIsPublish(Id);
-    if (IsPublish) {
-      //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
-    } else {
-      const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-        {
-          asSchoolId: asSchoolId.toString(),
-          asAcademicYearId: asAcademicYearId.toString(),
-          asHomeWorkLogId: getSelectedSubject(),
-          asUnpublishReason: 'Yesss',
-          asUpdatedById: TeacherId,
-          IsPublished: Number(IsPublish),
-          IsSMSSent: 1
-        };
+  const clickPublishUnpublish = (IsPublish) => {
+    // alert(Id);
+    // let IsPublish = getIsPublish(Id);
+    // if (IsPublish) {
+    //   //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
+    // } else {
+    console.log(getSelectedSubject(), "--", IsPublish);
+    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
+    {
+      asSchoolId: asSchoolId.toString(),
+      asAcademicYearId: asAcademicYearId.toString(),
+      asHomeWorkLogId: getSelectedSubject(),
+      asUnpublishReason: 'Yesss',
+      asUpdatedById: TeacherId,
+      IsPublished: IsPublish,
+      IsSMSSent: 1
+    };
 
-      dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-    }
+    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+
+    // }
   };
 
   const Back = () => {
@@ -266,6 +279,7 @@ const AddHomework = () => {
     SubjectList.map((item) => {
       if (item.IsActive) selectedValue = selectedValue + ',' + item.Id;
     });
+    console.log(selectedValue, "selectedValue")
     return selectedValue;
   };
   // const getSelectedSubject = () => {
@@ -447,8 +461,8 @@ const AddHomework = () => {
                     setCompleteDate(e.target.value);
                   }}
                   variant="standard"
-                  // error={ErrorCompleteDate !== ''}
-                  // helperText={ErrorCompleteDate}
+                // error={ErrorCompleteDate !== ''}
+                // helperText={ErrorCompleteDate}
                 />
               </Box>
             </Grid>
@@ -514,17 +528,23 @@ const AddHomework = () => {
         clickchange={''}
         clickTitle={clickTitle1}
       />
+      <Dialog open={Open} onClose={ClickCloseDialogbox}>
+        <DialogContent>
+          <AddUnpublish1 ClickCloseDialogbox={ClickCloseDialogbox}
+            clickPublishUnpublish={clickPublishUnpublish} />
+        </DialogContent>
+      </Dialog>
 
       <Grid item xs={8}>
         <ButtonPrimary
-          onClick={clickPublishUnpublish}
+          onClick={() => clickPublishUnpublish(1)}
           variant="contained"
           style={{ marginRight: '8px', backgroundColor: 'green' }}
         >
           PUBLISHALL
         </ButtonPrimary>
         <ButtonPrimary
-          onClick={Back1}
+          onClick={ClickOpenDialogbox}
           variant="contained"
           style={{ marginRight: '8px', backgroundColor: 'green' }}
         >
