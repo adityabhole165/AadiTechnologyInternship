@@ -1,21 +1,37 @@
-import { Box, Container } from '@mui/material';
+import { Box, Card, Container, Grid, Typography } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
+
+import {
+  IEventList,
+  IGetAllMonthsDropDownBody,
+  IGetAllStandardsBody,
+  IGetAcadamicYearDropDownBody
+} from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import MonthSelector from 'src/libraries/buttons/MonthSelector';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
-import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
+import {
+  AcadamicYear,
+  AllStandards,
+  GetMonthList,
+  getEventList,
+} from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import UpcomingEvent from './UpcomingEvent';
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
+  const [AllStandard, setAllStandard] = useState('0');
+  const [AllMonth, setAllMonth] = useState('0');
+  const [AllAcadamicYear, setAllAcadamicYear] = useState('0');
+
   const BackMonth = new Date(
     Number(DateFromyear),
     Number(DateFrommon)
@@ -25,10 +41,20 @@ function EventOverview() {
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
   );
-
+  const USAllStandards = useSelector(
+    (state: RootState) => state.AnnualPlanner.IAllStandards
+  );
+  const SelectMonthList: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.ISSelectMonthList
+  );
+  const SelectAcadamicYear: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.ISAcadamicYearList
+  );
+  console.log(SelectAcadamicYear, 'Seeeeeee');
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
+  
 
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
@@ -104,6 +130,27 @@ function EventOverview() {
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
   };
+  useEffect(() => {
+    dispatch(AllStandards(GetAllStandardsBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetMonthList(GetAllMonth));
+  }, []);
+  useEffect(() => {
+    dispatch(AcadamicYear(GetAcadamicYear));
+  }, []);
+  const GetAllStandardsBody: IGetAllStandardsBody = {
+    asSchoolId: 18,
+    asAcademicYearId: 54
+  };
+  const GetAllMonth: IGetAllMonthsDropDownBody = {
+    asSchoolId: 18
+  };
+  const GetAcadamicYear: IGetAcadamicYearDropDownBody = {
+    asSchoolId: 18,
+    asUserId: 3584,
+    asUserRoleId: 2
+  };
 
   const body: IEventList = {
     asMonth: assignedMonth_num,
@@ -133,7 +180,15 @@ function EventOverview() {
   const clickAddAnnual = () => {
     navigate('/extended-sidebar/teacher/AddAnnualPlaner');
   };
-
+  const clickStandardDropdown = (value) => {
+    setAllStandard(value);
+  };
+  const clickMonthDropdown = (value) => {
+    setAllMonth(value);
+  };
+  const clickAcadamicDropdown = (value) => {
+    setAllAcadamicYear(value);
+  };
   return (
     <>
       {RoleId === '3' ? (
@@ -142,10 +197,11 @@ function EventOverview() {
         <>
           <Container>
             <PageHeader heading={'Annual Planner'} subheading={''} />
-            <button onClick={clickAddAnnual}>Add Annual Planner</button>
+            {/* <button onClick={clickAddAnnual}>Add Annual Planner</button> */}
             <Box sx={{ float: 'right' }}>
               <Icon1 Note={Note} />
             </Box>
+
             <MonthSelector
               date={date.selectedDate}
               PrevDate={getPreviousDate}
@@ -171,6 +227,55 @@ function EventOverview() {
           </Container>
         </>
       )}
+      <br></br>
+      <Grid container spacing={2}>
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: '#BEDAE3' }}>
+            <Typography component={Box} p={0.5}>
+              Standard :
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Dropdown
+            Array={USAllStandards}
+            handleChange={clickStandardDropdown}
+            defaultValue={AllStandard}
+          />
+        </Grid>
+
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: '#BEDAE3' }}>
+            <Typography component={Box} p={0.5}>
+              Month(s) :
+            </Typography>
+          </Card>
+        </Grid>
+
+        <Grid item xs={2}>
+          <Dropdown
+            Array={SelectMonthList}
+            handleChange={clickMonthDropdown}
+            defaultValue={AllMonth}
+          />
+        </Grid>
+
+        <Grid item xs={1}>
+          <Card sx={{ backgroundColor: '#BEDAE3' }}>
+            <Typography component={Box} p={0.5}>
+              AcadmicYear :
+            </Typography>
+          </Card>
+        </Grid>
+        <Grid item xs={2}>
+          <Dropdown
+            Array={SelectAcadamicYear}
+            handleChange={clickAcadamicDropdown}
+            defaultValue={AllAcadamicYear}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 }

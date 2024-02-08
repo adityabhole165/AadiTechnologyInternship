@@ -1,7 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
 import IGetEventsInMonth, {
   IEventList,
-  IGetFilePathBody
+  IGetAllMonthsDropDownBody,
+  IGetAllStandardsBody,
+  IGetFilePathBody,IGetAcadamicYearDropDownBody
 } from 'src/interfaces/Common/AnnualPlanner';
 import { AppThunk } from 'src/store';
 import AnnualPlannerApi from '../../api/AnnualPlanner/AnnualPlanner';
@@ -12,7 +14,13 @@ const AnnualPlannerSlice = createSlice({
     EventList: [],
     Event: [],
     Loading: true,
-    FilePath: ''
+    FilePath: '',
+  IAllStandards:[],
+  ISSelectMonthList: [],
+  ISAcadamicYearList: [],
+
+    
+
   },
   reducers: {
     getEventList(state, action) {
@@ -32,7 +40,16 @@ const AnnualPlannerSlice = createSlice({
     },
     resetFilepath(state) {
       state.FilePath = '';
-    }
+    },
+    RgetallStandards(state, action) {
+      state.IAllStandards = action.payload;
+    },
+    RSelectMonthList(state, action) {
+      state.ISSelectMonthList = action.payload;
+    },
+    RSelectYearList(state, action) {
+      state.ISAcadamicYearList = action.payload;
+    },
   }
 });
 
@@ -98,5 +115,46 @@ export const getFilePath =
 export const ResetFilePath = (): AppThunk => async (dispatch) => {
   dispatch(AnnualPlannerSlice.actions.resetFilepath());
 };
+export const AllStandards =
+  (data: IGetAllStandardsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AnnualPlannerApi.GetallStandards(data)
+      
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.original_standard_id,
+          Name: item.standard_name,
+          Value: item.original_standard_id
+        }
+      })
 
+      dispatch(AnnualPlannerSlice.actions.RgetallStandards(a))
+    }
+
+    export const GetMonthList =
+  (data: IGetAllMonthsDropDownBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AnnualPlannerApi.MonthsDropDown(data)
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.MonthID,
+          Name: item.Month,
+          Value: item.MonthID
+        }
+      })
+      dispatch(AnnualPlannerSlice.actions.RSelectMonthList(a))
+    }
+    export const AcadamicYear =
+    (data: IGetAcadamicYearDropDownBody): AppThunk =>
+      async (dispatch) => {
+        const response = await AnnualPlannerApi.AcadamicYearDropDown(data)
+        let a = response.data.map((item, i) => {
+          return {
+            Id: item.Academic_Year_ID,
+            Name: item.YearValue,
+            Value: item.School_Id
+          }
+        })
+        dispatch(AnnualPlannerSlice.actions.RSelectYearList(a))
+      }
 export default AnnualPlannerSlice.reducer;
