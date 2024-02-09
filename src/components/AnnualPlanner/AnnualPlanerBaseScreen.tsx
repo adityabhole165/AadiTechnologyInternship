@@ -261,6 +261,7 @@ const AnnualPlanerBaseScreen = () => {
     setSelectYear(Year.toString());
   };
   const ClickItemList = (Id) => {
+    alert(Id)
     navigate('/extended-sidebar/Teacher/EventManegement' + Id);
   };
 

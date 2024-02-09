@@ -42,7 +42,7 @@ import { RootState } from 'src/store';
 const EventsManagement = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { Id } = useParams();
+  const { Id,Event_Id } = useParams();
 
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;

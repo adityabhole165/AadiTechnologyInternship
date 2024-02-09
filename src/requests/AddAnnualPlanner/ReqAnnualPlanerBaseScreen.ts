@@ -1,7 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
 import { IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsBodyP, IGetAssociatedStdLstForTeacherDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
-import { Item } from 'src/libraries/styled/ButtonStyle';
 import { AppThunk } from 'src/store';
 
 const AnnualPlanerBaseScreenSlice = createSlice({
@@ -15,7 +14,7 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     ISSelectMonthList: [],
     ISSelectYearList: [],
     ISEventsDataList: [],
-    IGetAssociatedStandardsP:[],
+    IGetAssociatedStandardsP: [],
   },
   reducers: {
     addanual(state, action) {
@@ -115,41 +114,62 @@ export const GetYearList =
       dispatch(AnnualPlanerBaseScreenSlice.actions.RSelectYearList(a))
     }
 
-    export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
-      const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
-    
-      let EventsDataList = [];
-      let uniqueDays = {}; // To store unique days as keys and Event_Title as values
-    
-      response.data.forEach((item, i) => {
-        if (item.Day) {
-          if (!uniqueDays[item.Day]) {
-            uniqueDays[item.Day] = []; // Initialize an array if Day doesn't exist
-          }
-          uniqueDays[item.Day].push(item.Event_Title); // Store Event_Title for each Day
-        }
-      });
-    
-      Object.keys(uniqueDays).forEach(day => {
-        EventsDataList.push({
-          Id: uniqueDays[day].Event_Id,
-          IsActive: false,
-          Name: parseInt(day),
-          Value: "", 
-          Text1: uniqueDays[day].join(', '),
-          Text2: uniqueDays[day].join(', '), 
-          ForeColur: "", 
-          BackgroundColor: "", 
-          IsClickable: parseInt(day)
-        });
-      });
-    
-      EventsDataList.sort((a, b) => a.Name - b.Name);
-    
-      dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
-    };
-    
-    
+export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
+  const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
+
+  let CDAGetEventsDataList = [];
+  let uniqueDays = {}; // To store unique days as keys and Event_Title as values
+
+  response.data.forEach((item, i) => {
+
+
+    if (item.Day) {
+      if (!uniqueDays[item.Day]) {
+        uniqueDays[item.Day] = []; // Initialize an array if Day doesn't exist
+      }
+      uniqueDays[item.Day].push(item.Event_Title); // Store Event_Title for each Day
+    }
+  });
+
+  Object.keys(uniqueDays).forEach(day => {
+    CDAGetEventsDataList.push({
+      Id: uniqueDays[day].Event_Id,
+      IsActive: false,
+      Name: parseInt(day),
+      Value: "",
+      Text1: uniqueDays[day].join(', '),
+      Text2: uniqueDays[day].join(', '),
+      ForeColur: "",
+      BackgroundColor: "",
+      IsClickable: parseInt(day)
+    });
+  });
+
+  CDAGetEventsDataList.sort((a, b) => a.Name - b.Name);
+
+  dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(CDAGetEventsDataList));
+};
+// export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
+//   const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
+
+//   let EventsDataList = response.data.map((item, i) => {
+//     return {
+//       Id: item.Event_Id,
+//       IsActive: false,
+//       Name: parseInt(item.Day),
+//       Value: item.Event_Desc,
+//       Text1: item.Event_Title,
+//       Text2: item.Event_Desc,
+//       ForeColur: item.Event_ForeColor,
+//       BackgroundColor: item.Event_BackColor,
+//       IsClickable: parseInt(item.Day)
+//     };
+//   });
+//   EventsDataList.sort((a, b) => a.Name - b.Name);
+
+//   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
+// };
+
 
 export const AssociatedStandardListP =
   (data: IGetAssociatedStandardsBodyP): AppThunk =>
