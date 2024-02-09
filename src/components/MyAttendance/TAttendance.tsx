@@ -388,7 +388,6 @@ const TAttendance = () => {
             closeAlert();
           },
           onConfirm: () => {
-            dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
             SaveAttendance();
             closeAlert();
           }
