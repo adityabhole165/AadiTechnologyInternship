@@ -116,3 +116,20 @@ export interface   IGetAllStandardsBody
       Is_Deleted: string,
       School_Name: string
     }
+    export interface  IGetAllEventsBody
+    {
+      
+      asSchoolId:number,
+      asUserId:number,
+      asUserRoleId:number
+    }
+    export interface  IGetAllEventsResult
+    {
+      
+      EventId: string,
+        EventDescription: string,
+        StartDate: string,
+        EndDate: string,
+        Standards: string,
+        Display_On_Homepage: string
+    }

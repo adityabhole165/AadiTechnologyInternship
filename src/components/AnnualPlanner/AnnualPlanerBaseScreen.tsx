@@ -260,8 +260,8 @@ const AnnualPlanerBaseScreen = () => {
     setSelectMonth(Month_num.toString());
     setSelectYear(Year.toString());
   };
-  const ClickItemList = (value) => {
-    navigate('/extended-sidebar/Teacher/EventManegement');
+  const ClickItemList = (Id) => {
+    navigate('/extended-sidebar/Teacher/EventManegement' + Id);
   };
 
   // const ClickGetMonth = (value) => {
@@ -271,7 +271,7 @@ const AnnualPlanerBaseScreen = () => {
   //   });
   // }
   const clickFileName = () => {
-     if (FileDetails !== '') {
+    if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
           '/RITeSchool/DOWNLOADS/Event%20Planner/' +

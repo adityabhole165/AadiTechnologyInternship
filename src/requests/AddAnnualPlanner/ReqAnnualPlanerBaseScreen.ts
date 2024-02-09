@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
 import { IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsBodyP, IGetAssociatedStdLstForTeacherDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
+import { Item } from 'src/libraries/styled/ButtonStyle';
 import { AppThunk } from 'src/store';
 
 const AnnualPlanerBaseScreenSlice = createSlice({
@@ -131,14 +132,14 @@ export const GetYearList =
     
       Object.keys(uniqueDays).forEach(day => {
         EventsDataList.push({
-          Id: "",
+          Id: uniqueDays[day].Event_Id,
           IsActive: false,
           Name: parseInt(day),
-          Value: "", // You may modify this if there's a specific value you want to assign
-          Text1: uniqueDays[day].join(', '), // Join multiple Event_Titles for the same day
-          Text2: uniqueDays[day].join(', '), // Join multiple Event_Titles for the same day
-          ForeColur: "", // You may modify this if there's a specific value you want to assign
-          BackgroundColor: "", // You may modify this if there's a specific value you want to assign
+          Value: "", 
+          Text1: uniqueDays[day].join(', '),
+          Text2: uniqueDays[day].join(', '), 
+          ForeColur: "", 
+          BackgroundColor: "", 
           IsClickable: parseInt(day)
         });
       });

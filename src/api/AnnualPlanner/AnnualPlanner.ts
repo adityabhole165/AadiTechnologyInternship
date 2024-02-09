@@ -2,7 +2,8 @@ import IGetEventsInMonth, {
   GetEventsInMonthResult,
   IEventList,
   IGetEventsMonthResult,
-  IGetFilePathBody,IGetAllStandardsBody,IGetAllStandardsResult,IGetAllMonthsDropDownBody,IGetAllMonthsDropDownResult,IGetAcadamicYearDropDownBody,IGetAcadamicYearDropDownResult
+  IGetFilePathBody,IGetAllStandardsBody,IGetAllStandardsResult,IGetAllMonthsDropDownBody,IGetAllMonthsDropDownResult,IGetAcadamicYearDropDownBody,
+  IGetAcadamicYearDropDownResult,IGetAllEventsBody,IGetAllEventsResult
 } from '../../interfaces/Common/AnnualPlanner';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -25,13 +26,17 @@ const GetallStandards = (data: IGetAllStandardsBody) => {
 const  AcadamicYearDropDown = (data: IGetAcadamicYearDropDownBody) => {
   return http.post<IGetAcadamicYearDropDownResult[]>('Teacher/GetAllAcademicYearsForSchool',data);
 };
+const  AllYearEventList = (data: IGetAllEventsBody) => {
+  return http.post<IGetAllEventsResult[]>('Teacher/GetAllEvents',data);
+};
 const AnnualPlannerApi = {
   GetEventOverviewList,
   GetEventsMonth,
   GetFilePath,
   GetallStandards,
   MonthsDropDown,
-  AcadamicYearDropDown
+  AcadamicYearDropDown,
+  AllYearEventList
 };
 
 export default AnnualPlannerApi;
