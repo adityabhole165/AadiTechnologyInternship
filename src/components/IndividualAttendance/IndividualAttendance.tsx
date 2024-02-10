@@ -151,6 +151,10 @@ const IndividualAttendance = () => {
     setIsClicked(isClicked);
     setIsPresentAbsent(value);
   };
+  useEffect(() => {
+    if (ItemList.length >= 0)
+      setAttendanceXML(getAttendanceString());
+  }, [ItemList])
   const click = () => {
     navigate('/extended-sidebar/Teacher/TAttendance');
   };
@@ -182,9 +186,6 @@ const IndividualAttendance = () => {
   const [AttendanceXML, setAttendanceXML] = useState('');
   const ClickItem = (value) => {
     setItemList(value);
-    setAttendanceXML(
-      '<Attendance>' + getAttendanceString(value) + '</Attendance>'
-    );
   };
   const ref = useRef<any>(null);
   const [isOpenSave, setOpenSave] = useState<boolean>(false);
@@ -242,10 +243,10 @@ const IndividualAttendance = () => {
     return;
   };
 
-  const getAttendanceString = (AttendanceList) => {
+  const getAttendanceString = () => {
     var XMLString = '';
     let isClicked = false;
-    AttendanceList.map((item) => {
+    ItemList.map((item) => {
       if (item.Status != undefined && item.Status != item.Text3)
         isClicked = true;
       if (item.IsClickable)
@@ -257,8 +258,9 @@ const IndividualAttendance = () => {
           (item.Status != undefined ? item.Status : item.Text3) +
           '" />';
     });
+
     setIsClicked(isClicked);
-    return XMLString;
+    return '<Attendance>' + XMLString + '</Attendance>'
   };
 
   useEffect(() => {
