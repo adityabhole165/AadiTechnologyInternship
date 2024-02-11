@@ -12,7 +12,8 @@ import GetClassAttendance, {
   IGetStudentDetails,
   IGetSummaryCountforAttendanceBody,
   IGetSummaryCountforAttendanceResult,
-  ISaveAttendance
+  ISaveAttendance,
+  ISaveStudentAttendenceBody
 } from 'src/interfaces/Teacher/TAttendanceList';
 
 import http from '../../requests/SchoolService/schoolServices';
@@ -41,6 +42,12 @@ const GetStudentDetails = (data: IGetStudentDetails) => {
 const SaveStudentAttendanceDetails = (data: ISaveAttendance) => {
   return http.post<ISaveAttendance>(
     'Teacher/SaveStudentAttendanceDetails',
+    data
+  );
+};
+const SaveStudentAttendence = (data: ISaveStudentAttendenceBody) => {
+  return http.post<string>(
+    'Teacher/SaveStudentAttendence',
     data
   );
 };
@@ -77,6 +84,7 @@ const GetTAttendanceListApi = {
   GetAttendanceData,
   GetStudentDetails,
   SaveStudentAttendanceDetails,
+  SaveStudentAttendence,
   GetAttendanceStatus,
   GetSummaryCountforAttendance,
   DeleteAttendance,

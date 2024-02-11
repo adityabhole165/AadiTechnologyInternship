@@ -26,7 +26,7 @@ function List26({
     });
     setTextarray(arr.join(','));
     setGetLabel('Comma separated Roll Number');
-    getAbsetNumber(arr.join(','));
+    getAbsetNumber(arr.join(','), data);
     setData(data);
   };
 

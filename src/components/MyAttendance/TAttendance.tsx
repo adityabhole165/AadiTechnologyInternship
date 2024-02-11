@@ -27,7 +27,8 @@ import {
   IGetAttendanceStatus,
   IGetClassTeachersBodynew,
   IGetSummaryCountforAttendanceBody,
-  ISaveAttendance
+  ISaveAttendance,
+  ISaveStudentAttendenceBody
 } from 'src/interfaces/Teacher/TAttendanceList';
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 import DateSelector from 'src/libraries/buttons/DateSelector';
@@ -40,6 +41,7 @@ import {
   CDASummaryCountforAttendanceBody,
   CDAresetDeleteAttendance,
   GetSaveAttendanceStatus,
+  GetSaveStudentAttendence,
   GetStudentList,
   getStandard,
   setSaveResponse
@@ -78,7 +80,7 @@ const TAttendance = () => {
   const { AssignedDate, StandardId } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  let asTeacherId = '0';
+  let [asTeacherId, setasTeacherId] = useState('0');
   let IsClassTeacher = sessionStorage.getItem('IsClassTeacher');
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const TeacherId = sessionStorage.getItem('TeacherId');
@@ -105,6 +107,7 @@ const TAttendance = () => {
   // Date selector Start
   const [asAbsentRollNos, setAbsentRollNos] = useState('');
   const [asAllPresentOrAllAbsent, setAllPresentOrAllAbsent] = useState('');
+  const [ItemList, setItemList] = useState([]);
 
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
@@ -178,15 +181,6 @@ const TAttendance = () => {
     asSchoolId: asSchoolId
   };
 
-  const GetSaveStudentAttendance: ISaveAttendance = {
-    asStandardDivisionId: Standardid,
-    asDate: assignedDate,
-    asAcademicYearId: asAcademicYearId,
-    asSchoolId: asSchoolId,
-    asAbsentRollNos: asAbsentRollNos,
-    asAllPresentOrAllAbsent: asAllPresentOrAllAbsent,
-    asUserId: asTeacherId
-  };
   const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -231,7 +225,7 @@ const TAttendance = () => {
       if (item.ScreenName === 'Attendance') IsFullAccess = item.IsFullAccess;
     });
     if (IsClassTeacher == 'Y' && className.length > 1 && IsFullAccess != 'Y')
-      asTeacherId = teacherId != null && teacherId != '' ? teacherId : '0';
+      setasTeacherId((teacherId != null && teacherId != '') ? teacherId : '0');
     const body: ITAttendance = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
@@ -296,7 +290,7 @@ const TAttendance = () => {
     }
   };
 
-  const getAbsetNumber = (value) => {
+  const getAbsetNumber = (value, ItemList) => {
     if (value === '') {
       setAllPresentOrAllAbsent('P');
     } else if (value.split(',').length === RollNoList.length) {
@@ -305,9 +299,10 @@ const TAttendance = () => {
       setAllPresentOrAllAbsent('');
     }
     setAbsentRollNos(value);
+    setItemList(ItemList)
   };
 
-  const SaveAttendance = () => {
+  const SaveAttendance_old = () => {
     const GetSaveStudentAttendance: ISaveAttendance = {
       asStandardDivisionId: Standardid,
       asDate: assignedDate,
@@ -318,6 +313,30 @@ const TAttendance = () => {
       asUserId: asTeacherId
     };
     dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
+  };
+  const getXML = () => {
+    let returnXML = ""
+    ItemList.map((Item) => {
+      returnXML = returnXML + "<SchoolWiseAttendance school_id=\"" +
+        asSchoolId + "\" attendance_date=\"" +
+        assignedDate + "\" Student_Id=\"" +
+        Item.StudentId + "\" is_present=\"" +
+        (Item.isActive ? "Y" : "N") + "\" is_halfdaypresent=\"N\" Standard_Division_Id=\"" +
+        Standardid + "\" Academic_Year_Id=\"" +
+        asAcademicYearId + "\" />"
+    })
+    return '<Attendance>' + returnXML + '</Attendance>'
+  }
+  const SaveAttendance = () => {
+    const GetSaveStudentAttendance: ISaveStudentAttendenceBody = {
+      asSchoolId: Number(asSchoolId),
+      asInsertedById: Number(asTeacherId),
+      asStudentsAttendanceXML: getXML(),
+      asAttendanceDate: assignedDate,
+      asStandardDivisionId: Number(Standardid),
+      asSendMessage: sendmeassagestudent
+    };
+    dispatch(GetSaveStudentAttendence(GetSaveStudentAttendance));
   };
 
   useEffect(() => {
