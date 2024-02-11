@@ -168,7 +168,7 @@ const TAttendance = () => {
 
   const [SaveIsActive, setSaveIsActive] = useState(true)
   const GetStudentDetails: IStudentsDetails = {
-    asStdDivId: selectClasstecahernew,
+    asStdDivId: Standardid,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
@@ -241,7 +241,6 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    popupateDate();
     if (assignedDate != undefined) {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
@@ -272,15 +271,6 @@ const TAttendance = () => {
     setAssignedDate(getDateFormatted(newDate));
   };
 
-  const popupateDate = () => {
-    if (Standardid !== undefined) {
-      dispatch(GetStudentList(GetStudentDetails));
-      let arr = [];
-      RollNoList.map((obj) => {
-        if (!obj.isActive) arr.push(obj.text1);
-      });
-    }
-  };
   const handleChange = (value) => {
     if (value != 'Select Class') {
       setStandardid(value);
