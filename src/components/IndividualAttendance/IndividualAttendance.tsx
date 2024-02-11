@@ -32,9 +32,9 @@ import {
   ISaveStudentAttendanceBody
 } from 'src/interfaces/IndividualAttendance/IIndividualAttendance';
 import CardCalenderList from 'src/libraries/ResuableComponents/CardCalenderList';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import WebBackButton from 'src/libraries/button/WebBackButton';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import Dropdown from 'src/libraries/list/DropDown';
 import {
   SaveStudentAttendance,
   getcalendar,
@@ -302,12 +302,10 @@ const IndividualAttendance = () => {
           >
             {search ? (
               <>
-                <Dropdown
-                  width="250px"
-                  itemList={StudentList}
-                  ClickItem={clickStudent}
-                  DefaultValue={StudentId}
-                  Label={'SelectStudent'}
+                <SearchableDropdown
+                  ItemList={StudentList}
+                  onChange={clickStudent}
+                  defaultValue={StudentId}
                 />
                 <IconButton type="button" aria-label="search">
                   <CloseTwoToneIcon />
