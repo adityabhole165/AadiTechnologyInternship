@@ -114,41 +114,41 @@ export const GetYearList =
       dispatch(AnnualPlanerBaseScreenSlice.actions.RSelectYearList(a))
     }
 
-// export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
-//   const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
+export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
+  const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
 
-//   let CDAGetEventsDataList = [];
-//   let uniqueDays = {}; // To store unique days as keys and Event_Title as values
+  let CDAGetEventsDataList = [];
+  let uniqueDays = {}; // To store unique days as keys and Event_Title as values
 
-//   response.data.forEach((item, i) => {
+  response.data.forEach((item, i) => {
 
 
-//     if (item.Day) {
-//       if (!uniqueDays[item.Day]) {
-//         uniqueDays[item.Day] = []; // Initialize an array if Day doesn't exist
-//       }
-//       uniqueDays[item.Day].push(item.Event_Title); // Store Event_Title for each Day
-//     }
-//   });
+    if (item.Day) {
+      if (!uniqueDays[item.Day]) {
+        uniqueDays[item.Day] = []; // Initialize an array if Day doesn't exist
+      }
+      uniqueDays[item.Day].push(item.Event_Title); // Store Event_Title for each Day
+    }
+  });
 
-//   Object.keys(uniqueDays).forEach(day => {
-//     CDAGetEventsDataList.push({
-//       Id: uniqueDays[day].Event_Id,
-//       IsActive: false,
-//       Name: parseInt(day),
-//       Value: "",
-//       Text1: uniqueDays[day].join(', '),
-//       Text2: uniqueDays[day].join(', '),
-//       ForeColur: "",
-//       BackgroundColor: "",
-//       IsClickable: parseInt(day)
-//     });
-//   });
+  Object.keys(uniqueDays).forEach(day => {
+    CDAGetEventsDataList.push({
+      Id: uniqueDays[day].Event_Id,
+      IsActive: false,
+      Name: parseInt(day),
+      Value: "",
+      Text1: uniqueDays[day].join(', '),
+      Text2: uniqueDays[day].join(', '),
+      ForeColur: "",
+      BackgroundColor: "",
+      IsClickable: parseInt(day)
+    });
+  });
 
-//   CDAGetEventsDataList.sort((a, b) => a.Name - b.Name);
+  CDAGetEventsDataList.sort((a, b) => a.Name - b.Name);
 
-//   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(CDAGetEventsDataList));
-// };
+  dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(CDAGetEventsDataList));
+};
 // export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
 //   const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
 
@@ -171,62 +171,6 @@ export const GetYearList =
 //   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
 // };
 
-export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
-  const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
-
-  // Create an object to store events grouped by day
-  let eventsByDay = {};
-
-  response.data.forEach((item, i) => {
-    const { Day, Event_Id, Event_Title, Event_Desc, Event_ForeColor, Event_BackColor } = item;
-
-    // If the day doesn't exist in the object, initialize it with an empty array
-    if (!eventsByDay[Day]) {
-      eventsByDay[Day] = [];
-    }
-
-    // Push the event to the array corresponding to its day
-    eventsByDay[Day].push({
-      Id: Event_Id,
-      IsActive: false,
-      Name: parseInt(Day),
-      Value: Event_Id,
-      Text1: Event_Title,
-      Text2: Event_Desc,
-      ForeColor: Event_ForeColor,
-      BackgroundColor: Event_BackColor,
-      IsClickable: parseInt(Day)
-    });
-  });
-
-  // Transform the object into an array of events, maintaining the order of days
-  let EventsDataList = Object.keys(eventsByDay).map(day => {
-    // Merge events for the day into a single object
-    const mergedEvent = eventsByDay[day].reduce((acc, cur) => {
-      acc.Id += `, ${cur.Id}`;
-      acc.Text1 += `, ${cur.Text1}`;
-      acc.Text2 += `, ${cur.Text2}`;
-      return acc;
-    });
-
-    // Convert mergedEvent back to an object
-    return {
-      Id: mergedEvent.Id,
-      IsActive: false,
-      Name: parseInt(day),
-      Value: mergedEvent.Id,
-      Text1: mergedEvent.Text1,
-      Text2: mergedEvent.Text2,
-      ForeColor: mergedEvent.ForeColor,
-      BackgroundColor: mergedEvent.BackgroundColor,
-      IsClickable: parseInt(day)
-    };
-  });
-
-  EventsDataList.sort((a, b) => a.Name - b.Name);
-
-  dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
-};
 
 
 export const AssociatedStandardListP =
