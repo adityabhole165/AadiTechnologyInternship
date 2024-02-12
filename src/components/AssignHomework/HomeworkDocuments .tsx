@@ -72,7 +72,15 @@ const HomeworkDocuments = () => {
   const click = () => {
     navigate('/extended-sidebar/Teacher/AddHomework');
   };
-
+  const clickFileName = (value) => {
+    if (value !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') +
+          '/RITeSchool/DOWNLOADS/Homework/' +
+          value
+      );
+    }
+  };
   return (
     <div>
       <br></br>
@@ -88,6 +96,7 @@ const HomeworkDocuments = () => {
             ItemList={AllHomeworkDocuments}
             ClickItem={ClickDelete}
             IconList={IconList}
+            clickView={clickFileName}
           />
         )}
       </Grid>

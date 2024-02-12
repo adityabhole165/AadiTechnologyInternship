@@ -1,4 +1,4 @@
-import { Box, Card, Dialog, DialogContent, Grid, TextField, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -22,13 +22,11 @@ import {
   SubjectListforTeacher
 } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
-import AddUnpublish1 from './AddUnpublish1';
 
 const AddHomework = () => {
   const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, Id } =
     useParams();
 
-  const [Open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [HomeworkS, setHomeworkS] = useState('0');
@@ -68,12 +66,6 @@ const AddHomework = () => {
     { Id: 6, Header: 'Complete By Date' }
   ];
 
-  const ClickOpenDialogbox = () => {
-    setOpen(true);
-  };
-  const ClickCloseDialogbox = () => {
-    setOpen(false);
-  };
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const ValidFileTypes1 = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
 
@@ -119,12 +111,12 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-  {
-    asSchoolId: asSchoolId,
-    aTeacherId: Number(asTeacherId),
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
-  };
+    {
+      asSchoolId: asSchoolId,
+      aTeacherId: Number(asTeacherId),
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivisionId: StandardDivisionId
+    };
   // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody = {
   //     asSchoolId:asSchoolId.toString(),
   //    asAcademicYearId:asAcademicYearId.toString(),
@@ -134,9 +126,6 @@ const AddHomework = () => {
   //    "IsPublished":0,
   //    "IsSMSSent":1
   //   }
-  useEffect(() => {
-    setOpen(false)
-  }, [AllPublishUnPublishHomework])
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -237,27 +226,25 @@ const AddHomework = () => {
     return IsPublish;
   };
 
-  const clickPublishUnpublish = (IsPublish) => {
-    // alert(Id);
-    // let IsPublish = getIsPublish(Id);
-    // if (IsPublish) {
-    //   //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
-    // } else {
-    console.log(getSelectedSubject(), "--", IsPublish);
-    const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-    {
-      asSchoolId: asSchoolId.toString(),
-      asAcademicYearId: asAcademicYearId.toString(),
-      asHomeWorkLogId: getSelectedSubject(),
-      asUnpublishReason: 'Yesss',
-      asUpdatedById: TeacherId,
-      IsPublished: IsPublish,
-      IsSMSSent: 1
-    };
+  const clickPublishUnpublish = (Id) => {
+    alert(Id);
+    let IsPublish = getIsPublish(Id);
+    if (IsPublish) {
+      //   navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id)
+    } else {
+      const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
+        {
+          asSchoolId: asSchoolId.toString(),
+          asAcademicYearId: asAcademicYearId.toString(),
+          asHomeWorkLogId: getSelectedSubject(),
+          asUnpublishReason: 'Yesss',
+          asUpdatedById: TeacherId,
+          IsPublished: Number(IsPublish),
+          IsSMSSent: 1
+        };
 
-    dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-
-    // }
+      dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+    }
   };
 
   const Back = () => {
@@ -279,8 +266,20 @@ const AddHomework = () => {
     SubjectList.map((item) => {
       if (item.IsActive) selectedValue = selectedValue + ',' + item.Id;
     });
-    console.log(selectedValue, "selectedValue")
+    console.log(selectedValue, 'selectedValue');
     return selectedValue;
+  };
+  const ResetForm = () => {
+    setSubjectId('');
+    setTitle('');
+    setAssignedDate('');
+    setCompleteDate('');
+    setFile('');
+    setFile1('');
+    setDetails('');
+  };
+  const onClickCancel = () => {
+    ResetForm();
   };
   // const getSelectedSubject = () => {
   //   let selectedValue = SubjectList.filter((item) => item.IsActive)
@@ -312,203 +311,232 @@ const AddHomework = () => {
       <br></br>
       <br></br>
       <PageHeader heading={'Add Homework'} subheading={''} />
-      <Card>
-        <Grid container>
-          <Grid container spacing={2} mt={0.5}>
-            <Grid item xs={3}>
-              <Typography fontSize={'10px'}>Class :</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              {/* <Box sx={{ display: "flex", alignItems: "center", padding: "15px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
+      <Grid container>
+        <Grid container spacing={2} mt={0.5}>
+          <Grid item xs={3}>
+            <Typography fontSize={'10px'}>Class :</Typography>
+          </Grid>
+          <Grid item xs={3}>
+            {/* <Box sx={{ display: "flex", alignItems: "center", padding: "15px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
                             <Typography fontSize={'10px'} > </Typography>
                         </Box> */}
-              <TextField value={ClassName} />
-            </Grid>
-            <Grid item xs={3}>
-              <Typography fontSize={'20px'}>Class Teacher:</Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField value={TeacherName} />
-            </Grid>
+            <TextField value={ClassName} />
           </Grid>
-          <Grid container spacing={2} mt={0.5}>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '8px',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                  border: '1px solid black'
-                }}
-              >
-                <Typography fontSize={'10px'}>Subject :</Typography>
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  textAlign: 'center',
-                  width: '300px',
-                  border: '1px solid #000',
-                  padding: '8px',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                <DropDown
-                  width={'100%'}
-                  itemList={ClassSubject}
-                  ClickItem={clickSubjectList}
-                  DefaultValue={SubjectId}
-                  Label={'Select Subject'}
-                />
-                <br></br>
-              </Box>
-            </Grid>
+          <Grid item xs={3}>
+            <Typography fontSize={'20px'}>Class Teacher:</Typography>
           </Grid>
-          <Grid container spacing={2} mt={0.5}>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  padding: '8px',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                  border: '1px solid black'
-                }}
-              >
-                <Typography fontSize={'10px'}>Title :</Typography>
-              </Box>
-            </Grid>
+          <Grid item xs={3}>
+            <TextField value={TeacherName} />
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={0.5}>
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
+                border: '1px solid black'
+              }}
+            >
+              <Typography fontSize={'10px'}>Subject :</Typography>
+            </Box>
+          </Grid>
 
-            <Grid item xs={6}>
-              <TextField
-                value={Title}
-                onChange={(e) => {
-                  setTitle(e.target.value);
-                }}
-                variant="standard"
-                error={ErrorTitle !== ''}
-                helperText={ErrorTitle}
-                label={''}
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                textAlign: 'center',
+                width: '300px',
+                border: '1px solid #000',
+                padding: '8px',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+              }}
+            >
+              <DropDown
+                width={'100%'}
+                itemList={ClassSubject}
+                ClickItem={clickSubjectList}
+                DefaultValue={SubjectId}
+                Label={'Select Subject'}
               />
-              {/* <TextField value={SubjectName} /> */}
-              {/* <TextField
+              <br></br>
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={0.5}>
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                padding: '8px',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
+                border: '1px solid black'
+              }}
+            >
+              <Typography fontSize={'10px'}>Title :</Typography>
+            </Box>
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              value={Title}
+              onChange={(e) => {
+                setTitle(e.target.value);
+              }}
+              variant="standard"
+              error={ErrorTitle !== ''}
+              helperText={ErrorTitle}
+              label={''}
+            />
+            {/* <TextField value={SubjectName} /> */}
+            {/* <TextField
                             value={Subject}
                             onChange={(e) => {
                                 setSubjectName(e.target.value);
                             }}
                         /> */}
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mb={0.1}>
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  border: '1px solid #000',
-                  paddingBottom: '10px',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                <Typography fontSize={'20px'}> Assigned Date :</Typography>
-                <TextField
-                  sx={{
-                    width: '50%',
-                    margin: '2px 0',
-                    border: '1px solid #000',
-                    boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                  }}
-                  inputProps={{ type: 'date' }}
-                  value={AssignedDate}
-                  onChange={(e) => {
-                    setAssignedDate(e.target.value);
-                    // console.log('StartDate :', e.target.value);
-                  }}
-                  variant="standard"
-                  error={ErrorAssignedDate !== ''}
-                  helperText={ErrorAssignedDate}
-                />
-              </Box>
-            </Grid>
-
-            <Grid item xs={6}>
-              <Box
-                sx={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  textAlign: 'center',
-                  border: '1px solid #000',
-                  paddingBottom: '10px',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                }}
-              >
-                <Typography fontSize={'20px'}> Completed Date :</Typography>
-                <TextField
-                  sx={{
-                    width: '50%',
-                    margin: '2px 0',
-                    border: '1px solid #000',
-                    boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                  }}
-                  inputProps={{ type: 'date' }}
-                  value={CompleteDate}
-                  onChange={(e) => {
-                    setCompleteDate(e.target.value);
-                  }}
-                  variant="standard"
-                // error={ErrorCompleteDate !== ''}
-                // helperText={ErrorCompleteDate}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={0.5}>
-            <Grid item xs={6}>
-              <Typography fontSize={'10px'}>Attechment :</Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <SingleFile
-                ValidFileTypes={ValidFileTypes}
-                MaxfileSize={MaxfileSize}
-                ChangeFile={ChangeFile}
-              />
-              <br></br>
-              <SingleFile
-                ValidFileTypes={ValidFileTypes1}
-                MaxfileSize={MaxfileSize1}
-                ChangeFile={ChangeFile1}
-              />
-              <br></br>
-            </Grid>
-          </Grid>
-          <Grid container spacing={2} mt={0.5}>
-            <Grid item xs={6}>
-              <Typography fontSize={'10px'}>Details :</Typography>
-            </Grid>
-
-            <Grid item xs={6}>
-              <TextField
-                sx={{ width: '60%', margin: '2px 0', border: '1px solid #000' }}
-                multiline
-                rows={2}
-                value={Details}
-                onChange={(e) => {
-                  setDetails(e.target.value);
-                }}
-                variant="standard"
-                error={ErrorDetails !== ''}
-                helperText={ErrorDetails}
-                label={''}
-              />
-            </Grid>
           </Grid>
         </Grid>
-      </Card>
+        <Grid container spacing={2} mb={0.1}>
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                border: '1px solid #000',
+                paddingBottom: '10px',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+              }}
+            >
+              <Typography fontSize={'20px'}> Assigned Date :</Typography>
+              <TextField
+                sx={{
+                  width: '50%',
+                  margin: '2px 0',
+                  border: '1px solid #000',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+                }}
+                inputProps={{ type: 'date' }}
+                value={AssignedDate}
+                onChange={(e) => {
+                  setAssignedDate(e.target.value);
+                  // console.log('StartDate :', e.target.value);
+                }}
+                variant="standard"
+                error={ErrorAssignedDate !== ''}
+                helperText={ErrorAssignedDate}
+              />
+            </Box>
+          </Grid>
+
+          <Grid item xs={6}>
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                textAlign: 'center',
+                border: '1px solid #000',
+                paddingBottom: '10px',
+                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+              }}
+            >
+              <Typography fontSize={'20px'}> Completed Date :</Typography>
+              <TextField
+                sx={{
+                  width: '50%',
+                  margin: '2px 0',
+                  border: '1px solid #000',
+                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+                }}
+                inputProps={{ type: 'date' }}
+                value={CompleteDate}
+                onChange={(e) => {
+                  setCompleteDate(e.target.value);
+                }}
+                variant="standard"
+                // error={ErrorCompleteDate !== ''}
+                // helperText={ErrorCompleteDate}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={0.5}>
+          <Grid item xs={6}>
+            <Typography fontSize={'10px'}>Attechment :</Typography>
+          </Grid>
+          <Grid item xs={6}>
+            <SingleFile
+              ValidFileTypes={ValidFileTypes}
+              MaxfileSize={MaxfileSize}
+              ChangeFile={ChangeFile}
+            />
+            <br></br>
+            <SingleFile
+              ValidFileTypes={ValidFileTypes1}
+              MaxfileSize={MaxfileSize1}
+              ChangeFile={ChangeFile1}
+            />
+            <br></br>
+          </Grid>
+        </Grid>
+        <Grid container spacing={2} mt={0.5}>
+          <Grid item xs={6}>
+            <Typography fontSize={'10px'}>Details :</Typography>
+          </Grid>
+
+          <Grid item xs={6}>
+            <TextField
+              sx={{ width: '60%', margin: '2px 0', border: '1px solid #000' }}
+              multiline
+              rows={2}
+              value={Details}
+              onChange={(e) => {
+                setDetails(e.target.value);
+              }}
+              variant="standard"
+              error={ErrorDetails !== ''}
+              helperText={ErrorDetails}
+              label={''}
+            />
+          </Grid>
+        </Grid>
+        <Grid item xs={4}>
+          <ButtonPrimary
+            onClick={SaveFile}
+            variant="contained"
+            style={{
+              marginRight: '8px',
+              backgroundColor: 'green',
+              textAlign: 'left'
+            }}
+          >
+            SAVE
+          </ButtonPrimary>
+        </Grid>
+        <Grid item xs={4}>
+          <ButtonPrimary
+            onClick={onClickCancel}
+            variant="contained"
+            style={{ marginRight: '8px', backgroundColor: 'red' }}
+          >
+            CANCEL
+          </ButtonPrimary>
+        </Grid>
+        <Grid item xs={4}>
+          <ButtonPrimary
+            onClick={Back}
+            variant="contained"
+            style={{ marginRight: '8px', backgroundColor: 'red' }}
+          >
+            BACK
+          </ButtonPrimary>
+        </Grid>
+      </Grid>
       <br></br>
       <br></br>
       <HomeworkSubjectList
@@ -528,23 +556,17 @@ const AddHomework = () => {
         clickchange={''}
         clickTitle={clickTitle1}
       />
-      <Dialog open={Open} onClose={ClickCloseDialogbox}>
-        <DialogContent>
-          <AddUnpublish1 ClickCloseDialogbox={ClickCloseDialogbox}
-            clickPublishUnpublish={clickPublishUnpublish} />
-        </DialogContent>
-      </Dialog>
 
       <Grid item xs={8}>
         <ButtonPrimary
-          onClick={() => clickPublishUnpublish(1)}
+          onClick={clickPublishUnpublish}
           variant="contained"
           style={{ marginRight: '8px', backgroundColor: 'green' }}
         >
           PUBLISHALL
         </ButtonPrimary>
         <ButtonPrimary
-          onClick={ClickOpenDialogbox}
+          onClick={Back1}
           variant="contained"
           style={{ marginRight: '8px', backgroundColor: 'green' }}
         >

@@ -1,4 +1,4 @@
-import { Checkbox, Grow } from '@mui/material';
+import { Checkbox, Grow, Link } from '@mui/material';
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -12,7 +12,8 @@ const DynamicList2 = ({
   IconList = undefined,
   ClickItem = undefined,
   ClickCheck = undefined,
-  IsSelect = 0
+  IsSelect = 0,
+  clickView
 }) => {
   const clickCheckbox = (value) => {
     let arr = [];
@@ -86,6 +87,14 @@ const DynamicList2 = ({
                       <img src={item.Text77} />
                     </TableCell>
                   )}
+                  <TableCell
+                    sx={{ textTransform: 'capitalize' }}
+                    align="center"
+                  >
+                    <Link href={''} onClick={() => clickView(item.Id)}>
+                      {item.Text76}
+                    </Link>
+                  </TableCell>
                   {item.Text1 != undefined && (
                     <TableCell align="center">{item.Text1}</TableCell>
                   )}

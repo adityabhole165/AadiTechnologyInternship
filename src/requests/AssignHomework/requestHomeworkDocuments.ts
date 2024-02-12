@@ -33,7 +33,7 @@ export const GetAllHomeworkDocuments =
         let StudentList = response.data.map((item) => {
           return {
             Id: item.Id,
-            Text1: item.AttachmentName
+            Text76: item.AttachmentName
             // Text5: item.ReadyToSubmitCount == 0 ? "" : "Unread-" + item.ReadyToSubmitCount.toString()
           };
         });

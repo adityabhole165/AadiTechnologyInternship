@@ -18,8 +18,7 @@ import {
   GetHomeworkDetailss,
   GetPublishUnpublishHomework,
   HomeworkDelete,
-  homeworklistforteacher,
-  resetMessage
+  homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
@@ -29,6 +28,10 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const [HomeworkS, setHomeworkS] = useState('0');
   const [AssignedDate, setAssignedDate] = useState('');
   const [Title, setTitle] = useState('');
+  const [HomeworkId, setHomeworkId] = useState('');
+  const [CompleteByDate, setCompleteDate] = useState('');
+  const [AttachmentPath, setAttechment] = useState('');
+  const [Details, setDetails] = useState('');
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -105,6 +108,18 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
+  useEffect(() => {
+    console.log(HomeworkDetail, 'GetStudentDetail');
+    if (HomeworkDetail !== '') {
+      setHomeworkId(HomeworkDetail.Id);
+      setAssignedDate(HomeworkDetail.AssignedDate);
+      setCompleteDate(HomeworkDetail.CompleteByDate);
+      setTitle(HomeworkDetail.Title);
+      setAttechment(HomeworkDetail.AttachmentPath);
+      setDetails(HomeworkDetail.Details);
+    }
+  }, [HomeworkDetail]);
+
   const [isPublish, setIsPublish] = useState(true);
 
   const getIsPublish = (Id) => {
@@ -137,10 +152,35 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   useEffect(() => {
     if (PublishUnpublishHomework != '') {
       toast.success(PublishUnpublishHomework);
-      dispatch(resetMessage());
+      //dispatch(resetMessage());
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
+
+  // const Changestaus = (Id) => {
+  //   const updatedIsPublish = !isPublish;
+
+  //   const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
+  //     asSchoolId: asSchoolId,
+  //     asAcademicYearId: asAcademicYearId,
+  //     asHomeworkId: Number(Id),
+  //     asReason: '',
+  //     asUpdatedById: asTeacherId,
+  //     asIsPublish: updatedIsPublish,
+  //     asIsSMSSent: true
+  //   };
+  //   dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+
+  //   setIsPublish(updatedIsPublish);
+  // };
+
+  // useEffect(() => {
+  //   if (PublishUnpublishHomework != '') {
+  //     toast.success(PublishUnpublishHomework);
+  //     //dispatch(resetMessage());
+  //     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
+  //   }
+  // }, [PublishUnpublishHomework]);
 
   const clickDelete = (Id) => {
     // alert(Id)
@@ -191,9 +231,18 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
-  const clickEdit = (Id) => {
-    setHomeworkS(Id);
-    navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
+  // const clickEdit = (Id) => {
+  //   setHomeworkS(Id);
+  //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
+  // };
+  const clickEdit1 = (value) => {
+    setHomeworkS(value);
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(Id)
+    };
+    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   };
 
   return (
@@ -278,7 +327,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
         clickDelete={clickDelete}
-        clickEdit={clickEdit}
+        clickEdit={clickEdit1}
         clickVisibilityIcon={clickView}
         clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish}
