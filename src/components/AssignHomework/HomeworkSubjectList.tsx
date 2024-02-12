@@ -21,7 +21,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
+const HomeworkSubjectList = ({  }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -58,9 +58,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
   ];
 
-  //const Subjectlistsforteacher = useSelector(
-  //(state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  //);
+  const Subjectlistsforteacher = useSelector(
+  (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  );
   //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
