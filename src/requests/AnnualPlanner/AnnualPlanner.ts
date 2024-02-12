@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import IGetEventsInMonth, {
   IEventList,
   IGetAcadamicYearDropDownBody,
+  IGetAllEventsBody,
   IGetAllMonthsDropDownBody,
   IGetAllStandardsBody,
   IGetFilePathBody
@@ -16,11 +17,12 @@ const AnnualPlannerSlice = createSlice({
     Event: [],
     Loading: true,
     FilePath: '',
-  IAllStandards:[],
-  ISSelectMonthList: [],
-  ISAcadamicYearList: [],
+    IAllStandards: [],
+    ISSelectMonthList: [],
+    ISAcadamicYearList: [],
+    IsAllYearEventList: [],
 
-    
+
 
   },
   reducers: {
@@ -51,68 +53,71 @@ const AnnualPlannerSlice = createSlice({
     RSelectYearList(state, action) {
       state.ISAcadamicYearList = action.payload;
     },
+    RAllYeareventList(state, action) {
+      state.IsAllYearEventList = action.payload;
+    },
   }
 });
 
 export const getEventList =
   (data: IEventList): AppThunk =>
-  async (dispatch) => {
-    dispatch(AnnualPlannerSlice.actions.getLoading(true));
-    const response = await AnnualPlannerApi.GetEventOverviewList(data);
-    let Data = [];
-    Data = response.data.GetEventsInMonthResult?.map((item, index) => {
-      return {
-        id: index,
-        header: item.Description,
-        text1: 'Standard : ' + item.StandardList,
-        text3: item.StartDate,
-        linkPath:
-          '/Common/viewevent/' +
-          item.Id +
-          '/' +
-          data.asMonth +
-          '/' +
-          data.asYear
-      };
-    });
-    dispatch(AnnualPlannerSlice.actions.getEventList(Data));
-  };
+    async (dispatch) => {
+      dispatch(AnnualPlannerSlice.actions.getLoading(true));
+      const response = await AnnualPlannerApi.GetEventOverviewList(data);
+      let Data = [];
+      Data = response.data.GetEventsInMonthResult?.map((item, index) => {
+        return {
+          id: index,
+          header: item.Description,
+          text1: 'Standard : ' + item.StandardList,
+          text3: item.StartDate,
+          linkPath:
+            '/Common/viewevent/' +
+            item.Id +
+            '/' +
+            data.asMonth +
+            '/' +
+            data.asYear
+        };
+      });
+      dispatch(AnnualPlannerSlice.actions.getEventList(Data));
+    };
 
 export const getEvents =
   (body: IGetEventsInMonth): AppThunk =>
-  async (dispatch) => {
-    dispatch(AnnualPlannerSlice.actions.getLoading(true));
+    async (dispatch) => {
+      dispatch(AnnualPlannerSlice.actions.getLoading(true));
 
-    const response = await AnnualPlannerApi.GetEventsMonth(body);
-    let UpcomingEventList = response.data.GetEventsInMonthResult.map(
-      (item, index) => {
-        return {
-          Id: item.Id,
-          header: item.Description,
-          text1: item.DisplayDate,
-          text2: '',
-          text3: item.EventComment,
-          backgroundColor:
-            item.TypeId === 1
-              ? 'green2'
-              : item.TypeId === 2
-              ? 'green1'
-              : 'pink2',
-          linkPath:
-            item.TypeId === 1 ? '/Common/viewevent/' + item.Id : undefined,
-          Textcolor: item.TypeId === 1 ? '#42a5f5' : item.TypeId === 2 ? '' : ''
-        };
-      }
-    );
+      const response = await AnnualPlannerApi.GetEventsMonth(body);
+      let UpcomingEventList = response.data.GetEventsInMonthResult.map(
+        (item, index) => {
+          return {
+            Id: item.Id,
+            header: item.Description,
+            text1: item.DisplayDate,
+            text2: '',
+            text3: item.EventComment,
+            backgroundColor:
+              item.TypeId === 1
+                ? 'green2'
+                : item.TypeId === 2
+                  ? 'green1'
+                  : 'pink2',
+            linkPath:
+              item.TypeId === 1 ? '/Common/viewevent/' + item.Id : undefined,
+            Textcolor: item.TypeId === 1 ? '#42a5f5' : item.TypeId === 2 ? '' : ''
+          };
+        }
+      );
 
-    dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
-  };
+      dispatch(AnnualPlannerSlice.actions.getEvents(UpcomingEventList));
+    };
 export const getFilePath =
   (data: IGetFilePathBody): AppThunk =>
-  async (dispatch) => {
-    const response = await AnnualPlannerApi.GetFilePath(data);
-    dispatch(AnnualPlannerSlice.actions.getFilepath(response.data));
-  };
+    async (dispatch) => {
+      const response = await AnnualPlannerApi.GetFilePath(data);
+      dispatch(AnnualPlannerSlice.actions.getFilepath(response.data));
+    };
 export const ResetFilePath = (): AppThunk => async (dispatch) => {
   dispatch(AnnualPlannerSlice.actions.resetFilepath());
 };
@@ -120,7 +125,7 @@ export const AllStandards =
   (data: IGetAllStandardsBody): AppThunk =>
     async (dispatch) => {
       const response = await AnnualPlannerApi.GetallStandards(data)
-      
+
       let abc = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
@@ -133,7 +138,7 @@ export const AllStandards =
       dispatch(AnnualPlannerSlice.actions.RgetallStandards(abc))
     }
 
-    export const GetMonthList =
+export const GetMonthList =
   (data: IGetAllMonthsDropDownBody): AppThunk =>
     async (dispatch) => {
       const response = await AnnualPlannerApi.MonthsDropDown(data)
@@ -147,21 +152,55 @@ export const AllStandards =
       })
       dispatch(AnnualPlannerSlice.actions.RSelectMonthList(abc))
     }
-    export const AcadamicYear =
-    (data: IGetAcadamicYearDropDownBody): AppThunk =>
-      async (dispatch) => {
-        const response = await AnnualPlannerApi.AcadamicYearDropDown(data)
-        
-          let abc = [{ Id: '0', Name: 'All', Value: '0' }];
-          response.data.map((item, i) => {
-            abc.push({
-            Id: item.Academic_Year_ID,
-            Name: item.YearValue,
-            Value: item.Academic_Year_ID
-          })
-        });
-        dispatch(AnnualPlannerSlice.actions.RSelectYearList(abc))
-      };
+export const AcadamicYear =
+  (data: IGetAcadamicYearDropDownBody): AppThunk =>
+    async (dispatch) => {
+      const response = await AnnualPlannerApi.AcadamicYearDropDown(data)
 
-  
+      let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+      response.data.map((item, i) => {
+        abc.push({
+          Id: item.Academic_Year_ID,
+          Name: item.YearValue,
+          Value: item.Academic_Year_ID
+        })
+      });
+      dispatch(AnnualPlannerSlice.actions.RSelectYearList(abc))
+    };
+
+export const allyeareventlist =
+  (data: IGetAllEventsBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(AnnualPlannerSlice.actions.getLoading(true));
+      const response = await AnnualPlannerApi.AllYearEventList(data);
+      console.log(response, "responsevvvv");
+
+      let Data = [];
+      Data = response.data.map((item, index) => {
+        return {
+          id: index,
+          header: item.EventDescription,
+          text1: 'Standard : ' + item.Standards,
+          text3: item.DisplayDate,
+          // linkPath:
+          //   '/Common/viewevent/' +
+          //   item.Id +
+          //   '/' +
+          //   data.asMonth +
+          //   '/' +
+          //   data.asYear
+        };
+      });
+      dispatch(AnnualPlannerSlice.actions.getEventList(Data));
+    };
+
+// export const allyeareventlist =
+//   (data: IGetAllEventsBody): AppThunk =>
+//     async (dispatch) => {
+//       const response = await AnnualPlannerApi.AllYearEventList(data);
+//       console.log(response, "response");
+
+//       dispatch(AnnualPlannerSlice.actions.RAllYeareventList(response.data));
+//     };
+
 export default AnnualPlannerSlice.reducer;

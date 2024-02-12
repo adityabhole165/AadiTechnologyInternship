@@ -6,9 +6,10 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   IEventList,
+  IGetAcadamicYearDropDownBody,
   IGetAllMonthsDropDownBody,
   IGetAllStandardsBody,
-  IGetAcadamicYearDropDownBody
+  IGetAllEventsBody
 } from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -22,6 +23,7 @@ import {
   AllStandards,
   GetMonthList,
   getEventList,
+  allyeareventlist
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import UpcomingEvent from './UpcomingEvent';
@@ -50,11 +52,13 @@ function EventOverview() {
   const SelectAcadamicYear: any = useSelector(
     (state: RootState) => state.AnnualPlanner.ISAcadamicYearList
   );
-  console.log(SelectAcadamicYear, 'Seeeeeee');
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
-  
+  const AllYearEventlist: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.IsAllYearEventList
+  );
+  // console.log(AllYearEventlist, 'Seeeeeee');
 
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
@@ -139,6 +143,17 @@ function EventOverview() {
   useEffect(() => {
     dispatch(AcadamicYear(GetAcadamicYear));
   }, []);
+  useEffect(() => {
+    dispatch(allyeareventlist(IGetAllYearEvents));
+  }, []);
+  const IGetAllYearEvents: IGetAllEventsBody = {
+    "asSchoolId":18,
+    "asAcademicYearId":54,
+    "asMonthId":null,
+    "asStandardId":null
+  
+  };
+  
   const GetAllStandardsBody: IGetAllStandardsBody = {
     asSchoolId: 18,
     asAcademicYearId: 54

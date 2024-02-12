@@ -120,16 +120,21 @@ export interface   IGetAllStandardsBody
     {
       
       asSchoolId:number,
-      asUserId:number,
-      asUserRoleId:number
+    asAcademicYearId:number,
+    asMonthId:null,
+    asStandardId:null
     }
     export interface  IGetAllEventsResult
     {
       
       EventId: string,
         EventDescription: string,
+        StartDateAndTime:string,
+        EndDateAndTime: string,
         StartDate: string,
         EndDate: string,
         Standards: string,
-        Display_On_Homepage: string
+        Display_On_Homepage: string,
+        DisplayDate: string
+
     }

@@ -120,7 +120,7 @@ const EventsManagement = () => {
   useEffect(() => {
     const EventListBody: IEventListBody = {
       asEventDate: '2008-06-19',
-      asSchoolId: asSchoolId,
+      asSchoolId: 18,
       asAcademicYearId: 39,
       asStandardId: 871,
       asDivisionId: 1199

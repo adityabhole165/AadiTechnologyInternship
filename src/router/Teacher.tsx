@@ -209,6 +209,10 @@ const teacherRoutes = [
     element: <AddDailyLog />
   },
   {
+    path: 'EventManegement/:Id',
+    element: <EventManegement />
+  },
+  {
     path: 'EventManegement',
     element: <EventManegement />
   },
