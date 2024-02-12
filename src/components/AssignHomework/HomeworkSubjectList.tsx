@@ -108,17 +108,17 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
-  useEffect(() => {
-    console.log(HomeworkDetail, 'GetStudentDetail');
-    if (HomeworkDetail !== '') {
-      setHomeworkId(HomeworkDetail.Id);
-      setAssignedDate(HomeworkDetail.AssignedDate);
-      setCompleteDate(HomeworkDetail.CompleteByDate);
-      setTitle(HomeworkDetail.Title);
-      setAttechment(HomeworkDetail.AttachmentPath);
-      setDetails(HomeworkDetail.Details);
-    }
-  }, [HomeworkDetail]);
+  // useEffect(() => {
+  //   console.log(HomeworkDetail, 'GetStudentDetail');
+  //   if (HomeworkDetail !== '') {
+  //     setHomeworkId(HomeworkDetail.Id);
+  //     setAssignedDate(HomeworkDetail.AssignedDate);
+  //     setCompleteDate(HomeworkDetail.CompleteByDate);
+  //     setTitle(HomeworkDetail.Title);
+  //     setAttechment(HomeworkDetail.AttachmentPath);
+  //     setDetails(HomeworkDetail.Details);
+  //   }
+  // }, [HomeworkDetail]);
 
   const [isPublish, setIsPublish] = useState(true);
 
