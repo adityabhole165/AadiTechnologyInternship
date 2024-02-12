@@ -21,7 +21,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({  }) => {
+const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -58,18 +58,12 @@ const HomeworkSubjectList = ({  }) => {
     { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
   ];
 
-  const Subjectlistsforteacher = useSelector(
-  (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  );
-  //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
   );
-  //console.log(PublishUnpublishHomework, "PublishUnpublishHomework.hgy...")
   const AllHomeworkDocuments = useSelector(
     (state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments
   );
-  //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
   const DeleteHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.DeleteHomework
   );
@@ -223,8 +217,8 @@ const HomeworkSubjectList = ({  }) => {
     if (value !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Homework/' +
-          value
+        '/RITeSchool/DOWNLOADS/Homework/' +
+        value
       );
     }
   };
@@ -288,8 +282,8 @@ const HomeworkSubjectList = ({  }) => {
               console.log('EventEndDate :', e.target.value);
             }}
             variant="standard"
-            // error={ErrorEventEndDate !== ''}
-            // helperText={ErrorEventEndDate}
+          // error={ErrorEventEndDate !== ''}
+          // helperText={ErrorEventEndDate}
           />
         </Grid>
       </Grid>
