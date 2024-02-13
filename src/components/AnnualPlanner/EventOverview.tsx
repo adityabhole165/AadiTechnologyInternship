@@ -200,7 +200,6 @@ function EventOverview() {
     navigate('/extended-sidebar/teacher/AddAnnualPlaner');
   };
   const clickStandardDropdown = (value) => {
-    alert(value)
     setAllStandard(value);
   };
   const clickMonthDropdown = (value) => {
@@ -217,7 +216,10 @@ function EventOverview() {
       ) : (
         <>
           <Container>
-            <PageHeader heading={'Annual Planner'} subheading={''} />
+            <br></br>
+            <br></br>
+            <br></br>
+            <PageHeader heading={'Events Overview'} subheading={''} />
             {/* <button onClick={clickAddAnnual}>Add Annual Planner</button> */}
             <Box sx={{ float: 'right' }}>
               <Icon1 Note={Note} />

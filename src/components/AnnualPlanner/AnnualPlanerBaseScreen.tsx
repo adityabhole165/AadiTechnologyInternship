@@ -62,7 +62,7 @@ const AnnualPlanerBaseScreen = () => {
   const FileDetails: any = useSelector(
     (state: RootState) => state.AddPlanner.getfile
   );
-  console.log(FileDetails, 'FileDetailss');
+  // console.log(FileDetails, 'FileDetailss');
 
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
@@ -99,7 +99,7 @@ const AnnualPlanerBaseScreen = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  console.log('ScreensAccessPermission', ScreensAccessPermission);
+  // console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission.map((item) => {
@@ -262,7 +262,8 @@ const AnnualPlanerBaseScreen = () => {
   };
   const ClickItemList = (Id) => {
     alert(Id)
-    navigate('/extended-sidebar/Teacher/EventManegement' + Id);
+    // navigate('/extended-sidebar/Teacher/EventManegement' + Id);
+     navigate('/extended-sidebar/Teacher/EventManegement' );
   };
 
   // const ClickGetMonth = (value) => {
