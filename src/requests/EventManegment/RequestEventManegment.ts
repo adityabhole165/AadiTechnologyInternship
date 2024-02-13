@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import GetEventDescriptionApi from 'src/api/EventManegment/ApiEventManegment';
-import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IDeleteEventBody, IEventDetailsBody, IEventListBody, ISelectedStandardAndDivisionCheckBoxBody, IUpdateEventBody } from "src/interfaces/EventManegment/IEventManegment";
 import { AppThunk } from "src/store";
+import { IEventDetailsBody, IAllClassesAndDivisionsBody, ISelectedStandardAndDivisionCheckBoxBody, IUpdateEventBody, IDeleteEventBody, DeleteEventImageBody, IEventListBody } from "src/interfaces/EventManegment/IEventManegment";
+import GetEventDescriptionApi from 'src/api/EventManegment/ApiEventManegment';
 
 
 const EventDescriptionSlice = createSlice({
@@ -67,16 +67,14 @@ export const GetEventtList =
       let a = response.data.map((item, i) => {
 
         return {
-          Id: item.Event_Id,
+
           Text1: item.Event_Name,
+          Id: item.Event_Id,
 
         }
       })
       dispatch(EventDescriptionSlice.actions.getEventListt(a))
-      
     }
-
-
 
 //2.getEventDetails
 export const GetEventdetail =
