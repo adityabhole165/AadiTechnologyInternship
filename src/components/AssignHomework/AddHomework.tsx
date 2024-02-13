@@ -1,4 +1,11 @@
-import { Box, Dialog, DialogContent, Grid, TextField, Typography } from '@mui/material';
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  Grid,
+  TextField,
+  Typography
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -116,16 +123,16 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-  {
-    asSchoolId: asSchoolId,
-    aTeacherId: Number(asTeacherId),
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
-  };
+    {
+      asSchoolId: asSchoolId,
+      aTeacherId: Number(asTeacherId),
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivisionId: StandardDivisionId
+    };
 
   useEffect(() => {
-    setOpen(false)
-  }, [AllPublishUnPublishHomework])
+    setOpen(false);
+  }, [AllPublishUnPublishHomework]);
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -228,15 +235,15 @@ const AddHomework = () => {
 
   const clickPublishUnpublish = (IsPublish) => {
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-    {
-      asSchoolId: asSchoolId.toString(),
-      asAcademicYearId: asAcademicYearId.toString(),
-      asHomeWorkLogId: getSelectedSubject(),
-      asUnpublishReason: 'Yesss',
-      asUpdatedById: TeacherId,
-      IsPublished: IsPublish,
-      IsSMSSent: 1
-    };
+      {
+        asSchoolId: asSchoolId.toString(),
+        asAcademicYearId: asAcademicYearId.toString(),
+        asHomeWorkLogId: getSelectedSubject(),
+        asUnpublishReason: 'Yesss',
+        asUpdatedById: TeacherId,
+        IsPublished: IsPublish,
+        IsSMSSent: 1
+      };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
 
@@ -455,8 +462,8 @@ const AddHomework = () => {
                   setCompleteDate(e.target.value);
                 }}
                 variant="standard"
-              // error={ErrorCompleteDate !== ''}
-              // helperText={ErrorCompleteDate}
+                // error={ErrorCompleteDate !== ''}
+                // helperText={ErrorCompleteDate}
               />
             </Box>
           </Grid>
@@ -536,9 +543,9 @@ const AddHomework = () => {
       <br></br>
       <br></br>
       <HomeworkSubjectList
-        Subjectlistsforteacher={Subjectlistsforteacher.filter((item) => {
-          return item.SubjectId === SubjectId;
-        })}
+      // Subjectlistsforteacher={Subjectlistsforteacher.filter((item) => {
+      //   return item.SubjectId === SubjectId;
+      // })}
       />
       <br></br>
       <br></br>
@@ -554,8 +561,10 @@ const AddHomework = () => {
       />
       <Dialog open={Open} onClose={ClickCloseDialogbox}>
         <DialogContent>
-          <AddUnpublish1 ClickCloseDialogbox={ClickCloseDialogbox}
-            clickPublishUnpublish={clickPublishUnpublish} />
+          <AddUnpublish1
+            ClickCloseDialogbox={ClickCloseDialogbox}
+            clickPublishUnpublish={clickPublishUnpublish}
+          />
         </DialogContent>
       </Dialog>
       <Grid item xs={8}>

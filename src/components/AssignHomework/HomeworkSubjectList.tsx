@@ -21,7 +21,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
+const HomeworkSubjectList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -58,6 +58,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
   ];
 
+  const Subjectlistsforteacher = useSelector(
+    (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  );
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
   );
@@ -120,7 +123,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     let IsPublish = false;
     Subjectlistsforteacher.map((item) => {
       if (item.Id.toString() == Id.toString()) {
-        IsPublish = item.Text7 == 'False' ? true : false;
+        IsPublish = item.Text7 == 'false' ? true : false;
         return IsPublish;
       }
     });
@@ -128,8 +131,8 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   };
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
-    if (IsPublish) {
-      navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
+    if (IsPublish == false) {
+      navigate('/extended-sidebar/Teacher/AddUnpublish1/' + Id);
     } else {
       const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
         asSchoolId: asSchoolId,
@@ -217,8 +220,8 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     if (value !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-        '/RITeSchool/DOWNLOADS/Homework/' +
-        value
+          '/RITeSchool/DOWNLOADS/Homework/' +
+          value
       );
     }
   };
@@ -282,8 +285,8 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
               console.log('EventEndDate :', e.target.value);
             }}
             variant="standard"
-          // error={ErrorEventEndDate !== ''}
-          // helperText={ErrorEventEndDate}
+            // error={ErrorEventEndDate !== ''}
+            // helperText={ErrorEventEndDate}
           />
         </Grid>
       </Grid>
