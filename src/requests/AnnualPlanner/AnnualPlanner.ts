@@ -200,4 +200,4 @@ export const alleventyearlist =
 //       dispatch(AnnualPlannerSlice.actions.RAllYeareventList(response.data));
 //     };
 
-// export default AnnualPlannerSlice.reducer;
+export default AnnualPlannerSlice.reducer;
