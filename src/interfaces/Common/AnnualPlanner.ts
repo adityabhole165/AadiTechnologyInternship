@@ -114,8 +114,8 @@ export interface IGetAllEventsBody {
 
   asSchoolId: number,
   asAcademicYearId: number,
-  asMonthId: null,
-  asStandardId: null
+  asMonthId?: number,
+  asStandardId?: number
 }
 export interface IGetAllEventsResult {
 

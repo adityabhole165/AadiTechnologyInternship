@@ -143,16 +143,18 @@ function EventOverview() {
   useEffect(() => {
     dispatch(AcadamicYear(GetAcadamicYear));
   }, []);
+
+
   useEffect(() => {
     dispatch(alleventyearlist(IGetAllYearEvents));
-  }, []);
+  }, [AllMonth,AllStandard]);
 
   
   const IGetAllYearEvents: IGetAllEventsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: 54,
-    asMonthId:null,
-    asStandardId: null
+    asMonthId:AllMonth=="0"?null:Number(AllMonth),
+    asStandardId: AllStandard=="0"?null:Number(AllStandard)
 };
 
   
