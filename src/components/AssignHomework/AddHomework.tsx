@@ -292,23 +292,6 @@ const AddHomework = () => {
   //   return selectedValue;
   // };
 
-  // const onSelectDate = (value) => {
-  //     setCompleteDate(value)
-  //    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
-  //   }
-
-  // useEffect(() => {
-  //     console.log(HomeworkDetail, "GetStudentDetail")
-  //     if (HomeworkDetail !== "") {
-  //         setHomeworkId(HomeworkDetail.Id.toString)
-  //         setAssignedDate(HomeworkDetail.AssignedDate)
-  //         setCompleteDate(HomeworkDetail.CompleteByDate)
-  //         setTitle(HomeworkDetail.Title)
-  //         setAttechment(HomeworkDetail.AttachmentPath)
-  //         setDetails(HomeworkDetail.Details)
-  //     }
-  // }, [HomeworkDetail]);
-
   return (
     <>
       <br></br>
