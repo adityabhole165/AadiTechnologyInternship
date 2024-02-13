@@ -105,17 +105,28 @@ const HomeworkSubjectList = () => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
-  // useEffect(() => {
-  //   console.log(HomeworkDetail, 'GetStudentDetail');
-  //   if (HomeworkDetail !== '') {
-  //     setHomeworkId(HomeworkDetail.Id);
-  //     setAssignedDate(HomeworkDetail.AssignedDate);
-  //     setCompleteDate(HomeworkDetail.CompleteByDate);
-  //     setTitle(HomeworkDetail.Title);
-  //     setAttechment(HomeworkDetail.AttachmentPath);
-  //     setDetails(HomeworkDetail.Details);
-  //   }
-  // }, [HomeworkDetail]);
+
+  const clickEdit1 = (value) => {
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(value)
+    };
+    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
+  };
+  
+  useEffect(() => {
+    console.log(" after edit:", HomeworkDetail);
+    if (HomeworkDetail && HomeworkDetail.length > 0) {
+      setAssignedDate(HomeworkDetail[0].AssignedDate);
+      setCompleteDate(HomeworkDetail[0].CompleteByDate);
+      setTitle(HomeworkDetail[0].Title);
+      setDetails(HomeworkDetail[0].Details);
+    }
+  }, [HomeworkDetail]);
+  
+
+  
 
   const [isPublish, setIsPublish] = useState(true);
 
@@ -232,15 +243,7 @@ const HomeworkSubjectList = () => {
   //   setHomeworkS(Id);
   //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
   // };
-  const clickEdit1 = (value) => {
-    setHomeworkS(value);
-    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-      asSchoolId: asSchoolId,
-      asAcademicyearId: asAcademicYearId,
-      asHomeworkId: Number(Id)
-    };
-    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
-  };
+
 
   return (
     <div>
