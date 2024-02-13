@@ -129,9 +129,9 @@ export const AllStandards =
       let abc = [{ Id: '0', Name: 'All', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
-          Id: item.original_standard_id,
+          Id: item.standard_id,
           Name: item.standard_name,
-          Value: item.original_standard_id
+          Value: item.standard_id
         })
       })
 
@@ -168,33 +168,30 @@ export const AcadamicYear =
       dispatch(AnnualPlannerSlice.actions.RSelectYearList(abc))
     };
 
-export const allyeareventlist =
+export const alleventyearlist =
   (data: IGetAllEventsBody): AppThunk =>
     async (dispatch) => {
       dispatch(AnnualPlannerSlice.actions.getLoading(true));
       const response = await AnnualPlannerApi.AllYearEventList(data);
-      console.log(response, "responsevvvv");
+
 
       let Data = [];
       Data = response.data.map((item, index) => {
         return {
           id: index,
           header: item.EventDescription,
-          text1: 'Standard : ' + item.Standards,
+          text1: 'Standards : ' + item.Standards,
+
           text3: item.DisplayDate,
-          // linkPath:
-          //   '/Common/viewevent/' +
-          //   item.Id +
-          //   '/' +
-          //   data.asMonth +
-          //   '/' +
-          //   data.asYear
+          text4: item.EndDate
+
+
         };
       });
-      dispatch(AnnualPlannerSlice.actions.getEventList(Data));
+      dispatch(AnnualPlannerSlice.actions.RAllYeareventList(Data));
     };
 
-// export const allyeareventlist =
+// export const alleventyearlist =
 //   (data: IGetAllEventsBody): AppThunk =>
 //     async (dispatch) => {
 //       const response = await AnnualPlannerApi.AllYearEventList(data);
@@ -203,4 +200,4 @@ export const allyeareventlist =
 //       dispatch(AnnualPlannerSlice.actions.RAllYeareventList(response.data));
 //     };
 
-export default AnnualPlannerSlice.reducer;
+// export default AnnualPlannerSlice.reducer;
