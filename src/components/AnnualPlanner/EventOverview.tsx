@@ -7,9 +7,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 import {
   IEventList,
   IGetAcadamicYearDropDownBody,
+  IGetAllEventsBody,
   IGetAllMonthsDropDownBody,
-  IGetAllStandardsBody,
-  IGetAllEventsBody
+  IGetAllStandardsBody
 } from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -22,8 +22,8 @@ import {
   AcadamicYear,
   AllStandards,
   GetMonthList,
-  getEventList,
-  allyeareventlist
+  alleventyearlist,
+  getEventList
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import UpcomingEvent from './UpcomingEvent';
@@ -58,8 +58,8 @@ function EventOverview() {
   const AllYearEventlist: any = useSelector(
     (state: RootState) => state.AnnualPlanner.IsAllYearEventList
   );
-  // console.log(AllYearEventlist, 'Seeeeeee');
-
+   console.log(AllYearEventlist, 'Seeeeeee');
+   
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
@@ -144,15 +144,17 @@ function EventOverview() {
     dispatch(AcadamicYear(GetAcadamicYear));
   }, []);
   useEffect(() => {
-    dispatch(allyeareventlist(IGetAllYearEvents));
+    dispatch(alleventyearlist(IGetAllYearEvents));
   }, []);
-  const IGetAllYearEvents: IGetAllEventsBody = {
-    "asSchoolId":18,
-    "asAcademicYearId":54,
-    "asMonthId":null,
-    "asStandardId":null
+
   
-  };
+  const IGetAllYearEvents: IGetAllEventsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: 54,
+    asMonthId:null,
+    asStandardId: null
+};
+
   
   const GetAllStandardsBody: IGetAllStandardsBody = {
     asSchoolId: 18,
@@ -196,6 +198,7 @@ function EventOverview() {
     navigate('/extended-sidebar/teacher/AddAnnualPlaner');
   };
   const clickStandardDropdown = (value) => {
+    alert(value)
     setAllStandard(value);
   };
   const clickMonthDropdown = (value) => {
@@ -206,6 +209,7 @@ function EventOverview() {
   };
   return (
     <>
+  
       {RoleId === '3' ? (
         <UpcomingEvent />
       ) : (
@@ -291,6 +295,8 @@ function EventOverview() {
           />
         </Grid>
       </Grid>
+      {/* <h1>dddddddd</h1> */}
+      <List1 items={AllYearEventlist}></List1>
     </>
   );
 }
