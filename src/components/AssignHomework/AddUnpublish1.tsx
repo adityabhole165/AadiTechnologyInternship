@@ -59,9 +59,8 @@ const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
     navigate('/extended-sidebar/Teacher/AddHomework');
   };
   const ClickOk = () => {
-    if (Details != '')
-      clickPublishUnpublish(0)
-  }
+    if (Details != '') clickPublishUnpublish(0);
+  };
 
   return (
     <div>
@@ -85,9 +84,9 @@ const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
               setDetails(e.target.value);
             }}
             variant="standard"
-          // error={ErrorDetails !== ''}
-          // helperText={ErrorDetails}
-          // label={''}
+            // error={ErrorDetails !== ''}
+            // helperText={ErrorDetails}
+            // label={''}
           />
         </Grid>
       </Grid>
@@ -105,7 +104,9 @@ const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
         <Box sx={{ textAlign: 'center' }} m={2}>
           <ButtonPrimary
             style={{ backgroundColor: 'green' }}
-            onClick={() => { ClickOk() }}
+            onClick={() => {
+              ClickOk();
+            }}
           >
             OK
           </ButtonPrimary>

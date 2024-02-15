@@ -141,7 +141,7 @@ const HomeworkSubjectList = () => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == false) {
-      navigate('/extended-sidebar/Teacher/AddUnpublish1/' + Id);
+      navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
     } else {
       const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
         asSchoolId: asSchoolId,

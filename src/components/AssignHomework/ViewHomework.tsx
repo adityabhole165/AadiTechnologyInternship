@@ -69,7 +69,7 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
@@ -95,7 +95,7 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
@@ -121,11 +121,13 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
-            />
+            >
+              <Typography fontSize={'10px'}>{AssignedDate}</Typography>
+            </Box>
           </Grid>
         </Grid>{' '}
         <Grid container spacing={2} mt={0.5}>
@@ -147,7 +149,7 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
@@ -173,7 +175,7 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
@@ -199,7 +201,7 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
@@ -225,52 +227,34 @@ const ViewHomework = () => {
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                padding: '15px',
+                padding: '18px',
                 boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
                 border: '1px solid black'
               }}
             />
           </Grid>
         </Grid>
-        {HomeworkDetail && (
-          <>
-            {HomeworkDetail.length > 0 && (
-              <>
-                Title: {HomeworkDetail[0].Title}
-                <br />
-                Subject: {HomeworkDetail[0].Subject}
-                <br />
-                CompleteByDate: {HomeworkDetail[0].CompleteByDate}
-                <br />
-                Attachment: {HomeworkDetail[0].Attachment}
-                <br />
-                MoreAttachment: {HomeworkDetail[0].AttachmentPath}
-                <br />
-                Details: {HomeworkDetail[0].Details}
-              </>
-            )}
-          </>
+        {/* {HomeworkDetail.length > 0 && <>Title: {HomeworkDetail[0].Title}</>}{' '}
+        <br></br>
+        {HomeworkDetail.length > 0 && <>Subject: {HomeworkDetail[0].Subject}</>}
+        <br />
+        {HomeworkDetail.length > 0 && (
+          <> CompleteByDate : {HomeworkDetail[0].CompleteByDate}</>
         )}
+        <br />
+        {HomeworkDetail.length > 0 && (
+          <> Attachment : {HomeworkDetail[0].Attachment}</>
+        )}
+        <br></br>
+        {HomeworkDetail.length > 0 && (
+          <> MoreAttachment: {HomeworkDetail[0].AttachmentPath}</>
+        )}
+        <br></br>
+        {HomeworkDetail.length > 0 && (
+          <> Details : {HomeworkDetail[0].Details}</>
+        )}
+        <br></br> */}
       </Container>
-      {/*       
-      {HomeworkDetail.length > 0 && <>Title: {HomeworkDetail[0].Title}</>}{' '}
-      <br></br>
-      {HomeworkDetail.length > 0 && <>Subject: {HomeworkDetail[0].Subject}</>}
-      <br />
-      {HomeworkDetail.length > 0 && (
-        <> CompleteByDate : {HomeworkDetail[0].CompleteByDate}</>
-      )}
-      <br />
-      {HomeworkDetail.length > 0 && (
-        <> Attachment : {HomeworkDetail[0].Attachment}</>
-      )}
-      <br></br>
-      {HomeworkDetail.length > 0 && (
-        <> MoreAttachment: {HomeworkDetail[0].AttachmentPath}</>
-      )}
-      <br></br>
-      {HomeworkDetail.length > 0 && <> Details : {HomeworkDetail[0].Details}</>}
-      <br></br> */}
     </>
   );
 };

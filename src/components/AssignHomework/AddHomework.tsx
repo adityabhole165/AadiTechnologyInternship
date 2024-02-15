@@ -131,6 +131,10 @@ const AddHomework = () => {
     };
 
   useEffect(() => {
+    if (AllPublishUnPublishHomework != '') {
+      toast.success(AllPublishUnPublishHomework);
+    }
+
     setOpen(false);
   }, [AllPublishUnPublishHomework]);
 
