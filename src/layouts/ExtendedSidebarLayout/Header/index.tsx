@@ -4,7 +4,6 @@ import { IPushNotificationFCM } from 'src/interfaces/FCMDeviceRegistration/FCMDe
 
 import { App } from '@capacitor/app';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import GroupIcon from '@mui/icons-material/Group';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import PowerSettingsNewIcon from '@mui/icons-material/PowerSettingsNew';
@@ -735,39 +734,6 @@ function Header() {
                 </ListItem>
               )}
             </List>
-            <Divider />
-            <Box>
-              <List sx={{ p: 0 }}>
-                <ListItem
-                  onClick={handleLogout}
-                  to={'/extended-sidebar/Student/Profile'}
-                  component={NavLink}
-                  sx={{
-                    '&:hover': {
-                      backgroundColor: (theme) =>
-                        alpha(theme.palette.primary.main, 0.3)
-                    }
-                  }}
-                >
-                  <ExitToAppIcon
-                    sx={{
-                      height: 25,
-                      width: 25,
-                      color: 'black',
-                      fontWeight: 'bold',
-                      mr: 2
-                    }}
-                  />
-                  <ListItemText
-                    primary={
-                      <UserBoxLabel sx={{ fontWeight: 'bold' }}>
-                        Sign out
-                      </UserBoxLabel>
-                    }
-                  />
-                </ListItem>
-              </List>
-            </Box>
             {window.localStorage.getItem('deviceType') === 'android' ||
             localStorage.getItem('deviceType') === 'ios' ? (
               <Box m={1}>

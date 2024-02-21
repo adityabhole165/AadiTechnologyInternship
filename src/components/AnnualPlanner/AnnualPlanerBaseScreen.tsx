@@ -1,7 +1,17 @@
-import { Box, Button, Card, Container, Grid, Typography } from '@mui/material';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Card,
+  Container,
+  Grid,
+  Typography
+} from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import {
   IGetAllDivisionsForStandardDropDownBody,
@@ -261,9 +271,9 @@ const AnnualPlanerBaseScreen = () => {
     setSelectYear(Year.toString());
   };
   const ClickItemList = (Id) => {
-    alert(Id)
+    alert(Id);
     // navigate('/extended-sidebar/Teacher/EventManegement' + Id);
-     navigate('/extended-sidebar/Teacher/EventManegement' );
+    navigate('/extended-sidebar/Teacher/EventManegement');
   };
 
   // const ClickGetMonth = (value) => {
@@ -290,6 +300,20 @@ const AnnualPlanerBaseScreen = () => {
 
   return (
     <Container maxWidth={'xl'} sx={{ mt: 4 }}>
+      <Breadcrumbs aria-label="breadcrumb" separator={<ChevronRightTwoTone />}>
+        <Link
+          to={'/extended-sidebar/landing/landing'}
+          color="inherit"
+          style={{ textDecoration: 'none' }}
+        >
+          <Typography variant={'h3'} sx={{ color: grey[600] }}>
+            Home
+          </Typography>
+        </Link>
+        <Typography variant={'h3'} color="text.primary">
+          Individual Attendance
+        </Typography>
+      </Breadcrumbs>
       <PageHeader heading={'Annual Planner'} subheading={''} />
       <Box sx={{ float: 'right' }}>
         <Icon1 Note={Note} />

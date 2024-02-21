@@ -82,7 +82,7 @@ const menuItems: MenuItems[] = [
       {
         name: 'Annual Planner',
         icon: Event,
-        link: '/extended-sidebar/Student/eventoverview'
+        link: '/extended-sidebar/Student/AnnualPlanner'
       },
       {
         name: 'Homework',

@@ -1,23 +1,24 @@
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
-import ReplyIcon from '@mui/icons-material/Reply';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Breadcrumbs,
   Divider,
   IconButton,
   InputBase,
   Paper,
   Stack,
-  Tooltip
+  Tooltip,
+  Typography
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IGetMonthwiseAttendanceBody } from 'src/interfaces/MonthwiseAttendance/IMonthwiseAttendance';
 import TableAttendace from 'src/libraries/ResuableComponents/TableAttendance';
-import WebBackButton from 'src/libraries/button/WebBackButton';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { getattendance } from 'src/requests/Attendance/requestGetMonthWiseAttendance';
 import { RootState } from 'src/store';
 
@@ -54,7 +55,7 @@ const MonthwiseAttandance = () => {
   const MonthWiseAttendance = useSelector(
     (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
   );
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(true);
   const [SearchText, setSearchText] = useState('');
   const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([
     MonthWiseAttendance
@@ -116,7 +117,32 @@ const MonthwiseAttandance = () => {
           justifyContent={'space-between'}
         >
           <Box sx={{ pt: 2, pb: 1 }}>
-            <PageHeader heading={'Month Wise Attendance'} subheading={''} />
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
+            >
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <Typography variant={'h3'} sx={{ color: grey[600] }}>
+                  Home
+                </Typography>
+              </Link>
+              <Link
+                to={'/extended-sidebar/Teacher/TAttendance'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <Typography variant={'h3'} sx={{ color: grey[600] }}>
+                  Attendance
+                </Typography>
+              </Link>
+              <Typography variant={'h3'} color="text.primary">
+                Monthwise Attendance
+              </Typography>
+            </Breadcrumbs>
           </Box>
           <Stack flexDirection={'row'} alignItems={'center'} gap={1}>
             <Paper
@@ -170,10 +196,6 @@ const MonthwiseAttandance = () => {
                 <Help />
               </IconButton>
             </Tooltip>
-            <WebBackButton
-              icon={<ReplyIcon />}
-              FromRoute={'/Teacher/TAttendance/'}
-            />
           </Stack>
         </Stack>
 

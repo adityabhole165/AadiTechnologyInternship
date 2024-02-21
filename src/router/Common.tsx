@@ -33,8 +33,8 @@ const VideoGallery = Loader(
   lazy(() => import('src/components/VideoGallery/Video'))
 );
 const Pta = Loader(lazy(() => import('src/components/PTA/PTA')));
-const EventOverview = Loader(
-  lazy(() => import('src/components/AnnualPlanner/EventOverview'))
+const AnnualPlanner = Loader(
+  lazy(() => import('src/components/AnnualPlanner/AnnualPlanner'))
 );
 const ViewEvent = Loader(
   lazy(() => import('src/components/AnnualPlanner/ViewEvent'))
@@ -47,6 +47,9 @@ const VideoGallery2 = Loader(
 );
 const UpcomingEvent = Loader(
   lazy(() => import('src/components/AnnualPlanner/UpcomingEvent'))
+);
+const EventOverview = Loader(
+  lazy(() => import('src/components/AnnualPlanner/EventOverview'))
 );
 const commonRoutes = [
   {
@@ -103,12 +106,12 @@ const commonRoutes = [
     element: <Holidays />
   },
   {
-    path: 'EventOverview/:DateFrommon/:DateFromyear',
+    path: 'EventOverview',
     element: <EventOverview />
   },
   {
-    path: 'EventOverview',
-    element: <EventOverview />
+    path: 'AnnualPlanner',
+    element: <AnnualPlanner />
   },
 
   {

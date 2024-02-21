@@ -35,7 +35,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e',
         Icon: EventIcon,
-        Link: 'Common/EventOverview',
+        Link: 'Common/AnnualPlanner',
         index: 2,
         ModulesPermission: 'EnableAnnualPlanner'
       },
@@ -291,7 +291,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e',
         Icon: EventIcon,
-        Link: 'Common/EventOverview',
+        Link: 'Common/AnnualPlanner',
         index: 2,
         ScreenPermission: 'AnnualEventPlanner'
       },
@@ -636,7 +636,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e',
         Icon: EventIcon,
-        Link: 'Common/EventOverview',
+        Link: 'Common/AnnualPlanner',
         index: 2,
         ScreenPermission: 'SchoolNotices'
       },

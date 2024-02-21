@@ -5,6 +5,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Breadcrumbs,
   Container,
   Grid,
   Hidden,
@@ -33,7 +34,6 @@ import {
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
 import DateSelector from 'src/libraries/buttons/DateSelector';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import {
   CDADeleteAttendance,
@@ -50,7 +50,9 @@ import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import { getDateFormatted } from '../Common/Util';
 
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import { grey } from '@mui/material/colors';
+import { Link } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { AlertContext } from 'src/contexts/AlertContext';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -84,7 +86,7 @@ const TAttendance = () => {
   let IsClassTeacher = sessionStorage.getItem('IsClassTeacher');
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const TeacherId = sessionStorage.getItem('TeacherId');
-  const [search, setSearch] = useState(false);
+  const [search, setSearch] = useState(true);
   const [showSaveAttendanceAlert, setShowSaveAttendanceAlert] = useState(false);
   const [sendmeassagestudent, setsendmeassagestudent] = useState(false);
 
@@ -166,7 +168,7 @@ const TAttendance = () => {
     return perm;
   };
 
-  const [SaveIsActive, setSaveIsActive] = useState(true)
+  const [SaveIsActive, setSaveIsActive] = useState(true);
   const GetStudentDetails: IStudentsDetails = {
     asStdDivId: Standardid,
     asDate: assignedDate,
@@ -225,7 +227,7 @@ const TAttendance = () => {
       if (item.ScreenName === 'Attendance') IsFullAccess = item.IsFullAccess;
     });
     if (IsClassTeacher == 'Y' && className.length > 1 && IsFullAccess != 'Y')
-      setasTeacherId((teacherId != null && teacherId != '') ? teacherId : '0');
+      setasTeacherId(teacherId != null && teacherId != '' ? teacherId : '0');
     const body: ITAttendance = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
@@ -289,7 +291,7 @@ const TAttendance = () => {
       setAllPresentOrAllAbsent('');
     }
     setAbsentRollNos(value);
-    setItemList(ItemList)
+    setItemList(ItemList);
   };
 
   const SaveAttendance_old = () => {
@@ -305,18 +307,26 @@ const TAttendance = () => {
     dispatch(GetSaveAttendanceStatus(GetSaveStudentAttendance));
   };
   const getXML = () => {
-    let returnXML = ""
+    let returnXML = '';
     ItemList.map((Item) => {
-      returnXML = returnXML + "<SchoolWiseAttendance school_id=\"" +
-        asSchoolId + "\" attendance_date=\"" +
-        assignedDate + "\" Student_Id=\"" +
-        Item.StudentId + "\" is_present=\"" +
-        (Item.isActive ? "Y" : "N") + "\" is_halfdaypresent=\"N\" Standard_Division_Id=\"" +
-        Standardid + "\" Academic_Year_Id=\"" +
-        asAcademicYearId + "\" />"
-    })
-    return '<Attendance>' + returnXML + '</Attendance>'
-  }
+      returnXML =
+        returnXML +
+        '<SchoolWiseAttendance school_id="' +
+        asSchoolId +
+        '" attendance_date="' +
+        assignedDate +
+        '" Student_Id="' +
+        Item.StudentId +
+        '" is_present="' +
+        (Item.isActive ? 'Y' : 'N') +
+        '" is_halfdaypresent="N" Standard_Division_Id="' +
+        Standardid +
+        '" Academic_Year_Id="' +
+        asAcademicYearId +
+        '" />';
+    });
+    return '<Attendance>' + returnXML + '</Attendance>';
+  };
   const SaveAttendance = () => {
     const GetSaveStudentAttendance: ISaveStudentAttendenceBody = {
       asSchoolId: Number(asSchoolId),
@@ -353,8 +363,7 @@ const TAttendance = () => {
     }
   }, [stdlist]);
   const SaveMsg = () => {
-    if (!SaveIsActive)
-      return
+    if (!SaveIsActive) return;
     if (
       AttendanceStatus === 'Selected date is holiday.' ||
       AttendanceStatus === 'Selected date is weekend.'
@@ -440,15 +449,16 @@ const TAttendance = () => {
     if (listAttendanceCalender.length > 0 && assignedDate != '') {
       listAttendanceCalender.map((item, i) => {
         if (item.Value === assignedDate) {
-          if (item.Text1.includes('Outside') || (new Date(assignedDate)) > (new Date()))
-            setSaveIsActive(false)
-          else
-            setSaveIsActive(true)
+          if (
+            item.Text1.includes('Outside') ||
+            new Date(assignedDate) > new Date()
+          )
+            setSaveIsActive(false);
+          else setSaveIsActive(true);
         }
-      })
+      });
     }
-
-  }, [listAttendanceCalender, assignedDate])
+  }, [listAttendanceCalender, assignedDate]);
   return (
     <Container maxWidth={'xl'}>
       <Stack
@@ -461,7 +471,23 @@ const TAttendance = () => {
         }}
       >
         <Box>
-          <PageHeader heading="Attendance"></PageHeader>
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator={<ChevronRightTwoTone />}
+          >
+            <Link
+              to={'/extended-sidebar/landing/landing'}
+              color="inherit"
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography variant={'h3'} sx={{ color: grey[600] }}>
+                Home
+              </Typography>
+            </Link>
+            <Typography variant={'h3'} color="text.primary">
+              Attendance
+            </Typography>
+          </Breadcrumbs>
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
@@ -574,30 +600,32 @@ const TAttendance = () => {
               </IconButton>
             </Tooltip>
           </Box>
-          <Box>{SaveIsActive ?
-            <Tooltip title={'Save Attendance'}>
-              <IconButton
-                onClick={SaveMsg}
-                sx={{
-                  color: 'white',
-                  backgroundColor: 'green'
-                }}
-              >
-                <SaveIcon />
-              </IconButton>
-            </Tooltip> :
-            <Tooltip title={'Save Attendance'}>
-              <IconButton
-                onClick={SaveMsg}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[600]
-                }}
-              >
-                <SaveIcon />
-              </IconButton>
-            </Tooltip>
-          }
+          <Box>
+            {SaveIsActive ? (
+              <Tooltip title={'Save Attendance'}>
+                <IconButton
+                  onClick={SaveMsg}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'green'
+                  }}
+                >
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <Tooltip title={'Save Attendance'}>
+                <IconButton
+                  onClick={SaveMsg}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[600]
+                  }}
+                >
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            )}
           </Box>
         </Stack>
       </Stack>
@@ -860,7 +888,7 @@ const TAttendance = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={2}>
-        {SaveIsActive ?
+        {SaveIsActive ? (
           <Grid item xs={12} md={6}>
             {stdlist.length > 1 ? (
               <Dropdown
@@ -910,9 +938,10 @@ const TAttendance = () => {
                 </Box>
               </Box>
             </Box>
-          </Grid> :
+          </Grid>
+        ) : (
           <Grid item xs={12} md={6}></Grid>
-        }
+        )}
         <Grid item xs={12} md={6}>
           <Grid container>
             <Box sx={{ backgroundColor: 'white' }}>

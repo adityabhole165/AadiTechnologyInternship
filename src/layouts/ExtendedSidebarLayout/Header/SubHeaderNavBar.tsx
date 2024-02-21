@@ -2,15 +2,21 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
+import SupportTwoToneIcon from '@mui/icons-material/SupportTwoTone';
 import {
   AppBar,
   Box,
+  ClickAwayListener,
+  Grow,
   IconButton,
   List,
   ListItem,
   ListItemButton,
   Menu,
   MenuItem,
+  MenuList,
+  Paper,
+  Popper,
   Stack,
   Tooltip,
   Typography,
@@ -166,7 +172,27 @@ function SubHeaderNavBar({ toggleDrawer }) {
       name: 'Question Bank',
       anchor: null,
       options: []
-    },
+    }
+  ]);
+  const [openSupportMenu, setOpenSupportMenu] = React.useState(false);
+  const supportMenuRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleToggle = () => {
+    setOpenSupportMenu((prevOpen) => !prevOpen);
+  };
+
+  const handleClose = (event: Event | React.SyntheticEvent) => {
+    if (
+      supportMenuRef.current &&
+      supportMenuRef.current.contains(event.target as HTMLElement)
+    ) {
+      return;
+    }
+
+    setOpenSupportMenu(false);
+  };
+
+  const supportOptions = [
     {
       name: 'Support',
       anchor: null,
@@ -193,7 +219,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
         }
       ]
     }
-  ]);
+  ];
 
   return (
     <div>
@@ -278,6 +304,54 @@ function SubHeaderNavBar({ toggleDrawer }) {
             </List>
           </Stack>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Tooltip title={'Support'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  background: (theme) => alpha(theme.palette.common.white, 0.2)
+                }}
+                ref={supportMenuRef}
+                onClick={handleToggle}
+              >
+                <SupportTwoToneIcon />
+              </IconButton>
+            </Tooltip>
+            {/* Support Menu Popup */}
+            <Popper
+              open={openSupportMenu}
+              anchorEl={supportMenuRef.current}
+              role={undefined}
+              placement="bottom-start"
+              transition
+              disablePortal
+            >
+              {({ TransitionProps, placement }) => (
+                <Grow
+                  {...TransitionProps}
+                  style={{
+                    transformOrigin:
+                      placement === 'bottom-start' ? 'left top' : 'left bottom'
+                  }}
+                >
+                  <Paper>
+                    <ClickAwayListener onClickAway={handleClose}>
+                      <MenuList
+                        id="composition-menu"
+                        aria-labelledby="composition-button"
+                      >
+                        <MenuItem onClick={handleClose}>User Guide</MenuItem>
+                        <MenuItem onClick={handleClose}>
+                          Knowledge Base
+                        </MenuItem>
+                        <MenuItem onClick={handleClose}>Feedback</MenuItem>
+                        <MenuItem onClick={handleClose}>Contact Us</MenuItem>
+                      </MenuList>
+                    </ClickAwayListener>
+                  </Paper>
+                </Grow>
+              )}
+            </Popper>
+            {/* Support Menu Popup End */}
             <Tooltip title={'Notifications'}>
               <IconButton
                 sx={{

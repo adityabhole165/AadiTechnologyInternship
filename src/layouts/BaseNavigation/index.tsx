@@ -201,7 +201,7 @@ function Basenav() {
                     <NavLink
                       to={`/${
                         location.pathname.split('/')[1]
-                      }/Common/EventOverview`}
+                      }/Common/AnnualPlanner`}
                       className={classes.root}
                       activeStyle={{ color: '#9e9e9e' }}
                     >

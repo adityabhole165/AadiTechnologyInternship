@@ -1,10 +1,11 @@
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
-import Reply from '@mui/icons-material/Reply';
 import SaveAlt from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
+  Breadcrumbs,
   Button,
   Card,
   Container,
@@ -20,10 +21,11 @@ import {
   Typography
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -33,8 +35,6 @@ import {
 } from 'src/interfaces/IndividualAttendance/IIndividualAttendance';
 import CardCalenderList from 'src/libraries/ResuableComponents/CardCalenderList';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import WebBackButton from 'src/libraries/button/WebBackButton';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import {
   SaveStudentAttendance,
   getcalendar,
@@ -97,7 +97,7 @@ const IndividualAttendance = () => {
     aStudentId: Number(StudentId),
     aAcademicYearId: asAcademicYearId,
     aMonthId: Number(month),
-    aYear: (new Date(formattedDate)).getFullYear()
+    aYear: new Date(formattedDate).getFullYear()
   };
 
   const HeaderPublish = [
@@ -137,11 +137,11 @@ const IndividualAttendance = () => {
       ItemList.map((obj) =>
         obj.IsClickable
           ? {
-            ...obj,
-            Status: value,
-            BackgroundColor: getAttendanceLegend(value),
-            Text1: value == 'Y' ? 'Present' : 'Absent'
-          }
+              ...obj,
+              Status: value,
+              BackgroundColor: getAttendanceLegend(value),
+              Text1: value == 'Y' ? 'Present' : 'Absent'
+            }
           : obj
       )
     );
@@ -152,9 +152,8 @@ const IndividualAttendance = () => {
     setIsPresentAbsent(value);
   };
   useEffect(() => {
-    if (ItemList.length >= 0)
-      setAttendanceXML(getAttendanceString());
-  }, [ItemList])
+    if (ItemList.length >= 0) setAttendanceXML(getAttendanceString());
+  }, [ItemList]);
   const click = () => {
     navigate('/extended-sidebar/Teacher/TAttendance');
   };
@@ -260,7 +259,7 @@ const IndividualAttendance = () => {
     });
 
     setIsClicked(isClicked);
-    return '<Attendance>' + XMLString + '</Attendance>'
+    return '<Attendance>' + XMLString + '</Attendance>';
   };
 
   useEffect(() => {
@@ -287,7 +286,32 @@ const IndividualAttendance = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
       >
-        <PageHeader heading={'Individual Attendance'} subheading={''} />
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          separator={<ChevronRightTwoTone />}
+        >
+          <Link
+            to={'/extended-sidebar/landing/landing'}
+            color="inherit"
+            style={{ textDecoration: 'none' }}
+          >
+            <Typography variant={'h3'} sx={{ color: grey[600] }}>
+              Home
+            </Typography>
+          </Link>
+          <Link
+            to={'/extended-sidebar/Teacher/TAttendance'}
+            color="inherit"
+            style={{ textDecoration: 'none' }}
+          >
+            <Typography variant={'h3'} sx={{ color: grey[600] }}>
+              Attendance
+            </Typography>
+          </Link>
+          <Typography variant={'h3'} color="text.primary">
+            Individual Attendance
+          </Typography>
+        </Breadcrumbs>
         <Stack direction={'row'} gap={1}>
           <Paper
             component="form"
@@ -521,7 +545,6 @@ const IndividualAttendance = () => {
               <Help />
             </IconButton>
           </Tooltip>
-          <WebBackButton icon={<Reply />} FromRoute={'/Teacher/TAttendance/'} />
         </Stack>
       </Stack>
       <Box mt={1.5}>
