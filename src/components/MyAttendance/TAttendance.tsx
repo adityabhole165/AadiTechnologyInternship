@@ -9,11 +9,9 @@ import {
   Breadcrumbs,
   Container,
   Grid,
-  Hidden,
   IconButton,
   Paper,
   Stack,
-  TextField,
   Tooltip,
   Typography
 } from '@mui/material';
@@ -33,9 +31,6 @@ import {
   ISaveStudentAttendenceBody
 } from 'src/interfaces/Teacher/TAttendanceList';
 import CardCalender1 from 'src/libraries/ResuableComponents/CardCalender1';
-import DateSelector from 'src/libraries/buttons/DateSelector';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import {
   CDADeleteAttendance,
   CDAGetTeacherNameList,
@@ -171,7 +166,7 @@ const TAttendance = () => {
 
   const [SaveIsActive, setSaveIsActive] = useState(true);
   const GetStudentDetails: IStudentsDetails = {
-    asStdDivId: Standardid,
+    asStdDivId: selectClasstecahernew,
     asDate: assignedDate,
     asAcademicYearId: asAcademicYearId,
     asSchoolId: asSchoolId
@@ -187,7 +182,7 @@ const TAttendance = () => {
   const SummaryCountforAttendanceBody: IGetSummaryCountforAttendanceBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asStandardDivisionId: Number(asStandardDivisionId),
+    asStandardDivisionId: Number(selectClasstecahernew),
     asAttendanceDate: assignedDate,
     asUserId: asUserId
   };
@@ -915,7 +910,7 @@ const TAttendance = () => {
         </Grid>
         {SaveIsActive ? (
           <Grid item xs={12} md={6}>
-            {stdlist.length > 1 ? (
+            {/* {stdlist.length > 1 ? (
               <Dropdown
                 Array={stdlist}
                 handleChange={handleChange}
@@ -930,10 +925,10 @@ const TAttendance = () => {
                   {singleStdName}
                 </span>
               </Hidden>
-            )}
+            )} */}
 
-            <Box sx={{ display: onlySelectedClass }}>
-              <Hidden mdUp>
+            <Box>
+              {/* <Hidden mdUp>
                 <DateSelector
                   date={assignedDate}
                   setCurrentDate={getCurrentDate}
@@ -942,16 +937,16 @@ const TAttendance = () => {
               </Hidden>
               <Hidden mdUp>
                 <ErrorDetail>{AttendanceStatus}</ErrorDetail>
-              </Hidden>
+              </Hidden> */}
               <Box sx={{ display: AYStatus }}>
-                <Hidden mdUp>
+                {/* <Hidden mdUp>
                   <TextField
                     variant="standard"
                     fullWidth
                     label="Absent Roll Numbers"
                     value={StudentAbsent}
                   ></TextField>
-                </Hidden>
+                </Hidden> */}
                 <Box>
                   <List26
                     sendmeassagestudent={sendmeassagestudent}
