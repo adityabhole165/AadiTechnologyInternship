@@ -1,3 +1,4 @@
+import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -19,7 +20,6 @@ import {
 import { grey } from '@mui/material/colors';
 import React from 'react';
 import { Link } from 'react-router-dom';
-
 type Props = {};
 
 const EventOverview = (props: Props) => {
@@ -47,20 +47,29 @@ const EventOverview = (props: Props) => {
               color="inherit"
               style={{ textDecoration: 'none' }}
             >
-              <Typography variant={'h3'} sx={{ color: grey[600] }}>
-                Home
-              </Typography>
-            </Link>
+              <IconButton
+                sx={{
+                  background: (theme) => theme.palette.common.white,
+                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                }}
+              >
+                <ApiTwoToneIcon color="primary" />
+              </IconButton>
+            </Link>{' '}
             <Link
               to={'/extended-sidebar/Common/AnnualPlanner'}
               color="inherit"
               style={{ textDecoration: 'none' }}
             >
-              <Typography variant={'h3'} sx={{ color: grey[600] }}>
+              <Typography
+                variant={'h3'}
+                fontSize={'23px'}
+                sx={{ color: grey[600] }}
+              >
                 Annual Planner
               </Typography>
             </Link>
-            <Typography variant={'h3'} color="text.primary">
+            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
               Events Overview
             </Typography>
           </Breadcrumbs>

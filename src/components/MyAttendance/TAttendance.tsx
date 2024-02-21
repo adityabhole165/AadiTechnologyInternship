@@ -1,3 +1,4 @@
+import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -480,11 +481,16 @@ const TAttendance = () => {
               color="inherit"
               style={{ textDecoration: 'none' }}
             >
-              <Typography variant={'h3'} sx={{ color: grey[600] }}>
-                Home
-              </Typography>
+              <IconButton
+                sx={{
+                  background: (theme) => theme.palette.common.white,
+                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                }}
+              >
+                <ApiTwoToneIcon color="primary" />
+              </IconButton>
             </Link>
-            <Typography variant={'h3'} color="text.primary">
+            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
               Attendance
             </Typography>
           </Breadcrumbs>
@@ -888,6 +894,25 @@ const TAttendance = () => {
         </Grid>
       </Grid>
       <Grid container spacing={2} mt={2}>
+        <Grid item xs={12} md={6}>
+          <Grid container>
+            <Box sx={{ backgroundColor: 'white' }}>
+              <CardCalender1
+                ItemList={listAttendanceCalender}
+                ClickItem={ClickItem}
+                formattedDate={assignedDate}
+                DefaultValue
+                assignedDate={assignedDate}
+                ArrayList={HeaderPublish}
+                ClickDeleteAttendance={ClickDeleteAttendance}
+                Standardid={Standardid}
+                AttendanceStatus={AttendanceStatus}
+                clickNav={clickNav}
+                getAssignedDateStatus={getAssignedDateStatus}
+              />
+            </Box>
+          </Grid>
+        </Grid>
         {SaveIsActive ? (
           <Grid item xs={12} md={6}>
             {stdlist.length > 1 ? (
@@ -942,25 +967,6 @@ const TAttendance = () => {
         ) : (
           <Grid item xs={12} md={6}></Grid>
         )}
-        <Grid item xs={12} md={6}>
-          <Grid container>
-            <Box sx={{ backgroundColor: 'white' }}>
-              <CardCalender1
-                ItemList={listAttendanceCalender}
-                ClickItem={ClickItem}
-                formattedDate={assignedDate}
-                DefaultValue
-                assignedDate={assignedDate}
-                ArrayList={HeaderPublish}
-                ClickDeleteAttendance={ClickDeleteAttendance}
-                Standardid={Standardid}
-                AttendanceStatus={AttendanceStatus}
-                clickNav={clickNav}
-                getAssignedDateStatus={getAssignedDateStatus}
-              />
-            </Box>
-          </Grid>
-        </Grid>
       </Grid>
     </Container>
   );

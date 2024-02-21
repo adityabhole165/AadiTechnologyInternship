@@ -1,4 +1,5 @@
 import AddIcon from '@mui/icons-material/Add';
+import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import BackupIcon from '@mui/icons-material/Backup';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -275,11 +276,20 @@ function AnnualPlanner() {
                     color="inherit"
                     style={{ textDecoration: 'none' }}
                   >
-                    <Typography variant={'h3'} sx={{ color: grey[600] }}>
-                      Home
-                    </Typography>
-                  </Link>
-                  <Typography variant={'h3'} color="text.primary">
+                    <IconButton
+                      sx={{
+                        background: (theme) => theme.palette.common.white,
+                        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                      }}
+                    >
+                      <ApiTwoToneIcon color="primary" />
+                    </IconButton>
+                  </Link>{' '}
+                  <Typography
+                    variant={'h3'}
+                    fontSize={'23px'}
+                    color="text.primary"
+                  >
                     Annual Planner
                   </Typography>
                 </Breadcrumbs>

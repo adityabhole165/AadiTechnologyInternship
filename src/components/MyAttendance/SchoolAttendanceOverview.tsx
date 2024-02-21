@@ -1,8 +1,10 @@
+import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
+  Breadcrumbs,
   Container,
   Grid,
   IconButton,
@@ -14,10 +16,9 @@ import {
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanceOverview/ISchoolAttendanceOverview';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
 
@@ -81,7 +82,7 @@ const SchoolAttendanceOverview = () => {
   }, [SelectDate]);
 
   return (
-    <Container maxWidth={'xl'} sx={{ mt: 4 }}>
+    <Container maxWidth={'xl'} sx={{ mt: 4.5 }}>
       <Stack
         direction={'row'}
         alignItems={'center'}
@@ -89,22 +90,58 @@ const SchoolAttendanceOverview = () => {
         sx={{ mb: 2 }}
       >
         <Box>
-          <PageHeader heading={'Attendance Overview'} subheading={''} />
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator={<ChevronRightTwoTone />}
+          >
+            <Link
+              to={'/extended-sidebar/landing/landing'}
+              color="inherit"
+              style={{ textDecoration: 'none' }}
+            >
+              <IconButton
+                sx={{
+                  background: (theme) => theme.palette.common.white,
+                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                }}
+              >
+                <ApiTwoToneIcon color="primary" />
+              </IconButton>
+            </Link>
+            <Link
+              to={'/extended-sidebar/Teacher/TAttendance'}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                variant={'h3'}
+                fontSize={'23px'}
+                sx={{ color: grey[600] }}
+              >
+                Attendance
+              </Typography>
+            </Link>
+            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+              Attendance Overview
+            </Typography>
+          </Breadcrumbs>
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
             <TextField
               value={SelectDate}
-              variant={'standard'}
+              variant={'outlined'}
               type="date"
               onChange={(e) => {
                 onSelectDate(e.target.value);
               }}
-              sx={{
-                backgroundColor: 'white'
-              }}
               label={'Select Date'}
               size="small"
+              sx={{
+                backgroundColor: 'white',
+                '& .MuiInputBase-input': {
+                  fontWeight: 'bold'
+                }
+              }}
             />
           </Box>
           <Box>
@@ -119,24 +156,6 @@ const SchoolAttendanceOverview = () => {
                 }}
               >
                 <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Back'}>
-              <IconButton
-                sx={{
-                  backgroundColor: grey[600],
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-                onClick={() => {
-                  navigate(-1);
-                }}
-              >
-                <ReplyIcon />
               </IconButton>
             </Tooltip>
           </Box>

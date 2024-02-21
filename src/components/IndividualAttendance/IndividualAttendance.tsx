@@ -1,3 +1,4 @@
+import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
@@ -295,20 +296,29 @@ const IndividualAttendance = () => {
             color="inherit"
             style={{ textDecoration: 'none' }}
           >
-            <Typography variant={'h3'} sx={{ color: grey[600] }}>
-              Home
-            </Typography>
+            <IconButton
+              sx={{
+                background: (theme) => theme.palette.common.white,
+                boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+              }}
+            >
+              <ApiTwoToneIcon color="primary" />
+            </IconButton>
           </Link>
           <Link
             to={'/extended-sidebar/Teacher/TAttendance'}
             color="inherit"
             style={{ textDecoration: 'none' }}
           >
-            <Typography variant={'h3'} sx={{ color: grey[600] }}>
+            <Typography
+              variant={'h3'}
+              fontSize={'23px'}
+              sx={{ color: grey[600] }}
+            >
               Attendance
             </Typography>
           </Link>
-          <Typography variant={'h3'} color="text.primary">
+          <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
             Individual Attendance
           </Typography>
         </Breadcrumbs>
