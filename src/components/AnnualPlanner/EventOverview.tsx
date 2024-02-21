@@ -24,10 +24,22 @@ import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { IEventList } from 'src/interfaces/Common/AnnualPlanner';
-import AnnualPlannerCalendar from 'src/libraries/ResuableComponents/AnnualPlannerCalendar';
+
+import {
+  IEventList,
+  IGetAcadamicYearDropDownBody,
+  IGetAllEventsBody,
+  IGetAllMonthsDropDownBody,
+  IGetAllStandardsBody
+} from 'src/interfaces/Common/AnnualPlanner';
 import PageHeader from 'src/libraries/heading/PageHeader';
-import { getEventList } from 'src/requests/AnnualPlanner/AnnualPlanner';
+import {
+  AcadamicYear,
+  AllStandards,
+  GetMonthList,
+  alleventyearlist,
+  getEventList
+} from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 import UpcomingEvent from './UpcomingEvent';
 
@@ -44,6 +56,10 @@ const VisuallyHiddenInput = styled('input')({
 function EventOverview() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
+  const [AllStandard, setAllStandard] = useState('0');
+  const [AllMonth, setAllMonth] = useState('0');
+  const [AllAcadamicYear, setAllAcadamicYear] = useState('0');
+
   const BackMonth = new Date(
     Number(DateFromyear),
     Number(DateFrommon)
@@ -53,7 +69,15 @@ function EventOverview() {
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
   );
-
+  const USAllStandards = useSelector(
+    (state: RootState) => state.AnnualPlanner.IAllStandards
+  );
+  const SelectMonthList: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.ISSelectMonthList
+  );
+  const SelectAcadamicYear: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.ISAcadamicYearList
+  );
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
@@ -61,6 +85,11 @@ function EventOverview() {
   const CalendarForStudent = useSelector(
     (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
   );
+
+  const AllYearEventlist: any = useSelector(
+    (state: RootState) => state.AnnualPlanner.IsAllYearEventList
+  );
+  console.log(AllYearEventlist, 'Seeeeeee');
 
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
@@ -151,6 +180,39 @@ function EventOverview() {
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
   };
+  useEffect(() => {
+    dispatch(AllStandards(GetAllStandardsBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetMonthList(GetAllMonth));
+  }, []);
+  useEffect(() => {
+    dispatch(AcadamicYear(GetAcadamicYear));
+  }, []);
+
+  useEffect(() => {
+    dispatch(alleventyearlist(IGetAllYearEvents));
+  }, [AllMonth, AllStandard]);
+
+  const IGetAllYearEvents: IGetAllEventsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: 54,
+    asMonthId: AllMonth == '0' ? null : Number(AllMonth),
+    asStandardId: AllStandard == '0' ? null : Number(AllStandard)
+  };
+
+  const GetAllStandardsBody: IGetAllStandardsBody = {
+    asSchoolId: 18,
+    asAcademicYearId: 54
+  };
+  const GetAllMonth: IGetAllMonthsDropDownBody = {
+    asSchoolId: 18
+  };
+  const GetAcadamicYear: IGetAcadamicYearDropDownBody = {
+    asSchoolId: 18,
+    asUserId: 3584,
+    asUserRoleId: 2
+  };
 
   const body: IEventList = {
     asMonth: assignedMonth_num,
@@ -180,7 +242,15 @@ function EventOverview() {
   const clickAddAnnual = () => {
     navigate('/extended-sidebar/teacher/AddAnnualPlaner');
   };
-
+  const clickStandardDropdown = (value) => {
+    setAllStandard(value);
+  };
+  const clickMonthDropdown = (value) => {
+    setAllMonth(value);
+  };
+  const clickAcadamicDropdown = (value) => {
+    setAllAcadamicYear(value);
+  };
   return (
     <>
       {RoleId === '3' ? (
@@ -266,6 +336,7 @@ function EventOverview() {
             <Box sx={{ float: 'right' }}>
               <Icon1 Note={Note} />
             </Box>
+
             <MonthSelector
               date={date.selectedDate}
               PrevDate={getPreviousDate}

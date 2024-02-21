@@ -13,6 +13,7 @@ const DynamicList2 = ({
   ClickItem = undefined,
   ClickCheck = undefined,
   IsSelect = 0
+  // clickView
 }) => {
   const clickCheckbox = (value) => {
     let arr = [];
@@ -86,6 +87,14 @@ const DynamicList2 = ({
                       <img src={item.Text77} />
                     </TableCell>
                   )}
+                  {/* <TableCell
+                    sx={{ textTransform: 'capitalize' }}
+                    align="center"
+                  >
+                    <Link href={''} onClick={() => clickView(item.Id)}>
+                      {item.Text76}
+                    </Link>
+                  </TableCell> */}
                   {item.Text1 != undefined && (
                     <TableCell align="center">{item.Text1}</TableCell>
                   )}

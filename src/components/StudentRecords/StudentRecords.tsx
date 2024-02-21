@@ -12,13 +12,14 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { toast } from 'react-toastify';
 import {
   IGetAllStudentStatusBody,
   IGetTeacherListBody
 } from 'src/interfaces/StudentRecords/IStudentRecords';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
-import DropDown from 'src/libraries/list/DropDown';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
@@ -116,16 +117,13 @@ const StudentRecords = () => {
   };
   console.log(regNoOrName, 'regNoOrName----');
   const clickSearch = (value) => {
-    //  setShowRiseAndShine(value)
-    //  setSelectTeacher(value)
-    //  setRegNoOrName(value)
+    setShowRiseAndShine(value);
+    setSelectTeacher(value);
+    setRegNoOrName(value);
 
-    // if (GetStatusStudents && GetStatusStudents.length === 0 )
-    //  {
-    //     toast.success("No Records Found")
-
-    // }
-    // setMonthWiseAttendanceList(value)
+    if (GetStatusStudents && GetStatusStudents.length === 0) {
+      toast.success('No Records Found');
+    }
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   };
 
@@ -163,11 +161,11 @@ const StudentRecords = () => {
               border: '1px solid black'
             }}
           >
-            <DropDown
-              itemList={GetTeachers}
-              ClickItem={clickTeacherDropdown}
-              Label={''}
-              DefaultValue={SelectTeacher}
+            <Dropdown
+              Array={GetTeachers}
+              handleChange={clickTeacherDropdown}
+              label={''}
+              defaultValue={SelectTeacher}
             />
           </Box>
         </Grid>

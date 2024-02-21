@@ -13,7 +13,8 @@ import AttendanceData, {
   IGetClassTeachersBodynew,
   IGetStudentDetails,
   IGetSummaryCountforAttendanceBody,
-  ISaveAttendance
+  ISaveAttendance,
+  ISaveStudentAttendenceBody
 } from 'src/interfaces/Teacher/TAttendanceList';
 import { AppThunk } from 'src/store';
 
@@ -156,7 +157,8 @@ export const GetStudentList =
             text2: item.StudentName,
             isActive: item.IsPresent === 'true' ? true : false,
             status: item.Status,
-            joinDate: item.JoinDate
+            joinDate: item.JoinDate,
+            StudentId: item.StudentId
           };
         });
 
@@ -168,7 +170,7 @@ export const GetStudentList =
         };
         const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
         response2.data?.map((item, i) => {
-          
+
           message = item.AcademicYearMsg === '' ? item.StatusMessage : item.AcademicYearMsg;
           forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
         });
@@ -246,6 +248,14 @@ export const GetSaveAttendanceStatus =
         TAttendanceSlice.actions.GetSaveAttendanceStatusList(response.data)
       );
     };
+
+export const GetSaveStudentAttendence =
+  (data: ISaveStudentAttendenceBody): AppThunk =>
+    async (dispatch) => {
+      let response = await GetTAttendanceListApi.SaveStudentAttendence(data);
+      dispatch(TAttendanceSlice.actions.getSaveResponse(response.data));
+    };
+
 export const CDASummaryCountforAttendanceBody =
   (data: IGetSummaryCountforAttendanceBody): AppThunk =>
     async (dispatch) => {

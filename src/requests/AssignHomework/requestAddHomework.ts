@@ -151,14 +151,25 @@ export const GetTeacherSubjectList =
     console.log(response, 'response-----');
 
     let a = response.data.map((item, i) => {
+      // return {
+      //   Id: item.Id,
+      //   SubjectId: item.SubjectId,
+      //   Text1: item.Id,
+      //   Text2: item.Subject,
+      //   Text3: item.Title,
+      //   Text4: item.IsPublished,
+      //   Text5: item.CompleteByDate
+      // };
       return {
         Id: item.Id,
-        SubjectId: item.SubjectId,
-        Text1: item.Id,
+        Text1: item.SubjectId,
         Text2: item.Subject,
         Text3: item.Title,
-        Text4: item.IsPublished,
-        Text5: item.CompleteByDate
+        Text4: item.AssignedDate,
+        Text5: item.IsPublished,
+        Text6: item.CompleteByDate,
+        Text7: item.AttachmentPath,
+        Text9: item.flag
       };
     });
     dispatch(AddHomeworkSlice.actions.getSubjectList(a));

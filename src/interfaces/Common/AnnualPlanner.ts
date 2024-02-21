@@ -66,3 +66,67 @@ export interface IGetFilePathBody {
   aiSchoolId: string;
   aiAcademicYearId: string;
 }
+
+//Teacher module
+export interface IGetAllStandardsBody {
+  asSchoolId: number,
+  asAcademicYearId: number
+}
+export interface IGetAllStandardsResult {
+  school_id: string,
+  original_standard_id: string,
+  standard_id: string,
+  standard_name: string
+
+}
+export interface IGetAllMonthsDropDownBody {
+
+  asSchoolId: number
+}
+export interface IGetAllMonthsDropDownResult {
+
+  MonthID: string,
+  Month: string,
+  MonthAbbreviation: string
+}
+export interface IGetAcadamicYearDropDownBody {
+
+  asSchoolId: number,
+  asUserId: number,
+  asUserRoleId: number
+}
+export interface IGetAcadamicYearDropDownResult {
+
+  Academic_Year_ID: string,
+  School_Id: string,
+  YearValue: string,
+  Start_date: string,
+  End_Date: string,
+  School_ReOpen_Date: string,
+  Is_Current_Year: string,
+  Is_Close_Year: string,
+  Is_NewlyCreated: string,
+  Is_FinalYear_Generated: string,
+  Is_Deleted: string,
+  School_Name: string
+}
+export interface IGetAllEventsBody {
+
+  asSchoolId: number,
+  asAcademicYearId: number,
+  asMonthId?: number,
+  asStandardId?: number
+}
+export interface IGetAllEventsResult {
+
+  EventId: string,
+  EventDescription: string,
+  StartDateAndTime: string,
+  EndDateAndTime: string,
+  StartDate: string,
+  EndDate: string,
+  Standards: string,
+  Display_On_Homepage: string,
+  DisplayDate: string
+
+}

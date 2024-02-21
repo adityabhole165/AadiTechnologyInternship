@@ -46,6 +46,14 @@ export interface ISaveAttendance {
   asSchoolId: string;
   asAcademicYearId: string;
 }
+export interface ISaveStudentAttendenceBody {
+  asSchoolId: number
+  asInsertedById: number
+  asStudentsAttendanceXML: string
+  asAttendanceDate: string
+  asStandardDivisionId: number
+  asSendMessage: boolean
+}
 
 export interface IGetAttendanceStatus {
   asAttendanceDate: string;

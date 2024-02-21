@@ -18,17 +18,20 @@ import {
   GetHomeworkDetailss,
   GetPublishUnpublishHomework,
   HomeworkDelete,
-  homeworklistforteacher,
-  resetMessage
+  homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
+const HomeworkSubjectList = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const [HomeworkS, setHomeworkS] = useState('0');
   const [AssignedDate, setAssignedDate] = useState('');
   const [Title, setTitle] = useState('');
+  const [HomeworkId, setHomeworkId] = useState('');
+  const [CompleteByDate, setCompleteDate] = useState('');
+  const [AttachmentPath, setAttechment] = useState('');
+  const [Details, setDetails] = useState('');
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -55,18 +58,15 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
   ];
 
-  // const Subjectlistsforteacher = useSelector(
-  //   (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  // );
-  //console.log(Subjectlistsforteacher, "Subjectlistsforteacher....")
+  const Subjectlistsforteacher = useSelector(
+    (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  );
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
   );
-  //console.log(PublishUnpublishHomework, "PublishUnpublishHomework.hgy...")
   const AllHomeworkDocuments = useSelector(
     (state: RootState) => state.HomeworkSubjectList.GetAllHomeworkDocuments
   );
-  //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
   const DeleteHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.DeleteHomework
   );
@@ -90,13 +90,13 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     asAcademicyearId: asAcademicYearId
   };
   const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-    asSchoolId: 18,
-    asAcademicyearId: 54,
-    asHomeworkId: 18190
+    asSchoolId: asSchoolId,
+    asAcademicyearId: asAcademicYearId,
+    asHomeworkId: Number(Id)
   };
-  useEffect(() => {
-    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
+  // }, []);
 
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
@@ -105,13 +105,34 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
+  const clickEdit1 = (Id) => {
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(Id)
+    };
+    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
+  };
+
+  useEffect(() => {
+    console.log(' after edit:', HomeworkDetail);
+    if (HomeworkDetail && HomeworkDetail.length > 0) {
+      setHomeworkId(HomeworkDetail.Id.toString);
+      setAttechment(HomeworkDetail[0].AttachmentPath);
+      setAssignedDate(HomeworkDetail[0].AssignedDate);
+      setCompleteDate(HomeworkDetail[0].CompleteByDate);
+      setTitle(HomeworkDetail[0].Title);
+      setDetails(HomeworkDetail[0].Details);
+    }
+  }, [HomeworkDetail]);
+
   const [isPublish, setIsPublish] = useState(true);
 
   const getIsPublish = (Id) => {
     let IsPublish = false;
     Subjectlistsforteacher.map((item) => {
       if (item.Id.toString() == Id.toString()) {
-        IsPublish = item.Text7 == 'False' ? true : false;
+        IsPublish = item.Text7 == 'false' ? true : false;
         return IsPublish;
       }
     });
@@ -119,7 +140,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   };
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
-    if (IsPublish) {
+    if (IsPublish == false) {
       navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
     } else {
       const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
@@ -137,10 +158,35 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   useEffect(() => {
     if (PublishUnpublishHomework != '') {
       toast.success(PublishUnpublishHomework);
-      dispatch(resetMessage());
+      //dispatch(resetMessage());
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
+
+  // const Changestaus = (Id) => {
+  //   const updatedIsPublish = !isPublish;
+
+  //   const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
+  //     asSchoolId: asSchoolId,
+  //     asAcademicYearId: asAcademicYearId,
+  //     asHomeworkId: Number(Id),
+  //     asReason: '',
+  //     asUpdatedById: asTeacherId,
+  //     asIsPublish: updatedIsPublish,
+  //     asIsSMSSent: true
+  //   };
+  //   dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
+
+  //   setIsPublish(updatedIsPublish);
+  // };
+
+  // useEffect(() => {
+  //   if (PublishUnpublishHomework != '') {
+  //     toast.success(PublishUnpublishHomework);
+  //     //dispatch(resetMessage());
+  //     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
+  //   }
+  // }, [PublishUnpublishHomework]);
 
   const clickDelete = (Id) => {
     // alert(Id)
@@ -162,9 +208,19 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const handleTitle = (value) => {
     setTitle(value);
   };
+  // const clickSearch = (value) => {
+  //   dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
+  // };
   const clickSearch = (value) => {
+    setAssignedDate(value);
+    setTitle(value);
+
+    if (Subjectlistsforteacher && Subjectlistsforteacher.length == 0) {
+      toast.success('No Records Found');
+    }
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   };
+
   const clickView = (Id) => {
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
   };
@@ -181,9 +237,10 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
-  const clickEdit = (Id) => {
-    navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
-  };
+  // const clickEdit = (Id) => {
+  //   setHomeworkS(Id);
+  //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
+  // };
 
   return (
     <div>
@@ -267,7 +324,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
         clickDelete={clickDelete}
-        clickEdit={clickEdit}
+        clickEdit={clickEdit1}
         clickVisibilityIcon={clickView}
         clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish}
