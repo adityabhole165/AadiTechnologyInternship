@@ -23,6 +23,7 @@ import {
   alpha
 } from '@mui/material';
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 
 function SubHeaderNavBar({ toggleDrawer }) {
   const [pages, setPages] = React.useState([
@@ -176,6 +177,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
   ]);
   const [openSupportMenu, setOpenSupportMenu] = React.useState(false);
   const supportMenuRef = React.useRef<HTMLButtonElement>(null);
+  const navigate = useNavigate();
 
   const handleToggle = () => {
     setOpenSupportMenu((prevOpen) => !prevOpen);
@@ -220,7 +222,15 @@ function SubHeaderNavBar({ toggleDrawer }) {
       ]
     }
   ];
-
+  const handleLogout = async (): Promise<void> => {
+    try {
+      localStorage.removeItem('auth');
+      sessionStorage.clear();
+      navigate('/');
+    } catch (err) {
+      console.error(err);
+    }
+  };
   return (
     <div>
       <AppBar
@@ -368,6 +378,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                   color: 'white',
                   background: (theme) => alpha(theme.palette.common.white, 0.2)
                 }}
+                onClick={handleLogout}
               >
                 <LogoutTwoToneIcon />
               </IconButton>
