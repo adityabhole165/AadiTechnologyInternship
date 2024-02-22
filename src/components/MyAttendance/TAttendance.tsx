@@ -316,7 +316,7 @@ const TAttendance = () => {
         '" is_present="' +
         (Item.isActive ? 'Y' : 'N') +
         '" is_halfdaypresent="N" Standard_Division_Id="' +
-        Standardid +
+        selectClasstecahernew +
         '" Academic_Year_Id="' +
         asAcademicYearId +
         '" />';
@@ -329,7 +329,7 @@ const TAttendance = () => {
       asInsertedById: Number(asTeacherId),
       asStudentsAttendanceXML: getXML(),
       asAttendanceDate: assignedDate,
-      asStandardDivisionId: Number(Standardid),
+      asStandardDivisionId: Number(selectClasstecahernew),
       asSendMessage: sendmeassagestudent
     };
     dispatch(GetSaveStudentAttendence(GetSaveStudentAttendance));
