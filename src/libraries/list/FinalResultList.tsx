@@ -45,7 +45,12 @@ const FinalResultList = ({
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
         <TableHead>
-          <TableRow sx={{ backgroundColor: '#4dd0e1' }}>
+          <TableRow
+            sx={{
+              backgroundColor: (theme) => theme.colors.primary.main,
+              color: (theme) => theme.palette.common.white
+            }}
+          >
             {HeaderList.map((item, i) => {
               return (
                 <TableCell align="center" key={i}>

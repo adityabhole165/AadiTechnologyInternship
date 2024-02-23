@@ -1,17 +1,15 @@
-import ApiTwoTone from '@mui/icons-material/ApiTwoTone';
+import AddTwoTone from '@mui/icons-material/AddTwoTone';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import {
   Box,
   Breadcrumbs,
   Container,
-  FormControl,
-  FormControlLabel,
   Grid,
   IconButton,
-  Radio,
-  RadioGroup,
   Stack,
+  Tooltip,
   Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -26,7 +24,6 @@ import {
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
 import DropDown from 'src/libraries/list/DropDown';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   ClassName,
   FullTeacherName,
@@ -243,7 +240,7 @@ const AssignHomework = () => {
                 boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
               }}
             >
-              <ApiTwoTone color="primary" />
+              <HomeTwoTone color="primary" />
             </IconButton>
           </Link>
           <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
@@ -266,32 +263,42 @@ const AssignHomework = () => {
             DefaultValue={SelectClass}
             Label={'Select Class:'}
           />
+          {asStandardDivisionId == SelectClass && (
+            <Tooltip title={'Add Daily Log'}>
+              <IconButton
+                onClick={onClick}
+                sx={{
+                  color: 'white',
+                  backgroundColor: (theme) => theme.palette.primary.main,
+                  '&:hover': {
+                    backgroundColor: (theme) => theme.palette.primary.dark
+                  }
+                }}
+              >
+                <AddTwoTone />
+              </IconButton>
+            </Tooltip>
+          )}
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white' }}>
-        {/* Card Header */}
-        <FormControl>
-          <RadioGroup
-            aria-labelledby="demo-radio-buttons-group-label"
-            defaultValue="mySubject"
-            name="radio-buttons-group"
-            row
-          >
-            <FormControlLabel
-              value="mySubject"
-              control={<Radio />}
-              label="My Subject"
-            />
-            <FormControlLabel
-              value="myClassSubject"
-              control={<Radio />}
-              label="My Class Subject"
-            />
-          </RadioGroup>
-        </FormControl>
-        {/*Card Content */}
-        <Grid container>
-          <Grid item xs={12} mt={2}>
+        <Grid container spacing={2}>
+          <Grid item xs={6}>
+            <Typography variant={'h4'} mb={1}>
+              My Subjects
+            </Typography>
+            <Box>
+              <Assignhomeworklist
+                ItemList={subjectDetailList}
+                clickAssign={clickItem1}
+                HeaderArray={HeaderOfTable}
+              />
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Typography variant={'h4'} mb={1}>
+              My Class Subjects
+            </Typography>
             <Box>
               <Assignhomeworklist
                 ItemList={subjectDetailList}
@@ -301,14 +308,6 @@ const AssignHomework = () => {
             </Box>
           </Grid>
         </Grid>
-
-        {asStandardDivisionId == SelectClass && (
-          <div>
-            <ButtonPrimary onClick={onClick} variant="contained">
-              ADD DAILY LOG
-            </ButtonPrimary>
-          </div>
-        )}
       </Box>
     </Container>
   );

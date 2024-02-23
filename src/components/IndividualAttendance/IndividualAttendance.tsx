@@ -1,6 +1,6 @@
-import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import SaveAlt from '@mui/icons-material/Save';
 import SearchIcon from '@mui/icons-material/Search';
@@ -301,7 +301,7 @@ const IndividualAttendance = () => {
                 boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
               }}
             >
-              <ApiTwoToneIcon color="primary" />
+              <HomeTwoTone color="primary" />
             </IconButton>
           </Link>
           <Link to={'/extended-sidebar/Teacher/TAttendance'}>

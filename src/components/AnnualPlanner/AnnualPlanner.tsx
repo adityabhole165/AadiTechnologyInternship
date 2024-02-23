@@ -1,9 +1,9 @@
 import AddIcon from '@mui/icons-material/Add';
-import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import BackupIcon from '@mui/icons-material/Backup';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
@@ -282,7 +282,7 @@ function AnnualPlanner() {
                         boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
                       }}
                     >
-                      <ApiTwoToneIcon color="primary" />
+                      <HomeTwoTone color="primary" />
                     </IconButton>
                   </Link>{' '}
                   <Typography
@@ -414,7 +414,8 @@ function AnnualPlanner() {
           <DialogTitle
             sx={{
               py: 1,
-              backgroundColor: (theme) => theme.colors.primary.main
+              backgroundColor: (theme) => theme.colors.primary.main,
+              color: (theme) => theme.palette.common.white
             }}
           ></DialogTitle>
           <DialogContent dividers>
