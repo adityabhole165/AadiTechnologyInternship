@@ -1,8 +1,8 @@
+import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import LogoutTwoToneIcon from '@mui/icons-material/LogoutTwoTone';
 import MenuIcon from '@mui/icons-material/Menu';
 import NotificationsTwoToneIcon from '@mui/icons-material/NotificationsTwoTone';
-import SupportTwoToneIcon from '@mui/icons-material/SupportTwoTone';
 import {
   AppBar,
   Box,
@@ -313,7 +313,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                 ref={supportMenuRef}
                 onClick={handleToggle}
               >
-                <SupportTwoToneIcon />
+                <InfoTwoToneIcon />
               </IconButton>
             </Tooltip>
             {/* Support Menu Popup */}
