@@ -1,3 +1,5 @@
+
+
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import {
@@ -10,7 +12,24 @@ import {
   Typography,
   alpha
 } from '@mui/material';
+import {
+  IGetAllDivisionsForStandardDropDownBody,
+  IGetAllMonthsDropDownBody,
+  IGetAssociatedStdLstForTeacherDropDownBody,
+  IGetYearsForAnnualPalannerDropDownBody
+} from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import {
+  GetDivisionList,
+  GetMonthList,
+  GetStandardList,
+  GetYearList
+} from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import DotLegendTeacher from '../summary/DotLegendTeacher';
+
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from 'src/store';
+import Dropdown from '../dropdown/Dropdown';
 import CardCal from './CardCal';
 function AnnualPlannerCalendar({
   ItemList,
@@ -26,6 +45,103 @@ function AnnualPlannerCalendar({
     exam: '#008000',
     events: '#303f9f'
   };
+  const currentYear = new Date().getFullYear().toString();
+  const currentMonth = (new Date().getMonth() + 1).toString();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const TeacherId = sessionStorage.getItem('TeacherId');
+
+  const [assignedYear, setAssignedYear] = useState<any>();
+  const [assignedMonth_num, SetassignedMonth_num] = useState<any>();
+  const [selectStandard, setSelectStandard] = useState('');
+  const [selectDivision, setSelectDivision] = useState('');
+  const [selectMonth, setSelectMonth] = useState(currentMonth);
+  const [selectYear, setSelectYear] = useState(currentYear);
+  const dispatch = useDispatch();
+  const SelectStandardList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList
+  );
+  const SelectDivisionList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList
+  );
+  const SelectMonthList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList
+  );
+  const SelectYearList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList
+  );
+
+  const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
+  {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId)
+  };
+
+  const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
+    asSchoolId: Number(asSchoolId)
+  };
+
+  const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
+  {
+    asSchoolId: Number(asSchoolId)
+  };
+
+  const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardId: 1062
+  };
+
+
+
+  useEffect(() => {
+    dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetDivisionList(AllDivisionsForStandardBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetMonthList(GetAllMonthsDropBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+  }, []);
+
+  // useEffect(() => {
+  //   if (
+  //     selectStandard != '' &&
+  //     selectDivision != '' &&
+  //     selectMonth != '' &&
+  //     selectYear != '' &&
+  //     date != ''
+  //   )
+  //     dispatch(CDAGetEventsDataList(GetEventsDataListBody));
+  // }, [selectStandard, selectDivision, selectMonth, selectYear, date]);
+
+  useEffect(() => {
+    if (SelectStandardList.length > 0 && SelectDivisionList.length > 0) {
+      setSelectStandard(SelectStandardList[0].Value);
+      setSelectDivision(SelectDivisionList[0].Value);
+    }
+  }, [SelectStandardList, SelectDivisionList]);
+
+  const clickStandardDropdown = (value) => {
+    setSelectStandard(value);
+  };
+
+  const clickdivisionDropdown = (value) => {
+    setSelectDivision(value);
+  };
+  const clicMonthDropdown = (value) => {
+    setSelectMonth(value);
+  };
+  const clicYearDropdown = (value) => {
+    setSelectYear(value);
+  };
+
+
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return (obj.Status == undefined ? obj.Text3 : obj.Status) == 'Y';
@@ -33,11 +149,11 @@ function AnnualPlannerCalendar({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-            ...obj,
-            Status: checkStatus(obj) ? 'N' : 'Y',
-            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-            Text1: checkStatus(obj) ? 'Absent' : 'Present'
-          }
+          ...obj,
+          Status: checkStatus(obj) ? 'N' : 'Y',
+          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+          Text1: checkStatus(obj) ? 'Absent' : 'Present'
+        }
         : obj
     );
 
@@ -60,48 +176,38 @@ function AnnualPlannerCalendar({
 
           <Stack direction={'row'} gap={1}>
             <Box>
-              <TextField
-                select={true}
-                sx={{ width: '150px' }}
-                label="Select Standard"
-                size={'small'}
-                value={''}
-              >
-                <MenuItem value={''}>Select Standard</MenuItem>
-              </TextField>
+
+              <Dropdown
+                Array={SelectStandardList}
+                handleChange={clickStandardDropdown}
+                defaultValue={selectStandard}
+              />
+
+
             </Box>
             <Box>
-              <TextField
-                select={true}
-                sx={{ width: '150px' }}
-                label="Select Division"
-                size={'small'}
-                value={''}
-              >
-                <MenuItem value={''}>Select Division</MenuItem>
-              </TextField>
+              <Dropdown
+                Array={SelectDivisionList}
+                handleChange={clickdivisionDropdown}
+                defaultValue={selectDivision}
+                label={'Select Division'}
+              />
             </Box>
             <Box>
-              <TextField
-                select={true}
-                sx={{ width: '150px' }}
-                label="Select Month"
-                size={'small'}
-                value={''}
-              >
-                <MenuItem value={''}>Select Month</MenuItem>
-              </TextField>
+              <Dropdown
+                Array={SelectMonthList}
+                handleChange={clicMonthDropdown}
+                defaultValue={selectMonth}
+                label={'Select Month'}
+              />
             </Box>
             <Box>
-              <TextField
-                select={true}
-                sx={{ width: '150px' }}
-                label="Select Year"
-                size={'small'}
-                value={''}
-              >
-                <MenuItem value={''}>Select Year</MenuItem>
-              </TextField>
+              <Dropdown
+                Array={SelectYearList}
+                handleChange={clicYearDropdown}
+                defaultValue={selectYear}
+                label={'Select Year'}
+              />
             </Box>
             <IconButton
               color={'primary'}

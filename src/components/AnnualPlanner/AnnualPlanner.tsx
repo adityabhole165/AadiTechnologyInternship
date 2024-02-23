@@ -28,19 +28,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import { IGetAllDivisionsForStandardDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import {
   IEventList,
-  IGetAcadamicYearDropDownBody,
-  IGetAllEventsBody,
-  IGetAllMonthsDropDownBody,
-  IGetAllStandardsBody
+  IGetAllMonthsDropDownBody
 } from 'src/interfaces/Common/AnnualPlanner';
 import AnnualPlannerCalendar from 'src/libraries/ResuableComponents/AnnualPlannerCalendar';
+import { CDAGetEventsDataList, GetDivisionList, GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import {
-  AcadamicYear,
-  AllStandards,
   GetMonthList,
-  alleventyearlist,
   getEventList
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
@@ -59,10 +55,18 @@ const VisuallyHiddenInput = styled('input')({
 function AnnualPlanner() {
   const navigate = useNavigate();
   const { DateFrommon, DateFromyear } = useParams();
-  const [AllStandard, setAllStandard] = useState('0');
-  const [AllMonth, setAllMonth] = useState('0');
-  const [AllAcadamicYear, setAllAcadamicYear] = useState('0');
 
+  const currentYear = new Date().getFullYear().toString();
+  const currentMonth = (new Date().getMonth() + 1).toString();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const TeacherId = sessionStorage.getItem('TeacherId');
+  const RoleId = sessionStorage.getItem('RoleId');
+  const [selectStandard, setSelectStandard] = useState('');
+  const [selectDivision, setSelectDivision] = useState('');
+  const [selectMonth, setSelectMonth] = useState(currentMonth);
+  const [selectYear, setSelectYear] = useState(currentYear);
   const BackMonth = new Date(
     Number(DateFromyear),
     Number(DateFrommon)
@@ -72,35 +76,108 @@ function AnnualPlanner() {
   const eventList = useSelector(
     (state: RootState) => state.AnnualPlanner.EventList
   );
-  const USAllStandards = useSelector(
-    (state: RootState) => state.AnnualPlanner.IAllStandards
-  );
-  const SelectMonthList: any = useSelector(
-    (state: RootState) => state.AnnualPlanner.ISSelectMonthList
-  );
-  const SelectAcadamicYear: any = useSelector(
-    (state: RootState) => state.AnnualPlanner.ISAcadamicYearList
-  );
+
   const loading = useSelector(
     (state: RootState) => state.AnnualPlanner.Loading
   );
-
-  const CalendarForStudent = useSelector(
-    (state: RootState) => state.IndividualAttendance.GetCalendarForStudent
+  const SelectStandardList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectStandardList
+  );
+  const SelectDivisionList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectDivisionList
+  );
+  const SelectMonthList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectMonthList
+  );
+  const SelectYearList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList
   );
 
-  const AllYearEventlist: any = useSelector(
-    (state: RootState) => state.AnnualPlanner.IsAllYearEventList
+  const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
+    asSchoolId: Number(asSchoolId)
+  };
+
+  const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
+  {
+    asSchoolId: Number(asSchoolId)
+  };
+
+  const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardId: 1062
+  };
+
+  const USGetEventsDataList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList
   );
-  console.log(AllYearEventlist, 'Seeeeeee');
+
+
+  const GetEventsDataListBody: IGetEventsDataListBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asMonthId: Number(selectMonth),
+    asYear: Number(selectYear),
+    asStandardId: Number(selectStandard),
+    asDivisionId: Number(selectDivision)
+  };
+
+
+
+  useEffect(() => {
+
+    dispatch(CDAGetEventsDataList(GetEventsDataListBody));
+  }, []);
+
+  useEffect(() => {
+    dispatch(GetDivisionList(AllDivisionsForStandardBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetMonthList(GetAllMonthsDropBody));
+  }, []);
+  useEffect(() => {
+    dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+  }, []);
+
+  // useEffect(() => {
+  //   if (
+  //     selectStandard != '' &&
+  //     selectDivision != '' &&
+  //     selectMonth != '' &&
+  //     selectYear != '' &&
+  //     date != ''
+  //   )
+  //     dispatch(CDAGetEventsDataList(GetEventsDataListBody));
+  // }, [selectStandard, selectDivision, selectMonth, selectYear, date]);
+
+  useEffect(() => {
+    if (SelectStandardList.length > 0 && SelectDivisionList.length > 0) {
+      setSelectStandard(SelectStandardList[0].Value);
+      setSelectDivision(SelectDivisionList[0].Value);
+    }
+  }, [SelectStandardList, SelectDivisionList]);
+
+  const clickStandardDropdown = (value) => {
+    setSelectStandard(value);
+  };
+
+  const clickdivisionDropdown = (value) => {
+    setSelectDivision(value);
+  };
+  const clicMonthDropdown = (value) => {
+    setSelectMonth(value);
+  };
+  const clicYearDropdown = (value) => {
+    setSelectYear(value);
+  };
+
+
+
 
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
-  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const asSchoolId = localStorage.getItem('localSchoolId');
-  const UserId = sessionStorage.getItem('Id');
-  const RoleId = sessionStorage.getItem('RoleId');
+
 
   const HeaderPublish = [
     { Id: 1, Header: 'Sun' },
@@ -183,39 +260,9 @@ function AnnualPlanner() {
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
   };
-  useEffect(() => {
-    dispatch(AllStandards(GetAllStandardsBody));
-  }, []);
-  useEffect(() => {
-    dispatch(GetMonthList(GetAllMonth));
-  }, []);
-  useEffect(() => {
-    dispatch(AcadamicYear(GetAcadamicYear));
-  }, []);
 
-  useEffect(() => {
-    dispatch(alleventyearlist(IGetAllYearEvents));
-  }, [AllMonth, AllStandard]);
 
-  const IGetAllYearEvents: IGetAllEventsBody = {
-    asSchoolId: Number(asSchoolId),
-    asAcademicYearId: 54,
-    asMonthId: AllMonth == '0' ? null : Number(AllMonth),
-    asStandardId: AllStandard == '0' ? null : Number(AllStandard)
-  };
 
-  const GetAllStandardsBody: IGetAllStandardsBody = {
-    asSchoolId: 18,
-    asAcademicYearId: 54
-  };
-  const GetAllMonth: IGetAllMonthsDropDownBody = {
-    asSchoolId: 18
-  };
-  const GetAcadamicYear: IGetAcadamicYearDropDownBody = {
-    asSchoolId: 18,
-    asUserId: 3584,
-    asUserRoleId: 2
-  };
 
   const body: IEventList = {
     asMonth: assignedMonth_num,
@@ -245,15 +292,7 @@ function AnnualPlanner() {
   const clickAddAnnual = () => {
     navigate('/extended-sidebar/teacher/AddAnnualPlaner');
   };
-  const clickStandardDropdown = (value) => {
-    setAllStandard(value);
-  };
-  const clickMonthDropdown = (value) => {
-    setAllMonth(value);
-  };
-  const clickAcadamicDropdown = (value) => {
-    setAllAcadamicYear(value);
-  };
+
   return (
     <>
       {RoleId === '3' ? (
@@ -392,10 +431,10 @@ function AnnualPlanner() {
             )} */}
             <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
               <AnnualPlannerCalendar
-                ItemList={CalendarForStudent}
-                ClickItem={() => {}}
-                handlePrevMonth={() => {}}
-                handleNextMonth={() => {}}
+                ItemList={""}
+                ClickItem={() => { }}
+                handlePrevMonth={() => { }}
+                handleNextMonth={() => { }}
                 formattedDate={formattedDate}
                 DefaultValue={''}
                 ArrayList={HeaderPublish}
@@ -476,7 +515,7 @@ function AnnualPlanner() {
             >
               Cancel
             </Button>
-            <Button onClick={() => {}} color={'primary'} variant={'contained'}>
+            <Button onClick={() => { }} color={'primary'} variant={'contained'}>
               Save
             </Button>
           </DialogActions>

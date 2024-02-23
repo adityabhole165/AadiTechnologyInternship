@@ -1,3 +1,4 @@
+
 import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -18,17 +19,98 @@ import {
   Typography
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
-import React from 'react';
+import { any } from 'prop-types';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { IGetAllAcademicYearsForSchoolEVBody, IGetAllEventsBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import { CDAAllAcademicYearsForSchool, CDAAssociatedStandardListEventOverview, CDAGetAllEvents, CDAGetAllMonthsDropDown } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import { RootState } from 'src/store';
 type Props = {};
 
 const EventOverview = (props: Props) => {
   const [expanded, setExpanded] = React.useState<string | false>(false);
+  const dispatch = useDispatch();
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const UserId = sessionStorage.getItem('Id');
+  const TeacherId = sessionStorage.getItem('TeacherId');
+
+  const AssociatedStandardsEV: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.IGetAssociatedStandardsEv
+  );
+
+  const AllAcademicYearsForSchool: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISGetAllAcademicYearsForSchool
+  );
+
+  const UsGetAllMonthsDropDown: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.IsGetAllMonthsDropDown
+  );
+
+  const USGetAllEvents: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISGetAllEvents
+  );
+
+
+  console.log(AssociatedStandardsEV, "AssociatedStandardsEV");
+  console.log(AllAcademicYearsForSchool, "AllAcademicYearsForSchool");
+  console.log(UsGetAllMonthsDropDown, "UsGetAllMonthsDropDown");
+
+
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
+
+
+
+
+  const GetAssociatedStandardsEVBody: IGetAssociatedStandardsEVBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+
+  };
+
+
+  const GetAllAcademicYearsForSchoolBody: IGetAllAcademicYearsForSchoolEVBody = {
+    asSchoolId: Number(asSchoolId),
+    asUserId: Number(UserId),
+    asUserRoleId: 2
+
+  };
+
+  const GetAllMonthsDropDownBody: IGetAllMonthsDropDownBody = {
+    asSchoolId: Number(asSchoolId),
+
+  };
+
+
+  const GetAllEventsBody: IGetAllEventsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asMonthId: null,
+    asStandardId: null
+  };
+
+
+  useEffect(() => {
+    dispatch(CDAAssociatedStandardListEventOverview(GetAssociatedStandardsEVBody));
+  }, []);
+
+  useEffect(() => {
+    dispatch(CDAAllAcademicYearsForSchool(GetAllAcademicYearsForSchoolBody));
+  }, []);
+
+
+  useEffect(() => {
+    dispatch(CDAGetAllMonthsDropDown(GetAllMonthsDropDownBody));
+  }, []);
+  useEffect(() => {
+    dispatch(CDAGetAllEvents(GetAllEventsBody));
+  }, []);
+
 
   return (
     <Container sx={{ mt: 4 }} maxWidth={'xl'}>
