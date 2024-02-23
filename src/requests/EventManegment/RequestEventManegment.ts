@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { AppThunk } from "src/store";
-import { IEventDetailsBody, IAllClassesAndDivisionsBody, ISelectedStandardAndDivisionCheckBoxBody, IUpdateEventBody, IDeleteEventBody, DeleteEventImageBody, IEventListBody } from "src/interfaces/EventManegment/IEventManegment";
 import GetEventDescriptionApi from 'src/api/EventManegment/ApiEventManegment';
+import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IDeleteEventBody, IEventDetailsBody, IEventListBody, ISelectedStandardAndDivisionCheckBoxBody, IUpdateEventBody } from "src/interfaces/EventManegment/IEventManegment";
+import { AppThunk } from "src/store";
 
 
 const EventDescriptionSlice = createSlice({
@@ -81,19 +81,19 @@ export const GetEventdetail =
   (data: IEventDetailsBody): AppThunk =>
     async (dispatch) => {
       const response = await GetEventDescriptionApi.EventDetails(data);
-      let responseData = response.data.map((item, i) => {
+      // let responseData = response.data.map((item, i) => {
 
-        return {
-          Id: item.Event_Id,
-          text1: item.Event_Description,
-          text2: item.Event_Start_Date,
-          text3: item.Event_End_Date,
-          //text4: item.Event_Comment,
-          text5: item.Event_Image,
+      //   return {
+      //     Id: item.Event_Id,
+      //     text1: item.Event_Description,
+      //     text2: item.Event_Start_Date,
+      //     text3: item.Event_End_Date,
+      //     //text4: item.Event_Comment,
+      //     text5: item.Event_Image,
 
-        }
-      })
-      dispatch(EventDescriptionSlice.actions.getEventDetailss(responseData))
+      //   }
+      // })
+      dispatch(EventDescriptionSlice.actions.getEventDetailss(response))
     }
 
 //3.GetAllClassesAndDivisions

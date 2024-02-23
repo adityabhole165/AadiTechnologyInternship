@@ -46,7 +46,7 @@ import { RootState } from 'src/store';
 const EventsManagement = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { Id, Event_Id } = useParams();
+  const { Id, Event_Id, Name } = useParams();
 
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
@@ -70,6 +70,7 @@ const EventsManagement = () => {
   const [ErrorEventTitle, setErrorEventTitle] = useState('');
   const [EventEndDate, setEventEndDate] = useState('');
   const [ErrorEventEndDate, setErrorEventEndDate] = useState('');
+  const [HomeworkId, setHomeworkId] = useState('');
 
   const [ItemList, setitemList] = useState([]);
   const [ErrorIteamList, setErrorIteamList] = useState('');
@@ -90,8 +91,8 @@ const EventsManagement = () => {
   const EventLisst = useSelector(
     (state: RootState) => state.EventsManagement.EventListt
   );
-  console.log('EventLisst', EventLisst);
-  const EventDetaill = useSelector(
+  // console.log('EventLisst', EventLisst);
+  const EventDetaill: any = useSelector(
     (state: RootState) => state.EventsManagement.EventDetailss
   );
 
@@ -141,6 +142,17 @@ const EventsManagement = () => {
     };
     dispatch(GetEventdetail(EDetails));
   }, []);
+  useEffect(() => {
+    if (EventDetaill !== null) {
+      console.log(' after edit:', EventDetaill);
+      // setHomeworkId(EventDetaill.Id.toString);
+      setEventTitle(EventDetaill.EventTitle);
+      // setBirthDate(getCalendarFormat(EventDetaill.BirthDate))
+      setEventDescription(EventDetaill.EventDescription);
+      setEventStartDate(EventDetaill.EventStartDate);
+      setShowRiseAndShine(EventDetaill.showRiseAndShine);
+    }
+  }, [EventDetaill]);
 
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
@@ -201,7 +213,7 @@ const EventsManagement = () => {
   }, [SvaeUpdateeEvent]);
 
   const getEventString = () => {
-    console.log(ItemList, ' -- ', EventList);
+    // console.log(ItemList, ' -- ', EventList);
     let XMLString = '<StandardDivisions>';
     if (Array.isArray(ItemList)) {
       ItemList.map((item) => {
@@ -411,7 +423,7 @@ const EventsManagement = () => {
                 value={EventStartDate}
                 onChange={(e) => {
                   setEventStartDate(e.target.value);
-                  console.log('EventStartDate :', e.target.value);
+                  // console.log('EventStartDate :', e.target.value);
                 }}
                 error={ErrorEventStartDate !== ''}
                 helperText={ErrorEventStartDate}
@@ -428,7 +440,7 @@ const EventsManagement = () => {
                 label={'Event End Date'}
                 onChange={(e) => {
                   setEventEndDate(e.target.value);
-                  console.log('EventEndDate :', e.target.value);
+                  // console.log('EventEndDate :', e.target.value);
                 }}
                 error={ErrorEventEndDate !== ''}
                 helperText={ErrorEventEndDate}
