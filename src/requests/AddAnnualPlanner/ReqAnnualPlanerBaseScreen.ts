@@ -149,27 +149,7 @@ export const GetYearList =
 
 //   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(CDAGetEventsDataList));
 // };
-// export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
-//   const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
 
-//   let EventsDataList = response.data.map((item, i) => {
-
-//     return {
-//       Id: item.Event_Desc,
-//       IsActive: false,
-//       Name: parseInt(item.Day),
-//       Value: item.Event_Id,
-//       Text1: item.Event_Title,
-//       Text2: item.Event_Desc,
-//       ForeColur: item.Event_ForeColor,
-//       BackgroundColor: item.Event_BackColor,
-//       IsClickable: parseInt(item.Day)
-//     };
-//   });
-//   EventsDataList.sort((a, b) => a.Name - b.Name);
-
-//   dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(EventsDataList));
-// };
 export const CDAGetEventsDataList = (data: IGetEventsDataListBody): AppThunk => async (dispatch) => {
   const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
 

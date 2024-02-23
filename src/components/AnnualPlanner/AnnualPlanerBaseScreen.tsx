@@ -272,8 +272,8 @@ const AnnualPlanerBaseScreen = () => {
   };
   const ClickItemList = (Id) => {
     alert(Id);
-    // navigate('/extended-sidebar/Teacher/EventManegement' + Id);
-    navigate('/extended-sidebar/Teacher/EventManegement');
+    navigate('/extended-sidebar/Teacher/EventManegement/' + Id);
+    // navigate('/extended-sidebar/Teacher/EventManegement');
   };
 
   // const ClickGetMonth = (value) => {
