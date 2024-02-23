@@ -290,21 +290,16 @@ const AssignHomework = () => {
           </RadioGroup>
         </FormControl>
         {/*Card Content */}
-        <Grid item xs={4} mt={2}>
-          <Box>
-            <Box
-              style={{
-                textAlign: 'left',
-                width: '400px'
-              }}
-            >
+        <Grid container>
+          <Grid item xs={12} mt={2}>
+            <Box>
               <Assignhomeworklist
                 ItemList={subjectDetailList}
                 clickAssign={clickItem1}
                 HeaderArray={HeaderOfTable}
               />
             </Box>
-          </Box>
+          </Grid>
         </Grid>
 
         {asStandardDivisionId == SelectClass && (
