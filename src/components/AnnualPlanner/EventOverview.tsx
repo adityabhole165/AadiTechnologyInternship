@@ -20,10 +20,11 @@ import {
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { any } from 'prop-types';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IGetAllAcademicYearsForSchoolEVBody, IGetAllEventsBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsEVBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { CDAAllAcademicYearsForSchool, CDAAssociatedStandardListEventOverview, CDAGetAllEvents, CDAGetAllMonthsDropDown } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
 type Props = {};
@@ -35,6 +36,13 @@ const EventOverview = (props: Props) => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const TeacherId = sessionStorage.getItem('TeacherId');
+
+
+  const currentYear = new Date().getFullYear().toString();
+  const currentMonth = (new Date().getMonth() + 1).toString();
+  const [selectStandard, setSelectStandard] = useState('');
+  const [selectMonth, setSelectMonth] = useState(currentMonth);
+  const [selectYear, setSelectYear] = useState(currentYear);
 
   const AssociatedStandardsEV: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.IGetAssociatedStandardsEv
@@ -112,6 +120,19 @@ const EventOverview = (props: Props) => {
   }, []);
 
 
+  const clickStandardDropdown = (value) => {
+    setSelectStandard(value);
+  };
+
+
+  const clicMonthDropdown = (value) => {
+    setSelectMonth(value);
+  };
+  const clicYearDropdown = (value) => {
+    setSelectYear(value);
+  };
+
+
   return (
     <Container sx={{ mt: 4 }} maxWidth={'xl'}>
       <Stack
@@ -155,40 +176,28 @@ const EventOverview = (props: Props) => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <TextField
-              size={'small'}
-              fullWidth
-              sx={{ minWidth: 150 }}
-              select={true}
-              label={'Select Standard'}
-              value={''}
-            >
-              <MenuItem value={''}>Select Standard</MenuItem>
-            </TextField>
+          <Dropdown
+                Array={AssociatedStandardsEV}
+                handleChange={clickStandardDropdown}
+                defaultValue={selectStandard}
+                label={'Select Standard'}
+              />
           </Box>
           <Box>
-            <TextField
-              size={'small'}
-              fullWidth
-              sx={{ minWidth: 150 }}
-              select={true}
-              label={'Select Division'}
-              value={''}
-            >
-              <MenuItem value={''}>Select Division</MenuItem>
-            </TextField>
+          <Dropdown
+                Array={UsGetAllMonthsDropDown}
+                handleChange={clicMonthDropdown}
+                defaultValue={selectMonth}
+                label={'Select Month'}
+              />
           </Box>
           <Box>
-            <TextField
-              size={'small'}
-              fullWidth
-              sx={{ minWidth: 150 }}
-              select={true}
-              label={'Select Year'}
-              value={''}
-            >
-              <MenuItem value={''}>Select Year</MenuItem>
-            </TextField>
+          <Dropdown
+                Array={AllAcademicYearsForSchool}
+                handleChange={clicYearDropdown}
+                defaultValue={selectYear}
+                label={'Select Year'}
+              />
           </Box>
           <Box>
             <Tooltip title={'Display All the events of the school'}>
