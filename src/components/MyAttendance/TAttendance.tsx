@@ -491,7 +491,7 @@ const TAttendance = () => {
           </Breadcrumbs>
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
+          <Stack direction={'row'} gap={1} alignItems={'center'}>
             <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
               <Typography
                 color={'primary'}
@@ -506,7 +506,22 @@ const TAttendance = () => {
                 Count: {SummaryCountforAttendance?.TotalStudents}
               </Typography>
             </Tooltip>
-          </Box>
+            <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
+            <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
+              <Typography
+                color={'primary'}
+                sx={{ cursor: 'pointer' }}
+                fontWeight={'bold'}
+                onClick={() => {
+                  navigate(
+                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
+                  );
+                }}
+              >
+                Count: {SummaryCountforAttendance?.TotalStudents}
+              </Typography>
+            </Tooltip>
+          </Stack>
           <Box>
             <Paper
               component="form"
@@ -641,7 +656,11 @@ const TAttendance = () => {
           >
             <Typography
               variant={'h4'}
-              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              sx={{
+                marginBottom: 1,
+                fontSize: '18px !important',
+                textTransform: 'capitalize'
+              }}
               color={'green'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text1}
@@ -705,7 +724,11 @@ const TAttendance = () => {
           >
             <Typography
               variant={'h4'}
-              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              sx={{
+                marginBottom: 1,
+                fontSize: '18px !important',
+                textTransform: 'capitalize'
+              }}
               color={'error'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text1}
@@ -769,7 +792,11 @@ const TAttendance = () => {
           >
             <Typography
               variant={'h4'}
-              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              sx={{
+                marginBottom: 1,
+                fontSize: '18px !important',
+                textTransform: 'capitalize'
+              }}
               color={'primary'}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text1}
@@ -833,7 +860,11 @@ const TAttendance = () => {
           >
             <Typography
               variant={'h4'}
-              sx={{ marginBottom: 1, fontSize: '18px !important' }}
+              sx={{
+                marginBottom: 1,
+                fontSize: '18px !important',
+                textTransform: 'capitalize'
+              }}
             >
               {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text1}
             </Typography>

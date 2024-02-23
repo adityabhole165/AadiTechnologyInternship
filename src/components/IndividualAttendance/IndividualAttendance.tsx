@@ -22,7 +22,6 @@ import {
   Typography
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
-import { grey } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -305,15 +304,12 @@ const IndividualAttendance = () => {
               <ApiTwoToneIcon color="primary" />
             </IconButton>
           </Link>
-          <Link
-            to={'/extended-sidebar/Teacher/TAttendance'}
-            color="inherit"
-            style={{ textDecoration: 'none' }}
-          >
+          <Link to={'/extended-sidebar/Teacher/TAttendance'}>
             <Typography
               variant={'h3'}
               fontSize={'23px'}
-              sx={{ color: grey[600] }}
+              fontWeight={'normal'}
+              color={'text.primary'}
             >
               Attendance
             </Typography>

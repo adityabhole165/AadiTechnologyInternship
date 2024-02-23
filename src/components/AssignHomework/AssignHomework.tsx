@@ -1,8 +1,23 @@
+import ApiTwoTone from '@mui/icons-material/ApiTwoTone';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import { Box, Container, Grid, Stack, Typography } from '@mui/material';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import {
+  Box,
+  Breadcrumbs,
+  Container,
+  FormControl,
+  FormControlLabel,
+  Grid,
+  IconButton,
+  Radio,
+  RadioGroup,
+  Stack,
+  Typography
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import {
   IClassDropDownBody,
   IClassTeacherDropdownBody,
@@ -10,10 +25,8 @@ import {
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DropDown from 'src/libraries/list/DropDown';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import DotLegend from 'src/libraries/summary/DotLegend';
 import {
   ClassName,
   FullTeacherName,
@@ -205,102 +218,104 @@ const AssignHomework = () => {
   console.log(asStandardDivisionId, '--', SelectClass);
 
   return (
-    <>
-      <Container maxWidth={'xl'}>
-        <PageHeader heading={'Assign Homework'} />
-        <div
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}
+    <Container maxWidth={'xl'}>
+      <Stack
+        direction={'row'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        sx={{
+          pt: 4,
+          pb: 2
+        }}
+      >
+        <Breadcrumbs
+          aria-label="breadcrumb"
+          separator={<ChevronRightTwoTone />}
         >
-          <Grid
-            container
-            spacing={2}
-            justifyContent="center"
-            alignItems="center"
+          <Link
+            to={'/extended-sidebar/landing/landing'}
+            color="inherit"
+            style={{ textDecoration: 'none' }}
           >
-            <Grid item xs={1}>
-              <Typography margin={'5px'}>
-                <b>Select Teacher:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={2}>
-              {/* {GetScreenPermission()=="Y"?
-    <DropDown itemList={FullAccessTeacher} ClickItem={clickTeacherDropdown} DefaultValue={SelectTeacher} Label={"Select Teacher:"}/>:
-    sessionStorage.getItem("StudentName")
-    } */}
-              <DropDown
-                width={200}
-                itemList={TeacherList}
-                ClickItem={clickTeacherDropdown}
-                DefaultValue={SelectTeacher}
-                Label={'Select Teacher:'}
+            <IconButton
+              sx={{
+                background: (theme) => theme.palette.common.white,
+                boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+              }}
+            >
+              <ApiTwoTone color="primary" />
+            </IconButton>
+          </Link>
+          <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+            Assign Homework
+          </Typography>
+        </Breadcrumbs>
+
+        <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <DropDown
+            width={200}
+            itemList={TeacherList}
+            ClickItem={clickTeacherDropdown}
+            DefaultValue={SelectTeacher}
+            Label={'Select Teacher:'}
+          />
+          <DropDown
+            width={200}
+            itemList={ClassList}
+            ClickItem={clickClass}
+            DefaultValue={SelectClass}
+            Label={'Select Class:'}
+          />
+        </Stack>
+      </Stack>
+      <Box sx={{ mt: 1, p: 2, background: 'white' }}>
+        {/* Card Header */}
+        <FormControl>
+          <RadioGroup
+            aria-labelledby="demo-radio-buttons-group-label"
+            defaultValue="mySubject"
+            name="radio-buttons-group"
+            row
+          >
+            <FormControlLabel
+              value="mySubject"
+              control={<Radio />}
+              label="My Subject"
+            />
+            <FormControlLabel
+              value="myClassSubject"
+              control={<Radio />}
+              label="My Class Subject"
+            />
+          </RadioGroup>
+        </FormControl>
+        {/*Card Content */}
+        <Grid item xs={4} mt={2}>
+          <Box>
+            <Box
+              style={{
+                textAlign: 'left',
+                width: '400px'
+              }}
+            >
+              <Assignhomeworklist
+                ItemList={subjectDetailList}
+                clickAssign={clickItem1}
+                HeaderArray={HeaderOfTable}
               />
-              <br></br>
-              <br></br>
-            </Grid>
-            <Grid item xs={1}>
-              <Typography>
-                <b>Select Class :</b>
-              </Typography>
-            </Grid>
-
-            <Grid item xs={2}>
-              <DropDown
-                width={200}
-                itemList={ClassList}
-                ClickItem={clickClass}
-                DefaultValue={SelectClass}
-                Label={'Select Class:'}
-              />
-
-              <br></br>
-            </Grid>
-          </Grid>
-
-          <br></br>
-          <br></br>
-          <Stack spacing={2} direction="row">
-            <DotLegend text="My Subject" color="secondary" />
-            <br></br>
-            <DotLegend text="My Class Subject" color="info" />
-            <br></br>
-          </Stack>
-          <br></br>
-
-          <h3>Subject List</h3>
-
-          <Grid item xs={4}>
-            <Box sx={{ paddingBottom: '3px' }}>
-              <Box
-                style={{
-                  textAlign: 'left',
-                  paddingBottom: '40px',
-                  width: '400px'
-                }}
-              >
-                <Assignhomeworklist
-                  ItemList={subjectDetailList}
-                  clickAssign={clickItem1}
-                  HeaderArray={HeaderOfTable}
-                />
-              </Box>
             </Box>
-          </Grid>
+          </Box>
+        </Grid>
 
-          {asStandardDivisionId == SelectClass && (
-            <div>
-              <ButtonPrimary onClick={onClick} variant="contained">
-                ADD DAILY LOG
-              </ButtonPrimary>
-            </div>
-          )}
-        </div>
-      </Container>
-    </>
+        {asStandardDivisionId == SelectClass && (
+          <div>
+            <ButtonPrimary onClick={onClick} variant="contained">
+              ADD DAILY LOG
+            </ButtonPrimary>
+          </div>
+        )}
+      </Box>
+    </Container>
   );
 };
 

@@ -14,7 +14,6 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -139,12 +138,12 @@ const MonthwiseAttandance = () => {
               <Link
                 to={'/extended-sidebar/Teacher/TAttendance'}
                 color="inherit"
-                style={{ textDecoration: 'none' }}
               >
                 <Typography
                   variant={'h3'}
                   fontSize={'23px'}
-                  sx={{ color: grey[600] }}
+                  color={'text.primary'}
+                  fontWeight={'normal'}
                 >
                   Attendance
                 </Typography>

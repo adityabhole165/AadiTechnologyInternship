@@ -1,14 +1,21 @@
-import { Box, FormControl, NativeSelect } from '@mui/material';
+import { Box, FormControl, InputLabel, Select } from '@mui/material';
+import { useState } from 'react';
 function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
+  const [randomUniqueKey, setRandomUniqueKey] = useState(Math.random());
+
   return (
     <div>
       <Box width={width}>
-        <FormControl sx={{ mx: 1 }} fullWidth>
-          <NativeSelect
+        <FormControl fullWidth>
+          <InputLabel id={`label-${randomUniqueKey}`}>{Label}</InputLabel>
+          <Select
             fullWidth
             value={DefaultValue}
+            label={Label}
+            labelId={`label-${randomUniqueKey}`}
             onChange={(e) => ClickItem(e.target.value)}
-            id="select"
+            size={'small'}
+            variant={'standard'}
           >
             {DefaultValue == '' && <option>{Label}</option>}
             {itemList.map((item, i) => {
@@ -18,7 +25,7 @@ function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
                 </option>
               );
             })}
-          </NativeSelect>
+          </Select>
         </FormControl>
       </Box>
     </div>

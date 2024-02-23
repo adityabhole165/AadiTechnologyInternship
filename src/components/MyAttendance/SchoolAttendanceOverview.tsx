@@ -108,14 +108,12 @@ const SchoolAttendanceOverview = () => {
                 <ApiTwoToneIcon color="primary" />
               </IconButton>
             </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/TAttendance'}
-              style={{ textDecoration: 'none' }}
-            >
+            <Link to={'/extended-sidebar/Teacher/TAttendance'}>
               <Typography
                 variant={'h3'}
                 fontSize={'23px'}
-                sx={{ color: grey[600] }}
+                color="text.primary"
+                fontWeight={'normal'}
               >
                 Attendance
               </Typography>
@@ -134,7 +132,7 @@ const SchoolAttendanceOverview = () => {
               onChange={(e) => {
                 onSelectDate(e.target.value);
               }}
-              label={'Select Date'}
+              label={''}
               size="small"
               sx={{
                 backgroundColor: 'white',

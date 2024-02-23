@@ -271,7 +271,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         '&:hover': {
                           color: (theme) => theme.palette.primary.main
                         },
-                        px: 1
+                        px: 1,
+                        fontWeight: 'bold'
                       }}
                       key={key}
                       onClick={(e) => {
