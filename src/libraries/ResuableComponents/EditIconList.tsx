@@ -24,7 +24,12 @@ function EditIconList({
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#4dd0e1' }}>
+            <TableRow
+              sx={{
+                backgroundColor: (theme) => theme.colors.primary.main,
+                color: (theme) => theme.palette.common.white
+              }}
+            >
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}

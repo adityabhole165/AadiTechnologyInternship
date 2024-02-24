@@ -1,7 +1,20 @@
-import { Box, Container, Grid, TextField, Typography } from '@mui/material';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import {
+  Box,
+  Breadcrumbs,
+  Button,
+  Container,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Typography
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IDeleteHomeworkDailyLogBody,
@@ -12,9 +25,6 @@ import {
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import Icon5 from 'src/libraries/icon/icon5';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   PublishUnpublishHomework,
   ResetDeleteLog,
@@ -327,155 +337,127 @@ const AddDailyLog = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <PageHeader heading="Add Daily Log" />
-
-        <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-          Mandatory Fields *
-        </div>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Class :</b>
-            </Typography>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 4,
+            pb: 2
+          }}
+        >
+          <Box>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
+            >
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Link to={'/extended-sidebar/Teacher/AssignHomework'}>
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  fontWeight={'normal'}
+                  color={'text.primary'}
+                >
+                  Assign Homework
+                </Typography>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Add Daily Log
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+        </Stack>
+        <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
+          <Grid container spacing={1}>
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Class'} value={ClassName} />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                type="date"
+                value={dateState}
+                label={'Date'}
+                onChange={handleChange}
+                error={dateError !== ''}
+                helperText={dateError}
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ max: new Date().toISOString().split('T')[0] }}
+              />
+            </Grid>
+            <Grid item xs={12} justifyContent={'center'} display={'flex'}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                ChangeFile={ChangeFile}
+                FileName={fileName}
+              ></SingleFile>
+            </Grid>
+            <Grid item xs={12}>
+              <Stack direction={'row'} gap={1} justifyContent={'center'}>
+                <Button onClick={onClickSave} variant="contained">
+                  Save
+                </Button>
+                <Button
+                  onClick={onClickCancel}
+                  variant="contained"
+                  color={'error'}
+                >
+                  Cancel
+                </Button>
+              </Stack>
+            </Grid>
           </Grid>
-
-          <Grid item xs={1}>
-            <TextField value={ClassName} />
-          </Grid>
-        </Grid>
-
-        <br></br>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Date :</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={1}>
-            <TextField
-              type="date"
-              value={dateState}
-              onChange={handleChange}
-              variant="standard"
-              //  defaultValue={dateState !=="" ? moment(dateState).format('DD-MMM-YYYY') : ""}
-              error={dateError !== ''}
-              helperText={dateError}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ max: new Date().toISOString().split('T')[0] }}
-            />
-            {/* <span style={{ color: 'red' }}>{dateError}</span> */}
-
-            <div style={{ color: 'red' }}>*</div>
-          </Grid>
-        </Grid>
-
-        <br></br>
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Attachment :</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={1}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              ChangeFile={ChangeFile}
-              // errorMessage={fileNameError}
-              // filePath={base64URL}
-              FileName={fileName}
-            ></SingleFile>
-            {''}
-          </Grid>
-        </Grid>
-        <Box>
-          <Icon5
-            Note={
-              'Supports only BMP, DOC, DOCX, JPG, JPEG, PNG, BMP, PDF, XLS, XLSX files types up to 5 MB'
-            }
-          />
         </Box>
-        <br></br>
-
-        <div>
+        <hr style={{ margin: '20px 0' }} />
+        <Box sx={{ mt: 2, backgroundColor: 'white', p: 2 }}>
           <Grid
             container
-            spacing={2}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
+            spacing={1}
+            justifyContent="flex-end"
+            alignItems="center"
           >
-            <Grid item xs={1}>
-              <ButtonPrimary onClick={onClickSave} variant="contained">
-                <b>SAVE</b>
-              </ButtonPrimary>
+            <Grid item xs={2}>
+              {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
+              <TextField
+                fullWidth
+                value={dateSearch}
+                type="date"
+                label={'Date'}
+                onChange={(e) => {
+                  onSelectDate(e.target.value);
+                }}
+                size="small"
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ max: new Date().toISOString().split('T')[0] }}
+              />
             </Grid>
-
-            <Grid item xs={1}>
-              <ButtonPrimary
-                onClick={onClickCancel}
-                variant="contained"
-                style={{ backgroundColor: 'red', color: 'white' }}
-              >
-                CANCEL
-              </ButtonPrimary>
+            <Grid item xs={12}>
+              <Adddailyloglist
+                ItemList={GetAllHomeworkDailyLogs}
+                clickView={clickFileName}
+                HeaderArray={HeaderPublish1}
+                clickEdit={clickEdit1}
+                clickDelete={clickDelete}
+                clickpublish={Changestaus}
+              />
             </Grid>
           </Grid>
-        </div>
-
-        <hr style={{ margin: '20px 0' }} />
-
-        <br />
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Date :</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={1}>
-            {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
-            <TextField
-              value={dateSearch}
-              type="date"
-              onChange={(e) => {
-                onSelectDate(e.target.value);
-              }}
-              size="small"
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ max: new Date().toISOString().split('T')[0] }}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-
-        {/* {GetAllHomeworkDailyLogs?.IsPublished} */}
-        <Adddailyloglist
-          ItemList={GetAllHomeworkDailyLogs}
-          clickView={clickFileName}
-          HeaderArray={HeaderPublish1}
-          clickEdit={clickEdit1}
-          clickDelete={clickDelete}
-          clickpublish={Changestaus}
-        />
-        <br></br>
-        <div>
-          <Grid item xs={6}>
-            <ButtonPrimary
-              onClick={onClickBack}
-              variant="contained"
-              style={{ backgroundColor: 'red', color: 'white' }}
-            >
-              BACK
-            </ButtonPrimary>
-          </Grid>
-        </div>
+        </Box>
       </Container>
     </>
   );

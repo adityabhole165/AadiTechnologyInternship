@@ -1,8 +1,13 @@
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import {
   Box,
+  Breadcrumbs,
+  Button,
   Container,
   FormControlLabel,
   Grid,
+  IconButton,
   Stack,
   TextField,
   Typography
@@ -11,6 +16,7 @@ import Checkbox from '@mui/material/Checkbox';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   DeleteEventImageBody,
@@ -24,8 +30,6 @@ import {
 import SingleFile from 'src/libraries/File/SingleFile';
 import TabulerList from 'src/libraries/ResuableComponents/TabularList';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetAllClassAndDivision,
   GetDeleteEvent,
@@ -42,8 +46,7 @@ import { RootState } from 'src/store';
 const EventsManagement = () => {
   const dispatch = useDispatch();
   const Navigate = useNavigate();
-  const { Id,Event_Id,Name } = useParams();
-  
+  const { Id, Event_Id, Name } = useParams();
 
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
@@ -143,14 +146,13 @@ const EventsManagement = () => {
     if (EventDetaill !== null) {
       console.log(' after edit:', EventDetaill);
       // setHomeworkId(EventDetaill.Id.toString);
-      setEventTitle(EventDetaill.EventTitle)
+      setEventTitle(EventDetaill.EventTitle);
       // setBirthDate(getCalendarFormat(EventDetaill.BirthDate))
-      setEventDescription(EventDetaill.EventDescription)
-      setEventStartDate(EventDetaill.EventStartDate)
-      setShowRiseAndShine(EventDetaill.showRiseAndShine)
-
+      setEventDescription(EventDetaill.EventDescription);
+      setEventStartDate(EventDetaill.EventStartDate);
+      setShowRiseAndShine(EventDetaill.showRiseAndShine);
     }
-  }, [EventDetaill])
+  }, [EventDetaill]);
 
   useEffect(() => {
     setitemList(ClassesAndDivisionss);
@@ -328,167 +330,172 @@ const EventsManagement = () => {
     '/DOWNLOADS/Event Planner/' +
     FileName;
 
-   
-  
   return (
-    <div>
-      <PageHeader heading={'Event(s) Management'} subheading={''} /> <br></br>
-      <br></br>
-      <Container maxWidth="md">
-        <TabulerList
-          ItemList={EventLisst}
-          clickEdit={clickEventEdit}
-          clickDelete={clickeventDelete}
-        />
-        <br></br>
-
-        <TextField
-          label="Event Title"
-          value={EventTitle}
-          onChange={(e) => {
-            setEventTitle(e.target.value);
+    <>
+      <Container maxWidth={'xl'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 4,
+            pb: 2
           }}
-          error={errorEventTitle !== ''}
-          helperText={errorEventTitle}
-        />
-        <br></br>
-        <br></br>
-
-        <TextField
-          label={'Description'}
-          value={EventDescription}
-          onChange={(e) => {
-            setEventDescription(e.target.value);
-          }}
-          error={ErrorEventDescription !== ''}
-          helperText={ErrorEventDescription}
-        />
-        <br></br>
-        <br></br>
-
-        <Grid container spacing={2} mb={0.1}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-                border: '1px solid #000',
-                paddingBottom: '10px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-              }}
+        >
+          <Box>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
             >
-              <Typography fontSize={'20px'}> Event Start Date :</Typography>
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Link
+                to={'/extended-sidebar/Common/AnnualPlanner'}
+                color="inherit"
+              >
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  color="text.primary"
+                  fontWeight={'normal'}
+                >
+                  Annual Planner
+                </Typography>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Event(s) Management
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+        </Stack>
+        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TabulerList
+                ItemList={EventLisst}
+                clickEdit={clickEventEdit}
+                clickDelete={clickeventDelete}
+              />
+            </Grid>
+            <Grid item xs={6}>
               <TextField
-                sx={{
-                  width: '50%',
-                  margin: '2px 0',
-                  border: '1px solid #000',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+                label="Event Title"
+                value={EventTitle}
+                onChange={(e) => {
+                  setEventTitle(e.target.value);
                 }}
+                error={errorEventTitle !== ''}
+                helperText={errorEventTitle}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label={'Description'}
+                value={EventDescription}
+                onChange={(e) => {
+                  setEventDescription(e.target.value);
+                }}
+                error={ErrorEventDescription !== ''}
+                helperText={ErrorEventDescription}
+                fullWidth
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                label={'Event Start Date'}
                 inputProps={{ type: 'date' }}
+                InputLabelProps={{
+                  shrink: true
+                }}
                 value={EventStartDate}
                 onChange={(e) => {
                   setEventStartDate(e.target.value);
                   // console.log('EventStartDate :', e.target.value);
                 }}
-                variant="standard"
                 error={ErrorEventStartDate !== ''}
                 helperText={ErrorEventStartDate}
+                fullWidth
               />
-            </Box>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-                border: '1px solid #000',
-                paddingBottom: '10px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-              }}
-            >
-              <Typography fontSize={'20px'}> Event End Date :</Typography>
+            </Grid>
+            <Grid item xs={6}>
               <TextField
-                sx={{
-                  width: '50%',
-                  margin: '2px 0',
-                  border: '1px solid #000',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-                }}
                 inputProps={{ type: 'date' }}
+                InputLabelProps={{
+                  shrink: true
+                }}
                 value={EventEndDate}
+                label={'Event End Date'}
                 onChange={(e) => {
                   setEventEndDate(e.target.value);
                   // console.log('EventEndDate :', e.target.value);
                 }}
-                variant="standard"
                 error={ErrorEventEndDate !== ''}
                 helperText={ErrorEventEndDate}
+                fullWidth
               />
-            </Box>
+            </Grid>
+            <Grid item xs={12}>
+              <SelectListHierarchy
+                ItemList={ItemList}
+                ParentList={ClassesAndDivisionss1}
+                ClickChild={ClickChild}
+              ></SelectListHierarchy>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography>
+                <FormControlLabel
+                  control={
+                    <Checkbox
+                      checked={showRiseAndShine}
+                      onChange={(e) => {
+                        handleCheckboxChange(e.target.checked);
+                      }}
+                    />
+                  }
+                  label="Display On Homepage"
+                />
+              </Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography fontSize={'10px'}>Attachment:</Typography>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                ChangeFile={ChangeFile}
+                errorMessage={FileError}
+                filePath={filePath}
+                FileName={FileName}
+              ></SingleFile>
+            </Grid>
           </Grid>
-        </Grid>
-        <br></br>
-        <br></br>
 
-        <SelectListHierarchy
-          ItemList={ItemList}
-          ParentList={ClassesAndDivisionss1}
-          ClickChild={ClickChild}
-        ></SelectListHierarchy>
-
-        <Typography margin={'1px'}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={showRiseAndShine}
-                onChange={(e) => {
-                  handleCheckboxChange(e.target.checked);
-                }}
-              />
-            }
-            label="Display On Homepage"
-          />
-        </Typography>
-
-        <Grid item xs={6}>
-          <Typography fontSize={'10px'}>Attechment :</Typography>
-        </Grid>
-
-        <SingleFile
-          ValidFileTypes={ValidFileTypes}
-          MaxfileSize={MaxfileSize}
-          ChangeFile={ChangeFile}
-          errorMessage={FileError}
-          filePath={filePath}
-          FileName={FileName}
-        ></SingleFile>
-
-        <Stack spacing={2} direction="row">
-          <ButtonPrimary
-            onClick={CancelEvent}
-            style={{ marginRight: '8px', backgroundColor: 'green' }}
-          >
-            New
-          </ButtonPrimary>
-          <ButtonPrimary
-            onClick={ClickSave}
-            style={{ marginRight: '8px', backgroundColor: 'green' }}
-          >
-            Save
-          </ButtonPrimary>
-          <ButtonPrimary
-            onClick={clickItem}
-            style={{ marginRight: '8px', backgroundColor: 'red' }}
-          >
-            Close
-          </ButtonPrimary>
-        </Stack>
+          <Stack spacing={2} direction="row" justifyContent={'center'}>
+            <Button variant={'contained'} color="primary" onClick={CancelEvent}>
+              New
+            </Button>
+            <Button variant={'contained'} color="success" onClick={ClickSave}>
+              Save
+            </Button>
+            <Button variant={'contained'} color="error" onClick={clickItem}>
+              Close
+            </Button>
+          </Stack>
+        </Box>
       </Container>
-    </div>
+    </>
   );
 };
 

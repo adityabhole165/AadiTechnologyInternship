@@ -1,13 +1,4 @@
-import {
-  Checkbox,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow
-} from '@mui/material';
+import { Box, Checkbox, Stack } from '@mui/material';
 
 const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
   const ClickChildCheckbox = (value) => {
@@ -63,53 +54,47 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
 
   return (
     <>
-      <TableContainer component={Paper}>
-        <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow sx={{ backgroundColor: 'lightgrey' }}>
-              <Checkbox
-                checked={getIsParentCheckedAll()}
-                onChange={(e) => {
-                  CheckParentAll(e.target.checked);
-                }}
-              />
-              Select All
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {ParentList.map((ParentItem, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell align="center">
+      <Box sx={{ backgroundColor: 'lightgrey' }}>
+        <Checkbox
+          checked={getIsParentCheckedAll()}
+          onChange={(e) => {
+            CheckParentAll(e.target.checked);
+          }}
+        />
+        Select All
+      </Box>
+      <Stack direction={'row'} gap={1} flexWrap={'wrap'}>
+        {ParentList.map((ParentItem, index) => {
+          return (
+            <Box key={index}>
+              <Box sx={{ borderBottom: `1px solid grey`, fontWeight: 'bold' }}>
+                <Checkbox
+                  checked={getIsCheckedAll(ParentItem.Id)}
+                  onChange={() => {
+                    ClickParentCheckbox(ParentItem.Id);
+                  }}
+                ></Checkbox>
+                {ParentItem.Name}
+              </Box>
+              {ItemList.filter((obj) => {
+                return obj.ParentId == ParentItem.Id;
+              }).map((item, index) => {
+                return (
+                  <Box key={index}>
                     <Checkbox
-                      checked={getIsCheckedAll(ParentItem.Id)}
+                      checked={item.IsActive}
                       onChange={() => {
-                        ClickParentCheckbox(ParentItem.Id);
+                        ClickChildCheckbox(item.Id);
                       }}
                     ></Checkbox>
-                    {ParentItem.Name}
-                  </TableCell>
-                  {ItemList.filter((obj) => {
-                    return obj.ParentId == ParentItem.Id;
-                  }).map((item, index) => {
-                    return (
-                      <TableCell align="center" key={index}>
-                        <Checkbox
-                          checked={item.IsActive}
-                          onChange={() => {
-                            ClickChildCheckbox(item.Id);
-                          }}
-                        ></Checkbox>
-                        {item.Name}
-                      </TableCell>
-                    );
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+                    {item.Name}
+                  </Box>
+                );
+              })}
+            </Box>
+          );
+        })}
+      </Stack>
     </>
   );
 };

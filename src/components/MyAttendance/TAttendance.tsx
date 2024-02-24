@@ -1,4 +1,3 @@
-import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -47,6 +46,7 @@ import List26 from '../../libraries/list/List26';
 import { getDateFormatted } from '../Common/Util';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import { grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
@@ -482,7 +482,7 @@ const TAttendance = () => {
                   boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
                 }}
               >
-                <ApiTwoToneIcon color="primary" />
+                <HomeTwoTone color="primary" />
               </IconButton>
             </Link>
             <Typography variant={'h3'} fontSize={'23px'} color="text.primary">

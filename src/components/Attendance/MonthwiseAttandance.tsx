@@ -1,6 +1,6 @@
-import ApiTwoToneIcon from '@mui/icons-material/ApiTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoTone from '@mui/icons-material/CloseTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import SearchIcon from '@mui/icons-material/Search';
 import {
@@ -132,7 +132,7 @@ const MonthwiseAttandance = () => {
                     boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
                   }}
                 >
-                  <ApiTwoToneIcon color="primary" />
+                  <HomeTwoTone color="primary" />
                 </IconButton>
               </Link>
               <Link

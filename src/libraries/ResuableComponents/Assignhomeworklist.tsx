@@ -1,5 +1,5 @@
-import BorderColorIcon from '@mui/icons-material/BorderColor';
-import { Card } from '@mui/material';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
+import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -11,14 +11,23 @@ import TableRow from '@mui/material/TableRow';
 function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
   return (
     <div>
-      <TableContainer component={Card}>
+      <TableContainer component={Box} sx={{ border: '1px solid lightgrey' }}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#4dd0e1' }}>
+            <TableRow
+              sx={{
+                backgroundColor: (theme) => theme.colors.primary.main,
+                color: (theme) => theme.palette.common.white
+              }}
+            >
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize' }}
+                  sx={{
+                    textTransform: 'capitalize',
+                    color: (theme) => theme.palette.common.white,
+                    py: 1
+                  }}
                   align="center"
                 >
                   <b>{item.Header}</b>
@@ -30,22 +39,34 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
             {ItemList.map((item) => (
               <TableRow
                 key={item.Id}
-                sx={{
-                  backgroundColor: item.Text3 === 'True' ? '#bae1f5' : '#b1b2b3'
-                }}
+                // sx={{
+                //   backgroundColor: item.Text3 === 'True' ? '#bae1f5' : '#b1b2b3'
+                // }}
               >
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell
+                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  align="center"
+                >
                   {item.Text1}
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell
+                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  align="center"
+                >
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  <BorderColorIcon
-                    onClick={() => clickAssign(item.Id)}
-                    titleAccess="Add Homework"
-                  />
+                <TableCell
+                  sx={{ textTransform: 'capitalize', py: 0.5 }}
+                  align="center"
+                >
+                  <Tooltip title={'Add Homework'}>
+                    <EditTwoTone
+                      onClick={() => {
+                        clickAssign(item.Id);
+                      }}
+                    />
+                  </Tooltip>
                 </TableCell>
               </TableRow>
             ))}

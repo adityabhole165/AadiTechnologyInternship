@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -6,20 +5,23 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 
-import CheckIcon from '@mui/icons-material/Check';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Card } from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import ImageNotSupportedIcon from '@mui/icons-material/ImageNotSupported';
+import { Card } from '@mui/material';
 // ... (your other imports)
 
-function EditiconList2({ ItemList, clickEdit, HeaderArray  }) {
+function EditiconList2({ ItemList, clickEdit, HeaderArray }) {
   return (
     <div>
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#4dd0e1' }}>
+            <TableRow
+              sx={{
+                backgroundColor: (theme) => theme.colors.primary.main,
+                color: (theme) => theme.palette.common.white
+              }}
+            >
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
@@ -34,18 +36,16 @@ function EditiconList2({ ItemList, clickEdit, HeaderArray  }) {
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text1}
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text2 === "Y" ? (
+                  {item.Text2 === 'Y' ? (
                     <EditIcon onClick={() => clickEdit(item.Id)} />
                   ) : (
-                   <ImageNotSupportedIcon/>
+                    <ImageNotSupportedIcon />
                   )}
                 </TableCell>
-
               </TableRow>
             ))}
           </TableBody>
