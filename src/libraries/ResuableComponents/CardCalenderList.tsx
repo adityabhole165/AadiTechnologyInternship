@@ -1,7 +1,7 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
-import DotLegendTeacher from '../summary/DotLegendTeacher';
+import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal from './CardCal';
 function CardCalenderList({
   ItemList,
@@ -14,12 +14,12 @@ function CardCalenderList({
 }) {
   const legendColors = {
     p: '#008000',
-    a: '#b73839',
-    h: '#792ba7',
-    w: '#bdbdbd',
-    o: '#aa3daa',
+    a: '#9e9e9e',
+    h: '#751b1b',
+    w: '#ff0000',
+    o: '#f06292',
     l: '#303f9f',
-    n: 'linear-gradient(135deg, #FCCF31 0%, #F55555 100%)'
+    n: '#FCCF31'
   };
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
@@ -128,7 +128,15 @@ function CardCalenderList({
         </Grid>
         <Grid container sx={{ mt: 2 }}>
           <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendTeacher color={legendColors.p} text="Present" />
+            <DotLegendAttandaceCalender color="primary" text="Done " />
+            <DotLegendAttandaceCalender color="info" text="Not Done" />
+            <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
+            <DotLegendAttandaceCalender color="Warning" text="Weekend" />
+            <DotLegendAttandaceCalender
+              color="Suceess"
+              text="OutSideAcadamicYear"
+            />
+            {/* <DotLegendTeacher color={legendColors.p} text="Present" />
             <DotLegendTeacher color={legendColors.a} text="Absent" />
             <DotLegendTeacher color={legendColors.h} text="Holiday" />
             <DotLegendTeacher color={legendColors.w} text="Weekend" />
@@ -136,9 +144,12 @@ function CardCalenderList({
             <DotLegendTeacher
               color={legendColors.o}
               text="Outside Acadamic Year "
+            /> */}
+            <DotLegendAttandaceCalender color={'LateJoin'} text="Late Join " />
+            <DotLegendAttandaceCalender
+              color={'NotAvailable'}
+              text="Not Available "
             />
-            <DotLegendTeacher color={legendColors.l} text="Late Join " />
-            <DotLegendTeacher color={legendColors.n} text="Not Available " />
           </Grid>
         </Grid>
       </Box>

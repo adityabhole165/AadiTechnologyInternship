@@ -64,15 +64,19 @@ export const AttandaceCalender = styled(Box)(
         
         background: ${
           color === 'primary'
-            ? 'Green'
+            ? '#008000'
             : color === 'info'
             ? '#9e9e9e'
             : color === 'Holiday'
             ? '#751b1b'
             : color === 'Warning'
-            ? 'red'
+            ? '#ff0000'
             : color === 'Suceess'
             ? '#f06292'
+            : color === 'LateJoin'
+            ? '#303f9f'
+            : color === 'NotAvailable'
+            ? '#FCCF31'
             : '#f06292'
         }
     `

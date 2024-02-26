@@ -1,5 +1,6 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
   Breadcrumbs,
@@ -10,6 +11,7 @@ import {
   IconButton,
   Stack,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
@@ -364,12 +366,20 @@ const EventsManagement = () => {
               <Link
                 to={'/extended-sidebar/Common/AnnualPlanner'}
                 color="inherit"
+                style={{
+                  textDecoration: 'none'
+                }}
               >
                 <Typography
                   variant={'h3'}
                   fontSize={'23px'}
                   color="text.primary"
                   fontWeight={'normal'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
                 >
                   Annual Planner
                 </Typography>
@@ -379,8 +389,22 @@ const EventsManagement = () => {
               </Typography>
             </Breadcrumbs>
           </Box>
+          <Stack direction={'row'} gap={1}>
+            <Tooltip title={'Add or Update Events'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'gray',
+                  height: '36px !important',
+                  ':hover': { backgroundColor: 'gray' }
+                }}
+              >
+                <QuestionMarkIcon />
+              </IconButton>
+            </Tooltip>
+          </Stack>
         </Stack>
-        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <TabulerList
@@ -391,7 +415,13 @@ const EventsManagement = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label="Event Title"
+                label={
+                  <span>
+                    Event Title <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                multiline
+                rows={3}
                 value={EventTitle}
                 onChange={(e) => {
                   setEventTitle(e.target.value);
@@ -399,11 +429,20 @@ const EventsManagement = () => {
                 error={errorEventTitle !== ''}
                 helperText={errorEventTitle}
                 fullWidth
+                sx={{
+                  resize: 'both'
+                }}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label={'Description'}
+                label={
+                  <span>
+                    Description <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                multiline
+                rows={3}
                 value={EventDescription}
                 onChange={(e) => {
                   setEventDescription(e.target.value);
@@ -411,11 +450,18 @@ const EventsManagement = () => {
                 error={ErrorEventDescription !== ''}
                 helperText={ErrorEventDescription}
                 fullWidth
+                sx={{
+                  resize: 'both'
+                }}
               />
             </Grid>
             <Grid item xs={6}>
               <TextField
-                label={'Event Start Date'}
+                label={
+                  <span>
+                    Event Start Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 inputProps={{ type: 'date' }}
                 InputLabelProps={{
                   shrink: true
@@ -437,7 +483,11 @@ const EventsManagement = () => {
                   shrink: true
                 }}
                 value={EventEndDate}
-                label={'Event End Date'}
+                label={
+                  <span>
+                    Event End Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 onChange={(e) => {
                   setEventEndDate(e.target.value);
                   // console.log('EventEndDate :', e.target.value);
@@ -489,8 +539,12 @@ const EventsManagement = () => {
             <Button variant={'contained'} color="success" onClick={ClickSave}>
               Save
             </Button>
-            <Button variant={'contained'} color="error" onClick={clickItem}>
-              Close
+            <Button
+              variant={'contained'}
+              color="error"
+              onClick={clickeventDelete}
+            >
+              Delete
             </Button>
           </Stack>
         </Box>

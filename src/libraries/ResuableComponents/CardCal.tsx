@@ -54,7 +54,8 @@ function CardCal({
   const onClick = (Value) => {
     if (item.IsClickable) clickItem(Value);
   };
-  const index = item.Text1 != undefined ? item.Text1.split('')[0].toLowerCase() : 0
+  const index =
+    item.Text1 != undefined ? item.Text1.split('')[0].toLowerCase() : 0;
   return (
     <div>
       <Box
@@ -71,7 +72,9 @@ function CardCal({
         display="flex"
         alignItems="center"
         justifyContent="center"
-        onClick={() => { onClick(item.Value) }}
+        onClick={() => {
+          onClick(item.Value);
+        }}
       >
         <Box dangerouslySetInnerHTML={{ __html: item.Name }}></Box>
       </Box>

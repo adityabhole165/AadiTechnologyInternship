@@ -61,7 +61,7 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
             CheckParentAll(e.target.checked);
           }}
         />
-        Select All
+        Associated Class(es)
       </Box>
       <Stack direction={'row'} gap={1} flexWrap={'wrap'}>
         {ParentList.map((ParentItem, index) => {

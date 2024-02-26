@@ -2,6 +2,7 @@ import AddTwoTone from '@mui/icons-material/AddTwoTone';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 import {
   Box,
   Breadcrumbs,
@@ -263,6 +264,21 @@ const AssignHomework = () => {
             DefaultValue={SelectClass}
             Label={'Select Class:'}
           />
+          <Tooltip title={'List the class subjects for homework assignment.'}>
+            <IconButton
+              onClick={onClick}
+              sx={{
+                color: 'white',
+                backgroundColor: 'grey',
+                '&:hover': {
+                  backgroundColor: 'grey'
+                }
+              }}
+            >
+              <QuestionMark />
+            </IconButton>
+          </Tooltip>
+
           {asStandardDivisionId == SelectClass && (
             <Tooltip title={'Add Daily Log'}>
               <IconButton

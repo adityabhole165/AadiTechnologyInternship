@@ -1,3 +1,4 @@
+import CalendarMonthTwoTone from '@mui/icons-material/CalendarMonthTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ClearIcon from '@mui/icons-material/Clear';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
@@ -8,10 +9,12 @@ import {
   Container,
   Grid,
   IconButton,
+  InputAdornment,
   Stack,
   TextField,
   Tooltip,
-  Typography
+  Typography,
+  styled
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
@@ -21,6 +24,17 @@ import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanc
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
+
+const DatePicker = styled(TextField)`
+  & input[type='date']::-webkit-inner-spin-button,
+  & input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+  & input[type='date']::-moz-calendar-picker-indicator {
+    display: none;
+  }
+`;
 
 const SchoolAttendanceOverview = () => {
   const dispatch = useDispatch();
@@ -125,7 +139,7 @@ const SchoolAttendanceOverview = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <TextField
+            <DatePicker
               value={SelectDate}
               variant={'outlined'}
               type="date"
@@ -139,6 +153,13 @@ const SchoolAttendanceOverview = () => {
                 '& .MuiInputBase-input': {
                   fontWeight: 'bold'
                 }
+              }}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position={'end'}>
+                    <CalendarMonthTwoTone />
+                  </InputAdornment>
+                )
               }}
             />
           </Box>

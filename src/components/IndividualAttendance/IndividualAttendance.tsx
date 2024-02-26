@@ -195,7 +195,7 @@ const IndividualAttendance = () => {
   const handleSave = (): void => {
     showAlert({
       title: 'Save Changes',
-      message: 'Are you sure, Do you want to change update?',
+      message: 'Are you sure, Do you want to update changes?',
       variant: 'warning',
       cancelButtonText: 'Cancel',
       confirmButtonText: 'Update',
@@ -304,12 +304,20 @@ const IndividualAttendance = () => {
               <HomeTwoTone color="primary" />
             </IconButton>
           </Link>
-          <Link to={'/extended-sidebar/Teacher/TAttendance'}>
+          <Link
+            to={'/extended-sidebar/Teacher/TAttendance'}
+            style={{ textDecoration: 'none' }}
+          >
             <Typography
               variant={'h3'}
               fontSize={'23px'}
               fontWeight={'normal'}
               color={'text.primary'}
+              sx={{
+                '&:hover': {
+                  fontWeight: 'bold'
+                }
+              }}
             >
               Attendance
             </Typography>
@@ -506,7 +514,7 @@ const IndividualAttendance = () => {
             <DialogContent dividers>
               <Box py={2}>
                 <Typography variant={'h4'} textAlign={'center'}>
-                  Are you sure, Do you want to change update?
+                  Are you sure, Do you want to update changes?
                 </Typography>
               </Box>
             </DialogContent>

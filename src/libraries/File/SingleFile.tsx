@@ -77,7 +77,8 @@ const SingleFile = ({
           color={FileName ? 'success' : 'primary'}
         >
           {FileName ? <CheckCircle /> : <CloudUploadIcon />}
-          {FileName == '' ? ' No file selected' : FileName}
+          {FileName == '' ? ' No file selected' : FileName}{' '}
+          <span style={{ color: 'red' }}>*</span>
           <Box sx={{ textAlign: 'center' }}>
             <input
               ref={aRef}
@@ -94,7 +95,6 @@ const SingleFile = ({
               }}
             />
           </Box>
-
           <Box sx={{ textAlign: 'center' }}>
             {filePath != '' && (
               <>

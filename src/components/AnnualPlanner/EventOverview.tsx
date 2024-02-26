@@ -152,12 +152,21 @@ const EventOverview = (props: Props) => {
                 <HomeTwoTone color="primary" />
               </IconButton>
             </Link>{' '}
-            <Link to={'/extended-sidebar/Common/AnnualPlanner'} color="inherit">
+            <Link
+              to={'/extended-sidebar/Common/AnnualPlanner'}
+              color="inherit"
+              style={{ textDecoration: 'none' }}
+            >
               <Typography
                 variant={'h3'}
                 fontSize={'23px'}
                 color="text.primary"
                 fontWeight={'normal'}
+                sx={{
+                  '&:hover': {
+                    fontWeight: 'bold'
+                  }
+                }}
               >
                 Annual Planner
               </Typography>

@@ -1,15 +1,21 @@
+import CalendarMonthTwoTone from '@mui/icons-material/CalendarMonthTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import Save from '@mui/icons-material/Save';
+import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
   Breadcrumbs,
-  Button,
   Container,
   Grid,
   IconButton,
+  InputAdornment,
   Stack,
   TextField,
-  Typography
+  Tooltip,
+  Typography,
+  styled
 } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -34,6 +40,17 @@ import {
   getdailylog
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
+
+const DatePicker = styled(TextField)`
+  & input[type='date']::-webkit-inner-spin-button,
+  & input[type='date']::-webkit-calendar-picker-indicator {
+    display: none;
+    -webkit-appearance: none;
+  }
+  & input[type='date']::-moz-calendar-picker-indicator {
+    display: none;
+  }
+`;
 //monali
 const AddDailyLog = () => {
   const dispatch = useDispatch();
@@ -365,12 +382,22 @@ const AddDailyLog = () => {
                   <HomeTwoTone color="primary" />
                 </IconButton>
               </Link>
-              <Link to={'/extended-sidebar/Teacher/AssignHomework'}>
+              <Link
+                to={'/extended-sidebar/Teacher/AssignHomework'}
+                style={{
+                  textDecoration: 'none'
+                }}
+              >
                 <Typography
                   variant={'h3'}
                   fontSize={'23px'}
                   fontWeight={'normal'}
                   color={'text.primary'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
                 >
                   Assign Homework
                 </Typography>
@@ -380,18 +407,57 @@ const AddDailyLog = () => {
               </Typography>
             </Breadcrumbs>
           </Box>
+          <Stack direction={'row'} gap={1}>
+            <Box>
+              <Tooltip
+                title={
+                  'Display / Add / Edit / Delete homework log of respective class.'
+                }
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'gray',
+                    height: '36px !important',
+                    ':hover': { backgroundColor: 'gray' }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'green',
+                  height: '36px !important',
+                  ':hover': {
+                    backgroundColor: 'green'
+                  }
+                }}
+                onClick={onClickSave}
+              >
+                <Save />
+              </IconButton>
+            </Box>
+          </Stack>
         </Stack>
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <TextField fullWidth label={'Class'} value={ClassName} />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={5}>
               <TextField
                 fullWidth
                 type="date"
                 value={dateState}
-                label={'Date'}
+                label={
+                  <span>
+                    Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 onChange={handleChange}
                 error={dateError !== ''}
                 helperText={dateError}
@@ -399,7 +465,7 @@ const AddDailyLog = () => {
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
               />
             </Grid>
-            <Grid item xs={12} justifyContent={'center'} display={'flex'}>
+            <Grid item xs={2} justifyContent={'center'} display={'flex'}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
@@ -407,7 +473,7 @@ const AddDailyLog = () => {
                 FileName={fileName}
               ></SingleFile>
             </Grid>
-            <Grid item xs={12}>
+            {/* <Grid item xs={12}>
               <Stack direction={'row'} gap={1} justifyContent={'center'}>
                 <Button onClick={onClickSave} variant="contained">
                   Save
@@ -420,7 +486,7 @@ const AddDailyLog = () => {
                   Cancel
                 </Button>
               </Stack>
-            </Grid>
+            </Grid> */}
           </Grid>
         </Box>
         <hr style={{ margin: '20px 0' }} />
@@ -433,17 +499,43 @@ const AddDailyLog = () => {
           >
             <Grid item xs={2}>
               {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
-              <TextField
+              <DatePicker
                 fullWidth
                 value={dateSearch}
                 type="date"
-                label={'Date'}
                 onChange={(e) => {
                   onSelectDate(e.target.value);
                 }}
                 size="small"
+                sx={{
+                  backgroundColor: 'white',
+                  '& .MuiInputBase-input': {
+                    fontWeight: 'bold'
+                  }
+                }}
                 InputLabelProps={{ shrink: true }}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <CalendarMonthTwoTone />
+                    </InputAdornment>
+                  )
+                }}
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
+              />
+            </Grid>
+            <Grid item xs={2}>
+              <TextField
+                fullWidth
+                label={'Search'}
+                size="small"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <SearchTwoTone />
+                    </InputAdornment>
+                  )
+                }}
               />
             </Grid>
             <Grid item xs={12}>

@@ -6,8 +6,10 @@ function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
   return (
     <div>
       <Box width={width}>
-        <FormControl fullWidth>
-          <InputLabel id={`label-${randomUniqueKey}`}>{Label}</InputLabel>
+        <FormControl fullWidth variant={'standard'}>
+          <InputLabel id={`label-${randomUniqueKey}`}>
+            {Label} <span style={{ color: 'red' }}>*</span>
+          </InputLabel>
           <Select
             fullWidth
             value={DefaultValue}
@@ -15,7 +17,6 @@ function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
             labelId={`label-${randomUniqueKey}`}
             onChange={(e) => ClickItem(e.target.value)}
             size={'small'}
-            variant={'standard'}
           >
             {DefaultValue == '' && <option>{Label}</option>}
             {itemList.map((item, i) => {

@@ -6,6 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import {
   Box,
   Breadcrumbs,
@@ -15,6 +16,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormLabel,
   IconButton,
   Stack,
   Tooltip,
@@ -28,13 +30,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import { IGetAllDivisionsForStandardDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import {
+  IGetAllDivisionsForStandardDropDownBody,
+  IGetEventsDataListBody,
+  IGetYearsForAnnualPalannerDropDownBody
+} from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import {
   IEventList,
   IGetAllMonthsDropDownBody
 } from 'src/interfaces/Common/AnnualPlanner';
 import AnnualPlannerCalendar from 'src/libraries/ResuableComponents/AnnualPlannerCalendar';
-import { CDAGetEventsDataList, GetDivisionList, GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import {
+  CDAGetEventsDataList,
+  GetDivisionList,
+  GetYearList
+} from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import {
   GetMonthList,
   getEventList
@@ -98,9 +108,9 @@ function AnnualPlanner() {
   };
 
   const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
-  {
-    asSchoolId: Number(asSchoolId)
-  };
+    {
+      asSchoolId: Number(asSchoolId)
+    };
 
   const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
     asSchoolId: Number(asSchoolId),
@@ -112,7 +122,6 @@ function AnnualPlanner() {
     (state: RootState) => state.AnnualPlanerBaseScreen.ISEventsDataList
   );
 
-
   const GetEventsDataListBody: IGetEventsDataListBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -122,10 +131,7 @@ function AnnualPlanner() {
     asDivisionId: Number(selectDivision)
   };
 
-
-
   useEffect(() => {
-
     dispatch(CDAGetEventsDataList(GetEventsDataListBody));
   }, []);
 
@@ -171,13 +177,8 @@ function AnnualPlanner() {
     setSelectYear(value);
   };
 
-
-
-
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
-
-
 
   const HeaderPublish = [
     { Id: 1, Header: 'Sun' },
@@ -260,9 +261,6 @@ function AnnualPlanner() {
     currentDayInMilli.setMonth(currentDayInMilli.getMonth() + 1);
     setCurrentDate(currentDayInMilli);
   };
-
-
-
 
   const body: IEventList = {
     asMonth: assignedMonth_num,
@@ -431,10 +429,10 @@ function AnnualPlanner() {
             )} */}
             <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
               <AnnualPlannerCalendar
-                ItemList={""}
-                ClickItem={() => { }}
-                handlePrevMonth={() => { }}
-                handleNextMonth={() => { }}
+                ItemList={''}
+                ClickItem={() => {}}
+                handlePrevMonth={() => {}}
+                handleNextMonth={() => {}}
                 formattedDate={formattedDate}
                 DefaultValue={''}
                 ArrayList={HeaderPublish}
@@ -502,8 +500,15 @@ function AnnualPlanner() {
                     >
                       <DeleteIcon />
                     </IconButton>
+                    <IconButton color={'primary'}>
+                      <VisibilityTwoToneIcon />
+                    </IconButton>
                   </Box>
                 )}
+                <FormLabel>
+                  Supports only .PDF, .PNG and .JPG file type. File size should
+                  not exceed 2 MB.
+                </FormLabel>
               </Box>
             </Box>
           </DialogContent>
@@ -516,7 +521,7 @@ function AnnualPlanner() {
             >
               Cancel
             </Button>
-            <Button onClick={() => { }} color={'primary'} variant={'contained'}>
+            <Button onClick={() => {}} color={'primary'} variant={'contained'}>
               Save
             </Button>
           </DialogActions>

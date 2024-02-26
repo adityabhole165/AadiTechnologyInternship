@@ -1,17 +1,6 @@
-
-
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
-import {
-  Box,
-  Grid,
-  IconButton,
-  MenuItem,
-  Stack,
-  TextField,
-  Typography,
-  alpha
-} from '@mui/material';
+import { Box, Grid, IconButton, Stack, Typography, alpha } from '@mui/material';
 import {
   IGetAllDivisionsForStandardDropDownBody,
   IGetAllMonthsDropDownBody,
@@ -73,28 +62,26 @@ function AnnualPlannerCalendar({
   );
 
   const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
-  {
-    asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
-    asUserId: Number(UserId)
-  };
+    {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asUserId: Number(UserId)
+    };
 
   const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
     asSchoolId: Number(asSchoolId)
   };
 
   const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
-  {
-    asSchoolId: Number(asSchoolId)
-  };
+    {
+      asSchoolId: Number(asSchoolId)
+    };
 
   const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStandardId: 1062
   };
-
-
 
   useEffect(() => {
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
@@ -141,7 +128,6 @@ function AnnualPlannerCalendar({
     setSelectYear(value);
   };
 
-
   const clickCard = (Value) => {
     const checkStatus = (obj) => {
       return (obj.Status == undefined ? obj.Text3 : obj.Status) == 'Y';
@@ -149,11 +135,11 @@ function AnnualPlannerCalendar({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-          ...obj,
-          Status: checkStatus(obj) ? 'N' : 'Y',
-          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-          Text1: checkStatus(obj) ? 'Absent' : 'Present'
-        }
+            ...obj,
+            Status: checkStatus(obj) ? 'N' : 'Y',
+            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+            Text1: checkStatus(obj) ? 'Absent' : 'Present'
+          }
         : obj
     );
 
@@ -175,17 +161,15 @@ function AnnualPlannerCalendar({
           </Typography>
 
           <Stack direction={'row'} gap={1}>
-            <Box>
-
+            <Box sx={{ minWidth: 100 }}>
               <Dropdown
                 Array={SelectStandardList}
                 handleChange={clickStandardDropdown}
                 defaultValue={selectStandard}
+                label="Select Standard"
               />
-
-
             </Box>
-            <Box>
+            <Box sx={{ minWidth: 100 }}>
               <Dropdown
                 Array={SelectDivisionList}
                 handleChange={clickdivisionDropdown}
@@ -193,7 +177,7 @@ function AnnualPlannerCalendar({
                 label={'Select Division'}
               />
             </Box>
-            <Box>
+            <Box sx={{ minWidth: 100 }}>
               <Dropdown
                 Array={SelectMonthList}
                 handleChange={clicMonthDropdown}
@@ -201,7 +185,7 @@ function AnnualPlannerCalendar({
                 label={'Select Month'}
               />
             </Box>
-            <Box>
+            <Box sx={{ minWidth: 100 }}>
               <Dropdown
                 Array={SelectYearList}
                 handleChange={clicYearDropdown}
