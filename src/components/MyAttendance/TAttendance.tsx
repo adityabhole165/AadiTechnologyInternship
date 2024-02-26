@@ -360,15 +360,25 @@ const TAttendance = () => {
   }, [stdlist]);
   const SaveMsg = () => {
     if (!SaveIsActive) return;
+  
+    const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
+  
     if (
-      AttendanceStatus === 'Selected date is holiday.' ||
-      AttendanceStatus === 'Selected date is weekend.'
+      lowerCaseAttendanceStatus === 'selected date is holiday.' ||
+      lowerCaseAttendanceStatus === 'selected date is weekend.'
     ) {
-      if (asAllPresentOrAllAbsent == 'P') {
+      let confirmationMessage = '';
+  
+      if (lowerCaseAttendanceStatus === 'selected date is holiday.') {
+        confirmationMessage = 'Are you sure to mark Attendance on selected holiday?';
+      } else if (lowerCaseAttendanceStatus === 'selected date is weekend.') {
+        confirmationMessage = 'Are you sure to mark Attendance on selected Weekend?';
+      }
+  
+      if (asAllPresentOrAllAbsent === 'P') {
         showAlert({
           title: 'Please Confirm',
-          message:
-            'Are you sure to mark Attendance on selected weekend/holiday?',
+          message: confirmationMessage,
           variant: 'warning',
           confirmButtonText: 'Confirm',
           cancelButtonText: 'Cancel',
@@ -386,14 +396,15 @@ const TAttendance = () => {
         SaveAttendance();
         closeAlert();
       }
+  
       return;
     } else {
-      if (asAllPresentOrAllAbsent == 'P' || asAllPresentOrAllAbsent == 'N') {
+      if (asAllPresentOrAllAbsent === 'P' || asAllPresentOrAllAbsent === 'N') {
         showAlert({
           title: 'Please Confirm',
           message:
             'All the student are marked as ' +
-            (asAllPresentOrAllAbsent == 'P' ? 'present' : 'absent') +
+            (asAllPresentOrAllAbsent === 'P' ? 'present' : 'absent') +
             '. Are you sure you want to save the attendance?',
           variant: 'warning',
           confirmButtonText: 'Confirm',
