@@ -125,6 +125,9 @@ const UnpublishPrePrimaryResult = Loader(
 const AddUnpublish1 = Loader(
   lazy(() => import('src/components/AssignHomework/AddUnpublish1'))
 );
+const AnnualPlannerNew = Loader(
+  lazy(() => import('src/components/AnnualPlannerNew/AnnualPlannerBase'))
+);
 
 const teacherRoutes = [
   {
@@ -323,7 +326,13 @@ const teacherRoutes = [
   {
     path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
     element: <FinalResultUnpublish />
+  },
+
+  {
+    path: 'AnnualPlannerNew',
+    element: <AnnualPlannerNew />
   }
+  
 ];
 
 export default teacherRoutes;

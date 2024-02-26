@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiAnnualPlanerBaseScreen from 'src/api/AddAnnualPlanner/ApiAnnualPlanerBaseScreen';
-import { getDateMonthYearFormattedDash } from 'src/components/Common/Util';
+import { getDateMonthYearFormattedDash, stripHtml } from 'src/components/Common/Util';
 import { IGetAllAcademicYearsForSchoolEVBody, IGetAllDivisionsForStandardDropDownBody, IGetAllEventsBody, IGetAllMonthsDropDownBody, IGetAssociatedStandardsBodyP, IGetAssociatedStandardsEVBody, IGetAssociatedStdLstForTeacherDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen";
 import { AppThunk } from 'src/store';
 
@@ -17,10 +17,10 @@ const AnnualPlanerBaseScreenSlice = createSlice({
     ISEventsDataList: [],
     IGetAssociatedStandardsP: [],
     IGetAssociatedStandardsEv: [],
-    ISGetAllAcademicYearsForSchool:[],
-    IsGetAllMonthsDropDown:[],
-    ISGetAllEvents:[]
-    },
+    ISGetAllAcademicYearsForSchool: [],
+    IsGetAllMonthsDropDown: [],
+    ISGetAllEvents: []
+  },
   reducers: {
     addanual(state, action) {
       state.AddAnnual = action.payload;
@@ -57,22 +57,22 @@ const AnnualPlanerBaseScreenSlice = createSlice({
       state.IGetAssociatedStandardsEv = action.payload;
     },
 
-  RAllAcademicYearsForSchool(state, action) {
+    RAllAcademicYearsForSchool(state, action) {
       state.ISGetAllAcademicYearsForSchool = action.payload;
     },
 
-    
+
     RGetAllMonthsDropDown(state, action) {
-    state.IsGetAllMonthsDropDown = action.payload;
-  },
+      state.IsGetAllMonthsDropDown = action.payload;
+    },
 
-  RGetAllEvents(state, action) {
-    state. ISGetAllEvents = action.payload;
-  },
- 
+    RGetAllEvents(state, action) {
+      state.ISGetAllEvents = action.payload;
+    },
 
-    
-    
+
+
+
   }
 });
 
@@ -144,25 +144,28 @@ export const GetYearList =
 export const CDAGetEventsDataList =
   (data: IGetEventsDataListBody): AppThunk =>
     async (dispatch) => {
+      let arrDays = []
       const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data)
-      // let a = response.data.map((item, i) => {
-      //   return {
-      //     Id: i,
-      //     Name: item.Event_Title,
-      //     Value: getDateMonthYearFormattedDash(item.Event_Date),
-      //     IsActive: false,
-      //     Text1: item.Event_Desc,
-      //     Text3: item.Event_Desc,
-      //     BackgroundColor:item.Event_BackColor,
-      //     ForeColur: item.Event_ForeColor,
-          
-      //   };
-      // })
+      let a = []
+      response.data.map((item, i) => {
+        if (!arrDays.includes(item.Day)) {
+          a.push({
+            Id: i,
+            Name: item.Day,
+            Value: getDateMonthYearFormattedDash(item.Event_Date),
+            IsActive: false,
+            Text1: stripHtml(item.Event_Desc),
+            Text3: item.Event_Desc,
+            BackgroundColor: item.Event_BackColor,
+            ForeColur: item.Event_ForeColor,
 
-      dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(response.data))
+          });
+          arrDays.push(item.Day)
+        }
+      })
+
+      dispatch(AnnualPlanerBaseScreenSlice.actions.REventsDataList(a.sort((a, b) => Number(a.Name) - Number(b.Name))))
     }
-
-
 
 export const AssociatedStandardListP =
   (data: IGetAssociatedStandardsBodyP): AppThunk =>
@@ -181,7 +184,7 @@ export const AssociatedStandardListP =
 
 
 
-    export const CDAAssociatedStandardListEventOverview =
+export const CDAAssociatedStandardListEventOverview =
   (data: IGetAssociatedStandardsEVBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAnnualPlanerBaseScreen.AssociatedStandardEventoverview(data)
@@ -197,52 +200,52 @@ export const AssociatedStandardListP =
     }
 
 
-    export const CDAAllAcademicYearsForSchool =
-    (data: IGetAllAcademicYearsForSchoolEVBody): AppThunk =>
-      async (dispatch) => {
-        const response = await ApiAnnualPlanerBaseScreen.GetAllAcademicYearsForSchool(data)
-        let a = response.data.map((item, i) => {
-          return {
-            Id: item.Academic_Year_ID,
-            Name: item.YearValue,
-            Value: item.Academic_Year_ID
-          }
-        })
-  
-        dispatch(AnnualPlanerBaseScreenSlice.actions.RAllAcademicYearsForSchool(a))
-      }
-  
-
-
-      export const CDAGetAllMonthsDropDown =
-      (data: IGetAllMonthsDropDownBody): AppThunk =>
-        async (dispatch) => {
-          const response = await ApiAnnualPlanerBaseScreen.GetAllMonthsDropDown(data)
-          let a = response.data.map((item, i) => {
-            return {
-              Id: item.MonthID,
-              Name: item.Month,
-              Value: item.MonthID
-            }
-          })
-    
-          dispatch(AnnualPlanerBaseScreenSlice.actions.RGetAllMonthsDropDown(a))
+export const CDAAllAcademicYearsForSchool =
+  (data: IGetAllAcademicYearsForSchoolEVBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.GetAllAcademicYearsForSchool(data)
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.Academic_Year_ID,
+          Name: item.YearValue,
+          Value: item.Academic_Year_ID
         }
+      })
+
+      dispatch(AnnualPlanerBaseScreenSlice.actions.RAllAcademicYearsForSchool(a))
+    }
 
 
-        export const CDAGetAllEvents =
-        (data: IGetAllEventsBody): AppThunk =>
-          async (dispatch) => {
-            const response = await ApiAnnualPlanerBaseScreen.GetAllEvents(data)
 
-            dispatch(AnnualPlanerBaseScreenSlice.actions.RGetAllEvents(response.data))
-          }
+export const CDAGetAllMonthsDropDown =
+  (data: IGetAllMonthsDropDownBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.GetAllMonthsDropDown(data)
+      let a = response.data.map((item, i) => {
+        return {
+          Id: item.MonthID,
+          Name: item.Month,
+          Value: item.MonthID
+        }
+      })
 
-    
-  
-      
+      dispatch(AnnualPlanerBaseScreenSlice.actions.RGetAllMonthsDropDown(a))
+    }
 
-    
+
+export const CDAGetAllEvents =
+  (data: IGetAllEventsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await ApiAnnualPlanerBaseScreen.GetAllEvents(data)
+
+      dispatch(AnnualPlanerBaseScreenSlice.actions.RGetAllEvents(response.data))
+    }
+
+
+
+
+
+
 
 
 export default AnnualPlanerBaseScreenSlice.reducer;

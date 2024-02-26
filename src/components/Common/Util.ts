@@ -31,23 +31,24 @@ export const getAttendanceLegend = (Status) => {
     ? 'tomato'
     : 'salmon';
 };
+export const monthNames = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec'
+];
+
 export const getDateMonthYearFormattedDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  const monthNames = [
-    'Jan',
-    'Feb',
-    'Mar',
-    'Apr',
-    'May',
-    'Jun',
-    'Jul',
-    'Aug',
-    'Sep',
-    'Oct',
-    'Nov',
-    'Dec'
-  ];
-
+  
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 };
 export function compareStringWithoutSpace(value1, value2) {
@@ -62,6 +63,13 @@ export function isTodaysDate(date) {
     year: 'numeric'
   });
   return date === getDateFormatted(todaysDate);
+}
+export function getDateDDMMMDash(){
+  let date = new Date();
+  const Day = new Date(date).getDate();
+  const Month = monthNames[date.getMonth()];
+  const Year = new Date(date).getFullYear();
+  return `${Day}-${Month}-${Year}`;
 }
 
 export function ReturnTimeOrDateYear(date) {
