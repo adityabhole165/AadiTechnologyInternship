@@ -74,7 +74,7 @@ export const getcalendar =
           Text3: item.Status,
           BackgroundColor: getAttendanceLegend(item.Status),
           ForeColur: item.StatusForeColur,
-          IsClickable: (item.Status == "Y" || item.Status == "N" || item.Status == "X"),
+          IsClickable: (item.Status == "Y" || item.Status == "N" ),
         };
       });
       //console.log(a,"sdfghj")
