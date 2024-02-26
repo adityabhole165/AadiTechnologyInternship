@@ -1,14 +1,27 @@
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SaveIcon from '@mui/icons-material/Save';
+import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {
   Box,
+  Breadcrumbs,
+  Button,
+  Container,
   Dialog,
   DialogContent,
   Grid,
+  IconButton,
+  Stack,
   TextField,
+  Tooltip,
   Typography
 } from '@mui/material';
+import { green, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import HomeworkSubjectList from 'src/components/AssignHomework/HomeworkSubjectList';
 import {
@@ -19,9 +32,7 @@ import {
 } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DropDown from 'src/libraries/list/DropDown';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetTeacherSubjectList,
   HomeworkSave,
@@ -298,118 +309,130 @@ const AddHomework = () => {
 
   return (
     <>
-      <br></br>
-      <br></br>
-      <PageHeader heading={'Add Homework'} subheading={''} />
-      <Grid container>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={3}>
-            <Typography fontSize={'10px'}>Class :</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            {/* <Box sx={{ display: "flex", alignItems: "center", padding: "15px", boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)', border: "1px solid black" }}>
-                            <Typography fontSize={'10px'} > </Typography>
-                        </Box> */}
-            <TextField value={ClassName} />
-          </Grid>
-          <Grid item xs={3}>
-            <Typography fontSize={'20px'}>Class Teacher:</Typography>
-          </Grid>
-          <Grid item xs={3}>
-            <TextField value={TeacherName} />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
+      <Container maxWidth={'xl'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 4,
+            pb: 2
+          }}
+        >
+          <Box>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
             >
-              <Typography fontSize={'10px'}>Subject :</Typography>
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Add Homework
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box>
+              <Tooltip
+                title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'gray',
+                    height: '36px !important',
+                    ':hover': { backgroundColor: 'gray' }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                textAlign: 'center',
-                width: '300px',
-                border: '1px solid #000',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-              }}
-            >
+            <Box>
+              <Tooltip title={`Unpublish all changes`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'grey',
+                    height: '36px !important',
+                    ':hover': { backgroundColor: red[700] }
+                  }}
+                  onClick={ClickOpenDialogbox}
+                >
+                  <UnpublishedIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Publish all changes`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[600],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[700] }
+                  }}
+                  onClick={() => clickPublishUnpublish(1)}
+                >
+                  <SaveIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Stack>
+        </Stack>
+        <Box sx={{ background: 'white', p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <TextField fullWidth label={'Class'} value={ClassName} />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                label={'Class Teacher'}
+                value={TeacherName}
+              />
+            </Grid>
+            <Grid item xs={3}>
               <DropDown
                 width={'100%'}
                 itemList={ClassSubject}
                 ClickItem={clickSubjectList}
                 DefaultValue={SubjectId}
                 Label={'Select Subject'}
+                variant={'outlined'}
+                size={'medium'}
               />
-              <br></br>
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>Title :</Typography>
-            </Box>
-          </Grid>
-
-          <Grid item xs={6}>
-            <TextField
-              value={Title}
-              onChange={(e) => {
-                setTitle(e.target.value);
-              }}
-              variant="standard"
-              error={ErrorTitle !== ''}
-              helperText={ErrorTitle}
-              label={''}
-            />
-            {/* <TextField value={SubjectName} /> */}
-            {/* <TextField
-                            value={Subject}
-                            onChange={(e) => {
-                                setSubjectName(e.target.value);
-                            }}
-                        /> */}
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mb={0.1}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-                border: '1px solid #000',
-                paddingBottom: '10px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-              }}
-            >
-              <Typography fontSize={'20px'}> Assigned Date :</Typography>
+            </Grid>
+            <Grid item xs={3}>
               <TextField
-                sx={{
-                  width: '50%',
-                  margin: '2px 0',
-                  border: '1px solid #000',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+                fullWidth
+                value={Title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                error={ErrorTitle !== ''}
+                helperText={ErrorTitle}
+                label={'Title'}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                label={'Assigned Date'}
+                InputLabelProps={{
+                  shrink: true
                 }}
                 inputProps={{ type: 'date' }}
                 value={AssignedDate}
@@ -417,159 +440,121 @@ const AddHomework = () => {
                   setAssignedDate(e.target.value);
                   // console.log('StartDate :', e.target.value);
                 }}
-                variant="standard"
                 error={ErrorAssignedDate !== ''}
                 helperText={ErrorAssignedDate}
               />
-            </Box>
-          </Grid>
-
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                textAlign: 'center',
-                border: '1px solid #000',
-                paddingBottom: '10px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
-              }}
-            >
-              <Typography fontSize={'20px'}> Completed Date :</Typography>
+            </Grid>
+            <Grid item xs={3}>
               <TextField
-                sx={{
-                  width: '50%',
-                  margin: '2px 0',
-                  border: '1px solid #000',
-                  boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
                 }}
+                label={'Completed Date'}
                 inputProps={{ type: 'date' }}
                 value={CompleteDate}
                 onChange={(e) => {
                   setCompleteDate(e.target.value);
                 }}
-                variant="standard"
                 // error={ErrorCompleteDate !== ''}
                 // helperText={ErrorCompleteDate}
               />
-            </Box>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Typography fontSize={'10px'}>Attechment :</Typography>
-          </Grid>
-          <Grid item xs={6}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              ChangeFile={ChangeFile}
-            />
-            <br></br>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes1}
-              MaxfileSize={MaxfileSize1}
-              ChangeFile={ChangeFile1}
-            />
-            <br></br>
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Typography fontSize={'10px'}>Details :</Typography>
-          </Grid>
-
-          <Grid item xs={6}>
-            <TextField
-              sx={{ width: '60%', margin: '2px 0', border: '1px solid #000' }}
-              multiline
-              rows={2}
-              value={Details}
-              onChange={(e) => {
-                setDetails(e.target.value);
+            </Grid>
+            <Grid item xs={3}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                ChangeFile={ChangeFile}
+                width={'100%'}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes1}
+                MaxfileSize={MaxfileSize1}
+                ChangeFile={ChangeFile1}
+                width={'100%'}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label={'Details'}
+                multiline
+                rows={3}
+                value={Details}
+                onChange={(e) => {
+                  setDetails(e.target.value);
+                }}
+                error={ErrorDetails !== ''}
+                helperText={ErrorDetails}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2
               }}
-              variant="standard"
-              error={ErrorDetails !== ''}
-              helperText={ErrorDetails}
-              label={''}
-            />
+            >
+              <Button onClick={SaveFile} variant="contained">
+                Save
+              </Button>
+              <Button
+                color={'error'}
+                onClick={onClickCancel}
+                variant="contained"
+              >
+                Cancel
+              </Button>
+              <Button color={'error'} onClick={Back} variant="contained">
+                Back
+              </Button>
+            </Grid>
           </Grid>
-        </Grid>
-        <Grid item xs={4}>
-          <ButtonPrimary
-            onClick={SaveFile}
-            variant="contained"
-            style={{
-              marginRight: '8px',
-              backgroundColor: 'green',
-              textAlign: 'left'
-            }}
-          >
-            SAVE
-          </ButtonPrimary>
-        </Grid>
-        <Grid item xs={4}>
-          <ButtonPrimary
-            onClick={onClickCancel}
-            variant="contained"
-            style={{ marginRight: '8px', backgroundColor: 'red' }}
-          >
-            CANCEL
-          </ButtonPrimary>
-        </Grid>
-        <Grid item xs={4}>
-          <ButtonPrimary
-            onClick={Back}
-            variant="contained"
-            style={{ marginRight: '8px', backgroundColor: 'red' }}
-          >
-            BACK
-          </ButtonPrimary>
-        </Grid>
-      </Grid>
-      <br></br>
-      <br></br>
-      <HomeworkSubjectList
-      // Subjectlistsforteacher={Subjectlistsforteacher.filter((item) => {
-      //   return item.SubjectId === SubjectId;
-      // })}
-      />
-      <br></br>
-      <br></br>
-
-      <SubjectList1
-        ItemList={SubjectList.filter((item) => {
-          return item.SubjectId !== SubjectId;
-        })}
-        HeaderArray={HeaderPublish1}
-        onChange={Changevalue}
-        clickchange={''}
-        clickTitle={clickTitle1}
-      />
-      <Dialog open={Open} onClose={ClickCloseDialogbox}>
-        <DialogContent>
-          <AddUnpublish1
-            ClickCloseDialogbox={ClickCloseDialogbox}
-            clickPublishUnpublish={clickPublishUnpublish}
-          />
-        </DialogContent>
-      </Dialog>
-      <Grid item xs={8}>
-        <ButtonPrimary
-          onClick={() => clickPublishUnpublish(1)}
-          variant="contained"
-          style={{ marginRight: '8px', backgroundColor: 'green' }}
-        >
-          PUBLISHALL
-        </ButtonPrimary>
-        <ButtonPrimary
-          onClick={ClickOpenDialogbox}
-          variant="contained"
-          style={{ marginRight: '8px', backgroundColor: 'green' }}
-        >
-          UNPUBLISHALL
-        </ButtonPrimary>
-      </Grid>
+        </Box>
+        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+          <HomeworkSubjectList />
+          <Box my={2}>
+            <SubjectList1
+              ItemList={SubjectList.filter((item) => {
+                return item.SubjectId !== SubjectId;
+              })}
+              HeaderArray={HeaderPublish1}
+              onChange={Changevalue}
+              clickchange={''}
+              clickTitle={clickTitle1}
+            />
+          </Box>
+          <Dialog open={Open} onClose={ClickCloseDialogbox}>
+            <DialogContent>
+              <AddUnpublish1
+                ClickCloseDialogbox={ClickCloseDialogbox}
+                clickPublishUnpublish={clickPublishUnpublish}
+              />
+            </DialogContent>
+          </Dialog>
+          {/* <Grid item xs={8}>
+            <ButtonPrimary
+              onClick={() => clickPublishUnpublish(1)}
+              variant="contained"
+              style={{ marginRight: '8px', backgroundColor: 'green' }}
+            >
+              PUBLISHALL
+            </ButtonPrimary>
+            <ButtonPrimary
+              onClick={ClickOpenDialogbox}
+              variant="contained"
+              style={{ marginRight: '8px', backgroundColor: 'green' }}
+            >
+              UNPUBLISHALL
+            </ButtonPrimary>
+          </Grid> */}
+        </Box>
+      </Container>
     </>
   );
 };

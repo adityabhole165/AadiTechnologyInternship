@@ -15,7 +15,8 @@ const SingleFile = ({
   errorMessage = '',
   clickDelete = undefined,
   filePath = '',
-  FileName = ''
+  FileName = '',
+  width = '300px'
 }) => {
   const classes = Styles();
   const aRef = useRef(null);
@@ -66,7 +67,7 @@ const SingleFile = ({
       >
         <Button
           sx={{
-            maxWidth: '300px',
+            width: width,
             border: (theme) =>
               `1px dashed ${
                 FileName ? theme.colors.success.main : theme.colors.primary.main

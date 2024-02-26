@@ -1,12 +1,23 @@
 import { Box, FormControl, InputLabel, Select } from '@mui/material';
 import { useState } from 'react';
-function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
+function DropDown({
+  itemList,
+  ClickItem,
+  DefaultValue,
+  Label,
+  width,
+  variant = 'standard',
+  size = 'small'
+}) {
   const [randomUniqueKey, setRandomUniqueKey] = useState(Math.random());
 
   return (
     <div>
       <Box width={width}>
-        <FormControl fullWidth variant={'standard'}>
+        <FormControl
+          fullWidth
+          variant={variant as 'standard' | 'outlined' | 'filled'}
+        >
           <InputLabel id={`label-${randomUniqueKey}`}>
             {Label} <span style={{ color: 'red' }}>*</span>
           </InputLabel>
@@ -16,7 +27,7 @@ function DropDown({ itemList, ClickItem, DefaultValue, Label, width }) {
             label={Label}
             labelId={`label-${randomUniqueKey}`}
             onChange={(e) => ClickItem(e.target.value)}
-            size={'small'}
+            size={size as any}
           >
             {DefaultValue == '' && <option>{Label}</option>}
             {itemList.map((item, i) => {

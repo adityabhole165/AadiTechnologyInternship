@@ -1,4 +1,4 @@
-import { Grid, TextField, Typography } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -12,7 +12,6 @@ import {
 } from 'src/interfaces/AssignHomework/IHomeworkSubjectList';
 import Assignedhomeworklist from 'src/libraries/ResuableComponents/Assignedhomeworklist1';
 import DropDown from 'src/libraries/list/DropDown';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetAllHomeworkDocuments,
   GetHomeworkDetailss,
@@ -243,11 +242,7 @@ const HomeworkSubjectList = () => {
   // };
 
   return (
-    <div>
-      <br></br>
-      <br></br>
-      <br></br>
-
+    <>
       {/* <Grid item xs={4}>
   <DropDown
     itemList={HomeworkStatus}
@@ -257,27 +252,25 @@ const HomeworkSubjectList = () => {
     
   />
 </Grid> */}
-
-      <Grid container spacing={2}>
-        <Grid item xs={4}>
+      <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
+        <Grid item xs={3}>
           <DropDown
-            width={200}
+            width={'100%'}
+            size={'medium'}
             itemList={HomeworkStatus}
             ClickItem={clickHomeworkStatus}
             DefaultValue={HomeworkS}
-            Label={''}
+            Label={'Select Homework Status'}
           />
-          <br></br> <br />
         </Grid>
 
-        <Grid item xs={4}>
+        <Grid item xs={3}>
           <TextField
-            sx={{
-              width: '50%',
-              margin: '1px 0',
-              border: '1px solid #000',
-              boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)'
+            fullWidth
+            InputLabelProps={{
+              shrink: true
             }}
+            label={'Date'}
             inputProps={{ type: 'date' }}
             value={AssignedDate}
             onChange={(e) => {
@@ -289,37 +282,24 @@ const HomeworkSubjectList = () => {
             // helperText={ErrorEventEndDate}
           />
         </Grid>
+        <Grid item xs={2}>
+          <TextField
+            fullWidth
+            label="Title"
+            value={Title}
+            variant={'standard'}
+            onChange={(e) => {
+              handleTitle(e.target.value);
+            }}
+          />
+        </Grid>
+        <Grid item xs={1}>
+          <Button onClick={clickSearch} variant="contained">
+            Search
+          </Button>
+        </Grid>
       </Grid>
 
-      <br></br>
-
-      <Grid item xs={2}>
-        <Typography margin={'1px'}>
-          <b>Title:</b>
-        </Typography>
-      </Grid>
-      <Grid item xs={2}>
-        <TextField
-          label=""
-          value={Title}
-          onChange={(e) => {
-            handleTitle(e.target.value);
-          }}
-        />
-        <br></br>
-      </Grid>
-      <Grid item xs={2}>
-        <ButtonPrimary
-          onClick={clickSearch}
-          variant="contained"
-          style={{ marginRight: '150px', backgroundColor: 'green' }}
-        >
-          Search
-        </ButtonPrimary>
-      </Grid>
-
-      <br></br>
-      <br></br>
       <Assignedhomeworklist
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
@@ -330,9 +310,7 @@ const HomeworkSubjectList = () => {
         HeaderArray={HeaderPublish}
         clickAttachment={clickFileName}
       />
-      <br></br>
-      <br></br>
-    </div>
+    </>
   );
 };
 

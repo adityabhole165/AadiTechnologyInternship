@@ -1,7 +1,7 @@
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Card, Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,14 +21,19 @@ const Assignedhomeworklist1 = ({
 }) => {
   return (
     <div>
-      <TableContainer component={Card}>
+      <TableContainer component={Box}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'skyblue' }}>
+            <TableRow
+              sx={{ backgroundColor: (theme) => theme.colors.primary.main }}
+            >
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize' }}
+                  sx={{
+                    textTransform: 'capitalize',
+                    color: (theme) => theme.palette.common.white
+                  }}
                   align="center"
                 >
                   <b>{item.Header}</b>

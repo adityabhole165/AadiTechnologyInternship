@@ -1,6 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Card, Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -40,10 +40,12 @@ function SubjectList1({
 
   return (
     <>
-      <TableContainer component={Card}>
+      <TableContainer component={Box}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: 'skyblue' }}>
+            <TableRow
+              sx={{ backgroundColor: (theme) => theme.colors.primary.main }}
+            >
               {/* <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                 <Checkbox checked={IsCheckAll()} onClick={clickAll}></Checkbox>
 
@@ -52,7 +54,10 @@ function SubjectList1({
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize' }}
+                  sx={{
+                    textTransform: 'capitalize',
+                    color: (theme) => theme.palette.common.white
+                  }}
                   align="center"
                 >
                   <b>{item.Header}</b>
