@@ -492,7 +492,7 @@ const TAttendance = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Stack direction={'row'} gap={1} alignItems={'center'}>
-            <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
+            <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
               <Typography
                 color={'primary'}
                 sx={{ cursor: 'pointer' }}
@@ -507,7 +507,7 @@ const TAttendance = () => {
               </Typography>
             </Tooltip>
             <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
-            <Tooltip title="Show Attendance Overview" sx={{ ml: 1 }}>
+            <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
               <Typography
                 color={'primary'}
                 sx={{ cursor: 'pointer' }}

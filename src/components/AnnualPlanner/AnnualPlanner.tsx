@@ -1,5 +1,4 @@
 import AddIcon from '@mui/icons-material/Add';
-import BackupIcon from '@mui/icons-material/Backup';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -30,6 +29,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import { toast } from 'react-toastify';
+import {
+  IAddAnnualPlannerBody,
+  IDeleteFileDetailsBody,
+  IGetFileDetailsBody
+} from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import {
   IGetAllDivisionsForStandardDropDownBody,
   IGetEventsDataListBody,
@@ -39,12 +44,18 @@ import {
   IEventList,
   IGetAllMonthsDropDownBody
 } from 'src/interfaces/Common/AnnualPlanner';
+import SingleFile from 'src/libraries/File/SingleFile';
 import AnnualPlannerCalendar from 'src/libraries/ResuableComponents/AnnualPlannerCalendar';
 import {
   CDAGetEventsDataList,
   GetDivisionList,
   GetYearList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import {
+  DeleteFile,
+  GetFile,
+  addanual
+} from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import {
   GetMonthList,
   getEventList
@@ -69,6 +80,7 @@ function AnnualPlanner() {
   const currentYear = new Date().getFullYear().toString();
   const currentMonth = (new Date().getMonth() + 1).toString();
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asUpdatedById = localStorage.getItem('Id');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const TeacherId = sessionStorage.getItem('TeacherId');
@@ -77,6 +89,12 @@ function AnnualPlanner() {
   const [selectDivision, setSelectDivision] = useState('');
   const [selectMonth, setSelectMonth] = useState(currentMonth);
   const [selectYear, setSelectYear] = useState(currentYear);
+  const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
+  const MaxfileSize = 3000000;
+
+  const [Open, setOpen] = useState(false);
+  const [fileName, setFileName] = useState('');
+  const [base64URL, setbase64URL] = useState('');
   const BackMonth = new Date(
     Number(DateFromyear),
     Number(DateFrommon)
@@ -102,7 +120,14 @@ function AnnualPlanner() {
   const SelectYearList: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISSelectYearList
   );
+  const AddAnnualPlanner: any = useSelector(
+    (state: RootState) => state.AddPlanner.AddAnnual
+  );
+  console.log(AddAnnualPlanner, 'AddAnnualPlanner');
 
+  const FileDetails: any = useSelector(
+    (state: RootState) => state.AddPlanner.getfile
+  );
   const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
     asSchoolId: Number(asSchoolId)
   };
@@ -131,6 +156,21 @@ function AnnualPlanner() {
     asDivisionId: Number(selectDivision)
   };
 
+  const AnnualplannerBody: IAddAnnualPlannerBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asSaveFeature: 'Event Planner',
+    asFileName: fileName,
+    asFolderName: 'PPSN Website',
+    asBase64String: base64URL,
+    asUpdatedById: Number(asUpdatedById)
+  };
+
+  const GetFileDetailsBody: IGetFileDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId)
+  };
+
   useEffect(() => {
     dispatch(CDAGetEventsDataList(GetEventsDataListBody));
   }, []);
@@ -144,6 +184,15 @@ function AnnualPlanner() {
   useEffect(() => {
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
   }, []);
+
+  useEffect(() => {
+    dispatch(GetFile(GetFileDetailsBody));
+  }, []);
+  useEffect(() => {}, [FileDetails]);
+  const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId)
+  };
 
   // useEffect(() => {
   //   if (
@@ -175,6 +224,35 @@ function AnnualPlanner() {
   };
   const clicYearDropdown = (value) => {
     setSelectYear(value);
+  };
+
+  const ChangeFile = (value) => {
+    setFileName(value.Name);
+    setbase64URL(value.Value);
+    console.log('filevalue', value);
+  };
+  const clickFileName = () => {
+    if (FileDetails !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') +
+          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+          FileDetails[0].LinkUrl
+      );
+      // localStorage.getItemItem("SiteURL", window.location.pathname)
+    }
+  };
+  const clickSubmit = () => {
+    if (fileName.length !== 0 && base64URL.length !== 0) {
+      dispatch(addanual(AnnualplannerBody));
+      toast.success('File Uploaded Successfully', { toastId: 'success1' });
+    }
+  };
+
+  const clickDelete = (Id) => {
+    if (confirm('Are You Sure you want to delete The File')) {
+      dispatch(DeleteFile(DeleteFileDetailsBody));
+      toast.success('File Deleted Successfully', { toastId: 'success1' });
+    }
   };
 
   const Note: string =
@@ -460,24 +538,16 @@ function AnnualPlanner() {
               <Typography variant={'h3'}>Upload Annual Planner</Typography>
               <Box sx={{ mt: 2 }}>
                 {/* while file is not selected */}
-                {!annualPlannerFile && (
-                  <Button
-                    variant={'outlined'}
-                    color={'primary'}
-                    sx={{ width: '100%', py: 3, border: '2px dashed' }}
-                    startIcon={<BackupIcon />}
-                  >
-                    Click to Upload
-                    <VisuallyHiddenInput
-                      type="file"
-                      onChange={(event) => {
-                        setAnnualPlannerFile(event.target.files[0]);
-                      }}
-                    />
-                  </Button>
-                )}
+                <SingleFile
+                  ValidFileTypes={ValidFileTypes}
+                  MaxfileSize={MaxfileSize}
+                  ChangeFile={ChangeFile}
+                  errorMessage={''}
+                  filePath={clickFileName.toString()}
+                  FileName={fileName}
+                ></SingleFile>
                 {/* while file is selected */}
-                {annualPlannerFile && (
+                {AddAnnualPlanner && (
                   <Box
                     sx={{
                       width: '100%',
@@ -491,11 +561,11 @@ function AnnualPlanner() {
                     }}
                   >
                     <CheckCircleIcon />
-                    {annualPlannerFile?.name}
+                    {AddAnnualPlanner?.name}
                     <IconButton
                       color={'error'}
                       onClick={() => {
-                        setAnnualPlannerFile(null);
+                        setFileName(null);
                       }}
                     >
                       <DeleteIcon />
@@ -521,7 +591,11 @@ function AnnualPlanner() {
             >
               Cancel
             </Button>
-            <Button onClick={() => {}} color={'primary'} variant={'contained'}>
+            <Button
+              onClick={clickSubmit}
+              color={'primary'}
+              variant={'contained'}
+            >
               Save
             </Button>
           </DialogActions>
