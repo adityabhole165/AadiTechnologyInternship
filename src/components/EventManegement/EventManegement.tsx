@@ -126,11 +126,11 @@ const EventsManagement = () => {
   //1.EventList
   useEffect(() => {
     const EventListBody: IEventListBody = {
-      asEventDate: '2008-06-19',
-      asSchoolId: 18,
-      asAcademicYearId: 39,
-      asStandardId: 871,
-      asDivisionId: 1199
+      "asEventDate":"2024-02-07",
+    "asSchoolId":18,
+    "asAcademicYearId":54,
+    "asStandardId": 1059,
+    "asDivisionId": 1288
     };
     dispatch(GetEventtList(EventListBody));
   }, []);
