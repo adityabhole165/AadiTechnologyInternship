@@ -70,6 +70,10 @@ export interface IGetSummaryCountforAttendanceBody {
   asUserId: number;
 }
 
+
+
+
+
 export interface IGetSummaryCountforAttendanceResult {
   summaryCountforAttendance: null;
 

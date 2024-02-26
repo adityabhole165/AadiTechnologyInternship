@@ -64,11 +64,11 @@ const MonthwiseAttandance = () => {
     asSchoolId: asSchoolId,
     asAcademicyearId: asAcademicYearId,
     asStanardDivisionId: StandardDivisionId,
-    TopRanker: 1000,
-    Student_Id: StudentId,
-    SortExp: ' ORDER BY [Roll_No] ASC',
-    prm_StartIndex: 0,
-    PageSize: 100
+    // TopRanker: 1000,
+    // Student_Id: StudentId,
+    // SortExp: ' ORDER BY [Roll_No] ASC',
+    // prm_StartIndex: 0,
+    // PageSize: 100
   };
 
   const changeSearchText = () => {
