@@ -1,4 +1,3 @@
-import CalendarMonthTwoTone from '@mui/icons-material/CalendarMonthTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ClearIcon from '@mui/icons-material/Clear';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
@@ -9,7 +8,6 @@ import {
   Container,
   Grid,
   IconButton,
-  InputAdornment,
   Stack,
   TextField,
   Tooltip,
@@ -139,30 +137,19 @@ const SchoolAttendanceOverview = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <DatePicker
-              value={SelectDate}
-              variant={'outlined'}
-              type="date"
-              onChange={(e) => {
-                onSelectDate(e.target.value);
-              }}
-              label={''}
-              size="small"
-              sx={{
-                backgroundColor: 'white',
-                '& .MuiInputBase-input': {
-                  fontWeight: 'bold'
-                }
-              }}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position={'end'}>
-                    <CalendarMonthTwoTone />
-                  </InputAdornment>
-                )
-              }}
-            />
+          <TextField 
+  value={SelectDate} 
+  type='date' 
+  onChange={(e) => { onSelectDate(e.target.value) }} 
+  label={''} 
+  size="small" 
+  inputProps={{
+    max: new Date().toISOString().split('T')[0]
+  }} 
+/>
+
           </Box>
+          
           <Box>
             <Tooltip title={Note}>
               <IconButton
