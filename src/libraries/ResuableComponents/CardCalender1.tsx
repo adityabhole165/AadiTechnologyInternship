@@ -186,7 +186,7 @@ function CardCalender1({
       <Grid container>
         <Grid
           item
-          border="0.5px solid #ebebeb"
+          // border="solid #ebebeb"
           md={12/7 * dayCount}
           xs={12/7 * dayCount}
           sx={{ textAlign: 'center', pt: 0 }}
