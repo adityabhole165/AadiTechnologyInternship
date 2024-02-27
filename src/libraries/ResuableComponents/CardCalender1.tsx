@@ -165,7 +165,8 @@ function CardCalender1({
           <>
             <Grid
               item
-              xs={1.71}
+              xs={12/7}
+              md={12/7}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -186,13 +187,14 @@ function CardCalender1({
         <Grid
           item
           border="0.5px solid #ebebeb"
-          md={1.7 * dayCount}
+          md={12/7 * dayCount}
+          xs={12/7 * dayCount}
           sx={{ textAlign: 'center', pt: 0 }}
         >
         </Grid>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={1.71} sx={{ textAlign: 'center' }} key={i}>
+            <Grid item xs={12/7} md={12/7} sx={{ textAlign: 'center' }} key={i}>
               <CardCal1
                 item={item}
                 clickItem={() => ClickItem(item.Value)}
