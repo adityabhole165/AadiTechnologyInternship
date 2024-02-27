@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material"
+import { Box, Stack } from "@mui/material"
 import Dropdown from "src/libraries/dropdown/Dropdown"
 
 const SearchAnnualPlanner = ({ ItemList, ClickItem, DefaultValue }) => {
@@ -12,28 +12,34 @@ const SearchAnnualPlanner = ({ ItemList, ClickItem, DefaultValue }) => {
         })
     }
     return (
-        <Grid container><Grid xs={3}>
+        <Stack direction={'row'} gap={1}>
+            <Box sx={{ minWidth: 100 }}>
             <Dropdown Array={ItemList.StandardList} label={'Standard'}
                 defaultValue={DefaultValue.Standard}
                 handleChange={(value) => { handleChange(value, "Standard") }}
             ></Dropdown>
-        </Grid><Grid xs={3}>
+            </Box>
+            <Box sx={{ minWidth: 100 }}>
                 <Dropdown Array={ItemList.StandardDivisionList}
                     label={'Standard Division'} defaultValue={DefaultValue.StandardDivision}
                     handleChange={(value) => { handleChange(value, "StandardDivision") }}
                 ></Dropdown>
-            </Grid><Grid xs={3}>
+            
+            </Box>
+            <Box sx={{ minWidth: 100 }}>
                 <Dropdown Array={ItemList.MonthList}
                     label={'Month'} defaultValue={DefaultValue.Month}
                     handleChange={(value) => { handleChange(value, "Month") }}
                 ></Dropdown>
-            </Grid><Grid xs={3}>
+            
+            </Box>
+            <Box sx={{ minWidth: 100 }}>
                 <Dropdown Array={ItemList.YearList}
                     label={'Year'} defaultValue={DefaultValue.Year}
                     handleChange={(value) => { handleChange(value, "Year") }}
                 ></Dropdown>
-            </Grid>
-        </Grid>
+            </Box>
+        </Stack>
     )
 }
 
