@@ -14,7 +14,7 @@ function CardCal1({
   const fourcolour = ['', 'red', 'green', 'blue', 'gray', 'orange'];
   console.log(stripHtml(item?.Text1));
 
-  const [color, setColor] = useState(
+  let color =
     stripHtml(item?.Text1) === 'Done'
       ? '#00FF0020'
       : stripHtml(item?.Text1) === 'Not Done'
@@ -26,7 +26,6 @@ function CardCal1({
       : stripHtml(item?.Text1) === 'Outside Academic Year'
       ? '#f0629220'
       : '#f0629220'
-  );
 
   const handleMouseEnter = () => {
     setIsHovered(true);
