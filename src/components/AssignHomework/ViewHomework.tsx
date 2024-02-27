@@ -1,7 +1,21 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import {
+  Box,
+  Breadcrumbs,
+  Container,
+  Grid,
+  IconButton,
+  Stack,
+  TextField,
+  Tooltip,
+  Typography
+} from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
@@ -44,196 +58,104 @@ const ViewHomework = () => {
   }, [HomeworkDetail]);
   return (
     <>
-      <br></br>
-      <br></br>
-      <br></br>
-      <Container>
-        {' '}
-        <h1>View Homework</h1>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
+      <Container sx={{ mt: 4 }} maxWidth={'xl'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+        >
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator={<ChevronRightTwoTone />}
+          >
+            <Link
+              to={'/extended-sidebar/landing/landing'}
+              color="inherit"
+              style={{ textDecoration: 'none' }}
             >
-              <Typography fontSize={'10px'}>Subject :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
+              <IconButton
+                sx={{
+                  background: (theme) => theme.palette.common.white,
+                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                }}
+              >
+                <HomeTwoTone color="primary" />
+              </IconButton>
+            </Link>
+            <Link
+              to={'/extended-sidebar/Teacher/AddHomework'}
+              style={{ textDecoration: 'none' }}
             >
-              <Typography fontSize={'10px'}>Title :</Typography>
+              <Typography
+                variant={'h3'}
+                fontSize={'23px'}
+                fontWeight={'normal'}
+                color={'text.primary'}
+                sx={{
+                  '&:hover': {
+                    fontWeight: 'bold'
+                  }
+                }}
+              >
+                Assign Homework
+              </Typography>
+            </Link>
+            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+              View Homework
+            </Typography>
+          </Breadcrumbs>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box>
+              <Tooltip title={`User can view homework details.`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'gray',
+                    height: '36px !important',
+                    ':hover': { backgroundColor: 'gray' }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
             </Box>
+          </Stack>
+        </Stack>
+        <Box sx={{ background: 'white', mt: 2, p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField label={'Subject'} fullWidth />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth label={'Title'} />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                label={'Assigned Date'}
+                type={'date'}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                label={'Complete By Date'}
+                type={'date'}
+                InputLabelProps={{ shrink: true }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>Attachment:</Typography>
+            </Grid>
+            <Grid item xs={6}>
+              <Typography>More Attachment:</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField multiline fullWidth rows={3} label={'Details'} />
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>AssignedDate :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>{AssignedDate}</Typography>
-            </Box>
-          </Grid>
-        </Grid>{' '}
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>CompleteByDate :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>Attachment :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>{' '}
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>MoreAttachment :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>
-        <Grid container spacing={2} mt={0.5}>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '8px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            >
-              <Typography fontSize={'10px'}>Details :</Typography>
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                padding: '18px',
-                boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                border: '1px solid black'
-              }}
-            />
-          </Grid>
-        </Grid>
+        </Box>
         {/* {HomeworkDetail.length > 0 && <>Title: {HomeworkDetail[0].Title}</>}{' '}
         <br></br>
         {HomeworkDetail.length > 0 && <>Subject: {HomeworkDetail[0].Subject}</>}

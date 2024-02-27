@@ -277,7 +277,7 @@ export const ListStyle = styled(Box)(
  padding:8px;
 border-radius: 6px;
    margin-bottom: 8px;
-   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+   border: 1px solid ${theme.palette.grey[400]};
  `
 );
 
