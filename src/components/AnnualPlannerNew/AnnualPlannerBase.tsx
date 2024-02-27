@@ -6,8 +6,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
-import { toast } from 'react-toastify';
-import { IAddAnnualPlannerBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import { IGetAllDivisionsForStandardDropDownBody, IGetAllMonthsDropDownBody, IGetAssociatedStdLstForTeacherDropDownBody, IGetEventsDataListBody, IGetYearsForAnnualPalannerDropDownBody } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import { CDAGetEventsDataList, GetDivisionList, GetMonthList, GetStandardList, GetYearList } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
@@ -42,14 +40,14 @@ const AnnualPlannerBase = () => {
     const [DefaultValue, setDefaultValue] = useState({
         Standard: "0",
         StandardDivision: "0",
-        Month: "0",
-        Year: "0"
+        Month: ((new Date()).getMonth() + 1).toString(),
+        Year: ((new Date()).getFullYear()).toString()
     })
     const Note: string =
         'These events may change due to unavoidable reasons without prior notice.';
 
     const [DaysList, setDaysList] = useState([])
-    const [SelectedDate, setSelectedDate] = useState(getDateDDMMMDash())
+    const [SelectedDate, setSelectedDate] = useState(getDateDDMMMDash(new Date()))
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
     const [fileName, setFileName] = useState('');
     const [base64URL, setbase64URL] = useState('');
@@ -77,9 +75,12 @@ const AnnualPlannerBase = () => {
         setDefaultValue({
             Standard: selectedItem == "Standard" ? value : DefaultValue.Standard,
             StandardDivision: selectedItem == "StandardDivision" ? value : DefaultValue.StandardDivision,
-            Month: selectedItem == "Month" ? value : DefaultValue.Month,
-            Year: selectedItem == "Year" ? value : DefaultValue.Year
+            Month: selectedItem == "MonthYear" ?
+                ((new Date(value)).getMonth() + 1).toString() : DefaultValue.Month,
+            Year: selectedItem == "MonthYear" ?
+                ((new Date(value)).getFullYear()).toString() : DefaultValue.Year
         })
+
     }
     useEffect(() => {
         if (USStandardList.length > 0) {
@@ -94,29 +95,14 @@ const AnnualPlannerBase = () => {
         }
     }, [USStandardDivision])
 
-    useEffect(() => {
-        var todayMonth = ((new Date()).getMonth() + 1).toString();
-        if (USMonthList.length > 0) {
-            setValue(todayMonth, "Month")
-        }
-    }, [USMonthList])
-
-    useEffect(() => {
-        var todayYear = ((new Date()).getFullYear()).toString();
-        if (USYearList.length > 0) {
-            setValue(todayYear, "Year")
-        }
-    }, [USYearList])
 
     useEffect(() => {
         if (USEventsDataList.length > 0) {
-            console.log(USEventsDataList, "USEventsDataList");
 
             setDaysList(USEventsDataList)
         }
     }, [USEventsDataList])
     useEffect(() => {
-
         const GetEventsDataListBody: IGetEventsDataListBody = {
             asSchoolId: Number(asSchoolId),
             asAcademicYearId: Number(asAcademicYearId),
@@ -144,40 +130,31 @@ const AnnualPlannerBase = () => {
     }
 
     const ClickCalendarItem = (value) => {
-        console.log(value, "value");
-
         setSelectedDate(value)
+        setValue(value, "MonthYear")
     }
-    const ClickItem = (value) => {
+    const ClickFilterItem = (value) => {
         setDefaultValue(value)
+        let date = new Date();
+        date.setDate(1);
+        date.setMonth(value.Month - 1)
+        date.setFullYear(value.Year)
+        setSelectedDate(getDateDDMMMDash(new Date(date)));
+        console.log(getDateDDMMMDash(new Date(date)), "ClickFilterItem")
+        //If standard is changed, call Division API
         if (value.Standard != DefaultValue.Standard)
             callGetDivisionList(value.Standard)
     }
-    const clickSubmit = () => {
-        if (fileName.length !== 0 && base64URL.length !== 0) {
-            const AnnualplannerBody: IAddAnnualPlannerBody = {
-                asSchoolId: Number(asSchoolId),
-                asAcademicYearId: Number(asAcademicYearId),
-                asSaveFeature: 'Event Planner',
-                asFileName: fileName,
-                asFolderName: 'PPSN Website',
-                asBase64String: base64URL,
-                asUpdatedById: Number(UserId)
-            };
-            dispatch(addanual(AnnualplannerBody));
-            toast.success('File Uploaded Successfully', { toastId: 'success1' });
-        }
-    };
 
     return (
         <Container sx={{ mt: 4 }} maxWidth={'xl'}>
 
             <AnnualPlannerHeader />
             <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
-            <CalendarAnnualPlanner
-                DaysList={DaysList} ClickCalendarItem={ClickCalendarItem} SelectedDate={SelectedDate}
-                FilterList={ItemList} ClickFilterItem={ClickItem} SelectedFilter={DefaultValue}
-            />
+                <CalendarAnnualPlanner
+                    DaysList={DaysList} ClickCalendarItem={ClickCalendarItem} SelectedDate={SelectedDate}
+                    FilterList={ItemList} ClickFilterItem={ClickFilterItem} SelectedFilter={DefaultValue}
+                />
             </Box>
 
         </Container >
@@ -185,8 +162,3 @@ const AnnualPlannerBase = () => {
 }
 
 export default AnnualPlannerBase
-
-function addanual(AnnualplannerBody: IAddAnnualPlannerBody): any {
-    throw new Error('Function not implemented.');
-}
-

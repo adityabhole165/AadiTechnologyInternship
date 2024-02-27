@@ -11,7 +11,7 @@ const CalendarWeekHeader = () => {
     { Id: 7, Name: 'Sat' }
   ];
   return (
-    <Grid container>
+    <Grid container spacing={0} sx={{ mt: 2 }}>
       {HeaderList.map((Item, i) => (
         <Grid
           item

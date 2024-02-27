@@ -64,12 +64,11 @@ export function isTodaysDate(date) {
   });
   return date === getDateFormatted(todaysDate);
 }
-export function getDateDDMMMDash(){
-  let date = new Date();
+export function getDateDDMMMDash(date){
   const Day = new Date(date).getDate();
   const Month = monthNames[date.getMonth()];
   const Year = new Date(date).getFullYear();
-  return `${Day}-${Month}-${Year}`;
+  return `${Day.toString().padStart(2, '0')}-${Month.toString().padStart(2, '0')}-${Year}`;
 }
 
 export function ReturnTimeOrDateYear(date) {
@@ -272,6 +271,13 @@ export const getMonthYearFormatted = (date) => {
   const Month = new Date(date).toLocaleString('default', { month: 'short' });
   const Year = new Date(date).getFullYear();
   return `${Month}-${Year}`;
+};
+export const getMonthYearSpaceFormatted = (date) => {
+  date = date || new Date();
+  const Day = new Date(date).getDate();
+  const Month = new Date(date).toLocaleString('default', { month: 'short' });
+  const Year = new Date(date).getFullYear();
+  return `${Month} ${Year}`;
 };
 
 export const getNextDate = (date, prevNext) => {

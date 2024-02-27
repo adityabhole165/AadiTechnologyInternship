@@ -1,12 +1,11 @@
 import AddIcon from '@mui/icons-material/Add';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
-import ChevronRightTwoTone from "@mui/icons-material/ChevronRightTwoTone";
-import HomeTwoTone from "@mui/icons-material/HomeTwoTone";
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Breadcrumbs, IconButton, Stack, Typography } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import BreadCrumbs from './BreadCrumbs';
 import HeaderIcons from './HeaderIcons';
 import UploadAnnualPlanner from './UploadAnnualPlanner';
 
@@ -29,6 +28,11 @@ const AnnualPlannerHeader = () => {
             setOpenAnnualPlannerDialog(true);
         }
     }
+    const Breadcrumbs = [{
+        Id: 1,
+        Name: 'Annual Planner',
+        IsActive: true
+    }]
     return (
         <>
             <Stack
@@ -37,32 +41,7 @@ const AnnualPlannerHeader = () => {
                 justifyContent={'space-between'}
             >
                 <Box>
-                    <Breadcrumbs
-                        aria-label="breadcrumb"
-                        separator={<ChevronRightTwoTone />}
-                    >
-                        <Link
-                            to={'/extended-sidebar/landing/landing'}
-                            color="inherit"
-                            style={{ textDecoration: 'none' }}
-                        >
-                            <IconButton
-                                sx={{
-                                    background: (theme) => theme.palette.common.white,
-                                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                                }}
-                            >
-                                <HomeTwoTone color="primary" />
-                            </IconButton>
-                        </Link>{' '}
-                        <Typography
-                            variant={'h3'}
-                            fontSize={'23px'}
-                            color="text.primary"
-                        >
-                            Annual Planner
-                        </Typography>
-                    </Breadcrumbs>
+                    <BreadCrumbs ItemList={Breadcrumbs} />
                 </Box>
                 <Stack direction={'row'} alignItems={'center'} gap={1}>
                     <HeaderIcons IconList={IconList} ClickIcon={ClickIcon} />

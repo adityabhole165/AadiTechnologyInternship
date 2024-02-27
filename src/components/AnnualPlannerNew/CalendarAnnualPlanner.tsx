@@ -1,27 +1,32 @@
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
 import { Box, IconButton, Stack, Typography, alpha } from "@mui/material";
+import { getDateDDMMMDash, getMonthYearSpaceFormatted } from '../Common/Util';
 import CalendarList from './CalendarList';
 import SearchAnnualPlanner from './SearchAnnualPlanner';
 
 const CalendarAnnualPlanner = ({ DaysList, ClickCalendarItem, FilterList,
     ClickFilterItem, SelectedDate, SelectedFilter }) => {
-    const handlePrevMonth = () => {
+    const handlePrevNextMonth = (PrevNext) => {
+        const newDate = new Date(SelectedDate);
+        newDate.setDate(1)
+        newDate.setMonth(newDate.getMonth() - PrevNext);
 
-    }
-    const handleNextMonth = () => {
-
+        if (newDate.getMonth() === 11) {
+            newDate.setFullYear(newDate.getFullYear());
+        }
+        ClickCalendarItem(getDateDDMMMDash(newDate))
     }
     return (
         <Box sx={{ backgroundColor: 'white' }} p={2}>
 
             <Box display="flex" justifyContent="space-between">
                 <Typography m={0} variant={'h3'}>
-                    <b>{SelectedDate}</b>
+                    <b>{getMonthYearSpaceFormatted(SelectedDate)}</b>
                 </Typography>
                 <Stack direction={'row'} gap={1}>
                     <SearchAnnualPlanner ItemList={FilterList} ClickItem={ClickFilterItem} DefaultValue={SelectedFilter} />
-                    <IconButton color={'primary'} onClick={() => handlePrevMonth()}
+                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(1)}
                         sx={{
                             backgroundColor: (theme) =>
                                 alpha(theme.palette.primary.main, 0.2)
@@ -29,7 +34,7 @@ const CalendarAnnualPlanner = ({ DaysList, ClickCalendarItem, FilterList,
                     >
                         <ArrowBackIosNewIcon />
                     </IconButton>
-                    <IconButton color={'primary'} onClick={() => handleNextMonth()}
+                    <IconButton color={'primary'} onClick={() => handlePrevNextMonth(-1)}
                         sx={{
                             backgroundColor: (theme) =>
                                 alpha(theme.palette.primary.main, 0.2)
