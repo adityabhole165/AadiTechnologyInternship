@@ -5,7 +5,7 @@ import {
 import http from '../../requests/SchoolService/schoolServices';
 
 const MonthwiseAttendance = (data: IGetMonthwiseAttendanceBody) => {
-  return http.post<IGetMonthwiseAttendanceResult[]>(
+  return http.post<IGetMonthwiseAttendanceResult>(
     'Teacher/GetMonthwiseAttendance',
     data
   );

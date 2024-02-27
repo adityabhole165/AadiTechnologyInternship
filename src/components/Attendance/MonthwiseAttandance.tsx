@@ -28,33 +28,18 @@ const MonthwiseAttandance = () => {
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  const HeaderArray = [
-    { Id: 1, Header: 'Roll No.' },
-    { Id: 2, Header: 'Student Name', align: 'left' },
-    { Id: 3, Header: 'Mar' },
-    { Id: 4, Header: 'Apr' },
-    { Id: 5, Header: 'May' },
-    { Id: 6, Header: 'Jun' },
-    { Id: 7, Header: 'Jul' },
-    { Id: 8, Header: 'Aug' },
-    { Id: 9, Header: 'Sep' },
-    { Id: 10, Header: 'Oct' },
-    { Id: 10, Header: 'Nov' },
-    { Id: 10, Header: 'Dec' },
-    { Id: 11, Header: 'Jan' },
-    { Id: 12, Header: 'Feb' },
-    { Id: 13, scope: 'row', Header: 'Present Days' },
-    { Id: 14, scope: 'row', Header: 'Total Days' },
-    { Id: 15, Header: '%' }
-  ];
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const StudentId = Number(sessionStorage.getItem('StudentId'));
   const Note: string =
     "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days.";
-  const MonthWiseAttendance = useSelector(
-    (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
-  );
+    const MonthWiseAttendance = useSelector(
+      (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
+    );
+    const HeaderArray = useSelector(
+      (state: RootState) => state.MonthwiseAttendance.HeaderArray
+    );
   const [search, setSearch] = useState(true);
   const [SearchText, setSearchText] = useState('');
   const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([
