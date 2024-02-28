@@ -334,15 +334,14 @@ const TAttendance = () => {
       asSendMessage: sendmeassagestudent
     };
     dispatch(GetSaveStudentAttendence(GetSaveStudentAttendance));
-
   };
 
   useEffect(() => {
     if (saveResponseMessage != '') {
+      dispatch(GetStudentList(GetStudentDetails));
       toast.success(saveResponseMessage);
       dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
-      dispatch(GetStudentList(GetStudentDetails));
     }
   }, [saveResponseMessage]);
 
