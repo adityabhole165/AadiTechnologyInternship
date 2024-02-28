@@ -30,7 +30,7 @@ export const getattendance =
         return value.MonthwiseDays[i].MonthName
       }
       let a = response.data.StudentAttendanceDetailsList.map((item, i) => {
-        return {
+        return response.data.StudentAttendanceDetailsList[0].MonthwiseDays.length > 12 ? {
           Text1: item.Roll_No,
           Text2: item.StudentName,
           Text3: getValue(item, 0),
@@ -45,13 +45,33 @@ export const getattendance =
           Text12: getValue(item, 9),
           Text13: getValue(item, 10),
           Text14: getValue(item, 11),
-          Text15: item.PresentDays,
-          Text16: item.TotalDays,
-          Text17: item.Percentage
-        };
+          Text15: getValue(item, 12),
+          Text16: item.PresentDays,
+          Text17: item.TotalDays,
+          Text18: item.Percentage
+        } :
+          {
+            Text1: item.Roll_No,
+            Text2: item.StudentName,
+            Text3: getValue(item, 0),
+            Text4: getValue(item, 1),
+            Text5: getValue(item, 2),
+            Text6: getValue(item, 3),
+            Text7: getValue(item, 4),
+            Text8: getValue(item, 5),
+            Text9: getValue(item, 6),
+            Text10: getValue(item, 7),
+            Text11: getValue(item, 8),
+            Text12: getValue(item, 9),
+            Text13: getValue(item, 10),
+            Text14: getValue(item, 11),
+            Text15: item.PresentDays,
+            Text16: item.TotalDays,
+            Text17: item.Percentage
+          }
       });
       const HeaderArray = [
-        { Id: 1, Header: 'Roll No.' },
+        { Id: 1, scope: '', Header: 'Roll No.' },
         { Id: 2, Header: 'Student Name', align: 'left' },
         { Id: 3, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 0) },
         { Id: 4, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 1) },
@@ -64,12 +84,15 @@ export const getattendance =
         { Id: 10, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 8) },
         { Id: 10, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 9) },
         { Id: 11, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 10) },
-        { Id: 12, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 11) },
-        { Id: 13, scope: 'row', Header: 'Present Days' },
-        { Id: 14, scope: 'row', Header: 'Total Days' },
-        { Id: 15, Header: '%' }
+        { Id: 12, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 11) }
       ];
-      console.log(HeaderArray, "HeaderArray");
+      if (response.data.StudentAttendanceDetailsList[0].MonthwiseDays.length > 12)
+        HeaderArray.push({ Id: 12, Header: getHeader(response.data.StudentAttendanceDetailsList[0], 12) })
+      HeaderArray.push({ Id: 13, scope: 'row', Header: 'Present Days' })
+      HeaderArray.push({ Id: 14, scope: 'row', Header: 'Total Days' })
+      HeaderArray.push({ Id: 15, Header: '%' })
+
+      console.log(HeaderArray, "HeaderArray", a);
 
       dispatch(MonthwiseAttendanceSlice.actions.getmonthwiseattendance(a));
       dispatch(MonthwiseAttendanceSlice.actions.getHeaderArray(HeaderArray));

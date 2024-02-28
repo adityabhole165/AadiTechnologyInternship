@@ -163,6 +163,12 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                             dangerouslySetInnerHTML={{ __html: item.Text17 }}
                             sx={{ fontWeight: 'bold', py: 1 }}
                           ></TableCell>
+
+                          <TableCell
+                            align="center"
+                            dangerouslySetInnerHTML={{ __html: item.Text18 }}
+                            sx={{ fontWeight: 'bold', py: 1 }}
+                          ></TableCell>
                         </>
                       ) : (
                         <>
