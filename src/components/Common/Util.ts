@@ -4,6 +4,12 @@ export function isFutureDate(date) {
     new Date(new Date().toLocaleDateString())
   );
 }
+export function isFutureDate1(date) {
+  return (
+    new Date(date.toLocaleDateString()) <
+    new Date(new Date().toLocaleDateString())
+  );
+}
 
 export function isFutureDateTime(date) {
   return new Date(date) > new Date();
@@ -50,6 +56,11 @@ export const getDateMonthYearFormattedDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
   
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
+};
+export const getDateMonthSpace = (date) => {
+  let arrDate = date.split(' ')[0].split('-');
+  
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]}`;
 };
 export function compareStringWithoutSpace(value1, value2) {
   if (value1.replace(/ /g, '') === value2.replace(/ /g, '')) return true;

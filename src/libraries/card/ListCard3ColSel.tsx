@@ -1,4 +1,4 @@
-import { Box, Grid, useTheme } from '@mui/material';
+import { Box, Grid, Typography, useTheme } from '@mui/material';
 import { CardDetailA, CardDetailR } from '../styled/CardStyle';
 import CheckboxImg from './CheckboxImg';
 
@@ -35,14 +35,20 @@ const ListCard3ColSel = ({ Item, onChange, assignedDate }) => {
               value={0}
               checked={Item.isActive}
               onChange={onChange}
+              IsExamSubmitted={Item.IsExamSubmitted}
             />
           )}
         </Grid>
         <Grid item xs={2}>
-          <CardDetailR>{Item.text1}</CardDetailR>
+          <CardDetailR>
+          <Typography color={Item.isError?'primary':'error'}>{Item.text1}</Typography>
+
+            </CardDetailR>
         </Grid>
         <Grid item xs={9}>
-          <CardDetailA>{Item.text2}</CardDetailA>
+          <CardDetailA>
+          <Typography color={Item.isError?'primary':'error'}>{Item.text2}</Typography>
+          </CardDetailA>
         </Grid>
       </Box>
     </>

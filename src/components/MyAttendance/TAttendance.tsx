@@ -333,6 +333,8 @@ const TAttendance = () => {
       asSendMessage: sendmeassagestudent
     };
     dispatch(GetSaveStudentAttendence(GetSaveStudentAttendance));
+    dispatch(GetStudentList(GetStudentDetails));
+
   };
 
   useEffect(() => {
