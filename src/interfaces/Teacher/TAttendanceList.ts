@@ -140,6 +140,7 @@ export interface IDeleteAttendanceBody {
   asAttendanceDate: string;
   asAcademicYearId: number;
   asStdDivId: number;
+  asUserId:number
 }
 
 export interface IGetClassTeachersBodynew {

@@ -191,7 +191,8 @@ const TAttendance = () => {
     asSchoolId: Number(asSchoolId),
     asAttendanceDate: assignedDate,
     asAcademicYearId: Number(asAcademicYearId),
-    asStdDivId: Number(asStandardDivisionId)
+    asStdDivId: Number(asStandardDivisionId),
+    asUserId:Number(TeacherId),
   };
 
   useEffect(() => {
