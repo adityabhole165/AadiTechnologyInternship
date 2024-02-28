@@ -266,6 +266,13 @@ const TAttendance = () => {
     return;
   };
 
+  useEffect(() => {
+    if (assignedDate != undefined) {
+      dispatch(GetStudentList(GetStudentDetails));
+      dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
+    }
+  }, [Standardid, assignedDate, selectClasstecahernew]);
+
   const getCurrentDate = (newDate?: Date) => {
     setAssignedDate(getDateFormatted(newDate));
   };
@@ -349,6 +356,7 @@ const TAttendance = () => {
     if (DeleteAttendance != '') {
       toast.success('Attendance deleted successfully!');
       dispatch(CDAresetDeleteAttendance());
+      dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
   }, [DeleteAttendance]);
