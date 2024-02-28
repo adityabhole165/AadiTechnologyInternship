@@ -333,7 +333,6 @@ const TAttendance = () => {
       asSendMessage: sendmeassagestudent
     };
     dispatch(GetSaveStudentAttendence(GetSaveStudentAttendance));
-    dispatch(GetStudentList(GetStudentDetails));
 
   };
 
@@ -342,6 +341,7 @@ const TAttendance = () => {
       toast.success(saveResponseMessage);
       dispatch(setSaveResponse());
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
+      dispatch(GetStudentList(GetStudentDetails));
     }
   }, [saveResponseMessage]);
 
