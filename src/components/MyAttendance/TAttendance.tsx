@@ -385,29 +385,39 @@ const TAttendance = () => {
         confirmationMessage = 'Are you sure to mark Attendance on selected Weekend?';
       }
   
-      if (asAllPresentOrAllAbsent === 'P') {
-        showAlert({
-          title: 'Please Confirm',
-          message: confirmationMessage,
-          variant: 'warning',
-          confirmButtonText: 'Confirm',
-          cancelButtonText: 'Cancel',
-          onCancel: () => {
-            closeAlert();
-          },
-          onConfirm: () => {
-            setAbsentRollNos('');
-            SaveAttendance();
-            closeAlert();
-          }
-        });
-      } else {
-        setAbsentRollNos('');
-        SaveAttendance();
-        closeAlert();
-      }
+      showAlert({
+        title: 'Please Confirm',
+        message: confirmationMessage,
+        variant: 'warning',
+        confirmButtonText: 'Confirm',
+        cancelButtonText: 'Cancel',
+        onCancel: () => {
+          closeAlert();
+        },
+        onConfirm: () => {
+          setAbsentRollNos('');
+          SaveAttendance();
+          closeAlert();
   
-      return;
+          // Display the second alert
+          if (asAllPresentOrAllAbsent === 'P') {
+            showAlert({
+              title: 'Please Confirm',
+              message: 'All the student are marked as present. Are you sure you want to save the attendance?',
+              variant: 'warning',
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              onCancel: () => {
+                closeAlert();
+              },
+              onConfirm: () => {
+                SaveAttendance();
+                closeAlert();
+              }
+            });
+          }
+        }
+      });
     } else {
       if (asAllPresentOrAllAbsent === 'P' || asAllPresentOrAllAbsent === 'N') {
         showAlert({
@@ -435,6 +445,7 @@ const TAttendance = () => {
     }
     return;
   };
+  
 
   const clickNav = (value) => {
     navigate(
