@@ -22,6 +22,7 @@ import {
   Typography
 } from '@mui/material';
 import Stack from '@mui/material/Stack';
+import { green } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -345,9 +346,6 @@ const IndividualAttendance = () => {
                   onChange={clickStudent}
                   defaultValue={StudentId}
                 />
-                <IconButton type="button" aria-label="search">
-                  <CloseTwoToneIcon />
-                </IconButton>
               </>
             ) : (
               ''
@@ -539,9 +537,9 @@ const IndividualAttendance = () => {
               onClick={handleSave}
               sx={{
                 color: 'white',
-                backgroundColor: 'gray',
+                backgroundColor: green[600],
                 height: '36px !important',
-                ':hover': { backgroundColor: 'gray' }
+                ':hover': { backgroundColor: green[600] }
               }}
             >
               <SaveAlt />

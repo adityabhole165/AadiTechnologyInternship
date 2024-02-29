@@ -111,7 +111,7 @@ function CardCalenderList({
               return (
                 <Grid
                   item
-                  border="0.5px solid #ebebeb"
+                  border="1px solid lightgrey"
                   md={1.7}
                   sx={{ textAlign: 'center', pt: 0 }}
                   key={i}
@@ -128,8 +128,8 @@ function CardCalenderList({
         </Grid>
         <Grid container sx={{ mt: 2 }}>
           <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
-            <DotLegendAttandaceCalender color="primary" text="Done " />
-            <DotLegendAttandaceCalender color="info" text="Not Done" />
+            <DotLegendAttandaceCalender color="primary" text="Present " />
+            <DotLegendAttandaceCalender color="info" text="Absent" />
             <DotLegendAttandaceCalender color="Holiday" text="Holiday" />
             <DotLegendAttandaceCalender color="Warning" text="Weekend" />
             <DotLegendAttandaceCalender
@@ -148,7 +148,7 @@ function CardCalenderList({
             <DotLegendAttandaceCalender color={'LateJoin'} text="Late Join " />
             <DotLegendAttandaceCalender
               color={'NotAvailable'}
-              text="Not Available "
+              text="Attendance unavailable "
             />
           </Grid>
         </Grid>

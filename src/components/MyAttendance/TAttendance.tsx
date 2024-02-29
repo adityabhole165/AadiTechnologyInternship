@@ -158,7 +158,7 @@ const TAttendance = () => {
   // console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
-    ScreensAccessPermission.map((item) => {
+    ScreensAccessPermission?.map((item) => {
       if (item.ScreenName === 'Attendance') perm = item.IsFullAccess;
     });
     return perm;
@@ -192,7 +192,7 @@ const TAttendance = () => {
     asAttendanceDate: assignedDate,
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: Number(asStandardDivisionId),
-    asUserId:Number(TeacherId),
+    asUserId: Number(TeacherId)
   };
 
   useEffect(() => {
@@ -220,7 +220,7 @@ const TAttendance = () => {
 
     let teacherId = sessionStorage.getItem('TeacherId');
     let className = sessionStorage.getItem('ClassName');
-    ScreensAccessPermission.map((item) => {
+    ScreensAccessPermission?.map((item) => {
       if (item.ScreenName === 'Attendance') IsFullAccess = item.IsFullAccess;
     });
     if (IsClassTeacher == 'Y' && className.length > 1 && IsFullAccess != 'Y')
@@ -370,20 +370,22 @@ const TAttendance = () => {
   }, [stdlist]);
   const SaveMsg = () => {
     if (!SaveIsActive) return;
-  
+
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
     let confirmationMessage = '';
-  
+
     if (
       lowerCaseAttendanceStatus === 'selected date is holiday.' ||
       lowerCaseAttendanceStatus === 'selected date is weekend.'
     ) {
       if (lowerCaseAttendanceStatus === 'selected date is holiday.') {
-        confirmationMessage = 'Are you sure to mark Attendance on selected holiday?';
+        confirmationMessage =
+          'Are you sure to mark Attendance on selected holiday?';
       } else if (lowerCaseAttendanceStatus === 'selected date is weekend.') {
-        confirmationMessage = 'Are you sure to mark Attendance on selected Weekend?';
+        confirmationMessage =
+          'Are you sure to mark Attendance on selected Weekend?';
       }
-  
+
       showAlert({
         title: 'Please Confirm',
         message: confirmationMessage,
@@ -396,12 +398,13 @@ const TAttendance = () => {
         onConfirm: () => {
           setAbsentRollNos('');
           closeAlert();
-  
+
           // Display the second alert
           if (asAllPresentOrAllAbsent === 'P') {
             showAlert({
               title: 'Please Confirm',
-              message: 'All the student are marked as present. Are you sure you want to save the attendance?',
+              message:
+                'All the student are marked as present. Are you sure you want to save the attendance?',
               variant: 'warning',
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel',
@@ -416,7 +419,8 @@ const TAttendance = () => {
           } else if (asAllPresentOrAllAbsent === 'N') {
             showAlert({
               title: 'Please Confirm',
-              message: 'All the student are marked as absent. Are you sure you want to save the attendance?',
+              message:
+                'All the student are marked as absent. Are you sure you want to save the attendance?',
               variant: 'warning',
               confirmButtonText: 'Confirm',
               cancelButtonText: 'Cancel',
@@ -459,10 +463,7 @@ const TAttendance = () => {
       }
     }
     return;
-};
-
-  
-  
+  };
 
   const clickNav = (value) => {
     navigate(

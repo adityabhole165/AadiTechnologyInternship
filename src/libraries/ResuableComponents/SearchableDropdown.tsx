@@ -23,14 +23,14 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '' }) {
         <TextField
           {...params}
           sx={{
-            minWidth: '250px',
+            minWidth: '350px',
             pl: '10px'
           }}
           variant={'standard'}
           label={label}
         />
       )}
-      clearIcon={null}
+      disableClearable
     />
   );
 }
