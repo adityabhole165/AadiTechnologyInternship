@@ -413,6 +413,21 @@ const TAttendance = () => {
                 closeAlert();
               }
             });
+          } else if (asAllPresentOrAllAbsent === 'N') {
+            showAlert({
+              title: 'Please Confirm',
+              message: 'All the student are marked as absent. Are you sure you want to save the attendance?',
+              variant: 'warning',
+              confirmButtonText: 'Confirm',
+              cancelButtonText: 'Cancel',
+              onCancel: () => {
+                closeAlert();
+              },
+              onConfirm: () => {
+                SaveAttendance();
+                closeAlert();
+              }
+            });
           } else {
             SaveAttendance(); // Execute the API call after the second alert
           }
@@ -444,7 +459,8 @@ const TAttendance = () => {
       }
     }
     return;
-  };
+};
+
   
   
 
