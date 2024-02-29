@@ -189,7 +189,8 @@ const EventsManagement = () => {
   //7.DeleteEvent
   const DeleteEventBody: IDeleteEventBody = {
     asSchoolId: asSchoolId,
-    asEventId: Number(Id)
+    asEventId: Number(Id),
+    asUserId: Number(TeacherId)
   };
   useEffect(() => {
     if (DeleteeEvent !== '') {
@@ -312,7 +313,8 @@ const EventsManagement = () => {
     if (confirm('Are You Sure you want to delete The List')) {
       const DeleteEventBody: IDeleteEventBody = {
         asSchoolId: asSchoolId,
-        asEventId: Number(Id)
+        asEventId: Number(Id),
+        asUserId: Number(TeacherId)
       };
       dispatch(GetDeleteEvent(DeleteEventBody));
     }

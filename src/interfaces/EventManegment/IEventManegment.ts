@@ -109,7 +109,8 @@ export interface IUpdateEventBody {
 export interface IDeleteEventBody {
 
   asSchoolId: number,
-  asEventId: number
+  asEventId: number,
+  asUserId:number
 
 }
 
