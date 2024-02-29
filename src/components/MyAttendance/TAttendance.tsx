@@ -286,16 +286,25 @@ const TAttendance = () => {
     }
   };
 
-  const getAbsetNumber = (value, ItemList) => {
-    if (value === '') {
+  const getAbsetNumber = (value, Itemlist) => {
+    let isCheckAll = !Itemlist
+      .filter((obj) => { return !obj.IsExamSubmitted })
+      .some((obj) => obj.isActive === false)
+      ? 1
+      : !Itemlist
+        .filter((obj) => { return !obj.IsExamSubmitted })
+        .some((obj) => obj.isActive === true)
+        ? 0
+        : 2;
+    if (isCheckAll === 1) {
       setAllPresentOrAllAbsent('P');
-    } else if (value.split(',').length === RollNoList.length) {
+    } else if (isCheckAll === 0) {
       setAllPresentOrAllAbsent('N');
     } else {
       setAllPresentOrAllAbsent('');
     }
     setAbsentRollNos(value);
-    setItemList(ItemList);
+    setItemList(Itemlist);
   };
 
   const SaveAttendance_old = () => {
@@ -385,7 +394,6 @@ const TAttendance = () => {
         confirmationMessage =
           'Are you sure to mark Attendance on selected Weekend?';
       }
-
       showAlert({
         title: 'Please Confirm',
         message: confirmationMessage,
@@ -438,6 +446,7 @@ const TAttendance = () => {
         }
       });
     } else {
+
       if (asAllPresentOrAllAbsent === 'P' || asAllPresentOrAllAbsent === 'N') {
         showAlert({
           title: 'Please Confirm',

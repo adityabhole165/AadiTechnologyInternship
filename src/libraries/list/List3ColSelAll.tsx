@@ -4,15 +4,19 @@ import ListCard3ColSel from '../card/ListCard3ColSel';
 import ListHeaderCard3ColSel from '../card/ListHeaderCard3ColSel';
 
 const List3ColSelAll = ({ Itemlist, refreshData, assignedDate }) => {
-  let isCheckAll = !Itemlist.some((obj) => obj.isActive === false)
+  let isCheckAll = !Itemlist
+  .filter((obj)=>{return !obj.IsExamSubmitted})
+  .some((obj) => obj.isActive === false)
     ? 1
-    : !Itemlist.some((obj) => obj.isActive === true)
+    : !Itemlist
+    .filter((obj)=>{return !obj.IsExamSubmitted})
+    .some((obj) => obj.isActive === true)
     ? 0
     : 2;
 
   const ClickAll = (value) => {
     Itemlist = Itemlist.map((obj) => {
-      return { ...obj, isActive: value };
+      return { ...obj, isActive: (!obj.IsExamSubmitted?value:false) }
     });
     refreshData(Itemlist);
   };

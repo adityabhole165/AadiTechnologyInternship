@@ -143,64 +143,62 @@ export const GetStudentDetailsList =
       dispatch(TAttendanceSlice.actions.GetStudentDetailsList(response.data));
     };
 
-    export const GetStudentList =
-    (data: IGetStudentDetails): AppThunk =>
-      async (dispatch) => {
-        const response = await GetTAttendanceListApi.GetStudentDetails(data);
-        let studentList = null;
-        let message = 'There are no students in the class.';
-        let AYmsg = 'Attendance date should be within the current academic year';
-        let forInvalidAY = '';
-        if (response?.data != null) {
-          studentList = response?.data.map((item, index) => {
-            let studentName = item.StudentName;
-            let IsLateJoin = false; 
-            console.log(getDateMonthYearFormattedDash(item.JoinDate)," -- ", new Date(data.asDate)) 
-            if (new Date(getDateMonthYearFormattedDash(item.JoinDate)) > new Date(data.asDate)) {
-              IsLateJoin = true;
-            }
-            
-            studentName = IsLateJoin ? studentName + ' (Late join-' + getDateMonthSpace(item.JoinDate) + ')': studentName;
-            return {
-              text1: item.RollNumber,
-              text2: studentName,
-              isActive: item.IsPresent === 'true' ? true : false,
-              status: item.Status,
-              joinDate: item.JoinDate,
-              StudentId: item.StudentId,
-              IsExamSubmitted:IsLateJoin,
-              isError: item.IsPresent === 'true' ? true : false,
-            };
-          });
-  
-          const data2 = {
-            asAcademicYearId: data.asAcademicYearId,
-            asAttendanceDate: data.asDate,
-            asSchoolId: data.asSchoolId,
-            asStanardDivisionId: data.asStdDivId
+export const GetStudentList =
+  (data: IGetStudentDetails): AppThunk =>
+    async (dispatch) => {
+      const response = await GetTAttendanceListApi.GetStudentDetails(data);
+      let studentList = null;
+      let message = 'There are no students in the class.';
+      let AYmsg = 'Attendance date should be within the current academic year';
+      let forInvalidAY = '';
+      if (response?.data != null) {
+        studentList = response?.data.map((item, index) => {
+          let studentName = item.StudentName;
+          let IsLateJoin = false;
+          if (new Date(getDateMonthYearFormattedDash(item.JoinDate)) > new Date(data.asDate)) {
+            IsLateJoin = true;
+          }
+
+          studentName = IsLateJoin ? studentName + ' (Late join-' + getDateMonthSpace(item.JoinDate) + ')' : studentName;
+          return {
+            text1: item.RollNumber,
+            text2: studentName,
+            isActive: item.IsPresent === 'true' ? true : false,
+            status: item.Status,
+            joinDate: item.JoinDate,
+            StudentId: item.StudentId,
+            IsExamSubmitted: IsLateJoin,
+            isError: IsLateJoin ? true : item.IsPresent === 'true' ? true : false,
           };
-          const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
-          response2.data?.map((item, i) => {
-  
-            message = item.AcademicYearMsg === '' ? item.StatusMessage : item.AcademicYearMsg;
-            forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
-          });
-        }
-        if (message == 'There are no students in the class.') {
-          forInvalidAY = 'none';
-        } else if (
-          message == 'Attendance date should be within the current academic year'
-        ) {
-          forInvalidAY = 'none';
-        } else {
-          forInvalidAY = '';
-        }
-        // console.log(response2,"aaaaaaaa");
-  
-        dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
-        dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
-        dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
-      };
+        });
+
+        const data2 = {
+          asAcademicYearId: data.asAcademicYearId,
+          asAttendanceDate: data.asDate,
+          asSchoolId: data.asSchoolId,
+          asStanardDivisionId: data.asStdDivId
+        };
+        const response2 = await GetTAttendanceListApi.GetAttendanceStatus(data2);
+        response2.data?.map((item, i) => {
+
+          message = item.AcademicYearMsg === '' ? item.StatusMessage : item.AcademicYearMsg;
+          forInvalidAY = item.AcademicYearMsg === '' ? '' : 'none';
+        });
+      }
+      if (message == 'There are no students in the class.') {
+        forInvalidAY = 'none';
+      } else if (
+        message == 'Attendance date should be within the current academic year'
+      ) {
+        forInvalidAY = 'none';
+      } else {
+        forInvalidAY = '';
+      }
+
+      dispatch(TAttendanceSlice.actions.GetStudentList(studentList));
+      dispatch(TAttendanceSlice.actions.GetAttendanceStatusList(message));
+      dispatch(TAttendanceSlice.actions.getAYStatus(forInvalidAY));
+    };
 
 export const getStandard =
   (data: StandardAttendance): AppThunk =>
@@ -350,7 +348,6 @@ export const CDAGetTeacherNameList =
   (data: IGetClassTeachersBodynew): AppThunk =>
     async (dispatch) => {
       const response = await GetTAttendanceListApi.ClassTeacherDropdownnew(data);
-      console.log(response, 'response----');
 
       let abc = response.data.map((item, i) => {
         return {
@@ -360,7 +357,6 @@ export const CDAGetTeacherNameList =
         };
       });
       dispatch(TAttendanceSlice.actions.RTeacherNameList(abc));
-      console.log(abc, 'newdp----');
     };
 
 export default TAttendanceSlice.reducer;

@@ -41,7 +41,7 @@ function List26({
     let arr = data.text.split(',');
     setData(
       Data.map((obj) =>
-        arr.includes(obj.text1)
+        (arr.includes(obj.text1) && !obj.IsExamSubmitted)
           ? { ...obj, isActive: false }
           : { ...obj, isActive: true }
       )
