@@ -372,13 +372,12 @@ const TAttendance = () => {
     if (!SaveIsActive) return;
   
     const lowerCaseAttendanceStatus = AttendanceStatus.toLowerCase();
+    let confirmationMessage = '';
   
     if (
       lowerCaseAttendanceStatus === 'selected date is holiday.' ||
       lowerCaseAttendanceStatus === 'selected date is weekend.'
     ) {
-      let confirmationMessage = '';
-  
       if (lowerCaseAttendanceStatus === 'selected date is holiday.') {
         confirmationMessage = 'Are you sure to mark Attendance on selected holiday?';
       } else if (lowerCaseAttendanceStatus === 'selected date is weekend.') {
@@ -396,7 +395,6 @@ const TAttendance = () => {
         },
         onConfirm: () => {
           setAbsentRollNos('');
-          SaveAttendance();
           closeAlert();
   
           // Display the second alert
@@ -415,6 +413,8 @@ const TAttendance = () => {
                 closeAlert();
               }
             });
+          } else {
+            SaveAttendance(); // Execute the API call after the second alert
           }
         }
       });
@@ -445,6 +445,7 @@ const TAttendance = () => {
     }
     return;
   };
+  
   
 
   const clickNav = (value) => {
