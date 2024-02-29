@@ -1,63 +1,125 @@
+import {
+  IGetAllAcademicYearsForSchoolEVBody,
+  IGetAllAcademicYearsForSchoolEVResult,
+  IGetAllDivisionsForStandardDropDownBody,
+  IGetAllDivisionsForStandardDropDownResult,
+  IGetAllEventsBody,
+  IGetAllEventsResult,
+  IGetAllMonthsDropDownBody,
+  IGetAllMonthsDropDownResult,
+  IGetAssociatedStandardsBodyP,
+  IGetAssociatedStandardsEVBody,
+  IGetAssociatedStandardsEVResult,
+  IGetAssociatedStandardsResultP,
+  IGetAssociatedStdLstForTeacherDropDownBody,
+  IGetAssociatedStdLstForTeacherDropDownResult,
+  IGetEventsDataListBody,
+  IGetEventsDataListResult,
+  IGetYearsForAnnualPalannerDropDownBody,
+  IGetYearsForAnnualPalannerDropDownResult,
+  INewGetAllMonthsDropDownotBody,
+  INewGetAllMonthsDropDownotResult,
+  INewGetAssociatedStdLstForTeacherDropDownBody,
+  INewGetAssociatedStdLstForTeacherDropDownResult
+} from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
+import http from '../../requests/SchoolService/schoolServices';
 
-import http from "../../requests/SchoolService/schoolServices";
-import { IGetAssociatedStdLstForTeacherDropDownBody,  IGetAllDivisionsForStandardDropDownBody , IGetAllMonthsDropDownBody ,IGetYearsForAnnualPalannerDropDownBody, IGetEventsDataListBody , IGetAssociatedStdLstForTeacherDropDownResult , IGetAllDivisionsForStandardDropDownResult , IGetAllMonthsDropDownResult ,IGetYearsForAnnualPalannerDropDownResult ,IGetEventsDataListResult,IGetAssociatedStandardsBodyP,IGetAssociatedStandardsResultP,IGetAssociatedStandardsEVBody,IGetAssociatedStandardsEVResult, IGetAllAcademicYearsForSchoolEVBody, IGetAllAcademicYearsForSchoolEVResult, IGetAllEventsBody, IGetAllEventsResult} from "src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen"
-
-const  StandardDropDown = (data: IGetAssociatedStdLstForTeacherDropDownBody) => {
- return http.post<IGetAssociatedStdLstForTeacherDropDownResult[]>('Teacher/GetAssociatedStdLstForTeacherDropDown',data);
+const StandardDropDown = (data: IGetAssociatedStdLstForTeacherDropDownBody) => {
+  return http.post<IGetAssociatedStdLstForTeacherDropDownResult[]>(
+    'Teacher/GetAssociatedStdLstForTeacherDropDown',
+    data
+  );
 };
 
-const  DivisionDropDown = (data: IGetAllDivisionsForStandardDropDownBody) => {
-    return http.post<IGetAllDivisionsForStandardDropDownResult[]>('Teacher/GetAllDivisionsForStandardDropDown',data);
+const DivisionDropDown = (data: IGetAllDivisionsForStandardDropDownBody) => {
+  return http.post<IGetAllDivisionsForStandardDropDownResult[]>(
+    'Teacher/GetAllDivisionsForStandardDropDown',
+    data
+  );
 };
 
-const  MonthsDropDown = (data: IGetAllMonthsDropDownBody) => {
-    return http.post<IGetAllMonthsDropDownResult[]>('Teacher/GetAllMonthsDropDown',data);
+const MonthsDropDown = (data: IGetAllMonthsDropDownBody) => {
+  return http.post<IGetAllMonthsDropDownResult[]>(
+    'Teacher/GetAllMonthsDropDown',
+    data
+  );
 };
-const  YearsDropDown= (data: IGetYearsForAnnualPalannerDropDownBody) => {
-    return http.post<IGetYearsForAnnualPalannerDropDownResult[]>('Teacher/GetYearsForAnnualPalannerDropDown',data);
+const YearsDropDown = (data: IGetYearsForAnnualPalannerDropDownBody) => {
+  return http.post<IGetYearsForAnnualPalannerDropDownResult[]>(
+    'Teacher/GetYearsForAnnualPalannerDropDown',
+    data
+  );
 };
 
-const  EventsDataList= (data: IGetEventsDataListBody) => {
-    return http.post<IGetEventsDataListResult[]>('Teacher/GetEventsDataList',data);
+const EventsDataList = (data: IGetEventsDataListBody) => {
+  return http.post<IGetEventsDataListResult[]>(
+    'Teacher/GetEventsDataList',
+    data
+  );
 };
 const AssociatedStandardP = (data: IGetAssociatedStandardsBodyP) => {
-    return http.post< IGetAssociatedStandardsResultP[]>('Teacher/GetAssociatedStandards',data);
-   };
+  return http.post<IGetAssociatedStandardsResultP[]>(
+    'Teacher/GetAssociatedStandards',
+    data
+  );
+};
 
+const AssociatedStandardEventoverview = (
+  data: IGetAssociatedStandardsEVBody
+) => {
+  return http.post<IGetAssociatedStandardsEVResult[]>(
+    'Teacher/GetAssociatedStandards',
+    data
+  );
+};
 
-   const AssociatedStandardEventoverview = (data: IGetAssociatedStandardsEVBody) => {
-    return http.post< IGetAssociatedStandardsEVResult[]>('Teacher/GetAssociatedStandards',data);
-   };
+const GetAllAcademicYearsForSchool = (
+  data: IGetAllAcademicYearsForSchoolEVBody
+) => {
+  return http.post<IGetAllAcademicYearsForSchoolEVResult[]>(
+    'Teacher/GetAllAcademicYearsForSchool',
+    data
+  );
+};
 
-   const GetAllAcademicYearsForSchool = (data: IGetAllAcademicYearsForSchoolEVBody) => {
-    return http.post< IGetAllAcademicYearsForSchoolEVResult[]>('Teacher/GetAllAcademicYearsForSchool',data);
-   };
+const GetAllMonthsDropDown = (data: IGetAllMonthsDropDownBody) => {
+  return http.post<IGetAllMonthsDropDownResult[]>(
+    'Teacher/GetAllAcademicYearsForSchool',
+    data
+  );
+};
 
-   const GetAllMonthsDropDown = (data: IGetAllMonthsDropDownBody) => {
-    return http.post< IGetAllMonthsDropDownResult[]>('Teacher/GetAllAcademicYearsForSchool',data);
-   };
+const GetAllEvents = (data: IGetAllEventsBody) => {
+  return http.post<IGetAllEventsResult[]>('Teacher/GetAllEvents', data);
+};
 
-   const GetAllEvents = (data: IGetAllEventsBody) => {
-    return http.post< IGetAllEventsResult[]>('Teacher/GetAllAcademicYearsForSchool',data);
-   };
+const Stdlist = (data: INewGetAssociatedStdLstForTeacherDropDownBody) => {
+  return http.post<INewGetAssociatedStdLstForTeacherDropDownResult[]>(
+    'Teacher/GetAssociatedStdLstForTeacherDropDown',
+    data
+  );
+};
 
+const MonthList = (data: INewGetAllMonthsDropDownotBody) => {
+  return http.post<INewGetAllMonthsDropDownotResult[]>(
+    'Teacher/GetAllMonthsDropDown',
+    data
+  );
+};
 
-   
-   
+const ApiAnnualPlanerBaseScreen = {
+  StandardDropDown,
+  DivisionDropDown,
+  MonthsDropDown,
+  YearsDropDown,
+  EventsDataList,
+  AssociatedStandardP,
+  AssociatedStandardEventoverview,
+  GetAllAcademicYearsForSchool,
+  GetAllMonthsDropDown,
+  GetAllEvents,
+  Stdlist,
+  MonthList
+};
 
-const ApiAnnualPlanerBaseScreen ={
-   
-    StandardDropDown,
-    DivisionDropDown,
-    MonthsDropDown,
-    YearsDropDown,
-    EventsDataList,
-    AssociatedStandardP,
-    AssociatedStandardEventoverview,
-    GetAllAcademicYearsForSchool,
-    GetAllMonthsDropDown,
-    GetAllEvents
-}
-
-
-export default ApiAnnualPlanerBaseScreen
+export default ApiAnnualPlanerBaseScreen;

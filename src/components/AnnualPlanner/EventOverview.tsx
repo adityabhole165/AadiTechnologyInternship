@@ -22,15 +22,15 @@ import { Link } from 'react-router-dom';
 import {
   IGetAllAcademicYearsForSchoolEVBody,
   IGetAllEventsBody,
-  IGetAllMonthsDropDownBody,
-  IGetAssociatedStandardsEVBody
+  INewGetAllMonthsDropDownotBody,
+  INewGetAssociatedStdLstForTeacherDropDownBody
 } from 'src/interfaces/AddAnnualPlanner/IAnnualPlanerBaseScreen';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   CDAAllAcademicYearsForSchool,
-  CDAAssociatedStandardListEventOverview,
   CDAGetAllEvents,
-  CDAGetAllMonthsDropDown
+  CDAMonthList,
+  CDAStdList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
 type Props = {};
@@ -50,7 +50,7 @@ const EventOverview = (props: Props) => {
   const [selectYear, setSelectYear] = useState(currentYear);
 
   const AssociatedStandardsEV: any = useSelector(
-    (state: RootState) => state.AnnualPlanerBaseScreen.IGetAssociatedStandardsEv
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
   );
 
   const AllAcademicYearsForSchool: any = useSelector(
@@ -59,7 +59,7 @@ const EventOverview = (props: Props) => {
   );
 
   const UsGetAllMonthsDropDown: any = useSelector(
-    (state: RootState) => state.AnnualPlanerBaseScreen.IsGetAllMonthsDropDown
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISMonthList
   );
 
   const USGetAllEvents: any = useSelector(
@@ -75,32 +75,33 @@ const EventOverview = (props: Props) => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const GetAssociatedStandardsEVBody: IGetAssociatedStandardsEVBody = {
+  const GetAssociatedStandardsEVBody: INewGetAssociatedStdLstForTeacherDropDownBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId)
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: 0
   };
 
   const GetAllAcademicYearsForSchoolBody: IGetAllAcademicYearsForSchoolEVBody =
-    {
-      asSchoolId: Number(asSchoolId),
-      asUserId: Number(UserId),
-      asUserRoleId: 2
-    };
+  {
+    asSchoolId: Number(asSchoolId),
+    asUserId: Number(UserId),
+    asUserRoleId: 2
+  };
 
-  const GetAllMonthsDropDownBody: IGetAllMonthsDropDownBody = {
+  const GetAllMonthsDropDownBody: INewGetAllMonthsDropDownotBody = {
     asSchoolId: Number(asSchoolId)
   };
 
   const GetAllEventsBody: IGetAllEventsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
-    asMonthId: null,
+    asMonthId: selectMonth,
     asStandardId: null
   };
 
   useEffect(() => {
     dispatch(
-      CDAAssociatedStandardListEventOverview(GetAssociatedStandardsEVBody)
+      CDAStdList(GetAssociatedStandardsEVBody)
     );
   }, []);
 
@@ -109,7 +110,7 @@ const EventOverview = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    dispatch(CDAGetAllMonthsDropDown(GetAllMonthsDropDownBody));
+    dispatch(CDAMonthList(GetAllMonthsDropDownBody));
   }, []);
   useEffect(() => {
     dispatch(CDAGetAllEvents(GetAllEventsBody));
@@ -262,6 +263,53 @@ const EventOverview = (props: Props) => {
             {/* loop end*/}
           </AccordionDetails>
         </Accordion>
+
+        <Box sx={{ mt: 2 }}>
+          {USGetAllEvents ? (
+            USGetAllEvents.map((event, index) => (
+              <Accordion
+                key={index}
+                expanded={expanded === `panel${index + 1}`}
+                onChange={handleChange(`panel${index + 1}`)}
+                sx={{ border: `1px solid ${grey[300]}` }}
+              >
+                <AccordionSummary
+                  expandIcon={<ExpandMoreIcon />}
+                  aria-controls={`panel${index + 1}bh-content`}
+                  id={`panel${index + 1}bh-header`}
+                >
+                  <Box width={'100%'}>
+                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                      {event.DisplayDate}
+                    </Typography>
+                    <Typography sx={{ color: 'text.secondary' }} variant={'h5'}>
+                      {event.StartDate}
+                    </Typography>
+                  </Box>
+                </AccordionSummary>
+                <AccordionDetails>
+                  <Typography variant={'h4'}>Events: </Typography>
+                  {event.events && event.events.map((data, index) => (
+                    <React.Fragment key={index}>
+                      <Box my={1}>
+                        <Divider />
+                      </Box>
+                      <Typography variant={'h5'}>
+                        {data.EventDescription}
+                      </Typography>
+                      <Typography>For Standards: </Typography>
+                      <span>{data.Standards}</span>
+                    </React.Fragment>
+                  ))}
+                </AccordionDetails>
+
+
+              </Accordion>
+            ))
+          ) : (
+            <Typography variant="body1">Loading events...</Typography>
+          )}
+        </Box>
       </Box>
     </Container>
   );

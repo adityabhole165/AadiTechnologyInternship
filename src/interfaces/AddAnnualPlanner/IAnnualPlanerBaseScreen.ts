@@ -135,3 +135,27 @@ export interface IGetAllEventsResult {
   Display_On_Homepage: string;
   DisplayDate: string;
 }
+
+export interface INewGetAssociatedStdLstForTeacherDropDownBody {
+  asSchoolId: number;
+  asAcademicYearId: number;
+  asUserId: number;
+}
+
+export interface INewGetAssociatedStdLstForTeacherDropDownResult {
+  StandardId: string;
+  Original_Standard_Id: string;
+  Teacher_Id: string;
+  Standard_Name: string;
+  User_Id: string;
+}
+
+export interface INewGetAllMonthsDropDownotBody {
+  asSchoolId: number;
+}
+
+export interface INewGetAllMonthsDropDownotResult {
+  MonthID: string;
+  Month: string;
+  MonthAbbreviation: string;
+}
