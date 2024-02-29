@@ -42,13 +42,12 @@ const EventOverview = (props: Props) => {
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
   const TeacherId = sessionStorage.getItem('TeacherId');
+  const asStandardId = sessionStorage.getItem('StandardId');
 
   const currentYear = new Date().getFullYear().toString();
-  const currentMonth = (new Date().getMonth() + 1).toString();
   const [selectStandard, setSelectStandard] = useState('');
-  const [selectMonth, setSelectMonth] = useState(currentMonth);
-  const [selectYear, setSelectYear] = useState(currentYear);
-
+  const [selectMonth, setSelectMonth] = useState();
+  const [selectYear, setSelectYear] = useState(new Date().getFullYear().toString());
   const AssociatedStandardsEV: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
   );
@@ -66,9 +65,7 @@ const EventOverview = (props: Props) => {
     (state: RootState) => state.AnnualPlanerBaseScreen.ISGetAllEvents
   );
 
-  console.log(AssociatedStandardsEV, 'AssociatedStandardsEV');
-  console.log(AllAcademicYearsForSchool, 'AllAcademicYearsForSchool');
-  console.log(UsGetAllMonthsDropDown, 'UsGetAllMonthsDropDown');
+  
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -94,9 +91,9 @@ const EventOverview = (props: Props) => {
 
   const GetAllEventsBody: IGetAllEventsBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
+    asAcademicYearId: Number(selectYear),
     asMonthId: selectMonth,
-    asStandardId: null
+    asStandardId: selectStandard
   };
 
   useEffect(() => {
@@ -114,7 +111,7 @@ const EventOverview = (props: Props) => {
   }, []);
   useEffect(() => {
     dispatch(CDAGetAllEvents(GetAllEventsBody));
-  }, []);
+  }, [selectMonth, selectYear, selectStandard]);
 
   const clickStandardDropdown = (value) => {
     setSelectStandard(value);
@@ -183,7 +180,7 @@ const EventOverview = (props: Props) => {
               Array={AssociatedStandardsEV}
               handleChange={clickStandardDropdown}
               defaultValue={selectStandard}
-              label={'Select Standard'}
+              label={'All'}
             />
           </Box>
           <Box>
@@ -191,7 +188,7 @@ const EventOverview = (props: Props) => {
               Array={UsGetAllMonthsDropDown}
               handleChange={clicMonthDropdown}
               defaultValue={selectMonth}
-              label={'Select Month'}
+              label={'All'}
             />
           </Box>
           <Box>
@@ -199,7 +196,7 @@ const EventOverview = (props: Props) => {
               Array={AllAcademicYearsForSchool}
               handleChange={clicYearDropdown}
               defaultValue={selectYear}
-              label={'Select Year'}
+              label={''}
             />
           </Box>
           <Box>
@@ -220,50 +217,6 @@ const EventOverview = (props: Props) => {
         </Stack>
       </Stack>
       <Box sx={{ mt: 2 }}>
-        <Accordion
-          expanded={expanded === 'panel1'}
-          onChange={handleChange('panel1')}
-          sx={{ border: `1px solid ${grey[300]}` }}
-        >
-          <AccordionSummary
-            expandIcon={<ExpandMoreIcon />}
-            aria-controls="panel1bh-content"
-            id="panel1bh-header"
-          >
-            <Box width={'100%'}>
-              <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                January 1990
-              </Typography>
-              <Typography sx={{ color: 'text.secondary' }} variant={'h5'}>
-                Monday, 1st
-              </Typography>
-            </Box>
-          </AccordionSummary>
-          <AccordionDetails>
-            <Typography variant={'h4'}>Events: </Typography>
-            {/* loopable */}
-            <Box my={1}>
-              <Divider />
-            </Box>
-            <Typography variant={'h5'}>1. Arts Competition</Typography>
-            <Typography>For Standards: </Typography>
-            <span>
-              Nursery, Junior KG, Senior KG, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-            </span>
-            {/* loop end*/}
-            {/* loopable */}
-            <Box my={1}>
-              <Divider />
-            </Box>
-            <Typography variant={'h5'}>2. Science Competition</Typography>
-            <Typography>For Standards: </Typography>
-            <span>
-              Nursery, Junior KG, Senior KG, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
-            </span>
-            {/* loop end*/}
-          </AccordionDetails>
-        </Accordion>
-
         <Box sx={{ mt: 2 }}>
           {USGetAllEvents ? (
             USGetAllEvents.map((event, index) => (
@@ -288,22 +241,19 @@ const EventOverview = (props: Props) => {
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography variant={'h4'}>Events: </Typography>
-                  {event.events && event.events.map((data, index) => (
-                    <React.Fragment key={index}>
-                      <Box my={1}>
-                        <Divider />
-                      </Box>
-                      <Typography variant={'h5'}>
-                        {data.EventDescription}
-                      </Typography>
-                      <Typography>For Standards: </Typography>
-                      <span>{data.Standards}</span>
-                    </React.Fragment>
-                  ))}
+                  <Typography variant={'h4'}>	Event Title: </Typography>
+                  <React.Fragment >
+                    <Box my={1}>
+                      <Divider />
+                    </Box>
+                    <Typography variant={'h5'}>
+                      {event.EventDescription}
+                    </Typography>
+                    <Typography>Standards: </Typography>
+                    <span>{event.Standards}
+                    </span>
+                  </React.Fragment>
                 </AccordionDetails>
-
-
               </Accordion>
             ))
           ) : (

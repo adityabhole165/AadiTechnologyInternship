@@ -213,21 +213,7 @@ export const CDAAssociatedStandardListEventOverview =
     dispatch(AnnualPlanerBaseScreenSlice.actions.AssociatedStandardsEv(a));
   };
 
-export const CDAAllAcademicYearsForSchool =
-  (data: IGetAllAcademicYearsForSchoolEVBody): AppThunk =>
-  async (dispatch) => {
-    const response =
-      await ApiAnnualPlanerBaseScreen.GetAllAcademicYearsForSchool(data);
-    let a = response.data.map((item, i) => {
-      return {
-        Id: item.Academic_Year_ID,
-        Name: item.YearValue,
-        Value: item.Academic_Year_ID
-      };
-    });
 
-    dispatch(AnnualPlanerBaseScreenSlice.actions.RAllAcademicYearsForSchool(a));
-  };
 
 export const CDAGetAllMonthsDropDown =
   (data: IGetAllMonthsDropDownBody): AppThunk =>
@@ -258,9 +244,9 @@ export const CDAStdList =
     const response = await ApiAnnualPlanerBaseScreen.Stdlist(data);
     let a = response.data.map((item, i) => {
       return {
-        Id: item.Original_Standard_Id,
+        Id: item.StandardId,
         Name: item.Standard_Name,
-        Value: item.Original_Standard_Id
+        Value: item.StandardId
       };
     });
     dispatch(AnnualPlanerBaseScreenSlice.actions.RStdList(a));
@@ -278,6 +264,23 @@ export const CDAMonthList =
       };
     });
     dispatch(AnnualPlanerBaseScreenSlice.actions.RMonthList(a));
+  };
+
+
+  export const CDAAllAcademicYearsForSchool =
+  (data: IGetAllAcademicYearsForSchoolEVBody): AppThunk =>
+  async (dispatch) => {
+    const response =
+      await ApiAnnualPlanerBaseScreen.GetAllAcademicYearsForSchool(data);
+    let a = response.data.map((item, i) => {
+      return {
+        Id: item.Academic_Year_ID,
+        Name: item.YearValue,
+        Value: item.Academic_Year_ID
+      };
+    });
+
+    dispatch(AnnualPlanerBaseScreenSlice.actions.RAllAcademicYearsForSchool(a));
   };
 
 export default AnnualPlanerBaseScreenSlice.reducer;
