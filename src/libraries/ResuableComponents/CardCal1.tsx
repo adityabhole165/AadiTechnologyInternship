@@ -1,5 +1,4 @@
 import { Box, Typography, alpha } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { stripHtml } from 'src/components/Common/Util';
 
@@ -12,20 +11,19 @@ function CardCal1({
 }) {
   const [isHovered, setIsHovered] = useState(false);
   const fourcolour = ['', 'red', 'green', 'blue', 'gray', 'orange'];
-  console.log(stripHtml(item?.Text1));
 
   let color =
     stripHtml(item?.Text1) === 'Done'
       ? '#00FF0020'
       : stripHtml(item?.Text1) === 'Not Done'
-      ? '#9e9e9e20'
-      : stripHtml(item?.Text1) === 'Weekend'
-      ? '#FF000020'
-      : stripHtml(item?.Text1) === 'Holiday'
-      ? '#751b1b20'
-      : stripHtml(item?.Text1) === 'Outside Academic Year'
-      ? '#f0629220'
-      : '#f0629220'
+        ? '#9e9e9e20'
+        : stripHtml(item?.Text1) === 'Weekend'
+          ? '#FF000020'
+          : stripHtml(item?.Text1) === 'Holiday'
+            ? '#751b1b20'
+            : stripHtml(item?.Text1) === 'Outside Academic Year'
+              ? '#f0629220'
+              : '#f0629220'
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -53,7 +51,6 @@ function CardCal1({
             item.Value === assignedDate
               ? (theme) => alpha(theme.palette.primary.main, 0.2)
               : color,
-          border: (theme) => `1px solid ${grey[300]}`
         }}
         onClick={() => onClick(item.Value)}
         style={{ color: item.ForeColur }}
