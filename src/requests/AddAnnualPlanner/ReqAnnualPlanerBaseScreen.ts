@@ -257,7 +257,7 @@ export const CDAStdList =
   (data: INewGetAssociatedStdLstForTeacherDropDownBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAnnualPlanerBaseScreen.Stdlist(data);
-      let abc = [{ Id: null, Name: 'All', Value: null }];
+      let abc = [{ Id:"0", Name:'All', Value:"0" }];
 
       response.data.map((item, i) => {
         abc.push({
@@ -273,7 +273,7 @@ export const CDAMonthList =
   (data: INewGetAllMonthsDropDownotBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAnnualPlanerBaseScreen.MonthList(data);
-      let abc = [{ Id: null, Name: 'All', Value: null }];
+      let abc = [{ Id: "0", Name:'All', Value: "0" }];
 
       response.data.map((item, i) => {
         abc.push({
