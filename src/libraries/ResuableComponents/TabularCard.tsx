@@ -1,31 +1,37 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card, Grid, Typography } from '@mui/material';
+import { Box, Grid, Stack, Typography, alpha } from '@mui/material';
 
 function TabulerCard({ item, clickEdit, clickDelete }) {
   return (
     <div>
-      <Card sx={{ mb: 1 }}>
-        <Grid container style={{ display: 'flex', alignItems: 'center' }}>
-          <Grid item xs={8} md={2}>
-            <Typography>{item.Text1}</Typography>
-          </Grid>
+      <Box
+        sx={{
+          mb: 1,
+          p: 1,
+          background: (theme) => `${alpha(theme.palette.primary.main, 0.2)}`
+        }}
+      >
+        <Stack
+          direction={'row'}
+          alignItems={'center'}
+          justifyContent={'space-between'}
+        >
+          <Typography>{item.Text1}</Typography>
+          <Grid item xs={2} md={2}></Grid>
 
-          <Grid item xs={2} md={2}>
+          <Stack direction={'row'} gap={1}>
             <EditIcon
               style={{ color: 'black ' }}
               onClick={() => clickEdit(item.Id)}
             />
-          </Grid>
-
-          <Grid item xs={2} md={2}>
             <DeleteIcon
               style={{ color: 'Red ' }}
               onClick={() => clickDelete(item.Id)}
             />
-          </Grid>
-        </Grid>
-      </Card>
+          </Stack>
+        </Stack>
+      </Box>
     </div>
   );
 }

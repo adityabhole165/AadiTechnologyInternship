@@ -1,6 +1,8 @@
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import { Box, Button, Tooltip, Typography } from '@mui/material';
+import Delete from '@mui/icons-material/Delete';
+import Visibility from '@mui/icons-material/Visibility';
+import { Box, Button, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import {
@@ -16,7 +18,9 @@ const SingleFile = ({
   clickDelete = undefined,
   filePath = '',
   FileName = '',
-  width = '300px'
+  width = '300px',
+  viewIcon = false,
+  deleteIcon = false
 }) => {
   const classes = Styles();
   const aRef = useRef(null);
@@ -73,37 +77,47 @@ const SingleFile = ({
                 FileName ? theme.colors.success.main : theme.colors.primary.main
               }`,
             gap: 1,
-            position: 'relative'
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between'
           }}
           color={FileName ? 'success' : 'primary'}
         >
-          {FileName ? <CheckCircle /> : <CloudUploadIcon />}
-          {FileName == '' ? ' No file selected' : FileName}{' '}
-          <span style={{ color: 'red' }}>*</span>
-          <Box sx={{ textAlign: 'center' }}>
-            <input
-              ref={aRef}
-              type="file"
-              onChange={clickFile}
-              style={{
-                opacity: 0,
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                right: 0,
-                bottom: 0,
-                cursor: 'pointer'
-              }}
-            />
-          </Box>
-          <Box sx={{ textAlign: 'center' }}>
-            {filePath != '' && (
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            {FileName ? <CheckCircle /> : <CloudUploadIcon />}
+            {FileName == '' ? ' No file selected' : FileName}{' '}
+            <span style={{ color: 'red' }}>*</span>
+            <Box sx={{ textAlign: 'center' }}>
+              <input
+                ref={aRef}
+                type="file"
+                onChange={clickFile}
+                style={{
+                  opacity: 0,
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  cursor: 'pointer'
+                }}
+              />
+            </Box>
+          </Stack>
+          <Stack
+            direction={'row'}
+            alignItems={'center'}
+            justifyContent={'center'}
+            gap={1}
+          >
+            {FileName != '' && (
               <>
-                {/* <ImageIcon onClick={clickImage} />
-            <DeleteIcon onClick={clickDelete} /> */}
+                {viewIcon && <Visibility onClick={clickDelete} />}
+                {deleteIcon && <Delete color={'error'} onClick={clickDelete} />}
               </>
             )}
-          </Box>
+          </Stack>
         </Button>
       </Tooltip>
       <Typography mt={2}>

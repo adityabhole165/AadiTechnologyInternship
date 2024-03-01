@@ -426,7 +426,11 @@ function AnnualPlanner() {
                   </Tooltip>
                 </Box>
                 <Box>
-                  <Tooltip title={'Help'}>
+                  <Tooltip
+                    title={
+                      'Annual Planner with detailed event description of your school'
+                    }
+                  >
                     <IconButton
                       sx={{
                         color: 'white',

@@ -148,7 +148,7 @@ function CardCalenderList({
             <DotLegendAttandaceCalender color={'LateJoin'} text="Late Join " />
             <DotLegendAttandaceCalender
               color={'NotAvailable'}
-              text="Attendance unavailable "
+              text="Attendance Unavailable "
             />
           </Grid>
         </Grid>

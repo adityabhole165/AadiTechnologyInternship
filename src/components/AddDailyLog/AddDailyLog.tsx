@@ -1,4 +1,3 @@
-import CalendarMonthTwoTone from '@mui/icons-material/CalendarMonthTwoTone';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
@@ -7,10 +6,10 @@ import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
   Breadcrumbs,
+  Button,
   Container,
   Grid,
   IconButton,
-  InputAdornment,
   Stack,
   TextField,
   Tooltip,
@@ -41,16 +40,7 @@ import {
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 
-const DatePicker = styled(TextField)`
-  & input[type='date']::-webkit-inner-spin-button,
-  & input[type='date']::-webkit-calendar-picker-indicator {
-    display: none;
-    -webkit-appearance: none;
-  }
-  & input[type='date']::-moz-calendar-picker-indicator {
-    display: none;
-  }
-`;
+const DatePicker = styled(TextField)``;
 //monali
 const AddDailyLog = () => {
   const dispatch = useDispatch();
@@ -427,19 +417,21 @@ const AddDailyLog = () => {
               </Tooltip>
             </Box>
             <Box>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: 'green',
-                  height: '36px !important',
-                  ':hover': {
-                    backgroundColor: 'green'
-                  }
-                }}
-                onClick={onClickSave}
-              >
-                <Save />
-              </IconButton>
+              <Tooltip title={'Save Daily Log'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'green',
+                    height: '36px !important',
+                    ':hover': {
+                      backgroundColor: 'green'
+                    }
+                  }}
+                  onClick={onClickSave}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
             </Box>
           </Stack>
         </Stack>
@@ -473,11 +465,8 @@ const AddDailyLog = () => {
                 FileName={fileName}
               ></SingleFile>
             </Grid>
-            {/* <Grid item xs={12}>
-              <Stack direction={'row'} gap={1} justifyContent={'center'}>
-                <Button onClick={onClickSave} variant="contained">
-                  Save
-                </Button>
+            <Grid item xs={12}>
+              <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
                 <Button
                   onClick={onClickCancel}
                   variant="contained"
@@ -486,7 +475,7 @@ const AddDailyLog = () => {
                   Cancel
                 </Button>
               </Stack>
-            </Grid> */}
+            </Grid>
           </Grid>
         </Box>
         <hr style={{ margin: '20px 0' }} />
@@ -497,46 +486,43 @@ const AddDailyLog = () => {
             justifyContent="flex-end"
             alignItems="center"
           >
-            <Grid item xs={2}>
-              {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
-              <DatePicker
-                fullWidth
-                value={dateSearch}
-                type="date"
-                onChange={(e) => {
-                  onSelectDate(e.target.value);
-                }}
-                size="small"
+            <Grid item xs={12}>
+              <Box
                 sx={{
-                  backgroundColor: 'white',
-                  '& .MuiInputBase-input': {
-                    fontWeight: 'bold'
-                  }
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 1,
+                  width: '100%',
+                  justifyContent: 'flex-end'
                 }}
-                InputLabelProps={{ shrink: true }}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <CalendarMonthTwoTone />
-                    </InputAdornment>
-                  )
-                }}
-                inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              />
-            </Grid>
-            <Grid item xs={2}>
-              <TextField
-                fullWidth
-                label={'Search'}
-                size="small"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <SearchTwoTone />
-                    </InputAdornment>
-                  )
-                }}
-              />
+              >
+                {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
+                <Box>
+                  <DatePicker
+                    fullWidth
+                    value={dateSearch}
+                    type="date"
+                    onChange={(e) => {
+                      onSelectDate(e.target.value);
+                    }}
+                    size="small"
+                    sx={{
+                      width: '180px',
+                      backgroundColor: 'white',
+                      '& .MuiInputBase-input': {
+                        fontWeight: 'bold'
+                      }
+                    }}
+                    InputLabelProps={{ shrink: true }}
+                    inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                  />
+                </Box>
+                <Box>
+                  <Button variant={'contained'} startIcon={<SearchTwoTone />}>
+                    Search
+                  </Button>
+                </Box>
+              </Box>
             </Grid>
             <Grid item xs={12}>
               <Adddailyloglist

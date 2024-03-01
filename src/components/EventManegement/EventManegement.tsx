@@ -1,11 +1,14 @@
+import Add from '@mui/icons-material/Add';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import Save from '@mui/icons-material/Save';
 import {
   Box,
   Breadcrumbs,
   Button,
   Container,
+  Divider,
   FormControlLabel,
   Grid,
   IconButton,
@@ -15,6 +18,7 @@ import {
   Typography
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
+import { green } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -126,11 +130,11 @@ const EventsManagement = () => {
   //1.EventList
   useEffect(() => {
     const EventListBody: IEventListBody = {
-      "asEventDate":"2024-02-07",
-    "asSchoolId":18,
-    "asAcademicYearId":54,
-    "asStandardId": 1059,
-    "asDivisionId": 1288
+      asEventDate: '2024-02-07',
+      asSchoolId: 18,
+      asAcademicYearId: 54,
+      asStandardId: 1059,
+      asDivisionId: 1288
     };
     dispatch(GetEventtList(EventListBody));
   }, []);
@@ -404,16 +408,49 @@ const EventsManagement = () => {
                 <QuestionMarkIcon />
               </IconButton>
             </Tooltip>
+            <Tooltip title={'Add new Event'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: 'gray',
+                  height: '36px !important',
+                  ':hover': { backgroundColor: green[600] }
+                }}
+              >
+                <Add />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title={'Save Event'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: green[600],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: green[600] }
+                }}
+              >
+                <Save />
+              </IconButton>
+            </Tooltip>
           </Stack>
         </Stack>
         <Box sx={{ background: 'white', p: 2, mt: 1 }}>
           <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <Typography variant={'h4'}>Event(s) as of today.</Typography>
+            </Grid>
             <Grid item xs={12}>
               <TabulerList
                 ItemList={EventLisst}
                 clickEdit={clickEventEdit}
                 clickDelete={clickeventDelete}
               />
+            </Grid>
+            <Grid item xs={12}>
+              <Divider />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant={'h4'}>Add a new Event.</Typography>
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -530,24 +567,26 @@ const EventsManagement = () => {
                 errorMessage={FileError}
                 filePath={filePath}
                 FileName={FileName}
+                viewIcon={true}
+                deleteIcon={true}
               ></SingleFile>
             </Grid>
           </Grid>
 
           <Stack spacing={2} direction="row" justifyContent={'center'}>
             <Button variant={'contained'} color="primary" onClick={CancelEvent}>
-              New
+              Cancel
             </Button>
             <Button variant={'contained'} color="success" onClick={ClickSave}>
               Save
             </Button>
-            <Button
+            {/* <Button
               variant={'contained'}
               color="error"
               onClick={clickeventDelete}
             >
               Delete
-            </Button>
+            </Button> */}
           </Stack>
         </Box>
       </Container>

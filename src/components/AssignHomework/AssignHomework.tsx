@@ -279,22 +279,22 @@ const AssignHomework = () => {
             </IconButton>
           </Tooltip>
 
-          {asStandardDivisionId == SelectClass && (
-            <Tooltip title={'Add Daily Log'}>
-              <IconButton
-                onClick={onClick}
-                sx={{
-                  color: 'white',
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  '&:hover': {
-                    backgroundColor: (theme) => theme.palette.primary.dark
-                  }
-                }}
-              >
-                <AddTwoTone />
-              </IconButton>
-            </Tooltip>
-          )}
+          {/* {asStandardDivisionId == SelectClass && (
+          )} */}
+          <Tooltip title={'Add Daily Log'}>
+            <IconButton
+              onClick={onClick}
+              sx={{
+                color: 'white',
+                backgroundColor: (theme) => theme.palette.primary.main,
+                '&:hover': {
+                  backgroundColor: (theme) => theme.palette.primary.dark
+                }
+              }}
+            >
+              <AddTwoTone />
+            </IconButton>
+          </Tooltip>
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white' }}>

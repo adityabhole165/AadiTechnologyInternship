@@ -47,6 +47,7 @@ import { getDateFormatted } from '../Common/Util';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import InfoTwoTone from '@mui/icons-material/InfoTwoTone';
 import { grey } from '@mui/material/colors';
 import { Link } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
@@ -287,15 +288,15 @@ const TAttendance = () => {
   };
 
   const getAbsetNumber = (value, Itemlist) => {
-    let isCheckAll = !Itemlist
-      .filter((obj) => { return !obj.IsExamSubmitted })
-      .some((obj) => obj.isActive === false)
+    let isCheckAll = !Itemlist.filter((obj) => {
+      return !obj.IsExamSubmitted;
+    }).some((obj) => obj.isActive === false)
       ? 1
-      : !Itemlist
-        .filter((obj) => { return !obj.IsExamSubmitted })
-        .some((obj) => obj.isActive === true)
-        ? 0
-        : 2;
+      : !Itemlist.filter((obj) => {
+          return !obj.IsExamSubmitted;
+        }).some((obj) => obj.isActive === true)
+      ? 0
+      : 2;
     if (isCheckAll === 1) {
       setAllPresentOrAllAbsent('P');
     } else if (isCheckAll === 0) {
@@ -446,7 +447,6 @@ const TAttendance = () => {
         }
       });
     } else {
-
       if (asAllPresentOrAllAbsent === 'P' || asAllPresentOrAllAbsent === 'N') {
         showAlert({
           title: 'Please Confirm',
@@ -551,35 +551,47 @@ const TAttendance = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Stack direction={'row'} gap={1} alignItems={'center'}>
-            <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
-              <Typography
-                color={'primary'}
-                sx={{ cursor: 'pointer' }}
-                fontWeight={'bold'}
-                onClick={() => {
-                  navigate(
-                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                  );
-                }}
-              >
-                Count: {SummaryCountforAttendance?.TotalStudents}
-              </Typography>
-            </Tooltip>
+            <Stack direction={'row'} alignItems={'center'} gap={1}>
+              <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
+                <Typography
+                  color={'primary'}
+                  sx={{
+                    cursor: 'pointer'
+                  }}
+                  fontWeight={'bold'}
+                  onClick={() => {
+                    navigate(
+                      '/extended-sidebar/Teacher/SchoolAttendanceOverview'
+                    );
+                  }}
+                >
+                  Count: {SummaryCountforAttendance?.TotalStudents}
+                </Typography>
+              </Tooltip>
+              <Tooltip title={'Present Students / Total Student'}>
+                <InfoTwoTone color={'primary'} />
+              </Tooltip>
+            </Stack>
             <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
-            <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
-              <Typography
-                color={'primary'}
-                sx={{ cursor: 'pointer' }}
-                fontWeight={'bold'}
-                onClick={() => {
-                  navigate(
-                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                  );
-                }}
-              >
-                Count: {SummaryCountforAttendance?.TotalStudents}
-              </Typography>
-            </Tooltip>
+            <Stack direction={'row'} alignItems={'center'} gap={1}>
+              <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
+                <Typography
+                  color={'primary'}
+                  sx={{ cursor: 'pointer' }}
+                  fontWeight={'bold'}
+                  onClick={() => {
+                    navigate(
+                      '/extended-sidebar/Teacher/SchoolAttendanceOverview'
+                    );
+                  }}
+                >
+                  Count: {SummaryCountforAttendance?.TotalStudents}
+                </Typography>
+              </Tooltip>
+              <Tooltip title={'Attendance marked classes / Total Classes'}>
+                <InfoTwoTone color={'primary'} />
+              </Tooltip>
+            </Stack>
           </Stack>
           <Box>
             <Paper

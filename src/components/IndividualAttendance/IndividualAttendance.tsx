@@ -362,20 +362,20 @@ const IndividualAttendance = () => {
               </Tooltip>
             </IconButton>
           </Paper>
-          <IconButton
-            onClick={handlePresent}
-            sx={{
-              color: 'white',
-              backgroundColor: 'gray',
-              width: '36px',
-              height: '36px !important',
-              ':hover': { backgroundColor: 'green' }
-            }}
-          >
-            <Tooltip title="Present Mark">
+          <Tooltip title="Present Mark">
+            <IconButton
+              onClick={handlePresent}
+              sx={{
+                color: 'white',
+                backgroundColor: 'gray',
+                width: '36px',
+                height: '36px !important',
+                ':hover': { backgroundColor: 'green' }
+              }}
+            >
               <h5>P</h5>
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
           <Popover
             disableScrollLock
             anchorEl={ref.current}
@@ -472,20 +472,21 @@ const IndividualAttendance = () => {
               </Button>
             </DialogActions>
           </Dialog>
-          <IconButton
-            onClick={handleAbsent}
-            sx={{
-              color: 'white',
-              height: '36px !important',
-              width: '36px',
-              backgroundColor: 'gray',
-              ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
-            }}
-          >
-            <Tooltip title="Absent All">
+
+          <Tooltip title="Absent All">
+            <IconButton
+              onClick={handleAbsent}
+              sx={{
+                color: 'white',
+                height: '36px !important',
+                width: '36px',
+                backgroundColor: 'gray',
+                ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
+              }}
+            >
               <h5>A</h5>
-            </Tooltip>
-          </IconButton>
+            </IconButton>
+          </Tooltip>
           <Dialog
             onClose={() => setOpenSave(!isOpenSave)}
             open={isOpenSave}

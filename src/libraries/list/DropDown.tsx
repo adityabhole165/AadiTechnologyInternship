@@ -28,6 +28,13 @@ function DropDown({
             labelId={`label-${randomUniqueKey}`}
             onChange={(e) => ClickItem(e.target.value)}
             size={size as any}
+            MenuProps={{
+              PaperProps: {
+                style: {
+                  maxHeight: 350
+                }
+              }
+            }}
           >
             {DefaultValue == '' && <option>{Label}</option>}
             {itemList.map((item, i) => {
