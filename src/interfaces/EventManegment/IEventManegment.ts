@@ -31,22 +31,22 @@ export interface IEventDetailsBody {
 }
 
 export interface IEventDetailsResult {
-
-  Event_Id: string,
-  Event_Name: string,
-  Event_Description: string,
-  Event_Start_Date: string,
-  Event_End_Date: string,
-  Display_On_Homepage: string,
-  Event_Image: string,
-  School_Id: string,
-  Academic_Year_ID: string,
-  Is_Deleted: string,
-  Insert_Date: string,
-  Inserted_By_id: string,
-  Update_Date: string,
-  Updated_By_Id: string
-
+  GetEventDetailList: [{
+    Event_Id: string,
+    Event_Name: string,
+    Event_Description: string,
+    Event_Start_Date: string,
+    Event_End_Date: string,
+    Display_On_Homepage: string,
+    Event_Image: string,
+    School_Id: string,
+    Academic_Year_ID: string,
+    Is_Deleted: string,
+    Insert_Date: string,
+    Inserted_By_id: string,
+    Update_Date: string,
+    Updated_By_Id: string
+  }]
 }
 
 //3.GetAllClassesAndDivisions
@@ -87,7 +87,7 @@ export interface ISelectedStandardAndDivisionCheckBoxResult {
 //6.SaveUpadateEvent
 export interface IUpdateEventBody {
 
-  // asEventId: number,
+  asEventId: number,
   asEventName: string,
   asEventDescription: string,
   asEventStartDate: string,
@@ -99,9 +99,9 @@ export interface IUpdateEventBody {
   asInsertedById: string,
   asUpdatedById: string,
   asStandardDivisions: string,
-  asSaveFeature:string,
-  asFolderName:string,
-  asBase64String:string
+  asSaveFeature: string,
+  asFolderName: string,
+  asBase64String: string
 
 }
 
@@ -110,7 +110,7 @@ export interface IDeleteEventBody {
 
   asSchoolId: number,
   asEventId: number,
-  asUserId:number
+  asUserId: number
 
 }
 
@@ -120,6 +120,6 @@ export interface DeleteEventImageBody {
   asSchoolId: number,
   asAcademicYearId: number,
   asEventId: number,
-  asUserId:number
-  
+  asUserId: number
+
 }
