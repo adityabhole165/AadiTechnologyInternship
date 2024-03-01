@@ -5,7 +5,7 @@ import { useNavigate } from "react-router";
 import { toast } from "react-toastify";
 import { IDeleteEventBody, IEventListBody } from "src/interfaces/EventManegment/IEventManegment";
 import TabulerList from "src/libraries/ResuableComponents/TabularList";
-import { GetDeleteEvent, GetEventtList, resetDeleteEventt } from "src/requests/EventManegment/RequestEventManegment";
+import { GetDeleteEvent, GetEventtList, resetDeleteEventt, resetEventdetail } from "src/requests/EventManegment/RequestEventManegment";
 import { RootState } from "src/store";
 
 const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, DivisionId }) => {
@@ -39,6 +39,7 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
             toast.success(DeleteEventt, { toastId: 'success1' });
             dispatch(resetDeleteEventt());
             dispatch(GetEventtList(EventListBody));
+            dispatch(resetEventdetail())
         }
     }, [DeleteEventt]);
     const clickeventDelete = (Id) => {

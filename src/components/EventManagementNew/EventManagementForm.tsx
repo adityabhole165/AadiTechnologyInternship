@@ -117,6 +117,9 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
             setEventStartDate('');
             setEventEndDate('');
             setShowRiseAndShine(false);
+            setitemList(ItemList.map((Item) => {
+                return { ...Item, IsActive: false }
+            }))
         }
     }, [EventDetaill]);
 
