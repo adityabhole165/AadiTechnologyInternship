@@ -9,7 +9,7 @@ const EventDescriptionSlice = createSlice({
   initialState: {
 
     EventListt: [],
-    EventDetailss: [],
+    EventDetailss: null,
     AllClassesAndDivisionss: [],
     AllClassesAndDivisionss1: [],
     SelectedStandardAndDivisionCheckBoxx: [],
@@ -47,6 +47,9 @@ const EventDescriptionSlice = createSlice({
     getDeleteEventt(state, action) {
       state.DeleteEventt = action.payload;
     },
+    resetDeleteEventt(state) {
+      state.DeleteEventt = "";
+    },
     getDeleteEventImagee(state, action) {
       state.DeleteEventImagee = action.payload;
     },
@@ -73,6 +76,7 @@ export const GetEventtList =
 
         }
       })
+
       dispatch(EventDescriptionSlice.actions.getEventListt(a))
     }
 
@@ -80,20 +84,15 @@ export const GetEventtList =
 export const GetEventdetail =
   (data: IEventDetailsBody): AppThunk =>
     async (dispatch) => {
-      const response = await GetEventDescriptionApi.EventDetails(data);
-      // let responseData = response.data.map((item, i) => {
+      let response = await GetEventDescriptionApi.EventDetails(data);
 
-      //   return {
-      //     Id: item.Event_Id,
-      //     text1: item.Event_Description,
-      //     text2: item.Event_Start_Date,
-      //     text3: item.Event_End_Date,
-      //     //text4: item.Event_Comment,
-      //     text5: item.Event_Image,
+      let responseData = null
 
-      //   }
-      // })
-      dispatch(EventDescriptionSlice.actions.getEventDetailss(response))
+      if (response.data != null &&
+        response.data.GetEventDetailList.length > 0)
+        responseData = response.data.GetEventDetailList[0]
+      dispatch(EventDescriptionSlice.actions.getEventDetailss(responseData))
+
     }
 
 //3.GetAllClassesAndDivisions
@@ -102,7 +101,6 @@ export const GetAllClassAndDivision =
     async (dispatch) => {
       const response = await GetEventDescriptionApi.AllClassesAndDivisions(data);
       let responseData = response.data.map((item, i) => {
-
         return {
           Id: item.SchoolWise_Standard_Division_Id,
           Name: item.Division_Name,
@@ -156,6 +154,12 @@ export const GetDeleteEvent =
     async (dispatch) => {
       const response = await GetEventDescriptionApi.DeleteEvent(data);
       dispatch(EventDescriptionSlice.actions.getDeleteEventt(response.data));
+    };
+//7.DeletEvent
+export const resetDeleteEventt =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(EventDescriptionSlice.actions.resetDeleteEventt());
     };
 
 

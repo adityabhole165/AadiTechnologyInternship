@@ -70,20 +70,20 @@ const AnnualPlannerBase = () => {
 
   useEffect(() => {
     const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
-      {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asUserId: Number(UserId)
-      };
+    {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asUserId: Number(UserId)
+    };
     dispatch(GetStandardList(GetAssociatedStdLstForTeacherBody));
     const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
       asSchoolId: Number(asSchoolId)
     };
     dispatch(GetMonthList(GetAllMonthsDropBody));
     const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
-      {
-        asSchoolId: Number(asSchoolId)
-      };
+    {
+      asSchoolId: Number(asSchoolId)
+    };
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
   }, []);
 
@@ -142,17 +142,22 @@ const AnnualPlannerBase = () => {
 
   const callGetDivisionList = (value) => {
     const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody =
-      {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asStandardId: Number(value)
-      };
+    {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asStandardId: Number(value)
+    };
     dispatch(GetDivisionList(AllDivisionsForStandardBody));
   };
 
   const ClickCalendarItem = (value) => {
     setSelectedDate(value);
     setValue(value, 'MonthYear');
+  };
+  const ClickDate = (value) => {
+    setSelectedDate(value);
+    setValue(value, 'MonthYear');
+    navigate('../EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
   };
   const ClickFilterItem = (value) => {
     setDefaultValue(value);
@@ -174,6 +179,7 @@ const AnnualPlannerBase = () => {
         <CalendarAnnualPlanner
           DaysList={DaysList}
           ClickCalendarItem={ClickCalendarItem}
+          ClickDate={ClickDate}
           SelectedDate={SelectedDate}
           FilterList={ItemList}
           ClickFilterItem={ClickFilterItem}

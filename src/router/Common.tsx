@@ -2,11 +2,11 @@ import { Suspense, lazy } from 'react';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 const Holidays = Loader(lazy(() => import('src/components/Holidays/Holidays')));
 const Schoolnotice = Loader(
@@ -34,7 +34,7 @@ const VideoGallery = Loader(
 );
 const Pta = Loader(lazy(() => import('src/components/PTA/PTA')));
 const AnnualPlanner = Loader(
-  lazy(() => import('src/components/AnnualPlanner/AnnualPlanner'))
+  lazy(() => import('src/components/AnnualPlannerNew/AnnualPlannerBase'))
 );
 const ViewEvent = Loader(
   lazy(() => import('src/components/AnnualPlanner/ViewEvent'))
@@ -50,6 +50,9 @@ const UpcomingEvent = Loader(
 );
 const EventOverview = Loader(
   lazy(() => import('src/components/AnnualPlanner/EventOverview'))
+);
+const EventManagement = Loader(
+  lazy(() => import('src/components/EventManagementNew/EventManagement'))
 );
 const commonRoutes = [
   {
@@ -138,6 +141,10 @@ const commonRoutes = [
   {
     path: 'StaffBirthday',
     element: <StaffBirthday />
+  },
+  {
+    path: 'EventManagementForm/:SelectedDate/:StandardId/:DivisionId',
+    element: <EventManagement />
   }
 ];
 

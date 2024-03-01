@@ -8,7 +8,7 @@ const EventList = (data: IEventListBody) => {
 
 //2.GetEventDetails
 const EventDetails = (data: IEventDetailsBody) => {
-  return http.post<IEventDetailsResult[]>('Teacher/GetEventDetails', data);
+  return http.post<IEventDetailsResult>('Teacher/EditEventDetails', data);
 }
 
 //3.AllClassesAndDivisions

@@ -5,7 +5,7 @@ import { getDateDDMMMDash, getMonthYearSpaceFormatted } from '../Common/Util';
 import CalendarList from './CalendarList';
 import SearchAnnualPlanner from './SearchAnnualPlanner';
 
-const CalendarAnnualPlanner = ({ DaysList, ClickCalendarItem, FilterList,
+const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterList,
     ClickFilterItem, SelectedDate, SelectedFilter }) => {
     const handlePrevNextMonth = (PrevNext) => {
         const newDate = new Date(SelectedDate);
@@ -45,7 +45,7 @@ const CalendarAnnualPlanner = ({ DaysList, ClickCalendarItem, FilterList,
                 </Stack>
 
             </Box>
-            <CalendarList ItemList={DaysList} ClickItem={ClickCalendarItem} DefaultValue={SelectedDate} />
+            <CalendarList ItemList={DaysList} ClickItem={ClickDate} DefaultValue={SelectedDate} />
         </Box>
     )
 }

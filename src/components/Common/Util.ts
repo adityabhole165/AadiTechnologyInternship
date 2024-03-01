@@ -26,16 +26,16 @@ export const getAttendanceLegend = (Status) => {
   return Status == 'Y'
     ? 'mediumturquoise'
     : Status == 'B'
-    ? 'lightcoral'
-    : Status == 'D'
-    ? 'lightsalmon '
-    : Status == 'L'
-    ? 'Skyblue'
-    : Status == 'X'
-    ? 'plum'
-    : Status == 'N'
-    ? 'tomato'
-    : 'salmon';
+      ? 'lightcoral'
+      : Status == 'D'
+        ? 'lightsalmon '
+        : Status == 'L'
+          ? 'Skyblue'
+          : Status == 'X'
+            ? 'plum'
+            : Status == 'N'
+              ? 'tomato'
+              : 'salmon';
 };
 export const monthNames = [
   'Jan',
@@ -54,12 +54,12 @@ export const monthNames = [
 
 export const getDateMonthYearFormattedDash = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  
+
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 };
 export const getDateMonthSpace = (date) => {
   let arrDate = date.split(' ')[0].split('-');
-  
+
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]}`;
 };
 export function compareStringWithoutSpace(value1, value2) {
@@ -75,7 +75,7 @@ export function isTodaysDate(date) {
   });
   return date === getDateFormatted(todaysDate);
 }
-export function getDateDDMMMDash(date){
+export function getDateDDMMMDash(date) {
   const Day = new Date(date).getDate();
   const Month = monthNames[date.getMonth()];
   const Year = new Date(date).getFullYear();
@@ -192,6 +192,15 @@ export const getDateFormatDraftTime = (date) => {
   date[0] = month.toLocaleString('en-US', { month: 'short' });
 
   return `${date[1]} ${date[0]} ${time}`;
+};
+export const getCalendarDateFormatDate = (date) => {
+  date = String(date || new Date());
+  date = date.split(' ')[0];
+  date = date.split('-');
+  let Day = date[0]
+  let Month = date[1]
+  let Year = date[2]
+  return `${Year}-${Month}-${Day}`;
 };
 
 export const getDateFormat = (date) => {
@@ -427,7 +436,7 @@ export const androidCurrentAppVersion = '2.1.1';
 export const appleCurrentAppVersion = '2.0.6';
 export const deviceType =
   typeof window.localStorage.getItem('deviceType') != undefined &&
-  window.localStorage.getItem('deviceType') == 'ios'
+    window.localStorage.getItem('deviceType') == 'ios'
     ? 'iOS'
     : 'Android';
 // export const sitePath = 'https://192.168.1.80';

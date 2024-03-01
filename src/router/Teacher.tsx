@@ -4,11 +4,11 @@ import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // const TAttendance = Loader(lazy(() => import('src/components/TAttendance/Tattendance')))
 const TAttendance = Loader(
@@ -124,9 +124,6 @@ const UnpublishPrePrimaryResult = Loader(
 );
 const AddUnpublish1 = Loader(
   lazy(() => import('src/components/AssignHomework/AddUnpublish1'))
-);
-const AnnualPlannerNew = Loader(
-  lazy(() => import('src/components/AnnualPlannerNew/AnnualPlannerBase'))
 );
 
 const teacherRoutes = [
@@ -326,13 +323,8 @@ const teacherRoutes = [
   {
     path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
     element: <FinalResultUnpublish />
-  },
-
-  {
-    path: 'AnnualPlannerNew',
-    element: <AnnualPlannerNew />
   }
-  
+
 ];
 
 export default teacherRoutes;

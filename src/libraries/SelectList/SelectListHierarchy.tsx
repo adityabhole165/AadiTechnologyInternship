@@ -25,7 +25,6 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
   const CheckChildAll = (value) => {
     let arr = [];
     arr = ItemList.map((Item) => {
-      console.log(Item.ParentId, ' = ', value);
       return Item.ParentId == value
         ? { ...Item, IsActive: !getIsCheckedAll(value) }
         : Item;
@@ -50,7 +49,6 @@ const SelectListHierarchy = ({ ItemList, ParentList, ClickChild }) => {
     });
     return IsChecked;
   };
-  console.log(ItemList, 'l');
 
   return (
     <>
