@@ -31,6 +31,11 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const Breadcrumbs = [{
         Id: 1,
         Name: 'Annual Planner',
+        Value: '/extended-sidebar/Common/AnnualPlanner',
+        IsActive: false
+    }, {
+        Id: 2,
+        Name: 'Event Management',
         IsActive: true
     }]
     return (

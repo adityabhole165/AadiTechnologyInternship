@@ -57,6 +57,26 @@ export const getDateMonthYearFormattedDash = (date) => {
 
   return `${arrDate[0]}-${monthNames[parseInt(arrDate[1]) - 1]}-${arrDate[2]}`;
 };
+
+export const getDateMonthYearFormatted = (date) => {
+  let arrDate = date.split(' ')[0].split('-');
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec'
+  ];
+
+  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
+};
 export const getDateMonthSpace = (date) => {
   let arrDate = date.split(' ')[0].split('-');
 
@@ -265,8 +285,7 @@ export const getDateMonthFormat = (date) => {
   ];
   return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${time}`;
 };
-
-export const getDateMonthYearFormatted = (date) => {
+export const getMonthYearSplitFormatted = (date) => {
   let arrDate = date.split(' ')[0].split('-');
   const monthNames = [
     'Jan',
@@ -283,7 +302,7 @@ export const getDateMonthYearFormatted = (date) => {
     'Dec'
   ];
 
-  return `${arrDate[0]} ${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
+  return `${monthNames[parseInt(arrDate[1]) - 1]} ${arrDate[2]}`;
 };
 export const getMonthYearFormatted = (date) => {
   date = date || new Date();

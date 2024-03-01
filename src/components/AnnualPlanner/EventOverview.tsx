@@ -33,6 +33,7 @@ import {
   CDAStdList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
+import { getMonthYearSplitFormatted } from '../Common/Util';
 type Props = {};
 
 const EventOverview = (props: Props) => {
@@ -64,6 +65,10 @@ const EventOverview = (props: Props) => {
 
   const USGetAllEvents: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISGetAllEvents
+  );
+
+  const ParentList: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ParentList
   );
 
   console.log(AssociatedStandardsEV);
@@ -242,8 +247,8 @@ const EventOverview = (props: Props) => {
       </Stack>
       <Box sx={{ mt: 2 }}>
         <Box sx={{ mt: 2 }}>
-          {USGetAllEvents ? (
-            USGetAllEvents.map((event, index) => (
+          {ParentList ? (
+            ParentList.map((event, index) => (
               <Accordion
                 key={index}
                 expanded={expanded === `panel${index + 1}`}
@@ -257,26 +262,32 @@ const EventOverview = (props: Props) => {
                 >
                   <Box width={'100%'}>
                     <Typography sx={{ width: '33%', flexShrink: 0 }}>
-                      {event.DisplayDate}
+                      {event}
                     </Typography>
-                    <Typography sx={{ color: 'text.secondary' }} variant={'h5'}>
+                    {/* <Typography sx={{ color: 'text.secondary' }} variant={'h5'}>
                       {event.StartDate}
-                    </Typography>
+                    </Typography> */}
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                  <Typography variant={'h4'}>	Event Title: </Typography>
-                  <React.Fragment >
-                    <Box my={1}>
-                      <Divider />
-                    </Box>
-                    <Typography variant={'h5'}>
-                      {event.EventDescription}
-                    </Typography>
-                    <Typography>Standards: </Typography>
-                    <span>{event.Standards}
-                    </span>
-                  </React.Fragment>
+                  {USGetAllEvents
+                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
+                    .map((obj, index) => (
+                      <>
+
+                        <React.Fragment >
+                          <Box my={1}>
+                            <Divider />
+                          </Box>
+                          <Typography variant={'h4'}>	Event Title: </Typography>
+                          <Typography variant={'h5'}>
+                            {obj.EventDescription}
+                          </Typography>
+                          <Typography>Standards: </Typography>
+                          <span>{obj.Standards}
+                          </span>
+                        </React.Fragment>
+                      </>))}
                 </AccordionDetails>
               </Accordion>
             ))
