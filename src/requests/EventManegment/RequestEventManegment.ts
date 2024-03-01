@@ -89,10 +89,38 @@ export const GetEventdetail =
       let responseData = null
 
       if (response.data != null &&
-        response.data.GetEventDetailList.length > 0)
-        responseData = response.data.GetEventDetailList[0]
-      dispatch(EventDescriptionSlice.actions.getEventDetailss(responseData))
+        response.data.GetEventDetailList != undefined)
+        responseData = response.data.GetEventDetailList
 
+
+      let StdListData = response.data.AllDivisionsANDSelectedDivisionStatus.map((item, i) => {
+        return {
+          Id: item.SchoolWise_Standard_Division_Id,
+          Name: item.Division_Name,
+          Value: item.SchoolWise_Standard_Division_Id,
+          ParentId: item.Standard_Id,
+          IsActive: item.SelectedDivisionStatus
+        }
+      })
+
+      let arr = []
+      let arrStd = []
+      response.data.AllDivisionsANDSelectedDivisionStatus.map((item, i) => {
+        if (!arrStd.includes(item.Standard_Id)) {
+
+          arrStd.push(item.Standard_Id)
+          arr.push({
+            Id: item.Standard_Id,
+            Name: item.Standard_Name,
+            Value: item.Standard_Id,
+            IsActive: item.SelectedDivisionStatus
+          })
+        }
+      })
+
+      dispatch(EventDescriptionSlice.actions.getAllClassesAndDivisionss(StdListData))
+      dispatch(EventDescriptionSlice.actions.getAllClassesAndDivisionss1(arr))
+      dispatch(EventDescriptionSlice.actions.getEventDetailss(responseData))
     }
 
 //3.GetAllClassesAndDivisions
