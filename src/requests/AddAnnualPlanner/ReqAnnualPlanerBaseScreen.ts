@@ -242,28 +242,32 @@ export const CDAStdList =
   (data: INewGetAssociatedStdLstForTeacherDropDownBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiAnnualPlanerBaseScreen.Stdlist(data);
-    let a = response.data.map((item, i) => {
-      return {
+    let abc = [{ Id: null, Name: 'All', Value: null }];
+
+    response.data.map((item, i) => {
+      abc.push({
         Id: item.StandardId,
         Name: item.Standard_Name,
         Value: item.StandardId
-      };
+      });
     });
-    dispatch(AnnualPlanerBaseScreenSlice.actions.RStdList(a));
+    dispatch(AnnualPlanerBaseScreenSlice.actions.RStdList(abc));
   };
 
 export const CDAMonthList =
   (data: INewGetAllMonthsDropDownotBody): AppThunk =>
   async (dispatch) => {
     const response = await ApiAnnualPlanerBaseScreen.MonthList(data);
-    let a = response.data.map((item, i) => {
-      return {
+    let abc = [{ Id: null, Name: 'All', Value: null }];
+
+    response.data.map((item, i) => {
+      abc.push({
         Id: item.MonthID,
-        Name: item.MonthAbbreviation,
+        Name: item.Month,
         Value: item.MonthID
-      };
+      });
     });
-    dispatch(AnnualPlanerBaseScreenSlice.actions.RMonthList(a));
+    dispatch(AnnualPlanerBaseScreenSlice.actions.RMonthList(abc));
   };
 
 

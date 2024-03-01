@@ -47,7 +47,8 @@ const EventOverview = (props: Props) => {
   const currentYear = new Date().getFullYear().toString();
   const [selectStandard, setSelectStandard] = useState('');
   const [selectMonth, setSelectMonth] = useState();
-  const [selectYear, setSelectYear] = useState(new Date().getFullYear().toString());
+  const [selectYear, setSelectYear] = useState();
+
   const AssociatedStandardsEV: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
   );
@@ -65,7 +66,11 @@ const EventOverview = (props: Props) => {
     (state: RootState) => state.AnnualPlanerBaseScreen.ISGetAllEvents
   );
 
-  
+  console.log(AssociatedStandardsEV);
+  console.log(UsGetAllMonthsDropDown);
+
+
+
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
@@ -95,6 +100,25 @@ const EventOverview = (props: Props) => {
     asMonthId: selectMonth,
     asStandardId: selectStandard
   };
+  useEffect(() => {
+    if (UsGetAllMonthsDropDown.length > 0) {
+      setSelectMonth(UsGetAllMonthsDropDown[0].Value);
+    }
+  }, [UsGetAllMonthsDropDown]);
+
+  useEffect(() => {
+    if (AssociatedStandardsEV.length > 0) {
+      setSelectStandard(AssociatedStandardsEV[0].Value);
+    }
+  }, [AssociatedStandardsEV]);
+
+
+  useEffect(() => {
+    if (AllAcademicYearsForSchool.length > 8) {
+      setSelectYear(AllAcademicYearsForSchool[8].Value);
+    }
+  }, [AllAcademicYearsForSchool]);
+
 
   useEffect(() => {
     dispatch(
@@ -180,7 +204,7 @@ const EventOverview = (props: Props) => {
               Array={AssociatedStandardsEV}
               handleChange={clickStandardDropdown}
               defaultValue={selectStandard}
-              label={'All'}
+              label={''}
             />
           </Box>
           <Box>
@@ -188,7 +212,7 @@ const EventOverview = (props: Props) => {
               Array={UsGetAllMonthsDropDown}
               handleChange={clicMonthDropdown}
               defaultValue={selectMonth}
-              label={'All'}
+              label={''}
             />
           </Box>
           <Box>
