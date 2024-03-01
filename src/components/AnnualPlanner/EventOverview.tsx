@@ -274,7 +274,7 @@ const EventOverview = (props: Props) => {
                     .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
                     .map((obj, index) => (
                       <>
-
+                        <Typography variant={'h4'}>	{obj.DisplayDate} </Typography>
                         <React.Fragment >
                           <Box my={1}>
                             <Divider />
