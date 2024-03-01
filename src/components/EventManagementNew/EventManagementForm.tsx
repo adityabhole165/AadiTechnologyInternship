@@ -1,16 +1,16 @@
-import { Button, Checkbox, Container, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { IAllClassesAndDivisionsBody, IEventDetailsBody, IEventListBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
 import SingleFile from 'src/libraries/File/SingleFile';
-import PageHeader from 'src/libraries/PageHeaderDocs';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import {
     GetAllClassAndDivision,
     GetEventdetail,
     GetEventtList,
     GetupdateEvent,
+    resetEventdetail,
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
@@ -80,6 +80,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
     };
 
     useEffect(() => {
+        resetForm();
         const AllClassesAndDivisionBody: IAllClassesAndDivisionsBody = {
             asSchoolId: asSchoolId,
             asAcademicYearId: asAcademicYearId
@@ -102,13 +103,20 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
     }, [EventId]);
 
     useEffect(() => {
-
         if (EventDetaill !== null) {
             setEventTitle(EventDetaill.Event_Name);
             setEventDescription(EventDetaill.Event_Description);
             setEventStartDate(getCalendarDateFormatDate(EventDetaill.Event_Start_Date));
             setEventEndDate(getCalendarDateFormatDate(EventDetaill.Event_End_Date));
             setShowRiseAndShine(EventDetaill.Display_On_Homepage == "True" ? true : false);
+        }
+        else {
+            EventId = 0;
+            setEventTitle('');
+            setEventDescription('');
+            setEventStartDate('');
+            setEventEndDate('');
+            setShowRiseAndShine(false);
         }
     }, [EventDetaill]);
 
@@ -126,6 +134,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
     }, [SaveUpdateEventt]);
 
     const resetForm = () => {
+        dispatch(resetEventdetail())
         EventId = 0;
         setEventTitle('');
         setEventDescription('');
@@ -192,11 +201,8 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
         dispatch(GetupdateEvent(UpdateEventBody));
     };
     return (
-        <Container>
+        <>
             <Grid container spacing={2}>
-                <Grid xs={12} md={12} item>
-                    <PageHeader heading={'Event Management'} subheading={''} />
-                </Grid>
                 <Grid xs={6} md={6} item>
                     <TextField
                         label={
@@ -321,7 +327,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
                 </Grid>
             </Grid>
 
-        </Container >
+        </>
     )
 }
 

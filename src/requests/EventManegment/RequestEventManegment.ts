@@ -124,6 +124,13 @@ export const GetEventdetail =
     }
 
 //3.GetAllClassesAndDivisions
+export const resetEventdetail =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(EventDescriptionSlice.actions.getEventDetailss(null))
+    }
+
+//3.GetAllClassesAndDivisions
 export const GetAllClassAndDivision =
   (data: IAllClassesAndDivisionsBody): AppThunk =>
     async (dispatch) => {
