@@ -20,7 +20,8 @@ const SingleFile = ({
   FileName = '',
   width = '300px',
   viewIcon = false,
-  deleteIcon = false
+  deleteIcon = false,
+  isMandatory = true
 }) => {
   const classes = Styles();
   const aRef = useRef(null);
@@ -87,7 +88,7 @@ const SingleFile = ({
           <Stack direction={'row'} alignItems={'center'} gap={1}>
             {FileName ? <CheckCircle /> : <CloudUploadIcon />}
             {FileName == '' ? ' No file selected' : FileName}{' '}
-            <span style={{ color: 'red' }}>*</span>
+            {isMandatory && <span style={{ color: 'red' }}>*</span>}
             <Box sx={{ textAlign: 'center' }}>
               <input
                 ref={aRef}

@@ -338,6 +338,26 @@ const AddHomework = () => {
                   <HomeTwoTone color="primary" />
                 </IconButton>
               </Link>
+              <Link
+                to={'/extended-sidebar/Teacher/AssignHomework'}
+                style={{
+                  textDecoration: 'none'
+                }}
+              >
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  fontWeight={'normal'}
+                  color={'text.primary'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
+                >
+                  Assign Homework
+                </Typography>
+              </Link>
               <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
                 Add Homework
               </Typography>
@@ -424,13 +444,21 @@ const AddHomework = () => {
                 }}
                 error={ErrorTitle !== ''}
                 helperText={ErrorTitle}
-                label={'Title'}
+                label={
+                  <span>
+                    Title <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
               />
             </Grid>
             <Grid item xs={3}>
               <TextField
                 fullWidth
-                label={'Assigned Date'}
+                label={
+                  <span>
+                    Assigned Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 InputLabelProps={{
                   shrink: true
                 }}
@@ -450,7 +478,11 @@ const AddHomework = () => {
                 InputLabelProps={{
                   shrink: true
                 }}
-                label={'Completed Date'}
+                label={
+                  <span>
+                    Completed Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 inputProps={{ type: 'date' }}
                 value={CompleteDate}
                 onChange={(e) => {
@@ -466,6 +498,7 @@ const AddHomework = () => {
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 width={'100%'}
+                isMandatory={false}
               />
             </Grid>
             <Grid item xs={3}>
@@ -474,12 +507,17 @@ const AddHomework = () => {
                 MaxfileSize={MaxfileSize1}
                 ChangeFile={ChangeFile1}
                 width={'100%'}
+                isMandatory={false}
               />
             </Grid>
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label={'Details'}
+                label={
+                  <span>
+                    Details <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 multiline
                 rows={3}
                 value={Details}
@@ -510,9 +548,9 @@ const AddHomework = () => {
               >
                 Cancel
               </Button>
-              <Button color={'error'} onClick={Back} variant="contained">
+              {/* <Button color={'error'} onClick={Back} variant="contained">
                 Back
-              </Button>
+              </Button> */}
             </Grid>
           </Grid>
         </Box>
