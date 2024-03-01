@@ -24,7 +24,7 @@ import {
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
-import DropDown from 'src/libraries/list/DropDown';
+import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   ClassName,
   FullTeacherName,
@@ -185,32 +185,32 @@ const AssignHomework = () => {
   const clickItem1 = (value) => {
     navigate(
       '/extended-sidebar/Teacher/AddHomework' +
-        '/' +
-        SelectClass +
-        '/' +
-        getClassName() +
-        '/' +
-        SelectTeacher +
-        '/' +
-        getClassTeacherName()
+      '/' +
+      SelectClass +
+      '/' +
+      getClassName() +
+      '/' +
+      SelectTeacher +
+      '/' +
+      getClassTeacherName()
     );
   };
 
   const clickItem = (value) => {
     navigate('/extended-sidebar/Teacher/TExamschedule');
-    // value.map((item) => {
-    //     if (item.IsActive) {
-    //         alert(item.Id)
-    //     }
-    // })
+    value.map((item) => {
+      if (item.IsActive) {
+        alert(item.Id)
+      }
+    })
   };
 
   const onClick = () => {
     navigate(
       '/extended-sidebar/Teacher/AddDailyLog/' +
-        SelectClass +
-        '/' +
-        getClassName()
+      SelectClass +
+      '/' +
+      getClassName()
     );
   };
   console.log(asStandardDivisionId, '--', SelectClass);
@@ -250,23 +250,22 @@ const AssignHomework = () => {
         </Breadcrumbs>
 
         <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <DropDown
-            width={200}
-            itemList={TeacherList}
-            ClickItem={clickTeacherDropdown}
-            DefaultValue={SelectTeacher}
-            Label={'Select Teacher:'}
+          <Dropdown
+            Array={TeacherList}
+            handleChange={clickTeacherDropdown}
+            label={'Teacher'}
+            defaultValue={SelectTeacher}
           />
-          <DropDown
-            width={200}
-            itemList={ClassList}
-            ClickItem={clickClass}
-            DefaultValue={SelectClass}
-            Label={'Select Class:'}
+
+          <Dropdown
+            Array={ClassList}
+            handleChange={clickClass}
+            label={'Select Class:'}
+            defaultValue={SelectClass}
           />
           <Tooltip title={'List the class subjects for homework assignment.'}>
             <IconButton
-              onClick={onClick}
+             
               sx={{
                 color: 'white',
                 backgroundColor: 'grey',
