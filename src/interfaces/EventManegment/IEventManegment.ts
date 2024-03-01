@@ -119,5 +119,7 @@ export interface DeleteEventImageBody {
 
   asSchoolId: number,
   asAcademicYearId: number,
-  asEventId: number
+  asEventId: number,
+  asUserId:number
+  
 }

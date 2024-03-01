@@ -209,7 +209,8 @@ const EventsManagement = () => {
     const DeleteEventImageBody: DeleteEventImageBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asEventId: Number(Id)
+      asEventId: Number(Id),
+      asUserId: Number(TeacherId)
     };
     dispatch(GetDeleteEventImagee(DeleteEventImageBody));
   }, []);
