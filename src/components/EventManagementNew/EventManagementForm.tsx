@@ -88,13 +88,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
 
     }, []);
     useEffect(() => {
-        EventId = 0;
-        setEventTitle('');
-        setEventDescription('');
-        setEventStartDate('');
-        setEventEndDate('');
-        setShowRiseAndShine(false);
-
+        resetForm()
     }, [AddNewEventClicked]);
     useEffect(() => {
         if (EventId != 0) {
@@ -121,14 +115,27 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
     useEffect(() => {
         setitemList(ClassesAndDivisionss);
     }, [ClassesAndDivisionss]);
+
     useEffect(() => {
         if (SaveUpdateEventt !== '') {
             toast.success(SaveUpdateEventt, { toastId: 'success1' });
             dispatch(resetMessage());
             dispatch(GetEventtList(EventListBody));
+            resetForm();
         }
     }, [SaveUpdateEventt]);
 
+    const resetForm = () => {
+        EventId = 0;
+        setEventTitle('');
+        setEventDescription('');
+        setEventStartDate('');
+        setEventEndDate('');
+        setShowRiseAndShine(false);
+        setitemList(ItemList.map((Item) => {
+            return { ...Item, IsActive: false }
+        }))
+    }
     const getEventString = () => {
         let XMLString = '<StandardDivisions>';
         if (Array.isArray(ItemList)) {

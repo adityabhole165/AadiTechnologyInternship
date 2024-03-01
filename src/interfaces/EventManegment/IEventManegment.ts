@@ -31,7 +31,7 @@ export interface IEventDetailsBody {
 }
 
 export interface IEventDetailsResult {
-  GetEventDetailList: [{
+  GetEventDetailList: {
     Event_Id: string,
     Event_Name: string,
     Event_Description: string,
@@ -46,7 +46,17 @@ export interface IEventDetailsResult {
     Inserted_By_id: string,
     Update_Date: string,
     Updated_By_Id: string
+  },
+  AllDivisionsANDSelectedDivisionStatus: [{
+    SchoolWise_Standard_Division_Id: string
+    Standard_Id: string
+    Standard_Name: string
+    Division_Id: string
+    Division_Name: string
+    Event_Id: string
+    SelectedDivisionStatus: boolean
   }]
+
 }
 
 //3.GetAllClassesAndDivisions
