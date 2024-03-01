@@ -12,12 +12,12 @@ import {
   IconButton,
   Typography
 } from '@mui/material';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { IAddAnnualPlannerBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
+import { IAddAnnualPlannerBody, IDeleteFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
+import { DeleteFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { RootState } from 'src/store';
 
 const UploadAnnualPlanner = ({
@@ -32,12 +32,15 @@ const UploadAnnualPlanner = ({
   const UserId = sessionStorage.getItem('Id');
   const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const MaxfileSize = 3000000;
+
   const FileDetails: any = useSelector(
     (state: RootState) => state.AddPlanner.getfile
   );
   const AddAnnualPlanner: any = useSelector(
     (state: RootState) => state.AddPlanner.AddAnnual
   );
+
+  const DeleteFileDetails = useSelector((state: RootState) => state.AddPlanner.deletefile);
 
   const clickSubmit = () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
@@ -54,20 +57,38 @@ const UploadAnnualPlanner = ({
       toast.success('File Uploaded Successfully', { toastId: 'success1' });
     }
   };
+  
+  useEffect(() => {}, [FileDetails]);
+  const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId)
+  };
 
+  const clickDelete = () => {
+    if (confirm('Are You Sure you want to delete The File')) {
+      dispatch(DeleteFile(DeleteFileDetailsBody));
+      toast.success('File Deleted Successfully', { toastId: 'success1' });
+    }
+  };
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
   };
   const clickFileName = () => {
-    if (FileDetails !== '') {
-      window.open(
+    if (FileDetails && FileDetails.length > 0) {
+      const fileUrl =
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-          FileDetails[0].LinkUrl
-      );
+        '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+        FileDetails[0].LinkUrl;
+  
+      
+      window.open(fileUrl);
     }
   };
+   
+  
+  
   return (
     <>
       {' '}
@@ -111,7 +132,6 @@ const UploadAnnualPlanner = ({
                     p: 1
                   }}
                 >
-                  <CheckCircleIcon />
                   {AddAnnualPlanner?.name}
                   <IconButton
                     color={'error'}
@@ -119,10 +139,10 @@ const UploadAnnualPlanner = ({
                       setFileName(null);
                     }}
                   >
-                    <DeleteIcon />
+                    <DeleteIcon   onClick={clickDelete}/>
                   </IconButton>
                   <IconButton color={'primary'}>
-                    <VisibilityTwoToneIcon />
+                  <VisibilityTwoToneIcon onClick={clickFileName} />
                   </IconButton>
                 </Box>
               )}

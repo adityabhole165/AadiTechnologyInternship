@@ -24,4 +24,5 @@ export interface IGetFileDetailsResult {
 export interface IDeleteFileDetailsBody {
   asSchoolId: number;
   asAcademicYearId: number;
+  asUserId:number
 }
