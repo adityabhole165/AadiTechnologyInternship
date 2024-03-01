@@ -1,4 +1,3 @@
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import {
@@ -57,8 +56,8 @@ const UploadAnnualPlanner = ({
       toast.success('File Uploaded Successfully', { toastId: 'success1' });
     }
   };
-  
-  useEffect(() => {}, [FileDetails]);
+
+  useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -75,20 +74,20 @@ const UploadAnnualPlanner = ({
     setFileName(value.Name);
     setbase64URL(value.Value);
   };
+
+
   const clickFileName = () => {
-    if (FileDetails && FileDetails.length > 0) {
-      const fileUrl =
+    if (FileDetails !== '') {
+      window.open(
         localStorage.getItem('SiteURL') +
         '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-        FileDetails[0].LinkUrl;
-  
-      
-      window.open(fileUrl);
+        FileDetails[0].LinkUrl
+      );
+      //localStorage.getItemItem("SiteURL", window.location.pathname)
     }
   };
-   
-  
-  
+
+
   return (
     <>
       {' '}
@@ -139,10 +138,10 @@ const UploadAnnualPlanner = ({
                       setFileName(null);
                     }}
                   >
-                    <DeleteIcon   onClick={clickDelete}/>
+                    <DeleteIcon onClick={clickDelete} />
                   </IconButton>
                   <IconButton color={'primary'}>
-                  <VisibilityTwoToneIcon onClick={clickFileName} />
+                    <VisibilityTwoToneIcon onClick={clickFileName} />
                   </IconButton>
                 </Box>
               )}
@@ -162,7 +161,13 @@ const UploadAnnualPlanner = ({
           >
             Cancel
           </Button>
-          <Button onClick={clickSubmit} color={'primary'} variant={'contained'}>
+          <Button
+            disabled={
+              fileName.length !== 0 && base64URL.length !== 0 ? false : true
+            }
+            onClick={clickSubmit}
+            color={'primary'}
+            variant={'contained'}>
             Save
           </Button>
         </DialogActions>
