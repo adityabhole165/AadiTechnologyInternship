@@ -188,7 +188,7 @@ export const CDAGetEventsDataList =
             Legend: item.Event_Desc.includes('#D8EB88') ? 0 :
               item.Event_Desc.includes('papayawhip') ? 2 :
                 item.Event_Desc.includes('#AFEEEE') ? 6 :
-                  item.Event_Desc.includes('Weekend') ? 1 : 8
+                  item.Event_Desc.includes('Weekend') ? 3 : 8
 
           })
 

@@ -7,7 +7,8 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue }) => {
     const legendColors = {
         holiday: '#751b1b',
         exam: '#008000',
-        events: '#FCCF31'
+        events: '#FCCF31',
+        weekend: '#ff0000'
     };
     return (
         <Grid container spacing={0} sx={{ mt: 2 }}>
@@ -25,6 +26,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue }) => {
                     <DotLegendTeacher color={legendColors.holiday} text="Holiday" />
                     <DotLegendTeacher color={legendColors.exam} text="Exam" />
                     <DotLegendTeacher color={legendColors.events} text="Events" />
+                    <DotLegendTeacher color={legendColors.weekend} text="Weekends" />
                 </Grid>
             </Grid>
         </Grid>
