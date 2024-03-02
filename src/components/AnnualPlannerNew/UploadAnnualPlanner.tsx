@@ -14,9 +14,9 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { IAddAnnualPlannerBody, IDeleteFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
+import { IAddAnnualPlannerBody, IDeleteFileDetailsBody, IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { DeleteFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
+import { DeleteFile, GetFile, addanual } from 'src/requests/AddAnnualPlanner/RequestAddAnnualPlanner';
 import { RootState } from 'src/store';
 
 const UploadAnnualPlanner = ({
@@ -64,12 +64,27 @@ const UploadAnnualPlanner = ({
     asUserId: Number(UserId)
   };
 
-  const clickDelete = () => {
-    if (confirm('Are You Sure you want to delete The File')) {
-      dispatch(DeleteFile(DeleteFileDetailsBody));
-      toast.success('File Deleted Successfully', { toastId: 'success1' });
+ const  GetFileDetailsBody :IGetFileDetailsBody={
+  asSchoolId: Number(asSchoolId),
+  asAcademicYearId: Number(asAcademicYearId),
+ }
+
+  useEffect(() => {
+    dispatch(GetFile(GetFileDetailsBody));
+  }, []);
+
+  const clickDelete = async () => {
+    if (window.confirm('Are You Sure you want to delete The File')) {
+      try {
+        await dispatch(DeleteFile(DeleteFileDetailsBody));
+        toast.success('File Deleted Successfully', { toastId: 'success1' });
+      } catch (error) {
+        console.error('Error deleting file:', error);
+        toast.error('Error deleting file', { toastId: 'error1' });
+      }
     }
   };
+
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
@@ -118,37 +133,48 @@ const UploadAnnualPlanner = ({
                 FileName={fileName}
               ></SingleFile>
               {/* while file is selected */}
-              {AddAnnualPlanner && (
+              {FileDetails && FileDetails.length > 0 ? (
                 <Box
                   sx={{
                     width: '100%',
                     display: 'flex',
                     alignItems: 'center',
-                    border: (theme) =>
-                      `2px dashed ${theme.colors.primary.main}`,
+                    border: (theme) => `2px dashed ${theme.colors.primary.main}`,
                     fontSize: '18px',
                     gap: 2,
                     p: 1
                   }}
                 >
-                  {AddAnnualPlanner?.name}
-                  <IconButton
-                    color={'error'}
-                    onClick={() => {
-                      setFileName(null);
-                    }}
-                  >
-                    <DeleteIcon onClick={clickDelete} />
+                  <IconButton color={'error'} onClick={clickDelete}>
+                    <DeleteIcon />
                   </IconButton>
-                  <IconButton color={'primary'}>
-                    <VisibilityTwoToneIcon onClick={clickFileName} />
+                  <IconButton color={'primary'} onClick={clickFileName}>
+                    <VisibilityTwoToneIcon />
+                  </IconButton>
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    width: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    border: (theme) => `2px dashed ${theme.colors.primary.main}`,
+                    fontSize: '18px',
+                    gap: 2,
+                    p: 1
+                  }}
+                >
+                 
+                  <IconButton color={'default'}>
+                    {/* Your default icon or leave it empty */}
                   </IconButton>
                 </Box>
               )}
+
               <FormLabel>
-                Supports only .PDF, .PNG and .JPG file type. File size should
-                not exceed 2 MB.
+                Supports only .PDF, .PNG, and .JPG file types. File size should not exceed 2 MB.
               </FormLabel>
+
             </Box>
           </Box>
         </DialogContent>
