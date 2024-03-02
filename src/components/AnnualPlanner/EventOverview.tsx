@@ -44,14 +44,9 @@ const EventOverview = (props: Props) => {
   const UserId = sessionStorage.getItem('Id');
   const TeacherId = sessionStorage.getItem('TeacherId');
   const asStandardId = sessionStorage.getItem('StandardId');
-
-  const currentYear = new Date().getFullYear().toString();
+  const [selectYear, setSelectYear] = useState();
   const [selectStandard, setSelectStandard] = useState('');
   const [selectMonth, setSelectMonth] = useState();
-  const [selectYear, setSelectYear] = useState(new Date().getFullYear().toString());
-  const AssociatedStandardsEV: any = useSelector(
-    (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
-  );
 
   const AllAcademicYearsForSchool: any = useSelector(
     (state: RootState) =>
@@ -60,6 +55,9 @@ const EventOverview = (props: Props) => {
 
   const UsGetAllMonthsDropDown: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISMonthList
+  );
+  const AssociatedStandardsEV: any = useSelector(
+    (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
   );
 
   const USGetAllEvents: any = useSelector(
@@ -70,28 +68,25 @@ const EventOverview = (props: Props) => {
     (state: RootState) => state.AnnualPlanerBaseScreen.ParentList
   );
 
+
   console.log(AssociatedStandardsEV);
-  console.log(UsGetAllMonthsDropDown);
-
-
-
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? panel : false);
     };
 
-  const GetAssociatedStandardsEVBody: INewGetAssociatedStdLstForTeacherDropDownBody = {
-    asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId),
-    asUserId: 0
-  };
 
   const GetAllAcademicYearsForSchoolBody: IGetAllAcademicYearsForSchoolEVBody =
   {
     asSchoolId: Number(asSchoolId),
     asUserId: Number(UserId),
     asUserRoleId: 2
+  };
+  const GetAssociatedStandardsEVBody: INewGetAssociatedStdLstForTeacherDropDownBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(selectYear),
+    asUserId: 0
   };
 
   const GetAllMonthsDropDownBody: INewGetAllMonthsDropDownotBody = {
@@ -129,7 +124,7 @@ const EventOverview = (props: Props) => {
     dispatch(
       CDAStdList(GetAssociatedStandardsEVBody)
     );
-  }, []);
+  }, [selectYear]);
 
   useEffect(() => {
     dispatch(CDAAllAcademicYearsForSchool(GetAllAcademicYearsForSchoolBody));
@@ -290,7 +285,7 @@ const EventOverview = (props: Props) => {
             ))
           ) : (
 
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#5856d6', padding: 2, borderRadius: 4  ,color: 'white'}}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#5856d6', padding: 2, borderRadius: 4, color: 'white' }}>
               <b>No Event Found.</b>
             </Typography>
 
