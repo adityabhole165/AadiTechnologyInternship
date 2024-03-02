@@ -41,22 +41,31 @@ const UploadAnnualPlanner = ({
 
   const DeleteFileDetails = useSelector((state: RootState) => state.AddPlanner.deletefile);
 
-  const clickSubmit = () => {
+  const clickSubmit = async () => {
     if (fileName.length !== 0 && base64URL.length !== 0) {
-      const AnnualplannerBody: IAddAnnualPlannerBody = {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asSaveFeature: 'Event Planner',
-        asFileName: fileName,
-        asFolderName: 'PPSN Website',
-        asBase64String: base64URL,
-        asUpdatedById: Number(UserId)
-      };
-      dispatch(addanual(AnnualplannerBody));
-      toast.success('File Uploaded Successfully', { toastId: 'success1' });
+      try {
+        const AnnualplannerBody: IAddAnnualPlannerBody = {
+          asSchoolId: Number(asSchoolId),
+          asAcademicYearId: Number(asAcademicYearId),
+          asSaveFeature: 'Event Planner',
+          asFileName: fileName,
+          asFolderName: 'PPSN Website',
+          asBase64String: base64URL,
+          asUpdatedById: Number(UserId)
+        };
+  
+        await dispatch(addanual(AnnualplannerBody));
+        toast.success('File Uploaded Successfully', { toastId: 'success1' });
+  
+        // Assuming GetFileDetailsBody is defined elsewhere
+        dispatch(GetFile(GetFileDetailsBody));
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        toast.error('Error uploading file', { toastId: 'error1' });
+      }
     }
   };
-
+  
   useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
@@ -77,6 +86,7 @@ const UploadAnnualPlanner = ({
     if (window.confirm('Are You Sure you want to delete The File')) {
       try {
         await dispatch(DeleteFile(DeleteFileDetailsBody));
+              dispatch(GetFile(GetFileDetailsBody));
         toast.success('File Deleted Successfully', { toastId: 'success1' });
       } catch (error) {
         console.error('Error deleting file:', error);
