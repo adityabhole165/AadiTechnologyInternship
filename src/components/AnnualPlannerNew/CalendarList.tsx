@@ -5,9 +5,9 @@ import CalendarWeekHeader from "./CalendarWeekHeader";
 
 const CalendarList = ({ ItemList, ClickItem, DefaultValue }) => {
     const legendColors = {
-        holiday: '#b73839',
+        holiday: '#751b1b',
         exam: '#008000',
-        events: '#303f9f'
+        events: '#FCCF31'
     };
     return (
         <Grid container spacing={0} sx={{ mt: 2 }}>

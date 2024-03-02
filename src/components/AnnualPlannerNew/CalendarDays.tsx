@@ -1,4 +1,4 @@
-import { Box, Grid, alpha } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
@@ -15,7 +15,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
 
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-  const legendColors = {
+  const legendColors1 = {
     p: '#008000',
     a: '#9e9e9e',
     h: '#751b1b',
@@ -24,15 +24,26 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
     l: '#303f9f',
     n: '#FCCF31'
   };
-  const bg = {
-    p: hexToRGBA(legendColors.p, 0.2),
-    a: hexToRGBA(legendColors.a, 0.2),
-    h: hexToRGBA(legendColors.h, 0.2),
-    w: hexToRGBA(legendColors.w, 0.2),
-    o: hexToRGBA(legendColors.o, 0.1),
-    l: hexToRGBA(legendColors.l, 0.2),
-    n: hexToRGBA(legendColors.n, 0.2)
-  };
+  const legendColors = [
+    '#008000',
+    '#9e9e9e',
+    '#751b1b',
+    '#ff0000',
+    '#f06292',
+    '#303f9f',
+    '#FCCF31',
+    '#000000'
+  ];
+  const bg = [
+    hexToRGBA(legendColors[0], 0.2),
+    hexToRGBA(legendColors[1], 0.2),
+    hexToRGBA(legendColors[2], 0.2),
+    hexToRGBA(legendColors[3], 0.2),
+    hexToRGBA(legendColors[4], 0.1),
+    hexToRGBA(legendColors[5], 0.2),
+    hexToRGBA(legendColors[6], 0.2),
+    hexToRGBA(legendColors[7], 0.2)
+  ];
   const data = {
     p: 'Present',
     a: 'Absent',
@@ -42,6 +53,12 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
     l: 'Late',
     n: 'Not Available'
   };
+  const cardStyle = {
+    heihgt: '15vh',
+
+    fontSize: '15px'
+  };
+
   return (
     <Grid container>
       <Grid
@@ -69,35 +86,26 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
                 justifyContent: 'center',
                 flexDirection: 'column',
                 cursor: 'pointer',
-                backgroundColor:
-                  Item.Value === DefaultValue
-                    ? (theme) => alpha(theme.palette.primary.main, 0.2)
-                    : 'white',
+                backgroundColor: (theme) => bg[Item.Legend],
+                // Item.Value === DefaultValue
+                //   ? (theme) => alpha(theme.palette.primary.main, 0.2)
+                //   // : 'white',
+                //   : bg[Item.Legend],
+                color: legendColors[Item.Legend],
+                ...cardStyle,
+                fontWeight: '500',
+                // height: '10vh',
                 border: (theme) => `1px solid ${grey[300]}`
               }}
               onClick={() => ClickItem(Item.Value)}
             >
-              {/* <Box
-                            py={0}
-                            my={0}
-                            sx={{
-                                backgroundColor: bg[1],
-                                color: legendColors[1],
-                                // ...cardStyle,
-                                fontWeight: '700',
-                                height: '10vh'
-                            }}
-                            textAlign="center"
-                            display="flex"
-                            alignItems="center"
-                            justifyContent="center"
-                            onClick={() => {
-                                ClickItem(Item.Value);
-                            }}
-                        > */}
-              {Item.Name}
+              <Typography>{Item.Name}</Typography>
+
+              {Item.Text1.map((obj, i) => {
+                return (<b key={i}>{obj}</b>)
+              })}
+
             </Box>
-            <Box>{Item.Text1}</Box>
           </Grid>
         );
       })}

@@ -165,6 +165,17 @@ export const CDAGetEventsDataList =
       let arrDays = [];
       const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
       let a = [];
+      const getMultipleEvents = (value) => {
+        let arr = []
+        response.data
+          .filter((Item) => getDateMonthYearFormattedDash(Item.Event_Date) == value)
+          .map((Item) => {
+            arr.push(stripHtml(Item.Event_Desc))
+          })
+        if (arr.length > 1)
+          console.log(value, "-- value -- ")
+        return arr
+      }
       response.data.map((item, i) => {
         if (!arrDays.includes(item.Day)) {
           a.push({
@@ -172,14 +183,19 @@ export const CDAGetEventsDataList =
             Name: item.Day,
             Value: getDateMonthYearFormattedDash(item.Event_Date),
             IsActive: false,
-            Text1: stripHtml(item.Event_Desc),
+            Text1: getMultipleEvents(getDateMonthYearFormattedDash(item.Event_Date)),
             Text3: item.Event_Desc,
-            BackgroundColor: item.Event_BackColor,
-            ForeColur: item.Event_ForeColor
-          });
+            Legend: item.Event_Desc.includes('#D8EB88') ? 0 :
+              item.Event_Desc.includes('papayawhip') ? 2 :
+                item.Event_Desc.includes('#AFEEEE') ? 6 :
+                  item.Event_Desc.includes('Weekend') ? 1 : 8
+
+          })
+
           arrDays.push(item.Day);
         }
       });
+      console.log(a, "--a--");
 
       dispatch(
         AnnualPlanerBaseScreenSlice.actions.REventsDataList(
@@ -257,7 +273,7 @@ export const CDAStdList =
   (data: INewGetAssociatedStdLstForTeacherDropDownBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAnnualPlanerBaseScreen.Stdlist(data);
-      let abc = [{ Id:"0", Name:'All', Value:"0" }];
+      let abc = [{ Id: "0", Name: 'All', Value: "0" }];
 
       response.data.map((item, i) => {
         abc.push({
@@ -273,7 +289,7 @@ export const CDAMonthList =
   (data: INewGetAllMonthsDropDownotBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiAnnualPlanerBaseScreen.MonthList(data);
-      let abc = [{ Id: "0", Name:'All', Value: "0" }];
+      let abc = [{ Id: "0", Name: 'All', Value: "0" }];
 
       response.data.map((item, i) => {
         abc.push({
