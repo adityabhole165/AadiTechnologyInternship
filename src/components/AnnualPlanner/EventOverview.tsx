@@ -48,8 +48,7 @@ const EventOverview = (props: Props) => {
   const currentYear = new Date().getFullYear().toString();
   const [selectStandard, setSelectStandard] = useState('');
   const [selectMonth, setSelectMonth] = useState();
-  const [selectYear, setSelectYear] = useState();
-
+  const [selectYear, setSelectYear] = useState(new Date().getFullYear().toString());
   const AssociatedStandardsEV: any = useSelector(
     (state: RootState) => state.AnnualPlanerBaseScreen.ISStdList
   );
@@ -119,8 +118,9 @@ const EventOverview = (props: Props) => {
 
 
   useEffect(() => {
-    if (AllAcademicYearsForSchool.length > 8) {
-      setSelectYear(AllAcademicYearsForSchool[8].Value);
+    const lastIndex = AllAcademicYearsForSchool.length - 1;
+    if (lastIndex >= 0) {
+      setSelectYear(AllAcademicYearsForSchool[lastIndex].Value);
     }
   }, [AllAcademicYearsForSchool]);
 
@@ -247,7 +247,7 @@ const EventOverview = (props: Props) => {
       </Stack>
       <Box sx={{ mt: 2 }}>
         <Box sx={{ mt: 2 }}>
-          {ParentList ? (
+          {(ParentList && ParentList.length > 0) && USGetAllEvents ? (
             ParentList.map((event, index) => (
               <Accordion
                 key={index}
@@ -264,9 +264,6 @@ const EventOverview = (props: Props) => {
                     <Typography sx={{ width: '33%', flexShrink: 0 }}>
                       {event}
                     </Typography>
-                    {/* <Typography sx={{ color: 'text.secondary' }} variant={'h5'}>
-                      {event.StartDate}
-                    </Typography> */}
                   </Box>
                 </AccordionSummary>
                 <AccordionDetails>
@@ -274,28 +271,33 @@ const EventOverview = (props: Props) => {
                     .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
                     .map((obj, index) => (
                       <>
-                        <Typography variant={'h4'}>	{obj.DisplayDate} </Typography>
-                        <React.Fragment >
+                        <Typography variant={'h4'}>{obj.DisplayDate}</Typography>
+                        <React.Fragment>
                           <Box my={1}>
                             <Divider />
                           </Box>
-                          <Typography variant={'h4'}>	Event Title: </Typography>
+                          <Typography variant={'h4'}>Event Title: </Typography>
                           <Typography variant={'h5'}>
                             {obj.EventDescription}
                           </Typography>
                           <Typography>Standards: </Typography>
-                          <span>{obj.Standards}
-                          </span>
+                          <span>{obj.Standards}</span>
                         </React.Fragment>
-                      </>))}
+                      </>
+                    ))}
                 </AccordionDetails>
               </Accordion>
             ))
           ) : (
-            <Typography variant="body1">Loading events...</Typography>
+
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#5856d6', padding: 2, borderRadius: 4  ,color: 'white'}}>
+              <b>No Event Found.</b>
+            </Typography>
+
           )}
         </Box>
       </Box>
+
     </Container>
   );
 };
