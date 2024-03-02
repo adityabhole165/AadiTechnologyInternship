@@ -133,9 +133,9 @@ function AnnualPlanner() {
   };
 
   const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
-    {
-      asSchoolId: Number(asSchoolId)
-    };
+  {
+    asSchoolId: Number(asSchoolId)
+  };
 
   const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
     asSchoolId: Number(asSchoolId),
@@ -188,10 +188,11 @@ function AnnualPlanner() {
   useEffect(() => {
     dispatch(GetFile(GetFileDetailsBody));
   }, []);
-  useEffect(() => {}, [FileDetails]);
+  useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
-    asAcademicYearId: Number(asAcademicYearId)
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(TeacherId)
   };
 
   // useEffect(() => {
@@ -235,8 +236,8 @@ function AnnualPlanner() {
     if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-          FileDetails[0].LinkUrl
+        '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+        FileDetails[0].LinkUrl
       );
       // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
@@ -512,9 +513,9 @@ function AnnualPlanner() {
             <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
               <AnnualPlannerCalendar
                 ItemList={''}
-                ClickItem={() => {}}
-                handlePrevMonth={() => {}}
-                handleNextMonth={() => {}}
+                ClickItem={() => { }}
+                handlePrevMonth={() => { }}
+                handleNextMonth={() => { }}
                 formattedDate={formattedDate}
                 DefaultValue={''}
                 ArrayList={HeaderPublish}
