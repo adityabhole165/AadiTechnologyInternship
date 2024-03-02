@@ -53,11 +53,9 @@ const UploadAnnualPlanner = ({
           asBase64String: base64URL,
           asUpdatedById: Number(UserId)
         };
-  
+
         await dispatch(addanual(AnnualplannerBody));
-        toast.success('File Uploaded Successfully', { toastId: 'success1' });
-  
-        // Assuming GetFileDetailsBody is defined elsewhere
+        toast.success('File Uploaded Successfully', { toastId: 'success1' })
         dispatch(GetFile(GetFileDetailsBody));
       } catch (error) {
         console.error('Error uploading file:', error);
@@ -65,7 +63,7 @@ const UploadAnnualPlanner = ({
       }
     }
   };
-  
+
   useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
@@ -73,10 +71,10 @@ const UploadAnnualPlanner = ({
     asUserId: Number(UserId)
   };
 
- const  GetFileDetailsBody :IGetFileDetailsBody={
-  asSchoolId: Number(asSchoolId),
-  asAcademicYearId: Number(asAcademicYearId),
- }
+  const GetFileDetailsBody: IGetFileDetailsBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+  }
 
   useEffect(() => {
     dispatch(GetFile(GetFileDetailsBody));
@@ -86,7 +84,7 @@ const UploadAnnualPlanner = ({
     if (window.confirm('Are You Sure you want to delete The File')) {
       try {
         await dispatch(DeleteFile(DeleteFileDetailsBody));
-              dispatch(GetFile(GetFileDetailsBody));
+        dispatch(GetFile(GetFileDetailsBody));
         toast.success('File Deleted Successfully', { toastId: 'success1' });
       } catch (error) {
         console.error('Error deleting file:', error);
@@ -94,13 +92,10 @@ const UploadAnnualPlanner = ({
       }
     }
   };
-
   const ChangeFile = (value) => {
     setFileName(value.Name);
     setbase64URL(value.Value);
   };
-
-
   const clickFileName = () => {
     if (FileDetails !== '') {
       window.open(
@@ -174,17 +169,13 @@ const UploadAnnualPlanner = ({
                     p: 1
                   }}
                 >
-                 
                   <IconButton color={'default'}>
-                    {/* Your default icon or leave it empty */}
                   </IconButton>
                 </Box>
               )}
-
               <FormLabel>
                 Supports only .PDF, .PNG, and .JPG file types. File size should not exceed 2 MB.
               </FormLabel>
-
             </Box>
           </Box>
         </DialogContent>
