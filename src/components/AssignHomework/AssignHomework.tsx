@@ -7,7 +7,6 @@ import {
   Box,
   Breadcrumbs,
   Container,
-  Grid,
   IconButton,
   Stack,
   Tooltip,
@@ -269,7 +268,7 @@ const AssignHomework = () => {
           />
           <Tooltip title={'List the class subjects for homework assignment.'}>
             <IconButton
-             
+
               sx={{
                 color: 'white',
                 backgroundColor: 'grey',
@@ -300,34 +299,29 @@ const AssignHomework = () => {
           </Tooltip>
         </Stack>
       </Stack>
-      <Box sx={{ mt: 1, p: 2, background: 'white' }}>
-        <Grid container spacing={2}>
-          <Grid item xs={6}>
-            <Typography variant={'h4'} mb={1}>
-              My Subjects
-            </Typography>
-            <Box>
-              <Assignhomeworklist
-                ItemList={SubjectDetailLists}
-                clickAssign={clickItem1}
-                HeaderArray={HeaderOfTable}
-              />
-            </Box>
-          </Grid>
-          <Grid item xs={6}>
-            <Typography variant={'h4'} mb={1}>
-              My Class Subjects
-            </Typography>
-            <Box>
-              <Assignhomeworklist
-                ItemList={SubjectDetailLists1}
-                clickAssign={clickItem1}
-                HeaderArray={HeaderOfTable}
-              />
-            </Box>
-          </Grid>
-        </Grid>
+      <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
+        <Box>
+          <Typography variant={'h4'} mb={1}>
+            My Subjects
+          </Typography>
+          <Assignhomeworklist
+            ItemList={SubjectDetailLists}
+            clickAssign={clickItem1}
+            HeaderArray={HeaderOfTable}
+          />
+        </Box>
+        <Box mt={2}>
+          <Typography variant={'h4'} mb={1}>
+            My Class Subjects
+          </Typography>
+          <Assignhomeworklist
+            ItemList={SubjectDetailLists1}
+            clickAssign={clickItem1}
+            HeaderArray={HeaderOfTable}
+          />
+        </Box>
       </Box>
+
     </Container>
   );
 };
