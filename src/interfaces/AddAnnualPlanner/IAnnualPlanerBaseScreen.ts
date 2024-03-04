@@ -48,6 +48,7 @@ export interface IGetEventsDataListBody {
   asYear: number;
   asStandardId: number;
   asDivisionId: number;
+  asEventType: string
 }
 
 export interface IGetEventsDataListResult {

@@ -7,7 +7,6 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
     new Date(DefaultValue).getMonth(),
     1
   ).getDay();
-  console.log(DefaultValue, 'dayCount', ItemList);
   function hexToRGBA(hex: string, opacity: number) {
     let r = parseInt(hex.slice(1, 3), 16),
       g = parseInt(hex.slice(3, 5), 16),
@@ -25,14 +24,15 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
     n: '#FCCF31'
   };
   const legendColors = [
-    '#008000',
-    '#9e9e9e',
-    '#751b1b',
+    '#ffffff',
     '#ff0000',
-    '#f06292',
-    '#303f9f',
+    '#751b1b',
+    '#008000',
     '#FCCF31',
-    '#000000'
+    '#9e9e9e',
+    '#ffffff',
+    '#ffffff',
+    '#ffffff'
   ];
   const bg = [
     hexToRGBA(legendColors[0], 0.2),

@@ -165,16 +165,31 @@ export const CDAGetEventsDataList =
       let arrDays = [];
       const response = await ApiAnnualPlanerBaseScreen.EventsDataList(data);
       let a = [];
+
       const getMultipleEvents = (value) => {
         let arr = []
         response.data
-          .filter((Item) => getDateMonthYearFormattedDash(Item.Event_Date) == value)
+          .filter((Item) => (
+            getDateMonthYearFormattedDash(Item.Event_Date) == value
+            && data.asEventType.includes(Item.Sort_Order)
+          ))
           .map((Item) => {
             arr.push(stripHtml(Item.Event_Desc))
           })
-        if (arr.length > 1)
-          console.log(value, "-- value -- ")
         return arr
+      }
+      const getLegend = (value) => {
+        let legend = 7
+        response.data
+          .filter((Item) => (
+            getDateMonthYearFormattedDash(Item.Event_Date) == value
+            && data.asEventType.includes(Item.Sort_Order)
+          ))
+          .map((Item) => {
+            if (Number(Item.Sort_Order) < legend)
+              legend = Number(Item.Sort_Order)
+          })
+        return legend
       }
       response.data.map((item, i) => {
         if (!arrDays.includes(item.Day)) {
@@ -185,17 +200,14 @@ export const CDAGetEventsDataList =
             IsActive: false,
             Text1: getMultipleEvents(getDateMonthYearFormattedDash(item.Event_Date)),
             Text3: item.Event_Desc,
-            Legend: item.Event_Desc.includes('#D8EB88') ? 0 :
-              item.Event_Desc.includes('papayawhip') ? 2 :
-                item.Event_Desc.includes('#AFEEEE') ? 6 :
-                  item.Event_Desc.includes('Weekend') ? 3 : 8
+            Type: item.Sort_Order,
+            Legend: getLegend(getDateMonthYearFormattedDash(item.Event_Date))
 
           })
 
           arrDays.push(item.Day);
         }
       });
-      console.log(a, "--a--");
 
       dispatch(
         AnnualPlanerBaseScreenSlice.actions.REventsDataList(

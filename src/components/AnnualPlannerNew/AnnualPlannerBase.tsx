@@ -67,7 +67,13 @@ const AnnualPlannerBase = () => {
   const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
-
+  const [EventType, setEventType] = useState([
+    { Id: 1, Name: "Weekend", Value: "1", IsActive: true },
+    { Id: 2, Name: "Holiday", Value: "2", IsActive: true },
+    { Id: 3, Name: "Exam", Value: "3", IsActive: true },
+    { Id: 4, Name: "Event", Value: "4", IsActive: true },
+    { Id: 5, Name: "OutsideAcademicYear", Value: "5", IsActive: true }
+  ]);
   useEffect(() => {
     const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
     {
@@ -122,6 +128,14 @@ const AnnualPlannerBase = () => {
       setDaysList(USEventsDataList);
     }
   }, [USEventsDataList]);
+  const getEventType = () => {
+    let eventType = ""
+    EventType.map((Item) => {
+      if (Item.IsActive)
+        eventType = eventType + Item.Value + ","
+    })
+    return eventType;
+  }
   useEffect(() => {
     const GetEventsDataListBody: IGetEventsDataListBody = {
       asSchoolId: Number(asSchoolId),
@@ -129,7 +143,8 @@ const AnnualPlannerBase = () => {
       asStandardId: Number(DefaultValue.Standard),
       asDivisionId: Number(DefaultValue.StandardDivision),
       asMonthId: Number(DefaultValue.Month),
-      asYear: Number(DefaultValue.Year)
+      asYear: Number(DefaultValue.Year),
+      asEventType: getEventType()
     };
     if (
       DefaultValue.Standard != '0' &&
@@ -138,7 +153,7 @@ const AnnualPlannerBase = () => {
       DefaultValue.Year != '0'
     )
       dispatch(CDAGetEventsDataList(GetEventsDataListBody));
-  }, [DefaultValue]);
+  }, [DefaultValue, EventType]);
 
   const callGetDivisionList = (value) => {
     const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody =
@@ -172,6 +187,9 @@ const AnnualPlannerBase = () => {
       callGetDivisionList(value.Standard);
   };
 
+  const ClickEventType = (value) => {
+    setEventType(value)
+  }
   return (
     <Container sx={{ mt: 4 }} maxWidth={'xl'}>
       <AnnualPlannerHeader />
@@ -184,6 +202,8 @@ const AnnualPlannerBase = () => {
           FilterList={ItemList}
           ClickFilterItem={ClickFilterItem}
           SelectedFilter={DefaultValue}
+          EventType={EventType}
+          ClickEventType={ClickEventType}
         />
       </Box>
     </Container>
