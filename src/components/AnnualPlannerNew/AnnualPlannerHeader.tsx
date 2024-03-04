@@ -8,17 +8,19 @@ import { useNavigate } from "react-router-dom";
 import BreadCrumbs from './BreadCrumbs';
 import HeaderIcons from './HeaderIcons';
 import UploadAnnualPlanner from './UploadAnnualPlanner';
-
 const AnnualPlannerHeader = () => {
     const navigate = useNavigate();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
     const Note: string =
         'These events may change due to unavoidable reasons without prior notice.';
+    const Note1: string =
+        'Annual Planner With detailed event description of your school.';
     const IconList = [
         { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
-        { Id: 2, Icon: <QuestionMarkIcon />, Title: 'Help', Action: 'Help' },
+        { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
         { Id: 1, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
         { Id: 4, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner' },
+
     ]
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
@@ -27,6 +29,7 @@ const AnnualPlannerHeader = () => {
         if (value == 'AddAnnualPlanner') {
             setOpenAnnualPlannerDialog(true);
         }
+
     }
     const Breadcrumbs = [{
         Id: 1,
@@ -52,6 +55,8 @@ const AnnualPlannerHeader = () => {
                     setOpenAnnualPlannerDialog={setOpenAnnualPlannerDialog} />
 
             )}
+
+
         </>
     )
 }
