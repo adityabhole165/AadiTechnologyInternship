@@ -314,11 +314,17 @@ const AssignHomework = () => {
           <Typography variant={'h4'} mb={1}>
             My Class Subjects
           </Typography>
-          <Assignhomeworklist
-            ItemList={SubjectDetailLists1}
-            clickAssign={clickItem1}
-            HeaderArray={HeaderOfTable}
-          />
+          {SubjectDetailLists1.length > 0 ? (
+            <Assignhomeworklist
+              ItemList={SubjectDetailLists1}
+              clickAssign={clickItem1}
+              HeaderArray={HeaderOfTable}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
+          )}
         </Box>
       </Box>
 

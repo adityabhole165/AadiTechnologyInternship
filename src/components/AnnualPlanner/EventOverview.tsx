@@ -285,7 +285,7 @@ const EventOverview = (props: Props) => {
             ))
           ) : (
 
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#8c9eff', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Event Found.</b>
             </Typography>
 
