@@ -134,12 +134,12 @@ const AddHomework = () => {
     setSubjectList(Subjectlistsforteacher);
   }, [Subjectlistsforteacher]);
   const GetTeacherSubjectAndClassSubjectBody: IGetTeacherSubjectAndClassSubjectBody =
-    {
-      asSchoolId: asSchoolId,
-      aTeacherId: Number(asTeacherId),
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: StandardDivisionId
-    };
+  {
+    asSchoolId: asSchoolId,
+    aTeacherId: Number(asTeacherId),
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivisionId: StandardDivisionId
+  };
 
   useEffect(() => {
     if (AllPublishUnPublishHomework != '') {
@@ -250,15 +250,15 @@ const AddHomework = () => {
 
   const clickPublishUnpublish = (IsPublish) => {
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-      {
-        asSchoolId: asSchoolId.toString(),
-        asAcademicYearId: asAcademicYearId.toString(),
-        asHomeWorkLogId: getSelectedSubject(),
-        asUnpublishReason: 'Yesss',
-        asUpdatedById: TeacherId,
-        IsPublished: IsPublish,
-        IsSMSSent: 1
-      };
+    {
+      asSchoolId: asSchoolId.toString(),
+      asAcademicYearId: asAcademicYearId.toString(),
+      asHomeWorkLogId: getSelectedSubject(),
+      asUnpublishReason: 'Yesss',
+      asUpdatedById: TeacherId,
+      IsPublished: IsPublish,
+      IsSMSSent: 1
+    };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
 
@@ -488,8 +488,8 @@ const AddHomework = () => {
                 onChange={(e) => {
                   setCompleteDate(e.target.value);
                 }}
-                // error={ErrorCompleteDate !== ''}
-                // helperText={ErrorCompleteDate}
+              // error={ErrorCompleteDate !== ''}
+              // helperText={ErrorCompleteDate}
               />
             </Grid>
             <Grid item xs={3}>

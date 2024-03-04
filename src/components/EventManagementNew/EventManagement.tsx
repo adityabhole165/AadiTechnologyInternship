@@ -20,16 +20,19 @@ const EventManagement = () => {
         setAddNewEventClicked(!AddNewEventClicked)
     }
     return (
-        <Container sx={{ mt: 4 }} maxWidth={'xl'}>
-            <EventManagementHeader ClickAddNewEvent={ClickAddNewEvent} />
-            <Box sx={{ backgroundColor: 'white' }} p={2}>
-                <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
-                    <EventManagementList clickEventEdit={clickEventEdit}
-                        SelectedDate={SelectedDate} StandardId={StandardId} DivisionId={DivisionId} />
-                    <EventManagementForm EventId={EventId} AddNewEventClicked={AddNewEventClicked} />
+        <>
+            <Container sx={{ mt: 4.5 }} maxWidth={'xl'}>
+                <EventManagementHeader ClickAddNewEvent={ClickAddNewEvent} />
+                <Box sx={{ backgroundColor: 'white', mt: 2 }} p={2}>
+                    <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
+                        <EventManagementList clickEventEdit={clickEventEdit}
+                            SelectedDate={SelectedDate} StandardId={StandardId}
+                            DivisionId={DivisionId} />
+                        <EventManagementForm EventId={EventId} AddNewEventClicked={AddNewEventClicked} />
+                    </Box>
                 </Box>
-            </Box>
-        </Container >)
-}
+            </Container >
+        </>)
+};
 
 export default EventManagement

@@ -35,7 +35,7 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
         IsActive: false
     }, {
         Id: 2,
-        Name: 'Event Management',
+        Name: 'Event(s) Management',
         IsActive: true
     }]
     return (

@@ -46,7 +46,8 @@ const CalendarAnnualPlanner = ({ DaysList, ClickDate, ClickCalendarItem, FilterL
 
             </Box>
             <CalendarList ItemList={DaysList} ClickItem={ClickDate}
-                DefaultValue={SelectedDate} EventType={EventType} ClickEventType={ClickEventType} />
+                DefaultValue={SelectedDate} EventType={EventType}
+                ClickEventType={ClickEventType} />
         </Box>
     )
 }

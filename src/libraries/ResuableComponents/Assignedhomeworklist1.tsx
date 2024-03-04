@@ -1,7 +1,7 @@
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,7 +21,12 @@ const Assignedhomeworklist1 = ({
 }) => {
   return (
     <div>
-      <TableContainer component={Box}>
+      <Typography variant={"h4"} my={1}>
+        Assigned homework for selected subject :
+      </Typography>
+      <TableContainer component={Box} sx={{
+        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+      }}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow

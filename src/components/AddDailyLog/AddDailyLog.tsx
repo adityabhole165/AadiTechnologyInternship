@@ -146,13 +146,13 @@ const AddDailyLog = () => {
     const updatedIsPublish = !isPublish;
 
     const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
-      {
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId),
-        asLogId: value,
-        asUpdatedById: TeacherId,
-        asIsPublished: Number(updatedIsPublish)
-      };
+    {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asLogId: value,
+      asUpdatedById: TeacherId,
+      asIsPublished: Number(updatedIsPublish)
+    };
 
     dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
     setIsPublish(updatedIsPublish);
@@ -214,8 +214,8 @@ const AddDailyLog = () => {
     if (GetFileUS !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Homework/DailyLog/' +
-          value
+        '/RITeSchool/DOWNLOADS/Homework/DailyLog/' +
+        value
       );
     }
   };
@@ -421,10 +421,10 @@ const AddDailyLog = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: 'green',
+                    backgroundColor: 'success.main',
                     height: '36px !important',
                     ':hover': {
-                      backgroundColor: 'green'
+                      backgroundColor: 'success.main'
                     }
                   }}
                   onClick={onClickSave}
@@ -473,6 +473,13 @@ const AddDailyLog = () => {
                   color={'error'}
                 >
                   Cancel
+                </Button>
+                <Button
+                  // onClick={onClickCancel}
+                  variant="contained"
+                  color={'success'}
+                >
+                  Save
                 </Button>
               </Stack>
             </Grid>

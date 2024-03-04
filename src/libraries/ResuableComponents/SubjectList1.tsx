@@ -1,6 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import ClearIcon from '@mui/icons-material/Clear';
-import { Box, Link } from '@mui/material';
+import { Box, Link, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -40,7 +40,12 @@ function SubjectList1({
 
   return (
     <>
-      <TableContainer component={Box}>
+      <Typography variant={"h4"} my={1}>
+        Homework assigned for other subjects :
+      </Typography>
+      <TableContainer component={Box} sx={{
+        border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+      }}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow

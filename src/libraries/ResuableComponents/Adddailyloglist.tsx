@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 
 import DeleteTwoTone from '@mui/icons-material/DeleteTwoTone';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Card, Link } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 
@@ -21,7 +21,7 @@ function Adddailyloglist({
 }) {
   return (
     <div>
-      <TableContainer component={Card}>
+      <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
         <Table aria-label="simple table">
           <TableHead>
             <TableRow

@@ -1,4 +1,4 @@
-import { Button, Checkbox, FormControlLabel, Grid, TextField, Typography } from '@mui/material';
+import { Button, Checkbox, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -321,12 +321,19 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
                         errorMessage={FileError}
                         filePath={filePath}
                         FileName={FileName}
+                        viewIcon={true}
+                        deleteIcon={true}
                     ></SingleFile>
                 </Grid>
                 <Grid item xs={12} md={12}>
-                    <Button variant={'contained'} color="success" onClick={ClickSave}>
-                        Save
-                    </Button>
+                    <Stack direction={"row"} gap={2} alignItems={"center"}>
+                        <Button variant={'contained'} color="error">
+                            Cancel
+                        </Button>
+                        <Button variant={'contained'} color="success" onClick={ClickSave}>
+                            Save
+                        </Button>
+                    </Stack>
                 </Grid>
             </Grid>
 

@@ -1,4 +1,4 @@
-import { Container, Grid } from "@mui/material";
+import { Grid } from "@mui/material";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
@@ -55,17 +55,15 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
     console.log(EventLisst, "EventLisst");
 
     return (
-        <Container maxWidth={'xl'}>
-            <Grid container spacing={2}>
-                <Grid item xs={12}>
-                    <TabulerList
-                        ItemList={EventLisst}
-                        clickEdit={clickEventEdit}
-                        clickDelete={clickeventDelete}
-                    />
-                </Grid>
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+                <TabulerList
+                    ItemList={EventLisst}
+                    clickEdit={clickEventEdit}
+                    clickDelete={clickeventDelete}
+                />
             </Grid>
-        </Container>
+        </Grid>
     )
 }
 
