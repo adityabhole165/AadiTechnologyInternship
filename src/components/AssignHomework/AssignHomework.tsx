@@ -75,8 +75,12 @@ const AssignHomework = () => {
     (State: RootState) => State.TeacherNameList.ClassList
   );
   console.log('ClassList', ClassList);
+
   const SubjectDetailLists: any = useSelector(
     (State: RootState) => State.TeacherNameList.SubjectList
+  );
+  const SubjectDetailLists1: any = useSelector(
+    (State: RootState) => State.TeacherNameList.SubjectList1
   );
   console.log('SubjectDetailList', subjectDetailList);
 
@@ -304,7 +308,7 @@ const AssignHomework = () => {
             </Typography>
             <Box>
               <Assignhomeworklist
-                ItemList={subjectDetailList}
+                ItemList={SubjectDetailLists}
                 clickAssign={clickItem1}
                 HeaderArray={HeaderOfTable}
               />
@@ -316,7 +320,7 @@ const AssignHomework = () => {
             </Typography>
             <Box>
               <Assignhomeworklist
-                ItemList={subjectDetailList}
+                ItemList={SubjectDetailLists1}
                 clickAssign={clickItem1}
                 HeaderArray={HeaderOfTable}
               />

@@ -14,6 +14,7 @@ const AssignHomeworkSlice = createSlice({
     TeacherList: [],
     ClassList: [],
     SubjectList: [],
+    SubjectList1: [],
     ClassTeacherList: []
   },
   reducers: {
@@ -25,6 +26,11 @@ const AssignHomeworkSlice = createSlice({
     },
     SubjectDetails(state, action) {
       state.SubjectList = action.payload;
+      //state.MyClassSubjectList = action.payload
+    },
+
+    SubjectDetails1(state, action) {
+      state.SubjectList1 = action.payload;
       //state.MyClassSubjectList = action.payload
     },
     FullTeacherName(state, action) {
@@ -58,20 +64,27 @@ export const ClassName =
     });
     dispatch(AssignHomeworkSlice.actions.ClassName(abc));
   };
-export const SubjectDetails =
-  (data: IGetTeacherSubjectDetailsBody): AppThunk =>
-  async (dispatch) => {
+  export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk => async (dispatch) => {
     const response = await TeacherDropdownApi.GetTeacherSubjectDetails(data);
-    let responseData = response.data.map((item) => {
-      return {
-        Id: item.Subject_Id,
-        Text1: item.StandardDivision,
-        Text2: item.Subject_Name,
-        Text3: item.MySubject
-      };
-    });
-    dispatch(AssignHomeworkSlice.actions.SubjectDetails(responseData));
+
+    const trueValues = response.data.filter((item) => item.MySubject === "True").map((item) => ({
+      Id: item.Subject_Id,
+      Text1: item.StandardDivision,
+      Text2: item.Subject_Name,
+      Text3: item.MySubject
+    }));
+    const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
+      Id: item.Subject_Id,
+      Text1: item.StandardDivision,
+      Text2: item.Subject_Name,
+      Text3: item.MySubject
+    }));
+  
+
+    dispatch(AssignHomeworkSlice.actions.SubjectDetails(trueValues));
+    dispatch(AssignHomeworkSlice.actions.SubjectDetails1(falseValues));
   };
+  
 
 export const FullTeacherName =
   (data: IClassTeacherDropdownBody): AppThunk =>
