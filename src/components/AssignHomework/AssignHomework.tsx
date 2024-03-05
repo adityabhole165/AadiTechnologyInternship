@@ -37,9 +37,8 @@ const AssignHomework = () => {
   const navigate = useNavigate();
   const { Id } = useParams();
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const [SelectTeacher, setSelectTeacher] = useState(
-    Number(TeacherId)
-  );
+
+
   const [SelectClass, setSelectClass] = useState();
   const [subjectDetailList, setSubjectDetailList] = useState([]);
   const [MySubject, setMySubject] = useState();
@@ -88,7 +87,8 @@ const AssignHomework = () => {
   console.log('FullAccessTeacher', FullAccessTeacher);
 
 
-
+  const [SelectTeacher, setSelectTeacher] = useState(
+    GetScreenPermission() !== 'Y' ? TeacherId : null);
 
   useEffect(() => {
     setSubjectDetailList(
