@@ -32,16 +32,28 @@ const AnnualPlannerHeader = () => {
         'These events may change due to unavoidable reasons without prior notice.';
     const Note1: string =
         'Annual Planner With detailed event description of your school.';
+    // const IconList = [
+    //     { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
+    //     { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
+    //     { Id: 1, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
+    //     {
+    //         Id: 4, Icon: AnnualPlannerViewAccess == "Y" ? <AddIcon /> : <Visibility />,
+    //         Title: (AnnualPlannerViewAccess == "Y" ? 'Add' : '') + ' Annual Planner', Action: 'AddAnnualPlanner'
+    //     },
+
+    // ]
     const IconList = [
         { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
         { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
-        { Id: 1, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
-        {
-            Id: 4, Icon: AnnualPlannerViewAccess == "Y" ? <AddIcon /> : <Visibility />,
-            Title: (AnnualPlannerViewAccess == "Y" ? 'Add' : '') + ' Annual Planner', Action: 'AddAnnualPlanner'
-        },
-
-    ]
+        { Id: 3, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
+        ...(AnnualPlannerViewAccess === 'Y'
+          ? [{ Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner' }]
+          : []),
+        ...(FileName !== '' && AnnualPlannerViewAccess === 'N'
+          ? [{ Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner' }]
+          : [])
+      ];
+      
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
             navigate('/extended-sidebar/Common/EventOverview');
