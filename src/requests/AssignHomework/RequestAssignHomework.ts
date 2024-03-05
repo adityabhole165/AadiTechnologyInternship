@@ -24,14 +24,20 @@ const AssignHomeworkSlice = createSlice({
     ClassName(state, action) {
       state.ClassList = action.payload;
     },
+    resetClassName(state) {
+      state.ClassList = [];
+    },
     SubjectDetails(state, action) {
       state.SubjectList = action.payload;
-      //state.MyClassSubjectList = action.payload
     },
-
     SubjectDetails1(state, action) {
       state.SubjectList1 = action.payload;
-      //state.MyClassSubjectList = action.payload
+    },
+    resetSubjectDetails(state) {
+      state.SubjectList = [];
+    },
+    resetSubjectDetails1(state) {
+      state.SubjectList1 = [];
     },
     FullTeacherName(state, action) {
       state.ClassTeacherList = action.payload;
@@ -40,68 +46,81 @@ const AssignHomeworkSlice = createSlice({
 });
 export const TeacherNameList =
   (data: ITeacherDropdownBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.TeacherDropdown(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Teacher_Id,
-        Name: item.TeacherName,
-        Value: item.Teacher_Id
-      };
-    });
-    dispatch(AssignHomeworkSlice.actions.TeacherNameList(abc));
-  };
-  export const ClassName =
+    async (dispatch) => {
+      const response = await TeacherDropdownApi.TeacherDropdown(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Id,
+          Name: item.TeacherName,
+          Value: item.Teacher_Id
+        };
+      });
+      dispatch(AssignHomeworkSlice.actions.TeacherNameList(abc));
+    };
+export const ClassName =
   (data: IClassDropDownBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.ClassDropdown(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Standard_Division_Id,
-        Name: item.StandardDivision,
-        Value: item.Standard_Division_Id
-      };
-    });
-  
-    abc = abc.slice(1);
+    async (dispatch) => {
+      const response = await TeacherDropdownApi.ClassDropdown(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Standard_Division_Id,
+          Name: item.StandardDivision,
+          Value: item.Standard_Division_Id
+        };
+      });
 
-    dispatch(AssignHomeworkSlice.actions.ClassName(abc));
-  };
+      abc = abc.slice(1);
 
-  export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk => async (dispatch) => {
-    const response = await TeacherDropdownApi.GetTeacherSubjectDetails(data);
+      dispatch(AssignHomeworkSlice.actions.ClassName(abc));
+    };
+export const resetClassName =
+  (): AppThunk =>
+    async (dispatch) => {
 
-    const trueValues = response.data.filter((item) => item.MySubject === "True").map((item) => ({
-      Id: item.Subject_Id,
-      Text1: item.StandardDivision,
-      Text2: item.Subject_Name,
-      Text3: item.MySubject
-    }));
-    const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
-      Id: item.Subject_Id,
-      Text1: item.StandardDivision,
-      Text2: item.Subject_Name,
-      Text3: item.MySubject
-    }));
-  
 
-    dispatch(AssignHomeworkSlice.actions.SubjectDetails(trueValues));
-    dispatch(AssignHomeworkSlice.actions.SubjectDetails1(falseValues));
-  };
-  
+      dispatch(AssignHomeworkSlice.actions.resetClassName());
+    };
+
+export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk => async (dispatch) => {
+  const response = await TeacherDropdownApi.GetTeacherSubjectDetails(data);
+
+  const trueValues = response.data.filter((item) => item.MySubject === "True").map((item) => ({
+    Id: item.Subject_Id,
+    Text1: item.StandardDivision,
+    Text2: item.Subject_Name,
+    Text3: item.MySubject
+  }));
+  const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
+    Id: item.Subject_Id,
+    Text1: item.StandardDivision,
+    Text2: item.Subject_Name,
+    Text3: item.MySubject
+  }));
+
+
+  dispatch(AssignHomeworkSlice.actions.SubjectDetails(trueValues));
+  dispatch(AssignHomeworkSlice.actions.SubjectDetails1(falseValues));
+};
+export const resetSubjectDetails =
+  (): AppThunk => async (dispatch) => {
+    console.log("resetSubjectDetails");
+
+    dispatch(AssignHomeworkSlice.actions.resetSubjectDetails());
+    dispatch(AssignHomeworkSlice.actions.resetSubjectDetails1());
+  }
 
 export const FullTeacherName =
   (data: IClassTeacherDropdownBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.fullClassTeacherDropdown(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Teacher_Id,
-        Name: item.TeacherName,
-        Value: item.StandardDivisionId
-      };
-    });
-    dispatch(AssignHomeworkSlice.actions.FullTeacherName(abc));
-  };
+    async (dispatch) => {
+      const response = await TeacherDropdownApi.fullClassTeacherDropdown(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Id,
+          Name: item.TeacherName,
+          Value: item.StandardDivisionId
+        };
+      });
+      dispatch(AssignHomeworkSlice.actions.FullTeacherName(abc));
+    };
 
 export default AssignHomeworkSlice.reducer;

@@ -28,7 +28,9 @@ import {
   ClassName,
   FullTeacherName,
   SubjectDetails,
-  TeacherNameList
+  TeacherNameList,
+  resetClassName,
+  resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
 
@@ -37,7 +39,7 @@ const AssignHomework = () => {
   const navigate = useNavigate();
   const { Id } = useParams();
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const [SelectClass, setSelectClass] = useState();
+  const [SelectClass, setSelectClass] = useState(null);
   const [subjectDetailList, setSubjectDetailList] = useState([]);
   const [MySubject, setMySubject] = useState();
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -106,13 +108,18 @@ const AssignHomework = () => {
   }, [TeacherList]);
 
   useEffect(() => {
-    const GetClassD: IClassDropDownBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      aTeacherId: SelectTeacher
-    };
+    if (SelectTeacher == null) {
+      dispatch(resetClassName());
+      setSelectClass(null)
+    } else {
+      const GetClassD: IClassDropDownBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        aTeacherId: SelectTeacher
+      };
 
-    dispatch(ClassName(GetClassD));
+      dispatch(ClassName(GetClassD));
+    }
   }, [SelectTeacher]);
 
   useEffect(() => {
@@ -138,21 +145,25 @@ const AssignHomework = () => {
 
   //subjectList
   useEffect(() => {
-    const TeacherSubject: IGetTeacherSubjectDetailsBody = {
-      asSchoolId: asSchoolId,
-      aTeacherId: SelectTeacher,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivisionId: SelectClass
-    };
-    dispatch(SubjectDetails(TeacherSubject));
+    if ((SelectClass == null) || SelectTeacher == null) {
+      dispatch(resetSubjectDetails());
+    } else {
+      const TeacherSubject: IGetTeacherSubjectDetailsBody = {
+        asSchoolId: asSchoolId,
+        aTeacherId: SelectTeacher,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: SelectClass
+      };
+      dispatch(SubjectDetails(TeacherSubject));
+    }
   }, [SelectTeacher, SelectClass]);
 
   const clickTeacherDropdown = (value) => {
-    setSelectTeacher(value);
+    setSelectTeacher(value == '' ? null : value);
   };
 
   const clickClass = (value) => {
-    setSelectClass(value);
+    setSelectClass(value == '' ? null : value);
   };
 
   const getClassName = () => {
@@ -203,7 +214,6 @@ const AssignHomework = () => {
       getClassName()
     );
   };
-  console.log(asStandardDivisionId, '--', SelectClass);
 
   return (
     <Container maxWidth={'xl'}>
@@ -244,7 +254,7 @@ const AssignHomework = () => {
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Techaer'}
-            defaultValue={SelectTeacher}
+            defaultValue={SelectTeacher?.toString()}
           />
 
           <SearchableDropdown
@@ -291,13 +301,13 @@ const AssignHomework = () => {
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
-        
+
 
         <Box mt={2}>
           <Typography variant={'h4'} mb={1}>
-          My Subjects
+            My Subjects
           </Typography>
-          {SubjectDetailLists1.length > 0 ? (
+          {SubjectDetailLists.length > 0 ? (
             <Assignhomeworklist
               ItemList={SubjectDetailLists}
               clickAssign={clickItem1}
