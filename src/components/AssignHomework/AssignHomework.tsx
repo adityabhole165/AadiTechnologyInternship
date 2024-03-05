@@ -37,12 +37,9 @@ const AssignHomework = () => {
   const navigate = useNavigate();
   const { Id } = useParams();
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-
-
   const [SelectClass, setSelectClass] = useState();
   const [subjectDetailList, setSubjectDetailList] = useState([]);
   const [MySubject, setMySubject] = useState();
-
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asShowHomeworkToClassTeacher = Number(
@@ -55,8 +52,6 @@ const AssignHomework = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  console.log('ScreensAccessPermission', ScreensAccessPermission);
-
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission.map((item) => {
@@ -64,14 +59,15 @@ const AssignHomework = () => {
     });
     return perm;
   };
+  const [SelectTeacher, setSelectTeacher] = useState(
+    GetScreenPermission() !== 'Y' ? TeacherId : null);
+
   const TeacherList: any = useSelector(
     (state: RootState) => state.TeacherNameList.TeacherList
   );
-  console.log('TeacherList', TeacherList);
   const ClassList = useSelector(
     (State: RootState) => State.TeacherNameList.ClassList
   );
-  console.log('ClassList', ClassList);
 
   const SubjectDetailLists: any = useSelector(
     (State: RootState) => State.TeacherNameList.SubjectList
@@ -79,16 +75,10 @@ const AssignHomework = () => {
   const SubjectDetailLists1: any = useSelector(
     (State: RootState) => State.TeacherNameList.SubjectList1
   );
-  console.log('SubjectDetailList', subjectDetailList);
 
   const FullAccessTeacher: any = useSelector(
     (State: RootState) => State.TeacherNameList.ClassTeacherList
   );
-  console.log('FullAccessTeacher', FullAccessTeacher);
-
-
-  const [SelectTeacher, setSelectTeacher] = useState(
-    GetScreenPermission() !== 'Y' ? TeacherId : null);
 
   useEffect(() => {
     setSubjectDetailList(
@@ -98,7 +88,6 @@ const AssignHomework = () => {
     );
   }, [SubjectDetailLists]);
 
-  //Select Teacher
   useEffect(() => {
     const GetTeacher: ITeacherDropdownBody = {
       asSchoolId: asSchoolId,
@@ -182,15 +171,6 @@ const AssignHomework = () => {
 
     return classTeacherName;
   };
-  // const getSubjectName = () => {
-  //     let getSubjectName = ""
-  //     SubjectDetailLists.map((item)=>{
-  //         if(item.Value == Id)
-  //         getSubjectName = item.Text2
-  //     })
-
-  // return getSubjectName;
-  // }
 
   const clickItem1 = (value) => {
     navigate(
@@ -289,11 +269,6 @@ const AssignHomework = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
-
-          {/* {asStandardDivisionId == SelectClass && (
-          )} */}
-
-
 
           {asStandardDivisionId == SelectClass && (
             <div>
