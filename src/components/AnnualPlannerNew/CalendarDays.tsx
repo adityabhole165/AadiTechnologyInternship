@@ -65,7 +65,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
         item
         xs={(12 / 7) * dayCount}
         md={(12 / 7) * dayCount}
-        border="0.5px solid #ebebeb"
+        // border="0.5px solid #ebebeb"
         sx={{ textAlign: 'center', pt: 0 }}
       ></Grid>
       {ItemList.map((Item, i) => {
