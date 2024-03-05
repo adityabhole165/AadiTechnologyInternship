@@ -24,7 +24,6 @@ import {
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   ClassName,
   FullTeacherName,
@@ -37,9 +36,9 @@ const AssignHomework = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Id } = useParams();
-
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const [SelectTeacher, setSelectTeacher] = useState(
-    Number(sessionStorage.getItem('TeacherId'))
+    Number(TeacherId)
   );
   const [SelectClass, setSelectClass] = useState();
   const [subjectDetailList, setSubjectDetailList] = useState([]);
@@ -50,7 +49,6 @@ const AssignHomework = () => {
   const asShowHomeworkToClassTeacher = Number(
     sessionStorage.getItem('ShowHomeworkToClassTeacher')
   );
-  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const asStandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
@@ -110,12 +108,11 @@ const AssignHomework = () => {
     };
 
     dispatch(TeacherNameList(GetTeacher));
+  }, []);
 
-    if (GetScreenPermission() !== 'Y') {
-      if (TeacherList.length > 0) {
-        setSelectTeacher(TeacherList[0].Value);
-      }
-      
+  useEffect(() => {
+    if (GetScreenPermission() !== 'Y' && TeacherList.length > 0) {
+      setSelectTeacher(TeacherList[0].Value);
     }
   }, [TeacherList]);
 
@@ -130,7 +127,7 @@ const AssignHomework = () => {
   }, [SelectTeacher]);
 
   useEffect(() => {
-    
+
     if (GetScreenPermission() !== 'Y' && ClassList.length > 0) {
       setSelectClass(ClassList[0].Id);
     }
@@ -295,20 +292,27 @@ const AssignHomework = () => {
 
           {/* {asStandardDivisionId == SelectClass && (
           )} */}
-          <Tooltip title={'Add Daily Log'}>
-            <IconButton
-              onClick={onClick}
-              sx={{
-                color: 'white',
-                backgroundColor: (theme) => theme.palette.primary.main,
-                '&:hover': {
-                  backgroundColor: (theme) => theme.palette.primary.dark
-                }
-              }}
-            >
-              <AddTwoTone />
-            </IconButton>
-          </Tooltip>
+
+
+
+          {asStandardDivisionId == SelectClass && (
+            <div>
+              <Tooltip title={'Add Daily Log'}>
+                <IconButton
+                  onClick={onClick}
+                  sx={{
+                    color: 'white',
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    '&:hover': {
+                      backgroundColor: (theme) => theme.palette.primary.dark
+                    }
+                  }}
+                >
+                  <AddTwoTone />
+                </IconButton>
+              </Tooltip>
+            </div>
+          )}
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
