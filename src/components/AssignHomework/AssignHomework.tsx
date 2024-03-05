@@ -23,6 +23,7 @@ import {
   ITeacherDropdownBody
 } from 'src/interfaces/AssignHomework/IAssignHomework';
 import Assignhomeworklist from 'src/libraries/ResuableComponents/Assignhomeworklist';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   ClassName,
@@ -40,7 +41,7 @@ const AssignHomework = () => {
   const [SelectTeacher, setSelectTeacher] = useState(
     Number(sessionStorage.getItem('TeacherId'))
   );
-  const [SelectClass, setSelectClass] = useState(0);
+  const [SelectClass, setSelectClass] = useState();
   const [subjectDetailList, setSubjectDetailList] = useState([]);
   const [MySubject, setMySubject] = useState();
 
@@ -88,6 +89,9 @@ const AssignHomework = () => {
   );
   console.log('FullAccessTeacher', FullAccessTeacher);
 
+
+
+
   useEffect(() => {
     setSubjectDetailList(
       SubjectDetailLists.map((item) => {
@@ -102,16 +106,19 @@ const AssignHomework = () => {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asShowHomeworkToClassTeacher: asShowHomeworkToClassTeacher,
-      aTeacherId: GetScreenPermission() == 'Y' ? 0 : SelectTeacher
+      aTeacherId: GetScreenPermission() === 'Y' ? 0 : SelectTeacher
     };
-    dispatch(TeacherNameList(GetTeacher));
-  }, []);
-  // useEffect(()=>{
-  //     if(TeacherList.length >= 0)
-  //     setSelectTeacher(TeacherList[0].Value)
-  //     },[TeacherList])
 
-  //class
+    dispatch(TeacherNameList(GetTeacher));
+
+    if (GetScreenPermission() !== 'Y') {
+      if (TeacherList.length > 0) {
+        setSelectTeacher(TeacherList[0].Value);
+      }
+      
+    }
+  }, [TeacherList]);
+
   useEffect(() => {
     const GetClassD: IClassDropDownBody = {
       asSchoolId: asSchoolId,
@@ -123,7 +130,10 @@ const AssignHomework = () => {
   }, [SelectTeacher]);
 
   useEffect(() => {
-    if (ClassList.length > 0) setSelectClass(ClassList[1].Id);
+    
+    if (GetScreenPermission() !== 'Y' && ClassList.length > 0) {
+      setSelectClass(ClassList[0].Id);
+    }
   }, [ClassList]);
 
   useEffect(() => {
@@ -253,19 +263,21 @@ const AssignHomework = () => {
         </Breadcrumbs>
 
         <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Dropdown
-            Array={TeacherList}
-            handleChange={clickTeacherDropdown}
-            label={'Teacher'}
+          <SearchableDropdown
+            ItemList={TeacherList}
+            onChange={clickTeacherDropdown}
+            label={'Select Techaer'}
             defaultValue={SelectTeacher}
           />
 
-          <Dropdown
-            Array={ClassList}
-            handleChange={clickClass}
+          <SearchableDropdown
+            ItemList={ClassList}
+            onChange={clickClass}
             label={'Select Class:'}
             defaultValue={SelectClass}
           />
+
+
           <Tooltip title={'List the class subjects for homework assignment.'}>
             <IconButton
 

@@ -30,7 +30,7 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '' }) {
           label={label}
         />
       )}
-      disableClearable
+    
     />
   );
 }

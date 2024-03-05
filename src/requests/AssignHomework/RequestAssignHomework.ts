@@ -51,7 +51,7 @@ export const TeacherNameList =
     });
     dispatch(AssignHomeworkSlice.actions.TeacherNameList(abc));
   };
-export const ClassName =
+  export const ClassName =
   (data: IClassDropDownBody): AppThunk =>
   async (dispatch) => {
     const response = await TeacherDropdownApi.ClassDropdown(data);
@@ -62,8 +62,12 @@ export const ClassName =
         Value: item.Standard_Division_Id
       };
     });
+  
+    abc = abc.slice(1);
+
     dispatch(AssignHomeworkSlice.actions.ClassName(abc));
   };
+
   export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk => async (dispatch) => {
     const response = await TeacherDropdownApi.GetTeacherSubjectDetails(data);
 
