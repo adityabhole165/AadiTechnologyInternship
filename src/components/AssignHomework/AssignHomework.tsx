@@ -270,7 +270,7 @@ const AssignHomework = () => {
             </IconButton>
           </Tooltip>
 
-          {asStandardDivisionId == SelectClass && (
+          {asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y' && (
             <div>
               <Tooltip title={'Add Daily Log'}>
                 <IconButton
@@ -291,16 +291,26 @@ const AssignHomework = () => {
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
-        <Box>
+        
+
+        <Box mt={2}>
           <Typography variant={'h4'} mb={1}>
-            My Subjects
+          My Subjects
           </Typography>
-          <Assignhomeworklist
-            ItemList={SubjectDetailLists}
-            clickAssign={clickItem1}
-            HeaderArray={HeaderOfTable}
-          />
+          {SubjectDetailLists1.length > 0 ? (
+            <Assignhomeworklist
+              ItemList={SubjectDetailLists}
+              clickAssign={clickItem1}
+              HeaderArray={HeaderOfTable}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
+          )}
         </Box>
+
+
         <Box mt={2}>
           <Typography variant={'h4'} mb={1}>
             My Class Subjects
