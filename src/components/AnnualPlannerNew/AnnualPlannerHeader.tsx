@@ -37,8 +37,8 @@ const AnnualPlannerHeader = () => {
         { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
         { Id: 1, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
         {
-            Id: 4, Icon: AnnualPlannerViewAccess == "N" ? <AddIcon /> : <Visibility />,
-            Title: AnnualPlannerViewAccess == "N" ? 'Add' : '' + ' Annual Planner', Action: 'AddAnnualPlanner'
+            Id: 4, Icon: AnnualPlannerViewAccess == "Y" ? <AddIcon /> : <Visibility />,
+            Title: (AnnualPlannerViewAccess == "Y" ? 'Add' : '') + ' Annual Planner', Action: 'AddAnnualPlanner'
         },
 
     ]
@@ -47,7 +47,7 @@ const AnnualPlannerHeader = () => {
             navigate('/extended-sidebar/Common/EventOverview');
         }
         if (value == 'AddAnnualPlanner') {
-            if (AnnualPlannerViewAccess == "Y") {
+            if (AnnualPlannerViewAccess == "N") {
                 if (FileName !== '') {
                     window.open(localStorage.getItem('SiteURL') + FileName);
                 }

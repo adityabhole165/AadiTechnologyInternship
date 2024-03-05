@@ -57,6 +57,8 @@ const UploadAnnualPlanner = ({
         await dispatch(addanual(AnnualplannerBody));
         toast.success('File Uploaded Successfully', { toastId: 'success1' })
         dispatch(GetFile(GetFileDetailsBody));
+        setFileName('')
+        setbase64URL('')
       } catch (error) {
         console.error('Error uploading file:', error);
         toast.error('Error uploading file', { toastId: 'error1' });
