@@ -7,7 +7,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  FormLabel,
   IconButton,
   Typography
 } from '@mui/material';
@@ -141,43 +140,21 @@ const UploadAnnualPlanner = ({
               ></SingleFile>
               {/* while file is selected */}
               {FileDetails && FileDetails.length > 0 ? (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: (theme) => `2px dashed ${theme.colors.primary.main}`,
-                    fontSize: '18px',
-                    gap: 2,
-                    p: 1
-                  }}
-                >
+                <div>
                   <IconButton color={'error'} onClick={clickDelete}>
                     <DeleteIcon />
                   </IconButton>
                   <IconButton color={'primary'} onClick={clickFileName}>
                     <VisibilityTwoToneIcon />
                   </IconButton>
-                </Box>
+                </div>
               ) : (
-                <Box
-                  sx={{
-                    width: '100%',
-                    display: 'flex',
-                    alignItems: 'center',
-                    border: (theme) => `2px dashed ${theme.colors.primary.main}`,
-                    fontSize: '18px',
-                    gap: 2,
-                    p: 1
-                  }}
-                >
-                  <IconButton color={'default'}>
-                  </IconButton>
-                </Box>
+
+                <IconButton color={'default'}>
+                </IconButton>
+
               )}
-              <FormLabel>
-              "Supports only .PDF, .PNG, .JPEG ,.JPG .BMP file types. File size should not exceed 3 MB"
-              </FormLabel>
+
             </Box>
           </Box>
         </DialogContent>
