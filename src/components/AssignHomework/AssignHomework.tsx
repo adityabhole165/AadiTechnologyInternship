@@ -253,7 +253,7 @@ const AssignHomework = () => {
           <SearchableDropdown
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
-            label={'Select Techaer'}
+            label={'Select Techer'}
             defaultValue={SelectTeacher?.toString()}
           />
 
