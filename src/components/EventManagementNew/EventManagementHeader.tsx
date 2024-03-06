@@ -13,7 +13,7 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const navigate = useNavigate();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
     const Note: string =
-        'These events may change due to unavoidable reasons without prior notice.';
+        'Add Events to be held in your school for the current academic year.';
     const IconList = [
         { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
         { Id: 2, Icon: <QuestionMarkIcon />, Title: 'Help', Action: 'Help' },
