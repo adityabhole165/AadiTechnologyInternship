@@ -1,5 +1,3 @@
-import DeleteIcon from '@mui/icons-material/Delete';
-import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import {
   Box,
   Button,
@@ -7,7 +5,6 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  IconButton,
   Typography
 } from '@mui/material';
 import { useEffect, useState } from 'react';
@@ -65,7 +62,6 @@ const UploadAnnualPlanner = ({
     }
   };
 
-  useEffect(() => { }, [FileDetails]);
   const DeleteFileDetailsBody: IDeleteFileDetailsBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
@@ -135,21 +131,25 @@ const UploadAnnualPlanner = ({
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 errorMessage={''}
-                filePath={clickFileName.toString()}
                 FileName={fileName}
+                viewIcon={true}
+                deleteIcon={true}
+                FilePath={FileDetails.length > 0 ? FileDetails[0].LinkUrl : ''}
+                clickDelete={clickDelete}
+                clickFileName={clickFileName}
               ></SingleFile>
               {/* while file is selected */}
-              {FileDetails && FileDetails.length > 0 ? (
+              {/* {FileDetails && FileDetails.length > 0 ? (
                 <div>
                   <IconButton
-                    sx={{  marginRight: 1 }} 
+                    sx={{ marginRight: 1 }}
                     color={'error'}
                     onClick={clickDelete}
                   >
                     <DeleteIcon style={{ fontSize: 32 }} />
                   </IconButton>
                   <IconButton
-                    sx={{  marginLeft: 1 }} 
+                    sx={{ marginLeft: 1 }}
                     color={'primary'}
                     onClick={clickFileName}
                   >
@@ -162,7 +162,7 @@ const UploadAnnualPlanner = ({
                 <IconButton color={'default'}>
                 </IconButton>
 
-              )}
+              )} */}
 
             </Box>
           </Box>

@@ -1,8 +1,8 @@
 import CheckCircle from '@mui/icons-material/CheckCircle';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import Delete from '@mui/icons-material/Delete';
-import Visibility from '@mui/icons-material/Visibility';
-import { Box, Button, Stack, Tooltip, Typography } from '@mui/material';
+import { default as DeleteIcon } from '@mui/icons-material/Delete';
+import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
+import { Box, Button, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
 import {
@@ -16,8 +16,9 @@ const SingleFile = ({
   ChangeFile,
   errorMessage = '',
   clickDelete = undefined,
-  filePath = '',
+  clickFileName = undefined,
   FileName = '',
+  FilePath = '',
   width = '300px',
   viewIcon = false,
   deleteIcon = false,
@@ -55,12 +56,6 @@ const SingleFile = ({
       }
     }
   };
-  const handleClick = (event) => {
-    aRef.current.click();
-  };
-  const clickImage = () => {
-    if (filePath != '') window.open(filePath);
-  };
   return (
     <>
       <Tooltip
@@ -74,8 +69,7 @@ const SingleFile = ({
           sx={{
             width: width,
             border: (theme) =>
-              `1px dashed ${
-                FileName ? theme.colors.success.main : theme.colors.primary.main
+              `1px dashed ${FileName ? theme.colors.success.main : theme.colors.primary.main
               }`,
             gap: 1,
             position: 'relative',
@@ -112,18 +106,34 @@ const SingleFile = ({
             justifyContent={'center'}
             gap={1}
           >
-            {FileName != '' && (
-              <>
-                {viewIcon && <Visibility onClick={clickDelete} />}
-                {deleteIcon && <Delete color={'error'} onClick={clickDelete} />}
-              </>
-            )}
+
           </Stack>
         </Button>
       </Tooltip>
       <Typography mt={2}>
         {FileError && <Errormessage Error={FileError} />}
       </Typography>
+      {FilePath != '' && (
+        <div>
+          {deleteIcon &&
+            <IconButton
+              sx={{ marginRight: 1 }}
+              color={'error'}
+              onClick={clickDelete}
+            >
+              <DeleteIcon style={{ fontSize: 32 }} />
+            </IconButton>
+          }
+          {viewIcon && <IconButton
+            sx={{ marginLeft: 1 }}
+            color={'primary'}
+            onClick={clickFileName}
+          >
+            <VisibilityTwoToneIcon style={{ fontSize: 32 }} />
+          </IconButton>
+          }
+        </div>
+      )}
     </>
   );
 };
