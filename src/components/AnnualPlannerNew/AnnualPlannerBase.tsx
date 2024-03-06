@@ -17,6 +17,7 @@ import {
   GetStandardList,
   GetYearList
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
+import { resetEventList } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
 import { getDateDDMMMDash } from '../Common/Util';
 import AnnualPlannerHeader from './AnnualPlannerHeader';
@@ -172,6 +173,7 @@ const AnnualPlannerBase = () => {
   const ClickDate = (value) => {
     setSelectedDate(value);
     setValue(value, 'MonthYear');
+    dispatch(resetEventList())
     navigate('../EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
   };
   const ClickFilterItem = (value) => {

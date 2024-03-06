@@ -14,9 +14,9 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate } from '../Common/Util';
+import { getCalendarDateFormatDate, getCalendarDateFormatDateNew } from '../Common/Util';
 
-const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
+const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const dispatch = useDispatch();
 
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -30,13 +30,12 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
 
     const [EventTitle, setEventTitle] = useState('');
     const [EventDescription, setEventDescription] = useState('');
-    const [EventStartDate, setEventStartDate] = useState('');
+    const [EventStartDate, setEventStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
     const [EventEndDate, setEventEndDate] = useState('');
     const [ItemList, setitemList] = useState([]);
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
     const [FileName, setFileName] = useState('');
     const [base64URL, setbase64URL] = useState('');
-
     const [errorEventTitle, SetErrorEventTitle] = useState('');
     const [ErrorEventDescription, setErrorEventDescription] = useState('');
     const [ErrorEventStartDate, setErrorEventStartDate] = useState('');
@@ -114,7 +113,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
             EventId = 0;
             setEventTitle('');
             setEventDescription('');
-            setEventStartDate('');
+            setEventStartDate(getCalendarDateFormatDateNew(SelectedDate));
             setEventEndDate('');
             setShowRiseAndShine(false);
             setitemList(ItemList.map((Item) => {
@@ -141,7 +140,7 @@ const EventManagementForm = ({ EventId, AddNewEventClicked }) => {
         EventId = 0;
         setEventTitle('');
         setEventDescription('');
-        setEventStartDate('');
+        setEventStartDate(getCalendarDateFormatDate(SelectedDate));
         setEventEndDate('');
         setShowRiseAndShine(false);
         setitemList(ItemList.map((Item) => {

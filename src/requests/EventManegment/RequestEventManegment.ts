@@ -68,15 +68,11 @@ export const GetEventtList =
     async (dispatch) => {
       const response = await GetEventDescriptionApi.EventList(data);
       let a = response.data.map((item, i) => {
-
         return {
-
           Text1: item.Event_Name,
           Id: item.Event_Id,
-
         }
       })
-
       dispatch(EventDescriptionSlice.actions.getEventListt(a))
     }
 
@@ -123,7 +119,12 @@ export const GetEventdetail =
       dispatch(EventDescriptionSlice.actions.getEventDetailss(responseData))
     }
 
-//3.GetAllClassesAndDivisions
+export const resetEventList =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(EventDescriptionSlice.actions.getEventListt([]))
+    }
+
 export const resetEventdetail =
   (): AppThunk =>
     async (dispatch) => {

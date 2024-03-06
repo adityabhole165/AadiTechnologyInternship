@@ -21,7 +21,6 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
     const DeleteEventt = useSelector(
         (state: RootState) => state.EventsManagement.DeleteEventt
     );
-    console.log(EventLisst, "EventLisst--");
 
     const EventListBody: IEventListBody = {
         "asEventDate": SelectedDate,
@@ -33,6 +32,11 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
     useEffect(() => {
         dispatch(GetEventtList(EventListBody));
     }, []);
+
+    useEffect(() => {
+        if (EventLisst.length > 0)
+            clickEventEdit(EventLisst[0].Id)
+    }, [EventLisst]);
 
     useEffect(() => {
         if (DeleteEventt !== '') {
@@ -52,7 +56,6 @@ const EventManagementList = ({ clickEventEdit, SelectedDate, StandardId, Divisio
             dispatch(GetDeleteEvent(DeleteEventBody));
         }
     };
-    console.log(EventLisst, "EventLisst");
 
     return (
         <Grid container spacing={2}>

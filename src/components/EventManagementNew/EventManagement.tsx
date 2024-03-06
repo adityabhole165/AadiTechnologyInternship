@@ -14,7 +14,6 @@ const EventManagement = () => {
     const clickEventEdit = (value) => {
         setEventId(value)
     }
-    console.log(EventId, "EventId");
 
     const ClickAddNewEvent = () => {
         setAddNewEventClicked(!AddNewEventClicked)
@@ -28,7 +27,8 @@ const EventManagement = () => {
                         <EventManagementList clickEventEdit={clickEventEdit}
                             SelectedDate={SelectedDate} StandardId={StandardId}
                             DivisionId={DivisionId} />
-                        <EventManagementForm EventId={EventId} AddNewEventClicked={AddNewEventClicked} />
+                        <EventManagementForm EventId={EventId} SelectedDate={SelectedDate}
+                            AddNewEventClicked={AddNewEventClicked} />
                     </Box>
                 </Box>
             </Container >

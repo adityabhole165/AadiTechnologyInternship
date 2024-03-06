@@ -222,6 +222,13 @@ export const getCalendarDateFormatDate = (date) => {
   let Year = date[2]
   return `${Year}-${Month}-${Day}`;
 };
+export const getCalendarDateFormatDateNew = (date) => {
+  date = new Date(date)
+  let Day = date.getDate()
+  let Month = date.getMonth() + 1
+  let Year = date.getFullYear()
+  return `${Year}-${Month < 10 ? '0' + Month.toString() : Month.toString()}-${Day < 10 ? '0' + Day.toString() : Day.toString()}`;
+};
 
 export const getDateFormat = (date) => {
   date = date || new Date();
