@@ -141,12 +141,21 @@ const UploadAnnualPlanner = ({
               {/* while file is selected */}
               {FileDetails && FileDetails.length > 0 ? (
                 <div>
-                  <IconButton color={'error'} onClick={clickDelete}>
-                    <DeleteIcon />
+                  <IconButton
+                    sx={{  marginRight: 1 }} 
+                    color={'error'}
+                    onClick={clickDelete}
+                  >
+                    <DeleteIcon style={{ fontSize: 32 }} />
                   </IconButton>
-                  <IconButton color={'primary'} onClick={clickFileName}>
-                    <VisibilityTwoToneIcon />
+                  <IconButton
+                    sx={{  marginLeft: 1 }} 
+                    color={'primary'}
+                    onClick={clickFileName}
+                  >
+                    <VisibilityTwoToneIcon style={{ fontSize: 32 }} />
                   </IconButton>
+
                 </div>
               ) : (
 
