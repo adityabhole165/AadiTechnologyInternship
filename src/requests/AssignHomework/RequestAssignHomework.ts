@@ -90,6 +90,7 @@ export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk =>
     Text2: item.Subject_Name,
     Text3: item.MySubject,
     Text5:item.Is_ClassTeacher
+   
   }));
   const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
     Id: item.Subject_Id,

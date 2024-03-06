@@ -77,6 +77,8 @@ const AssignHomework = () => {
   const SubjectDetailLists1: any = useSelector(
     (State: RootState) => State.TeacherNameList.SubjectList1
   );
+  console.log(SubjectDetailLists, "SubjectDetailLists");
+
 
   const FullAccessTeacher: any = useSelector(
     (State: RootState) => State.TeacherNameList.ClassTeacherList
@@ -280,26 +282,26 @@ const AssignHomework = () => {
             </IconButton>
           </Tooltip>
 
-          {SelectClass && (asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y')  && (
-            (
-              <div>
-                <Tooltip title={'Add Daily Log'}>
-                  <IconButton
-                    onClick={onClick}
-                    sx={{
-                      color: 'white',
-                      backgroundColor: (theme) => theme.palette.primary.main,
-                      '&:hover': {
-                        backgroundColor: (theme) => theme.palette.primary.dark
-                      }
-                    }}
-                  >
-                    <AddTwoTone />
-                  </IconButton>
-                </Tooltip>
-              </div>
-            )
-          )}
+          {SelectClass &&
+  ((asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y') ||
+    SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
+    <div>
+      <Tooltip title={'Add Daily Log'}>
+        <IconButton
+          onClick={onClick}
+          sx={{
+            color: 'white',
+            backgroundColor: (theme) => theme.palette.primary.main,
+            '&:hover': {
+              backgroundColor: (theme) => theme.palette.primary.dark
+            }
+          }}
+        >
+          <AddTwoTone />
+        </IconButton>
+      </Tooltip>
+    </div>
+  )}
 
         </Stack>
       </Stack>
