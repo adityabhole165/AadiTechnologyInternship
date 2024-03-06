@@ -280,24 +280,27 @@ const AssignHomework = () => {
             </IconButton>
           </Tooltip>
 
-          {asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y' && (
-            <div>
-              <Tooltip title={'Add Daily Log'}>
-                <IconButton
-                  onClick={onClick}
-                  sx={{
-                    color: 'white',
-                    backgroundColor: (theme) => theme.palette.primary.main,
-                    '&:hover': {
-                      backgroundColor: (theme) => theme.palette.primary.dark
-                    }
-                  }}
-                >
-                  <AddTwoTone />
-                </IconButton>
-              </Tooltip>
-            </div>
+          {SelectClass && (asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y')  && (
+            (
+              <div>
+                <Tooltip title={'Add Daily Log'}>
+                  <IconButton
+                    onClick={onClick}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: (theme) => theme.palette.primary.main,
+                      '&:hover': {
+                        backgroundColor: (theme) => theme.palette.primary.dark
+                      }
+                    }}
+                  >
+                    <AddTwoTone />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )
           )}
+
         </Stack>
       </Stack>
       <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
