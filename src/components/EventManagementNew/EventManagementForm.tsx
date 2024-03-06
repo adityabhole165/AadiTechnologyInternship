@@ -1,14 +1,15 @@
 import { Button, Checkbox, FormControlLabel, Grid, Stack, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IAllClassesAndDivisionsBody, IEventDetailsBody, IEventListBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
+import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import {
     GetAllClassAndDivision,
     GetEventdetail,
-    GetEventtList,
     GetupdateEvent,
     resetEventdetail,
     resetMessage
@@ -18,7 +19,7 @@ import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanD
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const dispatch = useDispatch();
-
+    const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asFolderName = localStorage.getItem('FolderName');
@@ -38,6 +39,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const [base64URL, setbase64URL] = useState('');
     const [errorEventTitle, SetErrorEventTitle] = useState('');
     const [ErrorEventDescription, setErrorEventDescription] = useState('');
+    const [ErrorClass, setErrorClass] = useState('');
     const [ErrorEventStartDate, setErrorEventStartDate] = useState('');
     const [ErrorEventEndDate, setErrorEventEndDate] = useState('');
     const [FileError, setFileError] = useState('');
@@ -130,8 +132,8 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         if (SaveUpdateEventt !== '') {
             toast.success(SaveUpdateEventt, { toastId: 'success1' });
             dispatch(resetMessage());
-            dispatch(GetEventtList(EventListBody));
             resetForm();
+            navigate('/extended-sidebar/Common/AnnualPlanner');
         }
     }, [SaveUpdateEventt]);
 
@@ -159,51 +161,65 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         XMLString += '</StandardDivisions>';
         return XMLString;
     };
+    const isClassSelected = () => {
+        let returnVal = false
+        ItemList.map((Item) => {
+            if (Item.IsActive)
+                returnVal = true
+
+        })
+        return returnVal;
+    }
     const ClickSave = (value) => {
         let isError = false;
         if (EventTitle == '') {
             SetErrorEventTitle('Event Ttile should not be blank.');
             isError = true;
-        }
+        } else SetErrorEventTitle('')
         if (EventDescription == '') {
             setErrorEventDescription('Event Discription should not be blank.');
             isError = true;
-        }
+        } else setErrorEventDescription('')
         if (EventStartDate == '') {
             setErrorEventStartDate('Event start date should not be blank.');
             isError = true;
-        }
+        } else setErrorEventStartDate('')
         if (EventEndDate == '') {
             setErrorEventEndDate('Event End date should not be blank.');
             isError = true;
-        }
+        } else setErrorEventEndDate('')
+        if (!isClassSelected()) {
+            setErrorClass('At least one class should be associated.');
+            isError = true;
+        } else setErrorClass('')
+
         if (FileName == '' && base64URL == '') {
             setFileError('Please Choose a file');
             isError = true;
-        } else {
-        }
-        const UpdateEventBody: IUpdateEventBody = {
-            asEventId: EventId,
-            asEventName: EventTitle,
-            asEventDescription: EventDescription,
-            asEventStartDate: EventStartDate,
-            asEventEndDate: EventEndDate,
-            asDisplayOnHomepage: showRiseAndShine,
-            asEventImageName: FileName,
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asInsertedById: TeacherId.toString(),
-            asUpdatedById: UserId,
-            asStandardDivisions: getEventString(),
-            asSaveFeature: 'Event Planner',
-            asFolderName: asFolderName,
-            asBase64String: base64URL
-        };
+        } else setFileError('')
+        if (!isError) {
+            const UpdateEventBody: IUpdateEventBody = {
+                asEventId: EventId,
+                asEventName: EventTitle,
+                asEventDescription: EventDescription,
+                asEventStartDate: EventStartDate,
+                asEventEndDate: EventEndDate,
+                asDisplayOnHomepage: showRiseAndShine,
+                asEventImageName: FileName,
+                asSchoolId: asSchoolId,
+                asAcademicYearId: asAcademicYearId,
+                asInsertedById: TeacherId.toString(),
+                asUpdatedById: UserId,
+                asStandardDivisions: getEventString(),
+                asSaveFeature: 'Event Planner',
+                asFolderName: asFolderName,
+                asBase64String: base64URL
+            };
 
-        dispatch(GetupdateEvent(UpdateEventBody));
+            dispatch(GetupdateEvent(UpdateEventBody));
+        }
     };
     useEffect(() => {
-        console.log(EventStartDate, "--", EventEndDate);
 
         if (isGreaterThanDate(EventStartDate, EventEndDate)) {
             setErrorEventStartDate('Start Date should be greater than end date')
@@ -305,6 +321,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
                         ParentList={ClassesAndDivisionss1}
                         ClickChild={ClickChild}
                     ></SelectListHierarchy>
+                    <ErrorMessage1 Error={ErrorClass}></ErrorMessage1>
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Typography>
@@ -336,7 +353,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
                 </Grid>
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
-                        <Button variant={'contained'} color="error">
+                        <Button variant={'contained'} color="error" onClick={resetForm}>
                             Cancel
                         </Button>
                         <Button variant={'contained'} color="success" onClick={ClickSave}>
