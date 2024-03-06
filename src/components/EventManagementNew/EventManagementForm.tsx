@@ -31,7 +31,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const [EventTitle, setEventTitle] = useState('');
     const [EventDescription, setEventDescription] = useState('');
     const [EventStartDate, setEventStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
-    const [EventEndDate, setEventEndDate] = useState('');
+    const [EventEndDate, setEventEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
     const [ItemList, setitemList] = useState([]);
     const [showRiseAndShine, setShowRiseAndShine] = useState(false);
     const [FileName, setFileName] = useState('');
@@ -114,7 +114,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
             setEventTitle('');
             setEventDescription('');
             setEventStartDate(getCalendarDateFormatDateNew(SelectedDate));
-            setEventEndDate('');
+            setEventEndDate(getCalendarDateFormatDateNew(SelectedDate));
             setShowRiseAndShine(false);
             setitemList(ItemList.map((Item) => {
                 return { ...Item, IsActive: false }
@@ -141,7 +141,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         setEventTitle('');
         setEventDescription('');
         setEventStartDate(getCalendarDateFormatDate(SelectedDate));
-        setEventEndDate('');
+        setEventEndDate(getCalendarDateFormatDateNew(SelectedDate));
         setShowRiseAndShine(false);
         setitemList(ItemList.map((Item) => {
             return { ...Item, IsActive: false }
