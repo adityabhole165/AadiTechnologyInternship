@@ -83,7 +83,7 @@ const UploadAnnualPlanner = ({
   }, []);
 
   const clickDelete = async () => {
-    if (window.confirm('Are You Sure you want to delete The File')) {
+    if (window.confirm("Are you sure you want to delete current Annual Planner file?")) {
       try {
         await dispatch(DeleteFile(DeleteFileDetailsBody));
         dispatch(GetFile(GetFileDetailsBody));
@@ -176,7 +176,7 @@ const UploadAnnualPlanner = ({
                 </Box>
               )}
               <FormLabel>
-                Supports only .PDF, .PNG, and .JPG file types. File size should not exceed 2 MB.
+              "Supports only .PDF, .PNG, .JPEG ,.JPG .BMP file types. File size should not exceed 3 MB"
               </FormLabel>
             </Box>
           </Box>
