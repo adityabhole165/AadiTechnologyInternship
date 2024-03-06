@@ -14,7 +14,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate, getCalendarDateFormatDateNew } from '../Common/Util';
+import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const dispatch = useDispatch();
@@ -202,6 +202,16 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
 
         dispatch(GetupdateEvent(UpdateEventBody));
     };
+    useEffect(() => {
+        console.log(EventStartDate, "--", EventEndDate);
+
+        if (isGreaterThanDate(EventStartDate, EventEndDate)) {
+            setErrorEventStartDate('Start Date should be greater than end date')
+        } else
+            setErrorEventStartDate('')
+
+
+    }, [EventStartDate, EventEndDate])
     return (
         <>
             <Grid container spacing={2}>

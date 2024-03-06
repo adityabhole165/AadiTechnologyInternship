@@ -4,6 +4,12 @@ export function isFutureDate(date) {
     new Date(new Date().toLocaleDateString())
   );
 }
+export function isGreaterThanDate(date1, date2) {
+  return (
+    new Date(date1) >
+    new Date(date2)
+  );
+}
 export function isFutureDate1(date) {
   return (
     new Date(date.toLocaleDateString()) <
