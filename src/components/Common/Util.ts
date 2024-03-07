@@ -10,12 +10,28 @@ export function isGreaterThanDate(date1, date2) {
     new Date(date2)
   );
 }
+
+export function isEqualtonDate(date1, date2) {
+  return (
+    new Date(date1) ==
+    new Date(date2)
+  );
+}
 export function isFutureDate1(date) {
   return (
     new Date(date.toLocaleDateString()) <
     new Date(new Date().toLocaleDateString())
   );
 }
+
+
+export const formatDateAsDDMMMYYYY = (date) => {
+  const Day = new Date(date).getDate().toString().padStart(2, '0');
+  const Month = monthNames[new Date(date).getMonth()];
+  const Year = new Date(date).getFullYear();
+  return `${Day}-${Month}-${Year}`;
+};
+
 
 export function isFutureDateTime(date) {
   return new Date(date) > new Date();

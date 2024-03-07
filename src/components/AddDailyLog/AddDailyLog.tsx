@@ -1,7 +1,6 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
@@ -21,6 +20,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { isEqualtonDate } from 'src/components/Common/Util';
 import {
   IDeleteHomeworkDailyLogBody,
   IGetAllHomeworkDailyLogsBody,
@@ -61,7 +61,6 @@ const AddDailyLog = () => {
   const SaveDailyLog = useSelector(
     (state: RootState) => state.AddDailyLog.Savelog
   );
-  console.log('SaveDailyLog', SaveDailyLog);
   const GetAllHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetAllHomework
   );
@@ -69,18 +68,13 @@ const AddDailyLog = () => {
   const GetHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetHomeworkDailyLog
   );
-  console.log('GetHomeworkDailyLogs----', GetHomeworkDailyLogs);
   const DeleteHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.DeleteHomework
   );
-  console.log('DeleteHomeworkDailyLogs', DeleteHomeworkDailyLogs);
   const PublishUnpublishHomeworkDailylog: any = useSelector(
     (state: RootState) => state.AddDailyLog.PublishUnpublish
   );
-  console.log(
-    'PublishUnpublishHomeworkDailylog',
-    PublishUnpublishHomeworkDailylog
-  );
+
   const GetFileUS: any = useSelector(
     (state: RootState) => state.AddDailyLog.ISGetfile
   );
@@ -135,12 +129,14 @@ const AddDailyLog = () => {
   //     "asAcademicYearId":54,
   //     "asLogId":2718,
   //     "asUpdatedById":4463,
-  //     "asIsPublished":0
+  //     "asIsPublished":0 
   //   }
   //   dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody))
   // }, []);
 
   const [isPublish, setIsPublish] = useState(true);
+
+  console.log(dateState, "dateState");
 
   const Changestaus = (value) => {
     const updatedIsPublish = !isPublish;
@@ -170,17 +166,12 @@ const AddDailyLog = () => {
   useEffect(() => {
     console.log(GetHomeworkDailyLogs, 'GetStudentDetail');
     if (GetHomeworkDailyLogs.length > 0) {
-      // setDateState(GetHomeworkDailyLogs.dateState)
       let da = GetHomeworkDailyLogs[0].Date.split(' ')[0];
       let dateFormat =
         da.split('-')[2] + '-' + da.split('-')[1] + '-' + da.split('-')[0];
       setDateState(dateFormat);
-
-      //setFileName(GetHomeworkDailyLogs[0].AttchmentName)
-      // setbase64URL(GetHomeworkDailyLogs[0].base64URL)
     }
   }, [GetHomeworkDailyLogs]);
-  console.log(dateState, 'dateState');
 
   const clickEdit1 = (value) => {
     setLogId(value);
@@ -288,24 +279,26 @@ const AddDailyLog = () => {
 
   const onClickSave = () => {
     let isError = false;
-    if (dateState == '') {
+    let isDateAlreadyExists = GetAllHomeworkDailyLogs.some((item) => isEqualtonDate(item.Text1, dateState));
+
+    console.log(isDateAlreadyExists, "isDateAlreadyExists");
+
+    if (isDateAlreadyExists) {
+      console.log(isDateAlreadyExists);
+      
+      setDateError('Record for the given date already exists.');
+      isError = true;
+    } else {
+      setDateError('');
+    }
+
+    if (dateState === '') {
       setDateError('Field should not be blank');
       isError = true;
     }
-    // else if (fileName == '') {
-    //   setFileNameError('Field should not be blank')
-    //   isError = true
-    // }
-    //  else if (base64URL == '') {
-    //   setbase64URLError('Field should not be blank')
-    //   isError = true
-    // }
 
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
-    }
-
-    if (!isError) {
       ResetForm();
     }
   };
@@ -330,16 +323,18 @@ const AddDailyLog = () => {
   useEffect(() => {
     const getCurrentDateTime = () => {
       const currentDate = new Date();
-      const formattedDate = currentDate.toLocaleString('en-US', {
-        day: '2-digit',
+      const formattedDate = currentDate.toLocaleDateString('en-GB', {
+        day: 'numeric',
         month: 'short',
         year: 'numeric'
       });
       setDateState(formattedDate);
     };
 
+
     getCurrentDateTime();
   }, []);
+
 
   return (
     <>
@@ -416,7 +411,7 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip title={'Save Daily Log'}>
                 <IconButton
                   sx={{
@@ -432,7 +427,7 @@ const AddDailyLog = () => {
                   <Save />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Box> */}
           </Stack>
         </Stack>
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
@@ -475,7 +470,7 @@ const AddDailyLog = () => {
                   Cancel
                 </Button>
                 <Button
-                  // onClick={onClickCancel}
+                  onClick={onClickSave}
                   variant="contained"
                   color={'success'}
                 >
