@@ -69,12 +69,12 @@ function Adddailyloglist({
                   align="center"
                 >
                   <ButtonPrimary onClick={() => clickpublish(item.Id)}>
-                    {item.Text3 === 'True' ? 'UNPUBLISH' : 'PUBLISH'}
+                    {item.Text3 === 'True' ? 'UNPUBLISH' : 'PUBLISH '}
                   </ButtonPrimary>
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text3 === 'True' ? (
+                  {item.Text3 === 'False' ? (
                     <EditTwoTone
                       onClick={() => {
                         clickEdit(item.Id);
@@ -84,7 +84,7 @@ function Adddailyloglist({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text3 === 'True' ? (
+                  {item.Text3 === 'False' ? (
                     <DeleteTwoTone onClick={() => clickDelete(item.Id)} />
                   ) : null}
                 </TableCell>

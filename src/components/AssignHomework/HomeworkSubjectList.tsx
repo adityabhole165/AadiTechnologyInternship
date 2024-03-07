@@ -11,7 +11,7 @@ import {
   IPublishUnPublishHomeworkBody
 } from 'src/interfaces/AssignHomework/IHomeworkSubjectList';
 import Assignedhomeworklist from 'src/libraries/ResuableComponents/Assignedhomeworklist1';
-import DropDown from 'src/libraries/list/DropDown';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   GetAllHomeworkDocuments,
   GetHomeworkDetailss,
@@ -88,11 +88,14 @@ const HomeworkSubjectList = () => {
     asHomeworkId: Number(Id),
     asAcademicyearId: asAcademicYearId
   };
-  const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-    asSchoolId: asSchoolId,
-    asAcademicyearId: asAcademicYearId,
-    asHomeworkId: Number(Id)
-  };
+  useEffect(() => {
+    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+      asSchoolId: asSchoolId,
+      asAcademicyearId: asAcademicYearId,
+      asHomeworkId: Number(Id)
+    };
+    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
+  }, []);
   // useEffect(() => {
   //   dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   // }, []);
@@ -113,22 +116,32 @@ const HomeworkSubjectList = () => {
     dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   };
 
+  // useEffect(() => {
+  //   console.log(' after edit:', HomeworkDetail);
+  //   if (HomeworkDetail && HomeworkDetail.length > 0) {
+  //     setHomeworkId(HomeworkDetail.Id.toString);
+  //     setAttechment(HomeworkDetail[0].AttachmentPath);
+  //     setAssignedDate(HomeworkDetail[0].AssignedDate);
+  //     setCompleteDate(HomeworkDetail[0].CompleteByDate);
+  //     setTitle(HomeworkDetail[0].Title);
+  //     setDetails(HomeworkDetail[0].Details);
+  //   }
+  // }, [HomeworkDetail]);
   useEffect(() => {
-    console.log(' after edit:', HomeworkDetail);
-    if (HomeworkDetail && HomeworkDetail.length > 0) {
-      setHomeworkId(HomeworkDetail.Id.toString);
-      setAttechment(HomeworkDetail[0].AttachmentPath);
-      setAssignedDate(HomeworkDetail[0].AssignedDate);
-      setCompleteDate(HomeworkDetail[0].CompleteByDate);
-      setTitle(HomeworkDetail[0].Title);
-      setDetails(HomeworkDetail[0].Details);
+    if (HomeworkDetail !== null) {
+      console.log(' after edit:', HomeworkDetail);
+
+      setTitle(HomeworkDetail.Title);
+
+      setDetails(HomeworkDetail.Details);
+
     }
   }, [HomeworkDetail]);
 
   const [isPublish, setIsPublish] = useState(true);
 
   const getIsPublish = (Id) => {
-    let IsPublish = false;
+    let IsPublish = true;
     Subjectlistsforteacher.map((item) => {
       if (item.Id.toString() == Id.toString()) {
         IsPublish = item.Text7 == 'false' ? true : false;
@@ -228,8 +241,8 @@ const HomeworkSubjectList = () => {
     if (value !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Homework/' +
-          value
+        '/RITeSchool/DOWNLOADS/Homework/' +
+        value
       );
     }
   };
@@ -254,15 +267,14 @@ const HomeworkSubjectList = () => {
 </Grid> */}
       <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
         <Grid item xs={3}>
-          <DropDown
-            width={'100%'}
-            size={'medium'}
-            itemList={HomeworkStatus}
-            ClickItem={clickHomeworkStatus}
-            DefaultValue={HomeworkS}
-            Label={'Select Homework Status'}
+          <SearchableDropdown
+            ItemList={HomeworkStatus}
+            onChange={clickHomeworkStatus}
+            defaultValue={HomeworkS}
+
           />
         </Grid>
+
 
         <Grid item xs={3}>
           <TextField
@@ -278,8 +290,8 @@ const HomeworkSubjectList = () => {
               console.log('EventEndDate :', e.target.value);
             }}
             variant="standard"
-            // error={ErrorEventEndDate !== ''}
-            // helperText={ErrorEventEndDate}
+          // error={ErrorEventEndDate !== ''}
+          // helperText={ErrorEventEndDate}
           />
         </Grid>
         <Grid item xs={2}>
