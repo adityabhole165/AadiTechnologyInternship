@@ -29,7 +29,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const UserId = localStorage.getItem('TeacherId');
 
     const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
-    const MaxfileSize = 3000000;
+    const MaxfileSize = 1000000;
 
     const [EventTitle, setEventTitle] = useState('');
     const [EventDescription, setEventDescription] = useState('');
@@ -227,13 +227,15 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         }
     };
     const clickDelete = () => {
-        const DeleteEventImageBody: DeleteEventImageBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asEventId: Number(EventId),
-            asUserId: Number(TeacherId)
-        };
-        dispatch(GetDeleteEventImagee(DeleteEventImageBody));
+        if (confirm('Are you sure you want to delete image?')) {
+            const DeleteEventImageBody: DeleteEventImageBody = {
+                asSchoolId: asSchoolId,
+                asAcademicYearId: asAcademicYearId,
+                asEventId: Number(EventId),
+                asUserId: Number(TeacherId)
+            };
+            dispatch(GetDeleteEventImagee(DeleteEventImageBody));
+        }
     }
     const clickFileName = () => {
         window.open(
