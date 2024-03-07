@@ -467,14 +467,14 @@ const AddDailyLog = () => {
                   variant="contained"
                   color={'error'}
                 >
-                  Cancel
+                  CANCLE
                 </Button>
                 <Button
                   onClick={onClickSave}
                   variant="contained"
                   color={'success'}
                 >
-                  Save
+                  SAVE
                 </Button>
               </Stack>
             </Grid>
@@ -521,7 +521,7 @@ const AddDailyLog = () => {
                 </Box>
                 <Box>
                   <Button variant={'contained'} startIcon={<SearchTwoTone />}>
-                    Search
+                    SEARCH
                   </Button>
                 </Box>
               </Box>
