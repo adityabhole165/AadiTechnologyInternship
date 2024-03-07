@@ -285,7 +285,7 @@ const AddDailyLog = () => {
 
     if (isDateAlreadyExists) {
       console.log(isDateAlreadyExists);
-      
+
       setDateError('Record for the given date already exists.');
       isError = true;
     } else {
@@ -527,14 +527,22 @@ const AddDailyLog = () => {
               </Box>
             </Grid>
             <Grid item xs={12}>
-              <Adddailyloglist
-                ItemList={GetAllHomeworkDailyLogs}
-                clickView={clickFileName}
-                HeaderArray={HeaderPublish1}
-                clickEdit={clickEdit1}
-                clickDelete={clickDelete}
-                clickpublish={Changestaus}
-              />
+              {GetAllHomeworkDailyLogs.length > 0 ? (
+                <Adddailyloglist
+                  ItemList={GetAllHomeworkDailyLogs}
+                  clickView={clickFileName}
+                  HeaderArray={HeaderPublish1}
+                  clickEdit={clickEdit1}
+                  clickDelete={clickDelete}
+                  clickpublish={Changestaus}
+                />
+              ) : (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
+
+              )}
+
             </Grid>
           </Grid>
         </Box>
