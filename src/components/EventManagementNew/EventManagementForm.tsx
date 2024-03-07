@@ -3,14 +3,16 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { IAllClassesAndDivisionsBody, IEventDetailsBody, IEventListBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
+import { DeleteEventImageBody, IAllClassesAndDivisionsBody, IEventDetailsBody, IUpdateEventBody } from 'src/interfaces/EventManegment/IEventManegment';
 import ErrorMessage1 from 'src/libraries/ErrorMessages/ErrorMessage1';
 import SingleFile from 'src/libraries/File/SingleFile';
 import SelectListHierarchy from 'src/libraries/SelectList/SelectListHierarchy';
 import {
     GetAllClassAndDivision,
+    GetDeleteEventImagee,
     GetEventdetail,
     GetupdateEvent,
+    resetDeleteEventt,
     resetEventdetail,
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
@@ -44,17 +46,10 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const [ErrorEventEndDate, setErrorEventEndDate] = useState('');
     const [FileError, setFileError] = useState('');
 
-    const filePath =
-        localStorage.getItem('SiteURL') +
-        '/RITeSchool/' +
-        '/DOWNLOADS/Event Planner/' +
-        FileName;
-    const EventListBody: IEventListBody = {
-        "asEventDate": "2024-02-07",
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asStandardId": 1059,//StandardId,
-        "asDivisionId": 1288//StandardDivisionId
+    const EDetails: IEventDetailsBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asEventId: EventId
     };
     const ClassesAndDivisionss1 = useSelector(
         (state: RootState) => state.EventsManagement.AllClassesAndDivisionss1
@@ -69,6 +64,9 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         (state: RootState) => state.EventsManagement.EventDetailss
     );
 
+    const DeleteeEventImage = useSelector(
+        (state: RootState) => state.EventsManagement.DeleteEventImagee
+    );
     const ClickChild = (value) => {
         setitemList(value);
     };
@@ -94,11 +92,6 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     }, [AddNewEventClicked]);
     useEffect(() => {
         if (EventId != 0) {
-            const EDetails: IEventDetailsBody = {
-                asSchoolId: asSchoolId,
-                asAcademicYearId: asAcademicYearId,
-                asEventId: EventId
-            };
             dispatch(GetEventdetail(EDetails));
         }
     }, [EventId]);
@@ -136,6 +129,22 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
             navigate('/extended-sidebar/Common/AnnualPlanner');
         }
     }, [SaveUpdateEventt]);
+    useEffect(() => {
+        if (DeleteeEventImage != "") {
+            toast.success(DeleteeEventImage)
+            dispatch(resetDeleteEventt)
+            dispatch(GetEventdetail(EDetails));
+        }
+    }, [DeleteeEventImage])
+    useEffect(() => {
+
+        if (isGreaterThanDate(EventStartDate, EventEndDate)) {
+            setErrorEventStartDate('Start Date should be greater than end date')
+        } else
+            setErrorEventStartDate('')
+
+
+    }, [EventStartDate, EventEndDate])
 
     const resetForm = () => {
         dispatch(resetEventdetail())
@@ -219,15 +228,23 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
             dispatch(GetupdateEvent(UpdateEventBody));
         }
     };
-    useEffect(() => {
+    const clickDelete = () => {
+        const DeleteEventImageBody: DeleteEventImageBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asEventId: Number(EventId),
+            asUserId: Number(TeacherId)
+        };
+        dispatch(GetDeleteEventImagee(DeleteEventImageBody));
+    }
+    const clickFileName = () => {
+        window.open(
+            localStorage.getItem('SiteURL') +
+            '/RITeSchool/' +
+            '/DOWNLOADS/Event Planner/' +
+            EventDetaill.Event_Image);
+    }
 
-        if (isGreaterThanDate(EventStartDate, EventEndDate)) {
-            setErrorEventStartDate('Start Date should be greater than end date')
-        } else
-            setErrorEventStartDate('')
-
-
-    }, [EventStartDate, EventEndDate])
     return (
         <>
             <Grid container spacing={2}>
@@ -345,10 +362,12 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
                         MaxfileSize={MaxfileSize}
                         ChangeFile={ChangeFile}
                         errorMessage={FileError}
-                        filePath={filePath}
+                        FilePath={EventDetaill == null ? "" : EventDetaill.Event_Image}
                         FileName={FileName}
                         viewIcon={true}
                         deleteIcon={true}
+                        clickFileName={clickFileName}
+                        clickDelete={clickDelete}
                     ></SingleFile>
                 </Grid>
                 <Grid item xs={12} md={12}>
