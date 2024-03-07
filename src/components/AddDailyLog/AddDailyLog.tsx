@@ -120,7 +120,7 @@ const AddDailyLog = () => {
   };
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  }, [dateSearch]);
+  }, []);
 
   // useEffect(() => {
   //   const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
@@ -336,6 +336,24 @@ const AddDailyLog = () => {
   }, []);
 
 
+  const onClickSearch = () => {
+    if (!dateSearch) {
+      setDateSearchError('Date should not be blank.');
+    } else {
+      const currentDate = new Date();
+      const selectedDateObj = new Date(dateSearch);
+
+      if (selectedDateObj > currentDate) {
+        setDateSearchError('Future dates are disabled.');
+      } else {
+        setDateSearchError('');
+
+        dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+      }
+    }
+  };
+
+
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -520,7 +538,11 @@ const AddDailyLog = () => {
                   />
                 </Box>
                 <Box>
-                  <Button variant={'contained'} startIcon={<SearchTwoTone />}>
+                  <Button
+                    variant={'contained'}
+                    startIcon={<SearchTwoTone />}
+                    onClick={onClickSearch}
+                  >
                     SEARCH
                   </Button>
                 </Box>
@@ -538,8 +560,8 @@ const AddDailyLog = () => {
                 />
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Record Found.</b>
-            </Typography>
+                  <b>No Record Found.</b>
+                </Typography>
 
               )}
 
