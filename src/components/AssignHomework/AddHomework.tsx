@@ -264,6 +264,11 @@ const AddHomework = () => {
 
     // }
   };
+  const filePath =
+    localStorage.getItem('SiteURL') +
+    '/RITeSchool/' +
+    '/DOWNLOADS/Event Planner/' +
+    File;
 
   const Back = () => {
     navigate('/extended-sidebar/Teacher/AssignHomework');
@@ -497,18 +502,28 @@ const AddHomework = () => {
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
+                errorMessage={""}
+                // filePath={""}
+                FileName={File}
+                viewIcon={true}
+                deleteIcon={true}
                 width={'100%'}
                 isMandatory={false}
-              />
+              ></SingleFile>
             </Grid>
             <Grid item xs={3}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes1}
                 MaxfileSize={MaxfileSize1}
                 ChangeFile={ChangeFile1}
+                errorMessage={""}
+                // filePath={""}
+                FileName={File1}
+                viewIcon={true}
+                deleteIcon={true}
                 width={'100%'}
                 isMandatory={false}
-              />
+              ></SingleFile>
             </Grid>
             <Grid item xs={12}>
               <TextField
