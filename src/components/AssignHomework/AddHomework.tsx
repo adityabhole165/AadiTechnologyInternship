@@ -31,8 +31,8 @@ import {
   ISaveHomeworkBody
 } from 'src/interfaces/AssignHomework/IAddHomework';
 import SingleFile from 'src/libraries/File/SingleFile';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectList1 from 'src/libraries/ResuableComponents/SubjectList1';
-import DropDown from 'src/libraries/list/DropDown';
 import {
   GetTeacherSubjectList,
   HomeworkSave,
@@ -264,11 +264,6 @@ const AddHomework = () => {
 
     // }
   };
-  const filePath =
-    localStorage.getItem('SiteURL') +
-    '/RITeSchool/' +
-    '/DOWNLOADS/Event Planner/' +
-    File;
 
   const Back = () => {
     navigate('/extended-sidebar/Teacher/AssignHomework');
@@ -430,7 +425,7 @@ const AddHomework = () => {
               />
             </Grid>
             <Grid item xs={3}>
-              <DropDown
+              {/* <DropDown
                 width={'100%'}
                 itemList={ClassSubject}
                 ClickItem={clickSubjectList}
@@ -438,6 +433,11 @@ const AddHomework = () => {
                 Label={'Select Subject'}
                 variant={'outlined'}
                 size={'medium'}
+              /> */}
+              <SearchableDropdown
+                ItemList={ClassSubject}
+                onChange={clickSubjectList}
+                defaultValue={SubjectId}
               />
             </Grid>
             <Grid item xs={3}>
@@ -502,28 +502,18 @@ const AddHomework = () => {
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
-                errorMessage={""}
-                // filePath={""}
-                FileName={File}
-                viewIcon={true}
-                deleteIcon={true}
                 width={'100%'}
                 isMandatory={false}
-              ></SingleFile>
+              />
             </Grid>
             <Grid item xs={3}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes1}
                 MaxfileSize={MaxfileSize1}
                 ChangeFile={ChangeFile1}
-                errorMessage={""}
-                // filePath={""}
-                FileName={File1}
-                viewIcon={true}
-                deleteIcon={true}
                 width={'100%'}
                 isMandatory={false}
-              ></SingleFile>
+              />
             </Grid>
             <Grid item xs={12}>
               <TextField
@@ -590,22 +580,7 @@ const AddHomework = () => {
               />
             </DialogContent>
           </Dialog>
-          {/* <Grid item xs={8}>
-            <ButtonPrimary
-              onClick={() => clickPublishUnpublish(1)}
-              variant="contained"
-              style={{ marginRight: '8px', backgroundColor: 'green' }}
-            >
-              PUBLISHALL
-            </ButtonPrimary>
-            <ButtonPrimary
-              onClick={ClickOpenDialogbox}
-              variant="contained"
-              style={{ marginRight: '8px', backgroundColor: 'green' }}
-            >
-              UNPUBLISHALL
-            </ButtonPrimary>
-          </Grid> */}
+
         </Box>
       </Container>
     </>
