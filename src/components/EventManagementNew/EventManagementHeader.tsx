@@ -1,5 +1,4 @@
 import AddIcon from '@mui/icons-material/Add';
-import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Box, Stack } from "@mui/material";
@@ -17,7 +16,6 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const IconList = [
         { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
         { Id: 2, Icon: <QuestionMarkIcon />, Title: 'Help', Action: 'Help' },
-        { Id: 1, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
         { Id: 4, Icon: <AddIcon />, Title: 'Add New Event', Action: 'AddNewEvent' },
     ]
     const ClickIcon = (value) => {
