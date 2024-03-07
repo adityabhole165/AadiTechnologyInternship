@@ -138,11 +138,11 @@ const IndividualAttendance = () => {
       ItemList.map((obj) =>
         obj.IsClickable
           ? {
-              ...obj,
-              Status: value,
-              BackgroundColor: getAttendanceLegend(value),
-              Text1: value == 'Y' ? 'Present' : 'Absent'
-            }
+            ...obj,
+            Status: value,
+            BackgroundColor: getAttendanceLegend(value),
+            Text1: value == 'Y' ? 'Present' : 'Absent'
+          }
           : obj
       )
     );
@@ -362,7 +362,7 @@ const IndividualAttendance = () => {
               </Tooltip>
             </IconButton>
           </Paper>
-          <Tooltip title="Present Mark">
+          <Tooltip title="Present All">
             <IconButton
               onClick={handlePresent}
               sx={{

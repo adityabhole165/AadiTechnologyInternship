@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography, alpha } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
 const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
@@ -101,10 +101,14 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
             >
               <Typography>{Item.Name}</Typography>
 
-              {Item.Text1.map((obj, i) => {
-                return (<b key={i}>{obj}</b>)
+              {Item.Text1.slice(0, 1).map((obj, i) => {
+                return (<b style={{ background: alpha(bg[Item.Legend], 0.1), width: '100%' }} key={i}>{obj}</b>)
               })}
-
+              {Item.Text1.length > 1 && (
+                <Box>
+                  +{Item.Text1.length - 1}
+                </Box>
+              )}
             </Box>
           </Grid>
         );

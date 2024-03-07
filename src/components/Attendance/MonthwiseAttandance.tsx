@@ -28,18 +28,18 @@ const MonthwiseAttandance = () => {
   const StandardDivisionId = Number(
     sessionStorage.getItem('StandardDivisionId')
   );
-  
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const StudentId = Number(sessionStorage.getItem('StudentId'));
   const Note: string =
     "Displays students'  attendance for each month. Attendance is presented in the following format: number of days present/total attendance days.";
-    const MonthWiseAttendance = useSelector(
-      (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
-    );
-    const HeaderArray = useSelector(
-      (state: RootState) => state.MonthwiseAttendance.HeaderArray
-    );
+  const MonthWiseAttendance = useSelector(
+    (state: RootState) => state.MonthwiseAttendance.GetMonthwiseAttendance
+  );
+  const HeaderArray = useSelector(
+    (state: RootState) => state.MonthwiseAttendance.HeaderArray
+  );
   const [search, setSearch] = useState(true);
   const [SearchText, setSearchText] = useState('');
   const [MonthWiseAttendanceList, setMonthWiseAttendanceList] = useState([
@@ -140,7 +140,7 @@ const MonthwiseAttandance = () => {
                 </Typography>
               </Link>
               <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Monthwise Attendance
+                Month Wise Attendance
               </Typography>
             </Breadcrumbs>
           </Box>

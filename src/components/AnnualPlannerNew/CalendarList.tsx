@@ -51,7 +51,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
                     {
                         EventType.map((Item, i) => {
                             return (
-                                <Stack direction={'row'} key={i}>
+                                <Stack direction={'row'} key={i} sx={{ alignItems: 'center' }}>
                                     {["2", "3", "4"].includes(Item.Value) &&
                                         <Checkbox {...label} checked={getIsChecked(Item.Value)}
                                             onChange={() => { clickCheck(Item.Value) }} />
