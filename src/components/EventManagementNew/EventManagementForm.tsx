@@ -201,11 +201,9 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
             setErrorClass('At least one class should be associated.');
             isError = true;
         } else setErrorClass('')
-
-        if (FileName == '' && base64URL == '') {
-            setFileError('Please Choose a file');
+        if (ErrorEventStartDate != '') {
             isError = true;
-        } else setFileError('')
+        }
         if (!isError) {
             const UpdateEventBody: IUpdateEventBody = {
                 asEventId: EventId,
@@ -368,6 +366,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
                         deleteIcon={true}
                         clickFileName={clickFileName}
                         clickDelete={clickDelete}
+                        isMandatory={false}
                     ></SingleFile>
                 </Grid>
                 <Grid item xs={12} md={12}>
