@@ -255,8 +255,9 @@ const AssignHomework = () => {
           <SearchableDropdown
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
-            label={'Select Techer'}
+            label={'Select Teacher'}
             defaultValue={SelectTeacher?.toString()}
+            mandatory
           />
 
           <SearchableDropdown
@@ -264,6 +265,7 @@ const AssignHomework = () => {
             onChange={clickClass}
             label={'Select Class:'}
             defaultValue={SelectClass}
+            mandatory
           />
 
 
@@ -283,25 +285,25 @@ const AssignHomework = () => {
           </Tooltip>
 
           {SelectClass &&
-  ((asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y') ||
-    SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
-    <div>
-      <Tooltip title={'Add Daily Log'}>
-        <IconButton
-          onClick={onClick}
-          sx={{
-            color: 'white',
-            backgroundColor: (theme) => theme.palette.primary.main,
-            '&:hover': {
-              backgroundColor: (theme) => theme.palette.primary.dark
-            }
-          }}
-        >
-          <AddTwoTone />
-        </IconButton>
-      </Tooltip>
-    </div>
-  )}
+            ((asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y') ||
+              SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
+              <div>
+                <Tooltip title={'Add Daily Log'}>
+                  <IconButton
+                    onClick={onClick}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: (theme) => theme.palette.primary.main,
+                      '&:hover': {
+                        backgroundColor: (theme) => theme.palette.primary.dark
+                      }
+                    }}
+                  >
+                    <AddTwoTone />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            )}
 
         </Stack>
       </Stack>

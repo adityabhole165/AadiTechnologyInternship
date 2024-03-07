@@ -8,7 +8,7 @@ SearchableDropdown.propTypes = {
   label: PropTypes.string
 };
 
-function SearchableDropdown({ ItemList, onChange, label, defaultValue = '' }) {
+function SearchableDropdown({ ItemList, onChange, label, defaultValue = '', mandatory = false }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -27,10 +27,12 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '' }) {
             pl: '10px'
           }}
           variant={'standard'}
-          label={label}
+          label={<>
+            <span>{label} {mandatory && <span style={{ color: 'red' }}>*</span>}</span>
+          </>}
         />
       )}
-    
+
     />
   );
 }
