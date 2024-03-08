@@ -16,6 +16,7 @@ import { RootState } from 'src/store';
 
 import { Box, Grid } from '@mui/material';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import Homeworkview from 'src/libraries/ResuableComponents/Homeworkview';
 
 const HomeworkDocuments = () => {
   const dispatch = useDispatch();
@@ -30,7 +31,11 @@ const HomeworkDocuments = () => {
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
 
-  const HeaderList = ['FileName ', 'Delete'];
+  const HeaderList = [
+    { Id: 1, Header: 'FileName' },
+    { Id: 2, Header: 'Delete' },
+   
+  ];
   const IconList = [
     {
       Id: 1,
@@ -42,7 +47,7 @@ const HomeworkDocuments = () => {
   const AllHomeworkDocuments = useSelector(
     (state: RootState) => state.Homeworkdocument.GetAllHomeworkDocuments
   );
-  //console.log(AllHomeworkDocuments, "AllHomeworkDocuments....")
+ 
 
   const DeleteHomeworkDocument = useSelector(
     (state: RootState) => state.Homeworkdocument.DeleteHomeworkDocument
@@ -58,6 +63,7 @@ const HomeworkDocuments = () => {
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
   }, []);
+
   const ClickDelete = (Id) => {
     if (confirm('Are You Sure you want to delete The List')) {
       const DeleteHomeworkDocumentBody: IDeleteHomeworkDocumentBody = {
@@ -66,9 +72,11 @@ const HomeworkDocuments = () => {
         asHomeworkId: Number(Id),
         asAcademicYearId: asAcademicYearId
       };
-      dispatch(DeleteDocument(DeleteHomeworkDocumentBody));
+  
+      dispatch(DeleteDocument(DeleteHomeworkDocumentBody)) 
     }
   };
+  
   const click = () => {
     navigate('/extended-sidebar/Teacher/AddHomework');
   };
@@ -81,6 +89,10 @@ const HomeworkDocuments = () => {
       );
     }
   };
+
+  
+
+
   return (
     <div>
       <br></br>
@@ -91,12 +103,11 @@ const HomeworkDocuments = () => {
 
       <Grid item xs={12}>
         {AllHomeworkDocuments != undefined && (
-          <DynamicList2
-            HeaderList={HeaderList}
+          <Homeworkview
+          HeaderArray={HeaderList}
             ItemList={AllHomeworkDocuments}
-            ClickItem={ClickDelete}
-            IconList={IconList}
-            clickView={clickFileName}
+            clickDelete={ClickDelete}
+            clickopen={clickFileName}
           />
         )}
       </Grid>
