@@ -64,7 +64,6 @@ const AddDailyLog = () => {
   const GetAllHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetAllHomework
   );
-  console.log('GetAllHomeworkDailyLogs', GetAllHomeworkDailyLogs);
   const GetHomeworkDailyLogs: any = useSelector(
     (state: RootState) => state.AddDailyLog.GetHomeworkDailyLog
   );
@@ -78,7 +77,6 @@ const AddDailyLog = () => {
   const GetFileUS: any = useSelector(
     (state: RootState) => state.AddDailyLog.ISGetfile
   );
-  console.log('GetFileUS', GetFileUS);
 
   const HeaderPublish1 = [
     { Id: 1, Header: 'Date' },
@@ -480,20 +478,18 @@ const AddDailyLog = () => {
             </Grid>
             <Grid item xs={12}>
               <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
-                <Button
-                  onClick={onClickCancel}
-                  variant="contained"
-                  color={'error'}
-                >
-                  CANCLE
+                <Button onClick={onClickCancel} variant="contained" color={'error'}>
+                  CANCEL
                 </Button>
-                <Button
-                  onClick={onClickSave}
-                  variant="contained"
-                  color={'success'}
-                >
-                  SAVE
-                </Button>
+                {LogId > 0 ? (
+                  <Button onClick={onClickSave} variant="contained" color={'warning'}>
+                    UPDATE
+                  </Button>
+                ) : (
+                  <Button onClick={onClickSave} variant="contained" color={'success'}>
+                    SAVE
+                  </Button>
+                )}
               </Stack>
             </Grid>
           </Grid>

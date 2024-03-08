@@ -567,9 +567,7 @@ const TAttendance = () => {
                   );
                 }}
               >
-                <Tooltip title="School Attendance Overview">
-                  <Box>Count :</Box>
-                </Tooltip>
+                
                 <Tooltip title={'Present Students / Total Student'}>
                   <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
                 </Tooltip>
@@ -587,14 +585,10 @@ const TAttendance = () => {
                   );
                 }}
               >
-                <Tooltip title="School Attendance Overview" sx={{ ml: 1 }}>
+               
+                <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
                   <Box>
-                    Count :
-                  </Box>
-                </Tooltip>
-                <Tooltip title={'Attendance marked classes / Total Classes'}>
-                  <Box>
-                    {SummaryCountforAttendance?.TotalStudents}
+                    {SummaryCountforAttendance?.TotalDivisions}
                   </Box>
                 </Tooltip>
               </Typography>

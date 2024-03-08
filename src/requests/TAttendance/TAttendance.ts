@@ -322,8 +322,14 @@ export const CDASummaryCountforAttendanceBody =
         TotalStudents:
           response.data.listTotalStudentAttendance.PresentStudents +
           '   /    ' +
-          response.data.listTotalStudentAttendance.TotalStudents
+          response.data.listTotalStudentAttendance.TotalStudents,
+        TotalDivisions:
+          response.data.listTotalStudentAttendance.PresentDivisions +
+          '   /    ' +
+          response.data.listTotalStudentAttendance.TotalDivisions
+          
       };
+console.log(response,"response");
 
       dispatch(
         TAttendanceSlice.actions.RGetSummaryCountforAttendance({
