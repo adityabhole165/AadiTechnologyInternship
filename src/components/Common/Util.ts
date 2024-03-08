@@ -443,10 +443,10 @@ export const CheckFileValidationAdhar = (
   const fileExtension = fileData?.name?.split('.').at(-1);
   if (fileExtension != undefined || null) {
     if (fileData?.size > fileSize) {
-      return 'Please upload a file smaller than 3 MB';
+      return 'Please upload a file smaller than ' + (fileSize / 1000000).toString() + ' MB';
     }
     if (!allowedFileTypes.includes(fileExtension.toUpperCase())) {
-      return 'Invalid file type';
+      return 'Invalid file type. Supports only ' + allowedFileTypes.join(', ') + ' files types';
     } else if (allowedFileTypes.includes(fileExtension)) {
       return null;
     }

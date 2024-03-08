@@ -28,7 +28,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const TeacherId = Number(sessionStorage.getItem('Id'));
     const UserId = localStorage.getItem('TeacherId');
 
-    const ValidFileTypes = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
+    const ValidFileTypes = ['JPG', 'PNG', 'BMP', 'JPEG'];
     const MaxfileSize = 1000000;
 
     const [EventTitle, setEventTitle] = useState('');
