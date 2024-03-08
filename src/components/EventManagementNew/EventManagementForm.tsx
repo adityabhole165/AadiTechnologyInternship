@@ -17,7 +17,7 @@ import {
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
-import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, isGreaterThanDate } from '../Common/Util';
+import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 
 const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     const dispatch = useDispatch();
@@ -141,7 +141,17 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         if (isGreaterThanDate(EventStartDate, EventEndDate)) {
             setErrorEventStartDate('Start Date should be greater than end date')
         } else
-            setErrorEventStartDate('')
+            if (isGreaterThanDate(sessionStorage.getItem("StartDate"), EventStartDate)) {
+                setErrorEventStartDate('Event End date must be within current academic year ' +
+                    '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                    ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+            } else setErrorEventStartDate('')
+        if (isGreaterThanDate(EventEndDate, sessionStorage.getItem("EndDate"))
+        ) {
+            setErrorEventEndDate('Event End date must be within current academic year ' +
+                '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+                ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+        } else setErrorEventEndDate('')
 
 
     }, [EventStartDate, EventEndDate])
@@ -197,6 +207,8 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         } else setErrorEventStartDate('')
         if (EventEndDate == '') {
             setErrorEventEndDate('Event End date should not be blank.');
+            isError = true;
+        } if (ErrorEventEndDate != '') {
             isError = true;
         } else setErrorEventEndDate('')
         if (!isClassSelected()) {
