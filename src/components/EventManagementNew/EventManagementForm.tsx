@@ -12,7 +12,7 @@ import {
     GetDeleteEventImagee,
     GetEventdetail,
     GetupdateEvent,
-    resetDeleteEventt,
+    resetDeleteEventImagee,
     resetEventdetail,
     resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
@@ -132,7 +132,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
     useEffect(() => {
         if (DeleteeEventImage != "") {
             toast.success(DeleteeEventImage)
-            dispatch(resetDeleteEventt)
+            dispatch(resetDeleteEventImagee())
             dispatch(GetEventdetail(EDetails));
         }
     }, [DeleteeEventImage])
@@ -192,6 +192,8 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         if (EventStartDate == '') {
             setErrorEventStartDate('Event start date should not be blank.');
             isError = true;
+        } else if (ErrorEventStartDate != '') {
+            isError = true;
         } else setErrorEventStartDate('')
         if (EventEndDate == '') {
             setErrorEventEndDate('Event End date should not be blank.');
@@ -201,9 +203,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
             setErrorClass('At least one class should be associated.');
             isError = true;
         } else setErrorClass('')
-        if (ErrorEventStartDate != '') {
-            isError = true;
-        }
+
         if (!isError) {
             const UpdateEventBody: IUpdateEventBody = {
                 asEventId: EventId,

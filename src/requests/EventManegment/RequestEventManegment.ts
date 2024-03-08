@@ -53,6 +53,9 @@ const EventDescriptionSlice = createSlice({
     getDeleteEventImagee(state, action) {
       state.DeleteEventImagee = action.payload;
     },
+    resetDeleteEventImagee(state) {
+      state.DeleteEventImagee = "";
+    },
     resetMessage(state) {
       state.SaveUpdateEventt = ""
     },
@@ -204,17 +207,14 @@ export const GetDeleteEventImagee =
   (data: DeleteEventImageBody): AppThunk =>
     async (dispatch) => {
       const response = await GetEventDescriptionApi.DeleteEventImage(data);
-      // let responseData = response.data.map((item, i) => {
-
-      //   return {
-      //     Id: item.EventId,
-      //     text1: item.Event_Description,
-      //     //Text2: item.EventStartDate,
-      //     //Text3: item.EventEndDate
-
-      //   }
-      // })
       dispatch(EventDescriptionSlice.actions.getDeleteEventImagee(response.data));
+    };
+
+
+export const resetDeleteEventImagee =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(EventDescriptionSlice.actions.resetDeleteEventImagee());
     };
 
 
