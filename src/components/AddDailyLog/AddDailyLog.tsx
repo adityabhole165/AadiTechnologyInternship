@@ -480,6 +480,9 @@ const AddDailyLog = () => {
             </Grid>
             <Grid item xs={12}>
               <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
+                <Button onClick={onClickCancel} variant="contained" color={'error'}>
+                  CANCEL
+                </Button>
                 {LogId > 0 ? (
                   <Button onClick={onClickSave} variant="contained" color={'warning'}>
                     UPDATE
@@ -489,9 +492,6 @@ const AddDailyLog = () => {
                     SAVE
                   </Button>
                 )}
-                <Button onClick={onClickCancel} variant="contained" color={'error'}>
-                  CANCEL
-                </Button>
               </Stack>
             </Grid>
           </Grid>
