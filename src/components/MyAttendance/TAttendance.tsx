@@ -592,7 +592,7 @@ const TAttendance = () => {
                     Count :
                   </Box>
                 </Tooltip>
-                <Tooltip title={'Attendance marked classes / Total Classes'}>
+                <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
                   <Box>
                     {SummaryCountforAttendance?.TotalDivisions}
                   </Box>
