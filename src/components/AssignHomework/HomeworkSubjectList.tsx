@@ -104,6 +104,8 @@ const HomeworkSubjectList = () => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
   }, []);
   useEffect(() => {
+    const today = new Date().toISOString().split('T')[0];
+    setAssignedDate(today);
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
@@ -174,31 +176,6 @@ const HomeworkSubjectList = () => {
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
-
-  // const Changestaus = (Id) => {
-  //   const updatedIsPublish = !isPublish;
-
-  //   const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
-  //     asSchoolId: asSchoolId,
-  //     asAcademicYearId: asAcademicYearId,
-  //     asHomeworkId: Number(Id),
-  //     asReason: '',
-  //     asUpdatedById: asTeacherId,
-  //     asIsPublish: updatedIsPublish,
-  //     asIsSMSSent: true
-  //   };
-  //   dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
-
-  //   setIsPublish(updatedIsPublish);
-  // };
-
-  // useEffect(() => {
-  //   if (PublishUnpublishHomework != '') {
-  //     toast.success(PublishUnpublishHomework);
-  //     //dispatch(resetMessage());
-  //     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
-  //   }
-  // }, [PublishUnpublishHomework]);
 
   const clickDelete = (Id) => {
     // alert(Id)
