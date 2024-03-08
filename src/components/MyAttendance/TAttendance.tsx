@@ -594,7 +594,7 @@ const TAttendance = () => {
                 </Tooltip>
                 <Tooltip title={'Attendance marked classes / Total Classes'}>
                   <Box>
-                    {SummaryCountforAttendance?.TotalStudents}
+                    {SummaryCountforAttendance?.TotalDivisions}
                   </Box>
                 </Tooltip>
               </Typography>
