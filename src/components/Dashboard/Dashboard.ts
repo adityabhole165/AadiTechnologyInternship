@@ -15,7 +15,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 const DashboardData = {
   Student: {
     items1: [
@@ -413,6 +413,16 @@ const DashboardData = {
         Icon: CakeIcon,
         Link: 'Teacher/AddHomework',
         index: 27
+      },
+
+      {
+        Text1: 'AadharCard',
+        Text2: '',
+        Color: '#90a4ae',
+        iconColor: '#f0483e ',
+        Icon: AssignmentIndIcon,
+        Link: 'Teacher/AadharCard',
+        index: 28
       }
 
       // {

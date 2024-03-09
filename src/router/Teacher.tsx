@@ -125,6 +125,10 @@ const UnpublishPrePrimaryResult = Loader(
 const AddUnpublish1 = Loader(
   lazy(() => import('src/components/AssignHomework/AddUnpublish1'))
 );
+const AadharCard = Loader(
+  lazy(() => import('src/components/NewAadharcard/AadharCard'))
+);
+
 
 const teacherRoutes = [
   {
@@ -323,7 +327,12 @@ const teacherRoutes = [
   {
     path: 'FinalResultUnpublish/:SelectTeacher/:TeacherName',
     element: <FinalResultUnpublish />
+  },
+  {
+    path: 'AadharCard',
+    element: <AadharCard />
   }
+  
 
 ];
 
