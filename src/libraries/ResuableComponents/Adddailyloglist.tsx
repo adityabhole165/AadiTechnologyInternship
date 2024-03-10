@@ -10,15 +10,26 @@ import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import { Box, Link } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
-
+import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
+import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
 function Adddailyloglist({
   ItemList,
   clickView,
   HeaderArray,
   clickEdit,
   clickDelete,
-  clickpublish
+  clickpublish,
+  ClickHeader
 }) {
+  const clickHeader = (value) => {
+    if (value != undefined) {
+      HeaderArray = HeaderArray.map((Item) => {
+        return Item.SortOrder == undefined ? Item :
+          { ...Item, SortOrder: Item.SortOrder == " Asc" ? " Desc" : " Asc" }
+      })
+      ClickHeader(HeaderArray)
+    }
+  }
   return (
     <div>
       <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
@@ -39,8 +50,15 @@ function Adddailyloglist({
                     py: 1
                   }}
                   align="center"
+                  onClick={() => { clickHeader(item.Id) }}
                 >
                   <b>{item.Header}</b>
+                  {item.SortOrder != undefined ?
+                    item.SortOrder == " Asc" ?
+                      <ArrowCircleUpIcon /> :
+                      <ArrowDropDownCircleIcon /> :
+                    null
+                  }
                 </TableCell>
               ))}
             </TableRow>
@@ -52,6 +70,7 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
                   align="center"
                 >
+
                   {item.Text1}
                 </TableCell>
 

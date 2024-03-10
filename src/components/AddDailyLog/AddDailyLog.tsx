@@ -78,13 +78,13 @@ const AddDailyLog = () => {
     (state: RootState) => state.AddDailyLog.ISGetfile
   );
 
-  const HeaderPublish1 = [
-    { Id: 1, Header: 'Date' },
+  const [HeaderPublish, setHeaderPublish] = useState([
+    { Id: 1, Header: 'Date', SortOrder: " Asc" },
     { Id: 2, Header: 'Attachment' },
     { Id: 3, Header: 'Publish/UnPublish' },
     { Id: 4, Header: 'Edit' },
     { Id: 5, Header: 'Delete' }
-  ];
+  ]);
 
   const ValidFileTypes = [
     'BMP',
@@ -111,14 +111,14 @@ const AddDailyLog = () => {
     asSchoolId: asSchoolId,
     asFilter: dateSearch,
     asStdDivId: Number(Id),
-    asSortExpression: 'Date',
+    asSortExpression: 'Date ' + HeaderPublish[0].SortOrder,
     asStartIndex: 0,
     asEndIndex: 20,
     asUserId: asUserId
   };
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  }, []);
+  }, [HeaderPublish]);
 
   // useEffect(() => {
   //   const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
@@ -351,6 +351,9 @@ const AddDailyLog = () => {
     }
   };
 
+  const ClickHeader = (value) => {
+    setHeaderPublish(value)
+  }
 
   return (
     <>
@@ -549,7 +552,8 @@ const AddDailyLog = () => {
                 <Adddailyloglist
                   ItemList={GetAllHomeworkDailyLogs}
                   clickView={clickFileName}
-                  HeaderArray={HeaderPublish1}
+                  HeaderArray={HeaderPublish}
+                  ClickHeader={ClickHeader}
                   clickEdit={clickEdit1}
                   clickDelete={clickDelete}
                   clickpublish={Changestaus}
