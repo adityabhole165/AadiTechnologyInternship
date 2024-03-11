@@ -2,14 +2,12 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PersonIcon from '@mui/icons-material/Person';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Breadcrumbs,
   Container,
   Grid,
   IconButton,
-  Paper,
   Stack,
   Tooltip,
   Typography
@@ -551,10 +549,22 @@ const TAttendance = () => {
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Stack direction={'row'} gap={1} alignItems={'center'}>
             <Stack direction={'row'} alignItems={'center'} gap={1}>
+              <Tooltip title={"School Attendance Overview"}>
+                <Typography color="primary" fontWeight={"bold"}
+                  sx={{ cursor: 'pointer' }} onClick={() => {
+                    navigate(
+                      '/extended-sidebar/Teacher/SchoolAttendanceOverview'
+                    );
+                  }}>
+                  Overview
+                </Typography>
+              </Tooltip>
+              <Typography color="primary" fontWeight={"bold"}>
+                -
+              </Typography>
               <Typography
                 color={'primary'}
                 sx={{
-                  ml: 1,
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
@@ -567,7 +577,7 @@ const TAttendance = () => {
                   );
                 }}
               >
-                
+
                 <Tooltip title={'Present Students / Total Student'}>
                   <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
                 </Tooltip>
@@ -585,7 +595,7 @@ const TAttendance = () => {
                   );
                 }}
               >
-               
+
                 <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
                   <Box>
                     {SummaryCountforAttendance?.TotalDivisions}
@@ -594,8 +604,16 @@ const TAttendance = () => {
               </Typography>
             </Stack>
           </Stack>
-          <Box>
-            <Paper
+          <Box sx={{ background: 'white' }}>
+            <SearchableDropdown
+              label={""}
+              sx={{ pl: 0, minWidth: '350px' }}
+              ItemList={ClassTeacherDropdownnew}
+              onChange={clickClassTechernew}
+              defaultValue={selectClasstecahernew}
+              size={"small"}
+            />
+            {/* <Paper
               component="form"
               sx={{
                 display: 'flex',
@@ -608,11 +626,6 @@ const TAttendance = () => {
             >
               {search ? (
                 <>
-                  <SearchableDropdown
-                    ItemList={ClassTeacherDropdownnew}
-                    onChange={clickClassTechernew}
-                    defaultValue={selectClasstecahernew}
-                  />
                 </>
               ) : (
                 ''
@@ -633,7 +646,7 @@ const TAttendance = () => {
                   <SearchIcon />
                 </Tooltip>
               </IconButton>
-            </Paper>
+            </Paper> */}
           </Box>
 
           <Box>
@@ -723,7 +736,8 @@ const TAttendance = () => {
           <Box
             sx={{
               background: (theme) => theme.palette.common.white,
-              p: 2
+              p: 2,
+              textAlign: 'center'
             }}
           >
             <Typography
@@ -749,10 +763,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text2}
                     </Typography>
                   </Box>
@@ -762,10 +777,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text3}
                     </Typography>
                   </Box>
@@ -775,10 +791,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[0]?.Text4}
                     </Typography>
                   </Box>
@@ -791,7 +808,8 @@ const TAttendance = () => {
           <Box
             sx={{
               background: (theme) => theme.palette.common.white,
-              p: 2
+              p: 2,
+              textAlign: 'center'
             }}
           >
             <Typography
@@ -817,10 +835,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text2}
                     </Typography>
                   </Box>
@@ -830,10 +849,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text3}
                     </Typography>
                   </Box>
@@ -843,10 +863,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[1]?.Text4}
                     </Typography>
                   </Box>
@@ -859,7 +880,8 @@ const TAttendance = () => {
           <Box
             sx={{
               background: (theme) => theme.palette.common.white,
-              p: 2
+              p: 2,
+              textAlign: 'center'
             }}
           >
             <Typography
@@ -885,10 +907,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text2}
                     </Typography>
                   </Box>
@@ -898,10 +921,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text3}
                     </Typography>
                   </Box>
@@ -911,10 +935,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[2]?.Text4}
                     </Typography>
                   </Box>
@@ -927,7 +952,8 @@ const TAttendance = () => {
           <Box
             sx={{
               background: (theme) => theme.palette.common.white,
-              p: 2
+              p: 2,
+              textAlign: 'center'
             }}
           >
             <Typography
@@ -952,10 +978,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text2}
                     </Typography>
                   </Box>
@@ -965,10 +992,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text3}
                     </Typography>
                   </Box>
@@ -978,10 +1006,11 @@ const TAttendance = () => {
                   <Box
                     sx={{
                       display: 'flex',
-                      alignItems: 'center'
+                      alignItems: 'center',
+                      justifyContent: 'center'
                     }}
                   >
-                    <Typography variant={'body1'}>
+                    <Typography variant={'body1'} textAlign={'center'}>
                       {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text4}
                     </Typography>
                   </Box>

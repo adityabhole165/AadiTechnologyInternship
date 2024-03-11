@@ -954,18 +954,16 @@ export const PurpleFlowTheme = createTheme({
         },
         root: {
           '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment':
-            {
-              right: 14
-            }
+          {
+            right: 14
+          }
         },
         clearIndicator: {
-          background: colors.error.lighter,
-          color: colors.error.main,
+          color: colors.primary.main,
           marginRight: 8,
 
           '&:hover': {
-            background: colors.error.lighter,
-            color: colors.error.dark
+            color: colors.primary.dark
           }
         },
         popupIndicator: {

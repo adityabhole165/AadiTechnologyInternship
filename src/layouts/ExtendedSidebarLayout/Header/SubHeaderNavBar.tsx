@@ -356,6 +356,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
                         </MenuItem>
                         <MenuItem onClick={handleClose}>Feedback</MenuItem>
                         <MenuItem onClick={handleClose}>Contact Us</MenuItem>
+                        <MenuItem onClick={handleClose}>Email</MenuItem>
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

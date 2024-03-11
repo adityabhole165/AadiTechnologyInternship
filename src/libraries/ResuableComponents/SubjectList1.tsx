@@ -51,7 +51,7 @@ function SubjectList1({
             <TableRow
               sx={{ backgroundColor: (theme) => theme.colors.primary.main }}
             >
-              {/* <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+              {/* <TableCell sx={{ textTransform: 'capitalize' }} >
                                 <Checkbox checked={IsCheckAll()} onClick={clickAll}></Checkbox>
 
                             </TableCell> */}
@@ -63,7 +63,7 @@ function SubjectList1({
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white
                   }}
-                  align="center"
+
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -82,23 +82,23 @@ function SubjectList1({
                   />
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   <Link href={''} onClick={() => clickTitle(item.Id)}>
                     {item.Text3}
                   </Link>
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text5 === 'True' ? <CheckIcon /> : <ClearIcon />}
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text6}
                 </TableCell>
               </TableRow>

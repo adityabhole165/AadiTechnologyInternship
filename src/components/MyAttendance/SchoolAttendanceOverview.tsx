@@ -72,7 +72,7 @@ const SchoolAttendanceOverview = () => {
     }
   }, [ISAttendanceOverviewDivArray]);
 
-  useEffect(() => {}, [ISWeekendStatusList]);
+  useEffect(() => { }, [ISWeekendStatusList]);
 
   const GetSchoolAttendanceOverview: IGetSchoolAttendanceOverviewBody = {
     asSchoolId: asSchoolId,
@@ -120,12 +120,20 @@ const SchoolAttendanceOverview = () => {
                 <HomeTwoTone color="primary" />
               </IconButton>
             </Link>
-            <Link to={'/extended-sidebar/Teacher/TAttendance'}>
+            <Link
+              to={'/extended-sidebar/Teacher/TAttendance'}
+              style={{ textDecoration: 'none' }}
+            >
               <Typography
                 variant={'h3'}
                 fontSize={'23px'}
-                color="text.primary"
                 fontWeight={'normal'}
+                color={'text.primary'}
+                sx={{
+                  '&:hover': {
+                    fontWeight: 'bold'
+                  }
+                }}
               >
                 Attendance
               </Typography>
@@ -136,20 +144,19 @@ const SchoolAttendanceOverview = () => {
           </Breadcrumbs>
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-          <TextField 
-  value={SelectDate} 
-  type='date' 
-  onChange={(e) => { onSelectDate(e.target.value) }} 
-  label={''} 
-  size="small" 
-  inputProps={{
-    max: new Date().toISOString().split('T')[0]
-  }} 
-/>
-
+          <Box sx={{ background: 'white' }}>
+            <TextField
+              value={SelectDate}
+              type='date'
+              onChange={(e) => { onSelectDate(e.target.value) }}
+              label={''}
+              size="small"
+              inputProps={{
+                max: new Date().toISOString().split('T')[0]
+              }}
+            />
           </Box>
-          
+
           <Box>
             <Tooltip title={Note}>
               <IconButton

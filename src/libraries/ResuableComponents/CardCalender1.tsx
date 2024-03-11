@@ -105,17 +105,15 @@ function CardCalender1({
         }}
       >
         <Box>
-          <Typography sx={{ fontWeight: 'normal !important' }} variant={'h3'}>
-            {formattedDate} |{' '}
-            <span
-              style={{
-                fontWeight: 'normal',
-                fontSize: '14px',
-                color: red[500]
-              }}
-            >
+          <Typography sx={{ fontWeight: 'normal !important', display: 'flex', alignItems: 'center', gap: 1 }} variant={'h3'}>
+            <div style={{ whiteSpace: 'nowrap' }}>{formattedDate} |{' '}</div>
+            <div style={{
+              fontWeight: 'normal',
+              fontSize: '14px',
+              color: red[500]
+            }}>
               {AttendanceStatus}
-            </span>
+            </div>
           </Typography>
         </Box>
 
@@ -165,8 +163,8 @@ function CardCalender1({
           <>
             <Grid
               item
-              xs={12/7}
-              md={12/7}
+              xs={12 / 7}
+              md={12 / 7}
               sx={{
                 display: 'flex',
                 alignItems: 'center',
@@ -187,14 +185,14 @@ function CardCalender1({
         <Grid
           item
           // border="solid #ebebeb"
-          md={12/7 * dayCount}
-          xs={12/7 * dayCount}
+          md={12 / 7 * dayCount}
+          xs={12 / 7 * dayCount}
           sx={{ textAlign: 'center', pt: 0 }}
         >
         </Grid>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={12/7} md={12/7} sx={{ textAlign: 'center' }} key={i}>
+            <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center' }} key={i}>
               <CardCal1
                 item={item}
                 clickItem={() => ClickItem(item.Value)}

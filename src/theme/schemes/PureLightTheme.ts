@@ -948,17 +948,16 @@ export const PureLightTheme = createTheme({
         },
         root: {
           '.MuiAutocomplete-inputRoot.MuiOutlinedInput-root .MuiAutocomplete-endAdornment':
-            {
-              right: 14
-            }
+          {
+            right: 14
+          }
         },
         clearIndicator: {
-          background: colors.error.lighter,
+          background: 'transparent',
           color: colors.error.main,
           marginRight: 8,
 
           '&:hover': {
-            background: colors.error.lighter,
             color: colors.error.dark
           }
         },

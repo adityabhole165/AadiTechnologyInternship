@@ -7,11 +7,12 @@ import TableRow from '@mui/material/TableRow';
 
 import DeleteTwoTone from '@mui/icons-material/DeleteTwoTone';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Link } from '@mui/material';
+import { Box, Link, MenuItem, TextField } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
+import { useState } from 'react';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -21,6 +22,7 @@ function Adddailyloglist({
   clickpublish,
   ClickHeader
 }) {
+  const [page, setPage] = useState(1)
   const clickHeader = (value) => {
     if (value != undefined) {
       HeaderArray = HeaderArray.map((Item) => {
@@ -29,6 +31,10 @@ function Adddailyloglist({
       })
       ClickHeader(HeaderArray)
     }
+  }
+
+  const handlePageChange = (event) => {
+    setPage(event.target.value)
   }
   return (
     <div>
@@ -47,18 +53,24 @@ function Adddailyloglist({
                   sx={{
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white,
-                    py: 1
+                    py: 1,
                   }}
-                  align="center"
+
                   onClick={() => { clickHeader(item.Id) }}
                 >
-                  <b>{item.Header}</b>
-                  {item.SortOrder != undefined ?
-                    item.SortOrder == " Asc" ?
-                      <ArrowCircleUpIcon /> :
-                      <ArrowDropDownCircleIcon /> :
-                    null
-                  }
+                  <div style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}>
+                    <b>{item.Header}</b>
+                    {item.SortOrder != undefined ?
+                      item.SortOrder == " Asc" ?
+                        <ArrowCircleUpIcon /> :
+                        <ArrowDropDownCircleIcon /> :
+                      null
+                    }
+                  </div>
                 </TableCell>
               ))}
             </TableRow>
@@ -68,7 +80,7 @@ function Adddailyloglist({
               <TableRow key={item.Id}>
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
 
                   {item.Text1}
@@ -76,7 +88,7 @@ function Adddailyloglist({
 
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
                   <Link href={''} onClick={() => clickView(item.Text2)}>
                     view log
@@ -85,14 +97,14 @@ function Adddailyloglist({
 
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
                   <ButtonPrimary onClick={() => clickpublish(item.Id)}>
                     {item.Text3 === 'True' ? 'UNPUBLISH' : 'PUBLISH '}
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'False' ? (
                     <EditTwoTone
                       onClick={() => {
@@ -102,7 +114,7 @@ function Adddailyloglist({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'False' ? (
                     <DeleteTwoTone onClick={() => clickDelete(item.Id)} />
                   ) : null}
@@ -112,6 +124,34 @@ function Adddailyloglist({
           </TableBody>
         </Table>
       </TableContainer>
+      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+          Select a page:
+          <TextField
+            sx={{ width: '80px' }}
+            value={page}
+            select={true}
+            size={'small'}
+            onChange={handlePageChange}
+          >
+            <MenuItem value={"1"}>
+              1
+            </MenuItem>
+            <MenuItem value={"2"}>
+              2
+            </MenuItem>
+            <MenuItem value={"3"}>
+              3
+            </MenuItem>
+            <MenuItem value={"4"}>
+              4
+            </MenuItem>
+          </TextField>
+        </Box>
+        <Box>
+          Page 1 of 5
+        </Box>
+      </Box>
     </div>
   );
 }

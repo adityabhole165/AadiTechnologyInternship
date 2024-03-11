@@ -28,7 +28,7 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
                     color: (theme) => theme.palette.common.white,
                     py: 1
                   }}
-                  align="center"
+
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -39,26 +39,26 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
             {ItemList.map((item) => (
               <TableRow
                 key={item.Id}
-                // sx={{
-                //   backgroundColor: item.Text3 === 'True' ? '#bae1f5' : '#b1b2b3'
-                // }}
+              // sx={{
+              //   backgroundColor: item.Text3 === 'True' ? '#bae1f5' : '#b1b2b3'
+              // }}
               >
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
                   {item.Text1}
                 </TableCell>
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
                   {item.Text2}
                 </TableCell>
 
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-                  align="center"
+
                 >
                   <Tooltip title={'Add Homework'}>
                     <EditTwoTone

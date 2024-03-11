@@ -39,7 +39,6 @@ const Assignedhomeworklist1 = ({
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white
                   }}
-                  align="center"
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -49,30 +48,30 @@ const Assignedhomeworklist1 = ({
           <TableBody>
             {ItemList.map((item, i) => (
               <TableRow key={i}>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   <Link href={''} onClick={() => clickView(item.Id)}>
                     {item.Text2}
                   </Link>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text3}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text4}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   <Link href={''} onClick={() => clickAttachment(item.Text5)}>
                     {item.Text5}
                   </Link>
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text6 == 0 ? null : (
                     <VisibilityIcon
                       style={{ color: 'black' }}
@@ -81,13 +80,15 @@ const Assignedhomeworklist1 = ({
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  <ButtonPrimary onClick={() => clickpublish(item.Id)}>
-                    {item.Text7 === 'True' ? 'Publish' : 'Unpublish'}
+                <TableCell sx={{ textTransform: 'capitalize' }}>
+                  <ButtonPrimary onClick={() => {
+                    clickpublish(item.Id)
+                  }}>
+                    {item.Text7 === 'True' ? 'PUBLISH' : 'UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text7 === 'True' ? (
                     <Edit
                       style={{ color: 'black ' }}
@@ -96,7 +97,7 @@ const Assignedhomeworklist1 = ({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }}>
                   {item.Text7 === 'True' ? (
                     <Delete
                       style={{ color: 'black ' }}

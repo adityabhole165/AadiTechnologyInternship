@@ -16,7 +16,7 @@ function List26({
   handleCheckboxChange
 }) {
   const [textarray, setTextarray] = useState('');
-  const [getLabel, setGetLabel] = useState('Comma separated Roll Number');
+  const [getLabel, setGetLabel] = useState('Absent Student Roll Number');
   const [Data, setData] = useState([]);
 
   const refreshData = (data) => {
@@ -25,7 +25,7 @@ function List26({
       if (!obj.isActive) arr.push(obj.text1);
     });
     setTextarray(arr.join(','));
-    setGetLabel('Comma separated Roll Number');
+    setGetLabel('Absent Student Roll Number');
     getAbsetNumber(arr.join(','), data);
     setData(data);
   };

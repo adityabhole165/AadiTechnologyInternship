@@ -1,4 +1,4 @@
-import { FormControl, InputLabel, NativeSelect } from '@mui/material';
+import { FormControl, MenuItem, TextField } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
@@ -14,21 +14,33 @@ function Dropdown({ Array, handleChange, label, defaultValue = '' }) {
   return (
     <>
       <FormControl variant="standard" fullWidth>
-        <InputLabel>{label}</InputLabel>
-        <NativeSelect
+        <TextField
           value={defaultValue}
           onChange={(e) => handleChange(e.target.value)}
           fullWidth
+          variant='standard'
+          size={"small"}
+          label={label}
+          select={true}
+          SelectProps={{
+            MenuProps: {
+              PaperProps: {
+                style: {
+                  maxHeight: 350
+                }
+              }
+            }
+          }}
         >
-          {defaultValue == '' && <option>{label}</option>}
+          {defaultValue == '' && <MenuItem>{label}</MenuItem>}
           {Array.map((items, i) => {
             return (
-              <option value={items.Value} key={i}>
+              <MenuItem value={items.Value} key={i}>
                 {items.Name}
-              </option>
+              </MenuItem>
             );
           })}
-        </NativeSelect>
+        </TextField>
       </FormControl>
     </>
   );
