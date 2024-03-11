@@ -1,5 +1,4 @@
 import { Box, IconButton, Tooltip } from '@mui/material';
-import { grey } from "@mui/material/colors";
 
 const HeaderIcons = ({ IconList, ClickIcon }) => {
     return (
@@ -9,11 +8,7 @@ const HeaderIcons = ({ IconList, ClickIcon }) => {
                     <Box key={i}>
                         <Tooltip title={Item.Title}>
                             <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': { backgroundColor: grey[700] }
-                                }}
+                                sx={Item.sx}
                                 onClick={() => { ClickIcon(Item.Action); }}
                             >
                                 {Item.Icon}

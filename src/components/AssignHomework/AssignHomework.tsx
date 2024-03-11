@@ -224,7 +224,7 @@ const AssignHomework = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
         sx={{
-          pt: 4,
+          pt: 5,
           pb: 2
         }}
       >
@@ -253,6 +253,7 @@ const AssignHomework = () => {
 
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <SearchableDropdown
+            sx={{ minWidth: '300px' }}
             ItemList={TeacherList}
             onChange={clickTeacherDropdown}
             label={'Select Teacher'}
@@ -261,6 +262,7 @@ const AssignHomework = () => {
           />
 
           <SearchableDropdown
+            sx={{ minWidth: '300px' }}
             ItemList={ClassList}
             onChange={clickClass}
             label={'Select Class:'}
@@ -339,7 +341,7 @@ const AssignHomework = () => {
               HeaderArray={HeaderOfTable}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Record Found.</b>
             </Typography>
           )}

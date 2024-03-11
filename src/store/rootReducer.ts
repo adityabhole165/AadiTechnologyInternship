@@ -89,6 +89,7 @@ import SliceTransportDetails from 'src/requests/TransportDetails/RequestTranspor
 import SliceUploadParentPhoto from 'src/requests/UploadParentPhoto/RequestUploadParentPhoto';
 import SliceUserLoginExpires from 'src/requests/UserLoginExpires/RequestUserLoginExpires';
 import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
+import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
 
 const rootReducer = combineReducers({
@@ -184,7 +185,8 @@ const rootReducer = combineReducers({
   PrePrimaryResult: SlicePrePrimaryResult,
   SliceRequisition: SliceRequisition,
   Finalunpublish: FinalUnPublishTestSlice,
-  UnpublishSlice: UnpublishSlice
+  UnpublishSlice: UnpublishSlice,
+  AadharcardTecaherSlice: AadharcardTecaherSlice
 });
 
 export default rootReducer;

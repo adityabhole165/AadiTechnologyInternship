@@ -1,15 +1,17 @@
-import { Box, Grid, Typography } from '@mui/material';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import { Box, Breadcrumbs, Container, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IDeleteHomeworkDocumentBody,
   IGetAllHomeworkDocumentsBody
 } from 'src/interfaces/AssignHomework/IHomeworkDocuments';
 import Homeworkview from 'src/libraries/ResuableComponents/Homeworkview';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   DeleteDocument,
   GetAllHomeworkDocuments
@@ -78,34 +80,116 @@ const HomeworkDocuments = () => {
     }
   };
   return (
-    <div>
-      <br></br>
-      <br></br>
-      <br></br>
-
-      <PageHeader heading={'Documents'} />
-
-      <Grid item xs={12}>
-
-        {AllHomeworkDocuments.length > 0 ? (
-          <Homeworkview
-            HeaderArray={HeaderList}
-            ItemList={AllHomeworkDocuments}
-            clickDelete={ClickDelete}
-            clickopen={clickFileName}
-          />
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
-          </Typography>
-        )}
-      </Grid>
-      <Box sx={{ textAlign: 'center' }} m={2}>
-        <ButtonPrimary style={{ backgroundColor: '#ef5350' }} onClick={click}>
-          CLOSE
-        </ButtonPrimary>
-      </Box>
-    </div>
+    <>
+      <Container maxWidth={'xl'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 4,
+            pb: 2
+          }}
+        >
+          <Box>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
+            >
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Link
+                to={'/extended-sidebar/Teacher/AssignHomework'}
+                style={{
+                  textDecoration: 'none'
+                }}
+              >
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  fontWeight={'normal'}
+                  color={'text.primary'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
+                >
+                  Assign Homework
+                </Typography>
+              </Link>
+              <Link
+                to={'/extended-sidebar/Teacher/AddHomework'}
+                style={{
+                  textDecoration: 'none'
+                }}
+              >
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  fontWeight={'normal'}
+                  color={'text.primary'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
+                >
+                  Add Homework
+                </Typography>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Documents
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box>
+              <Tooltip
+                title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: 'gray',
+                    height: '36px !important',
+                    ':hover': { backgroundColor: 'gray' }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Stack>
+        </Stack>
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+          {AllHomeworkDocuments.length > 0 ? (
+            <Homeworkview
+              HeaderArray={HeaderList}
+              ItemList={AllHomeworkDocuments}
+              clickDelete={ClickDelete}
+              clickopen={clickFileName}
+            />
+          ) : (
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+              <b>No Record Found.</b>
+            </Typography>
+          )}
+        </Box>
+      </Container>
+    </>
   );
 };
 

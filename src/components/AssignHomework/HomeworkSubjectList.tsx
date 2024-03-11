@@ -1,4 +1,4 @@
-import { Button, Grid, TextField } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -141,6 +141,8 @@ const HomeworkSubjectList = () => {
   }, [HomeworkDetail]);
 
   const [isPublish, setIsPublish] = useState(true);
+  const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
+  const [publishId, setPublishId] = useState();
 
   const getIsPublish = (Id) => {
     let IsPublish = true;
@@ -155,8 +157,11 @@ const HomeworkSubjectList = () => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == false) {
-      navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
+      // navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
+      setOpenIsPublishDialog(true);
+      setPublishId(Id);
     } else {
+      setOpenIsPublishDialog(false);
       const PublishUnPublishHomeworkBody: IPublishUnPublishHomeworkBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -245,6 +250,7 @@ const HomeworkSubjectList = () => {
       <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
         <Grid item xs={3}>
           <SearchableDropdown
+            sx={{ minWidth: '100%' }}
             ItemList={HomeworkStatus}
             onChange={clickHomeworkStatus}
             defaultValue={HomeworkS}
@@ -299,8 +305,75 @@ const HomeworkSubjectList = () => {
         HeaderArray={HeaderPublish}
         clickAttachment={clickFileName}
       />
+      {openIsPublishDialog && (
+        <PublishUnpublishDialog
+          open={openIsPublishDialog}
+          setOpen={setOpenIsPublishDialog}
+          publishId={publishId}
+          setPublishId={setPublishId}
+          clickPublishUnpublish={clickPublishUnpublish}
+        />
+      )}
     </>
   );
 };
 
 export default HomeworkSubjectList;
+
+const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, clickPublishUnpublish }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [Details, setDetails] = useState('');
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asTeacherId = sessionStorage.getItem('TeacherId');
+  const AllPublishUnPublishHomework = useSelector(
+    (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  );
+
+  const ClickOk = () => {
+    if (Details != '') clickPublishUnpublish(Id);
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false)
+      }}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      <DialogTitle
+        sx={{
+          backgroundColor: (theme) => theme.palette.primary.main,
+          py: 1
+        }}
+      ></DialogTitle>
+      <DialogContent dividers sx={{ px: 4 }}>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Unpublish Reason
+        </Typography>
+        <TextField
+          multiline
+          rows={3}
+          value={Details}
+          onChange={(e) => {
+            setDetails(e.target.value);
+          }}
+          sx={{ width: '100%' }}
+        />
+      </DialogContent>
+      <DialogActions sx={{ py: 2, px: 3 }}>
+        <Button onClick={() => {
+          setOpen(false)
+        }} color={'error'}>
+          Cancel
+        </Button>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}

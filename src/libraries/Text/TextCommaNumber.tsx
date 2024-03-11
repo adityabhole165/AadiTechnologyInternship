@@ -13,7 +13,7 @@ const TextCommaNumber = ({
   changeText,
   getLabel
 }) => {
-  const defaultLabel = 'Comma separated ' + name;
+  const defaultLabel = 'Absent Student ' + name;
   let label = '';
 
   const SetTextData2 = (value) => {

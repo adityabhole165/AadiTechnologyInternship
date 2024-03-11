@@ -441,6 +441,8 @@ const AddHomework = () => {
                 ItemList={ClassSubject}
                 onChange={clickSubjectList}
                 defaultValue={SubjectId}
+                sx={{ minWidth: '100%' }}
+                label='Select Subject'
               />
             </Grid>
             <Grid item xs={3}>
@@ -488,7 +490,7 @@ const AddHomework = () => {
                 }}
                 label={
                   <span>
-                    Completed Date <span style={{ color: 'red' }}>*</span>
+                    Complete By Date <span style={{ color: 'red' }}>*</span>
                   </span>
                 }
                 inputProps={{ type: 'date' }}

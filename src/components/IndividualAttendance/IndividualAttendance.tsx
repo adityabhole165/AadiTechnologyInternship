@@ -3,7 +3,6 @@ import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import SaveAlt from '@mui/icons-material/Save';
-import SearchIcon from '@mui/icons-material/Search';
 import {
   Box,
   Breadcrumbs,
@@ -14,9 +13,7 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
-  Divider,
   IconButton,
-  Paper,
   Popover,
   Tooltip,
   Typography
@@ -328,7 +325,16 @@ const IndividualAttendance = () => {
           </Typography>
         </Breadcrumbs>
         <Stack direction={'row'} gap={1}>
-          <Paper
+          <Box sx={{ background: 'white' }}>
+            <SearchableDropdown
+              sx={{ minWidth: '350px' }}
+              ItemList={StudentList}
+              onChange={clickStudent}
+              defaultValue={StudentId}
+              size={"small"}
+            />
+          </Box>
+          {/* <Paper
             component="form"
             sx={{
               display: 'flex',
@@ -341,11 +347,6 @@ const IndividualAttendance = () => {
           >
             {search ? (
               <>
-                <SearchableDropdown
-                  ItemList={StudentList}
-                  onChange={clickStudent}
-                  defaultValue={StudentId}
-                />
               </>
             ) : (
               ''
@@ -361,7 +362,7 @@ const IndividualAttendance = () => {
                 <SearchIcon />
               </Tooltip>
             </IconButton>
-          </Paper>
+          </Paper> */}
           <Tooltip title="Present All">
             <IconButton
               onClick={handlePresent}

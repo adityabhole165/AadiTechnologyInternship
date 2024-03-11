@@ -1,7 +1,8 @@
 import AddIcon from '@mui/icons-material/Add';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import SaveIcon from '@mui/icons-material/Save';
 import { Box, Stack } from "@mui/material";
+import { green, grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useNavigate } from "react-router-dom";
 import BreadCrumbs from '../AnnualPlannerNew/BreadCrumbs';
@@ -11,12 +12,43 @@ import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
 const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const navigate = useNavigate();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
+
     const Note: string =
-        'Add Events to be held in your school for the current academic year.';
+        '        Event management for your school. Add events to be held in your school for the current academic year.';
     const IconList = [
-        { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
-        { Id: 2, Icon: <QuestionMarkIcon />, Title: 'Help', Action: 'Help' },
-        { Id: 4, Icon: <AddIcon />, Title: 'Add New Event', Action: 'AddNewEvent' },
+        {
+            Id: 2,
+            Icon: <QuestionMarkIcon />,
+            Title: Note,
+            Action: 'Help',
+            sx: {
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': { backgroundColor: grey[700] }
+            }
+        },
+        {
+            Id: 4,
+            Icon: <AddIcon />,
+            Title: 'Add New Event',
+            Action: 'AddNewEvent',
+            sx: {
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': { backgroundColor: grey[700] }
+            }
+        },
+        {
+            Id: 3,
+            Icon: <SaveIcon />,
+            Title: "Save",
+            Action: "Save",
+            sx: {
+                color: 'white',
+                backgroundColor: green[500],
+                '&:hover': { backgroundColor: green[700] }
+            }
+        }
     ]
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {

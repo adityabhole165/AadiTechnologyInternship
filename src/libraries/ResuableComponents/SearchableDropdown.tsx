@@ -8,7 +8,7 @@ SearchableDropdown.propTypes = {
   label: PropTypes.string
 };
 
-function SearchableDropdown({ ItemList, onChange, label, defaultValue = '', mandatory = false }) {
+function SearchableDropdown({ ItemList, onChange, label, defaultValue = '', mandatory = false, sx = null, size = "medium" }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -22,14 +22,14 @@ function SearchableDropdown({ ItemList, onChange, label, defaultValue = '', mand
       renderInput={(params) => (
         <TextField
           {...params}
-          sx={{
+          size={size as any}
+          sx={sx || {
             minWidth: '350px',
             pl: '10px'
           }}
-          variant={'standard'}
-          label={<>
+          label={label ? <>
             <span>{label} {mandatory && <span style={{ color: 'red' }}>*</span>}</span>
-          </>}
+          </> : ''}
         />
       )}
 
