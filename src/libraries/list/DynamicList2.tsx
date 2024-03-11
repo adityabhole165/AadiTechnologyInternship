@@ -21,8 +21,8 @@ const DynamicList2 = ({
       return Item.Id === value
         ? { ...Item, IsActive: !Item.IsActive }
         : IsSelect == 1
-        ? { ...Item, IsActive: false }
-        : Item;
+          ? { ...Item, IsActive: false }
+          : Item;
     });
     ClickCheck({ Id: value, Value: arr, Action: 'Select' });
   };
@@ -54,7 +54,7 @@ const DynamicList2 = ({
           >
             {HeaderList.map((item, i) => {
               return (
-                <TableCell align="center" key={i}>
+                <TableCell sx={{ color: 'white' }} key={i}>
                   <b>{item}</b>
                   {IsSelect == 2 && i == 0 && (
                     <>
@@ -81,48 +81,48 @@ const DynamicList2 = ({
                 <TableRow key={index}>
                   {/* {
                                     (IsSelect > 0) &&
-                                    <TableCell align="center">
+                                    <TableCell >
                                         <Checkbox checked={item.IsActive}
                                             onChange={() => { clickCheckbox(item.Id) }}></Checkbox>
                                     </TableCell>
                                 } */}
 
                   {item.Text77 != undefined && (
-                    <TableCell align="center">
+                    <TableCell >
                       <img src={item.Text77} />
                     </TableCell>
                   )}
                   {/* <TableCell
                     sx={{ textTransform: 'capitalize' }}
-                    align="center"
+                    
                   >
                     <Link href={''} onClick={() => clickView(item.Id)}>
                       {item.Text76}
                     </Link>
                   </TableCell> */}
                   {item.Text1 != undefined && (
-                    <TableCell align="center">{item.Text1}</TableCell>
+                    <TableCell >{item.Text1}</TableCell>
                   )}
                   {item.Text2 != undefined && (
-                    <TableCell align="center">{item.Text2}</TableCell>
+                    <TableCell >{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
-                    <TableCell align="center">{item.Text3}</TableCell>
+                    <TableCell >{item.Text3}</TableCell>
                   )}
                   {item.Text4 != undefined && (
-                    <TableCell align="center">{item.Text4}</TableCell>
+                    <TableCell >{item.Text4}</TableCell>
                   )}
                   {item.Text5 != undefined && (
-                    <TableCell align="center">{item.Text5}</TableCell>
+                    <TableCell >{item.Text5}</TableCell>
                   )}
                   {item.Text6 != undefined && (
-                    <TableCell align="center">{item.Text6}</TableCell>
+                    <TableCell >{item.Text6}</TableCell>
                   )}
 
                   {IconList?.map((obj, i) => {
                     return (
                       <TableCell
-                        align="center"
+
                         key={i}
                         onClick={() => {
                           ClickItem({ Id: i, Action: obj.Action });
