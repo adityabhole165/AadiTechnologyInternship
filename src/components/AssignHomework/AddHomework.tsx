@@ -164,6 +164,7 @@ const AddHomework = () => {
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   }, []);
+  //dropdown
   useEffect(() => {
     dispatch(SubjectListforTeacher(GetTeacherSubjectAndClassSubjectBody));
   }, []);
@@ -565,7 +566,9 @@ const AddHomework = () => {
           </Grid>
         </Box>
         <Box sx={{ background: 'white', p: 2, mt: 2 }}>
-          <HomeworkSubjectList />
+          <HomeworkSubjectList Subjectlistsforteacher={SubjectList.filter((item) => {
+            return item.SubjectId == SubjectId;
+          })} />
           <Box my={2}>
             <SubjectList1
               ItemList={SubjectList.filter((item) => {
