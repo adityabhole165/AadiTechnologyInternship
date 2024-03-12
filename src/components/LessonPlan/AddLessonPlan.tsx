@@ -1,7 +1,8 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -39,7 +40,47 @@ const AddLessonPlan = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
-  const exampleLessonDetails = [
+  const [exampleLessonDetails, setExampleLessonDetails] = useState([
+    {
+      lessonName: '6-C ( Marathi III )',
+      subject: 'Marathi',
+      planDetails: [
+        {
+          label: "Topic / Sub topic",
+          value: ""
+        },
+        {
+          label: "Resources & References",
+          value: ""
+        },
+        {
+          label: "Instructional Objective and Learning Outcome",
+          value: ""
+        },
+        {
+          label: "Description of activities to be used to conduct the class",
+          value: "",
+          subPlanDetails: [
+            {
+              label: "Continuity of learning experience.",
+              value: ""
+            },
+            {
+              label: "Life Skills / Value based question.",
+              value: ""
+            },
+            {
+              label: "Multiple Intelligence / Subject Integration.",
+              value: ""
+            }
+          ]
+        },
+        {
+          label: "Homework Assigned",
+          value: ""
+        }
+      ],
+    },
     {
       lessonName: '6-C ( Marathi III )',
       subject: 'Marathi',
@@ -80,7 +121,7 @@ const AddLessonPlan = () => {
         }
       ],
     }
-  ]
+  ])
 
   const ClassListDropdown = useSelector(
     (state: RootState) => state.addlessonplan.ClassName
@@ -234,60 +275,167 @@ const AddLessonPlan = () => {
             />
           </Grid>
           <Grid item xs={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <Button variant={"contained"} color={"success"}>
+                Save
+              </Button>
+              <Button variant={"outlined"} color={"primary"} disabled>
+                Submit
+              </Button>
+            </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant={"h5"} mb={1}>
+              Plan Details
+            </Typography>
             {exampleLessonDetails.map((lesson, index) => (
-              <Table key={index}>
-                <TableHead>
-                  <TableRow>
-                    <HeaderStyledCell width={10}></HeaderStyledCell>
-                    <HeaderStyledCell>
-                      {lesson.lessonName}
-                    </HeaderStyledCell>
-                  </TableRow>
-                  <TableRow>
-                    <StyledCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</StyledCell>
-                    <StyledCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
-                      Parameter
-                    </StyledCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {lesson.planDetails.map((plan, index) => (
-                    <TableRow key={index}>
-                      <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
-                        {index + 1}
-                      </StyledCell>
-                      <StyledCell sx={{ p: 1 }}>
-                        <TextField
-                          label={plan.label}
-                          value={plan.value}
-                          fullWidth
-                          multiline
-                          rows={4}
-                        />
-                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
-                          <Table key={subIndex}>
-                            <TableRow >
-                              <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
-                                {index + 1}.{subIndex + 1}
-                              </StyledCell>
-                              <StyledCell sx={{ p: 1 }}>
-                                <TextField
-                                  label={subPlan.label}
-                                  value={subPlan.value}
-                                  fullWidth
-                                  multiline
-                                  rows={4}
-                                />
-                              </StyledCell>
-                            </TableRow>
-                          </Table>
-                        ))}
-                      </StyledCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
+              <Accordion
+                // defaultExpanded
+                key={index}
+                sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
+              >
+                <AccordionSummary expandIcon={<ExpandMore />}>
+                  <Typography variant={"h4"}>
+                    {index + 1}) {lesson.lessonName}
+                  </Typography>
+                </AccordionSummary>
+                <AccordionDetails sx={{ p: 0 }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <HeaderStyledCell width={10}></HeaderStyledCell>
+                        <HeaderStyledCell>
+                          {lesson.lessonName}
+                        </HeaderStyledCell>
+                      </TableRow>
+                      <TableRow>
+                        <StyledCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</StyledCell>
+                        <StyledCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
+                          Parameter
+                        </StyledCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {lesson.planDetails.map((plan, index) => (
+                        <TableRow key={index}>
+                          <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
+                            {index + 1}
+                          </StyledCell>
+                          <StyledCell sx={{ p: 1 }}>
+                            <TextField
+                              label={plan.label}
+                              value={plan.value}
+                              fullWidth
+                              multiline
+                              rows={4}
+                            />
+                            {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
+                              <Table key={subIndex}>
+                                <TableRow >
+                                  <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                    {index + 1}.{subIndex + 1}
+                                  </StyledCell>
+                                  <StyledCell sx={{ p: 1 }}>
+                                    <TextField
+                                      label={subPlan.label}
+                                      value={subPlan.value}
+                                      fullWidth
+                                      multiline
+                                      rows={4}
+                                    />
+                                  </StyledCell>
+                                </TableRow>
+                              </Table>
+                            ))}
+                          </StyledCell>
+                        </TableRow>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </AccordionDetails>
+              </Accordion>
             ))}
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant={"h5"} mb={1}>
+              Activity
+            </Typography>
+            <Grid container>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Name:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Submitted On:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Name:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Submitted On:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Name:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                <Typography color={"primary"} fontWeight={"bold"}>
+                  Submitted On:
+                </Typography>
+              </Grid>
+              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                <Typography color={"primary"}>
+                  Ms. Manjiri S. Phadke
+                </Typography>
+              </Grid>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
+              <Button variant={"contained"} color={"success"}>
+                Save
+              </Button>
+              <Button variant={"outlined"} color={"primary"} disabled>
+                Submit
+              </Button>
+            </Box>
           </Grid>
         </Grid>
       </Box>
