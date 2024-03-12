@@ -1,11 +1,18 @@
+import Add from '@mui/icons-material/Add';
 import CheckIcon from '@mui/icons-material/Check';
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseIcon from '@mui/icons-material/Close';
+import Download from '@mui/icons-material/Download';
 import EditIcon from '@mui/icons-material/Edit';
-import PreviewIcon from '@mui/icons-material/Preview';
-import { Box, Grid, Paper, TextField, Typography } from '@mui/material';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import Visibility from '@mui/icons-material/Visibility';
+import { Box, Breadcrumbs, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IDeleteLessonPlanBody,
@@ -13,9 +20,7 @@ import {
   IGetLessonPlanListBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   GetLessonPlanreport,
   deletelessonplan,
@@ -61,7 +66,7 @@ const LessonPlanBaseScreen = () => {
   const IconList = [
     {
       Id: 1,
-      Icon: <PreviewIcon titleAccess="View Remark" />,
+      Icon: <Visibility titleAccess="View Remark" />,
       Action: 'PreviewIcon'
     },
     {
@@ -132,7 +137,7 @@ const LessonPlanBaseScreen = () => {
     if (Id.Action == 'CloseIcon') {
       LessonPlanList.map((item, i) => {
         if (i == Id) {
-          LessonPlanList.map((item, i) => {});
+          LessonPlanList.map((item, i) => { });
         }
       });
       if (confirm('Are You Sure you want to delete The List')) {
@@ -254,124 +259,137 @@ const LessonPlanBaseScreen = () => {
 
   return (
     <>
-      <PageHeader heading="Lesson Plans" />
-      <br></br>
-
-      <Grid container spacing={2}>
-        <Grid item xs={6}>
-          <Paper>
-            <Grid container>
-              <Grid item xs={12}>
-                <h4 style={{ backgroundColor: 'white', color: 'black' }}>
-                  Legends:
-                </h4>
-                <Box sx={{ display: 'flex', gap: '20px' }}>
-                  <DotLegends2
-                    color="secondary"
-                    text={''}
-                    text1={'Submited'}
-                    text2={'Non Submited'}
-                    text3={'Not Applicable'}
-                    text4={'Suggestion Added'}
-                    text5={''}
-                  />
-                </Box>
-              </Grid>
-            </Grid>
-
-            <Grid container>
-              <Grid item xs={6}></Grid>
-            </Grid>
-
-            <br></br>
-
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignItems="center"
+      <Container maxWidth={"xl"}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 5,
+            pb: 2
+          }}
+        >
+          <Box>
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
             >
-              <Grid item xs={1}>
-                <Typography>
-                  <b>Start Date:</b>
-                </Typography>
-              </Grid>
-
-              <Grid item xs={2}>
-                <TextField
-                  type="date"
-                  value={StartDate}
-                  variant="standard"
-                  onChange={(e) => {
-                    onSelectStartDate(e.target.value);
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
                   }}
-                />
-              </Grid>
-            </Grid>
-            <br></br>
-            <br></br>
-
-            <Grid
-              container
-              spacing={1}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Grid item xs={1}>
-                <Typography>
-                  <b>End Date:</b>
-                </Typography>
-              </Grid>
-
-              <Grid item xs={2}>
-                <TextField
-                  type="date"
-                  value={EndDate}
-                  variant="standard"
-                  onChange={(e) => {
-                    onSelectEndDate(e.target.value);
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Lesson Plans
+              </Typography>
+            </Breadcrumbs>
+          </Box>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box sx={{ background: 'white' }}>
+              <TextField
+                value={StartDate}
+                type='date'
+                onChange={(e) => { onSelectStartDate(e.target.value) }}
+                label={'Start Date'}
+                size="small"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  max: new Date().toISOString().split('T')[0]
+                }}
+              />
+            </Box>
+            <Box sx={{ background: 'white' }}>
+              <TextField
+                value={EndDate}
+                type='date'
+                onChange={(e) => { onSelectEndDate(e.target.value) }}
+                label={'End Date'}
+                size="small"
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{
+                  max: new Date().toISOString().split('T')[0]
+                }}
+              />
+            </Box>
+            <Box>
+              <Tooltip title={"Displays all available lesson plans."}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
                   }}
-                />
-              </Grid>
-            </Grid>
-            <br></br>
-            <br></br>
-
-            <Grid
-              container
-              spacing={2}
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                alignItems: 'center'
-              }}
-            >
-              <Grid item xs={2}>
-                <ButtonPrimary variant="contained" onClick={onClickAdd}>
-                  <b>ADD</b>
-                </ButtonPrimary>
-              </Grid>
-
-              <Grid item xs={2}>
-                <ButtonPrimary variant="contained" onClick={OnClickExportAll}>
-                  EXPORT ALL
-                </ButtonPrimary>
-              </Grid>
-            </Grid>
-            <br></br>
-          </Paper>
-        </Grid>
-        <Grid item xs={6}>
-          <Paper>
-            <DynamicList2
-              HeaderList={HeaderList}
-              ItemList={LessonPlanList}
-              IconList={IconList}
-              ClickItem={clickDelete}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={"Export All"}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                  onClick={OnClickExportAll}
+                >
+                  <Download />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={"Add new Lesson Plan"}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                  onClick={onClickAdd}
+                >
+                  <Add />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Stack>
+        </Stack>
+        <Box sx={{ p: 2, background: 'white' }}>
+          <DynamicList2
+            HeaderList={HeaderList}
+            ItemList={LessonPlanList}
+            IconList={IconList}
+            ClickItem={clickDelete}
+          />
+          <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
+            <DotLegends2
+              color="secondary"
+              text={''}
+              text1={'Submited'}
+              text2={'Non Submited'}
+              text3={'Not Applicable'}
+              text4={'Suggestion Added'}
+              text5={''}
             />
-          </Paper>
-        </Grid>
-      </Grid>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 };
