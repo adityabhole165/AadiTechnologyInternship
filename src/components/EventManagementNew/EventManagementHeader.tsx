@@ -4,6 +4,7 @@ import SaveIcon from '@mui/icons-material/Save';
 import { Box, Stack } from "@mui/material";
 import { green, grey } from '@mui/material/colors';
 import { useState } from 'react';
+import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
 import BreadCrumbs from '../AnnualPlannerNew/BreadCrumbs';
 import HeaderIcons from '../AnnualPlannerNew/HeaderIcons';
@@ -11,6 +12,7 @@ import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
 
 const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const navigate = useNavigate();
+    const { SelectedDate } = useParams();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
 
     const Note: string =
@@ -61,7 +63,7 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const Breadcrumbs = [{
         Id: 1,
         Name: 'Annual Planner',
-        Value: '/extended-sidebar/Common/AnnualPlanner',
+        Value: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate,
         IsActive: false
     }, {
         Id: 2,
