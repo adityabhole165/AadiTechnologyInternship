@@ -5,11 +5,11 @@ import PayinternalFees from 'src/components/Fees/PayinternalFees';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader/index';
 
 const Loader = (Component) => (props) =>
-  (
-    <Suspense fallback={<SuspenseLoader />}>
-      <Component {...props} />
-    </Suspense>
-  );
+(
+  <Suspense fallback={<SuspenseLoader />}>
+    <Component {...props} />
+  </Suspense>
+);
 
 // Dashboards
 const SubjectTeacher = Loader(
@@ -137,6 +137,10 @@ const studentRoutes = [
   {
     path: '/',
     element: <Navigate to="holidays" replace />
+  },
+  {
+    path: 'holidays',
+    element: <div>Holidays</div>
   },
   {
     path: 'VideoGallery2/VideoAlbum',
