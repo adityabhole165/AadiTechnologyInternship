@@ -46,6 +46,13 @@ const AnnualPlannerBase = () => {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+  let AnnualPlannerViewAccess = "N"
+  ScreensAccessPermission?.map((item) => {
+    if (item.ScreenName === 'Annual Planner') AnnualPlannerViewAccess = item.IsFullAccess;
+  });
   const ItemList = {
     StandardList: USStandardList,
     StandardDivisionList: USStandardDivision,
@@ -92,6 +99,7 @@ const AnnualPlannerBase = () => {
       asSchoolId: Number(asSchoolId)
     };
     dispatch(GetYearList(GetYearsForAnnualPalannerBody));
+
   }, []);
 
   const setValue = (value, selectedItem) => {
@@ -171,10 +179,12 @@ const AnnualPlannerBase = () => {
     setValue(value, 'MonthYear');
   };
   const ClickDate = (value) => {
-    setSelectedDate(value);
-    setValue(value, 'MonthYear');
-    dispatch(resetEventList())
-    navigate('../EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
+    if (AnnualPlannerViewAccess == "Y") {
+      setSelectedDate(value);
+      setValue(value, 'MonthYear');
+      dispatch(resetEventList())
+      navigate('../EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
+    }
   };
   const ClickFilterItem = (value) => {
     setDefaultValue(value);
