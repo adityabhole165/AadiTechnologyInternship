@@ -251,6 +251,11 @@ const AddHomework = () => {
   };
 
   const clickPublishUnpublish = (IsPublish) => {
+    if (!IsPublish) {
+      // Display a message indicating that unpublishing is not allowed
+      toast.error("Unpublishing is not allowed because the homework is not published.");
+      return;
+    }
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
     {
       asSchoolId: asSchoolId.toString(),
@@ -311,6 +316,10 @@ const AddHomework = () => {
   //   return selectedValue;
   // };
 
+  console.log(SubjectList
+    .filter((item) => {
+      return item.Text1 == SubjectId;
+    }), "filtered data", SubjectList, " -- ", SubjectId)
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -583,13 +592,16 @@ const AddHomework = () => {
           </Grid>
         </Box>
         <Box sx={{ background: 'white', p: 2, mt: 2 }}>
-          <HomeworkSubjectList Subjectlistsforteacher={SubjectList.filter((item) => {
-            return item.SubjectId == SubjectId;
-          })} />
+
+          <HomeworkSubjectList Subjectlistsforteacher={SubjectList
+            .filter((item) => {
+              return item.Text1 == SubjectId;
+            })} />
+
           <Box my={2}>
             <SubjectList1
               ItemList={SubjectList.filter((item) => {
-                return item.SubjectId !== SubjectId;
+                return item.Text1 !== SubjectId;
               })}
               HeaderArray={HeaderPublish1}
               onChange={Changevalue}
