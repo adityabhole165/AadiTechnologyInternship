@@ -127,7 +127,7 @@ const ViewHomework = () => {
               <TextField label={'Subject'} fullWidth />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} />
+              <TextField fullWidth label={'Title'} value={HomeworkDetail.Title} />
             </Grid>
             <Grid item xs={6}>
               <TextField
@@ -135,6 +135,7 @@ const ViewHomework = () => {
                 label={'Assigned Date'}
                 type={'date'}
                 InputLabelProps={{ shrink: true }}
+                value={HomeworkDetail.CompleteByDate}
               />
             </Grid>
             <Grid item xs={6}>
@@ -152,7 +153,7 @@ const ViewHomework = () => {
               <Typography>More Attachment:</Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField multiline fullWidth rows={3} label={'Details'} />
+              <TextField multiline fullWidth rows={3} label={'Details'} value={HomeworkDetail.Details} />
             </Grid>
           </Grid>
         </Box>
