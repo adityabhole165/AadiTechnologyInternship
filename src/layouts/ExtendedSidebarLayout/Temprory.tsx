@@ -19,6 +19,7 @@ import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
+import { grey } from '@mui/material/colors';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router';
 import { Styles } from 'src/assets/style/student-style';
@@ -31,8 +32,8 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
   const [opent, setopent] = useState(opend ? opend : 'false');
   const [imgsrc, setimgsrc] = useState(
     logoURL +
-      localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
-      '_logo.png'
+    localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
+    '_logo.png'
   );
   const [state, setState] = useState({
     left: false
@@ -205,10 +206,10 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
             }}
             sx={{
               color: 'white',
-              backgroundColor: 'gray',
+              backgroundColor: grey[500],
               mx: 1,
               my: 0.5,
-              ':hover': { backgroundColor: 'gray' }
+              ':hover': { backgroundColor: grey[600] }
             }}
           >
             <CloseTwoTone />

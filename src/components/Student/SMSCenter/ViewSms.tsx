@@ -6,6 +6,7 @@ import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SmsOutlined from '@mui/icons-material/SmsOutlined';
 import { Box, Breadcrumbs, Container, Divider, Grid, IconButton, Stack, Tooltip, Typography, styled } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -113,9 +114,9 @@ function ViewSms() {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: 'gray',
+                    backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: 'gray' }
+                    ':hover': { backgroundColor: grey[600] }
                   }}
                 >
                   <QuestionMark />

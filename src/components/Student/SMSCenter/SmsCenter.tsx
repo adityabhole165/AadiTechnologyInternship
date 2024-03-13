@@ -124,9 +124,9 @@ function SmsCenter() {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: 'gray',
+                  backgroundColor: grey[500],
                   height: '36px !important',
-                  ':hover': { backgroundColor: 'gray' }
+                  ':hover': { backgroundColor: grey[600] }
                 }}
               >
                 <QuestionMarkIcon />

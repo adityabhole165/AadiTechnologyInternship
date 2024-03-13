@@ -657,7 +657,7 @@ const TAttendance = () => {
                 }}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[600],
+                  backgroundColor: grey[500],
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
@@ -675,7 +675,7 @@ const TAttendance = () => {
                 }}
                 sx={{
                   color: 'white',
-                  backgroundColor: grey[600],
+                  backgroundColor: grey[500],
                   '&:hover': {
                     backgroundColor: grey[600]
                   }
@@ -692,9 +692,9 @@ const TAttendance = () => {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: 'gray',
+                  backgroundColor: grey[500],
                   height: '36px !important',
-                  ':hover': { backgroundColor: 'gray' }
+                  ':hover': { backgroundColor: grey[600] }
                 }}
               >
                 <QuestionMarkIcon />
@@ -720,7 +720,7 @@ const TAttendance = () => {
                   onClick={SaveMsg}
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[600]
+                    backgroundColor: grey[500]
                   }}
                 >
                   <SaveIcon />

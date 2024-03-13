@@ -11,6 +11,7 @@ import {
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { red } from '@mui/material/colors';
+import React from 'react';
 import { getDateFormatted } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
@@ -160,7 +161,7 @@ function CardCalender1({
       </Box>
       <Grid container sx={{ mt: 2 }}>
         {ArrayList.map((item, i) => (
-          <>
+          <React.Fragment key={i}>
             <Grid
               item
               xs={12 / 7}
@@ -176,7 +177,7 @@ function CardCalender1({
                 <b>{item.Header}</b>
               </Typography>
             </Grid>
-          </>
+          </React.Fragment>
         ))}
       </Grid>
 

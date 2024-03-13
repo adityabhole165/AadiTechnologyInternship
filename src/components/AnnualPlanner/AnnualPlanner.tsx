@@ -419,7 +419,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                     >
@@ -438,7 +438,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                     >
@@ -453,7 +453,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                       onClick={() => {
@@ -471,7 +471,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                       onClick={() => {

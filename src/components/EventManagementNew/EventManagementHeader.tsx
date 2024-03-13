@@ -26,7 +26,7 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
             sx: {
                 color: 'white',
                 backgroundColor: grey[500],
-                '&:hover': { backgroundColor: grey[700] }
+                '&:hover': { backgroundColor: grey[600] }
             }
         },
         {
@@ -37,7 +37,7 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
             sx: {
                 color: 'white',
                 backgroundColor: grey[500],
-                '&:hover': { backgroundColor: grey[700] }
+                '&:hover': { backgroundColor: grey[600] }
             }
         },
         {

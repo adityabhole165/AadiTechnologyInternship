@@ -278,9 +278,9 @@ const AssignHomework = () => {
 
               sx={{
                 color: 'white',
-                backgroundColor: 'grey',
+                backgroundColor: grey[500],
                 '&:hover': {
-                  backgroundColor: 'grey'
+                  backgroundColor: grey[500]
                 }
               }}
             >

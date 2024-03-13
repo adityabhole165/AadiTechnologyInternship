@@ -53,7 +53,7 @@ const AnnualPlannerHeader = () => {
                 color: 'white',
                 backgroundColor: grey[500],
                 '&:hover': {
-                    backgroundColor: grey[700]
+                    backgroundColor: grey[600]
                 }
             }
         },
@@ -62,7 +62,7 @@ const AnnualPlannerHeader = () => {
                 color: 'white',
                 backgroundColor: grey[500],
                 '&:hover': {
-                    backgroundColor: grey[700]
+                    backgroundColor: grey[600]
                 }
             }
         },
@@ -71,7 +71,7 @@ const AnnualPlannerHeader = () => {
                 color: 'white',
                 backgroundColor: grey[500],
                 '&:hover': {
-                    backgroundColor: grey[700]
+                    backgroundColor: grey[600]
                 }
             }
         },
@@ -92,7 +92,7 @@ const AnnualPlannerHeader = () => {
                     color: 'white',
                     backgroundColor: grey[500],
                     '&:hover': {
-                        backgroundColor: grey[700]
+                        backgroundColor: grey[600]
                     }
                 }
             }]

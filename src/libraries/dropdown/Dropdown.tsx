@@ -7,7 +7,7 @@ Dropdown.propTypes = {
   handleChange: PropTypes.any,
   label: PropTypes?.string
 };
-function Dropdown({ Array, handleChange, label, defaultValue = '' }) {
+function Dropdown({ Array, handleChange, label, defaultValue = '', width = 'auto' }) {
   const location = useLocation();
   const pathname = location.pathname;
   const pageName = pathname.replace('/extended-sidebar/Student/', '');
@@ -15,6 +15,7 @@ function Dropdown({ Array, handleChange, label, defaultValue = '' }) {
     <>
       <FormControl variant="standard" fullWidth>
         <TextField
+          sx={{ width: width }}
           value={defaultValue}
           onChange={(e) => handleChange(e.target.value)}
           fullWidth
