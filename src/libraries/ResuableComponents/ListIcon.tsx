@@ -63,7 +63,7 @@ function ListIcon({
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text5}
-                                    <CloseIcon onClick={() => clickDelete(item.Id)} />
+                                    <CloseIcon onClick={() => clickDelete(item.Id)}  sx={{ color: 'red' }} />
                                 </TableCell>
 
 
@@ -77,12 +77,12 @@ function ListIcon({
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text6 === '0' ? (
                                         <Tooltip title={item.ReportingUserName} >
-                                            <CheckIcon />
+                                            <CheckIcon  sx={{ color: 'green' }} />
                                         </Tooltip>
                                     ) : item.Text6 === '1' ? (
-                                        <CheckIcon />
+                                        <CheckIcon  sx={{ color: 'green' }} />
                                     ) : item.Text6 === '2' ? (
-                                        <CloseIcon />
+                                        <CloseIcon   sx={{ color: 'green' }} />
                                     ) : null}
                                 </TableCell>
 
