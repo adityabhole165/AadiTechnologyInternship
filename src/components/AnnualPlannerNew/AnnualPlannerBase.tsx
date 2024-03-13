@@ -1,6 +1,7 @@
 import { Box, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 
 import {
@@ -24,6 +25,7 @@ import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 
 const AnnualPlannerBase = () => {
+  const { selectedDate } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -59,19 +61,24 @@ const AnnualPlannerBase = () => {
     MonthList: USMonthList,
     YearList: USYearList
   };
-  const [DefaultValue, setDefaultValue] = useState({
-    Standard: '0',
-    StandardDivision: '0',
-    Month: (new Date().getMonth() + 1).toString(),
-    Year: new Date().getFullYear().toString()
-  });
   const Note: string =
     'These events may change due to unavoidable reasons without prior notice.';
 
   const [DaysList, setDaysList] = useState([]);
   const [SelectedDate, setSelectedDate] = useState(
-    getDateDDMMMDash(new Date())
+    selectedDate == undefined ?
+      getDateDDMMMDash(new Date()) :
+      getDateDDMMMDash(new Date(selectedDate))
   );
+
+  const [DefaultValue, setDefaultValue] = useState({
+    Standard: '0',
+    StandardDivision: '0',
+    Month: (new Date(SelectedDate).getMonth() + 1).toString(),
+    Year: new Date(SelectedDate).getFullYear().toString()
+  });
+  console.log(SelectedDate, "selectedDate");
+
   const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
@@ -183,7 +190,7 @@ const AnnualPlannerBase = () => {
       setSelectedDate(value);
       setValue(value, 'MonthYear');
       dispatch(resetEventList())
-      navigate('../EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
+      navigate('/extended-sidebar/Common/EventManagementForm/' + value.replaceAll('/', '-') + '/' + DefaultValue.Standard + '/' + DefaultValue.StandardDivision)
     }
   };
   const ClickFilterItem = (value) => {

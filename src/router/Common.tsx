@@ -116,7 +116,10 @@ const commonRoutes = [
     path: 'AnnualPlanner',
     element: <AnnualPlanner />
   },
-
+  {
+    path: 'AnnualPlanner/:selectedDate',
+    element: <AnnualPlanner />
+  },
   {
     path: 'EventOverview/UpcomingEvent',
     element: <UpcomingEvent />
