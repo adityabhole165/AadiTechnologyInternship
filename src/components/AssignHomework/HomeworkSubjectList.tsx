@@ -233,13 +233,14 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
-  // const clickEdit = (Id) => {
-  //   setHomeworkS(Id);
-  //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
-  // };
+  const clickEdit = (Id) => {
+    setHomeworkS(Id);
+    navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
+  };
 
   return (
     <>
+
       {/* <Grid item xs={4}>
   <DropDown
     itemList={HomeworkStatus}
@@ -256,7 +257,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
             ItemList={HomeworkStatus}
             onChange={clickHomeworkStatus}
             defaultValue={HomeworkS}
-
+            label={'Select Homework Status'}
           />
         </Grid>
 
@@ -301,7 +302,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
         clickDelete={clickDelete}
-        clickEdit={clickEdit1}
+        clickEdit={clickEdit}
         clickVisibilityIcon={clickView}
         clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish}

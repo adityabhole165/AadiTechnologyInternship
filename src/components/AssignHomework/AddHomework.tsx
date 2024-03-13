@@ -37,7 +37,7 @@ import {
   GetTeacherSubjectList,
   HomeworkSave,
   PublishUnpublishAllHomework,
-  SubjectListforTeacher
+  SubjectListforTeacherDropdown,Publishallreset
 } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 import AddUnpublish1 from './AddUnpublish1';
@@ -166,7 +166,7 @@ const AddHomework = () => {
   }, []);
   //dropdown
   useEffect(() => {
-    dispatch(SubjectListforTeacher(GetTeacherSubjectAndClassSubjectBody));
+    dispatch(SubjectListforTeacherDropdown(GetTeacherSubjectAndClassSubjectBody));
   }, []);
   // useEffect(() => {
   //     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody))
@@ -265,6 +265,8 @@ const AddHomework = () => {
     };
 
     dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+    // dispatch(Publishallreset());
+    // dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
 
     // }
   };
