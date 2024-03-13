@@ -8,7 +8,7 @@ import EventManagementList from './EventManagementList';
 const EventManagement = () => {
     const { SelectedDate, StandardId, DivisionId } = useParams();
 
-    const [EventId, setEventId] = useState('');
+    const [EventId, setEventId] = useState(0);
     const [AddNewEventClicked, setAddNewEventClicked] = useState(true);
 
     const clickEventEdit = (value) => {
@@ -17,6 +17,7 @@ const EventManagement = () => {
 
     const ClickAddNewEvent = () => {
         setAddNewEventClicked(!AddNewEventClicked)
+        setEventId(0)
     }
     return (
         <>
