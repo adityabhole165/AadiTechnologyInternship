@@ -22,6 +22,7 @@ const SingleFile = ({
   width = '300px',
   viewIcon = false,
   deleteIcon = false,
+  FileLabel = "",
   isMandatory = true
 }) => {
   const classes = Styles();
@@ -79,9 +80,17 @@ const SingleFile = ({
           }}
           color={FileName ? 'success' : 'primary'}
         >
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Stack
+            direction={'row'}
+            alignItems={'center'}
+            gap={1}
+            sx={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+            }}>
             {FileName ? <CheckCircle /> : <CloudUploadIcon />}
-            {FileName == '' ? ' No file selected' : FileName}{' '}
+            {FileName == '' ? FileLabel ? FileLabel : ' No file selected' : FileName}
             {isMandatory && <span style={{ color: 'red' }}>*</span>}
             <Box sx={{ textAlign: 'center' }}>
               <input

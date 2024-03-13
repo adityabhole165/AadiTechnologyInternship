@@ -100,6 +100,24 @@ const ViewHomework = () => {
                 Assign Homework
               </Typography>
             </Link>
+            <Link
+              to={'/extended-sidebar/Teacher/AddHomework'}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                variant={'h3'}
+                fontSize={'23px'}
+                fontWeight={'normal'}
+                color={'text.primary'}
+                sx={{
+                  '&:hover': {
+                    fontWeight: 'bold'
+                  }
+                }}
+              >
+                Add Homework
+              </Typography>
+            </Link>
             <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
               View Homework
             </Typography>
@@ -146,10 +164,10 @@ const ViewHomework = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <Typography>Attachment:</Typography>
+              <Typography>Attachment(s):</Typography>
             </Grid>
             <Grid item xs={6}>
-              <Typography>More Attachment:</Typography>
+              <Typography>More Attachment(s):</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} />

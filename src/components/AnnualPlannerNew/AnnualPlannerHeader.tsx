@@ -4,6 +4,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Stack } from "@mui/material";
+import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -43,17 +44,61 @@ const AnnualPlannerHeader = () => {
 
     // ]
     const IconList = [
-        { Id: 1, Icon: <PriorityHighIcon />, Title: Note, Action: 'Note' },
-        { Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1' },
-        { Id: 3, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview' },
+        {
+            Id: 1,
+            Icon: <PriorityHighIcon />,
+            Title: Note,
+            Action: 'Note',
+            sx: {
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                    backgroundColor: grey[700]
+                }
+            }
+        },
+        {
+            Id: 2, Icon: <QuestionMarkIcon />, Title: Note1, Action: 'Note1', sx: {
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                    backgroundColor: grey[700]
+                }
+            }
+        },
+        {
+            Id: 3, Icon: <CalendarMonthIcon />, Title: 'Events Overview', Action: 'EventsOverview', sx: {
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                    backgroundColor: grey[700]
+                }
+            }
+        },
         ...(AnnualPlannerViewAccess === 'Y'
-          ? [{ Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner' }]
-          : []),
+            ? [{
+                Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
+                    color: 'white',
+                    backgroundColor: green[500],
+                    '&:hover': {
+                        backgroundColor: green[700]
+                    }
+                }
+            }]
+            : []),
         ...(FileName !== '' && AnnualPlannerViewAccess === 'N'
-          ? [{ Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner' }]
-          : [])
-      ];
-      
+            ? [{
+                Id: 4, Icon: <Visibility />, Title: 'Annual Planner', Action: 'AddAnnualPlanner', sx: {
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                        backgroundColor: grey[700]
+                    }
+                }
+            }]
+            : [])
+    ];
+
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
             navigate('/extended-sidebar/Common/EventOverview');

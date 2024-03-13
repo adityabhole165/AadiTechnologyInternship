@@ -137,6 +137,7 @@ const UploadAnnualPlanner = ({
                 FilePath={FileDetails.length > 0 ? FileDetails[0].LinkUrl : ''}
                 clickDelete={clickDelete}
                 clickFileName={clickFileName}
+                width='100%'
               ></SingleFile>
               {/* while file is selected */}
               {/* {FileDetails && FileDetails.length > 0 ? (

@@ -153,7 +153,8 @@ function AnnualPlanner() {
     asMonthId: Number(selectMonth),
     asYear: Number(selectYear),
     asStandardId: Number(selectStandard),
-    asDivisionId: Number(selectDivision)
+    asDivisionId: Number(selectDivision),
+    asEventType: ''
   };
 
   const AnnualplannerBody: IAddAnnualPlannerBody = {
@@ -548,7 +549,7 @@ function AnnualPlanner() {
                   MaxfileSize={MaxfileSize}
                   ChangeFile={ChangeFile}
                   errorMessage={''}
-                  filePath={clickFileName.toString()}
+                  FilePath={clickFileName.toString()}
                   FileName={fileName}
                 ></SingleFile>
                 {/* while file is selected */}
