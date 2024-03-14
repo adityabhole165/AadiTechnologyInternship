@@ -253,11 +253,7 @@ const AddHomework = () => {
   };
 
   const clickPublishUnpublish = (IsPublish) => {
-    if (!IsPublish) {
-      // Display a message indicating that unpublishing is not allowed
-      toast.error("Unpublishing is not allowed because the homework is not published.");
-      return;
-    }
+
     const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
     {
       asSchoolId: asSchoolId.toString(),
