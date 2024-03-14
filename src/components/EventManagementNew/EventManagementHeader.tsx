@@ -10,7 +10,7 @@ import BreadCrumbs from '../AnnualPlannerNew/BreadCrumbs';
 import HeaderIcons from '../AnnualPlannerNew/HeaderIcons';
 import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
 
-const EventManagementHeader = ({ ClickAddNewEvent }) => {
+const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const navigate = useNavigate();
     const { SelectedDate } = useParams();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
@@ -55,6 +55,9 @@ const EventManagementHeader = ({ ClickAddNewEvent }) => {
     const ClickIcon = (value) => {
         if (value == 'EventsOverview') {
             navigate('/extended-sidebar/Common/EventOverview');
+        }
+        if (value == 'Save') {
+            ClickSave();
         }
         if (value == 'AddNewEvent') {
             ClickAddNewEvent();
