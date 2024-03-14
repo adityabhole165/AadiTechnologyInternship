@@ -86,7 +86,7 @@ function ViewSms() {
                 </IconButton>
               </Link>
               <Link
-                to={'/extended-sidebar/Teacher/TAttendance'}
+                to={'/extended-sidebar/Teacher/SmsCenter'}
                 style={{ textDecoration: 'none' }}
               >
                 <Typography

@@ -290,9 +290,11 @@ const LessonPlanBaseScreen = () => {
               </Typography>
             </Breadcrumbs>
 
+          </Box>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Box sx={{ background: 'white' }}>
               <SearchableDropdown
-                label={""}
+                label={"Select Teacher"}
                 sx={{ pl: 0, minWidth: '350px' }}
                 ItemList={USGetAllTeachersOfLessonPlan}
                 onChange={ClickSelctTecher}
@@ -300,9 +302,6 @@ const LessonPlanBaseScreen = () => {
                 size={"small"}
               />
             </Box>
-
-          </Box>
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Box sx={{ background: 'white' }}>
               <TextField
                 value={StartDate}
@@ -379,12 +378,7 @@ const LessonPlanBaseScreen = () => {
             </Box>
           </Stack>
         </Stack>
-
-
-
-
-
-        <Box mt={2}>
+        <Box sx={{ background: 'white', p: 2 }}>
           <Typography variant={'h4'} mb={1}>
             My Subjects
           </Typography>
@@ -398,7 +392,7 @@ const LessonPlanBaseScreen = () => {
               clickExport={downloadJsonToPdf}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Record Found.</b>
             </Typography>
           )}

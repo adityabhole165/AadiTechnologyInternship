@@ -268,6 +268,7 @@ const EventOverview = (props: Props) => {
                       .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event).length}></Badge>
                   </Box>
                 </AccordionSummary>
+                <Divider />
                 <AccordionDetails>
                   <Grid container>
                     {USGetAllEvents

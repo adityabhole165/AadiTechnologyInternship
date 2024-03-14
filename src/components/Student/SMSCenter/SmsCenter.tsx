@@ -76,7 +76,7 @@ function SmsCenter() {
       header: 'PPSchl',
       text1: 'Welcome to Aadi Technology!',
       text2: '2022-01-01',
-      linkPath: '/Student/viewsms/1'
+      linkPath: '/extended-sidebar/Student/viewsms/1'
     }
   ];
 

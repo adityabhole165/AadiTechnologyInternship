@@ -2,7 +2,7 @@ import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
 import Visibility from '@mui/icons-material/Visibility';
-import { Card, Link, Tooltip } from '@mui/material';
+import { Box, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -20,8 +20,8 @@ function ListIcon({
 }) {
     return (
         <div>
-            <TableContainer component={Card}>
-                <Table aria-label="simple table">
+            <TableContainer component={Box}>
+                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
                     <TableHead>
                         <TableRow
                             sx={{
@@ -32,8 +32,7 @@ function ListIcon({
                             {HeaderArray.map((item, i) => (
                                 <TableCell
                                     key={i}
-                                    sx={{ textTransform: 'capitalize' }}
-                                    align="center"
+                                    sx={{ textTransform: 'capitalize', color: 'white' }}
                                 >
                                     <b>{item.Header}</b>
                                 </TableCell>
@@ -43,46 +42,46 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.Id}>
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.StartDate}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.EndDate}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.Text3}
                                     <Visibility onClick={() => clickView(item.Id)} />
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.Text4}
                                     <EditIcon onClick={() => clickEdit(item.Id)} />
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.Text5}
-                                    <CloseIcon onClick={() => clickDelete(item.Id)}  sx={{ color: 'red' }} />
+                                    <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
                                 </TableCell>
 
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.Text5}
                                     <Link component="button" onClick={() => clickExport(item.Id)}>
                                         Export
                                     </Link>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell sx={{ textTransform: 'capitalize' }} >
                                     {item.Text6 === '0' ? (
                                         <Tooltip title={item.ReportingUserName} >
-                                            <CheckIcon  sx={{ color: 'green' }} />
+                                            <CheckIcon sx={{ color: 'green' }} />
                                         </Tooltip>
                                     ) : item.Text6 === '1' ? (
-                                        <CheckIcon  sx={{ color: 'green' }} />
+                                        <CheckIcon sx={{ color: 'green' }} />
                                     ) : item.Text6 === '2' ? (
-                                        <CloseIcon   sx={{ color: 'green' }} />
+                                        <CloseIcon sx={{ color: 'green' }} />
                                     ) : null}
                                 </TableCell>
 
