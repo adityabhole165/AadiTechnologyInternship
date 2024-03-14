@@ -12,7 +12,7 @@ import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
 
 const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const navigate = useNavigate();
-    const { SelectedDate } = useParams();
+    const { SelectedDate, StandardId, DivisionId } = useParams();
     const [openAnnualPlannerDialog, setOpenAnnualPlannerDialog] = useState(false);
 
     const Note: string =
@@ -66,7 +66,7 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const Breadcrumbs = [{
         Id: 1,
         Name: 'Annual Planner',
-        Value: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate,
+        Value: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId,
         IsActive: false
     }, {
         Id: 2,
