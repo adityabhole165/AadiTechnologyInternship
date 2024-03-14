@@ -19,7 +19,7 @@ import {
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDate, getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 
-const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
+const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveClicked }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -88,8 +88,14 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
 
     }, []);
     useEffect(() => {
-        resetForm()
+        if (AddNewEventClicked > 0)
+            resetForm()
     }, [AddNewEventClicked]);
+    useEffect(() => {
+        if (SaveClicked > 0)
+            ClickSave();
+    }, [SaveClicked]);
+
     useEffect(() => {
         if (EventId != 0) {
             dispatch(GetEventdetail(EDetails));
@@ -189,7 +195,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked }) => {
         })
         return returnVal;
     }
-    const ClickSave = (value) => {
+    const ClickSave = () => {
         let isError = false;
         if (EventTitle == '') {
             SetErrorEventTitle('Event Ttile should not be blank.');

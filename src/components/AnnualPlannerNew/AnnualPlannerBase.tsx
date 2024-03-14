@@ -25,7 +25,7 @@ import AnnualPlannerHeader from './AnnualPlannerHeader';
 import CalendarAnnualPlanner from './CalendarAnnualPlanner';
 
 const AnnualPlannerBase = () => {
-  const { selectedDate } = useParams();
+  const { selectedDate, standardId, divisionId } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -128,14 +128,14 @@ const AnnualPlannerBase = () => {
   };
   useEffect(() => {
     if (USStandardList.length > 0) {
-      setValue(USStandardList[0].Value, 'Standard');
+      setValue(standardId == undefined ? USStandardList[0].Value : standardId, 'Standard');
       callGetDivisionList(USStandardList[0].Value);
     }
   }, [USStandardList]);
 
   useEffect(() => {
     if (USStandardDivision.length > 0) {
-      setValue(USStandardDivision[0].Value, 'StandardDivision');
+      setValue(divisionId == undefined ? USStandardDivision[0].Value : divisionId, 'StandardDivision');
     }
   }, [USStandardDivision]);
 
