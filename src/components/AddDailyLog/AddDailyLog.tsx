@@ -105,7 +105,7 @@ const AddDailyLog = () => {
     'XLSX'
   ];
   const MaxfileSize = 5000000;
-  const startIndex = (page - 1) * 20;
+  const startIndex = (page -1) * 20;
   const endIndex = startIndex + 20;
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -263,25 +263,7 @@ const AddDailyLog = () => {
     }
   };
 
-  // const handleChange2 = (e) => {
-  //   const selectedDate = e.target.value;
-  //   setDateSearch(selectedDate);
-  //   dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
 
-  //   // Validate date
-  //   if (!selectedDate) {
-  //     setDateSearchError('Date should not be blank.');
-  //   } else {
-  //     const currentDate = new Date();
-  //     const selectedDateObj = new Date(selectedDate);
-
-  //     if (selectedDateObj > currentDate) {
-  //       setDateSearchError('Future dates are disabled.');
-  //     } else {
-  //       setDateSearchError('');
-  //     }
-  //   }
-  // };
 
   const onSelectDate = (value) => {
     setDateSearch(value);
@@ -461,23 +443,7 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            {/* <Box>
-              <Tooltip title={'Save Daily Log'}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: 'success.main',
-                    height: '36px !important',
-                    ':hover': {
-                      backgroundColor: 'success.main'
-                    }
-                  }}
-                  onClick={onClickSave}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box> */}
+          
           </Stack>
         </Stack>
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
@@ -589,22 +555,13 @@ const AddDailyLog = () => {
                   clickDelete={clickDelete}
                   clickpublish={Changestaus}
                 />
-
-
-
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                   <b>No Record Found.</b>
                 </Typography>
 
               )}
-              {/* <Pagination
-                count={totalPages}
-                page={page}
-                onChange={handlePageChange}
-                color="primary"
-              /> */}
-
+          
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   Select a page:
