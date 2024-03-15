@@ -63,8 +63,7 @@ const AddDailyLog = () => {
   const [LogId, setLogId] = useState(0);
   const [ItemList, setItemList] = useState('');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1); // State to track the total number of pages
-
+  const [totalPages, setTotalPages] = useState(1); 
 
   const SaveDailyLog = useSelector(
     (state: RootState) => state.AddDailyLog.Savelog
@@ -612,8 +611,6 @@ const AddDailyLog = () => {
                   Page 1 of 5
                 </Box>
               </Box>
-
-
 
             </Grid>
           </Grid>
