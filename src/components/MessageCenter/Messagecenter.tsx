@@ -70,7 +70,7 @@ function MessaageCenter() {
   //                     pageName == 'Inbox'
   //                       ? {
   //                           fontSize: '10px',
-  //                           backgroundColor: 'gray',
+  //                           backgroundColor: grey[500],
   //                           color: 'white',
   //                         }
   //                       : { fontSize: '10px' }
@@ -92,7 +92,7 @@ function MessaageCenter() {
   //                     pageName == 'Sent'
   //                       ? {
   //                           fontSize: '10px',
-  //                           backgroundColor: 'gray',
+  //                           backgroundColor: grey[500],
   //                           color: 'white'
   //                         }
   //                       : { fontSize: '10px' }
@@ -114,7 +114,7 @@ function MessaageCenter() {
   //                     pageName == 'Trash'
   //                       ? {
   //                           fontSize: '10px',
-  //                           backgroundColor: 'gray',
+  //                           backgroundColor: grey[500],
   //                           color: 'white'
   //                         }
   //                       : { fontSize: '10px' }

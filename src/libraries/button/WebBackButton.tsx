@@ -20,8 +20,8 @@ function WebBackButton({ FromRoute, icon }) {
           pageName == '/forgotPassword'
             ? '/schoolList'
             : FromRoute == '/schoolnotice' || FromRoute == '/schoolList'
-            ? FromRoute
-            : `/${location.pathname.split('/')[1]}` + FromRoute
+              ? FromRoute
+              : `/${location.pathname.split('/')[1]}` + FromRoute
         }
         color="primary"
         style={{ textDecoration: 'none' }}
@@ -39,7 +39,7 @@ function WebBackButton({ FromRoute, icon }) {
               height: '12px !important',
               borderRadius: 0,
               ':hover': {
-                backgroundColor: 'gray'
+                backgroundColor: grey[500]
               }
             }}
           >

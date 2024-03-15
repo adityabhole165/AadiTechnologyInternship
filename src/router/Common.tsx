@@ -117,7 +117,7 @@ const commonRoutes = [
     element: <AnnualPlanner />
   },
   {
-    path: 'AnnualPlanner/:selectedDate',
+    path: 'AnnualPlanner/:selectedDate/:standardId/:divisionId',
     element: <AnnualPlanner />
   },
   {

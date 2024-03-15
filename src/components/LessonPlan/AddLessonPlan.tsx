@@ -1,9 +1,12 @@
+import Check from '@mui/icons-material/Check';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
+import Save from '@mui/icons-material/Save';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -221,6 +224,36 @@ const AddLessonPlan = () => {
               </IconButton>
             </Tooltip>
           </Box>
+          <Box>
+            <Tooltip title={'Submit'}>
+              <IconButton
+                sx={{
+                  backgroundColor: blue[500],
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: blue[600]
+                  }
+                }}
+              >
+                <Check />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
+            <Tooltip title={'Save'}>
+              <IconButton
+                sx={{
+                  backgroundColor: green[500],
+                  color: 'white',
+                  '&:hover': {
+                    backgroundColor: green[600]
+                  }
+                }}
+              >
+                <Save />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Stack>
       </Stack>
       <Box sx={{ p: 2, background: 'white' }}>
@@ -276,12 +309,12 @@ const AddLessonPlan = () => {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              <Button variant={"contained"} color={"success"}>
+              {/* <Button variant={"contained"} color={"success"}>
                 Save
               </Button>
               <Button variant={"outlined"} color={"primary"} disabled>
                 Submit
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
           <Grid item xs={12}>
@@ -352,6 +385,11 @@ const AddLessonPlan = () => {
                       ))}
                     </TableBody>
                   </Table>
+                  <Box display={"flex"} justifyContent={"flex-end"} width={"100%"} p={2}>
+                    <Button variant={"outlined"} startIcon={<ContentCopy />}>
+                      Copy to other class
+                    </Button>
+                  </Box>
                 </AccordionDetails>
               </Accordion>
             ))}
@@ -395,7 +433,7 @@ const AddLessonPlan = () => {
               </Grid>
               <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
                 <Typography color={"primary"} fontWeight={"bold"}>
-                  Submitted On:
+                  Approved On:
                 </Typography>
               </Grid>
               <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
@@ -417,7 +455,7 @@ const AddLessonPlan = () => {
               </Grid>
               <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
                 <Typography color={"primary"} fontWeight={"bold"}>
-                  Submitted On:
+                  Approved On:
                 </Typography>
               </Grid>
               <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
@@ -429,12 +467,12 @@ const AddLessonPlan = () => {
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              <Button variant={"contained"} color={"success"}>
+              {/* <Button variant={"contained"} color={"success"}>
                 Save
               </Button>
               <Button variant={"outlined"} color={"primary"} disabled>
                 Submit
-              </Button>
+              </Button> */}
             </Box>
           </Grid>
         </Grid>

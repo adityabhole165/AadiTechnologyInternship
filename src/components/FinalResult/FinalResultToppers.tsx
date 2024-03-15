@@ -227,7 +227,7 @@ const FinalResultToppers = () => {
   const clickSubjectDropdownST = (value) => {
     setSubjectST(value);
   };
-  const ClickItemST = () => {};
+  const ClickItemST = () => { };
 
   const ClickRadio = (value) => {
     setRadioBtn(value);
@@ -236,7 +236,7 @@ const FinalResultToppers = () => {
     navigate('/extended-sidebar/Teacher/FinalResult');
   };
 
-  const ClickItem = () => {};
+  const ClickItem = () => { };
   return (
     <>
       <br></br>
@@ -247,8 +247,8 @@ const FinalResultToppers = () => {
         <IconButton
           sx={{
             color: 'White',
-            backgroundColor: 'gray',
-            ':hover': { backgroundColor: 'gray' }
+            backgroundColor: grey[500],
+            ':hover': { backgroundColor: grey[600] }
           }}
         >
           <Help />

@@ -48,8 +48,8 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
     p: 'Present',
     a: 'Absent',
     h: 'Holiday',
-    w: 'Weekwend',
-    o: 'OutSide',
+    w: 'Weekend',
+    o: 'OutSide Academic Year',
     l: 'Late',
     n: 'Not Available'
   };
@@ -80,7 +80,8 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
           >
             <Box
               sx={{
-                height: '90px',
+                minHeight: '90px',
+                height: '100%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -101,19 +102,16 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
             >
               <Typography>{Item.Name}</Typography>
 
-              {Item.Text1.slice(0, 1).map((obj, i) => {
-                return (<b style={{ background: alpha(bg[Item.Legend], 0.1), width: '100%' }} key={i}>{obj}</b>)
-              })}
-              {Item.Text1.length > 1 && (
-                <Box>
-                  +{Item.Text1.length - 1}
-                </Box>
-              )}
+              <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
+                {Item.Text1.map((obj, i) => {
+                  return (<b style={{ background: alpha(bg[Item.Legend], 0.1), width: '100%' }} key={i}>{obj}</b>)
+                })}
+              </Box>
             </Box>
           </Grid>
         );
       })}
-    </Grid>
+    </Grid >
   );
 };
 

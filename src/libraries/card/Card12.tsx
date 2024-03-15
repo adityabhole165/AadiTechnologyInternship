@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     '&:hover': {
       cursor: 'pointer',
-      backgroundColor: 'gray'
+      backgroundColor: grey[500]
     },
     '&:active': {
       cursor: 'pointer',

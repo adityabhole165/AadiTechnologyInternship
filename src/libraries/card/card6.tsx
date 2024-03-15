@@ -96,7 +96,7 @@ function Card6({ Content, FileName, Name }) {
                               window.open(file_path);
                             }}
                             sx={{
-                              backgroundColor: 'grey',
+                              backgroundColor: grey[500],
                               fontSize: 'small',
                               width: '40px',
                               height: '15px',

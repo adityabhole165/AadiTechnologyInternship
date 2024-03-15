@@ -161,7 +161,7 @@ const SchoolAttendanceOverview = () => {
             <Tooltip title={Note}>
               <IconButton
                 sx={{
-                  backgroundColor: grey[600],
+                  backgroundColor: grey[500],
                   color: 'white',
                   '&:hover': {
                     backgroundColor: grey[600]

@@ -368,7 +368,7 @@ const IndividualAttendance = () => {
               onClick={handlePresent}
               sx={{
                 color: 'white',
-                backgroundColor: 'gray',
+                backgroundColor: grey[500],
                 width: '36px',
                 height: '36px !important',
                 ':hover': { backgroundColor: 'green' }
@@ -481,7 +481,7 @@ const IndividualAttendance = () => {
                 color: 'white',
                 height: '36px !important',
                 width: '36px',
-                backgroundColor: 'gray',
+                backgroundColor: grey[500],
                 ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
               }}
             >
@@ -551,9 +551,9 @@ const IndividualAttendance = () => {
             <IconButton
               sx={{
                 color: 'white',
-                backgroundColor: 'gray',
+                backgroundColor: grey[500],
                 height: '36px !important',
-                ':hover': { backgroundColor: 'gray' }
+                ':hover': { backgroundColor: grey[600] }
               }}
             >
               <Help />

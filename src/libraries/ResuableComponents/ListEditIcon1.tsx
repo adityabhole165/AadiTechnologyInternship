@@ -8,14 +8,14 @@ import TableRow from '@mui/material/TableRow';
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditIcon from '@mui/icons-material/Edit';
-import { Card } from '@mui/material';
+import { Box } from '@mui/material';
 // ... (your other imports)
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
   return (
     <div>
-      <TableContainer component={Card}>
-        <Table aria-label="simple table">
+      <TableContainer component={Box}>
+        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
               sx={{
@@ -26,8 +26,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize' }}
-                  align="center"
+                  sx={{ textTransform: 'capitalize', color: 'white' }}
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -37,15 +36,15 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
           <TableBody>
             {ItemList.map((item) => (
               <TableRow key={item.Id}>
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text1}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'Y' ? (
                     <CheckIcon />
                   ) : (
@@ -53,7 +52,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 !== 'Complete' ? (
                     <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
                   ) : (

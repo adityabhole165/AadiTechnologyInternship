@@ -6,10 +6,12 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Badge,
   Box,
   Breadcrumbs,
   Container,
   Divider,
+  Grid,
   IconButton,
   Stack,
   Tooltip,
@@ -204,7 +206,8 @@ const EventOverview = (props: Props) => {
               Array={AssociatedStandardsEV}
               handleChange={clickStandardDropdown}
               defaultValue={selectStandard}
-              label={''}
+              label={'Standard'}
+              width={'100px'}
             />
           </Box>
           <Box>
@@ -212,7 +215,8 @@ const EventOverview = (props: Props) => {
               Array={UsGetAllMonthsDropDown}
               handleChange={clicMonthDropdown}
               defaultValue={selectMonth}
-              label={''}
+              label={'Month(s)'}
+              width={'100px'}
             />
           </Box>
           <Box>
@@ -220,7 +224,8 @@ const EventOverview = (props: Props) => {
               Array={AllAcademicYearsForSchool}
               handleChange={clicYearDropdown}
               defaultValue={selectYear}
-              label={''}
+              label={'Academic Year'}
+              width={'150px'}
             />
           </Box>
           <Box>
@@ -230,7 +235,7 @@ const EventOverview = (props: Props) => {
                   color: 'white',
                   backgroundColor: grey[500],
                   '&:hover': {
-                    backgroundColor: grey[700]
+                    backgroundColor: grey[600]
                   }
                 }}
               >
@@ -255,31 +260,38 @@ const EventOverview = (props: Props) => {
                   aria-controls={`panel${index + 1}bh-content`}
                   id={`panel${index + 1}bh-header`}
                 >
-                  <Box width={'100%'}>
-                    <Typography sx={{ width: '33%', flexShrink: 0 }}>
+                  <Box width={'100%'} display={"flex"} justifyContent={"space-between"} alignItems={"center"} pr={2}>
+                    <Typography variant={"h4"} sx={{ width: '33%', flexShrink: 0 }}>
                       {event}
                     </Typography>
+                    <Badge color={"primary"} badgeContent={USGetAllEvents
+                      .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event).length}></Badge>
                   </Box>
                 </AccordionSummary>
+                <Divider />
                 <AccordionDetails>
-                  {USGetAllEvents
-                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
-                    .map((obj, index) => (
-                      <>
-                        <Typography variant={'h4'}>{obj.DisplayDate}</Typography>
-                        <React.Fragment>
-                          <Box my={1}>
-                            <Divider />
+                  <Grid container>
+                    {USGetAllEvents
+                      .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
+                      .map((obj, index) => (
+                        <Grid item xs={3} key={index} sx={{ p: 1, height: '100%' }}>
+                          <Box sx={{ p: 1, border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+                            <Typography variant={'h4'} color={'grey.600'}>{obj.DisplayDate}</Typography>
+                            <React.Fragment>
+                              <Box my={1}>
+                                <Divider />
+                              </Box>
+                              <Typography variant={'h4'}>Event Title: </Typography>
+                              <Typography variant={'h5'}>
+                                {obj.EventDescription}
+                              </Typography>
+                              <Typography>Standards: </Typography>
+                              <span>{obj.Standards}</span>
+                            </React.Fragment>
                           </Box>
-                          <Typography variant={'h4'}>Event Title: </Typography>
-                          <Typography variant={'h5'}>
-                            {obj.EventDescription}
-                          </Typography>
-                          <Typography>Standards: </Typography>
-                          <span>{obj.Standards}</span>
-                        </React.Fragment>
-                      </>
-                    ))}
+                        </Grid>
+                      ))}
+                  </Grid >
                 </AccordionDetails>
               </Accordion>
             ))
@@ -293,7 +305,7 @@ const EventOverview = (props: Props) => {
         </Box>
       </Box>
 
-    </Container>
+    </Container >
   );
 };
 

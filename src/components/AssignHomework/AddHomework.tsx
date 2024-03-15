@@ -1,4 +1,5 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import Close from '@mui/icons-material/Close';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
@@ -6,10 +7,7 @@ import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {
   Box,
   Breadcrumbs,
-  Button,
   Container,
-  Dialog,
-  DialogContent,
   Grid,
   IconButton,
   Stack,
@@ -17,7 +15,7 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
-import { green, red } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -382,9 +380,9 @@ const AddHomework = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: 'gray',
+                    backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: 'gray' }
+                    ':hover': { backgroundColor: grey[600] }
                   }}
                 >
                   <QuestionMarkIcon />
@@ -396,7 +394,7 @@ const AddHomework = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: 'grey',
+                    backgroundColor: grey[500],
                     height: '36px !important',
                     ':hover': { backgroundColor: red[700] }
                   }}
@@ -407,13 +405,28 @@ const AddHomework = () => {
               </Tooltip>
             </Box>
             <Box>
+              <Tooltip title={`Cancel`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                  onClick={() => clickPublishUnpublish(1)}
+                >
+                  <Close />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
               <Tooltip title={`Publish all changes`}>
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: green[600],
+                    backgroundColor: green[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: green[700] }
+                    ':hover': { backgroundColor: green[600] }
                   }}
                   onClick={() => clickPublishUnpublish(1)}
                 >
@@ -515,6 +528,7 @@ const AddHomework = () => {
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
+                FileLabel={'Attachment'}
                 width={'100%'}
                 isMandatory={false}
               />
@@ -524,6 +538,7 @@ const AddHomework = () => {
                 ValidFileTypes={ValidFileTypes1}
                 MaxfileSize={MaxfileSize1}
                 ChangeFile={ChangeFile1}
+                FileLabel={'Attachments'}
                 width={'100%'}
                 isMandatory={false}
               />
@@ -556,7 +571,7 @@ const AddHomework = () => {
                 gap: 2
               }}
             >
-              <Button onClick={SaveFile} variant="contained">
+              {/* <Button onClick={SaveFile} variant="contained">
                 Save
               </Button>
               <Button
@@ -565,7 +580,7 @@ const AddHomework = () => {
                 variant="contained"
               >
                 Cancel
-              </Button>
+              </Button> */}
               {/* <Button color={'error'} onClick={Back} variant="contained">
                 Back
               </Button> */}
@@ -590,15 +605,14 @@ const AddHomework = () => {
               clickTitle={clickTitle1}
             />
           </Box>
-          <Dialog open={Open} onClose={ClickCloseDialogbox}>
-            <DialogContent>
-              <AddUnpublish1
-                ClickCloseDialogbox={ClickCloseDialogbox}
-                clickPublishUnpublish={clickPublishUnpublish}
-              />
-            </DialogContent>
-          </Dialog>
-
+          {Open && (
+            <AddUnpublish1
+              open={Open}
+              setOpen={setOpen}
+              ClickCloseDialogbox={ClickCloseDialogbox}
+              clickPublishUnpublish={clickPublishUnpublish}
+            />
+          )}
         </Box>
       </Container>
     </>

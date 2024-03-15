@@ -5,7 +5,7 @@ import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Breadcrumbs, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
-import jsPDF from 'jspdf';
+// import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -20,6 +20,7 @@ import {
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
 import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
@@ -28,7 +29,6 @@ import {
   deletelessonplan,
   resetdeleteplan
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
-import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 import { RootState } from 'src/store';
 const LessonPlanBaseScreen = () => {
@@ -101,7 +101,7 @@ const LessonPlanBaseScreen = () => {
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
-    asUserId:Number(selectClasstecahernew) ,
+    asUserId: Number(selectClasstecahernew),
     asReportingUserId: asUserId,
     asStartIndex: 0,
     asEndIndex: 20,
@@ -112,15 +112,15 @@ const LessonPlanBaseScreen = () => {
   };
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-  }, [StartDate, EndDate,selectClasstecahernew]);
+  }, [StartDate, EndDate, selectClasstecahernew]);
 
   const downloadJsonToPdf = () => {
-    const doc = new jsPDF();
+    // const doc = new jsPDF();
     const jsonString = JSON.stringify(LessonPlanReport, null, 2);
-    doc.text(20, 20, 'Lesson Plan Report:');
-    doc.text(20, 30, jsonString);
-    doc.save('lesson_plan_report.pdf');
-    doc.save('sample-file.pdf')
+    // doc.text(20, 20, 'Lesson Plan Report:');
+    // doc.text(20, 30, jsonString);
+    // doc.save('lesson_plan_report.pdf');
+    // doc.save('sample-file.pdf')
   };
 
 
@@ -136,8 +136,8 @@ const LessonPlanBaseScreen = () => {
     IsNewMode: false
   }
 
-  
-  
+
+
   useEffect(() => {
     const GetAllTeachersOfLessonBody: IGetAllTeachersOfLessonPlanBody = {
       asSchoolId: asSchoolId,
@@ -145,11 +145,11 @@ const LessonPlanBaseScreen = () => {
       asReportingUserId: asUserId,
       asIsFullAccess: `${GetScreenPermission() == 'Y' ? 0 : selectClasstecahernew}`
     }
-  
+
     dispatch(CDAGetAllTeachersOfLessonPlan(GetAllTeachersOfLessonBody));
-  
+
   }, []);
-  
+
 
 
 
@@ -162,7 +162,7 @@ const LessonPlanBaseScreen = () => {
   // }, []);
 
 
-  
+
   const GetLessonPlanReportBody: IGetLessonPlanDetailsForReportBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -225,7 +225,7 @@ const LessonPlanBaseScreen = () => {
 
   }
 
-  
+
 
   const ClickEdit = (value) => {
     navigate('/extended-sidebar/Teacher/AddLessonPlan');
@@ -289,20 +289,19 @@ const LessonPlanBaseScreen = () => {
                 Lesson Plans
               </Typography>
             </Breadcrumbs>
-               
-            <Box sx={{ background: 'white' }}>
-            <SearchableDropdown
-              label={""}
-              sx={{ pl: 0, minWidth: '350px' }}
-              ItemList={USGetAllTeachersOfLessonPlan}
-              onChange={ClickSelctTecher}
-              defaultValue={selectClasstecahernew}
-              size={"small"}
-            />
-             </Box>
 
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box sx={{ background: 'white' }}>
+              <SearchableDropdown
+                label={"Select Teacher"}
+                sx={{ pl: 0, minWidth: '350px' }}
+                ItemList={USGetAllTeachersOfLessonPlan}
+                onChange={ClickSelctTecher}
+                defaultValue={selectClasstecahernew}
+                size={"small"}
+              />
+            </Box>
             <Box sx={{ background: 'white' }}>
               <TextField
                 value={StartDate}
@@ -379,12 +378,7 @@ const LessonPlanBaseScreen = () => {
             </Box>
           </Stack>
         </Stack>
-
-
-
-
-
-        <Box mt={2}>
+        <Box sx={{ background: 'white', p: 2 }}>
           <Typography variant={'h4'} mb={1}>
             My Subjects
           </Typography>
@@ -398,7 +392,7 @@ const LessonPlanBaseScreen = () => {
               clickExport={downloadJsonToPdf}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Record Found.</b>
             </Typography>
           )}

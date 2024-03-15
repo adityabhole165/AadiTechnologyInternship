@@ -1,13 +1,12 @@
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField, Typography } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { IPublishUnPublishHomeworkBody } from 'src/interfaces/AssignHomework/IAddHomework';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { GetPublishUnpublishHomework } from 'src/requests/AssignHomework/requestAddHomework';
 import { RootState } from 'src/store';
 
-const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
+const AddUnpublish1 = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Id } = useParams();
@@ -63,56 +62,45 @@ const AddUnpublish1 = ({ ClickCloseDialogbox, clickPublishUnpublish }) => {
   };
 
   return (
-    <div>
-      <br></br>
-      <br></br>
-      <Grid container spacing={2} mt={0.5}>
-        <Grid item xs={6}>
-          <Typography fontSize={'10px'}>
-            {' '}
-            <h4>Unpublish Reason :</h4>{' '}
-          </Typography>
-        </Grid>
-
-        <Grid item xs={6}>
-          <TextField
-            sx={{ width: '60%', margin: '2px 0', border: '1px solid #000' }}
-            multiline
-            rows={2}
-            value={Details}
-            onChange={(e) => {
-              setDetails(e.target.value);
-            }}
-            variant="standard"
-            // error={ErrorDetails !== ''}
-            // helperText={ErrorDetails}
-            // label={''}
-          />
-        </Grid>
-      </Grid>
-      <Grid item xs={6}>
-        <Box sx={{ textAlign: 'center' }} m={2}>
-          <ButtonPrimary
-            style={{ backgroundColor: '#ef5350' }}
-            onClick={ClickCloseDialogbox}
-          >
-            CLOSE
-          </ButtonPrimary>
-        </Box>
-      </Grid>
-      <Grid item xs={6}>
-        <Box sx={{ textAlign: 'center' }} m={2}>
-          <ButtonPrimary
-            style={{ backgroundColor: 'green' }}
-            onClick={() => {
-              ClickOk();
-            }}
-          >
-            OK
-          </ButtonPrimary>
-        </Box>
-      </Grid>
-    </div>
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false);
+      }}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      <DialogTitle
+        sx={{
+          backgroundColor: (theme) => theme.palette.error.main,
+          py: 1
+        }}
+      ></DialogTitle>
+      <DialogContent dividers sx={{ px: 4 }}>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Unpublish Reason
+        </Typography>
+        <TextField
+          multiline
+          rows={3}
+          value={Details}
+          onChange={(e) => {
+            setDetails(e.target.value);
+          }}
+          sx={{ width: '100%' }}
+        />
+      </DialogContent>
+      <DialogActions sx={{ py: 2, px: 3 }}>
+        <Button onClick={() => {
+          setOpen(false)
+        }} color={'error'}>
+          Cancel
+        </Button>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
 

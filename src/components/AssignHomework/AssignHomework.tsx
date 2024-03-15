@@ -259,6 +259,7 @@ const AssignHomework = () => {
             label={'Select Teacher'}
             defaultValue={SelectTeacher?.toString()}
             mandatory
+            size={"small"}
           />
 
           <SearchableDropdown
@@ -268,6 +269,7 @@ const AssignHomework = () => {
             label={'Select Class:'}
             defaultValue={SelectClass}
             mandatory
+            size={"small"}
           />
 
 
@@ -276,9 +278,9 @@ const AssignHomework = () => {
 
               sx={{
                 color: 'white',
-                backgroundColor: 'grey',
+                backgroundColor: grey[500],
                 '&:hover': {
-                  backgroundColor: 'grey'
+                  backgroundColor: grey[500]
                 }
               }}
             >
@@ -323,7 +325,7 @@ const AssignHomework = () => {
               HeaderArray={HeaderOfTable}
             />
           ) : (
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
               <b>No Record Found.</b>
             </Typography>
           )}

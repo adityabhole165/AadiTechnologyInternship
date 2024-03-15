@@ -12,12 +12,11 @@ import {
   Tooltip,
   Typography
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
-import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import List1 from 'src/libraries/mainCard/List1';
 import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
 
@@ -74,10 +73,10 @@ function SmsCenter() {
   const Data = [
     {
       id: 0,
-      header: 'Test',
-      text1: '9988655664',
+      header: 'PPSchl',
+      text1: 'Welcome to Aadi Technology!',
       text2: '2022-01-01',
-      linkPath: '/Student/viewsms/1'
+      linkPath: '/extended-sidebar/Student/viewsms/1'
     }
   ];
 
@@ -125,9 +124,9 @@ function SmsCenter() {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: 'gray',
+                  backgroundColor: grey[500],
                   height: '36px !important',
-                  ':hover': { backgroundColor: 'gray' }
+                  ':hover': { backgroundColor: grey[600] }
                 }}
               >
                 <QuestionMarkIcon />
@@ -152,7 +151,25 @@ function SmsCenter() {
           </Alert>
         </Box>
         <Box sx={{ mt: 2 }}>
-          {loading ? <SuspenseLoader /> : <List1 items={Data} />}
+          {/* {loading ? <SuspenseLoader /> : <List1 items={Data} />} */}
+          {/* sms center new UI */}
+          {Data.map((item, index) => (
+            <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+              <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
+                <span style={{ color: grey[500] }}>From: </span> {item.header}
+              </Typography>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
+                  <Link to={item.linkPath} style={{ textDecoration: 'none' }}>
+                    <span style={{ color: grey[500] }}>SMS Text: </span> {item.text1}
+                  </Link>
+                </Typography>
+                <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
+                  <span style={{ color: grey[500] }}>Received Date: </span> {item.text2}
+                </Typography>
+              </Box>
+            </Box>
+          ))}
         </Box>
       </Box>
     </Container>

@@ -15,6 +15,7 @@ import {
   Typography,
   styled
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -421,9 +422,9 @@ const AddDailyLog = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: 'gray',
+                    backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: 'gray' }
+                    ':hover': { backgroundColor: grey[600] }
                   }}
                 >
                   <QuestionMarkIcon />

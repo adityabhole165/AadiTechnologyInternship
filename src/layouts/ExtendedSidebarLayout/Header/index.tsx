@@ -25,6 +25,7 @@ import {
   styled,
   useTheme
 } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -437,12 +438,12 @@ function Header() {
           boxShadow:
             theme.palette.mode === 'dark'
               ? '0 1px 0 ' +
-                alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
-                ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
+              alpha(lighten(theme.colors.primary.main, 0.7), 0.15) +
+              ', 0px 2px 8px -3px rgba(0, 0, 0, 0.2), 0px 5px 22px -4px rgba(0, 0, 0, .1)'
               : '0px 2px 8px -3px ' +
-                alpha(theme.colors.alpha.black[100], 0.2) +
-                ', 0px 5px 22px -4px ' +
-                alpha(theme.colors.alpha.black[100], 0.1)
+              alpha(theme.colors.alpha.black[100], 0.2) +
+              ', 0px 5px 22px -4px ' +
+              alpha(theme.colors.alpha.black[100], 0.1)
         }}
       >
         {Toaster()}
@@ -481,7 +482,7 @@ function Header() {
               <Avatar
                 alt="user.name"
                 src={userprofile}
-                sx={{ backgroundColor: 'gray', height: 40, width: 40 }}
+                sx={{ backgroundColor: grey[500], height: 40, width: 40 }}
                 variant="circular"
                 aria-label="add"
               />
@@ -735,7 +736,7 @@ function Header() {
               )}
             </List>
             {window.localStorage.getItem('deviceType') === 'android' ||
-            localStorage.getItem('deviceType') === 'ios' ? (
+              localStorage.getItem('deviceType') === 'ios' ? (
               <Box m={1}>
                 <Button color="primary" fullWidth onClick={handleCloseApp}>
                   <PowerSettingsNewIcon

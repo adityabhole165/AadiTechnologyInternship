@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -9,7 +9,6 @@ import {
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import {
   GetAssignExamMarkList,
   GetClassWiseExam,
@@ -19,7 +18,12 @@ import {
 } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
 
+import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
+import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
@@ -145,83 +149,104 @@ const AssignExamMark = () => {
     navigate('/extended-sidebar/Common/EventOverview');
   };
   return (
-    <Container>
-      <div>
-        <PageHeader heading="Assign Exam Mark" />
-        <div>
-          <Grid container>
-            <Grid item xs={12}>
-              <h4>Legends</h4>
-              <Box sx={{ display: 'flex', gap: '20px' }}>
-                <DotLegends
-                  color="secondary"
-                  text={
-                    'No student in class / Subject not applicable to student'
-                  }
-                  text1={'Marks entry not started'}
-                  text2={'Marks entry partially done'}
-                  text3={'Submit exam marks to the class teacher'}
-                  text4={'Unsubmit Exam Marks'}
-                  text5={'Marks entry completed	'}
-                />
-              </Box>
-            </Grid>
-          </Grid>
-
-          <Grid container>
-            <Grid item xs={6}></Grid>
-          </Grid>
-        </div>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.5}
+    <Container maxWidth={"xl"}>
+      <Stack
+        direction={'row'}
+        justifyContent={'space-between'}
+        alignItems={'center'}
+        sx={{
+          pt: 4
+        }}
+      >
+        <Box>
+          <Breadcrumbs
+            aria-label="breadcrumb"
+            separator={<ChevronRightTwoTone />}
+          >
+            <Link
+              to={'/extended-sidebar/landing/landing'}
+              color="inherit"
+              style={{ textDecoration: 'none' }}
             >
-              Class:
+              <IconButton
+                sx={{
+                  background: (theme) => theme.palette.common.white,
+                  border: (theme) => `1px solid ${theme.palette.grey[400]}`
+                }}
+              >
+                <HomeTwoTone color="primary" />
+              </IconButton>
+            </Link>
+            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+              Assign Exam Marks
             </Typography>
-          </Grid>
-          <Grid item xs={2}>
+          </Breadcrumbs>
+        </Box>
+        <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Box>
             <Dropdown
               Array={ClassDropdown}
               handleChange={onClickClass}
               defaultValue={selectClass}
-              label={'All'}
+              label={'Class'}
+              width={"150px"}
             />
-
-            <br></br>
-          </Grid>
-          <Grid item xs={1}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.5}
-            >
-              Exam :
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
+          </Box>
+          <Box>
             <Dropdown
               Array={ClassWiseExamDropdown}
               handleChange={clickClassWiseExam}
               defaultValue={ClassWiseExam}
-              label={''}
+              label={'Exam'}
+              width={"200px"}
             />
-            <br></br>
-          </Grid>
-        </Grid>
-        <h4>My Subject(s):-</h4>
+          </Box>
+          <Box>
+            <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
+Once marks for all the students are allotted you have to submit these marks to the class-teacher by clicking on &quot;Submit&quot; button.
+Pre-primary teachers to add and submit progress report entries of his class.`}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </Stack>
+      </Stack>
+
+      <Box sx={{ mt: 2, background: 'white', p: 2 }}>
+        <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         <ListEditIcon1
           ItemList={SubjectListmarkClass}
           clickEdit={clickEdit}
           HeaderArray={HeaderPublish}
           clicksubmit={ClickSubmit}
         />
-        {/* <DynamicList HeaderList={HeaderList} ItemList={SubjectListmarkClass}
-        IconList={IconList} ClickItem={clickEdit}/>
-        */}
-      </div>
+        <Grid container sx={{ mt: 2 }}>
+          <Grid item xs={12}>
+            <Typography variant={"h4"} mb={1}>Legends</Typography>
+            <Box sx={{ display: 'flex', gap: '20px' }}>
+              <DotLegends
+                color="secondary"
+                text={
+                  'No student in class / Subject not applicable to student'
+                }
+                text1={'Marks entry not started'}
+                text2={'Marks entry partially done'}
+                text3={'Submit exam marks to the class teacher'}
+                text4={'Unsubmit Exam Marks'}
+                text5={'Marks entry completed	'}
+              />
+            </Box>
+          </Grid>
+        </Grid>
+      </Box>
     </Container>
   );
 };

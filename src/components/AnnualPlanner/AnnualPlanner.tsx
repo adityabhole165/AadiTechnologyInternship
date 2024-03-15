@@ -153,7 +153,8 @@ function AnnualPlanner() {
     asMonthId: Number(selectMonth),
     asYear: Number(selectYear),
     asStandardId: Number(selectStandard),
-    asDivisionId: Number(selectDivision)
+    asDivisionId: Number(selectDivision),
+    asEventType: ''
   };
 
   const AnnualplannerBody: IAddAnnualPlannerBody = {
@@ -418,7 +419,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                     >
@@ -437,7 +438,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                     >
@@ -452,7 +453,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                       onClick={() => {
@@ -470,7 +471,7 @@ function AnnualPlanner() {
                         color: 'white',
                         backgroundColor: grey[500],
                         '&:hover': {
-                          backgroundColor: grey[700]
+                          backgroundColor: grey[600]
                         }
                       }}
                       onClick={() => {
@@ -548,7 +549,7 @@ function AnnualPlanner() {
                   MaxfileSize={MaxfileSize}
                   ChangeFile={ChangeFile}
                   errorMessage={''}
-                  filePath={clickFileName.toString()}
+                  FilePath={clickFileName.toString()}
                   FileName={fileName}
                 ></SingleFile>
                 {/* while file is selected */}

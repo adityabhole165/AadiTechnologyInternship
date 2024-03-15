@@ -189,8 +189,8 @@ const MonthwiseAttandance = () => {
               <IconButton
                 sx={{
                   color: 'white',
-                  backgroundColor: 'gray',
-                  ':hover': { backgroundColor: 'gray' }
+                  backgroundColor: grey[500],
+                  ':hover': { backgroundColor: grey[600] }
                 }}
               >
                 <Help />
