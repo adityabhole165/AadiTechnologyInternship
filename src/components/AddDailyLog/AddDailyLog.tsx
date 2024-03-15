@@ -44,7 +44,7 @@ import { RootState } from 'src/store';
 
 
 const DatePicker = styled(TextField)``;
-//monali
+
 const AddDailyLog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -60,7 +60,7 @@ const AddDailyLog = () => {
   const [base64URLError, setbase64URLError] = useState('');
   const [LogId, setLogId] = useState(0);
   const [ItemList, setItemList] = useState('');
-  const [page, setPage] = useState(1); // State to track the current page number
+  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1); // State to track the total number of pages
 
 
@@ -105,7 +105,7 @@ const AddDailyLog = () => {
     'XLSX'
   ];
   const MaxfileSize = 5000000;
-  const startIndex = (page -1) * 20;
+  const startIndex = (page - 1) * 20;
   const endIndex = startIndex + 20;
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -123,12 +123,10 @@ const AddDailyLog = () => {
     asEndIndex: endIndex,
     asUserId: asUserId
   };
+
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  }, [HeaderPublish]);
-
-
-
+  }, [HeaderPublish, page]);
 
   const handlePageChange = (event) => {
     const newPage = event.target.value;
@@ -144,24 +142,6 @@ const AddDailyLog = () => {
     }
 
   }, [GetAllHomeworkDailyLogs]);
-
-
-
-
-
-
-
-  // useEffect(() => {
-  //   const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
-
-  //     "asSchoolId":18,
-  //     "asAcademicYearId":54,
-  //     "asLogId":2718,
-  //     "asUpdatedById":4463,
-  //     "asIsPublished":0 
-  //   }
-  //   dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody))
-  // }, []);
 
   const [isPublish, setIsPublish] = useState(true);
 
@@ -443,7 +423,7 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-          
+
           </Stack>
         </Stack>
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
@@ -561,7 +541,7 @@ const AddDailyLog = () => {
                 </Typography>
 
               )}
-          
+
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   Select a page:
