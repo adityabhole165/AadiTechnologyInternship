@@ -1,7 +1,7 @@
-import { Box, Grid, Typography, alpha } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 
-const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
+const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
   let dayCount = new Date(
     new Date(DefaultValue).getFullYear(),
     new Date(DefaultValue).getMonth(),
@@ -14,32 +14,12 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
 
     return `rgba(${r}, ${g}, ${b}, ${opacity})`;
   }
-  const legendColors1 = {
-    p: '#008000',
-    a: '#9e9e9e',
-    h: '#751b1b',
-    w: '#ff0000',
-    o: '#f06292',
-    l: '#303f9f',
-    n: '#FCCF31'
-  };
-  const legendColors = [
-    '#ffffff',
-    '#ff0000',
-    '#751b1b',
-    '#008000',
-    '#FCCF31',
-    '#9e9e9e',
-    '#ffffff',
-    '#ffffff',
-    '#ffffff'
-  ];
   const bg = [
     hexToRGBA(legendColors[0], 0.2),
     hexToRGBA(legendColors[1], 0.2),
     hexToRGBA(legendColors[2], 0.2),
     hexToRGBA(legendColors[3], 0.2),
-    hexToRGBA(legendColors[4], 0.1),
+    hexToRGBA(legendColors[4], 0.2),
     hexToRGBA(legendColors[5], 0.2),
     hexToRGBA(legendColors[6], 0.2),
     hexToRGBA(legendColors[7], 0.2)
@@ -104,7 +84,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue }) => {
 
               <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
                 {Item.Text1.map((obj, i) => {
-                  return (<b style={{ background: alpha(bg[Item.Legend], 0.1), width: '100%' }} key={i}>{obj}</b>)
+                  return (<b style={{ width: '100%' }} key={i}>{obj}</b>)
                 })}
               </Box>
             </Box>

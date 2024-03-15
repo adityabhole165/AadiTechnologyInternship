@@ -171,6 +171,7 @@ const UploadAnnualPlanner = ({
         <DialogActions sx={{ py: 2, px: 3 }}>
           <Button
             color={'error'}
+            variant='contained'
             onClick={() => {
               setOpenAnnualPlannerDialog(false);
             }}

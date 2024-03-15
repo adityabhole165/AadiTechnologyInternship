@@ -9,7 +9,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
         '#ff0000',
         '#751b1b',
         '#008000',
-        '#FCCF31',
+        '#0207e6',
         '#9e9e9e',
         '#ffffff',
         '#ffffff',
@@ -42,7 +42,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
             </Grid>
 
             <Grid item xs={12} md={12}>
-                <CalendarDays ItemList={ItemList}
+                <CalendarDays legendColors={legendColors} ItemList={ItemList}
                     ClickItem={ClickItem} DefaultValue={DefaultValue} />
             </Grid>
 
@@ -53,7 +53,13 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
                             return (
                                 <Stack direction={'row'} key={i} sx={{ alignItems: 'center' }}>
                                     {["2", "3", "4"].includes(Item.Value) &&
-                                        <Checkbox {...label} checked={getIsChecked(Item.Value)}
+                                        <Checkbox {...label} sx={{
+                                            color: legendColors[Item.Value],
+                                            '&.Mui-checked': {
+                                                color: legendColors[Item.Value]
+                                            },
+                                        }}
+                                            checked={getIsChecked(Item.Value)}
                                             onChange={() => { clickCheck(Item.Value) }} />
                                     }
                                     <DotLegendTeacher color={legendColors[Item.Id]} text={Item.Name} />

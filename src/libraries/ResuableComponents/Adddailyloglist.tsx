@@ -7,12 +7,11 @@ import TableRow from '@mui/material/TableRow';
 
 import DeleteTwoTone from '@mui/icons-material/DeleteTwoTone';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
-import { Box, Link, MenuItem, TextField } from '@mui/material';
+import { Box, Link } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
 // ... (your other imports)
 import ArrowCircleUpIcon from '@mui/icons-material/ArrowCircleUp';
 import ArrowDropDownCircleIcon from '@mui/icons-material/ArrowDropDownCircle';
-import { useState } from 'react';
 function Adddailyloglist({
   ItemList,
   clickView,
@@ -32,7 +31,7 @@ function Adddailyloglist({
     }
   }
 
- 
+
   return (
     <div>
       <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
@@ -96,7 +95,7 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
 
                 >
-                  <ButtonPrimary onClick={() => clickpublish(item.Id)}>
+                  <ButtonPrimary onClick={() => clickpublish(item.Id)} sx={{ minWidth: '100px' }}>
                     {item.Text3 === 'True' ? 'UNPUBLISH' : 'PUBLISH '}
                   </ButtonPrimary>
                 </TableCell>
@@ -121,7 +120,7 @@ function Adddailyloglist({
           </TableBody>
         </Table>
       </TableContainer>
-      
+
     </div>
   );
 }

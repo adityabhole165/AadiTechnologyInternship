@@ -10,7 +10,7 @@ import {
 
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
-import { red } from '@mui/material/colors';
+import { teal } from '@mui/material/colors';
 import React from 'react';
 import { getDateFormatted } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
@@ -109,9 +109,9 @@ function CardCalender1({
           <Typography sx={{ fontWeight: 'normal !important', display: 'flex', alignItems: 'center', gap: 1 }} variant={'h3'}>
             <div style={{ whiteSpace: 'nowrap' }}>{formattedDate} |{' '}</div>
             <div style={{
-              fontWeight: 'normal',
-              fontSize: '14px',
-              color: red[500]
+              fontWeight: 'bold',
+              fontSize: '16px',
+              color: teal[500]
             }}>
               {AttendanceStatus}
             </div>

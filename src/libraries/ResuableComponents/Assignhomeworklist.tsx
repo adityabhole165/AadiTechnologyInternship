@@ -26,9 +26,10 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
                   sx={{
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white,
-                    py: 1
+                    py: 1,
+                    width: item?.width ? item?.width : 'auto',
                   }}
-
+                  align={item?.align ? item?.align : 'left'}
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -58,10 +59,11 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
 
                 <TableCell
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
-
+                  align="center"
                 >
                   <Tooltip title={'Add Homework'}>
                     <EditTwoTone
+                      sx={{ cursor: 'pointer' }}
                       onClick={() => {
                         clickAssign(item.Id);
                       }}

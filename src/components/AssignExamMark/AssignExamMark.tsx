@@ -155,7 +155,7 @@ const AssignExamMark = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
         sx={{
-          pt: 4
+          pt: 5
         }}
       >
         <Box>
@@ -185,6 +185,7 @@ const AssignExamMark = () => {
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
             <Dropdown
+              variant={"outlined"}
               Array={ClassDropdown}
               handleChange={onClickClass}
               defaultValue={selectClass}
@@ -194,6 +195,7 @@ const AssignExamMark = () => {
           </Box>
           <Box>
             <Dropdown
+              variant={"outlined"}
               Array={ClassWiseExamDropdown}
               handleChange={clickClassWiseExam}
               defaultValue={ClassWiseExam}

@@ -141,9 +141,9 @@ const AssignHomework = () => {
   }, []);
 
   const HeaderOfTable = [
-    { Id: 1, Header: 'Class' },
-    { Id: 2, Header: 'Subject' },
-    { Id: 3, Header: 'Assign' }
+    { Id: 1, Header: 'Class', width: 200 },
+    { Id: 2, Header: 'Subject', },
+    { Id: 3, Header: 'Assign', width: 400, align: 'center' }
   ];
 
   //subjectList

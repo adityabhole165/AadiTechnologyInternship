@@ -18,7 +18,7 @@ import {
   Typography
 } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
-import { green } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -271,7 +271,8 @@ const EventsManagement = () => {
       asStandardDivisions: getEventString(),
       asSaveFeature: 'Event Planner',
       asFolderName: 'PPSN Website',
-      asBase64String: base64URL
+      asBase64String: base64URL,
+      asEventId: 0
     };
 
     dispatch(GetupdateEvent(UpdateEventBody));

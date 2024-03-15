@@ -374,7 +374,7 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                     </Typography>
                 </Grid>
                 <Grid item xs={6} md={6}>
-                    <Typography fontSize={'10px'}>Attachment:</Typography>
+                    <Typography fontSize={'10px'}>Select Photo:</Typography>
                     <SingleFile
                         ValidFileTypes={ValidFileTypes}
                         MaxfileSize={MaxfileSize}

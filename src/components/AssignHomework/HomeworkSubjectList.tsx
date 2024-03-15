@@ -53,8 +53,8 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   ];
   const HomeworkStatus = [
     { Id: '1', Name: 'All', Value: 'All' },
-    { Id: '2', Name: 'AssignedDate', Value: 'AssignedDate' },
-    { Id: '3', Name: 'CompleteByDate', Value: 'CompleteByDate' }
+    { Id: '2', Name: 'Assigned Date', Value: 'AssignedDate' },
+    { Id: '3', Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
   // const Subjectlistsforteacher = useSelector(

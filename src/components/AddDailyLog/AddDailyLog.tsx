@@ -1,6 +1,8 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import Close from '@mui/icons-material/Close';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
+import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
@@ -16,7 +18,7 @@ import {
   Typography,
   styled
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -423,7 +425,44 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-
+            <Box>
+              <Tooltip
+                title={
+                  'Cancel'
+                }
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: red[600] }
+                  }}
+                  onClick={onClickCancel}
+                >
+                  <Close />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip
+                title={
+                  LogId > 0 ? 'Update' : 'Save'
+                }
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                  onClick={onClickSave}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </Stack>
         </Stack>
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
@@ -457,7 +496,7 @@ const AddDailyLog = () => {
               ></SingleFile>
             </Grid>
             <Grid item xs={12}>
-              <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
+              {/* <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
                 <Button onClick={onClickCancel} variant="contained" color={'error'}>
                   CANCEL
                 </Button>
@@ -470,7 +509,7 @@ const AddDailyLog = () => {
                     SAVE
                   </Button>
                 )}
-              </Stack>
+              </Stack> */}
             </Grid>
           </Grid>
         </Box>

@@ -60,7 +60,7 @@ function TeacherTimetable() {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Container maxWidth={'xl'} sx={{ mt: 4 }}>
         <PageHeader heading={'Timetable'} subheading={''} />
 
         <CardTimetable header={TMTimetable}></CardTimetable>

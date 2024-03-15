@@ -15,7 +15,7 @@ const SubjectExamMarks = () => {
         justifyContent={'space-between'}
         alignItems={'center'}
         sx={{
-          pt: 4
+          pt: 5
         }}
       >
         <Box>
@@ -37,14 +37,33 @@ const SubjectExamMarks = () => {
                 <HomeTwoTone color="primary" />
               </IconButton>
             </Link>
+            <Link
+              to={'/extended-sidebar/Teacher/AssignExamMark'}
+              style={{ textDecoration: 'none' }}
+            >
+              <Typography
+                variant={'h3'}
+                fontSize={'23px'}
+                fontWeight={'normal'}
+                color={'text.primary'}
+                sx={{
+                  '&:hover': {
+                    fontWeight: 'bold'
+                  }
+                }}
+              >
+                Assign Exam Mark
+              </Typography>
+            </Link>
             <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Assign Exam Marks
+              Subject Exam Marks
             </Typography>
           </Breadcrumbs>
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
             <Dropdown
+              variant='outlined'
               label='Class'
               width='100px'
               Array={[]}
@@ -52,6 +71,7 @@ const SubjectExamMarks = () => {
           </Box>
           <Box>
             <Dropdown
+              variant='outlined'
               label='Exam'
               width='200px'
               Array={[]}
@@ -59,6 +79,7 @@ const SubjectExamMarks = () => {
           </Box>
           <Box>
             <Dropdown
+              variant='outlined'
               label='Subject Name'
               width='150px'
               Array={[]}
@@ -71,7 +92,8 @@ const SubjectExamMarks = () => {
               label={"Exam Date"}
               InputLabelProps={{ shrink: true }}
               inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              variant={"standard"}
+              variant={"outlined"}
+              size={"small"}
             />
           </Box>
           <Box>
@@ -145,7 +167,7 @@ const SubjectExamMarks = () => {
                 <TableCell>Miss Gauri Vishal Bhadale</TableCell>
                 <TableCell>
                   <Dropdown
-                    variant={"outlined"}
+                    variant='outlined'
                     Array={[{
                       Value: "absent",
                       Name: "Absent"

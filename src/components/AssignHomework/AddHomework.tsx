@@ -3,10 +3,10 @@ import Close from '@mui/icons-material/Close';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import UnpublishedIcon from '@mui/icons-material/Unpublished';
 import {
   Box,
   Breadcrumbs,
+  Button,
   Container,
   Grid,
   IconButton,
@@ -389,7 +389,7 @@ const AddHomework = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
+            {/* <Box>
               <Tooltip title={`Unpublish all changes`}>
                 <IconButton
                   sx={{
@@ -403,7 +403,7 @@ const AddHomework = () => {
                   <UnpublishedIcon />
                 </IconButton>
               </Tooltip>
-            </Box>
+            </Box> */}
             <Box>
               <Tooltip title={`Cancel`}>
                 <IconButton
@@ -411,7 +411,7 @@ const AddHomework = () => {
                     color: 'white',
                     backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                    ':hover': { backgroundColor: red[600] }
                   }}
                   onClick={() => clickPublishUnpublish(1)}
                 >
@@ -604,6 +604,14 @@ const AddHomework = () => {
               clickchange={''}
               clickTitle={clickTitle1}
             />
+          </Box>
+          <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
+              PUBLISH ALL
+            </Button>
+            <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+              UNPUBLISH ALL
+            </Button>
           </Box>
           {Open && (
             <AddUnpublish1

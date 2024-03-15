@@ -151,7 +151,7 @@ const EventOverview = (props: Props) => {
   };
 
   return (
-    <Container sx={{ mt: 4 }} maxWidth={'xl'}>
+    <Container sx={{ mt: 5 }} maxWidth={'xl'}>
       <Stack
         direction={'row'}
         alignItems={'center'}
@@ -203,6 +203,7 @@ const EventOverview = (props: Props) => {
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
             <Dropdown
+              variant={"outlined"}
               Array={AssociatedStandardsEV}
               handleChange={clickStandardDropdown}
               defaultValue={selectStandard}
@@ -212,6 +213,7 @@ const EventOverview = (props: Props) => {
           </Box>
           <Box>
             <Dropdown
+              variant={"outlined"}
               Array={UsGetAllMonthsDropDown}
               handleChange={clicMonthDropdown}
               defaultValue={selectMonth}
@@ -221,6 +223,7 @@ const EventOverview = (props: Props) => {
           </Box>
           <Box>
             <Dropdown
+              variant={"outlined"}
               Array={AllAcademicYearsForSchool}
               handleChange={clicYearDropdown}
               defaultValue={selectYear}

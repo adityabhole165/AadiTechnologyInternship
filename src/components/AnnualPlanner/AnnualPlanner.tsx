@@ -590,6 +590,7 @@ function AnnualPlanner() {
           </DialogContent>
           <DialogActions sx={{ py: 2, px: 3 }}>
             <Button
+              variant={"contained"}
               onClick={() => {
                 setOpenAnnualPlannerDialog(false);
               }}

@@ -4,7 +4,7 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Stack } from "@mui/material";
-import { green, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
@@ -79,9 +79,9 @@ const AnnualPlannerHeader = () => {
             ? [{
                 Id: 5, Icon: <AddIcon />, Title: 'Add Annual Planner', Action: 'AddAnnualPlanner', sx: {
                     color: 'white',
-                    backgroundColor: green[500],
+                    backgroundColor: grey[500],
                     '&:hover': {
-                        backgroundColor: green[700]
+                        backgroundColor: grey[700]
                     }
                 }
             }]
