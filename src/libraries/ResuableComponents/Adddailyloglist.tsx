@@ -22,7 +22,6 @@ function Adddailyloglist({
   clickpublish,
   ClickHeader
 }) {
-  const [page, setPage] = useState(1)
   const clickHeader = (value) => {
     if (value != undefined) {
       HeaderArray = HeaderArray.map((Item) => {
@@ -33,9 +32,7 @@ function Adddailyloglist({
     }
   }
 
-  const handlePageChange = (event) => {
-    setPage(event.target.value)
-  }
+ 
   return (
     <div>
       <TableContainer component={Box} sx={{ border: (theme) => `1px solid ${theme.palette.grey[300]}` }}>
@@ -124,34 +121,7 @@ function Adddailyloglist({
           </TableBody>
         </Table>
       </TableContainer>
-      <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-          Select a page:
-          <TextField
-            sx={{ width: '80px' }}
-            value={page}
-            select={true}
-            size={'small'}
-            onChange={handlePageChange}
-          >
-            <MenuItem value={"1"}>
-              1
-            </MenuItem>
-            <MenuItem value={"2"}>
-              2
-            </MenuItem>
-            <MenuItem value={"3"}>
-              3
-            </MenuItem>
-            <MenuItem value={"4"}>
-              4
-            </MenuItem>
-          </TextField>
-        </Box>
-        <Box>
-          Page 1 of 5
-        </Box>
-      </Box>
+      
     </div>
   );
 }

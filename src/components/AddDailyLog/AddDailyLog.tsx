@@ -9,6 +9,7 @@ import {
   Container,
   Grid,
   IconButton,
+  MenuItem,
   Stack,
   TextField,
   Tooltip,
@@ -41,6 +42,7 @@ import {
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 
+
 const DatePicker = styled(TextField)``;
 //monali
 const AddDailyLog = () => {
@@ -58,6 +60,9 @@ const AddDailyLog = () => {
   const [base64URLError, setbase64URLError] = useState('');
   const [LogId, setLogId] = useState(0);
   const [ItemList, setItemList] = useState('');
+  const [page, setPage] = useState(1); // State to track the current page number
+  const [totalPages, setTotalPages] = useState(1); // State to track the total number of pages
+
 
   const SaveDailyLog = useSelector(
     (state: RootState) => state.AddDailyLog.Savelog
@@ -100,7 +105,8 @@ const AddDailyLog = () => {
     'XLSX'
   ];
   const MaxfileSize = 5000000;
-
+  const startIndex = (page - 1) * 20;
+  const endIndex = startIndex + 20;
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
@@ -113,13 +119,37 @@ const AddDailyLog = () => {
     asFilter: dateSearch,
     asStdDivId: Number(Id),
     asSortExpression: 'Date ' + HeaderPublish[0].SortOrder,
-    asStartIndex: 0,
-    asEndIndex: 20,
+    asStartIndex: startIndex,
+    asEndIndex: endIndex,
     asUserId: asUserId
   };
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   }, [HeaderPublish]);
+
+
+
+
+  const handlePageChange = (event) => {
+    const newPage = event.target.value;
+    setPage(newPage);
+    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+  };
+
+  useEffect(() => {
+    if (GetAllHomeworkDailyLogs.length > 0) {
+      const totalRows = GetAllHomeworkDailyLogs[0].TotalRows;
+      const totalPages = Math.ceil(totalRows / 20);
+      setTotalPages(totalPages);
+    }
+
+  }, [GetAllHomeworkDailyLogs]);
+
+
+
+
+
+
 
   // useEffect(() => {
   //   const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody = {
@@ -559,16 +589,60 @@ const AddDailyLog = () => {
                   clickDelete={clickDelete}
                   clickpublish={Changestaus}
                 />
+
+
+
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                   <b>No Record Found.</b>
                 </Typography>
 
               )}
+              {/* <Pagination
+                count={totalPages}
+                page={page}
+                onChange={handlePageChange}
+                color="primary"
+              /> */}
+
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                  Select a page:
+                  <TextField
+                    sx={{ width: '80px' }}
+                    value={page}
+                    select={true}
+                    size={'small'}
+                    onChange={handlePageChange}
+                  >
+                    <MenuItem value={"1"}>
+                      1
+                    </MenuItem>
+                    <MenuItem value={"2"}>
+                      2
+                    </MenuItem>
+                    <MenuItem value={"3"}>
+                      3
+                    </MenuItem>
+                    <MenuItem value={"4"}>
+                      4
+                    </MenuItem>
+                    <MenuItem value={"5"}>
+                      5
+                    </MenuItem>
+                  </TextField>
+                </Box>
+                <Box>
+                  Page 1 of 5
+                </Box>
+              </Box>
+
+
 
             </Grid>
           </Grid>
         </Box>
+
       </Container>
     </>
   );
