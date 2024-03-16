@@ -52,7 +52,7 @@ function ViewSms() {
   };
 
   useEffect(() => {
-    // GetViewMessageResult();
+    GetViewMessageResult();
   }, []);
 
   return (
@@ -133,7 +133,7 @@ function ViewSms() {
                 From
               </FlexedTypography>
               <Typography variant={"h4"}>
-                PPSchl
+                {viewSms?.UserName}
               </Typography>
             </Grid>
             <Grid item xs={10}>
@@ -142,7 +142,7 @@ function ViewSms() {
                 Received Date :
               </FlexedTypography>
               <Typography variant={"h4"}>
-                Saturday, 02 Mar 2024 3:33 PM
+                {viewSms?.Date}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -154,7 +154,7 @@ function ViewSms() {
                 To:
               </FlexedTypography>
               <Typography variant={"h4"}>
-                Ms. Afreen A. Shaikh (Teacher), Ms. Akankasha Bidani (Teacher), Ms. Anuprita S. Sawant (Teacher), Ms. Anuroopa Mantha (Teacher), Ms. Archana H. Raskar (Teacher), Ms. Chitrali Samaddar (Teacher), Ms. Dhanalaxmi Sadanand Sutar (Teacher), Ms. Dipali S. Lande (Teacher), Ms. Dipali V. Bhadale (Teacher), Ms. Fiona Rozario (Teacher), Ms. Manjiri S. Phadke (Teacher), Ms. Naomi Solanki (Teacher), Ms. Tejal J. Jhala (Teacher), Ms. Yogita Makarand Chikane (Teacher)
+                {viewSms?.DisplayText}
               </Typography>
             </Grid>
             <Grid item xs={12}>
@@ -166,26 +166,12 @@ function ViewSms() {
                 SMS Text :
               </FlexedTypography>
               <Typography variant={"h4"}>
-                Welcome to Aadi Technology!!!.
+                {viewSms?.Subject}
               </Typography>
             </Grid>
           </Grid>
         </Box>
       </Container>
-
-      {/* <PageHeader heading={'View SMS'} subheading={''} />
-
-      <BackButton FromRoute={'/Student/smsCenter'} />
-
-      {viewSms === undefined ? null : (
-        <Card3
-          ViewDetail={ViewDetail}
-          From={viewSms.UserName}
-          To={viewSms.DisplayText}
-          Date={viewSms.Date}
-          Text={viewSms.Subject}
-        />
-      )} */}
     </>
   );
 }

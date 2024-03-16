@@ -153,23 +153,25 @@ function SmsCenter() {
         <Box sx={{ mt: 2 }}>
           {/* {loading ? <SuspenseLoader /> : <List1 items={Data} />} */}
           {/* sms center new UI */}
-          {Data.map((item, index) => (
-            <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
-              <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
-                <span style={{ color: grey[500] }}>From: </span> {item.header}
-              </Typography>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
-                  <Link to={item.linkPath} style={{ textDecoration: 'none' }}>
-                    <span style={{ color: grey[500] }}>SMS Text: </span> {item.text1}
-                  </Link>
+          {
+            SmsList.length > 0 &&
+            (SmsList.map((item, index) => (
+              <Box key={index} sx={{ p: 1, border: (theme) => `1px solid ${theme.palette.grey[500]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+                <Typography variant={"h4"} sx={{ display: 'flex', gap: 1 }}>
+                  <span style={{ color: grey[500] }}>From: </span> {item.UserName}
                 </Typography>
-                <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
-                  <span style={{ color: grey[500] }}>Received Date: </span> {item.text2}
-                </Typography>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1 }}>
+                    <Link to={'/extended-sidebar/Student/viewsms/' + item.ID} style={{ textDecoration: 'none' }}>
+                      <span style={{ color: grey[500] }}>SMS Text: </span> {item.Subject}
+                    </Link>
+                  </Typography>
+                  <Typography variant={"subtitle2"} sx={{ display: 'flex', gap: 1, cursor: 'pointer' }} >
+                    <span style={{ color: grey[500] }}>Received Date: </span> {item.Date}
+                  </Typography>
+                </Box>
               </Box>
-            </Box>
-          ))}
+            )))}
         </Box>
       </Box>
     </Container>
