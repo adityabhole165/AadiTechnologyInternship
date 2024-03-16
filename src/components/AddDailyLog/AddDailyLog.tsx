@@ -30,11 +30,13 @@ import {
   IGetAllHomeworkDailyLogsBody,
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
-  ISaveDailyLogBody
+  ISaveDailyLogBody,
+  IValidateHomeworkDailyLogForSaveBody
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
+  CDAValidateHomeworkDailyLogForSave,
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
@@ -63,8 +65,8 @@ const AddDailyLog = () => {
   const [LogId, setLogId] = useState(0);
   const [ItemList, setItemList] = useState('');
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1); 
-
+  const [totalPages, setTotalPages] = useState(1);
+  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
   const SaveDailyLog = useSelector(
     (state: RootState) => state.AddDailyLog.Savelog
   );
@@ -83,6 +85,10 @@ const AddDailyLog = () => {
 
   const GetFileUS: any = useSelector(
     (state: RootState) => state.AddDailyLog.ISGetfile
+  );
+
+  const ValidateHomeworkDailyLogForSave: any = useSelector(
+    (state: RootState) => state.AddDailyLog.ISValidateHomeworkDailyLogForSave
   );
 
   const [HeaderPublish, setHeaderPublish] = useState([
@@ -269,7 +275,17 @@ const AddDailyLog = () => {
     asBase64String: base64URL == '' ? null : base64URL
   };
 
+  const ValidateHomeworkDailyLogForSaveBody: IValidateHomeworkDailyLogForSaveBody =
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearID: asAcademicYearId,
+    asStandardDivisionId: Number(Id),
+    asDate: dateState,
+    asId: LogId
+  }
+
   const onClickSave = () => {
+    dispatch(CDAValidateHomeworkDailyLogForSave(ValidateHomeworkDailyLogForSaveBody));
     let isError = false;
     let isDateAlreadyExists = GetAllHomeworkDailyLogs.some((item) => isEqualtonDate(item.Text1, dateState));
 
@@ -287,6 +303,11 @@ const AddDailyLog = () => {
     if (dateState === '') {
       setDateError('Field should not be blank');
       isError = true;
+    }
+
+    if (ValidateHomeworkDailyLogForSave === 'N') {
+      toast.error('Daily log for the same date has not been added.');
+      return; 
     }
 
     if (!isError) {

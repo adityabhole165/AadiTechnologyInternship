@@ -5,7 +5,9 @@ import {
   IGetHomeworkDailyLogBody,
   IGetHomeworkDailyLogResult,
   IPublishUnpublishHomeworkDailylogBody,
-  ISaveDailyLogBody
+  ISaveDailyLogBody,
+  IValidateHomeworkDailyLogForSaveBody,
+  IValidateHomeworkDailyLogForSaveResult
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -33,12 +35,21 @@ const PublishUnpublishHomeworkDailylog = (
   return http.post('Teacher/PublishUnpublishHomeworkDailylog', data);
 };
 
+
+const ValidateHomeworkDailyLogForSave = (data: IValidateHomeworkDailyLogForSaveBody) => {
+  return http.post<IValidateHomeworkDailyLogForSaveResult[]>(
+    'Teacher/ValidateHomeworkDailyLogForSave',
+    data
+  );
+};
+
 const DailyLogApi = {
   SaveDailyLog,
   GetAllHomeworkDailyLogs,
   GetHomeworkDailyLog,
   DeleteHomeworkDailyLog,
-  PublishUnpublishHomeworkDailylog
+  PublishUnpublishHomeworkDailylog,
+  ValidateHomeworkDailyLogForSave
 };
 
 export default DailyLogApi;

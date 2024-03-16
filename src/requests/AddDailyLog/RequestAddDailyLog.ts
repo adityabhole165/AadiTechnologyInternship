@@ -6,7 +6,8 @@ import {
   IGetAllHomeworkDailyLogsBody,
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
-  ISaveDailyLogBody
+  ISaveDailyLogBody,
+  IValidateHomeworkDailyLogForSaveBody
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import { AppThunk } from 'src/store';
 
@@ -20,7 +21,8 @@ const DailyLogSlice = createSlice({
     ResetDelete: '',
     FilePath: '',
     PublishUnpublish: '',
-    ISGetfile: ''
+    ISGetfile: '',
+    ISValidateHomeworkDailyLogForSave:{}
   },
 
   reducers: {
@@ -48,45 +50,49 @@ const DailyLogSlice = createSlice({
 
     RGetfile(state, action) {
       state.ISGetfile = action.payload;
+    },
+
+    RValidateHomeworkDailyLogForSave(state, action) {
+      state.ISValidateHomeworkDailyLogForSave = action.payload;
     }
   }
 });
 export const Savedailylog =
   (data: ISaveDailyLogBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DailyLogApi.SaveDailyLog(data);
-    dispatch(DailyLogSlice.actions.Savedailylog(response.data));
-  };
+    async (dispatch) => {
+      const response = await DailyLogApi.SaveDailyLog(data);
+      dispatch(DailyLogSlice.actions.Savedailylog(response.data));
+    };
 export const getalldailylog =
   (data: IGetAllHomeworkDailyLogsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DailyLogApi.GetAllHomeworkDailyLogs(data);
-    let responseData = response.data.map((item) => {
-      return {
-        Id: item.Id,
-        Text1: getDateMonthYearFormatted(item.Date),
-        Text2: item.AttchmentName,
-        Text3: item.IsPublished
-      };
-    });
+    async (dispatch) => {
+      const response = await DailyLogApi.GetAllHomeworkDailyLogs(data);
+      let responseData = response.data.map((item) => {
+        return {
+          Id: item.Id,
+          Text1: getDateMonthYearFormatted(item.Date),
+          Text2: item.AttchmentName,
+          Text3: item.IsPublished
+        };
+      });
 
-    let GetFile = response.data.map((item) => {
-      return {
-        Id: item.Id,
-        Text1: item.AttchmentName
-      };
-    });
+      let GetFile = response.data.map((item) => {
+        return {
+          Id: item.Id,
+          Text1: item.AttchmentName
+        };
+      });
 
-    dispatch(DailyLogSlice.actions.getalldailylog(responseData));
-    dispatch(DailyLogSlice.actions.RGetfile(GetFile));
-  };
+      dispatch(DailyLogSlice.actions.getalldailylog(responseData));
+      dispatch(DailyLogSlice.actions.RGetfile(GetFile));
+    };
 
 export const getdailylog =
   (data: IGetHomeworkDailyLogBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DailyLogApi.GetHomeworkDailyLog(data);
-    dispatch(DailyLogSlice.actions.getdailylog(response.data));
-  };
+    async (dispatch) => {
+      const response = await DailyLogApi.GetHomeworkDailyLog(data);
+      dispatch(DailyLogSlice.actions.getdailylog(response.data));
+    };
 
 export const ResetFilePath = (): AppThunk => async (dispatch) => {
   dispatch(DailyLogSlice.actions.resetFilepath());
@@ -94,11 +100,11 @@ export const ResetFilePath = (): AppThunk => async (dispatch) => {
 
 export const deletedailylog =
   (data: IDeleteHomeworkDailyLogBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DailyLogApi.DeleteHomeworkDailyLog(data);
+    async (dispatch) => {
+      const response = await DailyLogApi.DeleteHomeworkDailyLog(data);
 
-    dispatch(DailyLogSlice.actions.deletedailylog(response.data));
-  };
+      dispatch(DailyLogSlice.actions.deletedailylog(response.data));
+    };
 
 export const ResetDeleteLog = (): AppThunk => async (dispatch) => {
   dispatch(DailyLogSlice.actions.ResetDeleteLog());
@@ -106,9 +112,17 @@ export const ResetDeleteLog = (): AppThunk => async (dispatch) => {
 
 export const PublishUnpublishHomework =
   (data: IPublishUnpublishHomeworkDailylogBody): AppThunk =>
-  async (dispatch) => {
-    const response = await DailyLogApi.PublishUnpublishHomeworkDailylog(data);
-    dispatch(DailyLogSlice.actions.PublishUnpublishHomework(response.data));
-  };
+    async (dispatch) => {
+      const response = await DailyLogApi.PublishUnpublishHomeworkDailylog(data);
+      dispatch(DailyLogSlice.actions.PublishUnpublishHomework(response.data));
+    };
+
+export const CDAValidateHomeworkDailyLogForSave =
+  (data: IValidateHomeworkDailyLogForSaveBody): AppThunk =>
+    async (dispatch) => {
+      const response = await DailyLogApi.ValidateHomeworkDailyLogForSave(data);
+      dispatch(DailyLogSlice.actions.RValidateHomeworkDailyLogForSave(response.data));
+    };
+
 
 export default DailyLogSlice.reducer;
