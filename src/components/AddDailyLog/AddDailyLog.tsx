@@ -318,7 +318,7 @@ const AddDailyLog = () => {
 
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
-      toast.success(SaveDailyLog);
+      toast.success("Log saved succesfully!! ");
       ResetForm();
     }
   };
