@@ -48,12 +48,10 @@ import { RootState } from 'src/store';
 
 
 const DatePicker = styled(TextField)``;
-
 const AddDailyLog = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { Id, ClassName } = useParams();
-
   const [dateState, setDateState] = useState('');
   const [dateSearch, setDateSearch] = useState('');
   const [dateSearchError, setDateSearchError] = useState('');
@@ -67,6 +65,19 @@ const AddDailyLog = () => {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
+
+  const MaxfileSize = 5000000;
+  const startIndex = (page - 1) * 20;
+  const endIndex = startIndex + 20;
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asUserId = Number(localStorage.getItem('UserId'));
+  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
+  const SiteURL = localStorage.getItem('SiteURL');
+  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
+  const [isPublish, setIsPublish] = useState(true);
+
+  //useSelector
   const SaveDailyLog = useSelector(
     (state: RootState) => state.AddDailyLog.Savelog
   );
@@ -111,15 +122,29 @@ const AddDailyLog = () => {
     'XLS',
     'XLSX'
   ];
-  const MaxfileSize = 5000000;
-  const startIndex = (page - 1) * 20;
-  const endIndex = startIndex + 20;
-  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
-  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const asUserId = Number(localStorage.getItem('UserId'));
-  const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const SiteURL = localStorage.getItem('SiteURL');
-  let asFolderName = SiteURL.split('/')[SiteURL.split('/').length - 1];
+
+  //PaylodBody
+  const SaveDailylogBody: ISaveDailyLogBody = {
+    aHomeWorkLogId: LogId,
+    asStdDivId: Number(Id),
+    asDate: dateState,
+    asAttachmentName: fileName == '' ? null : fileName,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: Number(asAcademicYearId),
+    asInsertedById: TeacherId,
+    asSaveFeature: 'Assign Homework',
+    asFolderName: 'PPSN Website',
+    asBase64String: base64URL == '' ? null : base64URL
+  };
+
+  const ValidateHomeworkDailyLogForSaveBody: IValidateHomeworkDailyLogForSaveBody =
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearID: asAcademicYearId,
+    asStandardDivisionId: Number(Id),
+    asDate: dateState,
+    asId: LogId
+  }
 
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
     asSchoolId: asSchoolId,
@@ -130,6 +155,24 @@ const AddDailyLog = () => {
     asEndIndex: endIndex,
     asUserId: asUserId
   };
+
+//Pageload
+  const Changestaus = (value) => {
+    const updatedIsPublish = !isPublish;
+
+    const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
+    {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId),
+      asLogId: value,
+      asUpdatedById: TeacherId,
+      asIsPublished: Number(updatedIsPublish)
+    };
+
+    dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+    setIsPublish(updatedIsPublish);
+  };
+
 
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
@@ -150,26 +193,6 @@ const AddDailyLog = () => {
 
   }, [GetAllHomeworkDailyLogs]);
 
-  const [isPublish, setIsPublish] = useState(true);
-
-  console.log(dateState, "dateState");
-
-  const Changestaus = (value) => {
-    const updatedIsPublish = !isPublish;
-
-    const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
-    {
-      asSchoolId: Number(asSchoolId),
-      asAcademicYearId: Number(asAcademicYearId),
-      asLogId: value,
-      asUpdatedById: TeacherId,
-      asIsPublished: Number(updatedIsPublish)
-    };
-
-    dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
-    setIsPublish(updatedIsPublish);
-  };
-
   useEffect(() => {
     if (PublishUnpublishHomeworkDailylog != '') {
       toast.success(PublishUnpublishHomeworkDailylog);
@@ -188,7 +211,7 @@ const AddDailyLog = () => {
       setDateState(dateFormat);
     }
   }, [GetHomeworkDailyLogs]);
-
+//functions
   const clickEdit1 = (value) => {
     setLogId(value);
     const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
@@ -250,11 +273,9 @@ const AddDailyLog = () => {
     }
   };
 
-
-
   const onSelectDate = (value) => {
     setDateSearch(value);
-    // dispatch(getalldailylog(GetAllHomeworkDailyLogsBody))
+
   };
 
   const ChangeFile = (value) => {
@@ -262,30 +283,20 @@ const AddDailyLog = () => {
     setbase64URL(value.Value);
   };
 
-  const SaveDailylogBody: ISaveDailyLogBody = {
-    aHomeWorkLogId: LogId,
-    asStdDivId: Number(Id),
-    asDate: dateState,
-    asAttachmentName: fileName == '' ? null : fileName,
-    asSchoolId: asSchoolId,
-    asAcademicYearId: Number(asAcademicYearId),
-    asInsertedById: TeacherId,
-    asSaveFeature: 'Assign Homework',
-    asFolderName: 'PPSN Website',
-    asBase64String: base64URL == '' ? null : base64URL
+  const ResetForm = () => {
+    setDateState('');
+    setFileName('');
+    setbase64URL('');
   };
-
-  const ValidateHomeworkDailyLogForSaveBody: IValidateHomeworkDailyLogForSaveBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearID: asAcademicYearId,
-    asStandardDivisionId: Number(Id),
-    asDate: dateState,
-    asId: LogId
-  }
-
+  const onClickCancel = () => {
+    ResetForm();
+  };
   const onClickSave = () => {
     dispatch(CDAValidateHomeworkDailyLogForSave(ValidateHomeworkDailyLogForSaveBody));
+    if (ValidateHomeworkDailyLogForSave === 'N') {
+      toast.error('"Please fix following error(s): Record for given date is already exist"');
+      return;
+    }
     let isError = false;
     let isDateAlreadyExists = GetAllHomeworkDailyLogs.some((item) => isEqualtonDate(item.Text1, dateState));
 
@@ -305,33 +316,22 @@ const AddDailyLog = () => {
       isError = true;
     }
 
-    if (ValidateHomeworkDailyLogForSave === 'N') {
-      toast.error('"Please fix following error(s): Record for given date is already exist"');
-      return;
-    }
-
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
+      toast.success(SaveDailyLog);
       ResetForm();
     }
   };
 
   useEffect(() => {
     if (SaveDailyLog != '') {
-      toast.success(SaveDailyLog);
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);
 
-  const ResetForm = () => {
-    setDateState('');
-    setFileName('');
-    setbase64URL('');
-  };
 
-  const onClickCancel = () => {
-    ResetForm();
-  };
+
+
 
   useEffect(() => {
     const getCurrentDateTime = () => {
@@ -343,7 +343,6 @@ const AddDailyLog = () => {
       });
       setDateState(formattedDate);
     };
-
 
     getCurrentDateTime();
   }, []);
@@ -360,7 +359,6 @@ const AddDailyLog = () => {
         setDateSearchError('Future dates are disabled.');
       } else {
         setDateSearchError('');
-
         dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
       }
     }
@@ -516,20 +514,7 @@ const AddDailyLog = () => {
               ></SingleFile>
             </Grid>
             <Grid item xs={12}>
-              {/* <Stack direction={'row'} gap={1} justifyContent={'center'} mt={2}>
-                <Button onClick={onClickCancel} variant="contained" color={'error'}>
-                  CANCEL
-                </Button>
-                {LogId > 0 ? (
-                  <Button onClick={onClickSave} variant="contained" color={'warning'}>
-                    UPDATE
-                  </Button>
-                ) : (
-                  <Button onClick={onClickSave} variant="contained" color={'success'}>
-                    SAVE
-                  </Button>
-                )}
-              </Stack> */}
+            
             </Grid>
           </Grid>
         </Box>
@@ -551,7 +536,7 @@ const AddDailyLog = () => {
                   justifyContent: 'flex-end'
                 }}
               >
-                {/* <TextField  type='date' value={dateSearch} onChange={handleChange2} variant='standard' InputLabelProps={{ shrink: true }} inputProps={{ max: new Date().toISOString().split('T')[0] }}/> */}
+               
                 <Box>
                   <DatePicker
                     fullWidth
