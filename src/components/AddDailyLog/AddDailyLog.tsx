@@ -200,7 +200,7 @@ const AddDailyLog = () => {
   };
 
   const clickDelete = (value) => {
-    if (confirm('Are You Sure you want to delete The Daily Log')) {
+    if (confirm('"Are you sure you want to delete this record?')) {
       const DeleteLog: IDeleteHomeworkDailyLogBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),
@@ -306,8 +306,8 @@ const AddDailyLog = () => {
     }
 
     if (ValidateHomeworkDailyLogForSave === 'N') {
-      toast.error('Daily log for the same date has not been added.');
-      return; 
+      toast.error('"Please fix following error(s): Record for given date is already exist"');
+      return;
     }
 
     if (!isError) {
