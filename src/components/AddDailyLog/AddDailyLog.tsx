@@ -333,18 +333,15 @@ const AddDailyLog = () => {
 
 
   const onClickSearch = () => {
-    if (!dateSearch) {
-      setDateSearchError('Date should not be blank.');
-    } else {
-      const currentDate = new Date();
-      const selectedDateObj = new Date(dateSearch);
 
-      if (selectedDateObj > currentDate) {
-        setDateSearchError('Future dates are disabled.');
-      } else {
-        setDateSearchError('');
-        dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-      }
+    const currentDate = new Date();
+    const selectedDateObj = new Date(dateSearch);
+
+    if (selectedDateObj > currentDate) {
+      setDateSearchError('Future dates are disabled.');
+    } else {
+      setDateSearchError('');
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   };
 
