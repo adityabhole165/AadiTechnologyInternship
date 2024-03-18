@@ -146,7 +146,7 @@ const AssignExamMark = () => {
   ];
 
   const clickEdit = () => {
-    navigate('/extended-sidebar/Common/EventOverview');
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks');
   };
   return (
     <Container maxWidth={"xl"}>
