@@ -254,21 +254,26 @@ const AddDailyLog = () => {
   const handleChange = (e) => {
     const selectedDate = e.target.value;
     setDateState(selectedDate);
-
-    // Validate date
     if (!selectedDate) {
       setDateError('Date should not be blank.');
     } else {
       const currentDate = new Date();
       const selectedDateObj = new Date(selectedDate);
-
+  
       if (selectedDateObj > currentDate) {
         setDateError('Future dates are disabled.');
       } else {
-        setDateError('');
+        const selectedDay = selectedDateObj.getDay();
+        if (selectedDay === 0 || selectedDay === 6) {
+          setDateError('Weekend dates are not allowed.');
+        } else {
+          setDateError('');
+        }
       }
     }
   };
+
+  
 
   const onSelectDate = (value) => {
     setDateSearch(value);
@@ -302,13 +307,14 @@ const AddDailyLog = () => {
         setDateError('');
       }
     }
+  
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
-      toast.success("Log saved succesfully!! ");
+      toast.success("Log saved succesfully!!");
       ResetForm();
     }
   };
-
+  
   useEffect(() => {
     if (SaveDailyLog != '') {
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
