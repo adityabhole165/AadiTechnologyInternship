@@ -22,35 +22,19 @@ function TableUsingArray({ ItemList, HeaderArray }) {
           >
             <TableRow>
               {HeaderArray.map((item, i) => (
-                <>
-                  {i == 0 ? (
-                    <>
-                      <TableCell
-                        key={i}
-                        sx={{
-                          color: 'white',
-                          py: 1
-                        }}
-                        align="center"
-                      >
-                        <b>{item}</b>
-                      </TableCell>
-                    </>
-                  ) : (
-                    <>
-                      <TableCell
-                        key={i}
-                        sx={{
-                          color: 'white',
-                          py: 1
-                        }}
-                        align="center"
-                      >
-                        <b>{item}</b>
-                      </TableCell>
-                    </>
-                  )}
-                </>
+                i == 0 ? (
+                  <TableCell key={i} align="center"
+                    sx={{ color: 'white', py: 1 }}
+                  >
+                    <b>{item}</b>
+                  </TableCell>
+                ) : (
+                  <TableCell key={i} align="center"
+                    sx={{ color: 'white', py: 1 }}
+                  >
+                    <b>{item}</b>
+                  </TableCell>
+                )
               ))}
             </TableRow>
           </TableHead>

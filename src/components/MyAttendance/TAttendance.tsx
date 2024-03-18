@@ -41,7 +41,7 @@ import {
 } from 'src/requests/TAttendance/TAttendance';
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
-import { getDateFormatted } from '../Common/Util';
+import { getDateFormatted, getDateFormattedDash, stripHtml } from '../Common/Util';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
@@ -86,7 +86,7 @@ const TAttendance = () => {
 
   const [Standardid, setStandardid] = useState<string>();
 
-  const [assignedDate, setAssignedDate] = useState<string>();
+  const [assignedDate, setAssignedDate] = useState<string>('');
 
   const [onlySelectedClass, setOnlySelectedClass] = useState('none');
   const [singleStdName, setSingleStdName] = useState('');
@@ -108,7 +108,6 @@ const TAttendance = () => {
   const stdlist: any = useSelector(
     (state: RootState) => state.StandardAttendance.stdlist
   );
-  // console.log(stdlist, 'stdlistvv');
 
   const RollNoList = useSelector(
     (state: RootState) => state.AttendanceList.StudentList
@@ -153,7 +152,6 @@ const TAttendance = () => {
     sessionStorage.getItem('ScreensAccessPermission')
   );
 
-  // console.log('ScreensAccessPermission', ScreensAccessPermission);
   const GetScreenPermission = () => {
     let perm = 'N';
     ScreensAccessPermission?.map((item) => {
@@ -238,7 +236,7 @@ const TAttendance = () => {
   }, []);
 
   useEffect(() => {
-    if (assignedDate != undefined) {
+    if (assignedDate != undefined && assignedDate != "") {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
@@ -265,7 +263,7 @@ const TAttendance = () => {
   };
 
   useEffect(() => {
-    if (assignedDate != undefined) {
+    if (assignedDate != undefined && assignedDate != "") {
       dispatch(GetStudentList(GetStudentDetails));
       dispatch(CDASummaryCountforAttendanceBody(SummaryCountforAttendanceBody));
     }
@@ -476,6 +474,12 @@ const TAttendance = () => {
       `/${location.pathname.split('/')[1]}/Teacher/TAttendance/` + value
     );
   };
+  const clickNavigateSchoolAttendanceOverview = () => {
+    if (getCurrentAttendanceStatus() == "Done")
+      navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview/' + getDateFormattedDash(assignedDate));
+    else
+      toast.error('Attendance not available')
+  }
   const ClickItemList = (value) => {
     const GetStudentDetails: IStudentsDetails = {
       asStdDivId: asStandardDivisionId,
@@ -498,6 +502,7 @@ const TAttendance = () => {
     setsendmeassagestudent(value);
   };
   useEffect(() => {
+
     if (listAttendanceCalender.length > 0 && assignedDate != '') {
       listAttendanceCalender.map((item, i) => {
         if (item.Value === assignedDate) {
@@ -511,6 +516,16 @@ const TAttendance = () => {
       });
     }
   }, [listAttendanceCalender, assignedDate]);
+  const getCurrentAttendanceStatus = () => {
+    let returnVal = ''
+
+    listAttendanceCalender.map((item, i) => {
+      if (item.Value === getDateFormatted(assignedDate))
+        returnVal = stripHtml(item.Text1)
+    })
+
+    return returnVal
+  }
   return (
     <Container maxWidth={'xl'}>
       <Stack
@@ -551,11 +566,8 @@ const TAttendance = () => {
             <Stack direction={'row'} alignItems={'center'} gap={1}>
               <Tooltip title={"School Attendance Overview"}>
                 <Typography color="primary" fontWeight={"bold"}
-                  sx={{ cursor: 'pointer' }} onClick={() => {
-                    navigate(
-                      '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                    );
-                  }}>
+                  sx={{ cursor: 'pointer' }} onClick={() => { clickNavigateSchoolAttendanceOverview() }
+                  }>
                   Overview
                 </Typography>
               </Tooltip>
@@ -571,11 +583,7 @@ const TAttendance = () => {
                   gap: 1,
                 }}
                 fontWeight={'bold'}
-                onClick={() => {
-                  navigate(
-                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                  );
-                }}
+                onClick={() => { clickNavigateSchoolAttendanceOverview() }}
               >
 
                 <Tooltip title={'Present Students / Total Student'}>
@@ -589,11 +597,7 @@ const TAttendance = () => {
                 color={'primary'}
                 sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
                 fontWeight={'bold'}
-                onClick={() => {
-                  navigate(
-                    '/extended-sidebar/Teacher/SchoolAttendanceOverview'
-                  );
-                }}
+                onClick={() => { clickNavigateSchoolAttendanceOverview() }}
               >
 
                 <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
@@ -1027,9 +1031,9 @@ const TAttendance = () => {
               <CardCalender1
                 ItemList={listAttendanceCalender}
                 ClickItem={ClickItem}
-                formattedDate={assignedDate}
+                formattedDate={getDateFormatted(assignedDate)}
                 DefaultValue
-                assignedDate={assignedDate}
+                assignedDate={getDateFormatted(assignedDate)}
                 ArrayList={HeaderPublish}
                 ClickDeleteAttendance={ClickDeleteAttendance}
                 Standardid={Standardid}
@@ -1095,7 +1099,7 @@ const TAttendance = () => {
           <Grid item xs={12} md={6}></Grid>
         )}
       </Grid>
-    </Container>
+    </Container >
   );
 };
 //
