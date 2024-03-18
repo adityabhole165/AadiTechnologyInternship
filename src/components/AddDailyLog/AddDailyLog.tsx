@@ -31,18 +31,20 @@ import {
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-  IValidateHomeworkDailyLogForSaveBody
+  
+  
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  CDAValidateHomeworkDailyLogForSave,
+
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
   deletedailylog,
   getalldailylog,
-  getdailylog
+  getdailylog,
+  CDAresetMessage
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 
@@ -133,15 +135,6 @@ const AddDailyLog = () => {
     asFolderName: 'PPSN Website',
     asBase64String: base64URL == '' ? null : base64URL
   };
-
-  const ValidateHomeworkDailyLogForSaveBody: IValidateHomeworkDailyLogForSaveBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearID: asAcademicYearId,
-    asStandardDivisionId: Number(Id),
-    asDate: dateState,
-    asId: LogId
-  }
 
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
     asSchoolId: asSchoolId,
@@ -310,13 +303,14 @@ const AddDailyLog = () => {
   
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
-      toast.success("Log saved succesfully!!");
       ResetForm();
     }
   };
-  
   useEffect(() => {
-    if (SaveDailyLog != '') {
+    if (SaveDailyLog != '') 
+    {
+      toast.success(SaveDailyLog);
+      dispatch(CDAresetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);

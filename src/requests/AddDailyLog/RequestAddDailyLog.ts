@@ -7,7 +7,7 @@ import {
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-  IValidateHomeworkDailyLogForSaveBody
+
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import { AppThunk } from 'src/store';
 
@@ -22,7 +22,8 @@ const DailyLogSlice = createSlice({
     FilePath: '',
     PublishUnpublish: '',
     ISGetfile: '',
-    ISValidateHomeworkDailyLogForSave:{}
+    ISValidateHomeworkDailyLogForSave:{},
+    ISdailylogreset:''
   },
 
   reducers: {
@@ -52,9 +53,11 @@ const DailyLogSlice = createSlice({
       state.ISGetfile = action.payload;
     },
 
-    RValidateHomeworkDailyLogForSave(state, action) {
-      state.ISValidateHomeworkDailyLogForSave = action.payload;
+   
+    resetMessage(state) {
+      state.ISdailylogreset = '';
     }
+    
   }
 });
 export const Savedailylog =
@@ -117,12 +120,10 @@ export const PublishUnpublishHomework =
       dispatch(DailyLogSlice.actions.PublishUnpublishHomework(response.data));
     };
 
-export const CDAValidateHomeworkDailyLogForSave =
-  (data: IValidateHomeworkDailyLogForSaveBody): AppThunk =>
-    async (dispatch) => {
-      const response = await DailyLogApi.ValidateHomeworkDailyLogForSave(data);
-      dispatch(DailyLogSlice.actions.RValidateHomeworkDailyLogForSave(response.data));
-    };
 
+
+    export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+      dispatch(DailyLogSlice.actions.resetMessage());
+    };
 
 export default DailyLogSlice.reducer;
