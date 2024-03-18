@@ -165,7 +165,11 @@ const teacherRoutes = [
     element: <TAttendance />
   },
   {
-    path: 'SchoolAttendanceOverview',
+    path: 'TAttendance/:AssignedDate',
+    element: <TAttendance />
+  },
+  {
+    path: 'SchoolAttendanceOverview/:AssignedDate',
     element: <SchoolAttendanceOverview />
   },
   {
@@ -332,7 +336,7 @@ const teacherRoutes = [
     path: 'AadharCard',
     element: <AadharCard />
   }
-  
+
 
 ];
 
