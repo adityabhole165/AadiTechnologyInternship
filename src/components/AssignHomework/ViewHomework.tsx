@@ -128,9 +128,9 @@ const ViewHomework = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500],
+                    // backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                    // ':hover': { backgroundColor: grey[600] }
                   }}
                 >
                   <QuestionMarkIcon />
@@ -142,36 +142,30 @@ const ViewHomework = () => {
         <Box sx={{ background: 'white', mt: 2, p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              <TextField label={'Subject'} fullWidth />
+              <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject} />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth label={'Title'} value={HomeworkDetail.Title} />
+              <TextField fullWidth label={'Title'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Title} />
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label={'Assigned Date'}
-                type={'date'}
-                InputLabelProps={{ shrink: true }}
-                value={HomeworkDetail.CompleteByDate}
-              />
+              <TextField fullWidth label={'Assigned Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AssignedDate} />
+
+
             </Grid>
             <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label={'Complete By Date'}
-                type={'date'}
-                InputLabelProps={{ shrink: true }}
-              />
+              <TextField fullWidth label={'Complete Date '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.CompleteByDate} />
+
             </Grid>
+
             <Grid item xs={6}>
-              <Typography>Attachment(s):</Typography>
+              <TextField fullWidth label={'Attachment '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AttachmentPath
+              } />
             </Grid>
             <Grid item xs={6}>
               <Typography>More Attachment(s):</Typography>
             </Grid>
             <Grid item xs={12}>
-              <TextField multiline fullWidth rows={3} label={'Details'} value={HomeworkDetail.Details} />
+              <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
             </Grid>
           </Grid>
         </Box>
