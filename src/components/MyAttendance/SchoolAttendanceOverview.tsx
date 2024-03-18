@@ -88,7 +88,7 @@ const SchoolAttendanceOverview = () => {
 
   const navigate = useNavigate();
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance/' + AssignedDate);
+    navigate('/extended-sidebar/Teacher/TAttendance/' + SelectDate);
   };
 
   useEffect(() => {
@@ -123,7 +123,7 @@ const SchoolAttendanceOverview = () => {
               </IconButton>
             </Link>
             <Link
-              to={'/extended-sidebar/Teacher/TAttendance/' + AssignedDate}
+              to={'/extended-sidebar/Teacher/TAttendance/' + SelectDate}
               style={{ textDecoration: 'none' }}
             >
               <Typography

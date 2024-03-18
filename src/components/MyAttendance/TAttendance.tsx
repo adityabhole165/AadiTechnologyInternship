@@ -41,7 +41,7 @@ import {
 } from 'src/requests/TAttendance/TAttendance';
 import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
-import { getDateFormatted, getDateFormattedDash, stripHtml } from '../Common/Util';
+import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
@@ -475,10 +475,7 @@ const TAttendance = () => {
     );
   };
   const clickNavigateSchoolAttendanceOverview = () => {
-    if (getCurrentAttendanceStatus() == "Done")
-      navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview/' + getDateFormattedDash(assignedDate));
-    else
-      toast.error('Attendance not available')
+    navigate('/extended-sidebar/Teacher/SchoolAttendanceOverview/' + getDateFormattedDash(assignedDate));
   }
   const ClickItemList = (value) => {
     const GetStudentDetails: IStudentsDetails = {
@@ -516,16 +513,7 @@ const TAttendance = () => {
       });
     }
   }, [listAttendanceCalender, assignedDate]);
-  const getCurrentAttendanceStatus = () => {
-    let returnVal = ''
 
-    listAttendanceCalender.map((item, i) => {
-      if (item.Value === getDateFormatted(assignedDate))
-        returnVal = stripHtml(item.Text1)
-    })
-
-    return returnVal
-  }
   return (
     <Container maxWidth={'xl'}>
       <Stack
