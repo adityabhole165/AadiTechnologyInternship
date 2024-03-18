@@ -24,27 +24,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { isEqualtonDate } from 'src/components/Common/Util';
 import {
   IDeleteHomeworkDailyLogBody,
   IGetAllHomeworkDailyLogsBody,
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-  
-  
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-
+  CDAresetMessage,
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
   deletedailylog,
   getalldailylog,
   getdailylog,
-  CDAresetMessage
+  resetPublishUnpublish
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 
@@ -146,7 +143,7 @@ const AddDailyLog = () => {
     asUserId: asUserId
   };
 
-//Pageload
+  //Pageload
   const Changestaus = (value) => {
     const updatedIsPublish = !isPublish;
 
@@ -186,7 +183,7 @@ const AddDailyLog = () => {
   useEffect(() => {
     if (PublishUnpublishHomeworkDailylog != '') {
       toast.success(PublishUnpublishHomeworkDailylog);
-      //dispatch(resetMessage());
+      dispatch(resetPublishUnpublish());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [PublishUnpublishHomeworkDailylog]);
@@ -201,7 +198,7 @@ const AddDailyLog = () => {
       setDateState(dateFormat);
     }
   }, [GetHomeworkDailyLogs]);
-//functions
+  //functions
   const clickEdit1 = (value) => {
     setLogId(value);
     const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
@@ -223,12 +220,15 @@ const AddDailyLog = () => {
       dispatch(deletedailylog(DeleteLog));
     }
 
+  };
+
+  useEffect(() => {
     if (DeleteHomeworkDailyLogs !== '') {
       toast.success(DeleteHomeworkDailyLogs, { toastId: 'success1' });
       dispatch(ResetDeleteLog());
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  };
+  }, [DeleteHomeworkDailyLogs])
 
   const clickFileName = (value) => {
     if (GetFileUS !== '') {
@@ -252,7 +252,7 @@ const AddDailyLog = () => {
     } else {
       const currentDate = new Date();
       const selectedDateObj = new Date(selectedDate);
-  
+
       if (selectedDateObj > currentDate) {
         setDateError('Future dates are disabled.');
       } else {
@@ -266,7 +266,7 @@ const AddDailyLog = () => {
     }
   };
 
-  
+
 
   const onSelectDate = (value) => {
     setDateSearch(value);
@@ -300,16 +300,18 @@ const AddDailyLog = () => {
         setDateError('');
       }
     }
-  
+
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
       ResetForm();
     }
   };
   useEffect(() => {
-    if (SaveDailyLog != '') 
-    {
-      toast.success(SaveDailyLog);
+    if (SaveDailyLog != '') {
+      if (SaveDailyLog == "Record for given date is already exist.")
+        toast.error(SaveDailyLog);
+      else
+        toast.success(SaveDailyLog);
       dispatch(CDAresetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
@@ -496,7 +498,7 @@ const AddDailyLog = () => {
               ></SingleFile>
             </Grid>
             <Grid item xs={12}>
-            
+
             </Grid>
           </Grid>
         </Box>
@@ -518,7 +520,7 @@ const AddDailyLog = () => {
                   justifyContent: 'flex-end'
                 }}
               >
-               
+
                 <Box>
                   <DatePicker
                     fullWidth

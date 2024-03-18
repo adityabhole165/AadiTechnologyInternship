@@ -7,7 +7,6 @@ import {
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import { AppThunk } from 'src/store';
 
@@ -18,12 +17,11 @@ const DailyLogSlice = createSlice({
     GetAllHomework: [],
     GetHomeworkDailyLog: [],
     DeleteHomework: '',
-    ResetDelete: '',
     FilePath: '',
     PublishUnpublish: '',
     ISGetfile: '',
-    ISValidateHomeworkDailyLogForSave:{},
-    ISdailylogreset:''
+    ISValidateHomeworkDailyLogForSave: {},
+    ISdailylogreset: ''
   },
 
   reducers: {
@@ -40,7 +38,7 @@ const DailyLogSlice = createSlice({
       state.DeleteHomework = action.payload;
     },
     ResetDeleteLog(state) {
-      state.ResetDelete = '';
+      state.DeleteHomework = '';
     },
     resetFilepath(state) {
       state.FilePath = '';
@@ -48,16 +46,18 @@ const DailyLogSlice = createSlice({
     PublishUnpublishHomework(state, action) {
       state.PublishUnpublish = action.payload;
     },
-
+    resetPublishUnpublish(state) {
+      state.PublishUnpublish = '';
+    },
     RGetfile(state, action) {
       state.ISGetfile = action.payload;
     },
 
-   
+
     resetMessage(state) {
       state.ISdailylogreset = '';
     }
-    
+
   }
 });
 export const Savedailylog =
@@ -122,8 +122,12 @@ export const PublishUnpublishHomework =
 
 
 
-    export const CDAresetMessage = (): AppThunk => async (dispatch) => {
-      dispatch(DailyLogSlice.actions.resetMessage());
-    };
+export const resetPublishUnpublish = (): AppThunk => async (dispatch) => {
+  dispatch(DailyLogSlice.actions.resetPublishUnpublish());
+};
+
+export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(DailyLogSlice.actions.resetMessage());
+};
 
 export default DailyLogSlice.reducer;
