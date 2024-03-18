@@ -61,9 +61,9 @@ function Adddailyloglist({
                   }}>
                     <b>{item.Header}</b>
                     {item.SortOrder != undefined ?
-                      item.SortOrder == " Asc" ?
+                      item.SortOrder == " Desc" ?
+                        < ArrowDropDownCircleIcon/> :
                         <ArrowCircleUpIcon /> :
-                        <ArrowDropDownCircleIcon /> :
                       null
                     }
                   </div>

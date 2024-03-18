@@ -59,12 +59,9 @@ const AddDailyLog = () => {
   const [fileName, setFileName] = useState('');
   const [fileNameError, setFileNameError] = useState('');
   const [base64URL, setbase64URL] = useState('');
-  const [base64URLError, setbase64URLError] = useState('');
   const [LogId, setLogId] = useState(0);
-  const [ItemList, setItemList] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
 
   const MaxfileSize = 5000000;
   const startIndex = (page - 1) * 20;
@@ -103,7 +100,7 @@ const AddDailyLog = () => {
   );
 
   const [HeaderPublish, setHeaderPublish] = useState([
-    { Id: 1, Header: 'Date', SortOrder: " Asc" },
+    { Id: 1, Header: 'Date', SortOrder: " Desc" },
     { Id: 2, Header: 'Attachment' },
     { Id: 3, Header: 'Publish/UnPublish' },
     { Id: 4, Header: 'Edit' },
@@ -292,30 +289,19 @@ const AddDailyLog = () => {
     ResetForm();
   };
   const onClickSave = () => {
-    dispatch(CDAValidateHomeworkDailyLogForSave(ValidateHomeworkDailyLogForSaveBody));
-    if (ValidateHomeworkDailyLogForSave === 'N') {
-      toast.error('"Please fix following error(s): Record for given date is already exist"');
-      return;
-    }
     let isError = false;
-    let isDateAlreadyExists = GetAllHomeworkDailyLogs.some((item) => isEqualtonDate(item.Text1, dateState));
-
-    console.log(isDateAlreadyExists, "isDateAlreadyExists");
-
-    if (isDateAlreadyExists) {
-      console.log(isDateAlreadyExists);
-
-      setDateError('Record for the given date already exists.');
+    if (dateState === '') {
+      setDateError('Date should not be blank.');
       isError = true;
     } else {
-      setDateError('');
+      const selectedDay = new Date(dateState).getDay();
+      if (selectedDay === 0 || selectedDay === 6) {
+        setDateError('Weekend dates are not allowed.');
+        isError = true;
+      } else {
+        setDateError('');
+      }
     }
-
-    if (dateState === '') {
-      setDateError('Field should not be blank');
-      isError = true;
-    }
-
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
       toast.success("Log saved succesfully!! ");
@@ -328,10 +314,6 @@ const AddDailyLog = () => {
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);
-
-
-
-
 
   useEffect(() => {
     const getCurrentDateTime = () => {
