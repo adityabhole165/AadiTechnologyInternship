@@ -196,6 +196,7 @@ const AddDailyLog = () => {
       let dateFormat =
         da.split('-')[2] + '-' + da.split('-')[1] + '-' + da.split('-')[0];
       setDateState(dateFormat);
+      setFileName(GetHomeworkDailyLogs[0].AttchmentName)
     }
   }, [GetHomeworkDailyLogs]);
   //functions
