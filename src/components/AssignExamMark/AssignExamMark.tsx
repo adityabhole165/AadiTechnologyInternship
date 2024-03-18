@@ -142,7 +142,7 @@ const AssignExamMark = () => {
     { Id: 1, Header: 'Class' },
     { Id: 2, Header: 'Subject' },
     { Id: 3, Header: 'Edit' },
-    { Id: 4, Header: 'Sumbit' }
+    { Id: 4, Header: 'Submit' }
   ];
 
   const clickEdit = () => {
