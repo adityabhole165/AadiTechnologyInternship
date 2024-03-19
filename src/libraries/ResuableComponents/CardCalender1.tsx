@@ -2,8 +2,7 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import {
   Box,
   Grid,
-  IconButton,
-  Tooltip,
+  IconButton, TextField, Tooltip,
   Typography,
   alpha
 } from '@mui/material';
@@ -12,7 +11,7 @@ import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { teal } from '@mui/material/colors';
 import React from 'react';
-import { getDateFormatted } from 'src/components/Common/Util';
+import { getCalendarDateFormatDateNew, getDateFormatted } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
 function CardCalender1({
@@ -148,6 +147,11 @@ function CardCalender1({
           >
             <ChevronLeftTwoToneIcon />
           </IconButton>
+          <TextField type='date' value={getCalendarDateFormatDateNew(formattedDate)}
+            onChange={(e) => {
+              ClickItem(getDateFormatted(e.target.value))
+
+            }} />
           <IconButton
             onClick={() => clickPrevNextMonth(1)}
             sx={{
