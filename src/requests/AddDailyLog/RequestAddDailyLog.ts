@@ -55,7 +55,7 @@ const DailyLogSlice = createSlice({
 
 
     RresetMessage(state) {
-      state.ISRestMessage = '';
+      state.Savelog = '';
     }
 
   }
