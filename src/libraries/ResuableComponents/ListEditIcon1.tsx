@@ -7,7 +7,7 @@ import TableRow from '@mui/material/TableRow';
 
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
-import EditIcon from '@mui/icons-material/Edit';
+import EditOffIcon from '@mui/icons-material/EditOff';
 import { Box } from '@mui/material';
 // ... (your other imports)
 
@@ -48,7 +48,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   {item.Text3 === 'Y' ? (
                     <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
-                    <EditIcon onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
+                    <EditOffIcon onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
                   )}
                 </TableCell>
 
