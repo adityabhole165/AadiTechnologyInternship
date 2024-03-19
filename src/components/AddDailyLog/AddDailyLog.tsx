@@ -211,7 +211,7 @@ const AddDailyLog = () => {
   };
 
   const clickDelete = (value) => {
-    if (confirm('"Are you sure you want to delete this record?')) {
+    if (confirm('Are you sure you want to delete this record?')) {
       const DeleteLog: IDeleteHomeworkDailyLogBody = {
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId),

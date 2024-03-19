@@ -413,14 +413,14 @@ const AddHomework = () => {
                     height: '36px !important',
                     ':hover': { backgroundColor: red[600] }
                   }}
-                  onClick={() => clickPublishUnpublish(1)}
+                  onClick={() => onClickCancel}
                 >
                   <Close />
                 </IconButton>
               </Tooltip>
             </Box>
             <Box>
-              <Tooltip title={`Publish all changes`}>
+              <Tooltip title={`Save HomeWork`}>
                 <IconButton
                   sx={{
                     color: 'white',
@@ -428,7 +428,7 @@ const AddHomework = () => {
                     height: '36px !important',
                     ':hover': { backgroundColor: green[600] }
                   }}
-                  onClick={() => clickPublishUnpublish(1)}
+                  onClick={() => SaveFile}
                 >
                   <SaveIcon />
                 </IconButton>
