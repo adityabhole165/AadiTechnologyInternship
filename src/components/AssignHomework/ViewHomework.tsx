@@ -56,6 +56,20 @@ const ViewHomework = () => {
       setDetails(HomeworkDetail[0].Details);
     }
   }, [HomeworkDetail]);
+  const ClickAttachment = (AttachmentPath) => {
+    if (AttachmentPath !== '') {
+      window.open(
+        localStorage.getItem('SiteURL') +
+        '/RITeSchool/DOWNLOADS/Homework/' +
+        AttachmentPath
+      );
+    }
+  };
+  // const ClickAttachment = () => {
+  //   event.preventDefault();
+  //   // Handle click event here
+  //   console.log('Link clicked!');
+  // };
   return (
     <>
       <Container sx={{ mt: 4 }} maxWidth={'xl'}>
@@ -158,11 +172,16 @@ const ViewHomework = () => {
             </Grid>
 
             <Grid item xs={6}>
-              <TextField fullWidth label={'Attachment '} InputLabelProps={{ shrink: true }} value={HomeworkDetail.AttachmentPath
-              } />
+              <Typography>
+                More Attachment(s):
+                <a href="#" onClick={ClickAttachment} style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>
+                  {HomeworkDetail.AttachmentPath}
+                </a>
+              </Typography>
+
             </Grid>
             <Grid item xs={6}>
-              <Typography>More Attachment(s):</Typography>
+              <Typography>Attachment</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
