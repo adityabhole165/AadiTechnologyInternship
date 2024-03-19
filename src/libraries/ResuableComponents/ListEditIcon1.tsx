@@ -46,15 +46,15 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'Y' ? (
-                    <CheckIcon />
+                    <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
-                    <EditIcon onClick={() => clickEdit(item.Id)} />
+                    <EditIcon onClick={() => clickEdit(item.Id)}  style={{ color: '#76ff03' }} />
                   )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 !== 'Complete' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
+                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722' }} />
                   ) : (
                     item.Text4
                   )}
