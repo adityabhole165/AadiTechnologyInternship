@@ -95,8 +95,8 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
 
                 >
-                  <ButtonPrimary onClick={() => clickpublish(item.Id)} sx={{ minWidth: '100px' }}>
-                    {item.Text3 === 'True' ? 'UNPUBLISH' : 'PUBLISH '}
+                  <ButtonPrimary onClick={() => clickpublish(item.Id,item.Text3)} sx={{ minWidth: '100px' }}>
+                    {item.Text3 === 'False' ? ' PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
 

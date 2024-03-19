@@ -27,6 +27,7 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -184,24 +185,30 @@ const AssignExamMark = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <Dropdown
-              variant={"outlined"}
-              Array={ClassDropdown}
-              handleChange={onClickClass}
-              defaultValue={selectClass}
-              label={'Class'}
-              width={"150px"}
-            />
+           
+
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={ClassDropdown}
+            onChange={onClickClass}
+            label={'Select Class:'}
+            defaultValue={selectClass}
+            mandatory
+            size={"small"}
+          />
           </Box>
           <Box>
-            <Dropdown
-              variant={"outlined"}
-              Array={ClassWiseExamDropdown}
-              handleChange={clickClassWiseExam}
-              defaultValue={ClassWiseExam}
-              label={'Exam'}
-              width={"200px"}
-            />
+          
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={ClassWiseExamDropdown}
+            onChange={clickClassWiseExam}
+            label={'Select Exam:'}
+            defaultValue={ClassWiseExam}
+            mandatory
+            size={"small"}
+          />
+
           </Box>
           <Box>
             <Tooltip title={`View all subjects assigned with the current status of marks given to students. 
@@ -224,12 +231,20 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
       <Box sx={{ mt: 2, background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
-        <ListEditIcon1
-          ItemList={SubjectListmarkClass}
-          clickEdit={clickEdit}
-          HeaderArray={HeaderPublish}
-          clicksubmit={ClickSubmit}
-        />
+              {SubjectListmarkClass.length > 0 ? (
+                <ListEditIcon1
+                ItemList={SubjectListmarkClass}
+                clickEdit={clickEdit}
+                HeaderArray={HeaderPublish}
+                clicksubmit={ClickSubmit}
+              />
+              ) : (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <b>No Record Found.</b>
+                </Typography>
+
+              )}
+
         <Grid container sx={{ mt: 2 }}>
           <Grid item xs={12}>
             <Typography variant={"h4"} mb={1}>Legends</Typography>

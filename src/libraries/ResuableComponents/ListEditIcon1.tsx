@@ -1,14 +1,13 @@
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import CheckIcon from '@mui/icons-material/Check';
+import EditOff from '@mui/icons-material/EditOff';
+import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import CheckIcon from '@mui/icons-material/Check';
-import EditIcon from '@mui/icons-material/Edit';
-import { Box } from '@mui/material';
 // ... (your other imports)
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
@@ -46,15 +45,15 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'Y' ? (
-                    <CheckIcon />
+                    <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
-                    <EditIcon onClick={() => clickEdit(item.Id)} />
+                    <EditOff onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
                   )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 !== 'Complete' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} />
+                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722' }} />
                   ) : (
                     item.Text4
                   )}
