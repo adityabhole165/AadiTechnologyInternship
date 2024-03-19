@@ -957,7 +957,7 @@ const TAttendance = () => {
                 textTransform: 'capitalize'
               }}
             >
-              {SummaryCountforAttendance?.GetSummaryCountList[3]?.Text1}
+              {new Date(assignedDate).toLocaleString('default', { month: 'long' })} Summary
             </Typography>
             <Stack
               direction={'row'}
