@@ -34,7 +34,7 @@ import {
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  CDAresetMessage,
+  resetMessage,
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
@@ -324,10 +324,12 @@ const AddDailyLog = () => {
         toast.error(SaveDailyLog);
       else
         toast.success(SaveDailyLog);
-      dispatch(CDAresetMessage());
+        dispatch(resetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);
+
+
 
   useEffect(() => {
     const getCurrentDateTime = () => {

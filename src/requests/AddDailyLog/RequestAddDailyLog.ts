@@ -21,7 +21,7 @@ const DailyLogSlice = createSlice({
     PublishUnpublish: '',
     ISGetfile: '',
     ISValidateHomeworkDailyLogForSave: {},
-    ISdailylogreset: ''
+    ISRestMessage: ''
   },
 
   reducers: {
@@ -54,8 +54,8 @@ const DailyLogSlice = createSlice({
     },
 
 
-    resetMessage(state) {
-      state.ISdailylogreset = '';
+    RresetMessage(state) {
+      state.ISRestMessage = '';
     }
 
   }
@@ -126,8 +126,7 @@ export const resetPublishUnpublish = (): AppThunk => async (dispatch) => {
   dispatch(DailyLogSlice.actions.resetPublishUnpublish());
 };
 
-export const CDAresetMessage = (): AppThunk => async (dispatch) => {
-  dispatch(DailyLogSlice.actions.resetMessage());
+export const resetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(DailyLogSlice.actions.RresetMessage());
 };
-
 export default DailyLogSlice.reducer;
