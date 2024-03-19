@@ -1,14 +1,13 @@
+import AssignmentIcon from '@mui/icons-material/Assignment';
+import CheckIcon from '@mui/icons-material/Check';
+import EditOff from '@mui/icons-material/EditOff';
+import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import CheckIcon from '@mui/icons-material/Check';
-import EditOffIcon from '@mui/icons-material/EditOff';
-import { Box } from '@mui/material';
 // ... (your other imports)
 
 function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
@@ -48,7 +47,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   {item.Text3 === 'Y' ? (
                     <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
-                    <EditOffIcon onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
+                    <EditOff onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
                   )}
                 </TableCell>
 

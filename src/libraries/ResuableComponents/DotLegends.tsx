@@ -2,7 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import BadgeIcon from '@mui/icons-material/Badge';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
-import EditIcon from '@mui/icons-material/EditOff';
+import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
 import { Box, Typography } from '@mui/material';
 
@@ -15,7 +15,7 @@ const DotLegends = ({ text, text1, text2, text4, text5, text3, color }) => {
       </Box>
 
       <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
-        <EditIcon style={{ color: '#76ff03' }} />
+        <EditOff style={{ color: '#76ff03' }} />
         <Typography> {text1}</Typography>
       </Box>
 
