@@ -50,13 +50,13 @@ export interface IDeleteHomeworkDailyLogBody {
 
 export interface IDeleteHomeworkDailyLogResult {}
 
-export interface IPublishUnpublishHomeworkDailylogBody {
-  asSchoolId: number;
-  asAcademicYearId: number;
-  asLogId: number;
-  asUpdatedById: number;
-  asIsPublished: number;
-}
 
+export interface IPublishUnpublishHomeworkDailylogBody {
+  asSchoolId: number
+  asAcademicYearId: number
+  asLogId: number
+  asUpdatedById: number
+  asIsPublished: boolean
+}
 export interface IPublishUnpublishHomeworkDailylogResult {}
 

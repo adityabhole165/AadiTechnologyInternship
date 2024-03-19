@@ -94,9 +94,7 @@ const AddDailyLog = () => {
     (state: RootState) => state.AddDailyLog.ISGetfile
   );
 
-  const ValidateHomeworkDailyLogForSave: any = useSelector(
-    (state: RootState) => state.AddDailyLog.ISValidateHomeworkDailyLogForSave
-  );
+
 
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: 'Date', SortOrder: " Desc" },
@@ -144,20 +142,19 @@ const AddDailyLog = () => {
   };
 
   //Pageload
-  const Changestaus = (value) => {
-    const updatedIsPublish = !isPublish;
-
+  const Changestaus = (value,IsPublish) =>
+ {
     const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
     {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
       asLogId: value,
       asUpdatedById: TeacherId,
-      asIsPublished: Number(updatedIsPublish)
+      asIsPublished: IsPublish=='False'? true: false
     };
 
     dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
-    setIsPublish(updatedIsPublish);
+   
   };
 
 
@@ -187,6 +184,20 @@ const AddDailyLog = () => {
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [PublishUnpublishHomeworkDailylog]);
+
+  // useEffect(() => {
+  //   if (PublishUnpublishHomeworkDailylog != 'false') {
+  //     if (PublishUnpublishHomeworkDailylog == "Log published successfully.")
+  //       toast.success("Log published successfully.");
+  //     else
+  //       toast.success('Log unpublished successfully');
+  //       dispatch(resetPublishUnpublish());
+  //     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+  //   }
+  // }, [PublishUnpublishHomeworkDailylog]);
+
+
+
 
   let d = '';
   useEffect(() => {
