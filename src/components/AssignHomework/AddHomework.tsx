@@ -73,6 +73,9 @@ const AddHomework = () => {
   const [base64URLError1, setErrorbase64URL1] = useState('');
   const [itemPublish, setitemPublish] = useState([]);
   const [Open, setOpen] = useState(false);
+  const [fileName, setFileName] = useState('');
+  const [fileName1, setFileName1] = useState('');
+
   const HeaderPublish1 = [
     { Id: 1, Header: ' 	' },
     { Id: 2, Header: 'SR.No 	' },
@@ -175,12 +178,14 @@ const AddHomework = () => {
   const ChangeFile = (value) => {
     setFile(value.Name);
     setbase64URL(value.Value);
+    setFileName(value.Name);
   };
   const ChangeFile1 = (value) => {
     setFile1(value.Name);
     setbase64URL1(value.Value);
+    setFileName1(value.Name);
   };
-  const SaveFile = () => {
+ 
     const HomeworkSaveBody: ISaveHomeworkBody = {
       asTitle: Title,
       asSubjectId: Number(SubjectId),
@@ -198,40 +203,39 @@ const AddHomework = () => {
       asBase64String: base64URL,
       asBase64String2: base64URL1
     };
-    dispatch(HomeworkSave(HomeworkSaveBody));
-  };
+   
 
-  // const SaveFile = () => {
-  //     let isError = false;
-  //     if (ErrorAssignedDate == '') {
-  //          setErrorAssignedDate('Field should not be blank')
-  //       isError = true
+  const SaveFile = () => {
+      let isError = false;
+      if (ErrorAssignedDate == '') {
+           setErrorAssignedDate('Field should not be blank')
+        isError = true
 
-  //     } else if (CompleteDate == '') {
-  //         setErrorCompleteDate('Field should not be blank')
-  //       isError = true
-  //     }
-  //    else if (base64URL == '') {
-  //     setErrorbase64URL('Field should not be blank')
-  //     isError = true
-  //   }
-  //   else if (base64URL1 == '') {
-  //     setErrorbase64URL1('Field should not be blank')
-  //     isError = true
-  //   }
-  //   else if (Details == '') {
-  //     setErrorDetails('Field should not be blank')
-  //     isError = true
-  //   }
+      } else if (CompleteDate == '') {
+          setErrorCompleteDate('Field should not be blank')
+        isError = true
+      }
+     else if (base64URL == '') {
+      setErrorbase64URL('Field should not be blank')
+      isError = true
+    }
+    else if (base64URL1 == '') {
+      setErrorbase64URL1('Field should not be blank')
+      isError = true
+    }
+    else if (Details == '') {
+      setErrorDetails('Field should not be blank')
+      isError = true
+    }
 
-  //     if (!isError) {
-  //     dispatch(HomeworkSave(HomeworkSaveBody))
-  //     }
+      if (!isError) {
+      dispatch(HomeworkSave(HomeworkSaveBody))
+      }
 
-  //     // if (!isError) {
-  //     //   ResetForm()
-  //     // }
-  //   }
+      if (!isError) {
+        ResetForm()
+      }
+    }
   useEffect(() => {
     if (SaveHomework != '') {
       toast.success(SaveHomework);
@@ -428,9 +432,9 @@ const AddHomework = () => {
                     height: '36px !important',
                     ':hover': { backgroundColor: green[600] }
                   }}
-                  onClick={() => SaveFile}
+                 
                 >
-                  <SaveIcon />
+                  <SaveIcon  onClick={SaveFile} />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -527,6 +531,7 @@ const AddHomework = () => {
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
+                FileName={fileName}
                 ChangeFile={ChangeFile}
                 FileLabel={'Attachment'}
                 width={'100%'}
@@ -537,6 +542,7 @@ const AddHomework = () => {
               <SingleFile
                 ValidFileTypes={ValidFileTypes1}
                 MaxfileSize={MaxfileSize1}
+                FileName={fileName1}
                 ChangeFile={ChangeFile1}
                 FileLabel={'Attachments'}
                 width={'100%'}
