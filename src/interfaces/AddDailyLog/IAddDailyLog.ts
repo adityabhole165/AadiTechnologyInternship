@@ -60,15 +60,3 @@ export interface IPublishUnpublishHomeworkDailylogBody {
 
 export interface IPublishUnpublishHomeworkDailylogResult {}
 
-export interface IValidateHomeworkDailyLogForSaveBody {
-  asSchoolId: number
-  asAcademicYearID: number
-  asStandardDivisionId: number
-  asDate: string
-  asId: number
-}
-
-
-export interface IValidateHomeworkDailyLogForSaveResult {
-  IsValidLogForSave: string
-}

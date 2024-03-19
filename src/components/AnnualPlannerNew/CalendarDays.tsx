@@ -68,11 +68,6 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
                 flexDirection: 'column',
                 cursor: 'pointer',
                 backgroundColor: (theme) => bg[Item.Legend],
-                // Item.Value === DefaultValue
-                //   ? (theme) => alpha(theme.palette.primary.main, 0.2)
-                //   // : 'white',
-                //   : bg[Item.Legend],
-                color: legendColors[Item.Legend],
                 ...cardStyle,
                 fontWeight: '500',
                 // height: '10vh',
@@ -84,7 +79,11 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
 
               <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
                 {Item.Text1.map((obj, i) => {
-                  return (<b style={{ width: '100%' }} key={i}>{obj}</b>)
+                  return (<b style={{ width: '100%' }} key={i}>
+                    <Box
+                      sx={{ color: legendColors[obj.Legend] }}
+                    >{obj.Name}</Box>
+                  </b>)
                 })}
               </Box>
             </Box>

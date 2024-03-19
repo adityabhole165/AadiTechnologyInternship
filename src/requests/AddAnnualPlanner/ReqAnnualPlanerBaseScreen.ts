@@ -174,10 +174,11 @@ export const CDAGetEventsDataList =
             && data.asEventType.includes(Item.Sort_Order)
           ))
           .map((Item) => {
-            arr.push(stripHtml(Item.Event_Desc))
+            arr.push({ Name: stripHtml(Item.Event_Desc), Legend: Item.Sort_Order })
           })
         return arr
       }
+
       const getLegend = (value) => {
         let legend = 7
         response.data

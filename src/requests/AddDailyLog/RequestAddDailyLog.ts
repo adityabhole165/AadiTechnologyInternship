@@ -7,7 +7,6 @@ import {
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-  IValidateHomeworkDailyLogForSaveBody
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import { AppThunk } from 'src/store';
 
@@ -18,11 +17,11 @@ const DailyLogSlice = createSlice({
     GetAllHomework: [],
     GetHomeworkDailyLog: [],
     DeleteHomework: '',
-    ResetDelete: '',
     FilePath: '',
     PublishUnpublish: '',
     ISGetfile: '',
-    ISValidateHomeworkDailyLogForSave:{}
+    ISValidateHomeworkDailyLogForSave: {},
+    ISdailylogreset: ''
   },
 
   reducers: {
@@ -39,7 +38,7 @@ const DailyLogSlice = createSlice({
       state.DeleteHomework = action.payload;
     },
     ResetDeleteLog(state) {
-      state.ResetDelete = '';
+      state.DeleteHomework = '';
     },
     resetFilepath(state) {
       state.FilePath = '';
@@ -47,14 +46,18 @@ const DailyLogSlice = createSlice({
     PublishUnpublishHomework(state, action) {
       state.PublishUnpublish = action.payload;
     },
-
+    resetPublishUnpublish(state) {
+      state.PublishUnpublish = '';
+    },
     RGetfile(state, action) {
       state.ISGetfile = action.payload;
     },
 
-    RValidateHomeworkDailyLogForSave(state, action) {
-      state.ISValidateHomeworkDailyLogForSave = action.payload;
+
+    resetMessage(state) {
+      state.ISdailylogreset = '';
     }
+
   }
 });
 export const Savedailylog =
@@ -117,12 +120,14 @@ export const PublishUnpublishHomework =
       dispatch(DailyLogSlice.actions.PublishUnpublishHomework(response.data));
     };
 
-export const CDAValidateHomeworkDailyLogForSave =
-  (data: IValidateHomeworkDailyLogForSaveBody): AppThunk =>
-    async (dispatch) => {
-      const response = await DailyLogApi.ValidateHomeworkDailyLogForSave(data);
-      dispatch(DailyLogSlice.actions.RValidateHomeworkDailyLogForSave(response.data));
-    };
 
+
+export const resetPublishUnpublish = (): AppThunk => async (dispatch) => {
+  dispatch(DailyLogSlice.actions.resetPublishUnpublish());
+};
+
+export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(DailyLogSlice.actions.resetMessage());
+};
 
 export default DailyLogSlice.reducer;

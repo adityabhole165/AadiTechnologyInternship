@@ -17,11 +17,12 @@ import {
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanceOverview/ISchoolAttendanceOverview';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
+import { getCalendarDateFormatDateNew } from '../Common/Util';
 
 const DatePicker = styled(TextField)`
   & input[type='date']::-webkit-inner-spin-button,
@@ -35,12 +36,13 @@ const DatePicker = styled(TextField)`
 `;
 
 const SchoolAttendanceOverview = () => {
+  const { AssignedDate } = useParams()
   const dispatch = useDispatch();
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const [SelectDate, SetSelectDate] = useState(
-    new Date().toISOString().split('T')[0]
+  const [SelectDate, SetSelectDate] = useState(AssignedDate == undefined ?
+    new Date().toISOString().split('T')[0] : getCalendarDateFormatDateNew(AssignedDate)
   );
   const [HeaderArray, setHeaderArray] = useState(['Standard / Division.']);
   const ISAttendanceOverviewGridData = useSelector(
@@ -86,7 +88,7 @@ const SchoolAttendanceOverview = () => {
 
   const navigate = useNavigate();
   const click = () => {
-    navigate('/extended-sidebar/Teacher/TAttendance');
+    navigate('/extended-sidebar/Teacher/TAttendance/' + SelectDate);
   };
 
   useEffect(() => {
@@ -121,7 +123,7 @@ const SchoolAttendanceOverview = () => {
               </IconButton>
             </Link>
             <Link
-              to={'/extended-sidebar/Teacher/TAttendance'}
+              to={'/extended-sidebar/Teacher/TAttendance/' + SelectDate}
               style={{ textDecoration: 'none' }}
             >
               <Typography

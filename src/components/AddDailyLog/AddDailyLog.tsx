@@ -24,25 +24,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { isEqualtonDate } from 'src/components/Common/Util';
 import {
   IDeleteHomeworkDailyLogBody,
   IGetAllHomeworkDailyLogsBody,
   IGetHomeworkDailyLogBody,
   IPublishUnpublishHomeworkDailylogBody,
   ISaveDailyLogBody,
-  IValidateHomeworkDailyLogForSaveBody
 } from 'src/interfaces/AddDailyLog/IAddDailyLog';
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  CDAValidateHomeworkDailyLogForSave,
+  CDAresetMessage,
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
   deletedailylog,
   getalldailylog,
-  getdailylog
+  getdailylog,
+  resetPublishUnpublish
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
 
@@ -59,12 +58,9 @@ const AddDailyLog = () => {
   const [fileName, setFileName] = useState('');
   const [fileNameError, setFileNameError] = useState('');
   const [base64URL, setbase64URL] = useState('');
-  const [base64URLError, setbase64URLError] = useState('');
   const [LogId, setLogId] = useState(0);
-  const [ItemList, setItemList] = useState('');
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
-  const asStandardDivisionId = sessionStorage.getItem('StandardDivisionId');
 
   const MaxfileSize = 5000000;
   const startIndex = (page - 1) * 20;
@@ -137,15 +133,6 @@ const AddDailyLog = () => {
     asBase64String: base64URL == '' ? null : base64URL
   };
 
-  const ValidateHomeworkDailyLogForSaveBody: IValidateHomeworkDailyLogForSaveBody =
-  {
-    asSchoolId: asSchoolId,
-    asAcademicYearID: asAcademicYearId,
-    asStandardDivisionId: Number(Id),
-    asDate: dateState,
-    asId: LogId
-  }
-
   const GetAllHomeworkDailyLogsBody: IGetAllHomeworkDailyLogsBody = {
     asSchoolId: asSchoolId,
     asFilter: dateSearch,
@@ -156,7 +143,7 @@ const AddDailyLog = () => {
     asUserId: asUserId
   };
 
-//Pageload
+  //Pageload
   const Changestaus = (value) => {
     const updatedIsPublish = !isPublish;
 
@@ -196,7 +183,7 @@ const AddDailyLog = () => {
   useEffect(() => {
     if (PublishUnpublishHomeworkDailylog != '') {
       toast.success(PublishUnpublishHomeworkDailylog);
-      //dispatch(resetMessage());
+      dispatch(resetPublishUnpublish());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [PublishUnpublishHomeworkDailylog]);
@@ -209,9 +196,10 @@ const AddDailyLog = () => {
       let dateFormat =
         da.split('-')[2] + '-' + da.split('-')[1] + '-' + da.split('-')[0];
       setDateState(dateFormat);
+      setFileName(GetHomeworkDailyLogs[0].AttchmentName)
     }
   }, [GetHomeworkDailyLogs]);
-//functions
+  //functions
   const clickEdit1 = (value) => {
     setLogId(value);
     const GetHomeworkDailyLogsBody: IGetHomeworkDailyLogBody = {
@@ -233,12 +221,15 @@ const AddDailyLog = () => {
       dispatch(deletedailylog(DeleteLog));
     }
 
+  };
+
+  useEffect(() => {
     if (DeleteHomeworkDailyLogs !== '') {
       toast.success(DeleteHomeworkDailyLogs, { toastId: 'success1' });
       dispatch(ResetDeleteLog());
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-  };
+  }, [DeleteHomeworkDailyLogs])
 
   const clickFileName = (value) => {
     if (GetFileUS !== '') {
@@ -257,8 +248,6 @@ const AddDailyLog = () => {
   const handleChange = (e) => {
     const selectedDate = e.target.value;
     setDateState(selectedDate);
-
-    // Validate date
     if (!selectedDate) {
       setDateError('Date should not be blank.');
     } else {
@@ -268,10 +257,17 @@ const AddDailyLog = () => {
       if (selectedDateObj > currentDate) {
         setDateError('Future dates are disabled.');
       } else {
-        setDateError('');
+        const selectedDay = selectedDateObj.getDay();
+        if (selectedDay === 0 || selectedDay === 6) {
+          setDateError('Weekend dates are not allowed.');
+        } else {
+          setDateError('');
+        }
       }
     }
   };
+
+
 
   const onSelectDate = (value) => {
     setDateSearch(value);
@@ -292,46 +288,35 @@ const AddDailyLog = () => {
     ResetForm();
   };
   const onClickSave = () => {
-    dispatch(CDAValidateHomeworkDailyLogForSave(ValidateHomeworkDailyLogForSaveBody));
-    if (ValidateHomeworkDailyLogForSave === 'N') {
-      toast.error('"Please fix following error(s): Record for given date is already exist"');
-      return;
-    }
     let isError = false;
-    let isDateAlreadyExists = GetAllHomeworkDailyLogs.some((item) => isEqualtonDate(item.Text1, dateState));
-
-    console.log(isDateAlreadyExists, "isDateAlreadyExists");
-
-    if (isDateAlreadyExists) {
-      console.log(isDateAlreadyExists);
-
-      setDateError('Record for the given date already exists.');
+    if (dateState === '') {
+      setDateError('Date should not be blank.');
       isError = true;
     } else {
-      setDateError('');
-    }
-
-    if (dateState === '') {
-      setDateError('Field should not be blank');
-      isError = true;
+      const selectedDay = new Date(dateState).getDay();
+      if (selectedDay === 0 || selectedDay === 6) {
+        setDateError('Weekend dates are not allowed.');
+        isError = true;
+      } else {
+        setDateError('');
+      }
     }
 
     if (!isError) {
       dispatch(Savedailylog(SaveDailylogBody));
-      toast.success("Log saved succesfully!! ");
       ResetForm();
     }
   };
-
   useEffect(() => {
     if (SaveDailyLog != '') {
+      if (SaveDailyLog == "Record for given date is already exist.")
+        toast.error(SaveDailyLog);
+      else
+        toast.success(SaveDailyLog);
+      dispatch(CDAresetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);
-
-
-
-
 
   useEffect(() => {
     const getCurrentDateTime = () => {
@@ -349,18 +334,15 @@ const AddDailyLog = () => {
 
 
   const onClickSearch = () => {
-    if (!dateSearch) {
-      setDateSearchError('Date should not be blank.');
-    } else {
-      const currentDate = new Date();
-      const selectedDateObj = new Date(dateSearch);
 
-      if (selectedDateObj > currentDate) {
-        setDateSearchError('Future dates are disabled.');
-      } else {
-        setDateSearchError('');
-        dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
-      }
+    const currentDate = new Date();
+    const selectedDateObj = new Date(dateSearch);
+
+    if (selectedDateObj > currentDate) {
+      setDateSearchError('Future dates are disabled.');
+    } else {
+      setDateSearchError('');
+      dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   };
 
@@ -514,7 +496,7 @@ const AddDailyLog = () => {
               ></SingleFile>
             </Grid>
             <Grid item xs={12}>
-            
+
             </Grid>
           </Grid>
         </Box>
@@ -536,7 +518,7 @@ const AddDailyLog = () => {
                   justifyContent: 'flex-end'
                 }}
               >
-               
+
                 <Box>
                   <DatePicker
                     fullWidth
