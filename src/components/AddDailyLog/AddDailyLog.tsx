@@ -294,6 +294,7 @@ const AddDailyLog = () => {
     setDateState('');
     setFileName('');
     setbase64URL('');
+    setLogId(0);
   };
   const onClickCancel = () => {
     ResetForm();
