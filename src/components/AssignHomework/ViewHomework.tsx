@@ -173,41 +173,22 @@ const ViewHomework = () => {
 
             <Grid item xs={6}>
               <Typography>
-                More Attachment(s):
-                <a href="#" onClick={ClickAttachment} style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>
+                Attachment:
+                <a href="#" onClick={() => ClickAttachment(HomeworkDetail.AttachmentPath)} style={{ color: 'blue', textDecoration: 'underline', cursor: 'pointer' }}>
                   {HomeworkDetail.AttachmentPath}
                 </a>
               </Typography>
 
             </Grid>
             <Grid item xs={6}>
-              <Typography>Attachment</Typography>
+              <Typography> More Attachment(s):</Typography>
             </Grid>
             <Grid item xs={12}>
               <TextField multiline fullWidth rows={3} label={'Details'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Details} />
             </Grid>
           </Grid>
         </Box>
-        {/* {HomeworkDetail.length > 0 && <>Title: {HomeworkDetail[0].Title}</>}{' '}
-        <br></br>
-        {HomeworkDetail.length > 0 && <>Subject: {HomeworkDetail[0].Subject}</>}
-        <br />
-        {HomeworkDetail.length > 0 && (
-          <> CompleteByDate : {HomeworkDetail[0].CompleteByDate}</>
-        )}
-        <br />
-        {HomeworkDetail.length > 0 && (
-          <> Attachment : {HomeworkDetail[0].Attachment}</>
-        )}
-        <br></br>
-        {HomeworkDetail.length > 0 && (
-          <> MoreAttachment: {HomeworkDetail[0].AttachmentPath}</>
-        )}
-        <br></br>
-        {HomeworkDetail.length > 0 && (
-          <> Details : {HomeworkDetail[0].Details}</>
-        )}
-        <br></br> */}
+
       </Container>
     </>
   );
