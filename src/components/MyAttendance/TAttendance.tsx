@@ -604,6 +604,7 @@ const TAttendance = () => {
               onChange={clickClassTechernew}
               defaultValue={selectClasstecahernew}
               size={"small"}
+              DisableClearable={GetScreenPermission() == 'N'}
             />
             {/* <Paper
               component="form"
