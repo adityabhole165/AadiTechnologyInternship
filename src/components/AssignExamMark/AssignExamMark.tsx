@@ -1,5 +1,5 @@
 import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   IAssignClassBody,
@@ -8,7 +8,6 @@ import {
   ISubmitTestMarksToClassTeacherBody
 } from 'src/interfaces/AssignExamMarks/IAssignExamMarks';
 
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import {
   GetAssignExamMarkList,
   GetClassWiseExam,
@@ -25,6 +24,7 @@ import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { AlertContext } from 'src/contexts/AlertContext';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -35,6 +35,7 @@ const AssignExamMark = () => {
 
   const [selectClass, SetSelectClass] = useState();
   const [ClassWiseExam, SetClassWiseExam] = useState();
+  const { showAlert, closeAlert } = useContext(AlertContext);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -113,8 +114,27 @@ const AssignExamMark = () => {
       asAcademicYearId: String(asAcademicYearId),
       asIsSubmitted: 'Y'
     };
+    showAlert({
+      title: 'Submit',
+      message: 'Once you submit the result to the Class-teacher, you can not modify the marks/grades. Are you sure you want to continue?',
+      variant: 'warning',
+      confirmButtonText: 'OK',
+      cancelButtonText: 'Cancel',
+      onConfirm: () => {
+        closeAlert();
+        const SubmitTestMarksTeacherBody: ISubmitTestMarksToClassTeacherBody = {
+          asStandardDivisionId: String(selectClass),
+          asSubjectId: value,
+          asTestId: ClassWiseExam,
+          asSchoolId: String(asSchoolId),
+          asAcademicYearId: String(asAcademicYearId),
+          asIsSubmitted: 'Y'
+        };
+        dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
+      },
+      onCancel: closeAlert
+    });
 
-    dispatch(ReqSubmitMarksTeacher(SubmitTestMarksTeacherBody));
   };
 
   useEffect(() => {
@@ -185,29 +205,29 @@ const AssignExamMark = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-           
 
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={ClassDropdown}
-            onChange={onClickClass}
-            label={'Select Class:'}
-            defaultValue={selectClass}
-            mandatory
-            size={"small"}
-          />
+
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={ClassDropdown}
+              onChange={onClickClass}
+              label={'Select Class:'}
+              defaultValue={selectClass}
+              mandatory
+              size={"small"}
+            />
           </Box>
           <Box>
-          
-          <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={ClassWiseExamDropdown}
-            onChange={clickClassWiseExam}
-            label={'Select Exam:'}
-            defaultValue={ClassWiseExam}
-            mandatory
-            size={"small"}
-          />
+
+            <SearchableDropdown
+              sx={{ minWidth: '300px' }}
+              ItemList={ClassWiseExamDropdown}
+              onChange={clickClassWiseExam}
+              label={'Select Exam:'}
+              defaultValue={ClassWiseExam}
+              mandatory
+              size={"small"}
+            />
 
           </Box>
           <Box>
@@ -231,19 +251,19 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
       <Box sx={{ mt: 2, background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
-              {SubjectListmarkClass.length > 0 ? (
-                <ListEditIcon1
-                ItemList={SubjectListmarkClass}
-                clickEdit={clickEdit}
-                HeaderArray={HeaderPublish}
-                clicksubmit={ClickSubmit}
-              />
-              ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  <b>No Record Found.</b>
-                </Typography>
+        {SubjectListmarkClass.length > 0 ? (
+          <ListEditIcon1
+            ItemList={SubjectListmarkClass}
+            clickEdit={clickEdit}
+            HeaderArray={HeaderPublish}
+            clicksubmit={ClickSubmit}
+          />
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
 
-              )}
+        )}
 
         <Grid container sx={{ mt: 2 }}>
           <Grid item xs={12}>
