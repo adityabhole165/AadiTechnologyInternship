@@ -39,6 +39,10 @@ const HomeworkSubjectListSlice = createSlice({
     },
     homeworkdetails(state, action) {
       state.GetHomeworkDetail = action.payload;
+    },
+   
+    RresetMessage(state) {
+      state.DeleteHomework = '';
     }
   }
 });
@@ -62,6 +66,7 @@ export const homeworklistforteacher =
     });
 
     dispatch(HomeworkSubjectListSlice.actions.getSubjectList(a));
+    
   };
 export const GetPublishUnpublishHomework =
   (data: IPublishUnPublishHomeworkBody): AppThunk =>
@@ -90,12 +95,16 @@ export const HomeworkDelete =
     const response = await HomeworkSubjectListApi.Deletehomework(data);
     dispatch(HomeworkSubjectListSlice.actions.deletehomework(response.data));
   };
+
+ 
+  export const  DeleteresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(HomeworkSubjectListSlice.actions.RresetMessage());
+  };
 export const GetHomeworkDetailss =
   (data: IGetHomeworkDetailBody): AppThunk =>
   async (dispatch) => {
     const response = await HomeworkSubjectListApi.GetHomeworkDetails(data);
     dispatch(HomeworkSubjectListSlice.actions.homeworkdetails(response.data));
-    console.log(response, 'response-------------------------------------');
   };
 
 export default HomeworkSubjectListSlice.reducer;

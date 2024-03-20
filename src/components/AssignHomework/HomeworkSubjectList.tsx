@@ -13,6 +13,7 @@ import {
 import Assignedhomeworklist from 'src/libraries/ResuableComponents/Assignedhomeworklist1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
+  DeleteresetMessage,
   GetAllHomeworkDocuments,
   GetHomeworkDetailss,
   GetPublishUnpublishHomework,
@@ -20,7 +21,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
+const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -40,6 +41,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const asUpdatedById = localStorage.getItem('Id');
   const asTeacherId = sessionStorage.getItem('TeacherId');
   const { Id } = useParams();
+
   const HeaderPublish = [
     { Id: 1, Header: 'Subject 	' },
     { Id: 2, Header: ' 	Title' },
@@ -57,10 +59,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
-  // const Subjectlistsforteacher = useSelector(
-  //   (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  // );
-  console.log(Subjectlistsforteacher, "aa");
+  const Subjectlistsforteacher = useSelector(
+    (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  );
 
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
@@ -75,7 +76,6 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const HomeworkDetail: any = useSelector(
     (state: RootState) => state.HomeworkSubjectList.GetHomeworkDetail
   );
-  console.log(HomeworkDetail, 'HomeworkDetail.eeeeee...');
 
   const GetSubjectListForTeacherBody: IGetSubjectListForTeacherBody = {
     asSchoolId: asSchoolId,
@@ -98,9 +98,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     };
     dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   }, []);
-  // useEffect(() => {
-  //   dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
-  // }, []);
+
 
   useEffect(() => {
     dispatch(GetAllHomeworkDocuments(IGetAllHomeworkDocuments));
@@ -111,36 +109,17 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
-  const clickEdit1 = (Id) => {
-    const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
-      asSchoolId: asSchoolId,
-      asAcademicyearId: asAcademicYearId,
-      asHomeworkId: Number(Id)
-    };
-    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
+
+  const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
+    asSchoolId: asSchoolId,
+    asAcademicyearId: asAcademicYearId,
+    asHomeworkId: Number(Id)
   };
 
-  // useEffect(() => {
-  //   console.log(' after edit:', HomeworkDetail);
-  //   if (HomeworkDetail && HomeworkDetail.length > 0) {
-  //     setHomeworkId(HomeworkDetail.Id.toString);
-  //     setAttechment(HomeworkDetail[0].AttachmentPath);
-  //     setAssignedDate(HomeworkDetail[0].AssignedDate);
-  //     setCompleteDate(HomeworkDetail[0].CompleteByDate);
-  //     setTitle(HomeworkDetail[0].Title);
-  //     setDetails(HomeworkDetail[0].Details);
-  //   }
-  // }, [HomeworkDetail]);
-  useEffect(() => {
-    if (HomeworkDetail !== null) {
-      console.log(' after edit:', HomeworkDetail);
+  const handleEditClick = (Id) => {
+    clickEdit1(Id);
+  };
 
-      setTitle(HomeworkDetail.Title);
-
-      setDetails(HomeworkDetail.Details);
-
-    }
-  }, [HomeworkDetail]);
 
   const [isPublish, setIsPublish] = useState(true);
   const [openIsPublishDialog, setOpenIsPublishDialog] = useState(false);
@@ -159,8 +138,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == false) {
-      // navigate('/extended-sidebar/Teacher/AddUnpublish/' + Id);
-      setOpenIsPublishDialog(true);
+      setOpenIsPublishDialog(true); // Open the dialog box only when unpublish action is triggered
       setPublishId(Id);
     } else {
       setOpenIsPublishDialog(false);
@@ -176,6 +154,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
       dispatch(GetPublishUnpublishHomework(PublishUnPublishHomeworkBody));
     }
   };
+  
   useEffect(() => {
     if (PublishUnpublishHomework != '') {
       toast.success(PublishUnpublishHomework);
@@ -183,6 +162,9 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
+
+
+
 
   const clickDelete = (Id) => {
     // alert(Id)
@@ -196,6 +178,16 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
       dispatch(HomeworkDelete(DeleteHomeworkBody));
     }
   };
+
+  useEffect(() => {
+    if (DeleteHomework != '') {
+      toast.success(DeleteHomework);
+      dispatch(DeleteresetMessage());
+      dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
+
+    }
+  }, [DeleteHomework]);
+
   const clickHomeworkStatus = (value) => {
     setHomeworkS(value);
     setAssignedDate(value);
@@ -204,18 +196,21 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const handleTitle = (value) => {
     setTitle(value);
   };
-  // const clickSearch = (value) => {
-  //   dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
-  // };
+  
   const clickSearch = (value) => {
-    setAssignedDate(value);
-    setTitle(value);
-
-    if (Subjectlistsforteacher && Subjectlistsforteacher.length == 0) {
+    if (typeof value === 'string' && value.trim() !== '') {
+      setAssignedDate(value);
+      setTitle(value);
+    }
+  
+    if (Subjectlistsforteacher && Subjectlistsforteacher.length === 0) {
       toast.success('No Records Found');
     }
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   };
+  
+  
+
 
   const clickView = (Id) => {
     navigate('/extended-sidebar/Teacher/HomeworkDocuments/' + Id);
@@ -233,22 +228,12 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   const clickTitle = (Id) => {
     navigate('/extended-sidebar/Teacher/ViewHomework/' + Id);
   };
-  // const clickEdit = (Id) => {
-  //   setHomeworkS(Id);
-  //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
-  // };
+ 
+  const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);
 
   return (
     <>
-      {/* <Grid item xs={4}>
-  <DropDown
-    itemList={HomeworkStatus}
-    ClickItem={clickHomeworkStatus}
-    DefaultValue={HomeworkS}
-    Label={''}
-    
-  />
-</Grid> */}
+ 
       <Grid container spacing={2} justifyContent={'flex-end'} pb={1}>
         <Grid item xs={3}>
           <SearchableDropdown
@@ -275,8 +260,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
               console.log('EventEndDate :', e.target.value);
             }}
             variant="standard"
-          // error={ErrorEventEndDate !== ''}
-          // helperText={ErrorEventEndDate}
+         
           />
         </Grid>
         <Grid item xs={2}>
@@ -297,11 +281,12 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
         </Grid>
       </Grid>
 
+
       <Assignedhomeworklist
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
         clickDelete={clickDelete}
-        clickEdit={clickEdit1}
+        clickEdit={handleEditClick}
         clickVisibilityIcon={clickView}
         clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish}
@@ -334,9 +319,15 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
   );
 
   const ClickOk = () => {
-    if (Details != '') clickPublishUnpublish(Id);
+    if (Details !== '') {
+      clickPublishUnpublish(Id, Details);
+      setOpen(false);
+      setDetails('');
+    } else {
+      toast.error('Please provide a reason for unpublishing.');
+    }
   };
-
+  
   return (
     <Dialog
       open={open}
