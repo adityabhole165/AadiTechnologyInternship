@@ -1,9 +1,8 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
-import InfoTwoTone from '@mui/icons-material/InfoTwoTone';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
-  Alert,
   Box,
   Breadcrumbs,
   Container,
@@ -120,6 +119,20 @@ function SmsCenter() {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
+            <Tooltip title={'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <PriorityHighIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
+          <Box>
             <Tooltip title={`Displays Received SMS List.`}>
               <IconButton
                 sx={{
@@ -140,16 +153,6 @@ function SmsCenter() {
         <Typography variant={'h4'}>
           Mobile Number(s) : {MobileNumber.replace(';', ', ')}
         </Typography>
-        <Box sx={{ mt: 2 }}>
-          <Alert
-            variant="filled"
-            color={'info'}
-            icon={<InfoTwoTone />}
-            sx={{ boxShadow: 'none' }}
-          >
-            {Note}
-          </Alert>
-        </Box>
         <Box sx={{ mt: 2 }}>
           {/* {loading ? <SuspenseLoader /> : <List1 items={Data} />} */}
           {/* sms center new UI */}
