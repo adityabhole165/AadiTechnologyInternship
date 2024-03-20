@@ -62,6 +62,8 @@ export const homeworklistforteacher =
     });
 
     dispatch(HomeworkSubjectListSlice.actions.getSubjectList(a));
+    console.log(a,"assignehomeworklist");
+    
   };
 export const GetPublishUnpublishHomework =
   (data: IPublishUnPublishHomeworkBody): AppThunk =>

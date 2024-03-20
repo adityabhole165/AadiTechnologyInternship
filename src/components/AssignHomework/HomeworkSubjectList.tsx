@@ -20,7 +20,7 @@ import {
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
-const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
+const HomeworkSubjectList = ({ selectedSubjectId ,clickEdit1}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -57,10 +57,10 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     { Id: '3', Name: 'Complete By Date', Value: 'CompleteByDate' }
   ];
 
-  // const Subjectlistsforteacher = useSelector(
-  //   (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
-  // );
-  console.log(Subjectlistsforteacher, "aa");
+  const Subjectlistsforteacher = useSelector(
+    (state: RootState) => state.HomeworkSubjectList.SubjectListForTeacher
+  );
+  console.log(Subjectlistsforteacher, "Subjectlistsforteacher");
 
   const PublishUnpublishHomework = useSelector(
     (state: RootState) => state.HomeworkSubjectList.PublishUnPublishHomework
@@ -111,26 +111,27 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
     dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
   }, []);
 
-  const clickEdit1 = (Id) => {
+
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
       asAcademicyearId: asAcademicYearId,
       asHomeworkId: Number(Id)
     };
-    dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
-  };
-
-  // useEffect(() => {
-  //   console.log(' after edit:', HomeworkDetail);
-  //   if (HomeworkDetail && HomeworkDetail.length > 0) {
-  //     setHomeworkId(HomeworkDetail.Id.toString);
-  //     setAttechment(HomeworkDetail[0].AttachmentPath);
-  //     setAssignedDate(HomeworkDetail[0].AssignedDate);
-  //     setCompleteDate(HomeworkDetail[0].CompleteByDate);
-  //     setTitle(HomeworkDetail[0].Title);
-  //     setDetails(HomeworkDetail[0].Details);
-  //   }
-  // }, [HomeworkDetail]);
+   
+    const handleEditClick = (Id) => {
+      clickEdit1(Id); // Call the edit function received as prop
+    };
+  useEffect(() => {
+    console.log(' after edit:', HomeworkDetail);
+    if (HomeworkDetail && HomeworkDetail.length > 0) {
+      setHomeworkId(HomeworkDetail.Id.toString);
+      setAttechment(HomeworkDetail[0].AttachmentPath);
+      setAssignedDate(HomeworkDetail[0].AssignedDate);
+      setCompleteDate(HomeworkDetail[0].CompleteByDate);
+      setTitle(HomeworkDetail[0].Title);
+      setDetails(HomeworkDetail[0].Details);
+    }
+  }, [HomeworkDetail]);
   useEffect(() => {
     if (HomeworkDetail !== null) {
       console.log(' after edit:', HomeworkDetail);
@@ -237,6 +238,7 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
   //   setHomeworkS(Id);
   //   navigate('/extended-sidebar/Teacher/AddHomework/' + Id);
   // };
+  const filteredSubjects = Subjectlistsforteacher.filter(subject => subject.id === selectedSubjectId);
 
   return (
     <>
@@ -296,12 +298,13 @@ const HomeworkSubjectList = ({ Subjectlistsforteacher }) => {
           </Button>
         </Grid>
       </Grid>
+    
 
       <Assignedhomeworklist
         ItemList={Subjectlistsforteacher}
         clickView={clickTitle}
         clickDelete={clickDelete}
-        clickEdit={clickEdit1}
+        clickEdit={handleEditClick}
         clickVisibilityIcon={clickView}
         clickpublish={clickPublishUnpublish}
         HeaderArray={HeaderPublish}

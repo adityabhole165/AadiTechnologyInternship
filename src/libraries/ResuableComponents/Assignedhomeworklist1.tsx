@@ -84,12 +84,12 @@ const Assignedhomeworklist1 = ({
                   <ButtonPrimary onClick={() => {
                     clickpublish(item.Id)
                   }}>
-                    {item.Text7 === 'True' ? 'PUBLISH' : 'UNPUBLISH'}
+                    {item.Text7 == 'False' ? 'PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  {item.Text7 === 'True' ? (
+                  {item.Text7 == 'False' ? (
                     <Edit
                       style={{ color: 'black ' }}
                       onClick={() => clickEdit(item.Id)}
@@ -98,7 +98,7 @@ const Assignedhomeworklist1 = ({
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }}>
-                  {item.Text7 === 'True' ? (
+                  {item.Text7 == 'False' ? (
                     <Delete
                       style={{ color: 'black ' }}
                       onClick={() => clickDelete(item.Id)}

@@ -33,7 +33,7 @@ const AddHomeworkSlice = createSlice({
     Publishall: '',
   },
   reducers: {
-    Homeworklist(state, action) {
+    RHomeworklist(state, action) {
       state.HomeworkListForTeacher = action.payload;
     },
     getPublishunpublish(state, action) {
@@ -98,7 +98,7 @@ export const homeworklistforteacher =
         };
       });
 
-      dispatch(AddHomeworkSlice.actions.Homeworklist(a));
+      dispatch(AddHomeworkSlice.actions.RHomeworklist(a));
     };
 export const GetPublishUnpublishHomework =
   (data: IPublishUnPublishHomeworkBody): AppThunk =>
