@@ -8,10 +8,10 @@ const AddLessonPlanSlice = createSlice({
   initialState: {
     ClassName: [],
     AddOrEditLessonPlanDetails: null,
-    SaveLessonPlanmsg: '',
-    SubmitLessonPlanmsg: '',
-    SaveApproverCommentmsg: '',
-    UpdateLessonPlanDatemsg: '',
+    saveLessonPlanmsg: '',
+    submitLessonPlanmsg: '',
+    saveApproverCommentmsg: '',
+    updateLessonPlanDatemsg: '',
     Loading: true
   },
 
@@ -26,19 +26,19 @@ const AddLessonPlanSlice = createSlice({
     },
     saveLessonPlan(state, action) {
       state.Loading = false;
-      state.SaveLessonPlanmsg = action.payload;
+      state.saveLessonPlanmsg = action.payload;
     },
     getsubmitLessonPlan(state, action) {
       state.Loading = false;
-      state.SubmitLessonPlanmsg = action.payload;
+      state.submitLessonPlanmsg = action.payload;
     },
     getsaveApproverComment(state, action) {
       state.Loading = false;
-      state.SaveApproverCommentmsg = action.payload;
+      state.saveApproverCommentmsg = action.payload;
     },
     getupdateLessonPlanDate(state, action) {
       state.Loading = false;
-      state.UpdateLessonPlanDatemsg = action.payload;
+      state.updateLessonPlanDatemsg = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;

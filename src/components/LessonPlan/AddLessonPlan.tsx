@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
+import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
@@ -137,16 +137,13 @@ const AddLessonPlan = () => {
 
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
   console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails)
-
-  const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.SaveLessonPlanmsg);
+  const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   console.log("SaveLessonPlan", SaveLessonPlans)
-
-  const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.SubmitLessonPlanmsg);
+  const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   console.log("SumbitLessonPlan", SubmitLessonPlans)
-
-  const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.SaveApproverCommentmsg);
+  const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   console.log("SaveApproverComment", SaveApproverComment)
-  const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.UpdateLessonPlanDatemsg);
+  const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
   console.log("UpdateLessonPlanDate", UpdateLessonPlanDate)
 
 
@@ -160,7 +157,17 @@ const AddLessonPlan = () => {
   }, [TeacherId]);
 
   useEffect(() => {
-    dispatch(GetAddOrEditLessonPlanDetails)
+    const AddOrEditLessonPlanDetails: IAddOrEditLessonPlanDetailsBody = {
+      asSchoolId: 18,
+      asAcademicYearId: 54,
+      asStandardDivId: 1266,
+      asUserId: 4463,
+      asReportingUserId: 4463,
+      asStartDate: "2024-10-10 12:00:00 AM",
+      asEndDate: "2024-10-10 12:00:00 AM",
+      IsNewMode: true
+    };
+    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetails))
   }, [])
 
   //   useEffect(() => {
