@@ -124,7 +124,6 @@ const AddHomework = () => {
   const AllPublishUnPublishHomework = useSelector(
     (state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT
   );
-  console.log(AllPublishUnPublishHomework, 'AllPublishUnPublishHomework....');
   const HomeworkDetail :any = useSelector(
     (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
@@ -334,7 +333,6 @@ const AddHomework = () => {
   }, []);
   
   useEffect(() => {
-    console.log(' after edit:', HomeworkDetail);
     if (HomeworkDetail && HomeworkDetail.length > 0) {
       setHomeworkId(HomeworkDetail.Id.toString);
       setAttechment(HomeworkDetail[0].AttachmentPath);
@@ -346,10 +344,8 @@ const AddHomework = () => {
   }, [HomeworkDetail]);
   
   const filteredSubjectList = SubjectList.filter((item) => item.Text1 !== SubjectId);
-  console.log('Subject List:', filteredSubjectList);
   
   useEffect(() => {
-    console.log('Filtered Subject List:', filteredSubjectList);
   }, [SubjectId, SubjectList]);
   return (
   <>
