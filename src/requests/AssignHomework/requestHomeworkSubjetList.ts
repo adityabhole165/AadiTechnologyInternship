@@ -43,7 +43,11 @@ const HomeworkSubjectListSlice = createSlice({
    
     RresetMessage(state) {
       state.DeleteHomework = '';
+    },
+    RPublishresetMessage(state) {
+      state.PublishUnPublishHomework = '';
     }
+    
   }
 });
 export const homeworklistforteacher =
@@ -100,6 +104,11 @@ export const HomeworkDelete =
   export const  DeleteresetMessage = (): AppThunk => async (dispatch) => {
     dispatch(HomeworkSubjectListSlice.actions.RresetMessage());
   };
+  export const  PublishresetMessage = (): AppThunk => async (dispatch) => {
+    dispatch(HomeworkSubjectListSlice.actions.RPublishresetMessage());
+  };
+
+  
 export const GetHomeworkDetailss =
   (data: IGetHomeworkDetailBody): AppThunk =>
   async (dispatch) => {
