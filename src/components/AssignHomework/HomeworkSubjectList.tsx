@@ -18,6 +18,7 @@ import {
   GetHomeworkDetailss,
   GetPublishUnpublishHomework,
   HomeworkDelete,
+  PublishresetMessage,
   homeworklistforteacher
 } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
@@ -138,7 +139,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   const clickPublishUnpublish = (Id) => {
     let IsPublish = getIsPublish(Id);
     if (IsPublish == false) {
-      setOpenIsPublishDialog(true); // Open the dialog box only when unpublish action is triggered
+      setOpenIsPublishDialog(true); 
       setPublishId(Id);
     } else {
       setOpenIsPublishDialog(false);
@@ -158,7 +159,7 @@ const HomeworkSubjectList = ({ selectedSubjectId, clickEdit1 }) => {
   useEffect(() => {
     if (PublishUnpublishHomework != '') {
       toast.success(PublishUnpublishHomework);
-      //dispatch(resetMessage());
+      dispatch(PublishresetMessage());
       dispatch(homeworklistforteacher(GetSubjectListForTeacherBody));
     }
   }, [PublishUnpublishHomework]);
@@ -320,13 +321,15 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
 
   const ClickOk = () => {
     if (Details !== '') {
+      
       clickPublishUnpublish(Id, Details);
       setOpen(false);
-      setDetails('');
+      setDetails(''); 
     } else {
       toast.error('Please provide a reason for unpublishing.');
     }
   };
+  
   
   return (
     <Dialog
@@ -363,7 +366,7 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
         }} color={'error'}>
           Cancel
         </Button>
-        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+        <Button onClick={ClickOk} variant={'contained'}>
           Confirm
         </Button>
       </DialogActions>
