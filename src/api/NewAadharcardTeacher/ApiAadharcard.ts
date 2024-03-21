@@ -1,4 +1,4 @@
-import { IUpdateTeacherAadharDetailsBody, IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IGetUserDetailsForAadharCardNoResult } from "src/interfaces/NewAadharcardTeachers/IAadharcardTeacher";
+import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IGetUserDetailsForAadharCardNoResult, IUpdateTeacherAadharDetailsBody } from "src/interfaces/NewAadharcardTeachers/IAadharcardTeacher";
 import http from "../../requests/SchoolService/schoolServices";
 
 const UpdateTeacherAadharDetailsApi = (data: IUpdateTeacherAadharDetailsBody) => {
@@ -10,7 +10,7 @@ const DeleteAadharCardPhotoCopyapi = (data: IDeleteAadharCardPhotoCopyBody) => {
 
 
 const GetUserDetailsForAadharCardNoapi = (data: IGetUserDetailsForAadharCardNoBody) => {
-    return http.post<IGetUserDetailsForAadharCardNoResult>('Teacher/GetUserDetailsForAadharCardNo', data);
+    return http.post<IGetUserDetailsForAadharCardNoResult[]>('Teacher/GetUserDetailsForAadharCardNo', data);
 };
 
 

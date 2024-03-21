@@ -10,7 +10,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 
@@ -28,13 +27,11 @@ const AadharCard = () => {
   const MaxfileSize = 3000000;
   const [Name, setName] = useState('');
   const [AadharCardNumber, setAadharCardNumber] = useState('');
+  const [error, setError] = useState(false);
+  const [error1, setError1] = useState(false)
   const [File, setFile] = useState('');
   const [FileError, setFileError] = useState('');
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Handle form submission
-  };
   const UpdateTeacherAadharDetailsUS: any = useSelector(
     (state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails
   );
@@ -47,25 +44,41 @@ const AadharCard = () => {
 
   console.log(DeleteAadharCardPhotoCopyUS, "DeleteAadharCardPhotoCopyUS");
 
-  const GetUserDetailsForAadharCardNoUS = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
+  const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
 
   console.log(GetUserDetailsForAadharCardNoUS, "GetUserDetailsForAadharCardNoUS");
 
 
   const SaveFile = () => {
-    const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody =
-    {
+
+    const isAadharValid = validateAadharCardNumber(AadharCardNumber);
+
+    if (!isAadharValid) {
+      alert('Please enter a valid Aadhar card number.');
+      return;
+    }
+
+    const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
       asUserId: Number(UserId),
       asSchoolId: Number(asSchoolId),
       asAadharCardNo: AadharCardNumber,
       asAadharCardPhotoCopyPath: File,
       asUpdatedById: TeacherId.toString(),
-      "asSaveFeature": "Aadhar Cards",
-      "asFolderName": "PPSN Website",
+      asSaveFeature: "Aadhar Cards",
+      asFolderName: "PPSN Website",
       asBase64String: base64URL
-    }
+    };
+
+    // Dispatch action to update teacher Aadhar details
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
-  }
+  };
+
+  const validateAadharCardNumber = (aadharNumber) => {
+    const re = /^\d{12}$/;
+    return re.test(aadharNumber);
+  };
+
+
   const DeleteAadhar = () => {
     const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
       asUserId: Number(UserId),
@@ -89,7 +102,31 @@ const AadharCard = () => {
     setbase64URL(value.Value);
   };
 
+  const changeAdhar = (value) => {
+    const re = /^\d{12}$/;
+    if (re.test(value)) {
+      setAadharCardNumber(value);
+      setError(false);
+      setError1(false);
+    } else {
+      setAadharCardNumber(value);
+      if (value.length === 0) {
+        setError(false);
+      } else {
+        setError(true);
+      }
+      setError1(value.length > 12);
+    }
+  };
 
+
+  const clickFileName = () => {
+    window.open(
+      localStorage.getItem('SiteURL') +
+      '/RITeSchool/' +
+      '/DOWNLOADS/Aadhar Card/' +
+      GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path);
+  }
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -143,7 +180,7 @@ const AadharCard = () => {
             <Box>
               <Tooltip title={`Add Aadhar Card Details.`}>
                 <IconButton
-                  onClick={() => SaveFile}
+                  onClick={SaveFile}
                   sx={{
 
                     color: 'white',
@@ -164,10 +201,10 @@ const AadharCard = () => {
               <TextField
                 fullWidth
                 label={"Name"}
-                value={Name}
-                onChange={(e) => {
-                  setName(e.target.value);
-                }}
+                InputLabelProps={{ shrink: true }}
+                value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
+
+
               />
             </Grid>
 
@@ -176,102 +213,35 @@ const AadharCard = () => {
                 fullWidth
                 label={"Aadhar Card Number"}
                 value={AadharCardNumber}
-                onChange={(e) => {
-                  setAadharCardNumber(e.target.value);
-                }}
+                onChange={(e) => { changeAdhar(e.target.value) }}
               />
             </Grid>
-            <br></br>
-            <ButtonPrimary
-              onClick={SaveFile}
-              fullWidth
 
-            >
-              Submit
-            </ButtonPrimary>
-
-            {/* <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label={"Name Present on Aadhar Card"}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={"Mother Tongue"}
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                fullWidth
-                label={"Email"}
-              />
-            </Grid> */}
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <SingleFile
-                  FileName={fileName}
+                  FileName={File}
                   MaxfileSize={MaxfileSize}
                   ChangeFile={ChangeFile}
                   errorMessage={FileError}
-                  // FilePath={EventDetaill == null ? "" : EventDetaill.Event_Image}
+                  FilePath={GetUserDetailsForAadharCardNoUS == null ? "" : GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path}
                   viewIcon={true}
                   deleteIcon={true}
-                  // clickFileName={clickFileName}
                   clickDelete={DeleteAadhar}
                   isMandatory={false}
                   FileLabel='Upload Scanned Copy of Aadhar Card'
                   ValidFileTypes={ValidFileTypes}
-                  // isMandatory
                   width='400px'
+                  clickFileName={clickFileName}
+
                 />
+
               </Box>
             </Grid>
           </Grid>
         </Box>
       </Container>
 
-      {/* <PageHeader heading={'Aadahrcard'}> </PageHeader>
-
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          placeholder="Name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Aadhar Card Number"
-          value={aadharCardNumber}
-          onChange={(e) => setAadharCardNumber(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Name Present on Aadhar Card"
-          value={nameOnAadharCard}
-          onChange={(e) => setNameOnAadharCard(e.target.value)}
-        />
-        <input
-          type="text"
-          placeholder="Mother Tongue"
-          value={motherTongue}
-          onChange={(e) => setMotherTongue(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <input
-          type="file"
-          accept=".pdf,.jpg,.png,.bmp,.jpeg"
-        // Add a ref for handling file input
-        />
-        <button type="submit">SUBMIT</button>
-      </form> */}
     </>
   );
 };

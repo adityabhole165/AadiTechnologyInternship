@@ -8,7 +8,7 @@ const AadharcardTecaherSlice = createSlice({
     initialState: {
         ISUpdateTeacherAadharDetails: '',
         ISDeleteAadharCardPhotoCopy: '',
-        ISGetUserDetailsForAadharCardNo: []
+        ISGetUserDetailsForAadharCardNo: null
 
     },
     reducers: {
@@ -40,7 +40,10 @@ export const CDAGetUserDetailsForAadharCardNo =
     (data: IGetUserDetailsForAadharCardNoBody): AppThunk =>
         async (dispatch) => {
             const response = await ApiAadharcard.GetUserDetailsForAadharCardNoapi(data);
-            dispatch(AadharcardTecaherSlice.actions.RGetUserDetailsForAadharCardNo(response.data));
+            let responseData = null
+            if (response.data.length > 0)
+                responseData = response.data[0]
+            dispatch(AadharcardTecaherSlice.actions.RGetUserDetailsForAadharCardNo(responseData));
         };
 
 export default AadharcardTecaherSlice.reducer;   

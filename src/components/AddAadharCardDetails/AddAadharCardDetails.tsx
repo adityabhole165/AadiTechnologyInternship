@@ -166,6 +166,7 @@ const AddAadharCardDetails = () => {
           }
           setAadharNumber(value)
       }
+      
   };
 
   const changeAdharName = (value) => {
