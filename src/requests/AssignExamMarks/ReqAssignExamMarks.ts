@@ -100,8 +100,11 @@ export const GetSubjectList =
           Text1: item.StandardDivision,
           Text2: item.Subject_Name,
           Text3: item.Is_Submitted,
-          Text4: item.STATUS
+          Text4: item.STATUS,
+          SubjectId: item.Subject_Id,
+          StandardDivisionId: item.Standard_Division_Id
         };
+
       });
       dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
     };

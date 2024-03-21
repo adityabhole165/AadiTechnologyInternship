@@ -47,7 +47,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   {item.Text3 === 'Y' ? (
                     <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
-                    <EditOff onClick={() => clickEdit(item.Id)} style={{ color: '#76ff03' }} />
+                    <EditOff onClick={() => clickEdit({ SubjectId: item.SubjectId, StandardDivisionId: item.StandardDivisionId })} style={{ color: '#76ff03' }} />
                   )}
                 </TableCell>
 

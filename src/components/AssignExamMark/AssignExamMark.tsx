@@ -166,9 +166,15 @@ const AssignExamMark = () => {
     { Id: 4, Header: 'Submit' }
   ];
 
-  const clickEdit = () => {
-    navigate('/extended-sidebar/Teacher/SubjectExamMarks');
+  const clickEdit = (value) => {
+    navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
+      value.StandardDivisionId + '/' +
+      value.SubjectId + '/' +
+      ClassWiseExam);
+
+
   };
+
   return (
     <Container maxWidth={"xl"}>
       <Stack
