@@ -20,7 +20,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { Link } from 'react-router-dom';
-import { Id, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import HomeworkSubjectList from 'src/components/AssignHomework/HomeworkSubjectList';
 import {
   IAllPublishUnpublishAddHomeworkBody,
@@ -38,12 +38,11 @@ import {
   PublishUnpublishAllHomework,
   SubjectListforTeacherDropdown
 } from 'src/requests/AssignHomework/requestAddHomework';
+import { GetHomeworkDetailss } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
 import AddUnpublish1 from './AddUnpublish1';
-import SubjectList from 'src/libraries/ResuableComponents/SubjectList';
-import { GetHomeworkDetailss } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 const AddHomework = () => {
-  const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, Id } =
+  const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, subjectId, Id } =
     useParams();
 
   const dispatch = useDispatch();
@@ -51,13 +50,13 @@ const AddHomework = () => {
   const [HomeworkS, setHomeworkS] = useState('0');
   const [AssignHomeworkList, setAssignHomeworkList] = useState([]);
   const [Status, setStatus] = useState('');
-  const [Title, setTitle] = useState('');
   const [Subject, setSubjectName] = useState('');
-  const [SubjectId, setSubjectId] = useState('');
+  const [SubjectId, setSubjectId] = useState(subjectId);
   const [ErrorSubjectlist, ErrorsetSubjectlist] = useState('');
   const [ErrorTitle, setErrorTitle] = useState('');
   const [SearchText, setSearchText] = useState('');
-  const [AssignedDate, setAssignedDate]: any = useState('');
+  const [AssignedDate, setAssignedDate]: any = useState(new Date().toISOString().split('T')[0]);
+  const [Title, setTitle] = useState(SubjectName + ' : ' + new Date().toISOString().split('T')[0]);
   const [ErrorAssignedDate, setErrorAssignedDate]: any = useState('');
   const [CompleteDate, setCompleteDate] = useState('');
   const [ErrorCompleteDate, setErrorCompleteDate] = useState('');
@@ -124,7 +123,7 @@ const AddHomework = () => {
   const AllPublishUnPublishHomework = useSelector(
     (state: RootState) => state.AddHomework.AllPublishUnpublishHomeworkT
   );
-  const HomeworkDetail :any = useSelector(
+  const HomeworkDetail: any = useSelector(
     (state: RootState) => state.AddHomework.GetHomeworkDetail
   );
   // console.log(HomeworkDetail, "HomeworkDetail..ssss..")
@@ -161,10 +160,10 @@ const AddHomework = () => {
     asHomeworkTitle: '',
     asAssignedDate: '2023-04-18 00:00:00'
   };
-  useEffect(() => {
-    const today = new Date().toISOString().split('T')[0];
-    setAssignedDate(today);
-  }, []);
+  // useEffect(() => {
+  //   const today = new Date().toISOString().split('T')[0];
+  //   setAssignedDate(today);
+  // }, []);
   useEffect(() => {
     dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
   }, []);
@@ -210,7 +209,7 @@ const AddHomework = () => {
 
   const SaveFile = () => {
     let isError = false;
-    if (ErrorAssignedDate == '') {
+    if (AssignedDate == '') {
       setErrorAssignedDate('Field should not be blank')
       isError = true
 
@@ -312,7 +311,7 @@ const AddHomework = () => {
     ResetForm();
   };
 
- 
+
 
   const clickEdit1 = (Id) => {
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
@@ -322,7 +321,7 @@ const AddHomework = () => {
     };
     dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   };
-  
+
   useEffect(() => {
     const GetHomeworkDetailBody: IGetHomeworkDetailBody = {
       asSchoolId: asSchoolId,
@@ -331,7 +330,7 @@ const AddHomework = () => {
     };
     dispatch(GetHomeworkDetailss(GetHomeworkDetailBody));
   }, []);
-  
+
   useEffect(() => {
     if (HomeworkDetail && HomeworkDetail.length > 0) {
       setHomeworkId(HomeworkDetail.Id.toString);
@@ -342,85 +341,85 @@ const AddHomework = () => {
       setDetails(HomeworkDetail[0].Details);
     }
   }, [HomeworkDetail]);
-  
+
   const filteredSubjectList = SubjectList.filter((item) => item.Text1 !== SubjectId);
-  
+
   useEffect(() => {
   }, [SubjectId, SubjectList]);
   return (
-  <>
-    <Container maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 4,
-          pb: 2
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/AssignHomework'}
-              style={{
-                textDecoration: 'none'
-              }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Assign Homework
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Add Homework
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
+    <>
+      <Container maxWidth={'xl'}>
+        <Stack
+          direction={'row'}
+          justifyContent={'space-between'}
+          alignItems={'center'}
+          sx={{
+            pt: 4,
+            pb: 2
+          }}
+        >
           <Box>
-            <Tooltip
-              title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+            <Breadcrumbs
+              aria-label="breadcrumb"
+              separator={<ChevronRightTwoTone />}
             >
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
+              <Link
+                to={'/extended-sidebar/landing/landing'}
+                color="inherit"
+                style={{ textDecoration: 'none' }}
+              >
+                <IconButton
+                  sx={{
+                    background: (theme) => theme.palette.common.white,
+                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                  }}
+                >
+                  <HomeTwoTone color="primary" />
+                </IconButton>
+              </Link>
+              <Link
+                to={'/extended-sidebar/Teacher/AssignHomework'}
+                style={{
+                  textDecoration: 'none'
                 }}
               >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
+                <Typography
+                  variant={'h3'}
+                  fontSize={'23px'}
+                  fontWeight={'normal'}
+                  color={'text.primary'}
+                  sx={{
+                    '&:hover': {
+                      fontWeight: 'bold'
+                    }
+                  }}
+                >
+                  Assign Homework
+                </Typography>
+              </Link>
+              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
+                Add Homework
+              </Typography>
+            </Breadcrumbs>
           </Box>
-          {/* <Box>
+          <Stack direction={'row'} alignItems={'center'} gap={1}>
+            <Box>
+              <Tooltip
+                title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            {/* <Box>
               <Tooltip title={`Unpublish all changes`}>
                 <IconButton
                   sx={{
@@ -435,52 +434,52 @@ const AddHomework = () => {
                 </IconButton>
               </Tooltip>
             </Box> */}
-          <Box>
-            <Tooltip title={`Cancel`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: red[600] }
-                }}
-                onClick={() => onClickCancel}
-              >
-                <Close />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={`Save HomeWork`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: green[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[600] }
-                }}
+            <Box>
+              <Tooltip title={`Cancel`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: red[600] }
+                  }}
+                  onClick={() => onClickCancel}
+                >
+                  <Close />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Save HomeWork`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
 
-              >
-                <SaveIcon onClick={SaveFile} />
-              </IconButton>
-            </Tooltip>
-          </Box>
+                >
+                  <SaveIcon onClick={SaveFile} />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </Stack>
         </Stack>
-      </Stack>
-      <Box sx={{ background: 'white', p: 2 }}>
-        <Grid container spacing={2}>
-          <Grid item xs={3}>
-            <TextField fullWidth label={'Class'} value={ClassName} />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              label={'Class Teacher'}
-              value={TeacherName}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            {/* <DropDown
+        <Box sx={{ background: 'white', p: 2 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={3}>
+              <TextField fullWidth label={'Class'} value={ClassName} />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                label={'Class Teacher'}
+                value={TeacherName}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              {/* <DropDown
                 width={'100%'}
                 itemList={ClassSubject}
                 ClickItem={clickSubjectList}
@@ -489,122 +488,122 @@ const AddHomework = () => {
                 variant={'outlined'}
                 size={'medium'}
               /> */}
-            <SearchableDropdown
-              ItemList={ClassSubject}
-              onChange={clickSubjectList}
-              defaultValue={SubjectId}
-              sx={{ minWidth: '100%' }}
-              label='Select Subject'
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              value={Title}
-              onChange={(e) => {
-                setTitle(e.target.value);
+              <SearchableDropdown
+                ItemList={ClassSubject}
+                onChange={clickSubjectList}
+                defaultValue={SubjectId}
+                sx={{ minWidth: '100%' }}
+                label='Select Subject'
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                value={Title}
+                onChange={(e) => {
+                  setTitle(e.target.value);
+                }}
+                error={ErrorTitle !== ''}
+                helperText={ErrorTitle}
+                label={
+                  <span>
+                    Title <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                label={
+                  <span>
+                    Assigned Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                InputLabelProps={{
+                  shrink: true
+                }}
+                inputProps={{ type: 'date' }}
+                value={AssignedDate}
+                onChange={(e) => {
+                  setAssignedDate(e.target.value);
+                  // console.log('StartDate :', e.target.value);
+                }}
+                error={ErrorAssignedDate !== ''}
+                helperText={ErrorAssignedDate}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <TextField
+                fullWidth
+                InputLabelProps={{
+                  shrink: true
+                }}
+                label={
+                  <span>
+                    Complete By Date <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                inputProps={{ type: 'date' }}
+                value={CompleteDate}
+                onChange={(e) => {
+                  setCompleteDate(e.target.value);
+                }}
+              // error={ErrorCompleteDate !== ''}
+              // helperText={ErrorCompleteDate}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes}
+                MaxfileSize={MaxfileSize}
+                FileName={fileName}
+                ChangeFile={ChangeFile}
+                FileLabel={'Attachment'}
+                width={'100%'}
+                isMandatory={false}
+              />
+            </Grid>
+            <Grid item xs={3}>
+              <SingleFile
+                ValidFileTypes={ValidFileTypes1}
+                MaxfileSize={MaxfileSize1}
+                FileName={fileName1}
+                ChangeFile={ChangeFile1}
+                FileLabel={'Attachments'}
+                width={'100%'}
+                isMandatory={false}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label={
+                  <span>
+                    Details <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
+                multiline
+                rows={3}
+                value={Details}
+                onChange={(e) => {
+                  setDetails(e.target.value);
+                }}
+                error={ErrorDetails !== ''}
+                helperText={ErrorDetails}
+              />
+            </Grid>
+            <Grid
+              item
+              xs={12}
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2
               }}
-              error={ErrorTitle !== ''}
-              helperText={ErrorTitle}
-              label={
-                <span>
-                  Title <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              label={
-                <span>
-                  Assigned Date <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-              InputLabelProps={{
-                shrink: true
-              }}
-              inputProps={{ type: 'date' }}
-              value={AssignedDate}
-              onChange={(e) => {
-                setAssignedDate(e.target.value);
-                // console.log('StartDate :', e.target.value);
-              }}
-              error={ErrorAssignedDate !== ''}
-              helperText={ErrorAssignedDate}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <TextField
-              fullWidth
-              InputLabelProps={{
-                shrink: true
-              }}
-              label={
-                <span>
-                  Complete By Date <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-              inputProps={{ type: 'date' }}
-              value={CompleteDate}
-              onChange={(e) => {
-                setCompleteDate(e.target.value);
-              }}
-            // error={ErrorCompleteDate !== ''}
-            // helperText={ErrorCompleteDate}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes}
-              MaxfileSize={MaxfileSize}
-              FileName={fileName}
-              ChangeFile={ChangeFile}
-              FileLabel={'Attachment'}
-              width={'100%'}
-              isMandatory={false}
-            />
-          </Grid>
-          <Grid item xs={3}>
-            <SingleFile
-              ValidFileTypes={ValidFileTypes1}
-              MaxfileSize={MaxfileSize1}
-              FileName={fileName1}
-              ChangeFile={ChangeFile1}
-              FileLabel={'Attachments'}
-              width={'100%'}
-              isMandatory={false}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              fullWidth
-              label={
-                <span>
-                  Details <span style={{ color: 'red' }}>*</span>
-                </span>
-              }
-              multiline
-              rows={3}
-              value={Details}
-              onChange={(e) => {
-                setDetails(e.target.value);
-              }}
-              error={ErrorDetails !== ''}
-              helperText={ErrorDetails}
-            />
-          </Grid>
-          <Grid
-            item
-            xs={12}
-            sx={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: 2
-            }}
-          >
-            {/* <Button onClick={SaveFile} variant="contained">
+            >
+              {/* <Button onClick={SaveFile} variant="contained">
                 Save
               </Button>
               <Button
@@ -614,49 +613,49 @@ const AddHomework = () => {
               >
                 Cancel
               </Button> */}
-            {/* <Button color={'error'} onClick={Back} variant="contained">
+              {/* <Button color={'error'} onClick={Back} variant="contained">
                 Back
               </Button> */}
+            </Grid>
           </Grid>
-        </Grid>
-      </Box>
-      <Box sx={{ background: 'white', p: 2, mt: 2 }}>
+        </Box>
+        <Box sx={{ background: 'white', p: 2, mt: 2 }}>
 
-        <HomeworkSubjectList selectedSubjectId={SubjectId} clickEdit1={clickEdit1} />
+          <HomeworkSubjectList selectedSubjectId={SubjectId} clickEdit1={clickEdit1} />
 
-        {/* Subjectlistsforteacher={SubjectList
+          {/* Subjectlistsforteacher={SubjectList
             .filter((item) => {
               return item.Text1 == SubjectId;
             })} */}
-        <Box my={2}>
-          <SubjectList1
-            ItemList={filteredSubjectList}
-            HeaderArray={HeaderPublish1}
-            onChange={Changevalue}
-            clickchange={''}
-            clickTitle={clickTitle1}
-          />
+          <Box my={2}>
+            <SubjectList1
+              ItemList={filteredSubjectList}
+              HeaderArray={HeaderPublish1}
+              onChange={Changevalue}
+              clickchange={''}
+              clickTitle={clickTitle1}
+            />
+          </Box>
+          <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+            <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
+              PUBLISH ALL
+            </Button>
+            <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+              UNPUBLISH ALL
+            </Button>
+          </Box>
+          {Open && (
+            <AddUnpublish1
+              open={Open}
+              setOpen={setOpen}
+              ClickCloseDialogbox={ClickCloseDialogbox}
+              clickPublishUnpublish={clickPublishUnpublish}
+            />
+          )}
         </Box>
-        <Box mt={2} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
-          <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
-            PUBLISH ALL
-          </Button>
-          <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
-            UNPUBLISH ALL
-          </Button>
-        </Box>
-        {Open && (
-          <AddUnpublish1
-            open={Open}
-            setOpen={setOpen}
-            ClickCloseDialogbox={ClickCloseDialogbox}
-            clickPublishUnpublish={clickPublishUnpublish}
-          />
-        )}
-      </Box>
-    </Container>
-  </>
-);
+      </Container>
+    </>
+  );
 };
 
 export default AddHomework;

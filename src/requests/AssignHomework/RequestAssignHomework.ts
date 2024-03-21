@@ -89,9 +89,13 @@ export const SubjectDetails = (data: IGetTeacherSubjectDetailsBody): AppThunk =>
     Text1: item.StandardDivision,
     Text2: item.Subject_Name,
     Text3: item.MySubject,
-    Text5:item.Is_ClassTeacher
-   
+    Text5: item.Is_ClassTeacher,
+    SubjectId: item.Subject_Id,
+    StandardDivisionId: item.Standard_Division_Id
+
   }));
+  console.log(trueValues, "-trueValues-", response.data);
+
   const falseValues = response.data.filter((item) => item.MySubject === "False").map((item) => ({
     Id: item.Subject_Id,
     Text1: item.StandardDivision,
