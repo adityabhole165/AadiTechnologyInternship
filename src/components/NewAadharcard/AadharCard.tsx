@@ -8,9 +8,10 @@ import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
 import SingleFile from 'src/libraries/File/SingleFile';
-import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails } from 'src/requests/NewAadharcard/RAadharcardTecaher';
+import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 
 const AadharCard = () => {
@@ -69,10 +70,24 @@ const AadharCard = () => {
       asBase64String: base64URL
     };
 
-    // Dispatch action to update teacher Aadhar details
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
-  };
+    dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
 
+  };
+  useEffect(() => {
+    if (UpdateTeacherAadharDetailsUS !== '') {
+      toast.success(UpdateTeacherAadharDetailsUS, { toastId: 'success1' });
+      dispatch(resetMessage());
+
+    }
+  }, [UpdateTeacherAadharDetailsUS]);
+
+  useEffect(() => {
+    if (DeleteAadharCardPhotoCopyUS != "") {
+      toast.success(DeleteAadharCardPhotoCopyUS)
+      dispatch(resetdelete());
+    }
+  }, [DeleteAadharCardPhotoCopyUS])
   const validateAadharCardNumber = (aadharNumber) => {
     const re = /^\d{12}$/;
     return re.test(aadharNumber);
@@ -80,12 +95,14 @@ const AadharCard = () => {
 
 
   const DeleteAadhar = () => {
-    const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
-      asUserId: Number(UserId),
-      asSchoolId: Number(asSchoolId),
-      asUpdatedById: Number(UserId)
+    if (confirm('Are you sure you want to delete uploaded image?')) {
+      const DeleteAadharCardPhotoCopyBody: IDeleteAadharCardPhotoCopyBody = {
+        asUserId: Number(UserId),
+        asSchoolId: Number(asSchoolId),
+        asUpdatedById: Number(UserId)
+      }
+      dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
     }
-    dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
   }
 
   const GetUserDetailsForAadharCardNoBody: IGetUserDetailsForAadharCardNoBody = {

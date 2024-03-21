@@ -8,7 +8,7 @@ const AadharcardTecaherSlice = createSlice({
     initialState: {
         ISUpdateTeacherAadharDetails: '',
         ISDeleteAadharCardPhotoCopy: '',
-        ISGetUserDetailsForAadharCardNo: null
+        ISGetUserDetailsForAadharCardNo: null,
 
     },
     reducers: {
@@ -21,8 +21,15 @@ const AadharcardTecaherSlice = createSlice({
         RGetUserDetailsForAadharCardNo(state, action) {
             state.ISGetUserDetailsForAadharCardNo = action.payload
         },
+        resetMessage(state) {
+            state.ISUpdateTeacherAadharDetails = ""
+        },
+        resetdelete(state) {
+            state.ISDeleteAadharCardPhotoCopy = ""
+        },
     }
 });
+
 export const CDAUpdateTeacherAadharDetails =
     (data: IUpdateTeacherAadharDetailsBody): AppThunk =>
         async (dispatch) => {
@@ -45,5 +52,15 @@ export const CDAGetUserDetailsForAadharCardNo =
                 responseData = response.data[0]
             dispatch(AadharcardTecaherSlice.actions.RGetUserDetailsForAadharCardNo(responseData));
         };
+export const resetMessage =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AadharcardTecaherSlice.actions.resetMessage());
+        }
+export const resetdelete =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(AadharcardTecaherSlice.actions.resetdelete());
+        }
 
 export default AadharcardTecaherSlice.reducer;   
