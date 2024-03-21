@@ -1,11 +1,9 @@
 import Check from '@mui/icons-material/Check';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import ContentCopy from '@mui/icons-material/ContentCopy';
-import ExpandMore from '@mui/icons-material/ExpandMore';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,6 +13,7 @@ import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBo
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
+import LessonPlanList from './LessonPlanList';
 
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
   paddingTop: theme.spacing(1),
@@ -55,14 +54,17 @@ const AddLessonPlan = () => {
       subject: 'Marathi',
       planDetails: [
         {
+          Id: 1,
           label: "Topic / Sub topic",
           value: ""
         },
         {
+          Id: 2,
           label: "Resources & References",
           value: ""
         },
         {
+          Id: 3,
           label: "Instructional Objective and Learning Outcome",
           value: ""
         },
@@ -71,20 +73,24 @@ const AddLessonPlan = () => {
           value: "",
           subPlanDetails: [
             {
+              Id: 4,
               label: "Continuity of learning experience.",
               value: ""
             },
             {
+              Id: 5,
               label: "Life Skills / Value based question.",
               value: ""
             },
             {
+              Id: 6,
               label: "Multiple Intelligence / Subject Integration.",
               value: ""
             }
           ]
         },
         {
+          Id: 7,
           label: "Homework Assigned",
           value: ""
         }
@@ -95,36 +101,44 @@ const AddLessonPlan = () => {
       subject: 'Marathi',
       planDetails: [
         {
+          Id: 8,
           label: "Topic / Sub topic",
           value: ""
         },
         {
+          Id: 9,
           label: "Resources & References",
           value: ""
         },
         {
+          Id: 10,
           label: "Instructional Objective and Learning Outcome",
           value: ""
         },
         {
+          Id: 11,
           label: "Description of activities to be used to conduct the class",
           value: "",
           subPlanDetails: [
             {
+              Id: 12,
               label: "Continuity of learning experience.",
               value: ""
             },
             {
+              Id: 13,
               label: "Life Skills / Value based question.",
               value: ""
             },
             {
+              Id: 14,
               label: "Multiple Intelligence / Subject Integration.",
               value: ""
             }
           ]
         },
         {
+          Id: 15,
           label: "Homework Assigned",
           value: ""
         }
@@ -133,18 +147,12 @@ const AddLessonPlan = () => {
   ])
 
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
-  console.log('ClassListDropdown', ClassListDropdown);
-
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
-  console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails)
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
-  console.log("SaveLessonPlan", SaveLessonPlans)
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
-  console.log("SumbitLessonPlan", SubmitLessonPlans)
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
-  console.log("SaveApproverComment", SaveApproverComment)
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
-  console.log("UpdateLessonPlanDate", UpdateLessonPlanDate)
+
 
 
   useEffect(() => {
@@ -250,6 +258,9 @@ const AddLessonPlan = () => {
     navigate('/extended-sidebar/Teacher/LessonPlanBaseScreen');
   };
 
+  const onTextChange = (value) => {
+    setExampleLessonDetails(value)
+  }
   return (
     <Container maxWidth="xl">
       <Stack
@@ -416,78 +427,7 @@ const AddLessonPlan = () => {
             <Typography variant={"h5"} mb={1}>
               Plan Details
             </Typography>
-            {exampleLessonDetails.map((lesson, index) => (
-              <Accordion
-                // defaultExpanded
-                key={index}
-                sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}
-              >
-                <AccordionSummary expandIcon={<ExpandMore />}>
-                  <Typography variant={"h4"}>
-                    {index + 1}) {lesson.lessonName}
-                  </Typography>
-                </AccordionSummary>
-                <AccordionDetails sx={{ p: 0 }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <HeaderStyledCell width={10}></HeaderStyledCell>
-                        <HeaderStyledCell>
-                          {lesson.lessonName}
-                        </HeaderStyledCell>
-                      </TableRow>
-                      <TableRow>
-                        <StyledCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</StyledCell>
-                        <StyledCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
-                          Parameter
-                        </StyledCell>
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {lesson.planDetails.map((plan, index) => (
-                        <TableRow key={index}>
-                          <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
-                            {index + 1}
-                          </StyledCell>
-                          <StyledCell sx={{ p: 1 }}>
-                            <TextField
-                              label={plan.label}
-                              value={plan.value}
-                              fullWidth
-                              multiline
-                              rows={4}
-                            />
-                            {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
-                              <Table key={subIndex}>
-                                <TableRow >
-                                  <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
-                                    {index + 1}.{subIndex + 1}
-                                  </StyledCell>
-                                  <StyledCell sx={{ p: 1 }}>
-                                    <TextField
-                                      label={subPlan.label}
-                                      value={subPlan.value}
-                                      fullWidth
-                                      multiline
-                                      rows={4}
-                                    />
-                                  </StyledCell>
-                                </TableRow>
-                              </Table>
-                            ))}
-                          </StyledCell>
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
-                  <Box display={"flex"} justifyContent={"flex-end"} width={"100%"} p={2}>
-                    <Button variant={"outlined"} startIcon={<ContentCopy />}>
-                      Copy to other class
-                    </Button>
-                  </Box>
-                </AccordionDetails>
-              </Accordion>
-            ))}
+            <LessonPlanList exampleLessonDetails={exampleLessonDetails} onTextChange={onTextChange} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
