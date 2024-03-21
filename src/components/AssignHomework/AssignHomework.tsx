@@ -188,15 +188,18 @@ const AssignHomework = () => {
 
   const clickItem1 = (value) => {
     navigate(
-      '/extended-sidebar/Teacher/AddHomework' +
+      '/extended-sidebar/Teacher/AddHomework/' +
+      value.StandardDivisionId +
       '/' +
-      SelectClass +
-      '/' +
-      getClassName() +
+      value.StandardDivision +
       '/' +
       SelectTeacher +
       '/' +
-      getClassTeacherName()
+      getClassTeacherName() +
+      '/' +
+      value.SubjectId +
+      '/' +
+      value.SubjectName
     );
   };
 

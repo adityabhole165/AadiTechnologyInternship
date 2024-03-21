@@ -65,7 +65,13 @@ function Assignhomeworklist({ ItemList, clickAssign, HeaderArray }) {
                     <EditTwoTone
                       sx={{ cursor: 'pointer' }}
                       onClick={() => {
-                        clickAssign(item.Id);
+                        clickAssign(
+                          {
+                            SubjectId: item.SubjectId,
+                            StandardDivisionId: item.StandardDivisionId,
+                            SubjectName: item.Text2,
+                            StandardDivision: item.Text1
+                          });
                       }}
                     />
                   </Tooltip>
