@@ -11,9 +11,9 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
-import { IClassListBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
+import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { classnamelist } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
@@ -37,6 +37,12 @@ const AddLessonPlan = () => {
   const [StartDate, setStartDate] = useState('');
   const [EndDate, setEndDate] = useState('');
   const [SelectClass, setSelectClass] = useState('');
+  const [ReportingUserId, setasReportingUserId] = useState('');
+  const [UpdatedById, setUpdatedById] = useState('');
+  const [OldStartDate, setOldStartDate] = useState('');
+  const [OldEndDate, setOldEndDate] = useState('');
+  const [ItemList, setItemList] = useState('');
+  const [ApproverComment, setApproverComment] = useState('');
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -126,19 +132,108 @@ const AddLessonPlan = () => {
     }
   ])
 
-  const ClassListDropdown = useSelector(
-    (state: RootState) => state.addlessonplan.ClassName
-  );
+  const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   console.log('ClassListDropdown', ClassListDropdown);
+
+  const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
+  console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails)
+  const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
+  console.log("SaveLessonPlan", SaveLessonPlans)
+  const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
+  console.log("SumbitLessonPlan", SubmitLessonPlans)
+  const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
+  console.log("SaveApproverComment", SaveApproverComment)
+  const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
+  console.log("UpdateLessonPlanDate", UpdateLessonPlanDate)
+
 
   useEffect(() => {
     const ClassListBody: IClassListBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asTeacherId: TeacherId
+      aTeacherId: TeacherId
     };
     dispatch(classnamelist(ClassListBody));
   }, [TeacherId]);
+
+  useEffect(() => {
+    const AddOrEditLessonPlanDetails: IAddOrEditLessonPlanDetailsBody = {
+      asSchoolId: 18,
+      asAcademicYearId: 54,
+      asStandardDivId: 1266,
+      asUserId: 4463,
+      asReportingUserId: 4463,
+      asStartDate: "2024-10-10 12:00:00 AM",
+      asEndDate: "2024-10-10 12:00:00 AM",
+      IsNewMode: true
+    };
+    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetails))
+  }, [])
+
+  //   useEffect(() => {
+  //     if (SaveLessonPlan !== '') {
+  //         toast.success(SaveLessonPlan)
+  //         dispatch(SaveLessonPlan())
+  //     }
+  // }, [SaveLessonPlan])
+  useEffect(() => {
+    const SaveLessonPlanBody: ISaveLessonPlanBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(asUserId),
+      asReportingUserId: Number(ReportingUserId),
+      aasStartDate: "12/29/2023 12:00:00 AM",
+      aasEndDate: "12/30/2023 12:00:00 AM",
+      asLessonPlanXml: ItemList,
+      asUpdatedById: Number(UpdatedById),
+      asOldStartDate: OldStartDate,
+      asOldEndDate: OldEndDate,
+    };
+    dispatch(SaveLessonPlan(SaveLessonPlanBody));
+  }, [])
+
+  useEffect(() => {
+    const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(asUserId),
+      asReportingUserId: Number(ReportingUserId),
+      aasStartDate: "1/3/2024 12:00:00 AM",
+      aasEndDate: "1/6/2024 12:00:00 AM",
+      asUpdatedById: Number(UpdatedById)
+    };
+    dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
+  }, [])
+  useEffect(() => {
+    const SaveApproverCommentBody: ISaveApproverCommentBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(asUserId),
+      asReportingUserId: Number(ReportingUserId),
+      aasStartDate: "1/8/2024 12:00:00 AM",
+      aasEndDate: "1/9/2024 12:00:00 AM",
+      asApproverComment: ApproverComment,
+      asUpdatedById: Number(UpdatedById),
+      asOldStartDate: "1/8/2024 12:00:00 AM",
+      asOldEndDate: "1/9/2024 12:00:00 AM",
+    };
+    dispatch(getSaveApproverComment(SaveApproverCommentBody));
+  }, [])
+  useEffect(() => {
+    const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(asUserId),
+      asReportingUserId: Number(ReportingUserId),
+      aasStartDate: "1/8/2024 12:00:00 AM",
+      aasEndDate: "1/9/2024 12:00:00 AM",
+      asApproverComment: ApproverComment,
+      asUpdatedById: Number(UpdatedById),
+      asOldStartDate: "1/8/2024 12:00:00 AM",
+      asOldEndDate: "1/9/2024 12:00:00 AM",
+    };
+    dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
+  }, [])
 
   const onClickClass = (value) => {
     setSelectClass(value);
@@ -300,11 +395,11 @@ const AddLessonPlan = () => {
           <Grid item xs={3}>
             <SearchableDropdown
               ItemList={ClassListDropdown}
-              defaultValue='Select Class'
+              defaultValue={SelectClass}
               label='Class'
               mandatory
               sx={{ width: '100%' }}
-              onChange={(e) => setSelectClass(e.target.value)}
+              onChange={(e) => onClickClass(e.target.value)}
             />
           </Grid>
           <Grid item xs={12}>

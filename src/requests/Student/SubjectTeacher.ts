@@ -12,10 +12,8 @@ const SubjectTeacherSlice = createSlice({
   },
   reducers: {
     getSubjectTeachersList(state, action) {
-      state.ClassTeachers =
-        action.payload.GetSubjectTeacherResult.ClassTeachers;
-      state.SubjectTeachers =
-        action.payload.GetSubjectTeacherResult.SubjectTeachers;
+      state.ClassTeachers =action.payload.GetSubjectTeacherResult.ClassTeachers;
+      state.SubjectTeachers =action.payload.GetSubjectTeacherResult.SubjectTeachers;
       state.Loading = false;
     },
     getLoading(state, action) {

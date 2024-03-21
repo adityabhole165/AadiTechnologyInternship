@@ -192,6 +192,10 @@ const teacherRoutes = [
     path: 'SubjectExamMarks',
     element: <SubjectExamMarks />
   },
+  {
+    path: 'SubjectExamMarks/:StandardDivisionId/:SubjectId/:ClassWiseExam',
+    element: <SubjectExamMarks />
+  },
 
   {
     path: 'AssignExamMark',

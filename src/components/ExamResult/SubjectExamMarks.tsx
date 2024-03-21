@@ -4,10 +4,160 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Breadcrumbs, Container, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
-import { Link } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { Link, useParams } from 'react-router-dom';
+import {
+  IGetAllGradesForSubjectMarkListBody,
+  IGetAllStudentsForMarksAssignmentsBody,
+  IGetSubjectExamMarkslistsBody,
+  IGetSubjectMarkListBody,
+  IManageStudentsTestMarkBody
+} from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-
+import { getAllGradesForSubjectMarkList, getAllStudentsForMarksAssignments, getManageStudentsTestMark, getSubjectExamMarkslists, getSubjectMarkList } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
+import { RootState, useSelector } from 'src/store';
 const SubjectExamMarks = () => {
+  const dispatch = useDispatch();
+  const { StandardDivisionId, SubjectId, ClassWiseExam } = useParams();
+  console.log(SubjectId, "SubjectId")
+  const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
+  const asSchoolId = localStorage.getItem('localSchoolId');
+  const [TestDate, setTestDate] = useState('');
+  //const [selectClass, SetSelectClass] = useState();
+  //const [SubjectId, setSubjectId] = useState('');
+  const [SubjectMarksId, setSubjectMarksId] = useState('');
+  const [StudentTestType, setStudentTestType] = useState('');
+  const [StudentTestTypeDetails, setStudentTestTypeDetails] = useState('');
+  const [RemoveProgress, setRemoveProgress] = useState('');
+  const [RemarkXml, setRemarkXml] = useState('');
+  const [InsertedByid, setInsertedByid] = useState('');
+  const [HasRemark, setHasRemark] = useState(false);
+  const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState('');
+  const [selectStandard, setSelectStandard] = useState('');
+  const [selectDivision, setSelectDivision] = useState('');
+  //const [ClassWiseExam, SetClassWiseExam] = useState();
+  // const asStandardDivisionId = Number(
+  //   sessionStorage.getItem('StandardDivisionId')
+  // );
+
+  const SubjectMarkLists: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.SubjectMarkList
+  );
+
+  const StandardName: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListGetStandardName
+  );
+
+  const SubjectName: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListGetSubjectName
+  );
+
+  const TestName: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListGetSchoolWiseTestName
+  );
+  const TotalPassingMark: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListGetSchoolWiseTestName
+  );
+
+  const TestMarkDetails: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
+  );
+  console.log("TestMarkDetails", TestMarkDetails)
+
+  const SubjectExamMarkslist: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListTestDetailss
+  );
+
+
+  const StudentsForMarksAssignments: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
+  );
+
+  const GradesForSubjectMarkLists: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.GradesForSubjectMarkList
+  );
+
+  const ManageStudentsTestMarks: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ManageStudentsTestMark
+  );
+  const clickTestDate = (value) => {
+    setTestDate(value)
+  }
+  useEffect(() => {
+
+    const GetSubjectMarkListBody: IGetSubjectMarkListBody = {
+      asStandardDivision_Id: Number(StandardDivisionId),
+      asSubject_Id: Number(SubjectId),
+      asTestId: Number(ClassWiseExam),
+      asSchoolId: Number(asSchoolId),
+      asAcademicYrId: Number(asAcademicYearId)
+    };
+    dispatch(getSubjectMarkList(GetSubjectMarkListBody));
+
+  }, []);
+  useEffect(() => {
+
+    if (TestMarkDetails !== null) {
+      setTestDate(TestMarkDetails.Test_Date)
+    }
+  }, [TestMarkDetails])
+
+  useEffect(() => {
+    const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody = {
+      asSchoolId: Number(asSchoolId),
+      asStandardDivision_Id: Number(StandardDivisionId),
+      asSubjectId: Number(SubjectId),
+      asTestId: Number(ClassWiseExam),
+      asAcademicYrId: Number(asAcademicYearId),
+      asShowTotalAsPerOutOfMarks: "Y"
+    };
+
+    dispatch(getSubjectExamMarkslists(GetSubjectExamMarkslists));
+  }, []);
+  useEffect(() => {
+    const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
+      asAcademicYearID: Number(asAcademicYearId),
+      asSchoolId: Number(asSchoolId),
+      asSubject_Id: Number(SubjectId),
+      asStandardDivision_Id: Number(StandardDivisionId),
+      asTestDate: "26/10/2023 12:00:00 AM"
+    };
+
+    dispatch(getAllStudentsForMarksAssignments(GetAllStudentsForMarksAssignmentsBody));
+  }, []);
+
+  useEffect(() => {
+    const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYrId: Number(asAcademicYearId),
+      asStandardId: 1064,
+      asSubjectId: 2346,
+      asTestId: Number(ClassWiseExam),
+    };
+
+    dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
+  }, []);
+
+  useEffect(() => {
+    const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+      asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
+      asInserted_By_id: Number(InsertedByid),
+      Student_Test_Type_Marks: StudentTestType,
+      Student_Test_Type_Marks_Details: StudentTestTypeDetails,
+      asRemoveProgress: RemoveProgress,
+      RemarkXml: RemarkXml,
+      asHasRemark: HasRemark,
+      asTestId: Number(ClassWiseExam),
+      asSubjectId: Number(SubjectId),
+      asSchoolId: Number(asSchoolId),
+      asAcademicYearId: Number(asAcademicYearId)
+    };
+
+    dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody));
+  }, []);
+
+
   return (
     <Container maxWidth={"xl"}>
       <Stack
@@ -62,38 +212,52 @@ const SubjectExamMarks = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            <Dropdown
+            {/* <Dropdown
               variant='outlined'
               label='Class'
               width='100px'
               Array={[]}
-            />
+            /> */}
+
+
+
+            {/* <TextField fullWidth label={'Class'} InputLabelProps={{ shrink: true }} value={StandardName.Standard_Name} /> */}
+            <TextField fullWidth value={StandardName.length > 0 ?
+              (StandardName[0].Standard_Name + ' - ' + StandardName[0].Division_Name) : null} />
           </Box>
           <Box>
-            <Dropdown
+            {/* <Dropdown
               variant='outlined'
               label='Exam'
               width='200px'
               Array={[]}
-            />
+            /> */}
+            {/* <TextField fullWidth label={'Exam'} InputLabelProps={{ shrink: true }} value={TestName.SchoolWise_Test_Name} /> */}
+            <TextField fullWidth value={TestName.length > 0 ?
+              (TestName[0].SchoolWise_Test_Name) : null} />
           </Box>
           <Box>
-            <Dropdown
+            {/* <Dropdown
               variant='outlined'
               label='Subject Name'
               width='150px'
               Array={[]}
-            />
+            /> */}
+            {/* <TextField fullWidth label={'Subject Name'} InputLabelProps={{ shrink: true }} value={SubjectName.Subject_Name} /> */}
+            <TextField fullWidth value={SubjectName.length > 0 ?
+              (SubjectName[0].Subject_Name) : null} />
           </Box>
           <Box>
             <TextField
-              fullWidth
+              fullWidth value={TestMarkDetails.length > 0 ?
+                (TestMarkDetails[0].Test_Date) : null}
               type="date"
               label={"Exam Date"}
               InputLabelProps={{ shrink: true }}
               inputProps={{ max: new Date().toISOString().split('T')[0] }}
               variant={"outlined"}
               size={"small"}
+              onClick={clickTestDate}
             />
           </Box>
           <Box>
@@ -130,11 +294,15 @@ const SubjectExamMarks = () => {
       <Box sx={{ p: 2, background: 'white', mt: 2 }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           <Typography variant={"h4"}>
-            Total Marks: 20
+            {/* Total Marks: 20 */}
+            <TextField fullWidth value={TotalPassingMark.length > 0 ?
+              (TotalPassingMark[0].Subject_Total_Marks) : null} />
           </Typography>
           <div>|</div>
           <Typography variant={"h4"}>
-            Passing Marks: 20
+            {/* Passing Marks: 20 */}
+            <TextField fullWidth value={TotalPassingMark.length > 0 ?
+              (TotalPassingMark[0].Passing_Total_Marks) : null} />
           </Typography>
         </Box>
         {/* Table */}

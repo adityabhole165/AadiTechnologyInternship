@@ -1,7 +1,7 @@
 import Delete from '@mui/icons-material/Delete';
 import Edit from '@mui/icons-material/Edit';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Link, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Link, TextField, Typography } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -9,6 +9,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import { ButtonPrimary } from '../styled/ButtonStyle';
+import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
+import { RootState } from 'src/store';
 const Assignedhomeworklist1 = ({
   ItemList,
   HeaderArray,
@@ -115,3 +120,68 @@ const Assignedhomeworklist1 = ({
 };
 
 export default Assignedhomeworklist1;
+
+const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, clickPublishUnpublish }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [Details, setDetails] = useState('');
+  const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+  const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const asTeacherId = sessionStorage.getItem('TeacherId');
+  
+  const AllPublishUnPublishHomework = useSelector(
+    (state: RootState) => state.AddHomework.PublishUnPublishHomework
+  );
+
+  const ClickOk = () => {
+    if (Details !== '') {
+      clickPublishUnpublish(Id, Details);
+      setOpen(false);
+      setDetails('');
+    } else {
+      toast.error('Please provide a reason for unpublishing.');
+    }
+  };
+  
+  return (
+    <Dialog
+      open={open}
+      onClose={() => {
+        setOpen(false)
+      }}
+      fullWidth
+      maxWidth={'sm'}
+    >
+      <DialogTitle
+        sx={{
+          backgroundColor: (theme) => theme.palette.primary.main,
+          py: 1
+        }}
+      ></DialogTitle>
+      <DialogContent dividers sx={{ px: 4 }}>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Unpublish Reason
+        </Typography>
+        <TextField
+          multiline
+          rows={3}
+          value={Details}
+          onChange={(e) => {
+            setDetails(e.target.value);
+          }}
+          sx={{ width: '100%' }}
+        />
+      </DialogContent>
+      <DialogActions sx={{ py: 2, px: 3 }}>
+        <Button onClick={() => {
+          setOpen(false)
+        }} color={'error'}>
+          Cancel
+        </Button>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  )
+}
