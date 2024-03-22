@@ -41,32 +41,34 @@ const AadharCard = () => {
     (state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
   const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
 
+
+  const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
+    asUserId: Number(UserId),
+    asSchoolId: Number(asSchoolId),
+    asAadharCardNo: AadharCardNumber,
+    asAadharCardPhotoCopyPath: File,
+    asUpdatedById: TeacherId.toString(),
+    asSaveFeature: "Aadhar Cards",
+    asFolderName: "PPSN Website",
+    asBase64String: base64URL
+  };
+
   const SaveFile = () => {
     const isAadharValid = validateAadharCardNumber(AadharCardNumber);
     if (!isAadharValid) {
       alert('Please enter a valid Aadhar card number.');
       return;
     }
-    const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
-      asUserId: Number(UserId),
-      asSchoolId: Number(asSchoolId),
-      asAadharCardNo: AadharCardNumber,
-      asAadharCardPhotoCopyPath: File,
-      asUpdatedById: TeacherId.toString(),
-      asSaveFeature: "Aadhar Cards",
-      asFolderName: "PPSN Website",
-      asBase64String: base64URL
-    };
-
+  
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
-    // dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
+ 
 
   };
   useEffect(() => {
     if (UpdateTeacherAadharDetailsUS !== '') {
       toast.success(UpdateTeacherAadharDetailsUS, { toastId: 'success1' });
       dispatch(resetMessage());
-
+      dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
     }
   }, [UpdateTeacherAadharDetailsUS]);
 
@@ -90,6 +92,7 @@ const AadharCard = () => {
         asUpdatedById: Number(UserId)
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
+      dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
 
     }
   }
@@ -224,8 +227,8 @@ const AadharCard = () => {
                   ChangeFile={ChangeFile}
                   errorMessage={FileError}
                   FilePath={GetUserDetailsForAadharCardNoUS == null ? "" : GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path}
-                  viewIcon={true}
-                  deleteIcon={true}
+                  viewIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
+                  deleteIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
                   clickDelete={DeleteAadhar}
                   isMandatory={false}
                   FileLabel='Upload Scanned Copy of Aadhar Card'
