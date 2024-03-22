@@ -96,10 +96,10 @@ const SubjectExamMarks = () => {
   }, []);
   useEffect(() => {
 
-    if (TestMarkDetails !== null) {
+    if (TestMarkDetails.length > 0) {
 
-      setTestDate(getCalendarDateFormatDate(TestMarkDetails.Test_Date))
-      console.log(setTestDate, "setTestDate")
+      setTestDate(getCalendarDateFormatDate(TestMarkDetails[0].Test_Date))
+      console.log(TestMarkDetails, "--", getCalendarDateFormatDate(TestMarkDetails[0].Test_Date), "setTestDate", TestMarkDetails[0].Test_Date)
       setTestTypeName(TestMarkDetails.TestType_Name)
       setTestTypeTotalMarks(TestMarkDetails.TestType_Total_Marks)
       setMarksScored(TestMarkDetails.Marks_Scored)
@@ -314,7 +314,7 @@ const SubjectExamMarks = () => {
               inputProps={{ max: new Date().toISOString().split('T')[0] }}
               variant={"outlined"}
               size={"small"}
-              onClick={clickTestDate}
+              onChange={(e) => { setTestDate(e.target.value) }}
             />
 
           </Box>
