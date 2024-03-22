@@ -59,9 +59,9 @@ const AadharCard = () => {
       alert('Please enter a valid Aadhar card number.');
       return;
     }
-  
+
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
- 
+
 
   };
   useEffect(() => {
@@ -93,7 +93,7 @@ const AadharCard = () => {
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
       dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
-
+      setFile('');
     }
   }
 
