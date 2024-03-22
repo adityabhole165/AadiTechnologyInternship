@@ -179,9 +179,6 @@ const AadharCard = () => {
             <Box>
               <Tooltip title={`Add Aadhar Card Details.`}>
                 <IconButton
-                  disabled={
-                    File.length !== 0 && base64URL.length !== 0 ? false : true
-                  }
                   onClick={SaveFile}
                   sx={{
 
@@ -227,8 +224,8 @@ const AadharCard = () => {
                   ChangeFile={ChangeFile}
                   errorMessage={FileError}
                   FilePath={GetUserDetailsForAadharCardNoUS == null ? "" : GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path}
-                  viewIcon={GetUserDetailsForAadharCardNoUS !== null ? true : false}
-                  deleteIcon={GetUserDetailsForAadharCardNoUS !== null ? true : false}
+                  viewIcon={true}
+                  deleteIcon={true}
                   clickDelete={DeleteAadhar}
                   isMandatory={false}
                   FileLabel='Upload Scanned Copy of Aadhar Card'
