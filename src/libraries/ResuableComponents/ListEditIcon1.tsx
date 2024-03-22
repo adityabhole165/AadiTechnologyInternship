@@ -1,6 +1,7 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOff from '@mui/icons-material/EditOff';
+import TaskIcon from '@mui/icons-material/Task';
 import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -43,19 +44,31 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   {item.Text2}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                {/* <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text3 === 'Y' ? (
                     <CheckIcon style={{ color: '#607d8b' }} />
                   ) : (
                     <EditOff onClick={() => clickEdit({ SubjectId: item.SubjectId, StandardDivisionId: item.StandardDivisionId })} style={{ color: '#76ff03' }} />
                   )}
+                </TableCell> */}
+                <TableCell sx={{ textTransform: 'capitalize' }} >
+                  {item.Text4 === 'Not Started' && (
+                    <EditOff style={{ color: '#76ff03' }} />
+                  )}
+                  {item.Text4 === 'Partial' && (
+                    <TaskIcon style={{ color: '#ff9800' }} />
+                  )}
+                  {(item.Text4 === 'Complete' || item.Text4 === 'Submitted'
+                    || item.Text4 === 'Published') && (
+                      <CheckIcon style={{ color: '#607d8b' }} />
+                    )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 !== 'Complete' ? (
                     <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722' }} />
                   ) : (
-                    item.Text4
+                    item.Text5
                   )}
                 </TableCell>
               </TableRow>

@@ -101,6 +101,7 @@ export const GetSubjectList =
           Text2: item.Subject_Name,
           Text3: item.Is_Submitted,
           Text4: item.STATUS,
+          Text5: item.StatusDescription,
           SubjectId: item.Subject_Id,
           StandardDivisionId: item.Standard_Division_Id
         };

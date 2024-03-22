@@ -47,6 +47,7 @@ export interface ISubjectsExamMarksStatusForClassBodyResult {
   Is_MonthConfig: boolean;
   AllowPartialSubmit: string;
   IsXseedSubject: string;
+  StatusDescription: string;
 }
 
 export interface ISubmitTestMarksToClassTeacherBody {
