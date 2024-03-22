@@ -213,6 +213,7 @@ const AadharCard = () => {
           </Stack>
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
+          <Typography style={{ color: 'red', display:'flex', justifyContent:'flex-end' }}> *</Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -220,11 +221,8 @@ const AadharCard = () => {
                 label={"Name"}
                 InputLabelProps={{ shrink: true }}
                 value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-
-
               />
             </Grid>
-
             <Grid item xs={6}>
               <TextField
                 fullWidth
@@ -233,7 +231,6 @@ const AadharCard = () => {
                 onChange={(e) => { changeAdhar(e.target.value) }}
               />
             </Grid>
-
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <SingleFile
@@ -250,14 +247,14 @@ const AadharCard = () => {
                   ValidFileTypes={ValidFileTypes}
                   width='400px'
                   clickFileName={clickFileName}
-
                 />
-
               </Box>
             </Grid>
           </Grid>
+
         </Box>
-      </Container>
+
+      </Container >
 
     </>
   );
