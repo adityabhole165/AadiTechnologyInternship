@@ -93,7 +93,7 @@ const AadharCard = () => {
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
       dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
-      setFile('');
+      //setFile('');
     }
   }
 
@@ -180,7 +180,7 @@ const AadharCard = () => {
               </Tooltip>
             </Box>
             <Box>
-              <Tooltip title={`Add Aadhar Card Details.`}>
+              <Tooltip title={`Save`}>
                 <IconButton
                   onClick={SaveFile}
                   sx={{
@@ -211,7 +211,11 @@ const AadharCard = () => {
             <Grid item xs={6}>
               <TextField
                 fullWidth
-                label={"Aadhar Card Number"}
+                label={
+                  <span>
+                    Aadhar Card Number <span style={{ color: 'red' }}>*</span>
+                  </span>
+                }
                 value={AadharCardNumber}
                 onChange={(e) => { changeAdhar(e.target.value) }}
                 error={error}
