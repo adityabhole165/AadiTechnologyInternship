@@ -37,48 +37,38 @@ const AadharCard = () => {
     (state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails
   );
 
-  console.log(UpdateTeacherAadharDetailsUS,);
-
   const DeleteAadharCardPhotoCopyUS: any = useSelector(
-    (state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy
-  );
-
-  console.log(DeleteAadharCardPhotoCopyUS, "DeleteAadharCardPhotoCopyUS");
-
+    (state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
   const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
 
-  console.log(GetUserDetailsForAadharCardNoUS, "GetUserDetailsForAadharCardNoUS");
 
+  const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
+    asUserId: Number(UserId),
+    asSchoolId: Number(asSchoolId),
+    asAadharCardNo: AadharCardNumber,
+    asAadharCardPhotoCopyPath: File,
+    asUpdatedById: TeacherId.toString(),
+    asSaveFeature: "Aadhar Cards",
+    asFolderName: "PPSN Website",
+    asBase64String: base64URL
+  };
 
   const SaveFile = () => {
-
     const isAadharValid = validateAadharCardNumber(AadharCardNumber);
-
     if (!isAadharValid) {
       alert('Please enter a valid Aadhar card number.');
       return;
     }
 
-    const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
-      asUserId: Number(UserId),
-      asSchoolId: Number(asSchoolId),
-      asAadharCardNo: AadharCardNumber,
-      asAadharCardPhotoCopyPath: File,
-      asUpdatedById: TeacherId.toString(),
-      asSaveFeature: "Aadhar Cards",
-      asFolderName: "PPSN Website",
-      asBase64String: base64URL
-    };
-
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
-    dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
+
 
   };
   useEffect(() => {
     if (UpdateTeacherAadharDetailsUS !== '') {
       toast.success(UpdateTeacherAadharDetailsUS, { toastId: 'success1' });
       dispatch(resetMessage());
-
+      dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
     }
   }, [UpdateTeacherAadharDetailsUS]);
 
@@ -102,6 +92,8 @@ const AadharCard = () => {
         asUpdatedById: Number(UserId)
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
+      dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
+      setFile('');
     }
   }
 
@@ -120,19 +112,12 @@ const AadharCard = () => {
   };
 
   const changeAdhar = (value) => {
-    const re = /^\d{12}$/;
+    const re = /^\d{0,12}$/;
     if (re.test(value)) {
       setAadharCardNumber(value);
       setError(false);
-      setError1(false);
     } else {
-      setAadharCardNumber(value);
-      if (value.length === 0) {
-        setError(false);
-      } else {
-        setError(true);
-      }
-      setError1(value.length > 12);
+      setError(true);
     }
   };
 
@@ -213,7 +198,7 @@ const AadharCard = () => {
           </Stack>
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
-          <Typography style={{ color: 'red', display:'flex', justifyContent:'flex-end' }}> *</Typography>
+          <Typography style={{ color: 'red', display: 'flex', justifyContent: 'flex-end' }}> *</Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -229,7 +214,10 @@ const AadharCard = () => {
                 label={"Aadhar Card Number"}
                 value={AadharCardNumber}
                 onChange={(e) => { changeAdhar(e.target.value) }}
+                error={error}
+                helperText={error ? "Please enter only 12 digits " : ""}
               />
+
             </Grid>
             <Grid item xs={12}>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -239,8 +227,8 @@ const AadharCard = () => {
                   ChangeFile={ChangeFile}
                   errorMessage={FileError}
                   FilePath={GetUserDetailsForAadharCardNoUS == null ? "" : GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path}
-                  viewIcon={true}
-                  deleteIcon={true}
+                  viewIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
+                  deleteIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
                   clickDelete={DeleteAadhar}
                   isMandatory={false}
                   FileLabel='Upload Scanned Copy of Aadhar Card'
