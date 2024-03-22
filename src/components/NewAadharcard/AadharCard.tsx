@@ -53,6 +53,9 @@ const AadharCard = () => {
     asBase64String: base64URL
   };
 
+  const ResetForm = () => {
+    setFile('');
+  };
   const SaveFile = () => {
     const isAadharValid = validateAadharCardNumber(AadharCardNumber);
     if (!isAadharValid) {
@@ -61,7 +64,7 @@ const AadharCard = () => {
     }
 
     dispatch(CDAUpdateTeacherAadharDetails(UpdateTeacherAadharDetailsBody));
-
+    ResetForm();
 
   };
   useEffect(() => {
@@ -198,7 +201,6 @@ const AadharCard = () => {
           </Stack>
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
-          <Typography style={{ color: 'red', display: 'flex', justifyContent: 'flex-end' }}> *</Typography>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
