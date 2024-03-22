@@ -1114,11 +1114,12 @@ export const PurpleFlowTheme = createTheme({
       styleOverrides: {
         tooltip: {
           backgroundColor: alpha(colors.alpha.black['100'], 0.95),
+          marginTop: '8px !important',
           padding: '8px 16px',
           fontSize: 13
         },
         arrow: {
-          color: alpha(colors.alpha.black['100'], 0.95)
+          color: alpha(colors.alpha.black['100'], 1)
         }
       }
     },

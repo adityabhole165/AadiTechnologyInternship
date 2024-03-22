@@ -128,6 +128,9 @@ const AddUnpublish1 = Loader(
 const AadharCard = Loader(
   lazy(() => import('src/components/NewAadharcard/AadharCard'))
 );
+const WeeklyTimetable = Loader(
+  lazy(() => import('src/components/WeeklyTimetable/WeeklyTimetable'))
+)
 
 
 const teacherRoutes = [
@@ -339,9 +342,11 @@ const teacherRoutes = [
   {
     path: 'AadharCard',
     element: <AadharCard />
+  },
+  {
+    path: 'WeeklyTimetable',
+    element: <WeeklyTimetable />
   }
-
-
 ];
 
 export default teacherRoutes;
