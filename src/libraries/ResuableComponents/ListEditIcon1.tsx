@@ -53,20 +53,20 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                 </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 === 'Not Started' && (
-                    <EditOff style={{ color: '#76ff03' }} />
+                    <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
                   )}
                   {item.Text4 === 'Partial' && (
-                    <TaskIcon style={{ color: '#ff9800' }} />
+                    <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }} />
                   )}
                   {(item.Text4 === 'Complete' || item.Text4 === 'Submitted'
                     || item.Text4 === 'Published') && (
-                      <CheckIcon style={{ color: '#607d8b' }} />
+                      <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }} />
                     )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text4 !== 'Complete' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722' }} />
+                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722', cursor: 'pointer' }} />
                   ) : (
                     item.Text5
                   )}

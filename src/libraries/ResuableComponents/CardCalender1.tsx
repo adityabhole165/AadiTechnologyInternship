@@ -2,15 +2,17 @@ import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
 import {
   Box,
   Grid,
-  IconButton, TextField, Tooltip,
+  IconButton,
+  Tooltip,
   Typography,
   alpha
 } from '@mui/material';
 
+import CalendarMonth from '@mui/icons-material/CalendarMonth';
 import ChevronLeftTwoToneIcon from '@mui/icons-material/ChevronLeftTwoTone';
 import ChevronRightTwoToneIcon from '@mui/icons-material/ChevronRightTwoTone';
 import { teal } from '@mui/material/colors';
-import React from 'react';
+import React, { useRef } from 'react';
 import { getCalendarDateFormatDateNew, getDateFormatted } from 'src/components/Common/Util';
 import DotLegendAttandaceCalender from '../summary/DotLegendAttandaceCalender';
 import CardCal1 from './CardCal1';
@@ -59,6 +61,7 @@ function CardCalender1({
     ClickItem(getDateFormatted(newDate));
   };
   let dayCount = new Date(new Date(formattedDate).getFullYear(), new Date(formattedDate).getMonth(), 1).getDay()
+  const datePicker = useRef(null);
   return (
     <Box p={2}>
       {/* <Box
@@ -147,11 +150,21 @@ function CardCalender1({
           >
             <ChevronLeftTwoToneIcon />
           </IconButton>
-          <TextField type='date' value={getCalendarDateFormatDateNew(formattedDate)}
-            onChange={(e) => {
-              ClickItem(getDateFormatted(e.target.value))
+          <IconButton color={"primary"} onClick={(() => {
+            datePicker.current.showPicker();
+          })}>
+            <CalendarMonth />
+            <input ref={datePicker} style={{
+              position: 'absolute',
+              visibility: 'hidden',
+            }}
+              type='date'
+              value={getCalendarDateFormatDateNew(formattedDate)}
+              onChange={(e) => {
+                ClickItem(getDateFormatted(e.target.value))
 
-            }} />
+              }} />
+          </IconButton>
           <IconButton
             onClick={() => clickPrevNextMonth(1)}
             sx={{

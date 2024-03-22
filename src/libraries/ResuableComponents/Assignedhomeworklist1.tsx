@@ -8,12 +8,12 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import { ButtonPrimary } from '../styled/ButtonStyle';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { RootState } from 'src/store';
+import { ButtonPrimary } from '../styled/ButtonStyle';
 const Assignedhomeworklist1 = ({
   ItemList,
   HeaderArray,
@@ -76,7 +76,7 @@ const Assignedhomeworklist1 = ({
                     {item.Text5}
                   </Link>
                 </TableCell>
-                <TableCell sx={{ textTransform: 'capitalize' }}>
+                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
                   {item.Text6 == 0 ? null : (
                     <VisibilityIcon
                       style={{ color: 'black' }}
@@ -93,7 +93,7 @@ const Assignedhomeworklist1 = ({
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
+                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
                   {item.Text7 == 'False' ? (
                     <Edit
                       style={{ color: 'black ' }}
@@ -102,7 +102,7 @@ const Assignedhomeworklist1 = ({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }}>
+                <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
                   {item.Text7 == 'False' ? (
                     <Delete
                       style={{ color: 'black ' }}
@@ -128,7 +128,7 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asTeacherId = sessionStorage.getItem('TeacherId');
-  
+
   const AllPublishUnPublishHomework = useSelector(
     (state: RootState) => state.AddHomework.PublishUnPublishHomework
   );
@@ -142,7 +142,7 @@ const PublishUnpublishDialog = ({ open, setOpen, publishId: Id, setPublishId, cl
       toast.error('Please provide a reason for unpublishing.');
     }
   };
-  
+
   return (
     <Dialog
       open={open}

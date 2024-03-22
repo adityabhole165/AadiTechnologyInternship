@@ -58,7 +58,7 @@ export default function TableAttendace({ ItemList, HeaderArray }) {
                       sx={{
                         textTransform: 'capitalize',
                         color: 'white',
-                        backgroundColor: (theme) => theme.palette.primary.main,
+                        backgroundColor: (theme) => theme.palette.secondary.main,
                         py: 1
                       }}
                       align={item?.align || 'center'}

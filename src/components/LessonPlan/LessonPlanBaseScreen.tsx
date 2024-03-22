@@ -4,7 +4,7 @@ import Download from '@mui/icons-material/Download';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Breadcrumbs, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
-import { green, grey } from '@mui/material/colors';
+import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -366,9 +366,9 @@ const LessonPlanBaseScreen = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: green[500],
+                    backgroundColor: grey[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
+                    ':hover': { backgroundColor: grey[600] }
                   }}
                   onClick={onClickAdd}
                 >

@@ -301,9 +301,9 @@ const AssignHomework = () => {
                     onClick={onClick}
                     sx={{
                       color: 'white',
-                      backgroundColor: (theme) => theme.palette.primary.main,
+                      backgroundColor: grey[500],
                       '&:hover': {
-                        backgroundColor: (theme) => theme.palette.primary.dark
+                        backgroundColor: grey[600]
                       }
                     }}
                   >

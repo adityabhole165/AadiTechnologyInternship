@@ -68,6 +68,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
                 flexDirection: 'column',
                 cursor: 'pointer',
                 backgroundColor: (theme) => bg[Item.Legend],
+                overflow: 'hidden',
                 ...cardStyle,
                 fontWeight: '500',
                 // height: '10vh',

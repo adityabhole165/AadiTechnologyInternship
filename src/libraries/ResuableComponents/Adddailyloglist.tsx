@@ -62,7 +62,7 @@ function Adddailyloglist({
                     <b>{item.Header}</b>
                     {item.SortOrder != undefined ?
                       item.SortOrder == " Desc" ?
-                        < ArrowDropDownCircleIcon/> :
+                        < ArrowDropDownCircleIcon /> :
                         <ArrowCircleUpIcon /> :
                       null
                     }
@@ -95,12 +95,12 @@ function Adddailyloglist({
                   sx={{ textTransform: 'capitalize', py: 0.5 }}
 
                 >
-                  <ButtonPrimary onClick={() => clickpublish(item.Id,item.Text3)} sx={{ minWidth: '100px' }}>
+                  <ButtonPrimary onClick={() => clickpublish(item.Id, item.Text3)} sx={{ minWidth: '100px' }}>
                     {item.Text3 === 'False' ? ' PUBLISH' : '  UNPUBLISH'}
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} >
                   {item.Text3 === 'False' ? (
                     <EditTwoTone
                       onClick={() => {
@@ -110,7 +110,7 @@ function Adddailyloglist({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} >
                   {item.Text3 === 'False' ? (
                     <DeleteTwoTone onClick={() => clickDelete(item.Id)} />
                   ) : null}

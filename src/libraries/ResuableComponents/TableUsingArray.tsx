@@ -17,7 +17,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
         <Table stickyHeader aria-label="sticky table">
           <TableHead
             sx={{
-              backgroundColor: (theme) => theme.palette.primary.main
+              backgroundColor: (theme) => theme.palette.secondary.main
             }}
           >
             <TableRow>
