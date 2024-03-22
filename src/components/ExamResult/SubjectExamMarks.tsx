@@ -2,31 +2,45 @@ import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Container, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetAllStudentsForMarksAssignmentsBody,
+  IGetClassExamSubjectNameDetailesBody,
   IGetSubjectExamMarkslistsBody,
-  IGetSubjectMarkListBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { getAllGradesForSubjectMarkList, getAllStudentsForMarksAssignments, getManageStudentsTestMark, getSubjectExamMarkslists, getSubjectMarkList } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
+import { getAllGradesForSubjectMarkList, getAllStudentsForMarksAssignments, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslists, resetManageStudentsTestMark } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
+import { getCalendarDateFormatDate } from '../Common/Util';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const { StandardDivisionId, SubjectId, ClassWiseExam } = useParams();
-  console.log(SubjectId, "SubjectId")
+
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const [TestDate, setTestDate] = useState('');
-  //const [selectClass, SetSelectClass] = useState();
-  //const [SubjectId, setSubjectId] = useState('');
+  const [DisplayName, setDisplayName] = useState('');
+  const [SubjectTotalMarks, setSubjectTotalMarks] = useState('')
+  const [PassingTotalMarks, setPassingTotalMarks] = useState('')
+  const [TestTypeName, setTestTypeName] = useState('')
+  const [TestTypeTotalMarks, setTestTypeTotalMarks] = useState('')
+  const [MarksScored, setMarksScored] = useState('')
+  const [GradeOrMarkss, setGradeOrMarks] = useState('')
+  const [TestOutOfMarks, setTestOutOfMarks] = useState('');
+  const [TotalMarks, setTotalMarks] = useState('');
   const [SubjectMarksId, setSubjectMarksId] = useState('');
+  const [HeaderList, setHeaderList] = useState([]);
+  const [ItemList, setItemList] = useState([]);
   const [StudentTestType, setStudentTestType] = useState('');
   const [StudentTestTypeDetails, setStudentTestTypeDetails] = useState('');
   const [RemoveProgress, setRemoveProgress] = useState('');
@@ -36,46 +50,30 @@ const SubjectExamMarks = () => {
   const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState('');
   const [selectStandard, setSelectStandard] = useState('');
   const [selectDivision, setSelectDivision] = useState('');
-  //const [ClassWiseExam, SetClassWiseExam] = useState();
-  // const asStandardDivisionId = Number(
-  //   sessionStorage.getItem('StandardDivisionId')
-  // );
+  const [RollNo, setRollNo] = useState('');
+  const [Name, setName] = useState('');
 
-  const SubjectMarkLists: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.SubjectMarkList
+  const StudentsForMarksAssignment: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
   );
 
   const StandardName: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListGetStandardName
+    (state: RootState) => state.SubjectExamMark.StandardName
   );
 
   const SubjectName: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListGetSubjectName
+    (state: RootState) => state.SubjectExamMark.SubjectName
   );
 
   const TestName: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListGetSchoolWiseTestName
+    (state: RootState) => state.SubjectExamMark.SchoolWiseTestName
   );
-  const TotalPassingMark: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListGetSchoolWiseTestName
-  );
-
   const TestMarkDetails: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
   );
   console.log("TestMarkDetails", TestMarkDetails)
-
-  const SubjectExamMarkslist: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListTestDetailss
-  );
-
-
-  const StudentsForMarksAssignments: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
-  );
-
-  const GradesForSubjectMarkLists: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.GradesForSubjectMarkList
+  const ExamStatus: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListDisplayNameDetail
   );
 
   const ManageStudentsTestMarks: any = useSelector(
@@ -86,22 +84,37 @@ const SubjectExamMarks = () => {
   }
   useEffect(() => {
 
-    const GetSubjectMarkListBody: IGetSubjectMarkListBody = {
+    const ClassExamSubjectNameDetailes: IGetClassExamSubjectNameDetailesBody = {
       asStandardDivision_Id: Number(StandardDivisionId),
       asSubject_Id: Number(SubjectId),
       asTestId: Number(ClassWiseExam),
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId)
     };
-    dispatch(getSubjectMarkList(GetSubjectMarkListBody));
+    dispatch(getClassExamSubjectNameDetailes(ClassExamSubjectNameDetailes));
 
   }, []);
   useEffect(() => {
 
     if (TestMarkDetails !== null) {
-      setTestDate(TestMarkDetails.Test_Date)
+
+      setTestDate(getCalendarDateFormatDate(TestMarkDetails.Test_Date))
+      console.log(setTestDate, "setTestDate")
+      setTestTypeName(TestMarkDetails.TestType_Name)
+      setTestTypeTotalMarks(TestMarkDetails.TestType_Total_Marks)
+      setMarksScored(TestMarkDetails.Marks_Scored)
+      setGradeOrMarks(TestMarkDetails.Grade_Or_Marks)
     }
   }, [TestMarkDetails])
+
+  useEffect(() => {
+
+    if (StudentsForMarksAssignment !== null) {
+      setRollNo(StudentsForMarksAssignment.Roll_No)
+      setName(StudentsForMarksAssignment.Name)
+    }
+  }, [StudentsForMarksAssignment])
+
 
   useEffect(() => {
     const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody = {
@@ -132,14 +145,18 @@ const SubjectExamMarks = () => {
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId),
       asStandardId: 1064,
-      asSubjectId: 2346,
+      asSubjectId: Number(SubjectId),
       asTestId: Number(ClassWiseExam),
     };
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
   }, []);
 
-  useEffect(() => {
+
+  const onClickBack = () => {
+    navigate('/extended-sidebar/Teacher/AssignExamMark');
+  };
+  const onClickSave = () => {
     const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
       asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
       asInserted_By_id: Number(InsertedByid),
@@ -153,11 +170,16 @@ const SubjectExamMarks = () => {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId)
     };
+    dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+  };
+  useEffect(() => {
 
-    dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody));
-  }, []);
-
-
+    if (ManageStudentsTestMarks !== '') {
+      toast.success(ManageStudentsTestMarks)
+      dispatch(resetManageStudentsTestMark())
+      navigate("../../AssignExamMark")
+    }
+  }, [ManageStudentsTestMarks])
   return (
     <Container maxWidth={"xl"}>
       <Stack
@@ -222,8 +244,18 @@ const SubjectExamMarks = () => {
 
 
             {/* <TextField fullWidth label={'Class'} InputLabelProps={{ shrink: true }} value={StandardName.Standard_Name} /> */}
-            <TextField fullWidth value={StandardName.length > 0 ?
-              (StandardName[0].Standard_Name + ' - ' + StandardName[0].Division_Name) : null} />
+            {/* <TextField fullWidth value={StandardName?.length > 0 ?
+              (StandardName[0].Standard_Name + ' - ' + StandardName[0].Division_Name) : ''} /> */}
+
+            <TextField
+              fullWidth
+              value={
+                (StandardName && Object.keys(StandardName).length > 0) ?
+                  (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
+                  :
+                  ''
+              }
+            />
           </Box>
           <Box>
             {/* <Dropdown
@@ -233,8 +265,17 @@ const SubjectExamMarks = () => {
               Array={[]}
             /> */}
             {/* <TextField fullWidth label={'Exam'} InputLabelProps={{ shrink: true }} value={TestName.SchoolWise_Test_Name} /> */}
-            <TextField fullWidth value={TestName.length > 0 ?
-              (TestName[0].SchoolWise_Test_Name) : null} />
+            {/* <TextField fullWidth value={TestName?.length > 0 ?
+              (TestName[0].SchoolWise_Test_Name) : ''} /> */}
+            <TextField
+              fullWidth
+              value={
+                (TestName && Object.keys(TestName).length > 0) ?
+                  TestName.SchoolWise_Test_Name
+                  :
+                  ''
+              }
+            />
           </Box>
           <Box>
             {/* <Dropdown
@@ -244,13 +285,29 @@ const SubjectExamMarks = () => {
               Array={[]}
             /> */}
             {/* <TextField fullWidth label={'Subject Name'} InputLabelProps={{ shrink: true }} value={SubjectName.Subject_Name} /> */}
-            <TextField fullWidth value={SubjectName.length > 0 ?
-              (SubjectName[0].Subject_Name) : null} />
-          </Box>
-          <Box>
+            {/* <TextField fullWidth value={SubjectName?.length > 0 ?
+              (SubjectName[0].Subject_Name) : ''} /> */}
             <TextField
-              fullWidth value={TestMarkDetails.length > 0 ?
-                (TestMarkDetails[0].Test_Date) : null}
+              fullWidth
+              value={SubjectName || ''}
+            />
+          </Box>
+
+          <Box>
+            {/* <TextField
+              fullWidth value={TestMarkDetails?.length > 0 ?
+                (TestMarkDetails[0].Test_Date) : ''}
+              type="date"
+              label={"Exam Date"}
+              InputLabelProps={{ shrink: true }}
+              inputProps={{ max: new Date().toISOString().split('T')[0] }}
+              variant={"outlined"}
+              size={"small"}
+              onClick={clickTestDate}
+            /> */}
+            <TextField
+              fullWidth
+              value={TestDate}
               type="date"
               label={"Exam Date"}
               InputLabelProps={{ shrink: true }}
@@ -259,6 +316,7 @@ const SubjectExamMarks = () => {
               size={"small"}
               onClick={clickTestDate}
             />
+
           </Box>
           <Box>
             <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
@@ -295,14 +353,14 @@ const SubjectExamMarks = () => {
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           <Typography variant={"h4"}>
             {/* Total Marks: 20 */}
-            <TextField fullWidth value={TotalPassingMark.length > 0 ?
-              (TotalPassingMark[0].Subject_Total_Marks) : null} />
+            <TextField fullWidth value={TestMarkDetails.length > 0 ?
+              (TestMarkDetails[0].Subject_Total_Marks) : ''} />
           </Typography>
           <div>|</div>
           <Typography variant={"h4"}>
             {/* Passing Marks: 20 */}
-            <TextField fullWidth value={TotalPassingMark.length > 0 ?
-              (TotalPassingMark[0].Passing_Total_Marks) : null} />
+            <TextField fullWidth value={TestMarkDetails.length > 0 ?
+              (TestMarkDetails[0].Passing_Total_Marks) : ''} />
           </Typography>
         </Box>
         {/* Table */}
@@ -356,8 +414,21 @@ const SubjectExamMarks = () => {
           </Table>
         </TableContainer>
       </Box>
+
+      <Button onClick={onClickSave} variant="contained">
+        Save
+      </Button>
+      <br>
+      </br>
+      <br></br>
+      <Button color={'error'} onClick={onClickBack} variant="contained">
+        Back
+      </Button>
+
     </Container>
   );
 };
 
 export default SubjectExamMarks;
+
+

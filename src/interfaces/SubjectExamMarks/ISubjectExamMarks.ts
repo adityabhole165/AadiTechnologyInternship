@@ -1,27 +1,21 @@
-export interface IGetSubjectMarkListBody {
+export interface IGetClassExamSubjectNameDetailesBody {
     asStandardDivision_Id: number,
     asSubject_Id: number,
     asTestId: number,
     asSchoolId: number,
     asAcademicYrId: number
 }
-export interface IGetSubjectMarkListResult {
-    listGetStandardName: [
-        {
+export interface IGetClassExamSubjectNameDetailesResult {
+    GetStandardName: {
             Standard_Id: string,
             Division_Id: string,
             Standard_Name: string,
             Division_Name: string,
             OutOfMarks: string,
             IsExamStatusApplicable: boolean
-        }
-    ],
-    listGetSubjectName: [
-        {
-            Subject_Name: string
-        }
-    ],
-    listGetSchoolWiseTestName: [
+        },
+        SubjectName: string,
+        GetSchoolWiseTestName: 
         {
             TestWise_Subject_Marks_Id: string,
             SchoolWise_Test_Name: string,
@@ -33,7 +27,6 @@ export interface IGetSubjectMarkListResult {
             Is_Optional: string,
             AllowDecimal: boolean
         }
-    ]
 }
 
 

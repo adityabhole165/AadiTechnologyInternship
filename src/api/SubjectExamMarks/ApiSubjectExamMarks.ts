@@ -1,12 +1,12 @@
 import {
     IGetAllStudentsForMarksAssignmentsBody,
     IGetAllStudentsForMarksAssignmentsResult,IGetSubjectExamMarkslistsBody,IGetSubjectExamMarkslistsResult
-    ,IGetAllGradesForSubjectMarkListBody,IGetAllGradesForSubjectMarkListResult,IManageStudentsTestMarkBody,IGetSubjectMarkListBody,IGetSubjectMarkListResult
+    ,IGetAllGradesForSubjectMarkListBody,IGetAllGradesForSubjectMarkListResult,IManageStudentsTestMarkBody,IGetClassExamSubjectNameDetailesBody,IGetClassExamSubjectNameDetailesResult
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import http from '../../requests/SchoolService/schoolServices';
 
-const GetSubjectMarkList = (data: IGetSubjectMarkListBody) => {
-    return http.post<IGetSubjectMarkListResult>('Teacher/GetSubjectMarkList', data);
+const GetClassExamSubjectNameDetailes = (data: IGetClassExamSubjectNameDetailesBody) => {
+    return http.post<IGetClassExamSubjectNameDetailesResult>('Teacher/GetClassExamSubjectNameDetailes', data);
 };
 
 const GetAllStudentsForMarksAssignments = (data: IGetAllStudentsForMarksAssignmentsBody) => {
@@ -24,7 +24,7 @@ const ManageStudentsTestMark = (data: IManageStudentsTestMarkBody) => {
 };
 const SubjectExamMarksApi = {
     GetAllStudentsForMarksAssignments,
-    GetSubjectMarkList,
+    GetClassExamSubjectNameDetailes,
     GetAllGradesForSubjectMarkList,
     GetSubjectExamMarkslists,
     ManageStudentsTestMark

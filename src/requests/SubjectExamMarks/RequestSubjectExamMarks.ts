@@ -3,8 +3,8 @@ import SubjectExamMarksApi from 'src/api/SubjectExamMarks/ApiSubjectExamMarks';
 import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
+    IGetClassExamSubjectNameDetailesBody,
     IGetSubjectExamMarkslistsBody,
-    IGetSubjectMarkListBody,
     IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import { AppThunk } from 'src/store';
@@ -12,10 +12,10 @@ const SubjectExamMarksslice = createSlice({
     name: 'Subject Exam Marks',
     initialState: {
         StudentsForMarksAssignments: [],
-        SubjectMarkList: null,
-        ListGetStandardName: [],
-        ListGetSubjectName: [],
-        ListGetSchoolWiseTestName: [],
+        ClassExamSubjectNameDetailesBody: null,
+        StandardName: null,
+        SubjectName: "",
+        SchoolWiseTestName: null,
         GradesForSubjectMarkList: [],
         SubjectExamMarkslists: null,
         ListTestDetailss: [],
@@ -32,12 +32,12 @@ const SubjectExamMarksslice = createSlice({
             state.StudentsForMarksAssignments = action.payload;
         },
 
-        GetSubjectMarkLists(state, action) {
+        GetClassExamSubjectNameDetail(state, action) {
             state.Loading = false;
-            state.SubjectMarkList = action.payload;
-            state.ListGetStandardName = action.payload.listGetStandardName;
-            state.ListGetSubjectName = action.payload.listGetSubjectName;
-            state.ListGetSchoolWiseTestName = action.payload.listGetSchoolWiseTestName;
+            state.ClassExamSubjectNameDetailesBody = action.payload;
+            state.StandardName = action.payload.GetStandardName;
+            state.SubjectName = action.payload.SubjectName;
+            state.SchoolWiseTestName = action.payload.GetSchoolWiseTestName;
         },
         GetAllGradesForSubjectMarkList(state, action) {
             state.Loading = false;
@@ -57,6 +57,10 @@ const SubjectExamMarksslice = createSlice({
             state.Loading = false;
             state.ManageStudentsTestMark = action.payload;
         },
+        resetManageStudentsTestMark(state) {
+            state.Loading = false;
+            state.ManageStudentsTestMark = "";
+        },
         getLoading(state, action) {
             state.Loading = true;
 
@@ -67,12 +71,12 @@ const SubjectExamMarksslice = createSlice({
 
 
 
-export const getSubjectMarkList =
-    (data: IGetSubjectMarkListBody): AppThunk =>
+export const getClassExamSubjectNameDetailes =
+    (data: IGetClassExamSubjectNameDetailesBody): AppThunk =>
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
-            const response = await SubjectExamMarksApi.GetSubjectMarkList(data);
-            dispatch(SubjectExamMarksslice.actions.GetSubjectMarkLists(response.data));
+            const response = await SubjectExamMarksApi.GetClassExamSubjectNameDetailes(data);
+            dispatch(SubjectExamMarksslice.actions.GetClassExamSubjectNameDetail(response.data));
 
         };
 export const getAllStudentsForMarksAssignments =
@@ -82,6 +86,11 @@ export const getAllStudentsForMarksAssignments =
             const response = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(data);
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(response.data));
             console.log(response, "abc")
+        };
+export const resetManageStudentsTestMark =
+    (): AppThunk =>
+        async (dispatch) => {
+            dispatch(SubjectExamMarksslice.actions.resetManageStudentsTestMark());// Dispatching action to reset the message
         };
 export const getAllGradesForSubjectMarkList =
     (data: IGetAllGradesForSubjectMarkListBody): AppThunk =>
