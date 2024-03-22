@@ -28,6 +28,10 @@ const AddLessonPlanSlice = createSlice({
       state.Loading = false;
       state.saveLessonPlanmsg = action.payload;
     },
+    resetsaveLessonPlan(state) {
+      state.Loading = false;
+      state.saveLessonPlanmsg = "";
+    },
     getsubmitLessonPlan(state, action) {
       state.Loading = false;
       state.submitLessonPlanmsg = action.payload;
@@ -77,6 +81,13 @@ export const SaveLessonPlan =
       dispatch(AddLessonPlanSlice.actions.saveLessonPlan(response.data));
       console.log("responseData", response)
     };
+
+export const resetsaveLessonPlan =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.resetsaveLessonPlan());
+    };
+    
 export const getSubmitLessonPlan =
   (data: ISubmitLessonPlanBody): AppThunk =>
     async (dispatch) => {

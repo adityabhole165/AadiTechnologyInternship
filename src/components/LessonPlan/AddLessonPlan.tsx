@@ -9,9 +9,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { Link } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import CDAlessonplanlist from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
 import LessonPlanList from './LessonPlanList';
 
@@ -153,6 +155,18 @@ const AddLessonPlan = () => {
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
 
+  const SaveLessonPlanBody: ISaveLessonPlanBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asUserId: Number(asUserId),
+    asReportingUserId: Number(ReportingUserId),
+    aasStartDate: "12/29/2023 12:00:00 AM",
+    aasEndDate: "12/30/2023 12:00:00 AM",
+    asLessonPlanXml: ItemList,
+    asUpdatedById: Number(UpdatedById),
+    asOldStartDate: OldStartDate,
+    asOldEndDate: OldEndDate,
+  };
 
 
   useEffect(() => {
@@ -178,27 +192,13 @@ const AddLessonPlan = () => {
     dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetails))
   }, [])
 
-  //   useEffect(() => {
-  //     if (SaveLessonPlan !== '') {
-  //         toast.success(SaveLessonPlan)
-  //         dispatch(SaveLessonPlan())
-  //     }
-  // }, [SaveLessonPlan])
   useEffect(() => {
-    const SaveLessonPlanBody: ISaveLessonPlanBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(asUserId),
-      asReportingUserId: Number(ReportingUserId),
-      aasStartDate: "12/29/2023 12:00:00 AM",
-      aasEndDate: "12/30/2023 12:00:00 AM",
-      asLessonPlanXml: ItemList,
-      asUpdatedById: Number(UpdatedById),
-      asOldStartDate: OldStartDate,
-      asOldEndDate: OldEndDate,
-    };
-    dispatch(SaveLessonPlan(SaveLessonPlanBody));
-  }, [])
+    if (SaveLessonPlans !== '') {
+      toast.success(SaveLessonPlans)
+      dispatch(resetsaveLessonPlan())
+      dispatch(CDAlessonplanlist)
+    }
+  }, [SaveLessonPlans])
 
   useEffect(() => {
     const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
@@ -242,9 +242,24 @@ const AddLessonPlan = () => {
     };
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   }, [])
+  useEffect(() => {
+    const monday = getMonday();
+    const friday = getFriday();
+    setStartDate(monday.toISOString().split('T')[0]);
+    setEndDate(friday.toISOString().split('T')[0]);
+  }, []);
 
-  const onClickClass = (value) => {
-    setSelectClass(value);
+  const getMonday = () => {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay();
+    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    return new Date(currentDate.setDate(diff));
+  };
+  const getFriday = () => {
+    const mondayDate = getMonday();
+    const fridayDate = new Date(mondayDate);
+    fridayDate.setDate(mondayDate.getDate() + 4);
+    return fridayDate;
   };
 
   const onSelectStartDate = (value) => {
@@ -252,6 +267,9 @@ const AddLessonPlan = () => {
   };
   const onSelectEndDate = (value) => {
     setEndDate(value);
+  };
+  const onClickClass = (value) => {
+    setSelectClass(value);
   };
 
   const onClickBack = () => {
@@ -261,6 +279,10 @@ const AddLessonPlan = () => {
   const onTextChange = (value) => {
     setExampleLessonDetails(value)
   }
+  const onClickSave = () => {
+    dispatch(SaveLessonPlan(SaveLessonPlanBody));
+  }
+
   return (
     <Container maxWidth="xl">
       <Stack
@@ -355,6 +377,7 @@ const AddLessonPlan = () => {
                     backgroundColor: green[600]
                   }
                 }}
+                onClick={onClickSave}
               >
                 <Save />
               </IconButton>
