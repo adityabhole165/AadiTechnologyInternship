@@ -1,4 +1,5 @@
 import { useTheme } from '@emotion/react';
+import AccessTime from '@mui/icons-material/AccessTime';
 import Assignment from '@mui/icons-material/Assignment';
 import CalendarToday from '@mui/icons-material/CalendarToday';
 import Dataset from '@mui/icons-material/CalendarViewMonth';
@@ -74,7 +75,11 @@ export default function SwipeableTemporaryDrawer({ opend, toggleDrawer }) {
       icon: <CalendarToday />,
       link: '/extended-sidebar/Teacher/MonthwiseAttendance'
     },
-
+    {
+      title: 'Weekly Timetable',
+      icon: <AccessTime />,
+      link: '/extended-sidebar/Teacher/WeeklyTimetable'
+    },
     {
       title: 'Assign Homework',
       icon: <Assignment />,
