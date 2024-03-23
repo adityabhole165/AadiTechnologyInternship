@@ -50,8 +50,16 @@ const AddLessonPlan = () => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
+  const StdDivision = [{
+    StdId: 1,
+    DivisionId: [
+      1, 2
+    ]
+  }]
   const [exampleLessonDetails, setExampleLessonDetails] = useState([
     {
+      StdId: 1,
+      DivisionId: 1,
       lessonName: '6-C ( Marathi III )',
       subject: 'Marathi',
       planDetails: [
@@ -99,6 +107,8 @@ const AddLessonPlan = () => {
       ],
     },
     {
+      StdId: 1,
+      DivisionId: 2,
       lessonName: '6-C ( Marathi III )',
       subject: 'Marathi',
       planDetails: [
@@ -450,7 +460,8 @@ const AddLessonPlan = () => {
             <Typography variant={"h5"} mb={1}>
               Plan Details
             </Typography>
-            <LessonPlanList exampleLessonDetails={exampleLessonDetails} onTextChange={onTextChange} />
+            <LessonPlanList exampleLessonDetails={exampleLessonDetails}
+              StdDivision={StdDivision} onTextChange={onTextChange} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
