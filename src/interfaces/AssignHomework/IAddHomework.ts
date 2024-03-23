@@ -65,11 +65,13 @@ export interface ISaveHomeworkBody {
   asSchoolId: number;
   asAcademicYearId: number;
   asInsertedById: number;
-  asFileName: string;
   asSaveFeature: string;
   asFolderName: string;
   asBase64String: string;
-  asBase64String2: string;
+  additionalAttachmentFile: additionalAttachmentFile[]
+}
+export interface additionalAttachmentFile {
+  FileName: string, Base64URL: string
 }
 export interface IDeleteHomeworkDocumentBody {
   asSchoolId: number;

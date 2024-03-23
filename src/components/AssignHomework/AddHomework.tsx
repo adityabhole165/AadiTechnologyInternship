@@ -199,11 +199,10 @@ const AddHomework = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asInsertedById: Number(asTeacherId),
-    asFileName: File1,
     asSaveFeature: 'Homework',
     asFolderName: 'PPSN Website',
     asBase64String: base64URL,
-    asBase64String2: base64URL1
+    additionalAttachmentFile: [{ FileName: File1, Base64URL: base64URL1 }]
   };
 
 
