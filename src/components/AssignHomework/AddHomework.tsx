@@ -83,7 +83,7 @@ const AddHomework = () => {
     { Id: 2, Header: 'SR.No 	' },
     { Id: 3, Header: 'Subject' },
     { Id: 4, Header: 'Title' },
-    { Id: 5, Header: 'Is Published? ' },
+    { Id: 5, Header: 'Is Published? ', align: 'center' },
     { Id: 6, Header: 'Complete By Date' }
   ];
   const ClickOpenDialogbox = () => {

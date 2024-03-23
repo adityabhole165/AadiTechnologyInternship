@@ -3,7 +3,7 @@ import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import Download from '@mui/icons-material/Download';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Breadcrumbs, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -34,6 +34,7 @@ import { RootState } from 'src/store';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [openViewRemarkDialog, setOpenViewRemarkDialog] = useState(false);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -90,13 +91,14 @@ const LessonPlanBaseScreen = () => {
 
 
   const HeaderList1 = [
-    { Id: 1, Header: ' Start Date	' },
+    { Id: 1, Header: 'Start Date	' },
     { Id: 2, Header: 'End Date' },
-    { Id: 3, Header: 'View Remark' },
-    { Id: 4, Header: 'Edit' },
-    { Id: 5, Header: 'Delete ' },
-    { Id: 6, Header: 'Export' },
-    { Id: 6, Header: 'Submit Status' }
+    { Id: 3, Header: 'View Remark', align: 'center' },
+    { Id: 4, Header: 'Edit', align: 'center' },
+    { Id: 5, Header: 'Delete ', align: 'center' },
+    { Id: 3, Header: 'View', align: 'center' },
+    { Id: 6, Header: 'Export', align: 'center' },
+    { Id: 6, Header: 'Submit Status', align: 'center' }
   ];
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
@@ -218,8 +220,9 @@ const LessonPlanBaseScreen = () => {
 
   const clickView = (Id) => {
     console.log(clickView, "clickView");
-
+    setOpenViewRemarkDialog(true);
   }
+
   const ClickSelctTecher = (value) => {
     setselectClasstecahernew(value)
 
@@ -251,6 +254,10 @@ const LessonPlanBaseScreen = () => {
   const onClickaaaa2 = () => {
     navigate('/extended-sidebar/Teacher/AddHomework');
   };
+
+  const handleOpenViewRemarkDialog = () => {
+    setOpenViewRemarkDialog(true);
+  }
 
 
 
@@ -411,6 +418,45 @@ const LessonPlanBaseScreen = () => {
         </Box>
 
       </Container>
+
+      {/* View remark dialog */}
+      <Dialog
+        open={openViewRemarkDialog}
+        onClose={() => {
+          setOpenViewRemarkDialog(false);
+        }}
+        maxWidth={"xs"}
+        fullWidth
+      >
+        <DialogTitle
+          sx={{
+            py: 1,
+            backgroundColor: (theme) => theme.colors.primary.main,
+            color: (theme) => theme.palette.common.white
+          }}
+        />
+        <DialogContent dividers>
+          <Stack gap={1}>
+            <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
+            <Divider />
+            <Stack gap={1}>
+              <Typography variant={"h4"}>Ms. Reena Bhattacharjee - </Typography>
+              <Typography variant={"h4"}>Seen. </Typography>
+            </Stack>
+          </Stack>
+        </DialogContent>
+        <DialogActions sx={{ py: 2, px: 3 }}>
+          <Button
+            variant={"contained"}
+            onClick={() => {
+              setOpenViewRemarkDialog(false);
+            }}
+            color={'error'}
+          >
+            Close
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 };

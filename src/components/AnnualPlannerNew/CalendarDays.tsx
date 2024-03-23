@@ -80,7 +80,7 @@ const CalendarDays = ({ ItemList, ClickItem, DefaultValue, legendColors }) => {
 
               <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%', gap: 1 }}>
                 {Item.Text1.map((obj, i) => {
-                  return (<b style={{ width: '100%' }} key={i}>
+                  return (<b style={{ width: '100%', paddingLeft: 2, paddingRight: 2 }} key={i}>
                     <Box
                       sx={{ color: legendColors[obj.Legend] }}
                     >{obj.Name}</Box>

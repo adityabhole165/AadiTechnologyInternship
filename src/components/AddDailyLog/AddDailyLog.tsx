@@ -34,13 +34,13 @@ import {
 import SingleFile from 'src/libraries/File/SingleFile';
 import Adddailyloglist from 'src/libraries/ResuableComponents/Adddailyloglist';
 import {
-  resetMessage,
   PublishUnpublishHomework,
   ResetDeleteLog,
   Savedailylog,
   deletedailylog,
   getalldailylog,
   getdailylog,
+  resetMessage,
   resetPublishUnpublish
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
@@ -100,8 +100,8 @@ const AddDailyLog = () => {
     { Id: 1, Header: 'Date', SortOrder: " Desc" },
     { Id: 2, Header: 'Attachment' },
     { Id: 3, Header: 'Publish/UnPublish' },
-    { Id: 4, Header: 'Edit' },
-    { Id: 5, Header: 'Delete' }
+    { Id: 4, Header: 'Edit', align: 'center' },
+    { Id: 5, Header: 'Delete', align: 'center' }
   ]);
 
   const ValidFileTypes = [
@@ -142,19 +142,18 @@ const AddDailyLog = () => {
   };
 
   //Pageload
-  const Changestaus = (value,IsPublish) =>
- {
+  const Changestaus = (value, IsPublish) => {
     const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
     {
       asSchoolId: Number(asSchoolId),
       asAcademicYearId: Number(asAcademicYearId),
       asLogId: value,
       asUpdatedById: TeacherId,
-      asIsPublished: IsPublish=='False'? true: false
+      asIsPublished: IsPublish == 'False' ? true : false
     };
 
     dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
-   
+
   };
 
 
@@ -325,7 +324,7 @@ const AddDailyLog = () => {
         toast.error(SaveDailyLog);
       else
         toast.success(SaveDailyLog);
-        dispatch(resetMessage());
+      dispatch(resetMessage());
       dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
     }
   }, [SaveDailyLog]);

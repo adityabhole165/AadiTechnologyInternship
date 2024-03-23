@@ -63,7 +63,7 @@ function SubjectList1({
                     textTransform: 'capitalize',
                     color: (theme) => theme.palette.common.white
                   }}
-
+                  align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
                 </TableCell>

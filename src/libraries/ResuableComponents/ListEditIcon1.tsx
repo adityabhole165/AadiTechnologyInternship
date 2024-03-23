@@ -27,6 +27,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                 <TableCell
                   key={i}
                   sx={{ textTransform: 'capitalize', color: 'white' }}
+                  align={item.align ? item.align : 'left'}
                 >
                   <b>{item.Header}</b>
                 </TableCell>
@@ -51,7 +52,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     <EditOff onClick={() => clickEdit({ SubjectId: item.SubjectId, StandardDivisionId: item.StandardDivisionId })} style={{ color: '#76ff03' }} />
                   )}
                 </TableCell> */}
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.Text4 === 'Not Started' && (
                     <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
                   )}
@@ -64,7 +65,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} >
+                <TableCell sx={{ textTransform: 'capitalize' }} align="center" >
                   {item.Text4 !== 'Complete' ? (
                     <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722', cursor: 'pointer' }} />
                   ) : (

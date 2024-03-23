@@ -51,13 +51,13 @@ function Adddailyloglist({
                     color: (theme) => theme.palette.common.white,
                     py: 1,
                   }}
-
                   onClick={() => { clickHeader(item.Id) }}
                 >
                   <div style={{
                     display: 'flex',
                     alignItems: 'center',
                     gap: 1,
+                    justifyContent: item?.align ? 'center' : 'flex-start'
                   }}>
                     <b>{item.Header}</b>
                     {item.SortOrder != undefined ?
@@ -100,7 +100,7 @@ function Adddailyloglist({
                   </ButtonPrimary>
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
                   {item.Text3 === 'False' ? (
                     <EditTwoTone
                       onClick={() => {
@@ -110,7 +110,7 @@ function Adddailyloglist({
                   ) : null}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} >
+                <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
                   {item.Text3 === 'False' ? (
                     <DeleteTwoTone onClick={() => clickDelete(item.Id)} />
                   ) : null}

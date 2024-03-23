@@ -278,19 +278,18 @@ const EventOverview = (props: Props) => {
                       .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
                       .map((obj, index) => (
                         <Grid item xs={3} key={index} sx={{ p: 1, height: '100%' }}>
-                          <Box sx={{ p: 1, border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
-                            <Typography variant={'h4'} color={'grey.600'}>{obj.DisplayDate}</Typography>
-                            <React.Fragment>
-                              <Box my={1}>
-                                <Divider />
-                              </Box>
-                              <Typography variant={'h4'}>Event Title: </Typography>
-                              <Typography variant={'h5'}>
-                                {obj.EventDescription}
-                              </Typography>
-                              <Typography>Standards: </Typography>
-                              <span>{obj.Standards}</span>
-                            </React.Fragment>
+                          <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+                            <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
+                            <Box sx={{ p: 1 }}>
+                              <React.Fragment>
+                                <Typography variant={'h4'}>Event Title: </Typography>
+                                <Typography variant={'h5'}>
+                                  {obj.EventDescription}
+                                </Typography>
+                                <Typography>Standards: </Typography>
+                                <span>{obj.Standards}</span>
+                              </React.Fragment>
+                            </Box>
                           </Box>
                         </Grid>
                       ))}

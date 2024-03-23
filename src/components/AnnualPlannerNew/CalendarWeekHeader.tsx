@@ -20,7 +20,10 @@ const CalendarWeekHeader = () => {
           sx={{ textAlign: 'center', pt: 0 }}
           key={i}
         >
-          <Box sx={{}}>
+          <Box sx={{
+            border: (theme) => `1px solid ${theme.palette.grey[300]}`,
+            p: 1
+          }}>
             <Typography
               sx={{
                 textTransform: 'capitalize',

@@ -16,7 +16,6 @@ function ListIcon({
     clickEdit,
     clickDelete,
     clickExport,
-
 }) {
     return (
         <div>
@@ -33,6 +32,7 @@ function ListIcon({
                                 <TableCell
                                     key={i}
                                     sx={{ textTransform: 'capitalize', color: 'white' }}
+                                    align={item.align ? item.align : 'left'}
                                 >
                                     <b>{item.Header}</b>
                                 </TableCell>
@@ -50,38 +50,54 @@ function ListIcon({
                                     {item.EndDate}
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text3}
-                                    <Visibility onClick={() => clickView(item.Id)} />
+                                    <Tooltip title={"View Remarks"}>
+                                        <Visibility onClick={() => clickView(item.Id)} />
+                                    </Tooltip>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text4}
-                                    <EditIcon onClick={() => clickEdit(item.Id)} />
+                                    <Tooltip title={"Edit"}>
+                                        <EditIcon onClick={() => clickEdit(item.Id)} />
+                                    </Tooltip>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text5}
-                                    <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                    <Tooltip title={"Delete"}>
+                                        <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                    </Tooltip>
                                 </TableCell>
 
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                    {item.Text3}
+                                    <Tooltip title={"View"}>
+                                        <Visibility onClick={() => { }} />
+                                    </Tooltip>
+                                </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text5}
                                     <Link component="button" onClick={() => clickExport(item.Id)}>
                                         Export
                                     </Link>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
+                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text6 === '0' ? (
                                         <Tooltip title={item.ReportingUserName} >
                                             <CheckIcon sx={{ color: 'green' }} />
                                         </Tooltip>
                                     ) : item.Text6 === '1' ? (
-                                        <CheckIcon sx={{ color: 'green' }} />
+                                        <Tooltip title={item.ReportingUserName} >
+                                            <CheckIcon sx={{ color: 'green' }} />
+                                        </Tooltip>
                                     ) : item.Text6 === '2' ? (
-                                        <CloseIcon sx={{ color: 'green' }} />
+                                        <Tooltip title={item.ReportingUserName} >
+                                            <CloseIcon sx={{ color: 'red' }} />
+                                        </Tooltip>
                                     ) : null}
                                 </TableCell>
 

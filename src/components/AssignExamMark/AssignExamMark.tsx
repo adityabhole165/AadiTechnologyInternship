@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Container, Divider, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -162,8 +162,8 @@ const AssignExamMark = () => {
   const HeaderPublish = [
     { Id: 1, Header: 'Class' },
     { Id: 2, Header: 'Subject' },
-    { Id: 3, Header: 'Edit' },
-    { Id: 4, Header: 'Submit' }
+    { Id: 3, Header: 'Edit', align: 'center' },
+    { Id: 4, Header: 'Submit', align: 'center' }
   ];
 
   const clickEdit = (value) => {
@@ -257,6 +257,21 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
       <Box sx={{ mt: 2, background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
+        {SubjectListmarkClass.length > 0 ? (
+          <ListEditIcon1
+            ItemList={SubjectListmarkClass}
+            clickEdit={clickEdit}
+            HeaderArray={HeaderPublish}
+            clicksubmit={ClickSubmit}
+          />
+        ) : (
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+          </Typography>
+
+        )}
+        <Divider sx={{ my: 2 }} />
+        <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ? (
           <ListEditIcon1
             ItemList={SubjectListmarkClass}
