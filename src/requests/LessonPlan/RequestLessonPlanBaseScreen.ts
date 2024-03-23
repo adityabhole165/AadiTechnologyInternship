@@ -3,6 +3,7 @@ import LessonPlanApi from 'src/api/LessonPlan/ApiLessonPlanBaseScreen';
 import {
   IAddOrEditLessonPlanDetailsBody,
   IDeleteLessonPlanBody,
+  IGetAllLessonPlanReportingConfigsBody,
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody
@@ -17,7 +18,8 @@ const LessonPlanBaseScreenSlice = createSlice({
     ResetDeletePlan: '',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
-    ISGetAllTeachersOfLessonPlan: []
+    ISGetAllTeachersOfLessonPlan: [],
+    ISGetAllLessonPlanReportingConfigs:[]
   },
 
   reducers: {
@@ -39,8 +41,13 @@ const LessonPlanBaseScreenSlice = createSlice({
     },
     RGetAllTeachersOfLessonPlan(state, action) {
       state.ISGetAllTeachersOfLessonPlan = action.payload;
+    },
+    RGetAllLessonPlanReportingConfigs(state, action) {
+      state.ISGetAllLessonPlanReportingConfigs = action.payload;
     }
 
+
+    
   }
 });
 export const CDAlessonplanlist =
@@ -101,6 +108,16 @@ export const CDAGetAllTeachersOfLessonPlan =
       });
       dispatch(
         LessonPlanBaseScreenSlice.actions.RGetAllTeachersOfLessonPlan(abc)
+      );
+    };
+
+
+    export const CDAGetAllLessonPlanReportingConfigs =
+  (data: IGetAllLessonPlanReportingConfigsBody): AppThunk =>
+    async (dispatch) => {
+      const response = await LessonPlanApi.GetAllLessonPlanReportingConfigs(data);
+      dispatch(
+        LessonPlanBaseScreenSlice.actions.RGetAllLessonPlanReportingConfigs(response.data)
       );
     };
 

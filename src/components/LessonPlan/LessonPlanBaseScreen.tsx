@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import {
   IAddOrEditLessonPlanDetailsBody,
   IDeleteLessonPlanBody,
+  IGetAllLessonPlanReportingConfigsBody,
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody
@@ -23,6 +24,7 @@ import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
+  CDAGetAllLessonPlanReportingConfigs,
   CDAGetAllTeachersOfLessonPlan,
   CDAlessonplanlist,
   GetLessonPlanreport,
@@ -62,6 +64,11 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
+  const USGetAllLessonPlanReportingConfigs: any = useSelector(
+    (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
+  );
+
+  console.log(USGetAllLessonPlanReportingConfigs, "USGetAllLessonPlanReportingConfigs");
 
 
   const DeleteLessonPlan: any = useSelector(
@@ -115,6 +122,16 @@ const LessonPlanBaseScreen = () => {
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
   }, [StartDate, EndDate, selectClasstecahernew]);
+
+  const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYrId: asAcademicYearId,
+    asUserId: Number(asUserId)
+  }
+  useEffect(() => {
+    dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
+  }, []);
+
 
   const downloadJsonToPdf = () => {
     // const doc = new jsPDF();
