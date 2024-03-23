@@ -139,13 +139,30 @@ export interface IGetAllTeachersOfLessonPlanBody {
   asAcademicYearId: number
   asReportingUserId: number
   asIsFullAccess: string
-} 
+}
 
 
 
-export interface IGetAllTeachersOfLessonPlanResult 
-  {
-    UserId: string
-    UserName: string
-  }
-  
+export interface IGetAllTeachersOfLessonPlanResult {
+  UserId: string
+  UserName: string
+}
+
+
+export interface IGetAllLessonPlanReportingConfigsBody {
+  asSchoolId: number
+  asAcademicYrId: number
+  asUserId: number
+}
+
+export interface IGetAllLessonPlanReportingConfigsResult {
+  ReportingUserId: string
+  ApprovalSortOrder: string
+  ReportingUserName: string
+  StartDate: string
+  EndDate: string
+  IsSubmitted: string
+  MinDate: string
+  MaxDate: string
+}
+

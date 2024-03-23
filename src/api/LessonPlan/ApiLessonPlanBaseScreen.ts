@@ -2,6 +2,8 @@ import {
   IAddOrEditLessonPlanDetailsBody,
   IAddOrEditLessonPlanDetailsResult,
   IDeleteLessonPlanBody,
+  IGetAllLessonPlanReportingConfigsBody,
+  IGetAllLessonPlanReportingConfigsResult,
   IGetAllTeachersOfLessonPlanBody,
   IGetAllTeachersOfLessonPlanResult,
   IGetLessonPlanDetailsForReportBody,
@@ -31,13 +33,18 @@ const GetAllTeachersOfLessonPlan = (data: IGetAllTeachersOfLessonPlanBody) => {
   return http.post<IGetAllTeachersOfLessonPlanResult[]>('Teacher/GetAllTeachersOfLessonPlan', data);
 };
 
+const GetAllLessonPlanReportingConfigs = (data: IGetAllLessonPlanReportingConfigsBody) => {
+  return http.post<IGetAllLessonPlanReportingConfigsResult[]>('Teacher/GetAllLessonPlanReportingConfigs', data);
+};
+
 
 const LessonPlanApi = {
   LessonPlanList,
   DeleteLessonPlan,
   LessonPlanReport,
   AddOrEditLessonPlanDetails,
-  GetAllTeachersOfLessonPlan
+  GetAllTeachersOfLessonPlan,
+  GetAllLessonPlanReportingConfigs
 };
 
 export default LessonPlanApi;
