@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import TeacherDropdownApi from 'src/api/TermwiseHeightWeight/ApiTermwiseHeightWeight';
+import TermwiseHeightWeightApi from 'src/api/TermwiseHeightWeight/ApiTermwiseHeightWeight';
 import {
   IClassTeacherDropdownBody,
   IStudentsListBody,
@@ -32,60 +32,61 @@ const TermwiseHeightWeightSlice = createSlice({
   }
 });
 
-export const TeacherNameList =
+export const getTeacherNameList =
   (data: IClassTeacherDropdownBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.ClassTeacherDropdown(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Teacher_Id,
-        Name: item.TeacherName,
-        Value: item.StandardDivisionId
-      };
-    });
-    dispatch(TermwiseHeightWeightSlice.actions.TeacherNameList(abc));
-  };
+    async (dispatch) => {
+      const response = await TermwiseHeightWeightApi.ClassTeacherDropdownApi(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Teacher_Id,
+          Name: item.TeacherName,
+          Value: item.StandardDivisionId
+        };
+      });
+      dispatch(TermwiseHeightWeightSlice.actions.TeacherNameList(abc));
+    };
 
-export const TermList =
+export const getTermList =
   (data: ITermDropdownBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.TermDropdown(data);
-    let abc = response.data.map((item, i) => {
-      return {
-        Id: item.Term_Id,
-        Name: item.Term_Name,
-        Value: item.Term_Id
-      };
-    });
-    dispatch(TermwiseHeightWeightSlice.actions.TermList(abc));
-  };
-export const studentdetails =
+    async (dispatch) => {
+      const response = await TermwiseHeightWeightApi.TermDropdownApi(data);
+      let abc = response.data.map((item, i) => {
+        return {
+          Id: item.Term_Id,
+          Name: item.Term_Name,
+          Value: item.Term_Id
+        };
+      });
+      dispatch(TermwiseHeightWeightSlice.actions.TermList(abc));
+    };
+export const getstudentdetails =
   (data: IStudentsListBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.StudentList(data);
-    let responseData = response.data.map((item) => {
-      return {
-        Id: item.RollNo,
-        Text1: item.RollNo,
-        Text2: item.StudentName,
-        Text3: item.Height,
-        Text4: item.Weight,
-        Text5: item.IsLeftStudent,
-        Text6: item.YearWiseStudentId
+    async (dispatch) => {
+      const response = await TermwiseHeightWeightApi.StudentListApi(data);
+      let responseData = response.data.map((item) => {
+        return {
+          Id: item.RollNo,
+          Text1: item.RollNo,
+          Text2: item.StudentName,
+          Text3: item.Height,
+          Text4: item.Weight,
+          Text5: item.IsLeftStudent,
+          Text6: item.YearWiseStudentId
 
-        // ==="1"?"color=red":item.StudentName
-      };
-    });
-    dispatch(TermwiseHeightWeightSlice.actions.studentdetails(responseData));
-  };
+          // ==="1"?"color=red":item.StudentName
+        };
+      });
+      dispatch(TermwiseHeightWeightSlice.actions.studentdetails(responseData));
+      console.log(Response, responseData)
+    };
 
-export const updatestudentlist =
+export const getupdatestudentlist =
   (data: IUpdateStudentDetailsBody): AppThunk =>
-  async (dispatch) => {
-    const response = await TeacherDropdownApi.UpdateStudentList(data);
-    dispatch(
-      TermwiseHeightWeightSlice.actions.updatestudentlist(response.data)
-    );
-  };
+    async (dispatch) => {
+      const response = await TermwiseHeightWeightApi.UpdateStudentListApi(data);
+      dispatch(
+        TermwiseHeightWeightSlice.actions.updatestudentlist(response.data)
+      );
+    };
 
 export default TermwiseHeightWeightSlice.reducer;

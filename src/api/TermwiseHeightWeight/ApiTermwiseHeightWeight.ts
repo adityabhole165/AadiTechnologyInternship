@@ -9,30 +9,24 @@ import {
 } from 'src/interfaces/TermwiseHeightWeight/ITermwiseHeightWeight';
 import http from '../../requests/SchoolService/schoolServices';
 
-const ClassTeacherDropdown = (data: IClassTeacherDropdownBody) => {
-  return http.post<IClassTeacherDropdownResult[]>(
-    'Teacher/GetAllPrimaryClassTeachers',
-    data
-  );
+const ClassTeacherDropdownApi = (data: IClassTeacherDropdownBody) => {
+  return http.post<IClassTeacherDropdownResult[]>('Teacher/GetAllPrimaryClassTeachers', data);
 };
-const TermDropdown = (data: ITermDropdownBody) => {
+const TermDropdownApi = (data: ITermDropdownBody) => {
   return http.post<ITermDropdownResult[]>('Teacher/GetTestwiseTerm', data);
 };
-const StudentList = (data: IStudentsListBody) => {
-  return http.post<IStudentsListResult[]>(
-    'Teacher/GetStudentListToCaptureHeighthWeight',
-    data
-  );
+const StudentListApi = (data: IStudentsListBody) => {
+  return http.post<IStudentsListResult[]>('Teacher/GetStudentListToCaptureHeighthWeight', data);
 };
-const UpdateStudentList = (data: IUpdateStudentDetailsBody) => {
+const UpdateStudentListApi = (data: IUpdateStudentDetailsBody) => {
   return http.post('Teacher/UpdateStudentDetailsForHeightWeight', data);
 };
 
-const TeacherDropdownApi = {
-  ClassTeacherDropdown,
-  TermDropdown,
-  StudentList,
-  UpdateStudentList
+const TermwiseHeightWeightApi = {
+  ClassTeacherDropdownApi,
+  TermDropdownApi,
+  StudentListApi,
+  UpdateStudentListApi
 };
 
-export default TeacherDropdownApi;
+export default TermwiseHeightWeightApi;
