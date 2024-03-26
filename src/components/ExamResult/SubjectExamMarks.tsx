@@ -134,7 +134,7 @@ const SubjectExamMarks = () => {
       asSchoolId: Number(asSchoolId),
       asSubject_Id: Number(SubjectId),
       asStandardDivision_Id: Number(StandardDivisionId),
-      asTestDate: "26/10/2023 12:00:00 AM"
+      asTestDate: TestDate
     };
 
     dispatch(getAllStudentsForMarksAssignments(GetAllStudentsForMarksAssignmentsBody));
