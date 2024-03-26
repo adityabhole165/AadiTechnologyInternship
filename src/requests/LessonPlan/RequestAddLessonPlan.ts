@@ -7,7 +7,7 @@ const AddLessonPlanSlice = createSlice({
   name: 'Add Lesson Plan',
   initialState: {
     ClassName: [],
-    AddOrEditLessonPlanDetails: null,
+    AddOrEditLessonPlanDetails: [],
     saveLessonPlanmsg: '',
     submitLessonPlanmsg: '',
     saveApproverCommentmsg: '',
@@ -62,7 +62,7 @@ export const classnamelist =
         };
       });
       dispatch(AddLessonPlanSlice.actions.getclassnamelist(abc));
-      console.log("responseData", abc)
+
     };
 
 export const GetAddOrEditLessonPlanDetails =
@@ -70,8 +70,29 @@ export const GetAddOrEditLessonPlanDetails =
     async (dispatch) => {
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.AddOrEditLessonPlanDetails(data);
-      dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(response.data));
-      console.log("responseData", response)
+      let reponseData = []
+      const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId) => {
+        let returnVal = []
+        response.data.LessonPlanParametersList.map((Item, i) => {
+          if (LessonPlanCategoryId == Item.LessonPlanCategoryId &&
+            (Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId)) {
+            returnVal.push(
+              { Id: Item.Id, label: Item.Title, value: "" }
+            )
+          }
+        })
+        return returnVal;
+      }
+      response.data.GetTeacherSubjectList.map((Item, i) => {
+        reponseData.push({
+          StdId: Item.Standard_Id,
+          DivisionId: Item.StdDivId,
+          lessonName: Item.ClassName + '(' + Item.Subject_Name + ')',
+          subject: Item.Subject_Name,
+          planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId)
+        })
+      })
+      dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
     };
 export const SaveLessonPlan =
   (data: ISaveLessonPlanBody): AppThunk =>
@@ -79,7 +100,7 @@ export const SaveLessonPlan =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.SaveLessonPlanapi(data);
       dispatch(AddLessonPlanSlice.actions.saveLessonPlan(response.data));
-      console.log("responseData", response)
+
     };
 
 export const resetsaveLessonPlan =
@@ -87,14 +108,13 @@ export const resetsaveLessonPlan =
     async (dispatch) => {
       dispatch(AddLessonPlanSlice.actions.resetsaveLessonPlan());
     };
-    
+
 export const getSubmitLessonPlan =
   (data: ISubmitLessonPlanBody): AppThunk =>
     async (dispatch) => {
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.SubmitLessonPlanapi(data);
       dispatch(AddLessonPlanSlice.actions.getsubmitLessonPlan(response.data));
-      console.log("SubmitresponseData", response)
     };
 export const getSaveApproverComment =
   (data: ISaveApproverCommentBody): AppThunk =>
@@ -102,7 +122,6 @@ export const getSaveApproverComment =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.SaveApproverCommentapi(data);
       dispatch(AddLessonPlanSlice.actions.getsaveApproverComment(response.data));
-      console.log("SaveApproverCommentresponseData", response)
     };
 export const getUpdateLessonPlanDate =
   (data: ISaveApproverCommentBody): AppThunk =>
@@ -110,7 +129,6 @@ export const getUpdateLessonPlanDate =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.UpdateLessonPlanDateapi(data);
       dispatch(AddLessonPlanSlice.actions.getupdateLessonPlanDate(response.data));
-      console.log("updateLessonPlanDateresponseData", response)
     };
 
 export default AddLessonPlanSlice.reducer;

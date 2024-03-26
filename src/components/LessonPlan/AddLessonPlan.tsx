@@ -56,107 +56,8 @@ const AddLessonPlan = () => {
       1, 2
     ]
   }]
-  const [exampleLessonDetails, setExampleLessonDetails] = useState([
-    {
-      StdId: 1,
-      DivisionId: 1,
-      lessonName: '6-C ( Marathi III )',
-      subject: 'Marathi',
-      planDetails: [
-        {
-          Id: 1,
-          label: "Topic / Sub topic",
-          value: ""
-        },
-        {
-          Id: 2,
-          label: "Resources & References",
-          value: ""
-        },
-        {
-          Id: 3,
-          label: "Instructional Objective and Learning Outcome",
-          value: ""
-        },
-        {
-          label: "Description of activities to be used to conduct the class",
-          value: "",
-          subPlanDetails: [
-            {
-              Id: 4,
-              label: "Continuity of learning experience.",
-              value: ""
-            },
-            {
-              Id: 5,
-              label: "Life Skills / Value based question.",
-              value: ""
-            },
-            {
-              Id: 6,
-              label: "Multiple Intelligence / Subject Integration.",
-              value: ""
-            }
-          ]
-        },
-        {
-          Id: 7,
-          label: "Homework Assigned",
-          value: ""
-        }
-      ],
-    },
-    {
-      StdId: 1,
-      DivisionId: 2,
-      lessonName: '6-C ( Marathi III )',
-      subject: 'Marathi',
-      planDetails: [
-        {
-          Id: 8,
-          label: "Topic / Sub topic",
-          value: ""
-        },
-        {
-          Id: 9,
-          label: "Resources & References",
-          value: ""
-        },
-        {
-          Id: 10,
-          label: "Instructional Objective and Learning Outcome",
-          value: ""
-        },
-        {
-          Id: 11,
-          label: "Description of activities to be used to conduct the class",
-          value: "",
-          subPlanDetails: [
-            {
-              Id: 12,
-              label: "Continuity of learning experience.",
-              value: ""
-            },
-            {
-              Id: 13,
-              label: "Life Skills / Value based question.",
-              value: ""
-            },
-            {
-              Id: 14,
-              label: "Multiple Intelligence / Subject Integration.",
-              value: ""
-            }
-          ]
-        },
-        {
-          Id: 15,
-          label: "Homework Assigned",
-          value: ""
-        }
-      ],
-    }
-  ])
+
+  const [exampleLessonDetails, setExampleLessonDetails] = useState([])
 
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
@@ -192,7 +93,7 @@ const AddLessonPlan = () => {
     const AddOrEditLessonPlanDetails: IAddOrEditLessonPlanDetailsBody = {
       asSchoolId: 18,
       asAcademicYearId: 54,
-      asStandardDivId: 1266,
+      asStandardDivId: 0,
       asUserId: 4463,
       asReportingUserId: 4463,
       asStartDate: "2024-10-10 12:00:00 AM",
@@ -201,7 +102,10 @@ const AddLessonPlan = () => {
     };
     dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetails))
   }, [])
-
+  useEffect(() => {
+    if (AddOrEditLessonPlanDetails.length > 0)
+      setExampleLessonDetails(AddOrEditLessonPlanDetails)
+  }, [AddOrEditLessonPlanDetails])
   useEffect(() => {
     if (SaveLessonPlans !== '') {
       toast.success(SaveLessonPlans)

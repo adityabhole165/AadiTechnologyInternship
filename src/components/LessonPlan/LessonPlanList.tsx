@@ -16,24 +16,23 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
         paddingBottom: theme.spacing(1),
         border: '1px solid rgba(224, 224, 224, 1)',
     }))
-    const onChangeValue = (Id, Value) => {
-        let returnVal = null;
+    const onChangeValue = (StdId, DivisionId, Id, Value) => {
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
-            returnVal = Item
-            Item.planDetails.map((obj, i) => {
-                if (obj.Id == Id) {
-                    returnVal.planDetails[i] = { ...returnVal.planDetails[i], value: Value }
-                }
-            })
-            return returnVal
+            return {
+                ...Item,
+                planDetails: Item.planDetails.map((obj, i) => {
+                    return {
+                        ...obj,
+                        value: (obj.Id == Id) ? Value : Item.planDetails[i].value
+                    }
+                })
+            }
         })
-        // exampleLessonDetails = returnV
         onTextChange(exampleLessonDetails)
     }
 
     const IsStd = (value) => {
         let returnVal = false;
-        console.log(StdDivision, "--", value);
 
         StdDivision.map((Item, i) => {
             if (Item.StdId == value)
@@ -101,17 +100,21 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                             {index + 1}
                                         </StyledCell>
                                         <StyledCell sx={{ p: 1 }}>
-                                            <TextField value={plan.value}
-                                                onChange={(e) => { onChangeValue(plan.Id, e.target.value) }}
-                                            ></TextField>
-                                            {/* <TextField
+                                            <TextField
                                                 label={plan.label}
                                                 value={plan.value}
                                                 fullWidth
                                                 multiline
                                                 rows={4}
-                                                onChange={(e) => { onChangeValue(plan.Id, e.target.value) }}
-                                            /> */}
+                                                onChange={(e) => {
+                                                    onChangeValue(
+                                                        lesson.StdId,
+                                                        lesson.DivisionId,
+                                                        plan.Id,
+                                                        e.target.value
+                                                    )
+                                                }}
+                                            />
                                             {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
                                                 <Table key={subIndex}>
                                                     <TableRow >
