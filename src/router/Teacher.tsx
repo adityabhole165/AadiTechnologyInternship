@@ -131,6 +131,9 @@ const AadharCard = Loader(
 const WeeklyTimetable = Loader(
   lazy(() => import('src/components/WeeklyTimetable/WeeklyTimetable'))
 )
+const ExamResultToppers = Loader(
+  lazy(() => import('src/components/ExamResult/ExamResultToppers'))
+)
 
 
 const teacherRoutes = [
@@ -346,7 +349,12 @@ const teacherRoutes = [
   {
     path: 'WeeklyTimetable',
     element: <WeeklyTimetable />
+  },
+  {
+    path: 'ExamResultToppers',
+    element: <ExamResultToppers />
   }
+
 ];
 
 export default teacherRoutes;

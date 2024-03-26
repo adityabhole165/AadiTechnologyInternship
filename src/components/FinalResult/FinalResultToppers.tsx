@@ -247,8 +247,8 @@ const FinalResultToppers = () => {
         <IconButton
           sx={{
             color: 'White',
-            backgroundColor: grey[500],
-            ':hover': { backgroundColor: grey[600] }
+            // backgroundColor: grey[500],
+            // ':hover': { backgroundColor: grey[600] }
           }}
         >
           <Help />
