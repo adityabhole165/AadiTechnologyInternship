@@ -79,6 +79,11 @@ const TermwiseHeightWeight = () => {
   }, [TermDropdown]);
 
   useEffect(() => {
+    if (ClassTeacherDropdown.length > 0)
+    setSelectTeacher(ClassTeacherDropdown[0].Id);
+  }, [ClassTeacherDropdown]);
+
+  useEffect(() => {
     const StudentlistBody: IStudentsListBody = {
       asStdDivId: 1266,
       asAcademic_Year_Id: 54,
