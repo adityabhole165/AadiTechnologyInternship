@@ -82,11 +82,17 @@ function SelectSchool() {
   );
   const res = localStorage.getItem('auth');
   useEffect(() => {
+    localStorage.setItem(
+      'SchoolSettingsValue',
+      JSON.stringify(schoolSettingList)
+    );
+  }, [schoolSettingList])
+  useEffect(() => {
     if (schoolId != null && schoolId != undefined) {
-      localStorage.setItem(
-        'SchoolSettingsValue',
-        JSON.stringify(schoolSettingList)
-      );
+      // localStorage.setItem(
+      //   'SchoolSettingsValue',
+      //   JSON.stringify(schoolSettingList)
+      // );
 
       if (res === null) {
         dispatch(getSchoolSettingsValue({ asSchoolId: schoolId }));
@@ -108,8 +114,8 @@ function SelectSchool() {
     //Logo is set during localstorage setting. On refresh its again displayed through here
     setimg_src(
       logoURL +
-        localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
-        '_logo.png'
+      localStorage.getItem('TermsSchoolName')?.split(' ').join('%20') +
+      '_logo.png'
     );
   }, []);
   // end select School
@@ -132,7 +138,7 @@ function SelectSchool() {
 
   const errorOccur = (value) => {
     toast.error(value, { toastId: 'error1' });
-    setTimeout(() => {}, 3000);
+    setTimeout(() => { }, 3000);
   };
 
   const setSession = async (response) => {
@@ -218,10 +224,7 @@ function SelectSchool() {
       sessionStorage.setItem('DesignationName', teacherDetails.DesignationName);
       sessionStorage.setItem('DivisionId', teacherDetails.DivisionId);
       sessionStorage.setItem('StandardId', teacherDetails.StandardId);
-      sessionStorage.setItem(
-        'StandardDivisionId',
-        teacherDetails.StandardDivisionId
-      );
+      sessionStorage.setItem('StandardDivisionId', teacherDetails.StandardDivisionId);
       sessionStorage.setItem('ClassName', teacherDetails.ClassName);
       sessionStorage.setItem('AcademicYearId', teacherDetails.AcademicYearId);
       sessionStorage.setItem('EndDate', teacherDetails.EndDate);
@@ -229,7 +232,9 @@ function SelectSchool() {
       sessionStorage.setItem('SchoolName', teacherDetails.asSchoolName);
       sessionStorage.setItem('DOB', teacherDetails.DOB);
       sessionStorage.setItem('MobileNumber', teacherDetails.MobileNumber);
+      sessionStorage.setItem('SchoolConfiguration', JSON.stringify(teacherDetails.SchoolConfiguration));
     }
+
 
     if (result.RoleName === 'Admin Staff') {
       sessionStorage.setItem('AcademicYearId', adminDetails.AcademicYearId);

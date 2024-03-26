@@ -47,6 +47,14 @@ const LessonPlanBaseScreen = () => {
 
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
+  const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
+  let CanEdit = ""
+  SchoolConfiguration.map((Item) => {
+    if (Item.Configure_Id == 233)
+      CanEdit = Item.Can_Edit
+  })
+  console.log(SchoolConfiguration, "CanEdit", CanEdit);
+
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
 
   const [StartDate, setStartDate] = useState();
