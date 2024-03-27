@@ -24,6 +24,10 @@ export interface IAuthenticateUserResult {
   DOB: string;
   LastPasswordChangeDate: string;
   StudentSiblingList: [{ UserName: string; Password: string }];
+  SchoolConfiguration: [{
+    Configure_Id: Number;
+    Can_Edit: string;
+  }]
 }
 
 export interface IStudentDetails {

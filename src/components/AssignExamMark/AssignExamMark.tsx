@@ -35,6 +35,9 @@ const AssignExamMark = () => {
 
   const [selectClass, SetSelectClass] = useState();
   const [ClassWiseExam, SetClassWiseExam] = useState();
+  const [MyclassList, SetMyclassList] = useState(true);
+
+
   const { showAlert, closeAlert } = useContext(AlertContext);
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
@@ -57,10 +60,30 @@ const AssignExamMark = () => {
     (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass
   );
 
+  const SubjectListmarkClass1 = useSelector(
+    (state: RootState) => state.AssignExamMarkSlice.ISSubjectListClass1
+  );
+
+
+
+
   const UsSubmitMarksTeacher = useSelector(
     (state: RootState) => state.AssignExamMarkSlice.ISSubmitMarksTeacher
   );
   console.log(UsSubmitMarksTeacher, 'UsSubmitMarksTeacher');
+
+  const ScreensAccessPermission = JSON.parse(
+    sessionStorage.getItem('ScreensAccessPermission')
+  );
+
+  const GetScreenPermission = () => {
+    let perm = 'N';
+    ScreensAccessPermission.map((item) => {
+      if (item.ScreenName === 'AssignExamMark') perm = item.IsFullAccess;
+    });
+    return perm;
+  };
+
 
   //ClassDrpdown
 
@@ -69,7 +92,9 @@ const AssignExamMark = () => {
     asAcademicYearId: asAcademicYearId,
     aTeacherId: aTeacherId,
     asExamId: ClassWiseExam,
-    asStandardDivisionId: selectClass
+    asStandardDivisionId: selectClass,
+    IsClassTeacher: true
+
   };
   const GetAssignExam: IAssignClassBody = {
     asSchoolId: asSchoolId,
@@ -271,20 +296,26 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
         )}
         <Divider sx={{ my: 2 }} />
-        <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
-        {SubjectListmarkClass.length > 0 ? (
-          <ListEditIcon1
-            ItemList={SubjectListmarkClass}
-            clickEdit={clickEdit}
-            HeaderArray={HeaderPublish}
-            clicksubmit={ClickSubmit}
-          />
-        ) : (
-          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-            <b>No Record Found.</b>
-          </Typography>
+        <Box mt={2}>
+          {SubjectListmarkClass1.length > 0 && (
+            <div>
+              <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+              {SubjectListmarkClass1.length > 0 ? (
+                <ListEditIcon1
+                  ItemList={SubjectListmarkClass1}
+                  clickEdit={clickEdit}
+                  HeaderArray={HeaderPublish}
+                  clicksubmit={ClickSubmit}
+                />
+              ) : (
+                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                  <b>No Record Found.</b>
+                </Typography>
+              )}
+            </div>
+          )}
+        </Box>
 
-        )}
 
         <Grid container sx={{ mt: 2 }}>
           <Grid item xs={12}>

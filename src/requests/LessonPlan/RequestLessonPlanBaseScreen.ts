@@ -58,8 +58,10 @@ export const CDAlessonplanlist =
       const combinedList = response.data.listResult1st.map((item, i) => ({
         StartDate: item.StartDate,
         EndDate: item.EndDate,
-        Text6: response.data.listResult2nd[i]?.ApprovalSortOrder,
-        ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName
+        Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
+        ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
+        Text3: item.Remarks
+
       }));
 
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(combinedList));

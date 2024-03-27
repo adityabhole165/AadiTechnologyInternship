@@ -14,6 +14,7 @@ const AssignExamMarkSlice = createSlice({
     ISAssignExam: [],
     ISAssignClassExam: [],
     ISSubjectListClass: [],
+    ISSubjectListClass1: [],
     ISSubmitMarksTeacher: '',
     ISSubmitMarksRest: ''
   },
@@ -30,6 +31,10 @@ const AssignExamMarkSlice = createSlice({
 
     getsubjectList(state, action) {
       state.ISSubjectListClass = action.payload;
+    },
+
+    getsubjectList1(state, action) {
+      state.ISSubjectListClass1 = action.payload;
     },
 
     RSubmitMarksTeacher(state, action) {
@@ -93,22 +98,38 @@ export const GetSubjectList =
   (data: ISubjectsExamMarksStatusForClassBody): AppThunk =>
     async (dispatch) => {
       const response = await AssignExamMarkApi.SubjectsExamMarks(data);
+      let ClassList = response.data.ExamMarksStatusForClass.map(item => ({
+        Id: item.Subject_Id,
+        Text1: item.StandardDivision,
+        Text2: item.Subject_Name,
+        Text3: item.Is_Submitted,
+        Text4: item.STATUS,
+        Text5: item.StatusDescription,
+        SubjectId: item.Subject_Id,
+        StandardDivisionId: item.Standard_Division_Id
+      }))
 
-      let a = response.data.map((item, i) => {
-        return {
-          Id: item.Subject_Id,
-          Text1: item.StandardDivision,
-          Text2: item.Subject_Name,
-          Text3: item.Is_Submitted,
-          Text4: item.STATUS,
-          Text5: item.StatusDescription,
-          SubjectId: item.Subject_Id,
-          StandardDivisionId: item.Standard_Division_Id
-        };
 
-      });
-      dispatch(AssignExamMarkSlice.actions.getsubjectList(a));
+      let MyClassList = response.data.ExamMarksStatusForClassTeacher.map(item => ({
+        Id: item.Subject_Id,
+        Text1: item.StandardDivision,
+        Text2: item.Subject_Name,
+        Text3: item.Is_Submitted,
+        Text4: item.STATUS,
+        Text5: item.StatusDescription,
+        SubjectId: item.Subject_Id,
+        StandardDivisionId: item.Standard_Division_Id
+      }))
+
+
+      dispatch(AssignExamMarkSlice.actions.getsubjectList(ClassList));
+      dispatch(AssignExamMarkSlice.actions.getsubjectList1(MyClassList));
+     
+
     };
+
+
+
 
 export const ReqSubmitMarksTeacher =
   (data: ISubmitTestMarksToClassTeacherBody): AppThunk =>

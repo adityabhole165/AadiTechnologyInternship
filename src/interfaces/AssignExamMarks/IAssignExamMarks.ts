@@ -30,25 +30,47 @@ export interface ISubjectsExamMarksStatusForClassBody {
   asAcademicYearId: number;
   aTeacherId: number;
   asExamId: number;
-
+  IsClassTeacher:boolean;
   asStandardDivisionId: number;
 }
 
 export interface ISubjectsExamMarksStatusForClassBodyResult {
-  StandardDivision: string;
-  Standard_Division_Id: string;
-  Standard_Id: string;
-  Division_Id: string;
-  Subject_Id: string;
-  Subject_Name: String;
-  Is_Submitted: string;
-  STATUS: string;
-  IncompleteRollNos: string;
-  Is_MonthConfig: boolean;
-  AllowPartialSubmit: string;
-  IsXseedSubject: string;
-  StatusDescription: string;
+  ExamMarksStatusForClass: [{
+    StandardDivision: string;
+    Standard_Division_Id: string;
+    Standard_Id: string;
+    Division_Id: string;
+    Subject_Id: string;
+    Subject_Name: string;
+    Is_Submitted: string;
+    STATUS: string;
+    IncompleteRollNos: string;
+    Is_MonthConfig: string;
+    AllowPartialSubmit: string;
+    IsXseedSubject: string;
+    StatusDescription: string;
+  }],
+  ExamMarksStatusForClassTeacher: [{
+
+    StandardDivision: string;
+    Standard_Division_Id: string;
+    Standard_Id: string;
+    Division_Id: string;
+    Subject_Id: string;
+    Subject_Name: string;
+    Is_Submitted: string;
+    STATUS: string;
+    IncompleteRollNos: string;
+    Is_MonthConfig: string;
+    AllowPartialSubmit: string;
+    IsXseedSubject: string;
+    StatusDescription: string;
+  }]
 }
+
+
+
+
 
 export interface ISubmitTestMarksToClassTeacherBody {
   asStandardDivisionId: string;
