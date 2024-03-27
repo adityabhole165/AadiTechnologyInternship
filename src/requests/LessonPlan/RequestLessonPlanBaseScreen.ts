@@ -118,8 +118,17 @@ export const CDAGetAllTeachersOfLessonPlan =
   (data: IGetAllLessonPlanReportingConfigsBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.GetAllLessonPlanReportingConfigs(data);
+
+      let SubmitStatus = response.data.map((item, i) => {
+        return {
+          StartDate: item.StartDate,
+          EndDate: item.EndDate,
+          Text8: item.ApprovalSortOrder,
+          ReportingUserName:item.ReportingUserName
+        };
+      });
       dispatch(
-        LessonPlanBaseScreenSlice.actions.RGetAllLessonPlanReportingConfigs(response.data)
+        LessonPlanBaseScreenSlice.actions.RGetAllLessonPlanReportingConfigs(SubmitStatus)
       );
     };
 

@@ -33,7 +33,6 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import { RootState } from 'src/store';
-import { logoURL } from '../Common/Util';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -73,12 +72,13 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
-  console.log(LessonPlanList,"LessonPlanList");
-  
+  console.log(LessonPlanList, "LessonPlanList");
+
 
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
   );
+  console.log(USGetAllLessonPlanReportingConfigs, "USGetAllLessonPlanReportingConfigs");
 
 
 
@@ -118,7 +118,7 @@ const LessonPlanBaseScreen = () => {
     { Id: 7, Header: 'Export', align: 'center' },
     { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
-  
+
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
@@ -139,14 +139,19 @@ const LessonPlanBaseScreen = () => {
   useEffect(() => {
     if (CanEdit == 'Y') {
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+
     }
   }, [selectClasstecahernew]);
-  
+
+  useEffect(() => {
+    dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
+  }, [selectClasstecahernew]);
+
 
   const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asUserId: Number(asUserId)
+    asUserId: asUserId
   }
   useEffect(() => {
     dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
@@ -342,18 +347,18 @@ const LessonPlanBaseScreen = () => {
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Box sx={{ background: 'white' }}>
-            {CanEdit == 'Y' && (
-          <Box sx={{ background: 'white' }}>
-            <SearchableDropdown
-              label={"Select Teacher"}
-              sx={{ pl: 0, minWidth: '350px' }}
-              ItemList={USGetAllTeachersOfLessonPlan}
-              onChange={ClickSelctTecher}
-              defaultValue={selectClasstecahernew}
-              size={"small"}
-            />
-          </Box>
-        )}  
+              {CanEdit == 'Y' && (
+                <Box sx={{ background: 'white' }}>
+                  <SearchableDropdown
+                    label={"Select Teacher"}
+                    sx={{ pl: 0, minWidth: '350px' }}
+                    ItemList={USGetAllTeachersOfLessonPlan}
+                    onChange={ClickSelctTecher}
+                    defaultValue={selectClasstecahernew}
+                    size={"small"}
+                  />
+                </Box>
+              )}
             </Box>
             <Box sx={{ background: 'white' }}>
               <TextField
@@ -446,6 +451,7 @@ const LessonPlanBaseScreen = () => {
               CanEdit={CanEdit}
               clicknav={Clicknav}
               SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
+              ReportingConfigs={USGetAllLessonPlanReportingConfigs}
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -491,14 +497,14 @@ const LessonPlanBaseScreen = () => {
             <Stack gap={1}>
               <Typography variant={"h4"}>
 
-              {itemToDisplay && (
-              <div>
-         
-         <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
-            {stripHtmlTags(itemToDisplay.Text3)}
-          </Typography>
-              </div>
-               )}
+                {itemToDisplay && (
+                  <div>
+
+                    <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
+                      {stripHtmlTags(itemToDisplay.Text3)}
+                    </Typography>
+                  </div>
+                )}
 
 
               </Typography>

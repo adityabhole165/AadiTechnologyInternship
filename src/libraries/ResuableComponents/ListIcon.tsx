@@ -1,7 +1,3 @@
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-import Visibility from '@mui/icons-material/Visibility';
 import { Box, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,6 +5,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import Visibility from '@mui/icons-material/Visibility';
 
 function ListIcon({
     HeaderArray,
@@ -19,27 +19,44 @@ function ListIcon({
     clickExport,
     CanEdit,
     clicknav,
-    SubmitedByReportingUser
-
+    SubmitedByReportingUser,
+    ReportingConfigs
 }) {
+    const getStatusIcon = (status, item) => {
+        let icon;
+        switch (status) {
+            case '0':
+                icon = <CheckIcon sx={{ color: 'green' }} />;
+                break;
+            case '1':
+                icon = <CheckIcon sx={{ color: 'green' }} />;
+                break;
+            case '2':
+                icon = <CloseIcon sx={{ color: 'red' }} />;
+                break;
+           
+            default:
+                icon = null;
+                break;
+        }
+        return (
+            <Tooltip title={item.ReportingUserName}>
+                {icon}
+            </Tooltip>
+        );
+    };
+    
+
     return (
         <div>
             <TableContainer component={Box}>
-                <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
+                <Table aria-label="simple table">
                     <TableHead>
-                        <TableRow
-                            sx={{
-                                backgroundColor: (theme) => theme.colors.primary.main,
-                                color: (theme) => theme.palette.common.white
-                            }}
-                        >
+                        <TableRow>
                             {HeaderArray.map((item, i) => (
-                                <TableCell
-                                    key={i}
-                                    sx={{ textTransform: 'capitalize', color: 'white' }}
-                                    align={item.align ? item.align : 'left'}
-                                >
-                                    <b>{item.Header}</b>
+                              <TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84' ,color:'white'}}>
+                              <b>{item.Header}</b>
+                                  
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -47,76 +64,49 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.Id}>
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
-                                    {item.StartDate}
-                                </TableCell>
-
-                                <TableCell sx={{ textTransform: 'capitalize' }} >
-                                    {item.EndDate}
-                                </TableCell>
-
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text3 === "" ? (
-                                        "-"
-                                    ) : (
-                                        <>
-
-                                            <Tooltip title={"View Remarks"}>
-                                                <Visibility onClick={() => clickView(item.Id)} />
-                                            </Tooltip>
-                                        </>
+                                <TableCell>{item.StartDate}</TableCell>
+                                <TableCell>{item.EndDate}</TableCell>
+                                <TableCell align="center">
+                                    {item.Text3 === "" ? "-" : (
+                                        <Tooltip title={"View Remarks"}>
+                                            <Visibility onClick={() => clickView(item.Id)} />
+                                        </Tooltip>
                                     )}
                                 </TableCell>
-
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell align="center">
                                     {item.Text4}
                                     <Tooltip title={"Edit"}>
                                         <EditIcon onClick={() => clickEdit(item.Id)} />
                                     </Tooltip>
                                 </TableCell>
-
-                                {SubmitedByReportingUser !== '0' ? (
-                                    <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                {SubmitedByReportingUser !== '0' && (
+                                    <TableCell align="center">
                                         {item.Text5}
                                         <Tooltip title={"Delete"}>
                                             <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
                                         </Tooltip>
                                     </TableCell>
-                                ) : null}
-
-
-
+                                )}
                                 {CanEdit === 'Y' && (
-                                    <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                    <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => clicknav(item.Id)} />
                                         </Tooltip>
                                     </TableCell>
                                 )}
-
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                <TableCell align="center">
                                     {item.Text5}
                                     <Link component="button" onClick={() => clickExport(item.Id)}>
                                         Export
                                     </Link>
                                 </TableCell>
-
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text8 === '0' ? (
-                                        <Tooltip title={item.ReportingUserName} >
-                                            <CheckIcon sx={{ color: 'green' }} />
-                                        </Tooltip>
-                                    ) : item.Text8 === '1' ? (
-                                        <Tooltip title={item.ReportingUserName} >
-                                            <CheckIcon sx={{ color: 'green' }} />
-                                        </Tooltip>
-                                    ) : item.Text8 === '2' ? (
-                                        <Tooltip title={item.ReportingUserName} >
-                                            <CloseIcon sx={{ color: 'red' }} />
-                                        </Tooltip>
-                                    ) : null}
+                                <TableCell align="center">
+                                    {ReportingConfigs.map((config) => {
+                                        if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
+                                            return getStatusIcon(config.Text8, item);
+                                        }
+                                    })}
                                 </TableCell>
-
                             </TableRow>
                         ))}
                     </TableBody>
