@@ -9,6 +9,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+
 function ListIcon({
     HeaderArray,
     ItemList,
@@ -16,6 +17,9 @@ function ListIcon({
     clickEdit,
     clickDelete,
     clickExport,
+    CanEdit,
+    clicknav
+     
 }) {
     return (
         <div>
@@ -51,10 +55,16 @@ function ListIcon({
                                 </TableCell>
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text3}
-                                    <Tooltip title={"View Remarks"}>
-                                        <Visibility onClick={() => clickView(item.Id)} />
-                                    </Tooltip>
+                                    {item.Text3 === "" ? (
+                                        "-"
+                                    ) : (
+                                        <>
+                                           
+                                            <Tooltip title={"View Remarks"}>
+                                                <Visibility onClick={() => clickView(item.Id)} />
+                                            </Tooltip>
+                                        </>
+                                    )}
                                 </TableCell>
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
@@ -71,12 +81,14 @@ function ListIcon({
                                     </Tooltip>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text3}
-                                    <Tooltip title={"View"}>
-                                        <Visibility onClick={() => { }} />
-                                    </Tooltip>
-                                </TableCell>
+                                {/* Conditional rendering for 'View' cell */}
+                                {CanEdit === 'Y' && (
+                                    <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                        <Tooltip title={"View"}>
+                                            <Visibility  onClick={() => clicknav(item.Id)} />
+                                        </Tooltip>
+                                    </TableCell>
+                                )}
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                     {item.Text5}
@@ -86,15 +98,15 @@ function ListIcon({
                                 </TableCell>
 
                                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text6 === '0' ? (
+                                    {item.Text8 === '0' ? (
                                         <Tooltip title={item.ReportingUserName} >
                                             <CheckIcon sx={{ color: 'green' }} />
                                         </Tooltip>
-                                    ) : item.Text6 === '1' ? (
+                                    ) : item.Text8 === '1' ? (
                                         <Tooltip title={item.ReportingUserName} >
                                             <CheckIcon sx={{ color: 'green' }} />
                                         </Tooltip>
-                                    ) : item.Text6 === '2' ? (
+                                    ) : item.Text8 === '2' ? (
                                         <Tooltip title={item.ReportingUserName} >
                                             <CloseIcon sx={{ color: 'red' }} />
                                         </Tooltip>
