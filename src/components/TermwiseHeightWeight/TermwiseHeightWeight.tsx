@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
+import { Styles } from 'src/assets/style/student-style';
 import {
   IClassTeacherDropdownBody,
   IGetFinalPublishedExamStatusBody,
@@ -15,7 +16,8 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import DotLegend from 'src/libraries/summary/DotLegend';
+import { CardDetail7 } from 'src/libraries/styled/CardStyle';
+import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
 
 import {
   getFinalPublishedExamStatus,
@@ -53,6 +55,7 @@ const TermwiseHeightWeight = () => {
   const Note = [
     'User can not change or update any data once summative exam is published.'];
   const Header = ['Note:'];
+  const classes = Styles();
   const HeaderOfTable = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Student Name' },
@@ -235,7 +238,14 @@ const TermwiseHeightWeight = () => {
         </Grid>
         <br></br>
         <Stack>
-          <DotLegend text="Left Students" color="error" />
+          {/* <DotLegend text="Left Students" color="error" /> */}
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+            <CardDetail7>Left Students</CardDetail7>
+          </DotLegend1>
         </Stack>
         <br></br>
         {SelectTeacher > 0 && (
