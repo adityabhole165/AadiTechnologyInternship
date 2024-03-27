@@ -60,7 +60,8 @@ export const CDAlessonplanlist =
         EndDate: item.EndDate,
         Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
         ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
-        Text3: item.Remarks
+        Text3: item.Remarks,
+        SubmitedByReportingUser:item.SubmitedByReportingUser
 
       }));
 

@@ -18,8 +18,9 @@ function ListIcon({
     clickDelete,
     clickExport,
     CanEdit,
-    clicknav
-     
+    clicknav,
+    SubmitedByReportingUser
+
 }) {
     return (
         <div>
@@ -59,7 +60,7 @@ function ListIcon({
                                         "-"
                                     ) : (
                                         <>
-                                           
+
                                             <Tooltip title={"View Remarks"}>
                                                 <Visibility onClick={() => clickView(item.Id)} />
                                             </Tooltip>
@@ -74,18 +75,21 @@ function ListIcon({
                                     </Tooltip>
                                 </TableCell>
 
-                                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                                    {item.Text5}
-                                    <Tooltip title={"Delete"}>
-                                        <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
-                                    </Tooltip>
-                                </TableCell>
+                                {SubmitedByReportingUser !== '0' ? (
+                                    <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                                        {item.Text5}
+                                        <Tooltip title={"Delete"}>
+                                            <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                        </Tooltip>
+                                    </TableCell>
+                                ) : null}
 
-                                {/* Conditional rendering for 'View' cell */}
+
+
                                 {CanEdit === 'Y' && (
                                     <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                                         <Tooltip title={"View"}>
-                                            <Visibility  onClick={() => clicknav(item.Id)} />
+                                            <Visibility onClick={() => clicknav(item.Id)} />
                                         </Tooltip>
                                     </TableCell>
                                 )}

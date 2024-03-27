@@ -33,6 +33,7 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import { RootState } from 'src/store';
+import { logoURL } from '../Common/Util';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,17 +56,15 @@ const LessonPlanBaseScreen = () => {
     if (Item.Configure_Id == 233)
       CanEdit = Item.Can_Edit
   })
-  console.log(SchoolConfiguration, "CanEdit", CanEdit);
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
 
   const [StartDate, setStartDate] = useState();
   const [EndDate, setEndDate] = useState();
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
-    sessionStorage.getItem('TeacherId')
+    localStorage.getItem('UserId')
   );
-  console.log('StartDate---', StartDate);
-  console.log('EndDate---', EndDate);
+
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -74,11 +73,13 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
+  console.log(LessonPlanList,"LessonPlanList");
+  
+
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
   );
 
-  console.log(USGetAllLessonPlanReportingConfigs, "USGetAllLessonPlanReportingConfigs");
 
 
   const DeleteLessonPlan: any = useSelector(
@@ -255,7 +256,6 @@ const LessonPlanBaseScreen = () => {
 
 
   const clickView = (Id) => {
-    console.log(clickView, "clickView");
     setOpenViewRemarkDialog(true);
   }
 
@@ -445,6 +445,7 @@ const LessonPlanBaseScreen = () => {
               clickExport={downloadJsonToPdf}
               CanEdit={CanEdit}
               clicknav={Clicknav}
+              SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
