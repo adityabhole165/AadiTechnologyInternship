@@ -14,7 +14,8 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
+import DotLegend from 'src/libraries/summary/DotLegend';
+
 import {
   getTeacherNameList,
   getTermList,
@@ -56,10 +57,6 @@ const TermwiseHeightWeight = () => {
   ];
 
   useEffect(() => {
-    setItemlist(StudentList);
-  }, [StudentList]);
-
-  useEffect(() => {
     const ClassTeacherBody: IClassTeacherDropdownBody = {
       asSchoolId: asSchoolId,
       asAcademicYearID: asAcademicYearId
@@ -74,24 +71,28 @@ const TermwiseHeightWeight = () => {
   }, []);
 
   useEffect(() => {
+    if (ClassTeacherDropdown.length > 0)
+      setSelectTeacher(ClassTeacherDropdown[0].Id);
+  }, [ClassTeacherDropdown]);
+
+  useEffect(() => {
     if (TermDropdown.length > 0)
       setSelectTerm(TermDropdown[0].Id);
   }, [TermDropdown]);
 
   useEffect(() => {
-    if (ClassTeacherDropdown.length > 0)
-    setSelectTeacher(ClassTeacherDropdown[0].Id);
-  }, [ClassTeacherDropdown]);
-
-  useEffect(() => {
     const StudentlistBody: IStudentsListBody = {
-      asStdDivId: 1266,
-      asAcademic_Year_Id: 54,
-      asSchoolId: 18,
-      asTerm_Id: 1
+      asStdDivId: SelectTeacher,
+      asAcademic_Year_Id: asAcademicYearId,
+      asSchoolId: asSchoolId,
+      asTerm_Id: SelectTerm
     };
     dispatch(getstudentdetails(StudentlistBody));
   }, [SelectTeacher, SelectTerm]);
+
+  useEffect(() => {
+    setItemlist(StudentList);
+  }, [StudentList]);
 
   const [HeightXML, setHeightXML] = useState('');
   const [WeightXML, setWeightXML] = useState('');
@@ -191,7 +192,7 @@ const TermwiseHeightWeight = () => {
               sx={{ minWidth: '300px' }}
               ItemList={ClassTeacherDropdown}
               onChange={clickTeacherDropdown}
-              label={'Select'}
+              label={'Class Teacher'}
               defaultValue={SelectTeacher.toString()} // Convert number to string
               mandatory
               size={"small"}
@@ -215,18 +216,14 @@ const TermwiseHeightWeight = () => {
               mandatory
               size={"small"}
             />
-
             <br></br>
           </Grid>
         </Grid>
-
-        <br></br>
         <br></br>
         <Stack>
-          <DotLegendTeacher text="Left Students" color="error" />
+          <DotLegend text="Left Students" color="error" />
         </Stack>
         <br></br>
-
         {SelectTeacher > 0 && (
           <div>
             <Grid item xs={6}>
