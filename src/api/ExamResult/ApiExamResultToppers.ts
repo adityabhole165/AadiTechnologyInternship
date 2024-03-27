@@ -1,6 +1,10 @@
 import {
+    IGetClassExamDropDownBodyCT,
+    IGetClassExamDropDownResultCT,
+    IGetClassNameDropDownBodyCT,
+    IGetClassNameDropDownResultCT,
     IGetClassSubjectDropdownBodyCT,
-    IGetClassSubjectDropdownResultCT,
+    IGetClassSubjectDropdownResultCT
 } from 'src/interfaces/ExamResult/IExamResultToppers';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -10,12 +14,18 @@ const ClassSubjectDropDownCT = (data: IGetClassSubjectDropdownBodyCT) => {
         data
     );
 };
-//   const ClassExamDropdownCT = (data: IGetexamDropdownBodyCT) => {
-//     return http.post<IGetExamDropdownResultCT[]>(
-//       'Teacher/GetClassExamDropDown',
-//       data
-//     );
-//   };
+const ClassExamDropdownCT = (data: IGetClassExamDropDownBodyCT) => {
+    return http.post<IGetClassExamDropDownResultCT[]>(
+        'Teacher/GetClassExamDropDown',
+        data
+    );
+};
+const ClassNameDropdownCT = (data: IGetClassNameDropDownBodyCT) => {
+    return http.post<IGetClassNameDropDownResultCT[]>(
+        'Teacher/GetClassForExamDropDown',
+        data
+    );
+};
 //   const ClassSubjectDropdownCT = (data: IGetClassSubjectDropdownBodyCT) => {
 //     return http.post<IGetClassSubjectDropdownResultCT[]>(
 //       'Teacher/GetClassSubjectsDropDown',
@@ -29,6 +39,8 @@ const ClassSubjectDropDownCT = (data: IGetClassSubjectDropdownBodyCT) => {
 //     );
 //   };
 const ExamResultToppersApi = {
-    ClassSubjectDropDownCT
+    ClassSubjectDropDownCT,
+    ClassExamDropdownCT,
+    ClassNameDropdownCT
 };
 export default ExamResultToppersApi;

@@ -1,56 +1,130 @@
+import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
-import PageHeader from 'src/libraries/heading/PageHeader';
-import { RootState, useDispatch } from 'src/store';
-
-import { Box, Grid, Typography } from '@mui/material';
 import {
+    IGetClassExamDropDownBodyCT,
+    IGetClassNameDropDownBodyCT,
     IGetClassSubjectDropdownBodyCT
 } from 'src/interfaces/ExamResult/IExamResultToppers';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import PageHeader from 'src/libraries/heading/PageHeader';
 import {
+    ClassExamListCT,
+    ClassNameListCT,
     ClassSubjectListDropdownCT
 } from 'src/requests/ExamResult/RequestExamResultToppers';
+import { RootState, useDispatch } from 'src/store';
 
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
+    const asSchoolId = Number(localStorage.getItem('localSchoolId'));
+    const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const [radioBtn, setRadioBtn] = useState('1');
     const [SelectSubjectCT, setSelectSubjectCT] = useState('0');
+    const [SelectExamCT, setExamCT] = useState('0');
+    const [SelectClassNameCT, setClassNameCT] = useState('0');
 
-    const RadioList = [
+    const RadioListCT = [
         { Value: '1', Name: 'Class Toppers' },
         { Value: '2', Name: 'Standard Toppers' }
     ];
     const GetSubjectdropdownCT: any = useSelector(
         (state: RootState) => state.ExamResultToppers.ClassSubjectCT
     );
+    const GetExamdropdownCT: any = useSelector(
+        (state: RootState) => state.ExamResultToppers.ClassExamCT
+    );
+    const GetClassNameropdownCT: any = useSelector(
+        (state: RootState) => state.ExamResultToppers.ClassNamelistCT
+    );
+    console.log(GetClassNameropdownCT, "abcd");
 
     const ClassSubjectDropdownCT: IGetClassSubjectDropdownBodyCT = {
-        "asSchoolId": 18,
-        "asAcademicYearId": 54,
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
         "asStandardDivId": 1270,
         "asExamId": 609
     };
+    const ClassExamDropdownCT: IGetClassExamDropDownBodyCT = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        "asStandardDivisionId": 1266
+    };
+    const ClassNameDropdownCT: IGetClassNameDropDownBodyCT = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+
+    };
+
     useEffect(() => {
         dispatch(ClassSubjectListDropdownCT(ClassSubjectDropdownCT));
     }, []);
+    useEffect(() => {
+        dispatch(ClassExamListCT(ClassExamDropdownCT));
+    }, []);
+    useEffect(() => {
+        dispatch(ClassNameListCT(ClassNameDropdownCT));
+    }, []);
+
     const ClickRadio = (value) => {
         setRadioBtn(value);
     };
     const clickSubjectDropdownCT = (value) => {
         setSelectSubjectCT(value);
     };
+    const clickExamDropdownCT = (value) => {
+        setExamCT(value);
+    };
+    const clickClassNameDropdownCT = (value) => {
+        setClassNameCT(value);
+    };
     return (
-        <>
+        <> 
             <br></br>
             <PageHeader heading="ClassToppers" />
             <RadioButton1
-                Array={RadioList}
+                Array={RadioListCT}
                 ClickRadio={ClickRadio}
                 defaultValue={radioBtn}
                 Label={''}
             />
+            <Grid item xs={6}>
+                <Typography margin={'1px'}>
+                    <b>Select Class:</b>
+                </Typography>
+            </Grid>
+            <SearchableDropdown
+        ItemList={GetClassNameropdownCT}
+        onChange={clickClassNameDropdownCT}
+        defaultValue={SelectClassNameCT}
+    />
+            <Grid item xs={6}>
+                <Typography margin={'1px'}>
+                    <b>Select Exam:</b>
+                </Typography>
+            </Grid>
+            <Grid item xs={6}>
+                <Box
+                    sx={{
+                        marginRight: '0px',
+                        width: '110%',
+                        padding: '0.9px',
+                        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
+                        border: '1px solid black'
+                    }}
+                >
+                    <SearchableDropdown
+                        label={""}
+                        sx={{ pl: 0, minWidth: '350px' }}
+                        ItemList={GetExamdropdownCT}
+                        onChange={clickExamDropdownCT}
+                        defaultValue={SelectExamCT}
+                        size={"small"}
+
+                    />
+                </Box>
+            </Grid>
             <Grid item xs={6}>
                 <Typography margin={'1px'}>
                     <b>Select Standard:</b>
@@ -66,14 +140,19 @@ const ExamResultToppers = () => {
                         border: '1px solid black'
                     }}
                 >
-                    <Dropdown
-                        Array={GetSubjectdropdownCT}
-                        handleChange={clickSubjectDropdownCT}
+                    <SearchableDropdown
+                        label={""}
+                        sx={{ pl: 0, minWidth: '350px' }}
+                        ItemList={GetSubjectdropdownCT}
+                        onChange={clickSubjectDropdownCT}
                         defaultValue={SelectSubjectCT}
+                        size={"small"}
 
                     />
+                   
                 </Box>
             </Grid>
+            
         </>
     )
 }

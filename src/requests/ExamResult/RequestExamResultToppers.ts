@@ -1,51 +1,84 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ExamResultToppersApi from 'src/api/ExamResult/ApiExamResultToppers';
 import {
+    IGetClassExamDropDownBodyCT,
+    IGetClassNameDropDownBodyCT,
     IGetClassSubjectDropdownBodyCT
 } from 'src/interfaces/ExamResult/IExamResultToppers';
 import { AppThunk } from 'src/store';
 
 const ExamResultToppersSlice = createSlice({
-  name: 'ExamResultToppers',
+    name: 'ExamResultToppers',
 
-  initialState: {
-   ClassSubjectCT:[],
-  },
-  reducers: {
-    SubjectListCT(state, action) {
-      state.ClassSubjectCT = action.payload;
+    initialState: {
+        ClassSubjectCT: [],
+        ClassExamCT: [],
+        ClassNamelistCT: []
     },
-    // ExamListCT(state, action) {
-    //   state.ExamDropdownListCT = action.payload;
-    // },
-    // SubjectListCT(state, action) {
-    //   state.SubjectDropdownListCT = action.payload;
-    // },
-    // ToppersListCT(state, action) {
-    //   state.ClassToppersCT = action.payload;
-    // },
-    // SubjectToppersListCT(state, action) {
-    //   state.SubjectToppersCT = action.payload;
-    // }
-  }
+    reducers: {
+        SubjectListCT(state, action) {
+            state.ClassSubjectCT = action.payload;
+        },
+        ExamListCT(state, action) {
+            state.ClassExamCT = action.payload;
+        },
+        ClassNameCT(state, action) {
+            state.ClassNamelistCT = action.payload;
+        },
+        // SubjectListCT(state, action) {
+        //   state.SubjectDropdownListCT = action.payload;
+        // },
+        // ToppersListCT(state, action) {
+        //   state.ClassToppersCT = action.payload;
+        // },
+        // SubjectToppersListCT(state, action) {
+        //   state.SubjectToppersCT = action.payload;
+        // }
+    }
 });
 
 
 export const ClassSubjectListDropdownCT =
-  (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
-  async (dispatch) => {
-    const response = await ExamResultToppersApi.ClassSubjectDropDownCT(data);
-    let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+    (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
+        async (dispatch) => {
+            const response = await ExamResultToppersApi.ClassSubjectDropDownCT(data);
+            let abc = [{ Id: '0', Name: 'All', Value: '0' }];
 
-    response.data.map((item, i) => {
-      abc.push({
-        Id: item.Subject_Id,
-        Name: item.Subject_Name,
-        Value: item.Subject_Id
-      });
-    });
-    dispatch(ExamResultToppersSlice.actions.SubjectListCT(abc));
-  };
+            response.data.map((item, i) => {
+                abc.push({
+                    Id: item.Subject_Id,
+                    Name: item.Subject_Name,
+                    Value: item.Subject_Id
+                });
+            });
+            dispatch(ExamResultToppersSlice.actions.SubjectListCT(abc));
+        };
+export const ClassExamListCT =
+    (data: IGetClassExamDropDownBodyCT): AppThunk =>
+        async (dispatch) => {
+            const response = await ExamResultToppersApi.ClassExamDropdownCT(data);
+            let abc = response.data.map((item, i) => {
+                return {
+                    Id: item.SchoolWise_Test_Id,
+                    Name: item.SchoolWise_Test_Name,
+                    Value: item.SchoolWise_Test_Id
+                };
+            });
+            dispatch(ExamResultToppersSlice.actions.ExamListCT(abc));
+        };
+export const ClassNameListCT =
+    (data: IGetClassNameDropDownBodyCT): AppThunk =>
+        async (dispatch) => {
+            const response = await ExamResultToppersApi.ClassNameDropdownCT(data);
+            let abc = response.data.map((item, i) => {
+                return {
+                    Id: item.SchoolWise_Standard_Division_Id,
+                    Name: item.StandardDivision,
+                    Value: item.SchoolWise_Standard_Division_Id
+                };
+            });
+            dispatch(ExamResultToppersSlice.actions.ClassNameCT(abc));
+        };
 // export const ClassTopperListCT =
 //   (data: IGetClassToppersListBOdyCT): AppThunk =>
 //   async (dispatch) => {
