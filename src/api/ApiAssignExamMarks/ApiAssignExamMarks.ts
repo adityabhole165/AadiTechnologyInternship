@@ -27,7 +27,7 @@ const ClasswiseExamDropdown = (data: IClasswiseExamDropdownBody) => {
 
 //subjectList
 const SubjectsExamMarks = (data: ISubjectsExamMarksStatusForClassBody) => {
-  return http.post<ISubjectsExamMarksStatusForClassBodyResult[]>(
+  return http.post<ISubjectsExamMarksStatusForClassBodyResult>(
     'Teacher/GetSubjectsExamMarksStatusForClass',
     data
   );
