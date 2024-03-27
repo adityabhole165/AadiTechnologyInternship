@@ -43,18 +43,26 @@ const ExamResultBase = () => {
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ClassTeachers
   );
+  console.log('ClassTeachers', ClassTeachers);
+
   const IsSubmitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
+
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
   );
+
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
   );
+
   const AllTestsForClass: any = useSelector(
     (state: RootState) => state.ExamResult.AllTestsForClass
   );
+
+  console.log('AllTestsForClass', AllTestsForClass);
+
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
   const GetScreenPermission = () => {
@@ -70,17 +78,20 @@ const ExamResultBase = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : StandardDivisionId)
   };
+
   const AllTestsForClassBody: IGetAllTestsForClassBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivisionId: StandardDivisionId
   };
+
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId,
     aiTestId: TestId
   };
+
   useEffect(() => {
     if (IsSubmitted == 'N') {
       setIconList([]);
@@ -102,22 +113,37 @@ const ExamResultBase = () => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
   useEffect(() => {
-    if (ClassTeachers.length > 0) {
-      setStandardDivisionId(ClassTeachers[1].Value);
-    }
+    dispatch(getAllTestsForClass(AllTestsForClassBody));
+  }, []);
+
+
+  // useEffect(() => {
+  //   if (ClassTeachers.length > 0) {
+  //     setStandardDivisionId(ClassTeachers[1].Value);
+  //   }
+  // }, [ClassTeachers]);
+  useEffect(() => {
+    if (ClassTeachers.length > 0)
+      setStandardDivisionId(ClassTeachers[0].Id);
   }, [ClassTeachers]);
+  useEffect(() => {
+    if (AllTestsForClass.length > 0) setTestId(AllTestsForClass[0].Id);
+  }, [AllTestsForClass]);
+  useEffect(() => {
+    if (StandardDivisionId == '0')
+      dispatch(getAllTestsForClass(AllTestsForClassBody));
+  }, [StandardDivisionId]);
+
   useEffect(() => {
     if (StandardDivisionId !== '0')
       dispatch(getAllTestsForClass(AllTestsForClassBody));
   }, [StandardDivisionId]);
 
-  useEffect(() => {
-    if (AllTestsForClass.length > 0) setTestId(AllTestsForClass[0].Value);
-  }, [AllTestsForClass]);
+
 
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
-  }, [TestId]);
+  }, [StandardDivisionId, TestId]);
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
@@ -156,13 +182,13 @@ const ExamResultBase = () => {
   const onClickUnpublish = (value) => {
     navigate(
       '/extended-sidebar/Teacher/ExamResultUnpublish/' +
-        TestId +
-        '/' +
-        StandardDivisionId +
-        '/' +
-        getExamName() +
-        '/' +
-        getTeacherName()
+      TestId +
+      '/' +
+      StandardDivisionId +
+      '/' +
+      getExamName() +
+      '/' +
+      getTeacherName()
     );
   };
   const getTeacherId = () => {
