@@ -92,6 +92,7 @@ import VideOGallerySlice from 'src/requests/VideoGallery/VideoGallery';
 import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher';
 import Notificationslice from '../requests/Notification/Notification';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
+import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -188,7 +189,8 @@ const rootReducer = combineReducers({
   Finalunpublish: FinalUnPublishTestSlice,
   UnpublishSlice: UnpublishSlice,
   AadharcardTecaherSlice: AadharcardTecaherSlice,
-  SubjectExamMark:SubjectExamMarksslice
+  SubjectExamMark:SubjectExamMarksslice,
+  ExamResultToppers:ExamResultToppersSlice
 });
 
 export default rootReducer;

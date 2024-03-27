@@ -15,7 +15,6 @@ const LessonPlanBaseScreenSlice = createSlice({
   initialState: {
     ISLessonList: [],
     DeletePlan: '',
-    ResetDeletePlan: '',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
     ISGetAllTeachersOfLessonPlan: [],
@@ -30,7 +29,7 @@ const LessonPlanBaseScreenSlice = createSlice({
       state.DeletePlan = action.payload;
     },
     resetdeleteplan(state) {
-      state.ResetDeletePlan = '';
+      state.DeletePlan = '';
     },
     LessonPlanDetailsReport(state, action) {
       state.LessonReport = action.payload;
@@ -58,8 +57,11 @@ export const CDAlessonplanlist =
       const combinedList = response.data.listResult1st.map((item, i) => ({
         StartDate: item.StartDate,
         EndDate: item.EndDate,
-        Text6: response.data.listResult2nd[i]?.ApprovalSortOrder,
-        ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName
+        Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
+        ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
+        Text3: item.Remarks,
+        SubmitedByReportingUser:item.SubmitedByReportingUser
+
       }));
 
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(combinedList));

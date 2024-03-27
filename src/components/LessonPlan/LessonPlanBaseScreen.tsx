@@ -33,6 +33,7 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import { RootState } from 'src/store';
+import { logoURL } from '../Common/Util';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,23 +48,23 @@ const LessonPlanBaseScreen = () => {
 
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
+
   const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
+
   let CanEdit = ""
   SchoolConfiguration.map((Item) => {
     if (Item.Configure_Id == 233)
       CanEdit = Item.Can_Edit
   })
-  console.log(SchoolConfiguration, "CanEdit", CanEdit);
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
 
   const [StartDate, setStartDate] = useState();
   const [EndDate, setEndDate] = useState();
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
-    sessionStorage.getItem('TeacherId')
+    localStorage.getItem('UserId')
   );
-  console.log('StartDate---', StartDate);
-  console.log('EndDate---', EndDate);
+
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -72,11 +73,13 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
+  console.log(LessonPlanList,"LessonPlanList");
+  
+
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
   );
 
-  console.log(USGetAllLessonPlanReportingConfigs, "USGetAllLessonPlanReportingConfigs");
 
 
   const DeleteLessonPlan: any = useSelector(
@@ -106,15 +109,16 @@ const LessonPlanBaseScreen = () => {
 
 
   const HeaderList1 = [
-    { Id: 1, Header: 'Start Date	' },
+    { Id: 1, Header: 'Start Date' },
     { Id: 2, Header: 'End Date' },
     { Id: 3, Header: 'View Remark', align: 'center' },
     { Id: 4, Header: 'Edit', align: 'center' },
-    { Id: 5, Header: 'Delete ', align: 'center' },
-    { Id: 3, Header: 'View', align: 'center' },
-    { Id: 6, Header: 'Export', align: 'center' },
-    { Id: 6, Header: 'Submit Status', align: 'center' }
+    { Id: 5, Header: 'Delete', align: 'center' },
+    ...(CanEdit === 'Y' ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
+    { Id: 7, Header: 'Export', align: 'center' },
+    { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
+  
   const GetLessonPlanListBody: IGetLessonPlanListBody = {
     asSchoolId: asSchoolId,
     asAcadmicYearId: asAcademicYearId,
@@ -129,7 +133,15 @@ const LessonPlanBaseScreen = () => {
   };
   useEffect(() => {
     dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-  }, [StartDate, EndDate, selectClasstecahernew]);
+  }, [StartDate, EndDate]);
+
+
+  useEffect(() => {
+    if (CanEdit == 'Y') {
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+    }
+  }, [selectClasstecahernew]);
+  
 
   const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
     asSchoolId: asSchoolId,
@@ -244,7 +256,6 @@ const LessonPlanBaseScreen = () => {
 
 
   const clickView = (Id) => {
-    console.log(clickView, "clickView");
     setOpenViewRemarkDialog(true);
   }
 
@@ -256,6 +267,9 @@ const LessonPlanBaseScreen = () => {
 
 
   const ClickEdit = (value) => {
+    navigate('/extended-sidebar/Teacher/AddLessonPlan');
+  };
+  const Clicknav = (value) => {
     navigate('/extended-sidebar/Teacher/AddLessonPlan');
   };
 
@@ -284,7 +298,10 @@ const LessonPlanBaseScreen = () => {
     setOpenViewRemarkDialog(true);
   }
 
-
+  const stripHtmlTags = (htmlString: string): string => {
+    return htmlString.replace(/<[^>]*>?/gm, '');
+  };
+  const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
 
   return (
     <>
@@ -325,14 +342,18 @@ const LessonPlanBaseScreen = () => {
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Box sx={{ background: 'white' }}>
-              <SearchableDropdown
-                label={"Select Teacher"}
-                sx={{ pl: 0, minWidth: '350px' }}
-                ItemList={USGetAllTeachersOfLessonPlan}
-                onChange={ClickSelctTecher}
-                defaultValue={selectClasstecahernew}
-                size={"small"}
-              />
+            {CanEdit == 'Y' && (
+          <Box sx={{ background: 'white' }}>
+            <SearchableDropdown
+              label={"Select Teacher"}
+              sx={{ pl: 0, minWidth: '350px' }}
+              ItemList={USGetAllTeachersOfLessonPlan}
+              onChange={ClickSelctTecher}
+              defaultValue={selectClasstecahernew}
+              size={"small"}
+            />
+          </Box>
+        )}  
             </Box>
             <Box sx={{ background: 'white' }}>
               <TextField
@@ -422,6 +443,9 @@ const LessonPlanBaseScreen = () => {
               clickEdit={ClickEdit}
               clickDelete={clickDelete}
               clickExport={downloadJsonToPdf}
+              CanEdit={CanEdit}
+              clicknav={Clicknav}
+              SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
             />
           ) : (
             <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -465,8 +489,20 @@ const LessonPlanBaseScreen = () => {
             <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
             <Divider />
             <Stack gap={1}>
-              <Typography variant={"h4"}>Ms. Reena Bhattacharjee - </Typography>
-              <Typography variant={"h4"}>Seen. </Typography>
+              <Typography variant={"h4"}>
+
+              {itemToDisplay && (
+              <div>
+         
+         <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
+            {stripHtmlTags(itemToDisplay.Text3)}
+          </Typography>
+              </div>
+               )}
+
+
+              </Typography>
+
             </Stack>
           </Stack>
         </DialogContent>
