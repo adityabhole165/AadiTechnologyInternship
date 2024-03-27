@@ -25,13 +25,13 @@ function ListIcon({
     const getStatusIcon = (status, item) => {
         let icon;
         switch (status) {
-            case '0':
+            case "0":
                 icon = <CheckIcon sx={{ color: 'green' }} />;
                 break;
-            case '1':
+            case "1":
                 icon = <CheckIcon sx={{ color: 'green' }} />;
                 break;
-            case '2':
+            case "2":
                 icon = <CloseIcon sx={{ color: 'red' }} />;
                 break;
            

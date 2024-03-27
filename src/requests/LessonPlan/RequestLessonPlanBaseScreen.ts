@@ -124,7 +124,9 @@ export const CDAGetAllTeachersOfLessonPlan =
           StartDate: item.StartDate,
           EndDate: item.EndDate,
           Text8: item.ApprovalSortOrder,
-          ReportingUserName:item.ReportingUserName
+          ReportingUserName:item.ReportingUserName,
+          ReportingUserId:item.ReportingUserId,
+
         };
       });
       dispatch(
