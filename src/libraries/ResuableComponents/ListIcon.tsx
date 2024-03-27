@@ -39,11 +39,10 @@ function ListIcon({
                 icon = null;
                 break;
         }
-        return (
-            <Tooltip title={item.ReportingUserName}>
-                {icon}
-            </Tooltip>
-        );
+        return icon
+            
+            
+
     };
     
 
@@ -79,7 +78,8 @@ function ListIcon({
                                         <EditIcon onClick={() => clickEdit(item.Id)} />
                                     </Tooltip>
                                 </TableCell>
-                                {SubmitedByReportingUser !== '0' && (
+                                {SubmitedByReportingUser !== "0" && (
+                                    
                                     <TableCell align="center">
                                         {item.Text5}
                                         <Tooltip title={"Delete"}>
@@ -103,7 +103,10 @@ function ListIcon({
                                 <TableCell align="center">
                                     {ReportingConfigs.map((config) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
-                                            return getStatusIcon(config.Text8, item);
+                                            // return getStatusIcon(config.Text8, item);
+                                           return (<Tooltip title={item.ReportingUserName}>
+                                            {getStatusIcon(config.Text8, item)}
+                                        </Tooltip>) 
                                         }
                                     })}
                                 </TableCell>
