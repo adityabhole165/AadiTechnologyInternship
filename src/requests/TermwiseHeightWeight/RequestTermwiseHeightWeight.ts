@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import TermwiseHeightWeightApi from 'src/api/TermwiseHeightWeight/ApiTermwiseHeightWeight';
 import {
   IClassTeacherDropdownBody,
+  IGetFinalPublishedExamStatusBody,
   IStudentsListBody,
   ITermDropdownBody,
   IUpdateStudentDetailsBody
@@ -14,7 +15,9 @@ const TermwiseHeightWeightSlice = createSlice({
     ClassTeacherList: [],
     TermwiseTermList: [],
     Student: [],
-    UpdateStudent: ''
+    UpdateStudent: '',
+    FinalPublishedExamStatus: [],
+    Loading: true
   },
   reducers: {
     TeacherNameList(state, action) {
@@ -28,6 +31,13 @@ const TermwiseHeightWeightSlice = createSlice({
     },
     updatestudentlist(state, action) {
       state.UpdateStudent = action.payload;
+    },
+    finalpublishedexamstatus(state, action) {
+      state.FinalPublishedExamStatus = action.payload;
+    },
+    getLoading(state, action) {
+      state.Loading = true;
+
     }
   }
 });
@@ -89,5 +99,13 @@ export const getupdatestudentlist =
         TermwiseHeightWeightSlice.actions.updatestudentlist(response.data)
       );
     };
+export const getFinalPublishedExamStatus =
+  (data: IGetFinalPublishedExamStatusBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(TermwiseHeightWeightSlice.actions.getLoading(true));
+      const response = await TermwiseHeightWeightApi.GetFinalPublishedExamStatusApi(data);
+      dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(response.data));
+    };
+
 
 export default TermwiseHeightWeightSlice.reducer;

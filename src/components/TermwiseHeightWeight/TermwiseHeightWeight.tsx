@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
   IClassTeacherDropdownBody,
+  IGetFinalPublishedExamStatusBody,
   IStudentsListBody,
   ITermDropdownBody,
   IUpdateStudentDetailsBody
@@ -17,6 +18,7 @@ import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import DotLegend from 'src/libraries/summary/DotLegend';
 
 import {
+  getFinalPublishedExamStatus,
   getTeacherNameList,
   getTermList,
   getstudentdetails,
@@ -45,6 +47,8 @@ const TermwiseHeightWeight = () => {
   console.log('StudentList', StudentList);
   const UpdateStudentDetails = useSelector((state: RootState) => state.TermwiseHtWt.UpdateStudent);
   console.log('UpdateStudentDetails', UpdateStudentDetails);
+  const GetFinalPublishedExamStatus = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
+  console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
 
   const Note = [
     'User can not change or update any data once summative exam is published.'];
@@ -93,6 +97,16 @@ const TermwiseHeightWeight = () => {
   useEffect(() => {
     setItemlist(StudentList);
   }, [StudentList]);
+
+  useEffect(() => {
+    const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
+      asStandardDivId: 1266,
+      asTerm_Id: 1,
+      asSchoolId: 18,
+      asAcademicYearId: 54
+    };
+    dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
+  }, []);
 
   const [HeightXML, setHeightXML] = useState('');
   const [WeightXML, setWeightXML] = useState('');
