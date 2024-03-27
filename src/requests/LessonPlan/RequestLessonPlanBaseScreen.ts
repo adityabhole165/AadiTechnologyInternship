@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import LessonPlanApi from 'src/api/LessonPlan/ApiLessonPlanBaseScreen';
+import { getDateMonthYearFormatted } from 'src/components/Common/Util';
 import {
   IAddOrEditLessonPlanDetailsBody,
   IDeleteLessonPlanBody,
@@ -18,7 +19,7 @@ const LessonPlanBaseScreenSlice = createSlice({
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
     ISGetAllTeachersOfLessonPlan: [],
-    ISGetAllLessonPlanReportingConfigs:[]
+    ISGetAllLessonPlanReportingConfigs: []
   },
 
   reducers: {
@@ -46,7 +47,7 @@ const LessonPlanBaseScreenSlice = createSlice({
     }
 
 
-    
+
   }
 });
 export const CDAlessonplanlist =
@@ -55,12 +56,12 @@ export const CDAlessonplanlist =
       const response = await LessonPlanApi.LessonPlanList(data);
 
       const combinedList = response.data.listResult1st.map((item, i) => ({
-        StartDate: item.StartDate,
-        EndDate: item.EndDate,
+        StartDate: getDateMonthYearFormatted(item.StartDate),
+        EndDate: getDateMonthYearFormatted(item.EndDate),
         Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
         ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
         Text3: item.Remarks,
-        SubmitedByReportingUser:item.SubmitedByReportingUser
+        SubmitedByReportingUser: item.SubmitedByReportingUser
 
       }));
 
@@ -114,18 +115,18 @@ export const CDAGetAllTeachersOfLessonPlan =
     };
 
 
-    export const CDAGetAllLessonPlanReportingConfigs =
+export const CDAGetAllLessonPlanReportingConfigs =
   (data: IGetAllLessonPlanReportingConfigsBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.GetAllLessonPlanReportingConfigs(data);
 
       let SubmitStatus = response.data.map((item, i) => {
         return {
-          StartDate: item.StartDate,
-          EndDate: item.EndDate,
+          StartDate: getDateMonthYearFormatted(item.StartDate),
+          EndDate: getDateMonthYearFormatted(item.EndDate),
           Text8: item.ApprovalSortOrder,
-          ReportingUserName:item.ReportingUserName,
-          ReportingUserId:item.ReportingUserId,
+          ReportingUserName: item.ReportingUserName,
+          ReportingUserId: item.ReportingUserId,
 
         };
       });
