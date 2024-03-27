@@ -15,7 +15,6 @@ const LessonPlanBaseScreenSlice = createSlice({
   initialState: {
     ISLessonList: [],
     DeletePlan: '',
-    ResetDeletePlan: '',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
     ISGetAllTeachersOfLessonPlan: [],
@@ -30,7 +29,7 @@ const LessonPlanBaseScreenSlice = createSlice({
       state.DeletePlan = action.payload;
     },
     resetdeleteplan(state) {
-      state.ResetDeletePlan = '';
+      state.DeletePlan = '';
     },
     LessonPlanDetailsReport(state, action) {
       state.LessonReport = action.payload;
