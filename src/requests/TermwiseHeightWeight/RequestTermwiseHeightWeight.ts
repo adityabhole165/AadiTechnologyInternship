@@ -36,8 +36,6 @@ export const getTeacherNameList =
   (data: IClassTeacherDropdownBody): AppThunk =>
     async (dispatch) => {
       const response = await TermwiseHeightWeightApi.ClassTeacherDropdownApi(data);
-      
-
       let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
       response.data.map((item, i) => {
         abc.push({
