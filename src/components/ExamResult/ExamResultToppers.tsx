@@ -1,4 +1,4 @@
-import { Box, Grid, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
@@ -80,7 +80,7 @@ const ExamResultToppers = () => {
         setClassNameCT(value);
     };
     return (
-        <> 
+        <>
             <br></br>
             <PageHeader heading="ClassToppers" />
             <RadioButton1
@@ -94,36 +94,29 @@ const ExamResultToppers = () => {
                     <b>Select Class:</b>
                 </Typography>
             </Grid>
-            <SearchableDropdown
-        ItemList={GetClassNameropdownCT}
-        onChange={clickClassNameDropdownCT}
-        defaultValue={SelectClassNameCT}
-    />
+            <Grid item xs={6}>
+                <SearchableDropdown
+                    ItemList={GetClassNameropdownCT}
+                    onChange={clickClassNameDropdownCT}
+                    defaultValue={SelectClassNameCT}
+                    size={"small"}
+                />
+            </Grid>
             <Grid item xs={6}>
                 <Typography margin={'1px'}>
                     <b>Select Exam:</b>
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Box
-                    sx={{
-                        marginRight: '0px',
-                        width: '110%',
-                        padding: '0.9px',
-                        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                        border: '1px solid black'
-                    }}
-                >
-                    <SearchableDropdown
-                        label={""}
-                        sx={{ pl: 0, minWidth: '350px' }}
-                        ItemList={GetExamdropdownCT}
-                        onChange={clickExamDropdownCT}
-                        defaultValue={SelectExamCT}
-                        size={"small"}
+                <SearchableDropdown
+                    label={""}
+                    sx={{ pl: 0, minWidth: '350px' }}
+                    ItemList={GetExamdropdownCT}
+                    onChange={clickExamDropdownCT}
+                    defaultValue={SelectExamCT}
+                    size={"small"}
 
-                    />
-                </Box>
+                />
             </Grid>
             <Grid item xs={6}>
                 <Typography margin={'1px'}>
@@ -131,28 +124,18 @@ const ExamResultToppers = () => {
                 </Typography>
             </Grid>
             <Grid item xs={6}>
-                <Box
-                    sx={{
-                        marginRight: '0px',
-                        width: '110%',
-                        padding: '0.9px',
-                        boxShadow: '4px 4px 10px rgba(0, 0, 0, 0.2)',
-                        border: '1px solid black'
-                    }}
-                >
-                    <SearchableDropdown
-                        label={""}
-                        sx={{ pl: 0, minWidth: '350px' }}
-                        ItemList={GetSubjectdropdownCT}
-                        onChange={clickSubjectDropdownCT}
-                        defaultValue={SelectSubjectCT}
-                        size={"small"}
+                <SearchableDropdown
+                    label={""}
+                    sx={{ pl: 0, minWidth: '350px' }}
+                    ItemList={GetSubjectdropdownCT}
+                    onChange={clickSubjectDropdownCT}
+                    defaultValue={SelectSubjectCT}
+                    size={"small"}
 
-                    />
-                   
-                </Box>
+                />
             </Grid>
-            
+
+
         </>
     )
 }
