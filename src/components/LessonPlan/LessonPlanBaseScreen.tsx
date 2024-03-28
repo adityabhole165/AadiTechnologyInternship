@@ -72,13 +72,11 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
-  console.log(LessonPlanList, "LessonPlanList");
 
 
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllLessonPlanReportingConfigs
   );
-  console.log(USGetAllLessonPlanReportingConfigs, "USGetAllLessonPlanReportingConfigs");
 
 
 
@@ -229,15 +227,15 @@ const LessonPlanBaseScreen = () => {
 
 
 
-  const clickDelete = (Id) => {
+  const clickDelete = (sStartDate, sEndDate) => {
     if (confirm('Are You Sure you want to delete The List')) {
       const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asUpdatedById: asUserId,
         asUserId: asUserId,
-        asStartDate: LessonPlanList.find((item) => item.StartDate)?.StartDate,
-        asEndDate: LessonPlanList.find((item) => item.StartDate)?.EndDate,
+        asStartDate: sStartDate,
+        asEndDate: sEndDate,
       };
       dispatch(deletelessonplan(DeleteLessonPlanBody));
 

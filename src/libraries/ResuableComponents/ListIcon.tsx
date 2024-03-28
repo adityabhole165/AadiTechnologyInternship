@@ -79,7 +79,7 @@ function ListIcon({
                                 <TableCell align="center">
                                     {item.SubmitedByReportingUser == "1" && (
                                         <Tooltip title={"Delete"}>
-                                            <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
+                                            <CloseIcon onClick={() => clickDelete(item.StartDate, item.EndDate)} sx={{ color: 'red' }} />
                                         </Tooltip>
                                     )}
                                 </TableCell>
