@@ -163,23 +163,23 @@ const AddDailyLog = () => {
         asAcademicYearId: Number(asAcademicYearId),
         asLogId: value,
         asUpdatedById: TeacherId,
-        asIsPublished: isPublish === 'False' ? true : false 
+        asIsPublished: isPublish === 'False' ? true : false
       };
-  
+
       dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
     };
-  
-   
+
+
     const confirmationMessage = isPublish === 'False'
       ? 'Are you sure you want to Publish Record?'
       : 'Are you sure you want to Unpublish Record?';
-  
+
     if (window.confirm(confirmationMessage)) {
       handleAction();
     }
   };
-  
-  
+
+
 
 
   useEffect(() => {
@@ -525,14 +525,15 @@ const AddDailyLog = () => {
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
               />
             </Grid>
-            <Grid item xs={2} justifyContent={'center'} display={'flex'}>
+            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'center'} sx={{ marginTop: '5px' }}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 FileName={fileName}
-              ></SingleFile>
+              />
             </Grid>
+
             <Grid item xs={12}>
 
             </Grid>
@@ -605,42 +606,42 @@ const AddDailyLog = () => {
                 </Typography>
 
               )}
-               {GetAllHomeworkDailyLogs.length > 0 ? (
+              {GetAllHomeworkDailyLogs.length > 0 ? (
                 <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  Select a page:
-                  <TextField
-                    sx={{ width: '80px' }}
-                    value={page}
-                    select={true}
-                    size={'small'}
-                    onChange={handlePageChange}
-                  >
-                    <MenuItem value={"1"}>
-                      1
-                    </MenuItem>
-                    <MenuItem value={"2"}>
-                      2
-                    </MenuItem>
-                    <MenuItem value={"3"}>
-                      3
-                    </MenuItem>
-                    <MenuItem value={"4"}>
-                      4
-                    </MenuItem>
-                    <MenuItem value={"5"}>
-                      5
-                    </MenuItem>
-                  </TextField>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    Select a page:
+                    <TextField
+                      sx={{ width: '80px' }}
+                      value={page}
+                      select={true}
+                      size={'small'}
+                      onChange={handlePageChange}
+                    >
+                      <MenuItem value={"1"}>
+                        1
+                      </MenuItem>
+                      <MenuItem value={"2"}>
+                        2
+                      </MenuItem>
+                      <MenuItem value={"3"}>
+                        3
+                      </MenuItem>
+                      <MenuItem value={"4"}>
+                        4
+                      </MenuItem>
+                      <MenuItem value={"5"}>
+                        5
+                      </MenuItem>
+                    </TextField>
+                  </Box>
+                  <Box>
+                    Page 1 of 5
+                  </Box>
                 </Box>
-                <Box>
-                  Page 1 of 5
-                </Box>
-              </Box>
               ) : (
-                <b/>
+                <b />
               )}
-              
+
 
             </Grid>
           </Grid>
