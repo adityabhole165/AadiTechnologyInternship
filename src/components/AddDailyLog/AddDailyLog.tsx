@@ -142,7 +142,7 @@ const AddDailyLog = () => {
   };
 
   //Pageload
-  const Changestaus = (value, IsPublish) => {
+  const Changestaus1 = (value, IsPublish) => {
     const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
     {
       asSchoolId: Number(asSchoolId),
@@ -155,6 +155,31 @@ const AddDailyLog = () => {
     dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
 
   };
+
+  const Changestaus = (value, isPublish) => {
+    const handleAction = () => {
+      const PublishUnpublishHomeworkDailylogBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asLogId: value,
+        asUpdatedById: TeacherId,
+        asIsPublished: isPublish === 'False' ? true : false 
+      };
+  
+      dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+    };
+  
+   
+    const confirmationMessage = isPublish === 'False'
+      ? 'Are you sure you want to Publish Record?'
+      : 'Are you sure you want to Unpublish Record?';
+  
+    if (window.confirm(confirmationMessage)) {
+      handleAction();
+    }
+  };
+  
+  
 
 
   useEffect(() => {
@@ -572,7 +597,7 @@ const AddDailyLog = () => {
                   ClickHeader={ClickHeader}
                   clickEdit={clickEdit1}
                   clickDelete={clickDelete}
-                  clickpublish={Changestaus}
+                  clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
                 />
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
