@@ -141,20 +141,15 @@ const LessonPlanBaseScreen = () => {
     }
   }, [selectClasstecahernew]);
 
-  useEffect(() => {
-    dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
-  }, [selectClasstecahernew]);
-
 
   const GetAllLessonPlanReportingConfigsBody: IGetAllLessonPlanReportingConfigsBody = {
     asSchoolId: asSchoolId,
     asAcademicYrId: asAcademicYearId,
-    asUserId: asUserId
+    asUserId: Number(selectClasstecahernew),
   }
   useEffect(() => {
     dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
-  }, []);
-
+  }, [selectClasstecahernew]);
 
   const downloadJsonToPdf = () => {
     // const doc = new jsPDF();
@@ -177,7 +172,7 @@ const LessonPlanBaseScreen = () => {
     asEndDate: EndDate,
     IsNewMode: false
   }
-
+  console.log(AddOrEditLessonPlanDetailsBody, "AddOrEditLessonPlanDetailsBody")
 
 
   useEffect(() => {
