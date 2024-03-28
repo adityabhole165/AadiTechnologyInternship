@@ -26,10 +26,10 @@ function ListIcon({
         let icon;
         switch (status) {
             case "0":
-                icon = <CheckIcon sx={{ color: 'green' }} />;
+                icon = <CloseIcon sx={{ color: 'green' }} />;
                 break;
             case "1":
-                icon = <CloseIcon sx={{ color: 'red' }} />;
+                icon = <CheckIcon sx={{ color: 'red' }} />;
                 break;
 
             default:
