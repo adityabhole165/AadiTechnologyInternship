@@ -20,7 +20,8 @@ function ListIcon({
     CanEdit,
     clicknav,
     SubmitedByReportingUser,
-    ReportingConfigs
+    ReportingConfigs,
+    Text2
 }) {
     const getStatusIcon = (status) => {
         let icon;
@@ -83,13 +84,17 @@ function ListIcon({
                                         </Tooltip>
                                     )}
                                 </TableCell>
-                                {CanEdit === 'Y' && (
-                                    <TableCell align="center">
+
+                              
+                                    {CanEdit === 'Y' && Text2 != 'False' && (
+                                          <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => clicknav(item.Id)} />
                                         </Tooltip>
-                                    </TableCell>
-                                )}
+                                        </TableCell>
+                                    )}
+                              
+
                                 <TableCell align="center">
                                     {item.Text5}
                                     <Link component="button" onClick={() => clickExport(item.Id)}>

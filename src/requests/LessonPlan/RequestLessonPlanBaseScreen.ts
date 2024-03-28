@@ -61,7 +61,8 @@ export const CDAlessonplanlist =
         Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
         ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
         Text3: item.Remarks,
-        SubmitedByReportingUser: item.SubmitedByReportingUser
+        SubmitedByReportingUser: item.SubmitedByReportingUser,
+        Text2:item.IsSubmitted
 
       }));
 
@@ -101,7 +102,6 @@ export const CDAGetAllTeachersOfLessonPlan =
   (data: IGetAllTeachersOfLessonPlanBody): AppThunk =>
     async (dispatch) => {
       const response = await LessonPlanApi.GetAllTeachersOfLessonPlan(data);
-      console.log(response, "response");
       let abc = response.data.map((item, i) => {
         return {
           Id: item.UserId,
