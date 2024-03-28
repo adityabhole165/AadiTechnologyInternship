@@ -4,7 +4,8 @@ import { useSelector } from 'react-redux';
 import {
     IGetClassExamDropDownBodyCT,
     IGetClassNameDropDownBodyCT,
-    IGetClassSubjectDropdownBodyCT
+    IGetClassSubjectDropdownBodyCT,
+    IGetClassToppersListBOdyCT
 } from 'src/interfaces/ExamResult/IExamResultToppers';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -12,7 +13,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import {
     ClassExamListCT,
     ClassNameListCT,
-    ClassSubjectListDropdownCT
+    ClassSubjectListDropdownCT,
+    ClassTopperListCT
 } from 'src/requests/ExamResult/RequestExamResultToppers';
 import { RootState, useDispatch } from 'src/store';
 
@@ -38,7 +40,10 @@ const ExamResultToppers = () => {
     const GetClassNameropdownCT: any = useSelector(
         (state: RootState) => state.ExamResultToppers.ClassNamelistCT
     );
-    console.log(GetClassNameropdownCT, "abcd");
+    const GetToppersListCT = useSelector(
+        (state: RootState) => state.ExamResultToppers.ClassToppersCT
+    );
+    console.log(GetToppersListCT, "abcd");
 
     const ClassSubjectDropdownCT: IGetClassSubjectDropdownBodyCT = {
         asSchoolId: asSchoolId,
@@ -56,7 +61,9 @@ const ExamResultToppers = () => {
         asAcademicYearId: asAcademicYearId,
 
     };
-
+    const ToppersListBodyCT: IGetClassToppersListBOdyCT = {
+        "asSchoolId": 18, "asAcademicYearId": 54, "asStandardDivId": 1270, "asExamId": 609, "asSubjectId": 0
+    };
     useEffect(() => {
         dispatch(ClassSubjectListDropdownCT(ClassSubjectDropdownCT));
     }, []);
@@ -65,6 +72,9 @@ const ExamResultToppers = () => {
     }, []);
     useEffect(() => {
         dispatch(ClassNameListCT(ClassNameDropdownCT));
+    }, []);
+    useEffect(() => {
+        dispatch(ClassTopperListCT(ToppersListBodyCT));
     }, []);
 
     const ClickRadio = (value) => {
