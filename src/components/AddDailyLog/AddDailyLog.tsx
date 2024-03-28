@@ -99,7 +99,7 @@ const AddDailyLog = () => {
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: 'Date', SortOrder: " Desc" },
     { Id: 2, Header: 'Attachment' },
-    { Id: 3, Header: 'Publish/UnPublish' },
+    { Id: 3, Header: 'Publish / UnPublish' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' }
   ]);
