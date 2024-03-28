@@ -580,8 +580,8 @@ const AddDailyLog = () => {
                 </Typography>
 
               )}
-
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
+               {GetAllHomeworkDailyLogs.length > 0 ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                   Select a page:
                   <TextField
@@ -612,6 +612,10 @@ const AddDailyLog = () => {
                   Page 1 of 5
                 </Box>
               </Box>
+              ) : (
+                <b/>
+              )}
+              
 
             </Grid>
           </Grid>
