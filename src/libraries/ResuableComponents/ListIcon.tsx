@@ -75,15 +75,14 @@ function ListIcon({
                                         <EditIcon onClick={() => clickEdit(item.Id)} />
                                     </Tooltip>
                                 </TableCell>
-                                {SubmitedByReportingUser !== "0" && (
 
-                                    <TableCell align="center">
-                                        {item.Text5}
+                                <TableCell align="center">
+                                    {item.SubmitedByReportingUser == "1" && (
                                         <Tooltip title={"Delete"}>
                                             <CloseIcon onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }} />
                                         </Tooltip>
-                                    </TableCell>
-                                )}
+                                    )}
+                                </TableCell>
                                 {CanEdit === 'Y' && (
                                     <TableCell align="center">
                                         <Tooltip title={"View"}>
