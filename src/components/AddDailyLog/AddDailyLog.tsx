@@ -506,7 +506,7 @@ const AddDailyLog = () => {
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} value={ClassName} />
+              <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#e3f2fd' }} />
             </Grid>
             <Grid item xs={5}>
               <TextField
