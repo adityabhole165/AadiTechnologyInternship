@@ -127,6 +127,7 @@ export const CDAGetAllLessonPlanReportingConfigs =
           Text8: item.ApprovalSortOrder,
           ReportingUserName: item.ReportingUserName,
           ReportingUserId: item.ReportingUserId,
+          IsSubmitted: item.IsSubmitted
 
         };
       });

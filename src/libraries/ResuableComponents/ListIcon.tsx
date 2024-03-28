@@ -1,3 +1,7 @@
+import CheckIcon from '@mui/icons-material/Check';
+import CloseIcon from '@mui/icons-material/Close';
+import EditIcon from '@mui/icons-material/Edit';
+import Visibility from '@mui/icons-material/Visibility';
 import { Box, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -5,10 +9,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import CheckIcon from '@mui/icons-material/Check';
-import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
-import Visibility from '@mui/icons-material/Visibility';
 
 function ListIcon({
     HeaderArray,
@@ -22,29 +22,26 @@ function ListIcon({
     SubmitedByReportingUser,
     ReportingConfigs
 }) {
-    const getStatusIcon = (status, item) => {
+    const getStatusIcon = (status) => {
         let icon;
         switch (status) {
             case "0":
                 icon = <CheckIcon sx={{ color: 'green' }} />;
                 break;
             case "1":
-                icon = <CheckIcon sx={{ color: 'green' }} />;
-                break;
-            case "2":
                 icon = <CloseIcon sx={{ color: 'red' }} />;
                 break;
-           
+
             default:
                 icon = null;
                 break;
         }
         return icon
-            
-            
+
+
 
     };
-    
+
 
     return (
         <div>
@@ -53,9 +50,9 @@ function ListIcon({
                     <TableHead>
                         <TableRow>
                             {HeaderArray.map((item, i) => (
-                              <TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84' ,color:'white'}}>
-                              <b>{item.Header}</b>
-                                  
+                                <TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84', color: 'white' }}>
+                                    <b>{item.Header}</b>
+
                                 </TableCell>
                             ))}
                         </TableRow>
@@ -79,7 +76,7 @@ function ListIcon({
                                     </Tooltip>
                                 </TableCell>
                                 {SubmitedByReportingUser !== "0" && (
-                                    
+
                                     <TableCell align="center">
                                         {item.Text5}
                                         <Tooltip title={"Delete"}>
@@ -103,10 +100,9 @@ function ListIcon({
                                 <TableCell align="center">
                                     {ReportingConfigs.map((config) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
-                                            // return getStatusIcon(config.Text8, item);
-                                           return (<Tooltip title={item.ReportingUserName}>
-                                            {getStatusIcon(config.Text8, item)}
-                                        </Tooltip>) 
+                                            return (<Tooltip title={config.ReportingUserName}>
+                                                {getStatusIcon(config.IsSubmitted)}
+                                            </Tooltip>)
                                         }
                                     })}
                                 </TableCell>
