@@ -23,7 +23,9 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                 planDetails: Item.planDetails.map((obj, i) => {
                     return {
                         ...obj,
-                        value: (obj.Id == Id) ? Value : Item.planDetails[i].value
+                        value: (obj.Id == Id &&
+                            Item.StdId == StdId && Item.DivisionId == DivisionId) ?
+                            Value : Item.planDetails[i].value
                     }
                 })
             }
@@ -99,41 +101,41 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                         <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
                                             {index + 1}
                                         </StyledCell>
-                                        <StyledCell sx={{ p: 1 }}>
-                                            <TextField
-                                                label={plan.label}
-                                                value={plan.value}
-                                                fullWidth
-                                                multiline
-                                                rows={4}
-                                                onChange={(e) => {
-                                                    onChangeValue(
-                                                        lesson.StdId,
-                                                        lesson.DivisionId,
-                                                        plan.Id,
-                                                        e.target.value
-                                                    )
-                                                }}
-                                            />
-                                            {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
-                                                <Table key={subIndex}>
-                                                    <TableRow >
-                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
-                                                            {index + 1}.{subIndex + 1}
-                                                        </StyledCell>
-                                                        <StyledCell sx={{ p: 1 }}>
-                                                            <TextField
-                                                                label={subPlan.label}
-                                                                value={subPlan.value}
-                                                                fullWidth
-                                                                multiline
-                                                                rows={4}
-                                                            />
-                                                        </StyledCell>
-                                                    </TableRow>
-                                                </Table>
-                                            ))}
-                                        </StyledCell>
+                                        {/* <StyledCell sx={{ p: 1 }}> */}
+                                        <TextField
+                                            label={plan.label}
+                                            value={plan.value}
+                                            fullWidth
+                                            multiline
+                                            rows={4}
+                                            onChange={(e) => {
+                                                onChangeValue(
+                                                    lesson.StdId,
+                                                    lesson.DivisionId,
+                                                    plan.Id,
+                                                    e.target.value
+                                                )
+                                            }}
+                                        />
+                                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
+                                            <Table key={subIndex}>
+                                                <TableRow >
+                                                    <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                                        {index + 1}.{subIndex + 1}
+                                                    </StyledCell>
+                                                    <StyledCell sx={{ p: 1 }}>
+                                                        <TextField
+                                                            label={subPlan.label}
+                                                            value={subPlan.value}
+                                                            fullWidth
+                                                            multiline
+                                                            rows={4}
+                                                        />
+                                                    </StyledCell>
+                                                </TableRow>
+                                            </Table>
+                                        ))}
+                                        {/* </StyledCell> */}
                                     </TableRow>
                                 ))}
                             </TableBody>
