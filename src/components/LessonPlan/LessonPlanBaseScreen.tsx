@@ -227,12 +227,13 @@ const LessonPlanBaseScreen = () => {
       const DeleteLessonPlanBody: IDeleteLessonPlanBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asUpdatedById: asUserId,
-        asUserId: asUserId,
+        asUpdatedById: Number(selectClasstecahernew),
+        asUserId:  Number(selectClasstecahernew),
         asStartDate: sStartDate,
         asEndDate: sEndDate,
       };
       dispatch(deletelessonplan(DeleteLessonPlanBody));
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
 
     }
   }
