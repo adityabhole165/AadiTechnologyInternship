@@ -43,7 +43,7 @@ import ToppersList from 'src/libraries/list/ToppersList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState, useDispatch } from 'src/store';
 
-const FinalResultToppers = () => {
+const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { TeacherId } = useParams();
@@ -463,4 +463,4 @@ const FinalResultToppers = () => {
     );
 };
 
-export default FinalResultToppers;
+export default ExamResultToppers;
