@@ -2,7 +2,17 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
-const SubjectExamMarkTable = ({ ExamMarks, ExamMarksHeader }) => {
+const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus, ExamMarksHeader }) => {
+  const changeExamStatus = (value, Id) => {
+    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
+      if (Item.Id == Id) {
+        return { ...Item, ExamStatus: value }
+      }
+      else
+        return Item
+    })
+    onChangeExamStatus(StudentsForMarksAssignment)
+  }
   return (
     <div>
       <Box>
@@ -26,26 +36,27 @@ const SubjectExamMarkTable = ({ ExamMarks, ExamMarksHeader }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              <TableRow>
-                <TableCell>1.</TableCell>
-                <TableCell>Miss Gauri Vishal Bhadale</TableCell>
-                <TableCell>
-                  <Dropdown
-                    variant='outlined'
-                    Array={[{
-                      Value: "absent",
-                      Name: "Absent"
-                    }, {
-                      Value: "exempted",
-                      Name: "Exempted"
-                    }]}
-                  />
-                </TableCell>
-                <SubjectExamRows ExamMarks={ExamMarks} />
-                <TableCell>
-                  <TextField sx={{ width: '50px' }} size={"small"} disabled />
-                </TableCell>
-              </TableRow>
+              {StudentsForMarksAssignment?.length > 0 &&
+                StudentsForMarksAssignment.map((Item, i) => {
+                  return (<TableRow key={i}>
+                    <TableCell>{Item.Text1}</TableCell>
+                    <TableCell>{Item.Text2}</TableCell>
+                    <TableCell>
+                      <Dropdown
+                        defaultValue={Item.ExamStatus}
+                        variant='outlined'
+                        Array={ExamStatus}
+                        handleChange={(value) => { changeExamStatus(value, Item.Id) }}
+                      />
+                    </TableCell>
+                    <SubjectExamRows ExamMarks={Item.MarksForStudent} />
+                    <TableCell>
+                      <TextField sx={{ width: '50px' }} size={"small"} disabled
+                        value={Item.TotalMarks} />
+                    </TableCell>
+                  </TableRow>)
+                })
+              }
             </TableBody>
           </Table>
         </TableContainer>

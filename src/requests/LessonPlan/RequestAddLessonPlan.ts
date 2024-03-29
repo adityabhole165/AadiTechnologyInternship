@@ -83,12 +83,12 @@ export const GetAddOrEditLessonPlanDetails =
         })
         return returnVal
       }
+
       const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId) => {
         let returnVal = []
-        let ParentParameterIds = []
         response.data.LessonPlanParametersList.map((Item, i) => {
-          if (LessonPlanCategoryId == Item.LessonPlanCategoryId &&
-            (Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId)) {
+          if ((Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId) &&
+            LessonPlanCategoryId == Item.LessonPlanCategoryId) {
             if (Item.ParentParameterId == "0") {
               returnVal.push({
                 Id: Item.Id, label: Item.Title, value: "",
@@ -97,9 +97,9 @@ export const GetAddOrEditLessonPlanDetails =
             }
           }
         })
-        console.log(returnVal, "getPlanDetails")
         return returnVal;
       }
+
       response.data.GetTeacherSubjectList.map((Item, i) => {
         reponseData.push({
           StdId: Item.Standard_Id,

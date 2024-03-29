@@ -43,16 +43,22 @@ const SubjectExamMarksslice = createSlice({
             state.Loading = false;
             state.GradesForSubjectMarkList = action.payload;
         },
-       
+
         GetSubjectExamMarkslist(state, action) {
             state.Loading = false;
             state.SubjectExamMarkslists = action.payload;
-            state.ListTestDetailss = action.payload.listTestDetailss;
+
             state.ListStudentTestMarkDetails = action.payload.listStudentTestMarkDetails;
-            state.ListDisplayNameDetail = action.payload.listDisplayNameDetail;
+
             state.ListFailCreatiaDetails = action.payload.listFailCreatiaDetails;
             state.ListYearwiseStudentId = action.payload.listYearwiseStudentId;
 
+        },
+        GetListTestDetailss(state, action) {
+            state.ListTestDetailss = action.payload;
+        },
+        GetListDisplayNameDetail(state, action) {
+            state.ListDisplayNameDetail = action.payload;
         },
         GetManageStudentsTestMark(state, action) {
             state.Loading = false;
@@ -124,9 +130,9 @@ export const getSubjectExamMarkslist =
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
             const body1: IGetAllStudentsForMarksAssignmentsBody = {
-                asAcademicYearID: data.asAcademicYearID,
+                asAcademicYearID: data.asAcademicYrId,
                 asSchoolId: data.asSchoolId,
-                asSubject_Id: data.asSubject_Id,
+                asSubject_Id: data.asSubjectId,
                 asStandardDivision_Id: data.asStandardDivision_Id,
                 asTestDate: data.asTestDate
             }
@@ -135,52 +141,71 @@ export const getSubjectExamMarkslist =
                 asStandardDivision_Id: data.asStandardDivision_Id,
                 asSubjectId: data.asSubjectId,
                 asTestId: data.asTestId,
-                asAcademicYrId: data.asAcademicYearID,
+                asAcademicYrId: data.asAcademicYrId,
                 asShowTotalAsPerOutOfMarks: data.asShowTotalAsPerOutOfMarks
             }
-
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
+            const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             let reponseData1 = [];
+            const getMarksForStudent = (StudentId) => {
+                let arr = [];
+                response2.data.listStudentTestMarkDetails.map((Item, i) => {
+                    // console.log(Item.Student_Id, " == ", StudentId)
+                    if (Item.Student_Id == StudentId)
+                        arr.push({
+                            Id: Item.TestType_Id,
+                            Text1: Item.Marks_Scored,
+                            Text2: Item.Grade_Or_Marks,
+                        });
+                });
+                return arr
+            }
 
+            const getTotalMarksForStudent = (StudentId) => {
+                let TotalMarks = "0"
+                response2.data.listStudentTestMarkDetails.map((Item, i) => {
+                    // console.log(Item.Student_Id, " == ", StudentId)
+                    if (Item.Student_Id == StudentId)
+                        TotalMarks = Item.Total_Marks_Scored
+                });
+                return TotalMarks
+            }
             response1.data.map((Item, i) => {
                 reponseData1.push({
                     Id: Item.Student_Id,
                     Text1: Item.Roll_No,
                     Text2: Item.Name,
+                    MarksForStudent: getMarksForStudent(Item.Student_Id),
+                    TotalMarks: getTotalMarksForStudent(Item.Student_Id),
+                    ExamStatus: "0"
                 });
             });
+            console.log(reponseData1, "reponseData1");
+
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
 
-            const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             let responseData2 = [];
             const HeaderList = {
-                Text1:"Sr.No.",
-                Text2:"Student Name",
-                Text3:"Exam Status",
-                Text4:response2.data.listTestDetailss.map((Item, i) => {
+                Text1: "Sr.No.",
+                Text2: "Student Name",
+                Text3: "Exam Status",
+                Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
                         Text1: Item.TestType_Name,
-                       Text2: Item.TestType_Total_Marks
+                        Text2: Item.TestType_Total_Marks
                     };
                 }),
-                Text5:"Total/"+ response2.data.listTestDetailss[0].TotalMarks
+                Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
             }
-            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData2));
 
-            const response3 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
-            let responseData3 = [];
+            dispatch(SubjectExamMarksslice.actions.GetListTestDetailss(HeaderList));
 
-            response3.data.listStudentTestMarkDetails.map((Item, i) => {
-                responseData3.push({
-                    Id: Item.TestType_Id,
-                    Text1: Item.Marks_Scored,
-                    Text2:Item.Grade_Or_Marks,
-                
-                });
-            });
+            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response2.data));
 
-            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData3));
-        
+
+
+            // dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData3));
+
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             let responseData4 = [];
@@ -193,9 +218,9 @@ export const getSubjectExamMarkslist =
                 });
             });
 
-            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData4));
+            dispatch(SubjectExamMarksslice.actions.GetListDisplayNameDetail(responseData4));
         }
-    
+
 
 
 
