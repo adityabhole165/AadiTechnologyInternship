@@ -2,7 +2,7 @@ import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Button, Container, IconButton, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -16,12 +16,11 @@ import {
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
-import { getAllGradesForSubjectMarkList, getAllStudentsForMarksAssignments, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslists, resetManageStudentsTestMark } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
+import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslist, resetManageStudentsTestMark } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
 import { getCalendarDateFormatDate } from '../Common/Util';
-import SubjectExamHeader from './SubjectExamHeader';
-import SubjectExamRows from './SubjectExamRows';
+
+import SubjectExamMarkTable from './SubjectExamMarkTable';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -41,7 +40,7 @@ const SubjectExamMarks = () => {
   const [TestOutOfMarks, setTestOutOfMarks] = useState('');
   const [TotalMarks, setTotalMarks] = useState('');
   const [SubjectMarksId, setSubjectMarksId] = useState('');
-  const [HeaderList, setHeaderList] = useState([]);
+  // const [HeaderList, setHeaderList] = useState([]);
   const [ItemList, setItemList] = useState([]);
   const [StudentTestType, setStudentTestType] = useState('');
   const [StudentTestTypeDetails, setStudentTestTypeDetails] = useState('');
@@ -74,6 +73,10 @@ const SubjectExamMarks = () => {
     (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
   );
   console.log("TestMarkDetails", TestMarkDetails)
+  const HeaderList: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListTestDetailss
+  );
+  console.log("HeaderList", HeaderList)
   const ExamStatus: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListDisplayNameDetail
   );
@@ -121,14 +124,17 @@ const SubjectExamMarks = () => {
   useEffect(() => {
     const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody = {
       asSchoolId: Number(asSchoolId),
-      asStandardDivision_Id: Number(StandardDivisionId),
-      asSubjectId: Number(SubjectId),
-      asTestId: Number(ClassWiseExam),
-      asAcademicYrId: Number(asAcademicYearId),
+      asStandardDivision_Id: 1241,
+      asSubjectId: 2346,
+      asTestId: 592,
+      // asStandardDivision_Id: Number(StandardDivisionId),
+      // asSubjectId: Number(SubjectId),
+      // asTestId: Number(ClassWiseExam),
+      asAcademicYrId: 54,// Number(asAcademicYearId),
       asShowTotalAsPerOutOfMarks: "Y"
     };
 
-    dispatch(getSubjectExamMarkslists(GetSubjectExamMarkslists));
+    dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
   }, []);
   useEffect(() => {
     const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
@@ -139,7 +145,7 @@ const SubjectExamMarks = () => {
       asTestDate: TestDate
     };
 
-    dispatch(getAllStudentsForMarksAssignments(GetAllStudentsForMarksAssignmentsBody));
+    dispatch(getSubjectExamMarkslist(GetAllStudentsForMarksAssignmentsBody));
   }, []);
 
   useEffect(() => {
@@ -186,10 +192,10 @@ const SubjectExamMarks = () => {
     { Marks: 10, Grade: "A" },
     { Marks: 8, Grade: "B" }
   ]
-  const ExamMarksHeader = [
-    { Subject: "Theory/20", Total: "15" },
-    { Subject: "Library/10", Total: "8" }
-  ]
+  // const ExamMarksHeader = [
+  //   { Subject: "Theory/20", Total: "15" },
+  //   { Subject: "Library/10", Total: "8" }
+  // ]
   return (
     <Container maxWidth={"xl"}>
       <Stack
@@ -244,19 +250,6 @@ const SubjectExamMarks = () => {
         </Box>
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <Box>
-            {/* <Dropdown
-              variant='outlined'
-              label='Class'
-              width='100px'
-              Array={[]}
-            /> */}
-
-
-
-            {/* <TextField fullWidth label={'Class'} InputLabelProps={{ shrink: true }} value={StandardName.Standard_Name} /> */}
-            {/* <TextField fullWidth value={StandardName?.length > 0 ?
-              (StandardName[0].Standard_Name + ' - ' + StandardName[0].Division_Name) : ''} /> */}
-
             <TextField
               fullWidth
               value={
@@ -268,15 +261,6 @@ const SubjectExamMarks = () => {
             />
           </Box>
           <Box>
-            {/* <Dropdown
-              variant='outlined'
-              label='Exam'
-              width='200px'
-              Array={[]}
-            /> */}
-            {/* <TextField fullWidth label={'Exam'} InputLabelProps={{ shrink: true }} value={TestName.SchoolWise_Test_Name} /> */}
-            {/* <TextField fullWidth value={TestName?.length > 0 ?
-              (TestName[0].SchoolWise_Test_Name) : ''} /> */}
             <TextField
               fullWidth
               value={
@@ -288,15 +272,6 @@ const SubjectExamMarks = () => {
             />
           </Box>
           <Box>
-            {/* <Dropdown
-              variant='outlined'
-              label='Subject Name'
-              width='150px'
-              Array={[]}
-            /> */}
-            {/* <TextField fullWidth label={'Subject Name'} InputLabelProps={{ shrink: true }} value={SubjectName.Subject_Name} /> */}
-            {/* <TextField fullWidth value={SubjectName?.length > 0 ?
-              (SubjectName[0].Subject_Name) : ''} /> */}
             <TextField
               fullWidth
               value={SubjectName || ''}
@@ -304,17 +279,7 @@ const SubjectExamMarks = () => {
           </Box>
 
           <Box>
-            {/* <TextField
-              fullWidth value={TestMarkDetails?.length > 0 ?
-                (TestMarkDetails[0].Test_Date) : ''}
-              type="date"
-              label={"Exam Date"}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              variant={"outlined"}
-              size={"small"}
-              onClick={clickTestDate}
-            /> */}
+
             <TextField
               fullWidth
               value={TestDate}
@@ -374,51 +339,8 @@ const SubjectExamMarks = () => {
           </Typography>
         </Box>
         {/* Table */}
-        <TableContainer component={Box} sx={{ mt: 2 }}>
-          <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
-            <TableHead>
-              <TableRow sx={{ background: (theme) => theme.palette.primary.main }}>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
-                  Roll No.
-                </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
-                  Student Name
-                </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
-                  Exam Status
-                </TableCell>
-                <SubjectExamHeader ExamMarksHeader={ExamMarksHeader} />
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
-                  Total / 20
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              <TableRow>
-                <TableCell>1.</TableCell>
-                <TableCell>Miss Gauri Vishal Bhadale</TableCell>
-                <TableCell>
-                  <Dropdown
-                    variant='outlined'
-                    Array={[{
-                      Value: "absent",
-                      Name: "Absent"
-                    }, {
-                      Value: "exempted",
-                      Name: "Exempted"
-                    }]}
-                  />
-                </TableCell>
-                <SubjectExamRows ExamMarks={ExamMarks} />
-                <TableCell>
-                  <TextField sx={{ width: '50px' }} size={"small"} disabled />
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
+        <SubjectExamMarkTable ExamMarks={ExamMarks} ExamMarksHeader={HeaderList}></SubjectExamMarkTable>
       </Box>
-
       <Button onClick={onClickSave} variant="contained">
         Save
       </Button>

@@ -43,6 +43,7 @@ const SubjectExamMarksslice = createSlice({
             state.Loading = false;
             state.GradesForSubjectMarkList = action.payload;
         },
+       
         GetSubjectExamMarkslist(state, action) {
             state.Loading = false;
             state.SubjectExamMarkslists = action.payload;
@@ -79,14 +80,8 @@ export const getClassExamSubjectNameDetailes =
             dispatch(SubjectExamMarksslice.actions.GetClassExamSubjectNameDetail(response.data));
 
         };
-export const getAllStudentsForMarksAssignments =
-    (data: IGetAllStudentsForMarksAssignmentsBody): AppThunk =>
-        async (dispatch) => {
-            dispatch(SubjectExamMarksslice.actions.getLoading(true));
-            const response = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(data);
-            dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(response.data));
-            console.log(response, "abc")
-        };
+
+
 export const resetManageStudentsTestMark =
     (): AppThunk =>
         async (dispatch) => {
@@ -100,15 +95,110 @@ export const getAllGradesForSubjectMarkList =
             dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(response.data));
 
         };
+//For RollNo,StudentName
+// export const getAllStudentsForMarksAssignments =
+// (data: IGetAllStudentsForMarksAssignmentsBody): AppThunk =>
+//     async (dispatch) => {
+//         dispatch(SubjectExamMarksslice.actions.getLoading(true));
+//         const response = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(data);
+//         dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(response.data));
+//         console.log(response, "abc")
+//     };
 
-export const getSubjectExamMarkslists =
-    (data: IGetSubjectExamMarkslistsBody): AppThunk =>
+//HeaderList,ItemList,Dropdown Status
+// export const getSubjectExamMarkslists =
+//     (data: IGetSubjectExamMarkslistsBody): AppThunk =>
+//         async (dispatch) => {
+//             dispatch(SubjectExamMarksslice.actions.getLoading(true));
+//             const response = await SubjectExamMarksApi.GetSubjectExamMarkslists(data);
+//             dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response.data));
+//             console.log(response, "response")
+//         };
+
+
+
+
+
+export const getSubjectExamMarkslist =
+    (data): AppThunk =>
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
-            const response = await SubjectExamMarksApi.GetSubjectExamMarkslists(data);
-            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response.data));
-            console.log(response, "response")
-        };
+            const body1: IGetAllStudentsForMarksAssignmentsBody = {
+                asAcademicYearID: data.asAcademicYearID,
+                asSchoolId: data.asSchoolId,
+                asSubject_Id: data.asSubject_Id,
+                asStandardDivision_Id: data.asStandardDivision_Id,
+                asTestDate: data.asTestDate
+            }
+            const body2: IGetSubjectExamMarkslistsBody = {
+                asSchoolId: data.asSchoolId,
+                asStandardDivision_Id: data.asStandardDivision_Id,
+                asSubjectId: data.asSubjectId,
+                asTestId: data.asTestId,
+                asAcademicYrId: data.asAcademicYearID,
+                asShowTotalAsPerOutOfMarks: data.asShowTotalAsPerOutOfMarks
+            }
+
+            const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
+            let reponseData1 = [];
+
+            response1.data.map((Item, i) => {
+                reponseData1.push({
+                    Id: Item.Student_Id,
+                    Text1: Item.Roll_No,
+                    Text2: Item.Name,
+                });
+            });
+            dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
+
+            const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+            let responseData2 = [];
+            const HeaderList = {
+                Text1:"Sr.No.",
+                Text2:"Student Name",
+                Text3:"Exam Status",
+                Text4:response2.data.listTestDetailss.map((Item, i) => {
+                    return {
+                        Text1: Item.TestType_Name,
+                       Text2: Item.TestType_Total_Marks
+                    };
+                }),
+                Text5:"Total/"+ response2.data.listTestDetailss[0].TotalMarks
+            }
+            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData2));
+
+            const response3 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+            let responseData3 = [];
+
+            response3.data.listStudentTestMarkDetails.map((Item, i) => {
+                responseData3.push({
+                    Id: Item.TestType_Id,
+                    Text1: Item.Marks_Scored,
+                    Text2:Item.Grade_Or_Marks,
+                
+                });
+            });
+
+            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData3));
+        
+
+            const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+            let responseData4 = [];
+
+            response4.data.listDisplayNameDetail.map((Item, i) => {
+                responseData4.push({
+                    Id: Item.ExamStatusId,
+                    Name: Item.DisplayName,
+                    Value: Item.ExamStatusId
+                });
+            });
+
+            dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData4));
+        }
+    
+
+
+
 export const getManageStudentsTestMark =
     (data: IManageStudentsTestMarkBody): AppThunk =>
         async (dispatch) => {
