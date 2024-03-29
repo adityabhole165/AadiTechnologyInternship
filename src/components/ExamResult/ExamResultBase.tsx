@@ -1,5 +1,5 @@
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Container, Grid } from '@mui/material';
+import { Box, Button, Container, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -20,7 +20,7 @@ import {
   getClassTeachers
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
-
+import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -33,6 +33,7 @@ const ExamResultBase = () => {
 
   const [TestId, setTestId] = useState('0');
   const [DisplayNote, setDisplayNote] = useState([]);
+  const [Open, setOpen] = useState(false);
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
@@ -126,9 +127,12 @@ const ExamResultBase = () => {
     if (ClassTeachers.length > 0)
       setStandardDivisionId(ClassTeachers[0].Id);
   }, [ClassTeachers]);
+  
   useEffect(() => {
-    if (AllTestsForClass.length > 0) setTestId(AllTestsForClass[0].Id);
+    if (AllTestsForClass.length > 0)
+     setTestId(AllTestsForClass[0].Id);
   }, [AllTestsForClass]);
+
   useEffect(() => {
     if (StandardDivisionId == '0')
       dispatch(getAllTestsForClass(AllTestsForClassBody));
@@ -163,7 +167,12 @@ const ExamResultBase = () => {
   const ProgressRemark = (value) => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks');
   };
-
+  const ClickOpenDialogbox = () => {
+    setOpen(true);
+  };
+  const ClickCloseDialogbox = () => {
+    setOpen(false);
+  };
   const getExamName = () => {
     let ExamName = '';
     AllTestsForClass.map((item) => {
@@ -201,6 +210,25 @@ const ExamResultBase = () => {
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/FinalResultToppers/' + getTeacherId());
   };
+  const clickPublishUnpublish = (IsPublish) => {
+
+    // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
+    // {
+    //   asSchoolId: asSchoolId.toString(),
+    //   asAcademicYearId: asAcademicYearId.toString(),
+    //   asHomeWorkLogId: getSelectedSubject(),
+    //   asUnpublishReason: 'Yesss',
+    //   asUpdatedById: TeacherId,
+    //   IsPublished: IsPublish,
+    //   IsSMSSent: 1
+    // };
+
+    // dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
+    // // dispatch(Publishallreset());
+    // // dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
+
+    // // }
+  };
 
   return (
     <Container>
@@ -217,6 +245,7 @@ const ExamResultBase = () => {
           />
           <br></br>
         </Grid>
+
 
         <Grid item xs={4}>
           <Dropdown
@@ -242,14 +271,23 @@ const ExamResultBase = () => {
         <SuspenseLoader />
       ) : (
         <Box mb={1}>
-          <DynamicList
-            HeaderList={HeaderList}
-            ItemList={ClassPassFailDetailsForTest}
-            IconList={IconList}
-            ClickItem={ClickItem}
-          />
+          {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
+            <Typography>No Records Found</Typography>
+          ) : (
+            <DynamicList
+              HeaderList={HeaderList}
+              ItemList={ClassPassFailDetailsForTest}
+              IconList={IconList}
+              ClickItem={ClickItem}
+            />
+          )}
         </Box>
+
       )}
+
+
+
+
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
         <Button variant="contained" color="primary">
           VIEW PROGRESS REPORT
@@ -257,12 +295,28 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary">
           GENERATE TOPPERS
         </Button>
-        <Button variant="contained" color="primary">
+        {/* <Button variant="contained" color="primary">
           PUBLISH
+        </Button> */}
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
+          PUBLISH ALL
         </Button>
-        <Button onClick={onClickUnpublish} variant="contained" color="primary">
+        {/* <Button onClick={onClickUnpublish} variant="contained" color="primary">
           UNPUBLISH
+        </Button> */}
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+          UNPUBLISH ALL
         </Button>
+
+        {Open && (
+          <ExamResultUnpublish
+            open={Open}
+            setOpen={setOpen}
+            ClickCloseDialogbox={ClickCloseDialogbox}
+            clickPublishUnpublish={clickPublishUnpublish}
+          />
+        )}
+
         <Button variant="contained" color="primary" onClick={ProgressRemark}>
           Progress Remarks
         </Button>
