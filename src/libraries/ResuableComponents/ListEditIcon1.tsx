@@ -53,23 +53,47 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                   )}
                 </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
-                  {item.Text4 === 'Not Started' && (
+                  {item.STATUS === 'Not Started' && (
                     <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
                   )}
-                  {item.Text4 === 'Partial' && (
+                  {item.STATUS === 'Partial' && (
                     <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }} />
                   )}
-                  {(item.Text4 === 'Complete' || item.Text4 === 'Submitted'
-                    || item.Text4 === 'Published') && (
+                  {(item.STATUS === 'Complete' || item.STATUS === 'Submitted'
+                    || item.STATUS === 'Published') && (
                       <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }} />
                     )}
                 </TableCell>
 
-                <TableCell sx={{ textTransform: 'capitalize' }} align="center" >
-                  {item.Text4 !== 'Complete' ? (
-                    <AssignmentIcon onClick={() => clicksubmit(item.Id)} style={{ color: '#ff5722', cursor: 'pointer' }} />
+                <TableCell sx={{ textTransform: 'capitalize' }} align="center">
+                  {item.STATUS === 'Not Started' ? (
+                    item.Is_Submitted === 'Y' ? (
+                      <CheckIcon style={{ color: '#607d8b' }} />
+                    ) : (
+                      'Marks cannot be submitted.' 
+                    )
+                  ) : item.STATUS === 'Partial' ? (
+                    item.Is_Submitted === 'Y' ? (
+                      <CheckIcon style={{ color: '#607d8b' }} />
+                    ) : (
+                      'Marks cannot be submitted.' 
+                    )
                   ) : (
-                    item.Text5
+                    item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
+                      item.Subject_Id !== -1 ? (
+                        item.Is_Submitted === 'Y' ? (
+                          <AssignmentIcon style={{ color: '#ff5722' }} />
+                        ) : (
+                          <CheckIcon style={{ color: '#607d8b' }} />
+                        )
+                      ) : (
+                        item.Is_Submitted === 'Y' ? (
+                          <AssignmentIcon style={{ color: '#ff5722' }} />
+                        ) : (
+                          <CheckIcon style={{ color: '#607d8b' }} />
+                        )
+                      )
+                    ) : null 
                   )}
                 </TableCell>
               </TableRow>
