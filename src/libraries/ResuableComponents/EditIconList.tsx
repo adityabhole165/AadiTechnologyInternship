@@ -70,10 +70,11 @@ function EditIconList({
                       }
                     />
                   ) : item.Text4 === '3' ? (
-                    'Marks already submitted.'
+                    <span>Marks already submitted.</span>
                   ) : (
-                    ' Mark Cannot be Submitted.'
+                    <span>Mark Cannot be Submitted.</span>
                   )}
+
                 </TableCell>
               </TableRow>
             ))}
