@@ -71,16 +71,33 @@ export const GetAddOrEditLessonPlanDetails =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.AddOrEditLessonPlanDetails(data);
       let reponseData = []
-      const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId) => {
+
+      const getSubPlanDetails = (ParentParameterId) => {
         let returnVal = []
         response.data.LessonPlanParametersList.map((Item, i) => {
-          if (LessonPlanCategoryId == Item.LessonPlanCategoryId &&
-            (Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId)) {
+          if (ParentParameterId == Item.ParentParameterId) {
             returnVal.push(
               { Id: Item.Id, label: Item.Title, value: "" }
             )
           }
         })
+        return returnVal
+      }
+      const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId) => {
+        let returnVal = []
+        let ParentParameterIds = []
+        response.data.LessonPlanParametersList.map((Item, i) => {
+          if (LessonPlanCategoryId == Item.LessonPlanCategoryId &&
+            (Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId)) {
+            if (Item.ParentParameterId == "0") {
+              returnVal.push({
+                Id: Item.Id, label: Item.Title, value: "",
+                subPlanDetails: getSubPlanDetails(Item.Id)
+              })
+            }
+          }
+        })
+        console.log(returnVal, "getPlanDetails")
         return returnVal;
       }
       response.data.GetTeacherSubjectList.map((Item, i) => {
