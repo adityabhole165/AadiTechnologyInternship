@@ -103,10 +103,10 @@ const TermwiseHeightWeight = () => {
 
   useEffect(() => {
     const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
-      asStandardDivId: 1266,
-      asTerm_Id: 1,
-      asSchoolId: 18,
-      asAcademicYearId: 54
+      asStandardDivId: SelectTeacher,
+      asTerm_Id: SelectTerm,
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId
     };
     dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
   }, []);

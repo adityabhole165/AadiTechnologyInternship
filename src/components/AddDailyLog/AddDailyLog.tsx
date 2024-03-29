@@ -8,10 +8,10 @@ import {
   Box,
   Breadcrumbs,
   Button,
+  ButtonGroup,
   Container,
   Grid,
   IconButton,
-  MenuItem,
   Stack,
   TextField,
   Tooltip,
@@ -60,7 +60,6 @@ const AddDailyLog = () => {
   const [base64URL, setbase64URL] = useState('');
   const [LogId, setLogId] = useState(0);
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
 
   const MaxfileSize = 5000000;
   const startIndex = (page - 1) * 20;
@@ -99,7 +98,7 @@ const AddDailyLog = () => {
   const [HeaderPublish, setHeaderPublish] = useState([
     { Id: 1, Header: 'Date', SortOrder: " Desc" },
     { Id: 2, Header: 'Attachment' },
-    { Id: 3, Header: 'Publish/UnPublish' },
+    { Id: 3, Header: 'Publish / UnPublish' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' }
   ]);
@@ -142,7 +141,7 @@ const AddDailyLog = () => {
   };
 
   //Pageload
-  const Changestaus = (value, IsPublish) => {
+  const Changestaus1 = (value, IsPublish) => {
     const PublishUnpublishHomeworkDailylogBody: IPublishUnpublishHomeworkDailylogBody =
     {
       asSchoolId: Number(asSchoolId),
@@ -156,25 +155,52 @@ const AddDailyLog = () => {
 
   };
 
+  const Changestaus = (value, isPublish) => {
+    const handleAction = () => {
+      const PublishUnpublishHomeworkDailylogBody = {
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId),
+        asLogId: value,
+        asUpdatedById: TeacherId,
+        asIsPublished: isPublish === 'False' ? true : false
+      };
+
+      dispatch(PublishUnpublishHomework(PublishUnpublishHomeworkDailylogBody));
+    };
+
+
+    const confirmationMessage = isPublish === 'False'
+      ? 'Are you sure you want to Publish Record?'
+      : 'Are you sure you want to Unpublish Record?';
+
+    if (window.confirm(confirmationMessage)) {
+      handleAction();
+    }
+  };
+
+
+
 
   useEffect(() => {
     dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
   }, [HeaderPublish, page]);
 
-  const handlePageChange = (event) => {
-    const newPage = event.target.value;
-    setPage(newPage);
-    dispatch(getalldailylog(GetAllHomeworkDailyLogsBody));
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber);
   };
+  const itemsPerPage = 20;
+  const [totalPages, setTotalPages] = useState(1);
 
   useEffect(() => {
-    if (GetAllHomeworkDailyLogs.length > 0) {
-      const totalRows = GetAllHomeworkDailyLogs[0].TotalRows;
-      const totalPages = Math.ceil(totalRows / 20);
-      setTotalPages(totalPages);
-    }
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const newGetAllHomeworkDailyLogsBody = { ...GetAllHomeworkDailyLogsBody, asStartIndex: startIndex, asEndIndex: endIndex };
+    dispatch(getalldailylog(newGetAllHomeworkDailyLogsBody));
+  }, [page]);
 
-  }, [GetAllHomeworkDailyLogs]);
+
+  const totalPages1 = Math.ceil(GetAllHomeworkDailyLogs[0]?.TotalRows / itemsPerPage);
+
 
   useEffect(() => {
     if (PublishUnpublishHomeworkDailylog != '') {
@@ -481,7 +507,7 @@ const AddDailyLog = () => {
         <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} value={ClassName} />
+              <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#e3f2fd' }} />
             </Grid>
             <Grid item xs={5}>
               <TextField
@@ -500,14 +526,15 @@ const AddDailyLog = () => {
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
               />
             </Grid>
-            <Grid item xs={2} justifyContent={'center'} display={'flex'}>
+            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'center'} sx={{ marginTop: '5px' }}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 FileName={fileName}
-              ></SingleFile>
+              />
             </Grid>
+
             <Grid item xs={12}>
 
             </Grid>
@@ -563,7 +590,7 @@ const AddDailyLog = () => {
                 </Box>
               </Box>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12}  >
               {GetAllHomeworkDailyLogs.length > 0 ? (
                 <Adddailyloglist
                   ItemList={GetAllHomeworkDailyLogs}
@@ -572,7 +599,7 @@ const AddDailyLog = () => {
                   ClickHeader={ClickHeader}
                   clickEdit={clickEdit1}
                   clickDelete={clickDelete}
-                  clickpublish={Changestaus}
+                  clickpublish={(value, isPublish) => Changestaus(value, isPublish)}
                 />
               ) : (
                 <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
@@ -580,39 +607,28 @@ const AddDailyLog = () => {
                 </Typography>
 
               )}
+              {GetAllHomeworkDailyLogs.length > 0 ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                    Select a page:
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                      <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                      <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                      <Button value={"3"} onClick={() => handlePageChange("3")}>3</Button>
+                      <Button value={"4"} onClick={() => handlePageChange("4")}>4</Button>
+                    </ButtonGroup>
+                  </Box>
 
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mt: 2 }}>
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  Select a page:
-                  <TextField
-                    sx={{ width: '80px' }}
-                    value={page}
-                    select={true}
-                    size={'small'}
-                    onChange={handlePageChange}
-                  >
-                    <MenuItem value={"1"}>
-                      1
-                    </MenuItem>
-                    <MenuItem value={"2"}>
-                      2
-                    </MenuItem>
-                    <MenuItem value={"3"}>
-                      3
-                    </MenuItem>
-                    <MenuItem value={"4"}>
-                      4
-                    </MenuItem>
-                    <MenuItem value={"5"}>
-                      5
-                    </MenuItem>
-                  </TextField>
+
                 </Box>
-                <Box>
-                  Page 1 of 5
-                </Box>
+
+              ) : (
+                <b />
+              )}
+
+              <Box sx={{ display: 'flex', alignItems: 'right',  justifyContent: 'right', textAlign: 'right' }}>
+                Page {page} of 5
               </Box>
-
             </Grid>
           </Grid>
         </Box>
