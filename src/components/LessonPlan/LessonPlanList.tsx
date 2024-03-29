@@ -33,6 +33,29 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
         onTextChange(exampleLessonDetails)
     }
 
+    const onSubChangeValue = (StdId, DivisionId, Id, Value) => {
+        exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+            return {
+                ...Item,
+                planDetails: Item.planDetails.map((obj) => {
+                    return {
+                        ...obj,
+                        subPlanDetails: (Item.StdId == StdId && Item.DivisionId == DivisionId) ?
+                            obj.subPlanDetails.map((subItem, subIndex) => {
+                                return {
+                                    ...subItem,
+                                    value: (subItem.Id == Id) ?
+                                        Value : Item.planDetails[subIndex].value
+                                }
+                            }) :
+                            Item.subPlanDetails
+                    }
+                })
+            }
+        })
+        onTextChange(exampleLessonDetails)
+    }
+
     const IsStd = (value) => {
         let returnVal = false;
 
@@ -117,24 +140,31 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                                 )
                                             }}
                                         />
-                                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
-                                            <Table key={subIndex}>
-                                                <TableRow >
-                                                    <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
-                                                        {index + 1}.{subIndex + 1}
-                                                    </StyledCell>
-                                                    <StyledCell sx={{ p: 1 }}>
+                                        {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
+                                            plan.subPlanDetails.map((subPlan, subIndex) => (
+                                                <Table key={subIndex}>
+                                                    <TableRow >
+                                                        <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                                            {index + 1}.{subIndex + 1}
+                                                        </StyledCell>
                                                         <TextField
                                                             label={subPlan.label}
                                                             value={subPlan.value}
                                                             fullWidth
                                                             multiline
                                                             rows={4}
+                                                            onChange={(e) => {
+                                                                onSubChangeValue(
+                                                                    lesson.StdId,
+                                                                    lesson.DivisionId,
+                                                                    subPlan.Id,
+                                                                    e.target.value
+                                                                )
+                                                            }}
                                                         />
-                                                    </StyledCell>
-                                                </TableRow>
-                                            </Table>
-                                        ))}
+                                                    </TableRow>
+                                                </Table>
+                                            ))}
                                         {/* </StyledCell> */}
                                     </TableRow>
                                 ))}
