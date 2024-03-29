@@ -296,25 +296,25 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
 
         )}
         <Divider sx={{ my: 2 }} />
-        <Box mt={2}>
-          {SubjectListmarkClass1.length > 0 && (
-            <div>
-              <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
-              {SubjectListmarkClass1.length > 0 ? (
-                <ListEditIcon1
-                  ItemList={SubjectListmarkClass1}
-                  clickEdit={clickEdit}
-                  HeaderArray={HeaderPublish}
-                  clicksubmit={ClickSubmit}
-                />
-              ) : (
-                <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                  <b>No Record Found.</b>
-                </Typography>
-              )}
-            </div>
-          )}
-        </Box>
+        {asStandardDivisionId == selectClass && (
+  <Box mt={2}>
+    {SubjectListmarkClass1.length > 0 ? (
+      <div>
+        <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+        <ListEditIcon1
+          ItemList={SubjectListmarkClass1}
+          clickEdit={clickEdit}
+          HeaderArray={HeaderPublish}
+          clicksubmit={ClickSubmit}
+        />
+      </div>
+    ) : (
+      <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+        <b>No Record Found.</b>
+      </Typography>
+    )}
+  </Box>
+)}
 
 
         <Grid container sx={{ mt: 2 }}>
