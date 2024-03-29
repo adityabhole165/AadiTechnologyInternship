@@ -2,7 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOff from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
-import { Box } from '@mui/material';
+import { Box, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -54,46 +54,73 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                 </TableCell> */}
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' && (
-                    <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
+                    <Tooltip title={item.StatusDescription}>
+                      <EditOff style={{ color: '#76ff03', cursor: 'pointer' }} />
+                    </Tooltip>
                   )}
                   {item.STATUS === 'Partial' && (
-                    <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }} />
+                    <Tooltip title={item.StatusDescription}>
+                      <TaskIcon style={{ color: '#ff9800', cursor: 'pointer' }} />
+                    </Tooltip>
                   )}
                   {(item.STATUS === 'Complete' || item.STATUS === 'Submitted'
                     || item.STATUS === 'Published') && (
-                      <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }} />
+                      <Tooltip title={item.StatusDescription}>
+
+                        <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }} />
+                      </Tooltip>
                     )}
                 </TableCell>
 
                 <TableCell sx={{ textTransform: 'capitalize' }} align="center">
                   {item.STATUS === 'Not Started' ? (
                     item.Is_Submitted === 'Y' ? (
-                      <CheckIcon style={{ color: '#607d8b' }} />
+                      <Tooltip title={item.StatusDescription}>
+
+                        <CheckIcon style={{ color: '#607d8b' }} />
+                      </Tooltip>
                     ) : (
-                      'Marks cannot be submitted.' 
+                      <Tooltip title={item.StatusDescription}>
+                        <span>Marks cannot be submitted.</span>
+                      </Tooltip>
                     )
                   ) : item.STATUS === 'Partial' ? (
                     item.Is_Submitted === 'Y' ? (
-                      <CheckIcon style={{ color: '#607d8b' }} />
+                      <Tooltip title={item.StatusDescription}>
+
+                        <CheckIcon style={{ color: '#607d8b' }} />
+                      </Tooltip>
                     ) : (
-                      'Marks cannot be submitted.' 
+                      <Tooltip title={item.StatusDescription}>
+                        <span>Marks cannot be submitted.</span>
+                      </Tooltip>
                     )
                   ) : (
                     item.STATUS === 'Complete' || item.STATUS === 'Submitted' || item.STATUS === 'Published' ? (
                       item.Subject_Id !== -1 ? (
                         item.Is_Submitted === 'Y' ? (
-                          <AssignmentIcon style={{ color: '#ff5722' }} />
+                          <Tooltip title={item.StatusDescription}>
+                            <AssignmentIcon style={{ color: '#ff5722' }} />
+                          </Tooltip>
                         ) : (
-                          <CheckIcon style={{ color: '#607d8b' }} />
+                          <Tooltip title={item.StatusDescription}>
+
+                            <CheckIcon style={{ color: '#607d8b' }} />
+                          </Tooltip>
                         )
                       ) : (
                         item.Is_Submitted === 'Y' ? (
-                          <AssignmentIcon style={{ color: '#ff5722' }} />
+                          <Tooltip title={item.StatusDescription}>
+                            <AssignmentIcon style={{ color: '#ff5722' }} />
+                          </Tooltip>
                         ) : (
-                          <CheckIcon style={{ color: '#607d8b' }} />
+                          <Tooltip title={item.StatusDescription}>
+
+                            <CheckIcon style={{ color: '#607d8b' }} />
+                          </Tooltip>
                         )
                       )
-                    ) : null 
+                    ) :  <span>Marks cannot be submitted.</span>
                   )}
                 </TableCell>
               </TableRow>
