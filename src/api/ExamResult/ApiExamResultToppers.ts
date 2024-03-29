@@ -1,34 +1,33 @@
 import {
-    IGetClassExamDropDownBodyCT,
-    IGetClassExamDropDownResultCT,
-    IGetClassNameDropDownBodyCT,
-    IGetClassNameDropDownResultCT,
+    IGetClassDropdownBodyCT,
+    IGetClassDropdownResultCT,
     IGetClassSubjectDropdownBodyCT,
     IGetClassSubjectDropdownResultCT,
+    IGetClassToppersListBOdyCT,
     IGetClassToppersListResultCT,
-    IGetClassToppersListBOdyCT
-} from 'src/interfaces/ExamResult/IExamResultToppers';
-import http from '../../requests/SchoolService/schoolServices';
+    IGetExamDropdownResultCT,
+    IGetexamDropdownBodyCT
+  } from 'src/interfaces/ExamResult/IExamResultToppers';
+  import http from '../../requests/SchoolService/schoolServices';
 
-const ClassSubjectDropDownCT = (data: IGetClassSubjectDropdownBodyCT) => {
+  const ClassDropdownCT = (data: IGetClassDropdownBodyCT) => {
+    return http.post<IGetClassDropdownResultCT[]>(
+      'Teacher/GetClassForExamDropDown',
+      data
+    );
+  };
+  const ClassExamDropdownCT = (data: IGetexamDropdownBodyCT) => {
+    return http.post<IGetExamDropdownResultCT[]>(
+      'Teacher/GetClassExamDropDown',
+      data
+    );
+  };
+  const ClassSubjectDropdownCT = (data: IGetClassSubjectDropdownBodyCT) => {
     return http.post<IGetClassSubjectDropdownResultCT[]>(
-        'Teacher/GetClassSubjectsDropDown',
-        data
+      'Teacher/GetClassSubjectsDropDown',
+      data
     );
-};
-const ClassExamDropdownCT = (data: IGetClassExamDropDownBodyCT) => {
-    return http.post<IGetClassExamDropDownResultCT[]>(
-        'Teacher/GetClassExamDropDown',
-        data
-    );
-};
-const ClassNameDropdownCT = (data: IGetClassNameDropDownBodyCT) => {
-    return http.post<IGetClassNameDropDownResultCT[]>(
-        'Teacher/GetClassForExamDropDown',
-        data
-    );
-};
-
+  };
   const ClassToppersListCT = (data: IGetClassToppersListBOdyCT) => {
     return http.post<IGetClassToppersListResultCT>(
       'Teacher/GetClassTopperList',
@@ -36,9 +35,9 @@ const ClassNameDropdownCT = (data: IGetClassNameDropDownBodyCT) => {
     );
   };
 const ExamResultToppersApi = {
-    ClassSubjectDropDownCT,
-    ClassExamDropdownCT,
-    ClassNameDropdownCT,
-    ClassToppersListCT
+    ClassDropdownCT,
+  ClassExamDropdownCT,
+  ClassSubjectDropdownCT,
+  ClassToppersListCT
 };
 export default ExamResultToppersApi;

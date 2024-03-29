@@ -1,139 +1,141 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ExamResultToppersApi from 'src/api/ExamResult/ApiExamResultToppers';
 import {
-    IGetClassExamDropDownBodyCT,
-    IGetClassNameDropDownBodyCT,
+    IGetClassDropdownBodyCT,
     IGetClassSubjectDropdownBodyCT,
-    IGetClassToppersListBOdyCT
-} from 'src/interfaces/ExamResult/IExamResultToppers';
+    IGetClassToppersListBOdyCT,
+    IGetexamDropdownBodyCT
+  } from 'src/interfaces/ExamResult/IExamResultToppers';
 import { AppThunk } from 'src/store';
+
 
 const ExamResultToppersSlice = createSlice({
     name: 'ExamResultToppers',
 
     initialState: {
-        ClassSubjectCT: [],
-        ClassExamCT: [],
-        ClassNamelistCT: [],
-        ClassToppersCT: [],
-        SubjectToppersCT: []
+        ClassDropdownListCT: [],
+    ExamDropdownListCT: [],
+    SubjectDropdownListCT: [],
+    ClassToppersCT: [],
+    SubjectToppersCT: []
+        
     },
     reducers: {
-        SubjectListCT(state, action) {
-            state.ClassSubjectCT = action.payload;
-        },
-        ExamListCT(state, action) {
-            state.ClassExamCT = action.payload;
-        },
-        ClassNameCT(state, action) {
-            state.ClassNamelistCT = action.payload;
-        },
-
-        ToppersListCT(state, action) {
+        classListCT(state, action) {
+            state.ClassDropdownListCT = action.payload;
+          },
+          ExamListCT(state, action) {
+            state.ExamDropdownListCT = action.payload;
+          },
+          SubjectListCT(state, action) {
+            state.SubjectDropdownListCT = action.payload;
+          },
+          ToppersListCT(state, action) {
             state.ClassToppersCT = action.payload;
-        },
-        SubjectToppersListCT(state, action) {
+          },
+          SubjectToppersListCT(state, action) {
             state.SubjectToppersCT = action.payload;
+          }
         }
-    }
+    
 });
 
 
-export const ClassSubjectListDropdownCT =
-    (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
-        async (dispatch) => {
-            const response = await ExamResultToppersApi.ClassSubjectDropDownCT(data);
-            let abc = [{ Id: '0', Name: 'All', Value: '0' }];
-
-            response.data.map((item, i) => {
-                abc.push({
-                    Id: item.Subject_Id,
-                    Name: item.Subject_Name,
-                    Value: item.Subject_Id
-                });
-            });
-            dispatch(ExamResultToppersSlice.actions.SubjectListCT(abc));
-        };
+export const ClassdropdownListCT =
+  (data: IGetClassDropdownBodyCT): AppThunk =>
+  async (dispatch) => {
+    const response = await ExamResultToppersApi.ClassDropdownCT(data);
+    let abc = response.data.map((item, i) => {
+      return {
+        Id: item.SchoolWise_Standard_Division_Id,
+        Name: item.StandardDivision,
+        Value: item.SchoolWise_Standard_Division_Id
+      };
+    });
+    dispatch(ExamResultToppersSlice.actions.classListCT(abc));
+    console.log(abc, 'abc');
+  };
 export const ClassExamListCT =
-    (data: IGetClassExamDropDownBodyCT): AppThunk =>
-        async (dispatch) => {
-            const response = await ExamResultToppersApi.ClassExamDropdownCT(data);
-            let abc = response.data.map((item, i) => {
-                return {
-                    Id: item.SchoolWise_Test_Id,
-                    Name: item.SchoolWise_Test_Name,
-                    Value: item.SchoolWise_Test_Id
-                };
-            });
-            dispatch(ExamResultToppersSlice.actions.ExamListCT(abc));
-        };
-export const ClassNameListCT =
-    (data: IGetClassNameDropDownBodyCT): AppThunk =>
-        async (dispatch) => {
-            const response = await ExamResultToppersApi.ClassNameDropdownCT(data);
-            let abc = response.data.map((item, i) => {
-                return {
-                    Id: item.SchoolWise_Standard_Division_Id,
-                    Name: item.StandardDivision,
-                    Value: item.SchoolWise_Standard_Division_Id
-                };
-            });
-            dispatch(ExamResultToppersSlice.actions.ClassNameCT(abc));
-        };
+  (data: IGetexamDropdownBodyCT): AppThunk =>
+  async (dispatch) => {
+    const response = await ExamResultToppersApi.ClassExamDropdownCT(data);
+    let abc = response.data.map((item, i) => {
+      return {
+        Id: item.SchoolWise_Test_Id,
+        Name: item.SchoolWise_Test_Name,
+        Value: item.SchoolWise_Test_Id
+      };
+    });
+    dispatch(ExamResultToppersSlice.actions.ExamListCT(abc));
+  };
+export const ClassSubjectListCT =
+  (data: IGetClassSubjectDropdownBodyCT): AppThunk =>
+  async (dispatch) => {
+    const response = await ExamResultToppersApi.ClassSubjectDropdownCT(data);
+    let abc = [{ Id: '0', Name: 'All', Value: '0' }];
+
+    response.data.map((item, i) => {
+      abc.push({
+        Id: item.Subject_Id,
+        Name: item.Subject_Name,
+        Value: item.Subject_Id
+      });
+    });
+    dispatch(ExamResultToppersSlice.actions.SubjectListCT(abc));
+  };
 export const ClassTopperListCT =
-    (data: IGetClassToppersListBOdyCT): AppThunk =>
-        async (dispatch) => {
-            const response = await ExamResultToppersApi.ClassToppersListCT(data);
-            let abc = response.data.GetTopperList.map((item, i) => {
-                return {
-                    Text77:
-                        localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
-                    Text2: item.Roll_No,
-                    Text3: item.Student_Name,
-                    Text4: item.Marks
-                };
-            });
-            dispatch(ExamResultToppersSlice.actions.ToppersListCT(abc));
+  (data: IGetClassToppersListBOdyCT): AppThunk =>
+  async (dispatch) => {
+    const response = await ExamResultToppersApi.ClassToppersListCT(data);
+    let abc = response.data.GetTopperList.map((item, i) => {
+      return {
+        Text77:
+          localStorage.getItem('SiteURL') + item.Rank_Image.replace('~', ''),
+        Text2: item.Roll_No,
+        Text3: item.Student_Name,
+        Text4: item.Marks
+      };
+    });
+    dispatch(ExamResultToppersSlice.actions.ToppersListCT(abc));
 
-            let Subjects = [];
-            response.data.GetSelectedSubjectTopperList.map((item, i) => {
-                if (
-                    !Subjects.includes(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
-                    )
-                ) {
-                    Subjects.push(
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
-                    );
-                }
-            });
-            let responseData = [];
-            let child = null;
-            Subjects.map((obj) => {
-                child = {
-                    Rank_Image: obj.split('#')[1],
-                    Subject: obj.split('#')[0],
-                    Marks: obj.split('#')[2],
-                    Students: []
-                };
-                response.data.GetSelectedSubjectTopperList.map((item, i) => {
-                    if (
-                        obj ==
-                        item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
-                    ) {
-                        child.Students.push({
-                            Text1: item.Roll_No,
-                            Text2: item.Student_Name
-                        });
-                    }
-                });
-                responseData.push(child);
-            });
-            console.log(responseData, 'Subjects');
+    let Subjects = [];
+    response.data.GetSelectedSubjectTopperList.map((item, i) => {
+      if (
+        !Subjects.includes(
+          item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+        )
+      ) {
+        Subjects.push(
+          item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+        );
+      }
+    });
+    let responseData = [];
+    let child = null;
+    Subjects.map((obj) => {
+      child = {
+        Rank_Image: obj.split('#')[1],
+        Subject: obj.split('#')[0],
+        Marks: obj.split('#')[2],
+        Students: []
+      };
+      response.data.GetSelectedSubjectTopperList.map((item, i) => {
+        if (
+          obj ==
+          item.Subject_Name + '#' + item.Rank_Image + '#' + item.Marks
+        ) {
+          child.Students.push({
+            Text1: item.Roll_No,
+            Text2: item.Student_Name
+          });
+        }
+      });
+      responseData.push(child);
+    });
+    console.log(responseData, 'Subjects');
 
-            dispatch(
-                ExamResultToppersSlice.actions.SubjectToppersListCT(responseData)
-            );
-        };
-
+    dispatch(
+        ExamResultToppersSlice.actions.SubjectToppersListCT(responseData)
+    );
+  };
 export default ExamResultToppersSlice.reducer;
