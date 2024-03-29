@@ -20,6 +20,8 @@ import Dropdown from 'src/libraries/dropdown/Dropdown';
 import { getAllGradesForSubjectMarkList, getAllStudentsForMarksAssignments, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslists, resetManageStudentsTestMark } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
 import { getCalendarDateFormatDate } from '../Common/Util';
+import SubjectExamHeader from './SubjectExamHeader';
+import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -180,6 +182,14 @@ const SubjectExamMarks = () => {
       navigate("../../AssignExamMark")
     }
   }, [ManageStudentsTestMarks])
+  const ExamMarks = [
+    { Marks: 10, Grade: "A" },
+    { Marks: 8, Grade: "B" }
+  ]
+  const ExamMarksHeader = [
+    { Subject: "Theory/20", Total: "15" },
+    { Subject: "Library/10", Total: "8" }
+  ]
   return (
     <Container maxWidth={"xl"}>
       <Stack
@@ -377,11 +387,7 @@ const SubjectExamMarks = () => {
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   Exam Status
                 </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                    Project / 20 <TextField sx={{ width: '50px', background: 'white' }} size={"small"} />
-                  </Box>
-                </TableCell>
+                <SubjectExamHeader ExamMarksHeader={ExamMarksHeader} />
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                   Total / 20
                 </TableCell>
@@ -403,9 +409,7 @@ const SubjectExamMarks = () => {
                     }]}
                   />
                 </TableCell>
-                <TableCell>
-                  <TextField sx={{ width: '50px' }} size={"small"} />
-                </TableCell>
+                <SubjectExamRows ExamMarks={ExamMarks} />
                 <TableCell>
                   <TextField sx={{ width: '50px' }} size={"small"} disabled />
                 </TableCell>
