@@ -43,19 +43,16 @@ const AadharCard = () => {
   const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
   const maxfileSize = 3000000;
 
-  const UpdateTeacherAadharDetailsUS: any = useSelector(
-    (state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails
-  );
-
-  const DeleteAadharCardPhotoCopyUS: any = useSelector(
-    (state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
+  const UpdateTeacherAadharDetailsUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails);
+  const DeleteAadharCardPhotoCopyUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
   const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
+  console.log(GetUserDetailsForAadharCardNoUS, "GetUserDetailsForAadharCardNoUS");
 
   const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
     asUserId: Number(UserId),
     asSchoolId: Number(asSchoolId),
     asAadharCardNo: AadharCardNumber,
-    asAadharCardPhotoCopyPath: selectedFile,
+    asAadharCardPhotoCopyPath: fileName,
     asUpdatedById: TeacherId.toString(),
     asSaveFeature: "Aadhar Cards",
     asFolderName: "PPSN Website",
@@ -76,6 +73,12 @@ const AadharCard = () => {
     ResetForm();
 
   };
+  useEffect(() => {
+    if (GetUserDetailsForAadharCardNoUS != null) {
+      setAadharCardNumber(GetUserDetailsForAadharCardNoUS.AadharCardNo)
+    }
+  }, [GetUserDetailsForAadharCardNoUS])
+
   useEffect(() => {
     if (UpdateTeacherAadharDetailsUS !== '') {
       toast.success(UpdateTeacherAadharDetailsUS, { toastId: 'success1' });
@@ -134,13 +137,6 @@ const AadharCard = () => {
   };
 
 
-  const clickFileName = () => {
-    window.open(
-      localStorage.getItem('SiteURL') +
-      '/RITeSchool/' +
-      '/DOWNLOADS/Aadhar Card/' +
-      GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path);
-  }
   const changeFile = async (e) => {
     const multipleFiles = e.target.files;
     let base64URL: any = '';
@@ -294,36 +290,37 @@ const AadharCard = () => {
 
         </Box>
 
-  <Box sx={{ my: '10px', textAlign: 'center' }}>
-  {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-    <img
-      style={{ height: '150px', width: '150px' }}
-      src={'/imges/Adhar.png'}
-      alt={'adhar'}
-    />
-  ) : (
-    <>
-      {selectedFile ? (
-        <img
-          src={URL.createObjectURL(selectedFile)}
-          width="150"
-          height="150"
-          style={{ border: '1px solid gray', padding: '1px' }}
-        />
-      ) : (
-        <img
-          src={
-            localStorage.getItem('SiteURL') +
-            GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path 
-          }
-          width="150"
-          height="150"
-          style={{ border: '1px solid gray', padding: '1px' }}
-        />
-      )}
-    </>
-  )}
-</Box>
+        <Box sx={{ my: '10px', textAlign: 'center' }}>
+          {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+            <img
+              style={{ height: '150px', width: '150px' }}
+              src={'/imges/Adhar.png'}
+              alt={'adhar'}
+            />
+          ) : (
+            <>
+              {selectedFile ? (
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  width="150"
+                  height="150"
+                  style={{ border: '1px solid gray', padding: '1px' }}
+                />
+              ) : (
+                <img
+                  src={
+                    localStorage.getItem('SiteURL') +
+                    '/RITeSchool/DOWNLOADS/Aadhar Card/' +
+                    GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
+                  }
+                  width="150"
+                  height="150"
+                  style={{ border: '1px solid gray', padding: '1px' }}
+                />
+              )}
+            </>
+          )}
+        </Box>
 
 
         <Box sx={{ textAlign: 'center' }}>
