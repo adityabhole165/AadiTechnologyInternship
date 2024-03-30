@@ -13,9 +13,12 @@ import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUp
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
-
+import { Styles } from 'src/assets/style/student-style';
+import Icon5 from 'src/libraries/icon/icon5';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 const AadharCard = () => {
   const dispatch = useDispatch();
+  const classes = Styles();
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -108,7 +111,7 @@ const AadharCard = () => {
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
       dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
-      //setFile('');
+      
     }
   }
 
@@ -121,10 +124,7 @@ const AadharCard = () => {
     dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
   }, []);
 
-  // const ChangeFile = (value) => {
-  //   setSelectedFile(value.Name);
-  //   setBase64URL(value.Value);
-  // };
+ 
 
   const changeAdhar = (value) => {
     const re = /^\d{0,12}$/;
@@ -268,69 +268,67 @@ const AadharCard = () => {
 
             </Grid>
             <Grid item xs={12}>
-              {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                <SingleFile
-                  FileName={selectedFile}
-                  MaxfileSize={MaxfileSize}
-                  ChangeFile={ChangeFile}
-                  errorMessage={FileError}
-                  FilePath={GetUserDetailsForAadharCardNoUS == null ? "" : GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path}
-                  viewIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
-                  deleteIcon={GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path !== "" ? true : false}
-                  clickDelete={DeleteAadhar}
-                  isMandatory={false}
-                  FileLabel='Upload Scanned Copy of Aadhar Card'
-                  ValidFileTypes={ValidFileTypes}
-                  width='400px'
-                  clickFileName={clickFileName}
-                />
-              </Box> */}
-
-              <Box sx={{ my: '10px', textAlign: 'center' }}>
-                {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-                  <img
-                    style={{ height: '150px', width: '150px' }}
-                    src={'/imges/Adhar.png'}
-                    alt={'adhar'}
-                  />
-                ) : (
-                  <>
-                    {selectedFile ? (
-                      <img
-                        src={URL.createObjectURL(selectedFile)}
-                        width="150"
-                        height="150"
-                        style={{ border: '1px solid gray', padding: '1px' }}
-                      />
-                    ) : (
-                      <img
-                        src={
-                          localStorage.getItem('SiteURL') +
-                          '/RITeSchool/DOWNLOADS/Aadhar Card/' +
-                          GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
-                        }
-                        width="150"
-                        height="150"
-                        style={{ border: '1px solid gray', padding: '1px' }}
-                      />
-                    )}
-                  </>
-                )}
-              </Box>
-
-
-              <Box sx={{ textAlign: 'center' }}>
-                <input
-                  ref={aRef}
-                  type="file"
-                  onChange={changeFile}
-                  style={{ width: '200px' }}
-                />
-              </Box>
+              
             </Grid>
           </Grid>
 
         </Box>
+
+        <Box sx={{ my: '10px', textAlign: 'center' }}>
+          {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+            <img
+              style={{ height: '150px', width: '150px' }}
+              src={'/imges/Adhar.png'}
+              alt={'adhar'}
+            />
+          ) : (
+            <>
+              {selectedFile ? (
+                <img
+                  src={URL.createObjectURL(selectedFile)}
+                  width="150"
+                  height="150"
+                  style={{ border: '1px solid gray', padding: '1px' }}
+                />
+              ) : (
+                <img
+                  src={
+                    localStorage.getItem('SiteURL') +
+                    '/RITeSchool/DOWNLOADS/Aadhar Card/' +
+                    GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
+                  }
+                  width="150"
+                  height="150"
+                  style={{ border: '1px solid gray', padding: '1px' }}
+                />
+              )}
+            </>
+          )}
+        </Box>
+
+
+        <Box sx={{ textAlign: 'center' }}>
+        <input
+  ref={aRef}
+  type="file"
+  onChange={changeFile}
+  style={{ width: '200px' }}
+/>
+<br></br>
+<br></br>
+
+        </Box>
+        {/* <Box className={classes.iIconSupport}>
+            <Icon5
+              Note={
+                'Supports only ' +
+                validFiles.join(', ') +
+                ' files types up to 3 MB'
+              }
+            />
+          </Box> */}
+
+          {fileError && <Errormessage Error={fileError} />}
       </Container >
 
     </>
