@@ -98,6 +98,8 @@ const TermwiseHeightWeight = () => {
       asTerm_Id: SelectTerm
     };
     dispatch(getstudentdetails(StudentlistBody));
+    dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
+
   }, [SelectTeacher, SelectTerm]);
 
   useEffect(() => {
@@ -114,10 +116,7 @@ const TermwiseHeightWeight = () => {
 
 
 
-  useEffect(() => {
-    dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
-
-  }, []);
+ 
 
   const [HeightXML, setHeightXML] = useState('');
   const [WeightXML, setWeightXML] = useState('');
@@ -149,7 +148,6 @@ const TermwiseHeightWeight = () => {
 
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
-    dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
 
   };
   const clickTermDropdown = (value) => {
