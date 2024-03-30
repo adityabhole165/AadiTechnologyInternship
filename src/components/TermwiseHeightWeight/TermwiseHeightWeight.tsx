@@ -1,4 +1,6 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -230,15 +232,30 @@ const TermwiseHeightWeight = () => {
 
 
         </Stack>
+        <Tooltip title={'Capture Termwise students height and weight'}>
+          <IconButton
+
+            sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[500]
+              }
+            }}
+          >
+            <QuestionMark />
+          </IconButton>
+        </Tooltip>
+
         <Stack direction={'row'} alignItems={'left'} gap={1}>
-        <DotLegend1>
+          <DotLegend1>
             <DotLegendStyled1
               className={classes.border}
               style={{ background: 'red' }}
             />
             <CardDetail7>Left Students</CardDetail7>
           </DotLegend1>
-          </Stack>
+        </Stack>
 
         <Grid item xs={12} >
           <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -266,7 +283,7 @@ const TermwiseHeightWeight = () => {
 
         <Stack>
           {/* <DotLegend text="Left Students" color="error" /> */}
-          
+
         </Stack>
         <br></br>
 
