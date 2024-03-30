@@ -130,16 +130,16 @@ const TermwiseHeightWeight = () => {
     Itemlist.map((Item) => {
       sXML =
         sXML +
-          '<StudentInfoForHeightWeight><RollNo>' +
-          Item.Text1 +
-          '</RollNo><YearWiseStudentId>' +
-          Item.Text6 +
-          '</YearWiseStudentId><Height>' +
-          Item.Text3 === "" ? "0" : Item.Text3 +
-            '</Height><Weight>' +
-            Item.Text4 === "" ? "0" : Item.Text4 +
-            '</Weight><IsLeftStudent>' +
-            Item.Text5 +
+        '<StudentInfoForHeightWeight><RollNo>' +
+        Item.Text1 +
+        '</RollNo><YearWiseStudentId>' +
+        Item.Text6 +
+        '</YearWiseStudentId><Height>' +
+        (Item.Text3 === "" ? "0" : Item.Text3) +
+        '</Height><Weight>' +
+        (Item.Text4 === "" ? "0" : Item.Text4) +
+        '</Weight><IsLeftStudent>' +
+        Item.Text5 +
         '</IsLeftStudent></StudentInfoForHeightWeight>';
     });
     sXML = sXML + '</ArrayOfStudentInfoForHeightWeight>';
