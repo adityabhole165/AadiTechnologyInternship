@@ -118,7 +118,7 @@ const TermwiseHeightWeight = () => {
 
 
 
- 
+
 
   const [HeightXML, setHeightXML] = useState('');
   const [WeightXML, setWeightXML] = useState('');
@@ -130,16 +130,16 @@ const TermwiseHeightWeight = () => {
     Itemlist.map((Item) => {
       sXML =
         sXML +
-        '<StudentInfoForHeightWeight><RollNo>' +
-        Item.Text1 +
-        '</RollNo><YearWiseStudentId>' +
-        Item.Text6 +
-        '</YearWiseStudentId><Height>' +
-        Item.Text3 +
-        '</Height><Weight>' +
-        Item.Text4 +
-        '</Weight><IsLeftStudent>' +
-        Item.Text5 +
+          '<StudentInfoForHeightWeight><RollNo>' +
+          Item.Text1 +
+          '</RollNo><YearWiseStudentId>' +
+          Item.Text6 +
+          '</YearWiseStudentId><Height>' +
+          Item.Text3 === "" ? "0" : Item.Text3 +
+            '</Height><Weight>' +
+            Item.Text4 === "" ? "0" : Item.Text4 +
+            '</Weight><IsLeftStudent>' +
+            Item.Text5 +
         '</IsLeftStudent></StudentInfoForHeightWeight>';
     });
     sXML = sXML + '</ArrayOfStudentInfoForHeightWeight>';
@@ -207,7 +207,7 @@ const TermwiseHeightWeight = () => {
           alignItems: 'center'
         }}
       >
-       
+
 
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <SearchableDropdown
@@ -230,20 +230,20 @@ const TermwiseHeightWeight = () => {
             size={"small"}
           />
 
-        <Tooltip title={'Capture Termwise students height and weight'}>
-          <IconButton
+          <Tooltip title={'Capture Termwise students height and weight'}>
+            <IconButton
 
-            sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[500]
-              }
-            }}
-          >
-            <QuestionMark />
-          </IconButton>
-        </Tooltip>
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[500]
+                }
+              }}
+            >
+              <QuestionMark />
+            </IconButton>
+          </Tooltip>
 
         </Stack>
 
