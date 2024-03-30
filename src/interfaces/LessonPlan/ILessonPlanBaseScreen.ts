@@ -5,7 +5,7 @@ export interface IGetLessonPlanListBody {
   asReportingUserId: number
   asStartIndex: number
   asEndIndex: number
-  asRecordCount: number
+  asRecordCount: boolean
   asStartDate: any
   asEndDate: any
 }

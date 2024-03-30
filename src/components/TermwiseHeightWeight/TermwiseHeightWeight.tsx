@@ -101,13 +101,20 @@ const TermwiseHeightWeight = () => {
     setItemlist(StudentList);
   }, [StudentList]);
 
+
+  const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
+    asStandardDivId: asStandardDivisionId,
+
+
+    asTerm_Id: SelectTerm,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId
+  };
+
+
+
   useEffect(() => {
-    const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
-      asStandardDivId: SelectTeacher,
-      asTerm_Id: SelectTerm,
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId
-    };
+
     dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
   }, []);
 
@@ -223,9 +230,15 @@ const TermwiseHeightWeight = () => {
 
 
         </Stack>
-
-
-
+        <Stack direction={'row'} alignItems={'left'} gap={1}>
+        <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+            <CardDetail7>Left Students</CardDetail7>
+          </DotLegend1>
+          </Stack>
 
         <Grid item xs={12} >
           <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
@@ -247,19 +260,13 @@ const TermwiseHeightWeight = () => {
             </Box>
           </Box>
         </Grid>
-       
-       
+
+
 
 
         <Stack>
           {/* <DotLegend text="Left Students" color="error" /> */}
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'red' }}
-            />
-            <CardDetail7>Left Students</CardDetail7>
-          </DotLegend1>
+          
         </Stack>
         <br></br>
 

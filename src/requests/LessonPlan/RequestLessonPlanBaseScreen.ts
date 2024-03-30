@@ -15,6 +15,7 @@ const LessonPlanBaseScreenSlice = createSlice({
   name: 'Lesson Plan',
   initialState: {
     ISLessonList: [],
+    ISLessonList1:[],
     DeletePlan: '',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
@@ -26,6 +27,11 @@ const LessonPlanBaseScreenSlice = createSlice({
     Rlessonplanlist(state, action) {
       state.ISLessonList = action.payload;
     },
+    Rlessonplanlist1(state, action) {
+      state.ISLessonList1 = action.payload;
+    },
+
+    
     deletelessonplan(state, action) {
       state.DeletePlan = action.payload;
     },
@@ -55,19 +61,29 @@ export const CDAlessonplanlist =
     async (dispatch) => {
       const response = await LessonPlanApi.LessonPlanList(data);
 
-      const combinedList = response.data.listResult1st.map((item, i) => ({
+      let listResult1st = response.data.listResult1st.map((item, i) => ({
         StartDate: getDateMonthYearFormatted(item.StartDate),
         EndDate: getDateMonthYearFormatted(item.EndDate),
         Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
         ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
         Text3: item.Remarks,
         SubmitedByReportingUser: item.SubmitedByReportingUser,
-        Text2:item.IsSubmitted
-
+        Text2: item.IsSubmitted
       }));
 
-      dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(combinedList));
+      let listResult2nd = response.data.listResult2nd.map(item => ({
+        StartDate: getDateMonthYearFormatted(item.StartDate),
+        EndDate: getDateMonthYearFormatted(item.EndDate),
+        Text8: item.ApprovalSortOrder,
+        ReportingUserName: item.ReportingUserName,
+        ReportingUserId: item.ReportingUserId,
+        IsSubmitted: item.IsSubmitted
+      }));
+
+      dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(listResult1st));
+      dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist1(listResult2nd));
     };
+
 
 export const deletelessonplan =
   (data: IDeleteLessonPlanBody): AppThunk =>

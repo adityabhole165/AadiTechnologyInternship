@@ -72,6 +72,12 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISLessonList
   );
 
+  const LessonPlanList1: any = useSelector(
+    (state: RootState) => state.LessonPlanBase.ISLessonList1
+  );
+  console.log(LessonPlanList1,"LessonPlanList1");
+  
+
   console.log(LessonPlanList, "LessonPlanList");
 
 
@@ -125,7 +131,7 @@ const LessonPlanBaseScreen = () => {
     asReportingUserId: asUserId,
     asStartIndex: 0,
     asEndIndex: 20,
-    asRecordCount: 0,
+    asRecordCount: false,
     asStartDate: StartDate,
     asEndDate: EndDate
 
@@ -445,7 +451,7 @@ const LessonPlanBaseScreen = () => {
               CanEdit={CanEdit}
               clicknav={Clicknav}
               SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
-              ReportingConfigs={USGetAllLessonPlanReportingConfigs}
+              ReportingConfigs={LessonPlanList1}
               Text2={LessonPlanList.map((item) => item.Text2)}
 
             />

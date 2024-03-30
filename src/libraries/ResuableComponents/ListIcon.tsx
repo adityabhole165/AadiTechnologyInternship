@@ -33,6 +33,10 @@ function ListIcon({
                 icon = <CheckIcon sx={{ color: 'red' }} />;
                 break;
 
+            case "2":
+                icon = <span> - </span>
+                break;
+
             default:
                 icon = null;
                 break;
@@ -85,15 +89,15 @@ function ListIcon({
                                     )}
                                 </TableCell>
 
-                              
-                                    {CanEdit === 'Y' && Text2 != 'False' && (
-                                          <TableCell align="center">
+
+                                {CanEdit === 'Y' && Text2 != 'False' && (
+                                    <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => clicknav(item.Id)} />
                                         </Tooltip>
-                                        </TableCell>
-                                    )}
-                              
+                                    </TableCell>
+                                )}
+
 
                                 <TableCell align="center">
                                     {item.Text5}
