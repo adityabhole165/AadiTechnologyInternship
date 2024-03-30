@@ -2,7 +2,25 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
-const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus, ExamMarksHeader }) => {
+const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus, ExamMarksHeader, onChangeExamHeader }) => {
+
+  const ChangeExamHeader = (value, Id) => {
+
+    ExamMarksHeader = {
+      ...ExamMarksHeader,
+      Text4: ExamMarksHeader.Text4.map((Item) => {
+        if (Item.Id === Id) {
+          return { ...Item, Text2: value }
+        }
+        else {
+          return Item;
+        }
+      })
+    }
+    console.log("ExamMarksHeader", ExamMarksHeader)
+    onChangeExamHeader(ExamMarksHeader);
+
+  };
   const changeExamStatus = (value, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
       if (Item.Id == Id) {
@@ -11,6 +29,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
       else
         return Item
     })
+    console.log("Type of StudentsForMarksAssignment:", typeof StudentsForMarksAssignment);
+
     onChangeExamStatus(StudentsForMarksAssignment)
   }
   const changeText = (value, StudentId, Id) => {
@@ -46,7 +66,12 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text3}
                 </TableCell>
-                <SubjectExamHeader ExamMarksHeader={ExamMarksHeader.Text4} />
+                {/* <SubjectExamHeader ExamMarksHeader={ExamMarksHeader.Text4} /> */}
+                <SubjectExamHeader
+                  ExamMarksHeader={ExamMarksHeader.Text4}
+
+                  ChangeExamHeader={ChangeExamHeader}
+                />
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                   {ExamMarksHeader.Text5}
                 </TableCell>
