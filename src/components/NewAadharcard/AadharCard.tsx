@@ -9,13 +9,12 @@ import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { Styles } from 'src/assets/style/student-style';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
+import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
-import { Styles } from 'src/assets/style/student-style';
-import Icon5 from 'src/libraries/icon/icon5';
-import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 const AadharCard = () => {
   const dispatch = useDispatch();
   const classes = Styles();
@@ -111,7 +110,7 @@ const AadharCard = () => {
       }
       dispatch(CDADeleteAadharCardPhotoCopy(DeleteAadharCardPhotoCopyBody));
       dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
-      
+
     }
   }
 
@@ -124,7 +123,7 @@ const AadharCard = () => {
     dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
   }, []);
 
- 
+
 
   const changeAdhar = (value) => {
     const re = /^\d{0,12}$/;
@@ -244,14 +243,18 @@ const AadharCard = () => {
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
           <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <TextField
-                fullWidth
-                label={"Name"}
-                InputLabelProps={{ shrink: true }}
-                value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-              />
-            </Grid>
+          <Grid item xs={6}>
+  <TextField
+    fullWidth
+    label={"Name"}
+    InputLabelProps={{ shrink: true }}
+    sx={{ bgcolor: '#e3f2fd' }}
+    value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
+    InputProps={{
+      readOnly: true, 
+    }}
+  />
+</Grid>
             <Grid item xs={6}>
               <TextField
                 fullWidth
@@ -268,7 +271,7 @@ const AadharCard = () => {
 
             </Grid>
             <Grid item xs={12}>
-              
+
             </Grid>
           </Grid>
 
@@ -308,14 +311,14 @@ const AadharCard = () => {
 
 
         <Box sx={{ textAlign: 'center' }}>
-        <input
-  ref={aRef}
-  type="file"
-  onChange={changeFile}
-  style={{ width: '200px' }}
-/>
-<br></br>
-<br></br>
+          <input
+            ref={aRef}
+            type="file"
+            onChange={changeFile}
+            style={{ width: '200px' }}
+          />
+          <br></br>
+          <br></br>
 
         </Box>
         {/* <Box className={classes.iIconSupport}>
@@ -328,7 +331,7 @@ const AadharCard = () => {
             />
           </Box> */}
 
-          {fileError && <Errormessage Error={fileError} />}
+        {fileError && <Errormessage Error={fileError} />}
       </Container >
 
     </>
