@@ -270,14 +270,9 @@ const TermwiseHeightWeight = () => {
           </Box>
         </Grid>
 
-
-
-
-
-        <br></br>
-
-    
-
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center" }} >
+          <Notes NoteDetail={Note} Header={Header} />
+        </Box>
 
         <div>
           <Grid container spacing={2}>
