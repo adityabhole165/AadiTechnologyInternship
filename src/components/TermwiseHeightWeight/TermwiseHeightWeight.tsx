@@ -1,4 +1,6 @@
-import { Box, Grid, Stack, Typography } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -205,6 +207,7 @@ const TermwiseHeightWeight = () => {
           alignItems: 'center'
         }}
       >
+       
 
         <Stack direction={'row'} alignItems={'center'} gap={1}>
           <SearchableDropdown
@@ -227,7 +230,20 @@ const TermwiseHeightWeight = () => {
             size={"small"}
           />
 
+        <Tooltip title={'Capture Termwise students height and weight'}>
+          <IconButton
 
+            sx={{
+              color: 'white',
+              backgroundColor: grey[500],
+              '&:hover': {
+                backgroundColor: grey[500]
+              }
+            }}
+          >
+            <QuestionMark />
+          </IconButton>
+        </Tooltip>
 
         </Stack>
 
@@ -260,9 +276,7 @@ const TermwiseHeightWeight = () => {
 
         <br></br>
 
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center" }} >
-          <Notes NoteDetail={Note} Header={Header} />
-        </Box>
+    
 
 
         <div>
