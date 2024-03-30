@@ -285,51 +285,51 @@ const AadharCard = () => {
                   clickFileName={clickFileName}
                 />
               </Box> */}
+
+              <Box sx={{ my: '10px', textAlign: 'center' }}>
+                {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+                  <img
+                    style={{ height: '150px', width: '150px' }}
+                    src={'/imges/Adhar.png'}
+                    alt={'adhar'}
+                  />
+                ) : (
+                  <>
+                    {selectedFile ? (
+                      <img
+                        src={URL.createObjectURL(selectedFile)}
+                        width="150"
+                        height="150"
+                        style={{ border: '1px solid gray', padding: '1px' }}
+                      />
+                    ) : (
+                      <img
+                        src={
+                          localStorage.getItem('SiteURL') +
+                          '/RITeSchool/DOWNLOADS/Aadhar Card/' +
+                          GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
+                        }
+                        width="150"
+                        height="150"
+                        style={{ border: '1px solid gray', padding: '1px' }}
+                      />
+                    )}
+                  </>
+                )}
+              </Box>
+
+
+              <Box sx={{ textAlign: 'center' }}>
+                <input
+                  ref={aRef}
+                  type="file"
+                  onChange={changeFile}
+                  style={{ width: '200px' }}
+                />
+              </Box>
             </Grid>
           </Grid>
 
-        </Box>
-
-        <Box sx={{ my: '10px', textAlign: 'center' }}>
-          {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-            <img
-              style={{ height: '150px', width: '150px' }}
-              src={'/imges/Adhar.png'}
-              alt={'adhar'}
-            />
-          ) : (
-            <>
-              {selectedFile ? (
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  width="150"
-                  height="150"
-                  style={{ border: '1px solid gray', padding: '1px' }}
-                />
-              ) : (
-                <img
-                  src={
-                    localStorage.getItem('SiteURL') +
-                    '/RITeSchool/DOWNLOADS/Aadhar Card/' +
-                    GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
-                  }
-                  width="150"
-                  height="150"
-                  style={{ border: '1px solid gray', padding: '1px' }}
-                />
-              )}
-            </>
-          )}
-        </Box>
-
-
-        <Box sx={{ textAlign: 'center' }}>
-          <input
-            ref={aRef}
-            type="file"
-            onChange={changeFile}
-            style={{ width: '200px' }}
-          />
         </Box>
       </Container >
 
