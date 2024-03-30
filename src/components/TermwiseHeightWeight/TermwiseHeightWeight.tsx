@@ -253,6 +253,16 @@ const TermwiseHeightWeight = () => {
           </Tooltip>
 
         </Stack>
+        <br></br>
+        <Stack direction={'row'} alignItems={'left'} gap={1}>
+          <DotLegend1>
+            <DotLegendStyled1
+              className={classes.border}
+              style={{ background: 'red' }}
+            />
+            <CardDetail7>Left Students</CardDetail7>
+          </DotLegend1>
+        </Stack>
 
 
         <Grid item xs={12} >
@@ -307,15 +317,7 @@ const TermwiseHeightWeight = () => {
               </ButtonPrimary>
             </Grid>
           </Grid>
-          <Stack direction={'row'} alignItems={'left'} gap={1}>
-            <DotLegend1>
-              <DotLegendStyled1
-                className={classes.border}
-                style={{ background: 'red' }}
-              />
-              <CardDetail7>Left Students</CardDetail7>
-            </DotLegend1>
-          </Stack>
+
         </div>
       </div>
     </>
