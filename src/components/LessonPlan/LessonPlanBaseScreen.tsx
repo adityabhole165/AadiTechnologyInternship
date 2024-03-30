@@ -140,6 +140,9 @@ const LessonPlanBaseScreen = () => {
   }, [StartDate, EndDate]);
 
 
+  console.log(EndDate, "EndDate");
+
+
   useEffect(() => {
 
     if (CanEdit == 'Y') {
@@ -255,8 +258,20 @@ const LessonPlanBaseScreen = () => {
 
   const onSelectStartDate = (value) => {
     setStartDate(value);
+    if (!value) {
 
+      setStartDate(null);
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+    }
+  };
 
+  const onSelectEndDate = (value) => {
+    setEndDate(value);
+    if (!value) {
+
+      setEndDate(null);
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+    }
   };
 
 
@@ -277,11 +292,7 @@ const LessonPlanBaseScreen = () => {
     navigate('/extended-sidebar/Teacher/AddLessonPlan');
   };
 
-  const onSelectEndDate = (value) => {
-    setEndDate(value);
 
-
-  };
 
 
   const OnClickExportAll = () => {
@@ -306,6 +317,7 @@ const LessonPlanBaseScreen = () => {
     return htmlString.replace(/<[^>]*>?/gm, '');
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
+  
   return (
     <>
       <Container maxWidth={"xl"}>
