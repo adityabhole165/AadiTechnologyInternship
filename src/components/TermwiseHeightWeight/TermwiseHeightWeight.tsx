@@ -198,45 +198,59 @@ const TermwiseHeightWeight = () => {
           alignItems: 'center'
         }}
       >
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Class Teacher:</b>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <SearchableDropdown
-              sx={{ minWidth: '300px' }}
-              ItemList={ClassTeacherDropdown}
-              onChange={clickTeacherDropdown}
-              label={'Class Teacher'}
-              defaultValue={SelectTeacher.toString()} // Convert number to string
-              mandatory
-              size={"small"}
-            />
-            <br></br>
 
-          </Grid>
-          <div style={{ textAlign: 'right', color: 'red' }}>*</div>
-          <Grid item xs={1}>
-            <Typography>
-              <b>Term :</b>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <SearchableDropdown
-              sx={{ minWidth: '300px' }}
-              ItemList={TermDropdown}
-              onChange={clickTermDropdown}
-              label={'Term'}
-              defaultValue={SelectTerm.toString()} // Convert number to string
-              mandatory
-              size={"small"}
-            />
-            <br></br>
-          </Grid>
+        <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={ClassTeacherDropdown}
+            onChange={clickTeacherDropdown}
+            label={'Class Teacher'}
+            defaultValue={SelectTeacher.toString()} // Convert number to string
+            mandatory
+            size={"small"}
+          />
+
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={TermDropdown}
+            onChange={clickTermDropdown}
+            label={'Term'}
+            defaultValue={SelectTerm.toString()} // Convert number to string
+            mandatory
+            size={"small"}
+          />
+
+
+
+        </Stack>
+
+
+
+
+        <Grid item xs={12} >
+          <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+
+
+            <Box mt={2}>
+              {SelectTeacher > 0 && (
+                <Typography>
+
+                  <TermwiseHeightWeightList
+                    ItemList={Itemlist}
+                    onTextChange={ChangeHeight}
+                    onTextChange2={ChangeWeight}
+                    HeaderArray={HeaderOfTable}
+                  />{' '}
+
+                </Typography>
+              )}
+            </Box>
+          </Box>
         </Grid>
-        <br></br>
+       
+       
+
+
         <Stack>
           {/* <DotLegend text="Left Students" color="error" /> */}
           <DotLegend1>
@@ -248,28 +262,7 @@ const TermwiseHeightWeight = () => {
           </DotLegend1>
         </Stack>
         <br></br>
-        {SelectTeacher > 0 && (
-          <div>
-            <Grid item xs={6}>
-              <Box sx={{ paddingBottom: '3px' }}>
-                <Box
-                  style={{
-                    textAlign: 'left',
-                    paddingBottom: '40px',
-                    width: '400px'
-                  }}
-                >
-                  <TermwiseHeightWeightList
-                    ItemList={Itemlist}
-                    onTextChange={ChangeHeight}
-                    onTextChange2={ChangeWeight}
-                    HeaderArray={HeaderOfTable}
-                  />{' '}
-                </Box>
-              </Box>
-            </Grid>
-          </div>
-        )}
+
         <Notes NoteDetail={Note} Header={Header} />
         <div></div>
         <br></br>
