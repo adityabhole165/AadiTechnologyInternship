@@ -104,7 +104,16 @@ export const getFinalPublishedExamStatus =
     async (dispatch) => {
       dispatch(TermwiseHeightWeightSlice.actions.getLoading(true));
       const response = await TermwiseHeightWeightApi.GetFinalPublishedExamStatusApi(data);
-      dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(response.data));
+
+      let abc = response.data.map((item, i) => {
+        return {
+
+          ShowFlag: item.ShowFlag,
+          IsPublishedStatus: item.IsPublishedStatus
+
+        };
+      });
+      dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(abc));
     };
 
 

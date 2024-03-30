@@ -1,6 +1,4 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
-import { grey } from '@mui/material/colors';
+import { Box, Grid, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -44,15 +42,18 @@ const TermwiseHeightWeight = () => {
   const UserId = Number(localStorage.getItem('UserId'));
 
   const ClassTeacherDropdown = useSelector((state: RootState) => state.TermwiseHtWt.ClassTeacherList);
-  console.log('ClassTeacherDropdown', ClassTeacherDropdown);
   const TermDropdown = useSelector((state: RootState) => state.TermwiseHtWt.TermwiseTermList);
-  console.log('TermDropdown', TermDropdown);
   const StudentList = useSelector((state: RootState) => state.TermwiseHtWt.Student);
-  console.log('StudentList', StudentList);
   const UpdateStudentDetails = useSelector((state: RootState) => state.TermwiseHtWt.UpdateStudent);
-  console.log('UpdateStudentDetails', UpdateStudentDetails);
-  const GetFinalPublishedExamStatus = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
+
+
+  const GetFinalPublishedExamStatus: any = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
   console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
+  // const IsPublishedStatus = GetFinalPublishedExamStatus ? GetFinalPublishedExamStatus.find((item) => item.hasOwnProperty('IsPublishedStatus')) : null;
+
+  // console.log('IsPublishedStatus', IsPublishedStatus);
+
+
 
   const Note = [
     'User can not change or update any data once summative exam is published.'];
@@ -106,8 +107,6 @@ const TermwiseHeightWeight = () => {
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
     asStandardDivId: asStandardDivisionId,
-
-
     asTerm_Id: SelectTerm,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
@@ -232,21 +231,6 @@ const TermwiseHeightWeight = () => {
 
 
         </Stack>
-        <Tooltip title={'Capture Termwise students height and weight'}>
-          <IconButton
-
-            sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              '&:hover': {
-                backgroundColor: grey[500]
-              }
-            }}
-          >
-            <QuestionMark />
-          </IconButton>
-        </Tooltip>
-
         <Stack direction={'row'} alignItems={'left'} gap={1}>
           <DotLegend1>
             <DotLegendStyled1
@@ -270,7 +254,8 @@ const TermwiseHeightWeight = () => {
                     onTextChange={ChangeHeight}
                     onTextChange2={ChangeWeight}
                     HeaderArray={HeaderOfTable}
-                  />{' '}
+                    IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
+                  />
 
                 </Typography>
               )}

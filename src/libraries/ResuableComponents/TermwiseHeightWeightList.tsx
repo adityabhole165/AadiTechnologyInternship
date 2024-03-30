@@ -7,7 +7,8 @@ const TermwiseHeightWeightList = ({
   ItemList,
   onTextChange,
   onTextChange2,
-  HeaderArray
+  HeaderArray,
+  IsPublishedStatus
 }) => {
   const changeText1 = (value) => {
     ItemList = ItemList.map((item) => {
@@ -24,35 +25,37 @@ const TermwiseHeightWeightList = ({
   };
 
   const handleText3Change = (e, item) => {
-    // Allow digits and enforce decimal(3,2) format for Text3
-    const numericValue = e.target.value.replace(/[^0-9.]/g, '');
-    const parts = numericValue.split('.');
+    if (IsPublishedStatus == "0") { 
+      const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+      const parts = numericValue.split('.');
 
-    if (parts[0].length > 3) {
-      return;
+      if (parts[0].length > 3) {
+        return;
+      }
+
+      if (parts[1] && parts[1].length > 3) {
+        return;
+      }
+
+      changeText1({ Value: numericValue, Id: item.Text1 });
     }
-
-    if (parts[1] && parts[1].length > 3) {
-      return;
-    }
-
-    changeText1({ Value: numericValue, Id: item.Text1 });
   };
 
   const handleText4Change = (e, item) => {
-    // Allow digits and enforce decimal(3,2) format for Text4
-    const numericValue = e.target.value.replace(/[^0-9.]/g, '');
-    const parts = numericValue.split('.');
+    if (IsPublishedStatus == "0") { 
+      const numericValue = e.target.value.replace(/[^0-9.]/g, '');
+      const parts = numericValue.split('.');
 
-    if (parts[0].length > 3) {
-      return;
+      if (parts[0].length > 3) {
+        return;
+      }
+
+      if (parts[1] && parts[1].length > 3) {
+        return;
+      }
+
+      changeText2({ Value: numericValue, Id: item.Text1 });
     }
-
-    if (parts[1] && parts[1].length > 3) {
-      return;
-    }
-
-    changeText2({ Value: numericValue, Id: item.Text1 });
   };
 
   return (
@@ -99,6 +102,7 @@ const TermwiseHeightWeightList = ({
                   onChange={(e) => {
                     handleText3Change(e, item);
                   }}
+                  disabled={IsPublishedStatus == "1"} 
                 />
               </Grid>
               <Grid item xs={3}>
@@ -109,6 +113,7 @@ const TermwiseHeightWeightList = ({
                   onChange={(e) => {
                     handleText4Change(e, item);
                   }}
+                  disabled={IsPublishedStatus == "1"} 
                 />
               </Grid>
             </Grid>
