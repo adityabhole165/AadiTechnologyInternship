@@ -12,13 +12,15 @@ const handleChange = (e, validationFunction, callback) => {
 };
 
 
-const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader }) => {
-    const handleBlur = (value, itemId) => {
-        if (confirm('This action will set a new value for all students. Do you want to continue?')) {
-            console.log('Confirmed. Setting new value...');
-            ChangeExamHeader(value, itemId);
-        } else {
-            console.log('Cancelled. Value remains unchanged.');
+const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader }) => {
+    const handleBlur = (value, Index) => {
+        if (value != "") {
+            if (confirm('This action will set a new value for all students. Do you want to continue?')) {
+                console.log('Confirmed. Setting new value...');
+                BlurrExamHeader(value, Index);
+            } else {
+                console.log('Cancelled. Value remains unchanged.');
+            }
         }
     };
 
@@ -27,11 +29,11 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader }) => {
             {ExamMarksHeader?.map((Item, Index) => {
                 return (<TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} key={Index}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                        <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
+                        <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text1} />
                         <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
                             value={Item.Text2}
-                            onBlur={() => handleBlur(Item.Text2, Item.Id)}
+                            onBlur={() => handleBlur(Item.Text2, Index)}
                             onChange={(e) => handleChange(e, validateInput, (value) => ChangeExamHeader(value, Item.Id))} />
                     </Box>
                 </TableCell>)

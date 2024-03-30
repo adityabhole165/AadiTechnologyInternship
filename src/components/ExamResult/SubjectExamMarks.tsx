@@ -84,6 +84,9 @@ const SubjectExamMarks = () => {
   const ManageStudentsTestMarks: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ManageStudentsTestMark
   );
+  const GradesForSubjectMarkList: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.GradesForSubjectMarkList
+  );
   const clickTestDate = (value) => {
     setTestDate(value)
   }
@@ -372,7 +375,8 @@ const SubjectExamMarks = () => {
             StudentsForMarksAssignment={MarksAssignment}
             onChangeExamStatus={onChangeExamStatus}
             ExamMarksHeader={HeaderDetails}
-            onChangeExamHeader={onClickExamHeader} />
+            onChangeExamHeader={onClickExamHeader}
+            GradesForSubjectMarkList={GradesForSubjectMarkList} />
         }
       </Box>
       <Button onClick={onClickSave} variant="contained">

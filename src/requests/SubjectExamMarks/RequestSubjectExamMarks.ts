@@ -155,7 +155,8 @@ export const getSubjectExamMarkslist =
                         arr.push({
                             Id: Item.TestType_Id,
                             Text1: Item.Marks_Scored,
-                            Text2: Item.Grade_Or_Marks,
+                            Text2: Item.TestType_Total_Marks,
+                            IsActive: true
                         });
                 });
                 return arr
@@ -192,8 +193,8 @@ export const getSubjectExamMarkslist =
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
                         Id: Item.TestType_Id,
-                        Text1: Item.TestType_Name,
-                        Text2: Item.TestType_Total_Marks
+                        Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
+                        Text2: ""
                     };
                 }),
                 Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
@@ -209,7 +210,7 @@ export const getSubjectExamMarkslist =
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             let responseData4 = [{ Id: '0', Name: 'Select', Value: '0' }];
-           
+
             response4.data.listDisplayNameDetail.map((Item, i) => {
                 responseData4.push({
                     Id: Item.ExamStatusId,

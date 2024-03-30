@@ -2,9 +2,10 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
-const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus, ExamMarksHeader, onChangeExamHeader }) => {
+const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
+  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList }) => {
 
-  const ChangeExamHeader = (value, Id) => {
+  const ChangeExamHeader = (value, Id, Index) => {
 
     ExamMarksHeader = {
       ...ExamMarksHeader,
@@ -17,19 +18,26 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         }
       })
     }
-    console.log("ExamMarksHeader", ExamMarksHeader)
+    // console.log("ExamMarksHeader", ExamMarksHeader)
+    setAllValues(value, Index)
     onChangeExamHeader(ExamMarksHeader);
 
   };
   const changeExamStatus = (value, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
       if (Item.Id == Id) {
-        return { ...Item, ExamStatus: value }
+        return {
+          ...Item,
+          ExamStatus: value,
+          MarksForStudent: Item.MarksForStudent.map((obj) => {
+            return { ...obj, IsActive: value == "0" }
+          })
+        }
       }
       else
         return Item
     })
-    console.log("Type of StudentsForMarksAssignment:", typeof StudentsForMarksAssignment);
+    console.log("Type of StudentsForMarksAssignment:", StudentsForMarksAssignment);
 
     onChangeExamStatus(StudentsForMarksAssignment)
   }
@@ -50,6 +58,43 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     })
     onChangeExamStatus(StudentsForMarksAssignment)
   }
+  const setAllValues = (value, Index) => {
+    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
+      return {
+        ...Item,
+        MarksForStudent: Item.MarksForStudent.map((obj, i) => {
+          return Index == i ? { ...obj, Text1: value } : obj
+        })
+      }
+    })
+    onChangeExamStatus(StudentsForMarksAssignment)
+  }
+  const getTotalMarks = (arrTotal) => {
+
+    let total = 0
+    arrTotal.map((Item) => {
+      total = total + Number(Item.Text1)
+    })
+    return total
+  }
+  const getGrade = (arrTotal) => {
+    let totalScored = 0, Grade = "", subjectTotal = 0
+    arrTotal.map((Item) => {
+      totalScored = totalScored + Number(Item.Text1)
+    })
+    arrTotal.map((Item) => {
+      subjectTotal = subjectTotal + Number(Item.Text2)
+    })
+
+    let Percent = (totalScored / subjectTotal) * 100
+
+    GradesForSubjectMarkList.map((Item, i) => {
+      if (Item.Starting_Marks_Range <= Percent &&
+        Item.Actual_Ending_Marks_Range >= Percent)
+        Grade = Item.Grade_Name
+    })
+    return Grade
+  }
   return (
     <div>
       <Box>
@@ -69,7 +114,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                 {/* <SubjectExamHeader ExamMarksHeader={ExamMarksHeader.Text4} /> */}
                 <SubjectExamHeader
                   ExamMarksHeader={ExamMarksHeader.Text4}
-
+                  BlurrExamHeader={setAllValues}
                   ChangeExamHeader={ChangeExamHeader}
                 />
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
@@ -92,10 +137,13 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       />
                     </TableCell>
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
-                      changeText={changeText} />
+                      changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList} />
                     <TableCell>
-                      <TextField sx={{ width: '50px' }} size={"small"} disabled
-                        value={Item.TotalMarks} />
+                      <TextField sx={{ width: '80px' }} size={"small"} disabled
+                        value={getTotalMarks(Item.MarksForStudent)}
+                      // value={Item.TotalMarks} 
+                      />
+                      {getGrade(Item.MarksForStudent)}
                     </TableCell>
                   </TableRow>)
                 })

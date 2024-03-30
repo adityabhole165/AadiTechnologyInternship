@@ -4,22 +4,33 @@ const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
-const SubjectExamRows = ({ ExamMarks, StudentId, changeText }) => {
-    const handleChange = (e, itemId) => {
+const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList }) => {
+
+    const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
-        if (validateInput(value)) {
-            changeText(value, StudentId, itemId);
+        if (validationFunction(value)) {
+            callback(value);
         }
     };
+    const getGrade = (marks, total) => {
+        let Grade = ""
+        let Percent = (marks / total) * 100
 
+        GradesForSubjectMarkList.map((Item, i) => {
+            if (Item.Starting_Marks_Range <= Percent &&
+                Item.Actual_Ending_Marks_Range >= Percent)
+                Grade = Item.Grade_Name
+        })
+        return Grade
+    }
     return (<>
         {ExamMarks?.map((Item, Index) => {
             return (<TableCell key={Index}>
                 <TextField sx={{ width: '50px' }} size={"small"} value={Item.Text1}
-                    onChange={(e) => handleChange(e, Item.Id)}
-                // onChange={(e) => { changeText(e.target.value, StudentId, Item.Id) }}
+                    disabled={!Item.IsActive}
+                    onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
                 />
-                {Item.Text2}
+                {getGrade(Item.Text1, Item.Text2)}
             </TableCell>)
         })
         }
