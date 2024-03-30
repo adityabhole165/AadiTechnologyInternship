@@ -50,9 +50,8 @@ const TermwiseHeightWeight = () => {
   const GetFinalPublishedExamStatus: any = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
   console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
 
-  // const IsPublishedStatus = GetFinalPublishedExamStatus ? GetFinalPublishedExamStatus.find((item) => item.hasOwnProperty('IsPublishedStatus')) : null;
+  const ShowFlag = GetFinalPublishedExamStatus.ShowFlag;
 
-  // console.log('IsPublishedStatus', IsPublishedStatus);
 
 
 
@@ -107,7 +106,7 @@ const TermwiseHeightWeight = () => {
 
 
   const GetFinalPublishedExamStatusBody: IGetFinalPublishedExamStatusBody = {
-    asStandardDivId: asStandardDivisionId,
+    asStandardDivId: SelectTeacher,
     asTerm_Id: SelectTerm,
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId
@@ -116,8 +115,8 @@ const TermwiseHeightWeight = () => {
 
 
   useEffect(() => {
-
     dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
+
   }, []);
 
   const [HeightXML, setHeightXML] = useState('');
@@ -150,7 +149,8 @@ const TermwiseHeightWeight = () => {
 
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
-    // console.log(value, "teacherid")
+    dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
+
   };
   const clickTermDropdown = (value) => {
     setSelectTerm(value);
@@ -232,18 +232,10 @@ const TermwiseHeightWeight = () => {
 
 
         </Stack>
-        <Stack direction={'row'} alignItems={'left'} gap={1}>
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'red' }}
-            />
-            <CardDetail7>Left Students</CardDetail7>
-          </DotLegend1>
-        </Stack>
+
 
         <Grid item xs={12} >
-          <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column' }}>
+          <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "1200px" }}>
 
 
             <Box mt={2}>
@@ -255,7 +247,7 @@ const TermwiseHeightWeight = () => {
                     onTextChange={ChangeHeight}
                     onTextChange2={ChangeWeight}
                     HeaderArray={HeaderOfTable}
-                    IsPublishedStatus={GetFinalPublishedExamStatus?.IsPublishedStatus}
+                    IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
                   />
 
                 </Typography>
@@ -267,31 +259,27 @@ const TermwiseHeightWeight = () => {
 
 
 
-        <Stack>
-          {/* <DotLegend text="Left Students" color="error" /> */}
 
-        </Stack>
         <br></br>
 
-        <Notes NoteDetail={Note} Header={Header} />
-        <div></div>
-        <br></br>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center" }} >
+          <Notes NoteDetail={Note} Header={Header} />
+        </Box>
+
+
         <div>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {SelectTeacher > 0 && GetFinalPublishedExamStatus?.ShowFlag == "1" && (
-                <div>
-                  <ButtonPrimary
-                    onClick={onClickSave}
-                    variant="contained"
-                    disabled 
-                  >
-                    SAVE
-                  </ButtonPrimary>
-                  <br />
-                  <br />
-                </div>
+              {SelectTeacher > 0 && (
+                <ButtonPrimary
+                  onClick={onClickSave}
+                  variant="contained"
+                  disabled={GetFinalPublishedExamStatus?.ShowFlag == "1"}
+                >
+                  SAVE
+                </ButtonPrimary>
               )}
+
 
             </Grid>
 
@@ -305,6 +293,15 @@ const TermwiseHeightWeight = () => {
               </ButtonPrimary>
             </Grid>
           </Grid>
+          <Stack direction={'row'} alignItems={'left'} gap={1}>
+            <DotLegend1>
+              <DotLegendStyled1
+                className={classes.border}
+                style={{ background: 'red' }}
+              />
+              <CardDetail7>Left Students</CardDetail7>
+            </DotLegend1>
+          </Stack>
         </div>
       </div>
     </>

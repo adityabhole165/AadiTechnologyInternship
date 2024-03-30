@@ -24,7 +24,7 @@ const UpdateStudentListApi = (data: IUpdateStudentDetailsBody) => {
   return http.post('Teacher/UpdateStudentDetailsForHeightWeight', data);
 };
 const GetFinalPublishedExamStatusApi = (data: IGetFinalPublishedExamStatusBody) => {
-  return http.post<IGetFinalPublishedExamStatusResult[]>('Teacher/GetFinalPublishedExamStatus', data);
+  return http.post<IGetFinalPublishedExamStatusResult>('Teacher/GetFinalPublishedExamStatus', data);
 };
 
 const TermwiseHeightWeightApi = {

@@ -25,7 +25,7 @@ const TermwiseHeightWeightList = ({
   };
 
   const handleText3Change = (e, item) => {
-    if (IsPublishedStatus == "0") { 
+    if (IsPublishedStatus == "0") {
       const numericValue = e.target.value.replace(/[^0-9.]/g, '');
       const parts = numericValue.split('.');
 
@@ -42,7 +42,7 @@ const TermwiseHeightWeightList = ({
   };
 
   const handleText4Change = (e, item) => {
-    if (IsPublishedStatus == "0") { 
+    if (IsPublishedStatus == "0") {
       const numericValue = e.target.value.replace(/[^0-9.]/g, '');
       const parts = numericValue.split('.');
 
@@ -62,11 +62,11 @@ const TermwiseHeightWeightList = ({
     <>
       <div>
         <TableHead>
-          <TableRow sx={{ backgroundColor: '#74d15a' }}>
+          <TableRow sx={{ backgroundColor: '#324b84', display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center", textAlign: 'center' }}>
             {HeaderArray.map((item, i) => (
               <TableCell
                 key={i}
-                sx={{ textTransform: 'capitalize' }}
+                sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'center' }} // Align headers to the left
                 align="center"
               >
                 <b>{item.Header}</b>
@@ -102,7 +102,7 @@ const TermwiseHeightWeightList = ({
                   onChange={(e) => {
                     handleText3Change(e, item);
                   }}
-                  disabled={IsPublishedStatus == "1"} 
+                  disabled={IsPublishedStatus == "1"}
                 />
               </Grid>
               <Grid item xs={3}>
@@ -113,7 +113,7 @@ const TermwiseHeightWeightList = ({
                   onChange={(e) => {
                     handleText4Change(e, item);
                   }}
-                  disabled={IsPublishedStatus == "1"} 
+                  disabled={IsPublishedStatus == "1"}
                 />
               </Grid>
             </Grid>

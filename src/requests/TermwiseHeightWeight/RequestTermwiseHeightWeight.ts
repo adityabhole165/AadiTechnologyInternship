@@ -16,7 +16,7 @@ const TermwiseHeightWeightSlice = createSlice({
     TermwiseTermList: [],
     Student: [],
     UpdateStudent: '',
-    FinalPublishedExamStatus: [],
+    FinalPublishedExamStatus: {},
     Loading: true
   },
   reducers: {
@@ -105,15 +105,8 @@ export const getFinalPublishedExamStatus =
       dispatch(TermwiseHeightWeightSlice.actions.getLoading(true));
       const response = await TermwiseHeightWeightApi.GetFinalPublishedExamStatusApi(data);
 
-      let abc = response.data.map((item, i) => {
-        return {
-
-          ShowFlag: item.ShowFlag,
-          IsPublishedStatus: item.IsPublishedStatus
-
-        };
-      });
-      dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(abc));
+      
+      dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(response.data));
     };
 
 
