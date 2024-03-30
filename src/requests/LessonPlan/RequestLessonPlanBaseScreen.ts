@@ -15,7 +15,7 @@ const LessonPlanBaseScreenSlice = createSlice({
   name: 'Lesson Plan',
   initialState: {
     ISLessonList: [],
-    ISLessonList1:[],
+    ISLessonList1: [],
     DeletePlan: '',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
@@ -31,7 +31,7 @@ const LessonPlanBaseScreenSlice = createSlice({
       state.ISLessonList1 = action.payload;
     },
 
-    
+
     deletelessonplan(state, action) {
       state.DeletePlan = action.payload;
     },
@@ -78,7 +78,7 @@ export const CDAlessonplanlist =
         ReportingUserName: item.ReportingUserName,
         ReportingUserId: item.ReportingUserId,
         IsSubmitted: item.IsSubmitted
-      }));
+      })).sort((a, b) => Number(a.Text8) - Number(b.Text8));
 
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist(listResult1st));
       dispatch(LessonPlanBaseScreenSlice.actions.Rlessonplanlist1(listResult2nd));
