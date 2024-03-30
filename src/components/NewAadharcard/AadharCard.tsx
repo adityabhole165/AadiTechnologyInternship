@@ -1,4 +1,4 @@
-
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
@@ -15,6 +15,7 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
+import Icon5 from 'src/libraries/icon/icon5';
 const AadharCard = () => {
   const dispatch = useDispatch();
   const classes = Styles();
@@ -209,6 +210,20 @@ const AadharCard = () => {
             </Breadcrumbs>
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
+          <Box>
+            <Tooltip title={'(Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.)'}>
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <PriorityHighIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
             <Box>
               <Tooltip title={`Add Aadhar Card Details.`}>
                 <IconButton
