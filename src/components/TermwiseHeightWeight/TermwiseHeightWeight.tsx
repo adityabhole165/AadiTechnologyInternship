@@ -49,6 +49,7 @@ const TermwiseHeightWeight = () => {
 
   const GetFinalPublishedExamStatus: any = useSelector((state: RootState) => state.TermwiseHtWt.FinalPublishedExamStatus);
   console.log('GetFinalPublishedExamStatus', GetFinalPublishedExamStatus);
+
   // const IsPublishedStatus = GetFinalPublishedExamStatus ? GetFinalPublishedExamStatus.find((item) => item.hasOwnProperty('IsPublishedStatus')) : null;
 
   // console.log('IsPublishedStatus', IsPublishedStatus);
@@ -254,7 +255,7 @@ const TermwiseHeightWeight = () => {
                     onTextChange={ChangeHeight}
                     onTextChange2={ChangeWeight}
                     HeaderArray={HeaderOfTable}
-                    IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
+                    IsPublishedStatus={GetFinalPublishedExamStatus?.IsPublishedStatus}
                   />
 
                 </Typography>
@@ -278,15 +279,20 @@ const TermwiseHeightWeight = () => {
         <div>
           <Grid container spacing={2}>
             <Grid item xs={6}>
-              {SelectTeacher > 0 && (
+              {SelectTeacher > 0 && GetFinalPublishedExamStatus?.ShowFlag == "1" && (
                 <div>
-                  <ButtonPrimary onClick={onClickSave} variant="contained">
+                  <ButtonPrimary
+                    onClick={onClickSave}
+                    variant="contained"
+                    disabled 
+                  >
                     SAVE
                   </ButtonPrimary>
-                  <br></br>
-                  <br></br>
+                  <br />
+                  <br />
                 </div>
               )}
+
             </Grid>
 
             <Grid item xs={6}>
