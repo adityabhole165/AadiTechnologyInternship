@@ -21,7 +21,8 @@ function ListIcon({
     clicknav,
     SubmitedByReportingUser,
     ReportingConfigs,
-    Text2
+    Text2,
+    ShowEdit
 }) {
     const getStatusIcon = (status) => {
         let icon;
@@ -55,11 +56,13 @@ function ListIcon({
                     <TableHead>
                         <TableRow>
                             {HeaderArray.map((item, i) => (
-                                <TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84', color: 'white' }}>
+                                !(item.Header == "Edit" && !ShowEdit
+                                    || item.Header == "View" && ShowEdit
+                                ) &&
+                                < TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84', color: 'white' }}>
                                     <b>{item.Header}</b>
-
-                                </TableCell>
-                            ))}
+                                </TableCell>)
+                            )}
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -74,12 +77,14 @@ function ListIcon({
                                         </Tooltip>
                                     )}
                                 </TableCell>
-                                <TableCell align="center">
-                                    {item.Text4}
-                                    <Tooltip title={"Edit"}>
-                                        <EditIcon onClick={() => clickEdit(item.Id)} />
-                                    </Tooltip>
-                                </TableCell>
+                                {ShowEdit &&
+                                    <TableCell align="center">
+
+                                        <Tooltip title={"Edit"}>
+                                            <EditIcon onClick={() => clickEdit(item.Id)} />
+                                        </Tooltip>
+                                    </TableCell>
+                                }
 
                                 <TableCell align="center">
                                     {item.SubmitedByReportingUser == "0" && (
@@ -90,7 +95,7 @@ function ListIcon({
                                 </TableCell>
 
 
-                                {CanEdit === 'Y' && Text2 != 'False' && (
+                                {(CanEdit === 'Y' && !ShowEdit) && (
                                     <TableCell align="center">
                                         <Tooltip title={"View"}>
                                             <Visibility onClick={() => clicknav(item.Id)} />
@@ -119,7 +124,7 @@ function ListIcon({
                     </TableBody>
                 </Table>
             </TableContainer>
-        </div>
+        </div >
     );
 }
 

@@ -75,8 +75,7 @@ const LessonPlanBaseScreen = () => {
   const LessonPlanList1: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISLessonList1
   );
-  console.log(LessonPlanList1,"LessonPlanList1");
-  
+
 
   console.log(LessonPlanList, "LessonPlanList");
 
@@ -119,7 +118,7 @@ const LessonPlanBaseScreen = () => {
     { Id: 3, Header: 'View Remark', align: 'center' },
     { Id: 4, Header: 'Edit', align: 'center' },
     { Id: 5, Header: 'Delete', align: 'center' },
-    ...(CanEdit === 'Y' &&  LessonPlanList.map((item) => item.Text2) != 'False'   ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
+    ...(CanEdit === 'Y' && LessonPlanList.map((item) => item.Text2) != 'False' ? [{ Id: 6, Header: 'View', align: 'center' }] : []),
     { Id: 7, Header: 'Export', align: 'center' },
     { Id: 8, Header: 'Submit Status', align: 'center' }
   ];
@@ -142,6 +141,7 @@ const LessonPlanBaseScreen = () => {
 
 
   useEffect(() => {
+
     if (CanEdit == 'Y') {
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
 
@@ -266,7 +266,6 @@ const LessonPlanBaseScreen = () => {
 
   const ClickSelctTecher = (value) => {
     setselectClasstecahernew(value)
-
   }
 
 
@@ -307,7 +306,6 @@ const LessonPlanBaseScreen = () => {
     return htmlString.replace(/<[^>]*>?/gm, '');
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
-  console.log(LessonPlanList.map((item) => item.Text2));
   return (
     <>
       <Container maxWidth={"xl"}>
@@ -453,6 +451,7 @@ const LessonPlanBaseScreen = () => {
               SubmitedByReportingUser={LessonPlanList.some((item) => item.SubmitedByReportingUser)}
               ReportingConfigs={LessonPlanList1}
               Text2={LessonPlanList.map((item) => item.Text2)}
+              ShowEdit={localStorage.getItem("UserId") == selectClasstecahernew}
 
             />
 
