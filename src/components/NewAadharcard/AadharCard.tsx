@@ -5,19 +5,18 @@ import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
-import SingleFile from 'src/libraries/File/SingleFile';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
+import { CheckFileValidationAdhar } from '../Common/Util';
 
 const AadharCard = () => {
   const dispatch = useDispatch();
-  const [fileName, setFileName] = useState('');
-  const [base64URL, setbase64URL] = useState('');
+
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
   const UserId = sessionStorage.getItem('Id');
@@ -28,10 +27,21 @@ const AadharCard = () => {
   const MaxfileSize = 3000000;
   const [Name, setName] = useState('');
   const [AadharCardNumber, setAadharCardNumber] = useState('');
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [fileName, setFileName] = useState('');
+  const [aadharNumber, setAadharNumber] = useState('');
+  const [aadharName, setAadharName] = useState('');
+  const [mother, setMother] = useState('');
+  const [base64URL, setBase64URL] = useState('');
   const [error, setError] = useState(false);
-  const [error1, setError1] = useState(false)
-  const [File, setFile] = useState('');
-  const [FileError, setFileError] = useState('');
+  const [errorname, setErrorname] = useState(false);
+  const [fileError, setFileError] = useState('');
+  const [error1, setError1] = useState(false);
+  const [error2, setError2] = useState(false);
+  const aRef = useRef(null);
+
+  const validFiles = ['PDF', 'JPG', 'PNG', 'BMP', 'JPEG'];
+  const maxfileSize = 3000000;
 
   const UpdateTeacherAadharDetailsUS: any = useSelector(
     (state: RootState) => state.AadharcardTecaherSlice.ISUpdateTeacherAadharDetails
@@ -41,12 +51,11 @@ const AadharCard = () => {
     (state: RootState) => state.AadharcardTecaherSlice.ISDeleteAadharCardPhotoCopy);
   const GetUserDetailsForAadharCardNoUS: any = useSelector((state: RootState) => state.AadharcardTecaherSlice.ISGetUserDetailsForAadharCardNo);
 
-
   const UpdateTeacherAadharDetailsBody: IUpdateTeacherAadharDetailsBody = {
     asUserId: Number(UserId),
     asSchoolId: Number(asSchoolId),
     asAadharCardNo: AadharCardNumber,
-    asAadharCardPhotoCopyPath: File,
+    asAadharCardPhotoCopyPath: selectedFile,
     asUpdatedById: TeacherId.toString(),
     asSaveFeature: "Aadhar Cards",
     asFolderName: "PPSN Website",
@@ -54,7 +63,7 @@ const AadharCard = () => {
   };
 
   const ResetForm = () => {
-    setFile('');
+    setSelectedFile('');
   };
   const SaveFile = () => {
     const isAadharValid = validateAadharCardNumber(AadharCardNumber);
@@ -109,10 +118,10 @@ const AadharCard = () => {
     dispatch(CDAGetUserDetailsForAadharCardNo(GetUserDetailsForAadharCardNoBody));
   }, []);
 
-  const ChangeFile = (value) => {
-    setFile(value.Name);
-    setbase64URL(value.Value);
-  };
+  // const ChangeFile = (value) => {
+  //   setSelectedFile(value.Name);
+  //   setBase64URL(value.Value);
+  // };
 
   const changeAdhar = (value) => {
     const re = /^\d{0,12}$/;
@@ -132,6 +141,43 @@ const AadharCard = () => {
       '/DOWNLOADS/Aadhar Card/' +
       GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path);
   }
+  const changeFile = async (e) => {
+    const multipleFiles = e.target.files;
+    let base64URL: any = '';
+    let DataAttachment: any = '';
+    let fileName: any = '';
+    for (let i = 0; i < multipleFiles.length; i++) {
+      const isValid = CheckFileValidationAdhar(
+        multipleFiles[i],
+        validFiles,
+        maxfileSize
+      );
+      if (isValid == null) {
+        setFileName(multipleFiles[i].name);
+        setSelectedFile(e.target.files[i]);
+        base64URL = await ChangeFileIntoBase64(multipleFiles[i]);
+        setBase64URL(base64URL.slice(base64URL.indexOf(',') + 1));
+        setFileError('');
+      } else {
+        setFileError(isValid);
+        aRef.current.value = null;
+      }
+    }
+  };
+  const ChangeFileIntoBase64 = (fileData) => {
+    return new Promise((resolve, reject) => {
+      const fileReader = new FileReader();
+      fileReader.readAsDataURL(fileData);
+
+      fileReader.onload = () => {
+        resolve(fileReader.result);
+      };
+      fileReader.onerror = (err) => {
+        reject(err);
+      };
+    });
+  };
+
   return (
     <>
       <Container maxWidth={'xl'}>
@@ -226,9 +272,9 @@ const AadharCard = () => {
 
             </Grid>
             <Grid item xs={12}>
-              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {/* <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                 <SingleFile
-                  FileName={File}
+                  FileName={selectedFile}
                   MaxfileSize={MaxfileSize}
                   ChangeFile={ChangeFile}
                   errorMessage={FileError}
@@ -242,12 +288,52 @@ const AadharCard = () => {
                   width='400px'
                   clickFileName={clickFileName}
                 />
-              </Box>
+              </Box> */}
             </Grid>
           </Grid>
 
         </Box>
 
+  <Box sx={{ my: '10px', textAlign: 'center' }}>
+  {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+    <img
+      style={{ height: '150px', width: '150px' }}
+      src={'/imges/Adhar.png'}
+      alt={'adhar'}
+    />
+  ) : (
+    <>
+      {selectedFile ? (
+        <img
+          src={URL.createObjectURL(selectedFile)}
+          width="150"
+          height="150"
+          style={{ border: '1px solid gray', padding: '1px' }}
+        />
+      ) : (
+        <img
+          src={
+            localStorage.getItem('SiteURL') +
+            GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path 
+          }
+          width="150"
+          height="150"
+          style={{ border: '1px solid gray', padding: '1px' }}
+        />
+      )}
+    </>
+  )}
+</Box>
+
+
+        <Box sx={{ textAlign: 'center' }}>
+          <input
+            ref={aRef}
+            type="file"
+            onChange={changeFile}
+            style={{ width: '200px' }}
+          />
+        </Box>
       </Container >
 
     </>
