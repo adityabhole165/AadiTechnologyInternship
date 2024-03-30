@@ -32,6 +32,9 @@ const TermwiseHeightWeightSlice = createSlice({
     updatestudentlist(state, action) {
       state.UpdateStudent = action.payload;
     },
+    resetupdatestudentlist(state) {
+      state.UpdateStudent = '';
+    },
     finalpublishedexamstatus(state, action) {
       state.FinalPublishedExamStatus = action.payload;
     },
@@ -99,13 +102,18 @@ export const getupdatestudentlist =
         TermwiseHeightWeightSlice.actions.updatestudentlist(response.data)
       );
     };
+export const resetupdatestudentlist =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(TermwiseHeightWeightSlice.actions.resetupdatestudentlist());
+    };
 export const getFinalPublishedExamStatus =
   (data: IGetFinalPublishedExamStatusBody): AppThunk =>
     async (dispatch) => {
       dispatch(TermwiseHeightWeightSlice.actions.getLoading(true));
       const response = await TermwiseHeightWeightApi.GetFinalPublishedExamStatusApi(data);
 
-      
+
       dispatch(TermwiseHeightWeightSlice.actions.finalpublishedexamstatus(response.data));
     };
 

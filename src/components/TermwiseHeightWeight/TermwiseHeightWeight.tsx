@@ -26,7 +26,8 @@ import {
   getTeacherNameList,
   getTermList,
   getstudentdetails,
-  getupdatestudentlist
+  getupdatestudentlist,
+  resetupdatestudentlist
 } from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import { RootState } from 'src/store';
 
@@ -91,14 +92,14 @@ const TermwiseHeightWeight = () => {
     if (TermDropdown.length > 0)
       setSelectTerm(TermDropdown[0].Id);
   }, [TermDropdown]);
-
+  const StudentlistBody: IStudentsListBody = {
+    asStdDivId: SelectTeacher,
+    asAcademic_Year_Id: asAcademicYearId,
+    asSchoolId: asSchoolId,
+    asTerm_Id: SelectTerm
+  };
   useEffect(() => {
-    const StudentlistBody: IStudentsListBody = {
-      asStdDivId: SelectTeacher,
-      asAcademic_Year_Id: asAcademicYearId,
-      asSchoolId: asSchoolId,
-      asTerm_Id: SelectTerm
-    };
+
     dispatch(getstudentdetails(StudentlistBody));
     dispatch(getFinalPublishedExamStatus(GetFinalPublishedExamStatusBody));
 
@@ -181,10 +182,16 @@ const TermwiseHeightWeight = () => {
     };
     dispatch(getupdatestudentlist(UpdateStudentlistBody));
 
+
+  };
+  useEffect(() => {
     if (UpdateStudentDetails !== '') {
       toast.success(UpdateStudentDetails, { toastId: 'success1' });
+      dispatch(resetupdatestudentlist());
+      dispatch(getstudentdetails(StudentlistBody));
+
     }
-  };
+  }, [UpdateStudentDetails])
 
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/ExamResultBase');
