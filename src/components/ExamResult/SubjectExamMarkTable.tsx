@@ -13,6 +13,23 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     })
     onChangeExamStatus(StudentsForMarksAssignment)
   }
+  const changeText = (value, StudentId, Id) => {
+    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
+      return {
+        ...Item,
+        MarksForStudent: (Item.Id == StudentId) ?
+          Item.MarksForStudent.map((obj) => {
+            if (Id == obj.Id) {
+              return { ...obj, Text1: value }
+            }
+            else
+              return obj
+
+          }) : Item.MarksForStudent
+      }
+    })
+    onChangeExamStatus(StudentsForMarksAssignment)
+  }
   return (
     <div>
       <Box>
@@ -49,7 +66,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                         handleChange={(value) => { changeExamStatus(value, Item.Id) }}
                       />
                     </TableCell>
-                    <SubjectExamRows ExamMarks={Item.MarksForStudent} />
+                    <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
+                      changeText={changeText} />
                     <TableCell>
                       <TextField sx={{ width: '50px' }} size={"small"} disabled
                         value={Item.TotalMarks} />
