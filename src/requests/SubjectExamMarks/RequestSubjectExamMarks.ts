@@ -18,7 +18,7 @@ const SubjectExamMarksslice = createSlice({
         SchoolWiseTestName: null,
         GradesForSubjectMarkList: [],
         SubjectExamMarkslists: null,
-        ListTestDetailss: [],
+        ExamMarkHeader: null,
         ListStudentTestMarkDetails: [],
         ListDisplayNameDetail: [],
         ListFailCreatiaDetails: [],
@@ -54,8 +54,8 @@ const SubjectExamMarksslice = createSlice({
             state.ListYearwiseStudentId = action.payload.listYearwiseStudentId;
 
         },
-        GetListTestDetailss(state, action) {
-            state.ListTestDetailss = action.payload;
+        GetExamMarkHeader(state, action) {
+            state.ExamMarkHeader = action.payload;
         },
         GetListDisplayNameDetail(state, action) {
             state.ListDisplayNameDetail = action.payload;
@@ -185,20 +185,20 @@ export const getSubjectExamMarkslist =
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
 
             let responseData2 = [];
-            const HeaderList = {
+            const ExamMarkHeader = {
                 Text1: "Sr.No.",
                 Text2: "Student Name",
                 Text3: "Exam Status",
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
+                        Id: Item.TestType_Id,
                         Text1: Item.TestType_Name,
                         Text2: Item.TestType_Total_Marks
                     };
                 }),
                 Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
             }
-
-            dispatch(SubjectExamMarksslice.actions.GetListTestDetailss(HeaderList));
+            dispatch(SubjectExamMarksslice.actions.GetExamMarkHeader(ExamMarkHeader));
 
             dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response2.data));
 
@@ -208,8 +208,8 @@ export const getSubjectExamMarkslist =
 
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
-            let responseData4 = [];
-
+            let responseData4 = [{ Id: '0', Name: 'Select', Value: '0' }];
+           
             response4.data.listDisplayNameDetail.map((Item, i) => {
                 responseData4.push({
                     Id: Item.ExamStatusId,

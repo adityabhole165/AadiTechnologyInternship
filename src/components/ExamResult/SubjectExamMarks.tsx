@@ -52,14 +52,14 @@ const SubjectExamMarks = () => {
   const [selectDivision, setSelectDivision] = useState('');
   const [RollNo, setRollNo] = useState('');
   const [Name, setName] = useState('');
+  const [HeaderDetails, setHeaderDetails] = useState([]);
+
+
 
   const StudentsForMarksAssignment: any = useSelector(
     (state: RootState) => state.SubjectExamMark.StudentsForMarksAssignments
   );
   const [MarksAssignment, setMarksAssignment] = useState([])
-  useEffect(() => {
-    setMarksAssignment(StudentsForMarksAssignment)
-  }, [StudentsForMarksAssignment])
   const StandardName: any = useSelector(
     (state: RootState) => state.SubjectExamMark.StandardName
   );
@@ -74,8 +74,8 @@ const SubjectExamMarks = () => {
   const TestMarkDetails: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
   );
-  const HeaderList: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListTestDetailss
+  const ExamMarkHeader: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ExamMarkHeader
   );
   const ExamStatus: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListDisplayNameDetail
@@ -87,6 +87,11 @@ const SubjectExamMarks = () => {
   const clickTestDate = (value) => {
     setTestDate(value)
   }
+  // useEffect(() => {
+  //   if (ExamStatus.length > 0)
+  //     setMarksAssignment(ExamStatus[0].Id);
+  // }, [ExamStatus]);
+
   useEffect(() => {
 
     const ClassExamSubjectNameDetailes: IGetClassExamSubjectNameDetailesBody = {
@@ -99,6 +104,13 @@ const SubjectExamMarks = () => {
     dispatch(getClassExamSubjectNameDetailes(ClassExamSubjectNameDetailes));
 
   }, []);
+  useEffect(() => {
+    setMarksAssignment(StudentsForMarksAssignment)
+  }, [StudentsForMarksAssignment])
+  useEffect(() => {
+    setHeaderDetails(ExamMarkHeader)
+  }, [ExamMarkHeader])
+
   useEffect(() => {
 
     if (TestMarkDetails?.length > 0) {
@@ -189,12 +201,13 @@ const SubjectExamMarks = () => {
     };
     dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
   };
+
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
       toast.success(ManageStudentsTestMarks)
       dispatch(resetManageStudentsTestMark())
-      navigate("../../AssignExamMark")
+      // navigate("/extended-sidebar/Teacher/AssignExamMark")
     }
   }, [ManageStudentsTestMarks])
   const ExamMarks = [
@@ -208,6 +221,9 @@ const SubjectExamMarks = () => {
   const onChangeExamStatus = (value) => {
     setMarksAssignment(value)
   }
+  const onClickExamHeader = (value) => {
+    setHeaderDetails(value);
+  };
   return (
     <Container maxWidth={"xl"}>
       <Stack
@@ -351,9 +367,13 @@ const SubjectExamMarks = () => {
           </Typography>
         </Box>
         {/* Table */}
-        <SubjectExamMarkTable ExamStatus={ExamStatus}
-          StudentsForMarksAssignment={MarksAssignment} onChangeExamStatus={onChangeExamStatus}
-          ExamMarksHeader={HeaderList}></SubjectExamMarkTable>
+        {(MarksAssignment.length > 0 && HeaderDetails != null) &&
+          <SubjectExamMarkTable ExamStatus={ExamStatus}
+            StudentsForMarksAssignment={MarksAssignment}
+            onChangeExamStatus={onChangeExamStatus}
+            ExamMarksHeader={HeaderDetails}
+            onChangeExamHeader={onClickExamHeader} />
+        }
       </Box>
       <Button onClick={onClickSave} variant="contained">
         Save
