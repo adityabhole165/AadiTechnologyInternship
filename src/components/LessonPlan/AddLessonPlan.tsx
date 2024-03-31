@@ -66,6 +66,29 @@ const AddLessonPlan = () => {
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
 
+  const getXML = () => {
+    let a = []
+    let asLessonPlanXML = "<ArrayOfLessonPlanDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
+      " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+    exampleLessonDetails.map((Obj, i) => {
+      Obj.planDetails.map((Item, Index) => {
+        a.push("<LessonPlanDetails>" +
+          "<Id>0</Id>" +
+          "<ReportingUserId>" + asUserId + "</ReportingUserId>" +
+          "<ParameterId>" + Item.Id.toString() + "</ParameterId>" +
+          "<Comment>" + Item.value + "</Comment>" +
+          "<StdDivId>" + Obj.DivisionId + "</StdDivId>" +
+          "<SubjectId>" + Obj.SubjectId + "</SubjectId>" +
+          "<LessonPlanCategoryId>" + Item.LessonPlanCategoryId + "</LessonPlanCategoryId>" +
+          "<LessonPlanSectionId>0</LessonPlanSectionId>" +
+          "<SubjectCategoryId>" + Item.SubjectCategoryId + "</SubjectCategoryId>" +
+          "<SubjectStartDate/><SubjectEndDate/>" +
+          "</LessonPlanDetails>")
+      })
+    })
+    return asLessonPlanXML + a.join('') + "</ArrayOfLessonPlanDetails>"
+  }
+
   const SaveLessonPlanBody: ISaveLessonPlanBody = {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
@@ -73,7 +96,7 @@ const AddLessonPlan = () => {
     asReportingUserId: Number(ReportingUserId),
     aasStartDate: "12/29/2023 12:00:00 AM",
     aasEndDate: "12/30/2023 12:00:00 AM",
-    asLessonPlanXml: ItemList,
+    asLessonPlanXml: getXML(),
     asUpdatedById: Number(UpdatedById),
     asOldStartDate: OldStartDate,
     asOldEndDate: OldEndDate,

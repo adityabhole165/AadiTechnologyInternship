@@ -92,6 +92,8 @@ export const GetAddOrEditLessonPlanDetails =
             if (Item.ParentParameterId == "0") {
               returnVal.push({
                 Id: Item.Id, label: Item.Title, value: "",
+                LessonPlanCategoryId: Item.LessonPlanCategoryId,
+                SubjectCategoryId: Item.SubjectCategoryId,
                 subPlanDetails: getSubPlanDetails(Item.Id)
               })
             }
@@ -104,6 +106,7 @@ export const GetAddOrEditLessonPlanDetails =
         reponseData.push({
           StdId: Item.Standard_Id,
           DivisionId: Item.StdDivId,
+          SubjectId: Item.SubjectId,
           lessonName: Item.ClassName + '(' + Item.Subject_Name + ')',
           subject: Item.Subject_Name,
           planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId)
