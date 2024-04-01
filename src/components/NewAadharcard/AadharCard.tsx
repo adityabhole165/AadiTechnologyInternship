@@ -1,8 +1,9 @@
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -310,19 +311,39 @@ const AadharCard = () => {
         </Box>
 
 
-        <Box sx={{ textAlign: 'center', position: 'relative' }}>
-          <input
-            ref={aRef}
-            type="file"
-            onChange={changeFile}
-            style={{ width: '250px', zIndex: 1 }} // Ensure the input is behind the tooltip
-            onMouseEnter={() => { document.getElementById("tooltip").style.visibility = "visible"; }}
-            onMouseLeave={() => { document.getElementById("tooltip").style.visibility = "hidden"; }}
-          />
-          <div id="tooltip" style={{ visibility: "hidden", position: 'absolute', top: '30px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#483d8b', color: 'white', padding: '5px', borderRadius: '5px', zIndex: 1 }}>
-            (Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.)
-          </div>
-        </Box>
+        {/* <Box sx={{ textAlign: 'center' }}> */}
+        <Grid container>
+          <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
+              <Button
+                sx={{
+                  width: '300px',
+                  border: (theme) =>
+                    `1px dashed ${theme.colors.primary.main
+                    }`,
+                  gap: 1,
+                  position: 'relative',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+                color={'primary'}
+              >
+                <Stack direction={'row'} alignItems={'center'} gap={1}
+                  sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                  <CloudUploadIcon />
+                  {fileName == '' ? ' No file selected' : fileName}
+                  <input ref={aRef} type="file" onChange={changeFile}
+                    style={{
+                      opacity: 0, top: 0, left: 0, right: 0, bottom: 0,
+                      position: 'absolute', cursor: 'pointer'
+                    }}
+                  />
+                </Stack>
+              </Button>
+            </Tooltip>
+          </Grid></Grid>
+        {/* </Box> */}
 
 
 
