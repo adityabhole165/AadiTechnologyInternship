@@ -84,10 +84,11 @@ export const getstudentdetails =
           Text2: item.StudentName,
           Text3: item.Height,
           Text4: item.Weight,
-          Text5: item.IsLeftStudent,
+          IsLeftStudent: item.IsLeftStudent,
           Text6: item.YearWiseStudentId
 
-          // ==="1"?"color=red":item.StudentName
+          // === "1" ? "color=red" : item.StudentName
+          //   === "1" ? "color=red" : item.RollNo
         };
       });
       dispatch(TermwiseHeightWeightSlice.actions.studentdetails(responseData));

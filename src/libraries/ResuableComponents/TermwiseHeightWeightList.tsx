@@ -84,12 +84,14 @@ const TermwiseHeightWeightList = ({
           >
             <Grid container spacing={2}>
               <Grid item xs={3}>
-                <Typography variant="subtitle1">{item.Text1}</Typography>
+                <Typography variant="subtitle1"
+                  style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
+                >{item.Text1}</Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography
                   variant="subtitle1"
-                  style={{ color: item.Text5 === '1' ? 'red' : 'inherit' }}
+                  style={{ color: item.IsLeftStudent === '1' ? 'red' : 'inherit' }}
                 >
                   {item.Text2}
                 </Typography>

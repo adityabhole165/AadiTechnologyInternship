@@ -65,8 +65,8 @@ const TermwiseHeightWeight = () => {
   const HeaderOfTable = [
     { Id: 1, Header: 'Roll No.' },
     { Id: 2, Header: 'Student Name' },
-    { Id: 3, Header: 'Height (Cm)' },
-    { Id: 4, Header: 'Weight (Kg)' }
+    { Id: 3, Header: 'Height (In Centimeters)' },
+    { Id: 4, Header: 'Weight (In Kilograms)' }
   ];
 
   useEffect(() => {
