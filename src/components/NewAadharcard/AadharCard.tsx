@@ -310,8 +310,12 @@ const AadharCard = () => {
                   </Stack>
                 </Button>
               </Tooltip>
+
+            </Grid>
+            <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
               {fileError && <Errormessage Error={fileError} />}
-            </Grid></Grid>
+            </Grid>
+          </Grid>
         </Box>
       </Container >
 
