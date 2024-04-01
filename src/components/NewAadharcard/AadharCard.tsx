@@ -1,4 +1,3 @@
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
@@ -15,7 +14,6 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
-import Icon5 from 'src/libraries/icon/icon5';
 const AadharCard = () => {
   const dispatch = useDispatch();
   const classes = Styles();
@@ -210,20 +208,7 @@ const AadharCard = () => {
             </Breadcrumbs>
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <Tooltip title={'(Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.)'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <PriorityHighIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
+
             <Box>
               <Tooltip title={`Add Aadhar Card Details.`}>
                 <IconButton
@@ -258,18 +243,18 @@ const AadharCard = () => {
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
           <Grid container spacing={2}>
-          <Grid item xs={6}>
-  <TextField
-    fullWidth
-    label={"Name"}
-    InputLabelProps={{ shrink: true }}
-    sx={{ bgcolor: '#e3f2fd' }}
-    value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-    InputProps={{
-      readOnly: true, 
-    }}
-  />
-</Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                label={"Name"}
+                InputLabelProps={{ shrink: true }}
+                sx={{ bgcolor: '#e3f2fd' }}
+                value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
             <Grid item xs={6}>
               <TextField
                 fullWidth
@@ -325,26 +310,22 @@ const AadharCard = () => {
         </Box>
 
 
-        <Box sx={{ textAlign: 'center' }}>
+        <Box sx={{ textAlign: 'center', position: 'relative' }}>
           <input
             ref={aRef}
             type="file"
             onChange={changeFile}
-            style={{ width: '200px' }}
+            style={{ width: '250px', zIndex: 1 }} // Ensure the input is behind the tooltip
+            onMouseEnter={() => { document.getElementById("tooltip").style.visibility = "visible"; }}
+            onMouseLeave={() => { document.getElementById("tooltip").style.visibility = "hidden"; }}
           />
-          <br></br>
-          <br></br>
-
+          <div id="tooltip" style={{ visibility: "hidden", position: 'absolute', top: '30px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#483d8b', color: 'white', padding: '5px', borderRadius: '5px', zIndex: 1 }}>
+            (Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.)
+          </div>
         </Box>
-        {/* <Box className={classes.iIconSupport}>
-            <Icon5
-              Note={
-                'Supports only ' +
-                validFiles.join(', ') +
-                ' files types up to 3 MB'
-              }
-            />
-          </Box> */}
+
+
+
 
         {fileError && <Errormessage Error={fileError} />}
       </Container >
