@@ -12,7 +12,9 @@ const DynamicList = ({
   IconList = undefined,
   ClickItem = undefined,
   ClickCheck = undefined,
-  IsSelect = 0
+  IsSelect = 0,
+  LinkList = [],
+  ClickLink = undefined,
 }) => {
   const clickCheckbox = (value) => {
     let arr = [];
@@ -20,8 +22,8 @@ const DynamicList = ({
       return Item.Id === value
         ? { ...Item, IsActive: !Item.IsActive }
         : IsSelect == 1
-        ? { ...Item, IsActive: false }
-        : Item;
+          ? { ...Item, IsActive: false }
+          : Item;
     });
     ClickCheck({ Id: value, Value: arr, Action: 'Select' });
   };
@@ -80,7 +82,11 @@ const DynamicList = ({
                 <TableRow key={index}>
                   {item.map((obj, i) => {
                     return (
-                      <TableCell align="center" key={i}>
+                      <TableCell align="center" key={i}
+                        onClick={() => {
+                          ClickLink({ Id: obj, Index: i });
+                        }}
+                      >
                         {obj}
                       </TableCell>
                     );
@@ -93,7 +99,13 @@ const DynamicList = ({
                                     </TableCell>
                                 } */}
                   {item.Text1 != undefined && (
-                    <TableCell align="center">{item.Text1}</TableCell>
+                    <TableCell
+                      onClick={() => {
+                        ClickLink({ Id: item.Id, Index: index });
+                      }}
+                      align="center">{item.Text1}
+
+                    </TableCell>
                   )}
                   {item.Text2 != undefined && (
                     <TableCell align="center">{item.Text2}</TableCell>

@@ -7,14 +7,13 @@ import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
 
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetClassExamSubjectNameDetailesBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
-import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslist, resetManageStudentsTestMark } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
+import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslist } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
 import { getCalendarDateFormatDate } from '../Common/Util';
 
@@ -208,9 +207,9 @@ const SubjectExamMarks = () => {
   useEffect(() => {
 
     if (ManageStudentsTestMarks !== '') {
-      toast.success(ManageStudentsTestMarks)
-      dispatch(resetManageStudentsTestMark())
-      // navigate("/extended-sidebar/Teacher/AssignExamMark")
+      // toast.success(ManageStudentsTestMarks)
+      // dispatch(resetManageStudentsTestMark())
+      navigate("/extended-sidebar/Teacher/AssignExamMark")
     }
   }, [ManageStudentsTestMarks])
   const ExamMarks = [

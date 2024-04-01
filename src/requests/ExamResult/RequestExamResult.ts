@@ -50,7 +50,7 @@ export const getClassTeachers =
       const response = await ApiExamResult.ClassTeachersApi(data);
       let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
       dispatch(SliceExamResult.actions.getLoading(true));
-      
+
       response.data.map((item, i) => {
         abc.push({
           Id: item.Teacher_Id,

@@ -10,7 +10,7 @@ import {
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import Note from 'src/libraries/Note/Note';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList from 'src/libraries/list/DynamicList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
@@ -31,7 +31,7 @@ const ExamResultBase = () => {
   );
   //const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
 
-  const [TestId, setTestId] = useState('0');
+  const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState([]);
   const [Open, setOpen] = useState(false);
 
@@ -41,6 +41,7 @@ const ExamResultBase = () => {
   console.log('ScreensAccessPermission', ScreensAccessPermission);
 
   const [IconList, setIconList] = useState([]);
+  const LinkList = [0]
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ClassTeachers
   );
@@ -90,7 +91,7 @@ const ExamResultBase = () => {
     asSchoolId: Number(asSchoolId),
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId,
-    aiTestId: TestId
+    aiTestId: TestId.toString()
   };
 
   useEffect(() => {
@@ -127,10 +128,20 @@ const ExamResultBase = () => {
     if (ClassTeachers.length > 0)
       setStandardDivisionId(ClassTeachers[0].Id);
   }, [ClassTeachers]);
-  
+
+  const getIsTestExists = (value) => {
+    let IsTestExists = false
+    AllTestsForClass.map((Item) => {
+      if (Item.Value == value)
+        IsTestExists = true
+    })
+    return IsTestExists
+  }
   useEffect(() => {
-    if (AllTestsForClass.length > 0)
-     setTestId(AllTestsForClass[0].Id);
+    if (AllTestsForClass.length > 0 &&
+      (TestId == "0" || !getIsTestExists(TestId))
+    )
+      setTestId(AllTestsForClass[0].Value);
   }, [AllTestsForClass]);
 
   useEffect(() => {
@@ -154,12 +165,19 @@ const ExamResultBase = () => {
   };
   const clickExam = (value) => {
     setTestId(value);
+    console.log(value, "value")
   };
 
   const ClickItem = (value) => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks');
   };
 
+  const ClickLink = (value) => {
+    console.log(value, "ClickLink");
+
+    if (value.Index == 0)
+      navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
+  }
   const TermwiseHighwight = (value) => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   };
@@ -210,6 +228,9 @@ const ExamResultBase = () => {
   const Toppers = (value) => {
     navigate('/extended-sidebar/Teacher/FinalResultToppers/' + getTeacherId());
   };
+  const ClickSubject = (Id) => {
+    navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
+  };
   const clickPublishUnpublish = (IsPublish) => {
 
     // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
@@ -237,23 +258,40 @@ const ExamResultBase = () => {
       <br></br>
       <Grid container spacing={2} justifyContent="center" alignItems="center">
         <Grid item xs={4}>
-          <Dropdown
-            Array={ClassTeachers}
-            handleChange={clickTeacher}
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={ClassTeachers}
+            onChange={clickTeacher}
             label={'Teacher'}
-            defaultValue={StandardDivisionId}
+            defaultValue={StandardDivisionId.toString()} // Convert number to string
+            mandatory
+            size={"small"}
           />
           <br></br>
         </Grid>
 
 
         <Grid item xs={4}>
-          <Dropdown
-            Array={AllTestsForClass}
-            handleChange={clickExam}
+
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={AllTestsForClass}
+            onChange={clickExam}
             label={'Exam'}
-            defaultValue={TestId}
+            defaultValue={TestId} // Convert number to string
+            mandatory
+            size={"small"}
           />
+
+          {/* <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={AllTestsForClass}
+            onChange={clickExam}
+            label={'Exam'}
+            defaultValue={TestId.toString()} // Convert number to string
+            mandatory
+            size={"small"}
+          /> */}
           <br></br>
         </Grid>
         <ButtonPrimary
@@ -279,6 +317,8 @@ const ExamResultBase = () => {
               ItemList={ClassPassFailDetailsForTest}
               IconList={IconList}
               ClickItem={ClickItem}
+              LinkList={LinkList}
+              ClickLink={ClickLink}
             />
           )}
         </Box>
