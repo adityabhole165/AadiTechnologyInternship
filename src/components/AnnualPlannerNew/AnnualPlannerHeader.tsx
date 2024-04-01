@@ -3,14 +3,13 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Visibility from '@mui/icons-material/Visibility';
-import { Box, Stack } from "@mui/material";
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from "react-router-dom";
 import { getFilePath } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
-import BreadCrumbs from './BreadCrumbs';
+import CommonPageHeader from '../CommonPageHeader';
 import HeaderIcons from './HeaderIcons';
 import UploadAnnualPlanner from './UploadAnnualPlanner';
 const AnnualPlannerHeader = () => {
@@ -131,18 +130,17 @@ const AnnualPlannerHeader = () => {
     }]
     return (
         <>
-            <Stack
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-            >
-                <Box>
-                    <BreadCrumbs ItemList={Breadcrumbs} />
-                </Box>
-                <Stack direction={'row'} alignItems={'center'} gap={1}>
-                    <HeaderIcons IconList={IconList} ClickIcon={ClickIcon} />
-                </Stack>
-            </Stack>
+            <CommonPageHeader
+                navLinks={[
+                    { title: 'Annual Planner', path: '/extended-sidebar/Common/AnnualPlanner' },
+
+                ]}
+                rightActions={
+                    <>
+                        <HeaderIcons IconList={IconList} ClickIcon={ClickIcon} />
+                    </>
+                }
+            />
             {openAnnualPlannerDialog && (
                 <UploadAnnualPlanner openAnnualPlannerDialog={openAnnualPlannerDialog}
                     setOpenAnnualPlannerDialog={setOpenAnnualPlannerDialog} />

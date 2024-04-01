@@ -18,10 +18,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
-              sx={{
-                backgroundColor: (theme) => theme.colors.primary.main,
-                color: (theme) => theme.palette.common.white
-              }}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell
@@ -120,7 +117,7 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                           </Tooltip>
                         )
                       )
-                    ) :  <span>Marks cannot be submitted.</span>
+                    ) : <span>Marks cannot be submitted.</span>
                   )}
                 </TableCell>
               </TableRow>

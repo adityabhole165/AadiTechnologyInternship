@@ -37,12 +37,12 @@ function SubjectList({
     ItemList = ItemList.map((item) => {
       return item.Id === value.Id
         ? {
-            ...item,
-            Text3: value.Value,
-            Text4: value.Value == '1' ? '' : item.Text4,
-            IsActive: value.Value == '1' ? true : false,
-            variant: value.Value == '1' ? 'filled' : 'standard'
-          }
+          ...item,
+          Text3: value.Value,
+          Text4: value.Value == '1' ? '' : item.Text4,
+          IsActive: value.Value == '1' ? true : false,
+          variant: value.Value == '1' ? 'filled' : 'standard'
+        }
         : item;
     });
     onChange(ItemList);
@@ -81,7 +81,7 @@ function SubjectList({
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: '#b3e5fc' }}>
+            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}

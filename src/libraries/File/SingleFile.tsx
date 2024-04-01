@@ -23,7 +23,8 @@ const SingleFile = ({
   viewIcon = false,
   deleteIcon = false,
   FileLabel = "",
-  isMandatory = true
+  isMandatory = true,
+  height = 'auto'
 }) => {
   const classes = Styles();
   const aRef = useRef(null);
@@ -59,7 +60,7 @@ const SingleFile = ({
   };
   return (
     <Grid container>
-      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height }}>
         <Tooltip
           title={
             'Supports only ' +
@@ -70,6 +71,7 @@ const SingleFile = ({
           <Button
             sx={{
               width: width,
+              height: height,
               border: (theme) =>
                 `1px dashed ${FileName ? theme.colors.success.main : theme.colors.primary.main
                 }`,
@@ -142,12 +144,14 @@ const SingleFile = ({
           </div>
         )}
       </Grid>
-      <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      {FileError && (
+        <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
 
-        <Typography mt={2}>
-          {FileError && <Errormessage Error={FileError} />}
-        </Typography>
-      </Grid>
+          <Typography mt={2}>
+            {FileError && <Errormessage Error={FileError} />}
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 };

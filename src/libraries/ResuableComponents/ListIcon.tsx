@@ -1,6 +1,6 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
-import EditIcon from '@mui/icons-material/Edit';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Link, Tooltip } from '@mui/material';
@@ -10,7 +10,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function ListIcon({
     HeaderArray,
@@ -56,7 +55,7 @@ function ListIcon({
             <TableContainer component={Box}>
                 <Table aria-label="simple table">
                     <TableHead>
-                        <TableRow>
+                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                             {HeaderArray.map((item, i) => (
                                 !(item.Header == "Edit" && !ShowEdit
                                     || item.Header == "View" && ShowEdit

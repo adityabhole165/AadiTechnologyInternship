@@ -49,7 +49,7 @@ function SubjectList1({
         <Table aria-label="simple table">
           <TableHead>
             <TableRow
-              sx={{ backgroundColor: (theme) => theme.colors.primary.main }}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
               {/* <TableCell sx={{ textTransform: 'capitalize' }} >
                                 <Checkbox checked={IsCheckAll()} onClick={clickAll}></Checkbox>

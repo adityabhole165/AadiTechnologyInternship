@@ -560,6 +560,7 @@ const AddHomework = () => {
                 ChangeFile={ChangeFile}
                 FileLabel={'Attachment'}
                 width={'100%'}
+                height={"52px"}
                 isMandatory={false}
               />
             </Grid>
@@ -571,6 +572,7 @@ const AddHomework = () => {
                 ChangeFile={ChangeFile1}
                 FileLabel={'Attachments'}
                 width={'100%'}
+                height={"52px"}
                 isMandatory={false}
               />
             </Grid>
@@ -591,30 +593,6 @@ const AddHomework = () => {
                 error={ErrorDetails !== ''}
                 helperText={ErrorDetails}
               />
-            </Grid>
-            <Grid
-              item
-              xs={12}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: 2
-              }}
-            >
-              {/* <Button onClick={SaveFile} variant="contained">
-                Save
-              </Button>
-              <Button
-                color={'error'}
-                onClick={onClickCancel}
-                variant="contained"
-              >
-                Cancel
-              </Button> */}
-              {/* <Button color={'error'} onClick={Back} variant="contained">
-                Back
-              </Button> */}
             </Grid>
           </Grid>
         </Box>

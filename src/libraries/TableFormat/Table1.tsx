@@ -14,7 +14,7 @@ export default function Table1({ ItemList, Headeritems }) {
     >
       <Table aria-label="simple table" size="small" stickyHeader>
         <TableHead>
-          <TableRow>
+          <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
             {Headeritems.map((item, i) => {
               return (
                 <TableCell

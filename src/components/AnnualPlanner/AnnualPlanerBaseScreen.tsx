@@ -1,17 +1,14 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import {
   Box,
-  Breadcrumbs,
   Button,
   Card,
   Container,
   Grid,
   Typography
 } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IGetFileDetailsBody } from 'src/interfaces/AddAnnualPlanner/IAddAnnualPlanner';
 import {
   IGetAllDivisionsForStandardDropDownBody,
@@ -174,20 +171,20 @@ const AnnualPlanerBaseScreen = () => {
   };
 
   const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =
-    {
-      asSchoolId: Number(asSchoolId),
-      asAcademicYearId: Number(asAcademicYearId),
-      asUserId: Number(UserId)
-    };
+  {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asUserId: Number(UserId)
+  };
 
   const GetAllMonthsDropBody: IGetAllMonthsDropDownBody = {
     asSchoolId: Number(asSchoolId)
   };
 
   const GetYearsForAnnualPalannerBody: IGetYearsForAnnualPalannerDropDownBody =
-    {
-      asSchoolId: Number(asSchoolId)
-    };
+  {
+    asSchoolId: Number(asSchoolId)
+  };
 
   const AllDivisionsForStandardBody: IGetAllDivisionsForStandardDropDownBody = {
     asSchoolId: Number(asSchoolId),
@@ -286,8 +283,8 @@ const AnnualPlanerBaseScreen = () => {
     if (FileDetails !== '') {
       window.open(
         localStorage.getItem('SiteURL') +
-          '/RITeSchool/DOWNLOADS/Event%20Planner/' +
-          FileDetails[0].LinkUrl
+        '/RITeSchool/DOWNLOADS/Event%20Planner/' +
+        FileDetails[0].LinkUrl
       );
       // localStorage.getItemItem("SiteURL", window.location.pathname)
     }
@@ -300,20 +297,6 @@ const AnnualPlanerBaseScreen = () => {
 
   return (
     <Container maxWidth={'xl'} sx={{ mt: 4 }}>
-      <Breadcrumbs aria-label="breadcrumb" separator={<ChevronRightTwoTone />}>
-        <Link
-          to={'/extended-sidebar/landing/landing'}
-          color="inherit"
-          style={{ textDecoration: 'none' }}
-        >
-          <Typography variant={'h3'} sx={{ color: grey[600] }}>
-            Home
-          </Typography>
-        </Link>
-        <Typography variant={'h3'} color="text.primary">
-          Individual Attendance
-        </Typography>
-      </Breadcrumbs>
       <PageHeader heading={'Annual Planner'} subheading={''} />
       <Box sx={{ float: 'right' }}>
         <Icon1 Note={Note} />

@@ -101,7 +101,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         <TableContainer component={Box} sx={{ mt: 2 }}>
           <Table sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
             <TableHead>
-              <TableRow sx={{ background: (theme) => theme.palette.primary.main }}>
+              <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text1}
                 </TableCell>
@@ -139,7 +139,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList} />
                     <TableCell>
-                      <TextField sx={{ width: '80px' }} size={"small"} disabled
+                      <TextField sx={{ width: '80px' }} size={"small"}
+                        disabled
                         value={getTotalMarks(Item.MarksForStudent)}
                       // value={Item.TotalMarks} 
                       />

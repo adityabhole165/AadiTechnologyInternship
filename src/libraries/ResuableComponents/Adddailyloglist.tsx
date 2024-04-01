@@ -39,7 +39,7 @@ function Adddailyloglist({
           <TableHead>
             <TableRow
               sx={{
-                backgroundColor: (theme) => theme.colors.primary.main,
+                backgroundColor: (theme) => theme.colors.secondary.main,
                 color: (theme) => theme.palette.common.white
               }}
             >

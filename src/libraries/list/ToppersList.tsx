@@ -20,10 +20,7 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
       <Table>
         <TableHead>
           <TableRow
-            sx={{
-              backgroundColor: (theme) => theme.colors.primary.main,
-              color: (theme) => theme.palette.common.white
-            }}
+            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
           >
             {headers.map((header, index) => (
               <TableCell key={index}>{header}</TableCell>

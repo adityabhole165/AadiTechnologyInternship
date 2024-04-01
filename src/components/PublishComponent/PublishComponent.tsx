@@ -22,7 +22,7 @@ function PublishButton({ newLogItem, clickEdit, Delete, Link, HeaderArray }) {
       <TableContainer component={Card}>
         <Table aria-label="simple table">
           <TableHead>
-            <TableRow sx={{ backgroundColor: grey[500] }}>
+            <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}

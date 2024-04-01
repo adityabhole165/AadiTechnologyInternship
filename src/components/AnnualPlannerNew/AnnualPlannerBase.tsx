@@ -210,9 +210,9 @@ const AnnualPlannerBase = () => {
     setEventType(value)
   }
   return (
-    <Container sx={{ mt: 4 }} maxWidth={'xl'}>
+    <Container maxWidth={'xl'}>
       <AnnualPlannerHeader />
-      <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
+      <Box sx={{ backgroundColor: 'white' }}>
         <CalendarAnnualPlanner
           DaysList={DaysList}
           ClickCalendarItem={ClickCalendarItem}

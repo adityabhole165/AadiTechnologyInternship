@@ -25,10 +25,7 @@ function EditIconList({
         <Table aria-label="simple table">
           <TableHead>
             <TableRow
-              sx={{
-                backgroundColor: (theme) => theme.colors.primary.main,
-                color: (theme) => theme.palette.common.white
-              }}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell

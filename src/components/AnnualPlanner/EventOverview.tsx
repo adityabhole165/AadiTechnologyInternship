@@ -1,6 +1,4 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Accordion,
@@ -8,19 +6,16 @@ import {
   AccordionSummary,
   Badge,
   Box,
-  Breadcrumbs,
   Container,
   Divider,
   Grid,
   IconButton,
-  Stack,
   Tooltip,
   Typography
 } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import {
   IGetAllAcademicYearsForSchoolEVBody,
   IGetAllEventsBody,
@@ -36,6 +31,7 @@ import {
 } from 'src/requests/AddAnnualPlanner/ReqAnnualPlanerBaseScreen';
 import { RootState } from 'src/store';
 import { getMonthYearSplitFormatted } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 type Props = {};
 
 const EventOverview = (props: Props) => {
@@ -152,102 +148,61 @@ const EventOverview = (props: Props) => {
 
   return (
     <Container sx={{ mt: 5 }} maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>{' '}
-            <Link
-              to={'/extended-sidebar/Common/AnnualPlanner'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                color="text.primary"
-                fontWeight={'normal'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Annual Planner
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Events Overview
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <Dropdown
-              variant={"outlined"}
-              Array={AssociatedStandardsEV}
-              handleChange={clickStandardDropdown}
-              defaultValue={selectStandard}
-              label={'Standard'}
-              width={'100px'}
-            />
-          </Box>
-          <Box>
-            <Dropdown
-              variant={"outlined"}
-              Array={UsGetAllMonthsDropDown}
-              handleChange={clicMonthDropdown}
-              defaultValue={selectMonth}
-              label={'Month(s)'}
-              width={'100px'}
-            />
-          </Box>
-          <Box>
-            <Dropdown
-              variant={"outlined"}
-              Array={AllAcademicYearsForSchool}
-              handleChange={clicYearDropdown}
-              defaultValue={selectYear}
-              label={'Academic Year'}
-              width={'150px'}
-            />
-          </Box>
-          <Box>
-            <Tooltip title={'Display All the events of the school'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Stack>
-      </Stack>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Annual Planner', path: '/extended-sidebar/Common/AnnualPlanner' },
+          { title: 'Events Overview', path: '/extended-sidebar/Common/EventOverview' }
+        ]}
+        rightActions={
+          <>
+            <Box>
+              <Dropdown
+                variant={"outlined"}
+                Array={AssociatedStandardsEV}
+                handleChange={clickStandardDropdown}
+                defaultValue={selectStandard}
+                label={'Standard'}
+                width={'100px'}
+              />
+            </Box>
+            <Box>
+              <Dropdown
+                variant={"outlined"}
+                Array={UsGetAllMonthsDropDown}
+                handleChange={clicMonthDropdown}
+                defaultValue={selectMonth}
+                label={'Month(s)'}
+                width={'100px'}
+              />
+            </Box>
+            <Box>
+              <Dropdown
+                variant={"outlined"}
+                Array={AllAcademicYearsForSchool}
+                handleChange={clicYearDropdown}
+                defaultValue={selectYear}
+                label={'Academic Year'}
+                width={'150px'}
+              />
+            </Box>
+            <Box>
+              <Tooltip title={'Display All the events of the school'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </>
+        }
+      />
       <Box sx={{ mt: 2 }}>
         <Box sx={{ mt: 2 }}>
           {(ParentList && ParentList.length > 0) && USGetAllEvents ? (

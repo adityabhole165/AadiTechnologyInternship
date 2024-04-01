@@ -1,18 +1,14 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import Close from '@mui/icons-material/Close';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
-  Breadcrumbs,
   Button,
-  ButtonGroup,
   Container,
   Grid,
   IconButton,
-  Stack,
+  Pagination,
   TextField,
   Tooltip,
   Typography,
@@ -22,7 +18,6 @@ import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IDeleteHomeworkDailyLogBody,
@@ -44,6 +39,7 @@ import {
   resetPublishUnpublish
 } from 'src/requests/AddDailyLog/RequestAddDailyLog';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 
 const DatePicker = styled(TextField)``;
@@ -392,60 +388,12 @@ const AddDailyLog = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          sx={{
-            pt: 4,
-            pb: 2
-          }}
-        >
-          <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
-                <IconButton
-                  sx={{
-                    background: (theme) => theme.palette.common.white,
-                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                  }}
-                >
-                  <HomeTwoTone color="primary" />
-                </IconButton>
-              </Link>
-              <Link
-                to={'/extended-sidebar/Teacher/AssignHomework'}
-                style={{
-                  textDecoration: 'none'
-                }}
-              >
-                <Typography
-                  variant={'h3'}
-                  fontSize={'23px'}
-                  fontWeight={'normal'}
-                  color={'text.primary'}
-                  sx={{
-                    '&:hover': {
-                      fontWeight: 'bold'
-                    }
-                  }}
-                >
-                  Assign Homework
-                </Typography>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Add Daily Log
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Stack direction={'row'} gap={1}>
+        <CommonPageHeader
+          navLinks={[
+            { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
+            { title: 'Add Daily Log', path: '' }
+          ]}
+          rightActions={<>
             <Box>
               <Tooltip
                 title={
@@ -502,12 +450,12 @@ const AddDailyLog = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-          </Stack>
-        </Stack>
-        <Box sx={{ mt: 2, p: 2, backgroundColor: 'white' }}>
+          </>}
+        />
+        <Box sx={{ p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} value={ClassName} sx={{ bgcolor: '#e3f2fd' }} />
+              <TextField fullWidth label={'Class'} value={ClassName} />
             </Grid>
             <Grid item xs={5}>
               <TextField
@@ -526,17 +474,13 @@ const AddDailyLog = () => {
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
               />
             </Grid>
-            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'center'} sx={{ marginTop: '5px' }}>
+            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'center'}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 FileName={fileName}
               />
-            </Grid>
-
-            <Grid item xs={12}>
-
             </Grid>
           </Grid>
         </Box>
@@ -608,8 +552,8 @@ const AddDailyLog = () => {
 
               )}
               {GetAllHomeworkDailyLogs.length > 0 ? (
-                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'end', mt: 2 }}>
+                  {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
                     Select a page:
                     <ButtonGroup color="primary" aria-label="outlined primary button group">
                       <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
@@ -617,16 +561,24 @@ const AddDailyLog = () => {
                       <Button value={"3"} onClick={() => handlePageChange("3")}>3</Button>
                       <Button value={"4"} onClick={() => handlePageChange("4")}>4</Button>
                     </ButtonGroup>
-                  </Box>
-
-
+                  </Box> */}
+                  {/* Refer this documentation to make it functional: https://mui.com/material-ui/react-pagination/ */}
+                  <Pagination
+                    count={5}
+                    variant={"outlined"}
+                    shape='rounded' showFirstButton
+                    showLastButton
+                    onChange={(event, value) => {
+                      handlePageChange(value);
+                    }}
+                  />
                 </Box>
 
               ) : (
                 <b />
               )}
 
-              <Box sx={{ display: 'flex', alignItems: 'right',  justifyContent: 'right', textAlign: 'right' }}>
+              <Box sx={{ display: 'flex', alignItems: 'right', justifyContent: 'right', textAlign: 'right' }}>
                 Page {page} of 5
               </Box>
             </Grid>

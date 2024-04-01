@@ -1,11 +1,8 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloseTwoToneIcon from '@mui/icons-material/CloseTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import Help from '@mui/icons-material/QuestionMark';
 import SaveAlt from '@mui/icons-material/Save';
 import {
   Box,
-  Breadcrumbs,
   Button,
   Card,
   Container,
@@ -23,7 +20,7 @@ import { green, grey } from '@mui/material/colors';
 import { useTheme } from '@mui/styles';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import {
@@ -41,6 +38,7 @@ import {
 } from 'src/requests/Attendance/requestIndividualAttendance';
 import { RootState } from 'src/store';
 import { getAttendanceLegend } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const IndividualAttendance = () => {
   const dispatch = useDispatch();
@@ -278,290 +276,229 @@ const IndividualAttendance = () => {
     dispatch(SaveStudentAttendance(SaveAttendance));
   };
   return (
-    <Container sx={{ mt: 4 }} maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-      >
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<ChevronRightTwoTone />}
-        >
-          <Link
-            to={'/extended-sidebar/landing/landing'}
-            color="inherit"
-            style={{ textDecoration: 'none' }}
-          >
-            <IconButton
-              sx={{
-                background: (theme) => theme.palette.common.white,
-                boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+    <Container maxWidth={'xl'}>
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Attendance',
+            path: '/extended-sidebar/Teacher/TAttendance'
+          },
+          {
+            title: 'Individual Attendance',
+            path: '/extended-sidebar/Teacher/TAttendance/IndividualAttendance'
+          }
+        ]}
+        rightActions={
+          <>
+            <Box sx={{ background: 'white' }}>
+              <SearchableDropdown
+                sx={{ minWidth: '350px' }}
+                ItemList={StudentList}
+                onChange={clickStudent}
+                defaultValue={StudentId}
+                size={"small"}
+              />
+            </Box>
+            <Tooltip title="Present All">
+              <IconButton
+                onClick={handlePresent}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  width: '36px',
+                  height: '36px !important',
+                  ':hover': { backgroundColor: 'green' }
+                }}
+              >
+                <h5>P</h5>
+              </IconButton>
+            </Tooltip>
+            <Popover
+              disableScrollLock
+              anchorEl={ref.current}
+              onClose={() => setOpenAbsent(!isOpenAbsent)}
+              open={isOpenAbsent}
+              anchorOrigin={{
+                vertical: 'center',
+                horizontal: 'center'
+              }}
+              transformOrigin={{
+                vertical: 'center',
+                horizontal: 'center'
               }}
             >
-              <HomeTwoTone color="primary" />
-            </IconButton>
-          </Link>
-          <Link
-            to={'/extended-sidebar/Teacher/TAttendance'}
-            style={{ textDecoration: 'none' }}
-          >
-            <Typography
-              variant={'h3'}
-              fontSize={'23px'}
-              fontWeight={'normal'}
-              color={'text.primary'}
-              sx={{
-                '&:hover': {
-                  fontWeight: 'bold'
-                }
-              }}
+              <Card sx={{ py: 5 }}>
+                <Box width={400} gap={5} alignContent="center" mx={2}>
+                  <Typography color="" mb={3} textAlign={'center'}>
+                    Are you sure you want the chosen student to be marked as
+                    absent on each day?
+                  </Typography>
+                  <Stack
+                    direction="row"
+                    gap={7}
+                    mx={5}
+                    justifyContent="space-between"
+                  >
+                    <Button
+                      variant="outlined"
+                      sx={{ px: 6 }}
+                      color="error"
+                      onClick={handleAbsent}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      variant="contained"
+                      sx={{
+                        px: 6,
+                        backgroundColor: (theme) => theme.palette.primary.main,
+                        color: 'white'
+                      }}
+                      color="primary"
+                    >
+                      Confirm
+                    </Button>
+                  </Stack>
+                </Box>
+              </Card>
+            </Popover>
+            <Dialog
+              onClose={() => setOpenAbsent(!isOpenAbsent)}
+              open={isOpenAbsent}
+              fullWidth
+              maxWidth={'xs'}
             >
-              Attendance
-            </Typography>
-          </Link>
-          <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-            Individual Attendance
-          </Typography>
-        </Breadcrumbs>
-        <Stack direction={'row'} gap={1}>
-          <Box sx={{ background: 'white' }}>
-            <SearchableDropdown
-              sx={{ minWidth: '350px' }}
-              ItemList={StudentList}
-              onChange={clickStudent}
-              defaultValue={StudentId}
-              size={"small"}
-            />
-          </Box>
-          {/* <Paper
-            component="form"
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              alignItems: 'center',
-              my: 0,
-              py: 0,
-              flexWrap: 'nowrap'
-            }}
-          >
-            {search ? (
-              <>
-              </>
-            ) : (
-              ''
-            )}
-            <Divider sx={{ height: 28 }} orientation="vertical" />
-
-            <IconButton
-              onClick={() => setSearch(!search)}
-              color="primary"
-              aria-label="directions"
-            >
-              <Tooltip title="search">
-                <SearchIcon />
-              </Tooltip>
-            </IconButton>
-          </Paper> */}
-          <Tooltip title="Present All">
-            <IconButton
-              onClick={handlePresent}
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                width: '36px',
-                height: '36px !important',
-                ':hover': { backgroundColor: 'green' }
-              }}
-            >
-              <h5>P</h5>
-            </IconButton>
-          </Tooltip>
-          <Popover
-            disableScrollLock
-            anchorEl={ref.current}
-            onClose={() => setOpenAbsent(!isOpenAbsent)}
-            open={isOpenAbsent}
-            anchorOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
-            }}
-            transformOrigin={{
-              vertical: 'center',
-              horizontal: 'center'
-            }}
-          >
-            <Card sx={{ py: 5 }}>
-              <Box width={400} gap={5} alignContent="center" mx={2}>
-                <Typography color="" mb={3} textAlign={'center'}>
-                  Are you sure you want the chosen student to be marked as
-                  absent on each day?
-                </Typography>
-                <Stack
-                  direction="row"
-                  gap={7}
-                  mx={5}
-                  justifyContent="space-between"
+              <DialogTitle
+                variant={'h3'}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                Mark all as Absent
+                <IconButton
+                  onClick={() => {
+                    setOpenAbsent(!isOpenAbsent);
+                  }}
                 >
-                  <Button
-                    variant="outlined"
-                    sx={{ px: 6 }}
-                    color="error"
-                    onClick={handleAbsent}
-                  >
-                    Cancel
-                  </Button>
-                  <Button
-                    variant="contained"
-                    sx={{
-                      px: 6,
-                      backgroundColor: (theme) => theme.palette.primary.main,
-                      color: 'white'
-                    }}
-                    color="primary"
-                  >
-                    Confirm
-                  </Button>
-                </Stack>
-              </Box>
-            </Card>
-          </Popover>
-          <Dialog
-            onClose={() => setOpenAbsent(!isOpenAbsent)}
-            open={isOpenAbsent}
-            fullWidth
-            maxWidth={'xs'}
-          >
-            <DialogTitle
-              variant={'h3'}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
-              Mark all as Absent
-              <IconButton
-                onClick={() => {
-                  setOpenAbsent(!isOpenAbsent);
-                }}
-              >
-                <CloseTwoToneIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent dividers>
-              <Box py={2}>
-                <Typography variant={'h4'} textAlign={'center'}>
-                  Are you sure you want the chosen student to be marked as
-                  absent on each day?
-                </Typography>
-              </Box>
-            </DialogContent>
-            <DialogActions sx={{ px: 3, py: 2 }}>
-              <Button variant="outlined" color="error" onClick={handleAbsent}>
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
-                sx={{
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  color: 'white'
-                }}
-                color="primary"
-              >
-                Confirm
-              </Button>
-            </DialogActions>
-          </Dialog>
+                  <CloseTwoToneIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent dividers>
+                <Box py={2}>
+                  <Typography variant={'h4'} textAlign={'center'}>
+                    Are you sure you want the chosen student to be marked as
+                    absent on each day?
+                  </Typography>
+                </Box>
+              </DialogContent>
+              <DialogActions sx={{ px: 3, py: 2 }}>
+                <Button variant="outlined" color="error" onClick={handleAbsent}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    color: 'white'
+                  }}
+                  color="primary"
+                >
+                  Confirm
+                </Button>
+              </DialogActions>
+            </Dialog>
 
-          <Tooltip title="Absent All">
-            <IconButton
-              onClick={handleAbsent}
-              sx={{
-                color: 'white',
-                height: '36px !important',
-                width: '36px',
-                backgroundColor: grey[500],
-                ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
-              }}
-            >
-              <h5>A</h5>
-            </IconButton>
-          </Tooltip>
-          <Dialog
-            onClose={() => setOpenSave(!isOpenSave)}
-            open={isOpenSave}
-            fullWidth
-            maxWidth={'xs'}
-          >
-            <DialogTitle
-              variant={'h3'}
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
-            >
-              Save Changes
+            <Tooltip title="Absent All">
               <IconButton
-                onClick={() => {
-                  setOpenSave(!isOpenSave);
-                }}
-              >
-                <CloseTwoToneIcon />
-              </IconButton>
-            </DialogTitle>
-            <DialogContent dividers>
-              <Box py={2}>
-                <Typography variant={'h4'} textAlign={'center'}>
-                  Are you sure, Do you want to update changes?
-                </Typography>
-              </Box>
-            </DialogContent>
-            <DialogActions sx={{ py: 2, px: 3 }}>
-              <Button variant="outlined" color="error" onClick={handleSave}>
-                Cancel
-              </Button>
-              <Button
-                variant="contained"
+                onClick={handleAbsent}
                 sx={{
-                  backgroundColor: (theme) => theme.palette.primary.main,
-                  color: 'white'
+                  color: 'white',
+                  height: '36px !important',
+                  width: '36px',
+                  backgroundColor: grey[500],
+                  ':hover': { backgroundColor: 'rgb(245, 17, 17)' }
                 }}
-                color="primary"
               >
-                Update
-              </Button>
-            </DialogActions>
-          </Dialog>
-          <Tooltip title="Save">
-            <IconButton
-              onClick={handleSave}
-              sx={{
-                color: 'white',
-                backgroundColor: green[600],
-                height: '36px !important',
-                ':hover': { backgroundColor: green[600] }
-              }}
+                <h5>A</h5>
+              </IconButton>
+            </Tooltip>
+            <Dialog
+              onClose={() => setOpenSave(!isOpenSave)}
+              open={isOpenSave}
+              fullWidth
+              maxWidth={'xs'}
             >
-              <SaveAlt />
-            </IconButton>
-          </Tooltip>
-          <Tooltip title="Mark monthly attendance of an individual student.">
-            <IconButton
-              sx={{
-                color: 'white',
-                backgroundColor: grey[500],
-                height: '36px !important',
-                ':hover': { backgroundColor: grey[600] }
-              }}
-            >
-              <Help />
-            </IconButton>
-          </Tooltip>
-        </Stack>
-      </Stack>
-      <Box mt={1.5}>
+              <DialogTitle
+                variant={'h3'}
+                sx={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'space-between'
+                }}
+              >
+                Save Changes
+                <IconButton
+                  onClick={() => {
+                    setOpenSave(!isOpenSave);
+                  }}
+                >
+                  <CloseTwoToneIcon />
+                </IconButton>
+              </DialogTitle>
+              <DialogContent dividers>
+                <Box py={2}>
+                  <Typography variant={'h4'} textAlign={'center'}>
+                    Are you sure, Do you want to update changes?
+                  </Typography>
+                </Box>
+              </DialogContent>
+              <DialogActions sx={{ py: 2, px: 3 }}>
+                <Button variant="outlined" color="error" onClick={handleSave}>
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  sx={{
+                    backgroundColor: (theme) => theme.palette.primary.main,
+                    color: 'white'
+                  }}
+                  color="primary"
+                >
+                  Update
+                </Button>
+              </DialogActions>
+            </Dialog>
+            <Tooltip title="Save">
+              <IconButton
+                onClick={handleSave}
+                sx={{
+                  color: 'white',
+                  backgroundColor: green[600],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: green[600] }
+                }}
+              >
+                <SaveAlt />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Mark monthly attendance of an individual student.">
+              <IconButton
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  height: '36px !important',
+                  ':hover': { backgroundColor: grey[600] }
+                }}
+              >
+                <Help />
+              </IconButton>
+            </Tooltip>
+          </>
+        }
+      />
+      <Box>
         <CardCalenderList
           ItemList={ItemList}
           ClickItem={ClickItem}

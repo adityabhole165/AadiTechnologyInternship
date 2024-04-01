@@ -16,9 +16,7 @@ function TableUsingArray({ ItemList, HeaderArray }) {
       <TableContainer component={Paper} square>
         <Table stickyHeader aria-label="sticky table">
           <TableHead
-            sx={{
-              backgroundColor: (theme) => theme.palette.secondary.main
-            }}
+            sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
           >
             <TableRow>
               {HeaderArray.map((item, i) => (

@@ -1,4 +1,4 @@
-import { Box, Breadcrumbs, Container, Divider, Grid, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Container, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -17,17 +17,15 @@ import {
 } from 'src/requests/AssignExamMarks/ReqAssignExamMarks';
 import { RootState } from 'src/store';
 
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import { grey } from '@mui/material/colors';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { AlertContext } from 'src/contexts/AlertContext';
 import DotLegends from 'src/libraries/ResuableComponents/DotLegends';
 import ListEditIcon1 from 'src/libraries/ResuableComponents/ListEditIcon1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AssignExamMark = () => {
   const dispatch = useDispatch();
@@ -202,52 +200,23 @@ const AssignExamMark = () => {
 
   return (
     <Container maxWidth={"xl"}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 5
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  border: (theme) => `1px solid ${theme.palette.grey[400]}`
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Assign Exam Marks
-            </Typography>
-          </Breadcrumbs>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Assign Exam Marks', path: '/extended-sidebar/Teacher/AssignExamMark' }
+        ]}
+        rightActions={<> <Box>
+
+
+          <SearchableDropdown
+            sx={{ minWidth: '300px' }}
+            ItemList={ClassDropdown}
+            onChange={onClickClass}
+            label={'Select Class:'}
+            defaultValue={selectClass}
+            mandatory
+            size={"small"}
+          />
         </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-
-
-            <SearchableDropdown
-              sx={{ minWidth: '300px' }}
-              ItemList={ClassDropdown}
-              onChange={onClickClass}
-              label={'Select Class:'}
-              defaultValue={selectClass}
-              mandatory
-              size={"small"}
-            />
-          </Box>
           <Box>
 
             <SearchableDropdown
@@ -277,10 +246,10 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
               </IconButton>
             </Tooltip>
           </Box>
-        </Stack>
-      </Stack>
+        </>}
+      />
 
-      <Box sx={{ mt: 2, background: 'white', p: 2 }}>
+      <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={"h4"} mb={2}>My Subject(s):-</Typography>
         {SubjectListmarkClass.length > 0 ? (
           <ListEditIcon1
@@ -297,24 +266,24 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
         )}
         <Divider sx={{ my: 2 }} />
         {asStandardDivisionId == selectClass && (
-  <Box mt={2}>
-    {SubjectListmarkClass1.length > 0 ? (
-      <div>
-        <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
-        <ListEditIcon1
-          ItemList={SubjectListmarkClass1}
-          clickEdit={clickEdit}
-          HeaderArray={HeaderPublish}
-          clicksubmit={ClickSubmit}
-        />
-      </div>
-    ) : (
-      <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-        <b>No Record Found.</b>
-      </Typography>
-    )}
-  </Box>
-)}
+          <Box mt={2}>
+            {SubjectListmarkClass1.length > 0 ? (
+              <div>
+                <Typography variant={"h4"} mb={2}>My Class Subject(s):-</Typography>
+                <ListEditIcon1
+                  ItemList={SubjectListmarkClass1}
+                  clickEdit={clickEdit}
+                  HeaderArray={HeaderPublish}
+                  clicksubmit={ClickSubmit}
+                />
+              </div>
+            ) : (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No Record Found.</b>
+              </Typography>
+            )}
+          </Box>
+        )}
 
 
         <Grid container sx={{ mt: 2 }}>

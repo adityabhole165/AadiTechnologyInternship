@@ -2,13 +2,11 @@ import AddIcon from '@mui/icons-material/Add';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import DeleteIcon from '@mui/icons-material/Delete';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import {
   Box,
-  Breadcrumbs,
   Button,
   Container,
   Dialog,
@@ -17,7 +15,6 @@ import {
   DialogTitle,
   FormLabel,
   IconButton,
-  Stack,
   Tooltip,
   Typography,
   styled
@@ -26,9 +23,8 @@ import { grey } from '@mui/material/colors';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import { toast } from 'react-toastify';
 import {
   IAddAnnualPlannerBody,
@@ -61,6 +57,7 @@ import {
   getEventList
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import UpcomingEvent from './UpcomingEvent';
 
 const VisuallyHiddenInput = styled('input')({
@@ -378,140 +375,93 @@ function AnnualPlanner() {
       ) : (
         <>
           <Container sx={{ mt: 4 }} maxWidth={'xl'}>
-            <Stack
-              direction={'row'}
-              alignItems={'center'}
-              justifyContent={'space-between'}
-            >
-              <Box>
-                <Breadcrumbs
-                  aria-label="breadcrumb"
-                  separator={<ChevronRightTwoTone />}
-                >
-                  <Link
-                    to={'/extended-sidebar/landing/landing'}
-                    color="inherit"
-                    style={{ textDecoration: 'none' }}
-                  >
-                    <IconButton
-                      sx={{
-                        background: (theme) => theme.palette.common.white,
-                        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                      }}
+            <CommonPageHeader
+              navLinks={[
+                {
+                  title: 'Annual Planner',
+                  path: '/extended-sidebar/landing/landing',
+                },
+                {
+                  title: 'Event Overview',
+                  path: '/extended-sidebar/Common/EventOverview',
+                }
+              ]}
+              rightActions={
+                <>
+                  <Box>
+                    <Tooltip title={Note}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          '&:hover': {
+                            backgroundColor: grey[600]
+                          }
+                        }}
+                      >
+                        <PriorityHighIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  <Box>
+                    <Tooltip
+                      title={
+                        'Annual Planner with detailed event description of your school'
+                      }
                     >
-                      <HomeTwoTone color="primary" />
-                    </IconButton>
-                  </Link>{' '}
-                  <Typography
-                    variant={'h3'}
-                    fontSize={'23px'}
-                    color="text.primary"
-                  >
-                    Annual Planner
-                  </Typography>
-                </Breadcrumbs>
-              </Box>
-              <Stack direction={'row'} alignItems={'center'} gap={1}>
-                <Box>
-                  <Tooltip title={Note}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                          backgroundColor: grey[600]
-                        }
-                      }}
-                    >
-                      <PriorityHighIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  <Tooltip
-                    title={
-                      'Annual Planner with detailed event description of your school'
-                    }
-                  >
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                          backgroundColor: grey[600]
-                        }
-                      }}
-                    >
-                      <QuestionMarkIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  <Tooltip title={'Events Overview'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                          backgroundColor: grey[600]
-                        }
-                      }}
-                      onClick={() => {
-                        navigate('/extended-sidebar/Common/EventOverview');
-                      }}
-                    >
-                      <CalendarMonthIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-                <Box>
-                  <Tooltip title={'Add Annual Planner'}>
-                    <IconButton
-                      sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                          backgroundColor: grey[600]
-                        }
-                      }}
-                      onClick={() => {
-                        setOpenAnnualPlannerDialog(true);
-                      }}
-                    >
-                      <AddIcon />
-                    </IconButton>
-                  </Tooltip>
-                </Box>
-              </Stack>
-            </Stack>
-            {/* <button onClick={clickAddAnnual}>Add Annual Planner</button>
-            <Box sx={{ float: 'right' }}>
-              <Icon1 Note={Note} />
-            </Box>
-
-            <MonthSelector
-              date={date.selectedDate}
-              PrevDate={getPreviousDate}
-              NextDate={getNextDate}
-              Close={undefined}
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          '&:hover': {
+                            backgroundColor: grey[600]
+                          }
+                        }}
+                      >
+                        <QuestionMarkIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  <Box>
+                    <Tooltip title={'Events Overview'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          '&:hover': {
+                            backgroundColor: grey[600]
+                          }
+                        }}
+                        onClick={() => {
+                          navigate('/extended-sidebar/Common/EventOverview');
+                        }}
+                      >
+                        <CalendarMonthIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                  <Box>
+                    <Tooltip title={'Add Annual Planner'}>
+                      <IconButton
+                        sx={{
+                          color: 'white',
+                          backgroundColor: grey[500],
+                          '&:hover': {
+                            backgroundColor: grey[600]
+                          }
+                        }}
+                        onClick={() => {
+                          setOpenAnnualPlannerDialog(true);
+                        }}
+                      >
+                        <AddIcon />
+                      </IconButton>
+                    </Tooltip>
+                  </Box>
+                </>
+              }
             />
-            {loading ? (
-              <SuspenseLoader />
-            ) : (
-              <>
-                {StartDate.getTime() <= date1.getTime() &&
-                EndDate.getTime() >= date1.getTime() ? (
-                  <>
-                    <List1 items={eventList}></List1>
-                  </>
-                ) : (
-                  <ErrorMessages
-                    Error={'Selected date is outside academic year'}
-                  />
-                )}
-              </>
-            )} */}
-            <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
+            <Box sx={{ backgroundColor: 'white' }}>
               <AnnualPlannerCalendar
                 ItemList={''}
                 ClickItem={() => { }}

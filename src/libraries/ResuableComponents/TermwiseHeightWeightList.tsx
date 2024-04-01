@@ -62,7 +62,7 @@ const TermwiseHeightWeightList = ({
     <>
       <div>
         <TableHead>
-          <TableRow sx={{ backgroundColor: '#324b84', display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center", textAlign: 'center' }}>
+          <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center", textAlign: 'center' }}>
             {HeaderArray.map((item, i) => (
               <TableCell
                 key={i}

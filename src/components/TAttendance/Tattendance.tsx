@@ -98,10 +98,10 @@ function Attendance() {
     setSelectedRollNo(
       !event.target.checked
         ? RollNoList?.map((data) =>
-            data.RollNumber.length == 1
-              ? '0' + data.RollNumber
-              : data.RollNumber
-          )
+          data.RollNumber.length == 1
+            ? '0' + data.RollNumber
+            : data.RollNumber
+        )
         : []
     );
     setselectedStudentId(
@@ -445,8 +445,7 @@ function Attendance() {
           <RouterLink
             style={{ textDecoration: 'none' }}
             to={
-              `/${
-                location.pathname.split('/')[1]
+              `/${location.pathname.split('/')[1]
               }/Teacher/Tattendance/MissingAttandence/` + assignedDate
             }
           >
@@ -469,7 +468,7 @@ function Attendance() {
                   <TableContainer>
                     <Table>
                       <TableHead>
-                        <TableRow sx={{ background: '#ceabd2' }}>
+                        <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}>
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={ifTrue ? true : !selectedAllRollNo}
@@ -488,10 +487,10 @@ function Attendance() {
                           const isSelected = ifTrue
                             ? true
                             : !selectedRollNo.includes(
-                                data.RollNumber.length == 1
-                                  ? '0' + data.RollNumber
-                                  : data.RollNumber
-                              );
+                              data.RollNumber.length == 1
+                                ? '0' + data.RollNumber
+                                : data.RollNumber
+                            );
                           return (
                             <TableRow
                               key={data.RollNumber}

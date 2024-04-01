@@ -16,10 +16,7 @@ function Homeworkview({ ItemList, clickopen, clickDelete, HeaderArray }) {
         <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
-              sx={{
-                backgroundColor: (theme) => theme.colors.primary.main,
-                color: (theme) => theme.palette.common.white
-              }}
+              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell
