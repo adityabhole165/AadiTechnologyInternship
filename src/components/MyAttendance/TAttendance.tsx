@@ -4,7 +4,6 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
-  Breadcrumbs,
   Container,
   Grid,
   IconButton,
@@ -43,13 +42,11 @@ import { RootState } from 'src/store';
 import List26 from '../../libraries/list/List26';
 import { getDateFormatted, getDateFormattedDash } from '../Common/Util';
 
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import { grey } from '@mui/material/colors';
-import { Link } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
 import { AlertContext } from 'src/contexts/AlertContext';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
+import CommonPageHeader from '../CommonPageHeader';
 
 const TAttendance = () => {
   const HeaderArray = [
@@ -516,97 +513,72 @@ const TAttendance = () => {
 
   return (
     <Container maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 4,
-          pb: 2
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Attendance
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Stack direction={'row'} gap={1} alignItems={'center'}>
-            <Stack direction={'row'} alignItems={'center'} gap={1}>
-              <Tooltip title={"School Attendance Overview"}>
-                <Typography color="primary" fontWeight={"bold"}
-                  sx={{ cursor: 'pointer' }} onClick={() => { clickNavigateSchoolAttendanceOverview() }
-                  }>
-                  Overview
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Attendance',
+            path: '/extended-sidebar/Teacher/TAttendance'
+          }
+        ]}
+        rightActions={
+          <>
+            <Stack direction={'row'} gap={1} alignItems={'center'}>
+              <Stack direction={'row'} alignItems={'center'} gap={1}>
+                <Tooltip title={"School Attendance Overview"}>
+                  <Typography color="primary" fontWeight={"bold"}
+                    sx={{ cursor: 'pointer' }} onClick={() => { clickNavigateSchoolAttendanceOverview() }
+                    }>
+                    Overview
+                  </Typography>
+                </Tooltip>
+                <Typography color="primary" fontWeight={"bold"}>
+                  -
                 </Typography>
-              </Tooltip>
-              <Typography color="primary" fontWeight={"bold"}>
-                -
-              </Typography>
-              <Typography
-                color={'primary'}
-                sx={{
-                  cursor: 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 1,
-                }}
-                fontWeight={'bold'}
-                onClick={() => { clickNavigateSchoolAttendanceOverview() }}
-              >
+                <Typography
+                  color={'primary'}
+                  sx={{
+                    cursor: 'pointer',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 1,
+                  }}
+                  fontWeight={'bold'}
+                  onClick={() => { clickNavigateSchoolAttendanceOverview() }}
+                >
 
-                <Tooltip title={'Present Students / Total Student'}>
-                  <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
-                </Tooltip>
-              </Typography>
-            </Stack>
-            <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
-            <Stack direction={'row'} alignItems={'center'} gap={1}>
-              <Typography
-                color={'primary'}
-                sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
-                fontWeight={'bold'}
-                onClick={() => { clickNavigateSchoolAttendanceOverview() }}
-              >
+                  <Tooltip title={'Present Students / Total Student'}>
+                    <Box>{SummaryCountforAttendance?.TotalStudents}</Box>
+                  </Tooltip>
+                </Typography>
+              </Stack>
+              <Box sx={{ height: '25px', border: '1px solid grey' }}></Box>
+              <Stack direction={'row'} alignItems={'center'} gap={1}>
+                <Typography
+                  color={'primary'}
+                  sx={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 1 }}
+                  fontWeight={'bold'}
+                  onClick={() => { clickNavigateSchoolAttendanceOverview() }}
+                >
 
-                <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
-                  <Box>
-                    {SummaryCountforAttendance?.TotalDivisions}
-                  </Box>
-                </Tooltip>
-              </Typography>
+                  <Tooltip title={'Attendance marked Divisions / TotalDivisions'}>
+                    <Box>
+                      {SummaryCountforAttendance?.TotalDivisions}
+                    </Box>
+                  </Tooltip>
+                </Typography>
+              </Stack>
             </Stack>
-          </Stack>
-          <Box sx={{ background: 'white' }}>
-            <SearchableDropdown
-              label={""}
-              sx={{ pl: 0, minWidth: '350px' }}
-              ItemList={ClassTeacherDropdownnew}
-              onChange={clickClassTechernew}
-              defaultValue={selectClasstecahernew}
-              size={"small"}
-              DisableClearable={GetScreenPermission() == 'N'}
-            />
-            {/* <Paper
+            <Box sx={{ background: 'white' }}>
+              <SearchableDropdown
+                label={""}
+                sx={{ pl: 0, minWidth: '350px' }}
+                ItemList={ClassTeacherDropdownnew}
+                onChange={clickClassTechernew}
+                defaultValue={selectClasstecahernew}
+                size={"small"}
+                DisableClearable={GetScreenPermission() == 'N'}
+              />
+              {/* <Paper
               component="form"
               sx={{
                 display: 'flex',
@@ -640,90 +612,90 @@ const TAttendance = () => {
                 </Tooltip>
               </IconButton>
             </Paper> */}
-          </Box>
+            </Box>
 
-          <Box>
-            <Tooltip title={'Individual Attendance'}>
-              <IconButton
-                onClick={() => {
-                  navigate('/extended-sidebar/Teacher/IndidualAttendance');
-                }}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <PersonIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Month Wise Attendance'}>
-              <IconButton
-                onClick={() => {
-                  navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
-                }}
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <CalendarMonthIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip
-              title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
-            >
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            {SaveIsActive ? (
-              <Tooltip title={'Save Attendance'}>
+            <Box>
+              <Tooltip title={'Individual Attendance'}>
                 <IconButton
-                  onClick={SaveMsg}
+                  onClick={() => {
+                    navigate('/extended-sidebar/Teacher/IndidualAttendance');
+                  }}
                   sx={{
                     color: 'white',
-                    backgroundColor: 'green'
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
                   }}
                 >
-                  <SaveIcon />
+                  <PersonIcon />
                 </IconButton>
               </Tooltip>
-            ) : (
-              <Tooltip title={'Save Attendance'}>
+            </Box>
+            <Box>
+              <Tooltip title={'Month Wise Attendance'}>
                 <IconButton
-                  onClick={SaveMsg}
+                  onClick={() => {
+                    navigate('/extended-sidebar/Teacher/MonthwiseAttendance');
+                  }}
                   sx={{
                     color: 'white',
-                    backgroundColor: grey[500]
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
                   }}
                 >
-                  <SaveIcon />
+                  <CalendarMonthIcon />
                 </IconButton>
               </Tooltip>
-            )}
-          </Box>
-        </Stack>
-      </Stack>
-
+            </Box>
+            <Box>
+              <Tooltip
+                title={`Mark attendance of each student from your class for the select date. Click on "Delete" button to delete attendance of selected date. Delete facility will be available only if user have "Edit" facility.`}
+              >
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              {SaveIsActive ? (
+                <Tooltip title={'Save Attendance'}>
+                  <IconButton
+                    onClick={SaveMsg}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: 'green'
+                    }}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </Tooltip>
+              ) : (
+                <Tooltip title={'Save Attendance'}>
+                  <IconButton
+                    onClick={SaveMsg}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500]
+                    }}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Box>
+          </>
+        }
+      />
       <Grid container spacing={2}>
         <Grid item xs={3}>
           <Box

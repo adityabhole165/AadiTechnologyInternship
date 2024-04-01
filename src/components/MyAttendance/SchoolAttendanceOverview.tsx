@@ -1,14 +1,10 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import ClearIcon from '@mui/icons-material/Clear';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Breadcrumbs,
   Container,
   Grid,
   IconButton,
-  Stack,
   TextField,
   Tooltip,
   Typography,
@@ -17,12 +13,13 @@ import {
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { IGetSchoolAttendanceOverviewBody } from 'src/interfaces/SchoolAttendanceOverview/ISchoolAttendanceOverview';
 import TableUsingArray from 'src/libraries/ResuableComponents/TableUsingArray';
 import { GetStudentAttendance } from 'src/requests/SchoolAttendanceOverview/RequestSchoolAttendanceOverview';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 
 const DatePicker = styled(TextField)`
   & input[type='date']::-webkit-inner-spin-button,
@@ -96,87 +93,50 @@ const SchoolAttendanceOverview = () => {
   }, [SelectDate]);
 
   return (
-    <Container maxWidth={'xl'} sx={{ mt: 4.5 }}>
-      <Stack
-        direction={'row'}
-        alignItems={'center'}
-        justifyContent={'space-between'}
-        sx={{ mb: 2 }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+    <Container maxWidth={'xl'}>
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Attendance',
+            path: '/extended-sidebar/Teacher/TAttendance/' + SelectDate
+          },
+          {
+            title: 'Attendance Overview',
+            path: ''
+          }
+        ]}
+        rightActions={
+          <>
+            <Box sx={{ background: 'white' }}>
+              <TextField
+                value={SelectDate}
+                type='date'
+                onChange={(e) => { onSelectDate(e.target.value) }}
+                label={''}
+                size="small"
+                inputProps={{
+                  max: new Date().toISOString().split('T')[0]
                 }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/TAttendance/' + SelectDate}
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Attendance
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Attendance Overview
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box sx={{ background: 'white' }}>
-            <TextField
-              value={SelectDate}
-              type='date'
-              onChange={(e) => { onSelectDate(e.target.value) }}
-              label={''}
-              size="small"
-              inputProps={{
-                max: new Date().toISOString().split('T')[0]
-              }}
-            />
-          </Box>
-
-          <Box>
-            <Tooltip title={Note}>
-              <IconButton
-                sx={{
-                  backgroundColor: grey[500],
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Stack>
-      </Stack>
-
+              />
+            </Box>
+            <Box>
+              <Tooltip title={Note}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </>
+        }
+      />
       {ISWeekendStatusList !== '' ? (
         <Typography variant="h6" sx={{ color: 'red' }}>
           {ISWeekendStatusList}

@@ -31,7 +31,8 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
     return (<>
         {ExamMarks?.map((Item, Index) => {
             return (<TableCell key={Index}>
-                <TextField sx={{ width: '50px' }} size={"small"} value={Item.Text1}
+                <TextField sx={{ width: '50px' }} size={"small"}
+                    value={Item.Text1}
                     disabled={!Item.IsActive}
                     onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
                 />

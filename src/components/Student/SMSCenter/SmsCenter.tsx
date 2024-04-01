@@ -1,13 +1,9 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Breadcrumbs,
   Container,
   IconButton,
-  Stack,
   Tooltip,
   Typography
 } from '@mui/material';
@@ -15,6 +11,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import CommonPageHeader from 'src/components/CommonPageHeader';
 import { IMobileNumber, ISmsList } from 'src/interfaces/Student/SMSCenter';
 import { getMobileNumber, getSmsList } from 'src/requests/Student/SMSCenter';
 import { RootState } from 'src/store';
@@ -85,71 +82,48 @@ function SmsCenter() {
 
   return (
     <Container maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 4
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  border: (theme) => `1px solid ${theme.palette.grey[400]}`
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Received SMS
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <Tooltip title={'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <PriorityHighIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={`Displays Received SMS List.`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Stack>
-      </Stack>
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Received SMS',
+            path: '/extended-sidebar/Student/SmsCenter'
+          }
+        ]}
+        rightActions={
+          <>
+            <Box>
+              <Tooltip title={'School SMS will be sent to these number(s). To add/update the number, please send the information to Admin Staff via Message Center.'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <PriorityHighIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Displays Received SMS List.`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMarkIcon />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </>
+        }
+      />
 
-      <Box sx={{ background: 'white', mt: 2, p: 2 }}>
+      <Box sx={{ background: 'white', p: 2 }}>
         <Typography variant={'h4'}>
           Mobile Number(s) : {MobileNumber.replace(';', ', ')}
         </Typography>

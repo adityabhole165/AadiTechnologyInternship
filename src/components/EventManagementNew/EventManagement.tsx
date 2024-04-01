@@ -24,10 +24,10 @@ const EventManagement = () => {
     }
     return (
         <>
-            <Container sx={{ mt: 4.5 }} maxWidth={'xl'}>
+            <Container maxWidth={'xl'}>
                 <EventManagementHeader ClickAddNewEvent={ClickAddNewEvent}
                     ClickSave={ClickSave} />
-                <Box sx={{ backgroundColor: 'white', mt: 2 }} p={2}>
+                <Box sx={{ backgroundColor: 'white' }} p={2}>
                     <Box mt={1.5} sx={{ backgroundColor: 'white' }}>
                         <EventManagementList clickEventEdit={clickEventEdit}
                             SelectedDate={SelectedDate} StandardId={StandardId}

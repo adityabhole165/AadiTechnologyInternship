@@ -1,13 +1,10 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Container, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { Styles } from 'src/assets/style/student-style';
 import { IDeleteAadharCardPhotoCopyBody, IGetUserDetailsForAadharCardNoBody, IUpdateTeacherAadharDetailsBody } from 'src/interfaces/NewAadharcardTeachers/IAadharcardTeacher';
@@ -15,6 +12,7 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
 const AadharCard = () => {
   const dispatch = useDispatch();
   const classes = Styles();
@@ -176,62 +174,44 @@ const AadharCard = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <Stack direction={'row'} sx={{ pt: 4 }}
-          justifyContent={'space-between'} alignItems={'center'}
-        >
-          <Box>
-            <Breadcrumbs aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
-                <IconButton
-                  sx={{
-                    background: (theme) => theme.palette.common.white,
-                    border: (theme) => `1px solid ${theme.palette.grey[400]}`
-                  }}
-                >
-                  <HomeTwoTone color="primary" />
-                </IconButton>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Add Aadhar Card Details
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
-
-            <Box>
-              <Tooltip title={`Add Aadhar Card Details.`}>
-                <IconButton
-                  sx={{
-                    color: 'white', backgroundColor: grey[500], height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
-                  }}
-                >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Save`}>
-                <IconButton
-                  onClick={SaveFile}
-                  sx={{
-                    backgroundColor: green[500], color: 'white', height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Stack>
-        </Stack>
-        <Box sx={{ p: 2, background: 'white', mt: 2 }}>
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Add Aadhar Card Details',
+              path: ''
+            }
+          ]}
+          rightActions={
+            <>
+              <Box>
+                <Tooltip title={`Add Aadhar Card Details.`}>
+                  <IconButton
+                    sx={{
+                      color: 'white', backgroundColor: grey[500], height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={`Save`}>
+                  <IconButton
+                    onClick={SaveFile}
+                    sx={{
+                      backgroundColor: green[500], color: 'white', height: '36px !important',
+                      ':hover': { backgroundColor: green[600] }
+                    }}
+                  >
+                    <Save />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          }
+        />
+        <Box sx={{ p: 2, background: 'white' }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -246,7 +226,8 @@ const AadharCard = () => {
               />
             </Grid>
             <Grid item xs={6}>
-              <TextField fullWidth value={AadharCardNumber} error={error}
+              <TextField fullWidth value={AadharCardNumber}
+error={error}
                 label={
                   <span>Aadhar Card Number <span style={{ color: 'red' }}>*</span></span>
                 }
@@ -297,11 +278,13 @@ const AadharCard = () => {
                   }}
                   color={'primary'}
                 >
-                  <Stack direction={'row'} alignItems={'center'} gap={1}
+                  <Stack direction={'row'} alignItems={'center'}
+gap={1}
                     sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     <CloudUploadIcon />
                     {fileName == '' ? ' No file selected' : fileName}
-                    <input ref={aRef} type="file" onChange={changeFile}
+                    <input ref={aRef} type="file"
+onChange={changeFile}
                       style={{
                         opacity: 0, top: 0, left: 0, right: 0, bottom: 0,
                         position: 'absolute', cursor: 'pointer'

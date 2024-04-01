@@ -1,15 +1,12 @@
 import Add from '@mui/icons-material/Add';
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import Download from '@mui/icons-material/Download';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Breadcrumbs, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   IAddOrEditLessonPlanDetailsBody,
@@ -33,6 +30,7 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -337,141 +335,114 @@ const LessonPlanBaseScreen = () => {
   return (
     <>
       <Container maxWidth={"xl"}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          sx={{
-            pt: 5,
-            pb: 2
-          }}
-        >
-          <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
-                <IconButton
-                  sx={{
-                    background: (theme) => theme.palette.common.white,
-                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                  }}
-                >
-                  <HomeTwoTone color="primary" />
-                </IconButton>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Lesson Plans
-              </Typography>
-            </Breadcrumbs>
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Lesson Plans',
+              path: ''
+            }
+          ]}
+          rightActions={
+            <>
+              <Box sx={{ background: 'white' }}>
+                {CanEdit == 'Y' && (
+                  <Box sx={{ background: 'white' }}>
+                    <SearchableDropdown
+                      label={"Select Teacher"}
+                      sx={{ pl: 0, minWidth: '350px' }}
+                      ItemList={USGetAllTeachersOfLessonPlan}
+                      onChange={ClickSelctTecher}
+                      defaultValue={selectClasstecahernew}
+                      size={"small"}
+                    />
+                  </Box>
+                )}
+              </Box>
 
-          </Box>
-
-
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
-            <Box sx={{ background: 'white' }}>
-              {CanEdit == 'Y' && (
-                <Box sx={{ background: 'white' }}>
-                  <SearchableDropdown
-                    label={"Select Teacher"}
-                    sx={{ pl: 0, minWidth: '350px' }}
-                    ItemList={USGetAllTeachersOfLessonPlan}
-                    onChange={ClickSelctTecher}
-                    defaultValue={selectClasstecahernew}
-                    size={"small"}
-                  />
-                </Box>
+              {errorMessage && (
+                <Typography variant="body2" color="error">
+                  {errorMessage}
+                </Typography>
               )}
-            </Box>
-
-            {errorMessage && (
-              <Typography variant="body2" color="error">
-                {errorMessage}
-              </Typography>
-            )}
-            <Box sx={{ background: 'white' }}>
-              <TextField
-                value={StartDate}
-                type='date'
-                onChange={(e) => { onSelectStartDate(e.target.value) }}
-                label={'Start Date'}
-                size="small"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                inputProps={{
-                  max: new Date().toISOString().split('T')[0]
-                }}
-              />
-
-            </Box>
-
-            <Box sx={{ background: 'white' }}>
-              <TextField
-                value={EndDate}
-                type='date'
-                onChange={(e) => { onSelectEndDate(e.target.value) }}
-                label={'End Date'}
-                size="small"
-                InputLabelProps={{
-                  shrink: true
-                }}
-                inputProps={{
-                  max: new Date().toISOString().split('T')[0]
-                }}
-              />
-            </Box>
-            <Box>
-              <Tooltip title={"Displays all available lesson plans."}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+              <Box sx={{ background: 'white' }}>
+                <TextField
+                  value={StartDate}
+                  type='date'
+                  onChange={(e) => { onSelectStartDate(e.target.value) }}
+                  label={'Start Date'}
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true
                   }}
-                >
-                  <QuestionMark />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={"Export All"}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                  inputProps={{
+                    max: new Date().toISOString().split('T')[0]
                   }}
-                  onClick={OnClickExportAll}
-                >
-                  <Download />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={"Add new Lesson Plan"}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
+                />
+
+              </Box>
+
+              <Box sx={{ background: 'white' }}>
+                <TextField
+                  value={EndDate}
+                  type='date'
+                  onChange={(e) => { onSelectEndDate(e.target.value) }}
+                  label={'End Date'}
+                  size="small"
+                  InputLabelProps={{
+                    shrink: true
                   }}
-                  onClick={onClickAdd}
-                >
-                  <Add />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Stack>
-        </Stack>
+                  inputProps={{
+                    max: new Date().toISOString().split('T')[0]
+                  }}
+                />
+              </Box>
+              <Box>
+                <Tooltip title={"Displays all available lesson plans."}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMark />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={"Export All"}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                    onClick={OnClickExportAll}
+                  >
+                    <Download />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={"Add new Lesson Plan"}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                    onClick={onClickAdd}
+                  >
+                    <Add />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          }
+        />
         <Box sx={{ background: 'white', p: 2 }}>
           {/* <Typography variant={'h4'} mb={1}>
             My Subjects

@@ -1,11 +1,8 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Breadcrumbs, Container, IconButton, Stack, Tooltip, Typography } from '@mui/material';
+import { Box, Container, IconButton, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
 import ITimetable from 'src/interfaces/Student/TimeTable';
 import IWdays, {
   GettimeTable,
@@ -14,6 +11,7 @@ import IWdays, {
 import CardTimetable from 'src/libraries/card/CardTimetable';
 import { getTimetable } from 'src/requests/Teacher/TMtimetable';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 function TeacherTimetable() {
   const dispatch = useDispatch();
   const weekdaysList = useSelector(
@@ -64,54 +62,31 @@ function TeacherTimetable() {
 
   return (
     <>
-      <Container maxWidth={'xl'} sx={{ mt: 4 }}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-        >
-          <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
+      <Container maxWidth={'xl'}>
+        <CommonPageHeader
+          navLinks={[
+            { title: 'Timetable', path: '/extended-sidebar/teacher-timetable' }
+          ]}
+          rightActions={
+            <>
+              <Tooltip title={'Timetable'}>
                 <IconButton
                   sx={{
-                    background: (theme) => theme.palette.common.white,
-                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
                   }}
                 >
-                  <HomeTwoTone color="primary" />
+                  <QuestionMark />
                 </IconButton>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Timetable
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Stack direction={"row"} alignItems={"center"} gap={1}>
-            <Tooltip title={'Timetable'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-        </Stack>
+              </Tooltip>
+            </>
+          }
+        />
 
-        <Box sx={{ mt: 1 }}>
+        <Box>
           <CardTimetable header={TMTimetable}></CardTimetable>
         </Box>
         {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}

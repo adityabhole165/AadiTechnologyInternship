@@ -1,13 +1,9 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Breadcrumbs,
   Container,
   Grid,
   IconButton,
-  Stack,
   TextField,
   Tooltip,
   Typography
@@ -15,10 +11,10 @@ import {
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { IGetHomeworkDetailBody } from 'src/interfaces/AssignHomework/IAddHomework';
 import { GetHomeworkDetails } from 'src/requests/AssignHomework/requestViewHomework';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const ViewHomework = () => {
   const dispatch = useDispatch();
@@ -72,88 +68,42 @@ const ViewHomework = () => {
   // };
   return (
     <>
-      <Container sx={{ mt: 4 }} maxWidth={'xl'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-        >
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/AddHomework'}
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Assign Homework
-              </Typography>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/AddHomework'}
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Add Homework
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              View Homework
-            </Typography>
-          </Breadcrumbs>
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
-            <Box>
-              <Tooltip title={`User can view homework details.`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    // backgroundColor: grey[500],
-                    height: '36px !important',
-                    // ':hover': { backgroundColor: grey[600] }
-                  }}
-                >
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Stack>
-        </Stack>
-        <Box sx={{ background: 'white', mt: 2, p: 2 }}>
+      <Container maxWidth={'xl'}>
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Assign Homework',
+              path: '/extended-sidebar/Teacher/AddHomework'
+            },
+            {
+              title: 'Add Homework',
+              path: '/extended-sidebar/Teacher/AddHomework'
+            },
+            {
+              title: 'View Homework',
+              path: ''
+            }
+          ]}
+          rightActions={
+            <>
+              <Box>
+                <Tooltip title={`User can view homework details.`}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      // backgroundColor: grey[500],
+                      height: '36px !important',
+                      // ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          }
+        />
+        <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField fullWidth label={'Subject'} InputLabelProps={{ shrink: true }} value={HomeworkDetail.Subject} />

@@ -186,7 +186,9 @@ function CardCalender1({
               sx={{
                 display: 'flex',
                 alignItems: 'center',
-                justifyContent: 'center'
+                justifyContent: 'center',
+                py: 1,
+                border: (theme) => `1px solid ${theme.palette.divider}`
               }}
             >
               <Typography key={i} sx={{ textTransform: 'capitalize' }}>
@@ -197,8 +199,6 @@ function CardCalender1({
           </React.Fragment>
         ))}
       </Grid>
-
-      <br></br>
       <Grid container>
         <Grid
           item
@@ -210,7 +210,7 @@ function CardCalender1({
         </Grid>
         {ItemList.map((item, i) => {
           return (
-            <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center' }} key={i}>
+            <Grid item xs={12 / 7} md={12 / 7} sx={{ textAlign: 'center', border: (theme) => `1px solid ${theme.palette.divider}` }} key={i}>
               <CardCal1
                 item={item}
                 clickItem={() => ClickItem(item.Value)}

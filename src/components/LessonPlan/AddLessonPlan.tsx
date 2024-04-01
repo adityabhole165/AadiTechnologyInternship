@@ -1,20 +1,18 @@
 import Check from '@mui/icons-material/Check';
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import { Box, Container, Grid, IconButton, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import CDAlessonplanlist from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanList from './LessonPlanList';
 
 const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
@@ -222,106 +220,68 @@ const AddLessonPlan = () => {
 
   return (
     <Container maxWidth="xl">
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 4,
-          pb: 2
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/LessonPlanBaseScreen'}
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Lesson Plans
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Lesson Plan Details
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
-              <IconButton
-                sx={{
-                  backgroundColor: grey[500],
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: grey[600]
-                  }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Submit'}>
-              <IconButton
-                sx={{
-                  backgroundColor: blue[500],
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: blue[600]
-                  }
-                }}
-              >
-                <Check />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={'Save'}>
-              <IconButton
-                sx={{
-                  backgroundColor: green[500],
-                  color: 'white',
-                  '&:hover': {
-                    backgroundColor: green[600]
-                  }
-                }}
-                onClick={onClickSave}
-              >
-                <Save />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Stack>
-      </Stack>
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'Lesson Plans',
+            path: '/extended-sidebar/Teacher/LessonPlanBaseScreen'
+          },
+          {
+            title: 'Lesson Plan Details',
+            path: ''
+          }
+        ]}
+        rightActions={
+          <>
+            <Box>
+              <Tooltip title={'Save/ Submit/ Approve lesson plan details.'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: grey[600]
+                    }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={'Submit'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: blue[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: blue[600]
+                    }
+                  }}
+                >
+                  <Check />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={'Save'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: green[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickSave}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </>
+        }
+      />
       <Box sx={{ p: 2, background: 'white' }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>

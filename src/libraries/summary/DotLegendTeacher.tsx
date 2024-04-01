@@ -5,7 +5,7 @@ const DotLegendTeacher = ({ text, color }) => {
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       {/* <DotLegendStyledTeacher sx={{ backgroundColor: color }} /> */}
 
-      <CardDetail7> {text} {color}</CardDetail7>
+      <CardDetail7> {text}</CardDetail7>
 
       <br />
     </Box>

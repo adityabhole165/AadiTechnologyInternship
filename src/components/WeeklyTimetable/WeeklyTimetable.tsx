@@ -1,14 +1,12 @@
-import ChevronRightTwoTone from "@mui/icons-material/ChevronRightTwoTone"
-import HomeTwoTone from "@mui/icons-material/HomeTwoTone"
 import QuestionMark from "@mui/icons-material/QuestionMark"
 import RestartAltIcon from '@mui/icons-material/RestartAlt'
 import Save from "@mui/icons-material/Save"
 import Settings from "@mui/icons-material/Settings"
-import { Box, Breadcrumbs, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, FormGroup, IconButton, MenuItem, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from "@mui/material"
+import { Box, Button, Checkbox, Dialog, DialogActions, DialogContent, DialogTitle, Divider, FormControlLabel, FormGroup, IconButton, MenuItem, Popover, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Tooltip, Typography, alpha, styled } from "@mui/material"
 import { green, grey, red } from "@mui/material/colors"
 import { useState } from "react"
-import { Link } from "react-router-dom"
 import SearchableDropdown from "src/libraries/ResuableComponents/SearchableDropdown"
+import CommonPageHeader from "../CommonPageHeader"
 
 type Props = {}
 
@@ -53,80 +51,56 @@ const WeeklyTimetable = (props: Props) => {
 
     return (
         <>
-            <Box sx={{ my: 5, mx: 2 }}>
-                <Stack
-                    direction={'row'}
-                    justifyContent={'space-between'}
-                    alignItems={'center'}
-                >
-                    <Box>
-                        <Breadcrumbs
-                            aria-label="breadcrumb"
-                            separator={<ChevronRightTwoTone />}
-                        >
-                            <Link
-                                to={'/extended-sidebar/landing/landing'}
-                                color="inherit"
-                                style={{ textDecoration: 'none' }}
-                            >
+            <Box sx={{ mb: 5, mx: 2 }}>
+                <CommonPageHeader
+                    navLinks={[
+                        { title: 'Weekly Timetable', path: '/extended-sidebar/Teacher/WeeklyTimetable' },
+                    ]}
+                    rightActions={
+                        <>
+                            <Tooltip title={'Define timetable for the selected teacher/class.'}>
                                 <IconButton
                                     sx={{
-                                        background: (theme) => theme.palette.common.white,
-                                        boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: grey[600]
+                                        }
                                     }}
                                 >
-                                    <HomeTwoTone color="primary" />
+                                    <QuestionMark />
                                 </IconButton>
-                            </Link>
-                            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                                Weekly Timetable
-                            </Typography>
-                        </Breadcrumbs>
-                    </Box>
-                    <Stack direction={"row"} alignItems={"center"} gap={1}>
-                        <Tooltip title={'Define timetable for the selected teacher/class.'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: grey[600]
-                                    }
-                                }}
-                            >
-                                <QuestionMark />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={'Reset'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: grey[500],
-                                    '&:hover': {
-                                        backgroundColor: red[600]
-                                    }
-                                }}
-                            >
-                                <RestartAltIcon />
-                            </IconButton>
-                        </Tooltip>
-                        <Tooltip title={'Save'}>
-                            <IconButton
-                                sx={{
-                                    color: 'white',
-                                    backgroundColor: green[500],
-                                    '&:hover': {
-                                        backgroundColor: green[600]
-                                    }
-                                }}
-                            >
-                                <Save />
-                            </IconButton>
-                        </Tooltip>
-
-                    </Stack>
-                </Stack>
-                <Box sx={{ p: 2, mt: 2, background: 'white' }}>
+                            </Tooltip>
+                            <Tooltip title={'Reset'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: grey[500],
+                                        '&:hover': {
+                                            backgroundColor: red[600]
+                                        }
+                                    }}
+                                >
+                                    <RestartAltIcon />
+                                </IconButton>
+                            </Tooltip>
+                            <Tooltip title={'Save'}>
+                                <IconButton
+                                    sx={{
+                                        color: 'white',
+                                        backgroundColor: green[500],
+                                        '&:hover': {
+                                            backgroundColor: green[600]
+                                        }
+                                    }}
+                                >
+                                    <Save />
+                                </IconButton>
+                            </Tooltip>
+                        </>
+                    }
+                />
+                <Box sx={{ p: 2, background: 'white' }}>
                     <Stack direction={"row"} gap={1} alignItems={"center"} justifyContent={'space-between'}>
                         <Typography variant={"h4"}>Weekly Timetable for Mr. Devendra Kumar</Typography>
                         <Stack direction={"row"} gap={1} alignItems={"center"}>

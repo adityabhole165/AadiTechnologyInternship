@@ -1,25 +1,19 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
 import Close from '@mui/icons-material/Close';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
-  Breadcrumbs,
   Button,
   Container,
   Grid,
   IconButton,
-  Stack,
   TextField,
-  Tooltip,
-  Typography
+  Tooltip
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import HomeworkSubjectList from 'src/components/AssignHomework/HomeworkSubjectList';
 import {
@@ -40,6 +34,7 @@ import {
 } from 'src/requests/AssignHomework/requestAddHomework';
 import { GetHomeworkDetailss } from 'src/requests/AssignHomework/requestHomeworkSubjetList';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import AddUnpublish1 from './AddUnpublish1';
 const AddHomework = () => {
   const { ClassId, ClassName, TeacherId, TeacherName, SubjectName, subjectId, Id } =
@@ -348,77 +343,33 @@ const AddHomework = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          sx={{
-            pt: 4,
-            pb: 2
-          }}
-        >
-          <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
-                <IconButton
-                  sx={{
-                    background: (theme) => theme.palette.common.white,
-                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-                  }}
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Assign Homework',
+              path: '/extended-sidebar/Teacher/AssignHomework'
+            },
+            { title: 'Add Homework', path: '/extended-sidebar/Teacher/AddHomework' },
+          ]}
+          rightActions={
+            <>
+              <Box>
+                <Tooltip
+                  title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
                 >
-                  <HomeTwoTone color="primary" />
-                </IconButton>
-              </Link>
-              <Link
-                to={'/extended-sidebar/Teacher/AssignHomework'}
-                style={{
-                  textDecoration: 'none'
-                }}
-              >
-                <Typography
-                  variant={'h3'}
-                  fontSize={'23px'}
-                  fontWeight={'normal'}
-                  color={'text.primary'}
-                  sx={{
-                    '&:hover': {
-                      fontWeight: 'bold'
-                    }
-                  }}
-                >
-                  Assign Homework
-                </Typography>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Add Homework
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Stack direction={'row'} alignItems={'center'} gap={1}>
-            <Box>
-              <Tooltip
-                title={`Users can Add/Edit/Delete/Publish and Unpublish homework. And displays homework added by other teachers.`}
-              >
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: grey[600] }
-                  }}
-                >
-                  <QuestionMarkIcon />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {/* <Box>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: grey[600] }
+                    }}
+                  >
+                    <QuestionMarkIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              {/* <Box>
               <Tooltip title={`Unpublish all changes`}>
                 <IconButton
                   sx={{
@@ -433,38 +384,39 @@ const AddHomework = () => {
                 </IconButton>
               </Tooltip>
             </Box> */}
-            <Box>
-              <Tooltip title={`Cancel`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: red[600] }
-                  }}
-                  onClick={() => onClickCancel}
-                >
-                  <Close />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={`Save HomeWork`}>
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
-                  }}
+              <Box>
+                <Tooltip title={`Cancel`}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: grey[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: red[600] }
+                    }}
+                    onClick={() => onClickCancel}
+                  >
+                    <Close />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+              <Box>
+                <Tooltip title={`Save HomeWork`}>
+                  <IconButton
+                    sx={{
+                      color: 'white',
+                      backgroundColor: green[500],
+                      height: '36px !important',
+                      ':hover': { backgroundColor: green[600] }
+                    }}
 
-                >
-                  <SaveIcon onClick={SaveFile} />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Stack>
-        </Stack>
+                  >
+                    <SaveIcon onClick={SaveFile} />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            </>
+          }
+        />
         <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={3}>

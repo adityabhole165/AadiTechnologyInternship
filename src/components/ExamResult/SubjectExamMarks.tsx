@@ -1,12 +1,10 @@
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Button, Container, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Container, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
   IGetAllGradesForSubjectMarkListBody,
@@ -17,6 +15,7 @@ import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getMan
 import { RootState, useSelector } from 'src/store';
 import { getCalendarDateFormatDate } from '../Common/Util';
 
+import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
 const SubjectExamMarks = () => {
   const dispatch = useDispatch();
@@ -228,133 +227,89 @@ const SubjectExamMarks = () => {
   };
   return (
     <Container maxWidth={"xl"}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 5
-        }}
-      >
-        <Box>
-          <Breadcrumbs
-            aria-label="breadcrumb"
-            separator={<ChevronRightTwoTone />}
-          >
-            <Link
-              to={'/extended-sidebar/landing/landing'}
-              color="inherit"
-              style={{ textDecoration: 'none' }}
-            >
-              <IconButton
-                sx={{
-                  background: (theme) => theme.palette.common.white,
-                  border: (theme) => `1px solid ${theme.palette.grey[400]}`
-                }}
-              >
-                <HomeTwoTone color="primary" />
-              </IconButton>
-            </Link>
-            <Link
-              to={'/extended-sidebar/Teacher/AssignExamMark'}
-              style={{ textDecoration: 'none' }}
-            >
-              <Typography
-                variant={'h3'}
-                fontSize={'23px'}
-                fontWeight={'normal'}
-                color={'text.primary'}
-                sx={{
-                  '&:hover': {
-                    fontWeight: 'bold'
-                  }
-                }}
-              >
-                Assign Exam Mark
-              </Typography>
-            </Link>
-            <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-              Subject Exam Marks
-            </Typography>
-          </Breadcrumbs>
-        </Box>
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <TextField
-              fullWidth
-              value={
-                (StandardName && Object.keys(StandardName).length > 0) ?
-                  (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
-                  :
-                  ''
-              }
-            />
-          </Box>
-          <Box>
-            <TextField
-              fullWidth
-              value={
-                (TestName && Object.keys(TestName).length > 0) ?
-                  TestName.SchoolWise_Test_Name
-                  :
-                  ''
-              }
-            />
-          </Box>
-          <Box>
-            <TextField
-              fullWidth
-              value={SubjectName || ''}
-            />
-          </Box>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark' },
+          { title: 'Subject Exam Marks', path: '' }
+        ]}
+        rightActions={
+          <>
+            <Box>
+              <TextField
+                fullWidth
+                value={
+                  (StandardName && Object.keys(StandardName).length > 0) ?
+                    (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
+                    :
+                    ''
+                }
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                value={
+                  (TestName && Object.keys(TestName).length > 0) ?
+                    TestName.SchoolWise_Test_Name
+                    :
+                    ''
+                }
+              />
+            </Box>
+            <Box>
+              <TextField
+                fullWidth
+                value={SubjectName || ''}
+              />
+            </Box>
 
-          <Box>
+            <Box>
 
-            <TextField
-              fullWidth
-              value={TestDate}
-              type="date"
-              label={"Exam Date"}
-              InputLabelProps={{ shrink: true }}
-              inputProps={{ max: new Date().toISOString().split('T')[0] }}
-              variant={"outlined"}
-              size={"small"}
-              onChange={(e) => { setTestDate(e.target.value) }}
-            />
+              <TextField
+                fullWidth
+                value={TestDate}
+                type="date"
+                label={"Exam Date"}
+                InputLabelProps={{ shrink: true }}
+                inputProps={{ max: new Date().toISOString().split('T')[0] }}
+                variant={"outlined"}
+                size={"small"}
+                onChange={(e) => { setTestDate(e.target.value) }}
+              />
 
-          </Box>
-          <Box>
-            <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <QuestionMark />
-              </IconButton>
-            </Tooltip>
-          </Box>
-          <Box>
-            <Tooltip title={`Save`}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: green[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[600] }
-                }}
-              >
-                <Save />
-              </IconButton>
-            </Tooltip>
-          </Box>
-        </Stack>
-      </Stack>
-
-      <Box sx={{ p: 2, background: 'white', mt: 2 }}>
+            </Box>
+            <Box>
+              <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
+                  }}
+                >
+                  <QuestionMark />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={`Save`}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </Box>
+          </>
+        }
+      />
+      <Box sx={{ p: 2, background: 'white' }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
           <Typography variant={"h4"}>
             {/* Total Marks: 20 */}

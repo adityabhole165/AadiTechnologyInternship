@@ -49,19 +49,17 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
             <Grid container sx={{ mt: 2 }}>
                 <Grid item sx={{}} gap={6} display="flex" xs={12} lg={12}>
                     {
-                        EventType.map((Item, i) => {
+                        EventType.slice(1, EventType.length - 1).map((Item, i) => {
                             return (
                                 <Stack direction={'row'} key={i} sx={{ alignItems: 'center' }}>
-                                    {["2", "3", "4"].includes(Item.Value) &&
-                                        <Checkbox {...label} sx={{
-                                            color: legendColors[Item.Value],
-                                            '&.Mui-checked': {
-                                                color: legendColors[Item.Value]
-                                            },
-                                        }}
-                                            checked={getIsChecked(Item.Value)}
-                                            onChange={() => { clickCheck(Item.Value) }} />
-                                    }
+                                    <Checkbox {...label} sx={{
+                                        color: legendColors[Item.Value],
+                                        '&.Mui-checked': {
+                                            color: legendColors[Item.Value]
+                                        },
+                                    }}
+                                        checked={getIsChecked(Item.Value)}
+                                        onChange={() => { clickCheck(Item.Value) }} />
                                     <DotLegendTeacher color={legendColors[Item.Id]} text={Item.Name} />
                                 </Stack>)
                         })

@@ -1,11 +1,8 @@
 import Add from '@mui/icons-material/Add';
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
 import {
   Box,
-  Breadcrumbs,
   Button,
   Container,
   Divider,
@@ -22,7 +19,6 @@ import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import {
   DeleteEventImageBody,
@@ -48,6 +44,7 @@ import {
   resetMessage
 } from 'src/requests/EventManegment/RequestEventManegment';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const EventsManagement = () => {
   const dispatch = useDispatch();
@@ -343,100 +340,59 @@ const EventsManagement = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          sx={{
-            pt: 4,
-            pb: 2
-          }}
-        >
-          <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
-              separator={<ChevronRightTwoTone />}
-            >
-              <Link
-                to={'/extended-sidebar/landing/landing'}
-                color="inherit"
-                style={{ textDecoration: 'none' }}
-              >
+        <CommonPageHeader
+          navLinks={[
+            {
+              title: 'Annual Planner',
+              path: '/extended-sidebar/Common/AnnualPlanner'
+            },
+            {
+              title: 'Event(s) Management',
+              path: ''
+            }
+          ]}
+          rightActions={
+            <>
+              <Tooltip title={'Add or Update Events'}>
                 <IconButton
                   sx={{
-                    background: (theme) => theme.palette.common.white,
-                    boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: grey[600] }
                   }}
                 >
-                  <HomeTwoTone color="primary" />
+                  <QuestionMarkIcon />
                 </IconButton>
-              </Link>
-              <Link
-                to={'/extended-sidebar/Common/AnnualPlanner'}
-                color="inherit"
-                style={{
-                  textDecoration: 'none'
-                }}
-              >
-                <Typography
-                  variant={'h3'}
-                  fontSize={'23px'}
-                  color="text.primary"
-                  fontWeight={'normal'}
+              </Tooltip>
+              <Tooltip title={'Add new Event'}>
+                <IconButton
                   sx={{
-                    '&:hover': {
-                      fontWeight: 'bold'
-                    }
+                    color: 'white',
+                    backgroundColor: grey[500],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
                   }}
                 >
-                  Annual Planner
-                </Typography>
-              </Link>
-              <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-                Event(s) Management
-              </Typography>
-            </Breadcrumbs>
-          </Box>
-          <Stack direction={'row'} gap={1}>
-            <Tooltip title={'Add or Update Events'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <QuestionMarkIcon />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'Add new Event'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[600] }
-                }}
-              >
-                <Add />
-              </IconButton>
-            </Tooltip>
-            <Tooltip title={'Save Event'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: green[600],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: green[600] }
-                }}
-              >
-                <Save />
-              </IconButton>
-            </Tooltip>
-          </Stack>
-        </Stack>
-        <Box sx={{ background: 'white', p: 2, mt: 1 }}>
+                  <Add />
+                </IconButton>
+              </Tooltip>
+              <Tooltip title={'Save Event'}>
+                <IconButton
+                  sx={{
+                    color: 'white',
+                    backgroundColor: green[600],
+                    height: '36px !important',
+                    ':hover': { backgroundColor: green[600] }
+                  }}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </>
+          }
+        />
+        <Box sx={{ background: 'white', p: 2 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <Typography variant={'h4'}>Event(s) as of today.</Typography>
@@ -567,7 +523,7 @@ const EventsManagement = () => {
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 errorMessage={FileError}
-                filePath={filePath}
+                FilePath={filePath}
                 FileName={FileName}
                 viewIcon={true}
                 deleteIcon={true}

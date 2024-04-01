@@ -1,14 +1,10 @@
 import AddTwoTone from '@mui/icons-material/AddTwoTone';
 import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
-import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
-import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Breadcrumbs,
   Container,
   IconButton,
-  Stack,
   Tooltip,
   Typography
 } from '@mui/material';
@@ -16,7 +12,6 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { Link } from 'react-router-dom';
 import {
   IClassDropDownBody,
   IClassTeacherDropdownBody,
@@ -34,6 +29,7 @@ import {
   resetSubjectDetails
 } from 'src/requests/AssignHomework/RequestAssignHomework';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AssignHomework = () => {
   const dispatch = useDispatch();
@@ -223,39 +219,11 @@ const AssignHomework = () => {
 
   return (
     <Container maxWidth={'xl'}>
-      <Stack
-        direction={'row'}
-        justifyContent={'space-between'}
-        alignItems={'center'}
-        sx={{
-          pt: 5,
-          pb: 2
-        }}
-      >
-        <Breadcrumbs
-          aria-label="breadcrumb"
-          separator={<ChevronRightTwoTone />}
-        >
-          <Link
-            to={'/extended-sidebar/landing/landing'}
-            color="inherit"
-            style={{ textDecoration: 'none' }}
-          >
-            <IconButton
-              sx={{
-                background: (theme) => theme.palette.common.white,
-                boxShadow: '0px 0px 5px 0px rgba(0,0,0,0.15)'
-              }}
-            >
-              <HomeTwoTone color="primary" />
-            </IconButton>
-          </Link>
-          <Typography variant={'h3'} fontSize={'23px'} color="text.primary">
-            Assign Homework
-          </Typography>
-        </Breadcrumbs>
-
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' }
+        ]}
+        rightActions={<>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={TeacherList}
@@ -265,7 +233,6 @@ const AssignHomework = () => {
             mandatory
             size={"small"}
           />
-
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ClassList}
@@ -275,8 +242,6 @@ const AssignHomework = () => {
             mandatory
             size={"small"}
           />
-
-
           <Tooltip title={'List the class subjects for homework assignment.'}>
             <IconButton
 
@@ -291,7 +256,6 @@ const AssignHomework = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
-
           {SelectClass &&
             ((asStandardDivisionId === SelectClass || GetScreenPermission() === 'Y') ||
               SubjectDetailLists.some((item) => item.Text5 === "Y")) && (
@@ -312,13 +276,10 @@ const AssignHomework = () => {
                 </Tooltip>
               </div>
             )}
-
-        </Stack>
-      </Stack>
-      <Box sx={{ mt: 1, p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
-
-
-        <Box mt={2}>
+        </>}
+      />
+      <Box sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column' }}>
+        <Box>
           <Typography variant={'h4'} mb={1}>
             My Subjects
           </Typography>

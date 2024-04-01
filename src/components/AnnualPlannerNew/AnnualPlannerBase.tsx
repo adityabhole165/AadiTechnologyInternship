@@ -83,11 +83,11 @@ const AnnualPlannerBase = () => {
   const [fileName, setFileName] = useState('');
   const [base64URL, setbase64URL] = useState('');
   const [EventType, setEventType] = useState([
-    // { Id: 1, Name: "Weekend", Value: "1", IsActive: true },
+    { Id: 1, Name: "Weekend", Value: "1", IsActive: true },
     { Id: 2, Name: "Holiday", Value: "2", IsActive: true },
     { Id: 3, Name: "Exam", Value: "3", IsActive: true },
     { Id: 4, Name: "Event", Value: "4", IsActive: true },
-    // { Id: 5, Name: "OutsideAcademicYear", Value: "5", IsActive: true }
+    { Id: 5, Name: "OutsideAcademicYear", Value: "5", IsActive: true }
   ]);
   useEffect(() => {
     const GetAssociatedStdLstForTeacherBody: IGetAssociatedStdLstForTeacherDropDownBody =

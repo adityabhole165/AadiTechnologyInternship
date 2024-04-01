@@ -1,14 +1,13 @@
 import AddIcon from '@mui/icons-material/Add';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
-import { Box, Stack } from "@mui/material";
 import { green, grey } from '@mui/material/colors';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import { useNavigate } from "react-router-dom";
-import BreadCrumbs from '../AnnualPlannerNew/BreadCrumbs';
 import HeaderIcons from '../AnnualPlannerNew/HeaderIcons';
 import UploadAnnualPlanner from '../AnnualPlannerNew/UploadAnnualPlanner';
+import CommonPageHeader from '../CommonPageHeader';
 
 const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     const navigate = useNavigate();
@@ -75,18 +74,23 @@ const EventManagementHeader = ({ ClickAddNewEvent, ClickSave }) => {
     }]
     return (
         <>
-            <Stack
-                direction={'row'}
-                alignItems={'center'}
-                justifyContent={'space-between'}
-            >
-                <Box>
-                    <BreadCrumbs ItemList={Breadcrumbs} />
-                </Box>
-                <Stack direction={'row'} alignItems={'center'} gap={1}>
-                    <HeaderIcons IconList={IconList} ClickIcon={ClickIcon} />
-                </Stack>
-            </Stack>
+            <CommonPageHeader
+                navLinks={[
+                    {
+                        title: 'Annual Planner',
+                        path: '/extended-sidebar/Common/AnnualPlanner/' + SelectedDate + '/' + StandardId + '/' + DivisionId
+                    },
+                    {
+                        title: 'Event(s) Management',
+                        path: ''
+                    }
+                ]}
+                rightActions={
+                    <>
+                        <HeaderIcons IconList={IconList} ClickIcon={ClickIcon} />
+                    </>
+                }
+            />
             {openAnnualPlannerDialog && (
                 <UploadAnnualPlanner openAnnualPlannerDialog={openAnnualPlannerDialog}
                     setOpenAnnualPlannerDialog={setOpenAnnualPlannerDialog} />
