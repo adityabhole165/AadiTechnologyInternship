@@ -60,6 +60,7 @@ const LessonPlanBaseScreen = () => {
 
   const [StartDate, setStartDate] = useState();
   const [EndDate, setEndDate] = useState();
+  const [errorMessage, setErrorMessage] = useState('');
   const [selectClasstecahernew, setselectClasstecahernew] = useState(
     localStorage.getItem('UserId')
   );
@@ -270,12 +271,23 @@ const LessonPlanBaseScreen = () => {
 
   const onSelectEndDate = (value) => {
     setEndDate(value);
-    if (!value) {
 
+
+    if (!value) {
       setEndDate(null);
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+      return;
+    }
+
+    // Check if end date is less than or equal to start date
+    if (StartDate && new Date(value) <= new Date(StartDate)) {
+      setErrorMessage('End Date should be greater than Start Date');
+    } else {
+      setErrorMessage('');
     }
   };
+
+
 
 
   const clickView = (Id) => {
@@ -320,6 +332,7 @@ const LessonPlanBaseScreen = () => {
     return htmlString.replace(/<[^>]*>?/gm, '');
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
+  console.log(itemToDisplay, "itemToDisplay");
 
   return (
     <>
@@ -358,6 +371,8 @@ const LessonPlanBaseScreen = () => {
             </Breadcrumbs>
 
           </Box>
+
+
           <Stack direction={'row'} alignItems={'center'} gap={1}>
             <Box sx={{ background: 'white' }}>
               {CanEdit == 'Y' && (
@@ -373,6 +388,12 @@ const LessonPlanBaseScreen = () => {
                 </Box>
               )}
             </Box>
+
+            {errorMessage && (
+              <Typography variant="body2" color="error">
+                {errorMessage}
+              </Typography>
+            )}
             <Box sx={{ background: 'white' }}>
               <TextField
                 value={StartDate}
@@ -389,6 +410,7 @@ const LessonPlanBaseScreen = () => {
               />
 
             </Box>
+
             <Box sx={{ background: 'white' }}>
               <TextField
                 value={EndDate}
