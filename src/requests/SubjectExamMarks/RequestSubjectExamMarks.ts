@@ -154,7 +154,7 @@ export const getSubjectExamMarkslist =
                     if (Item.Student_Id == StudentId)
                         arr.push({
                             Id: Item.TestType_Id,
-                            Text1: Item.Marks_Scored,
+                            Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
                             IsActive: true
                         });

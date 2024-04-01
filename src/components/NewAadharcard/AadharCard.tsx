@@ -1,9 +1,9 @@
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import ChevronRightTwoTone from '@mui/icons-material/ChevronRightTwoTone';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import HomeTwoTone from '@mui/icons-material/HomeTwoTone';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Breadcrumbs, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Breadcrumbs, Button, Container, Grid, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -15,7 +15,6 @@ import Errormessage from 'src/libraries/ErrorMessages/Errormessage';
 import { CDADeleteAadharCardPhotoCopy, CDAGetUserDetailsForAadharCardNo, CDAUpdateTeacherAadharDetails, resetMessage, resetdelete } from 'src/requests/NewAadharcard/RAadharcardTecaher';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
-import Icon5 from 'src/libraries/icon/icon5';
 const AadharCard = () => {
   const dispatch = useDispatch();
   const classes = Styles();
@@ -177,17 +176,11 @@ const AadharCard = () => {
   return (
     <>
       <Container maxWidth={'xl'}>
-        <Stack
-          direction={'row'}
-          justifyContent={'space-between'}
-          alignItems={'center'}
-          sx={{
-            pt: 4
-          }}
+        <Stack direction={'row'} sx={{ pt: 4 }}
+          justifyContent={'space-between'} alignItems={'center'}
         >
           <Box>
-            <Breadcrumbs
-              aria-label="breadcrumb"
+            <Breadcrumbs aria-label="breadcrumb"
               separator={<ChevronRightTwoTone />}
             >
               <Link
@@ -210,27 +203,12 @@ const AadharCard = () => {
             </Breadcrumbs>
           </Box>
           <Stack direction={'row'} alignItems={'center'} gap={1}>
-          <Box>
-            <Tooltip title={'(Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.)'}>
-              <IconButton
-                sx={{
-                  color: 'white',
-                  backgroundColor: grey[500],
-                  height: '36px !important',
-                  ':hover': { backgroundColor: grey[600] }
-                }}
-              >
-                <PriorityHighIcon />
-              </IconButton>
-            </Tooltip>
-          </Box>
+
             <Box>
               <Tooltip title={`Add Aadhar Card Details.`}>
                 <IconButton
                   sx={{
-                    color: 'white',
-                    backgroundColor: grey[500],
-                    height: '36px !important',
+                    color: 'white', backgroundColor: grey[500], height: '36px !important',
                     ':hover': { backgroundColor: grey[600] }
                   }}
                 >
@@ -243,10 +221,7 @@ const AadharCard = () => {
                 <IconButton
                   onClick={SaveFile}
                   sx={{
-
-                    color: 'white',
-                    backgroundColor: green[500],
-                    height: '36px !important',
+                    backgroundColor: green[500], color: 'white', height: '36px !important',
                     ':hover': { backgroundColor: green[600] }
                   }}
                 >
@@ -258,95 +233,90 @@ const AadharCard = () => {
         </Stack>
         <Box sx={{ p: 2, background: 'white', mt: 2 }}>
           <Grid container spacing={2}>
-          <Grid item xs={6}>
-  <TextField
-    fullWidth
-    label={"Name"}
-    InputLabelProps={{ shrink: true }}
-    sx={{ bgcolor: '#e3f2fd' }}
-    value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
-    InputProps={{
-      readOnly: true, 
-    }}
-  />
-</Grid>
             <Grid item xs={6}>
               <TextField
                 fullWidth
+                label={"Name"}
+                InputLabelProps={{ shrink: true }}
+                sx={{ bgcolor: '#e3f2fd' }}
+                value={GetUserDetailsForAadharCardNoUS?.TeacherFullName}
+                InputProps={{
+                  readOnly: true,
+                }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField fullWidth value={AadharCardNumber} error={error}
                 label={
-                  <span>
-                    Aadhar Card Number <span style={{ color: 'red' }}>*</span>
-                  </span>
+                  <span>Aadhar Card Number <span style={{ color: 'red' }}>*</span></span>
                 }
-                value={AadharCardNumber}
                 onChange={(e) => { changeAdhar(e.target.value) }}
-                error={error}
                 helperText={error ? "Please enter only 12 digits " : ""}
               />
-
             </Grid>
             <Grid item xs={12}>
-
             </Grid>
           </Grid>
 
+          <Box sx={{ my: '10px', textAlign: 'center' }}>
+            {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
+              <img src={'/imges/Adhar.png'} alt={'adhar'}
+                style={{ height: '150px', width: '150px' }}
+              />
+            ) : (
+              <>
+                {selectedFile ? (
+                  <img width="150" height="150"
+                    src={URL.createObjectURL(selectedFile)}
+                    style={{ border: '1px solid gray', padding: '1px' }}
+                  />
+                ) : (
+                  <img width="150" height="150"
+                    src={
+                      localStorage.getItem('SiteURL') +
+                      '/RITeSchool/DOWNLOADS/Aadhar Card/' +
+                      GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
+                    }
+                    style={{ border: '1px solid gray', padding: '1px' }}
+                  />
+                )}
+              </>
+            )}
+          </Box>
+
+          <Grid container>
+            <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <Tooltip title="Supports only .PDF, .JPG, .PNG, .BMP, .JPEG file type. File size should not exceed 3MB.">
+                <Button
+                  sx={{
+                    width: '300px', gap: 1, position: 'relative',
+                    border: (theme) =>
+                      `1px dashed ${theme.colors.primary.main
+                      }`,
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between'
+                  }}
+                  color={'primary'}
+                >
+                  <Stack direction={'row'} alignItems={'center'} gap={1}
+                    sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    <CloudUploadIcon />
+                    {fileName == '' ? ' No file selected' : fileName}
+                    <input ref={aRef} type="file" onChange={changeFile}
+                      style={{
+                        opacity: 0, top: 0, left: 0, right: 0, bottom: 0,
+                        position: 'absolute', cursor: 'pointer'
+                      }}
+                    />
+                  </Stack>
+                </Button>
+              </Tooltip>
+
+            </Grid>
+            <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {fileError && <Errormessage Error={fileError} />}
+            </Grid>
+          </Grid>
         </Box>
-
-        <Box sx={{ my: '10px', textAlign: 'center' }}>
-          {GetUserDetailsForAadharCardNoUS != null && GetUserDetailsForAadharCardNoUS.AadharCard_Photo_Copy_Path === '/RITeSchool/DOWNLOADS/Aadhar Cards/' ? (
-            <img
-              style={{ height: '150px', width: '150px' }}
-              src={'/imges/Adhar.png'}
-              alt={'adhar'}
-            />
-          ) : (
-            <>
-              {selectedFile ? (
-                <img
-                  src={URL.createObjectURL(selectedFile)}
-                  width="150"
-                  height="150"
-                  style={{ border: '1px solid gray', padding: '1px' }}
-                />
-              ) : (
-                <img
-                  src={
-                    localStorage.getItem('SiteURL') +
-                    '/RITeSchool/DOWNLOADS/Aadhar Card/' +
-                    GetUserDetailsForAadharCardNoUS?.AadharCard_Photo_Copy_Path
-                  }
-                  width="150"
-                  height="150"
-                  style={{ border: '1px solid gray', padding: '1px' }}
-                />
-              )}
-            </>
-          )}
-        </Box>
-
-
-        <Box sx={{ textAlign: 'center' }}>
-          <input
-            ref={aRef}
-            type="file"
-            onChange={changeFile}
-            style={{ width: '200px' }}
-          />
-          <br></br>
-          <br></br>
-
-        </Box>
-        {/* <Box className={classes.iIconSupport}>
-            <Icon5
-              Note={
-                'Supports only ' +
-                validFiles.join(', ') +
-                ' files types up to 3 MB'
-              }
-            />
-          </Box> */}
-
-        {fileError && <Errormessage Error={fileError} />}
       </Container >
 
     </>

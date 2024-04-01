@@ -263,6 +263,18 @@ const ExamResultToppers = () => {
                     Label={''}
                 />
             </div>
+            <Box sx={{ textAlign: 'center', marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+    <Typography variant="subtitle1">
+        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="First Rank" /> First Rank
+    </Typography>
+    <Typography variant="subtitle1">
+        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Second Rank" /> Second Rank
+    </Typography>
+    <Typography variant="subtitle1">
+        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Third Rank" /> Third Rank
+    </Typography>
+</Box>
+
             {radioBtn === '1' ? (
                 <Container>
                     <PageHeader heading=" Class Toppers" />
@@ -448,17 +460,7 @@ const ExamResultToppers = () => {
                     </ButtonPrimary>
                 </Grid>
             </Grid>
-            <Box sx={{ textAlign: 'center', marginTop: 2 }}>
-                <Typography variant="subtitle1">
-                    <img src={"C:\Users\abc\Pictures\problem while connecting in sql.png"} alt="First Rank" /> First Rank
-                </Typography>
-                <Typography variant="subtitle1">
-                    <img src={"C:\Users\abc\Pictures\problem while connecting in sql.png"} alt="Second Rank" /> Second Rank
-                </Typography>
-                <Typography variant="subtitle1">
-                    <img src={"C:\Users\abc\Pictures\problem while connecting in sql.png"} alt="Third Rank" /> Third Rank
-                </Typography>
-            </Box>
+           
         </>
     );
 };

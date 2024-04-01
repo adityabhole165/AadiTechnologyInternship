@@ -8,11 +8,16 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
-        if (validationFunction(value)) {
+        if (value == "")
             callback(value);
-        }
+        else
+            if (validationFunction(value)) {
+                callback(value);
+            }
     };
     const getGrade = (marks, total) => {
+        if (marks == "")
+            return ""
         let Grade = ""
         let Percent = (marks / total) * 100
 

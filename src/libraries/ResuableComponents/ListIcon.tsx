@@ -1,6 +1,7 @@
 import CheckIcon from '@mui/icons-material/Check';
 import CloseIcon from '@mui/icons-material/Close';
 import EditIcon from '@mui/icons-material/Edit';
+import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import Visibility from '@mui/icons-material/Visibility';
 import { Box, Link, Tooltip } from '@mui/material';
 import Table from '@mui/material/Table';
@@ -9,6 +10,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 
 function ListIcon({
     HeaderArray,
@@ -35,7 +37,7 @@ function ListIcon({
                 break;
 
             case "2":
-                icon = <span> - </span>
+                icon = <b>NA</b>
                 break;
 
             default:
@@ -81,7 +83,7 @@ function ListIcon({
                                     <TableCell align="center">
 
                                         <Tooltip title={"Edit"}>
-                                            <EditIcon onClick={() => clickEdit(item.Id)} />
+                                            <EditTwoTone onClick={() => clickEdit(item.Id)} />
                                         </Tooltip>
                                     </TableCell>
                                 }
@@ -89,7 +91,7 @@ function ListIcon({
                                 <TableCell align="center">
                                     {item.SubmitedByReportingUser == "0" && (
                                         <Tooltip title={"Delete"}>
-                                            <CloseIcon onClick={() => clickDelete(item.StartDate, item.EndDate)} sx={{ color: 'red' }} />
+                                            <DeleteForeverIcon onClick={() => clickDelete(item.StartDate, item.EndDate)} sx={{ color: 'red' }} />
                                         </Tooltip>
                                     )}
                                 </TableCell>
