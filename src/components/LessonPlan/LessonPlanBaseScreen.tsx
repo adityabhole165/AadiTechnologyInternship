@@ -98,6 +98,9 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISAddOrEditLessonPlanDetails
   );
 
+  console.log(USAddOrEditLessonPlanDetails, "USAddOrEditLessonPlanDetails");
+
+
   const USGetAllTeachersOfLessonPlan: any = useSelector(
     (state: RootState) => state.LessonPlanBase.ISGetAllTeachersOfLessonPlan
   );
@@ -317,7 +320,7 @@ const LessonPlanBaseScreen = () => {
     return htmlString.replace(/<[^>]*>?/gm, '');
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
-  
+
   return (
     <>
       <Container maxWidth={"xl"}>
@@ -384,6 +387,7 @@ const LessonPlanBaseScreen = () => {
                   max: new Date().toISOString().split('T')[0]
                 }}
               />
+
             </Box>
             <Box sx={{ background: 'white' }}>
               <TextField
@@ -447,9 +451,9 @@ const LessonPlanBaseScreen = () => {
           </Stack>
         </Stack>
         <Box sx={{ background: 'white', p: 2 }}>
-          <Typography variant={'h4'} mb={1}>
+          {/* <Typography variant={'h4'} mb={1}>
             My Subjects
-          </Typography>
+          </Typography> */}
           {LessonPlanList.length > 0 ? (
             <ListIcon
               HeaderArray={HeaderList1}

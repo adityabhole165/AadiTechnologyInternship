@@ -35,7 +35,7 @@ function ListIcon({
                 break;
 
             case "2":
-                icon = <span> - </span>
+                icon = <b>NA</b>
                 break;
 
             default:
