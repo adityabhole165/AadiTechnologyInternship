@@ -22,22 +22,21 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     onChangeExamHeader(ExamMarksHeader);
 
   };
-  const changeExamStatus = (value, Id) => {
-    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item) => {
-      if (Item.Id == Id) {
-        return {
-          ...Item,
-          ExamStatus: value,
-          MarksForStudent: Item.MarksForStudent.map((obj) => {
-            return { ...obj, IsActive: value == "0" }
-          })
-        }
-      }
-      else
-        return Item
-    })
-    console.log("Type of StudentsForMarksAssignment:", StudentsForMarksAssignment);
+  const changeExamStatus = (value, StudentId, Id) => {
+    StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
+      return {
+        ...Item,
+        MarksForStudent: (Item.Id == StudentId) ?
+          Item.MarksForStudent.map((obj) => {
+            if (Id == obj.Id) {
+              return { ...obj, ExamStatus: value }
+            }
+            else
+              return obj
 
+          }) : Item.MarksForStudent
+      }
+    })
     onChangeExamStatus(StudentsForMarksAssignment)
   }
   const changeText = (value, StudentId, Id) => {

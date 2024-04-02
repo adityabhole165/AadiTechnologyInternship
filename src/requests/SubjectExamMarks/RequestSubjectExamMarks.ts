@@ -156,6 +156,7 @@ export const getSubjectExamMarkslist =
                             Id: Item.TestType_Id,
                             Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
+                            ExamStatus: "0",
                             IsActive: true
                         });
                 });
@@ -178,7 +179,6 @@ export const getSubjectExamMarkslist =
                     Text2: Item.Name,
                     MarksForStudent: getMarksForStudent(Item.Student_Id),
                     TotalMarks: getTotalMarksForStudent(Item.Student_Id),
-                    ExamStatus: "0"
                 });
             });
             console.log(reponseData1, "reponseData1");

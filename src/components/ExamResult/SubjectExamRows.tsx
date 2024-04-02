@@ -37,7 +37,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         defaultValue={Item.ExamStatus}
                         variant='outlined'
                         Array={ExamStatus}
-                        handleChange={(value) => { changeExamStatus(value, Item.Id) }}
+                        handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
                     />
                 </TableCell>
                 <TableCell key={Index}>
