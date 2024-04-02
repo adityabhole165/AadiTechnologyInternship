@@ -61,8 +61,8 @@ const ExamResultToppers = () => {
     const ScreensAccessPermission = JSON.parse(
         sessionStorage.getItem('ScreensAccessPermission')
     );
+    const [HighlightStudentId, setHighlightStudentId] = useState('0')
     let CanEdit = getSchoolConfigurations(78)
-console.log(CanEdit,"Canedit");
 
     const RadioListCT = [
         { Value: '1', Name: 'Class Toppers' },
@@ -88,13 +88,12 @@ console.log(CanEdit,"Canedit");
     const GetSubjectdropdownCT: any = useSelector(
         (state: RootState) => state.FinalResultToppers.SubjectDropdownListCT
     );
-    const GetToppersListCT = useSelector(
+    const GetClassToppersListCT = useSelector(
         (state: RootState) => state.FinalResultToppers.ClassToppersCT
     );
     const GetSubjectToppersListCT = useSelector(
         (state: RootState) => state.FinalResultToppers.SubjectToppersCT
     );
-    //
 
     const GetStandarddropdownST = useSelector(
         (state: RootState) => state.StandardToppers.StandardDropdownST
@@ -108,10 +107,26 @@ console.log(CanEdit,"Canedit");
     const GetStandardToppersListST = useSelector(
         (state: RootState) => state.StandardToppers.StandardTopperST
     );
-    console.log(GetStandardToppersListST, 'GetStandardToppersListST');
     const GetSubjectToppersListST = useSelector(
         (state: RootState) => state.StandardToppers.StandardSubjectToppersST
     );
+    const [SubjectToppersListCT, setSubjectToppersListCT] = useState([])
+    const [StandardToppersListST, setStandardToppersListST] = useState([])
+    const [ClassToppersListCT, setClassToppersListCT] = useState([])
+    const [SubjectToppersListST, setSubjectToppersListST] = useState([])
+    //
+    useEffect(() => {
+        setSubjectToppersListCT(GetSubjectToppersListCT)
+    }, [GetSubjectToppersListCT])
+    useEffect(() => {
+        setSubjectToppersListST(GetSubjectToppersListST)
+    }, [GetSubjectToppersListST])
+    useEffect(() => {
+        setStandardToppersListST(GetStandardToppersListST)
+    }, [GetStandardToppersListST])
+    useEffect(() => {
+        setClassToppersListCT(GetClassToppersListCT)
+    }, [GetClassToppersListCT])
 
     const GetScreenPermission = () => {
         let perm = 'N';
@@ -173,7 +188,52 @@ console.log(CanEdit,"Canedit");
         if (GetSubjectdropdownST.length > 0)
             setSubjectST(GetSubjectdropdownST[0].Id);
     }, [GetSubjectdropdownST]);
+    useEffect(() => {
 
+        setClassToppersListCT(
+            GetClassToppersListCT.map((Item) => {
+                return {
+                    ...Item,
+                    IsHighlightStudent:
+                        Item.Id == HighlightStudentId ? true : false
+                }
+            })
+        )
+        setStandardToppersListST(
+            GetStandardToppersListST.map((Item) => {
+                return {
+                    ...Item,
+                    IsHighlightStudent:
+                        Item.Id == HighlightStudentId ? true : false
+                }
+            })
+        )
+        setSubjectToppersListCT(GetSubjectToppersListCT.map((Item) => {
+            return {
+                ...Item,
+                Students: Item.Students.map((obj) => {
+                    return {
+                        ...obj,
+                        IsHighlightStudent:
+                            obj.Id == HighlightStudentId ? true : false
+                    }
+                })
+            }
+        }))
+        setSubjectToppersListST(GetSubjectToppersListST.map((Item) => {
+            return {
+                ...Item,
+                Students: Item.Students.map((obj) => {
+                    return {
+                        ...obj,
+                        IsHighlightStudent:
+                            obj.Id == HighlightStudentId ? true : false
+                    }
+                })
+            }
+        }))
+
+    }, [HighlightStudentId])
     const ClassDropdownBodyCT: IGetClassDropdownBodyCT = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -245,10 +305,22 @@ console.log(CanEdit,"Canedit");
 
     const ClickRadio = (value) => {
         setRadioBtn(value);
+        setHighlightStudentId('0')
     };
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/FinalResult');
     };
+    const clickHighlightStudent = (value) => {
+        if (
+            (radioBtn === '1' && SelectSubjectCT == "0") ||
+            (radioBtn === '2' && SelectSubjectST == "0")
+        )
+            setHighlightStudentId(value)
+        else
+            setHighlightStudentId('0')
+    }
+
+
 
     const ClickItem = () => { };
     return (
@@ -355,14 +427,14 @@ console.log(CanEdit,"Canedit");
 
                         <DynamicList2
                             HeaderList={HeaderListCT}
-                            ItemList={GetToppersListCT}
+                            ItemList={ClassToppersListCT}
                             IconList={[]}
-                            ClickItem={ClickItem}
+                            ClickItem={clickHighlightStudent}
                         />
 
                         <PageHeader heading=" Subject Toppers" />
                         <Grid container>
-                            {GetSubjectToppersListCT.map((item, i) => {
+                            {SubjectToppersListCT.map((item, i) => {
                                 return (
                                     <>
                                         {!(i % 3) && (
@@ -452,14 +524,14 @@ console.log(CanEdit,"Canedit");
                         <br></br>
                         <DynamicList2
                             HeaderList={HeaderListST}
-                            ItemList={GetStandardToppersListST}
+                            ItemList={StandardToppersListST}
                             IconList={[]}
-                            ClickItem={ClickItemST}
+                            ClickItem={clickHighlightStudent}
                         />
 
                         <PageHeader heading=" Subject Toppers" />
                         <Grid container>
-                            {GetSubjectToppersListST.map((item, i) => {
+                            {SubjectToppersListST.map((item, i) => {
                                 return (
                                     <>
                                         {!(i % 3) && (

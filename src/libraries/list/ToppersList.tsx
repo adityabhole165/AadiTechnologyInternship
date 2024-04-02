@@ -15,6 +15,7 @@ interface TableListProps {
 }
 
 const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
+
   return (
     <Paper>
       <Table>
@@ -29,15 +30,24 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
         </TableHead>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex}>
-              {Object.values(row).map((value, cellIndex) => (
-                <TableCell key={cellIndex}>{value}</TableCell>
-              ))}
+            <TableRow key={rowIndex}
+            // sx={{ backgroundColor: row.IsHighlightStudent ? 'red' : '' }}
+            >
+
+              <TableCell>{row.Text1}</TableCell>
+              {row.Text3 !== undefined &&
+                <TableCell>{row.Text3}</TableCell>
+              }
+              <TableCell
+                sx={{ color: row.IsHighlightStudent ? 'red' : '' }}
+              >
+                {row.Text2}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>
       </Table>
-    </Paper>
+    </Paper >
   );
 };
 
