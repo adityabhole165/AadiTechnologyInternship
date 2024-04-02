@@ -262,7 +262,7 @@ const LessonPlanBaseScreen = () => {
     setStartDate(value);
     if (!value) {
 
-      setStartDate(null);
+      setStartDate(value);
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
     }
   };
@@ -272,7 +272,7 @@ const LessonPlanBaseScreen = () => {
 
 
     if (!value) {
-      setEndDate(null);
+      setEndDate(value);
       dispatch(CDAlessonplanlist(GetLessonPlanListBody));
       return;
     }
@@ -374,9 +374,7 @@ const LessonPlanBaseScreen = () => {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  inputProps={{
-                    max: new Date().toISOString().split('T')[0]
-                  }}
+                  
                 />
 
               </Box>
@@ -391,9 +389,7 @@ const LessonPlanBaseScreen = () => {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  inputProps={{
-                    max: new Date().toISOString().split('T')[0]
-                  }}
+                 
                 />
               </Box>
               <Box>
