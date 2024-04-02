@@ -8,7 +8,7 @@ const TransferOptionalSubjectMarksSlice = createSlice({
   name: 'Transfer Optional Subject Marks',
   initialState: {
     ISGetClassTeachers: [],
-    ISStudentsToTransferMarks:{},
+    ISStudentsToTransferMarks:[],
     ISOptionalSubjectsForMarksTransfer:[],
     ISTransferOptionalSubjectMarks:""
 
@@ -46,14 +46,21 @@ export const CDAGetClassTeachers =
       dispatch(TransferOptionalSubjectMarksSlice.actions.RGetClassTeachers(abc));
     };
 
+
     export const CDAStudentsToTransferMarks =
   (data: IGetStudentsToTransferMarksBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiTransferOptionalSubjectMarks.GetStudentsToTransferMarks(data);
-   
-      dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks(response.data));
-    };
+      let TransferStudentSubjectsMarkDetailsList = response.data.TransferStudentSubjectsMarkDetailsList.map((item, i) => ({
+        Text1: item.RegNo,
+        Text2: item.RollNo,
+        Text3: item.StudentName,
+        Text4: item.CurrentApplicableSubjects,
+       
+      }));
+      dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks(TransferStudentSubjectsMarkDetailsList));
 
+    };
 
     export const CDAOptionalSubjectsForMarksTransfer =
     (data: IGetOptionalSubjectsForMarksTransferBody): AppThunk =>

@@ -7,6 +7,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
+import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 
 const TransferOptionalSubjectMarks = () => {
     const dispatch = useDispatch();
@@ -17,13 +18,19 @@ const TransferOptionalSubjectMarks = () => {
     const UserId = Number(localStorage.getItem('UserId'));
     const [selectClasstecaher, setselectClasstecaher] = useState();
     const [Title, setTitle] = useState('');
+    const [SubjectList, setSubjectList] = useState([]);
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
     const USOptionalSubjectsForMarksTransfer = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
 
-
+    const HeaderPublish = [
+        { Id: 1, Header: ' Reg. No.	' },
+        { Id: 2, Header: 'Roll No. 	' },
+        { Id: 3, Header: '	Student Name' },
+        { Id: 4, Header: 'Current Applicable Subjects' }
+    ];
     const GetClassTeachersBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
@@ -61,6 +68,10 @@ const TransferOptionalSubjectMarks = () => {
             setTitle(value);
         }
     };
+    const Changevalue = (value) => {
+        // setitemPublish(value);
+        setSubjectList(value);
+      };
 
     const handleTitle = (value) => {
         setTitle(value);
@@ -110,7 +121,7 @@ const TransferOptionalSubjectMarks = () => {
 
                         <Box sx={{ background: 'white' }}>
                             <TextField
-                             sx={{ pl: 0, minWidth: '350px' }}
+                                sx={{ pl: 0, minWidth: '350px' }}
                                 fullWidth
                                 label="Title"
                                 value={Title}
@@ -145,7 +156,13 @@ const TransferOptionalSubjectMarks = () => {
                 }
 
             />
-
+            <SubjectMarkList
+                ItemList={USStudentsToTransferMarks}
+                HeaderArray={ HeaderPublish}
+                onChange={Changevalue }
+                clickchange={""}
+                clickTitle={""}
+            />
         </Container>
     );
 };

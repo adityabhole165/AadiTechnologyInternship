@@ -26,7 +26,6 @@ export interface IGetStudentsToTransferMarksBody {
 }
 
 
-
 export interface ITransferStudentSubjectsMarkDetailsListResult {
     TransferStudentSubjectsMarkDetailsList: [{
         YearwiseStudentId: string
@@ -37,14 +36,13 @@ export interface ITransferStudentSubjectsMarkDetailsListResult {
         Standard_Division_Id: string
         SubjectId: string
         CurrentApplicableSubjects: string
-    }]
+    }];
     TransferStudentSubjectsMarkDetailsCountList: [{
         Count: string
-    }]
-
-
-}
-
+    }
+    ]
+  }
+  
 
 export interface IGetOptionalSubjectsForMarksTransferBody {
     asSchoolId: number
