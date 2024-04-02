@@ -189,12 +189,13 @@ export const getSubjectExamMarkslist =
             const ExamMarkHeader = {
                 Text1: "Sr.No.",
                 Text2: "Student Name",
-                Text3: "Exam Status",
+
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
                         Id: Item.TestType_Id,
                         Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
-                        Text2: ""
+                        Text2: "",
+                        Text3: "Exam Status",
                     };
                 }),
                 Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
