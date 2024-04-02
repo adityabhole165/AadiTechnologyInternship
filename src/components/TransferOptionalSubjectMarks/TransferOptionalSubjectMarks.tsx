@@ -32,11 +32,13 @@ const TransferOptionalSubjectMarks = () => {
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
-    const USOptionalSubjectsForMarksTransfer = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
+    const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
     const [StudentsList, setStudentsList] = useState([
         USStudentsToTransferMarks
     ]);
+
+    const [Itemlist, setItemlist] = useState([USOptionalSubjectsForMarksTransfer]);
     const HeaderPublish = [
         { Id: 1, Header: ' Reg. No.	' },
         { Id: 2, Header: 'Roll No. 	' },
@@ -73,26 +75,54 @@ const TransferOptionalSubjectMarks = () => {
     };
 
     const GetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asStandardDivisionId": selectClasstecaher,
-        "asName": SearchText,
-        "asEndIndex": 20,
-        "asStartRowIndex": 0
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: selectClasstecaher,
+        asName: SearchText,
+        asEndIndex: 20,
+        asStartRowIndex: 0
     };
 
     const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asStandardDivisionId": 1266
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: asStandardDivisionId
     };
 
-    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asUserId": 4463,
-        "asStudentTransferMarksXml": "<ArrayOfTransferSubjectMarksInfo xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><TransferSubjectMarksInfo><StudentId>37608</StudentId><StandardDivisionId>1266</StandardDivisionId><SubjectId>2353</SubjectId><SubjectGroupId>0</SubjectGroupId></TransferSubjectMarksInfo><TransferSubjectMarksInfo><StudentId>37608</StudentId><StandardDivisionId>1266</StandardDivisionId><SubjectId>2352</SubjectId><SubjectGroupId>0</SubjectGroupId></TransferSubjectMarksInfo></ArrayOfTransferSubjectMarksInfo>"
+
+    const getXML = () => {
+        let sXML =
+            '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+
+        Itemlist.map((Item) => {
+            sXML +=
+                '<TransferSubjectMarksInfo>' +
+                '<StudentId>' + Item.StudentId + '</StudentId>' +
+                '<StandardDivisionId>' + Item.StandardDivisionId + '</StandardDivisionId>' +
+                '<SubjectId>' + Item.SubjectId + '</SubjectId>' +
+                '<SubjectGroupId>' + Item.SubjectGroupId + '</SubjectGroupId>' +
+                '</TransferSubjectMarksInfo>';
+        });
+
+        sXML += '</ArrayOfTransferSubjectMarksInfo>';
+
+        console.log('XMLLLLLLLL', sXML);
+
+        return sXML;
     };
+
+
+    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: UserId,
+        asStudentTransferMarksXml: getXML()
+    };
+
+
+
+
+
 
     const ClickSelctTecher = (value) => {
         setselectClasstecaher(value);

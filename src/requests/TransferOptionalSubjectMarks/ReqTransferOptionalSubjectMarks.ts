@@ -66,8 +66,15 @@ export const CDAGetClassTeachers =
     (data: IGetOptionalSubjectsForMarksTransferBody): AppThunk =>
       async (dispatch) => {
         const response = await ApiTransferOptionalSubjectMarks.GetOptionalSubjectsForMarksTransfer(data);
-     
-        dispatch(TransferOptionalSubjectMarksSlice.actions.ROptionalSubjectsForMarksTransfer(response.data));
+        let abc = response.data.map((item, i) => {
+          return {
+            SubjectId: item.SubjectId,
+            StandardDivisionId: item.SchoolWiseStandardDivisionId,
+            SubjectGroupId: item.SubjectGroupId,
+            StudentId:item.ChildOptionalSubjectId
+          };
+        });
+        dispatch(TransferOptionalSubjectMarksSlice.actions.ROptionalSubjectsForMarksTransfer(abc));
       };
   
 
