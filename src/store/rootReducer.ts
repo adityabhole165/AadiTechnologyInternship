@@ -93,6 +93,8 @@ import AadharcardTecaherSlice from '../requests/NewAadharcard/RAadharcardTecaher
 import Notificationslice from '../requests/Notification/Notification';
 import SubjectExamMarksslice from '../requests/SubjectExamMarks/RequestSubjectExamMarks';
 import ExamResultToppersSlice from '../requests/ExamResult/RequestExamResultToppers';
+import TransferOptionalSubjectMarksSlice from '../requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
+
 
 const rootReducer = combineReducers({
   FeedBack: SliceFeedback,
@@ -190,7 +192,9 @@ const rootReducer = combineReducers({
   UnpublishSlice: UnpublishSlice,
   AadharcardTecaherSlice: AadharcardTecaherSlice,
   SubjectExamMark:SubjectExamMarksslice,
-  ExamResultToppers:ExamResultToppersSlice
+  ExamResultToppers:ExamResultToppersSlice,
+  TransferOptionalSubjectMarks:TransferOptionalSubjectMarksSlice
+
 });
 
 export default rootReducer;
