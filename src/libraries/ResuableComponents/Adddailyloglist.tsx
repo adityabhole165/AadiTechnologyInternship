@@ -4,8 +4,7 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-
-import DeleteTwoTone from '@mui/icons-material/DeleteTwoTone';
+import DeleteForeverIcon from '@mui/icons-material/DeleteForever';
 import EditTwoTone from '@mui/icons-material/EditTwoTone';
 import { Box, Link } from '@mui/material';
 import { ButtonPrimary } from '../styled/ButtonStyle';
@@ -112,7 +111,7 @@ function Adddailyloglist({
 
                 <TableCell sx={{ textTransform: 'capitalize', py: 0.5 }} align="center">
                   {item.Text3 === 'False' ? (
-                    <DeleteTwoTone onClick={() => clickDelete(item.Id)} />
+                     < DeleteForeverIcon  onClick={() => clickDelete(item.Id)} sx={{ color: 'red' }}  />
                   ) : null}
                 </TableCell>
               </TableRow>
