@@ -1,5 +1,7 @@
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Button, Container, Grid, Typography } from '@mui/material';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { Box, Button, Container, IconButton, Tooltip, Typography } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -9,9 +11,7 @@ import {
   IGetClassTeachersBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import Note from 'src/libraries/Note/Note';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList from 'src/libraries/list/DynamicList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
@@ -20,6 +20,7 @@ import {
   getClassTeachers
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import ExamResultUnpublish from '../ExamResultUnpublish/ExamResultUnpublish';
 const ExamResultBase = () => {
   const dispatch = useDispatch();
@@ -173,7 +174,7 @@ const ExamResultBase = () => {
   };
 
 
-  
+
   const TransferOptionalSubjectMarks = (value) => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
@@ -259,11 +260,11 @@ const ExamResultBase = () => {
 
   return (
     <Container>
-      <PageHeader heading={'Exam Results'} subheading={''} />
-      <Note NoteDetail={DisplayNote} />
-      <br></br>
-      <Grid container spacing={2} justifyContent="center" alignItems="center">
-        <Grid item xs={4}>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' }
+        ]}
+        rightActions={<>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ClassTeachers}
@@ -273,12 +274,6 @@ const ExamResultBase = () => {
             mandatory
             size={"small"}
           />
-          <br></br>
-        </Grid>
-
-
-        <Grid item xs={4}>
-
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={AllTestsForClass}
@@ -288,7 +283,6 @@ const ExamResultBase = () => {
             mandatory
             size={"small"}
           />
-
           {/* <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={AllTestsForClass}
@@ -298,41 +292,58 @@ const ExamResultBase = () => {
             mandatory
             size={"small"}
           /> */}
-          <br></br>
-        </Grid>
-        <ButtonPrimary
-          variant="contained"
-          style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
-          onClick={Toppers}
-        >
-          {' '}
-          TOPPERS{' '}
-        </ButtonPrimary>
-      </Grid>
-      <br></br>
-      <Box mb={1}></Box>
+          <Tooltip title={DisplayNote}>
+            <IconButton
+
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[500]
+                }
+              }}
+            >
+              <QuestionMark />
+            </IconButton>
+          </Tooltip>
+          <ButtonPrimary
+            variant="contained"
+            style={{ backgroundColor: 'Blue', padding: '18px' }}
+            onClick={Toppers}
+          >
+            {' '}
+            TOPPERS{' '}
+          </ButtonPrimary>
+
+        </>}
+      />
+
       {loading ? (
         <SuspenseLoader />
       ) : (
-        <Box mb={1}>
-          {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
-            <Typography>No Records Found</Typography>
-          ) : (
-            <DynamicList
-              HeaderList={HeaderList}
-              ItemList={ClassPassFailDetailsForTest}
-              IconList={IconList}
-              ClickItem={ClickItem}
-              LinkList={LinkList}
-              ClickLink={ClickLink}
-            />
-          )}
+        <Box mb={1} sx={{ p: 2, background: 'white' }}>
+          <Box>
+            <Typography variant={'h4'} mb={1}>
+              Results
+            </Typography>
+            {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
+              <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                <b>No Record Found.</b>
+              </Typography>
+            ) : (
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={ClassPassFailDetailsForTest}
+                IconList={IconList}
+                ClickItem={ClickItem}
+                LinkList={LinkList}
+                ClickLink={ClickLink}
+              />
+            )}
+          </Box>
         </Box>
 
       )}
-
-
-
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
         <Button variant="contained" color="primary">
