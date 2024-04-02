@@ -29,7 +29,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
-              return { ...obj, ExamStatus: value }
+              return { ...obj, ExamStatus: value, IsActive: value == "0" }
             }
             else
               return obj
