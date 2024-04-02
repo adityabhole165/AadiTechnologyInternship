@@ -12,7 +12,7 @@ import http from '../../requests/SchoolService/schoolServices';
   };
 
   const GetOptionalSubjectsForMarksTransfer = (data: IGetOptionalSubjectsForMarksTransferBody) => {
-    return http.post<IGetOptionalSubjectsForMarksTransferResult>('Teacher/GetOptionalSubjectsForMarksTransfer', data);
+    return http.post<IGetOptionalSubjectsForMarksTransferResult[]>('Teacher/GetOptionalSubjectsForMarksTransfer', data);
   };
 
   const TransferOptionalSubjectMarks = (data: ITransferOptionalSubjectMarksBody) => {

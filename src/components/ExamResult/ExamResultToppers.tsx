@@ -11,20 +11,18 @@ import { useSelector } from 'react-redux';
 import {
     IGetClassDropdownBodyCT,
     IGetClassSubjectDropdownBodyCT,
-    IGetClassToppersListBOdyCT,
-    IGetexamDropdownBodyCT
-} from 'src/interfaces/FinalResult/IFinalResultToppers';
-import {
-    IGetStandardDropdownBodyST,
+    IGetClassToppersListBOdyCT, IGetStandardDropdownBodyST,
     IGetStandardExamDropdownBodyST,
     IGetStandardToppersListBOdyST,
-    IGetSubjectDropdownBodyST
-} from 'src/interfaces/FinalResult/IStandardToppers';
+    IGetSubjectDropdownBodyST,
+    IGetexamDropdownBodyCT
+} from 'src/interfaces/ExamResult/IExamResultToppers';
+
 import {
     ClassExamListCT,
     ClassSubjectListCT,
     ClassTopperListCT,
-    ClassdropdownListCT
+    ClassdropdownListCT,
 } from 'src/requests/FinalResult/RequestFinalResultToppers';
 import {
     StandardDropdownListST,
@@ -36,12 +34,14 @@ import {
 import Help from '@mui/icons-material/QuestionMark';
 import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
+import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import ToppersList from 'src/libraries/list/ToppersList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState, useDispatch } from 'src/store';
+import { getSchoolConfigurations } from '../Common/Util';
 
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
@@ -57,6 +57,12 @@ const ExamResultToppers = () => {
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
     const [radioBtn, setRadioBtn] = useState('1');
+    const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
+    const ScreensAccessPermission = JSON.parse(
+        sessionStorage.getItem('ScreensAccessPermission')
+    );
+    let CanEdit = getSchoolConfigurations(78)
+console.log(CanEdit,"Canedit");
 
     const RadioListCT = [
         { Value: '1', Name: 'Class Toppers' },
@@ -106,7 +112,14 @@ const ExamResultToppers = () => {
     const GetSubjectToppersListST = useSelector(
         (state: RootState) => state.StandardToppers.StandardSubjectToppersST
     );
-    //
+
+    const GetScreenPermission = () => {
+        let perm = 'N';
+        ScreensAccessPermission?.map((item) => {
+            if (item.ScreenName === 'LessonPlan') perm = item.IsFullAccess;
+        });
+        return perm;
+    };
 
     useEffect(() => {
         dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
@@ -264,16 +277,16 @@ const ExamResultToppers = () => {
                 />
             </div>
             <Box sx={{ textAlign: 'center', marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-    <Typography variant="subtitle1">
-        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="First Rank" /> First Rank
-    </Typography>
-    <Typography variant="subtitle1">
-        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Second Rank" /> Second Rank
-    </Typography>
-    <Typography variant="subtitle1">
-        <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Third Rank" /> Third Rank
-    </Typography>
-</Box>
+                <Typography variant="subtitle1">
+                    <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="First Rank" /> First Rank
+                </Typography>
+                <Typography variant="subtitle1">
+                    <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Second Rank" /> Second Rank
+                </Typography>
+                <Typography variant="subtitle1">
+                    <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Third Rank" /> Third Rank
+                </Typography>
+            </Box>
 
             {radioBtn === '1' ? (
                 <Container>
@@ -285,40 +298,60 @@ const ExamResultToppers = () => {
                                 <b>Select Class:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetClassdropdownCT}
-                                handleChange={clickClassDropdownCT}
-                                defaultValue={SelectClassCT}
-                                label={SelectClassCT}
-                            />
-                        </Grid>
+                        <Box sx={{ background: 'white' }}>
+                            {CanEdit == 'Y' && (
+                                <Box sx={{ background: 'white' }}>
+                                    <SearchableDropdown
+
+                                        sx={{ pl: 0, minWidth: '350px' }}
+                                        ItemList={GetClassdropdownCT}
+                                        onChange={clickClassDropdownCT}
+                                        defaultValue={SelectClassCT}
+                                        size={"small"}
+                                    />
+                                </Box>
+                            )}
+                        </Box>
+                        <br></br>
+                        <br></br>
+
+
                         <Grid item xs={6}>
                             <Typography margin={'1px'}>
                                 <b>Select Exam:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetExamdropdownCT}
-                                handleChange={clickExamDropdownCT}
+                        <Box sx={{ background: 'white' }}>
+                            <SearchableDropdown
+
+                                sx={{ pl: 0, minWidth: '350px' }}
+                                ItemList={GetExamdropdownCT}
+                                onChange={clickExamDropdownCT}
                                 defaultValue={SelectExamCT}
-                                label={SelectExamCT}
+                                size={"small"}
                             />
-                        </Grid>
+                        </Box>
+                        <br></br>
+                        <br></br>
+
                         <Grid item xs={6}>
                             <Typography margin={'1px'}>
                                 <b>Subject:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetSubjectdropdownCT}
-                                handleChange={clickSubjectDropdownCT}
+                        <Box sx={{ background: 'white' }}>
+                            <SearchableDropdown
+
+                                sx={{ pl: 0, minWidth: '350px' }}
+                                ItemList={GetSubjectdropdownCT}
+                                onChange={clickSubjectDropdownCT}
                                 defaultValue={SelectSubjectCT}
-                                label={'All'}
+                                size={"small"}
                             />
-                        </Grid>
+                        </Box>
+                        <br></br>
+                        <br></br>
+
 
                         <DynamicList2
                             HeaderList={HeaderListCT}
@@ -366,14 +399,28 @@ const ExamResultToppers = () => {
                                 <b>Select Standard:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
+                        <Box sx={{ background: 'white' }}>
+                            {CanEdit == 'Y' && (
+                                <Box sx={{ background: 'white' }}>
+                                    <SearchableDropdown
+
+                                        sx={{ pl: 0, minWidth: '350px' }}
+                                        ItemList={GetStandarddropdownST}
+                                        onChange={clickStandardDropdownST}
+                                        defaultValue={SelectStandardST}
+                                        size={"small"}
+                                    />
+                                </Box>
+                            )}
+                        </Box>
+                        {/* <Grid item xs={6}>
                             <Dropdown
                                 Array={GetStandarddropdownST}
                                 handleChange={clickStandardDropdownST}
                                 defaultValue={SelectStandardST}
                                 label={SelectStandardST}
                             />
-                        </Grid>
+                        </Grid> */}
                         <Grid item xs={6}>
                             <Typography margin={'1px'}>
                                 <b>Select Exam:</b>
@@ -460,7 +507,7 @@ const ExamResultToppers = () => {
                     </ButtonPrimary>
                 </Grid>
             </Grid>
-           
+
         </>
     );
 };

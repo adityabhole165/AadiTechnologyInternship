@@ -1,5 +1,5 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Button, Container, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, IconButton, TextField, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -32,11 +32,13 @@ const TransferOptionalSubjectMarks = () => {
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
-    const USOptionalSubjectsForMarksTransfer = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
+    const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
     const [StudentsList, setStudentsList] = useState([
         USStudentsToTransferMarks
     ]);
+
+    const [Itemlist, setItemlist] = useState([USOptionalSubjectsForMarksTransfer]);
     const HeaderPublish = [
         { Id: 1, Header: ' Reg. No.	' },
         { Id: 2, Header: 'Roll No. 	' },
@@ -73,36 +75,83 @@ const TransferOptionalSubjectMarks = () => {
     };
 
     const GetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asStandardDivisionId": selectClasstecaher,
-        "asName": SearchText,
-        "asEndIndex": 20,
-        "asStartRowIndex": 0
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: selectClasstecaher,
+        asName: SearchText,
+        asEndIndex: 20,
+        asStartRowIndex: 0
     };
 
     const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asStandardDivisionId": 1266
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivisionId: asStandardDivisionId
     };
 
-    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
-        "asSchoolId": asSchoolId,
-        "asAcademicYearId": asAcademicYearId,
-        "asUserId": 4463,
-        "asStudentTransferMarksXml": "<ArrayOfTransferSubjectMarksInfo xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"><TransferSubjectMarksInfo><StudentId>37608</StudentId><StandardDivisionId>1266</StandardDivisionId><SubjectId>2353</SubjectId><SubjectGroupId>0</SubjectGroupId></TransferSubjectMarksInfo><TransferSubjectMarksInfo><StudentId>37608</StudentId><StandardDivisionId>1266</StandardDivisionId><SubjectId>2352</SubjectId><SubjectGroupId>0</SubjectGroupId></TransferSubjectMarksInfo></ArrayOfTransferSubjectMarksInfo>"
+
+    const getXML = () => {
+        let sXML =
+            '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
+
+        Itemlist.map((Item) => {
+            sXML +=
+                '<TransferSubjectMarksInfo>' +
+                '<StudentId>' + Item.StudentId + '</StudentId>' +
+                '<StandardDivisionId>' + Item.StandardDivisionId + '</StandardDivisionId>' +
+                '<SubjectId>' + Item.SubjectId + '</SubjectId>' +
+                '<SubjectGroupId>' + Item.SubjectGroupId + '</SubjectGroupId>' +
+                '</TransferSubjectMarksInfo>';
+        });
+
+        sXML += '</ArrayOfTransferSubjectMarksInfo>';
+
+        console.log('XMLLLLLLLL', sXML);
+
+        return sXML;
     };
+
+
+    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: UserId,
+        asStudentTransferMarksXml: getXML()
+    };
+
+
+
+
+
 
     const ClickSelctTecher = (value) => {
         setselectClasstecaher(value);
     };
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    
 
-    const clickSearch = (value) => {
-        if (typeof value === 'string' && value.trim() !== '') {
-            setTitle(value);
-        }
-    };
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+      };
+      const itemsPerPage = 20;
+    
+      useEffect(() => {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+    
+        const newGetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
+            ...GetStudentsToTransferMarksBody,
+            asStartRowIndex: startIndex,
+            asEndIndex: endIndex
+        };
+    
+        dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
+    }, [page]);
+    
+    
+
+  
 
     const changeSearchText = () => {
         if (SearchText === '') {
@@ -128,6 +177,11 @@ const TransferOptionalSubjectMarks = () => {
     useEffect(() => {
         setStudentsList(USStudentsToTransferMarks);
     }, [USStudentsToTransferMarks, selectClasstecaher]);
+
+    useEffect(() => {
+        if (USClassTeacherList.length > 0)
+        setselectClasstecaher(USClassTeacherList[0].Id);
+      }, [USClassTeacherList]);
 
     const Changevalue = (value) => {
 
@@ -230,6 +284,15 @@ const TransferOptionalSubjectMarks = () => {
                 clickchange={""}
                 clickTitle={""}
             />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                    Select a page:
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                      <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                      <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                      
+                    </ButtonGroup>
+                  </Box> 
 
             <Notes NoteDetail={Note1} Header={Hedaer1} />
             <Notes NoteDetail={Note2} Header={Hedaer2} />

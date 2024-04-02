@@ -352,13 +352,13 @@ const teacherRoutes = [
     element: <WeeklyTimetable />
   },
   {
-    path: 'ExamResultToppers',
+    path: 'ExamResultToppers/:TeacherId',
     element: <ExamResultToppers />
   }
   ,
   {
     path: 'TransferOptionalSubjectMarks',
-    element: <TransferOptionalSubjectMarks/>
+    element: <TransferOptionalSubjectMarks />
   }
 
 ];
