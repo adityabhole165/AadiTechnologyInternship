@@ -493,3 +493,13 @@ export function stripHtml(html: string) {
   const doc = new DOMParser().parseFromString(html, 'text/html');
   return doc.body.textContent || '';
 }
+
+export function getSchoolConfigurations(value) {
+  const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
+  let CanEdit = ""
+  SchoolConfiguration.map((Item) => {
+    if (Item.Configure_Id == value)
+      CanEdit = Item.Can_Edit
+  })
+  return CanEdit
+}

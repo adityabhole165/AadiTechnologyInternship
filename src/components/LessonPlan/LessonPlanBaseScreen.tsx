@@ -30,6 +30,7 @@ import {
 } from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 
 import { RootState } from 'src/store';
+import { getSchoolConfigurations } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 const LessonPlanBaseScreen = () => {
   const dispatch = useDispatch();
@@ -46,13 +47,7 @@ const LessonPlanBaseScreen = () => {
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
 
-  const SchoolConfiguration = JSON.parse(sessionStorage.getItem('SchoolConfiguration'));
-
-  let CanEdit = ""
-  SchoolConfiguration.map((Item) => {
-    if (Item.Configure_Id == 233)
-      CanEdit = Item.Can_Edit
-  })
+  let CanEdit = getSchoolConfigurations(233)
 
   const [isDeleteEffectTriggered, setDeleteEffectTriggered] = useState(false);
 
@@ -374,7 +369,7 @@ const LessonPlanBaseScreen = () => {
                   InputLabelProps={{
                     shrink: true
                   }}
-                  
+
                 />
 
               </Box>
@@ -389,7 +384,7 @@ const LessonPlanBaseScreen = () => {
                   InputLabelProps={{
                     shrink: true
                   }}
-                 
+
                 />
               </Box>
               <Box>
