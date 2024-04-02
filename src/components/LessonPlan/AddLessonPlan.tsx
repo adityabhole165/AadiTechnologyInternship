@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
-import CDAlessonplanlist from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -99,19 +98,18 @@ const AddLessonPlan = (SelectedDate) => {
     };
     dispatch(classnamelist(ClassListBody));
   }, [TeacherId]);
-
+  const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+    asSchoolId: 18,
+    asAcademicYearId: 54,
+    asStandardDivId: 0,
+    asUserId: 4463,
+    asReportingUserId: 4463,
+    asStartDate: "2024-10-10 12:00:00 AM",
+    asEndDate: "2024-10-10 12:00:00 AM",
+    IsNewMode: true
+  };
   useEffect(() => {
-    const AddOrEditLessonPlanDetails: IAddOrEditLessonPlanDetailsBody = {
-      asSchoolId: 18,
-      asAcademicYearId: 54,
-      asStandardDivId: 0,
-      asUserId: 4463,
-      asReportingUserId: 4463,
-      asStartDate: "2024-10-10 12:00:00 AM",
-      asEndDate: "2024-10-10 12:00:00 AM",
-      IsNewMode: true
-    };
-    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetails))
+    dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
   }, [])
   useEffect(() => {
     if (AddOrEditLessonPlanDetails.length > 0)
@@ -121,7 +119,8 @@ const AddLessonPlan = (SelectedDate) => {
     if (SaveLessonPlans !== '') {
       toast.success(SaveLessonPlans)
       dispatch(resetsaveLessonPlan())
-      dispatch(CDAlessonplanlist)
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+      // dispatch(CDAlessonplanlist)
     }
   }, [SaveLessonPlans])
 
