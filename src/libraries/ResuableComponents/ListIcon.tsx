@@ -36,10 +36,10 @@ function ListIcon({
                 break;
 
             case "2":
-                icon =<Box sx={{ display: 'inline-block', verticalAlign: 'top', padding: '2px' }}>
-                <b>N/A</b>
-            </Box>
-            
+                icon = <Box sx={{ display: 'inline-block', verticalAlign: 'top', padding: '2px' }}>
+                    <b>N/A</b>
+                </Box>
+
                 break;
 
             default:
@@ -63,7 +63,7 @@ function ListIcon({
                                 !(item.Header == "Edit" && !ShowEdit
                                     || item.Header == "View" && ShowEdit
                                 ) &&
-                                < TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#324b84', color: 'white' }}>
+                                < TableCell key={i} align={item.align ? item.align : 'left'} sx={{ backgroundColor: '#19bed4', color: 'white' }}>
                                     <b>{item.Header}</b>
                                 </TableCell>)
                             )}
