@@ -34,6 +34,8 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
     }
 
     const onSubChangeValue = (StdId, DivisionId, Id, Value) => {
+        console.log(StdId, "StdId", DivisionId, "DivisionId", Id, "Id", Value, "Value", exampleLessonDetails);
+
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
                 ...Item,
@@ -45,14 +47,16 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                 return {
                                     ...subItem,
                                     value: (subItem.Id == Id) ?
-                                        Value : Item.planDetails[subIndex].value
+                                        Value : obj.subPlanDetails[subIndex].value
                                 }
                             }) :
-                            Item.subPlanDetails
+                            obj.subPlanDetails
                     }
                 })
             }
         })
+        console.log(exampleLessonDetails);
+
         onTextChange(exampleLessonDetails)
     }
 
