@@ -127,10 +127,10 @@ const TransferOptionalSubjectMarks = () => {
 
     useEffect(() => {
         setStudentsList(USStudentsToTransferMarks);
-      }, [USStudentsToTransferMarks,selectClasstecaher]);
+    }, [USStudentsToTransferMarks, selectClasstecaher]);
 
     const Changevalue = (value) => {
-       
+
         setSubjectList(value);
     };
 
@@ -138,7 +138,7 @@ const TransferOptionalSubjectMarks = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
 
-   
+
 
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));
@@ -171,13 +171,17 @@ const TransferOptionalSubjectMarks = () => {
 
                             <Box sx={{ background: 'white' }}>
                                 <SearchableDropdown
-                                    label={"Select Teacher"}
-                                    sx={{ pl: 0, minWidth: '350px' }}
+                                    sx={{ minWidth: '300px' }}
                                     ItemList={USClassTeacherList}
                                     onChange={ClickSelctTecher}
+                                    label={'Select Teacher:'}
                                     defaultValue={selectClasstecaher}
+                                    mandatory
                                     size={"small"}
                                 />
+
+
+
                             </Box>
 
                         </Box>
