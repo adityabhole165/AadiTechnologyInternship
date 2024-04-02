@@ -26,12 +26,17 @@ const TransferOptionalSubjectMarks = () => {
     const [selectClasstecaher, setselectClasstecaher] = useState();
     const [Title, setTitle] = useState('');
     const [SubjectList, setSubjectList] = useState([]);
+    const [SearchText, setSearchText] = useState('');
+
+
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
     const USOptionalSubjectsForMarksTransfer = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
-
+    const [StudentsList, setStudentsList] = useState([
+        USStudentsToTransferMarks
+    ]);
     const HeaderPublish = [
         { Id: 1, Header: ' Reg. No.	' },
         { Id: 2, Header: 'Roll No. 	' },
@@ -71,7 +76,7 @@ const TransferOptionalSubjectMarks = () => {
         "asSchoolId": asSchoolId,
         "asAcademicYearId": asAcademicYearId,
         "asStandardDivisionId": selectClasstecaher,
-        "asName": Title,
+        "asName": SearchText,
         "asEndIndex": 20,
         "asStartRowIndex": 0
     };
@@ -98,8 +103,34 @@ const TransferOptionalSubjectMarks = () => {
             setTitle(value);
         }
     };
+
+    const changeSearchText = () => {
+        if (SearchText === '') {
+            setStudentsList(USStudentsToTransferMarks);
+        } else {
+            setStudentsList(
+                USStudentsToTransferMarks.filter((item) => {
+                    return (
+                        item.Text3.toLowerCase().includes(SearchText.toLowerCase()) ||
+                        item.Text1.toLowerCase().includes(SearchText.toLowerCase())
+                    );
+                })
+            );
+        }
+    };
+
+
+    const SearchNameChange = (value) => {
+        setSearchText(value);
+    };
+
+
+    useEffect(() => {
+        setStudentsList(USStudentsToTransferMarks);
+      }, [USStudentsToTransferMarks,selectClasstecaher]);
+
     const Changevalue = (value) => {
-        // setitemPublish(value);
+       
         setSubjectList(value);
     };
 
@@ -107,9 +138,7 @@ const TransferOptionalSubjectMarks = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
 
-    const handleTitle = (value) => {
-        setTitle(value);
-    };
+   
 
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));
@@ -158,15 +187,15 @@ const TransferOptionalSubjectMarks = () => {
                                 sx={{ pl: 0, minWidth: '350px' }}
                                 fullWidth
                                 label="Student Name / Reg.No. :"
-                                value={Title}
+                                value={SearchText}
                                 variant={'standard'}
                                 onChange={(e) => {
-                                    handleTitle(e.target.value);
+                                    SearchNameChange(e.target.value);
                                 }}
                             />
                         </Box>
 
-                        <Button onClick={clickSearch} variant="contained" >
+                        <Button onClick={changeSearchText} variant="contained" >
                             Search
                         </Button>
 
@@ -191,7 +220,7 @@ const TransferOptionalSubjectMarks = () => {
 
             />
             <SubjectMarkList
-                ItemList={USStudentsToTransferMarks}
+                ItemList={StudentsList}
                 HeaderArray={HeaderPublish}
                 onChange={Changevalue}
                 clickchange={""}
