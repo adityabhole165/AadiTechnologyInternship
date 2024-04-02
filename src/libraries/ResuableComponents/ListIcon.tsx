@@ -36,7 +36,10 @@ function ListIcon({
                 break;
 
             case "2":
-                icon = <b>N/A</b>
+                icon =<Box sx={{ display: 'inline-block', verticalAlign: 'top', padding: '2px' }}>
+                <b>N/A</b>
+            </Box>
+            
                 break;
 
             default:
