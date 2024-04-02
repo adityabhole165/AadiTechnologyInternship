@@ -26,6 +26,7 @@ const SubjectExamMarks = () => {
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
+  const userId = sessionStorage.getItem('Id');
   const [TestDate, setTestDate] = useState('');
   const [DisplayName, setDisplayName] = useState('');
   const [SubjectTotalMarks, setSubjectTotalMarks] = useState('')
@@ -43,7 +44,6 @@ const SubjectExamMarks = () => {
   const [StudentTestTypeDetails, setStudentTestTypeDetails] = useState('');
   const [RemoveProgress, setRemoveProgress] = useState('');
   const [RemarkXml, setRemarkXml] = useState('');
-  const [InsertedByid, setInsertedByid] = useState('');
   const [HasRemark, setHasRemark] = useState(false);
   const [ShowTotalAsPerOutOfMarks, setShowTotalAsPerOutOfMarks] = useState('');
   const [selectStandard, setSelectStandard] = useState('');
@@ -186,13 +186,45 @@ const SubjectExamMarks = () => {
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/AssignExamMark');
   };
+  const getStudentTestType = () => {
+    let returnVal = "<SchoolWiseStudentTestMarks>"
+    MarksAssignment.map((Item, i) => {
+      returnVal = returnVal + "<SchoolWiseStudentTestMark " +
+        "School_Id=\"" + asSchoolId +
+        "\" Academic_Year_Id=\"" + asAcademicYearId +
+        "\" Student_Id=\"" + Item.Id +
+        "\" Subject_Id=\"" + SubjectId +
+        "\" TestWise_Subject_Marks_Id=\"" + 37699 +
+        "\" Test_Date=\"" + TestDate +
+        "\" IsSavedForSingleStudent=\"False\" Total_Marks_Scored=\"" + parseInt(Item.TotalMarks) +
+        "\" IsAbsent=\"Y\" IsOptional=\"N\" />"
+    })
+    return returnVal + "</SchoolWiseStudentTestMarks>"
+  }
+  const getStudentTestTypeDetails = () => {
+    let returnVal = "<SchoolWiseStudentTestMarksDetails>"
+    MarksAssignment.map((Obj, i) => {
+      Obj.MarksForStudent.map((Item) => {
+        returnVal = returnVal + "<SchoolWiseStudentTestMarksDetail " +
+          "School_Id=\"" + asSchoolId +
+          "\" Academic_Year_Id=" + asAcademicYearId +
+          " Student_Id=\"" + Item.Id +
+          "\" Subject_Id=\"" + SubjectId +
+          "\" Is_Absent=\"Y\" " +
+          "TestType_Id=\"" + Item.Id +
+          "\" Marks_Scored=\"" + parseInt(Item.Text1) +
+          "\" Assigned_Grade_Id=\"\" />"
+      })
+    })
+    return returnVal + "</SchoolWiseStudentTestMarksDetails>"
+  }
   const onClickSave = () => {
     if (!MarksError) {
       const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
         asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
-        asInserted_By_id: Number(InsertedByid),
-        Student_Test_Type_Marks: StudentTestType,
-        Student_Test_Type_Marks_Details: StudentTestTypeDetails,
+        asInserted_By_id: Number(userId),
+        Student_Test_Type_Marks: getStudentTestType(),
+        Student_Test_Type_Marks_Details: getStudentTestTypeDetails(),
         asRemoveProgress: RemoveProgress,
         RemarkXml: RemarkXml,
         asHasRemark: HasRemark,
