@@ -12,6 +12,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import CDAlessonplanlist from 'src/requests/LessonPlan/RequestLessonPlanBaseScreen';
 import { RootState } from 'src/store';
+import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
 import LessonPlanList from './LessonPlanList';
 
@@ -29,12 +30,12 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
   border: '1px solid rgba(224, 224, 224, 1)',
 }))
 
-const AddLessonPlan = () => {
+const AddLessonPlan = (SelectedDate) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [StartDate, setStartDate] = useState('');
-  const [EndDate, setEndDate] = useState('');
+  const [StartDate, setStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
+  const [EndDate, setEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
   const [UpdatedById, setUpdatedById] = useState('');
@@ -42,6 +43,8 @@ const AddLessonPlan = () => {
   const [OldEndDate, setOldEndDate] = useState('');
   const [ItemList, setItemList] = useState('');
   const [ApproverComment, setApproverComment] = useState('');
+  const [errorStartDate, seterrorStartDate] = useState('');
+  const [errorEndDate, seterrorEndDate] = useState('')
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -214,10 +217,37 @@ const AddLessonPlan = () => {
   const onTextChange = (value) => {
     setExampleLessonDetails(value)
   }
-  const onClickSave = () => {
-    dispatch(SaveLessonPlan(SaveLessonPlanBody));
-  }
+  const IsFormValid = () => {
+    let returnVal = false;
+    // if (exampleLessonDetails === []) {
+    //     setExampleLessonDetails('Lesson Plan should be set for at least one parameter.');
+    //     returnVal = true;
+    // } else {
+    //     setExampleLessonDetails([]);
+    // }
+    if (isGreaterThanDate(StartDate, EndDate)) {
+      seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
+    } else
+      if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
+        seterrorStartDate('Please fix following error(s): Date(s) should not be out of academic year' +
+          '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+          ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+      } else seterrorStartDate('')
+    if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
+    ) {
+      seterrorEndDate(' Please fix following error(s): Date(s) should not be out of academic year.' +
+        '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
+        ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+    } else seterrorEndDate('')
 
+    return returnVal;
+  };
+
+  const onClickSave = () => {
+    if (IsFormValid()) {
+      dispatch(SaveLessonPlan(SaveLessonPlanBody));
+    }
+  };
   return (
     <Container maxWidth="xl">
       <CommonPageHeader
@@ -306,6 +336,8 @@ const AddLessonPlan = () => {
               }}
               value={StartDate}
               onChange={(e) => onSelectStartDate(e.target.value)}
+              error={errorStartDate !== ''}
+              helperText={errorStartDate}
             />
           </Grid>
           <Grid item xs={3}>
@@ -321,6 +353,9 @@ const AddLessonPlan = () => {
               }}
               value={EndDate}
               onChange={(e) => onSelectEndDate(e.target.value)}
+              error={errorEndDate !== ''}
+              helperText={errorEndDate}
+
             />
           </Grid>
           <Grid item xs={3}>
