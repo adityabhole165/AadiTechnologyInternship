@@ -1,5 +1,4 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
@@ -128,16 +127,10 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   return (<TableRow key={i}>
                     <TableCell>{Item.Text1}</TableCell>
                     <TableCell>{Item.Text2}</TableCell>
-                    <TableCell>
-                      <Dropdown
-                        defaultValue={Item.ExamStatus}
-                        variant='outlined'
-                        Array={ExamStatus}
-                        handleChange={(value) => { changeExamStatus(value, Item.Id) }}
-                      />
-                    </TableCell>
+
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
-                      changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList} />
+                      changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
+                      ExamStatus={ExamStatus} changeExamStatus={changeExamStatus} />
                     <TableCell>
                       <TextField sx={{ width: '80px' }} size={"small"}
                         disabled
