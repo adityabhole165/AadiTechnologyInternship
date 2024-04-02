@@ -9,6 +9,7 @@ const TransferOptionalSubjectMarksSlice = createSlice({
   initialState: {
     ISGetClassTeachers: [],
     ISStudentsToTransferMarks:[],
+    ISStudentsToTransferMarks1:[],
     ISOptionalSubjectsForMarksTransfer:[],
     ISTransferOptionalSubjectMarks:""
 
@@ -21,6 +22,9 @@ const TransferOptionalSubjectMarksSlice = createSlice({
     },
     RStudentsToTransferMarks(state, action) {
         state.ISStudentsToTransferMarks = action.payload;
+      },
+      RStudentsToTransferMarks1(state, action) {
+        state.ISStudentsToTransferMarks1 = action.payload;
       },
       ROptionalSubjectsForMarksTransfer(state, action) {
         state.ISOptionalSubjectsForMarksTransfer = action.payload;
@@ -71,7 +75,16 @@ export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody
         Text4: subjectsByRollNo[rollNo].join(', ') 
     }));
 
+
+
+    let TransferStudentSubjectsMarkDetailsCountList = response.data.TransferStudentSubjectsMarkDetailsCountList.map(item => ({
+   
+      Count: item.Count
+     
+    }))
     dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks(TransferStudentSubjectsMarkDetailsList));
+    dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks1(TransferStudentSubjectsMarkDetailsCountList));
+
 };
 
 

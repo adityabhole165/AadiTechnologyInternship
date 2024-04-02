@@ -29,14 +29,17 @@ const TransferOptionalSubjectMarks = () => {
     const [SearchText, setSearchText] = useState('');
 
 
-
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
     const USStudentsToTransferMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks);
+    const USStudentsToTransferMarks1: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISStudentsToTransferMarks1);
+
     const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
     const [StudentsList, setStudentsList] = useState([
         USStudentsToTransferMarks
     ]);
+
+
 
     const [Itemlist, setItemlist] = useState([USOptionalSubjectsForMarksTransfer]);
     const HeaderPublish = [
@@ -128,30 +131,30 @@ const TransferOptionalSubjectMarks = () => {
         setselectClasstecaher(value);
     };
     const [page, setPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(1);
-    
+
 
     const handlePageChange = (pageNumber) => {
         setPage(pageNumber);
-      };
-      const itemsPerPage = 20;
-    
-      useEffect(() => {
+    };
+    const itemsPerPage = 20;
+
+    const startIndex = (page - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    useEffect(() => {
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
-    
+
         const newGetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
             ...GetStudentsToTransferMarksBody,
             asStartRowIndex: startIndex,
             asEndIndex: endIndex
         };
-    
+
         dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
     }, [page]);
-    
-    
 
-  
+
+
 
     const changeSearchText = () => {
         if (SearchText === '') {
@@ -180,8 +183,8 @@ const TransferOptionalSubjectMarks = () => {
 
     useEffect(() => {
         if (USClassTeacherList.length > 0)
-        setselectClasstecaher(USClassTeacherList[0].Id);
-      }, [USClassTeacherList]);
+            setselectClasstecaher(USClassTeacherList[0].Id);
+    }, [USClassTeacherList]);
 
     const Changevalue = (value) => {
 
@@ -253,9 +256,17 @@ const TransferOptionalSubjectMarks = () => {
                             />
                         </Box>
 
-                        <Button onClick={changeSearchText} variant="contained" >
-                            Search
-                        </Button>
+
+                        {StudentsList.length > 0 ? (
+                            <Button onClick={changeSearchText} variant="contained">
+                                Search
+                            </Button>
+                        ) : (
+                            <Button onClick={changeSearchText} variant="contained" disabled>
+                                Search
+                            </Button>
+                        )}
+
 
                         <Box>
                             <Tooltip title={"Displays all available lesson plans."}>
@@ -277,6 +288,19 @@ const TransferOptionalSubjectMarks = () => {
                 }
 
             />
+
+
+            {StudentsList.length > 0 ? (
+                <Box sx={{ textAlign: 'center' }}>
+                    <b>{`${startIndex} To ${endIndex} Out Of 39 Records`}</b>
+                </Box>
+            ) : (
+
+                <span></span>
+            )}
+
+
+
             <SubjectMarkList
                 ItemList={StudentsList}
                 HeaderArray={HeaderPublish}
@@ -285,14 +309,14 @@ const TransferOptionalSubjectMarks = () => {
                 clickTitle={""}
             />
 
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                    Select a page:
-                    <ButtonGroup color="primary" aria-label="outlined primary button group">
-                      <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                      <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-                      
-                    </ButtonGroup>
-                  </Box> 
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                Select a page:
+                <ButtonGroup color="primary" aria-label="outlined primary button group">
+                    <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                    <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+
+                </ButtonGroup>
+            </Box>
 
             <Notes NoteDetail={Note1} Header={Hedaer1} />
             <Notes NoteDetail={Note2} Header={Hedaer2} />
@@ -300,18 +324,24 @@ const TransferOptionalSubjectMarks = () => {
             <Notes NoteDetail={Note4} Header={Hedaer4} />
 
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                <ButtonPrimary
-                    variant="contained"
-                    style={{
-                        backgroundColor: 'green',
-                        color: 'white',
-                        marginRight: '10px'
-                    }}
 
-                >
-                    TRANSFER
-                </ButtonPrimary>
-                <ButtonPrimary
+
+                {StudentsList.length > 0 ? (
+                    <Button variant="contained" sx={{
+                        backgroundColor: 'green',
+                        color: 'white'
+                    }}>
+                        TRANSFER
+                    </Button>
+                ) : (
+                    <Button variant="contained" disabled sx={{
+                        backgroundColor: 'red',
+                        color: 'white'
+                    }}>
+                        TRANSFER
+                    </Button>
+                )}
+                <Button
                     variant="contained"
                     style={{
                         backgroundColor: 'Red',
@@ -320,7 +350,7 @@ const TransferOptionalSubjectMarks = () => {
                     }}
                     onClick={ExamResultBase} >
                     BACK
-                </ButtonPrimary>
+                </Button>
 
             </Box>
 
