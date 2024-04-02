@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Button, Container, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Container, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -187,20 +187,22 @@ const SubjectExamMarks = () => {
     navigate('/extended-sidebar/Teacher/AssignExamMark');
   };
   const onClickSave = () => {
-    const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-      asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
-      asInserted_By_id: Number(InsertedByid),
-      Student_Test_Type_Marks: StudentTestType,
-      Student_Test_Type_Marks_Details: StudentTestTypeDetails,
-      asRemoveProgress: RemoveProgress,
-      RemarkXml: RemarkXml,
-      asHasRemark: HasRemark,
-      asTestId: Number(ClassWiseExam),
-      asSubjectId: Number(SubjectId),
-      asSchoolId: Number(asSchoolId),
-      asAcademicYearId: Number(asAcademicYearId)
-    };
-    dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+    if (!MarksError) {
+      const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+        asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
+        asInserted_By_id: Number(InsertedByid),
+        Student_Test_Type_Marks: StudentTestType,
+        Student_Test_Type_Marks_Details: StudentTestTypeDetails,
+        asRemoveProgress: RemoveProgress,
+        RemarkXml: RemarkXml,
+        asHasRemark: HasRemark,
+        asTestId: Number(ClassWiseExam),
+        asSubjectId: Number(SubjectId),
+        asSchoolId: Number(asSchoolId),
+        asAcademicYearId: Number(asAcademicYearId)
+      };
+      dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+    }
   };
 
   useEffect(() => {
@@ -215,12 +217,18 @@ const SubjectExamMarks = () => {
     { Marks: 10, Grade: "A" },
     { Marks: 8, Grade: "B" }
   ]
-  // const ExamMarksHeader = [
-  //   { Subject: "Theory/20", Total: "15" },
-  //   { Subject: "Library/10", Total: "8" }
-  // ]
+  const [MarksError, setMarksError] = useState(false)
+
   const onChangeExamStatus = (value) => {
     setMarksAssignment(value)
+    setMarksError(false)
+    value.map((Obj, i) => {
+      Obj.MarksForStudent.map((Item, Index) => {
+        if (Number(Item.Text1) > Number(Item.Text2))
+          setMarksError(true)
+      })
+    })
+
   }
   const onClickExamHeader = (value) => {
     setHeaderDetails(value);
@@ -297,10 +305,11 @@ const SubjectExamMarks = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: green[500],
+                    backgroundColor: MarksError ? grey[500] : green[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: green[600] }
+                    ':hover': { backgroundColor: MarksError ? grey[500] : green[600], }
                   }}
+                  onClick={onClickSave}
                 >
                   <Save />
                 </IconButton>
@@ -321,7 +330,9 @@ const SubjectExamMarks = () => {
             {/* Passing Marks: 20 */}
             <TextField fullWidth value={TestMarkDetails?.length > 0 ?
               (TestMarkDetails[0].Passing_Total_Marks) : ''} />
-          </Typography>
+          </Typography>{MarksError &&
+            <Typography sx={{ color: 'red' }}>Highlighted Marks should be less than total marks</Typography>
+          }
         </Box>
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
@@ -333,15 +344,6 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList} />
         }
       </Box>
-      <Button onClick={onClickSave} variant="contained">
-        Save
-      </Button>
-      <br>
-      </br>
-      <br></br>
-      <Button color={'error'} onClick={onClickBack} variant="contained">
-        Back
-      </Button>
 
     </Container>
   );

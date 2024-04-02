@@ -1,4 +1,4 @@
-import { TableCell, TextField } from '@mui/material';
+import { TableCell, TextField, Tooltip } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 const validateInput = (inputValue) => {
 
@@ -41,13 +41,22 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                     />
                 </TableCell>
                 <TableCell key={Index}>
-                    <TextField sx={{ width: '50px' }} size={"small"}
-                        value={Item.Text1}
-                        disabled={!Item.IsActive}
-                        onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
-                    />
+                    <Tooltip title={
+                        (Number(Item.Text1) > Number(Item.Text2)) ?
+                            ("Marks Scored should be less than " + Item.Text2)
+                            : null}>
+                        <TextField size={"small"}
+                            sx={{
+                                width: '50px',
+                                border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
+                                borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
+                            }}
+                            value={Item.Text1} disabled={!Item.IsActive}
+                            onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
+                        />
+                    </Tooltip>
                     {getGrade(Item.Text1, Item.Text2)}
-                </TableCell></>)
+                </TableCell ></>)
         })
         }
     </>)

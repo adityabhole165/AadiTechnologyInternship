@@ -157,7 +157,8 @@ export const getSubjectExamMarkslist =
                             Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
                             ExamStatus: "0",
-                            IsActive: true
+                            IsActive: true,
+                            ErrorMessage: ""
                         });
                 });
                 return arr
@@ -197,7 +198,6 @@ export const getSubjectExamMarkslist =
                         Text2: "",
                         Text3: "Exam Status",
                         setErrorMessage: "",
-                    
                     };
                 }),
                 Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
