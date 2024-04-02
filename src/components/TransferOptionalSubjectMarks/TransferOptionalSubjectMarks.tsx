@@ -159,6 +159,11 @@ const TransferOptionalSubjectMarks = () => {
         setStudentsList(USStudentsToTransferMarks);
     }, [USStudentsToTransferMarks, selectClasstecaher]);
 
+    useEffect(() => {
+        if (USClassTeacherList.length > 0)
+        setselectClasstecaher(USClassTeacherList[0].Id);
+      }, [USClassTeacherList]);
+
     const Changevalue = (value) => {
 
         setSubjectList(value);
