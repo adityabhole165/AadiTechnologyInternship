@@ -12,7 +12,8 @@ const AddLessonPlanSlice = createSlice({
     submitLessonPlanmsg: '',
     saveApproverCommentmsg: '',
     updateLessonPlanDatemsg: '',
-    Loading: true
+    Loading: true,
+    ApproverDetails: []
   },
 
   reducers: {
@@ -23,6 +24,10 @@ const AddLessonPlanSlice = createSlice({
     getAddOrEditLessonPlanDetails(state, action) {
       state.Loading = false;
       state.AddOrEditLessonPlanDetails = action.payload;
+    },
+    getApproverDetails(state, action) {
+      state.Loading = false;
+      state.ApproverDetails = action.payload;
     },
     saveLessonPlan(state, action) {
       state.Loading = false;
@@ -112,7 +117,9 @@ export const GetAddOrEditLessonPlanDetails =
           planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId)
         })
       })
+
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
+      dispatch(AddLessonPlanSlice.actions.getApproverDetails(response.data.GetLessonPlanReportingConfigList));
     };
 export const SaveLessonPlan =
   (data: ISaveLessonPlanBody): AppThunk =>

@@ -62,6 +62,7 @@ const AddLessonPlan = (SelectedDate) => {
 
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
+  const ApproverDetails = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
@@ -387,72 +388,31 @@ const AddLessonPlan = (SelectedDate) => {
             <Typography variant={"h5"} mb={1}>
               Activity
             </Typography>
-            <Grid container>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Name:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Submitted On:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Name:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Approved On:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Name:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
-                <Typography color={"primary"} fontWeight={"bold"}>
-                  Approved On:
-                </Typography>
-              </Grid>
-              <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-                <Typography color={"primary"}>
-                  Ms. Manjiri S. Phadke
-                </Typography>
-              </Grid>
-            </Grid>
+            {ApproverDetails?.map((Item, i) => {
+              return (<Grid container key={i}>
+                < Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                  <Typography color={"primary"} fontWeight={"bold"}>
+                    Name:
+                  </Typography>
+                </Grid>
+                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                  <Typography color={"primary"}>
+                    {Item.ReportingUserName}
+                  </Typography>
+                </Grid>
+                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
+                  <Typography color={"primary"} fontWeight={"bold"}>
+                    {i == 0 ? "Submitted On:" : "Approved On:"}
+                  </Typography>
+                </Grid>
+                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                  <Typography color={"primary"}>
+                    Ms. Manjiri S. Phadke
+                  </Typography>
+                </Grid>
+              </Grid>)
+            })
+            }
           </Grid>
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
@@ -593,7 +553,7 @@ const AddLessonPlan = (SelectedDate) => {
           BACK
         </ButtonPrimary>
       </div> */}
-    </Container>
+    </Container >
   );
 };
 
