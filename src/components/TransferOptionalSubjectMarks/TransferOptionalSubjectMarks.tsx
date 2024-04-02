@@ -1,5 +1,5 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Box, Button, Container, IconButton, TextField, Tooltip } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, IconButton, TextField, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -127,12 +127,31 @@ const TransferOptionalSubjectMarks = () => {
     const ClickSelctTecher = (value) => {
         setselectClasstecaher(value);
     };
+    const [page, setPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(1);
+    
 
-    const clickSearch = (value) => {
-        if (typeof value === 'string' && value.trim() !== '') {
-            setTitle(value);
-        }
-    };
+    const handlePageChange = (pageNumber) => {
+        setPage(pageNumber);
+      };
+      const itemsPerPage = 20;
+    
+      useEffect(() => {
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+    
+        const newGetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
+            ...GetStudentsToTransferMarksBody,
+            asStartRowIndex: startIndex,
+            asEndIndex: endIndex
+        };
+    
+        dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
+    }, [page]);
+    
+    
+
+  
 
     const changeSearchText = () => {
         if (SearchText === '') {
@@ -265,6 +284,15 @@ const TransferOptionalSubjectMarks = () => {
                 clickchange={""}
                 clickTitle={""}
             />
+
+              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                    Select a page:
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                      <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                      <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                      
+                    </ButtonGroup>
+                  </Box> 
 
             <Notes NoteDetail={Note1} Header={Hedaer1} />
             <Notes NoteDetail={Note2} Header={Hedaer2} />
