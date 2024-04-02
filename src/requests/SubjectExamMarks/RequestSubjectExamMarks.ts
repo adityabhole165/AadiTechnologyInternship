@@ -196,6 +196,8 @@ export const getSubjectExamMarkslist =
                         Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
                         Text2: "",
                         Text3: "Exam Status",
+                        setErrorMessage: "",
+                    
                     };
                 }),
                 Text5: "Total/" + response2.data.listTestDetailss[0].TotalMarks
