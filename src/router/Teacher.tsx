@@ -1,5 +1,6 @@
 import { Suspense, lazy } from 'react';
 import ExamResultBase from 'src/components/ExamResult/ExamResultBase';
+import TransferOptionalSubjectMarks from 'src/components/TransferOptionalSubjectMarks/TransferOptionalSubjectMarks';
 
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 
@@ -353,6 +354,11 @@ const teacherRoutes = [
   {
     path: 'ExamResultToppers',
     element: <ExamResultToppers />
+  }
+  ,
+  {
+    path: 'TransferOptionalSubjectMarks',
+    element: <TransferOptionalSubjectMarks/>
   }
 
 ];

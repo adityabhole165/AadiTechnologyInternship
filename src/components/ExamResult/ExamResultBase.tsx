@@ -172,6 +172,12 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks');
   };
 
+
+  
+  const TransferOptionalSubjectMarks = (value) => {
+    navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
+  };
+
   const ClickLink = (value) => {
     console.log(value, "ClickLink");
 
@@ -360,7 +366,7 @@ const ExamResultBase = () => {
         <Button variant="contained" color="primary" onClick={ProgressRemark}>
           Progress Remarks
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={TransferOptionalSubjectMarks}>
           Transfer Optional Subject Marks
         </Button>
         <Button variant="contained" color="primary" onClick={TermwiseHighwight}>
