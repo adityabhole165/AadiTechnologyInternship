@@ -90,20 +90,6 @@ const AddLessonPlan = (SelectedDate) => {
     return asLessonPlanXML + a.join('') + "</ArrayOfLessonPlanDetails>"
   }
 
-  const SaveLessonPlanBody: ISaveLessonPlanBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: Number(asUserId),
-    asReportingUserId: Number(ReportingUserId),
-    aasStartDate: "12/29/2023 12:00:00 AM",
-    aasEndDate: "12/30/2023 12:00:00 AM",
-    asLessonPlanXml: getXML(),
-    asUpdatedById: Number(UpdatedById),
-    asOldStartDate: OldStartDate,
-    asOldEndDate: OldEndDate,
-  };
-
-
   useEffect(() => {
     const ClassListBody: IClassListBody = {
       asSchoolId: asSchoolId,
@@ -218,34 +204,46 @@ const AddLessonPlan = (SelectedDate) => {
     setExampleLessonDetails(value)
   }
   const IsFormValid = () => {
-    let returnVal = false;
-    // if (exampleLessonDetails === []) {
-    //     setExampleLessonDetails('Lesson Plan should be set for at least one parameter.');
-    //     returnVal = true;
-    // } else {
-    //     setExampleLessonDetails([]);
-    // }
+    let returnVal = true;
+
     if (isGreaterThanDate(StartDate, EndDate)) {
       seterrorStartDate('	Please fix following error(s):End Date should not be less than Start Date.')
+      returnVal = false
     } else
       if (isGreaterThanDate(sessionStorage.getItem("StartDate"), StartDate)) {
         seterrorStartDate('Please fix following error(s): Date(s) should not be out of academic year' +
           '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
           ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+        returnVal = false
       } else seterrorStartDate('')
     if (isGreaterThanDate(EndDate, sessionStorage.getItem("EndDate"))
     ) {
       seterrorEndDate(' Please fix following error(s): Date(s) should not be out of academic year.' +
         '(i.e between ' + getDateFormattedDash(sessionStorage.getItem("StartDate")) +
         ' and ' + getDateFormattedDash(sessionStorage.getItem("EndDate")) + ')')
+      returnVal = false
     } else seterrorEndDate('')
+
 
     return returnVal;
   };
 
   const onClickSave = () => {
     if (IsFormValid()) {
-      dispatch(SaveLessonPlan(SaveLessonPlanBody));
+      const SaveLessonPlanBody: ISaveLessonPlanBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: Number(asUserId),
+        asReportingUserId: Number(asUserId),
+        aasStartDate: StartDate,
+        aasEndDate: EndDate,
+        asLessonPlanXml: getXML(),
+        asUpdatedById: Number(UpdatedById),
+        asOldStartDate: OldStartDate,
+        asOldEndDate: OldEndDate,
+      };
+      dispatch(SaveLessonPlan(SaveLessonPlanBody))
+
     }
   };
   return (

@@ -36,38 +36,58 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiTransferOptionalSubjectMarks.GetClassTeachers(data);
-      let abc = response.data.map((item, i) => {
-        return {
+      let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+      response.data.map((item, i) => {
+        abc.push({
           Id: item.Teacher_Id,
           Name: item.TeacherName,
           Value: item.SchoolWise_Standard_Division_Id
-        };
+        });
       });
       dispatch(TransferOptionalSubjectMarksSlice.actions.RGetClassTeachers(abc));
     };
 
 
-    export const CDAStudentsToTransferMarks =
-  (data: IGetStudentsToTransferMarksBody): AppThunk =>
-    async (dispatch) => {
-      const response = await ApiTransferOptionalSubjectMarks.GetStudentsToTransferMarks(data);
-      let TransferStudentSubjectsMarkDetailsList = response.data.TransferStudentSubjectsMarkDetailsList.map((item, i) => ({
-        Text1: item.RegNo,
-        Text2: item.RollNo,
-        Text3: item.StudentName,
-        Text4: item.CurrentApplicableSubjects,
-       
-      }));
-      dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks(TransferStudentSubjectsMarkDetailsList));
+export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody): AppThunk => async (dispatch) => {
+    const response = await ApiTransferOptionalSubjectMarks.GetStudentsToTransferMarks(data);
 
-    };
+
+    const subjectsByRollNo = {};
+
+    response.data.TransferStudentSubjectsMarkDetailsList.forEach(item => {
+       
+        if (!subjectsByRollNo[item.RollNo]) {
+            subjectsByRollNo[item.RollNo] = [];
+        }
+       
+        subjectsByRollNo[item.RollNo].push(item.CurrentApplicableSubjects);
+    });
+
+  
+    const TransferStudentSubjectsMarkDetailsList = Object.keys(subjectsByRollNo).map(rollNo => ({
+        Text1: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.RegNo || '', 
+        Text2: rollNo,
+        Text3: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.StudentName || '', 
+        Text4: subjectsByRollNo[rollNo].join(', ') 
+    }));
+
+    dispatch(TransferOptionalSubjectMarksSlice.actions.RStudentsToTransferMarks(TransferStudentSubjectsMarkDetailsList));
+};
+
 
     export const CDAOptionalSubjectsForMarksTransfer =
     (data: IGetOptionalSubjectsForMarksTransferBody): AppThunk =>
       async (dispatch) => {
         const response = await ApiTransferOptionalSubjectMarks.GetOptionalSubjectsForMarksTransfer(data);
-     
-        dispatch(TransferOptionalSubjectMarksSlice.actions.ROptionalSubjectsForMarksTransfer(response.data));
+        let abc = response.data.map((item, i) => {
+          return {
+            SubjectId: item.SubjectId,
+            StandardDivisionId: item.SchoolWiseStandardDivisionId,
+            SubjectGroupId: item.SubjectGroupId,
+            StudentId:item.ChildOptionalSubjectId
+          };
+        });
+        dispatch(TransferOptionalSubjectMarksSlice.actions.ROptionalSubjectsForMarksTransfer(abc));
       };
   
 

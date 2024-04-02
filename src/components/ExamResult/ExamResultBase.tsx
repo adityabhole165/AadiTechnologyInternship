@@ -232,7 +232,7 @@ const ExamResultBase = () => {
     return TeacherId;
   };
   const Toppers = (value) => {
-    navigate('/extended-sidebar/Teacher/FinalResultToppers/' + getTeacherId());
+    navigate('/extended-sidebar/Teacher/ExamResultToppers/' + getTeacherId());
   };
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
