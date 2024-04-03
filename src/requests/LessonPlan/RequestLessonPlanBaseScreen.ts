@@ -66,7 +66,7 @@ export const CDAlessonplanlist =
         EndDate: getDateMonthYearFormatted(item.EndDate),
         Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
         ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
-        Remarks: item.Remarks,
+        Text3: item.Remarks,
         SubmitedByReportingUser: item.SubmitedByReportingUser,
         Text2: item.IsSubmitted
       }));
