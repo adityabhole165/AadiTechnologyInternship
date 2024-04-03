@@ -1,4 +1,4 @@
-import { Box, Grid, Paper, Stack, Typography } from '@mui/material';
+import { Box, Container, Grid, Paper, Stack, Switch, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -12,13 +12,10 @@ import {
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
 import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
-import IOSStyledSwitch from 'src/libraries/ResuableComponents/IOSStyledSwitch';
 import Notes from 'src/libraries/ResuableComponents/Notes';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
-import DotLegendTeacher from 'src/libraries/summary/DotLegendTeacher';
 import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
@@ -29,6 +26,7 @@ import {
   CDAresetSaveMassage
 } from 'src/requests/ProgressRemarks/ReqProgressRemarks';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
@@ -161,13 +159,13 @@ const ProgressRemarks = () => {
 
   const ExportButton = () => {
     const StudentswiseRemarkDetailsBody: IStudentswiseRemarkDetailsToExportBody =
-      {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: asStandardDivisionId,
-        asStudentId: Number(StudentList),
-        asTermId: SelectTerm
-      };
+    {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asStandardDivId: asStandardDivisionId,
+      asStudentId: Number(StudentList),
+      asTermId: SelectTerm
+    };
     dispatch(
       CDAStudentswiseRemarkDetailsToExport(StudentswiseRemarkDetailsBody)
     );
@@ -212,14 +210,14 @@ const ProgressRemarks = () => {
   };
 
   const UpdateAllStudentsRemarkDetailsBody: IUpdateAllStudentsRemarkDetailsBody =
-    {
-      StudentwiseRemarkXML: getXML(),
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asInsertedById: Number(selectTeacher),
-      asStandardDivId: asStandardDivisionId,
-      asTermId: Number(SelectTerm)
-    };
+  {
+    StudentwiseRemarkXML: getXML(),
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asInsertedById: Number(selectTeacher),
+    asStandardDivId: asStandardDivisionId,
+    asTermId: Number(SelectTerm)
+  };
 
   const UpdateRemark = () => {
     dispatch(
@@ -247,13 +245,13 @@ const ProgressRemarks = () => {
   };
 
   const GetAllStudentswiseRemarkDetailsBody: IGetAllStudentswiseRemarkDetailsBody =
-    {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asStandardDivId: asStandardDivisionId,
-      asStudentId: Number(StudentList),
-      asTermId: Number(SelectTerm)
-    };
+  {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asStandardDivId: asStandardDivisionId,
+    asStudentId: Number(StudentList),
+    asTermId: Number(SelectTerm)
+  };
 
   const clickSelectTerm = (value) => {
     SetSelectTerm(value);
@@ -296,28 +294,88 @@ const ProgressRemarks = () => {
   };
 
   return (
-    <>
-      <PageHeader heading={'Progress Remarks'} subheading={''} />
-      <Typography variant="h6" gutterBottom>
-        {showScreenOne ? 'Hide Notes' : ' Show Notes'}
-      </Typography>
-
-      <IOSStyledSwitch
-        label={''}
-        checked={showScreenOne}
-        onChange={() => setShowScreenOne(!showScreenOne)}
+    <Container maxWidth={'xl'}>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+          { title: 'Progress Remarks', path: '/extended-sidebar/Teacher/ProgressRemarks' }
+        ]}
+        rightActions={<>
+          <SearchableDropdown
+            ItemList={USClassTeachers}
+            sx={{ minWidth: '200px' }}
+            onChange={clickSelectClass}
+            defaultValue={selectTeacher}
+            label={'Subject Teacher'}
+            size={"small"}
+          />
+          <SearchableDropdown
+            ItemList={USGetTestwiseTerm}
+            sx={{ minWidth: '200px' }}
+            onChange={clickSelectTerm}
+            defaultValue={SelectTerm}
+            label={'Term'}
+            size={"small"}
+          />
+          <SearchableDropdown
+            ItemList={USStudentListDropDown}
+            sx={{ minWidth: '200px' }}
+            onChange={clickStudentList}
+            defaultValue={StudentList}
+            label={'StudentList'}
+            size={"small"}
+          />
+        </>}
       />
+      <Box sx={{ display: 'flex', alignItems: 'center' }}>
+        <Typography variant="h4" gutterBottom>
+          {showScreenOne ? 'Hide Notes' : ' Show Notes'}
+        </Typography>
+        <Switch
+          checked={showScreenOne}
+          onChange={() => setShowScreenOne(!showScreenOne)}
+        />
+
+      </Box>
       {showScreenOne ? (
-        <Grid item xs={6}>
-          <Grid container spacing={2}>
-            <Grid item xs={6}>
-              <Paper>
-                <Notes NoteDetail={Note1} Header={Hedaer1} />
-                <Notes NoteDetail={Note2} Header={Hedaer2} />
-                <Notes NoteDetail={Note3} Header={Hedaer3} />
-                <Notes NoteDetail={Note4} Header={Hedaer4} />
-                <Notes NoteDetail={Note5} Header={Hedaer5} />
-                <Box style={{ display: 'flex', justifyContent: 'center' }}>
+        <Grid >
+          <Paper sx={{ padding: '8px', marginBottom: '10px' }}>
+            <Notes NoteDetail={Note1} Header={Hedaer1} />
+            <Notes NoteDetail={Note2} Header={Hedaer2} />
+            <Notes NoteDetail={Note3} Header={Hedaer3} />
+            <Notes NoteDetail={Note4} Header={Hedaer4} />
+            <Notes NoteDetail={Note5} Header={Hedaer5} />
+          </Paper>
+
+          <Grid item xs={6}>
+            <Paper sx={{ padding: '8px' }}>
+              <Stack>
+                <Typography variant={'h4'} mb={1}>
+                  Left Students
+                </Typography>
+              </Stack>
+              {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
+              <ResizableCommentsBox
+                HeaderArray={HeaderArray}
+                ItemList={Itemlist}
+                NoteClick={ExamResult}
+                setTextValues={TextValues}
+                setTextValues1={TextValues1}
+                setTextValues2={TextValues2}
+              />
+
+              <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'center' }}>
+                <ButtonPrimary
+                  variant="contained"
+                  style={{
+                    backgroundColor: '#0091ea',
+                    color: 'white',
+                  }}
+                  onClick={UpdateRemark}
+                >
+                  SAVE
+                </ButtonPrimary>
+                <Box sx={{ marginInline: '10px' }}>
                   <ExportToExcel
                     File1={StudentswiseRemarkDetails}
                     File2={StudentswiseRemarkDetails1}
@@ -325,187 +383,34 @@ const ProgressRemarks = () => {
                     ExportExcel={ExportButton}
                   />
                 </Box>
-              </Paper>
-            </Grid>
-            <Grid item xs={6}>
-              <Paper>
-                <Stack>
-                  <DotLegendTeacher text="Left Students" color="error" />
-                </Stack>
-                <Grid
-                  container
-                  spacing={2}
-                  justifyContent="center"
-                  alignItems="center"
+                <ButtonPrimary
+                  variant="contained"
+                  style={{
+                    backgroundColor: 'Red',
+                    color: 'White',
+                    marginRight: '10px'
+                  }}
                 >
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.3}
-                    >
-                      Subject Teacher:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <SearchableDropdown
-                      ItemList={USClassTeachers}
-                      onChange={clickSelectClass}
-                      defaultValue={selectTeacher}
-                      label={'Subject Teacher'}
-                    />
-
-                    <br></br>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.5}
-                    >
-                      Term:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <SearchableDropdown
-                      ItemList={USGetTestwiseTerm}
-                      onChange={clickSelectTerm}
-                      defaultValue={SelectTerm}
-                      label={''}
-                    />
-                  </Grid>
-
-                  <Grid item xs={2}>
-                    <Typography
-                      component={Box}
-                      sx={{ border: '1px solid black' }}
-                      p={0.5}
-                    >
-                      StudentList:
-                    </Typography>
-                  </Grid>
-                  <Grid item xs={2}>
-                    <SearchableDropdown
-                      ItemList={USStudentListDropDown}
-                      onChange={clickStudentList}
-                      defaultValue={StudentList}
-                      label={'All'}
-                    />
-                  </Grid>
-                </Grid>
-
-                {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
-                <ResizableCommentsBox
-                  HeaderArray={HeaderArray}
-                  ItemList={Itemlist}
-                  NoteClick={ExamResult}
-                  setTextValues={TextValues}
-                  setTextValues1={TextValues1}
-                  setTextValues2={TextValues2}
-                />
-
-                <br></br>
-
-                <Box style={{ display: 'flex', justifyContent: 'center' }}>
-                  <ButtonPrimary
-                    variant="contained"
-                    style={{
-                      backgroundColor: '#0091ea',
-                      color: 'white',
-                      marginRight: '10px'
-                    }}
-                    onClick={UpdateRemark}
-                  >
-                    SAVE
-                  </ButtonPrimary>
-                  <ButtonPrimary
-                    variant="contained"
-                    style={{
-                      backgroundColor: 'Red',
-                      color: 'White',
-                      marginRight: '10px'
-                    }}
-                  >
-                    PREVIOUS
-                  </ButtonPrimary>
-                  <ButtonPrimary
-                    variant="contained"
-                    style={{ backgroundColor: '#0091ea', color: 'white' }}
-                  >
-                    NEXT
-                  </ButtonPrimary>
-                </Box>
-              </Paper>
-            </Grid>
+                  PREVIOUS
+                </ButtonPrimary>
+                <ButtonPrimary
+                  variant="contained"
+                  style={{ backgroundColor: '#0091ea', color: 'white' }}
+                >
+                  NEXT
+                </ButtonPrimary>
+              </Box>
+            </Paper>
           </Grid>
         </Grid>
       ) : (
         <Grid item xs={6}>
-          <Paper>
+          <Paper sx={{ padding: '8px' }}>
             <Stack>
-              <DotLegendTeacher text="Left Students" color="error" />
+              <Typography variant={'h4'} mb={1}>
+                Left Students
+              </Typography>
             </Stack>
-            <Grid
-              container
-              spacing={2}
-              justifyContent="center"
-              alignItems="center"
-            >
-              <Grid item xs={2}>
-                <Typography
-                  component={Box}
-                  sx={{ border: '1px solid black' }}
-                  p={0.3}
-                >
-                  Subject Teacher:
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <SearchableDropdown
-                  ItemList={USClassTeachers}
-                  onChange={clickSelectClass}
-                  defaultValue={selectTeacher}
-                  label={'Select'}
-                />
-
-                <br></br>
-              </Grid>
-              <Grid item xs={2}>
-                <Typography
-                  component={Box}
-                  sx={{ border: '1px solid black' }}
-                  p={0.5}
-                >
-                  Term:
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <SearchableDropdown
-                  ItemList={USGetTestwiseTerm}
-                  onChange={clickSelectTerm}
-                  defaultValue={SelectTerm}
-                  label={''}
-                />
-              </Grid>
-
-              <Grid item xs={2}>
-                <Typography
-                  component={Box}
-                  sx={{ border: '1px solid black' }}
-                  p={0.5}
-                >
-                  StudentList:
-                </Typography>
-              </Grid>
-              <Grid item xs={2}>
-                <SearchableDropdown
-                  ItemList={USStudentListDropDown}
-                  onChange={clickStudentList}
-                  defaultValue={StudentList}
-                  label={'All'}
-                />
-              </Grid>
-            </Grid>
             <ResizableCommentsBox
               HeaderArray={HeaderArray}
               ItemList={Itemlist}
@@ -548,7 +453,7 @@ const ProgressRemarks = () => {
           </Paper>
         </Grid>
       )}
-    </>
+    </Container>
   );
 };
 

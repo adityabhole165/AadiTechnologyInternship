@@ -24,7 +24,7 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
           >
             {headers.map((header, index) => (
-              <TableCell key={index}>{header}</TableCell>
+              <TableCell sx={{ color: 'white', fontWeight: '20px' }} key={index}>{header}</TableCell>
             ))}
           </TableRow>
         </TableHead>
