@@ -31,18 +31,17 @@ import {
     StandardTopperListST
 } from 'src/requests/FinalResult/RqstandardToppers';
 
-import Help from '@mui/icons-material/QuestionMark';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { grey } from '@mui/material/colors';
 import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import ToppersList from 'src/libraries/list/ToppersList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState, useDispatch } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
-
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -308,7 +307,7 @@ const ExamResultToppers = () => {
         setHighlightStudentId('0')
     };
     const onClickClose = () => {
-        navigate('/extended-sidebar/Teacher/FinalResult');
+        navigate('/extended-sidebar/Teacher/ExamResultBase');
     };
     const clickHighlightStudent = (value) => {
         if (
@@ -331,15 +330,20 @@ const ExamResultToppers = () => {
 
             <Tooltip title={Note}>
                 <IconButton
+
                     sx={{
-                        color: 'White',
-                        // backgroundColor: grey[500],
-                        // ':hover': { backgroundColor: grey[600] }
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        '&:hover': {
+                            backgroundColor: grey[500]
+                        }
                     }}
                 >
-                    <Help />
+                    <QuestionMark />
                 </IconButton>
             </Tooltip>
+
+
             <div>
                 <RadioButton1
                     Array={RadioListCT}
