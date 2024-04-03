@@ -75,7 +75,7 @@ function ListIcon({
                                 <TableCell>{item.StartDate}</TableCell>
                                 <TableCell>{item.EndDate}</TableCell>
                                 <TableCell align="center">
-                                    {item.Text3 === "" ? "-" : (
+                                    {item.Remarks === "" ? "-" : (
                                         <Tooltip title={"View Remarks"}>
                                             <Visibility onClick={() => clickView(item.Id)} />
                                         </Tooltip>
