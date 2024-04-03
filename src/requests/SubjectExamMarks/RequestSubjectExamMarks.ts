@@ -188,7 +188,7 @@ export const getSubjectExamMarkslist =
 
             let responseData2 = [];
             const ExamMarkHeader = {
-                Text1: "Sr.No.",
+                Text1: "Roll No.",
                 Text2: "Student Name",
 
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
