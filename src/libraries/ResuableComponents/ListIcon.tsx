@@ -89,7 +89,7 @@ function ListIcon({
                                 <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
                                         (
-                                            <Tooltip title={"View Remarks"}>
+                                            <Tooltip title={"View Remark"}>
                                                 <Visibility onClick={() =>
                                                     clickView(item.Id, item.Text3)} />
                                             </Tooltip>

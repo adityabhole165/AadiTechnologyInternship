@@ -21,7 +21,6 @@ import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
-  CDAGetAllLessonPlanReportingConfigs,
   CDAGetAllTeachersOfLessonPlan,
   CDAlessonplanlist,
   GetLessonPlanreport,
@@ -154,9 +153,7 @@ const LessonPlanBaseScreen = () => {
     asAcademicYrId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
   }
-  useEffect(() => {
-    dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
-  }, [selectClasstecahernew]);
+
 
   const downloadJsonToPdf = () => {
     // const doc = new jsPDF();
@@ -440,7 +437,7 @@ const LessonPlanBaseScreen = () => {
 
               </Box>
               <Box>
-                {LessonPlanList.length > 0 ? (
+                { String(asUserId) == String(selectClasstecahernew) && LessonPlanList.length > 0 ? (
                   <Tooltip title={"Add new Lesson Plan"}>
                     <IconButton
                       sx={{
@@ -458,6 +455,8 @@ const LessonPlanBaseScreen = () => {
                   <span></span>
                 )}
               </Box>
+
+
             </>
           }
         />
@@ -523,7 +522,7 @@ const LessonPlanBaseScreen = () => {
         />
         <DialogContent dividers>
           <Stack gap={1}>
-            <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
+            <Typography variant={"h3"} color={"primary"}>View Remark: </Typography>
             <Divider />
             <Stack gap={1}>
               <Typography variant={"h4"}>
