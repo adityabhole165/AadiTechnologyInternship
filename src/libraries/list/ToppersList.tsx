@@ -38,8 +38,9 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
               {row.Text3 !== undefined &&
                 <TableCell>{row.Text3}</TableCell>
               }
+              
               <TableCell
-                sx={{ color: row.IsHighlightStudent ? 'red' : '' }}
+                sx={{ color: row.IsHighlightStudent ? '#ff3d00' : '' }}
               >
                 {row.Text2}
               </TableCell>

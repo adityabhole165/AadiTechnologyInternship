@@ -75,39 +75,41 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
     }
 
     const ClickCopy = (value) => {
-        let returnVal = null;
-        let tempPlanDetails = []
-        exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
-            returnVal = Item
-            if (Item.StdId == value.StdId) {
-                if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
-                    tempPlanDetails = Item.planDetails
-                }
-                if (Item.DivisionId != value.DivisionId) {
-                    return {
-                        ...Item,
-                        planDetails: Item.planDetails.map((obj, i) => {
-                            return {
-                                ...obj,
-                                value: tempPlanDetails[i].value,
-                                subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
-                                    return {
-                                        ...subItem,
-                                        value: tempPlanDetails[i].subPlanDetails[subIndex].value
-                                    }
-                                })
-                            }
-                        })
+        if (confirm('This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?')) {
+            let returnVal = null;
+            let tempPlanDetails = []
+            exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+                returnVal = Item
+                if (Item.StdId == value.StdId) {
+                    if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
+                        tempPlanDetails = Item.planDetails
                     }
+                    if (Item.DivisionId != value.DivisionId) {
+                        return {
+                            ...Item,
+                            planDetails: Item.planDetails.map((obj, i) => {
+                                return {
+                                    ...obj,
+                                    value: tempPlanDetails[i].value,
+                                    subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
+                                        return {
+                                            ...subItem,
+                                            value: tempPlanDetails[i].subPlanDetails[subIndex].value
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    }
+                    else
+                        return Item
                 }
                 else
                     return Item
-            }
-            else
-                return Item
 
-        })
-        onTextChange(exampleLessonDetails)
+            })
+            onTextChange(exampleLessonDetails)
+        }
     }
     return (
         <>
