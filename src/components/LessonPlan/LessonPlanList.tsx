@@ -16,7 +16,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
         paddingBottom: theme.spacing(1),
         border: '1px solid rgba(224, 224, 224, 1)',
     }))
-    const onChangeValue = (StdId, DivisionId, Id, Value) => {
+    const onChangeValue = (StdId, DivisionId, SubjectId, Id, Value) => {
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
                 ...Item,
@@ -24,7 +24,10 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                     return {
                         ...obj,
                         value: (obj.Id == Id &&
-                            Item.StdId == StdId && Item.DivisionId == DivisionId) ?
+                            Item.StdId == StdId &&
+                            Item.DivisionId == DivisionId &&
+                            Item.SubjectId == SubjectId
+                        ) ?
                             Value : Item.planDetails[i].value
                     }
                 })
@@ -152,6 +155,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                                                 onChangeValue(
                                                     lesson.StdId,
                                                     lesson.DivisionId,
+                                                    lesson.SubjectId,
                                                     plan.Id,
                                                     e.target.value
                                                 )
