@@ -281,7 +281,7 @@ const SubjectExamMarks = () => {
     setHeaderDetails(value);
   };
   const onClickExamGrade = (value) => {
-    setExamGrade(value);
+    setMarksAssignment(value)
   };
   const onClickExamGradeHeader = (value) => {
     setGradeRowDetails(value);
@@ -393,17 +393,15 @@ const SubjectExamMarks = () => {
         </Box>
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
-          <SubjectExamMarkTable ExamStatus={ExamStatus}
-            StudentsForMarksAssignment={MarksAssignment}
-            onChangeExamStatus={onChangeExamStatus}
+          <SubjectExamMarkTable
             ExamMarksHeader={HeaderDetails}
             onChangeExamHeader={onClickExamHeader}
-            GradeHeader={GradeHeaderDetails}
-            GradeRow={GradeRowDetails}
-            onChangeExamGradeHeader={onClickExamGradeHeader}
+            ExamStatus={ExamStatus}
+            StudentsForMarksAssignment={MarksAssignment}
+            onChangeExamStatus={onChangeExamStatus}
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
-            ExamGrade={ExamGrade} />
+          />
         }
       </Box>
 

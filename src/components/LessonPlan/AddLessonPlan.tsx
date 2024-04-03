@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -268,6 +268,21 @@ const AddLessonPlan = () => {
 
     }
   };
+  const onClickSubmit = () => {
+    if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
+      const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: Number(asUserId),
+        asReportingUserId: Number(asUserId),
+        aasStartDate: StartDate,
+        aasEndDate: EndDate,
+        asUpdatedById: Number(UpdatedById)
+      };
+      dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
+    }
+  };
+
   return (
     <Container maxWidth="xl">
       <CommonPageHeader
@@ -308,6 +323,7 @@ const AddLessonPlan = () => {
                       backgroundColor: blue[600]
                     }
                   }}
+                  onClick={onClickSubmit}
                 >
                   <Check />
                 </IconButton>
