@@ -249,15 +249,15 @@ const SubjectExamMarks = () => {
     { Marks: 10, Grade: "A" },
     { Marks: 8, Grade: "B" }
   ]
-  const [MarksError, setMarksError] = useState(false)
+  const [MarksError, setMarksError] = useState('')
 
   const onChangeExamStatus = (value) => {
     setMarksAssignment(value)
-    setMarksError(false)
+    setMarksError('')
     value.map((Obj, i) => {
       Obj.MarksForStudent.map((Item, Index) => {
         if (Number(Item.Text1) > Number(Item.Text2))
-          setMarksError(true)
+          setMarksError('Highlighted Marks should be less than total marks')
       })
     })
 
@@ -341,9 +341,9 @@ const SubjectExamMarks = () => {
                 <IconButton
                   sx={{
                     color: 'white',
-                    backgroundColor: MarksError ? grey[500] : green[500],
+                    backgroundColor: MarksError != '' ? grey[500] : green[500],
                     height: '36px !important',
-                    ':hover': { backgroundColor: MarksError ? grey[500] : green[600], }
+                    ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
                 >
@@ -366,9 +366,9 @@ const SubjectExamMarks = () => {
             {/* Passing Marks: 20 */}
             <TextField fullWidth value={TestMarkDetails?.length > 0 ?
               (TestMarkDetails[0].Passing_Total_Marks) : ''} />
-          </Typography>{MarksError &&
-            <Typography sx={{ color: 'red' }}>Highlighted Marks should be less than total marks</Typography>
-          }
+          </Typography>
+          <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
+
         </Box>
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
