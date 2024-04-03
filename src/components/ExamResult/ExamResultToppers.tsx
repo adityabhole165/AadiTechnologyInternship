@@ -485,40 +485,36 @@ const ExamResultToppers = () => {
                                 </Box>
                             )}
                         </Box>
-                        {/* <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetStandarddropdownST}
-                                handleChange={clickStandardDropdownST}
-                                defaultValue={SelectStandardST}
-                                label={SelectStandardST}
-                            />
-                        </Grid> */}
                         <Grid item xs={6}>
                             <Typography margin={'1px'}>
                                 <b>Select Exam:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetExamdropdownST}
-                                handleChange={clickExamDropdownST}
+                        <Box sx={{ background: 'white' }}>
+                            <SearchableDropdown
+
+                                sx={{ pl: 0, minWidth: '350px' }}
+                                ItemList={GetExamdropdownST}
+                                onChange={clickExamDropdownST}
                                 defaultValue={SelectExamST}
-                                label={SelectExamST}
+                                size={"small"}
                             />
-                        </Grid>
+                        </Box>
                         <Grid item xs={6}>
                             <Typography margin={'1px'}>
                                 <b>Subject:</b>
                             </Typography>
                         </Grid>
-                        <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetSubjectdropdownST}
-                                handleChange={clickSubjectDropdownST}
+                        <Box sx={{ background: 'white' }}>
+                            <SearchableDropdown
+
+                                sx={{ pl: 0, minWidth: '350px' }}
+                                ItemList={GetSubjectdropdownST}
+                                onChange={clickSubjectDropdownST}
                                 defaultValue={SelectSubjectST}
-                                label={'All'}
+                                size={"small"}
                             />
-                        </Grid>
+                        </Box>
                         <br></br>
                         <br></br>
                         <br></br>
