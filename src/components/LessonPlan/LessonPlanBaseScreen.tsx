@@ -343,13 +343,14 @@ const LessonPlanBaseScreen = () => {
                 {CanEdit == 'Y' && (
                   <Box sx={{ background: 'white' }}>
                     <SearchableDropdown
-                      label={"Select Teacher"}
-                      sx={{ pl: 0, minWidth: '350px' }}
-                      ItemList={USGetAllTeachersOfLessonPlan}
-                      onChange={ClickSelctTecher}
-                      defaultValue={selectClasstecahernew}
-                      size={"small"}
-                    />
+                                    sx={{ minWidth: '300px' }}
+                                    ItemList={USGetAllTeachersOfLessonPlan}
+                                    onChange={ClickSelctTecher}
+                                    label={'Select Teacher:'}
+                                    defaultValue={selectClasstecahernew}
+                                    mandatory
+                                    size={"small"}
+                                />
                   </Box>
                 )}
               </Box>
