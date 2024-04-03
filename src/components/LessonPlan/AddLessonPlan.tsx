@@ -276,7 +276,7 @@ const AddLessonPlan = (SelectedDate) => {
               <Tooltip title={'Submit'}>
                 <IconButton
                   sx={{
-                    backgroundColor: blue[500],
+                    backgroundColor: grey[500],
                     color: 'white',
                     '&:hover': {
                       backgroundColor: blue[600]
@@ -402,7 +402,7 @@ const AddLessonPlan = (SelectedDate) => {
                 </Grid>
                 <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
                   <Typography color={"primary"}>
-                    Ms. Manjiri S. Phadke
+                    {Item.UpdateDate}
                   </Typography>
                 </Grid>
               </Grid>)
