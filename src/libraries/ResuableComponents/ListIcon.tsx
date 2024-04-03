@@ -52,6 +52,19 @@ function ListIcon({
 
     };
 
+    const getIsRemarkView = (UserId, StartDate, EndDate) => {
+        console.log(UserId, "UserId", StartDate, "StartDate", EndDate, "EndDate");
+
+        ReportingConfigs.map((Item, i) => {
+            if (Item.StartDate == StartDate &&
+                Item.EndDate == EndDate &&
+                Item.IsSubmitted == "1" &&
+                Item.ReportingUserName !== UserId
+            )
+                return true
+        })
+        return false
+    }
 
     return (
         <div>
@@ -75,7 +88,8 @@ function ListIcon({
                                 <TableCell>{item.StartDate}</TableCell>
                                 <TableCell>{item.EndDate}</TableCell>
                                 <TableCell align="center">
-                                    {item.Text3 === "" ? "-" : (
+                                    {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ? "-" : (
+                                        // {item.Text3 === "" ? "-" : (
                                         <Tooltip title={"View Remarks"}>
                                             <Visibility onClick={() => clickView(item.Id)} />
                                         </Tooltip>
