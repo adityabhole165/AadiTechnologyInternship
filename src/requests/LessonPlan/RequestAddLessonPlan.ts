@@ -94,14 +94,28 @@ export const GetAddOrEditLessonPlanDetails =
         return returnVal
       }
 
-      const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId) => {
+      const getComment = (StdDivId, SubjectId, Id) => {
+        let returnVal = ""
+        response.data.GetLessonPlanCommentList.map((Item, i) => {
+          if (Item.Id == Id &&
+            Item.StdDivId == StdDivId &&
+            Item.SubjectId == SubjectId
+          )
+            returnVal = Item.Comment
+        })
+        return returnVal
+      }
+      const getPlanDetails = (LessonPlanCategoryId, SubjectCategoryId,
+        StdDivId, SubjectId
+      ) => {
         let returnVal = []
         response.data.LessonPlanParametersList.map((Item, i) => {
           if ((Item.SubjectCategoryId == "1" || SubjectCategoryId == Item.SubjectCategoryId) &&
             LessonPlanCategoryId == Item.LessonPlanCategoryId) {
             if (Item.ParentParameterId == "0") {
               returnVal.push({
-                Id: Item.Id, label: Item.Title, value: "",
+                Id: Item.Id, label: Item.Title,
+                value: getComment(StdDivId, SubjectId, Item.Id),
                 LessonPlanCategoryId: Item.LessonPlanCategoryId,
                 SubjectCategoryId: Item.SubjectCategoryId,
                 subPlanDetails: getSubPlanDetails(Item.Id)
@@ -124,7 +138,9 @@ export const GetAddOrEditLessonPlanDetails =
           SubjectId: Item.SubjectId,
           lessonName: Item.ClassName + '(' + Item.Subject_Name + ')',
           subject: Item.Subject_Name,
-          planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId),
+          planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId,
+            Item.StdDivId, Item.SubjectId
+          ),
           CopyToArray: arrStdIdSubjectId
         })
       })
