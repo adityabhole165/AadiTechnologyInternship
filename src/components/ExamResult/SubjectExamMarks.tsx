@@ -13,7 +13,7 @@ import {
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslist } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { getCalendarDateFormatDate } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isOutsideAcademicYear } from '../Common/Util';
 
 import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
@@ -251,6 +251,18 @@ const SubjectExamMarks = () => {
   ]
   const [MarksError, setMarksError] = useState('')
 
+
+  useEffect(() => {
+    if (TestDate != "") {
+      if (isOutsideAcademicYear(TestDate)) {
+        setMarksError('Exam date should be within current academic year (i.e. between ' +
+          formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')')
+      }
+      else {
+        setMarksError('')
+      }
+    }
+  }, [TestDate])
   const onChangeExamStatus = (value) => {
     setMarksAssignment(value)
     setMarksError('')

@@ -10,6 +10,12 @@ export function isGreaterThanDate(date1, date2) {
     new Date(date2)
   );
 }
+export function isOutsideAcademicYear(date) {
+  return (
+    (new Date(sessionStorage.getItem('StartDate')) > new Date(date)) ||
+    (new Date(sessionStorage.getItem('EndDate')) < new Date(date))
+  );
+}
 
 export function isEqualtonDate(date1, date2) {
   return (
