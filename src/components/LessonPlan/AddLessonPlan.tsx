@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -121,17 +121,21 @@ const AddLessonPlan = (SelectedDate) => {
   }, [SaveLessonPlans])
 
   useEffect(() => {
-    const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(asUserId),
-      asReportingUserId: Number(ReportingUserId),
-      aasStartDate: "1/3/2024 12:00:00 AM",
-      aasEndDate: "1/6/2024 12:00:00 AM",
-      asUpdatedById: Number(UpdatedById)
-    };
-    dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
-  }, [])
+    if (SubmitLessonPlans !== '') {
+      toast.success(SubmitLessonPlans)
+      dispatch(resetsubmitlessonplans())
+    }
+  }, [SubmitLessonPlans])
+
+  const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asUserId: Number(asUserId),
+    asReportingUserId: Number(ReportingUserId),
+    aasStartDate: "1/3/2024 12:00:00 AM",
+    aasEndDate: "1/6/2024 12:00:00 AM",
+    asUpdatedById: Number(UpdatedById)
+  };
   useEffect(() => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
