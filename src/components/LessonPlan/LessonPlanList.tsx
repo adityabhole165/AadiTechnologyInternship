@@ -2,7 +2,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
 
-const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => {
+const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -62,33 +62,46 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
 
     const IsStd = (value) => {
         let returnVal = false;
-
-        StdDivision.map((Item, i) => {
-            if (Item.StdId == value)
-                returnVal = true
+        exampleLessonDetails.map((Obj) => {
+            Obj.CopyToArray?.map((Item) => {
+                if (Item.StdId == value.StdId && Item.SubjectId == value.SubjectId)
+                    returnVal = true
+            })
         })
         return returnVal
     }
+
     const ClickCopy = (value) => {
         let returnVal = null;
         let tempPlanDetails = []
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             returnVal = Item
             if (Item.StdId == value.StdId) {
-                if (Item.DivisionId == value.DivisionId) {
+                if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
                     tempPlanDetails = Item.planDetails
                 }
                 if (Item.DivisionId != value.DivisionId) {
-
-                    Item.planDetails.map((obj, i) => {
-                        returnVal.planDetails[i] = {
-                            ...returnVal.planDetails[i],
-                            value: tempPlanDetails[i].value
-                        }
-                    })
+                    return {
+                        ...Item,
+                        planDetails: Item.planDetails.map((obj, i) => {
+                            return {
+                                ...obj,
+                                value: tempPlanDetails[i].value,
+                                subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
+                                    return {
+                                        ...subItem,
+                                        value: tempPlanDetails[i].subPlanDetails[subIndex].value
+                                    }
+                                })
+                            }
+                        })
+                    }
                 }
-                return returnVal
+                else
+                    return Item
             }
+            else
+                return Item
 
         })
         onTextChange(exampleLessonDetails)
@@ -103,7 +116,7 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                 >
                     <AccordionSummary expandIcon={<ExpandMore />}>
                         <Typography variant={"h4"}>
-                            {index + 1}) {lesson.lessonName}
+                            {index + 1}) {lesson?.lessonName}
                         </Typography>
                     </AccordionSummary>
                     <AccordionDetails sx={{ p: 0 }}>
@@ -112,7 +125,7 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                 <TableRow>
                                     <HeaderStyledCell width={10}></HeaderStyledCell>
                                     <HeaderStyledCell>
-                                        {lesson.lessonName}
+                                        {lesson?.lessonName}
                                     </HeaderStyledCell>
                                 </TableRow>
                                 <TableRow>
@@ -174,12 +187,13 @@ const LessonPlanList = ({ exampleLessonDetails, StdDivision, onTextChange }) => 
                                 ))}
                             </TableBody>
                         </Table>
-                        {IsStd(lesson.StdId) &&
+                        {(IsStd({ StdId: lesson.StdId, SubjectId: lesson.SubjectId })) &&
                             < Box display={"flex"} justifyContent={"flex-end"} width={"100%"} p={2}>
                                 <Button variant={"outlined"} startIcon={<ContentCopy />}
                                     onClick={() => {
                                         ClickCopy({
                                             StdId: lesson.StdId,
+                                            SubjectId: lesson.SubjectId,
                                             DivisionId: lesson.DivisionId
                                         })
                                     }}>

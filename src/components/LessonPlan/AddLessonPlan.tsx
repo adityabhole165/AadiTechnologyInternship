@@ -50,12 +50,7 @@ const AddLessonPlan = (SelectedDate) => {
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
   const TeacherName = sessionStorage.getItem('StudentName');
-  const StdDivision = [{
-    StdId: 1,
-    DivisionId: [
-      1, 2
-    ]
-  }]
+
 
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
 
@@ -66,6 +61,7 @@ const AddLessonPlan = (SelectedDate) => {
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
+  console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
   const getXML = () => {
     let a = []
@@ -381,7 +377,7 @@ const AddLessonPlan = (SelectedDate) => {
               Plan Details
             </Typography>
             <LessonPlanList exampleLessonDetails={exampleLessonDetails}
-              StdDivision={StdDivision} onTextChange={onTextChange} />
+              onTextChange={onTextChange} />
           </Grid>
           <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>

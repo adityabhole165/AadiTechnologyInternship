@@ -106,15 +106,21 @@ export const GetAddOrEditLessonPlanDetails =
         })
         return returnVal;
       }
-
+      let arrStdSub = []
+      let arrStdIdSubjectId = []
       response.data.GetTeacherSubjectList.map((Item, i) => {
+        if (arrStdSub.includes(Item.Standard_Id + "#" + Item.SubjectId)) {
+          arrStdIdSubjectId.push({ StdId: Item.Standard_Id, SubjectId: Item.SubjectId })
+        }
+        arrStdSub.push(Item.Standard_Id + "#" + Item.SubjectId)
         reponseData.push({
           StdId: Item.Standard_Id,
           DivisionId: Item.StdDivId,
           SubjectId: Item.SubjectId,
           lessonName: Item.ClassName + '(' + Item.Subject_Name + ')',
           subject: Item.Subject_Name,
-          planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId)
+          planDetails: getPlanDetails(Item.LessonPlanCategoryId, Item.SubjectCategoryId),
+          CopyToArray: arrStdIdSubjectId
         })
       })
 
