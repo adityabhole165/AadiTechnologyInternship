@@ -82,12 +82,15 @@ export const GetAddOrEditLessonPlanDetails =
       const response = await AddLessonPlanApi.AddOrEditLessonPlanDetails(data);
       let reponseData = []
 
-      const getSubPlanDetails = (ParentParameterId) => {
+      const getSubPlanDetails = (StdDivId, SubjectId, ParentParameterId) => {
         let returnVal = []
         response.data.LessonPlanParametersList.map((Item, i) => {
           if (ParentParameterId == Item.ParentParameterId) {
             returnVal.push(
-              { Id: Item.Id, label: Item.Title, value: "" }
+              {
+                Id: Item.Id, label: Item.Title,
+                value: getComment(StdDivId, SubjectId, Item.Id)
+              }
             )
           }
         })
@@ -118,7 +121,7 @@ export const GetAddOrEditLessonPlanDetails =
                 value: getComment(StdDivId, SubjectId, Item.Id),
                 LessonPlanCategoryId: Item.LessonPlanCategoryId,
                 SubjectCategoryId: Item.SubjectCategoryId,
-                subPlanDetails: getSubPlanDetails(Item.Id)
+                subPlanDetails: getSubPlanDetails(StdDivId, SubjectId, Item.Id)
               })
             }
           }

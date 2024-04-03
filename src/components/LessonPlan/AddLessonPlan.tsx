@@ -96,6 +96,20 @@ const AddLessonPlan = () => {
           "<SubjectCategoryId>" + Item.SubjectCategoryId + "</SubjectCategoryId>" +
           "<SubjectStartDate/><SubjectEndDate/>" +
           "</LessonPlanDetails>")
+        Item.subPlanDetails.map((subItem, subIndex) => {
+          a.push("<LessonPlanDetails>" +
+            "<Id>0</Id>" +
+            "<ReportingUserId>" + asUserId + "</ReportingUserId>" +
+            "<ParameterId>" + subItem.Id.toString() + "</ParameterId>" +
+            "<Comment>" + subItem.value + "</Comment>" +
+            "<StdDivId>" + Obj.DivisionId + "</StdDivId>" +
+            "<SubjectId>" + Obj.SubjectId + "</SubjectId>" +
+            "<LessonPlanCategoryId>" + Item.LessonPlanCategoryId + "</LessonPlanCategoryId>" +
+            "<LessonPlanSectionId>0</LessonPlanSectionId>" +
+            "<SubjectCategoryId>" + Item.SubjectCategoryId + "</SubjectCategoryId>" +
+            "<SubjectStartDate/><SubjectEndDate/>" +
+            "</LessonPlanDetails>")
+        })
       })
     })
     return asLessonPlanXML + a.join('') + "</ArrayOfLessonPlanDetails>"
