@@ -1,5 +1,7 @@
 import {
     Box,
+    Card,
+    CardContent,
     Container,
     Grid,
     IconButton,
@@ -283,9 +285,26 @@ const ExamResultToppers = () => {
     const clickClassDropdownCT = (value) => {
         setClassCT(value);
     };
+    // const clickExamDropdownCT = (value) => {
+    //     setExamCT(value);
+    // };
+    const [selectedExamName, setSelectedExamName] = useState('');
+
     const clickExamDropdownCT = (value) => {
         setExamCT(value);
+        const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === value);
+        if (selectedExam) {
+            setSelectedExamName(selectedExam.Name);
+        }
     };
+    useEffect(() => {
+        if (GetExamdropdownCT.length > 0) {
+            setExamCT(GetExamdropdownCT[0].Id);
+            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+        }
+    }, [GetExamdropdownCT]);
+
+
     const clickSubjectDropdownCT = (value) => {
         setSubjectCT(value);
     };
@@ -294,17 +313,41 @@ const ExamResultToppers = () => {
     const clickStandardDropdownST = (value) => {
         setStandardST(value);
     };
+
+    // const clickExamDropdownST = (value) => {
+
+    //     setExamST(value);
+    // };
     const clickExamDropdownST = (value) => {
         setExamST(value);
+        const selectedExam = GetExamdropdownST.find((exam) => exam.Id === value);
+        if (selectedExam) {
+            setSelectedExamName(selectedExam.Name);
+        }
     };
+
     const clickSubjectDropdownST = (value) => {
         setSubjectST(value);
     };
     const ClickItemST = () => { };
+    useEffect(() => {
+        if (radioBtn === '1') {
+            const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
+            }
+        } else {
+            const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
+            }
+        }
+    }, [SelectExamCT, SelectExamST, radioBtn, GetExamdropdownCT, GetExamdropdownST]);
 
     const ClickRadio = (value) => {
         setRadioBtn(value);
         setHighlightStudentId('0')
+        setSelectedExamName('');
     };
     const onClickClose = () => {
         navigate('/extended-sidebar/Teacher/ExamResultBase');
@@ -327,7 +370,6 @@ const ExamResultToppers = () => {
             <br></br>
             <br></br>
             <br></br>
-
             <Tooltip title={Note}>
                 <IconButton
 
@@ -427,7 +469,12 @@ const ExamResultToppers = () => {
                         </Box>
                         <br></br>
                         <br></br>
-
+                        <br></br>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent>
+                                <PageHeader heading={`Exam: ${selectedExamName}`} />
+                            </CardContent>
+                        </Card>
 
                         <DynamicList2
                             HeaderList={HeaderListCT}
@@ -522,6 +569,12 @@ const ExamResultToppers = () => {
                         <br></br>
                         <br></br>
                         <br></br>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent>
+                                <PageHeader heading={`Exam: ${selectedExamName}`} />
+                            </CardContent>
+                        </Card>
+
                         <DynamicList2
                             HeaderList={HeaderListST}
                             ItemList={StandardToppersListST}
