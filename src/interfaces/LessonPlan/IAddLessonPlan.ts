@@ -17,7 +17,7 @@ export interface IAddOrEditLessonPlanDetailsBody {
   asReportingUserId: number,
   asStartDate: string,
   asEndDate: string,
-  IsNewMode: true
+  IsNewMode: boolean
 }
 export interface IAddOrEditLessonPlanDetailsResult {
   LessonPlanParametersList: [{
@@ -52,7 +52,16 @@ export interface IAddOrEditLessonPlanDetailsResult {
     IsFinalApprover: string,
     ApprovalSortOrder: string
   }],
-  GetLessonPlanCommentList: [],
+  GetLessonPlanCommentList: [{
+    Id: string,
+    StdDivId: string,
+    SubjectId: string,
+    ReportingUserId: string,
+    ParameterId: string,
+    Comment: string,
+    SubjectStartDate: string,
+    SubjectEndDate: string
+  }],
   GetLessonPlanStatusList: [],
   GetEnableButtonList: [{
     EnableSaveButton: string,

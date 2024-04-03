@@ -97,7 +97,7 @@ export const GetAddOrEditLessonPlanDetails =
       const getComment = (StdDivId, SubjectId, Id) => {
         let returnVal = ""
         response.data.GetLessonPlanCommentList.map((Item, i) => {
-          if (Item.Id == Id &&
+          if (Item.ParameterId == Id &&
             Item.StdDivId == StdDivId &&
             Item.SubjectId == SubjectId
           )

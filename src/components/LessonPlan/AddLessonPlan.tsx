@@ -30,12 +30,25 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
   border: '1px solid rgba(224, 224, 224, 1)',
 }))
 
-const AddLessonPlan = (SelectedDate) => {
+const AddLessonPlan = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [StartDate, setStartDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
-  const [EndDate, setEndDate] = useState(getCalendarDateFormatDateNew(SelectedDate));
+  const getMonday = () => {
+    const currentDate = new Date();
+    const dayOfWeek = currentDate.getDay();
+    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+    return new Date(currentDate.setDate(diff));
+  };
+  const getFriday = () => {
+    const mondayDate = getMonday();
+    const fridayDate = new Date(mondayDate);
+    fridayDate.setDate(mondayDate.getDate() + 4);
+    return fridayDate;
+  };
+  const monday = getMonday();
+  const friday = getFriday();
+  const [StartDate, setStartDate] = useState(getCalendarDateFormatDateNew(monday.toISOString().split('T')[0]));
+  const [EndDate, setEndDate] = useState(getCalendarDateFormatDateNew(friday.toISOString().split('T')[0]));
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
   const [UpdatedById, setUpdatedById] = useState('');
@@ -96,16 +109,18 @@ const AddLessonPlan = (SelectedDate) => {
     };
     dispatch(classnamelist(ClassListBody));
   }, [TeacherId]);
+
   const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
-    asSchoolId: 18,
-    asAcademicYearId: 54,
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
     asStandardDivId: 0,
-    asUserId: 4463,
-    asReportingUserId: 4463,
-    asStartDate: "2024-10-10 12:00:00 AM",
-    asEndDate: "2024-10-10 12:00:00 AM",
+    asUserId: asUserId,
+    asReportingUserId: asUserId,
+    asStartDate: StartDate,
+    asEndDate: EndDate,
     IsNewMode: true
   };
+
   useEffect(() => {
     dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
   }, [])
@@ -117,6 +132,16 @@ const AddLessonPlan = (SelectedDate) => {
     if (SaveLessonPlans !== '') {
       toast.success(SaveLessonPlans)
       dispatch(resetsaveLessonPlan())
+      const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: 0,
+        asUserId: asUserId,
+        asReportingUserId: asUserId,
+        asStartDate: StartDate,
+        asEndDate: EndDate,
+        IsNewMode: false
+      };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
       // dispatch(CDAlessonplanlist)
     }
@@ -168,25 +193,6 @@ const AddLessonPlan = (SelectedDate) => {
     };
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   }, [])
-  useEffect(() => {
-    const monday = getMonday();
-    const friday = getFriday();
-    setStartDate(monday.toISOString().split('T')[0]);
-    setEndDate(friday.toISOString().split('T')[0]);
-  }, []);
-
-  const getMonday = () => {
-    const currentDate = new Date();
-    const dayOfWeek = currentDate.getDay();
-    const diff = currentDate.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
-    return new Date(currentDate.setDate(diff));
-  };
-  const getFriday = () => {
-    const mondayDate = getMonday();
-    const fridayDate = new Date(mondayDate);
-    fridayDate.setDate(mondayDate.getDate() + 4);
-    return fridayDate;
-  };
 
   const onSelectStartDate = (value) => {
     setStartDate(value);
