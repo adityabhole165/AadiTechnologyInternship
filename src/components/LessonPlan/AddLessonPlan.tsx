@@ -8,6 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
+import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
@@ -61,6 +62,7 @@ const AddLessonPlan = (SelectedDate) => {
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
+  const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
   console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
   const getXML = () => {
@@ -372,13 +374,15 @@ const AddLessonPlan = (SelectedDate) => {
               </Button> */}
             </Box>
           </Grid>
-          <Grid item xs={12}>
+          {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
               Plan Details
             </Typography>
+
             <LessonPlanList exampleLessonDetails={exampleLessonDetails}
               onTextChange={onTextChange} />
           </Grid>
+          }
           <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
               Activity
@@ -409,145 +413,9 @@ const AddLessonPlan = (SelectedDate) => {
             })
             }
           </Grid>
-          <Grid item xs={12}>
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
-              {/* <Button variant={"contained"} color={"success"}>
-                Save
-              </Button>
-              <Button variant={"outlined"} color={"primary"} disabled>
-                Submit
-              </Button> */}
-            </Box>
-          </Grid>
         </Grid>
       </Box>
 
-      {/* <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <PageHeader heading="Lesson Plan Details" />
-        <br></br>
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Teacher :</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2}>
-            <TextField value={TeacherName} />
-          </Grid>
-        </Grid>
-
-        <br></br>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Start Date:</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2}>
-            <TextField
-              type="date"
-              value={StartDate}
-              onChange={(e) => {
-                onSelectStartDate(e.target.value);
-              }}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <br></br>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>End Date:</b>
-            </Typography>
-          </Grid>
-
-          <Grid item xs={2}>
-            <TextField
-              type="date"
-              value={EndDate}
-              onChange={(e) => {
-                onSelectEndDate(e.target.value);
-              }}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <br></br>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Class:</b>
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <DropDown
-              width={"300px"}
-              itemList={ClassListDropdown}
-              ClickItem={onClickClass}
-              DefaultValue={SelectClass}
-              Label={'Select'}
-            />
-            <br></br>
-          </Grid>
-        </Grid>
-
-        <br></br>
-
-        <Stack spacing={3} direction="row">
-          <DotLegend text="Submitted On" color="secondary" />
-          <br></br>
-          <DotLegend text="Approved Plan" color="info" />
-          <br></br>
-        </Stack>
-        <br></br>
-        <div>
-          <Grid
-            container
-            spacing={2}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center'
-            }}
-          >
-            <Grid item xs={6}>
-              <ButtonPrimary variant="contained">
-                <b>SAVE</b>
-              </ButtonPrimary>
-            </Grid>
-
-            <Grid item xs={6}>
-              <ButtonPrimary
-                variant="contained"
-                style={{ backgroundColor: '#4da0f7', color: 'white' }}
-              >
-                SUBMIT
-              </ButtonPrimary>
-            </Grid>
-          </Grid>
-        </div>
-        <br></br>
-        <ButtonPrimary
-          variant="contained"
-          onClick={onClickBack}
-          style={{ backgroundColor: 'red', color: 'white' }}
-        >
-          BACK
-        </ButtonPrimary>
-      </div> */}
     </Container >
   );
 };

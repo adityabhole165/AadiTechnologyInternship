@@ -58,6 +58,7 @@ const AddLessonPlanSlice = createSlice({
 export const classnamelist =
   (data: IClassListBody): AppThunk =>
     async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.ClassList(data);
       let abc = response.data.map((item, i) => {
         return {
