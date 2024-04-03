@@ -21,7 +21,6 @@ import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import {
   CDAAddOrEditLessonPlanDetails,
-  CDAGetAllLessonPlanReportingConfigs,
   CDAGetAllTeachersOfLessonPlan,
   CDAlessonplanlist,
   GetLessonPlanreport,
@@ -154,9 +153,7 @@ const LessonPlanBaseScreen = () => {
     asAcademicYrId: asAcademicYearId,
     asUserId: Number(selectClasstecahernew),
   }
-  useEffect(() => {
-    dispatch(CDAGetAllLessonPlanReportingConfigs(GetAllLessonPlanReportingConfigsBody));
-  }, [selectClasstecahernew]);
+
 
   const downloadJsonToPdf = () => {
     // const doc = new jsPDF();
@@ -283,8 +280,10 @@ const LessonPlanBaseScreen = () => {
 
 
 
-  const clickView = (Id) => {
+  const [ViewRemarks, setViewRemarks] = useState('')
+  const clickView = (Id, Remarks) => {
     setOpenViewRemarkDialog(true);
+    setViewRemarks(Remarks)
   }
 
   const ClickSelctTecher = (value) => {
@@ -322,7 +321,8 @@ const LessonPlanBaseScreen = () => {
   }
 
   const stripHtmlTags = (htmlString: string): string => {
-    return htmlString.replace(/<[^>]*>?/gm, '');
+
+    return htmlString != "" ? htmlString.replace(/<[^>]*>?/gm, '') : "";
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
   console.log(itemToDisplay, "itemToDisplay");
@@ -403,58 +403,60 @@ const LessonPlanBaseScreen = () => {
               </Box>
               <Box>
 
-              {LessonPlanList.length > 0 ? (
-        <Tooltip title="Export All">
-          <IconButton
-            sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              height: '36px !important',
-              ':hover': { backgroundColor: grey[600] }
-            }}
-            onClick={OnClickExportAll}
-          >
-            <Download />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Export All">
-          <IconButton
-            sx={{
-              color: 'white',
-              backgroundColor: grey[500],
-              height: '36px !important',
-              ':hover': { backgroundColor: grey[600] },
-              pointerEvents: 'none', // Disables pointer events when LessonPlanList is empty
-              opacity: 0.5 // Makes the button visually disabled
-            }}
-          >
-            <Download />
-          </IconButton>
-        </Tooltip>
-      )}
+                {LessonPlanList.length > 0 ? (
+                  <Tooltip title="Export All">
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] }
+                      }}
+                      onClick={OnClickExportAll}
+                    >
+                      <Download />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <Tooltip title="Export All">
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] },
+                        pointerEvents: 'none', // Disables pointer events when LessonPlanList is empty
+                        opacity: 0.5 // Makes the button visually disabled
+                      }}
+                    >
+                      <Download />
+                    </IconButton>
+                  </Tooltip>
+                )}
 
 
               </Box>
               <Box>
-              {LessonPlanList.length > 0 ? (
-                <Tooltip title={"Add new Lesson Plan"}>
-                  <IconButton
-                    sx={{
-                      color: 'white',
-                      backgroundColor: grey[500],
-                      height: '36px !important',
-                      ':hover': { backgroundColor: grey[600] }
-                    }}
-                    onClick={onClickAdd}
-                  >
-                    <Add />
-                  </IconButton>
-                </Tooltip>
-              ):(
-                <span></span>
-              )}
+                { String(asUserId) == String(selectClasstecahernew) && LessonPlanList.length > 0 ? (
+                  <Tooltip title={"Add new Lesson Plan"}>
+                    <IconButton
+                      sx={{
+                        color: 'white',
+                        backgroundColor: grey[500],
+                        height: '36px !important',
+                        ':hover': { backgroundColor: grey[600] }
+                      }}
+                      onClick={onClickAdd}
+                    >
+                      <Add />
+                    </IconButton>
+                  </Tooltip>
+                ) : (
+                  <span></span>
+                )}
               </Box>
+
+
             </>
           }
         />
@@ -520,23 +522,16 @@ const LessonPlanBaseScreen = () => {
         />
         <DialogContent dividers>
           <Stack gap={1}>
-            <Typography variant={"h3"} color={"primary"}>View Remarks: </Typography>
+            <Typography variant={"h3"} color={"primary"}>View Remark: </Typography>
             <Divider />
             <Stack gap={1}>
               <Typography variant={"h4"}>
-
-                {itemToDisplay && (
-                  <div>
-
-                    <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
-                      {stripHtmlTags(itemToDisplay.Text3)}
-                    </Typography>
-                  </div>
-                )}
-
-
+                <div>
+                  <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
+                    {stripHtmlTags(ViewRemarks)}
+                  </Typography>
+                </div>
               </Typography>
-
             </Stack>
           </Stack>
         </DialogContent>

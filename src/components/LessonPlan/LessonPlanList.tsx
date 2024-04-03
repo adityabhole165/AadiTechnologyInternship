@@ -16,7 +16,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
         paddingBottom: theme.spacing(1),
         border: '1px solid rgba(224, 224, 224, 1)',
     }))
-    const onChangeValue = (StdId, DivisionId, Id, Value) => {
+    const onChangeValue = (StdId, DivisionId, SubjectId, Id, Value) => {
         exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
             return {
                 ...Item,
@@ -24,7 +24,10 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                     return {
                         ...obj,
                         value: (obj.Id == Id &&
-                            Item.StdId == StdId && Item.DivisionId == DivisionId) ?
+                            Item.StdId == StdId &&
+                            Item.DivisionId == DivisionId &&
+                            Item.SubjectId == SubjectId
+                        ) ?
                             Value : Item.planDetails[i].value
                     }
                 })
@@ -72,39 +75,41 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
     }
 
     const ClickCopy = (value) => {
-        let returnVal = null;
-        let tempPlanDetails = []
-        exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
-            returnVal = Item
-            if (Item.StdId == value.StdId) {
-                if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
-                    tempPlanDetails = Item.planDetails
-                }
-                if (Item.DivisionId != value.DivisionId) {
-                    return {
-                        ...Item,
-                        planDetails: Item.planDetails.map((obj, i) => {
-                            return {
-                                ...obj,
-                                value: tempPlanDetails[i].value,
-                                subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
-                                    return {
-                                        ...subItem,
-                                        value: tempPlanDetails[i].subPlanDetails[subIndex].value
-                                    }
-                                })
-                            }
-                        })
+        if (confirm('This action will copy details of this subject section and paste / overwrite it on subject section of other classes of same standard present on this screen. Do you want to continue?')) {
+            let returnVal = null;
+            let tempPlanDetails = []
+            exampleLessonDetails = exampleLessonDetails.map((Item, itemIndex) => {
+                returnVal = Item
+                if (Item.StdId == value.StdId) {
+                    if (Item.SubjectId == value.SubjectId && Item.DivisionId == value.DivisionId) {
+                        tempPlanDetails = Item.planDetails
                     }
+                    if (Item.DivisionId != value.DivisionId) {
+                        return {
+                            ...Item,
+                            planDetails: Item.planDetails.map((obj, i) => {
+                                return {
+                                    ...obj,
+                                    value: tempPlanDetails[i].value,
+                                    subPlanDetails: obj.subPlanDetails.map((subItem, subIndex) => {
+                                        return {
+                                            ...subItem,
+                                            value: tempPlanDetails[i].subPlanDetails[subIndex].value
+                                        }
+                                    })
+                                }
+                            })
+                        }
+                    }
+                    else
+                        return Item
                 }
                 else
                     return Item
-            }
-            else
-                return Item
 
-        })
-        onTextChange(exampleLessonDetails)
+            })
+            onTextChange(exampleLessonDetails)
+        }
     }
     return (
         <>
@@ -152,6 +157,7 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                                                 onChangeValue(
                                                     lesson.StdId,
                                                     lesson.DivisionId,
+                                                    lesson.SubjectId,
                                                     plan.Id,
                                                     e.target.value
                                                 )

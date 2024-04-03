@@ -41,6 +41,10 @@ const AddLessonPlanSlice = createSlice({
       state.Loading = false;
       state.submitLessonPlanmsg = action.payload;
     },
+    resetsubmitlessonplans(state) {
+      state.Loading = false;
+      state.submitLessonPlanmsg = "";
+    },
     getsaveApproverComment(state, action) {
       state.Loading = false;
       state.saveApproverCommentmsg = action.payload;
@@ -148,6 +152,11 @@ export const getSubmitLessonPlan =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.SubmitLessonPlanapi(data);
       dispatch(AddLessonPlanSlice.actions.getsubmitLessonPlan(response.data));
+    };
+export const resetsubmitlessonplans =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.resetsubmitlessonplans());
     };
 export const getSaveApproverComment =
   (data: ISaveApproverCommentBody): AppThunk =>

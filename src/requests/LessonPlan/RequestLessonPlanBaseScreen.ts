@@ -61,14 +61,14 @@ export const CDAlessonplanlist =
     async (dispatch) => {
       const response = await LessonPlanApi.LessonPlanList(data);
 
+
       let listResult1st = response.data.listResult1st.map((item, i) => ({
         StartDate: getDateMonthYearFormatted(item.StartDate),
         EndDate: getDateMonthYearFormatted(item.EndDate),
-        Text8: response.data.listResult2nd[i]?.ApprovalSortOrder,
-        ReportingUserName: response.data.listResult2nd[i]?.ReportingUserName,
         Text3: item.Remarks,
         SubmitedByReportingUser: item.SubmitedByReportingUser,
-        Text2: item.IsSubmitted
+        Text2: item.IsSubmitted,
+        UserId: item.UserId
       }));
 
       let listResult2nd = response.data.listResult2nd.map(item => ({
