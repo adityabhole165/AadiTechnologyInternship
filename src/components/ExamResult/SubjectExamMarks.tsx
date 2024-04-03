@@ -315,9 +315,13 @@ const SubjectExamMarks = () => {
                 variant={"outlined"}
                 size={"small"}
                 onChange={(e) => { setTestDate(e.target.value) }}
+
               />
 
             </Box>
+            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+              *
+            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
