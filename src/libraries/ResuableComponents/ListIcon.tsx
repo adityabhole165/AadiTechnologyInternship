@@ -90,7 +90,8 @@ function ListIcon({
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
                                         (
                                             <Tooltip title={"View Remarks"}>
-                                                <Visibility onClick={() => clickView(item.Id)} />
+                                                <Visibility onClick={() =>
+                                                    clickView(item.Id, item.Text3)} />
                                             </Tooltip>
                                         ) :
                                         "-"
