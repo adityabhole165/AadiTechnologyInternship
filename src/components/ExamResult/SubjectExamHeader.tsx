@@ -1,4 +1,5 @@
 import { Box, TableCell, TextField } from "@mui/material";
+import Dropdown from "src/libraries/dropdown/Dropdown";
 const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
@@ -12,7 +13,7 @@ const handleChange = (e, validationFunction, callback) => {
 };
 
 
-const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader }) => {
+const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade }) => {
     const handleBlur = (value, Index) => {
         if (value != "") {
             if (confirm('This action will set a new value for all students. Do you want to continue?')) {
@@ -38,10 +39,16 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader 
                         <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
                             value={Item.Text2}
                             onBlur={() => handleBlur(Item.Text2, Index)}
-                            onChange={(e) => handleChange(e, validateInput, (value) => ChangeExamHeader(value, Item.Id))} />
+                            onChange={(e) => handleChange(e, validateInput, (value) =>
+                                ChangeExamHeader(value, Item.Id))} />
                         {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text3} /> */}
-
+                        <Dropdown
+                            defaultValue={Item.Text3}
+                            variant='outlined'
+                            Array={GradesForSubjectMarkList}
+                            handleChange={(value) => { ChangeGrade(value, Item.Id) }}
+                        />
                     </Box>
                 </TableCell>)
             })}

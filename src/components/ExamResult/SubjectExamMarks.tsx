@@ -51,7 +51,8 @@ const SubjectExamMarks = () => {
   const [RollNo, setRollNo] = useState('');
   const [Name, setName] = useState('');
   const [HeaderDetails, setHeaderDetails] = useState([]);
-
+  const [GradeHeaderDetails, setGradeHeaderDetails] = useState([]);
+  const [GradeRowDetails, setGradeRowDetails] = useState([]);
 
 
   const StudentsForMarksAssignment: any = useSelector(
@@ -85,6 +86,8 @@ const SubjectExamMarks = () => {
   const GradesForSubjectMarkList: any = useSelector(
     (state: RootState) => state.SubjectExamMark.GradesForSubjectMarkList
   );
+
+  const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
     setTestDate(value)
   }
@@ -277,6 +280,12 @@ const SubjectExamMarks = () => {
   const onClickExamHeader = (value) => {
     setHeaderDetails(value);
   };
+  const onClickExamGrade = (value) => {
+    setExamGrade(value);
+  };
+  const onClickExamGradeHeader = (value) => {
+    setGradeRowDetails(value);
+  };
   return (
     <Container maxWidth={"xl"}>
       <CommonPageHeader
@@ -389,7 +398,12 @@ const SubjectExamMarks = () => {
             onChangeExamStatus={onChangeExamStatus}
             ExamMarksHeader={HeaderDetails}
             onChangeExamHeader={onClickExamHeader}
-            GradesForSubjectMarkList={GradesForSubjectMarkList} />
+            GradeHeader={GradeHeaderDetails}
+            GradeRow={GradeRowDetails}
+            onChangeExamGradeHeader={onClickExamGradeHeader}
+            GradesForSubjectMarkList={GradesForSubjectMarkList}
+            onChangeExamGrade={onClickExamGrade}
+            ExamGrade={ExamGrade} />
         }
       </Box>
 

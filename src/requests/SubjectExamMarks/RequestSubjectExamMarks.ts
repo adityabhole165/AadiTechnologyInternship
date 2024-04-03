@@ -98,7 +98,16 @@ export const getAllGradesForSubjectMarkList =
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.getLoading(true));
             const response = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(data);
-            dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(response.data));
+            let responseData3 = [{ Id: '0', Name: 'Select', Value: '0' }];
+            response.data.map((Item, i) => {
+                responseData3.push({
+                    ...Item,
+                    Id: Item.Marks_Grades_Configuration_Detail_ID,
+                    Name: Item.Grade_Name,
+                    Value: Item.Marks_Grades_Configuration_Detail_ID
+                });
+            });
+            dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(responseData3));
 
         };
 //For RollNo,StudentName
@@ -144,8 +153,16 @@ export const getSubjectExamMarkslist =
                 asAcademicYrId: data.asAcademicYrId,
                 asShowTotalAsPerOutOfMarks: data.asShowTotalAsPerOutOfMarks
             }
+            const body3: IGetAllGradesForSubjectMarkListBody = {
+                asSchoolId: data.asSchoolId,
+                asAcademicYrId: data.asAcademicYrId,
+                asStandardId: data.asStandardId,
+                asSubjectId: data.asSubjectId,
+                asTestId: data.asTestId
+            }
             const response1 = await SubjectExamMarksApi.GetAllStudentsForMarksAssignments(body1);
             const response2 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
+            const response3 = await SubjectExamMarksApi.GetAllGradesForSubjectMarkList(body3);
             let reponseData1 = [];
             const getMarksForStudent = (StudentId) => {
                 let arr = [];
@@ -157,6 +174,7 @@ export const getSubjectExamMarkslist =
                             Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
                             ExamStatus: "0",
+                            ExamGrade: "0",
                             IsActive: true,
                             ErrorMessage: ""
                         });
@@ -182,7 +200,7 @@ export const getSubjectExamMarkslist =
                     TotalMarks: getTotalMarksForStudent(Item.Student_Id),
                 });
             });
-            console.log(reponseData1, "reponseData1");
+
 
             dispatch(SubjectExamMarksslice.actions.GetAllStudentsForMarksAssignment(reponseData1));
 
@@ -190,7 +208,13 @@ export const getSubjectExamMarkslist =
             const ExamMarkHeader = {
                 Text1: "Roll No.",
                 Text2: "Student Name",
-
+                Text3: response3.data.map((Item, i) => {
+                    return {
+                        Id: Item.Marks_Grades_Configuration_Detail_ID,
+                        Name: Item.Grade_Name,
+                        Value: Item.Marks_Grades_Configuration_Detail_ID
+                    };
+                }),
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
                         Id: Item.TestType_Id,
@@ -206,9 +230,22 @@ export const getSubjectExamMarkslist =
 
             dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response2.data));
 
-
+            // dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(response3.data));
 
             // dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData3));
+
+            // let responseData3 = [{ Id: '0', Name: 'Select', Value: '0' }];
+
+            // response3.data.map((Item, i) => {
+            //     responseData3.push({
+            //         Id: Item.Marks_Grades_Configuration_Detail_ID,
+            //         Name: Item.Grade_Name,
+            //         Value: Item.Marks_Grades_Configuration_Detail_ID
+            //     });
+            // });
+            // console.log(responseData3, "responseData3", response3);
+
+            // dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(responseData3));
 
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
@@ -224,6 +261,9 @@ export const getSubjectExamMarkslist =
 
             dispatch(SubjectExamMarksslice.actions.GetListDisplayNameDetail(responseData4));
         }
+
+
+
 
 
 

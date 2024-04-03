@@ -2,7 +2,8 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
-  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList }) => {
+  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, GradeHeader,
+  GradeRow, onChangeExamGradeHeader, onChangeExamGrade, ExamGrade }) => {
 
   const ChangeExamHeader = (value, Id, Index) => {
 
@@ -22,6 +23,26 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     onChangeExamHeader(ExamMarksHeader);
 
   };
+  const ChangeExamGrade = (value, Id, Index) => {
+
+    ExamMarksHeader = {
+      ...ExamMarksHeader,
+      Text4: ExamMarksHeader.Text4.map((Item) => {
+        if (Item.Id === Id) {
+          return { ...Item, Text3: value }
+        }
+        else {
+          return Item;
+        }
+      })
+    }
+    // console.log("ExamMarksHeader", ExamMarksHeader)
+    // setAllValues(value, Index)
+    onChangeExamHeader(ExamMarksHeader);
+
+  };
+
+
   const changeExamStatus = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
       return {
@@ -38,6 +59,23 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
       }
     })
     onChangeExamStatus(StudentsForMarksAssignment)
+  }
+  const changeExamGrade = (value, StudentId, Id) => {
+    GradeRow = GradeRow.map((Item, Index) => {
+      return {
+        ...Item,
+        GradeForStudents: (Item.Id == StudentId) ?
+          Item.GradeForStudents.map((obj) => {
+            if (Id == obj.Id) {
+              return { ...obj, ExamGrade: value, IsActive: value == "0" }
+            }
+            else
+              return obj
+
+          }) : Item.GradeForStudents
+      }
+    })
+    onChangeExamGrade(GradeHeader)
   }
   const changeText = (value, StudentId, Id) => {
     StudentsForMarksAssignment = StudentsForMarksAssignment.map((Item, Index) => {
@@ -114,6 +152,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   ExamMarksHeader={ExamMarksHeader.Text4}
                   BlurrExamHeader={setAllValues}
                   ChangeExamHeader={ChangeExamHeader}
+                  GradesForSubjectMarkList={GradesForSubjectMarkList}
+                  ChangeGrade={ChangeExamGrade}
                 />
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                   {ExamMarksHeader.Text5}
@@ -129,7 +169,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
-                      ExamStatus={ExamStatus} changeExamStatus={changeExamStatus} />
+                      ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
+                      ExamGrade={ExamGrade} changeExamGrade={changeExamGrade} />
                     <TableCell>
                       <TextField sx={{ width: '80px' }} size={"small"}
                         disabled
