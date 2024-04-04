@@ -162,10 +162,10 @@ const ExamResultToppers = () => {
             }
         }
     }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST]);
-    
 
 
-    
+
+
     useEffect(() => {
         dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
     }, [TeacherId]);
@@ -430,7 +430,7 @@ const ExamResultToppers = () => {
                                 label='Subject'
                             />
                         </Box>
-                        ) : (
+                    ) : (
                         <Box sx={{ display: 'flex', gap: '8px' }}>
                             {CanEdit == 'Y' && (
                                 <SearchableDropdown
@@ -485,11 +485,7 @@ const ExamResultToppers = () => {
                     Label={''}
                 />
             </div>
-            <Card variant="outlined" sx={{ marginTop: 2 }}>
-                <CardContent>
-                    {` ${selectedExamName}`}
-                </CardContent>
-            </Card>
+
             {/* <Box sx={{ textAlign: 'center', marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography variant="subtitle1">
                     <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="First Rank" /> First Rank
@@ -504,14 +500,22 @@ const ExamResultToppers = () => {
 
             {radioBtn === '1' ? (
                 <Container>
-                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                        <DynamicList2
-                            HeaderList={HeaderListCT}
-                            ItemList={ClassToppersListCT}
-                            IconList={[]}
-                            ClickItem={clickHighlightStudent}
-                        />
-                    </Box>
+                    <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
+                                {selectedExamName}
+                            </CardContent>
+                        </Card>
+                        <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                            <DynamicList2
+                                HeaderList={HeaderListCT}
+                                ItemList={ClassToppersListCT}
+                                IconList={[]}
+                                ClickItem={clickHighlightStudent}
+                            />
+                        </Box>
+                    </Grid>
+
                     <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Typography variant={'h2'} mb={1}>
                             Subject Toppers
