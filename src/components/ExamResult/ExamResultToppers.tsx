@@ -1,7 +1,5 @@
 import {
     Box,
-    Card,
-    CardContent,
     Container,
     Grid,
     IconButton,
@@ -38,12 +36,13 @@ import { grey } from '@mui/material/colors';
 import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import ToppersList from 'src/libraries/list/ToppersList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState, useDispatch } from 'src/store';
 import { getSchoolConfigurations } from '../Common/Util';
+import CommonPageHeader from '../CommonPageHeader';
+
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -363,26 +362,88 @@ const ExamResultToppers = () => {
 
     const ClickItem = () => { };
     return (
-        <>
-            <br></br>
-            <br></br>
-            <br></br>
-            <Tooltip title={Note}>
-                <IconButton
+        <Container>
 
-                    sx={{
-                        color: 'white',
-                        backgroundColor: grey[500],
-                        '&:hover': {
-                            backgroundColor: grey[500]
-                        }
-                    }}
-                >
-                    <QuestionMark />
-                </IconButton>
-            </Tooltip>
+            <CommonPageHeader
+                navLinks={[
+                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+                    { title: `${radioBtn === '1' ? 'Class Toppers' : 'Standard Toppers'}`, path: '/extended-sidebar/Teacher/ExamResultToppers' }
+                ]}
+                rightActions={<>
+                    {radioBtn === '1' ? (
+                        <Box sx={{ display: 'flex', gap: '8px' }}>
+                            <SearchableDropdown
+                                sx={{ pl: 0, minWidth: '200px' }}
+                                ItemList={GetClassdropdownCT}
+                                onChange={clickClassDropdownCT}
+                                defaultValue={SelectClassCT}
+                                size={"small"}
+                                label='Select Class'
+                            />
 
+                            <SearchableDropdown
+                                sx={{ pl: 0, minWidth: '200px' }}
+                                ItemList={GetExamdropdownCT}
+                                onChange={clickExamDropdownCT}
+                                defaultValue={SelectExamCT}
+                                size={"small"}
+                                label='Select Exam'
+                            />
+                            <SearchableDropdown
+                                sx={{ pl: 0, minWidth: '200px' }}
+                                ItemList={GetSubjectdropdownCT}
+                                onChange={clickSubjectDropdownCT}
+                                defaultValue={SelectSubjectCT}
+                                size={"small"}
+                                label='Subject'
+                            />
+                        </Box>) : (
+                        <Box sx={{ display: 'flex', gap: '8px' }}>
+                            {CanEdit == 'Y' && (
+                                <SearchableDropdown
+                                    label='Select Standard'
+                                    sx={{ pl: 0, minWidth: '200px' }}
+                                    ItemList={GetStandarddropdownST}
+                                    onChange={clickStandardDropdownST}
+                                    defaultValue={SelectStandardST}
+                                    size={"small"}
+                                />
+                            )}
+                            <SearchableDropdown
+                                ItemList={GetExamdropdownST}
+                                sx={{ pl: 0, minWidth: '200px' }}
+                                onChange={clickExamDropdownST}
+                                defaultValue={SelectExamST}
+                                label={'Select Exam'}
+                                size={"small"}
+                            />
+                            <SearchableDropdown
+                                ItemList={GetSubjectdropdownST}
+                                sx={{ pl: 0, minWidth: '200px' }}
+                                onChange={clickSubjectDropdownST}
+                                defaultValue={SelectSubjectST}
+                                label={'Subject'}
+                                size={"small"}
+                            />
+                        </Box>)}
 
+                    <Tooltip title={Note}>
+                        <IconButton
+
+                            sx={{
+                                color: 'white',
+                                backgroundColor: grey[500],
+                                '&:hover': {
+                                    backgroundColor: grey[500]
+                                }
+                            }}
+                        >
+                            <QuestionMark />
+                        </IconButton>
+                    </Tooltip>
+
+                </>}
+            />
             <div>
                 <RadioButton1
                     Array={RadioListCT}
@@ -391,7 +452,8 @@ const ExamResultToppers = () => {
                     Label={''}
                 />
             </div>
-            <Box sx={{ textAlign: 'center', marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+
+            {/* <Box sx={{ textAlign: 'center', marginTop: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Typography variant="subtitle1">
                     <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="First Rank" /> First Rank
                 </Typography>
@@ -401,86 +463,22 @@ const ExamResultToppers = () => {
                 <Typography variant="subtitle1">
                     <img src={"C:\\Users\\abc\\Pictures\\problem while connecting in sql.png"} alt="Third Rank" /> Third Rank
                 </Typography>
-            </Box>
+            </Box> */}
 
             {radioBtn === '1' ? (
                 <Container>
-                    <PageHeader heading=" Class Toppers" />
-
-                    <Grid container spacing={1} alignItems="center">
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Select Class:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            {CanEdit == 'Y' && (
-                                <Box sx={{ background: 'white' }}>
-                                    <SearchableDropdown
-
-                                        sx={{ pl: 0, minWidth: '350px' }}
-                                        ItemList={GetClassdropdownCT}
-                                        onChange={clickClassDropdownCT}
-                                        defaultValue={SelectClassCT}
-                                        size={"small"}
-                                    />
-                                </Box>
-                            )}
-                        </Box>
-                        <br></br>
-                        <br></br>
-
-
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Select Exam:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            <SearchableDropdown
-
-                                sx={{ pl: 0, minWidth: '350px' }}
-                                ItemList={GetExamdropdownCT}
-                                onChange={clickExamDropdownCT}
-                                defaultValue={SelectExamCT}
-                                size={"small"}
-                            />
-                        </Box>
-                        <br></br>
-                        <br></br>
-
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Subject:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            <SearchableDropdown
-
-                                sx={{ pl: 0, minWidth: '350px' }}
-                                ItemList={GetSubjectdropdownCT}
-                                onChange={clickSubjectDropdownCT}
-                                defaultValue={SelectSubjectCT}
-                                size={"small"}
-                            />
-                        </Box>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <Card variant="outlined" sx={{ marginTop: 2 }}>
-                            <CardContent>
-                                <PageHeader heading={`Exam: ${selectedExamName}`} />
-                            </CardContent>
-                        </Card>
-
+                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
                         <DynamicList2
                             HeaderList={HeaderListCT}
                             ItemList={ClassToppersListCT}
                             IconList={[]}
                             ClickItem={clickHighlightStudent}
                         />
-
-                        <PageHeader heading=" Subject Toppers" />
+                    </Box>
+                    <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                        <Typography variant={'h2'} mb={1}>
+                            Subject Toppers
+                        </Typography>
                         <Grid container>
                             {SubjectToppersListCT.map((item, i) => {
                                 return (
@@ -489,7 +487,9 @@ const ExamResultToppers = () => {
                                             <Grid container item xs={12} justifyContent="center">
                                                 {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
                                                 {/* <Container> */}
-                                                {item.Subject}
+                                                <Typography variant={'h3'} mb={1}>
+                                                    {item.Subject}
+                                                </Typography>
                                                 {/* </Container> */}
                                             </Grid>
                                         )}
@@ -508,105 +508,78 @@ const ExamResultToppers = () => {
                                 );
                             })}
                         </Grid>
-                    </Grid>
+                    </Box>
                 </Container>
             ) : (
                 <Container>
-                    <PageHeader heading="StandardToppers" />
-                    <Grid container spacing={1} alignItems="center">
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Select Standard:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            {CanEdit == 'Y' && (
-                                <Box sx={{ background: 'white' }}>
-                                    <SearchableDropdown
-
-                                        sx={{ pl: 0, minWidth: '350px' }}
-                                        ItemList={GetStandarddropdownST}
-                                        onChange={clickStandardDropdownST}
-                                        defaultValue={SelectStandardST}
-                                        size={"small"}
-                                    />
-                                </Box>
-                            )}
-                        </Box>
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Select Exam:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            <SearchableDropdown
-
-                                sx={{ pl: 0, minWidth: '350px' }}
-                                ItemList={GetExamdropdownST}
-                                onChange={clickExamDropdownST}
-                                defaultValue={SelectExamST}
-                                size={"small"}
-                            />
-                        </Box>
-                        <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Subject:</b>
-                            </Typography>
-                        </Grid>
-                        <Box sx={{ background: 'white' }}>
-                            <SearchableDropdown
-
-                                sx={{ pl: 0, minWidth: '350px' }}
-                                ItemList={GetSubjectdropdownST}
-                                onChange={clickSubjectDropdownST}
-                                defaultValue={SelectSubjectST}
-                                size={"small"}
-                            />
-                        </Box>
-                        <br></br>
-                        <br></br>
-                        <br></br>
-                        <Card variant="outlined" sx={{ marginTop: 2 }}>
-                            <CardContent>
-                                <PageHeader heading={`Exam: ${selectedExamName}`} />
-                            </CardContent>
-                        </Card>
-
+                    {/* <PageHeader heading="StandardToppers" /> */}
+                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
                         <DynamicList2
                             HeaderList={HeaderListST}
                             ItemList={StandardToppersListST}
                             IconList={[]}
                             ClickItem={clickHighlightStudent}
                         />
+                    </Box>
+                    <Grid container spacing={1} alignItems="center">
 
-                        <PageHeader heading=" Subject Toppers" />
-                        <Grid container>
-                            {SubjectToppersListST.map((item, i) => {
-                                return (
-                                    <>
-                                        {!(i % 3) && (
-                                            <Grid container item xs={12} justifyContent="center">
-                                                {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                                {/* <Container> */}
-                                                {item.Subject}
-                                                {/* </Container> */}
+                        {/* <Grid item xs={6}>
+                            <Dropdown
+                                Array={GetExamdropdownST}
+                                handleChange={clickExamDropdownST}
+                                defaultValue={SelectExamST}
+                                label={SelectExamST}
+                            />
+                        </Grid> */}
+                        {/* <Grid item xs={6}>
+                            <Typography margin={'1px'}>
+                                <b>Subject:</b>
+                            </Typography>
+                        </Grid> */}
+                        {/* <Grid item xs={6}>
+                            <Dropdown
+                                Array={GetSubjectdropdownST}
+                                handleChange={clickSubjectDropdownST}
+                                defaultValue={SelectSubjectST}
+                                label={'All'}
+                            />
+                        </Grid> */}
+
+
+                        <Box mb={1} sx={{ marginTop: '10px', p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                            <Typography variant={'h2'} mb={1}>
+                                Subject Toppers
+                            </Typography>
+                            <Grid container>
+                                {SubjectToppersListST.map((item, i) => {
+                                    return (
+                                        <>
+                                            {!(i % 3) && (
+                                                <Grid container item xs={12} justifyContent="center">
+                                                    {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
+                                                    {/* <Container> */}
+                                                    <Typography variant={'h3'} mb={1}>
+                                                        {item.Subject}
+                                                    </Typography>
+                                                    {/* </Container> */}
+                                                </Grid>
+                                            )}
+
+                                            <Grid item xs={4} xl={4} justifyContent="center">
+                                                <Container>
+                                                    <img src={item.Rank_Image} /> MarKs:{item.Marks}
+                                                </Container>
+                                                <br></br>
+                                                <ToppersList
+                                                    headers={HeaderList1ST}
+                                                    data={item.Students}
+                                                />
                                             </Grid>
-                                        )}
-
-                                        <Grid item xs={4} xl={4} justifyContent="center">
-                                            <Container>
-                                                <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                                            </Container>
-                                            <br></br>
-                                            <ToppersList
-                                                headers={HeaderList1ST}
-                                                data={item.Students}
-                                            />
-                                        </Grid>
-                                    </>
-                                );
-                            })}
-                        </Grid>
+                                        </>
+                                    );
+                                })}
+                            </Grid>
+                        </Box>
                     </Grid>
                 </Container>
             )}
@@ -630,7 +603,7 @@ const ExamResultToppers = () => {
                 </Grid>
             </Grid>
 
-        </>
+        </Container>
     );
 };
 
