@@ -226,9 +226,8 @@ const TransferOptionalSubjectMarks = () => {
                     }
                 ]}
                 rightActions={
-                    <>
-                        <Box sx={{ background: 'white' }}>
-
+                    <> 
+                    <Box sx={{ background: 'white' }}>
                             <Box sx={{ background: 'white' }}>
                                 <SearchableDropdown
                                     sx={{ minWidth: '300px' }}
@@ -239,13 +238,8 @@ const TransferOptionalSubjectMarks = () => {
                                     mandatory
                                     size={"small"}
                                 />
-
-
-
                             </Box>
-
                         </Box>
-
                         <Box sx={{ background: 'white' }}>
                             <TextField
                                 sx={{ pl: 0, minWidth: '350px' }}
@@ -258,8 +252,6 @@ const TransferOptionalSubjectMarks = () => {
                                 }}
                             />
                         </Box>
-
-
                         {StudentsList.length > 0 ? (
                             <Button onClick={changeSearchText} variant="contained">
                                 Search
@@ -269,7 +261,6 @@ const TransferOptionalSubjectMarks = () => {
                                 Search
                             </Button>
                         )}
-
 
                         <Box>
                             <Tooltip title={"Displays all available lesson plans."}>
@@ -285,100 +276,102 @@ const TransferOptionalSubjectMarks = () => {
                                 </IconButton>
                             </Tooltip>
                         </Box>
-
-
                     </>
                 }
-
             />
-
-
             {StudentsList.length > 0 ? (
                 <Box sx={{ textAlign: 'center' }}>
                     <b>{`${startIndex} To ${endIndex} Out Of 39 Records`}</b>
                 </Box>
             ) : (
-
                 <span></span>
             )}
 
             <Box sx={{ display: 'flex', flexDirection: 'row' }}>
                 {/* First Box */}
                 <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'row', width: "1400px" }}>
-                    <SubjectMarkList
-                        ItemList={StudentsList}
-                        HeaderArray={HeaderPublish}
-                        onChange={Changevalue}
-                        clickchange={""}
-                        clickTitle={""}
-                    />
+                    {StudentsList.length > 0 ? (
+                        <SubjectMarkList
+                            ItemList={StudentsList}
+                            HeaderArray={HeaderPublish}
+                            onChange={Changevalue}
+                            clickchange={""}
+                            clickTitle={""}
+                        />
+                    ) : (
+                        // <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: "2000px" }}>
+                        //     <b>No Record Found.</b>
+                        // </Typography>
+                        <span></span>
+                    )
+                    }
                 </Box>
 
                 {/* Second Box */}
+                {StudentsList.length > 0 ? (
+                    <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
 
-                <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
-
-                    <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', }}>
-                        <h3>Optional Subjects :</h3>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                HMS1 (Select any 1)
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            <ul>
-        <li><label><input type="checkbox" /> Hindi III</label></li>
-        <li><label><input type="checkbox" /> Marathi III</label></li>
-        <li><label><input type="checkbox" /> Sanskrit III</label></li>
-    </ul>
-                            </AccordionDetails>
-                        </Accordion>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1-content"
-                                id="panel1-header"
-                            >
-                                HMS2 (Select any 1)
-                            </AccordionSummary>
-                            <AccordionDetails>
-                            <ul>
-        <li><label><input type="checkbox" /> Hindi III</label></li>
-        <li><label><input type="checkbox" /> Marathi III</label></li>
-        <li><label><input type="checkbox" /> Sanskrit III</label></li>
-    </ul>
-                            </AccordionDetails>
-                        </Accordion>
-
+                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', }}>
+                            <h3>Optional Subjects :</h3>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    HMS1 (Select any 1)
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <ul>
+                                        <li><label><input type="checkbox" /> Hindi III</label></li>
+                                        <li><label><input type="checkbox" /> Marathi III</label></li>
+                                        <li><label><input type="checkbox" /> Sanskrit III</label></li>
+                                    </ul>
+                                </AccordionDetails>
+                            </Accordion>
+                            <Accordion>
+                                <AccordionSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1-content"
+                                    id="panel1-header"
+                                >
+                                    HMS2 (Select any 1)
+                                </AccordionSummary>
+                                <AccordionDetails>
+                                    <ul>
+                                        <li><label><input type="checkbox" /> Hindi III</label></li>
+                                        <li><label><input type="checkbox" /> Marathi III</label></li>
+                                        <li><label><input type="checkbox" /> Sanskrit III</label></li>
+                                    </ul>
+                                </AccordionDetails>
+                            </Accordion>
+                        </Box>
                     </Box>
-
+                ) : (
+                    <span> </span>
+                )
+                }
+            </Box>
+            {StudentsList.length > 0 ? (
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                    Select a page:
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                        <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                    </ButtonGroup>
+                    
                 </Box>
-            </Box>
+            ) : (
+                <span></span>
+            )
+            }
 
-
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                Select a page:
-                <ButtonGroup color="primary" aria-label="outlined primary button group">
-                    <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                    <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-
-                </ButtonGroup>
-            </Box>
-
-
-
-            <Notes NoteDetail={Note1} Header={Hedaer1} />
-            <Notes NoteDetail={Note2} Header={Hedaer2} />
-            <Notes NoteDetail={Note3} Header={Hedaer3} />
-            <Notes NoteDetail={Note4} Header={Hedaer4} />
-
+                      <Notes NoteDetail={Note1} Header={Hedaer1} />
+                      <Notes NoteDetail={Note2} Header={Hedaer2} />
+                      <Notes NoteDetail={Note3} Header={Hedaer3} />
+                      <Notes NoteDetail={Note4} Header={Hedaer4} />
+             
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
-
-
                 {StudentsList.length > 0 ? (
                     <Button variant="contained" sx={{
                         backgroundColor: 'green',
@@ -404,9 +397,7 @@ const TransferOptionalSubjectMarks = () => {
                     onClick={ExamResultBase} >
                     BACK
                 </Button>
-
             </Box>
-
         </Container>
     );
 };
