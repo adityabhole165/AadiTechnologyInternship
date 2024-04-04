@@ -47,13 +47,13 @@ import { getSchoolConfigurations } from '../Common/Util';
 const ExamResultToppers = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { TeacherId } = useParams();
+    const { TeacherId, StandardDivisionId } = useParams();
 
-    const [SelectClassCT, setClassCT] = useState(TeacherId);
+    const [SelectClassCT, setClassCT] = useState(StandardDivisionId);
     const [SelectExamCT, setExamCT] = useState('0');
     const [SelectSubjectCT, setSubjectCT] = useState('0');
     const [StandardRadioCT, setStandardRadioCT] = useState();
-    const [SelectStandardST, setStandardST] = useState(TeacherId);
+    const [SelectStandardST, setStandardST] = useState(StandardDivisionId);
     const [SelectExamST, setExamST] = useState('0');
     const [SelectSubjectST, setSubjectST] = useState('0');
     const [showScreenOne, setShowScreenOne] = useState(true);
@@ -150,9 +150,6 @@ const ExamResultToppers = () => {
         dispatch(ClassTopperListCT(ToppersListBodyCT));
     }, [SelectClassCT, SelectExamCT, SelectSubjectCT]);
 
-    useEffect(() => {
-        if (GetClassdropdownCT.length > 0) setClassCT(GetClassdropdownCT[0].Id);
-    }, [GetClassdropdownCT]);
 
     useEffect(() => {
         if (GetExamdropdownCT.length > 0) setExamCT(GetExamdropdownCT[0].Id);

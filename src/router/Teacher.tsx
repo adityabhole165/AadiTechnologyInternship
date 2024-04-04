@@ -352,7 +352,7 @@ const teacherRoutes = [
     element: <WeeklyTimetable />
   },
   {
-    path: 'ExamResultToppers/:TeacherId',
+    path: 'ExamResultToppers/:TeacherId/:StandardDivisionId',
     element: <ExamResultToppers />
   }
   ,
