@@ -34,9 +34,7 @@ const TransferOptionalSubjectMarks = () => {
 
     const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
-    const [StudentsList, setStudentsList] = useState([
-        USStudentsToTransferMarks
-    ]);
+    const [StudentsList, setStudentsList] = useState([]);
 
 
 
@@ -92,18 +90,33 @@ const TransferOptionalSubjectMarks = () => {
     };
 
 
+    const getSubjectId = () => {
+        let returnVal = []
+        returnVal = StudentsList.map((Item) => {
+            if (Item.IsActive) {
+                return {
+                    SubjectId: Item.SubjectId,
+                    SubjectGroupId: Item.SubjectGroupId
+                }
+            }
+        })
+        return returnVal;
+    }
     const getXML = () => {
         let sXML =
             '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-
-        Itemlist.map((Item) => {
-            sXML +=
-                '<TransferSubjectMarksInfo>' +
-                '<StudentId>' + Item.StudentId + '</StudentId>' +
-                '<StandardDivisionId>' + Item.StandardDivisionId + '</StandardDivisionId>' +
-                '<SubjectId>' + Item.SubjectId + '</SubjectId>' +
-                '<SubjectGroupId>' + Item.SubjectGroupId + '</SubjectGroupId>' +
-                '</TransferSubjectMarksInfo>';
+        let SubjectList = getSubjectId()
+        StudentsList.map((Item) => {
+            if (Item.IsActive) {
+                SubjectList.map((Obj, Index) => {
+                    sXML +=
+                        '<TransferSubjectMarksInfo>' +
+                        '<StudentId>' + Item.StudentId + '</StudentId>' +
+                        '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
+                        '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
+                        '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
+                        '</TransferSubjectMarksInfo>';
+                }
         });
 
         sXML += '</ArrayOfTransferSubjectMarksInfo>';
@@ -226,8 +239,8 @@ const TransferOptionalSubjectMarks = () => {
                     }
                 ]}
                 rightActions={
-                    <> 
-                    <Box sx={{ background: 'white' }}>
+                    <>
+                        <Box sx={{ background: 'white' }}>
                             <Box sx={{ background: 'white' }}>
                                 <SearchableDropdown
                                     sx={{ minWidth: '300px' }}
@@ -359,18 +372,18 @@ const TransferOptionalSubjectMarks = () => {
                         <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                         <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
                     </ButtonGroup>
-                    
+
                 </Box>
             ) : (
                 <span></span>
             )
             }
 
-                      <Notes NoteDetail={Note1} Header={Hedaer1} />
-                      <Notes NoteDetail={Note2} Header={Hedaer2} />
-                      <Notes NoteDetail={Note3} Header={Hedaer3} />
-                      <Notes NoteDetail={Note4} Header={Hedaer4} />
-             
+            <Notes NoteDetail={Note1} Header={Hedaer1} />
+            <Notes NoteDetail={Note2} Header={Hedaer2} />
+            <Notes NoteDetail={Note3} Header={Hedaer3} />
+            <Notes NoteDetail={Note4} Header={Hedaer4} />
+
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 {StudentsList.length > 0 ? (
                     <Button variant="contained" sx={{
