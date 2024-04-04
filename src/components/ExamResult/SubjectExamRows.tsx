@@ -45,6 +45,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         defaultValue={Item.ExamGrade}
                         variant='outlined'
                         Array={GradesForSubjectMarkList}
+                        disabled={!Item.IsActive}
                         handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
                     />
                 </TableCell>

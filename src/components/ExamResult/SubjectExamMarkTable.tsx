@@ -55,7 +55,10 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
-              return { ...obj, ExamStatus: value, IsActive: value == "0" }
+              return {
+                ...obj, ExamStatus: value, ExamGrade: "0",
+                IsActiveGrade: value == "0", IsActive: value == "0"
+              }
             }
             else
               return obj
@@ -72,7 +75,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         MarksForStudent: (Item.Id == StudentId) ?
           Item.MarksForStudent.map((obj) => {
             if (Id == obj.Id) {
-              return { ...obj, ExamGrade: value, IsActive: value == "0" }
+              return { ...obj, ExamGrade: value, }
             }
             else
               return obj

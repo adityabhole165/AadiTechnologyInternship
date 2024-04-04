@@ -176,6 +176,7 @@ export const getSubjectExamMarkslist =
                             ExamStatus: "0",
                             ExamGrade: "0",
                             IsActive: true,
+                            IsActiveGrade: true,
                             ErrorMessage: ""
                         });
                 });
