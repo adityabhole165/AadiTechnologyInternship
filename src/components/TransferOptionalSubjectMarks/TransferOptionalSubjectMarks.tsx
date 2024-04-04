@@ -38,7 +38,6 @@ const TransferOptionalSubjectMarks = () => {
 
 
 
-    const [Itemlist, setItemlist] = useState([USOptionalSubjectsForMarksTransfer]);
     const HeaderPublish = [
         { Id: 1, Header: ' Reg. No.	' },
         { Id: 2, Header: 'Roll No. 	' },
@@ -86,7 +85,7 @@ const TransferOptionalSubjectMarks = () => {
     const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: asStandardDivisionId
+        asStandardDivisionId: selectClasstecaher
     };
 
 
@@ -105,7 +104,7 @@ const TransferOptionalSubjectMarks = () => {
     const getXML = () => {
         let sXML =
             '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-        let SubjectList = getSubjectId()
+        let SubjectList = getSubjectId();
         StudentsList.map((Item) => {
             if (Item.IsActive) {
                 SubjectList.map((Obj, Index) => {
@@ -116,7 +115,8 @@ const TransferOptionalSubjectMarks = () => {
                         '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
                         '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
                         '</TransferSubjectMarksInfo>';
-                }
+                });
+            }
         });
 
         sXML += '</ArrayOfTransferSubjectMarksInfo>';
@@ -125,6 +125,7 @@ const TransferOptionalSubjectMarks = () => {
 
         return sXML;
     };
+
 
 
     const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
@@ -223,7 +224,7 @@ const TransferOptionalSubjectMarks = () => {
 
     useEffect(() => {
         dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
-    }, []);
+    }, [selectClasstecaher]);
 
     useEffect(() => {
         dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
@@ -322,44 +323,29 @@ const TransferOptionalSubjectMarks = () => {
 
                 {/* Second Box */}
                 {StudentsList.length > 0 ? (
-                    <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
+                 <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
+                 <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+                     <h3>Optional Subjects :</h3>
+                     {USOptionalSubjectsForMarksTransfer.map((subject, index) => (
+                         <Accordion key={index}>
+                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                 {subject.OptionalSubjectName} (Select any 1)
+                             </AccordionSummary>
+                             <AccordionDetails>
+                                 <ul>
+                                  
+                                     {USOptionalSubjectsForMarksTransfer.map((subItem, subIndex) => (
+                                         <li key={subIndex}>
+                                             <label><input type="checkbox" /> {subItem.SubjectName}</label>
+                                         </li>
+                                     ))}
+                                 </ul>
+                             </AccordionDetails>
+                         </Accordion>
+                     ))}
+                 </Box>
+             </Box>
 
-                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)', }}>
-                            <h3>Optional Subjects :</h3>
-                            <Accordion>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1-content"
-                                    id="panel1-header"
-                                >
-                                    HMS1 (Select any 1)
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <ul>
-                                        <li><label><input type="checkbox" /> Hindi III</label></li>
-                                        <li><label><input type="checkbox" /> Marathi III</label></li>
-                                        <li><label><input type="checkbox" /> Sanskrit III</label></li>
-                                    </ul>
-                                </AccordionDetails>
-                            </Accordion>
-                            <Accordion>
-                                <AccordionSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1-content"
-                                    id="panel1-header"
-                                >
-                                    HMS2 (Select any 1)
-                                </AccordionSummary>
-                                <AccordionDetails>
-                                    <ul>
-                                        <li><label><input type="checkbox" /> Hindi III</label></li>
-                                        <li><label><input type="checkbox" /> Marathi III</label></li>
-                                        <li><label><input type="checkbox" /> Sanskrit III</label></li>
-                                    </ul>
-                                </AccordionDetails>
-                            </Accordion>
-                        </Box>
-                    </Box>
                 ) : (
                     <span> </span>
                 )

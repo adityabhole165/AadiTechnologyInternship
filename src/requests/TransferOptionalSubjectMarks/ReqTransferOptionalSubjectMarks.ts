@@ -97,7 +97,11 @@ export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody
             SubjectId: item.SubjectId,
             StandardDivisionId: item.SchoolWiseStandardDivisionId,
             SubjectGroupId: item.SubjectGroupId,
-            StudentId:item.ChildOptionalSubjectId
+            StudentId:item.ChildOptionalSubjectId,
+            SubjectName:item.SubjectName,
+            OptionalSubjectsId:item.OptionalSubjectsId,
+            OptionalSubjectName:item.OptionalSubjectName
+
           };
         });
         dispatch(TransferOptionalSubjectMarksSlice.actions.ROptionalSubjectsForMarksTransfer(abc));
