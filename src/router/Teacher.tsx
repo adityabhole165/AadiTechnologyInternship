@@ -135,6 +135,9 @@ const WeeklyTimetable = Loader(
 const ExamResultToppers = Loader(
   lazy(() => import('src/components/ExamResult/ExamResultToppers'))
 )
+const SubjectMarkList = Loader(
+  lazy(() => import('src/components/ExamResult/SubjectMarkList'))
+)
 
 
 const teacherRoutes = [
@@ -359,6 +362,10 @@ const teacherRoutes = [
   {
     path: 'TransferOptionalSubjectMarks',
     element: <TransferOptionalSubjectMarks />
+  },
+  {
+    path: 'SubjectMarkList',
+    element: <SubjectMarkList />
   }
 
 ];
