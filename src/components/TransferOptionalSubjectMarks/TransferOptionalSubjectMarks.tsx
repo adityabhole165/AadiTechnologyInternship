@@ -141,17 +141,37 @@ const TransferOptionalSubjectMarks = () => {
     };
 
 
+    const [OptionalSubjects, setOptionalSubjects] = useState([])
+    const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
+    useEffect(() => {
+        let IsExists = false
+        setOptionalSubjects(USOptionalSubjectsForMarksTransfer)
+        USOptionalSubjectsForMarksTransfer.map((Item) => {
+            IsExists = false
+            ParentOptionalSubjects.map((ParentItem) => {
+                if (ParentItem.ParentOptionalSubjectId == Item.ParentOptionalSubjectId) {
+                    IsExists = true
+                }
+            })
+            if (IsExists == false)
+                ParentOptionalSubjects.push({
+                    ParentOptionalSubjectId: Item.ParentOptionalSubjectId,
+                    OptionalSubjectName: Item.OptionalSubjectName,
+                })
+
+        })
+    }, [USOptionalSubjectsForMarksTransfer])
 
     const SubjectSelection = (subjectId) => {
-        const selectedIndex = selectedSubjects.indexOf(subjectId);
-        if (selectedIndex === -1) {
-            setSelectedSubjects([...selectedSubjects, subjectId]);
-        } else {
-            setSelectedSubjects(selectedSubjects.filter(id => id !== subjectId));
-        }
+        setOptionalSubjects(OptionalSubjects.map((Item) => {
+            return Item.SubjectId == subjectId ?
+                { ...Item, isActive: !Item.isActive } :
+                Item
+        }))
     };
 
 
+    console.log(OptionalSubjects, "OptionalSubjects");
 
 
     const ClickSelctTecher = (value) => {
@@ -340,29 +360,32 @@ const TransferOptionalSubjectMarks = () => {
                     <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
                         <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
                             <h3>Optional Subjects :</h3>
-                            {USOptionalSubjectsForMarksTransfer.map((subject, index) => (
-                                <Accordion key={index}>
-                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                        {subject.OptionalSubjectName} (Select any 1)
-                                    </AccordionSummary>
-                                    <AccordionDetails>
-                                        <ul>
-
-                                            {USOptionalSubjectsForMarksTransfer.map((subItem, subIndex) => (
-                                                <li key={subIndex}>
-                                                    <label>
-                                                        <input
-                                                            type="checkbox"
-                                                            onChange={() => SubjectSelection(subItem.SubjectId)}
-                                                        />{subItem.isActive}
-                                                        {subItem.SubjectName}
-                                                    </label>
-                                                </li>
-                                            ))}
-                                        </ul>
-                                    </AccordionDetails>
-                                </Accordion>
-                            ))}
+                            {ParentOptionalSubjects
+                                .map((subject, index) => (
+                                    <Accordion key={index}>
+                                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                            {subject.OptionalSubjectName} (Select any 1)
+                                        </AccordionSummary>
+                                        <AccordionDetails>
+                                            <ul>
+                                                {OptionalSubjects
+                                                    .filter((objParent) => { return objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId })
+                                                    .map((subItem, subIndex) => (
+                                                        <li key={subIndex}>
+                                                            <label>
+                                                                <input
+                                                                    type="checkbox"
+                                                                    checked={subItem.isActive}
+                                                                    onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                                />
+                                                                {subItem.SubjectName}
+                                                            </label>
+                                                        </li>
+                                                    ))}
+                                            </ul>
+                                        </AccordionDetails>
+                                    </Accordion>
+                                ))}
                         </Box>
                     </Box>
 
