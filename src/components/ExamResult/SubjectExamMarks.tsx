@@ -8,7 +8,9 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   IGetAllGradesForSubjectMarkListBody,
+  IGetAllStudentsForMarksAssignmentsBody,
   IGetClassExamSubjectNameDetailesBody,
+  IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import {
@@ -24,9 +26,9 @@ const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { StandardDivisionId, SubjectId, ClassId, TestId, TeacherId,
-    StandardId, IsMonthConfig, IsReadOnly } = useParams();
-  // const StandardDivisionId = 1241, SubjectId = 2346, ClassWiseExam = 592
+  const { ClassId, TeacherId,
+    StandardId, IsMonthConfig, IsReadOnly, StandardDivisionId, SubjectId, TestId } = useParams();
+  // const StandardDivisionId = 1241, SubjectId = 2346, TestId = 592
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -95,11 +97,23 @@ const SubjectExamMarks = () => {
   const clickTestDate = (value) => {
     setTestDate(value)
   }
-  // useEffect(() => {
-  //   if (ExamStatus.length > 0)
-  //     setMarksAssignment(ExamStatus[0].Id);
-  // }, [ExamStatus]);
+  //for testdate
+  useEffect(() => {
+    const GetSubjectExamMarkslists: IGetSubjectExamMarkslistsBody =
+    {
+      asSchoolId: Number(asSchoolId),
+      asStandardDivision_Id: Number(StandardDivisionId),
+      asSubjectId: Number(SubjectId),
+      asTestId: Number(TestId),
+      asAcademicYrId: Number(asAcademicYearId),
+      asShowTotalAsPerOutOfMarks: "Y"
+    }
 
+
+    dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
+
+  }, []);
+  //for Passing Total marks
   useEffect(() => {
 
     const ClassExamSubjectNameDetailes: IGetClassExamSubjectNameDetailesBody = {
@@ -112,6 +126,33 @@ const SubjectExamMarks = () => {
     dispatch(getClassExamSubjectNameDetailes(ClassExamSubjectNameDetailes));
 
   }, []);
+  //for RollNo,student name
+  useEffect(() => {
+    if (TestDate !== null) {
+      const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
+        asAcademicYearID: Number(asAcademicYearId),
+        asSchoolId: Number(asSchoolId),
+        asSubject_Id: Number(SubjectId),
+        asStandardDivision_Id: Number(StandardDivisionId),
+        asTestDate: TestDate
+      };
+
+      dispatch(getSubjectExamMarkslist(GetAllStudentsForMarksAssignmentsBody));
+    }
+  }, [TestId]);
+  //for Grade
+  useEffect(() => {
+    const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
+      asSchoolId: Number(asSchoolId),
+      asAcademicYrId: Number(asAcademicYearId),
+      asStandardId: Number(StandardId),
+      asSubjectId: Number(SubjectId),
+      asTestId: Number(TestId),
+    };
+
+    dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
+  }, []);
+
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
   }, [StudentsForMarksAssignment])
@@ -140,54 +181,11 @@ const SubjectExamMarks = () => {
   }, [StudentsForMarksAssignment])
 
 
-  useEffect(() => {
-    const GetSubjectExamMarkslists =
-    {
-      "asSchoolId": 18,
-      "asStandardDivision_Id": 1241,
-      "asSubjectId": 2346,
-      "asTestId": 592,
-      "asAcademicYrId": 54,
-      "asShowTotalAsPerOutOfMarks": "Y",
-      "asTestDate": "12/2/2023 12:00:00 AM"
-    }
-    // {
-    //   asSchoolId: Number(asSchoolId),
-    //   asStandardDivision_Id: 1241,
-    //   asSubjectId: 2346,
-    //   asTestId: 592,
-    //   // asStandardDivision_Id: Number(StandardDivisionId),
-    //   // asSubjectId: Number(SubjectId),
-    //   // asTestId: Number(ClassWiseExam),
-    //   asAcademicYrId: 54,// Number(asAcademicYearId),
-    //   asShowTotalAsPerOutOfMarks: "Y"
-    // };
 
-    dispatch(getSubjectExamMarkslist(GetSubjectExamMarkslists));
-  }, []);
-  // useEffect(() => {
-  //   const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
-  //     asAcademicYearID: Number(asAcademicYearId),
-  //     asSchoolId: Number(asSchoolId),
-  //     asSubject_Id: Number(SubjectId),
-  //     asStandardDivision_Id: Number(StandardDivisionId),
-  //     asTestDate: TestDate
-  //   };
 
-  //   dispatch(getSubjectExamMarkslist(GetAllStudentsForMarksAssignmentsBody));
-  // }, []);
 
-  useEffect(() => {
-    const GetAllGradesForSubjectMarkListBody: IGetAllGradesForSubjectMarkListBody = {
-      asSchoolId: Number(asSchoolId),
-      asAcademicYrId: Number(asAcademicYearId),
-      asStandardId: 1064,
-      asSubjectId: Number(SubjectId),
-      asTestId: Number(TestId),
-    };
 
-    dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
-  }, []);
+
 
 
   const onClickBack = () => {
@@ -340,10 +338,11 @@ const SubjectExamMarks = () => {
                 variant={"outlined"}
                 size={"small"}
                 onChange={(e) => { setTestDate(e.target.value) }}
-
+                disabled={IsReadOnly === 'true'}
               />
 
             </Box>
+
             <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
               *
             </div>
@@ -371,6 +370,8 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
+                  disabled={IsReadOnly === 'true'}
+
                 >
                   <Save />
                 </IconButton>
@@ -395,6 +396,11 @@ const SubjectExamMarks = () => {
           <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
 
         </Box>
+        {IsReadOnly && (
+          <Typography variant="body2" color="textSecondary">
+            Student marks are already submitted.
+          </Typography>
+        )}
         {/* Table */}
         {(MarksAssignment.length > 0 && HeaderDetails != null) &&
           <SubjectExamMarkTable
@@ -405,6 +411,7 @@ const SubjectExamMarks = () => {
             onChangeExamStatus={onChangeExamStatus}
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
+            IsReadOnly={true}
           />
         }
       </Box>

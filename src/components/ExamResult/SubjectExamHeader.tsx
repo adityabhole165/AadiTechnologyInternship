@@ -13,7 +13,7 @@ const handleChange = (e, validationFunction, callback) => {
 };
 
 
-const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade }) => {
+const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
     const handleBlur = (value, Index) => {
         if (value != "") {
             if (confirm('This action will set a new value for all students. Do you want to continue?')) {
@@ -36,7 +36,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
                             value={Item.Text2}
                             onBlur={() => handleBlur(Item.Text2, Index)}
                             onChange={(e) => handleChange(e, validateInput, (value) =>
-                                ChangeExamHeader(value, Item.Id))} />
+                                ChangeExamHeader(value, Item.Id))} disabled={IsReadOnly} />
                         {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text3} /> */}
                         <Dropdown
@@ -44,6 +44,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
                             variant='outlined'
                             Array={GradesForSubjectMarkList}
                             handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
+                            disabled={IsReadOnly}
                         />
                     </Box>
                 </TableCell>)

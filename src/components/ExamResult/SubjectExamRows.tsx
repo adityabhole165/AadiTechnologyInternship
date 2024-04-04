@@ -5,7 +5,7 @@ const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
-const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList, ExamStatus, changeExamStatus, changeExamGrade }) => {
+const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList, ExamStatus, changeExamStatus, changeExamGrade, IsReadOnly }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -38,6 +38,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         variant='outlined'
                         Array={ExamStatus}
                         handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
+                        disabled={IsReadOnly}
                     />
                 </TableCell>
                 <TableCell>
@@ -45,7 +46,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         defaultValue={Item.ExamGrade}
                         variant='outlined'
                         Array={GradesForSubjectMarkList}
-                        disabled={!Item.IsActive}
+                        disabled={IsReadOnly || !Item.IsActive}
                         handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
                     />
                 </TableCell>
@@ -55,13 +56,16 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                             ("Marks Scored should be less than " + Item.Text2)
                             : null}>
                         <TextField size={"small"}
+
                             sx={{
                                 width: '50px',
                                 border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                 borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
                             }}
-                            value={Item.Text1} disabled={!Item.IsActive}
+                            disabled={IsReadOnly || !Item.IsActive}
+                            value={Item.Text1}
                             onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
+
                         />
                     </Tooltip>
                     {getGrade(Item.Text1, Item.Text2)}

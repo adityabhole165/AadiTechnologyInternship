@@ -2,7 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
-  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList,
+  ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
   onChangeExamGrade }) => {
 
   const ChangeExamHeader = (value, Id, Index) => {
@@ -176,6 +176,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   ChangeExamHeader={ChangeExamHeader}
                   GradesForSubjectMarkList={GradesForSubjectMarkList}
                   ChangeGrade={ChangeExamGradeHeader}
+                  IsReadOnly={true}
                 />
                 <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                   {ExamMarksHeader.Text5}
@@ -192,7 +193,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
                       ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
-                      changeExamGrade={changeExamGradeRows} />
+                      changeExamGrade={changeExamGradeRows}
+                      IsReadOnly={true} />
                     <TableCell>
                       <TextField sx={{ width: '80px' }} size={"small"}
                         disabled
