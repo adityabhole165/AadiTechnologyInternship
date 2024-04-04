@@ -4,14 +4,17 @@ import { Box, Container, IconButton, TextField, Tooltip, Typography } from '@mui
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 import {
   IGetAllGradesForSubjectMarkListBody,
   IGetClassExamSubjectNameDetailesBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
-import { getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes, getManageStudentsTestMark, getSubjectExamMarkslist } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
+import {
+  getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
+  getManageStudentsTestMark, getSubjectExamMarkslist
+} from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
 import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isOutsideAcademicYear } from '../Common/Util';
 
@@ -21,8 +24,9 @@ const SubjectExamMarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  // const { StandardDivisionId, SubjectId, ClassWiseExam } = useParams();
-  const StandardDivisionId = 1241, SubjectId = 2346, ClassWiseExam = 592
+  const { StandardDivisionId, SubjectId, ClassId, TestId, TeacherId,
+    StandardId, IsMonthConfig, IsReadOnly } = useParams();
+  // const StandardDivisionId = 1241, SubjectId = 2346, ClassWiseExam = 592
 
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -101,7 +105,7 @@ const SubjectExamMarks = () => {
     const ClassExamSubjectNameDetailes: IGetClassExamSubjectNameDetailesBody = {
       asStandardDivision_Id: Number(StandardDivisionId),
       asSubject_Id: Number(SubjectId),
-      asTestId: Number(ClassWiseExam),
+      asTestId: Number(TestId),
       asSchoolId: Number(asSchoolId),
       asAcademicYrId: Number(asAcademicYearId)
     };
@@ -179,7 +183,7 @@ const SubjectExamMarks = () => {
       asAcademicYrId: Number(asAcademicYearId),
       asStandardId: 1064,
       asSubjectId: Number(SubjectId),
-      asTestId: Number(ClassWiseExam),
+      asTestId: Number(TestId),
     };
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
@@ -231,7 +235,7 @@ const SubjectExamMarks = () => {
         asRemoveProgress: RemoveProgress,
         RemarkXml: RemarkXml,
         asHasRemark: HasRemark,
-        asTestId: Number(ClassWiseExam),
+        asTestId: Number(TestId),
         asSubjectId: Number(SubjectId),
         asSchoolId: Number(asSchoolId),
         asAcademicYearId: Number(asAcademicYearId)

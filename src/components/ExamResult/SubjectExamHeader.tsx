@@ -25,11 +25,11 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
         }
     };
     const handleDropdownClick = (value) => {
-       
-            ExamMarksHeader.forEach((item) => {
-                ChangeGrade(value, item.Id);
-            });
-       
+
+        ExamMarksHeader.forEach((item) => {
+            ChangeGrade(value, item.Id);
+        });
+
     };
 
     return (
@@ -37,10 +37,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
             {ExamMarksHeader?.map((Item, Index) => {
                 return (<TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} key={Index}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-
-
-                        {Item.Text3}
-
+                        {Item.Text4}
                         <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text1} />
                         <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
@@ -56,7 +53,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
                             Array={GradesForSubjectMarkList}
                             handleChange={(value) => { ChangeGrade(value, Item.Id) }}
                             handleClick={handleDropdownClick}
-                       />
+                        />
                     </Box>
                 </TableCell>)
             })}

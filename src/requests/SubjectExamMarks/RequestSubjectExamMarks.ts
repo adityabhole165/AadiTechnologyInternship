@@ -208,19 +208,14 @@ export const getSubjectExamMarkslist =
             const ExamMarkHeader = {
                 Text1: "Roll No.",
                 Text2: "Student Name",
-                Text3: response3.data.map((Item, i) => {
-                    return {
-                        Id: Item.Marks_Grades_Configuration_Detail_ID,
-                        Name: Item.Grade_Name,
-                        Value: Item.Marks_Grades_Configuration_Detail_ID
-                    };
-                }),
                 Text4: response2.data.listTestDetailss.map((Item, i) => {
                     return {
                         Id: Item.TestType_Id,
                         Text1: Item.TestType_Name + "/" + Item.TestType_Total_Marks,
                         Text2: "",
-                        Text3: "Exam Status",
+                        Text3: "0",
+                        Text4: "Exam Status",
+
                         setErrorMessage: "",
                     };
                 }),
