@@ -179,12 +179,30 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
 
+  // const ClickLink = (value) => {
+  //   console.log(value, "ClickLink");
+
+  //   if (value.Index == 0)
+  //     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + StandardDivisionId);
+  // }
   const ClickLink = (value) => {
     console.log(value, "ClickLink");
 
-    if (value.Index == 0)
-      navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
-  }
+    if (value.Index === 0) {
+      const selectedTeacher = ClassTeachers.find(teacher => teacher.Value === StandardDivisionId);
+      const teacherName = selectedTeacher ? selectedTeacher.Name.replace(/\s+/g, '-') : 'Unknown'; // Replace spaces with dashes in teacher name
+      const examName = getExamName(); // Get the exam name
+
+      // Extract the selected subject's name from ClassPassFailDetailsForTest
+      const selectedSubject = ClassPassFailDetailsForTest[value.Subject_Id]; // Assuming value.Index corresponds to the index of the selected subject in the list
+      const subjectName = selectedSubject ? selectedSubject.Subject_Name.replace(/\s+/g, '-') : 'Unknown'; // Replace spaces with dashes in subject name
+
+      navigate(`/extended-sidebar/Teacher/SubjectMarkList/${StandardDivisionId}/${teacherName}/${examName}/${subjectName}`);
+    }
+  };
+
+
+
   const TermwiseHighwight = (value) => {
     navigate('/extended-sidebar/Teacher/TermwiseHeightWeight');
   };

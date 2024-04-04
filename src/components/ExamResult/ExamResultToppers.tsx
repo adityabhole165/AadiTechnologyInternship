@@ -80,7 +80,7 @@ const ExamResultToppers = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asTeacherId = Number(sessionStorage.getItem('TeacherId'));
     const Note: string =
-        'Display the first three class/ standard toppers as well as subject toppers of your class/ standard for the selected exam';
+        'Display the first three class / standard toppers as well as subject toppers of your class/ standard for the selected exam';
     const GetClassdropdownCT = useSelector(
         (state: RootState) => state.FinalResultToppers.ClassDropdownListCT
     );
