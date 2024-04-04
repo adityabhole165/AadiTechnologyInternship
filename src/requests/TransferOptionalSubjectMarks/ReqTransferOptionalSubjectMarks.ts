@@ -40,7 +40,7 @@ export const CDAGetClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiTransferOptionalSubjectMarks.GetClassTeachers(data);
-      let abc = [{ Id: '0', Name: 'Select', Value: '0' }];
+      let abc = [{ Id: '-1', Name: 'Select', Value: '-1' }];
       response.data.map((item, i) => {
         abc.push({
           Id: item.Teacher_Id,
@@ -100,7 +100,8 @@ export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody
             StudentId:item.ChildOptionalSubjectId,
             SubjectName:item.SubjectName,
             OptionalSubjectsId:item.OptionalSubjectsId,
-            OptionalSubjectName:item.OptionalSubjectName
+            OptionalSubjectName:item.OptionalSubjectName,
+            isActive: false,
 
           };
         });

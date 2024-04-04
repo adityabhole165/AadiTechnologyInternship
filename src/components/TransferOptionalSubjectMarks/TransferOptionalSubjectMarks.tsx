@@ -34,9 +34,14 @@ const TransferOptionalSubjectMarks = () => {
 
     const USOptionalSubjectsForMarksTransfer: any = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISOptionalSubjectsForMarksTransfer);
     const ISTransferOptionalSubjectMarks = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISTransferOptionalSubjectMarks);
+
     const [StudentsList, setStudentsList] = useState([]);
+    const [selectedStudents, setSelectedStudents] = useState([]);
+    const [selectedSubjects, setSelectedSubjects] = useState([]);
 
-
+    useEffect(() => {
+        setSelectedStudents(USOptionalSubjectsForMarksTransfer);
+    }, [USOptionalSubjectsForMarksTransfer]);
 
     const HeaderPublish = [
         { Id: 1, Header: ' Reg. No.	' },
@@ -48,22 +53,22 @@ const TransferOptionalSubjectMarks = () => {
     const Note1 = [
         'At least 2 optional subjects should have been configured to transfer marks.'
     ];
-    const Hedaer1 = ['Note1 :'];
+    const Header1 = ['Note1 :'];
 
     const Note2 = [
         'If marks are not assigned to current subject(s) for selected student and if you change to new subject(s) then only new subject(s) will be assigned to student.'
     ];
-    const Hedaer2 = ['Note2 :'];
+    const Header2 = ['Note2 :'];
 
     const Note3 = [
         '	If marks are assigned to current subject(s) for selected student and if you change to new subject(s) then along with new subject(s) assignment, marks of current subject(s) will be transferred to new subject(s).'
     ];
-    const Hedaer3 = ['Note3 :'];
+    const Header3 = ['Note3 :'];
 
     const Note4 = [
         'Marks cannot be transferred across the subject groups.'
     ];
-    const Hedaer4 = ['Note4 :'];
+    const Header4 = ['Note4 :'];
 
 
 
@@ -137,6 +142,15 @@ const TransferOptionalSubjectMarks = () => {
 
 
 
+    const SubjectSelection = (subjectId) => {
+        const selectedIndex = selectedSubjects.indexOf(subjectId);
+        if (selectedIndex === -1) {
+            setSelectedSubjects([...selectedSubjects, subjectId]);
+        } else {
+            setSelectedSubjects(selectedSubjects.filter(id => id !== subjectId));
+        }
+    };
+
 
 
 
@@ -200,11 +214,11 @@ const TransferOptionalSubjectMarks = () => {
         if (USClassTeacherList.length > 0) {
             setselectClasstecaher(USClassTeacherList[0].Value);
         }
+
     }, [USClassTeacherList]);
 
 
     const Changevalue = (value) => {
-
         setSubjectList(value);
     };
 
@@ -323,28 +337,34 @@ const TransferOptionalSubjectMarks = () => {
 
                 {/* Second Box */}
                 {StudentsList.length > 0 ? (
-                 <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
-                 <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                     <h3>Optional Subjects :</h3>
-                     {USOptionalSubjectsForMarksTransfer.map((subject, index) => (
-                         <Accordion key={index}>
-                             <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                 {subject.OptionalSubjectName} (Select any 1)
-                             </AccordionSummary>
-                             <AccordionDetails>
-                                 <ul>
-                                  
-                                     {USOptionalSubjectsForMarksTransfer.map((subItem, subIndex) => (
-                                         <li key={subIndex}>
-                                             <label><input type="checkbox" /> {subItem.SubjectName}</label>
-                                         </li>
-                                     ))}
-                                 </ul>
-                             </AccordionDetails>
-                         </Accordion>
-                     ))}
-                 </Box>
-             </Box>
+                    <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
+                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+                            <h3>Optional Subjects :</h3>
+                            {USOptionalSubjectsForMarksTransfer.map((subject, index) => (
+                                <Accordion key={index}>
+                                    <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                        {subject.OptionalSubjectName} (Select any 1)
+                                    </AccordionSummary>
+                                    <AccordionDetails>
+                                        <ul>
+
+                                            {USOptionalSubjectsForMarksTransfer.map((subItem, subIndex) => (
+                                                <li key={subIndex}>
+                                                    <label>
+                                                        <input
+                                                            type="checkbox"
+                                                            onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                        />{subItem.isActive}
+                                                        {subItem.SubjectName}
+                                                    </label>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </AccordionDetails>
+                                </Accordion>
+                            ))}
+                        </Box>
+                    </Box>
 
                 ) : (
                     <span> </span>
@@ -365,10 +385,20 @@ const TransferOptionalSubjectMarks = () => {
             )
             }
 
-            <Notes NoteDetail={Note1} Header={Hedaer1} />
-            <Notes NoteDetail={Note2} Header={Hedaer2} />
-            <Notes NoteDetail={Note3} Header={Hedaer3} />
-            <Notes NoteDetail={Note4} Header={Hedaer4} />
+            <>
+                {StudentsList.length > 0 ? (
+                    <div>
+                        <Notes NoteDetail={Note1} Header={Header1} />
+                        <Notes NoteDetail={Note2} Header={Header2} />
+                        <Notes NoteDetail={Note3} Header={Header3} />
+                        <Notes NoteDetail={Note4} Header={Header4} />
+                    </div>
+                ) : (
+                    <span></span>
+                )}
+            </>
+
+
 
             <Box style={{ display: 'flex', justifyContent: 'center' }}>
                 {StudentsList.length > 0 ? (
