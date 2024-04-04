@@ -24,6 +24,13 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
             }
         }
     };
+    const handleDropdownClick = (value) => {
+       
+            ExamMarksHeader.forEach((item) => {
+                ChangeGrade(value, item.Id);
+            });
+       
+    };
 
     return (
         <>
@@ -48,7 +55,8 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
                             variant='outlined'
                             Array={GradesForSubjectMarkList}
                             handleChange={(value) => { ChangeGrade(value, Item.Id) }}
-                        />
+                            handleClick={handleDropdownClick}
+                       />
                     </Box>
                 </TableCell>)
             })}
