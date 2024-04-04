@@ -553,15 +553,30 @@ const ExamResultToppers = () => {
                 </Container>
             ) : (
                 <Container>
+                    <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
+                                {selectedExamName}
+                            </CardContent>
+                        </Card>
+                        <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                            <DynamicList2
+                                HeaderList={HeaderListST}
+                                ItemList={StandardToppersListST}
+                                IconList={[]}
+                                ClickItem={clickHighlightStudent}
+                            />
+                        </Box>
+                    </Grid>
                     {/* <PageHeader heading="StandardToppers" /> */}
-                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                    {/* <Box mb={1} sx={{ p: 2, background: 'white' }}>
                         <DynamicList2
                             HeaderList={HeaderListST}
                             ItemList={StandardToppersListST}
                             IconList={[]}
                             ClickItem={clickHighlightStudent}
                         />
-                    </Box>
+                    </Box> */}
                     <Grid container spacing={1} alignItems="center">
 
                         <Box mb={1} sx={{ marginTop: '10px', p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
