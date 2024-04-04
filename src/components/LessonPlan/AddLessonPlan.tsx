@@ -165,30 +165,22 @@ const AddLessonPlan = () => {
     if (SubmitLessonPlans !== '') {
       toast.success(SubmitLessonPlans)
       dispatch(resetsubmitlessonplans())
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
     }
   }, [SubmitLessonPlans])
 
-  const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: Number(asUserId),
-    asReportingUserId: Number(ReportingUserId),
-    aasStartDate: "1/3/2024 12:00:00 AM",
-    aasEndDate: "1/6/2024 12:00:00 AM",
-    asUpdatedById: Number(UpdatedById)
-  };
   useEffect(() => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
       asUserId: Number(asUserId),
-      asReportingUserId: Number(ReportingUserId),
-      aasStartDate: "1/8/2024 12:00:00 AM",
-      aasEndDate: "1/9/2024 12:00:00 AM",
+      asReportingUserId: Number(TeacherId),
+      aasStartDate: StartDate,
+      aasEndDate: EndDate,
       asApproverComment: ApproverComment,
       asUpdatedById: Number(UpdatedById),
-      asOldStartDate: "1/8/2024 12:00:00 AM",
-      asOldEndDate: "1/9/2024 12:00:00 AM",
+      asOldStartDate: OldStartDate,
+      asOldEndDate: OldEndDate,
     };
     dispatch(getSaveApproverComment(SaveApproverCommentBody));
   }, [])

@@ -62,7 +62,14 @@ export interface IAddOrEditLessonPlanDetailsResult {
     SubjectStartDate: string,
     SubjectEndDate: string
   }],
-  GetLessonPlanStatusList: [],
+  GetLessonPlanStatusList: [{
+    ReportingUserId: string,
+    Comment: string,
+    UpdateDate: string,
+    IsPublished: string,
+    LessonPlanXML: string,
+    IsReportingUser: string
+  }],
   GetEnableButtonList: [{
     EnableSaveButton: string,
     EnableSubmitButton: string,
