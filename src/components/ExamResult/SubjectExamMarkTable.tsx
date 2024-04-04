@@ -19,7 +19,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
       })
     }
     // console.log("ExamMarksHeader", ExamMarksHeader)
-    setAllValuesforGrade(value, Index)
+    setAllValues(value, Index)
     onChangeExamHeader(ExamMarksHeader);
 
   };
@@ -38,7 +38,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     }
     // console.log("ExamMarksHeader", ExamMarksHeader)
     // setAllValues(value, Index)
-    setAllValues(value, Index)
+    setAllValuesforGrade(value, Index)
     onChangeExamHeader(ExamMarksHeader);
 
   };
@@ -115,8 +115,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
         })
       }
     })
-    onChangeExamStatus(StudentsForMarksAssignment)
+    onChangeExamGrade(StudentsForMarksAssignment)
   }
+
   const getTotalMarks = (arrTotal) => {
 
     let total = 0

@@ -1,5 +1,7 @@
 import {
     Box,
+    Card,
+    CardContent,
     Container,
     Grid,
     IconButton,
@@ -135,6 +137,34 @@ const ExamResultToppers = () => {
         });
         return perm;
     };
+    useEffect(() => {
+        if (GetExamdropdownCT.length > 0) {
+            setExamCT(GetExamdropdownCT[0].Id);
+            setSelectedExamName(GetExamdropdownCT[0].Name); // Set the selected exam name
+        }
+    }, [GetExamdropdownCT]);
+    useEffect(() => {
+        if (GetExamdropdownST.length > 0) {
+            setExamST(GetExamdropdownST[0].Id);
+            setSelectedExamName(GetExamdropdownST[0].Name); // Set the selected exam name
+        }
+    }, [GetExamdropdownST]);
+    useEffect(() => {
+        if (radioBtn === '1' && GetExamdropdownCT.length > 0) {
+            const selectedExam = GetExamdropdownCT.find((exam) => exam.Id === SelectExamCT);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
+            }
+        } else if (radioBtn === '2' && GetExamdropdownST.length > 0) {
+            const selectedExam = GetExamdropdownST.find((exam) => exam.Id === SelectExamST);
+            if (selectedExam) {
+                setSelectedExamName(selectedExam.Name);
+            }
+        }
+    }, [radioBtn, SelectExamCT, SelectExamST, GetExamdropdownCT, GetExamdropdownST]);
+
+
+
 
     useEffect(() => {
         dispatch(ClassdropdownListCT(ClassDropdownBodyCT));
@@ -371,16 +401,18 @@ const ExamResultToppers = () => {
                 ]}
                 rightActions={<>
                     {radioBtn === '1' ? (
-                        <Box sx={{ display: 'flex', gap: '8px' }}>
-                            <SearchableDropdown
-                                sx={{ pl: 0, minWidth: '200px' }}
-                                ItemList={GetClassdropdownCT}
-                                onChange={clickClassDropdownCT}
-                                defaultValue={SelectClassCT}
-                                size={"small"}
-                                label='Select Class'
-                            />
 
+                        <Box sx={{ display: 'flex', gap: '8px' }}>
+                            {CanEdit == 'Y' && (
+                                <SearchableDropdown
+                                    sx={{ pl: 0, minWidth: '200px' }}
+                                    ItemList={GetClassdropdownCT}
+                                    onChange={clickClassDropdownCT}
+                                    defaultValue={SelectClassCT}
+                                    size={"small"}
+                                    label='Select Class'
+                                />
+                            )}
                             <SearchableDropdown
                                 sx={{ pl: 0, minWidth: '200px' }}
                                 ItemList={GetExamdropdownCT}
@@ -397,7 +429,8 @@ const ExamResultToppers = () => {
                                 size={"small"}
                                 label='Subject'
                             />
-                        </Box>) : (
+                        </Box>
+                    ) : (
                         <Box sx={{ display: 'flex', gap: '8px' }}>
                             {CanEdit == 'Y' && (
                                 <SearchableDropdown
@@ -467,14 +500,22 @@ const ExamResultToppers = () => {
 
             {radioBtn === '1' ? (
                 <Container>
-                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
-                        <DynamicList2
-                            HeaderList={HeaderListCT}
-                            ItemList={ClassToppersListCT}
-                            IconList={[]}
-                            ClickItem={clickHighlightStudent}
-                        />
-                    </Box>
+                    <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
+                                {selectedExamName}
+                            </CardContent>
+                        </Card>
+                        <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                            <DynamicList2
+                                HeaderList={HeaderListCT}
+                                ItemList={ClassToppersListCT}
+                                IconList={[]}
+                                ClickItem={clickHighlightStudent}
+                            />
+                        </Box>
+                    </Grid>
+
                     <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                         <Typography variant={'h2'} mb={1}>
                             Subject Toppers
@@ -512,39 +553,31 @@ const ExamResultToppers = () => {
                 </Container>
             ) : (
                 <Container>
+                    <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
+                        <Card variant="outlined" sx={{ marginTop: 2 }}>
+                            <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
+                                {selectedExamName}
+                            </CardContent>
+                        </Card>
+                        <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                            <DynamicList2
+                                HeaderList={HeaderListST}
+                                ItemList={StandardToppersListST}
+                                IconList={[]}
+                                ClickItem={clickHighlightStudent}
+                            />
+                        </Box>
+                    </Grid>
                     {/* <PageHeader heading="StandardToppers" /> */}
-                    <Box mb={1} sx={{ p: 2, background: 'white' }}>
+                    {/* <Box mb={1} sx={{ p: 2, background: 'white' }}>
                         <DynamicList2
                             HeaderList={HeaderListST}
                             ItemList={StandardToppersListST}
                             IconList={[]}
                             ClickItem={clickHighlightStudent}
                         />
-                    </Box>
+                    </Box> */}
                     <Grid container spacing={1} alignItems="center">
-
-                        {/* <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetExamdropdownST}
-                                handleChange={clickExamDropdownST}
-                                defaultValue={SelectExamST}
-                                label={SelectExamST}
-                            />
-                        </Grid> */}
-                        {/* <Grid item xs={6}>
-                            <Typography margin={'1px'}>
-                                <b>Subject:</b>
-                            </Typography>
-                        </Grid> */}
-                        {/* <Grid item xs={6}>
-                            <Dropdown
-                                Array={GetSubjectdropdownST}
-                                handleChange={clickSubjectDropdownST}
-                                defaultValue={SelectSubjectST}
-                                label={'All'}
-                            />
-                        </Grid> */}
-
 
                         <Box mb={1} sx={{ marginTop: '10px', p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                             <Typography variant={'h2'} mb={1}>

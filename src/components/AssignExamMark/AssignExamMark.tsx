@@ -193,7 +193,12 @@ const AssignExamMark = () => {
     navigate('/extended-sidebar/Teacher/SubjectExamMarks/' +
       value.StandardDivisionId + '/' +
       value.SubjectId + '/' +
-      ClassWiseExam);
+      selectClass + '/' +
+      ClassWiseExam + '/' +
+      aTeacherId.toString() + '/' +
+      value.StandardId + '/' +
+      value.IsMonthConfig + '/' +
+      !(value.IsSubmitted == "N"));
 
 
   };

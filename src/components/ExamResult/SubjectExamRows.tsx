@@ -5,7 +5,7 @@ const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
     return regex.test(inputValue);
 };
-const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList, ExamStatus, changeExamStatus,changeExamGrade }) => {
+const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMarkList, ExamStatus, changeExamStatus, changeExamGrade }) => {
 
     const handleChange = (e, validationFunction, callback) => {
         const { value } = e.target;
@@ -38,6 +38,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         variant='outlined'
                         Array={ExamStatus}
                         handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
+                        handleClick={''}
                     />
                 </TableCell>
                 <TableCell>
@@ -46,6 +47,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                         variant='outlined'
                         Array={GradesForSubjectMarkList}
                         handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
+                        handleClick={''}
                     />
                 </TableCell>
                 <TableCell key={Index}>

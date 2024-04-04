@@ -106,6 +106,8 @@ export const GetSubjectList =
         STATUS: item.STATUS,
         StatusDescription: item.StatusDescription,
         SubjectId: item.Subject_Id,
+        StandardId: item.Standard_Id,
+        IsMonthConfig: item.Is_MonthConfig,
         StandardDivisionId: item.Standard_Division_Id
       }))
 
@@ -124,7 +126,7 @@ export const GetSubjectList =
 
       dispatch(AssignExamMarkSlice.actions.getsubjectList(ClassList));
       dispatch(AssignExamMarkSlice.actions.getsubjectList1(MyClassList));
-     
+
 
     };
 

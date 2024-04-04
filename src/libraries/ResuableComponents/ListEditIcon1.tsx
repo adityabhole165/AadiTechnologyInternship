@@ -64,7 +64,14 @@ function ListEditIcon1({ ItemList, clickEdit, HeaderArray, clicksubmit }) {
                     || item.STATUS === 'Published') && (
                       <Tooltip title={item.StatusDescription}>
 
-                        <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }} />
+                        <CheckIcon style={{ color: '#607d8b', cursor: 'pointer' }}
+                          onClick={() => clickEdit({
+                            SubjectId: item.SubjectId,
+                            StandardDivisionId: item.StandardDivisionId,
+                            StandardId: item.StandardId,
+                            IsMonthConfig: item.IsMonthConfig,
+                            IsSubmitted: item.Is_Submitted
+                          })} />
                       </Tooltip>
                     )}
                 </TableCell>
