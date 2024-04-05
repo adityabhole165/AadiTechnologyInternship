@@ -322,11 +322,11 @@ const teacherRoutes = [
     element: <AddUnpublish />
   },
   {
-    path: 'AddLessonPlan',
+    path: 'AddLessonPlan/:Action',
     element: <AddLessonPlan />
   },
   {
-    path: 'AddLessonPlan/:UserIdParam/:StartDateParam/:EndDateParam',
+    path: 'AddLessonPlan/:Action/:UserIdParam/:StartDateParam/:EndDateParam',
     element: <AddLessonPlan />
   },
   {

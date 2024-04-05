@@ -293,10 +293,13 @@ const LessonPlanBaseScreen = () => {
 
 
   const ClickEdit = (value) => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan');
+    navigate('/extended-sidebar/Teacher/AddLessonPlan/Edit/' +
+      value.UserId + '/' +
+      value.StartDate.replaceAll(' ', '-') + '/' +
+      value.EndDate.replaceAll(' ', '-'));
   };
   const Clicknav = (value) => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan/' +
+    navigate('/extended-sidebar/Teacher/AddLessonPlan/View/' +
       value.UserId + '/' +
       value.StartDate.replaceAll(' ', '-') + '/' +
       value.EndDate.replaceAll(' ', '-')
@@ -310,7 +313,7 @@ const LessonPlanBaseScreen = () => {
     dispatch(GetLessonPlanreport(GetLessonPlanReportBody));
   };
   const onClickAdd = () => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan');
+    navigate('/extended-sidebar/Teacher/AddLessonPlan/Add');
   };
 
   const onClickaaaa1 = () => {

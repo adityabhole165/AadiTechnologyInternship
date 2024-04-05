@@ -2,7 +2,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Table, TableBody, TableCell, TableHead, TableRow, TextField, Typography, alpha, styled } from '@mui/material';
 
-const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
+const LessonPlanList = ({ exampleLessonDetails, onTextChange, Action }) => {
     const HeaderStyledCell = styled(TableCell)(({ theme }) => ({
         paddingTop: theme.spacing(1),
         paddingBottom: theme.spacing(1),
@@ -147,22 +147,27 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                                             {index + 1}
                                         </StyledCell>
                                         {/* <StyledCell sx={{ p: 1 }}> */}
-                                        <TextField
-                                            label={plan.label}
-                                            value={plan.value}
-                                            fullWidth
-                                            multiline
-                                            rows={4}
-                                            onChange={(e) => {
-                                                onChangeValue(
-                                                    lesson.StdId,
-                                                    lesson.DivisionId,
-                                                    lesson.SubjectId,
-                                                    plan.Id,
-                                                    e.target.value
-                                                )
-                                            }}
-                                        />
+                                        {Action == 'View' ?
+                                            // <StyledCell sx={{ p: 1 }}>{plan.value}</StyledCell>
+                                            plan.value
+                                            :
+                                            <TextField
+                                                label={plan.label}
+                                                value={plan.value}
+                                                fullWidth
+                                                multiline
+                                                disabled={Action == 'View'}
+                                                rows={Action == 'View' ? 1 : 4}
+                                                onChange={(e) => {
+                                                    onChangeValue(
+                                                        lesson.StdId,
+                                                        lesson.DivisionId,
+                                                        lesson.SubjectId,
+                                                        plan.Id,
+                                                        e.target.value
+                                                    )
+                                                }}
+                                            />}
                                         {plan.subPlanDetails && plan.subPlanDetails.length > 0 &&
                                             plan.subPlanDetails.map((subPlan, subIndex) => (
                                                 <Table key={subIndex}>
@@ -170,21 +175,24 @@ const LessonPlanList = ({ exampleLessonDetails, onTextChange }) => {
                                                         <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
                                                             {index + 1}.{subIndex + 1}
                                                         </StyledCell>
-                                                        <TextField
-                                                            label={subPlan.label}
-                                                            value={subPlan.value}
-                                                            fullWidth
-                                                            multiline
-                                                            rows={4}
-                                                            onChange={(e) => {
-                                                                onSubChangeValue(
-                                                                    lesson.StdId,
-                                                                    lesson.DivisionId,
-                                                                    subPlan.Id,
-                                                                    e.target.value
-                                                                )
-                                                            }}
-                                                        />
+                                                        {Action == 'View' ?
+                                                            // <StyledCell sx={{ p: 1 }}>{plan.value}</StyledCell>
+                                                            plan.value
+                                                            : <TextField
+                                                                label={subPlan.label}
+                                                                value={subPlan.value}
+                                                                fullWidth
+                                                                multiline
+                                                                rows={4}
+                                                                onChange={(e) => {
+                                                                    onSubChangeValue(
+                                                                        lesson.StdId,
+                                                                        lesson.DivisionId,
+                                                                        subPlan.Id,
+                                                                        e.target.value
+                                                                    )
+                                                                }}
+                                                            />}
                                                     </TableRow>
                                                 </Table>
                                             ))}

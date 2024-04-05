@@ -31,7 +31,7 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
 }))
 
 const AddLessonPlan = () => {
-  const { UserIdParam, StartDateParam, EndDateParam } = useParams()
+  const { UserIdParam, StartDateParam, EndDateParam, Action } = useParams()
   // const StartDateParam = "01-Nov-2023", EndDateParam = "30-Nov-2023", IsNewMode = false
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -140,11 +140,11 @@ const AddLessonPlan = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivId: 0,
-    asUserId: Number(UserIdParam),
+    asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
     asReportingUserId: asUserId,
     asStartDate: StartDate,
     asEndDate: EndDate,
-    IsNewMode: StartDateParam == undefined
+    IsNewMode: Action == 'Add'
   };
 
   useEffect(() => {
@@ -425,7 +425,7 @@ const AddLessonPlan = () => {
             </Typography>
 
             <LessonPlanList exampleLessonDetails={exampleLessonDetails}
-              onTextChange={onTextChange} />
+              onTextChange={onTextChange} Action={Action} />
           </Grid>
           }
           <Grid item xs={12}>

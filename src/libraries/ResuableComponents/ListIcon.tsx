@@ -101,7 +101,7 @@ function ListIcon({
                                     <TableCell align="center">
 
                                         <Tooltip title={"Edit"}>
-                                            <EditTwoTone onClick={() => clickEdit(item.Id)} />
+                                            <EditTwoTone onClick={() => clickEdit({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })} />
                                         </Tooltip>
                                     </TableCell>
                                 }
