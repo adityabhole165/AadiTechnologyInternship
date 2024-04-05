@@ -46,10 +46,15 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.PublishUnpublishExam = action.payload;
     },
+    resetPublishUnpublishExam(state) {
+      state.Loading = false;
+      state.PublishUnpublishExam = "";
+    },
     GetProgressSheetStatus(state, action) {
       state.Loading = false;
       state.ProgressSheetStatus = action.payload;
     },
+
     getLoading(state, action) {
       state.Loading = true;
     }
@@ -98,6 +103,11 @@ export const getPublishUnpublishExam =
       const response = await ApiExamResult.PublishUnpublishExamResultApi(data);
       dispatch(SliceExamResult.actions.GetPublishUnpublish(response.data));
 
+    };
+export const resetPublishUnpublishExams =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.resetPublishUnpublishExam());// Dispatching action to reset the message
     };
 export const getProgressSheetStatus =
   (data: IGetPrePrimaryProgressSheetStatusBody): AppThunk =>

@@ -5,6 +5,7 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import {
   IGetClassPassFailDetailsForTestBody,
   IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
@@ -19,7 +20,7 @@ import {
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
   getProgressSheetStatus,
-  getPublishUnpublishExam
+  getPublishUnpublishExam, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -70,7 +71,7 @@ const ExamResultBase = () => {
   const PublishUnpublish: any = useSelector(
     (state: RootState) => state.ExamResult.PublishUnpublishExam
   );
-  console.log('PublishUnpublish', PublishUnpublish);
+
 
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
@@ -98,14 +99,7 @@ const ExamResultBase = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStandardDivisionId: Number(StandardDivisionId)
   };
-  const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-    asSchoolId: Number(asSchoolId),
-    asStdDivId: Number(StandardDivisionId),
-    asAcadmicYearId: Number(asAcademicYearId),
-    asTest_Id: Number(TestId),
-    asUnpublishReason: "correctionMark",
-    asPublishById: 4463
-  };
+
 
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
     asSchoolId: Number(asSchoolId),
@@ -144,9 +138,9 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClasswiseExam(GetClasswiseExamDropdown));
   }, []);
-  useEffect(() => {
-    dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+  // }, []);
   useEffect(() => {
     dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
   }, []);
@@ -210,7 +204,7 @@ const ExamResultBase = () => {
   const TransferOptionalSubjectMarks = (value) => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
-const ClickLink = (value) => {
+  const ClickLink = (value) => {
     console.log(value, "ClickLink");
 
     if (value.Index === 0) {
@@ -282,23 +276,24 @@ const ClickLink = (value) => {
   };
   const clickPublishUnpublish = (IsPublish) => {
 
-    // const AllPublishUnpublishAddHomeworkBody: IAllPublishUnpublishAddHomeworkBody =
-    // {
-    //   asSchoolId: asSchoolId.toString(),
-    //   asAcademicYearId: asAcademicYearId.toString(),
-    //   asHomeWorkLogId: getSelectedSubject(),
-    //   asUnpublishReason: 'Yesss',
-    //   asUpdatedById: TeacherId,
-    //   IsPublished: IsPublish,
-    //   IsSMSSent: 1
-    // };
-
-    // dispatch(PublishUnpublishAllHomework(AllPublishUnpublishAddHomeworkBody));
-    // // dispatch(Publishallreset());
-    // // dispatch(GetTeacherSubjectList(GetSubjectListForTeacherBody));
-
-    // // }
+    const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+      asSchoolId: Number(asSchoolId),
+      asStdDivId: Number(StandardDivisionId),
+      asAcadmicYearId: Number(asAcademicYearId),
+      asTest_Id: Number(TestId),
+      asUnpublishReason: null,
+      asPublishById: IsPublish
+    };
+    dispatch(getPublishUnpublishExam(GetPublishUnpublish))
   };
+  useEffect(() => {
+
+    if (PublishUnpublish !== '') {
+      toast.success(PublishUnpublish)
+      dispatch(resetPublishUnpublishExams())
+
+    }
+  }, [PublishUnpublish])
 
   return (
     <Container>
@@ -325,15 +320,7 @@ const ClickLink = (value) => {
             mandatory
             size={"small"}
           />
-          {/* <SearchableDropdown
-            sx={{ minWidth: '300px' }}
-            ItemList={AllTestsForClass}
-            onChange={clickExam}
-            label={'Exam'}
-            defaultValue={TestId.toString()} // Convert number to string
-            mandatory
-            size={"small"}
-          /> */}
+
           <Tooltip title={DisplayNote}>
             <IconButton
 
@@ -394,15 +381,11 @@ const ClickLink = (value) => {
         <Button variant="contained" color="primary">
           GENERATE TOPPERS
         </Button>
-        {/* <Button variant="contained" color="primary">
-          PUBLISH
-        </Button> */}
+
         <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
           PUBLISH ALL
         </Button>
-        {/* <Button onClick={onClickUnpublish} variant="contained" color="primary">
-          UNPUBLISH
-        </Button> */}
+
         <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
           UNPUBLISH ALL
         </Button>
