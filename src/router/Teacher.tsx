@@ -326,6 +326,10 @@ const teacherRoutes = [
     element: <AddLessonPlan />
   },
   {
+    path: 'AddLessonPlan/:UserIdParam/:StartDateParam/:EndDateParam',
+    element: <AddLessonPlan />
+  },
+  {
     path: 'LessonPlanBaseScreen',
     element: <LessonPlanBaseScreen />
   },

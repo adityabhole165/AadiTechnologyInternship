@@ -296,7 +296,11 @@ const LessonPlanBaseScreen = () => {
     navigate('/extended-sidebar/Teacher/AddLessonPlan');
   };
   const Clicknav = (value) => {
-    navigate('/extended-sidebar/Teacher/AddLessonPlan');
+    navigate('/extended-sidebar/Teacher/AddLessonPlan/' +
+      value.UserId + '/' +
+      value.StartDate.replaceAll(' ', '-') + '/' +
+      value.EndDate.replaceAll(' ', '-')
+    );
   };
 
 
@@ -343,14 +347,14 @@ const LessonPlanBaseScreen = () => {
                 {CanEdit == 'Y' && (
                   <Box sx={{ background: 'white' }}>
                     <SearchableDropdown
-                                    sx={{ minWidth: '300px' }}
-                                    ItemList={USGetAllTeachersOfLessonPlan}
-                                    onChange={ClickSelctTecher}
-                                    label={'Select Teacher:'}
-                                    defaultValue={selectClasstecahernew}
-                                    mandatory
-                                    size={"small"}
-                                />
+                      sx={{ minWidth: '300px' }}
+                      ItemList={USGetAllTeachersOfLessonPlan}
+                      onChange={ClickSelctTecher}
+                      label={'Select Teacher:'}
+                      defaultValue={selectClasstecahernew}
+                      mandatory
+                      size={"small"}
+                    />
                   </Box>
                 )}
               </Box>
@@ -438,7 +442,7 @@ const LessonPlanBaseScreen = () => {
 
               </Box>
               <Box>
-                { String(asUserId) == String(selectClasstecahernew) && LessonPlanList.length > 0 ? (
+                {String(asUserId) == String(selectClasstecahernew) && LessonPlanList.length > 0 ? (
                   <Tooltip title={"Add new Lesson Plan"}>
                     <IconButton
                       sx={{

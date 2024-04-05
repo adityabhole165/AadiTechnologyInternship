@@ -14,7 +14,8 @@ const AddLessonPlanSlice = createSlice({
     updateLessonPlanDatemsg: '',
     Loading: true,
     ApproverDetails: [],
-    SubmittedApproverDate: []
+    SubmittedApproverDate: [],
+    TeacherName: null
   },
 
   reducers: {
@@ -33,6 +34,10 @@ const AddLessonPlanSlice = createSlice({
     getSubmittedDate(state, action) {
       state.Loading = false;
       state.SubmittedApproverDate = action.payload;
+    },
+    getTeacherName(state, action) {
+      state.Loading = false;
+      state.TeacherName = action.payload;
     },
     saveLessonPlan(state, action) {
       state.Loading = false;
@@ -156,6 +161,9 @@ export const GetAddOrEditLessonPlanDetails =
       dispatch(AddLessonPlanSlice.actions.getAddOrEditLessonPlanDetails(reponseData));
       dispatch(AddLessonPlanSlice.actions.getApproverDetails(response.data.GetLessonPlanReportingConfigList));
       dispatch(AddLessonPlanSlice.actions.getSubmittedDate(response.data.GetLessonPlanStatusList));
+      dispatch(AddLessonPlanSlice.actions.getTeacherName(
+        response.data.GetTeacherName.length > 0 ? response.data.GetTeacherName[0] : null
+      ));
     };
 export const SaveLessonPlan =
   (data: ISaveLessonPlanBody): AppThunk =>

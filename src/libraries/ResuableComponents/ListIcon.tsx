@@ -118,7 +118,9 @@ function ListIcon({
                                 {(CanEdit === 'Y' && !ShowEdit) && (
                                     <TableCell align="center">
                                         <Tooltip title={"View"}>
-                                            <Visibility onClick={() => clicknav(item.Id)} />
+                                            <Visibility onClick={() => {
+                                                clicknav({ UserId: item.UserId, StartDate: item.StartDate, EndDate: item.EndDate })
+                                            }} />
                                         </Tooltip>
                                     </TableCell>
                                 )}

@@ -5,7 +5,7 @@ import { Box, Container, Grid, IconButton, TableCell, TextField, Tooltip, Typogr
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
@@ -31,6 +31,8 @@ const StyledCell = styled(TableCell)(({ theme }) => ({
 }))
 
 const AddLessonPlan = () => {
+  const { UserIdParam, StartDateParam, EndDateParam } = useParams()
+  // const StartDateParam = "01-Nov-2023", EndDateParam = "30-Nov-2023", IsNewMode = false
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const getMonday = () => {
@@ -47,8 +49,17 @@ const AddLessonPlan = () => {
   };
   const monday = getMonday();
   const friday = getFriday();
-  const [StartDate, setStartDate] = useState(getCalendarDateFormatDateNew(monday.toISOString().split('T')[0]));
-  const [EndDate, setEndDate] = useState(getCalendarDateFormatDateNew(friday.toISOString().split('T')[0]));
+  const [StartDate, setStartDate] = useState(
+    getCalendarDateFormatDateNew(StartDateParam == undefined ?
+      monday.toISOString().split('T')[0] :
+      StartDateParam
+    ));
+  const [EndDate, setEndDate] = useState(
+
+    getCalendarDateFormatDateNew(EndDateParam == undefined ?
+      friday.toISOString().split('T')[0] :
+      EndDateParam
+    ));
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
   const [UpdatedById, setUpdatedById] = useState('');
@@ -63,13 +74,14 @@ const AddLessonPlan = () => {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
-  const TeacherName = sessionStorage.getItem('StudentName');
 
 
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
 
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
+  const TeacherName = useSelector((state: RootState) => state.addlessonplan.TeacherName);
+
   const ApproverDetails = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
@@ -128,11 +140,11 @@ const AddLessonPlan = () => {
     asSchoolId: asSchoolId,
     asAcademicYearId: asAcademicYearId,
     asStandardDivId: 0,
-    asUserId: asUserId,
+    asUserId: Number(UserIdParam),
     asReportingUserId: asUserId,
     asStartDate: StartDate,
     asEndDate: EndDate,
-    IsNewMode: true
+    IsNewMode: StartDateParam == undefined
   };
 
   useEffect(() => {
@@ -345,10 +357,11 @@ const AddLessonPlan = () => {
           <Grid item xs={3}>
             <TextField
               fullWidth
+              InputLabelProps={{ shrink: true }}
               label={<>
                 Teacher <span style={{ color: 'red' }}>*</span>
               </>}
-              value={TeacherName}
+              value={TeacherName?.TeacherName}
             />
           </Grid>
           <Grid item xs={3}>
