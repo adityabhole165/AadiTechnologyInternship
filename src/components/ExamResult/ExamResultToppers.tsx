@@ -264,7 +264,7 @@ const ExamResultToppers = () => {
     const ClassDropdownBodyCT: IGetClassDropdownBodyCT = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asTeacherId: Number(TeacherId)
+        asTeacherId: 0
     };
     const ExamDropdownBodyCT: IGetexamDropdownBodyCT = {
         asSchoolId: asSchoolId,
@@ -288,7 +288,7 @@ const ExamResultToppers = () => {
     const StandardDropdownBodyST: IGetStandardDropdownBodyST = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asTeacherId: Number(TeacherId)
+        asTeacherId: 0
     };
     const ExamDropdownBodyST: IGetStandardExamDropdownBodyST = {
         asSchoolId: asSchoolId,
