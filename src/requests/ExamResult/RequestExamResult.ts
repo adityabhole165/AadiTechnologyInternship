@@ -1,9 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
 import ApiExamResult from 'src/api/ExamResult/ApiExamResult';
 import {
-  IGetAllTestsForClassBody,
   IGetClassPassFailDetailsForTestBody,
-  IGetClassTeachersBody
+  IGetClassTeachersBody,
+  IGetClasswiseExamDropdownBody,
+  IGetPrePrimaryProgressSheetStatusBody,
+  IPublishUnpublishExamResultBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import { AppThunk } from 'src/store';
 
@@ -11,8 +13,10 @@ const SliceExamResult = createSlice({
   name: 'Birthdays',
   initialState: {
     ClassTeachers: [],
-    AllTestsForClass: [],
+    ClasswiseExam: [],
     ClassPassFailDetailsForTest: [],
+    PublishUnpublishExam: '',
+    ProgressSheetStatus: '',
     HeaderList: [],
     IsSubmitted: 'N',
     Loading: true
@@ -26,9 +30,9 @@ const SliceExamResult = createSlice({
       state.Loading = false;
       state.IsSubmitted = action.payload;
     },
-    GetAllTestsForClass(state, action) {
+    GetClasswiseExam(state, action) {
       state.Loading = false;
-      state.AllTestsForClass = action.payload;
+      state.ClasswiseExam = action.payload;
     },
     GetClassPassFailDetailsForTest(state, action) {
       state.Loading = false;
@@ -37,6 +41,14 @@ const SliceExamResult = createSlice({
     GetHeaderList(state, action) {
       state.Loading = false;
       state.HeaderList = action.payload;
+    },
+    GetPublishUnpublish(state, action) {
+      state.Loading = false;
+      state.PublishUnpublishExam = action.payload;
+    },
+    GetProgressSheetStatus(state, action) {
+      state.Loading = false;
+      state.ProgressSheetStatus = action.payload;
     },
     getLoading(state, action) {
       state.Loading = true;
@@ -64,22 +76,37 @@ export const getClassTeachers =
 
 
 
-export const getAllTestsForClass =
-  (data: IGetAllTestsForClassBody): AppThunk =>
+export const getClasswiseExam =
+  (data: IGetClasswiseExamDropdownBody): AppThunk =>
     async (dispatch) => {
       dispatch(SliceExamResult.actions.getLoading(true));
-      const response = await ApiExamResult.GetAllTestsForClassApi(data);
-      const AllTestsForClass = response.data.map((item, index) => {
+      const response = await ApiExamResult.GetClasswiseExamDropDownApi(data);
+      const ClasswiseExam = response.data.map((item, index) => {
         return {
-          Id: item.SchoolwiseTestId,
-          Name: item.SchoolwiseTestName,
-          Value: item.SchoolwiseTestId
+          Id: item.schoolwise_test_id,
+          Name: item.schoolwise_test_name,
+          Value: item.schoolwise_test_id
         };
       });
 
-      dispatch(SliceExamResult.actions.GetAllTestsForClass(AllTestsForClass));
+      dispatch(SliceExamResult.actions.GetClasswiseExam(ClasswiseExam));
     };
+export const getPublishUnpublishExam =
+  (data: IPublishUnpublishExamResultBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.PublishUnpublishExamResultApi(data);
+      dispatch(SliceExamResult.actions.GetPublishUnpublish(response.data));
 
+    };
+export const getProgressSheetStatus =
+  (data: IGetPrePrimaryProgressSheetStatusBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.GetPrePrimaryProgressSheetStatusApi(data);
+      dispatch(SliceExamResult.actions.GetProgressSheetStatus(response.data));
+
+    };
 export const getClassPassFailDetailsForTest =
   (data: IGetClassPassFailDetailsForTestBody): AppThunk =>
     async (dispatch) => {

@@ -6,18 +6,20 @@ import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import {
-  IGetAllTestsForClassBody,
   IGetClassPassFailDetailsForTestBody,
-  IGetClassTeachersBody
+  IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
+  IGetPrePrimaryProgressSheetStatusBody,
+  IPublishUnpublishExamResultBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList from 'src/libraries/list/DynamicList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  getAllTestsForClass,
   getClassPassFailDetailsForTest,
-  getClassTeachers
+  getClassTeachers, getClasswiseExam,
+  getProgressSheetStatus,
+  getPublishUnpublishExam
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -60,11 +62,20 @@ const ExamResultBase = () => {
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
   );
 
-  const AllTestsForClass: any = useSelector(
-    (state: RootState) => state.ExamResult.AllTestsForClass
+  const ClasswiseExams: any = useSelector(
+    (state: RootState) => state.ExamResult.ClasswiseExam
   );
+  console.log('ClasswiseExams', ClasswiseExams);
 
-  console.log('AllTestsForClass', AllTestsForClass);
+  const PublishUnpublish: any = useSelector(
+    (state: RootState) => state.ExamResult.PublishUnpublishExam
+  );
+  console.log('PublishUnpublish', PublishUnpublish);
+
+  const ProgressSheet: any = useSelector(
+    (state: RootState) => state.ExamResult.ProgressSheetStatus
+  );
+  console.log('ProgressSheet', ProgressSheet);
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
@@ -82,10 +93,18 @@ const ExamResultBase = () => {
     asTeacherId: Number(GetScreenPermission() == 'Y' ? 0 : StandardDivisionId)
   };
 
-  const AllTestsForClassBody: IGetAllTestsForClassBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asStandardDivisionId: StandardDivisionId
+  const GetClasswiseExamDropdown: IGetClasswiseExamDropdownBody = {
+    asSchoolId: Number(asSchoolId),
+    asAcademicYearId: Number(asAcademicYearId),
+    asStandardDivisionId: Number(StandardDivisionId)
+  };
+  const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+    asSchoolId: Number(asSchoolId),
+    asStdDivId: Number(StandardDivisionId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asTest_Id: Number(TestId),
+    asUnpublishReason: "correctionMark",
+    asPublishById: 4463
   };
 
   const ClassPassFailDetailsForTestBody: IGetClassPassFailDetailsForTestBody = {
@@ -93,6 +112,13 @@ const ExamResultBase = () => {
     asAcademicYearId: Number(asAcademicYearId),
     asStdDivId: StandardDivisionId,
     aiTestId: TestId.toString()
+  };
+
+  const GetPrePrimaryProgressSheetStatusBody: IGetPrePrimaryProgressSheetStatusBody = {
+    asSchoolId: Number(asSchoolId),
+    asStdDivId: Number(StandardDivisionId),
+    asAcadmicYearId: Number(asAcademicYearId),
+    asTest_Id: Number(TestId)
   };
 
   useEffect(() => {
@@ -116,7 +142,13 @@ const ExamResultBase = () => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
   useEffect(() => {
-    dispatch(getAllTestsForClass(AllTestsForClassBody));
+    dispatch(getClasswiseExam(GetClasswiseExamDropdown));
+  }, []);
+  useEffect(() => {
+    dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+  }, []);
+  useEffect(() => {
+    dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
   }, []);
 
 
@@ -132,27 +164,27 @@ const ExamResultBase = () => {
 
   const getIsTestExists = (value) => {
     let IsTestExists = false
-    AllTestsForClass.map((Item) => {
+    ClasswiseExams.map((Item) => {
       if (Item.Value == value)
         IsTestExists = true
     })
     return IsTestExists
   }
   useEffect(() => {
-    if (AllTestsForClass.length > 0 &&
+    if (ClasswiseExams.length > 0 &&
       (TestId == "0" || !getIsTestExists(TestId))
     )
-      setTestId(AllTestsForClass[0].Value);
-  }, [AllTestsForClass]);
+      setTestId(ClasswiseExams[0].Value);
+  }, [ClasswiseExams]);
 
   useEffect(() => {
     if (StandardDivisionId == '0')
-      dispatch(getAllTestsForClass(AllTestsForClassBody));
+      dispatch(getClasswiseExam(GetClasswiseExamDropdown));
   }, [StandardDivisionId]);
 
   useEffect(() => {
     if (StandardDivisionId !== '0')
-      dispatch(getAllTestsForClass(AllTestsForClassBody));
+      dispatch(getClasswiseExam(GetClasswiseExamDropdown));
   }, [StandardDivisionId]);
 
 
@@ -178,14 +210,7 @@ const ExamResultBase = () => {
   const TransferOptionalSubjectMarks = (value) => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
-
-  // const ClickLink = (value) => {
-  //   console.log(value, "ClickLink");
-
-  //   if (value.Index == 0)
-  //     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + StandardDivisionId);
-  // }
-  const ClickLink = (value) => {
+const ClickLink = (value) => {
     console.log(value, "ClickLink");
 
     if (value.Index === 0) {
@@ -200,7 +225,6 @@ const ExamResultBase = () => {
       navigate(`/extended-sidebar/Teacher/SubjectMarkList/${StandardDivisionId}/${teacherName}/${examName}/${subjectName}`);
     }
   };
-
 
 
   const TermwiseHighwight = (value) => {
@@ -218,7 +242,7 @@ const ExamResultBase = () => {
   };
   const getExamName = () => {
     let ExamName = '';
-    AllTestsForClass.map((item) => {
+    ClasswiseExams.map((item) => {
       if (item.Value == TestId) ExamName = item.Name;
     });
     return ExamName;
@@ -294,7 +318,7 @@ const ExamResultBase = () => {
           />
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
-            ItemList={AllTestsForClass}
+            ItemList={ClasswiseExams}
             onChange={clickExam}
             label={'Exam'}
             defaultValue={TestId} // Convert number to string
@@ -407,3 +431,13 @@ const ExamResultBase = () => {
 };
 
 export default ExamResultBase;
+
+
+
+
+
+
+
+
+
+
