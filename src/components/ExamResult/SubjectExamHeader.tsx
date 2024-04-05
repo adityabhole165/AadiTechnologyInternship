@@ -31,7 +31,8 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                         {Item.Text4}
                         <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
-                            value={Item.Text1} />
+                            value={Item.Text1}
+                            disabled={IsReadOnly} />
                         <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
                             value={Item.Text2}
                             onBlur={() => handleBlur(Item.Text2, Index)}
