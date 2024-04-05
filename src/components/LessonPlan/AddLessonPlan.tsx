@@ -177,6 +177,16 @@ const AddLessonPlan = () => {
     if (SubmitLessonPlans !== '') {
       toast.success(SubmitLessonPlans)
       dispatch(resetsubmitlessonplans())
+      const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asStandardDivId: 0,
+        asUserId: asUserId,
+        asReportingUserId: asUserId,
+        asStartDate: StartDate,
+        asEndDate: EndDate,
+        IsNewMode: false
+      };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
     }
   }, [SubmitLessonPlans])
