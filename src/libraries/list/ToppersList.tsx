@@ -10,12 +10,10 @@ import React from 'react';
 
 interface TableListProps {
   headers: string[];
-
   data: any[]; // Modify 'any[]' to the type of your data if known
 }
 
 const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
-
   return (
     <Paper>
       <Table>
@@ -30,15 +28,15 @@ const ToppersList: React.FC<TableListProps> = ({ headers, data }) => {
         </TableHead>
         <TableBody>
           {data.map((row, rowIndex) => (
-            <TableRow key={rowIndex}
-            // sx={{ backgroundColor: row.IsHighlightStudent ? 'red' : '' }}
-            >
-
-              <TableCell>{row.Text1}</TableCell>
+            <TableRow key={rowIndex}>
+              <TableCell
+                sx={{ color: row.IsHighlightStudent ? '#ff3d00' : '' }} 
+              >
+                {row.Text1}
+              </TableCell>
               {row.Text3 !== undefined &&
                 <TableCell>{row.Text3}</TableCell>
               }
-              
               <TableCell
                 sx={{ color: row.IsHighlightStudent ? '#ff3d00' : '' }}
               >
