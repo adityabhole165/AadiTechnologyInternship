@@ -13,7 +13,7 @@ const handleChange = (e, validationFunction, callback) => {
 };
 
 
-const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
+const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExamHeader, GradesForSubjectMarkList, ChangeGrade, IsReadOnly }) => {
     const handleBlur = (value, Index) => {
         if (value != "") {
             if (confirm('This action will set a new value for all students. Do you want to continue?')) {
@@ -29,24 +29,33 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, BlurrExamHeader,
             {ExamMarksHeader?.map((Item, Index) => {
                 return (<TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} key={Index}>
                     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+
+
                         {Item.Text4}
-                        <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
-                            value={Item.Text1}
-                            disabled={IsReadOnly} />
-                        <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
-                            value={Item.Text2}
-                            onBlur={() => handleBlur(Item.Text2, Index)}
-                            onChange={(e) => handleChange(e, validateInput, (value) =>
-                                ChangeExamHeader(value, Item.Id))} disabled={IsReadOnly} />
-                        {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
+
+
+                        {IsMark ? (
+                            <>
+                                <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
+                                    value={Item.Text1}
+                                    disabled={IsReadOnly} />
+                                <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
+                                    value={Item.Text2}
+                                    onBlur={() => handleBlur(Item.Text2, Index)}
+                                    onChange={(e) => handleChange(e, validateInput, (value) =>
+                                        ChangeExamHeader(value, Item.Id))} disabled={IsReadOnly} />
+                                {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text3} /> */}
-                        <Dropdown
-                            defaultValue={Item.Text3}
-                            variant='outlined'
-                            Array={GradesForSubjectMarkList}
-                            handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
-                            disabled={IsReadOnly}
-                        />
+                            </>
+                        ) : (
+                            <Dropdown
+                                defaultValue={Item.Text3}
+                                variant='outlined'
+                                Array={GradesForSubjectMarkList}
+                                handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
+                                disabled={IsReadOnly}
+                            />
+                        )}
                     </Box>
                 </TableCell>)
             })}

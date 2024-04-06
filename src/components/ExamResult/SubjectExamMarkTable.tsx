@@ -1,10 +1,13 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
+import { RootState, useSelector } from 'src/store';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
   onChangeExamGrade }) => {
-
+  const TestMarkDetails: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
+  );
   const ChangeExamHeader = (value, Id, Index) => {
 
     ExamMarksHeader = {
@@ -177,10 +180,13 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   GradesForSubjectMarkList={GradesForSubjectMarkList}
                   ChangeGrade={ChangeExamGradeHeader}
                   IsReadOnly={true}
+                  IsMark={TestMarkDetails.Grade_Or_Marks}
                 />
-                <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
-                  {ExamMarksHeader.Text5}
-                </TableCell>
+                {TestMarkDetails.Grade_Or_Marks &&
+                  <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
+                    {ExamMarksHeader.Text5}
+                  </TableCell>
+                }
               </TableRow>
             </TableHead>
             <TableBody>
@@ -194,15 +200,18 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
                       ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
-                      IsReadOnly={true} />
-                    <TableCell>
-                      <TextField sx={{ width: '80px' }} size={"small"}
-                        disabled
-                        value={getTotalMarks(Item.MarksForStudent)}
-                      // value={Item.TotalMarks} 
-                      />
-                      {getGrade(Item.MarksForStudent)}
-                    </TableCell>
+                      IsReadOnly={true}
+                      IsMark={TestMarkDetails.Grade_Or_Marks} />
+                    {TestMarkDetails.Grade_Or_Marks &&
+                      <TableCell>
+                        <TextField sx={{ width: '80px' }} size={"small"}
+                          disabled
+                          value={getTotalMarks(Item.MarksForStudent)}
+                        // value={Item.TotalMarks} 
+                        />
+                        {getGrade(Item.MarksForStudent)}
+                      </TableCell>
+                    }
                   </TableRow>)
                 })
               }
