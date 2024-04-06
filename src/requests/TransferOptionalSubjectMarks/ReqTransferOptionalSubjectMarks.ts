@@ -33,6 +33,9 @@ const TransferOptionalSubjectMarksSlice = createSlice({
       state.ISTransferOptionalSubjectMarks = action.payload;
     },
 
+    RresetMessage(state) {
+      state.ISTransferOptionalSubjectMarks = '';
+    }
   }
 });
 
@@ -121,6 +124,10 @@ export const CDATransferOptionalSubjectMarks =
     };
 
 
+
+    export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+      dispatch(TransferOptionalSubjectMarksSlice.actions.RresetMessage());
+    };
 
 
 
