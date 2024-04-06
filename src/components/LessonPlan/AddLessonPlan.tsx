@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -70,6 +70,9 @@ const AddLessonPlan = () => {
   const [ApproverComment, setApproverComment] = useState('');
   const [errorStartDate, seterrorStartDate] = useState('');
   const [errorEndDate, seterrorEndDate] = useState('')
+  const [errorComment, seterrorComment] = useState('');
+  const [exampleLessonDetails, setExampleLessonDetails] = useState([])
+  const [errorexampleLessonDetails, seterrorexampleLessonDetails] = useState('')
 
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
@@ -78,24 +81,25 @@ const AddLessonPlan = () => {
   const asReportingUserId = Number(sessionStorage.getItem('asReportingUserId'));
 
 
-  const [exampleLessonDetails, setExampleLessonDetails] = useState([])
-
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
   const TeacherName = useSelector((state: RootState) => state.addlessonplan.TeacherName);
-
   const ApproverDetails = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
+  const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
   const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
   console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
-  const getXML = () => {
-    let a = []
+  // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
+  // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
+
+  function getXML() {
+    let a = [];
     let asLessonPlanXML = "<ArrayOfLessonPlanDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
-      " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">"
+      " xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">";
     exampleLessonDetails.map((Obj, i) => {
       Obj.planDetails.map((Item, Index) => {
         a.push("<LessonPlanDetails>" +
@@ -109,7 +113,7 @@ const AddLessonPlan = () => {
           "<LessonPlanSectionId>0</LessonPlanSectionId>" +
           "<SubjectCategoryId>" + Item.SubjectCategoryId + "</SubjectCategoryId>" +
           "<SubjectStartDate/><SubjectEndDate/>" +
-          "</LessonPlanDetails>")
+          "</LessonPlanDetails>");
         Item.subPlanDetails.map((subItem, subIndex) => {
           a.push("<LessonPlanDetails>" +
             "<Id>0</Id>" +
@@ -122,11 +126,11 @@ const AddLessonPlan = () => {
             "<LessonPlanSectionId>0</LessonPlanSectionId>" +
             "<SubjectCategoryId>" + Item.SubjectCategoryId + "</SubjectCategoryId>" +
             "<SubjectStartDate/><SubjectEndDate/>" +
-            "</LessonPlanDetails>")
-        })
-      })
-    })
-    return asLessonPlanXML + a.join('') + "</ArrayOfLessonPlanDetails>"
+            "</LessonPlanDetails>");
+        });
+      });
+    });
+    return asLessonPlanXML + a.join('') + "</ArrayOfLessonPlanDetails>";
   }
 
   useEffect(() => {
@@ -184,20 +188,12 @@ const AddLessonPlan = () => {
   }, [SubmitLessonPlans])
 
   useEffect(() => {
-    const SaveApproverCommentBody: ISaveApproverCommentBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-      asReportingUserId: Number(asUserId),
-      aasStartDate: StartDate,
-      aasEndDate: EndDate,
-      asApproverComment: ApproverComment,
-      asUpdatedById: Number(UpdatedById),
-      asOldStartDate: OldStartDate,
-      asOldEndDate: OldEndDate,
-    };
-    dispatch(getSaveApproverComment(SaveApproverCommentBody));
-  }, [])
+    if (SaveApproverComment !== '') {
+      toast.success(SaveApproverComment)
+      dispatch(resetsaveapprovercomment())
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+    }
+  }, [SaveApproverComment])
   useEffect(() => {
     const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
@@ -213,6 +209,18 @@ const AddLessonPlan = () => {
     };
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   }, [])
+  const SaveApproverCommentBody: ISaveApproverCommentBody = {
+    asSchoolId: asSchoolId,
+    asAcademicYearId: asAcademicYearId,
+    asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+    asReportingUserId: Number(asUserId),
+    aasStartDate: StartDate,
+    aasEndDate: EndDate,
+    asApproverComment: ApproverComment,
+    asUpdatedById: Number(UpdatedById),
+    asOldStartDate: OldStartDate,
+    asOldEndDate: OldEndDate,
+  };
 
   const onSelectStartDate = (value) => {
     setStartDate(value);
@@ -252,7 +260,24 @@ const AddLessonPlan = () => {
       returnVal = false
     } else seterrorEndDate('')
 
-
+    let IsPlan = false
+    exampleLessonDetails.map((Item) => {
+      Item.planDetails.map((planItem) => {
+        if (planItem.value != '')
+          IsPlan = true
+        planItem.subPlanDetails.map((subPlanItem) => {
+          if (subPlanItem.value != '') {
+            IsPlan = true
+          }
+        })
+      })
+    })
+    if (IsPlan == false) {
+      seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
+      returnVal = false
+    }
+    seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
+    returnVal = false
     return returnVal;
   };
 
@@ -303,6 +328,37 @@ const AddLessonPlan = () => {
       dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
     }
   };
+  const onClickApproverComment = (value) => {
+    const SaveApproverCommentBody: ISaveApproverCommentBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+      asReportingUserId: Number(asUserId),
+      aasStartDate: StartDate,
+      aasEndDate: EndDate,
+      asApproverComment: ApproverComment,
+      asUpdatedById: Number(UpdatedById),
+      asOldStartDate: OldStartDate,
+      asOldEndDate: OldEndDate,
+    };
+    setApproverComment(value)
+    dispatch(getSaveApproverComment(SaveApproverCommentBody))
+  };
+  const IsShowApprove = () => {
+    let isShowApprove = false;
+
+    ApproverDetails?.map((Item, Index) => {
+      if (Index > 0) {
+        if (Item.UserId !== asUserId) {
+          isShowApprove = true;
+        }
+      }
+    });
+
+    return isShowApprove;
+  };
+  console.log(IsShowApprove(), "isShowApprove", asUserId, ApproverDetails);
+
 
 
   return (
@@ -338,6 +394,7 @@ const AddLessonPlan = () => {
             <Box>
               <Tooltip title={'Submit'}>
                 <IconButton
+                  disabled={GetEnableButtonList.EnableSubmitButton != "False"}
                   sx={{
                     backgroundColor: grey[500],
                     color: 'white',
@@ -354,6 +411,7 @@ const AddLessonPlan = () => {
             <Box>
               <Tooltip title={'Save'}>
                 <IconButton
+                  disabled={GetEnableButtonList?.EnableSaveButton == "True"}
                   sx={{
                     backgroundColor: green[500],
                     color: 'white',
@@ -367,22 +425,26 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
-              <Tooltip title={'Approver'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickApprover}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            {IsShowApprove() &&
+              <Box>
+                <Tooltip title={'Approver'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: green[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickApprover}
+
+                  >
+                    <Save />
+                  </IconButton>
+
+                </Tooltip>
+              </Box>
+            }
           </>
         }
       />
@@ -443,6 +505,7 @@ const AddLessonPlan = () => {
               onChange={(e) => onClickClass(e.target.value)}
             />
           </Grid>
+
           <Grid item xs={12}>
             <Box sx={{ display: 'flex', justifyContent: 'center', gap: 2 }}>
               {/* <Button variant={"contained"} color={"success"}>
@@ -452,6 +515,11 @@ const AddLessonPlan = () => {
                 Submit
               </Button> */}
             </Box>
+          </Grid>
+          <Grid item xs={12}>
+            <Typography variant={"h5"} mb={1} sx={{ color: 'red' }}>
+              {errorexampleLessonDetails}
+            </Typography>
           </Grid>
           {Loading ? <SuspenseLoader /> : <Grid item xs={12}>
             <Typography variant={"h5"} mb={1}>
@@ -487,6 +555,23 @@ const AddLessonPlan = () => {
                   <Typography color={"primary"}>
                     {Item.UpdateDate}
                   </Typography>
+                </Grid>
+                <Grid xs={12} md={12} item>
+                  <TextField
+
+                    multiline
+                    rows={3}
+                    value={ApproverComment}
+                    onChange={(e) => {
+                      onClickApproverComment(e.target.value);
+                    }}
+                    error={errorComment !== ''}
+                    helperText={errorComment}
+                    fullWidth
+                    sx={{
+                      resize: 'both'
+                    }}
+                  />
                 </Grid>
               </Grid>)
             })

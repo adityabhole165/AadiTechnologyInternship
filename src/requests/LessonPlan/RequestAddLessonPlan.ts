@@ -12,6 +12,7 @@ const AddLessonPlanSlice = createSlice({
     submitLessonPlanmsg: '',
     saveApproverCommentmsg: '',
     updateLessonPlanDatemsg: '',
+    GetEnableButtonList: [],
     Loading: true,
     ApproverDetails: [],
     SubmittedApproverDate: [],
@@ -58,6 +59,10 @@ const AddLessonPlanSlice = createSlice({
     getsaveApproverComment(state, action) {
       state.Loading = false;
       state.saveApproverCommentmsg = action.payload;
+    },
+    resetsaveapprovercomment(state) {
+      state.Loading = false;
+      state.saveApproverCommentmsg = "";
     },
     getupdateLessonPlanDate(state, action) {
       state.Loading = false;
@@ -198,6 +203,11 @@ export const getSaveApproverComment =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.SaveApproverCommentapi(data);
       dispatch(AddLessonPlanSlice.actions.getsaveApproverComment(response.data));
+    };
+export const resetsaveapprovercomment =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.resetsaveapprovercomment());
     };
 export const getUpdateLessonPlanDate =
   (data: ISaveApproverCommentBody): AppThunk =>
