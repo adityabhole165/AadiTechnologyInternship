@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Container, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -334,6 +334,32 @@ const LessonPlanBaseScreen = () => {
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
   console.log(itemToDisplay, "itemToDisplay");
 
+  const [page, setPage] = useState(1);
+
+
+  const handlePageChange = (pageNumber) => {
+      setPage(pageNumber);
+  };
+  const itemsPerPage = 10;
+
+  const startIndex = (page - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  useEffect(() => {
+      const startIndex = (page - 1) * itemsPerPage;
+      const endIndex = startIndex + itemsPerPage;
+
+      const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+          ...GetLessonPlanListBody,
+          asStartIndex: startIndex,
+          asEndIndex: endIndex
+         
+      };
+
+      dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+  }, [page]);
+
+
+
   return (
     <>
       <Container maxWidth={"xl"}>
@@ -496,6 +522,19 @@ const LessonPlanBaseScreen = () => {
               <b>No Record Found.</b>
             </Typography>
           )}
+
+{LessonPlanList.length > 0 ? (
+
+      <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                    Select a page:
+                    <ButtonGroup color="primary" aria-label="outlined primary button group">
+                        <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                        <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                    </ButtonGroup>
+
+                </Box>
+):( <span></span>)
+}
 
           <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
             <DotLegends2
