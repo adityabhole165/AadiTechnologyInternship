@@ -8,6 +8,15 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   const TestMarkDetails: any = useSelector(
     (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
   );
+  const getDropdownName = (list, Id) => {
+    let returnVal = "";
+    list.forEach((item) => {
+      if (item.Id === Id) {
+        returnVal = item.Name;
+      }
+    });
+    return returnVal;
+  };
   const ChangeExamHeader = (value, Id, Index) => {
 
     ExamMarksHeader = {
@@ -182,7 +191,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   IsReadOnly={true}
                   IsMark={TestMarkDetails.Grade_Or_Marks}
                 />
-                {TestMarkDetails.Grade_Or_Marks &&
+                {TestMarkDetails.Grade_Or_Marks == "M" &&
                   <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                     {ExamMarksHeader.Text5}
                   </TableCell>
@@ -202,7 +211,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={true}
                       IsMark={TestMarkDetails.Grade_Or_Marks} />
-                    {TestMarkDetails.Grade_Or_Marks &&
+                    {TestMarkDetails.Grade_Or_Marks == "M" &&
                       <TableCell>
                         <TextField sx={{ width: '80px' }} size={"small"}
                           disabled

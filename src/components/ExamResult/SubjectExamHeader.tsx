@@ -38,12 +38,15 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                             <>
                                 <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                                     value={Item.Text1}
-                                    disabled={IsReadOnly} />
+                                // disabled={IsReadOnly} 
+                                />
                                 <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
                                     value={Item.Text2}
                                     onBlur={() => handleBlur(Item.Text2, Index)}
                                     onChange={(e) => handleChange(e, validateInput, (value) =>
-                                        ChangeExamHeader(value, Item.Id))} disabled={IsReadOnly} />
+                                        ChangeExamHeader(value, Item.Id))}
+                                //  disabled={IsReadOnly} 
+                                />
                                 {/* <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
                             value={Item.Text3} /> */}
                             </>
@@ -53,7 +56,7 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                                 variant='outlined'
                                 Array={GradesForSubjectMarkList}
                                 handleChange={(value) => { ChangeGrade(value, Item.Id, Index) }}
-                                disabled={IsReadOnly}
+                            // disabled={IsReadOnly}
                             />
                         )}
                     </Box>

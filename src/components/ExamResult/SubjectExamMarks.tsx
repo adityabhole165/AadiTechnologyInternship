@@ -182,12 +182,6 @@ const SubjectExamMarks = () => {
 
 
 
-
-
-
-
-
-
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/AssignExamMark');
   };
@@ -306,6 +300,7 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                disabled={IsReadOnly === 'true'}
               />
             </Box>
             <Box>
@@ -317,13 +312,16 @@ const SubjectExamMarks = () => {
                     :
                     ''
                 }
+                disabled={IsReadOnly === 'true'}
               />
             </Box>
             <Box>
               <TextField
                 fullWidth
                 value={SubjectName || ''}
+                disabled={IsReadOnly === 'true'}
               />
+
             </Box>
 
             <Box>
@@ -338,7 +336,7 @@ const SubjectExamMarks = () => {
                 variant={"outlined"}
                 size={"small"}
                 onChange={(e) => { setTestDate(e.target.value) }}
-                disabled={IsReadOnly === 'true'}
+              // disabled={IsReadOnly === 'true'}
               />
 
             </Box>
@@ -370,7 +368,7 @@ const SubjectExamMarks = () => {
                     ':hover': { backgroundColor: MarksError != '' ? grey[500] : green[600], }
                   }}
                   onClick={onClickSave}
-                  disabled={IsReadOnly === 'true'}
+                // disabled={IsReadOnly === 'true'}
 
                 >
                   <Save />
@@ -382,16 +380,33 @@ const SubjectExamMarks = () => {
       />
       <Box sx={{ p: 2, background: 'white' }}>
         <Box sx={{ display: 'flex', gap: 2, alignItems: 'center' }}>
+
           <Typography variant={"h4"}>
             {/* Total Marks: 20 */}
-            <TextField fullWidth value={TestMarkDetails?.length > 0 ?
-              (TestMarkDetails[0].Subject_Total_Marks) : ''} />
+            {TestMarkDetails.Grade_Or_Marks == "M" &&
+              <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+                (TestMarkDetails[0].Subject_Total_Marks) : ''}
+                disabled={IsReadOnly === 'true'} />
+            }
           </Typography>
-          <div>|</div>
+          {TestMarkDetails.Grade_Or_Marks == "M" &&
+            <div>|</div>
+          }
           <Typography variant={"h4"}>
             {/* Passing Marks: 20 */}
+
             <TextField fullWidth value={TestMarkDetails?.length > 0 ?
-              (TestMarkDetails[0].Passing_Total_Marks) : ''} />
+              (TestMarkDetails[0].Passing_Total_Marks) : ''}
+              disabled={IsReadOnly === 'true'}
+            />
+
+
+            <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+              (TestMarkDetails[0].Grade_Name) : ''}
+              disabled={IsReadOnly === 'true'}
+            />
+
+
           </Typography>
           <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
 
