@@ -173,12 +173,12 @@ const TransferOptionalSubjectMarks = () => {
 
 
 
-  
 
-  
-    
+
+
+
     const ClickSelctTecher = (value) => {
-        if (selectClasstecaher!= '') {
+        if (selectClasstecaher != '') {
             const confirmMessage = "Modified data on the current page will be lost. Do you want to continue?";
             const confirmed = window.confirm(confirmMessage);
             if (confirmed) {
@@ -279,17 +279,28 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        const isAnySubjectSelected = OptionalSubjects.some((subject) => subject.isActive);
-        if (!StudentsList.some((Item) => Item.IsActive)) {
-        alert("At least one student subject should be selected.");
-        } else if (!isAnySubjectSelected) {
-            setErrorMessage("At least one subject should be selected for optional subject HMS2.");
-        } else {
+        // const isAnySubjectSelected = OptionalSubjects.some((subject) => subject.isActive);
+        // if (!StudentsList.some((Item) => Item.IsActive)) {
+        // alert("At least one student subject should be selected.");
+        // } else if (!isAnySubjectSelected) {
+        //     setErrorMessage("At least one subject should be selected for optional subject HMS2.");
+        // } else {
+        //     dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+        // }
+        let arrParent = []
+        ParentOptionalSubjects.map((Item) => {
+            if (!OptionalSubjects.
+                filter((childItem) => { return childItem.ParentOptionalSubjectId == Item.ParentOptionalSubjectId })
+                .some((subject) => subject.isActive)
+            )
+                arrParent.push(Item.OptionalSubjectName)
+        })
+
+        if (arrParent.length > 0)
+            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(" - "));
+        else
             dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
-        }
     }
-
-
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
             toast.success(ISTransferOptionalSubjectMarks);
