@@ -20,7 +20,7 @@ function Card2({
         <CardHeading>{heading}</CardHeading>
         <Grid container spacing={2}>
           {items.map(({ Icon, ...item }, index) => (
-            <Grid item xs={spread} key={index}>
+            <Grid item xs={6} sm={4} md={3} lg={2} key={index}>
               <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                 <Card3
                   color={items.color}

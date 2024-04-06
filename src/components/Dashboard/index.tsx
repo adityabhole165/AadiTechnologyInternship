@@ -361,16 +361,16 @@ function LandingPage() {
       <Card2
         items={items1}
         heading={'School'}
-        rowsCol="4"
+        rowsCol="6"
         Messagecount={Messagecount.MESSAGECOUNT}
         ExternalLibrarySite={ExternalLibrarySite}
       ></Card2>
-      {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="4" Messagecount={Messagecount.MESSAGECOUNT} />} */}
+      {/* {RoleId != '1'   &&  <Card2 items={items2} heading={header2} rowsCol="6" Messagecount={Messagecount.MESSAGECOUNT} />} */}
       {RoleId != '6' && (
         <Card2
           items={items2}
           heading={header2}
-          rowsCol="4"
+          rowsCol="6"
           Messagecount={Messagecount.MESSAGECOUNT}
         />
       )}
@@ -378,7 +378,7 @@ function LandingPage() {
         <Card2
           items={items2}
           heading={header3}
-          rowsCol="4"
+          rowsCol="6"
           Messagecount={Messagecount.MESSAGECOUNT}
         />
       )}
@@ -386,7 +386,7 @@ function LandingPage() {
         <Card2
           items={items3}
           heading={header3}
-          rowsCol="4"
+          rowsCol="6"
           Messagecount={Messagecount.MESSAGECOUNT}
         ></Card2>
       )}
