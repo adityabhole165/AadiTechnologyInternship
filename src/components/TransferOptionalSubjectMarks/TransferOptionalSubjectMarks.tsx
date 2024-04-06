@@ -38,6 +38,8 @@ const TransferOptionalSubjectMarks = () => {
     const [StudentsList, setStudentsList] = useState([]);
     const [selectedStudents, setSelectedStudents] = useState([]);
     const [selectedSubjects, setSelectedSubjects] = useState([]);
+    const [OptionalSubjects, setOptionalSubjects] = useState([])
+    const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
         setSelectedStudents(USOptionalSubjectsForMarksTransfer);
@@ -109,17 +111,18 @@ const TransferOptionalSubjectMarks = () => {
     const getXML = () => {
         let sXML =
             '<ArrayOfTransferSubjectMarksInfo xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">';
-        let SubjectList = getSubjectId();
-        StudentsList.map((Item) => {
+        StudentsList.map((Item, i) => {
             if (Item.IsActive) {
-                SubjectList.map((Obj, Index) => {
-                    sXML +=
-                        '<TransferSubjectMarksInfo>' +
-                        '<StudentId>' + Item.StudentId + '</StudentId>' +
-                        '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
-                        '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
-                        '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
-                        '</TransferSubjectMarksInfo>';
+                OptionalSubjects.map((Obj, Index) => {
+                    if (Obj.isActive) {
+                        sXML +=
+                            '<TransferSubjectMarksInfo>' +
+                            '<StudentId>' + Item.StudentId + '</StudentId>' +
+                            '<StandardDivisionId>' + selectClasstecaher + '</StandardDivisionId>' +
+                            '<SubjectId>' + Obj.SubjectId + '</SubjectId>' +
+                            '<SubjectGroupId>' + Obj.SubjectGroupId + '</SubjectGroupId>' +
+                            '</TransferSubjectMarksInfo>';
+                    }
                 });
             }
         });
@@ -132,16 +135,8 @@ const TransferOptionalSubjectMarks = () => {
 
 
 
-    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asUserId: UserId,
-        asStudentTransferMarksXml: getXML()
-    };
 
 
-    const [OptionalSubjects, setOptionalSubjects] = useState([])
-    const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
     useEffect(() => {
         let IsExists = false
 
@@ -165,6 +160,7 @@ const TransferOptionalSubjectMarks = () => {
     }, [USOptionalSubjectsForMarksTransfer])
 
     const SubjectSelection = (subjectId) => {
+
         setOptionalSubjects(OptionalSubjects.map((Item) => {
             return Item.SubjectId == subjectId ?
                 { ...Item, isActive: !Item.isActive } :
@@ -227,7 +223,7 @@ const TransferOptionalSubjectMarks = () => {
 
     useEffect(() => {
         setStudentsList(USStudentsToTransferMarks);
-    }, [USStudentsToTransferMarks, selectClasstecaher]);
+    }, [USStudentsToTransferMarks]);
 
 
 
@@ -240,7 +236,7 @@ const TransferOptionalSubjectMarks = () => {
 
 
     const Changevalue = (value) => {
-        setSubjectList(value);
+        setStudentsList(value);
     };
 
     const ExamResultBase = (value) => {
@@ -261,9 +257,16 @@ const TransferOptionalSubjectMarks = () => {
         dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
     }, [selectClasstecaher]);
 
-    useEffect(() => {
+    const clickTransfer = () => {
+
+        const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
+            asSchoolId: asSchoolId,
+            asAcademicYearId: asAcademicYearId,
+            asUserId: UserId,
+            asStudentTransferMarksXml: getXML()
+        };
         dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
-    }, []);
+    }
 
     return (
         <Container maxWidth={"xl"}>
@@ -306,7 +309,7 @@ const TransferOptionalSubjectMarks = () => {
                                 Search
                             </Button>
                         ) : (
-                            <Button onClick={changeSearchText} variant="contained" disabled>
+                            <Button variant="contained" disabled>
                                 Search
                             </Button>
                         )}
@@ -429,7 +432,9 @@ const TransferOptionalSubjectMarks = () => {
                     <Button variant="contained" sx={{
                         backgroundColor: 'green',
                         color: 'white'
-                    }}>
+                    }}
+                        onClick={clickTransfer}
+                    >
                         TRANSFER
                     </Button>
                 ) : (

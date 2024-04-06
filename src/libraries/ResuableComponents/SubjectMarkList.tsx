@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -30,15 +30,15 @@ function SubjectMarkList({
     };
 
     const onClick = (value) => {
-        const updatedItemList = ItemList.map((item) => {
-            return item.Id === value ? { ...item, IsActive: !item.IsActive } : item;
+        let updatedItemList = ItemList.map((item) => {
+            return item.Text1 == value ? { ...item, IsActive: !item.IsActive } : item;
         });
         onChange(updatedItemList);
     };
 
     return (
         <>
-            
+
             <TableContainer component={Box} sx={{
                 border: (theme) => `1px solid ${theme.palette.grey[300]}`,
             }}>
@@ -48,7 +48,8 @@ function SubjectMarkList({
                             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
                         >
                             <TableCell sx={{ textTransform: 'capitalize' }} >
-                                <Checkbox checked={IsCheckAll()} onClick={clickAll}></Checkbox>
+                                <Checkbox checked={IsCheckAll()} onClick={clickAll}
+                                ></Checkbox>
 
                             </TableCell>
 
@@ -73,7 +74,7 @@ function SubjectMarkList({
                                     <Checkbox
                                         checked={item.IsActive}
                                         onChange={() => {
-                                            onClick(item.Id);
+                                            onClick(item.Text1);
                                         }}
                                     />
                                 </TableCell>
