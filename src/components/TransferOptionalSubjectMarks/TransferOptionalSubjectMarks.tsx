@@ -126,7 +126,6 @@ const TransferOptionalSubjectMarks = () => {
 
         sXML += '</ArrayOfTransferSubjectMarksInfo>';
 
-        console.log('XMLLLLLLLL', sXML);
 
         return sXML;
     };
@@ -145,21 +144,24 @@ const TransferOptionalSubjectMarks = () => {
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
     useEffect(() => {
         let IsExists = false
+
+        let arr = []
         setOptionalSubjects(USOptionalSubjectsForMarksTransfer)
         USOptionalSubjectsForMarksTransfer.map((Item) => {
             IsExists = false
-            ParentOptionalSubjects.map((ParentItem) => {
+            arr.map((ParentItem) => {
                 if (ParentItem.ParentOptionalSubjectId == Item.ParentOptionalSubjectId) {
                     IsExists = true
                 }
             })
             if (IsExists == false)
-                ParentOptionalSubjects.push({
+                arr.push({
                     ParentOptionalSubjectId: Item.ParentOptionalSubjectId,
                     OptionalSubjectName: Item.OptionalSubjectName,
                 })
 
         })
+        setParentOptionalSubjects(arr)
     }, [USOptionalSubjectsForMarksTransfer])
 
     const SubjectSelection = (subjectId) => {
@@ -171,7 +173,6 @@ const TransferOptionalSubjectMarks = () => {
     };
 
 
-    console.log(OptionalSubjects, "OptionalSubjects");
 
 
     const ClickSelctTecher = (value) => {
