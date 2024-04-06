@@ -281,7 +281,7 @@ const TransferOptionalSubjectMarks = () => {
     const clickTransfer = () => {
         const isAnySubjectSelected = OptionalSubjects.some((subject) => subject.isActive);
         if (!StudentsList.some((Item) => Item.IsActive)) {
-            setErrorMessage("At least one student subject should be selected.");
+        alert("At least one student subject should be selected.");
         } else if (!isAnySubjectSelected) {
             setErrorMessage("At least one subject should be selected for optional subject HMS2.");
         } else {
