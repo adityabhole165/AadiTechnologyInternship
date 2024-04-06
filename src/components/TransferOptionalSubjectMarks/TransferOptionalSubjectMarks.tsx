@@ -5,11 +5,12 @@ import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
+import { toast } from 'react-toastify';
 import { IGetClassTeachersBody, IGetOptionalSubjectsForMarksTransferBody, IGetStudentsToTransferMarksBody, ITransferOptionalSubjectMarksBody } from 'src/interfaces/TransferOptionalSubjectMarks/ITransferOptionalSubjectMarks';
 import Notes from 'src/libraries/ResuableComponents/Notes';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
-import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
+import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
@@ -257,17 +258,26 @@ const TransferOptionalSubjectMarks = () => {
         dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
     }, [selectClasstecaher]);
 
-    const clickTransfer = () => {
 
-        const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
-            asSchoolId: asSchoolId,
-            asAcademicYearId: asAcademicYearId,
-            asUserId: UserId,
-            asStudentTransferMarksXml: getXML()
-        };
+    const TransferOptionalSubjectMarksBody: ITransferOptionalSubjectMarksBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: UserId,
+        asStudentTransferMarksXml: getXML()
+    };
+    const clickTransfer = () => {
         dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
     }
 
+    useEffect(() => {
+        if (ISTransferOptionalSubjectMarks != '') {
+            toast.success(ISTransferOptionalSubjectMarks);
+            dispatch(CDAresetMessage());
+            dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
+
+        }
+
+    }, [ISTransferOptionalSubjectMarks]);
     return (
         <Box sx={{ px: 2 }}>
             <CommonPageHeader

@@ -39,7 +39,7 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                             variant='outlined'
                             Array={ExamStatus}
                             handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
-                            disabled={IsReadOnly}
+                            // disabled={IsReadOnly}
                         />
                     </TableCell>
                     {IsMark ? (
@@ -56,7 +56,8 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                                         border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
                                         borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
                                     }}
-                                    disabled={IsReadOnly || !Item.IsActive}
+                                    // disabled={IsReadOnly || !Item.IsActive}
+                                    disabled= {!Item.IsActive}
                                     value={Item.Text1}
                                     onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
 
@@ -71,7 +72,8 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
                                 defaultValue={Item.ExamGrade}
                                 variant='outlined'
                                 Array={GradesForSubjectMarkList}
-                                disabled={IsReadOnly || !Item.IsActive}
+                                // disabled={IsReadOnly || !Item.IsActive}
+                                disabled= {!Item.IsActive}
                                 handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
                             />
 

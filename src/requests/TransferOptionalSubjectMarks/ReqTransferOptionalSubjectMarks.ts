@@ -33,6 +33,9 @@ const TransferOptionalSubjectMarksSlice = createSlice({
       state.ISTransferOptionalSubjectMarks = action.payload;
     },
 
+    RresetMessage(state) {
+      state.ISTransferOptionalSubjectMarks = '';
+    }
   }
 });
 
@@ -69,6 +72,7 @@ export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody
 
 
   const TransferStudentSubjectsMarkDetailsList = Object.keys(subjectsByRollNo).map(rollNo => ({
+    StudentId: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.YearwiseStudentId || '',
     Text1: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.RegNo || '',
     Text2: rollNo,
     Text3: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.StudentName || '',
@@ -120,6 +124,10 @@ export const CDATransferOptionalSubjectMarks =
     };
 
 
+
+    export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+      dispatch(TransferOptionalSubjectMarksSlice.actions.RresetMessage());
+    };
 
 
 
