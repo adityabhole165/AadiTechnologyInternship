@@ -28,6 +28,7 @@ const TransferOptionalSubjectMarks = () => {
     const [SubjectList, setSubjectList] = useState([]);
     const [SearchText, setSearchText] = useState('');
     const [errorMessage, setErrorMessage] = useState('');
+    const [IsDirty, setIsDirty] = useState(false);
 
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
@@ -44,6 +45,7 @@ const TransferOptionalSubjectMarks = () => {
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
+        setIsDirty(false)
         setSelectedStudents(USOptionalSubjectsForMarksTransfer);
     }, [USOptionalSubjectsForMarksTransfer]);
 
@@ -162,7 +164,7 @@ const TransferOptionalSubjectMarks = () => {
     }, [USOptionalSubjectsForMarksTransfer])
 
     const SubjectSelection = (subjectId) => {
-
+        setIsDirty(true)
         setOptionalSubjects(OptionalSubjects.map((Item) => {
             return Item.SubjectId == subjectId ?
                 { ...Item, isActive: !Item.isActive } :
@@ -180,10 +182,16 @@ const TransferOptionalSubjectMarks = () => {
     const ClickSelctTecher = (value) => {
         if (selectClasstecaher != '') {
             const confirmMessage = "Modified data on the current page will be lost. Do you want to continue?";
-            const confirmed = window.confirm(confirmMessage);
-            if (confirmed) {
-                setselectClasstecaher(value);
+            let confirmed = false
+            if (IsDirty) {
+                confirmed = window.confirm(confirmMessage);
+
+                if (confirmed) {
+                    setselectClasstecaher(value);
+                }
             }
+            else
+                setselectClasstecaher(value);
         } else {
             setselectClasstecaher(value);
         }
@@ -236,6 +244,8 @@ const TransferOptionalSubjectMarks = () => {
 
 
     useEffect(() => {
+        setIsDirty(false)
+
         setStudentsList(USStudentsToTransferMarks);
     }, [USStudentsToTransferMarks]);
 
@@ -250,6 +260,7 @@ const TransferOptionalSubjectMarks = () => {
 
 
     const Changevalue = (value) => {
+        setIsDirty(true)
         setStudentsList(value);
     };
 
