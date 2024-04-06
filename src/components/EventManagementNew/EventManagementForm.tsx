@@ -392,10 +392,10 @@ const EventManagementForm = ({ EventId, SelectedDate, AddNewEventClicked, SaveCl
                 <Grid item xs={12} md={12}>
                     <Stack direction={"row"} gap={2} alignItems={"center"}>
                         <Button variant={'contained'} color="error" onClick={resetForm}>
-                            Cancel
+                            CANCEL
                         </Button>
                         <Button variant={'contained'} color="success" onClick={ClickSave}>
-                            Save
+                            SAVE
                         </Button>
                     </Stack>
                 </Grid>

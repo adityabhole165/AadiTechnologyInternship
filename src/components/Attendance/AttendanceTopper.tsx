@@ -8,8 +8,8 @@ import DropdownAllSelect from 'src/libraries/dropdown/DropdownAllSelect';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ErrorDetail } from 'src/libraries/styled/ErrormessageStyled';
 import {
-  getAcademicYearsForOldAttendance,
-  getStudentAttendance
+    getAcademicYearsForOldAttendance,
+    getStudentAttendance
 } from 'src/requests/Attendance/Attendance';
 import { RootState } from 'src/store';
 
@@ -78,7 +78,7 @@ function AttendanceTopper() {
 
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Attendance '} subheading={''} />
         <BackButton FromRoute={'/Student/Attendance'} />
 
@@ -137,7 +137,7 @@ function AttendanceTopper() {
             <ErrorDetail>No attendance</ErrorDetail>
           )}
         </Box>
-      </Container>
+      </Box>
     </div>
   );
 }

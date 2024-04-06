@@ -1178,7 +1178,7 @@ export const PureLightTheme = createTheme({
           lineHeight: 1.7
         }
       }
-    }
+    },
   },
   shape: {
     borderRadius: 10

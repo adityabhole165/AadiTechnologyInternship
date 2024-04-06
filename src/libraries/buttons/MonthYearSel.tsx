@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   FormControl,
   Grid,
   MenuItem,
@@ -8,7 +7,7 @@ import {
 } from '@mui/material';
 const MonthYearSel = ({ YearData, month, handleChange, year, handleClick }) => {
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Grid container spacing={2} sx={{ mb: 2 }}>
         <Grid item xs={6}>
           <Box>
@@ -44,7 +43,7 @@ const MonthYearSel = ({ YearData, month, handleChange, year, handleClick }) => {
           </Box>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

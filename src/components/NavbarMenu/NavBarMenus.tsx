@@ -1,7 +1,6 @@
 import {
   Box,
   Card,
-  Container,
   Grid,
   TextField,
   Typography
@@ -116,7 +115,7 @@ function NavBarMenus() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Navbar Menus'} subheading={''} />
       <TextField
         label="Search"
@@ -199,7 +198,7 @@ function NavBarMenus() {
           ))}
         </Grid>
       )}
-    </Container>
+    </Box>
   );
 }
 

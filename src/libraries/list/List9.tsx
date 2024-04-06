@@ -1,9 +1,9 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Card13 from '../mainCard/Card13';
 function List9({ itemList }) {
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       {itemList.length === 0 ? (
         <ErrorMessages Error={'No records found'} />
       ) : (
@@ -23,7 +23,7 @@ function List9({ itemList }) {
           })}
         </>
       )}
-    </Container>
+    </Box>
   );
 }
 

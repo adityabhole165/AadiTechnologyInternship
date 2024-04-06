@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grid,
   Hidden,
   TextField,
@@ -150,7 +149,7 @@ function Support() {
     dispatch(ResetMessage());
   }, [Support]);
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Support'} subheading={''} />
       <ListStyle>
         <Note NoteDetail={SupportPageNote} />
@@ -209,8 +208,8 @@ function Support() {
             value={formik.values.Description}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
-            style={{ width: '100%' }}
-          />
+            style={{ width: '100%' }} nonce={undefined}
+            onResize={undefined} onResizeCapture={undefined} />
           {formik.touched.Description && formik.errors.Description ? (
             <ErrorMessage1 Error={formik.errors.Description} />
           ) : null}
@@ -257,7 +256,7 @@ function Support() {
           </Grid>
         </form>
       </ListStyle>
-    </Container>
+    </Box>
   );
 }
 

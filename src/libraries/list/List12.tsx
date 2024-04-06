@@ -1,4 +1,4 @@
-import { Box, Container, List, Typography, useTheme } from '@mui/material';
+import { Box, List, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
@@ -16,7 +16,7 @@ function List12({ imgId, FromRoute, data }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <RouterLink
           to={
             `/${location.pathname.split('/')[1]}/Common/Photos/` +
@@ -43,7 +43,7 @@ function List12({ imgId, FromRoute, data }) {
             </>
           )}
         </RouterLink>
-      </Container>
+      </Box>
     </>
   );
 }

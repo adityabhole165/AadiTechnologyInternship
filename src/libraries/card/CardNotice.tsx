@@ -10,9 +10,9 @@ const CardNotice = ({ item, downloadNotice, clickSingle }) => {
 
   return (
     <>
-      <Grid container xs={12}>
-        <Grid xs={10.8}>
-          <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5, mt: 0.7 }}>
+      <Grid container>
+        <Grid xs={12}>
+          <Card sx={{ display: 'flex', alignItems: 'center', p: 0.5 }}>
             <Typography>{item.header}</Typography>
             <div style={{ flex: '1' }}></div>
             <FileDownloadOutlinedIcon

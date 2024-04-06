@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ITimetable from 'src/interfaces/Student/TimeTable';
@@ -31,11 +31,11 @@ function Timetable() {
   }, []);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Timetable'} subheading={''} />
 
       <Card30 header={TimetableList}></Card30>
-    </Container>
+    </Box>
   );
 }
 

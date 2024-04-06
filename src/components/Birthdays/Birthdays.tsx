@@ -1,12 +1,12 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
 import {
-  Badge,
-  Box,
-  Card,
-  Container,
-  Stack,
-  ToggleButton,
-  ToggleButtonGroup
+    Badge,
+    Box,
+    Card,
+    Container,
+    Stack,
+    ToggleButton,
+    ToggleButtonGroup
 } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -63,7 +63,7 @@ function Birthdays() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Birthdays'} subheading={''} />
       {newdate == ToDay ? <BdayCard /> : null}
       <Card component={Box} my={1} pr={3}>
@@ -105,7 +105,7 @@ function Birthdays() {
           </>
         )}
       </>
-    </Container>
+    </Box>
   );
 }
 

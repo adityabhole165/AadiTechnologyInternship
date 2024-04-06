@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grid,
   List,
   Typography,
@@ -54,7 +53,7 @@ function List3({
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <List
           className={classes.ListStyle}
           sx={{
@@ -78,8 +77,7 @@ function List3({
                 <RouterLink
                   key={data.Id}
                   to={
-                    `/${
-                      location.pathname.split('/')[1]
+                    `/${location.pathname.split('/')[1]
                     }/MessageCenter/viewMSg/` +
                     data.DetailsId +
                     FromRoute
@@ -120,7 +118,7 @@ function List3({
             </Grid>
           </Box>
         </List>
-      </Container>
+      </Box>
     </>
   );
 }

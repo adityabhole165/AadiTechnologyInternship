@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grow,
   List,
   Typography,
@@ -81,7 +80,7 @@ function List15({
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}
@@ -143,9 +142,8 @@ function List15({
             {ExamId !== undefined ? (
               <>
                 <RouterLink
-                  to={`/${
-                    location.pathname.split('/')[1]
-                  }/Student/onlineExamDetails`}
+                  to={`/${location.pathname.split('/')[1]
+                    }/Student/onlineExamDetails`}
                 >
                   <Box
                     display="flex"
@@ -165,7 +163,7 @@ function List15({
             ) : null}
           </List>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonGroup, Container, IconButton, TextField, Tooltip } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonGroup, IconButton, TextField, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -269,7 +269,7 @@ const TransferOptionalSubjectMarks = () => {
     }
 
     return (
-        <Container maxWidth={"xl"}>
+        <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
                     {
@@ -438,10 +438,11 @@ const TransferOptionalSubjectMarks = () => {
                         TRANSFER
                     </Button>
                 ) : (
-                    <Button variant="contained" disabled sx={{
-                        backgroundColor: 'red',
-                        color: 'white'
-                    }}>
+                    <Button variant="contained" disabled
+                        sx={{
+                            backgroundColor: 'red',
+                            color: 'white'
+                        }}>
                         TRANSFER
                     </Button>
                 )}
@@ -456,7 +457,7 @@ const TransferOptionalSubjectMarks = () => {
                     BACK
                 </Button>
             </Box>
-        </Container>
+        </Box>
     );
 };
 

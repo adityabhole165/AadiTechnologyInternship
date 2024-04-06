@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grow,
   List,
   Typography,
@@ -31,7 +30,7 @@ function List2({ Date, Name, FileName }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 0' }}
@@ -88,7 +87,7 @@ function List2({ Date, Name, FileName }) {
             </Box>
           </List>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

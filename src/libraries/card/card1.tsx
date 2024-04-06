@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grid,
   Grow,
   List,
@@ -38,7 +37,7 @@ function Card1({ Title, To, From, Subtitle, index, Standards }) {
   const clas = useStyles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}
@@ -87,7 +86,7 @@ function Card1({ Title, To, From, Subtitle, index, Standards }) {
             </Box>
           </List>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

@@ -1,5 +1,4 @@
-import { FormControl, TextField, Typography } from '@mui/material';
-import { Container } from '@mui/system';
+import { Box, FormControl, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -138,7 +137,7 @@ function IncomeTaxReport() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Income Tax Report'} subheading={''} />
         <Note NoteDetail={note} />
         <ListStyle>
@@ -183,7 +182,7 @@ function IncomeTaxReport() {
             Display Report
           </ButtonPrimary>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

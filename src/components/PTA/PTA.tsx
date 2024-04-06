@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +38,7 @@ function pta() {
   }, []);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Parent Teacher Association'} subheading={''} />
       <div>
         <Grid container></Grid>
@@ -55,7 +55,7 @@ function pta() {
         Teacher={TeacherCommitteeList}
         headingg={data3}
       />
-    </Container>
+    </Box>
   );
 }
 

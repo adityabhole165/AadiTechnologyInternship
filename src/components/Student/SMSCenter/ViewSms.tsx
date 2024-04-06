@@ -3,7 +3,7 @@ import CallReceived from '@mui/icons-material/CallReceived';
 import History from '@mui/icons-material/History';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import SmsOutlined from '@mui/icons-material/SmsOutlined';
-import { Box, Container, Divider, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Tooltip, Typography, styled } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -56,7 +56,7 @@ function ViewSms() {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -131,7 +131,7 @@ function ViewSms() {
             </Grid>
           </Grid>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

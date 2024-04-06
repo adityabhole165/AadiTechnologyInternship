@@ -1,4 +1,4 @@
-import { Box, Container, Grow, Typography, useTheme } from '@mui/material';
+import { Box, Grow, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
@@ -78,7 +78,7 @@ function List6({
   const clas = useStyles();
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Grow
         in={checked}
         style={{ transformOrigin: '0 0 1' }}
@@ -108,8 +108,7 @@ function List6({
             <>
               <RouterLink
                 to={
-                  `/${
-                    location.pathname.split('/')[1]
+                  `/${location.pathname.split('/')[1]
                   }/Student/onlineExamDetails/` +
                   ExamId +
                   '/' +
@@ -134,7 +133,7 @@ function List6({
           ) : null}
         </ListStyle>
       </Grow>
-    </Container>
+    </Box>
   );
 }
 

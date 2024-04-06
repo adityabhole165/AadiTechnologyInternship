@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grid,
   Grow,
   List,
@@ -28,7 +27,7 @@ function List20({ Subject, DisplayText, Date, Time, Index, Form, UserName }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}
@@ -70,7 +69,7 @@ function List20({ Subject, DisplayText, Date, Time, Index, Form, UserName }) {
             </Box>
           </List>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

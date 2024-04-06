@@ -1,17 +1,17 @@
 import {
-  Box,
-  Checkbox,
-  Container,
-  FormControlLabel,
-  FormGroup,
-  Typography
+    Box,
+    Checkbox,
+    Container,
+    FormControlLabel,
+    FormGroup,
+    Typography
 } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import IGetEventsInMonth, {
-  IEventList
+    IEventList
 } from 'src/interfaces/Common/AnnualPlanner';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
@@ -20,8 +20,8 @@ import PageHeader from 'src/libraries/heading/PageHeader';
 import Icon1 from 'src/libraries/icon/icon1';
 import List1 from 'src/libraries/mainCard/List1';
 import {
-  getEvents,
-  getFilePath
+    getEvents,
+    getFilePath
 } from 'src/requests/AnnualPlanner/AnnualPlanner';
 import { RootState } from 'src/store';
 function UpcomingEvent() {
@@ -193,7 +193,7 @@ function UpcomingEvent() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Annual Planner'} subheading={''} />
 
       {FileName !== '' && (
@@ -301,7 +301,7 @@ function UpcomingEvent() {
           )}
         </>
       )}
-    </Container>
+    </Box>
   );
 }
 

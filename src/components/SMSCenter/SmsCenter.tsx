@@ -1,5 +1,4 @@
 import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
@@ -52,7 +51,7 @@ function SMSCenter() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'SMS Center'} subheading={''} />
 
         <Grid container>
@@ -123,7 +122,7 @@ function SMSCenter() {
             </Link>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
 
       <Box
         display="block"

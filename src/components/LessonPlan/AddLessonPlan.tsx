@@ -1,7 +1,7 @@
 import Check from '@mui/icons-material/Check';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Container, Grid, IconButton, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
+import { Box, Grid, IconButton, TableCell, TextField, Tooltip, Typography, alpha, styled } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -306,7 +306,7 @@ const AddLessonPlan = () => {
 
 
   return (
-    <Container maxWidth="xl">
+    <Box sx={{ px: 2 }} maxWidth="xl">
       <CommonPageHeader
         navLinks={[
           {
@@ -495,7 +495,7 @@ const AddLessonPlan = () => {
         </Grid>
       </Box>
 
-    </Container >
+    </Box >
   );
 };
 

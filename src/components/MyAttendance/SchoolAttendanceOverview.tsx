@@ -2,7 +2,6 @@ import ClearIcon from '@mui/icons-material/Clear';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Container,
   Grid,
   IconButton,
   TextField,
@@ -93,7 +92,7 @@ const SchoolAttendanceOverview = () => {
   }, [SelectDate]);
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -160,7 +159,7 @@ const SchoolAttendanceOverview = () => {
         <ClearIcon sx={{ color: 'red' }} />{' '}
         <Typography>Attendance Not Marked</Typography>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

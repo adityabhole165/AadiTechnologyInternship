@@ -1,4 +1,4 @@
-import { Container, Typography, useTheme } from '@mui/material';
+import { Box, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -78,12 +78,12 @@ function Card7({
       replyFwd === 'Reply'
         ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Reply`
         : replyFwd === 'Edit'
-        ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Edit`
-        : replyFwd === 'Forward'
-        ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
-        : replyFwd === 'ReplyAll'
-        ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`
-        : '';
+          ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Edit`
+          : replyFwd === 'Forward'
+            ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/Forward`
+            : replyFwd === 'ReplyAll'
+              ? `/${location.pathname.split('/')[1]}/MessageCenter/Compose/ReplyAll`
+              : '';
     navigate(path);
     localStorage.setItem('messageBody', Body);
 
@@ -107,18 +107,18 @@ function Card7({
           replyFwd === 'Reply'
             ? From
             : replyFwd === 'ReplyAll'
-            ? getExcludeMe()
-            : replyFwd === 'Edit'
-            ? To
-            : '',
+              ? getExcludeMe()
+              : replyFwd === 'Edit'
+                ? To
+                : '',
         FromUserID:
           replyFwd === 'Reply'
             ? FromUserID
             : replyFwd === 'ReplyAll'
-            ? ReplyallRecieverId
-            : replyFwd === 'Edit'
-            ? ViewSentObject.ReceiverUserId
-            : '',
+              ? ReplyallRecieverId
+              : replyFwd === 'Edit'
+                ? ViewSentObject.ReceiverUserId
+                : '',
         Text: Text,
         Attachment: replyFwd === 'Edit' ? [] : AttachmentArray,
         ID: ID,
@@ -138,7 +138,7 @@ function Card7({
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <ListStyle>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
@@ -265,7 +265,7 @@ function Card7({
             )}
           </CardWrapper>
         )}
-      </Container>
+      </Box>
     </>
   );
 }

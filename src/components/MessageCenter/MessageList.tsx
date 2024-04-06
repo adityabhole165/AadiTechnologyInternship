@@ -6,7 +6,6 @@ import {
   Avatar,
   Box,
   Card,
-  Container,
   Dialog,
   Grid,
   Hidden
@@ -487,7 +486,7 @@ const MessageList = () => {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading="Message Center" subheading=""></PageHeader>
         <Hidden smUp>
           <Box sx={{ float: 'right', mt: '-45px' }}>
@@ -513,9 +512,8 @@ const MessageList = () => {
               >
                 <RouterLink
                   style={{ textDecoration: 'none', color: '#223354' }}
-                  to={`/${
-                    location.pathname.split('/')[1]
-                  }/MessageCenter/Compose`}
+                  to={`/${location.pathname.split('/')[1]
+                    }/MessageCenter/Compose`}
                 >
                   <AddCircleIcon
                     onClick={clickClear}
@@ -685,9 +683,8 @@ const MessageList = () => {
                 >
                   <RouterLink
                     style={{ textDecoration: 'none' }}
-                    to={`/${
-                      location.pathname.split('/')[1]
-                    }/MessageCenter/Compose`}
+                    to={`/${location.pathname.split('/')[1]
+                      }/MessageCenter/Compose`}
                   >
                     <Item
                       sx={{ fontSize: '10px', marginLeft: '-7px', mb: '10px' }}
@@ -702,7 +699,7 @@ const MessageList = () => {
             </Grid>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </>
   );
 };

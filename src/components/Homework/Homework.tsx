@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -136,7 +136,7 @@ function Homework() {
   };
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Homework'} subheading={''} />
         <div>
           <DotLegend1>
@@ -169,7 +169,7 @@ function Homework() {
             Daily Logs
           </ButtonPrimary>
         )}
-      </Container>
+      </Box>
     </div>
   );
 }

@@ -4,21 +4,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
-  IGetClassTeachersBody,
-  IGetTeacherXseedSubjectsBody,
-  IGetTestwiseTermBody,
-  ISubmitExamMarksStatusBody
+    IGetClassTeachersBody,
+    IGetTeacherXseedSubjectsBody,
+    IGetTestwiseTermBody,
+    ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import {
-  CDAGetClassTeachers,
-  CDAGetTeacherXseedSubjects,
-  CDAGetTestwiseTerm,
-  CDASubmitExamMarksStatus,
-  resetMessage
+    CDAGetClassTeachers,
+    CDAGetTeacherXseedSubjects,
+    CDAGetTestwiseTerm,
+    CDASubmitExamMarksStatus,
+    resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
 
@@ -159,7 +159,7 @@ const AssignPrePrimaryGrades = () => {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'AssignPre-PrimaryGrades'} subheading={''} />
 
         <Grid container>
@@ -229,7 +229,7 @@ const AssignPrePrimaryGrades = () => {
           HeaderArray={HeaderPublish}
           clicksubmit={ClickSubmit}
         />
-      </Container>
+      </Box>
     </>
   );
 };

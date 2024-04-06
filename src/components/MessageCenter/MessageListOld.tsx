@@ -5,7 +5,7 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import ReplayIcon from '@mui/icons-material/Replay';
 import SearchIcon from '@mui/icons-material/Search';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Avatar, Box, Card, Container, Grid } from '@mui/material';
+import { Avatar, Box, Card, Grid } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -313,7 +313,7 @@ const MessageListOld = () => {
     }
     if (
       scrollableDivRefference.scrollHeight -
-        scrollableDivRefference.scrollTop <=
+      scrollableDivRefference.scrollTop <=
       570
     ) {
       const getListBody: IgetList = {
@@ -360,7 +360,7 @@ const MessageListOld = () => {
   };
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading="Message Center" subheading=""></PageHeader>
         <Box sx={{ float: 'right', mt: '-45px' }}>
           <SettingsIcon onClick={clickSetting} fontSize="medium" />
@@ -496,8 +496,7 @@ const MessageListOld = () => {
               <SelectList3Col
                 Itemlist={inboxListData}
                 ActiveTab={activeTab}
-                refreshData={refreshData}
-              />
+                refreshData={refreshData} DeleteDraft={undefined} />
             )}
           </div>
         )}
@@ -540,7 +539,7 @@ const MessageListOld = () => {
             </Item>
           </RouterLink>
         </span>
-      </Container>
+      </Box>
     </>
   );
 };

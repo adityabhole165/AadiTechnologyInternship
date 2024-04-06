@@ -1,5 +1,5 @@
 import {
-  Container,
+  Box,
   Grid,
   IconButton,
   Tooltip,
@@ -263,7 +263,7 @@ const FinalResultToppers = () => {
         />
       </div>
       {radioBtn === '1' ? (
-        <Container>
+        <Box sx={{ px: 2 }}>
           <PageHeader heading=" Class Toppers" />
 
           <Grid container spacing={1} alignItems="center">
@@ -322,16 +322,16 @@ const FinalResultToppers = () => {
                     {!(i % 3) && (
                       <Grid container item xs={12} justifyContent="center">
                         {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                        {/* <Container> */}
+                        {/* <Box sx={{ px: 2 }}> */}
                         {item.Subject}
-                        {/* </Container> */}
+                        {/* </Box> */}
                       </Grid>
                     )}
 
                     <Grid item xs={4} xl={4} justifyContent="center">
-                      <Container>
+                      <Box sx={{ px: 2 }}>
                         <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                      </Container>
+                      </Box>
                       <br></br>
                       <ToppersList
                         headers={HeaderList1CT}
@@ -343,9 +343,9 @@ const FinalResultToppers = () => {
               })}
             </Grid>
           </Grid>
-        </Container>
+        </Box>
       ) : (
-        <Container>
+        <Box sx={{ px: 2 }}>
           <PageHeader heading="StandardToppers" />
           <Grid container spacing={1} alignItems="center">
             <Grid item xs={6}>
@@ -405,16 +405,16 @@ const FinalResultToppers = () => {
                     {!(i % 3) && (
                       <Grid container item xs={12} justifyContent="center">
                         {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                        {/* <Container> */}
+                        {/* <Box sx={{ px: 2 }}> */}
                         {item.Subject}
-                        {/* </Container> */}
+                        {/* </Box> */}
                       </Grid>
                     )}
 
                     <Grid item xs={4} xl={4} justifyContent="center">
-                      <Container>
+                      <Box sx={{ px: 2 }}>
                         <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                      </Container>
+                      </Box>
                       <br></br>
                       <ToppersList
                         headers={HeaderList1ST}
@@ -426,7 +426,7 @@ const FinalResultToppers = () => {
               })}
             </Grid>
           </Grid>
-        </Container>
+        </Box>
       )}
       <Grid
         container

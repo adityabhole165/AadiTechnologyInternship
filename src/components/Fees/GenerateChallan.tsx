@@ -2,23 +2,23 @@ import { Box, Card, Container } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  IGetAcademicYearsforFeeChallanBody,
-  IGetAllFeeTypesForChallanImportBody,
-  IGetAllPayableforChallanBody,
-  IGetDetailsForChallanImportBody,
-  IGetFileNameForSNSChallanBody
+    IGetAcademicYearsforFeeChallanBody,
+    IGetAllFeeTypesForChallanImportBody,
+    IGetAllPayableforChallanBody,
+    IGetDetailsForChallanImportBody,
+    IGetFileNameForSNSChallanBody
 } from 'src/interfaces/Student/Fees';
 import BackButton from 'src/libraries/button/BackButton';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  getAcademicYearsforFeeChallan,
-  getAllFeeTypesForChallanImport,
-  getAllPayableforChallan,
-  getDetailsForChallanImport,
-  getFileNameForSNSChallan,
-  resetRecieptChallan
+    getAcademicYearsforFeeChallan,
+    getAllFeeTypesForChallanImport,
+    getAllPayableforChallan,
+    getDetailsForChallanImport,
+    getFileNameForSNSChallan,
+    resetRecieptChallan
 } from 'src/requests/Fees/Fees';
 import { RootState } from 'src/store';
 function GenerateChallan() {
@@ -125,7 +125,7 @@ function GenerateChallan() {
     }
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Generate Challan'} />
       <BackButton FromRoute={'/Student/Fees'} />
       <Card component={Box} p={2}>
@@ -161,7 +161,7 @@ function GenerateChallan() {
           Generate
         </ButtonPrimary>
       </Card>
-    </Container>
+    </Box>
   );
 }
 

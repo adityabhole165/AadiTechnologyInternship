@@ -1,4 +1,4 @@
-import { Container, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -6,13 +6,12 @@ import { IGetAllActiveNoticesBody } from 'src/interfaces/Student/ISchoolNoticeBo
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import BackButton from 'src/libraries/button/BackButton';
 import CardNotice from 'src/libraries/card/CardNotice';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
-import { BoxStyle } from 'src/libraries/styled/HeadingStyled';
 import { getAllActiveNotices } from 'src/requests/SchoolNoticeBoard/requestSchoolNoticaBoard';
 import { getSchoolNotice } from 'src/requests/Schoolnotice/Schoolnotice';
 import { RootState } from 'src/store';
 import ISchoolnotice from '../../interfaces/Common/SchoolNotice';
+import CommonPageHeader from '../CommonPageHeader';
 
 function Schoolnotice() {
   const theme = useTheme();
@@ -98,8 +97,8 @@ function Schoolnotice() {
     if (!IsImageNotice) {
       window.open(
         localStorage.getItem('SiteURL') +
-          'RITeSchool/DOWNLOADS/School Notices/' +
-          FileName
+        'RITeSchool/DOWNLOADS/School Notices/' +
+        FileName
       );
     } else {
       window.open(
@@ -132,22 +131,27 @@ function Schoolnotice() {
   };
 
   return (
-    <BoxStyle>
-      <Container>
-        <PageHeader heading={'School Notices'} subheading={''} />
+    <Box px={2}>
+      <CommonPageHeader
+        navLinks={[
+          {
+            title: 'School Notice',
+            path: ''
+          }
+        ]}
+      />
+      <Box sx={{ background: 'white', p: 2 }}>
 
         {Data1.map((item, index) => {
           return (
-            <div key={index} style={{ display: 'flex', flexDirection: 'row' }}>
-              <CardNotice
-                item={item}
-                downloadNotice={downloadNotice}
-                clickSingle={clickSingle}
-              />
-            </div>
+            <CardNotice
+              key={index}
+              item={item}
+              downloadNotice={downloadNotice}
+              clickSingle={clickSingle}
+            />
           );
         })}
-        <br></br>
         {sessionStorage.getItem('Id') === null && (
           <BackButton FromRoute={'/schoolList'} />
         )}
@@ -158,8 +162,8 @@ function Schoolnotice() {
             <List1 items={Data} />
           </>
         )}
-      </Container>
-    </BoxStyle>
+      </Box>
+    </Box>
   );
 }
 export default Schoolnotice;

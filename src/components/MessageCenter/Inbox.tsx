@@ -14,8 +14,8 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List3 from 'src/libraries/list/List3';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  getInboxList,
-  getNextPageInboxList
+    getInboxList,
+    getNextPageInboxList
 } from 'src/requests/Student/InboxMessage';
 import { RootState } from 'src/store';
 
@@ -229,7 +229,7 @@ function Inbox() {
     <>
       {Id.DetailInfo.length !== 0 ? (
         <>
-          <Container>
+          <Box sx={{ px: 2 }}>
             <Box display="flex" flexDirection="row" justifyContent="flex-end">
               <ButtonPrimary
                 color="primary"
@@ -247,7 +247,7 @@ function Inbox() {
                 RESET
               </ButtonPrimary>
             </Box>
-          </Container>
+          </Box>
           <br />
         </>
       ) : null}

@@ -14,8 +14,8 @@ import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import List3 from 'src/libraries/list/List3';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  getNextPageTrashList,
-  getTrashList
+    getNextPageTrashList,
+    getTrashList
 } from 'src/requests/MessageCenter/MessaageCenter';
 import { RootState } from 'src/store';
 
@@ -232,7 +232,7 @@ function Trash() {
     <>
       {Id.DetailInfo.length !== 0 ? (
         <>
-          <Container>
+          <Box sx={{ px: 2 }}>
             <Box display="flex" justifyContent="flex-end">
               <ButtonPrimary
                 color="primary"
@@ -250,7 +250,7 @@ function Trash() {
                 RESET
               </ButtonPrimary>
             </Box>
-          </Container>
+          </Box>
           <br />
         </>
       ) : null}

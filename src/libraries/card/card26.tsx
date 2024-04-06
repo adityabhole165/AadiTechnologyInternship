@@ -1,9 +1,8 @@
 import ReplyIcon from '@mui/icons-material/Reply';
-import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Link as RouterLink, useParams } from 'react-router-dom';
 
-import { Fab, useTheme } from '@mui/material';
+import { Box, Fab, useTheme } from '@mui/material';
 import { ShowMessage } from '../styled/ErrormessageStyled';
 
 Card26.propTypes = {
@@ -15,7 +14,7 @@ function Card26() {
   const { ActiveYear, InternalOrSchool } = useParams();
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <div>
         <RouterLink
           to={
@@ -55,7 +54,7 @@ function Card26() {
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         ></iframe> */}
       </div>
-    </Container>
+    </Box>
   );
 }
 

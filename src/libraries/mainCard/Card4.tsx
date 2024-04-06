@@ -74,9 +74,9 @@ function Card4({
     if (clickParent) {
       navigate(
         '/' +
-          location.pathname.split('/')[1] +
-          '/MessageCenter/viewMSg/' +
-          NavPath
+        location.pathname.split('/')[1] +
+        '/MessageCenter/viewMSg/' +
+        NavPath
       );
     }
   };
@@ -85,8 +85,8 @@ function Card4({
     ActiveTab == 'Inbox' && IsRead == 'N'
       ? 'blue'
       : ActiveTab == 'Sent' && IsSchedule
-      ? 'blue'
-      : '';
+        ? 'blue'
+        : '';
   return (
     <>
       <CardDetail onClick={clickCard}>

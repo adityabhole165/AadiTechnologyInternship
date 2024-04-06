@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grow,
   List,
   Typography,
@@ -22,7 +21,7 @@ function List2({ CTeacher, Sub, Tech }) {
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         {CTeacher}
         <Grow
           in={checked}
@@ -57,7 +56,7 @@ function List2({ CTeacher, Sub, Tech }) {
             </Box>
           </List>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

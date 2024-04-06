@@ -1,7 +1,7 @@
 import CancelIcon from '@mui/icons-material/Cancel';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import { Box, Container, Grid, TextField, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -93,7 +93,7 @@ const StatusRequisition = () => {
   const GetRequisitionStatusDropdown = (value) => {
     setSelectResult(value);
   };
-  const ClickItem = (value) => {};
+  const ClickItem = (value) => { };
   const onClickBack = () => {
     navigate('/extended-sidebar/Teacher/ExamResultBase');
   };
@@ -127,7 +127,7 @@ const StatusRequisition = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <br></br>
       <br></br>
       <PageHeader heading="Requisition" />
@@ -143,8 +143,7 @@ const StatusRequisition = () => {
               itemList={Requision}
               ClickItem={GetRequisitionStatusDropdown}
               DefaultValue={SelectResult}
-              Label={'--Select--'}
-            />
+              Label={'--Select--'} width={undefined} />
           </Box>
         </Grid>
       </Grid>
@@ -198,7 +197,7 @@ const StatusRequisition = () => {
         IconList={IconList}
         ClickItem={ClickItem}
       />
-    </Container>
+    </Box>
   );
 };
 export default StatusRequisition;

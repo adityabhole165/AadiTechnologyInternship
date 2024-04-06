@@ -3,7 +3,6 @@ import RefreshIcon from '@mui/icons-material/Refresh';
 import {
   Box,
   Card,
-  Container,
   Divider,
   List,
   Typography,
@@ -41,7 +40,7 @@ function Card10({ Sub, headd, index }) {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Card sx={{ boxShadow: '6px 4px 5px grey !important' }}>
         <List
           sx={{
@@ -138,7 +137,7 @@ function Card10({ Sub, headd, index }) {
           </RouterLink>
         </List>
       </Card>
-    </Container>
+    </Box>
   );
 }
 

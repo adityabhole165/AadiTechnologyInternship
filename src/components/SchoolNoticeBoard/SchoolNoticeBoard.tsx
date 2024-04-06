@@ -1,4 +1,4 @@
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -61,7 +61,7 @@ function SchoolNoticeBoard() {
   }, [GetAllActiveNotices]);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Card component={Box} mt={2} p={0.6}>
         <Marquee delay={1}>
           {/* {GetNoticeBoardList.length !==0 && <>  🔶  </> }   */}
@@ -75,7 +75,7 @@ function SchoolNoticeBoard() {
           ))}
         </Marquee>
       </Card>
-    </Container>
+    </Box>
   );
 }
 

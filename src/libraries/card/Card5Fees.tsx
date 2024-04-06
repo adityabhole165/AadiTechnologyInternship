@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import {
@@ -35,7 +35,7 @@ function Card5Fees({
   };
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
 
@@ -83,7 +83,7 @@ function Card5Fees({
           </CardDetail>
           <Typography mt={-0.5}>{item.PaidDateString}</Typography>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

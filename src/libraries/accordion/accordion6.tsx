@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Container, Grid, List, useTheme } from '@mui/material';
+import { Box, Grid, List, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -38,7 +38,7 @@ function Accordion6({ OnlineExams, MarkInformation, Subject }) {
   return (
     <>
       <Grid item xs={12} container>
-        <Container>
+        <Box sx={{ px: 2 }}>
           {OnlineExams.map((items: OnlineExams, i) => {
             return (
               <Accordion
@@ -133,7 +133,7 @@ function Accordion6({ OnlineExams, MarkInformation, Subject }) {
               </Accordion>
             );
           })}
-        </Container>
+        </Box>
       </Grid>
     </>
   );

@@ -2,7 +2,6 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Grid,
   Typography
 } from '@mui/material';
@@ -197,7 +196,8 @@ const AnnualPlanerBaseScreen = () => {
     asMonthId: Number(selectMonth),
     asYear: Number(selectYear),
     asStandardId: Number(selectStandard),
-    asDivisionId: Number(selectDivision)
+    asDivisionId: Number(selectDivision),
+    asEventType: ''
   };
   const AssociatesStandardP: IGetAssociatedStandardsBodyP = {
     asSchoolId: 18,
@@ -296,7 +296,7 @@ const AnnualPlanerBaseScreen = () => {
   const shouldDisplayDropdown = GetScreenPermission() === 'N' ? 0 : null;
 
   return (
-    <Container maxWidth={'xl'} sx={{ mt: 4 }}>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Annual Planner'} subheading={''} />
       <Box sx={{ float: 'right' }}>
         <Icon1 Note={Note} />
@@ -420,7 +420,7 @@ const AnnualPlanerBaseScreen = () => {
         DefaultValue
         ArrayList={HeaderPublish}
       />
-    </Container>
+    </Box>
   );
 };
 

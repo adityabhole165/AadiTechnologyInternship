@@ -1,5 +1,6 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import TableAttendace from './TableAttendace';
+
 function AttandaceTable() {
   const HeaderArray = [
     { Id: 1, Header: '' },
@@ -27,9 +28,9 @@ function AttandaceTable() {
     }
   ];
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <TableAttendace ItemList={ItemList} HeaderArray={HeaderArray} />
-    </Container>
+    </Box>
   );
 }
 

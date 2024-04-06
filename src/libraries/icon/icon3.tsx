@@ -1,7 +1,6 @@
 import InfoTwoToneIcon from '@mui/icons-material/InfoTwoTone';
 import {
   ClickAwayListener,
-  Container,
   Typography,
   styled,
   useTheme
@@ -43,7 +42,7 @@ function Icon3({ Note }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Box
           display="flex"
           flexDirection="row"
@@ -91,7 +90,7 @@ function Icon3({ Note }) {
             </Tooltip>
           </ClickAwayListener>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

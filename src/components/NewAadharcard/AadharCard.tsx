@@ -1,7 +1,7 @@
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Button, Container, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
+import { Box, Button, Grid, IconButton, Stack, TextField, Tooltip } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -173,7 +173,7 @@ const AadharCard = () => {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -227,7 +227,7 @@ const AadharCard = () => {
             </Grid>
             <Grid item xs={6}>
               <TextField fullWidth value={AadharCardNumber}
-error={error}
+                error={error}
                 label={
                   <span>Aadhar Card Number <span style={{ color: 'red' }}>*</span></span>
                 }
@@ -279,12 +279,12 @@ error={error}
                   color={'primary'}
                 >
                   <Stack direction={'row'} alignItems={'center'}
-gap={1}
+                    gap={1}
                     sx={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
                     <CloudUploadIcon />
                     {fileName == '' ? ' No file selected' : fileName}
                     <input ref={aRef} type="file"
-onChange={changeFile}
+                      onChange={changeFile}
                       style={{
                         opacity: 0, top: 0, left: 0, right: 0, bottom: 0,
                         position: 'absolute', cursor: 'pointer'
@@ -300,7 +300,7 @@ onChange={changeFile}
             </Grid>
           </Grid>
         </Box>
-      </Container >
+      </Box >
 
     </>
   );

@@ -1,5 +1,4 @@
 import { Box, List, styled, useTheme } from '@mui/material';
-import Container from '@mui/material/Container';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import { useEffect, useState } from 'react';
@@ -101,11 +100,11 @@ function Progressreport() {
   };
 
   const GetReasonforBlockingProgressReport_body: IGetReasonforBlockingProgressReport =
-    {
-      asSchoolId: asSchoolId,
-      asStudentId: asStudentId,
-      asAcademicYearId: asAcademicYearId
-    };
+  {
+    asSchoolId: asSchoolId,
+    asStudentId: asStudentId,
+    asAcademicYearId: asAcademicYearId
+  };
 
   const GetExamResultList_body: IExamResult = {
     asSchoolId: asSchoolId,
@@ -159,7 +158,7 @@ function Progressreport() {
       if (progressreportResult[0].StudentMarksList.length > 0) {
         setHidePercentNote(
           progressreportResult[0].StudentMarksList[0].ShowOnlyGrade.trim() ===
-            'true'
+          'true'
         );
       }
     }
@@ -187,12 +186,12 @@ function Progressreport() {
 
   const classes = Styles();
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Progress Report'} subheading={''} />
 
       <Box>
         {pendingfees.IsPendingFeesForStudentResult !== false &&
-        BlockProgressReportIfFeesArePending == 'Y' ? (
+          BlockProgressReportIfFeesArePending == 'Y' ? (
           <Note NoteDetail={note} />
         ) : getreasonbprgrepres.GetReasonforBlockingProgressReport != '' ? (
           <Note
@@ -298,7 +297,7 @@ function Progressreport() {
           </>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 }
 export default Progressreport;

@@ -6,7 +6,6 @@ import {
   AccordionSummary,
   Badge,
   Box,
-  Container,
   Divider,
   Grid,
   IconButton,
@@ -147,7 +146,7 @@ const EventOverview = (props: Props) => {
   };
 
   return (
-    <Container sx={{ mt: 5 }} maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Annual Planner', path: '/extended-sidebar/Common/AnnualPlanner' },
@@ -203,66 +202,63 @@ const EventOverview = (props: Props) => {
           </>
         }
       />
-      <Box sx={{ mt: 2 }}>
-        <Box sx={{ mt: 2 }}>
-          {(ParentList && ParentList.length > 0) && USGetAllEvents ? (
-            ParentList.map((event, index) => (
-              <Accordion
-                key={index}
-                expanded={expanded === `panel${index + 1}`}
-                onChange={handleChange(`panel${index + 1}`)}
-                sx={{ border: `1px solid ${grey[300]}` }}
+      <Box>
+        {(ParentList && ParentList.length > 0) && USGetAllEvents ? (
+          ParentList.map((event, index) => (
+            <Accordion
+              key={index}
+              expanded={expanded === `panel${index + 1}`}
+              onChange={handleChange(`panel${index + 1}`)}
+              sx={{ border: `1px solid ${grey[300]}` }}
+            >
+              <AccordionSummary
+                expandIcon={<ExpandMoreIcon />}
+                aria-controls={`panel${index + 1}bh-content`}
+                id={`panel${index + 1}bh-header`}
               >
-                <AccordionSummary
-                  expandIcon={<ExpandMoreIcon />}
-                  aria-controls={`panel${index + 1}bh-content`}
-                  id={`panel${index + 1}bh-header`}
-                >
-                  <Box width={'100%'} display={"flex"} justifyContent={"space-between"} alignItems={"center"} pr={2}>
-                    <Typography variant={"h4"} sx={{ width: '33%', flexShrink: 0 }}>
-                      {event}
-                    </Typography>
-                    <Badge color={"primary"} badgeContent={USGetAllEvents
-                      .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event).length}></Badge>
-                  </Box>
-                </AccordionSummary>
-                <Divider />
-                <AccordionDetails>
-                  <Grid container>
-                    {USGetAllEvents
-                      .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
-                      .map((obj, index) => (
-                        <Grid item xs={3} key={index} sx={{ p: 1, height: '100%' }}>
-                          <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
-                            <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
-                            <Box sx={{ p: 1 }}>
-                              <React.Fragment>
-                                <Typography variant={'h4'}>Event Title: </Typography>
-                                <Typography variant={'h5'}>
-                                  {obj.EventDescription}
-                                </Typography>
-                                <Typography>Standards: </Typography>
-                                <span>{obj.Standards}</span>
-                              </React.Fragment>
-                            </Box>
+                <Box width={'100%'} display={"flex"} justifyContent={"space-between"} alignItems={"center"} pr={2}>
+                  <Typography variant={"h4"} sx={{ width: '33%', flexShrink: 0 }}>
+                    {event}
+                  </Typography>
+                  <Badge color={"primary"} badgeContent={USGetAllEvents
+                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event).length}></Badge>
+                </Box>
+              </AccordionSummary>
+              <Divider />
+              <AccordionDetails>
+                <Grid container>
+                  {USGetAllEvents
+                    .filter(item => getMonthYearSplitFormatted(item.StartDateAndTime) == event)
+                    .map((obj, index) => (
+                      <Grid item xs={3} key={index} sx={{ p: 1, height: '100%' }}>
+                        <Box sx={{ border: `1px solid ${grey[400]}`, borderRadius: (theme) => theme.general.borderRadius }}>
+                          <Typography variant={'h4'} sx={{ p: 1, background: (theme) => theme.palette.secondary.main, color: 'white' }}>{obj.DisplayDate}</Typography>
+                          <Box sx={{ p: 1 }}>
+                            <React.Fragment>
+                              <Typography variant={'h4'}>Event Title: </Typography>
+                              <Typography variant={'h5'}>
+                                {obj.EventDescription}
+                              </Typography>
+                              <Typography>Standards: </Typography>
+                              <span>{obj.Standards}</span>
+                            </React.Fragment>
                           </Box>
-                        </Grid>
-                      ))}
-                  </Grid >
-                </AccordionDetails>
-              </Accordion>
-            ))
-          ) : (
+                        </Box>
+                      </Grid>
+                    ))}
+                </Grid >
+              </AccordionDetails>
+            </Accordion>
+          ))
+        ) : (
 
-            <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-              <b>No Event Found.</b>
-            </Typography>
+          <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 4, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Event Found.</b>
+          </Typography>
 
-          )}
-        </Box>
+        )}
       </Box>
-
-    </Container >
+    </Box >
   );
 };
 

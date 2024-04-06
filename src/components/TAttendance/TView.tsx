@@ -1,5 +1,5 @@
 import {
-  Container,
+  Box,
   FormControl,
   Grid,
   NativeSelect,
@@ -109,7 +109,7 @@ const TView = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'View Attendance'} subheading={''} />
 
       <Grid container direction="row">
@@ -227,7 +227,7 @@ const TView = () => {
           );
         })
       )}
-    </Container>
+    </Box>
   );
 };
 

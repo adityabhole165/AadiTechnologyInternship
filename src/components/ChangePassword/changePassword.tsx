@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import Form from 'src/libraries/form/form3';
 import PageHeader from 'src/libraries/heading/PageHeader';
@@ -10,10 +10,10 @@ function ChangePassword() {
   const Note: string =
     'Capitalization Matters! Min 6 characters, Max 15 characters. Password should be combination of at least one character, digit & special character.';
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Change Password'} subheading={''} />
       <Form />
-    </Container>
+    </Box>
   );
 }
 

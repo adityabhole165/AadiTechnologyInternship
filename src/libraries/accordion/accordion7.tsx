@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Card, Container, Grid, ListItem, ListItemText } from '@mui/material';
+import { Box, Card, Grid, ListItem, ListItemText } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -27,7 +27,7 @@ function Accordion7({ Data, additional, AddLectures }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Accordion
           className={classes.background}
           expanded={expanded === 'panel1'}
@@ -186,7 +186,7 @@ function Accordion7({ Data, additional, AddLectures }) {
             </>
           </AccordionDetails>
         </Accordion>
-      </Container>
+      </Box>
     </>
   );
 }

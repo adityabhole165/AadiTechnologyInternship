@@ -2,7 +2,6 @@ import {
   Box,
   Card,
   Checkbox,
-  Container,
   Grid,
   Hidden,
   TextField,
@@ -102,7 +101,7 @@ const EmailSettings = () => {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <Hidden smUp>
         <BackButton FromRoute={'/MessageCenter/msgCenter'} />
       </Hidden>
@@ -162,7 +161,7 @@ const EmailSettings = () => {
           </ButtonPrimary>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

@@ -16,7 +16,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import { IconButton, keyframes, useTheme } from '@mui/material';
+import { Button, keyframes, useTheme } from '@mui/material';
 import { Link } from 'react-router-dom';
 import 'src/assets/style/Homework_Calci.css';
 import 'src/assets/style/student-cal.css';
@@ -64,7 +64,7 @@ function Card3({
           style={{ textDecoration: 'none' }}
         >
           <IconCard>
-            <IconButton>
+            <Button sx={{ width: '100%', height: '100%' }}>
               <IconCardSize>
                 {icon === 27 && (
                   <img
@@ -75,7 +75,7 @@ function Card3({
                 )}
                 <Text1>{text1}</Text1>
               </IconCardSize>
-            </IconButton>
+            </Button>
           </IconCard>
         </a>
       ) : (
@@ -84,7 +84,7 @@ function Card3({
           style={{ textDecoration: 'none' }}
         >
           <IconCard>
-            <IconButton>
+            <Button sx={{ width: '100%', height: '100%' }}>
               <IconCardSize>
                 {icon === 1 && (
                   <AssignmentIcon
@@ -378,7 +378,7 @@ function Card3({
                 <Text1>{text1}</Text1>
                 <Text2>{text2}</Text2>
               </IconCardSize>
-            </IconButton>
+            </Button>
           </IconCard>
         </Link>
       )}

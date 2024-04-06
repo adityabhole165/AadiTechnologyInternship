@@ -3,7 +3,7 @@ import ContentCopy from '@mui/icons-material/ContentCopy';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Container, Grid, IconButton, Table, TableBody, TableHead, TableRow, TextField, Tooltip, Typography, alpha } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Grid, IconButton, Table, TableBody, TableCell, TableHead, TableRow, TextField, Tooltip, Typography, alpha } from '@mui/material';
 import { blue, green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -14,7 +14,6 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import { GetAddOrEditLessonPlanDetails, classnamelist } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
-import { HeaderStyledCell, StyledCell } from './AddLessonPlan';
 
 export const AddLessonPlan = () => {
     const dispatch = useDispatch();
@@ -120,7 +119,7 @@ export const AddLessonPlan = () => {
     const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
     console.log("AddOrEditLessonPlanDetails", AddOrEditLessonPlanDetails);
 
-    const SaveLessonPlan = useSelector((state: RootState) => state.addlessonplan.SaveLessonPlanmsg);
+    const SaveLessonPlan = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
     console.log("SaveLessonPlan", SaveLessonPlan);
 
 
@@ -140,7 +139,7 @@ export const AddLessonPlan = () => {
     useEffect(() => {
         if (SaveLessonPlan !== '') {
             toast.success(SaveLessonPlan);
-            dispatch(SaveLessonPlan());
+            dispatch(SaveLessonPlan); // Remove the parentheses after SaveLessonPlan
         }
     }, [SaveLessonPlan]);
 
@@ -160,7 +159,7 @@ export const AddLessonPlan = () => {
     };
 
     return (
-        <Container maxWidth="xl">
+        <Box sx={{ px: 2 }} maxWidth="xl">
             <CommonPageHeader
                 navLinks={[
                     {
@@ -298,25 +297,25 @@ export const AddLessonPlan = () => {
                                     <Table>
                                         <TableHead>
                                             <TableRow>
-                                                <HeaderStyledCell width={10}></HeaderStyledCell>
-                                                <HeaderStyledCell>
+                                                <TableCell width={10}></TableCell>
+                                                <TableCell>
                                                     {lesson.lessonName}
-                                                </HeaderStyledCell>
+                                                </TableCell>
                                             </TableRow>
                                             <TableRow>
-                                                <StyledCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</StyledCell>
-                                                <StyledCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
+                                                <TableCell width={10} sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>Sr.No.</TableCell>
+                                                <TableCell sx={{ py: 1, background: (theme) => alpha(theme.palette.primary.main, 0.2) }}>
                                                     Parameter
-                                                </StyledCell>
+                                                </TableCell>
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
                                             {lesson.planDetails.map((plan, index) => (
                                                 <TableRow key={index}>
-                                                    <StyledCell sx={{ p: 1, verticalAlign: 'top' }}>
+                                                    <TableCell sx={{ p: 1, verticalAlign: 'top' }}>
                                                         {index + 1}
-                                                    </StyledCell>
-                                                    <StyledCell sx={{ p: 1 }}>
+                                                    </TableCell>
+                                                    <TableCell sx={{ p: 1 }}>
                                                         <TextField
                                                             label={plan.label}
                                                             value={plan.value}
@@ -326,21 +325,21 @@ export const AddLessonPlan = () => {
                                                         {plan.subPlanDetails && plan.subPlanDetails.length > 0 && plan.subPlanDetails.map((subPlan, subIndex) => (
                                                             <Table key={subIndex}>
                                                                 <TableRow>
-                                                                    <StyledCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
+                                                                    <TableCell width={20} sx={{ py: 1, verticalAlign: 'top' }}>
                                                                         {index + 1}.{subIndex + 1}
-                                                                    </StyledCell>
-                                                                    <StyledCell sx={{ p: 1 }}>
+                                                                    </TableCell>
+                                                                    <TableCell sx={{ p: 1 }}>
                                                                         <TextField
                                                                             label={subPlan.label}
                                                                             value={subPlan.value}
                                                                             fullWidth
                                                                             multiline
                                                                             rows={4} />
-                                                                    </StyledCell>
+                                                                    </TableCell>
                                                                 </TableRow>
                                                             </Table>
                                                         ))}
-                                                    </StyledCell>
+                                                    </TableCell>
                                                 </TableRow>
                                             ))}
                                         </TableBody>
@@ -564,6 +563,6 @@ export const AddLessonPlan = () => {
                 BACK
               </ButtonPrimary>
             </div> */}
-        </Container>
+        </Box>
     );
 };

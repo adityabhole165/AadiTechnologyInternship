@@ -7,20 +7,20 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
-  IGetClassPassFailDetailsForTestBody,
-  IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
-  IGetPrePrimaryProgressSheetStatusBody,
-  IPublishUnpublishExamResultBody
+    IGetClassPassFailDetailsForTestBody,
+    IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
+    IGetPrePrimaryProgressSheetStatusBody,
+    IPublishUnpublishExamResultBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList from 'src/libraries/list/DynamicList';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-  getClassPassFailDetailsForTest,
-  getClassTeachers, getClasswiseExam,
-  getProgressSheetStatus,
-  getPublishUnpublishExam, resetPublishUnpublishExams
+    getClassPassFailDetailsForTest,
+    getClassTeachers, getClasswiseExam,
+    getProgressSheetStatus,
+    getPublishUnpublishExam, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -333,7 +333,7 @@ const ExamResultBase = () => {
     return returnVal
   }
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' }
@@ -449,7 +449,7 @@ const ExamResultBase = () => {
           Termwise Height-Weight
         </Button>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   FormControl,
   Grid,
   MenuItem,
@@ -77,7 +76,7 @@ function VideoGallary() {
   return (
     <>
       <PageHeader heading={' Video Gallery'} subheading={''} />
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grid container spacing={2} sx={{ mb: 2 }}>
           <Grid item xs={6}>
             <Box>
@@ -113,7 +112,7 @@ function VideoGallary() {
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
 
       {VideoList.length === 0 ? (
         <ErrorMessages Error={'No records found'} />

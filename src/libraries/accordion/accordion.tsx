@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Container, Grow, useTheme } from '@mui/material';
+import { Box, Grow, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -38,7 +38,7 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
 
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '1 1 1' }}
@@ -67,7 +67,7 @@ function ControlledAccordions({ Days, Data, index, Collapse, expand }) {
             </AccordionDetails>
           </Accordion>
         </Grow>
-      </Container>
+      </Box>
     </div>
   );
 }

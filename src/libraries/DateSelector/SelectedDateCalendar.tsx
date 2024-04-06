@@ -1,6 +1,6 @@
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-import { Container, Grid, IconButton } from '@mui/material';
+import { Box, Grid, IconButton } from '@mui/material';
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeworkCard from 'src/libraries/card/HomeworkCard';
@@ -104,7 +104,7 @@ const SelectedDateCalendar = ({
   // }
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         {errDates !== '' ? (
           <ErrorDetail>{errDates}</ErrorDetail>
         ) : (
@@ -128,7 +128,7 @@ const SelectedDateCalendar = ({
             </Grid>
           </Grid>
         )}
-      </Container>
+      </Box>
     </div>
   );
 };

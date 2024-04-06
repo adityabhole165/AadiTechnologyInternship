@@ -1,4 +1,4 @@
-import { Container, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { Styles } from 'src/assets/style/student-style';
 
 function DashboardError({ Error }) {
@@ -6,9 +6,9 @@ function DashboardError({ Error }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Typography className={classes.errorMessage}>{Error}</Typography>
-      </Container>
+      </Box>
     </>
   );
 }

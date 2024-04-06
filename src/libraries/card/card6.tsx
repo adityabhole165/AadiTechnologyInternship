@@ -3,7 +3,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
   Card,
-  Container,
   Divider,
   Fab,
   Typography,
@@ -33,7 +32,7 @@ function Card6({ Content, FileName, Name }) {
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`,
@@ -118,7 +117,7 @@ function Card6({ Content, FileName, Name }) {
             </Typography>
           </Box>
         </Card>
-      </Container>
+      </Box>
     </>
   );
 }

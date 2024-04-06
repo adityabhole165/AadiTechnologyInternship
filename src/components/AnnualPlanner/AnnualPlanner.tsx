@@ -8,7 +8,6 @@ import VisibilityTwoToneIcon from '@mui/icons-material/VisibilityTwoTone';
 import {
   Box,
   Button,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -374,7 +373,7 @@ function AnnualPlanner() {
         <UpcomingEvent />
       ) : (
         <>
-          <Container sx={{ mt: 4 }} maxWidth={'xl'}>
+          <Box sx={{ px: 2 }} maxWidth={'xl'}>
             <CommonPageHeader
               navLinks={[
                 {
@@ -472,7 +471,7 @@ function AnnualPlanner() {
                 ArrayList={HeaderPublish}
               />
             </Box>
-          </Container>
+          </Box>
         </>
       )}
       {openAnnualPlannerDialog && (

@@ -1,4 +1,4 @@
-import { Button, Container, TextField, Typography } from '@mui/material';
+import { Box, Button, TextField, Typography } from '@mui/material';
 import moment from 'moment';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -119,21 +119,21 @@ function TeacherAttendance() {
     setStandardId(value);
   };
 
-  const changeText = () => {};
+  const changeText = () => { };
 
   return (
     <>
       <PageHeader heading={'Attendance'} subheading={''} />
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Dropdown Array={StandardAttendance} handleChange={handleChange} />
-      </Container>
+      </Box>
       <Buttons
         date={date.selectedDate}
         PrevDate={getPreviousDate}
         NextDate={getNextDate}
         Close={undefined}
       />
-      <Container>
+      <Box sx={{ px: 2 }}>
         <TextField
           fullWidth
           id="standard-basic"
@@ -157,7 +157,7 @@ function TeacherAttendance() {
         >
           Save
         </Button>
-      </Container>
+      </Box>
       {StandardId != '0' ? (
         <>{/* <List26 Dataa={RollNoList} getAbsetNumber={handleClick} /> */}</>
       ) : null}

@@ -1,11 +1,11 @@
-import { Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import CardDahContainer from 'src/librariesWeb/CardDashContainer';
 import CardDashContainer3 from 'src/librariesWeb/CardDashContainer3';
 import CardDashContainer2 from 'src/librariesWeb/CardDashContanier2';
 
 function DashBoard() {
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <Grid container spacing={2} mt={2}>
         <Grid item md={12} lg={6}>
           <CardDahContainer />
@@ -17,7 +17,7 @@ function DashBoard() {
           <CardDashContainer3 />
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 }
 

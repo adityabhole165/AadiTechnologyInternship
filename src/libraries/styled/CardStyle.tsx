@@ -250,29 +250,28 @@ export const ListStyle = styled(Box)(
   ({ theme, color }) => `
 
 //  background: ${theme.colors.gradients.listColor}; 
- background: ${
-   color === 'primary'
-     ? theme.colors.gradients.listColor
-     : color === 'secondary'
-     ? theme.colors.gradients.HighlightedlistColor
-     : color === 'warning'
-     ? theme.colors.gradients.selectedlistColor
-     : color === 'info'
-     ? theme.colors.gradients.purple1
-     : color === 'success'
-     ? theme.colors.gradients.orange3
-     : color === 'error'
-     ? theme.colors.gradients.pageBackground
-     : color === 'red'
-     ? theme.colors.gradients.red
-     : color === 'green2'
-     ? theme.colors.gradients.green2
-     : color === 'green1'
-     ? theme.colors.gradients.green1
-     : color === 'pink2'
-     ? theme.colors.gradients.pink2
-     : theme.colors.gradients.listColor
- };
+ background: ${color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+          ? theme.colors.gradients.selectedlistColor
+          : color === 'info'
+            ? theme.colors.gradients.purple1
+            : color === 'success'
+              ? theme.colors.gradients.orange3
+              : color === 'error'
+                ? theme.colors.gradients.pageBackground
+                : color === 'red'
+                  ? theme.colors.gradients.red
+                  : color === 'green2'
+                    ? theme.colors.gradients.green2
+                    : color === 'green1'
+                      ? theme.colors.gradients.green1
+                      : color === 'pink2'
+                        ? theme.colors.gradients.pink2
+                        : theme.colors.gradients.listColor
+    };
     position:relative;
  padding:8px;
 border-radius: 6px;
@@ -285,19 +284,18 @@ export const ListStyleA = styled(Box)(
   ({ theme, color }) => `
 
 //  background: ${theme.colors.gradients.listColor}; 
- background: ${
-   color === 'primary'
-     ? theme.colors.gradients.listColor
-     : color === 'secondary'
-     ? theme.colors.gradients.HighlightedlistColor
-     : color === 'warning'
-     ? theme.colors.gradients.selectedlistColor
-     : color === 'info'
-     ? theme.colors.gradients.pageBackground
-     : color === 'red'
-     ? theme.colors.gradients.red
-     : theme.colors.gradients.listColor
- };
+ background: ${color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+          ? theme.colors.gradients.selectedlistColor
+          : color === 'info'
+            ? theme.colors.gradients.pageBackground
+            : color === 'red'
+              ? theme.colors.gradients.red
+              : theme.colors.gradients.listColor
+    };
     position:relative;
  padding:15px;
 border-radius: 6px;
@@ -307,17 +305,16 @@ border-radius: 6px;
 );
 export const NewStyle = styled(Box)(
   ({ theme, color }) => `
-  background: ${
-    color === 'primary'
+  background: ${color === 'primary'
       ? theme.colors.gradients.listColor
       : color === 'secondary'
-      ? theme.colors.gradients.HighlightedlistColor
-      : color === 'warning'
-      ? theme.colors.gradients.selectedlistColor
-      : color === 'info'
-      ? theme.colors.gradients.pageBackground
-      : theme.colors.gradients.listColor
-  };
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+          ? theme.colors.gradients.selectedlistColor
+          : color === 'info'
+            ? theme.colors.gradients.pageBackground
+            : theme.colors.gradients.listColor
+    };
   position:relative;
   padding:1px;
   border-radius: 6px;
@@ -326,17 +323,16 @@ export const NewStyle = styled(Box)(
 );
 export const ListStyle1 = styled(Box)(
   ({ theme, color }) => `
- background: ${
-   color === 'primary'
-     ? theme.colors.gradients.listColor
-     : color === 'secondary'
-     ? theme.colors.gradients.HighlightedlistColor
-     : color === 'warning'
-     ? theme.colors.gradients.selectedlistColor
-     : color === 'info'
-     ? theme.colors.gradients.pageBackground
-     : theme.colors.gradients.listColor
- };
+ background: ${color === 'primary'
+      ? theme.colors.gradients.listColor
+      : color === 'secondary'
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+          ? theme.colors.gradients.selectedlistColor
+          : color === 'info'
+            ? theme.colors.gradients.pageBackground
+            : theme.colors.gradients.listColor
+    };
   position:relative;
   padding:10px;
    
@@ -345,17 +341,16 @@ export const ListStyle1 = styled(Box)(
 
 export const TabStyle = styled(Box)(
   ({ theme, color }) => `
-  background: ${
-    color === 'primary'
+  background: ${color === 'primary'
       ? theme.colors.gradients.listColor
       : color === 'secondary'
-      ? theme.colors.gradients.HighlightedlistColor
-      : color === 'warning'
-      ? theme.colors.gradients.selectedlistColor
-      : color === 'info'
-      ? theme.colors.gradients.pageBackground
-      : theme.colors.gradients.listColor
-  };
+        ? theme.colors.gradients.HighlightedlistColor
+        : color === 'warning'
+          ? theme.colors.gradients.selectedlistColor
+          : color === 'info'
+            ? theme.colors.gradients.pageBackground
+            : theme.colors.gradients.listColor
+    };
   position:relative;
   padding:1px;
   border-radius: 6px;

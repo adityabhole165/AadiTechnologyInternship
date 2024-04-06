@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Card, Container, Grid, useTheme } from '@mui/material';
+import { Box, Card, Grid, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -20,7 +20,7 @@ function Card15({ FeeAmount }) {
 
   return (
     <>
-      <Container sx={{ mt: 1, mb: 5, pb: '5px', pl: '-8px' }}>
+      <Box sx={{ px: 2 }}>
         <Accordion className={classes.background}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon sx={{ color: 'black' }} />}
@@ -161,7 +161,7 @@ function Card15({ FeeAmount }) {
             </Card>
           </AccordionDetails>
         </Accordion>
-      </Container>
+      </Box>
     </>
   );
 }

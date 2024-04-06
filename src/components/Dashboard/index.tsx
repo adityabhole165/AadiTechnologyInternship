@@ -173,9 +173,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -191,9 +191,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -202,9 +202,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -216,9 +216,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -236,9 +236,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -251,9 +251,9 @@ function LandingPage() {
       return ModulesPermission.some((f) => {
         return (
           f.ModuleName ===
-            (el.ModulesPermission === undefined
-              ? f.ModuleName
-              : el.ModulesPermission) &&
+          (el.ModulesPermission === undefined
+            ? f.ModuleName
+            : el.ModulesPermission) &&
           (el.ModulesPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -284,9 +284,9 @@ function LandingPage() {
       return GetScreensAccessPermissions.some((f) => {
         return (
           f.ScreenName ===
-            (el.ScreenPermission === undefined
-              ? f.ScreenName
-              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) &&
           (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -295,9 +295,9 @@ function LandingPage() {
       return GetScreensAccessPermissions.some((f) => {
         return (
           f.ScreenName ===
-            (el.ScreenPermission === undefined
-              ? f.ScreenName
-              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) &&
           (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -309,9 +309,9 @@ function LandingPage() {
       return GetScreensAccessPermissions.some((f) => {
         return (
           f.ScreenName ===
-            (el.ScreenPermission === undefined
-              ? f.ScreenName
-              : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) &&
           (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -323,19 +323,19 @@ function LandingPage() {
           f.IsFullAccess === 'N'
           ? false
           : f.ScreenName ===
-              (el.ScreenPermission === undefined
-                ? f.ScreenName
-                : el.ScreenPermission) &&
-              (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
+          (el.ScreenPermission === undefined
+            ? f.ScreenName
+            : el.ScreenPermission) &&
+          (el.ScreenPermission === undefined ? true : f.IsEnabled === true);
       });
     });
     items3 = DashboardData.Teacher.items3.filter((el) => {
       return GetScreensAccessPermissions.some((f) => {
         return (
           f.ScreenName.replace(/ /g, '') ===
-            (el.ScreenPermission === undefined
-              ? f.ScreenName.replace(/ /g, '')
-              : el.ScreenPermission.replace(/ /g, '')) &&
+          (el.ScreenPermission === undefined
+            ? f.ScreenName.replace(/ /g, '')
+            : el.ScreenPermission.replace(/ /g, '')) &&
           (el.ScreenPermission === undefined ? true : f.IsEnabled === true)
         );
       });
@@ -346,8 +346,8 @@ function LandingPage() {
     RoleId === '3'
       ? 'Student'
       : 'Teacher' && RoleId === '1'
-      ? 'Communication'
-      : 'Teacher';
+        ? 'Communication'
+        : 'Teacher';
   let header3 =
     RoleId === '6' || RoleId === '2' ? 'Communication' : 'Exam & Communication';
   let header4 = RoleId === '1' && 'Communication';

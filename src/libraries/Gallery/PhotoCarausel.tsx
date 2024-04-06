@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Box } from '@mui/system';
 import PhotoCard from '../card/PhotoCard';
 import PrevNextNav from '../card/PrevNextNav';
@@ -26,7 +26,7 @@ const PhotoCarausel = ({
           ></PrevNextNav>
         </Grid>
         <Grid item xs={12}>
-          <Container fixed>
+          <Box sx={{ px: 2 }} fixed>
             <Box
               justifyContent="center"
               display="flex"
@@ -35,7 +35,7 @@ const PhotoCarausel = ({
             >
               <PhotoCard item={item}></PhotoCard>
             </Box>
-          </Container>
+          </Box>
         </Grid>
         <Grid
           item

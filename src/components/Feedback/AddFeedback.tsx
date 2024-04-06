@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Fade,
   Grid,
   TextField,
@@ -52,8 +51,8 @@ const AddFeedback = () => {
   const note = [
     'Dear User,',
     'Thank you for using Software for ' +
-      SchoolName +
-      '. You are a valued user, and we are committed to providing the best possible services that will fulfill the need of our users. Your valuable feedback is very important to us which encourage gets us to serve you better! If you have any suggestions related to school or software, queries, or even a testimonial you would like to share, please submit them below.'
+    SchoolName +
+    '. You are a valued user, and we are committed to providing the best possible services that will fulfill the need of our users. Your valuable feedback is very important to us which encourage gets us to serve you better! If you have any suggestions related to school or software, queries, or even a testimonial you would like to share, please submit them below.'
   ];
 
   const ClickDropdown = (value) => {
@@ -138,7 +137,7 @@ const AddFeedback = () => {
     <>
       <PageHeader heading={'Add Feedback'} subheading={''} />
       <BackButton FromRoute={'/Student/Feedback'} />
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Fade in={true} {...(true ? { timeout: 1500 } : {})}>
           <ListStyle>
             <Note NoteDetail={note} />
@@ -200,10 +199,10 @@ const AddFeedback = () => {
                 aria-label="empty textarea"
                 placeholder="Comments"
                 minRows={4}
-                style={{ width: '100%', marginTop: '5px' }}
-                // nonce={undefined}
-                // onResize={undefined}
-                // onResizeCapture={undefined}
+                style={{ width: '100%', marginTop: '5px' }} nonce={undefined}
+                onResize={null} onResizeCapture={undefined}              // nonce={undefined}
+              // onResize={undefined}
+              // onResizeCapture={undefined}
               />
               <Box sx={{ mt: '3px' }}>
                 {' '}
@@ -236,7 +235,7 @@ const AddFeedback = () => {
             </form>
           </ListStyle>
         </Fade>
-      </Container>
+      </Box>
     </>
   );
 };

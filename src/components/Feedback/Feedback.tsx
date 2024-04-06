@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -49,7 +49,7 @@ function Feedback() {
     navigate(`/${location.pathname.split('/')[1]}/Student/AddFeedback`);
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <div ref={myRef}></div>
       <PageHeader heading={'Feedback'} subheading={''} />
       <ButtonPrimary
@@ -65,7 +65,7 @@ function Feedback() {
       ) : (
         <CardListText3 itemList={Feedback} executeScroll={executeScroll} />
       )}
-    </Container>
+    </Box>
   );
 }
 

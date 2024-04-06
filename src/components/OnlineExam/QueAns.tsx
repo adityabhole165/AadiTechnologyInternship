@@ -1,5 +1,4 @@
 import { Avatar, Box, Card, Grid, Stack, Typography } from '@mui/material';
-import { Container } from '@mui/system';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -73,9 +72,8 @@ const QueAns = () => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
     const remainingSeconds = seconds % 60;
-    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${
-      remainingSeconds < 10 ? '0' : ''
-    }${remainingSeconds}`;
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}:${remainingSeconds < 10 ? '0' : ''
+      }${remainingSeconds}`;
   };
   const OutofMarks = itemlist.map((item) => {
     return { AddMarks: item.Parent };
@@ -278,7 +276,7 @@ const QueAns = () => {
   return (
     <>
       <PageHeader heading={'Online Exam'} subheading={''} />
-      <Container>
+      <Box sx={{ px: 2 }}>
         {GetAllAnswerQueListtt.map((item, i) => {
           return (
             item.Parent.IsExamSubmitted == true && (
@@ -323,7 +321,7 @@ const QueAns = () => {
           </Stack>
           <Grid container spacing={1} sx={{ mt: '-20px' }} p={1}>
             <Grid item xs={6}>
-              <Container>
+              <Box sx={{ px: 2 }}>
                 <ButtonPrimary
                   fullWidth
                   onClick={() => {
@@ -332,10 +330,10 @@ const QueAns = () => {
                 >
                   Previous
                 </ButtonPrimary>
-              </Container>
+              </Box>
             </Grid>
             <Grid item xs={6}>
-              <Container>
+              <Box sx={{ px: 2 }}>
                 <ButtonPrimary
                   fullWidth
                   onClick={() => {
@@ -344,7 +342,7 @@ const QueAns = () => {
                 >
                   Next
                 </ButtonPrimary>
-              </Container>
+              </Box>
             </Grid>
           </Grid>
 
@@ -433,28 +431,28 @@ const QueAns = () => {
                 <>
                   <Grid container spacing={1} sx={{ mt: '-13px' }} p={1}></Grid>
                   <Grid item xs={6}>
-                    <Container>
+                    <Box sx={{ px: 2 }}>
                       <ButtonPrimary fullWidth onClick={SaveExam}>
                         Save
                       </ButtonPrimary>
-                    </Container>
+                    </Box>
                   </Grid>
 
                   <Grid item xs={6}>
-                    <Container>
+                    <Box sx={{ px: 2 }}>
                       {currentIndex == maxIndex && (
                         <ButtonPrimary fullWidth onClick={ClickSubmit}>
                           Submit
                         </ButtonPrimary>
                       )}
-                    </Container>
+                    </Box>
                   </Grid>
                 </>
               </Grid>
             </>
           )}
         </Card>
-      </Container>
+      </Box>
     </>
   );
 };

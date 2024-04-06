@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -210,7 +210,7 @@ const AnnualPlannerBase = () => {
     setEventType(value)
   }
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <AnnualPlannerHeader />
       <Box sx={{ backgroundColor: 'white' }}>
         <CalendarAnnualPlanner
@@ -225,7 +225,7 @@ const AnnualPlannerBase = () => {
           ClickEventType={ClickEventType}
         />
       </Box>
-    </Container>
+    </Box>
   );
 };
 

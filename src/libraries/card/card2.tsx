@@ -1,4 +1,4 @@
-import { Container, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { Styles } from 'src/assets/style/student-style';
 import {
@@ -30,7 +30,7 @@ function Card2({
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <ListStyle>
           <BoxWrapper>
             <CardDetail1>{ViewDetail.Title}</CardDetail1>
@@ -58,7 +58,7 @@ function Card2({
             <CardDetail2>{Description}</CardDetail2>
           </BoxWrapper>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

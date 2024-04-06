@@ -1,4 +1,4 @@
-import { Container, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
@@ -26,7 +26,7 @@ function Card25({ ViewDetail, From, To, Date, Text, FromURL = 'Received' }) {
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <BackButton FromRoute={'/SMSCenter/smsCenter/' + FromURL} />
         <ListStyle
           sx={{
@@ -50,7 +50,7 @@ function Card25({ ViewDetail, From, To, Date, Text, FromURL = 'Received' }) {
             <CardDetail2>{Text}</CardDetail2>
           </BoxWrapper>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

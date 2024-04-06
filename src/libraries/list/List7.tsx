@@ -1,7 +1,6 @@
 import {
   Box,
   Card,
-  Container,
   List,
   Typography,
   useTheme
@@ -20,7 +19,7 @@ function List7({ title, GetMsg }) {
   const classes = Styles();
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Card sx={{ boxShadow: '6px 4px 5px grey !important' }}>
         <List
           sx={{
@@ -62,7 +61,7 @@ function List7({ title, GetMsg }) {
           );
         })}
       </Card>
-    </Container>
+    </Box>
   );
 }
 

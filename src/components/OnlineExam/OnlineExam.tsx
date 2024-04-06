@@ -1,4 +1,4 @@
-import Container from '@mui/material/Container';
+import { Box } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import { useEffect, useState } from 'react';
@@ -66,7 +66,7 @@ const onlineExam = () => {
     }
   }, [examid]);
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Online Exam Schedule'} subheading={''} />
       {OnlineExamList.length === 0 ? (
         <ErrorMessages Error={'No exam has been scheduled'} />
@@ -97,8 +97,7 @@ const onlineExam = () => {
           <>
             <RouterLink
               to={
-                `/${
-                  location.pathname.split('/')[1]
+                `/${location.pathname.split('/')[1]
                 }/Student/onlineExamDetails/` +
                 subjectList.Exam_Id +
                 '/' +
@@ -124,7 +123,7 @@ const onlineExam = () => {
           </>
         );
       })}
-    </Container>
+    </Box>
   );
 };
 

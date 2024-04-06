@@ -4,7 +4,6 @@ import WatchLaterTwoToneIcon from '@mui/icons-material/WatchLaterTwoTone';
 import {
   Box,
   Card,
-  Container,
   IconButton,
   List,
   Typography,
@@ -30,7 +29,7 @@ function List8({ name, text, Datee }) {
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card>
           <List
             sx={{
@@ -77,7 +76,7 @@ function List8({ name, text, Datee }) {
             </Box>
           </List>
         </Card>
-      </Container>
+      </Box>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router';
@@ -119,7 +119,7 @@ const StandardToppers = () => {
   const clickSubjectDropdownST = (value) => {
     setSubjectST(value);
   };
-  const ClickItemST = () => {};
+  const ClickItemST = () => { };
 
   //
 
@@ -127,7 +127,7 @@ const StandardToppers = () => {
     setRadioBtnST(value);
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading="StandardToppers" />
       <RadioButton1
         Array={RadioList}
@@ -220,16 +220,16 @@ const StandardToppers = () => {
                 {!(i % 3) && (
                   <Grid container item xs={12} justifyContent="center">
                     {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                    {/* <Container> */}
+                    {/* <Box sx={{ px: 2 }}> */}
                     {item.Subject}
-                    {/* </Container> */}
+                    {/* </Box> */}
                   </Grid>
                 )}
 
                 <Grid item xs={4} xl={4} justifyContent="center">
-                  <Container>
+                  <Box sx={{ px: 2 }}>
                     <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                  </Container>
+                  </Box>
                   <br></br>
                   <ToppersList headers={HeaderList1ST} data={item.Students} />
                 </Grid>
@@ -238,7 +238,7 @@ const StandardToppers = () => {
           })}
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 export default StandardToppers;

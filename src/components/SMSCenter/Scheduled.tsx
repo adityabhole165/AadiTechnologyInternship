@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
@@ -40,7 +40,7 @@ function Scheduled() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <br />
         <DotLegend1>
           <DotLegendStyled1
@@ -50,7 +50,7 @@ function Scheduled() {
 
           <CardDetail7>Upcoming Scheduled Messages</CardDetail7>
         </DotLegend1>
-      </Container>
+      </Box>
 
       {list == undefined ? null : list.length == 0 ? (
         <ErrorMessages Error={'No Message Has Been Scheduled'} />
@@ -60,8 +60,7 @@ function Scheduled() {
             <RouterLink
               key={i}
               to={
-                `/${
-                  location.pathname.split('/')[1]
+                `/${location.pathname.split('/')[1]
                 }/SMSCenter/ViewScheduledSMS/` +
                 item.DetailsId +
                 `/Scheduled`

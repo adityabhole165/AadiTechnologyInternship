@@ -392,7 +392,7 @@ const ExamResultToppers = () => {
 
     const ClickItem = () => { };
     return (
-        <Container>
+        <Box sx={{ px: 2 }}>
 
             <CommonPageHeader
                 navLinks={[
@@ -499,7 +499,7 @@ const ExamResultToppers = () => {
             </Box> */}
 
             {radioBtn === '1' ? (
-                <Container>
+                <Box sx={{ px: 2 }}>
                     <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
                         <Card variant="outlined" sx={{ marginTop: 2 }}>
                             <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
@@ -527,18 +527,18 @@ const ExamResultToppers = () => {
                                         {!(i % 3) && (
                                             <Grid container item xs={12} justifyContent="center">
                                                 {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                                {/* <Container> */}
+                                                {/* <Box sx={{ px: 2 }}> */}
                                                 <Typography variant={'h3'} mb={1}>
                                                     {item.Subject}
                                                 </Typography>
-                                                {/* </Container> */}
+                                                {/* </Box> */}
                                             </Grid>
                                         )}
 
                                         <Grid item xs={4} xl={4} justifyContent="center">
-                                            <Container>
+                                            <Box sx={{ px: 2 }}>
                                                 <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                                            </Container>
+                                            </Box>
                                             <br></br>
                                             <ToppersList
                                                 headers={HeaderList1CT}
@@ -550,9 +550,9 @@ const ExamResultToppers = () => {
                             })}
                         </Grid>
                     </Box>
-                </Container>
+                </Box>
             ) : (
-                <Container>
+                <Box sx={{ px: 2 }}>
                     <Grid item xs={4} xl={4} justifyContent="center" style={{ width: '100%' }}>
                         <Card variant="outlined" sx={{ marginTop: 2 }}>
                             <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
@@ -590,18 +590,18 @@ const ExamResultToppers = () => {
                                             {!(i % 3) && (
                                                 <Grid container item xs={12} justifyContent="center">
                                                     {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                                                    {/* <Container> */}
+                                                    {/* <Box sx={{ px: 2 }}> */}
                                                     <Typography variant={'h3'} mb={1}>
                                                         {item.Subject}
                                                     </Typography>
-                                                    {/* </Container> */}
+                                                    {/* </Box> */}
                                                 </Grid>
                                             )}
 
                                             <Grid item xs={4} xl={4} justifyContent="center">
-                                                <Container>
+                                                <Box sx={{ px: 2 }}>
                                                     <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                                                </Container>
+                                                </Box>
                                                 <br></br>
                                                 <ToppersList
                                                     headers={HeaderList1ST}
@@ -614,7 +614,7 @@ const ExamResultToppers = () => {
                             </Grid>
                         </Box>
                     </Grid>
-                </Container>
+                </Box>
             )}
             <Grid
                 container
@@ -636,7 +636,7 @@ const ExamResultToppers = () => {
                 </Grid>
             </Grid>
 
-        </Container>
+        </Box>
     );
 };
 

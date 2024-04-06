@@ -1,4 +1,4 @@
-import { Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import PropTypes from 'prop-types';
 
 Card23.propTypes = {
@@ -8,7 +8,7 @@ Card23.propTypes = {
 function Card23({ pic }) {
   return (
     <>
-      <Container sx={{ mt: '60px' }}>
+      <Box sx={{ px: 2 }}>
         <Grid container item xs={12} justifyContent="center">
           <Grid item xs={11}>
             <a>
@@ -23,7 +23,7 @@ function Card23({ pic }) {
             </a>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </>
   );
 }

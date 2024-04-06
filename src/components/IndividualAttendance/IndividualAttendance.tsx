@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
@@ -276,7 +275,7 @@ const IndividualAttendance = () => {
     dispatch(SaveStudentAttendance(SaveAttendance));
   };
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -558,7 +557,7 @@ const IndividualAttendance = () => {
           </Button>
         </DialogActions>
       </Dialog>
-    </Container>
+    </Box>
   );
 };
 export default IndividualAttendance;

@@ -1,4 +1,4 @@
-import { Card, Container, Grid, TextField } from '@mui/material';
+import { Box, Card, Grid, TextField } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -369,7 +369,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
   };
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <TextField
           fullWidth
           disabled
@@ -409,8 +409,8 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
                             RoleId === '3'
                               ? '50px'
                               : '180px' || RoleId === '2'
-                              ? '110px'
-                              : '100px'
+                                ? '110px'
+                                : '100px'
                           }
                         >
                           <ListSelect
@@ -461,7 +461,7 @@ const AddReciepents = ({ RecipientName, RecipientId, recipientListClick }) => {
             </>
           ) : null}
         </>
-      </Container>
+      </Box>
     </>
   );
 };

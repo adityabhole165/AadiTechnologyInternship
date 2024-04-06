@@ -3,7 +3,6 @@ import {
   Avatar,
   Box,
   Card,
-  Container,
   Divider,
   FormGroup,
   Grid,
@@ -27,7 +26,7 @@ function Card9({ Count, UnreadMessage, SenderPhoto }) {
   const theme = useTheme();
   const location = useLocation();
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <Card sx={{ boxShadow: '6px 4px 5px grey !important' }}>
         <List
           sx={{
@@ -62,8 +61,7 @@ function Card9({ Count, UnreadMessage, SenderPhoto }) {
                   <RouterLink
                     key={i}
                     to={
-                      `/${
-                        location.pathname.split('/')[1]
+                      `/${location.pathname.split('/')[1]
                       }/MessageCenter/viewMSg/` + items.MessageDetailsId
                     }
                     color="primary"
@@ -149,9 +147,8 @@ function Card9({ Count, UnreadMessage, SenderPhoto }) {
           }}
         >
           <RouterLink
-            to={`/${
-              location.pathname.split('/')[1]
-            }/MessageCenter/msgCenter/Inbox`}
+            to={`/${location.pathname.split('/')[1]
+              }/MessageCenter/msgCenter/Inbox`}
           >
             <Box display="flex" flexDirection="row" justifyContent="right">
               <Typography
@@ -165,7 +162,7 @@ function Card9({ Count, UnreadMessage, SenderPhoto }) {
           </RouterLink>
         </List>
       </Card>
-    </Container>
+    </Box>
   );
 }
 

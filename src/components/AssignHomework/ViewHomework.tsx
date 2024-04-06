@@ -1,7 +1,6 @@
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Container,
   Grid,
   IconButton,
   TextField,
@@ -68,7 +67,7 @@ const ViewHomework = () => {
   // };
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -139,7 +138,7 @@ const ViewHomework = () => {
           </Grid>
         </Box>
 
-      </Container>
+      </Box>
     </>
   );
 };

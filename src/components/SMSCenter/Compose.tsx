@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   FormControl,
   Grid,
   NativeSelect,
@@ -251,7 +250,7 @@ const Compose = () => {
     setCharacterCount(value.length);
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Compose SMS'} subheading={''} />
       <Box style={{ display: displayOfCompose_Page }}>
         <BackButton FromRoute={'/SMSCenter/smsCenter'} />
@@ -323,19 +322,19 @@ const Compose = () => {
                         {TemplateList == undefined || TemplateList.length == 0
                           ? null
                           : TemplateList?.map((items: GetSMSTemplates, i) => {
-                              return (
-                                <option
-                                  value={
-                                    items.registration_Number +
-                                    ',' +
-                                    items.Template
-                                  }
-                                  key={i}
-                                >
-                                  {items.Template_Name}
-                                </option>
-                              );
-                            })}
+                            return (
+                              <option
+                                value={
+                                  items.registration_Number +
+                                  ',' +
+                                  items.Template
+                                }
+                                key={i}
+                              >
+                                {items.Template_Name}
+                              </option>
+                            );
+                          })}
                       </NativeSelect>
                     }
                   </FormControl>
@@ -394,7 +393,7 @@ const Compose = () => {
           recipientListClick={RecipientsListFun}
         ></AddReciepents>
       </div>
-    </Container>
+    </Box>
   );
 };
 export default Compose;

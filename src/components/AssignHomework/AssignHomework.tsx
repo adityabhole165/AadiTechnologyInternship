@@ -3,7 +3,6 @@ import AssignmentTurnedInIcon from '@mui/icons-material/AssignmentTurnedIn';
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Container,
   IconButton,
   Tooltip,
   Typography
@@ -218,7 +217,7 @@ const AssignHomework = () => {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' }
@@ -315,7 +314,7 @@ const AssignHomework = () => {
         </Box>
       </Box>
 
-    </Container>
+    </Box>
   );
 };
 

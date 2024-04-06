@@ -10,31 +10,20 @@ export const CardHeading = styled(Typography)`
 export const CardStyle = styled(Card)`
   margin-top: 10px;
   box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+  padding: 18px;
 `;
 
 export const IconCard = styled(Box)`
-  margin-bottom: 10px;
-  margin-top: -8px;
-  margin-left: -2px;
+  box-shadow: 1px 4px 5px 2px rgba(0, 0, 0, 0.2);
+  height: 80px;
+  width: 150px;
+  border-radius: 10px;
   text-align: center;
 `;
 export const IconCardSize = styled(Box)`
-  width: 70px;
-  height: 70px;
-  @media (max-width: 320px) {
-    width: 60px;
-    height: 65px;
-  }
-  @media (max-width: 280px) {
-    width: 50px;
-    height: 55px;
-  }
-
   border-radius: 10px;
-  margin-bottom: 5px;
   text-align: center;
   text-decoration: none;
-  box-shadow: 1px 4px 5px 2px rgba(0, 0, 0, 0.3);
 `;
 
 export const Text1 = styled(Typography)`

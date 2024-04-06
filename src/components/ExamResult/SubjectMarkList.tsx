@@ -1,4 +1,4 @@
-import { Box, Container, Grid, TextField } from '@mui/material';
+import { Box, Grid, TextField } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
@@ -39,7 +39,7 @@ const SubjectMarkList = () => {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -96,7 +96,7 @@ const SubjectMarkList = () => {
           // LinkList={true}
           ClickLink={true}
         />
-      </Container>
+      </Box>
     </>
   )
 }

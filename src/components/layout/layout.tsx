@@ -14,15 +14,15 @@ import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 import {
-  Avatar,
-  Box,
-  Card,
-  CardContent,
-  CardHeader,
-  Container,
-  Grid,
-  IconButton,
-  Typography
+    Avatar,
+    Box,
+    Card,
+    CardContent,
+    CardHeader,
+    Container,
+    Grid,
+    IconButton,
+    Typography
 } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { makeStyles } from '@mui/styles';
@@ -54,7 +54,7 @@ function Card24() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card
           className={classes.card}
           sx={{
@@ -307,7 +307,7 @@ function Card24() {
             </Grid>
           </CardContent>
         </Card>
-      </Container>
+      </Box>
     </>
   );
 }

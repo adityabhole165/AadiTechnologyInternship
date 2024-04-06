@@ -1,7 +1,7 @@
 import {
+  Box,
   Card,
   CardContent,
-  Container,
   Grid,
   Typography,
   useTheme
@@ -21,7 +21,7 @@ function Card24() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card sx={{ display: 'flex', background: '#85b8bf8a', mt: 1 }}>
           <Grid container direction="row">
             <Grid
@@ -325,7 +325,7 @@ function Card24() {
           </Grid>
         </Card>
         <Card sx={{ display: 'flex', background: '#85b8bf8a', mt: 1 }}></Card>
-      </Container>
+      </Box>
     </>
   );
 }

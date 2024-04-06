@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grow,
   ToggleButton,
   ToggleButtonGroup
@@ -69,14 +68,14 @@ function TransportDetails() {
   const Map = () => {
     navigate(
       '/extended-sidebar/Student/TransportDetails/Map/' +
-        variableToPass +
-        `/` +
-        alignment
+      variableToPass +
+      `/` +
+      alignment
     );
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Transport Details'} subheading={''} />
 
       <Box
@@ -162,7 +161,7 @@ function TransportDetails() {
         </Box>
       </Grow>
       {/* <Map/> */}
-    </Container>
+    </Box>
   );
 }
 

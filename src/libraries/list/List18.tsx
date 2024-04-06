@@ -1,5 +1,5 @@
 import ScheduleIcon from '@mui/icons-material/Schedule';
-import { Container, Grow, useTheme } from '@mui/material';
+import { Box, Grow, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Styles } from 'src/assets/style/student-style';
@@ -41,7 +41,7 @@ function List18({
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Grow
           in={checked}
           style={{ transformOrigin: '0 0 1' }}
@@ -73,7 +73,7 @@ function List18({
             </CardDetail>
           </ListStyle>
         </Grow>
-      </Container>
+      </Box>
     </>
   );
 }

@@ -2,7 +2,6 @@ import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import {
   Box,
-  Container,
   IconButton,
   Tooltip,
   Typography
@@ -81,7 +80,7 @@ function SmsCenter() {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -151,7 +150,7 @@ function SmsCenter() {
             )))}
         </Box>
       </Box>
-    </Container>
+    </Box>
   );
 }
 

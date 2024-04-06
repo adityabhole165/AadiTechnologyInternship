@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Card, Container, Typography } from '@mui/material';
+import { Box, Card, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -94,7 +94,7 @@ function DailyLogs() {
 
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <BackButton FromRoute="/Student/Homework"></BackButton>
         <PageHeader heading={'Daily Logs'} subheading={''} />
         <MonthSelector
@@ -137,7 +137,7 @@ function DailyLogs() {
             )}
           </>
         )}
-      </Container>
+      </Box>
     </div>
   );
 }

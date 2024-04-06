@@ -2,7 +2,6 @@ import ReplyIcon from '@mui/icons-material/Reply';
 import {
   Box,
   Checkbox,
-  Container,
   Fab,
   FormControl,
   FormControlLabel,
@@ -331,7 +330,7 @@ function AdminTeacherRecipientsList({
 
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <span
           onClick={() => {
             displayProperty('none');
@@ -558,10 +557,10 @@ function AdminTeacherRecipientsList({
             <br></br>
           </FormControl>
         </Box>
-      </Container>
+      </Box>
 
       {(checkedTeacher || otherStaffClicked || adminStaffClicked) &&
-      nativeSelectDefault == 'none' ? (
+        nativeSelectDefault == 'none' ? (
         <h1>
           {list == undefined || list == 0 ? (
             EntireSchookIsChecked == 'selected' ? null : (

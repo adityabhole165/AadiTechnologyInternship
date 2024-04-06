@@ -1,5 +1,4 @@
 import MailOutlineIcon from '@mui/icons-material/MailOutline';
-import { Container } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -12,6 +11,7 @@ import { RootState } from 'src/store';
 import ISubjectTeacher, {
   GetSubjectTeacherResult
 } from '../../interfaces/Student/SubjectTeacher';
+import { Box } from '@mui/material';
 function SubjectTeacher() {
   const dispatch = useDispatch();
 
@@ -77,7 +77,7 @@ function SubjectTeacher() {
     };
   });
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Subject  Teachers'} subheading={''} />
 
       {ClassTeachers.map((items: GetSubjectTeacherResult, i) => (
@@ -91,7 +91,7 @@ function SubjectTeacher() {
       ) : (
         <List2 itemList={Data} clickItem={clickItem} />
       )}
-    </Container>
+    </Box>
   );
 }
 

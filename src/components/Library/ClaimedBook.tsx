@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -85,7 +85,7 @@ function ClaimedBook() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Claimed Books Details'} subheading={''} />
       <BackButton FromRoute={'/Student/Library'} />
 
@@ -118,7 +118,7 @@ function ClaimedBook() {
           );
         })
       )}
-    </Container>
+    </Box>
   );
 }
 

@@ -25,7 +25,7 @@ const Feedback = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <div
         style={{
           display: 'flex',
@@ -95,7 +95,7 @@ const Feedback = () => {
           </ButtonPrimary>
         </div>
       </div>
-    </Container>
+    </Box>
   );
 };
 

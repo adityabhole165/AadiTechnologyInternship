@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
@@ -31,7 +31,7 @@ function Comments() {
   return (
     <div>
       <BackButton FromRoute={'/Common/VideoGallery/VideoAlbum'} />
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Comments'} subheading={''} />
         {loading ? (
           <SuspenseLoader />
@@ -50,7 +50,7 @@ function Comments() {
             ))}
           </>
         )}
-      </Container>
+      </Box>
     </div>
   );
 }

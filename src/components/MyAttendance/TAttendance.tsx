@@ -4,7 +4,6 @@ import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
-  Container,
   Grid,
   IconButton,
   Stack,
@@ -512,7 +511,7 @@ const TAttendance = () => {
   }, [listAttendanceCalender, assignedDate]);
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           {
@@ -1060,7 +1059,7 @@ const TAttendance = () => {
           <Grid item xs={12} md={6}></Grid>
         )}
       </Grid>
-    </Container >
+    </Box >
   );
 };
 //

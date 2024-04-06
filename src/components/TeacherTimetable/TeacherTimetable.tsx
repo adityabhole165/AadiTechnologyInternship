@@ -1,5 +1,5 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Container, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -62,7 +62,7 @@ function TeacherTimetable() {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             { title: 'Timetable', path: '/extended-sidebar/teacher-timetable' }
@@ -90,7 +90,7 @@ function TeacherTimetable() {
           <CardTimetable header={TMTimetable}></CardTimetable>
         </Box>
         {/* <CardTimetable2 header={TMTimetable.filter((item)=>{return item.Name === "Additional Lectures"})}></CardTimetable2> */}
-      </Container>
+      </Box>
     </>
   );
 }

@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -37,7 +37,7 @@ function Holidays() {
   }, []);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Holidays'} subheading={''} />
       <Grid container>
         <Grid item xs={6}>
@@ -45,7 +45,7 @@ function Holidays() {
         </Grid>
       </Grid>
       {loading ? <SuspenseLoader /> : <ListH itemList={holidaysList}></ListH>}
-    </Container>
+    </Box>
   );
 }
 export default Holidays;

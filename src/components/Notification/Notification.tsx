@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -50,7 +50,7 @@ const Notification = () => {
   };
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Notification'} subheading={''} />
 
         {NotificationList.length === 0 ? (
@@ -67,7 +67,7 @@ const Notification = () => {
             </div>
           ))
         )}
-      </Container>
+      </Box>
     </>
   );
 };

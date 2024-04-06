@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Container, Grid, Grow, List, useTheme } from '@mui/material';
+import { Box, Grid, Grow, List, useTheme } from '@mui/material';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
@@ -34,7 +34,7 @@ function Accordion5({ Title, Datee, username, desig, parents }) {
   return (
     <>
       <Grid item xs={12} container>
-        <Container>
+        <Box sx={{ px: 2 }}>
           <Grow
             in={checked}
             style={{ transformOrigin: '0 0 0' }}
@@ -139,7 +139,7 @@ function Accordion5({ Title, Datee, username, desig, parents }) {
               </Accordion>
             </div>
           </Grow>
-        </Container>
+        </Box>
       </Grid>
     </>
   );

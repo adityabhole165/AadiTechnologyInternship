@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useParams } from 'react-router';
 import EventManagementForm from './EventManagementForm';
@@ -24,7 +24,7 @@ const EventManagement = () => {
     }
     return (
         <>
-            <Container maxWidth={'xl'}>
+            <Box sx={{ px: 2 }}>
                 <EventManagementHeader ClickAddNewEvent={ClickAddNewEvent}
                     ClickSave={ClickSave} />
                 <Box sx={{ backgroundColor: 'white' }} p={2}>
@@ -37,7 +37,7 @@ const EventManagement = () => {
                             SaveClicked={SaveClicked} />
                     </Box>
                 </Box>
-            </Container >
+            </Box >
         </>)
 };
 

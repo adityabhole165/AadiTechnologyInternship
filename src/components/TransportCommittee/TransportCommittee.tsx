@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import Grid from '@mui/material/Grid';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -38,7 +38,7 @@ function TransportCommittee() {
   }, []);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Transport Committee'} subheading={''} />
 
       <Grid container></Grid>
@@ -58,7 +58,7 @@ function TransportCommittee() {
             headingg={data3}
           />
         )}
-    </Container>
+    </Box>
   );
 }
 

@@ -11,9 +11,9 @@ import Icon5 from 'src/libraries/icon/icon5';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { ListStyle } from 'src/libraries/styled/CardStyle';
 import {
-  getUserAadharCardDetails,
-  getsaveUserAadharCardDetails,
-  resetMessage
+    getUserAadharCardDetails,
+    getsaveUserAadharCardDetails,
+    resetMessage
 } from 'src/requests/AadharCardDetails/RequestAadharCard';
 import { RootState } from 'src/store';
 import { CheckFileValidationAdhar } from '../Common/Util';
@@ -205,7 +205,7 @@ function AadharCardDetails() {
   console.log('mother', mother);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Update Profile'} subheading={''} />
       <Grow
         in={checked}
@@ -356,7 +356,7 @@ function AadharCardDetails() {
           </ButtonPrimary>
         </ListStyle>
       </Grow>
-    </Container>
+    </Box>
   );
 }
 

@@ -1,4 +1,4 @@
-import { Container, Grid, Grow } from '@mui/material';
+import { Box, Grid, Grow } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -155,7 +155,7 @@ function UploadParentPhoto() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Upload Parent Photo'} subheading={''} />
       {loading && <SuspenseLoader />}
       {isPhotosSubmitted ? (
@@ -209,7 +209,7 @@ function UploadParentPhoto() {
           </Grid>
         </ListStyle>
       </Grow>
-    </Container>
+    </Box>
   );
 }
 

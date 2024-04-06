@@ -5,7 +5,6 @@ import SearchTwoTone from '@mui/icons-material/SearchTwoTone';
 import {
   Box,
   Button,
-  Container,
   Grid,
   IconButton,
   Pagination,
@@ -387,7 +386,7 @@ const AddDailyLog = () => {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
@@ -585,7 +584,7 @@ const AddDailyLog = () => {
           </Grid>
         </Box>
 
-      </Container>
+      </Box>
     </>
   );
 };

@@ -1,6 +1,6 @@
 import ArrowLeft from '@mui/icons-material/ArrowLeft';
 import ArrowRight from '@mui/icons-material/ArrowRight';
-import { Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import HomeworkCard from 'src/libraries/card/HomeworkCard';
@@ -71,7 +71,7 @@ function HomeworkNew() {
   };
   return (
     <div>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Homework'} subheading={''} />
 
         <Grid container spacing={1} alignItems={'center'}>
@@ -89,7 +89,7 @@ function HomeworkNew() {
             </ListStyle>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </div>
   );
 }

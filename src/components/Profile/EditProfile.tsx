@@ -1,5 +1,5 @@
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
-import { Box, Container, Grid } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
@@ -176,7 +176,7 @@ function EditProfile() {
   console.log('DisableSubmit', DisableSubmit);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Edit Profile'} subheading={''} />
       <BackButton FromRoute={'/Student/Profile'} />
       <Note NoteDetail={note} />
@@ -245,7 +245,7 @@ function EditProfile() {
           <Grid item xs={3} />
         </Grid>
       </ListStyle>
-    </Container>
+    </Box>
   );
 }
 

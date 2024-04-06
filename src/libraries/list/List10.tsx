@@ -1,4 +1,4 @@
-import { Box, Container, List, Typography, useTheme } from '@mui/material';
+import { Box, List, Typography, useTheme } from '@mui/material';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
@@ -18,7 +18,7 @@ function List10({ Title, VideoID, VideoDetailsId, FromRoute }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <RouterLink
           to={
             `/${location.pathname.split('/')[1]}/Common/Comments/` +
@@ -39,7 +39,7 @@ function List10({ Title, VideoID, VideoDetailsId, FromRoute }) {
             </Box>
           </List>
         </RouterLink>
-      </Container>
+      </Box>
     </>
   );
 }

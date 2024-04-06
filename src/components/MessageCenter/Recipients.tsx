@@ -1,8 +1,8 @@
 import ReplyIcon from '@mui/icons-material/Reply';
 import {
+  Box,
   Card,
   Checkbox,
-  Container,
   Fab,
   FormControl,
   FormControlLabel,
@@ -190,7 +190,7 @@ const Recipients = ({
         </Fab>
       </span>
 
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card sx={{ padding: '20px', backgroundColor: '#ffffffdb' }}>
           <TextField
             fullWidth
@@ -247,31 +247,31 @@ const Recipients = ({
             </FormControl>
           </form>
         </Card>
-      </Container>
+      </Box>
       <div style={{ marginTop: '10px', display: RadioButtonDependent }}>
         {selectedUserGroup == 2
           ? TeacherList == undefined || TeacherList.length == 0
             ? null
             : TeacherList.map((item, i) => {
-                const RecipientsListBoolean =
-                  RecipientsArray.RecipientName.includes(item.Name);
-                return (
-                  <>
-                    <List3
-                      data={item}
-                      key={i}
-                      handleChange={handleChange}
-                      check={RecipientsListBoolean}
-                      pointerEvent={'none'}
-                      Id={item.Id}
-                    />
-                  </>
-                );
-              })
+              const RecipientsListBoolean =
+                RecipientsArray.RecipientName.includes(item.Name);
+              return (
+                <>
+                  <List3
+                    data={item}
+                    key={i}
+                    handleChange={handleChange}
+                    check={RecipientsListBoolean}
+                    pointerEvent={'none'}
+                    Id={item.Id}
+                  />
+                </>
+              );
+            })
           : selectedUserGroup == 6
-          ? AdminStaffList == undefined || AdminStaffList.length == 0
-            ? null
-            : AdminStaffList.map((item, i) => {
+            ? AdminStaffList == undefined || AdminStaffList.length == 0
+              ? null
+              : AdminStaffList.map((item, i) => {
                 const RecipientsListBoolean =
                   RecipientsArray.RecipientName.includes(item.Name);
                 return (
@@ -287,7 +287,7 @@ const Recipients = ({
                   </>
                 );
               })
-          : null}
+            : null}
       </div>
     </div>
   );

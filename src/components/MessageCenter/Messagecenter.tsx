@@ -50,7 +50,7 @@ function MessaageCenter() {
   // // }
   // return (
   //   <>
-  //     <Container >
+  //     <Box sx={{ px: 2 }} >
   //       <PageHeader heading={'Message Center'} subheading={''} />
   //       {!show && (
   //         <Box sx={{ width: 'auto', marginBottom: '10px'}}>
@@ -167,7 +167,7 @@ function MessaageCenter() {
   //         </Box>
   //       )}
   //       {show && <Search  searchData={SearchData} closeSearchbarBoolean={closeIconClicked} />}
-  //     </Container>
+  //     </Box>
   //     {/* <div
   //       id='mainDiv2'
   //       // onScroll={scrolling}

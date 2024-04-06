@@ -8,7 +8,6 @@ import {
   Box,
   Checkbox,
   ClickAwayListener,
-  Container,
   Fab,
   FormHelperText,
   Grid,
@@ -132,7 +131,7 @@ function Form13() {
 
   const originalMessageBody = localStorage.getItem('messageBody');
   const MSGBody = originalMessageBody?.replace(/(\r\n|\r|\n)/g, '<br>');
-  useEffect(() => {}, [finalBase642New]);
+  useEffect(() => { }, [finalBase642New]);
   useEffect(() => {
     if (PageName == 'Reply' || PageName == 'ReplyAll') {
       const PayLoadObject = {
@@ -404,10 +403,10 @@ function Form13() {
         PageName == 'Forwa'
           ? 'FW: ' + Text
           : '' || PageName == 'Reply'
-          ? 'RE: ' + Text
-          : '' || PageName == 'Edit'
-          ? Text
-          : '',
+            ? 'RE: ' + Text
+            : '' || PageName == 'Edit'
+              ? Text
+              : '',
       Content: PageName == 'Edit' ? Text : '',
       Attachment: PageName == 'Edit' && null
     },
@@ -623,7 +622,7 @@ function Form13() {
   }, [SaveDraftM]);
   return (
     <>
-      <Container sx={{ display: displayOfComposePage }} maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <span
           onClick={() => {
             navigate(-1);
@@ -822,8 +821,8 @@ function Form13() {
 
               <Grid item xs={12}>
                 {finalBase642New == undefined ||
-                finalBase642New.length == 0 ||
-                PageName == 'Reply' ? null : (
+                  finalBase642New.length == 0 ||
+                  PageName == 'Reply' ? null : (
                   <div>
                     <Typography>Attachment(s):</Typography>
 
@@ -1024,7 +1023,7 @@ function Form13() {
             </Grid>
           </form>
         </ListStyle>
-      </Container>
+      </Box>
       <div style={{ display: displayOfRecipients }}>
         <AddReciepents
           RecipientName={RecipientsObject.RecipientName}

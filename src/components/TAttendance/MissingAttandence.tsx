@@ -1,4 +1,4 @@
-import { Container, Grid, useTheme } from '@mui/material';
+import { Box, Grid, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -61,7 +61,7 @@ function MissingAttandence() {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Missing Attendance'} subheading={''} />
         <Grid container direction="row">
           <BackButton
@@ -112,7 +112,7 @@ function MissingAttandence() {
                       />
                     </>
                   ) : MissingAttandenceList.daywiseAttendanceStatusResult
-                      .length < 1 ? (
+                    .length < 1 ? (
                     <>
                       <ErrorMessages Error={'No missing attendance found.'} />
                     </>
@@ -126,7 +126,7 @@ function MissingAttandence() {
             }
           )
         )}
-      </Container>
+      </Box>
     </>
   );
 }

@@ -1,6 +1,5 @@
 import {
   Box,
-  Container,
   Grow,
   List,
   Typography,
@@ -31,7 +30,7 @@ function Card11({ PDays, TDays, TWDays, Head }) {
         style={{ transformOrigin: '0 0 1' }}
         {...(checked ? { timeout: 1500 } : {})}
       >
-        <Container>
+        <Box sx={{ px: 2 }}>
           <List
             className={classes.ListStyle}
             sx={{
@@ -91,7 +90,7 @@ function Card11({ PDays, TDays, TWDays, Head }) {
               </Typography>
             </Box>
           </List>
-        </Container>
+        </Box>
       </Grow>
     </>
   );

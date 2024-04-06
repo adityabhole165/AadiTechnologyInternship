@@ -1,6 +1,6 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Container, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -87,7 +87,7 @@ const FinalResult = () => {
   const clickTeacherDropdown = (value) => {
     setSelectTeacher(value);
   };
-  const ClickItem = (value) => {};
+  const ClickItem = (value) => { };
 
   const getTeacherId = () => {
     let TeacherId = '';
@@ -110,13 +110,13 @@ const FinalResult = () => {
   const onClickUnpublish = () => {
     navigate(
       '/extended-sidebar/Teacher/FinalResultUnpublish/' +
-        SelectTeacher +
-        '/' +
-        getTeacherName()
+      SelectTeacher +
+      '/' +
+      getTeacherName()
     );
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <br></br>
       <br></br>
       <br></br>
@@ -184,7 +184,7 @@ const FinalResult = () => {
           </ButtonPrimary>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

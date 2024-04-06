@@ -1,5 +1,5 @@
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined';
-import { Box, Container, Divider, useTheme } from '@mui/material';
+import { Box, Divider, useTheme } from '@mui/material';
 import { saveAs } from 'file-saver';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
@@ -32,9 +32,9 @@ function Card5({ Content, FileName, Name }) {
   const download = (e) => {
     saveAs(
       localStorage.getItem('SiteURL') +
-        '/RITeSchool/' +
-        '/DOWNLOADS/School%20Notices/' +
-        FileName
+      '/RITeSchool/' +
+      '/DOWNLOADS/School%20Notices/' +
+      FileName
     );
   };
 
@@ -48,7 +48,7 @@ function Card5({ Content, FileName, Name }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <ListStyle>
           <CardDetail1> {Name}</CardDetail1>
           <Divider />
@@ -72,7 +72,7 @@ function Card5({ Content, FileName, Name }) {
             </Box>
           </CardDetail>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

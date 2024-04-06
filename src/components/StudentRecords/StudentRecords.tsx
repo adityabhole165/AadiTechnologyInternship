@@ -6,7 +6,6 @@ import VisibilityIcon from '@mui/icons-material/Visibility';
 import {
   Box,
   Checkbox,
-  Container,
   FormControlLabel,
   Grid,
   TextField,
@@ -127,7 +126,7 @@ const StudentRecords = () => {
     dispatch(GetAllStudentStatuss(GetStudentStatusBody));
   };
 
-  const ClickItem = () => {};
+  const ClickItem = () => { };
   const handleRegNoOrNameChange = (value) => {
     setRegNoOrName(value);
   };
@@ -136,7 +135,7 @@ const StudentRecords = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <br></br>
       <br></br>
       <PageHeader heading={'Student Record List'} subheading={''} />
@@ -230,7 +229,7 @@ ClickItem={ClickItem} IconList={IconList}/> */}
           </Grid>
         </Grid>
       </Grid>
-    </Container>
+    </Box>
   );
 };
 

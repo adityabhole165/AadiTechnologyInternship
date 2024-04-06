@@ -1,6 +1,6 @@
-import { Container } from '@mui/material';
 import PropTypes from 'prop-types';
 
+import { Box } from '@mui/material';
 import {
   BoxWrapper,
   CardDetail1,
@@ -20,7 +20,7 @@ Card3.propTypes = {
 function Card3({ ViewDetail, From, To, Date, Text }) {
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <ListStyle>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
@@ -46,7 +46,7 @@ function Card3({ ViewDetail, From, To, Date, Text }) {
             <CardDetail2>{Text}</CardDetail2>
           </BoxWrapper>
         </ListStyle>
-      </Container>
+      </Box>
     </>
   );
 }

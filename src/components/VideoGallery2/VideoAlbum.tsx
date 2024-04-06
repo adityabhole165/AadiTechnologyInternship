@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { IVideoList } from 'src/interfaces/Common/VideoGallery';
@@ -58,7 +58,7 @@ const VideoAlbum = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading="Video Gallery" subheading={''} />
       <MonthYearselector
         month={month}
@@ -68,7 +68,7 @@ const VideoAlbum = () => {
         newChange={changeYear}
       />
       {loading ? <SuspenseLoader /> : <List1 items={VideoList} />}
-    </Container>
+    </Box>
   );
 };
 

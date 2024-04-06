@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -129,7 +129,7 @@ const PrePrimaryResult = () => {
   const GetAssessmentDropdown = (value) => {
     setAssessmentResult(value);
   };
-  const ClickItem = (value) => {};
+  const ClickItem = (value) => { };
   // const onClickunpublished =() =>{
   //   navigate('/extended-sidebar/Teacher/UnPublishReslt')
 
@@ -175,9 +175,9 @@ const PrePrimaryResult = () => {
   const onClickunpublished = () => {
     navigate(
       '/extended-sidebar/Teacher/UnpublishPrePrimaryResult/ ' +
-        getClassName() +
-        '/' +
-        getClassName1()
+      getClassName() +
+      '/' +
+      getClassName1()
     );
   };
 
@@ -221,7 +221,7 @@ const PrePrimaryResult = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <br></br>
       <br></br>
       <PageHeader heading="Pre-Primary Result" />
@@ -290,7 +290,7 @@ const PrePrimaryResult = () => {
           </Grid>
         </Grid>
       </div>
-    </Container>
+    </Box>
   );
 };
 

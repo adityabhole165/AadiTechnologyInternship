@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  Container,
   Fab,
   Typography,
   useTheme
@@ -38,7 +37,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
   const classes = Styles();
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card
           sx={{
             background: `${theme.colors.gradients.pink1}`
@@ -123,7 +122,7 @@ function Card8({ ViewDetail, From, To, Body, Text, Attachments }) {
             Forward
           </Button>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 }

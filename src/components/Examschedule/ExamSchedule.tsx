@@ -1,5 +1,4 @@
-import { useTheme } from '@mui/material';
-import Container from '@mui/material/Container';
+import { Box, useTheme } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import NativeSelect from '@mui/material/NativeSelect';
 import { useEffect, useState } from 'react';
@@ -84,7 +83,7 @@ function ExamSchedule() {
   const classes = Styles();
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
 
       <DotLegend color="success" text="Description" />
@@ -135,7 +134,7 @@ function ExamSchedule() {
           </>
         );
       })}
-    </Container>
+    </Box>
   );
 }
 

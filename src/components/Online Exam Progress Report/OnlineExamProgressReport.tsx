@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IOnlineExamProgressReportBody from 'src/interfaces/Student/OnlineExamProgressReport';
@@ -44,7 +44,7 @@ function OnlineExamProgressReport() {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Online Exam Progress Report'} subheading={''} />
       <Box sx={{ mt: '-10px' }}>
         {loading ? (
@@ -69,7 +69,7 @@ function OnlineExamProgressReport() {
           </>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 }
 

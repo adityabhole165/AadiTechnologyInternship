@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink } from 'react-router-dom';
@@ -34,7 +34,7 @@ function Received() {
   }, []);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       {ReceiveSMSList.length === 0 ? (
         <ErrorMessages Error={'No Message Has Been Received'} />
       ) : ReceiveSMSList == undefined ? null : (
@@ -44,8 +44,7 @@ function Received() {
               <RouterLink
                 key={i}
                 to={
-                  `/${
-                    location.pathname.split('/')[1]
+                  `/${location.pathname.split('/')[1]
                   }/SMSCenter/ViewReceiveSMS/` +
                   item.DetailsId +
                   `/Received`
@@ -73,7 +72,7 @@ function Received() {
           );
         })
       )}
-    </Container>
+    </Box>
   );
 }
 export default Received;

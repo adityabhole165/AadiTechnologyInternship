@@ -1,4 +1,4 @@
-import { Box, Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
@@ -22,7 +22,7 @@ function TermAndCondition() {
     navigate('/changePassword');
   };
   return (
-    <Container sx={{ backgroundColor: 'white' }}>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Terms of Use'} subheading={''} />
       <Box sx={{ backgroundColor: 'white', height: '100%' }}>
         <p>
@@ -121,7 +121,7 @@ function TermAndCondition() {
           <ButtonPrimary disabled>Continue</ButtonPrimary>
         )}
       </Box>
-    </Container>
+    </Box>
   );
 }
 

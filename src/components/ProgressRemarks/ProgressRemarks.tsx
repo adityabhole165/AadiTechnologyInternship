@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Paper, Stack, Switch, Typography } from '@mui/material';
+import { Box, Grid, Paper, Stack, Switch, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -294,7 +294,7 @@ const ProgressRemarks = () => {
   };
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
@@ -453,7 +453,7 @@ const ProgressRemarks = () => {
           </Paper>
         </Grid>
       )}
-    </Container>
+    </Box>
   );
 };
 

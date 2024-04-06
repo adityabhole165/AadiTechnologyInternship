@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useParams } from 'react-router-dom';
@@ -60,7 +60,7 @@ const onlineExamDetails = () => {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Online Exam Details'} subheading={''} />
 
         <BackButton FromRoute={'/Student/OnlineExam'} />
@@ -108,7 +108,7 @@ const onlineExamDetails = () => {
           </ButtonPrimary>
         </RouterLink>
         <Note NoteDetail={note} />
-      </Container>
+      </Box>
     </>
   );
 };

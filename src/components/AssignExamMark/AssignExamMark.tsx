@@ -1,4 +1,4 @@
-import { Box, Container, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Divider, Grid, IconButton, Tooltip, Typography } from '@mui/material';
 import { useContext, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
@@ -204,7 +204,7 @@ const AssignExamMark = () => {
   };
 
   return (
-    <Container maxWidth={"xl"}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Assign Exam Marks', path: '/extended-sidebar/Teacher/AssignExamMark' }
@@ -310,7 +310,7 @@ Pre-primary teachers to add and submit progress report entries of his class.`}>
           </Grid>
         </Grid>
       </Box>
-    </Container>
+    </Box>
   );
 };
 

@@ -9,7 +9,6 @@ import {
   Avatar,
   Box,
   Card,
-  Container,
   Divider,
   FormControl,
   List,
@@ -147,7 +146,7 @@ function Card17({ data, YearData }) {
 
   return (
     <>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <Card sx={{ boxShadow: '6px 4px 5px grey !important' }}>
           <List
             sx={{
@@ -221,7 +220,7 @@ function Card17({ data, YearData }) {
                                         localStorage.getItem('siteURL') +
                                         slide.ImageList[0].ImagePath
                                       }
-                                      // 'http://riteschool_old.aaditechnology.com/RITeSchool/' +
+                                    // 'http://riteschool_old.aaditechnology.com/RITeSchool/' +
                                     />
                                   </Slide>
 
@@ -264,7 +263,7 @@ function Card17({ data, YearData }) {
             </Box>
           </List>
         </Card>
-      </Container>
+      </Box>
     </>
   );
 }

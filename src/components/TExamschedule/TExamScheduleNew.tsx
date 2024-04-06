@@ -8,7 +8,6 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import PageHeader from 'src/libraries/heading/PageHeader';
 import { RootState } from 'src/store';
 // import { IGetExamsList } from 'src/interfaces/Student/ExamSchedule';
-import { Container } from '@mui/material';
 import ErrorMessages from 'src/libraries/ErrorMessages/ErrorMessages';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 import Icon3 from 'src/libraries/icon/icon3';
@@ -139,7 +138,7 @@ const TExamScheduleNew = () => {
   };
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Exam Schedule'} subheading={''} />
       {RoleId !== '3' && (
         <Dropdown
@@ -200,7 +199,7 @@ const TExamScheduleNew = () => {
           })}
         </>
       )}
-    </Container>
+    </Box>
   );
 };
 

@@ -238,7 +238,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
         sx={{
           mt: '60px',
           zIndex: 1201,
-          backgroundColor: (theme) => theme.palette.primary.main
+          backgroundColor: (theme) => theme.palette.primary.main,
         }}
       >
         <Stack
@@ -259,7 +259,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
               sx={{
                 flexDirection: 'row',
                 p: 0,
-                m: 0
+                m: 0,
+                flex: 1,
               }}
             >
               <ListItem sx={{ p: 0 }}>
@@ -272,7 +273,8 @@ function SubHeaderNavBar({ toggleDrawer }) {
                           color: (theme) => theme.palette.primary.main
                         },
                         px: 1,
-                        fontWeight: 'bold'
+                        fontWeight: 'bold',
+                        whiteSpace: 'nowrap'
                       }}
                       key={key}
                       onClick={(e) => {
@@ -388,7 +390,7 @@ function SubHeaderNavBar({ toggleDrawer }) {
           </Stack>
         </Stack>
       </AppBar>
-    </div>
+    </div >
   );
 }
 

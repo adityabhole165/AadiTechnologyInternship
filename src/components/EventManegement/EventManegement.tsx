@@ -4,7 +4,6 @@ import Save from '@mui/icons-material/Save';
 import {
   Box,
   Button,
-  Container,
   Divider,
   FormControlLabel,
   Grid,
@@ -339,7 +338,7 @@ const EventsManagement = () => {
 
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -547,7 +546,7 @@ const EventsManagement = () => {
             </Button> */}
           </Stack>
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

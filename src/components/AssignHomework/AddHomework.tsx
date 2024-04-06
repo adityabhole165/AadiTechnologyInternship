@@ -4,7 +4,6 @@ import SaveIcon from '@mui/icons-material/Save';
 import {
   Box,
   Button,
-  Container,
   Grid,
   IconButton,
   TextField,
@@ -342,7 +341,7 @@ const AddHomework = () => {
   }, [SubjectId, SubjectList]);
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             {
@@ -582,7 +581,7 @@ const AddHomework = () => {
             />
           )}
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

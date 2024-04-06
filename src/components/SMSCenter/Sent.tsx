@@ -1,4 +1,4 @@
-import { Container } from '@mui/material';
+import { Box } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
@@ -29,7 +29,7 @@ function Sent() {
     dispatch(getSentListt(body));
   }, []);
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       {Sent == undefined ? null : Sent.length === 0 ? (
         <ErrorMessages Error={'No message has been sent'} />
       ) : (
@@ -63,7 +63,7 @@ function Sent() {
           );
         })
       )}
-    </Container>
+    </Box>
   );
 }
 

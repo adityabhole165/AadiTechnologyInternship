@@ -1,4 +1,4 @@
-import { Container, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Styles } from 'src/assets/style/student-style';
@@ -77,7 +77,7 @@ function StaffBirthday() {
   const classes = Styles();
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Staff Birthdays'} subheading={''} />
 
       <DotLegend1>
@@ -110,7 +110,7 @@ function StaffBirthday() {
           ))}
         </>
       )}
-    </Container>
+    </Box>
   );
 }
 

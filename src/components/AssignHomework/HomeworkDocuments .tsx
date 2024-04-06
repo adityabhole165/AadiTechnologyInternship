@@ -1,4 +1,4 @@
-import { Box, Container, IconButton, Typography } from '@mui/material';
+import { Box, IconButton, Typography } from '@mui/material';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
@@ -78,7 +78,7 @@ const HomeworkDocuments = () => {
   };
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <CommonPageHeader
           navLinks={[
             { title: 'Assign Homework', path: '/extended-sidebar/Teacher/AssignHomework' },
@@ -116,7 +116,7 @@ const HomeworkDocuments = () => {
             </Typography>
           )}
         </Box>
-      </Container>
+      </Box>
     </>
   );
 };

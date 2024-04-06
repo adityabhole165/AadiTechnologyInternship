@@ -1,5 +1,5 @@
 import RefreshIcon from '@mui/icons-material/Refresh';
-import { Avatar, Container, Grid } from '@mui/material';
+import { Avatar, Box, Grid } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
@@ -52,7 +52,7 @@ function Map() {
   }, [alignment, isRefresh]);
 
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       <BackButton FromRoute={'/Student/TransportDetails/' + PickDrop} />
 
       <PageHeader heading={PickDrop} subheading={''} />
@@ -139,7 +139,7 @@ function Map() {
           )}
         </>
       ) : null}
-    </Container>
+    </Box>
   );
 }
 

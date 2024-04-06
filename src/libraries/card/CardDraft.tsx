@@ -1,4 +1,4 @@
-import { Container, useTheme } from '@mui/material';
+import { Box, useTheme } from '@mui/material';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Styles } from 'src/assets/style/student-style';
@@ -65,7 +65,7 @@ function CardDraft({
   };
   return (
     <>
-      <Container maxWidth={'xl'}>
+      <Box sx={{ px: 2 }}>
         <ListStyle sx={CardStyle}>
           <BoxWrapper>
             <CardDetail1> {ViewDetail.From}</CardDetail1>
@@ -126,7 +126,7 @@ function CardDraft({
         <ButtonPrimary sx={{ ml: '5px' }} onClick={navigateToEdit}>
           Edit
         </ButtonPrimary>
-      </Container>
+      </Box>
     </>
   );
 }

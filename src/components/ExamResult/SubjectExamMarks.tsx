@@ -1,6 +1,6 @@
 import QuestionMark from '@mui/icons-material/QuestionMark';
 import Save from '@mui/icons-material/Save';
-import { Box, Container, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { green, grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -289,7 +289,7 @@ const SubjectExamMarks = () => {
     setGradeRowDetails(value);
   };
   return (
-    <Container maxWidth={"xl"}>
+    <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
           { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark' },
@@ -418,7 +418,7 @@ const SubjectExamMarks = () => {
         }
       </Box>
 
-    </Container>
+    </Box>
   );
 };
 

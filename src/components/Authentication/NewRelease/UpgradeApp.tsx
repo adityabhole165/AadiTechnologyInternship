@@ -1,4 +1,4 @@
-import { Container, Grid, Typography } from '@mui/material';
+import { Box, Grid, Typography } from '@mui/material';
 import { ListStyle, NewCard, NewStyle } from 'src/libraries/styled/CardStyle';
 
 const UpgradeApp = ({
@@ -16,7 +16,7 @@ const UpgradeApp = ({
     ReleaseNotes = latestVersionDetails.ReleaseNotes;
   }
   return (
-    <Container sx={{ backgroundColor: 'white', height: '100%' }}>
+    <Box sx={{ px: 2 }}>
       <>
         <Grid textAlign="center">
           <a href="http://riteschool.com" target="_blank" rel="noreferrer">
@@ -42,7 +42,7 @@ const UpgradeApp = ({
           </NewStyle>
         )}
       </>
-    </Container>
+    </Box>
   );
 };
 

@@ -2,7 +2,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import {
   Avatar,
-  Container,
+  Box,
   Grid,
   Hidden,
   IconButton,
@@ -120,7 +120,7 @@ function Library() {
   ];
 
   return (
-    <Container maxWidth={'xl'}>
+    <Box sx={{ px: 2 }}>
       <PageHeader heading={'Library'} subheading={''} />
       <Grid container spacing={1}>
         {!showFilter ? (
@@ -228,7 +228,7 @@ function Library() {
           </Hidden>
         </>
       )}
-    </Container>
+    </Box>
   );
 }
 export default Library;

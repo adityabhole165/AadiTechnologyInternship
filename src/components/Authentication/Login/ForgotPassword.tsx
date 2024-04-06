@@ -1,10 +1,10 @@
 import {
-  Box,
-  Container,
-  Grid,
-  Stack,
-  TextField,
-  useTheme
+    Box,
+    Container,
+    Grid,
+    Stack,
+    TextField,
+    useTheme
 } from '@mui/material';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
@@ -99,7 +99,7 @@ function ForgotPassword() {
 
   return (
     <BoxStyle>
-      <Container>
+      <Box sx={{ px: 2 }}>
         <PageHeader heading={'Forgot Password'} subheading={''} />
         <Grid container>
           <Grid item xs={3}></Grid>
@@ -196,7 +196,7 @@ function ForgotPassword() {
             </Box>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
     </BoxStyle>
   );
 }

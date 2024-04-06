@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Box, Card, Container, Typography, useTheme } from '@mui/material';
+import { Box, Card, Typography, useTheme } from '@mui/material';
 import React, { useState } from 'react';
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
@@ -25,7 +25,7 @@ const Card29 = ({ data, header }) => {
     );
   };
   return (
-    <Container>
+    <Box sx={{ px: 2 }}>
       {items.map((OnlineExams, index) => (
         <Card sx={{ mt: 1 }} key={index}>
           <Box
@@ -71,7 +71,7 @@ const Card29 = ({ data, header }) => {
               ))}
         </Card>
       ))}
-    </Container>
+    </Box>
   );
 };
 
