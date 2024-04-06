@@ -14,18 +14,31 @@ export interface IGetClassTeachersResult {
   Original_Division_Id: string;
   SchoolWise_Standard_Division_Id: string;
 }
-export interface IGetAllTestsForClassBody {
-  asAcademicYearId: string;
-  asSchoolId: string;
-  asStandardDivisionId: string;
+// export interface IGetAllTestsForClassBody {
+//   asAcademicYearId: string;
+//   asSchoolId: string;
+//   asStandardDivisionId: string;
+// }
+export interface IGetClasswiseExamDropdownBody {
+  asSchoolId: Number,
+  asAcademicYearId: Number,
+  asStandardDivisionId: Number
 }
-export interface IGetAllTestsForClassResult {
-  SchoolId: number;
-  OriginalSchoolwiseTestId: number;
-  SchoolwiseTestId: number;
-  SchoolwiseTestName: string;
-  IsFinalExam: boolean;
+export interface IGetClasswiseExamDropdownResult {
+  School_Id: string,
+  original_schoolwise_test_id: string,
+  schoolwise_test_id: string,
+  schoolwise_test_name: string,
+  IsFinalExam: string
+
 }
+// export interface IGetAllTestsForClassResult {
+//   SchoolId: number;
+//   OriginalSchoolwiseTestId: number;
+//   SchoolwiseTestId: number;
+//   SchoolwiseTestName: string;
+//   IsFinalExam: boolean;
+// }
 export interface IGetClassPassFailDetailsForTestBody {
   asAcademicYearId: number;
   asSchoolId: number;
@@ -33,40 +46,66 @@ export interface IGetClassPassFailDetailsForTestBody {
   aiTestId: string;
 }
 export interface IGetClassPassFailDetailsForTestResult {
-  LstClassPassFailDetailsForTest: [
-    {
-      Subject_Id: number;
-      Subject_Name: string;
-      Standard_Division_Id: number;
-      SchoolWise_Test_Id: number;
-      Is_Submitted: string;
-      Sort_Order: number;
-      ExamStatus: string;
-      Count: number;
-      OriginalSubjectId: number;
-      ExamStatusSortOrder: number;
-    }
-  ];
-  LstExamStatusForTest: [
-    {
-      ExamStatus: string;
-      StandardDivisionId: number;
-      SchoolWiseTestId: number;
-      ExamStatusSortOrder: 2;
-    }
-  ];
+
   LstGetFileDetails: [
     {
-      Subject_Id: number;
-      Subject_Name: string;
-      Standard_Division_Id: number;
-      SchoolWise_Test_Id: number;
-      Is_Submitted: string;
-      Sort_Order: number;
-      ExamStatus: string;
-      Count: number;
-      OriginalSubjectId: number;
-      ExamStatusSortOrder: number;
-    }
-  ];
+      Subject_Id: number,
+      Subject_Name: string,
+      Standard_Division_Id: number,
+      SchoolWise_Test_Id: number,
+      Is_Submitted: string,
+      Sort_Order: number,
+      ExamStatus: null,
+      Count: number,
+      OriginalSubjectId: number,
+      ExamStatusSortOrder: number
+    },
+  ]
+  LstExamStatusForTest: [
+    {
+      ExamStatus: string,
+      StandardDivisionId: number,
+      SchoolWiseTestId: number,
+      ExamStatusSortOrder: number
+    },
+  ]
+  LstClassPassFailDetailsForTest: [
+    {
+      Subject_Id: number,
+      Subject_Name: string,
+      Standard_Division_Id: number,
+      SchoolWise_Test_Id: number,
+      Is_Submitted: string,
+      Sort_Order: number,
+      ExamStatus: string,
+      Count: number,
+      OriginalSubjectId: number,
+      ExamStatusSortOrder: number
+    },
+  ]
+  ToppersGenerated: boolean,
+  IsPublish: boolean
 }
+export interface IPublishUnpublishExamResultBody {
+  asSchoolId: number,
+  asStdDivId: number,
+  asAcadmicYearId: number,
+  asTest_Id: number,
+  asUnpublishReason: string,
+  asPublishById: number
+}
+export interface PublishUnpublishExamResult {
+  string,
+}
+
+export interface IGetPrePrimaryProgressSheetStatusBody {
+  asSchoolId: number,
+  asStdDivId: number,
+  asAcadmicYearId: number,
+  asTest_Id: number
+}
+export interface IGetPrePrimaryProgressSheetStatusResult {
+  string
+}
+
+

@@ -2,61 +2,69 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, Grid, TextFi
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
-import { IUnPublishTestBody } from 'src/interfaces/ExamResultUnpublish/IExamResultUnpublish';
-import { UnPublishButton } from 'src/requests/ExamResultUnpublish/RequestExamResultUnpublish';
 import { RootState } from 'src/store';
-
 const ExamResultUnpublish = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
+  const { Id } = useParams();
   const navigate = useNavigate();
   const { ExamId, TeacherId, ExamName, TeacherName } = useParams();
 
   const [Reason, setReason] = useState('');
   const [ReasonError, setReasonError] = useState('');
-
+  const [StandardDivisionId, setStandardDivisionId] = useState(
+    sessionStorage.getItem('TeacherId')
+  );
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
+  const [TestId, setTestId] = useState("0");
 
-  const UnPublishTest: any = useSelector(
-    (state: RootState) => state.unpublishtest.UnPublish
+  const PublishUnpublish: any = useSelector(
+    (state: RootState) => state.ExamResult.PublishUnpublishExam
   );
-  console.log('UnPublishTest', UnPublishTest);
+  console.log("PublishUnpublish", PublishUnpublish)
 
-  const UnPublishTestBody: IUnPublishTestBody = {
-    asSchoolId: asSchoolId,
-    asStandardDivId: Number(TeacherId),
-    asAcademicYearId: asAcademicYearId,
-    asSchoolWise_Test_Id: Number(ExamId),
-    asUnPublishReason: Reason
-  };
 
-  const onClickUnpublish = () => {
-    let isError = false;
-    if (Reason == '') {
-      setReasonError('Field should not be blank');
-      isError = true;
-    }
-    if (!isError) {
-      dispatch(UnPublishButton(UnPublishTestBody));
-    }
-    if (!isError) {
-      ResetForm();
-    }
-    if (Reason != '') {
-      navigate('/extended-sidebar/Teacher/ExamResultBase');
-    }
-  };
+  // const onClickUnpublish = (IsPublish) => {
+  //   let isError = false;
+  //   if (Reason == '') {
+  //     setReasonError('Field should not be blank');
+  //     isError = true;
+  //   }
+  //   if (!isError) {
+  //     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+  //       asSchoolId: Number(asSchoolId),
+  //       asStdDivId: Number(StandardDivisionId),
+  //       asAcadmicYearId: Number(asAcademicYearId),
+  //       asTest_Id: Number(TestId),
+  //       asUnpublishReason: Reason,
+  //       asPublishById: IsPublish
+  //     }
+  //     dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+  //   }
+  //   if (!isError) {
+  //     ResetForm();
+  //   }
+  //   if (Reason != '') {
+  //     navigate('/extended-sidebar/Teacher/ExamResultBase');
+  //   }
+  // };
 
   const ResetForm = () => {
     setReason('');
   };
 
-  const onClickCancel = () => {
-    navigate('/extended-sidebar/Teacher/ExamResultBase');
-  };
+
   const ClickOk = () => {
     if (Reason != '') clickPublishUnpublish(0);
   };
+  // useEffect(() => {
+
+  //   if (PublishUnpublish !== '') {
+  //     toast.success(PublishUnpublish)
+  //     dispatch(resetPublishUnpublishExams())
+
+  //   }
+  // }, [PublishUnpublish])
 
   return (
     <Dialog
@@ -112,20 +120,20 @@ const ExamResultUnpublish = ({ open, setOpen, ClickCloseDialogbox, clickPublishU
         />
       </DialogContent>
       <DialogActions sx={{ py: 2, px: 3 }}>
+        <Button onClick={() => { ClickOk() }} variant={'contained'}>
+          Unpublish
+        </Button>
         <Button onClick={() => {
           setOpen(false)
         }} color={'error'}>
-          Cancel
-        </Button>
-        <Button onClick={() => { ClickOk() }} variant={'contained'}>
-          Confirm
+          Close
         </Button>
       </DialogActions>
     </Dialog>
   );
 };
-
-//     <div>
+export default ExamResultUnpublish;
+{/* //     <div>
 //       <PageHeader heading="Enter Reason For Unpublish" />
 
 //       <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
@@ -213,4 +221,4 @@ const ExamResultUnpublish = ({ open, setOpen, ClickCloseDialogbox, clickPublishU
 //   );
 // };
 
-export default ExamResultUnpublish;
+ */}
