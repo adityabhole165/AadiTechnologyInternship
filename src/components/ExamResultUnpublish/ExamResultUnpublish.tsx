@@ -3,20 +3,20 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router';
 import { RootState } from 'src/store';
-const ExamResultUnpublish = ({ open, setOpen, ClickCloseDialogbox, clickPublishUnpublish }) => {
+const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseDialogbox, clickPublishUnpublish }) => {
   const dispatch = useDispatch();
   const { Id } = useParams();
   const navigate = useNavigate();
-  const { ExamId, TeacherId, ExamName, TeacherName } = useParams();
+  //const { ExamId, TeacherId, ExamName, TeacherName } = useParams();
 
   const [Reason, setReason] = useState('');
   const [ReasonError, setReasonError] = useState('');
-  const [StandardDivisionId, setStandardDivisionId] = useState(
-    sessionStorage.getItem('TeacherId')
-  );
+  // const [StandardDivisionId, setStandardDivisionId] = useState(
+  //   sessionStorage.getItem('TeacherId')
+  // );
   const asSchoolId = Number(localStorage.getItem('localSchoolId'));
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
-  const [TestId, setTestId] = useState("0");
+  // const [TestId, setTestId] = useState("0");
 
   const PublishUnpublish: any = useSelector(
     (state: RootState) => state.ExamResult.PublishUnpublishExam
@@ -55,16 +55,9 @@ const ExamResultUnpublish = ({ open, setOpen, ClickCloseDialogbox, clickPublishU
 
 
   const ClickOk = () => {
-    if (Reason != '') clickPublishUnpublish(0);
+    if (Reason != '') clickPublishUnpublish(false);
   };
-  // useEffect(() => {
 
-  //   if (PublishUnpublish !== '') {
-  //     toast.success(PublishUnpublish)
-  //     dispatch(resetPublishUnpublishExams())
-
-  //   }
-  // }, [PublishUnpublish])
 
   return (
     <Dialog

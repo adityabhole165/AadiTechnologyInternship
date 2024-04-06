@@ -34,7 +34,7 @@ const ExamResultBase = () => {
     sessionStorage.getItem('TeacherId')
   );
   //const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
-
+  const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
   const [DisplayNote, setDisplayNote] = useState([]);
   const [Open, setOpen] = useState(false);
@@ -274,17 +274,46 @@ const ExamResultBase = () => {
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
   };
-  const clickPublishUnpublish = (IsPublish) => {
+  // const clickPublishUnpublish = () => {
+  //   if (Reason !== '') {
+  //     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+  //       asSchoolId: Number(asSchoolId),
+  //       asStdDivId: Number(StandardDivisionId),
+  //       asAcadmicYearId: Number(asAcademicYearId),
+  //       asTest_Id: Number(TestId),
+  //       asUnpublishReason: Reason,
+  //       asPublishById: 0
+  //     };
 
-    const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-      asSchoolId: Number(asSchoolId),
-      asStdDivId: Number(StandardDivisionId),
-      asAcadmicYearId: Number(asAcademicYearId),
-      asTest_Id: Number(TestId),
-      asUnpublishReason: null,
-      asPublishById: IsPublish
-    };
-    dispatch(getPublishUnpublishExam(GetPublishUnpublish))
+  //     dispatch(getPublishUnpublishExam(GetPublishUnpublish))
+  //   }
+  // };
+  const clickPublishUnpublish = (publish) => {
+    if (publish) {
+      const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+        asSchoolId: Number(asSchoolId),
+        asStdDivId: Number(StandardDivisionId),
+        asAcadmicYearId: Number(asAcademicYearId),
+        asTest_Id: Number(TestId),
+        asUnpublishReason: null, // publish action
+        asPublishById: 1 //  publish
+      };
+
+      dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+    } else {
+      if (Reason !== '') {
+        const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
+          asSchoolId: Number(asSchoolId),
+          asStdDivId: Number(StandardDivisionId),
+          asAcadmicYearId: Number(asAcademicYearId),
+          asTest_Id: Number(TestId),
+          asUnpublishReason: Reason,
+          asPublishById: 0 //  unpublish
+        };
+
+        dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+      }
+    }
   };
   useEffect(() => {
 
@@ -295,6 +324,14 @@ const ExamResultBase = () => {
     }
   }, [PublishUnpublish])
 
+  const getDropdownName = (List, value) => {
+    let returnVal = ""
+    List.map((Item) => {
+      if (Item.Value == value)
+        returnVal = Item.Name
+    })
+    return returnVal
+  }
   return (
     <Container>
       <CommonPageHeader
@@ -382,7 +419,7 @@ const ExamResultBase = () => {
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(1)}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)}>
           PUBLISH ALL
         </Button>
 
@@ -396,6 +433,9 @@ const ExamResultBase = () => {
             setOpen={setOpen}
             ClickCloseDialogbox={ClickCloseDialogbox}
             clickPublishUnpublish={clickPublishUnpublish}
+            ExamName={getDropdownName(ClasswiseExams, TestId)}
+            TeacherName={getDropdownName(ClassTeachers, StandardDivisionId)}
+
           />
         )}
 

@@ -412,6 +412,8 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={true}
+
+
           />
         }
       </Box>
