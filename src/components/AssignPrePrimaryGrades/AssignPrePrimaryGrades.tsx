@@ -1,26 +1,26 @@
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Stack, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
-    IGetClassTeachersBody,
-    IGetTeacherXseedSubjectsBody,
-    IGetTestwiseTermBody,
-    ISubmitExamMarksStatusBody
+  IGetClassTeachersBody,
+  IGetTeacherXseedSubjectsBody,
+  IGetTestwiseTermBody,
+  ISubmitExamMarksStatusBody
 } from 'src/interfaces/AssignPrePrimaryGrade/IAssignPrePrimaryGrades';
 import EditIconList from 'src/libraries/ResuableComponents/EditIconList';
 import LegendsIcon from 'src/libraries/ResuableComponents/LegendsIcon';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import {
-    CDAGetClassTeachers,
-    CDAGetTeacherXseedSubjects,
-    CDAGetTestwiseTerm,
-    CDASubmitExamMarksStatus,
-    resetMessage
+  CDAGetClassTeachers,
+  CDAGetTeacherXseedSubjects,
+  CDAGetTestwiseTerm,
+  CDASubmitExamMarksStatus,
+  resetMessage
 } from 'src/requests/AssignPrePrimaryGrades/ReqAssignPrePrimaryGrades';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const AssignPrePrimaryGrades = () => {
   const dispatch = useDispatch();
@@ -160,14 +160,45 @@ const AssignPrePrimaryGrades = () => {
   return (
     <>
       <Box sx={{ px: 2 }}>
-        <PageHeader heading={'AssignPre-PrimaryGrades'} subheading={''} />
+        <CommonPageHeader navLinks={[
+          {
+            title: 'Assign Pre-Primary Grades',
+            path: ''
+          }
+        ]}
+          rightActions={
+            <Stack direction={"row"} alignItems={"center"} sx={{ gap: 2 }}>
+              <Dropdown
+                Array={USGetTestwiseTerm}
+                handleChange={clickSelectTerm}
+                defaultValue={SelectTerm}
+                label={'Assessment: '}
+                variant={"outlined"}
+              />
+              <Dropdown
+                Array={USGetClassTeachers}
+                handleChange={clickSelectClass}
+                defaultValue={selectTeacher}
+                label={'Subject Teacher: '}
+                variant={"outlined"}
+              />
+            </Stack>
+          }
+        />
 
-        <Grid container>
-          <Grid item xs={10}>
-            <h4>Legends</h4>
-            <Box
-              sx={{ display: 'flex', gap: '20px', justifyContent: 'center' }}
-            >
+        <Box sx={{ backgroundColor: 'white', p: 2 }}>
+          <EditIconList
+            ItemList={USGetTeacherXseedSubjects}
+            clickEdit={clickEdit}
+            clickEdit1={clickEdit1}
+            HeaderArray={HeaderPublish}
+            clicksubmit={ClickSubmit}
+          />
+          <Box sx={{ mt: 2 }}>
+            <Typography variant='h4'>
+              Legends
+            </Typography>
+            <Stack direction={'row'} alignItems={'center'} gap={2} sx={{ mt: 1 }}>
               <LegendsIcon
                 color="secondary"
                 text1={'Marks entry not started'}
@@ -175,60 +206,9 @@ const AssignPrePrimaryGrades = () => {
                 text3={'Submit exam marks to the class teacher'}
                 text5={'Marks entry completed '}
               />
-            </Box>
-          </Grid>
-        </Grid>
-
-        <Grid container>
-          <Grid item xs={12}></Grid>
-        </Grid>
-
-        <br></br>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          <Grid item xs={2}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.3}
-            >
-              Assessment:
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Dropdown
-              Array={USGetTestwiseTerm}
-              handleChange={clickSelectTerm}
-              defaultValue={SelectTerm}
-              label={''}
-            />
-            <br></br>
-          </Grid>
-          <Grid item xs={2}>
-            <Typography
-              component={Box}
-              sx={{ border: '1px solid black' }}
-              p={0.5}
-            >
-              Subject Teacher :
-            </Typography>
-          </Grid>
-          <Grid item xs={2}>
-            <Dropdown
-              Array={USGetClassTeachers}
-              handleChange={clickSelectClass}
-              defaultValue={selectTeacher}
-              label={''}
-            />
-          </Grid>
-        </Grid>
-        <br></br>
-        <EditIconList
-          ItemList={USGetTeacherXseedSubjects}
-          clickEdit={clickEdit}
-          clickEdit1={clickEdit1}
-          HeaderArray={HeaderPublish}
-          clicksubmit={ClickSubmit}
-        />
+            </Stack>
+          </Box>
+        </Box>
       </Box>
     </>
   );

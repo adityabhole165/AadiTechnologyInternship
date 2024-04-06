@@ -326,7 +326,7 @@ export const ListStyle1 = styled(Box)(
  background: ${color === 'primary'
       ? theme.colors.gradients.listColor
       : color === 'secondary'
-        ? theme.colors.gradients.HighlightedlistColor
+        ? theme.palette.secondary.main
         : color === 'warning'
           ? theme.colors.gradients.selectedlistColor
           : color === 'info'

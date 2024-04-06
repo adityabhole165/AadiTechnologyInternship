@@ -1,5 +1,4 @@
-import { Checkbox, Grow } from '@mui/material';
-import Paper from '@mui/material/Paper';
+import { Box, Checkbox, Grow } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -43,8 +42,8 @@ const DynamicList2 = ({
     return IsChecked;
   };
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
+    <TableContainer component={Box}>
+      <Table sx={{ minWidth: 650, border: (theme) => `1px solid ${theme.palette.divider}` }} aria-label="simple table">
         <TableHead>
           <TableRow
             sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}

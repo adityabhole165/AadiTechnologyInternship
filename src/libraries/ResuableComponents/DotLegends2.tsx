@@ -15,11 +15,10 @@ const DotLegends2 = ({ text, text1, text2, text4, text5, text3, color }) => {
         <Typography> {text2}</Typography>
       </Box>
 
-      <Box sx={{ display: 'flex', maxWidth: '300px', gap: '8px' }}>
+      <Box sx={{ display: 'flex', maxWidth: '300px', gap: '8px', alignItems: 'center' }}>
         <h5 style={{ color: 'Black', margin: 0 }}>N/A</h5>
-
+        <Typography>{text3}</Typography>
       </Box>
-      <Typography>{text3}</Typography>
       {/* sx={{
           display: 'flex',
           maxWidth: '25px',

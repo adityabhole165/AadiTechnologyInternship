@@ -572,13 +572,11 @@ const LessonPlanBaseScreen = () => {
             <Typography variant={"h3"} color={"primary"}>View Remark: </Typography>
             <Divider />
             <Stack gap={1}>
-              <Typography variant={"h4"}>
-                <div>
-                  <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
-                    {stripHtmlTags(ViewRemarks)}
-                  </Typography>
-                </div>
-              </Typography>
+              <div>
+                <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
+                  {stripHtmlTags(ViewRemarks)}
+                </Typography>
+              </div>
             </Stack>
           </Stack>
         </DialogContent>

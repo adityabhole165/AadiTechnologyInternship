@@ -473,12 +473,13 @@ const AddDailyLog = () => {
                 inputProps={{ max: new Date().toISOString().split('T')[0] }}
               />
             </Grid>
-            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'center'}>
+            <Grid item xs={2} justifyContent={'center'} display={'flex'} alignItems={'flex-start'}>
               <SingleFile
                 ValidFileTypes={ValidFileTypes}
                 MaxfileSize={MaxfileSize}
                 ChangeFile={ChangeFile}
                 FileName={fileName}
+                height='53.5px'
               />
             </Grid>
           </Grid>

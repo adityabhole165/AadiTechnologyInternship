@@ -4,11 +4,11 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import IHolidays from 'src/interfaces/Common/Holidays';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import ListH from 'src/libraries/mainCard/ListH';
 import DotLegend from 'src/libraries/summary/DotLegend';
 import { getHolidays } from 'src/requests/Holiday/Holiday';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 function Holidays() {
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const asSchoolId = localStorage.getItem('localSchoolId');
@@ -38,13 +38,20 @@ function Holidays() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Holidays'} subheading={''} />
-      <Grid container>
-        <Grid item xs={6}>
-          <DotLegend color="secondary" text="Upcoming Holidays" />
+      <CommonPageHeader navLinks={[
+        {
+          title: 'Holidays',
+          path: ''
+        }
+      ]} />
+      <Box sx={{ background: 'white', p: 2 }}>
+        <Grid container>
+          <Grid item xs={6}>
+            <DotLegend color="secondary" text="Upcoming Holidays" />
+          </Grid>
         </Grid>
-      </Grid>
-      {loading ? <SuspenseLoader /> : <ListH itemList={holidaysList}></ListH>}
+        {loading ? <SuspenseLoader /> : <ListH itemList={holidaysList}></ListH>}
+      </Box>
     </Box>
   );
 }

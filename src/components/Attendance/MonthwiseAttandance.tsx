@@ -89,7 +89,7 @@ const MonthwiseAttandance = () => {
     <>
       <Box
         sx={{
-          px: 3
+          px: 2
         }}
       >
         <CommonPageHeader

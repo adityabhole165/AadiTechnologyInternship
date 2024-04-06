@@ -4,11 +4,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { IVideoList } from 'src/interfaces/Common/VideoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { getVideoss } from 'src/requests/VideoGallery/VideoGallery';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import MonthYearselector from '../PhotoGallery/MonthYearselector';
 const VideoAlbum = () => {
   const YearList: any = useSelector(
@@ -59,15 +59,24 @@ const VideoAlbum = () => {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading="Video Gallery" subheading={''} />
-      <MonthYearselector
-        month={month}
-        onChange={changeMonth}
-        year={year}
-        YearData={YearList}
-        newChange={changeYear}
-      />
-      {loading ? <SuspenseLoader /> : <List1 items={VideoList} />}
+      <CommonPageHeader navLinks={
+        [
+          {
+            title: "Video Gallery",
+            path: ''
+          }
+        ]
+      } />
+      <Box sx={{ background: 'white', p: 2 }}>
+        <MonthYearselector
+          month={month}
+          onChange={changeMonth}
+          year={year}
+          YearData={YearList}
+          newChange={changeYear}
+        />
+        {loading ? <SuspenseLoader /> : <List1 items={VideoList} />}
+      </Box>
     </Box>
   );
 };

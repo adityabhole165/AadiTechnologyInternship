@@ -1,6 +1,8 @@
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import Person from '@mui/icons-material/Person';
 import VisibilityIcon from '@mui/icons-material/Visibility';
-import { Box, Grid, Typography } from '@mui/material';
+import { Box, Button, IconButton, Stack, Tooltip } from '@mui/material';
+import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -9,14 +11,13 @@ import {
   IGetPagedStudentBody
 } from 'src/interfaces/FinalResult/IFinalResult';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
   ClassTechersList,
   GetStudentResultList
 } from 'src/requests/FinalResult/RequestFinalResult';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 const FinalResult = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -117,37 +118,44 @@ const FinalResult = () => {
   };
   return (
     <Box sx={{ px: 2 }}>
-      <br></br>
-      <br></br>
-      <br></br>
-      <br></br>
-      <PageHeader heading="Final Result" />
-      <Grid container spacing={1} alignItems="center">
-        <Grid item xs={3}>
-          <Typography margin={'1px'}>
-            <b>Select Class Teacher:</b>
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Dropdown
-            Array={GetClassTeachers}
-            handleChange={clickTeacherDropdown}
-            defaultValue={SelectTeacher}
-            label={SelectTeacher}
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <ButtonPrimary
-            variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
-            onClick={Toppers}
-          >
-            {' '}
-            TOPPERS{' '}
-          </ButtonPrimary>
-        </Grid>
-        <br></br>
-        <br></br>
+      <CommonPageHeader navLinks={
+        [
+          {
+            title: "Final Result",
+            path: ''
+          }
+        ]
+      }
+        rightActions={<>
+          <Box>
+            <Dropdown
+              Array={GetClassTeachers}
+              handleChange={clickTeacherDropdown}
+              defaultValue={SelectTeacher}
+              label={'Select Class Teacher'}
+              width={"250px"}
+              variant={"outlined"}
+            />
+          </Box>
+          <Box>
+            <Tooltip title={"Toppers"}>
+              <IconButton
+                onClick={Toppers}
+                sx={{
+                  color: 'white',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <Person />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </>}
+      />
+      <Box sx={{ background: 'white', p: 2 }}>
         {GetStudentLists != undefined && (
           <DynamicList2
             HeaderList={HeaderList}
@@ -156,34 +164,30 @@ const FinalResult = () => {
             ClickItem={ClickItem}
           />
         )}
-        <Grid item xs={12}>
-          <ButtonPrimary
+        <Stack direction={"row"} gap={2} mt={2} justifyContent={"center"}>
+          <Button
             variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
           >
             GENERATE ALL
-          </ButtonPrimary>
-          <ButtonPrimary
+          </Button>
+          <Button
             variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
           >
             VIEW RESULT ALL
-          </ButtonPrimary>
-          <ButtonPrimary
+          </Button>
+          <Button
             variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
           >
             PUBLISH
-          </ButtonPrimary>
-          <ButtonPrimary
+          </Button>
+          <Button
             onClick={onClickUnpublish}
             variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'Blue' }}
           >
             UNPUBLISH
-          </ButtonPrimary>
-        </Grid>
-      </Grid>
+          </Button>
+        </Stack>
+      </Box>
     </Box>
   );
 };

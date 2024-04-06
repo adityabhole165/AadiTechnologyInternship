@@ -5,11 +5,11 @@ import { useParams } from 'react-router-dom';
 import { IPhotoAlbum } from 'src/interfaces/Common/PhotoGallery';
 import { IYearList } from 'src/interfaces/Student/PhotoGallary';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import List1 from 'src/libraries/mainCard/List1';
 import { getPhotoAlbum } from 'src/requests/Dashboard/Dashboard';
 import { getYearList } from 'src/requests/PhotoGallery/PhotoGallery';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 import MonthYearselector from './MonthYearselector';
 function Photos() {
   const dispatch = useDispatch();
@@ -72,20 +72,26 @@ function Photos() {
 
   return (
     <Box sx={{ px: 2 }}>
-      <PageHeader heading={'Photo Gallery'} subheading={''} />
-
-      <MonthYearselector
-        month={month}
-        onChange={handleChange}
-        year={year}
-        YearData={YearList}
-        newChange={handleClick}
-      />
-      {loading ? (
-        <SuspenseLoader />
-      ) : (
-        <List1 items={PhotoAlbum} SelectedMonth={month} SelectedYear={year} />
-      )}
+      <CommonPageHeader navLinks={[
+        {
+          title: 'Photo Gallery',
+          path: ''
+        }
+      ]} />
+      <Box sx={{ background: 'white', p: 2 }}>
+        <MonthYearselector
+          month={month}
+          onChange={handleChange}
+          year={year}
+          YearData={YearList}
+          newChange={handleClick}
+        />
+        {loading ? (
+          <SuspenseLoader />
+        ) : (
+          <List1 items={PhotoAlbum} SelectedMonth={month} SelectedYear={year} />
+        )}
+      </Box>
     </Box>
   );
 }

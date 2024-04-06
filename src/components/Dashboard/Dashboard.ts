@@ -1,6 +1,7 @@
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import AddCardIcon from '@mui/icons-material/AddCard';
 import AssignmentIcon from '@mui/icons-material/Assignment';
+import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 import CakeIcon from '@mui/icons-material/Cake';
 import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
@@ -15,7 +16,6 @@ import PeopleIcon from '@mui/icons-material/People';
 import PhotoIcon from '@mui/icons-material/Photo';
 import SmsIcon from '@mui/icons-material/Sms';
 import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
-import AssignmentIndIcon from '@mui/icons-material/AssignmentInd';
 const DashboardData = {
   Student: {
     items1: [
@@ -351,7 +351,7 @@ const DashboardData = {
         Color: '#ef5350',
         iconColor: '#f0483e ',
         Icon: EventIcon,
-        Link: 'Teacher/AnnualPlanerBaseScreen',
+        Link: 'Common/AnnualPlanner',
         index: 2
       },
 

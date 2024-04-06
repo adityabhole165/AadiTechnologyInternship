@@ -2,7 +2,7 @@ import AssignmentIcon from '@mui/icons-material/Assignment';
 import CheckIcon from '@mui/icons-material/Check';
 import EditOffIcon from '@mui/icons-material/EditOff';
 import TaskIcon from '@mui/icons-material/Task';
-import { Card } from '@mui/material';
+import { Box } from '@mui/material';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
 import TableCell from '@mui/material/TableCell';
@@ -21,16 +21,16 @@ function EditIconList({
 
   return (
     <div>
-      <TableContainer component={Card}>
-        <Table aria-label="simple table">
+      <TableContainer component={Box}>
+        <Table aria-label="simple table" sx={{ border: (theme) => `1px solid ${theme.palette.divider}` }}>
           <TableHead>
             <TableRow
-              sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white }}
+              sx={{ background: (theme) => theme.palette.secondary.main, }}
             >
               {HeaderArray.map((item, i) => (
                 <TableCell
                   key={i}
-                  sx={{ textTransform: 'capitalize' }}
+                  sx={{ textTransform: 'capitalize', color: (theme) => theme.palette.common.white }}
                   align="center"
                 >
                   <b>{item.Header}</b>

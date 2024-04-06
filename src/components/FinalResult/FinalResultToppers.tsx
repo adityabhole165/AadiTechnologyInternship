@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Grid,
   IconButton,
   Tooltip,
@@ -32,15 +33,15 @@ import {
   StandardTopperListST
 } from 'src/requests/FinalResult/RqstandardToppers';
 
-import Help from '@mui/icons-material/QuestionMark';
+import QuestionMark from '@mui/icons-material/QuestionMark';
+import { grey } from '@mui/material/colors';
 import { useNavigate, useParams } from 'react-router';
 import RadioButton1 from 'src/libraries/RadioButton/RadioButton1';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import DynamicList2 from 'src/libraries/list/DynamicList2';
 import ToppersList from 'src/libraries/list/ToppersList';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { RootState, useDispatch } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const FinalResultToppers = () => {
   const dispatch = useDispatch();
@@ -238,166 +239,141 @@ const FinalResultToppers = () => {
 
   const ClickItem = () => { };
   return (
-    <>
-      <br></br>
-      <br></br>
-      <br></br>
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader navLinks={[
+        {
+          title: "Final Result",
+          path: "/extended-sidebar/Teacher/FinalResult"
+        },
+        {
+          title: radioBtn === '1' ? "Class Toppers" : 'Standard Toppers',
+          path: ""
+        },
+      ]}
+        rightActions={<>
+          {radioBtn === '1' ? (
 
-      <Tooltip title={Note}>
-        <IconButton
-          sx={{
-            color: 'White',
-            // backgroundColor: grey[500],
-            // ':hover': { backgroundColor: grey[600] }
-          }}
-        >
-          <Help />
-        </IconButton>
-      </Tooltip>
-      <div>
+            <Box>
+              <Dropdown
+                Array={GetClassdropdownCT}
+                handleChange={clickClassDropdownCT}
+                defaultValue={SelectClassCT}
+                label={'Select Class'}
+                width={'150px'}
+                variant={"outlined"}
+              />
+            </Box>
+          ) : (
+            <Box>
+              <Dropdown
+                Array={GetStandarddropdownST}
+                handleChange={clickStandardDropdownST}
+                defaultValue={SelectStandardST}
+                label={'Select Standard'}
+                width={'150px'}
+                variant={"outlined"}
+              />
+            </Box>
+          )}
+          <Box>
+            <Dropdown
+              Array={GetExamdropdownCT}
+              handleChange={clickExamDropdownCT}
+              defaultValue={SelectExamCT}
+              label={'Select Exam'}
+              width={'200px'}
+              variant={"outlined"}
+            />
+          </Box>
+          <Box>
+            <Dropdown
+              Array={GetSubjectdropdownCT}
+              handleChange={clickSubjectDropdownCT}
+              defaultValue={SelectSubjectCT}
+              label={'Select Subject'}
+              width={'150px'}
+              variant={"outlined"}
+            />
+          </Box>
+          <Box>
+            <Tooltip title={Note}>
+              <IconButton
+                sx={{
+                  color: 'White',
+                  backgroundColor: grey[500],
+                  '&:hover': {
+                    backgroundColor: grey[600]
+                  }
+                }}
+              >
+                <QuestionMark />
+              </IconButton>
+            </Tooltip>
+          </Box>
+        </>}
+      />
+      <Box sx={{ background: 'white', p: 2 }}>
+
         <RadioButton1
           Array={RadioListCT}
           ClickRadio={ClickRadio}
           defaultValue={radioBtn}
           Label={''}
         />
-      </div>
-      {radioBtn === '1' ? (
-        <Box sx={{ px: 2 }}>
-          <PageHeader heading=" Class Toppers" />
+        {radioBtn === '1' ? (
+          <>
+            <Box>
 
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Select Class:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetClassdropdownCT}
-                handleChange={clickClassDropdownCT}
-                defaultValue={SelectClassCT}
-                label={SelectClassCT}
+              <DynamicList2
+                HeaderList={HeaderListCT}
+                ItemList={GetToppersListCT}
+                IconList={[]}
+                ClickItem={ClickItem}
               />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Select Exam:</b>
+              <Typography variant={"h4"} mt={4}>
+                Subject Toppers
               </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetExamdropdownCT}
-                handleChange={clickExamDropdownCT}
-                defaultValue={SelectExamCT}
-                label={SelectExamCT}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Subject:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetSubjectdropdownCT}
-                handleChange={clickSubjectDropdownCT}
-                defaultValue={SelectSubjectCT}
-                label={'All'}
-              />
-            </Grid>
+              <Grid container>
+                {GetSubjectToppersListCT.map((item, i) => {
+                  return (
+                    <>
+                      {!(i % 3) && (
+                        <Grid container item xs={12} justifyContent="center" mt={4}>
+                          {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
+                          {/* <Box sx={{ px: 2 }}> */}
+                          <Typography variant={"h4"}>
+                            {item.Subject}
+                          </Typography>
+                          {/* </Box> */}
+                        </Grid>
+                      )}
 
-            <DynamicList2
-              HeaderList={HeaderListCT}
-              ItemList={GetToppersListCT}
-              IconList={[]}
-              ClickItem={ClickItem}
-            />
-
-            <PageHeader heading=" Subject Toppers" />
-            <Grid container>
-              {GetSubjectToppersListCT.map((item, i) => {
-                return (
-                  <>
-                    {!(i % 3) && (
-                      <Grid container item xs={12} justifyContent="center">
-                        {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
-                        {/* <Box sx={{ px: 2 }}> */}
-                        {item.Subject}
-                        {/* </Box> */}
+                      <Grid item xs={4} justifyContent="center">
+                        <Box sx={{ px: 2 }}>
+                          <img src={item.Rank_Image} /> MarKs:{item.Marks}
+                        </Box>
+                        <ToppersList
+                          headers={HeaderList1CT}
+                          data={item.Students}
+                        />
                       </Grid>
-                    )}
-
-                    <Grid item xs={4} xl={4} justifyContent="center">
-                      <Box sx={{ px: 2 }}>
-                        <img src={item.Rank_Image} /> MarKs:{item.Marks}
-                      </Box>
-                      <br></br>
-                      <ToppersList
-                        headers={HeaderList1CT}
-                        data={item.Students}
-                      />
-                    </Grid>
-                  </>
-                );
-              })}
-            </Grid>
-          </Grid>
-        </Box>
-      ) : (
-        <Box sx={{ px: 2 }}>
-          <PageHeader heading="StandardToppers" />
-          <Grid container spacing={1} alignItems="center">
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Select Standard:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetStandarddropdownST}
-                handleChange={clickStandardDropdownST}
-                defaultValue={SelectStandardST}
-                label={SelectStandardST}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Select Exam:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetExamdropdownST}
-                handleChange={clickExamDropdownST}
-                defaultValue={SelectExamST}
-                label={SelectExamST}
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Typography margin={'1px'}>
-                <b>Subject:</b>
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Dropdown
-                Array={GetSubjectdropdownST}
-                handleChange={clickSubjectDropdownST}
-                defaultValue={SelectSubjectST}
-                label={'All'}
-              />
-            </Grid>
-            <br></br>
-            <br></br>
-            <br></br>
+                    </>
+                  );
+                })}
+              </Grid>
+            </Box>
+          </>
+        ) : (
+          <Box>
             <DynamicList2
               HeaderList={HeaderListST}
               ItemList={GetStandardToppersListST}
               IconList={[]}
               ClickItem={ClickItemST}
             />
-
-            <PageHeader heading=" Subject Toppers" />
+            <Typography variant={"h4"} mt={4}>
+              Subject Toppers
+            </Typography>
             <Grid container>
               {GetSubjectToppersListST.map((item, i) => {
                 return (
@@ -425,29 +401,19 @@ const FinalResultToppers = () => {
                 );
               })}
             </Grid>
-          </Grid>
-        </Box>
-      )}
-      <Grid
-        container
-        spacing={2}
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-        <Grid item xs={2}>
-          <ButtonPrimary
+          </Box>
+        )}
+        <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', mt: 2 }}>
+          <Button
             onClick={onClickClose}
             variant="contained"
-            style={{ marginLeft: '60px', backgroundColor: 'red' }}
+            color="error"
           >
             CLOSE
-          </ButtonPrimary>
-        </Grid>
-      </Grid>
-    </>
+          </Button>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
