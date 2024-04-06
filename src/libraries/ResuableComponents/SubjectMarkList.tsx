@@ -58,7 +58,7 @@ function SubjectMarkList({
                                     key={i}
                                     sx={{
                                         textTransform: 'capitalize',
-                                        color: (theme) => '#324b84'
+                                        color: (theme) => 'white'
                                     }}
                                     align={item.align ? item.align : 'left'}
                                 >

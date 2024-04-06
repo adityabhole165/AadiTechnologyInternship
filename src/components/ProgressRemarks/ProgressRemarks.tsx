@@ -11,7 +11,6 @@ import {
   IStudentswiseRemarkDetailsToExportBody,
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
-import ExportToExcel from 'src/libraries/ResuableComponents/ExportToExcel';
 import Notes from 'src/libraries/ResuableComponents/Notes';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
@@ -370,19 +369,21 @@ const ProgressRemarks = () => {
                   style={{
                     backgroundColor: '#0091ea',
                     color: 'white',
+                    marginRight: '10px'
                   }}
                   onClick={UpdateRemark}
                 >
                   SAVE
                 </ButtonPrimary>
-                <Box sx={{ marginInline: '10px' }}>
+                {/* Show some error in this component. Please check */}
+                {/* <Box sx={{ marginInline: '10px' }}>
                   <ExportToExcel
                     File1={StudentswiseRemarkDetails}
                     File2={StudentswiseRemarkDetails1}
                     File3={StudentswiseRemarkDetails2}
                     ExportExcel={ExportButton}
                   />
-                </Box>
+                </Box> */}
                 <ButtonPrimary
                   variant="contained"
                   style={{
@@ -421,7 +422,7 @@ const ProgressRemarks = () => {
             />
 
             <br></br>
-            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+            <Box style={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
               <ButtonPrimary
                 variant="contained"
                 style={{
@@ -438,7 +439,7 @@ const ProgressRemarks = () => {
                 style={{
                   backgroundColor: 'Red',
                   color: 'White',
-                  marginRight: '10px'
+                  marginRight: '10px',
                 }}
               >
                 PREVIOUS

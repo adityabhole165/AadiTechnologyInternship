@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonGroup, IconButton, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Pagination, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -326,38 +326,32 @@ const TransferOptionalSubjectMarks = () => {
         <Box sx={{ px: 2 }}>
             <CommonPageHeader
                 navLinks={[
-                    {
-                        title: 'Transfer Optional Subject Marks',
-                        path: ''
-                    }
+                    { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+                    { title: 'Transfer Optional Subject Marks', path: '/extended-sidebar/Teacher/TransferOptionalSubjectMarks' }
+
                 ]}
                 rightActions={
                     <>
-                        <Box sx={{ background: 'white' }}>
-                            <Box sx={{ background: 'white' }}>
-                                <SearchableDropdown
-                                    sx={{ minWidth: '300px' }}
-                                    ItemList={USClassTeacherList}
-                                    onChange={ClickSelctTecher}
-                                    label={'Select Teacher:'}
-                                    defaultValue={selectClasstecaher}
-                                    mandatory
-                                    size={"small"}
-                                />
-                            </Box>
-                        </Box>
-                        <Box sx={{ background: 'white' }}>
-                            <TextField
-                                sx={{ pl: 0, minWidth: '350px' }}
-                                fullWidth
-                                label="Student Name / Reg.No. :"
-                                value={SearchText}
-                                variant={'standard'}
-                                onChange={(e) => {
-                                    SearchNameChange(e.target.value);
-                                }}
-                            />
-                        </Box>
+                        <SearchableDropdown
+                            sx={{ minWidth: '200px' }}
+                            ItemList={USClassTeacherList}
+                            onChange={ClickSelctTecher}
+                            label={'Select Teacher:'}
+                            defaultValue={selectClasstecaher}
+                            mandatory
+                            size={"small"}
+                        />
+                        <TextField
+                            sx={{ margin: 2, minWidth: '200px' }}
+                            fullWidth
+                            label="Student Name / Reg.No. :"
+                            value={SearchText}
+                            variant={'outlined'}
+                            size={"small"}
+                            onChange={(e) => {
+                                SearchNameChange(e.target.value);
+                            }}
+                        />
                         {StudentsList.length > 0 ? (
                             <Button onClick={changeSearchText} variant="contained">
                                 Search
@@ -395,103 +389,119 @@ const TransferOptionalSubjectMarks = () => {
                     </Typography>
                 </>
             )}
+
             {StudentsList.length > 0 ? (
-                <Box sx={{ textAlign: 'center' }}>
-                    <b>{`${startIndex} To ${endIndex} Out Of 39 Records`}</b>
-                </Box>
-            ) : (
-                <span></span>
-            )}
+                <Box mb={1} sx={{ p: 1, background: 'white' }}>
 
-            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-                {/* First Box */}
-                <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'row', width: "1400px" }}>
-                    {StudentsList.length > 0 ? (
-                        <SubjectMarkList
-                            ItemList={StudentsList}
-                            HeaderArray={HeaderPublish}
-                            onChange={Changevalue}
-                            clickchange={""}
-                            clickTitle={""}
-                        />
-                    ) : (
-                        // <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: "2000px" }}>
-                        //     <b>No Record Found.</b>
-                        // </Typography>
-                        <span></span>
-                    )
-                    }
-                </Box>
-
-                {/* Second Box */}
-                {StudentsList.length > 0 ? (
-                    <Box sx={{ mt: 1, mr: 10, p: 2, display: 'flex', flexDirection: 'column', width: "400px", height: '300px' }}>
-                        <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
-                            <h3>Optional Subjects :</h3>
-                            {ParentOptionalSubjects
-                                .map((subject, index) => (
-                                    <Accordion key={index}>
-                                        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-                                            {subject.OptionalSubjectName} (Select any 1)
-                                        </AccordionSummary>
-                                        <AccordionDetails>
-                                            <ul>
-                                                {OptionalSubjects
-                                                    .filter((objParent) => { return objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId })
-                                                    .map((subItem, subIndex) => (
-                                                        <li key={subIndex}>
-                                                            <label>
-                                                                <input
-                                                                    type="checkbox"
-                                                                    checked={subItem.isActive}
-                                                                    onChange={() => SubjectSelection(subItem.SubjectId)}
-                                                                />
-                                                                {subItem.SubjectName}
-                                                            </label>
-                                                        </li>
-                                                    ))}
-                                            </ul>
-                                        </AccordionDetails>
-                                    </Accordion>
-                                ))}
-                        </Box>
-                    </Box>
-
-                ) : (
-                    <span> </span>
-                )
-                }
-            </Box>
-            {StudentsList.length > 0 ? (
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                    Select a page:
-                    <ButtonGroup color="primary" aria-label="outlined primary button group">
-                        <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                        <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-                    </ButtonGroup>
-
-                </Box>
-            ) : (
-                <span></span>
-            )
-            }
-
-            <>
-                {StudentsList.length > 0 ? (
                     <div>
                         <Notes NoteDetail={Note1} Header={Header1} />
                         <Notes NoteDetail={Note2} Header={Header2} />
                         <Notes NoteDetail={Note3} Header={Header3} />
                         <Notes NoteDetail={Note4} Header={Header4} />
                     </div>
+                </Box>
+
+            ) : (
+                <span></span>
+            )}
+
+            <Box mb={1} sx={{ p: 1, background: 'white' }}>
+
+                <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                    {/* First Box */}
+                    <Box sx={{ p: 2, display: 'flex', flexDirection: 'row', width: "1400px" }}>
+                        {StudentsList.length > 0 ? (
+                            <SubjectMarkList
+                                ItemList={StudentsList}
+                                HeaderArray={HeaderPublish}
+                                onChange={Changevalue}
+                                clickchange={""}
+                                clickTitle={""}
+                            />
+                        ) : (
+                            // <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: "2000px" }}>
+                            //     <b>No Record Found.</b>
+                            // </Typography>
+                            <span></span>
+                        )
+                        }
+                    </Box>
+
+                    {/* Second Box */}
+
+                    {StudentsList.length > 0 ? (
+                        <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "320px", height: '200px' }}>
+                            <Box sx={{ backgroundColor: 'rgba(255, 255, 255, 0.7)' }}>
+                                <h3>Optional Subjects</h3>
+                                {ParentOptionalSubjects
+                                    .map((subject, index) => (
+                                        <Accordion key={index}>
+                                            <AccordionSummary expandIcon={<ExpandMoreIcon />}>
+                                                {subject.OptionalSubjectName} (Select any 1)
+                                            </AccordionSummary>
+                                            <AccordionDetails>
+                                                <ul>
+                                                    {OptionalSubjects
+                                                        .filter((objParent) => { return objParent.ParentOptionalSubjectId == subject.ParentOptionalSubjectId })
+                                                        .map((subItem, subIndex) => (
+                                                            <li key={subIndex}>
+                                                                <label>
+                                                                    <input
+                                                                        type="checkbox"
+                                                                        checked={subItem.isActive}
+                                                                        onChange={() => SubjectSelection(subItem.SubjectId)}
+                                                                    />
+                                                                    {subItem.SubjectName}
+                                                                </label>
+                                                            </li>
+                                                        ))}
+                                                </ul>
+                                            </AccordionDetails>
+                                        </Accordion>
+                                    ))}
+                            </Box>
+                        </Box>
+
+                    ) : (
+                        <span> </span>
+                    )
+                    }
+                </Box>
+                {StudentsList.length > 0 ? (
+                    <Box>
+                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                            Select a page:
+                            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+                            <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
+                            <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
+                        </ButtonGroup> */}
+                            <Pagination
+                                count={5}
+                                variant={"outlined"}
+                                shape='rounded' showFirstButton
+                                showLastButton
+                                onChange={(event, value) => {
+                                    handlePageChange(value);
+                                }}
+                            />
+                        </Box>
+                        <Box sx={{ textAlign: 'center' }}>
+                            {`${startIndex} To ${endIndex} Out Of 39 Records`}
+                        </Box>
+
+                    </Box>
                 ) : (
-                    <span></span>
-                )}
-            </>
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                        <b>No Record Found.</b>
+                    </Typography>
+                )
+                }
+            </Box>
 
 
 
-            <Box style={{ display: 'flex', justifyContent: 'center' }}>
+
+            <Box style={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
                 {StudentsList.length > 0 ? (
                     <Button variant="contained" sx={{
                         backgroundColor: 'green',

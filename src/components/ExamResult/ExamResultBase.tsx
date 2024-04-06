@@ -1,26 +1,26 @@
 import EditIcon from '@mui/icons-material/Edit';
+import Person from '@mui/icons-material/Person';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, Container, IconButton, Tooltip, Typography } from '@mui/material';
+import { Box, Button, IconButton, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import {
-    IGetClassPassFailDetailsForTestBody,
-    IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
-    IGetPrePrimaryProgressSheetStatusBody,
-    IPublishUnpublishExamResultBody
+  IGetClassPassFailDetailsForTestBody,
+  IGetClassTeachersBody, IGetClasswiseExamDropdownBody,
+  IGetPrePrimaryProgressSheetStatusBody,
+  IPublishUnpublishExamResultBody
 } from 'src/interfaces/ExamResult/IExamResult';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList from 'src/libraries/list/DynamicList';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import {
-    getClassPassFailDetailsForTest,
-    getClassTeachers, getClasswiseExam,
-    getProgressSheetStatus,
-    getPublishUnpublishExam, resetPublishUnpublishExams
+  getClassPassFailDetailsForTest,
+  getClassTeachers, getClasswiseExam,
+  getProgressSheetStatus,
+  getPublishUnpublishExam, resetPublishUnpublishExams
 } from 'src/requests/ExamResult/RequestExamResult';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -82,7 +82,7 @@ const ExamResultBase = () => {
 
   const GetScreenPermission = () => {
     let perm = 'N';
-    ScreensAccessPermission.map((item) => {
+    ScreensAccessPermission && ScreensAccessPermission.map((item) => {
       if (item.ScreenName === 'Exam Results') perm = item.IsFullAccess;
     });
     return perm;
@@ -372,14 +372,20 @@ const ExamResultBase = () => {
               <QuestionMark />
             </IconButton>
           </Tooltip>
-          <ButtonPrimary
-            variant="contained"
-            style={{ backgroundColor: 'Blue', padding: '18px' }}
-            onClick={Toppers}
-          >
-            {' '}
-            TOPPERS{' '}
-          </ButtonPrimary>
+          <Tooltip title={"Toppers"}>
+            <IconButton
+              onClick={Toppers}
+              sx={{
+                color: 'white',
+                backgroundColor: grey[500],
+                '&:hover': {
+                  backgroundColor: grey[600]
+                }
+              }}
+            >
+              <Person />
+            </IconButton>
+          </Tooltip>
 
         </>}
       />

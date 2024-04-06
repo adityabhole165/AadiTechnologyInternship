@@ -13,10 +13,8 @@ import {
   ITermDropdownBody,
   IUpdateStudentDetailsBody
 } from 'src/interfaces/TermwiseHeightWeight/ITermwiseHeightWeight';
-import Notes from 'src/libraries/ResuableComponents/Notes';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import TermwiseHeightWeightList from 'src/libraries/ResuableComponents/TermwiseHeightWeightList';
-import PageHeader from 'src/libraries/heading/PageHeader';
 import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
 import { CardDetail7 } from 'src/libraries/styled/CardStyle';
 import { DotLegend1, DotLegendStyled1 } from 'src/libraries/styled/DotLegendStyled';
@@ -30,6 +28,7 @@ import {
   resetupdatestudentlist
 } from 'src/requests/TermwiseHeightWeight/RequestTermwiseHeightWeight';
 import { RootState } from 'src/store';
+import CommonPageHeader from '../CommonPageHeader';
 
 const TermwiseHeightWeight = () => {
   const dispatch = useDispatch();
@@ -198,25 +197,13 @@ const TermwiseHeightWeight = () => {
   };
 
   return (
-    <>
-      <br></br>
-      <br></br>
-      <PageHeader heading="Termwise Height-Weight" />
-      <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-        Mandatory Fields *
-      </div>
-      <br></br>
-      <div
-        style={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          alignItems: 'center'
-        }}
-      >
-
-
-        <Stack direction={'row'} alignItems={'center'} gap={1}>
+    <Box sx={{ px: 2 }}>
+      <CommonPageHeader
+        navLinks={[
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+          { title: 'ETermwise Height-Weight', path: '/extended-sidebar/Teacher/TermwiseHeightWeight' },
+        ]}
+        rightActions={<>
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={ClassTeacherDropdown}
@@ -226,7 +213,6 @@ const TermwiseHeightWeight = () => {
             mandatory
             size={"small"}
           />
-
           <SearchableDropdown
             sx={{ minWidth: '300px' }}
             ItemList={TermDropdown}
@@ -237,7 +223,7 @@ const TermwiseHeightWeight = () => {
             size={"small"}
           />
 
-          <Tooltip title={'Capture Termwise students height and weight'}>
+          <Tooltip title={Note}>
             <IconButton
 
               sx={{
@@ -252,44 +238,60 @@ const TermwiseHeightWeight = () => {
             </IconButton>
           </Tooltip>
 
-        </Stack>
-        <br></br>
-        <Stack direction={'row'} alignItems={'left'} gap={1}>
-          <DotLegend1>
-            <DotLegendStyled1
-              className={classes.border}
-              style={{ background: 'red' }}
-            />
-            <CardDetail7>Left Students</CardDetail7>
-          </DotLegend1>
-        </Stack>
+        </>}
+      />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+
 
 
         <Grid item xs={12} >
+
           <Box sx={{ mt: 1, p: 2, display: 'flex', flexDirection: 'column', width: "1200px" }}>
+            <Stack direction={'row'} gap={1} alignItems={'center'}>
+              <Typography variant={'h4'} mb={1}>
+                Legend:
+              </Typography>
+              <DotLegend1>
+                <DotLegendStyled1
+                  className={classes.border}
+                  style={{ background: 'red' }}
+                />
+                <CardDetail7>Left Students</CardDetail7>
+              </DotLegend1>
+            </Stack>
+            <Box mb={1} sx={{ p: 2, background: 'white' }}>
 
+              <Box mt={2}>
+                {SelectTeacher > 0 ? (
+                  <Typography>
 
-            <Box mt={2}>
-              {SelectTeacher > 0 && (
-                <Typography>
+                    <TermwiseHeightWeightList
+                      ItemList={Itemlist}
+                      onTextChange={ChangeHeight}
+                      onTextChange2={ChangeWeight}
+                      HeaderArray={HeaderOfTable}
+                      IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
+                    />
 
-                  <TermwiseHeightWeightList
-                    ItemList={Itemlist}
-                    onTextChange={ChangeHeight}
-                    onTextChange2={ChangeWeight}
-                    HeaderArray={HeaderOfTable}
-                    IsPublishedStatus={GetFinalPublishedExamStatus.IsPublishedStatus}
-                  />
+                  </Typography>
 
-                </Typography>
-              )}
+                ) : (
+                  <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                    <b>No Record Found.</b>
+                  </Typography>
+
+                )}
+              </Box>
             </Box>
           </Box>
         </Grid>
-
-        <Box sx={{ display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center" }} >
-          <Notes NoteDetail={Note} Header={Header} />
-        </Box>
 
         <div>
           <Grid container spacing={2}>
@@ -320,7 +322,7 @@ const TermwiseHeightWeight = () => {
 
         </div>
       </div>
-    </>
+    </Box>
   );
 };
 

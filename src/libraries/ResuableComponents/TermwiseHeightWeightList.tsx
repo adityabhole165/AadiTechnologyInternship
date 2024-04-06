@@ -62,16 +62,21 @@ const TermwiseHeightWeightList = ({
     <>
       <div>
         <TableHead>
-          <TableRow sx={{ background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white, display: 'flex', flexDirection: 'row', width: "1150px", alignItems: "center", textAlign: 'center' }}>
-            {HeaderArray.map((item, i) => (
-              <TableCell
-                key={i}
-                sx={{ textTransform: 'capitalize', color: 'white', textAlign: 'center' }} // Align headers to the left
-                align="center"
-              >
-                <b>{item.Header}</b>
-              </TableCell>
-            ))}
+          <TableRow sx={{
+            background: (theme) => theme.palette.secondary.main, color: (theme) => theme.palette.common.white,
+            display: 'flex', flexDirection: 'row', width: "1120px", justifyContent: 'space-between'
+          }}>
+            {HeaderArray.map((item, i) => {
+              return (
+                <TableCell
+                  key={i}
+                  sx={{ color: 'white' }} // Align headers to the left
+                  align="center"
+                >
+                  <b>{item.Header}</b>
+                </TableCell>
+              );
+            })}
           </TableRow>
         </TableHead>
       </div>
@@ -79,7 +84,7 @@ const TermwiseHeightWeightList = ({
         {ItemList.map((item) => (
           <Paper
             elevation={1}
-            style={{ margin: 5, padding: 2, marginBottom: 5 }}
+            style={{ margin: 5, padding: 3, marginBottom: 5 }}
             key={item.Text1}
           >
             <Grid container spacing={2}>
