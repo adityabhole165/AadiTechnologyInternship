@@ -266,16 +266,22 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+        if (!StudentsList.some((Item) => Item.IsActive)) {
+            alert("At least one student subject should be selected.");
+        } else {
+            dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+        }
     }
-
+    
+    
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
             toast.success(ISTransferOptionalSubjectMarks);
             dispatch(CDAresetMessage());
-            dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
-
+           dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
+           dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
         }
+       
 
     }, [ISTransferOptionalSubjectMarks]);
     return (
