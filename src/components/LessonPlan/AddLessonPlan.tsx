@@ -60,6 +60,7 @@ const AddLessonPlan = () => {
       friday.toISOString().split('T')[0] :
       EndDateParam
     ));
+  const [ActionMode, setActionMode] = useState(Action)
   const [SelectClass, setSelectClass] = useState('');
   const [ReportingUserId, setasReportingUserId] = useState('');
   const [UpdatedById, setUpdatedById] = useState('');
@@ -74,6 +75,7 @@ const AddLessonPlan = () => {
   const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
   const asUserId = Number(localStorage.getItem('UserId'));
   const TeacherId = Number(sessionStorage.getItem('TeacherId'));
+  const asReportingUserId = Number(sessionStorage.getItem('asReportingUserId'));
 
 
   const [exampleLessonDetails, setExampleLessonDetails] = useState([])
@@ -144,7 +146,7 @@ const AddLessonPlan = () => {
     asReportingUserId: asUserId,
     asStartDate: StartDate,
     asEndDate: EndDate,
-    IsNewMode: Action == 'Add'
+    IsNewMode: ActionMode == 'Add'
   };
 
   useEffect(() => {
@@ -162,7 +164,7 @@ const AddLessonPlan = () => {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
         asStandardDivId: 0,
-        asUserId: asUserId,
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
         asReportingUserId: asUserId,
         asStartDate: StartDate,
         asEndDate: EndDate,
@@ -177,16 +179,6 @@ const AddLessonPlan = () => {
     if (SubmitLessonPlans !== '') {
       toast.success(SubmitLessonPlans)
       dispatch(resetsubmitlessonplans())
-      const AddOrEditLessonPlanDetailBody: IAddOrEditLessonPlanDetailsBody = {
-        asSchoolId: asSchoolId,
-        asAcademicYearId: asAcademicYearId,
-        asStandardDivId: 0,
-        asUserId: asUserId,
-        asReportingUserId: asUserId,
-        asStartDate: StartDate,
-        asEndDate: EndDate,
-        IsNewMode: false
-      };
       dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
     }
   }, [SubmitLessonPlans])
@@ -195,8 +187,8 @@ const AddLessonPlan = () => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
-      asUserId: Number(asUserId),
-      asReportingUserId: Number(TeacherId),
+      asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+      asReportingUserId: Number(asUserId),
       aasStartDate: StartDate,
       aasEndDate: EndDate,
       asApproverComment: ApproverComment,
@@ -269,7 +261,7 @@ const AddLessonPlan = () => {
       const SaveLessonPlanBody: ISaveLessonPlanBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asUserId: Number(asUserId),
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
         asReportingUserId: Number(asUserId),
         aasStartDate: StartDate,
         aasEndDate: EndDate,
@@ -279,6 +271,7 @@ const AddLessonPlan = () => {
         asOldEndDate: OldEndDate,
       };
       dispatch(SaveLessonPlan(SaveLessonPlanBody))
+      setActionMode('Edit')
 
     }
   };
@@ -287,7 +280,7 @@ const AddLessonPlan = () => {
       const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asUserId: Number(asUserId),
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
         asReportingUserId: Number(asUserId),
         aasStartDate: StartDate,
         aasEndDate: EndDate,
@@ -296,6 +289,21 @@ const AddLessonPlan = () => {
       dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
     }
   };
+  const onClickApprover = () => {
+    if (confirm('After this action you will not be able to change any details. Do you want to continue?')) {
+      const SubmitLessonPlanBody: ISubmitLessonPlanBody = {
+        asSchoolId: asSchoolId,
+        asAcademicYearId: asAcademicYearId,
+        asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
+        asReportingUserId: Number(asUserId),
+        aasStartDate: StartDate,
+        aasEndDate: EndDate,
+        asUpdatedById: Number(UpdatedById)
+      };
+      dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
+    }
+  };
+
 
   return (
     <Container maxWidth="xl">
@@ -354,6 +362,22 @@ const AddLessonPlan = () => {
                     }
                   }}
                   onClick={onClickSave}
+                >
+                  <Save />
+                </IconButton>
+              </Tooltip>
+            </Box>
+            <Box>
+              <Tooltip title={'Approver'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickApprover}
                 >
                   <Save />
                 </IconButton>
