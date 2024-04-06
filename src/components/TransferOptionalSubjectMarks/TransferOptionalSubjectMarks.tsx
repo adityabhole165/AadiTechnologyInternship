@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonGroup, IconButton, TextField, Tooltip } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, ButtonGroup, IconButton, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -27,6 +27,8 @@ const TransferOptionalSubjectMarks = () => {
     const [Title, setTitle] = useState('');
     const [SubjectList, setSubjectList] = useState([]);
     const [SearchText, setSearchText] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+    const [IsDirty, setIsDirty] = useState(false);
 
 
     const USClassTeacherList = useSelector((state: RootState) => state.TransferOptionalSubjectMarks.ISGetClassTeachers);
@@ -43,6 +45,7 @@ const TransferOptionalSubjectMarks = () => {
     const [ParentOptionalSubjects, setParentOptionalSubjects] = useState([])
 
     useEffect(() => {
+        setIsDirty(false)
         setSelectedStudents(USOptionalSubjectsForMarksTransfer);
     }, [USOptionalSubjectsForMarksTransfer]);
 
@@ -161,7 +164,7 @@ const TransferOptionalSubjectMarks = () => {
     }, [USOptionalSubjectsForMarksTransfer])
 
     const SubjectSelection = (subjectId) => {
-
+        setIsDirty(true)
         setOptionalSubjects(OptionalSubjects.map((Item) => {
             return Item.SubjectId == subjectId ?
                 { ...Item, isActive: !Item.isActive } :
@@ -172,8 +175,26 @@ const TransferOptionalSubjectMarks = () => {
 
 
 
+
+
+
+
     const ClickSelctTecher = (value) => {
-        setselectClasstecaher(value);
+        if (selectClasstecaher != '') {
+            const confirmMessage = "Modified data on the current page will be lost. Do you want to continue?";
+            let confirmed = false
+            if (IsDirty) {
+                confirmed = window.confirm(confirmMessage);
+
+                if (confirmed) {
+                    setselectClasstecaher(value);
+                }
+            }
+            else
+                setselectClasstecaher(value);
+        } else {
+            setselectClasstecaher(value);
+        }
     };
     const [page, setPage] = useState(1);
 
@@ -223,6 +244,8 @@ const TransferOptionalSubjectMarks = () => {
 
 
     useEffect(() => {
+        setIsDirty(false)
+
         setStudentsList(USStudentsToTransferMarks);
     }, [USStudentsToTransferMarks]);
 
@@ -237,6 +260,7 @@ const TransferOptionalSubjectMarks = () => {
 
 
     const Changevalue = (value) => {
+        setIsDirty(true)
         setStudentsList(value);
     };
 
@@ -266,22 +290,36 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        if (!StudentsList.some((Item) => Item.IsActive)) {
-            alert("At least one student subject should be selected.");
-        } else {
+        // const isAnySubjectSelected = OptionalSubjects.some((subject) => subject.isActive);
+        // if (!StudentsList.some((Item) => Item.IsActive)) {
+        // alert("At least one student subject should be selected.");
+        // } else if (!isAnySubjectSelected) {
+        //     setErrorMessage("At least one subject should be selected for optional subject HMS2.");
+        // } else {
+        //     dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+        // }
+        let arrParent = []
+        ParentOptionalSubjects.map((Item) => {
+            if (!OptionalSubjects.
+                filter((childItem) => { return childItem.ParentOptionalSubjectId == Item.ParentOptionalSubjectId })
+                .some((subject) => subject.isActive)
+            )
+                arrParent.push(Item.OptionalSubjectName)
+        })
+
+        if (arrParent.length > 0)
+            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(" - "));
+        else
             dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
-        }
     }
-    
-    
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
             toast.success(ISTransferOptionalSubjectMarks);
             dispatch(CDAresetMessage());
-           dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
-           dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
+            dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
+            dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
         }
-       
+
 
     }, [ISTransferOptionalSubjectMarks]);
     return (
@@ -347,6 +385,16 @@ const TransferOptionalSubjectMarks = () => {
                     </>
                 }
             />
+
+            {errorMessage && (
+                <>
+                    <Typography sx={{ color: 'red' }}>
+                        Please fix following error(s):</Typography>
+                    <Typography sx={{ color: 'red' }}>
+                        {errorMessage}
+                    </Typography>
+                </>
+            )}
             {StudentsList.length > 0 ? (
                 <Box sx={{ textAlign: 'center' }}>
                     <b>{`${startIndex} To ${endIndex} Out Of 39 Records`}</b>
