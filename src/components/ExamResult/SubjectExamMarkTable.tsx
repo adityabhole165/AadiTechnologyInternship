@@ -210,7 +210,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={true}
-                      IsMark={TestMarkDetails.Grade_Or_Marks} />
+                      IsMark={TestMarkDetails.Grade_Or_Marks == "M"} />
                     {TestMarkDetails.Grade_Or_Marks == "M" &&
                       <TableCell>
                         <TextField sx={{ width: '80px' }} size={"small"}
