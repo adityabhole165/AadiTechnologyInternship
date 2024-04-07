@@ -290,28 +290,25 @@ const TransferOptionalSubjectMarks = () => {
         asStudentTransferMarksXml: getXML()
     };
     const clickTransfer = () => {
-        // const isAnySubjectSelected = OptionalSubjects.some((subject) => subject.isActive);
-        // if (!StudentsList.some((Item) => Item.IsActive)) {
-        // alert("At least one student subject should be selected.");
-        // } else if (!isAnySubjectSelected) {
-        //     setErrorMessage("At least one subject should be selected for optional subject HMS2.");
-        // } else {
-        //     dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
-        // }
-        let arrParent = []
-        ParentOptionalSubjects.map((Item) => {
-            if (!OptionalSubjects.
-                filter((childItem) => { return childItem.ParentOptionalSubjectId == Item.ParentOptionalSubjectId })
+        let arrParent = [];
+        ParentOptionalSubjects.forEach((Item) => {
+            if (!OptionalSubjects
+                .filter((childItem) => childItem.ParentOptionalSubjectId === Item.ParentOptionalSubjectId)
                 .some((subject) => subject.isActive)
-            )
-                arrParent.push(Item.OptionalSubjectName)
-        })
-
-        if (arrParent.length > 0)
-            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(" - "));
-        else
+            ) {
+                arrParent.push(Item.OptionalSubjectName);
+            }
+        });
+    
+        if (!StudentsList.some((Item) => Item.IsActive)) {
+            alert("At least one student subject should be selected.");
+        } else if (arrParent.length > 0) {
+            setErrorMessage("At least one subject should be selected for optional subject " + arrParent.join(", "));
+        } else {
             dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
+        }
     }
+    
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
             toast.success(ISTransferOptionalSubjectMarks);
