@@ -1,4 +1,4 @@
-import { TableCell, TextField, Tooltip } from '@mui/material';
+import { Box, Stack, TableCell, TextField, Tooltip } from '@mui/material';
 import Dropdown from 'src/libraries/dropdown/Dropdown';
 const validateInput = (inputValue) => {
 
@@ -34,51 +34,57 @@ const SubjectExamRows = ({ ExamMarks, StudentId, changeText, GradesForSubjectMar
             {ExamMarks?.map((Item, Index) => {
                 return (<>
                     <TableCell>
-                        <Dropdown
-                            defaultValue={Item.ExamStatus}
-                            variant='outlined'
-                            Array={ExamStatus}
-                            handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
-                            // disabled={IsReadOnly}
-                        />
-                    </TableCell>
-                    {IsMark ? (
-                        <TableCell key={Index}>
-
-                            <Tooltip title={
-                                (Number(Item.Text1) > Number(Item.Text2)) ?
-                                    ("Marks Scored should be less than " + Item.Text2)
-                                    : null}>
-                                <TextField size={"small"}
-
-                                    sx={{
-                                        width: '50px',
-                                        border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
-                                        borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
-                                    }}
-                                    // disabled={IsReadOnly || !Item.IsActive}
-                                    disabled= {!Item.IsActive}
-                                    value={Item.Text1}
-                                    onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
-
-                                />
-                            </Tooltip>
-                            {getGrade(Item.Text1, Item.Text2)}
-                        </TableCell >
-                    ) : (
-                        <TableCell>
-
+                        <Stack direction="row" alignItems="center" gap={2}>
                             <Dropdown
-                                defaultValue={Item.ExamGrade}
+                                defaultValue={Item.ExamStatus}
                                 variant='outlined'
-                                Array={GradesForSubjectMarkList}
-                                // disabled={IsReadOnly || !Item.IsActive}
-                                disabled= {!Item.IsActive}
-                                handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
-                            />
+                                Array={ExamStatus}
+                                handleChange={(value) => { changeExamStatus(value, StudentId, Item.Id) }}
+                            // disabled={IsReadOnly}
 
-                        </TableCell>)
-                    }
+                            />
+                            {IsMark ? (
+
+                                <Stack direction="row" alignItems="center" gap={2}>
+
+                                    <Tooltip title={
+                                        (Number(Item.Text1) > Number(Item.Text2)) ?
+                                            ("Marks Scored should be less than " + Item.Text2)
+                                            : null}>
+                                        <TextField size={"small"}
+
+                                            sx={{
+                                                width: '50px',
+                                                border: (Number(Item.Text1) > Number(Item.Text2)) ? 1 : 0,
+                                                borderColor: (Number(Item.Text1) > Number(Item.Text2)) ? 'error.main' : 0
+                                            }}
+                                            // disabled={IsReadOnly || !Item.IsActive}
+                                            disabled={!Item.IsActive}
+                                            value={Item.Text1}
+                                            onChange={(e) => handleChange(e, validateInput, (value) => changeText(value, StudentId, Item.Id))}
+
+                                        />
+                                    </Tooltip>
+                                    {getGrade(Item.Text1, Item.Text2)}
+                                </Stack>
+                            ) : (
+                                <Box>
+
+
+                                    <Dropdown
+                                        defaultValue={Item.ExamGrade}
+                                        variant='outlined'
+                                        Array={GradesForSubjectMarkList}
+                                        // disabled={IsReadOnly || !Item.IsActive}
+                                        disabled={!Item.IsActive}
+                                        handleChange={(value) => { changeExamGrade(value, StudentId, Item.Id) }}
+                                    />
+
+                                </Box>)
+                            }
+                        </Stack>
+                    </TableCell>
+
                 </>
                 )
             })}
