@@ -2,7 +2,6 @@ import {
     Box,
     Card,
     CardContent,
-    Container,
     Grid,
     IconButton,
     Tooltip,
@@ -515,11 +514,13 @@ const ExamResultToppers = () => {
                             />
                         </Box>
                     </Grid>
-
-                    <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <Typography variant={'h2'} mb={1}>
+                    <Card variant="outlined" sx={{ marginTop: 2 }}>
+                        <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
                             Subject Toppers
-                        </Typography>
+                        </CardContent>
+                    </Card>
+                    <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
                         <Grid container>
                             {SubjectToppersListCT.map((item, i) => {
                                 return (
@@ -528,7 +529,7 @@ const ExamResultToppers = () => {
                                             <Grid container item xs={12} justifyContent="center">
                                                 {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
                                                 {/* <Box sx={{ px: 2 }}> */}
-                                                <Typography variant={'h3'} mb={1}>
+                                                <Typography variant={'h3'} fontWeight={'normal'} mb={1}>
                                                     {item.Subject}
                                                 </Typography>
                                                 {/* </Box> */}
@@ -577,12 +578,15 @@ const ExamResultToppers = () => {
                             ClickItem={clickHighlightStudent}
                         />
                     </Box> */}
-                    <Grid container spacing={1} alignItems="center">
+                    <Card variant="outlined" sx={{ marginTop: 2 }}>
+                        <CardContent style={{ fontWeight: 'normal', fontSize: '30px' }}>
+                            Subject Toppers
+                        </CardContent>
+                    </Card>
+                    <Grid container alignItems="center">
 
-                        <Box mb={1} sx={{ marginTop: '10px', p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                            <Typography variant={'h2'} mb={1}>
-                                Subject Toppers
-                            </Typography>
+                        <Box mb={1} sx={{ p: 2, background: 'white', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+
                             <Grid container>
                                 {SubjectToppersListST.map((item, i) => {
                                     return (
@@ -591,7 +595,7 @@ const ExamResultToppers = () => {
                                                 <Grid container item xs={12} justifyContent="center">
                                                     {/* <Grid item xl={12} xs={12} key={i} sx={{ flexGrow: 1 }}> */}
                                                     {/* <Box sx={{ px: 2 }}> */}
-                                                    <Typography variant={'h3'} mb={1}>
+                                                    <Typography variant={'h3'} fontWeight={'normal'} marginTop={2} mb={1}>
                                                         {item.Subject}
                                                     </Typography>
                                                     {/* </Box> */}

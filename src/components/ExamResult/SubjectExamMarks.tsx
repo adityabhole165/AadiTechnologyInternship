@@ -333,14 +333,17 @@ const SubjectExamMarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark' },
-          { title: 'Subject Exam Marks', path: '' }
+          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
+          { title: 'Subject Exam Marks', path: '/extended-sidebar/Teacher/SubjectExamMarks' }
         ]}
         rightActions={
           <>
             <Box>
               <TextField
                 fullWidth
+                variant='outlined'
+                size='small'
+                label='Class'
                 value={
                   (StandardName && Object.keys(StandardName).length > 0) ?
                     (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
@@ -353,6 +356,9 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
+                variant='outlined'
+                label='Exam'
+                size='small'
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.SchoolWise_Test_Name
@@ -364,6 +370,9 @@ const SubjectExamMarks = () => {
             </Box>
             <Box>
               <TextField
+                variant='outlined'
+                size='small'
+                label='	Subject Name'
                 fullWidth
                 value={SubjectName || ''}
                 disabled={IsReadOnly === 'true'}
@@ -387,10 +396,6 @@ const SubjectExamMarks = () => {
               />
 
             </Box>
-
-            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              *
-            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
