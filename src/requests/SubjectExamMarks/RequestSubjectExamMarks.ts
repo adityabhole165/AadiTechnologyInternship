@@ -4,6 +4,7 @@ import {
     IGetAllGradesForSubjectMarkListBody,
     IGetAllStudentsForMarksAssignmentsBody,
     IGetClassExamSubjectNameDetailesBody,
+    IGetExamScheduleBody,
     IGetSubjectExamMarkslistsBody,
     IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
@@ -24,12 +25,17 @@ const SubjectExamMarksslice = createSlice({
         ListFailCreatiaDetails: [],
         ListYearwiseStudentId: [],
         ManageStudentsTestMark: '',
+        ExamSchedule: [],
         Loading: true
     },
     reducers: {
         GetAllStudentsForMarksAssignment(state, action) {
             state.Loading = false;
             state.StudentsForMarksAssignments = action.payload;
+        },
+        GetExamSchedule(state, action) {
+            state.Loading = false;
+            state.ExamSchedule = action.payload;
         },
 
         GetClassExamSubjectNameDetail(state, action) {
@@ -88,11 +94,21 @@ export const getClassExamSubjectNameDetailes =
         };
 
 
+
 export const resetManageStudentsTestMark =
     (): AppThunk =>
         async (dispatch) => {
             dispatch(SubjectExamMarksslice.actions.resetManageStudentsTestMark());// Dispatching action to reset the message
         };
+export const getExamSchedule =
+    (data: IGetExamScheduleBody): AppThunk =>
+        async (dispatch) => {
+            dispatch(SubjectExamMarksslice.actions.getLoading(true));
+            const response = await SubjectExamMarksApi.GetExamScheduleApi(data);
+            dispatch(SubjectExamMarksslice.actions.GetExamSchedule(response.data));
+
+        };
+
 export const getAllGradesForSubjectMarkList =
     (data: IGetAllGradesForSubjectMarkListBody): AppThunk =>
         async (dispatch) => {

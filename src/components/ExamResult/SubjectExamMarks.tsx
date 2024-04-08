@@ -10,11 +10,13 @@ import {
   IGetAllGradesForSubjectMarkListBody,
   IGetAllStudentsForMarksAssignmentsBody,
   IGetClassExamSubjectNameDetailesBody,
+  IGetExamScheduleBody,
   IGetSubjectExamMarkslistsBody,
   IManageStudentsTestMarkBody
 } from 'src/interfaces/SubjectExamMarks/ISubjectExamMarks';
 import {
   getAllGradesForSubjectMarkList, getClassExamSubjectNameDetailes,
+  getExamSchedule,
   getManageStudentsTestMark, getSubjectExamMarkslist
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
@@ -92,6 +94,10 @@ const SubjectExamMarks = () => {
   const GradesForSubjectMarkList: any = useSelector(
     (state: RootState) => state.SubjectExamMark.GradesForSubjectMarkList
   );
+  const ExamSchedules: any = useSelector(
+    (state: RootState) => state.SubjectExamMark.ExamSchedule
+  );
+  console.log("ExamSchedules", ExamSchedules)
 
   const [ExamGrade, setExamGrade] = useState([])
   const clickTestDate = (value) => {
@@ -152,6 +158,16 @@ const SubjectExamMarks = () => {
 
     dispatch(getAllGradesForSubjectMarkList(GetAllGradesForSubjectMarkListBody));
   }, []);
+  useEffect(() => {
+    const GetExamScheduleBody: IGetExamScheduleBody = {
+      asSchoolId: Number(asSchoolId),
+      asStandardId: Number(StandardId),
+      asTestId: Number(TestId),
+      asSubjectId: Number(SubjectId),
+    };
+
+    dispatch(getExamSchedule(GetExamScheduleBody));
+  }, [TestDate]);
 
   useEffect(() => {
     setMarksAssignment(StudentsForMarksAssignment)
@@ -218,21 +234,26 @@ const SubjectExamMarks = () => {
     return returnVal + "</SchoolWiseStudentTestMarksDetails>"
   }
   const onClickSave = () => {
-    if (!MarksError) {
-      const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
-        asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
-        asInserted_By_id: Number(userId),
-        Student_Test_Type_Marks: getStudentTestType(),
-        Student_Test_Type_Marks_Details: getStudentTestTypeDetails(),
-        asRemoveProgress: RemoveProgress,
-        RemarkXml: RemarkXml,
-        asHasRemark: HasRemark,
-        asTestId: Number(TestId),
-        asSubjectId: Number(SubjectId),
-        asSchoolId: Number(asSchoolId),
-        asAcademicYearId: Number(asAcademicYearId)
-      };
-      dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+    if (TestDate !== "" && isOutsideAcademicYear(TestDate)) {
+      setMarksError('Exam date should be within the current academic year (i.e. between ' +
+        formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+    } else {
+      if (!MarksError) {
+        const ManageStudentsTestMarkBody: IManageStudentsTestMarkBody = {
+          asTestWise_Subject_Marks_Id: Number(SubjectMarksId),
+          asInserted_By_id: Number(userId),
+          Student_Test_Type_Marks: getStudentTestType(),
+          Student_Test_Type_Marks_Details: getStudentTestTypeDetails(),
+          asRemoveProgress: RemoveProgress,
+          RemarkXml: RemarkXml,
+          asHasRemark: HasRemark,
+          asTestId: Number(TestId),
+          asSubjectId: Number(SubjectId),
+          asSchoolId: Number(asSchoolId),
+          asAcademicYearId: Number(asAcademicYearId)
+        };
+        dispatch(getManageStudentsTestMark(ManageStudentsTestMarkBody))
+      }
     }
   };
 
@@ -251,17 +272,44 @@ const SubjectExamMarks = () => {
   const [MarksError, setMarksError] = useState('')
 
 
+  // useEffect(() => {
+  //   if (TestDate != "") {
+  //     if (isOutsideAcademicYear(TestDate)) {
+  //       setMarksError('Exam date should be within current academic year (i.e. between ' +
+  //         formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')')
+  //     }
+  //     else {
+  //       setMarksError('')
+  //     }
+  //   }
+  // }, [TestDate])
+
+
   useEffect(() => {
-    if (TestDate != "") {
+
+
+    if (TestDate !== "" && ExamSchedules.length > 0) {
+
       if (isOutsideAcademicYear(TestDate)) {
-        setMarksError('Exam date should be within current academic year (i.e. between ' +
-          formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')')
-      }
-      else {
-        setMarksError('')
+        setMarksError('Exam date should be within the current academic year (i.e., between ' +
+          formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
+      } else {
+        const startDate = new Date(ExamSchedules[0].Exam_Start_Date);
+        console.log("startDate", startDate)
+        const endDate = new Date(ExamSchedules[0].Exam_End_Date);
+        const selectedDate = new Date(TestDate);
+
+
+        if (selectedDate < startDate || selectedDate > endDate) {
+          setMarksError('Exam date should be between ' + ExamSchedules[0].formatDateAsDDMMMYYYY(startDate) + ' and ' + ExamSchedules[0].formatDateAsDDMMMYYYY(endDate));
+        } else {
+          setMarksError('');
+        }
       }
     }
-  }, [TestDate])
+  }, [TestDate, ExamSchedules]);
+
+
   const onChangeExamStatus = (value) => {
     setMarksAssignment(value)
     setMarksError('')
@@ -383,29 +431,56 @@ const SubjectExamMarks = () => {
 
           <Typography variant={"h4"}>
             {/* Total Marks: 20 */}
-            {TestMarkDetails.Grade_Or_Marks == "M" &&
-              <TextField fullWidth value={TestMarkDetails?.length > 0 ?
-                (TestMarkDetails[0].Subject_Total_Marks) : ''}
-                disabled={IsReadOnly === 'true'} />
+            {TestName && TestName.Grade_Or_Marks == "M" &&
+              <TextField
+                fullWidth
+                value={
+                  (TestName && Object.keys(TestName).length > 0) ?
+                    TestName.Subject_Total_Marks
+                    :
+                    ''
+                }
+                disabled={IsReadOnly === 'true'}
+              />
+              // <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+              //  (TestMarkDetails[0].Subject_Total_Marks) : ''}
+              //   disabled={IsReadOnly === 'true'} />
             }
           </Typography>
-          {TestMarkDetails.Grade_Or_Marks == "M" &&
+          {TestName && TestName.Grade_Or_Marks == "M" &&
             <div>|</div>
           }
           <Typography variant={"h4"}>
             {/* Passing Marks: 20 */}
+            {TestName && TestName.Grade_Or_Marks == "M" &&
+              // <TextField fullWidth value={TestMarkDetails?.length > 0 ?
+              //   (TestMarkDetails[0].Passing_Total_Marks) : ''}
+              //   disabled={IsReadOnly === 'true'}
 
-            <TextField fullWidth value={TestMarkDetails?.length > 0 ?
-              (TestMarkDetails[0].Passing_Total_Marks) : ''}
-              disabled={IsReadOnly === 'true'}
-            />
-
-
-            <TextField fullWidth value={TestMarkDetails?.length > 0 ?
-              (TestMarkDetails[0].Grade_Name) : ''}
-              disabled={IsReadOnly === 'true'}
-            />
-
+              // />
+              <TextField
+                fullWidth
+                value={
+                  (TestName && Object.keys(TestName).length > 0) ?
+                    TestName.Passing_Total_Marks
+                    :
+                    ''
+                }
+                disabled={IsReadOnly === 'true'}
+              />
+            }
+            {TestName && TestName.Grade_Or_Marks == "G" &&
+              <TextField
+                fullWidth
+                value={
+                  (TestName && Object.keys(TestName).length > 0) ?
+                    TestName.Grade_Name
+                    :
+                    ''
+                }
+                disabled={IsReadOnly === 'true'}
+              />
+            }
 
           </Typography>
           <Typography sx={{ color: 'red' }}>{MarksError}</Typography>
@@ -427,7 +502,7 @@ const SubjectExamMarks = () => {
             GradesForSubjectMarkList={GradesForSubjectMarkList}
             onChangeExamGrade={onClickExamGrade}
             IsReadOnly={true}
-
+            IsMark={TestName.Grade_Or_Marks == "M"}
 
           />
         }

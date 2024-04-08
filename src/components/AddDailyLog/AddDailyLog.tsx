@@ -11,6 +11,7 @@ import {
   TextField,
   Tooltip,
   Typography,
+  alpha,
   styled
 } from '@mui/material';
 import { green, grey, red } from '@mui/material/colors';
@@ -454,7 +455,7 @@ const AddDailyLog = () => {
         <Box sx={{ p: 2, backgroundColor: 'white' }}>
           <Grid container spacing={1}>
             <Grid item xs={5}>
-              <TextField fullWidth label={'Class'} value={ClassName} />
+              <TextField fullWidth label={'Class'} sx={{ background: (theme) => alpha(theme.palette.primary.main, 0.2) }} value={ClassName} />
             </Grid>
             <Grid item xs={5}>
               <TextField
@@ -484,7 +485,6 @@ const AddDailyLog = () => {
             </Grid>
           </Grid>
         </Box>
-        <hr style={{ margin: '20px 0' }} />
         <Box sx={{ mt: 2, backgroundColor: 'white', p: 2 }}>
           <Grid
             container

@@ -59,5 +59,32 @@ export interface IGetTestMarkResult {
     }
 ];
 }
+export interface GetStudentsForSubjectMarkMouseOverBody {
+    asSchoolId:number,
+    asAcademicYearId:number,
+    asStandardDivId:number,
+    asNoOfRecord:number,
+    asTestId:number,
+    asSubjectId:number
 
+}
+export interface GetStudentsForSubjectMarkMouseOverResult {
+            ID_Num: string,
+            Name: string,
+            Roll_No: string,
+            SchoolWise_Standard_Division_Id: string,
+            School_Id: string,
+            Standard_Id: string,
+            Division_id: string,
+            Student_Id: string,
+            Enrolment_Number: string,
+            Admission_Date: string,
+            First_Name: string,
+            Middle_Name: string,
+            Last_Name: string,
+            SchoolWise_Student_Id: string,
+            Standard_Division_Name:string
+        
+
+}
 

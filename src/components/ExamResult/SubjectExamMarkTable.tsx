@@ -1,13 +1,10 @@
 import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField } from '@mui/material';
-import { RootState, useSelector } from 'src/store';
 import SubjectExamHeader from './SubjectExamHeader';
 import SubjectExamRows from './SubjectExamRows';
 const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChangeExamStatus,
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
-  onChangeExamGrade }) => {
-  const TestMarkDetails: any = useSelector(
-    (state: RootState) => state.SubjectExamMark.ListStudentTestMarkDetails
-  );
+  onChangeExamGrade, IsMark }) => {
+
   const getDropdownName = (list, Id) => {
     let returnVal = "";
     list.forEach((item) => {
@@ -178,9 +175,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                 <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text2}
                 </TableCell>
-                <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
+                {/* <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
                   {ExamMarksHeader.Text3}
-                </TableCell>
+                </TableCell> */}
                 {/* <SubjectExamHeader ExamMarksHeader={ExamMarksHeader.Text4} /> */}
                 <SubjectExamHeader
                   ExamMarksHeader={ExamMarksHeader.Text4}
@@ -189,9 +186,9 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                   GradesForSubjectMarkList={GradesForSubjectMarkList}
                   ChangeGrade={ChangeExamGradeHeader}
                   IsReadOnly={true}
-                  IsMark={TestMarkDetails.Grade_Or_Marks}
+                  IsMark={IsMark}
                 />
-                {TestMarkDetails.Grade_Or_Marks == "M" &&
+                {IsMark &&
                   <TableCell sx={{ color: 'white', fontWeight: 'bold' }}>
                     {ExamMarksHeader.Text5}
                   </TableCell>
@@ -210,8 +207,8 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={true}
-                      IsMark={TestMarkDetails.Grade_Or_Marks == "M"} />
-                    {TestMarkDetails.Grade_Or_Marks == "M" &&
+                      IsMark={IsMark} />
+                    {IsMark &&
                       <TableCell>
                         <TextField sx={{ width: '80px' }} size={"small"}
                           disabled
