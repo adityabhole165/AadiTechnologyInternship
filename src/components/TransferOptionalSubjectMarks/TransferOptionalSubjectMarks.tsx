@@ -1,13 +1,12 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, IconButton, Pagination, TextField, Tooltip, Typography } from '@mui/material';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, IconButton, Pagination, Paper, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
 import { toast } from 'react-toastify';
 import { IGetClassTeachersBody, IGetOptionalSubjectsForMarksTransferBody, IGetStudentsToTransferMarksBody, ITransferOptionalSubjectMarksBody } from 'src/interfaces/TransferOptionalSubjectMarks/ITransferOptionalSubjectMarks';
-import Notes from 'src/libraries/ResuableComponents/Notes';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import { CDAGetClassTeachers, CDAOptionalSubjectsForMarksTransfer, CDAStudentsToTransferMarks, CDATransferOptionalSubjectMarks, CDAresetMessage } from 'src/requests/TransferOptionalSubjectMarks/ReqTransferOptionalSubjectMarks';
@@ -299,7 +298,7 @@ const TransferOptionalSubjectMarks = () => {
                 arrParent.push(Item.OptionalSubjectName);
             }
         });
-    
+
         if (!StudentsList.some((Item) => Item.IsActive)) {
             alert("At least one student subject should be selected.");
         } else if (arrParent.length > 0) {
@@ -308,7 +307,7 @@ const TransferOptionalSubjectMarks = () => {
             dispatch(CDATransferOptionalSubjectMarks(TransferOptionalSubjectMarksBody));
         }
     }
-    
+
     useEffect(() => {
         if (ISTransferOptionalSubjectMarks != '') {
             toast.success(ISTransferOptionalSubjectMarks);
@@ -388,15 +387,25 @@ const TransferOptionalSubjectMarks = () => {
             )}
 
             {StudentsList.length > 0 ? (
-                <Box mb={1} sx={{ p: 1, background: 'white' }}>
+                <Paper sx={{ padding: 1, marginBottom: '10px' }}>
+                    <Accordion defaultExpanded>
+                        <AccordionSummary
+                            expandIcon={<ExpandMoreIcon />}
+                            aria-controls="panel1-content"
+                            id="panel1-header"
+                        >
+                            <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
+                        </AccordionSummary>
+                        <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+                            <Alert variant="filled" severity="info">{Note1}</Alert>
+                            <Alert variant="filled" severity="info">{Note2}</Alert>
+                            <Alert variant="filled" severity="info">{Note3}</Alert>
+                            <Alert variant="filled" severity="info">{Note4}</Alert>
 
-                    <div>
-                        <Notes NoteDetail={Note1} Header={Header1} />
-                        <Notes NoteDetail={Note2} Header={Header2} />
-                        <Notes NoteDetail={Note3} Header={Header3} />
-                        <Notes NoteDetail={Note4} Header={Header4} />
-                    </div>
-                </Box>
+                        </AccordionDetails>
+                    </Accordion>
+
+                </Paper>
 
             ) : (
                 <span></span>

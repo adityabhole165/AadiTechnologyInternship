@@ -75,27 +75,30 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
         }}
       ></DialogTitle>
       <DialogContent dividers sx={{ px: 4 }}>
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Exam :
+        </Typography>
+        <Grid container spacing={1} alignItems="center">
 
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Exam :</b>
-            </Typography>
-          </Grid>
           <Grid item xs={2}>
-            <TextField value={ExamName} />
+            <TextField
+              sx={{ minWidth: '400px' }}
+              label={'Exam'}
+              size={"small"}
+              value={ExamName} />
           </Grid>
         </Grid>
         <br></br>
-
-        <Grid container spacing={1} justifyContent="center" alignItems="center">
-          <Grid item xs={1}>
-            <Typography>
-              <b>Class Teacher Name :</b>
-            </Typography>        </Grid>
-
-          <Grid item xs={2}>
-            <TextField value={TeacherName} />
+        <Typography variant={"h4"} sx={{ mb: 1 }}>
+          Class Teacher Name :
+        </Typography>
+        <Grid container spacing={1} alignItems="center">
+          <Grid item >
+            <TextField
+              sx={{ minWidth: '400px' }}
+              label={'Exam'}
+              size={"small"}
+              value={TeacherName} />
           </Grid>
         </Grid>
         <br></br>

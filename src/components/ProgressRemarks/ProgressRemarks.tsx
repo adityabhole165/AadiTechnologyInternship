@@ -1,4 +1,6 @@
-import { Box, Grid, Paper, Stack, Switch, Typography } from '@mui/material';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import SaveIcon from '@mui/icons-material/Save';
+import { Accordion, AccordionDetails, AccordionSummary, Alert, Box, Button, Grid, IconButton, Modal, Pagination, Paper, Stack, Tooltip, Typography } from '@mui/material';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router';
@@ -11,10 +13,9 @@ import {
   IStudentswiseRemarkDetailsToExportBody,
   IUpdateAllStudentsRemarkDetailsBody
 } from 'src/interfaces/ProgressRemarks/IProgressRemarks';
-import Notes from 'src/libraries/ResuableComponents/Notes';
 import ResizableCommentsBox from 'src/libraries/ResuableComponents/ResizableCommentsBox;';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { ButtonPrimary } from 'src/libraries/styled/ButtonStyle';
+import SubjectMarkList from 'src/libraries/ResuableComponents/SubjectMarkList';
 import {
   CDAGetAllStudentswiseRemarkDetails,
   CDAGetClassTeachers,
@@ -27,6 +28,11 @@ import {
 import { RootState } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 
+
+const HeaderPublish = [
+  { Id: 1, Header: ' Remark Template.	' },
+];
+
 const ProgressRemarks = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -37,6 +43,8 @@ const ProgressRemarks = () => {
   const [SelectTerm, SetSelectTerm] = useState();
   const [StudentList, SetStudentList] = useState('');
   const [showScreenOne, setShowScreenOne] = useState(true);
+  const [open, setOpen] = useState(false);
+  const [StudentsList, setStudentsList] = useState([]);
 
   const toggleScreens = () => {
     setShowScreenOne(!showScreenOne);
@@ -289,7 +297,17 @@ const ProgressRemarks = () => {
   }, [selectTeacher, SelectTerm, StudentList]);
 
   const ExamResult = (value) => {
-    navigate('/extended-sidebar/Teacher/ExamResultBase');
+    console.log(open, 'open modal')
+    setOpen(!open)
+  };
+  const [page, setPage] = useState(1);
+
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
+  const Changevalue = (value) => {
+    setStudentsList(value);
   };
 
   return (
@@ -326,92 +344,37 @@ const ProgressRemarks = () => {
           />
         </>}
       />
-      <Box sx={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h4" gutterBottom>
-          {showScreenOne ? 'Hide Notes' : ' Show Notes'}
-        </Typography>
-        <Switch
-          checked={showScreenOne}
-          onChange={() => setShowScreenOne(!showScreenOne)}
-        />
 
-      </Box>
-      {showScreenOne ? (
-        <Grid >
-          <Paper sx={{ padding: '8px', marginBottom: '10px' }}>
-            <Notes NoteDetail={Note1} Header={Hedaer1} />
-            <Notes NoteDetail={Note2} Header={Hedaer2} />
-            <Notes NoteDetail={Note3} Header={Hedaer3} />
-            <Notes NoteDetail={Note4} Header={Hedaer4} />
-            <Notes NoteDetail={Note5} Header={Hedaer5} />
-          </Paper>
+      <Grid >
+        <Paper sx={{ padding: 1, marginBottom: '10px' }}>
+          <Accordion defaultExpanded>
+            <AccordionSummary
+              expandIcon={<ExpandMoreIcon />}
+              aria-controls="panel1-content"
+              id="panel1-header"
+            >
+              <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Important Notes</Typography>
+            </AccordionSummary>
+            <AccordionDetails sx={{ gap: 1, display: 'flex', flexDirection: 'column' }}>
+              <Alert variant="filled" severity="info">{Note1}</Alert>
+              <Alert variant="filled" severity="info">{Note2}</Alert>
+              <Alert variant="filled" severity="info">{Note3}</Alert>
+              <Alert variant="filled" severity="info">{Note4}</Alert>
+              <Alert variant="filled" severity="info">{Note5}</Alert>
 
-          <Grid item xs={6}>
-            <Paper sx={{ padding: '8px' }}>
-              <Stack>
-                <Typography variant={'h4'} mb={1}>
-                  Left Students
-                </Typography>
-              </Stack>
-              {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
-              <ResizableCommentsBox
-                HeaderArray={HeaderArray}
-                ItemList={Itemlist}
-                NoteClick={ExamResult}
-                setTextValues={TextValues}
-                setTextValues1={TextValues1}
-                setTextValues2={TextValues2}
-              />
+            </AccordionDetails>
+          </Accordion>
 
-              <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'center' }}>
-                <ButtonPrimary
-                  variant="contained"
-                  style={{
-                    backgroundColor: '#0091ea',
-                    color: 'white',
-                    marginRight: '10px'
-                  }}
-                  onClick={UpdateRemark}
-                >
-                  SAVE
-                </ButtonPrimary>
-                {/* Show some error in this component. Please check */}
-                {/* <Box sx={{ marginInline: '10px' }}>
-                  <ExportToExcel
-                    File1={StudentswiseRemarkDetails}
-                    File2={StudentswiseRemarkDetails1}
-                    File3={StudentswiseRemarkDetails2}
-                    ExportExcel={ExportButton}
-                  />
-                </Box> */}
-                <ButtonPrimary
-                  variant="contained"
-                  style={{
-                    backgroundColor: 'Red',
-                    color: 'White',
-                    marginRight: '10px'
-                  }}
-                >
-                  PREVIOUS
-                </ButtonPrimary>
-                <ButtonPrimary
-                  variant="contained"
-                  style={{ backgroundColor: '#0091ea', color: 'white' }}
-                >
-                  NEXT
-                </ButtonPrimary>
-              </Box>
-            </Paper>
-          </Grid>
-        </Grid>
-      ) : (
+        </Paper>
+
         <Grid item xs={6}>
-          <Paper sx={{ padding: '8px' }}>
+          <Paper sx={{ padding: 2 }}>
             <Stack>
-              <Typography variant={'h4'} mb={1}>
+              <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>
                 Left Students
               </Typography>
             </Stack>
+            {/* <ResizableCommentsBox HeaderArray={HeaderArray} ItemList={Itemlist} NoteClick={ExamResult}   setTextValues={TextValues} setTextValues1={TextValues1} setTextValues2={TextValues2} setCharCounts={CharCounts1} charCounts={charCounts}/> */}
             <ResizableCommentsBox
               HeaderArray={HeaderArray}
               ItemList={Itemlist}
@@ -421,41 +384,144 @@ const ProgressRemarks = () => {
               setTextValues2={TextValues2}
             />
 
-            <br></br>
-            <Box style={{ display: 'flex', justifyContent: 'center', gap: 4 }}>
-              <ButtonPrimary
+            <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'end' }}>
+
+
+              <Pagination
+                count={5}
+                variant={"outlined"}
+                shape='rounded' showFirstButton
+                showLastButton
+                onChange={(event, value) => {
+                  handlePageChange(value);
+                }}
+              />
+            </Box>
+            <Box sx={{ margin: '8px' }} style={{ display: 'flex', justifyContent: 'center' }}>
+              {/* Show some error in this component. Please check */}
+              {/* <Box sx={{ marginInline: '10px' }}>
+                  <ExportToExcel
+                    File1={StudentswiseRemarkDetails}
+                    File2={StudentswiseRemarkDetails1}
+                    File3={StudentswiseRemarkDetails2}
+                    ExportExcel={ExportButton}
+                  />
+                </Box> */}
+              <Box>
+                <Tooltip title={'Save'}>
+                  <IconButton
+                    onClick={UpdateRemark}
+                    sx={{
+                      color: 'white',
+                      backgroundColor: 'green'
+                    }}
+                  >
+                    <SaveIcon />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+
+            </Box>
+          </Paper>
+        </Grid>
+      </Grid>
+      <Modal
+        open={open}
+        onClose={ExamResult}
+      >
+        <Box sx={style}>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+            <Box>
+              <Box>
+                <Typography style={{ fontWeight: 'normal', fontSize: '20px' }}>Select Appropriate Template</Typography>
+              </Box>
+              <Box sx={{ display: 'flex', flexDirection: 'row', gap: 2, margin: '12px' }}>
+                <SearchableDropdown
+                  ItemList={USStudentListDropDown}
+                  sx={{ minWidth: '230px' }}
+                  onChange={clickStudentList}
+                  defaultValue={StudentList}
+                  label={'Student Name'}
+                  size={"small"}
+                />
+                <SearchableDropdown
+                  ItemList={USClassTeachers}
+                  sx={{ minWidth: '230px' }}
+                  onChange={clickSelectClass}
+                  defaultValue={selectTeacher}
+                  label={'Remark Category'}
+                  size={"small"}
+                />
+                <SearchableDropdown
+                  ItemList={USGetTestwiseTerm}
+                  sx={{ minWidth: '230px' }}
+                  onChange={clickSelectTerm}
+                  defaultValue={SelectTerm}
+                  label={'Grades'}
+                  size={"small"}
+                />
+
+              </Box>
+              <Paper sx={{ padding: 1, marginBottom: '10px' }}>
+                <Box sx={{ p: 2, display: 'flex', flexDirection: 'row' }}>
+                  {StudentsList.length > 0 ? (
+                    <SubjectMarkList
+                      ItemList={StudentsList}
+                      HeaderArray={HeaderPublish}
+                      onChange={Changevalue}
+                      clickchange={""}
+                      clickTitle={""}
+                    />
+                  ) : (
+                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white', width: '700px' }}>
+                      <b>No Record Found.</b>
+                    </Typography>
+                  )
+                  }
+                </Box>
+              </Paper>
+            </Box>
+            <Box>
+              <Button
                 variant="contained"
                 style={{
-                  backgroundColor: '#0091ea',
-                  color: 'white',
+                  backgroundColor: '#324b84',
+                  color: 'White',
                   marginRight: '10px'
                 }}
-                onClick={UpdateRemark}
               >
-                SAVE
-              </ButtonPrimary>
-              <ButtonPrimary
+                SELECT
+              </Button>
+              <Button
                 variant="contained"
                 style={{
                   backgroundColor: 'Red',
                   color: 'White',
-                  marginRight: '10px',
+                  marginRight: '10px'
                 }}
+                onClick={() => setOpen(!open)}
               >
-                PREVIOUS
-              </ButtonPrimary>
-              <ButtonPrimary
-                variant="contained"
-                style={{ backgroundColor: '#0091ea', color: 'white' }}
-              >
-                NEXT
-              </ButtonPrimary>
+                CLOSE
+              </Button>
             </Box>
-          </Paper>
-        </Grid>
-      )}
+          </Box>
+        </Box>
+      </Modal>
     </Box>
   );
 };
 
 export default ProgressRemarks;
+
+const style = {
+  position: 'absolute' as 'absolute',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  width: 800,
+  height: 500,
+  bgcolor: '#EAF1F5',
+  border: '2px solid #000',
+  boxShadow: 24,
+  p: 2,
+};

@@ -49,7 +49,8 @@ function ResizableCommentsBox({
       style={{
         maxHeight: '800px',
         overflowY: 'auto',
-        scrollBehavior: 'smooth'
+        scrollBehavior: 'smooth',
+        border:'2px'
       }}
     >
       <TableContainer component={Card}>
@@ -62,7 +63,8 @@ function ResizableCommentsBox({
                   sx={{
                     textTransform: 'capitalize',
                     borderRight: '1px solid black',
-                    backgroundColor: '#81d4fa'
+                    backgroundColor: '#81d4fa',
+                    color:'white'
                   }}
                   align="center"
                 >
