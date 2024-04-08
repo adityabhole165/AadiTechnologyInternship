@@ -258,8 +258,16 @@ const AddLessonPlan = () => {
     }
     seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
     returnVal = false
+
+    if (ApproverComment === "") {
+
+      seterrorComment("Please fix the following error(s): Comment should not be blank.");
+      returnVal = false;
+    }
+
     return returnVal;
   };
+
 
   const onClickSave = () => {
     if (IsFormValid()) {
@@ -334,8 +342,8 @@ const AddLessonPlan = () => {
       aasEndDate: EndDate,
       asApproverComment: ApproverComment,
       asUpdatedById: Number(UpdatedById),
-      asOldStartDate: OldStartDate,
-      asOldEndDate: OldEndDate,
+      asOldStartDate: StartDate,
+      asOldEndDate: EndDate,
     };
     setApproverComment(value)
     dispatch(getSaveApproverComment(SaveApproverCommentBody))
@@ -441,23 +449,26 @@ const AddLessonPlan = () => {
                 </Tooltip>
               </Box>
             }
-            <Box>
-              <Tooltip title={'Update Date'}>
-                <IconButton
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickUpdateDate}
-                >
-                  <Check />
-                </IconButton>
-              </Tooltip>
-            </Box>
+            {IsShowApprove() &&
+              <Box>
+                <Tooltip title={'Update Date'}>
+                  <IconButton
+                    sx={{
+                      backgroundColor: grey[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: green[600]
+                      }
+                    }}
+                    onClick={onClickUpdateDate}
+                  >
+                    <Check />
+                  </IconButton>
+                </Tooltip>
+              </Box>
+            }
           </>
+
         }
       />
       <Box sx={{ p: 2, background: 'white' }}>
