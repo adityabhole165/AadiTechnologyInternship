@@ -10,7 +10,7 @@ const CalendarList = ({ ItemList, ClickItem, DefaultValue, EventType, ClickEvent
         '#751b1b',
         '#008000',
         '#0207e6',
-        '#9e9e9e',
+        '#f558f5',
         '#ffffff',
         '#ffffff',
         '#ffffff'

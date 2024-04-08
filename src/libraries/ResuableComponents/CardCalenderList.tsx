@@ -28,11 +28,11 @@ function CardCalenderList({
     let returnVal = ItemList.map((obj) =>
       obj.Value === Value
         ? {
-            ...obj,
-            Status: checkStatus(obj) ? 'N' : 'Y',
-            BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
-            Text1: checkStatus(obj) ? 'Absent' : 'Present'
-          }
+          ...obj,
+          Status: checkStatus(obj) ? 'N' : 'Y',
+          BackgroundColor: checkStatus(obj) ? 'tomato' : 'mediumturquoise',
+          Text1: checkStatus(obj) ? 'Absent' : 'Present'
+        }
         : obj
     );
 

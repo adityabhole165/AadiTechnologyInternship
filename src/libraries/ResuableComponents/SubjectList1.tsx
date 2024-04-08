@@ -1,5 +1,5 @@
-import CheckIcon from '@mui/icons-material/Check';
-import ClearIcon from '@mui/icons-material/Clear';
+import Cancel from '@mui/icons-material/Cancel';
+import CheckCircle from '@mui/icons-material/CheckCircle';
 import { Box, Link, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import Table from '@mui/material/Table';
@@ -96,7 +96,7 @@ function SubjectList1({
                   </Link>
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} align='center'>
-                  {item.Text5 === 'True' ? <CheckIcon /> : <ClearIcon color={"error"} />}
+                  {item.Text5 === 'True' ? <CheckCircle color={"success"} /> : <Cancel color={"error"} />}
                 </TableCell>
                 <TableCell sx={{ textTransform: 'capitalize' }} >
                   {item.Text6}
