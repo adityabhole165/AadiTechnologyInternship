@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { IAddOrEditLessonPlanDetailsBody, IClassListBody, ISaveApproverCommentBody, ISaveLessonPlanBody, ISubmitLessonPlanBody } from 'src/interfaces/LessonPlan/IAddLessonPlan';
 import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
-import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans } from 'src/requests/LessonPlan/RequestAddLessonPlan';
+import { GetAddOrEditLessonPlanDetails, SaveLessonPlan, classnamelist, getSaveApproverComment, getSubmitLessonPlan, getUpdateLessonPlanDate, resetsaveLessonPlan, resetsaveapprovercomment, resetsubmitlessonplans, resetupdatelessonplandate } from 'src/requests/LessonPlan/RequestAddLessonPlan';
 import { RootState } from 'src/store';
 import { getCalendarDateFormatDateNew, getDateFormattedDash, isGreaterThanDate } from '../Common/Util';
 import CommonPageHeader from '../CommonPageHeader';
@@ -195,32 +195,12 @@ const AddLessonPlan = () => {
     }
   }, [SaveApproverComment])
   useEffect(() => {
-    const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
-      asSchoolId: asSchoolId,
-      asAcademicYearId: asAcademicYearId,
-      asUserId: Number(asUserId),
-      asReportingUserId: Number(ReportingUserId),
-      aasStartDate: "1/8/2024 12:00:00 AM",
-      aasEndDate: "1/9/2024 12:00:00 AM",
-      asApproverComment: ApproverComment,
-      asUpdatedById: Number(UpdatedById),
-      asOldStartDate: "1/8/2024 12:00:00 AM",
-      asOldEndDate: "1/9/2024 12:00:00 AM",
-    };
-    dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
-  }, [])
-  const SaveApproverCommentBody: ISaveApproverCommentBody = {
-    asSchoolId: asSchoolId,
-    asAcademicYearId: asAcademicYearId,
-    asUserId: Number(Action == 'Add' ? sessionStorage.getItem('Id') : UserIdParam),
-    asReportingUserId: Number(asUserId),
-    aasStartDate: StartDate,
-    aasEndDate: EndDate,
-    asApproverComment: ApproverComment,
-    asUpdatedById: Number(UpdatedById),
-    asOldStartDate: OldStartDate,
-    asOldEndDate: OldEndDate,
-  };
+    if (UpdateLessonPlanDate !== '') {
+      toast.success(UpdateLessonPlanDate)
+      dispatch(resetupdatelessonplandate())
+      dispatch(GetAddOrEditLessonPlanDetails(AddOrEditLessonPlanDetailBody))
+    }
+  }, [UpdateLessonPlanDate])
 
   const onSelectStartDate = (value) => {
     setStartDate(value);
@@ -327,6 +307,22 @@ const AddLessonPlan = () => {
       };
       dispatch(getSubmitLessonPlan(SubmitLessonPlanBody));
     }
+  };
+  const onClickUpdateDate = () => {
+    const UpdateLessonPlanDateBody: ISaveApproverCommentBody = {
+      asSchoolId: asSchoolId,
+      asAcademicYearId: asAcademicYearId,
+      asUserId: Number(asUserId),
+      asReportingUserId: Number(ReportingUserId),
+      aasStartDate: StartDate,
+      aasEndDate: EndDate,
+      asApproverComment: ApproverComment,
+      asUpdatedById: Number(UpdatedById),
+      asOldStartDate: StartDate,
+      asOldEndDate: EndDate,
+    };
+
+    dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   };
   const onClickApproverComment = (value) => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
@@ -445,6 +441,22 @@ const AddLessonPlan = () => {
                 </Tooltip>
               </Box>
             }
+            <Box>
+              <Tooltip title={'Update Date'}>
+                <IconButton
+                  sx={{
+                    backgroundColor: grey[500],
+                    color: 'white',
+                    '&:hover': {
+                      backgroundColor: green[600]
+                    }
+                  }}
+                  onClick={onClickUpdateDate}
+                >
+                  <Check />
+                </IconButton>
+              </Tooltip>
+            </Box>
           </>
         }
       />

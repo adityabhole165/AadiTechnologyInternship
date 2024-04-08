@@ -68,6 +68,10 @@ const AddLessonPlanSlice = createSlice({
       state.Loading = false;
       state.updateLessonPlanDatemsg = action.payload;
     },
+    resetupdatelessonplandate(state) {
+      state.Loading = false;
+      state.updateLessonPlanDatemsg = "";
+    },
     getLoading(state, action) {
       state.Loading = true;
 
@@ -215,6 +219,11 @@ export const getUpdateLessonPlanDate =
       dispatch(AddLessonPlanSlice.actions.getLoading(true));
       const response = await AddLessonPlanApi.UpdateLessonPlanDateapi(data);
       dispatch(AddLessonPlanSlice.actions.getupdateLessonPlanDate(response.data));
+    };
+export const resetupdatelessonplandate =
+  (): AppThunk =>
+    async (dispatch) => {
+      dispatch(AddLessonPlanSlice.actions.resetupdatelessonplandate());
     };
 
 export default AddLessonPlanSlice.reducer;
