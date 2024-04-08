@@ -7,26 +7,26 @@ export interface IGetClassExamSubjectNameDetailesBody {
 }
 export interface IGetClassExamSubjectNameDetailesResult {
     GetStandardName: {
-            Standard_Id: string,
-            Division_Id: string,
-            Standard_Name: string,
-            Division_Name: string,
-            OutOfMarks: string,
-            IsExamStatusApplicable: boolean
-        },
-        SubjectName: string,
-        GetSchoolWiseTestName: 
-        {
-            TestWise_Subject_Marks_Id: string,
-            SchoolWise_Test_Name: string,
-            Grade_Or_Marks: string,
-            Subject_Total_Marks: string,
-            Passing_Total_Marks: string,
-            Passing_Grade_Id: string,
-            Grade_Name: string,
-            Is_Optional: string,
-            AllowDecimal: boolean
-        }
+        Standard_Id: string,
+        Division_Id: string,
+        Standard_Name: string,
+        Division_Name: string,
+        OutOfMarks: string,
+        IsExamStatusApplicable: boolean
+    },
+    SubjectName: string,
+    GetSchoolWiseTestName:
+    {
+        TestWise_Subject_Marks_Id: string,
+        SchoolWise_Test_Name: string,
+        Grade_Or_Marks: string,
+        Subject_Total_Marks: string,
+        Passing_Total_Marks: string,
+        Passing_Grade_Id: string,
+        Grade_Name: string,
+        Is_Optional: string,
+        AllowDecimal: boolean
+    }
 }
 
 
@@ -150,4 +150,18 @@ export interface IManageStudentsTestMarkBody {
     asSubjectId: number,
     asSchoolId: number,
     asAcademicYearId: number
+}
+export interface IGetExamScheduleBody {
+    asSchoolId: number,
+    asStandardId: number,
+    asTestId: number,
+    asSubjectId: number
+}
+export interface IGetExamScheduleResult {
+
+    Schoolwise_Standard_Exam_Schedule_Id: string,
+    Exam_Start_Date: string,
+    Exam_End_Date: string,
+    SubjectExamStartDate: string
+
 }
