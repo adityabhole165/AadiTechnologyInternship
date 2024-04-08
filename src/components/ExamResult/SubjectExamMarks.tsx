@@ -295,13 +295,12 @@ const SubjectExamMarks = () => {
           formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
       } else {
         const startDate = new Date(ExamSchedules[0].Exam_Start_Date);
-        console.log("startDate", startDate)
         const endDate = new Date(ExamSchedules[0].Exam_End_Date);
         const selectedDate = new Date(TestDate);
 
 
         if (selectedDate < startDate || selectedDate > endDate) {
-          setMarksError('Exam date should be between ' + ExamSchedules[0].formatDateAsDDMMMYYYY(startDate) + ' and ' + ExamSchedules[0].formatDateAsDDMMMYYYY(endDate));
+          setMarksError('Exam date should be between ' + ExamSchedules[0].Exam_Start_Date + ' and ' + ExamSchedules[0].Exam_End_Date);
         } else {
           setMarksError('');
         }

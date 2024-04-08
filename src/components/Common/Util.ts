@@ -30,6 +30,14 @@ export function isFutureDate1(date) {
   );
 }
 
+export function isGreaterDate(date1, date2) {
+
+  return (
+    new Date(date1.toLocaleDateString()) >
+    new Date(date2.toLocaleDateString())
+  );
+}
+
 
 export const formatDateAsDDMMMYYYY = (date) => {
   const Day = new Date(date).getDate().toString().padStart(2, '0');
