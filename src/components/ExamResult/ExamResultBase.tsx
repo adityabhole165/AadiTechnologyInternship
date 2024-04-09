@@ -228,6 +228,10 @@ const ExamResultBase = () => {
   const ProgressRemark = (value) => {
     navigate('/extended-sidebar/Teacher/ProgressRemarks');
   };
+  const ViewProgressRemark = (value) => {
+    navigate('/extended-sidebar/Teacher/ViewProgressRemarks');
+  };
+
   const ClickOpenDialogbox = () => {
     setOpen(true);
   };
@@ -418,7 +422,7 @@ const ExamResultBase = () => {
       )}
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark}>
           VIEW PROGRESS REPORT
         </Button>
         <Button variant="contained" color="primary">
