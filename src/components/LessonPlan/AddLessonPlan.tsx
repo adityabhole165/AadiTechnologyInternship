@@ -84,14 +84,16 @@ const AddLessonPlan = () => {
   const ClassListDropdown = useSelector((state: RootState) => state.addlessonplan.ClassName);
   const AddOrEditLessonPlanDetails = useSelector((state: RootState) => state.addlessonplan.AddOrEditLessonPlanDetails);
   const TeacherName = useSelector((state: RootState) => state.addlessonplan.TeacherName);
-  const ApproverDetails = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
+  const ApproverDetails: any = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
+  const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
+  console.log(SubmittedApproverDate, "GetLessonPlanStatusList");
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
   const UpdateLessonPlanDate = useSelector((state: RootState) => state.addlessonplan.updateLessonPlanDatemsg);
   const GetEnableButtonList: any = useSelector((state: RootState) => state.addlessonplan.GetEnableButtonList);
   const Loading = useSelector((state: RootState) => state.addlessonplan.Loading);
-  console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
+  // console.log(AddOrEditLessonPlanDetails, "AddOrEditLessonPlanDetails");
 
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
   // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
@@ -363,8 +365,6 @@ const AddLessonPlan = () => {
   };
   console.log(IsShowApprove(), "isShowApprove", asUserId, ApproverDetails);
 
-
-
   return (
     <Box sx={{ px: 2 }} maxWidth="xl">
       <CommonPageHeader
@@ -558,6 +558,7 @@ const AddLessonPlan = () => {
               Activity
             </Typography>
             {ApproverDetails?.map((Item, i) => {
+
               return (<Grid container key={i}>
                 < Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={2}>
                   <Typography color={"primary"} fontWeight={"bold"}>
@@ -574,11 +575,25 @@ const AddLessonPlan = () => {
                     {i == 0 ? "Submitted On:" : "Approved On:"}
                   </Typography>
                 </Grid>
-                <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+                {/* <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
+
                   <Typography color={"primary"}>
-                    {Item.UpdateDate}
+                    {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
+
                   </Typography>
-                </Grid>
+                </Grid> */}
+                {i === 0 ? ( // Conditionally render submitted date
+                  <Typography color={"primary"}>
+                    {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
+                  </Typography>
+                ) : (
+                  SubmittedApproverDate && SubmittedApproverDate.length > i && ( // Conditionally render approval dates
+                    <Typography color={"primary"}>
+                      {SubmittedApproverDate[i].UpdateDate}
+                    </Typography>
+                  )
+                )}
+
                 <Grid xs={12} md={12} item>
                   <TextField
 
