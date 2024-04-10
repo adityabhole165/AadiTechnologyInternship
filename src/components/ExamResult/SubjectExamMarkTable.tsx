@@ -136,14 +136,25 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     })
     return total
   }
-
   const getDropdownName = (arrDropdown) => {
+    if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
+      return ""; // Return empty string if arrDropdown is not an array or is empty
+    }
+
     let returnVal = "";
     arrDropdown.map((Item) => {
       returnVal = Item.Name;
     });
     return returnVal;
   }
+
+  // const getDropdownName = (arrDropdown) => {
+  //   let returnVal = "";
+  //   arrDropdown.map((Item) => {
+  //     returnVal = Item.Name;
+  //   });
+  //   return returnVal;
+  // }
 
   const getGrade = (arrTotal) => {
     let totalScored = 0, Grade = "", subjectTotal = 0
