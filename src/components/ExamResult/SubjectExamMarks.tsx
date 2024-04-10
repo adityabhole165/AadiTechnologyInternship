@@ -20,7 +20,7 @@ import {
   getManageStudentsTestMark, getSubjectExamMarkslist
 } from 'src/requests/SubjectExamMarks/RequestSubjectExamMarks';
 import { RootState, useSelector } from 'src/store';
-import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, isOutsideAcademicYear } from '../Common/Util';
+import { formatDateAsDDMMMYYYY, getCalendarDateFormatDate, getDateMonthYearFormatted, isOutsideAcademicYear } from '../Common/Util';
 
 import CommonPageHeader from '../CommonPageHeader';
 import SubjectExamMarkTable from './SubjectExamMarkTable';
@@ -134,7 +134,7 @@ const SubjectExamMarks = () => {
   }, []);
   //for RollNo,student name
   useEffect(() => {
-    if (TestDate !== null) {
+    if (TestDate !== '') {
       const GetAllStudentsForMarksAssignmentsBody: IGetAllStudentsForMarksAssignmentsBody = {
         asAcademicYearID: Number(asAcademicYearId),
         asSchoolId: Number(asSchoolId),
@@ -294,13 +294,14 @@ const SubjectExamMarks = () => {
         setMarksError('Exam date should be within the current academic year (i.e., between ' +
           formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
       } else {
-        const startDate = new Date(ExamSchedules[0].Exam_Start_Date);
-        const endDate = new Date(ExamSchedules[0].Exam_End_Date);
+        const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
+        const endDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
         const selectedDate = new Date(TestDate);
 
 
         if (selectedDate < startDate || selectedDate > endDate) {
-          setMarksError('Exam date should be between ' + ExamSchedules[0].Exam_Start_Date + ' and ' + ExamSchedules[0].Exam_End_Date);
+          setMarksError('Exam date should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+            ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
         } else {
           setMarksError('');
         }
@@ -333,17 +334,14 @@ const SubjectExamMarks = () => {
     <Box sx={{ px: 2 }}>
       <CommonPageHeader
         navLinks={[
-          { title: 'Exam Results', path: '/extended-sidebar/Teacher/ExamResultBase' },
-          { title: 'Subject Exam Marks', path: '/extended-sidebar/Teacher/SubjectExamMarks' }
+          { title: 'Assign Exam Mark', path: '/extended-sidebar/Teacher/AssignExamMark' },
+          { title: 'Subject Exam Marks', path: '' }
         ]}
         rightActions={
           <>
             <Box>
               <TextField
                 fullWidth
-                variant='outlined'
-                size='small'
-                label='Class'
                 value={
                   (StandardName && Object.keys(StandardName).length > 0) ?
                     (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
@@ -356,9 +354,6 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
-                variant='outlined'
-                label='Exam'
-                size='small'
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.SchoolWise_Test_Name
@@ -370,9 +365,6 @@ const SubjectExamMarks = () => {
             </Box>
             <Box>
               <TextField
-                variant='outlined'
-                size='small'
-                label='	Subject Name'
                 fullWidth
                 value={SubjectName || ''}
                 disabled={IsReadOnly === 'true'}
@@ -396,6 +388,10 @@ const SubjectExamMarks = () => {
               />
 
             </Box>
+
+            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
+              *
+            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton

@@ -5,15 +5,7 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
   ExamMarksHeader, onChangeExamHeader, GradesForSubjectMarkList, IsReadOnly,
   onChangeExamGrade, IsMark }) => {
 
-  const getDropdownName = (list, Id) => {
-    let returnVal = "";
-    list.forEach((item) => {
-      if (item.Id === Id) {
-        returnVal = item.Name;
-      }
-    });
-    return returnVal;
-  };
+
   const ChangeExamHeader = (value, Id, Index) => {
 
     ExamMarksHeader = {
@@ -144,6 +136,15 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
     })
     return total
   }
+
+  const getDropdownName = (arrDropdown) => {
+    let returnVal = "";
+    arrDropdown.map((Item) => {
+      returnVal = Item.Name;
+    });
+    return returnVal;
+  }
+
   const getGrade = (arrTotal) => {
     let totalScored = 0, Grade = "", subjectTotal = 0
     arrTotal.map((Item) => {
@@ -208,16 +209,20 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={true}
                       IsMark={IsMark} />
+                    {getDropdownName(Item.ExamStatus)}
                     {IsMark &&
                       <TableCell>
                         <TextField sx={{ width: '80px' }} size={"small"}
                           disabled
                           value={getTotalMarks(Item.MarksForStudent)}
+
                         // value={Item.TotalMarks} 
                         />
+
                         {getGrade(Item.MarksForStudent)}
                       </TableCell>
                     }
+
                   </TableRow>)
                 })
               }

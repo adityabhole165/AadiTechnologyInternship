@@ -242,23 +242,6 @@ export const getSubjectExamMarkslist =
 
             dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(response2.data));
 
-            // dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(response3.data));
-
-            // dispatch(SubjectExamMarksslice.actions.GetSubjectExamMarkslist(responseData3));
-
-            // let responseData3 = [{ Id: '0', Name: 'Select', Value: '0' }];
-
-            // response3.data.map((Item, i) => {
-            //     responseData3.push({
-            //         Id: Item.Marks_Grades_Configuration_Detail_ID,
-            //         Name: Item.Grade_Name,
-            //         Value: Item.Marks_Grades_Configuration_Detail_ID
-            //     });
-            // });
-            // console.log(responseData3, "responseData3", response3);
-
-            // dispatch(SubjectExamMarksslice.actions.GetAllGradesForSubjectMarkList(responseData3));
-
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
             let responseData4 = [{ Id: '0', Name: 'Select', Value: '0' }];
