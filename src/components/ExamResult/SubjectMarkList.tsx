@@ -30,7 +30,10 @@ const SubjectMarkList = () => {
 
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
-  console.log(StudentNamelistMouseOver, "jjjjj");
+  // console.log(StudentNamelistMouseOver, "jjjjj");
+  const ListLegend: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.legend);
+  console.log(ListLegend, "jjjjj");
 
   const GetTestMarkBody: IGetTestMarkBody = {
     "asSchoolId": 18,
@@ -100,7 +103,7 @@ const SubjectMarkList = () => {
                 label={"Subject Name"}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={""}
+                value={Id}
                 InputProps={{
                   readOnly: true,
                 }}

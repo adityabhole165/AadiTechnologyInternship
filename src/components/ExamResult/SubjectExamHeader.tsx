@@ -27,11 +27,16 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
     return (
         <>
             {ExamMarksHeader?.map((Item, Index) => {
-                return (<TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} key={Index}>
+                return (<TableCell
+                    sx={{ color: 'white', fontWeight: "bold", py: 1 }}
+                    key={Index}>
                     {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> */}
 
-                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
-                        {Item.Text4}</TableCell>
+                    {/* <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
+                        {Item.Text4}</TableCell> */}
+                    <TableCell sx={{ color: 'white', fontWeight: "bold" }}>
+                        {Item.Text4}
+                    </TableCell>
 
                     <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
                         {IsMark ? (
