@@ -376,7 +376,7 @@ const teacherRoutes = [
     element: <TransferOptionalSubjectMarks />
   },
   {
-    path: 'SubjectMarkList/:TestId/:StandardDivisionId/:getExamName/:getTeacherName',
+    path: 'SubjectMarkList/:TestId/:StandardDivisionId/:getExamName/:getTeacherName/:Id',
     element: <SubjectMarkList />
   }
 

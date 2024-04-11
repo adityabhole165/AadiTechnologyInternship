@@ -16,7 +16,7 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { TestId,StandardDivisionId,getExamName,getTeacherName} = useParams();
+  const { Id, TestId, StandardDivisionId, value, getExamName, getTeacherName } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const HeaderList = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
@@ -28,7 +28,10 @@ const SubjectMarkList = () => {
   // console.log(TestMarkList, "jhshf");
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
-  console.log(StudentNamelistMouseOver, "jjjjj");
+  // console.log(StudentNamelistMouseOver, "jjjjj");
+  const ListLegend: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.legend);
+  console.log(ListLegend, "jjjjj");
 
   const GetTestMarkBody: IGetTestMarkBody = {
     "asSchoolId": 18,
@@ -98,7 +101,7 @@ const SubjectMarkList = () => {
                 label={"Subject Name"}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={""}
+                value={Id}
                 InputProps={{
                   readOnly: true,
                 }}

@@ -11,6 +11,7 @@ const SubjectMarkListSlice = createSlice({
   initialState: {
     listTestMark: [],
     listTestTypeName: [],
+    legend:[],
     StudentNameMouseOver: [],
 
 
@@ -21,6 +22,9 @@ const SubjectMarkListSlice = createSlice({
     },
     TestName(state, action) {
       state.listTestTypeName = action.payload;
+    },
+    ListLegend(state, action) {
+      state.legend = action.payload;
     },
     StudentListMouseOver(state, action) {
       state.StudentNameMouseOver = action.payload;
@@ -41,8 +45,21 @@ export const gettestmarklist =
 
       });
       dispatch(SubjectMarkListSlice.actions.GetTestMark(abc));
+console.log(response,"bbbb");
 
     };
+    export const legend =
+    (data: IGetTestMarkBody): AppThunk =>
+      async (dispatch) => {
+        const response = await ApiSubjectMarkList.TestMarkApi(data);
+        dispatch(SubjectMarkListSlice.actions.ListLegend(response));
+  
+      };
+  
+
+
+
+
 
 export const studentmouseoverlist =
   (data: GetStudentsForSubjectMarkMouseOverBody): AppThunk =>

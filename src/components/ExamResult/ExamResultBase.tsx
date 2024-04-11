@@ -205,8 +205,8 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
 
-  const ClickLink = (value) => {
-       console.log(value, "ClickLink");
+  const ClickLink = (Id) => {
+       console.log(Id, "ClickLink");
        navigate(
         '/extended-sidebar/Teacher/SubjectMarkList/' +
         TestId +
@@ -215,7 +215,7 @@ const ExamResultBase = () => {
         '/' +
         getExamName() +
         '/' +
-        getTeacherName()
+        getTeacherName()+'/' + Id
       );  }
 
 
