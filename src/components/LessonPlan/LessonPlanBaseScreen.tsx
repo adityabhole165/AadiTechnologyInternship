@@ -136,7 +136,7 @@ const LessonPlanBaseScreen = () => {
   }, [StartDate, EndDate]);
 
 
-  console.log(EndDate, "EndDate");
+  
 
 
   useEffect(() => {
@@ -250,32 +250,36 @@ const LessonPlanBaseScreen = () => {
     }
   }, [DeleteLessonPlan, dispatch, GetLessonPlanListBody, isDeleteEffectTriggered]);
 
-  const onSelectStartDate = (value) => {
-    setStartDate(value);
-    if (!value) {
+ const onSelectStartDate = (value) => {
+  setStartDate(value);
+  if (!value) {
+    const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+      ...GetLessonPlanListBody,
+      asStartDate: null, // Set the start date to null or whatever default value you prefer
+    };
+    dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+  }
+};
 
-      setStartDate(value);
-      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-    }
-  };
+const onSelectEndDate = (value) => {
+  setEndDate(value);
+  if (!value) {
+    const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+      ...GetLessonPlanListBody,
+      asEndDate: null, // Set the end date to null or whatever default value you prefer
+    };
+    dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+    return;
+  }
 
-  const onSelectEndDate = (value) => {
-    setEndDate(value);
+  // Check if end date is less than or equal to start date
+  if (StartDate && new Date(value) <= new Date(StartDate)) {
+    setErrorMessage('End Date should be greater than Start Date');
+  } else {
+    setErrorMessage('');
+  }
+};
 
-
-    if (!value) {
-      setEndDate(value);
-      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
-      return;
-    }
-
-    // Check if end date is less than or equal to start date
-    if (StartDate && new Date(value) <= new Date(StartDate)) {
-      setErrorMessage('End Date should be greater than Start Date');
-    } else {
-      setErrorMessage('');
-    }
-  };
 
 
 
