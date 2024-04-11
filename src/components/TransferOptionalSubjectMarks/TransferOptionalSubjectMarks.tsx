@@ -344,16 +344,13 @@ const TransferOptionalSubjectMarks = () => {
                                 SearchNameChange(e.target.value);
                             }}
                         />
-                        {StudentsList.length > 0 ? (
-                            <Button onClick={changeSearchText} variant="contained">
-                                Search
-                            </Button>
-                        ) : (
-                            <Button variant="contained" disabled>
-                                Search
-                            </Button>
-                        )}
-
+                         <Button
+                           onClick={changeSearchText}
+                           variant="contained"
+                           disabled={selectClasstecaher === '0'} 
+                       >
+                           Search
+                       </Button>
                         <Box>
                             <Tooltip title={"Transfer student's marks from one optional subject to another optional subject"}>
                                 <IconButton
@@ -472,10 +469,6 @@ const TransferOptionalSubjectMarks = () => {
                     <Box>
                         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
                             Select a page:
-                            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-                            <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                            <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-                        </ButtonGroup> */}
                             <Pagination
                                 count={5}
                                 variant={"outlined"}
