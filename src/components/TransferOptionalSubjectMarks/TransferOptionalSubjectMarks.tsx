@@ -203,8 +203,8 @@ const TransferOptionalSubjectMarks = () => {
     };
     const itemsPerPage = 20;
 
-    const startIndex = (page - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
+    const startIndex = (page - 1) * itemsPerPage + 1;
+    const endIndex = startIndex + itemsPerPage -1;
     useEffect(() => {
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -359,7 +359,7 @@ const TransferOptionalSubjectMarks = () => {
                         )}
 
                         <Box>
-                            <Tooltip title={"Displays all available lesson plans."}>
+                            <Tooltip title={"Transfer student's marks from one optional subject to another optional subject"}>
                                 <IconButton
                                     sx={{
                                         color: 'white',
