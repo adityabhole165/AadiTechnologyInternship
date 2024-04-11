@@ -31,6 +31,7 @@ import BdayPopUp from '../Birthdays/BdayPopUp';
 import { isBetweenDate } from '../Common/Util';
 import SchoolNoticeBoard from '../SchoolNoticeBoard/SchoolNoticeBoard';
 import DashboardData from './Dashboard';
+import MissingAttendanceDialog from './MissingAttendanceDialog';
 
 const Text = styled(Box)(({ theme }) => ({
   ...theme.typography.body2,
@@ -40,7 +41,7 @@ const Text = styled(Box)(({ theme }) => ({
   cursor: 'pointer'
 }));
 
-function LandingPage() {
+function Dashboard() {
   const UserLoginDetails1 = useSelector(
     (state: RootState) => state.Dashboard.UserLoginDetails
   );
@@ -53,6 +54,7 @@ function LandingPage() {
   }
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [missingAttendanceDialog, setMissingAttendanceDialog] = useState(true);
   const [showBday, setShowBday] = useState(false);
   const ModulesPermission: any = useSelector(
     (state: RootState) => state.getSchoolSettings.ModulesPermission
@@ -390,8 +392,14 @@ function LandingPage() {
           Messagecount={Messagecount.MESSAGECOUNT}
         ></Card2>
       )}
+      {missingAttendanceDialog && (
+        <MissingAttendanceDialog
+          open={missingAttendanceDialog}
+          setOpen={setMissingAttendanceDialog}
+        />
+      )}
     </>
   );
 }
 
-export default LandingPage;
+export default Dashboard;

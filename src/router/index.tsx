@@ -8,6 +8,7 @@ import messageCenterRoutes from './MessageCenter';
 import smsCenterRoutes from './SmsCenter';
 import studentRoutes from './Student';
 import teacherRoutes from './Teacher';
+import adminRoutes from './adminRoutes';
 
 const router: PartialRouteObject[] = [
   {
@@ -52,6 +53,10 @@ const router: PartialRouteObject[] = [
       {
         path: '/Common',
         children: commonRoutes
+      },
+      {
+        path: '/Admin',
+        children: adminRoutes
       }
     ]
   }

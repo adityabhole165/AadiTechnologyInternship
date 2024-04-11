@@ -344,6 +344,7 @@ const SubjectExamMarks = () => {
               <TextField
                 fullWidth
                 label={"Class"}
+                size={"small"}
                 value={
                   (StandardName && Object.keys(StandardName).length > 0) ?
                     (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
@@ -357,6 +358,7 @@ const SubjectExamMarks = () => {
               <TextField
                 fullWidth
                 label={"Exam"}
+                size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.SchoolWise_Test_Name
@@ -369,6 +371,7 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
+                size={"small"}
                 label={"Subject Name"}
                 value={SubjectName || ''}
                 disabled={IsReadOnly === 'true'}
@@ -392,10 +395,6 @@ const SubjectExamMarks = () => {
               />
 
             </Box>
-
-            <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              * Mandatory Fields
-            </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
                 <IconButton
@@ -439,6 +438,7 @@ const SubjectExamMarks = () => {
               <TextField
                 fullWidth
                 label={"Total Marks"}
+                size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Subject_Total_Marks
@@ -466,6 +466,7 @@ const SubjectExamMarks = () => {
               <TextField
                 fullWidth
                 label={"Passing Marks"}
+                size={"small"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Passing_Total_Marks
