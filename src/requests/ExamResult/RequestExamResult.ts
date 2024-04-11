@@ -15,6 +15,7 @@ const SliceExamResult = createSlice({
     ClassTeachers: [],
     ClasswiseExam: [],
     ClassPassFailDetailsForTest: [],
+    ClassPassFailDetailsForTestData: [],
     PublishUnpublishExam: '',
     ProgressSheetStatus: '',
     HeaderList: [],
@@ -37,6 +38,10 @@ const SliceExamResult = createSlice({
     GetClassPassFailDetailsForTest(state, action) {
       state.Loading = false;
       state.ClassPassFailDetailsForTest = action.payload;
+    },
+    GetClassPassFailDetailsForTestData(state, action) {
+      state.Loading = false;
+      state.ClassPassFailDetailsForTestData = action.payload;
     },
     GetHeaderList(state, action) {
       state.Loading = false;
@@ -146,9 +151,19 @@ export const getClassPassFailDetailsForTest =
         });
         return returnVal;
       };
+      const GetItemData = (Column, Row) => {
+        let returnVal = null;
+        response.data?.LstClassPassFailDetailsForTest.map((item) => {
+          if (item.ExamStatusSortOrder == Column && item.Subject_Id == Row) {
+            returnVal = { SubjectId: item.Subject_Id.toString() }
+          }
+        });
+        return returnVal;
+      };
 
-      let row = [],
-        Column = [];
+      let row = [], rowData = [],
+        Column = [],
+        ColumnData = [];
       response.data?.LstGetFileDetails.map((columnItem, i) => {
         row = [columnItem.Subject_Name];
         response.data?.LstExamStatusForTest.map((headerItem) => {
@@ -156,10 +171,17 @@ export const getClassPassFailDetailsForTest =
             GetItem(headerItem.ExamStatusSortOrder, columnItem.Subject_Id)
           );
         });
+
+        ColumnData.push({
+          SubjectId: columnItem.Subject_Id.toString(),
+          SubjectName: columnItem.Subject_Name.toString()
+        }
+        );
         Column.push(row);
       });
 
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTest(Column));
+      dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTestData(ColumnData));
     };
 
 export default SliceExamResult.reducer;

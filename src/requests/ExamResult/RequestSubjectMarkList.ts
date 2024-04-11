@@ -48,19 +48,22 @@ export const gettestmarklist =
           return Item.Marks_Scored
         }
       }
+      let iCounterIndex = 0
       response.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
         if (PrevRollNo !== item.Roll_No) {
+
           PrevRollNo = item.Roll_No
           if (returnObj != null)
             responseData.push(returnObj)
           iCounter = 2
           returnObj = {
-            Index: i,
+            Index: iCounterIndex,
             Roll_No: item.Roll_No,
             Text1: item.Roll_No,
             Text2: getMarks(item),
             HighlightType: 1
           }
+          iCounterIndex++
         }
         else {
           iCounter++

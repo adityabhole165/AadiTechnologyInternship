@@ -15,7 +15,10 @@ const DynamicList = ({
   IsSelect = 0,
   LinkList = [],
   ClickLink = undefined,
+  Data = undefined
 }) => {
+  console.log(ItemList, "SubjectMarkList");
+
   const clickCheckbox = (value) => {
     let arr = [];
     arr = ItemList.map((Item) => {
@@ -81,7 +84,7 @@ const DynamicList = ({
                     return (
                       <TableCell align="center" key={i}
                         onClick={() => {
-                          ClickLink({ Id: obj, Index: i });
+                          ClickLink({ Id: Data[index], Index: i });
                         }}
                       >
                         {obj}
@@ -98,11 +101,11 @@ const DynamicList = ({
                   {item.Text1 != undefined && (
                     <TableCell
                       onClick={() => {
-                        ClickLink({ Id: item.Id, Index: index });
+                        ClickLink({ Id: Data[index].SubjectId, Index: index });
                       }}
                       align="center">
 
-                      {item.Text1}
+                      {item.Text1}-{item.Index}
 
                     </TableCell>
                   )}
@@ -141,7 +144,7 @@ const DynamicList = ({
           </TableBody>
         </Grow>
       </Table>
-    </TableContainer>
+    </TableContainer >
   );
 };
 

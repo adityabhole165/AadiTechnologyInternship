@@ -62,6 +62,9 @@ const ExamResultBase = () => {
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
   );
+  const ClassPassFailDetailsForTestData: any = useSelector(
+    (state: RootState) => state.ExamResult.ClassPassFailDetailsForTestData
+  );
 
   const ClasswiseExams: any = useSelector(
     (state: RootState) => state.ExamResult.ClasswiseExam
@@ -205,18 +208,20 @@ const ExamResultBase = () => {
     navigate('/extended-sidebar/Teacher/TransferOptionalSubjectMarks');
   };
 
-  const ClickLink = (Id) => {
-       console.log(Id, "ClickLink");
-       navigate(
-        '/extended-sidebar/Teacher/SubjectMarkList/' +
-        TestId +
-        '/' +
-        StandardDivisionId +
-        '/' +
-        getExamName() +
-        '/' +
-        getTeacherName()+'/' + Id
-      );  }
+  const ClickLink = (value) => {
+    navigate(
+      '/extended-sidebar/Teacher/SubjectMarkList/' +
+      TestId +
+      '/' +
+      StandardDivisionId +
+      '/' +
+      getExamName() +
+      '/' +
+      getTeacherName() +
+      '/' +
+      value.Id.SubjectName + '/' + value.Id.SubjectId
+    );
+  }
 
 
   const TermwiseHighwight = (value) => {
@@ -412,6 +417,7 @@ const ExamResultBase = () => {
                 ClickItem={ClickItem}
                 LinkList={LinkList}
                 ClickLink={ClickLink}
+                Data={ClassPassFailDetailsForTestData}
               />
             )}
           </Box>

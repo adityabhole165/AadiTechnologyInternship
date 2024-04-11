@@ -17,7 +17,7 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { Id, TestId, StandardDivisionId, getExamName, getTeacherName } = useParams();
+  const { SubjectId, TestId, StandardDivisionId, getExamName, getTeacherName, getSubjectName } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const Note: string = "Displays brief mark list with toppers for selected class-subject."
@@ -36,11 +36,11 @@ const SubjectMarkList = () => {
   console.log(ListLegend, "jjjjj");
 
   const GetTestMarkBody: IGetTestMarkBody = {
-    "asSchoolId": 18,
-    "asStandardDivision_Id": 1266,
-    "asSubject_Id": 2344,
-    "asTestId": 592,
-    "asAcademicYearID": 54,
+    "asSchoolId": Number(asSchoolId),
+    "asStandardDivision_Id": Number(StandardDivisionId),
+    "asSubject_Id": Number(SubjectId),
+    "asTestId": Number(TestId),
+    "asAcademicYearID": Number(asAcademicYearId),
     "asShowTotalAsPerOutOfMarks": "Y"
   }
   const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
@@ -103,7 +103,7 @@ const SubjectMarkList = () => {
                 label={"Subject Name"}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={Id}
+                value={getSubjectName}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -145,14 +145,41 @@ const SubjectMarkList = () => {
           </Grid>
         </Box>
         {(HeaderList.length > 0) &&
-          <DynamicList
-            HeaderList={HeaderList}
-            ItemList={TestMarkList}
-            IconList={[]}
-            ClickItem={""}
-            // LinkList={true}
-            ClickLink={true}
-          />}
+          (<Grid container>
+            <Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return item.Index < 15 })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid><Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return (item.Index > 14 && item.Index < 30) })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid><Grid xs={4}>
+              <DynamicList
+                HeaderList={HeaderList}
+                ItemList={TestMarkList.
+                  filter((item) => { return (item.Index > 29 && item.Index < 45) })
+                }
+                IconList={[]}
+                ClickItem={""}
+                // LinkList={true}
+                ClickLink={true}
+              /></Grid>
+
+          </Grid>)
+        }
       </Box>
     </>
   )
