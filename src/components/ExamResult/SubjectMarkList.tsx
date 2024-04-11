@@ -6,10 +6,10 @@ import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import {
-  IGetTestMarkBody
+  IGetTestMarkBody,GetStudentsForSubjectMarkMouseOverBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
 import {
-  getmarklist
+  gettestmarklist,studentmouseoverlist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
@@ -23,7 +23,7 @@ const SubjectMarkList = () => {
   const HoverNote: string = "To view the student name take your mouse on the roll number."
 
   const TestMarkList: any = useSelector(
-    (state: RootState) => state.SubjectMarkList.listTestName);
+    (state: RootState) => state.SubjectMarkList.listTestMark);
   // console.log(TestMarkList, "jhshf");
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
@@ -37,29 +37,20 @@ const SubjectMarkList = () => {
     "asAcademicYearID": 54,
     "asShowTotalAsPerOutOfMarks": "Y"
   }
-  // const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
-  //   "ID_Num": "1",
-  //   "Name": "Miss Gauri Vishal Bhadale",
-  //   "Roll_No": "1",
-  //   "SchoolWise_Standard_Division_Id": "1266",
-  //   "School_Id": "18",
-  //   "Standard_Id": "1068",
-  //   "Division_id": "1289",
-  //   "Student_Id": "37608",
-  //   "Enrolment_Number": "2501",
-  //   "Admission_Date": "03-01-2014 00:00:00",
-  //   "First_Name": "Gauri",
-  //   "Middle_Name": "Vishal",
-  //   "Last_Name": "Bhadale",
-  //   "SchoolWise_Student_Id": "3559",
-  //   "Standard_Division_Name": "7 - B"
+  const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
+    "asSchoolId":18,
+    "asAcademicYearId":54,
+    "asStandardDivId":1266,
+    "asNoOfRecord":15,
+    "asTestId":592,
+    "asSubjectId":2344
 
-  // }
-  // useEffect(() => {
-  //   dispatch(studentmouseoverlist(GetStudentsForSubjectMarkMouseOver));
-  // }, []);
+  }
   useEffect(() => {
-    dispatch(getmarklist(GetTestMarkBody));
+    dispatch(studentmouseoverlist(GetStudentsForSubjectMarkMouseOver));
+  }, []);
+  useEffect(() => {
+    dispatch(gettestmarklist(GetTestMarkBody));
   }, []);
 
 

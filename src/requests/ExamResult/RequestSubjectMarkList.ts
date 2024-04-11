@@ -9,21 +9,25 @@ import { AppThunk } from 'src/store';
 const SubjectMarkListSlice = createSlice({
   name: 'SubjectMark',
   initialState: {
-    listTestName: [],
+    listTestMark: [],
+    listTestTypeName: [],
     StudentNameMouseOver: [],
 
 
   },
   reducers: {
     GetTestMark(state, action) {
-      state.listTestName = action.payload;
+      state.listTestMark = action.payload;
+    },
+    TestName(state, action) {
+      state.listTestTypeName = action.payload;
     },
     StudentListMouseOver(state, action) {
       state.StudentNameMouseOver = action.payload;
     },
   }
 });
-export const getmarklist =
+export const gettestmarklist =
   (data: IGetTestMarkBody): AppThunk =>
     async (dispatch) => {
       const response = await ApiSubjectMarkList.TestMarkApi(data);
