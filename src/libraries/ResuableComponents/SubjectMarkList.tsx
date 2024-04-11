@@ -10,7 +10,6 @@ import TableRow from '@mui/material/TableRow';
 function SubjectMarkList({
     ItemList,
     HeaderArray,
-    onChange,
     clickchange,
     clickTitle
 }) {
@@ -23,8 +22,9 @@ function SubjectMarkList({
     };
 
     const clickAll = () => {
-        const updatedItemList = ItemList.map((Item) => {
-            return { ...Item, IsActive: !IsCheckAll() };
+        const isChecked = !IsCheckAll()
+        let updatedItemList = ItemList.map((Item) => {
+            return { ...Item, IsActive: isChecked };
         });
         clickchange(updatedItemList);
     };
@@ -33,7 +33,7 @@ function SubjectMarkList({
         let updatedItemList = ItemList.map((item) => {
             return item.Text1 == value ? { ...item, IsActive: !item.IsActive } : item;
         });
-        onChange(updatedItemList);
+        clickchange(updatedItemList);
     };
 
     return (

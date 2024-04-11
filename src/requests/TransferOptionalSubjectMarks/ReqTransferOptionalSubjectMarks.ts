@@ -76,7 +76,8 @@ export const CDAStudentsToTransferMarks = (data: IGetStudentsToTransferMarksBody
     Text1: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.RegNo || '',
     Text2: rollNo,
     Text3: response.data.TransferStudentSubjectsMarkDetailsList.find(item => item.RollNo === rollNo)?.StudentName || '',
-    Text4: subjectsByRollNo[rollNo].join(', ')
+    Text4: subjectsByRollNo[rollNo].join(', '),
+    IsActive: false
   }));
 
 
@@ -125,9 +126,9 @@ export const CDATransferOptionalSubjectMarks =
 
 
 
-    export const CDAresetMessage = (): AppThunk => async (dispatch) => {
-      dispatch(TransferOptionalSubjectMarksSlice.actions.RresetMessage());
-    };
+export const CDAresetMessage = (): AppThunk => async (dispatch) => {
+  dispatch(TransferOptionalSubjectMarksSlice.actions.RresetMessage());
+};
 
 
 

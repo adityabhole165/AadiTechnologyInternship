@@ -420,8 +420,7 @@ const TransferOptionalSubjectMarks = () => {
                             <SubjectMarkList
                                 ItemList={StudentsList}
                                 HeaderArray={HeaderPublish}
-                                onChange={Changevalue}
-                                clickchange={""}
+                                clickchange={Changevalue}
                                 clickTitle={""}
                             />
                         ) : (
