@@ -40,6 +40,14 @@ export const gettestmarklist =
       const response = await ApiSubjectMarkList.TestMarkApi(data);
       let PrevRollNo = "0", returnObj = null, iCounter = 2
       let responseData = []
+      const getMarks = (Item) => {
+        if (Item.Is_Absent == "Y") {
+          return "Ab"
+        }
+        else {
+          return Item.Marks_Scored
+        }
+      }
       response.data.listSchoolWise_Student_Test_Marks_Detail.map((item, i) => {
         if (PrevRollNo !== item.Roll_No) {
           PrevRollNo = item.Roll_No
@@ -50,29 +58,30 @@ export const gettestmarklist =
             Index: i,
             Roll_No: item.Roll_No,
             Text1: item.Roll_No,
-            Text2: item.Marks_Scored
+            Text2: getMarks(item),
+            HighlightType: 1
           }
         }
         else {
           iCounter++
           if (iCounter == 3)
             returnObj = {
-              ...returnObj, Text3: item.Marks_Scored,
+              ...returnObj, Text3: getMarks(item),
               Text4: item.Total_Marks_Scored
             }
           else if (iCounter == 4)
             returnObj = {
-              ...returnObj, Text4: item.Marks_Scored,
+              ...returnObj, Text4: getMarks(item),
               Text5: item.Total_Marks_Scored
             }
           else if (iCounter == 5)
             returnObj = {
-              ...returnObj, Text5: item.Marks_Scored,
+              ...returnObj, Text5: getMarks(item),
               Text6: item.Total_Marks_Scored
             }
           else if (iCounter == 6)
             returnObj = {
-              ...returnObj, Text6: item.Marks_Scored,
+              ...returnObj, Text6: getMarks(item),
               Text7: item.Total_Marks_Scored
             }
         }

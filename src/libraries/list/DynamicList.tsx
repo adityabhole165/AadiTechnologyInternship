@@ -100,7 +100,9 @@ const DynamicList = ({
                       onClick={() => {
                         ClickLink({ Id: item.Id, Index: index });
                       }}
-                      align="center">{item.Text1}
+                      align="center">
+
+                      {item.Text1}
 
                     </TableCell>
                   )}
@@ -108,7 +110,8 @@ const DynamicList = ({
                     <TableCell align="center">{item.Text2}</TableCell>
                   )}
                   {item.Text3 != undefined && (
-                    <TableCell align="center">{item.Text3}</TableCell>
+                    <TableCell align="center"
+                      sx={{ color: (item.HighlightType == 1 ? "red" : "") }}>{item.Text3}</TableCell>
                   )}
                   {item.Text4 != undefined && (
                     <TableCell align="center">{item.Text4}</TableCell>
