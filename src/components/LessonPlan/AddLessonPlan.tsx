@@ -288,6 +288,7 @@ const AddLessonPlan = () => {
       dispatch(SaveLessonPlan(SaveLessonPlanBody))
       setActionMode('Edit')
 
+
     }
   };
   const onClickSubmit = () => {
@@ -363,7 +364,23 @@ const AddLessonPlan = () => {
 
     return isShowApprove;
   };
+
+
   console.log(IsShowApprove(), "isShowApprove", asUserId, ApproverDetails);
+  const OpenWindow = (sfilepath) => {
+    window.open(sfilepath, '_new', 'scrollbars=yes,resizable=yes,top=0,left=0,width=800,height=600');
+    return false;
+  }
+
+  const FileLink = ({ filePath, fileName }) => {
+    const handleClick = () => {
+      OpenWindow(filePath);
+    };
+
+    return (
+      <span onClick={handleClick} style={{ cursor: 'pointer', textDecoration: 'underline', color: 'blue' }}>{fileName}</span>
+    );
+  };
 
   return (
     <Box sx={{ px: 2 }} maxWidth="xl">
@@ -395,42 +412,44 @@ const AddLessonPlan = () => {
                 </IconButton>
               </Tooltip>
             </Box>
-            <Box>
-              <Tooltip title={'Submit'}>
-                <IconButton
-                  disabled={GetEnableButtonList.EnableSubmitButton != "False"}
-                  sx={{
-                    backgroundColor: grey[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: blue[600]
-                    }
-                  }}
-                  onClick={onClickSubmit}
-                >
-                  <Check />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            <Box>
-              <Tooltip title={'Save'}>
-                <IconButton
-                  disabled={GetEnableButtonList?.EnableSaveButton == "True"}
-                  sx={{
-                    backgroundColor: green[500],
-                    color: 'white',
-                    '&:hover': {
-                      backgroundColor: green[600]
-                    }
-                  }}
-                  onClick={onClickSave}
-                >
-                  <Save />
-                </IconButton>
-              </Tooltip>
-            </Box>
-            {IsShowApprove() &&
-              <Box>
+            {IsShowApprove ? (
+              <><Box>
+
+                <Tooltip title={'Submit'}>
+                  <IconButton
+                    disabled={GetEnableButtonList.EnableSubmitButton != "False"}
+                    sx={{
+                      backgroundColor: grey[500],
+                      color: 'white',
+                      '&:hover': {
+                        backgroundColor: blue[600]
+                      }
+                    }}
+                    onClick={onClickSubmit}
+                  >
+                    <Check />
+                  </IconButton>
+                </Tooltip>
+              </Box><Box>
+                  <Tooltip title={'Save'}>
+                    <IconButton
+                      disabled={GetEnableButtonList?.EnableSaveButton == "True"}
+                      sx={{
+                        backgroundColor: green[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickSave}
+                    >
+                      <Save />
+                    </IconButton>
+                  </Tooltip>
+                </Box></>
+            ) : (
+              <><Box>
+
                 <Tooltip title={'Approver'}>
                   <IconButton
                     sx={{
@@ -447,30 +466,30 @@ const AddLessonPlan = () => {
                   </IconButton>
 
                 </Tooltip>
-              </Box>
-            }
-            {IsShowApprove() &&
-              <Box>
-                <Tooltip title={'Update Date'}>
-                  <IconButton
-                    sx={{
-                      backgroundColor: grey[500],
-                      color: 'white',
-                      '&:hover': {
-                        backgroundColor: green[600]
-                      }
-                    }}
-                    onClick={onClickUpdateDate}
-                  >
-                    <Check />
-                  </IconButton>
-                </Tooltip>
-              </Box>
-            }
+              </Box><Box>
+                  <Tooltip title={'Update Date'}>
+                    <IconButton
+                      sx={{
+                        backgroundColor: grey[500],
+                        color: 'white',
+                        '&:hover': {
+                          backgroundColor: green[600]
+                        }
+                      }}
+                      onClick={onClickUpdateDate}
+                    >
+                      <Check />
+                    </IconButton>
+                  </Tooltip>
+                </Box></>
+            )}
           </>
 
         }
       />
+
+      <FileLink filePath="../DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
+      <FileLink filePath="../DOWNLOADS/Lesson Plan/GOOGLE TOOL GUIDE.pdf" fileName="Translation Guide" />
       <Box sx={{ p: 2, background: 'white' }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
@@ -575,13 +594,6 @@ const AddLessonPlan = () => {
                     {i == 0 ? "Submitted On:" : "Approved On:"}
                   </Typography>
                 </Grid>
-                {/* <Grid sx={{ border: (theme) => `1px solid ${theme.palette.primary.light}`, p: 1, background: (theme) => alpha(theme.palette.primary.main, 0.1) }} item xs={4}>
-
-                  <Typography color={"primary"}>
-                    {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
-
-                  </Typography>
-                </Grid> */}
                 {i === 0 ? ( // Conditionally render submitted date
                   <Typography color={"primary"}>
                     {SubmittedApproverDate && SubmittedApproverDate.length > 0 && SubmittedApproverDate[0].UpdateDate}
@@ -599,7 +611,7 @@ const AddLessonPlan = () => {
 
                     multiline
                     rows={3}
-                    value={ApproverComment}
+                    value={SubmittedApproverDate[i]?.Comment || ''}
                     onChange={(e) => {
                       onClickApproverComment(e.target.value);
                     }}
