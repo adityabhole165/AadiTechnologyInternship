@@ -135,18 +135,40 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
       total = total + Number(Item.Text1)
     })
     return total
-  }
-  const getDropdownName = (arrDropdown) => {
-    if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
-      return ""; // Return empty string if arrDropdown is not an array or is empty
-    }
 
-    let returnVal = "";
-    arrDropdown.map((Item) => {
-      returnVal = Item.Name;
-    });
-    return returnVal;
   }
+  // const getDropdownName = (arrDropdown) => {
+  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
+  //     return ""; // Return empty string if arrDropdown is not an array or is empty
+  //   }
+  //   let returnVal = "";
+  //   arrDropdown.forEach((Item) => {
+  //     returnVal += Item.Value; // Concatenate the Value property of each item
+  //   });
+  //   return returnVal;
+
+  // }
+
+  // const getDropdownName = (arrDropdown) => {
+  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
+  //     return ""; // Return empty string if arrDropdown is not an array or is empty
+  //   }
+  //   let returnVal = "";
+  //   arrDropdown.map((Item) => {
+  //     returnVal = Item.Value;
+  //   });
+  //   return returnVal;
+  // }
+  // const getDropdownName = (arrDropdown) => {
+  //   if (!Array.isArray(arrDropdown) || arrDropdown.length === 0) {
+  //     return ""; // Return empty string if arrDropdown is not an array or is empty
+  //   }
+  //   let returnVal = "";
+  //   arrDropdown.forEach((Item) => {
+  //     returnVal = Item.Value;
+  //   });
+  //   return returnVal;
+  // }
 
   // const getDropdownName = (arrDropdown) => {
   //   let returnVal = "";
@@ -216,11 +238,13 @@ const SubjectExamMarkTable = ({ ExamStatus, StudentsForMarksAssignment, onChange
 
                     <SubjectExamRows ExamMarks={Item.MarksForStudent} StudentId={Item.Id}
                       changeText={changeText} GradesForSubjectMarkList={GradesForSubjectMarkList}
-                      ExamStatus={ExamStatus} changeExamStatus={changeExamStatus}
+                      // ExamStatus={getDropdownName(ExamStatus)} 
+                      ExamStatus={ExamStatus}
+                      changeExamStatus={changeExamStatus}
                       changeExamGrade={changeExamGradeRows}
                       IsReadOnly={true}
                       IsMark={IsMark} />
-                    {getDropdownName(Item.ExamStatus)}
+                    {/* {getDropdownName(Item.ExamStatus)} */}
                     {IsMark &&
                       <TableCell>
                         <TextField sx={{ width: '80px' }} size={"small"}

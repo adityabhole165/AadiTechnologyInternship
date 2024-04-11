@@ -1,4 +1,4 @@
-import { Box, TableCell, TextField } from "@mui/material";
+import { TableCell, TextField } from "@mui/material";
 import Dropdown from "src/libraries/dropdown/Dropdown";
 const validateInput = (inputValue) => {
     const regex = /^\d{1,3}$/;
@@ -28,18 +28,17 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
         <>
             {ExamMarksHeader?.map((Item, Index) => {
                 return (<TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }} key={Index}>
-                    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    {/* <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}> */}
 
+                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
+                        {Item.Text4}</TableCell>
 
-                        {Item.Text4}
-
-
+                    <TableCell sx={{ color: 'white', fontWeight: "bold", py: 1 }}>
                         {IsMark ? (
                             <>
-                                <TextField sx={{ width: '70px', background: 'white' }} size={"small"}
-                                    value={Item.Text1}
-                                // disabled={IsReadOnly} 
-                                />
+                                {Item.Text1}
+
+
                                 <TextField sx={{ width: '50px', background: 'white' }} size={"small"}
                                     value={Item.Text2}
                                     onBlur={() => handleBlur(Item.Text2, Index)}
@@ -59,7 +58,9 @@ const SubjectExamHeader = ({ ExamMarksHeader, ChangeExamHeader, IsMark, BlurrExa
                             // disabled={IsReadOnly}
                             />
                         )}
-                    </Box>
+                    </TableCell>
+                    {/* </Box>
+                   */}
                 </TableCell>)
             })}
         </>

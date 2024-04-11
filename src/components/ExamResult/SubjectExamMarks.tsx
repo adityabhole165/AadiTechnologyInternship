@@ -342,6 +342,7 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
+                label={"Class"}
                 value={
                   (StandardName && Object.keys(StandardName).length > 0) ?
                     (StandardName.Standard_Name + ' - ' + StandardName.Division_Name)
@@ -354,6 +355,7 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
+                label={"Exam"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.SchoolWise_Test_Name
@@ -366,6 +368,7 @@ const SubjectExamMarks = () => {
             <Box>
               <TextField
                 fullWidth
+                label={"Subject Name"}
                 value={SubjectName || ''}
                 disabled={IsReadOnly === 'true'}
               />
