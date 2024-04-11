@@ -527,9 +527,8 @@ const onSelectEndDate = (value) => {
             </Typography>
           )}
 
-          {LessonPlanList.length > 0 ? (
-
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+        
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop:'10px' }}>
               Select a page:
               {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
@@ -547,9 +546,7 @@ const onSelectEndDate = (value) => {
                             />
 
             </Box>
-          ) : (<span></span>)
-          }
-
+          
           <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
             <DotLegends2
               color="secondary"
