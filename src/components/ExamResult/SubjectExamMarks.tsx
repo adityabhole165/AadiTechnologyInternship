@@ -291,7 +291,8 @@ const SubjectExamMarks = () => {
     if (TestDate !== "" && ExamSchedules.length > 0) {
 
       if (isOutsideAcademicYear(TestDate)) {
-        setMarksError('Exam date should be within the current academic year (i.e., between ' +
+        setMarksError('Please fix following error(s): ' +
+          'Exam date should be within the current academic year (i.e., between ' +
           formatDateAsDDMMMYYYY(sessionStorage.getItem('StartDate')) + ' to ' + formatDateAsDDMMMYYYY(sessionStorage.getItem('EndDate')) + ')');
       } else {
         const startDate = new Date(getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date));
@@ -300,7 +301,7 @@ const SubjectExamMarks = () => {
 
 
         if (selectedDate < startDate || selectedDate > endDate) {
-          setMarksError('Exam date should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
+          setMarksError('Exam date for this standard should be between ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_Start_Date) +
             ' and ' + getDateMonthYearFormatted(ExamSchedules[0].Exam_End_Date));
         } else {
           setMarksError('');
@@ -393,7 +394,7 @@ const SubjectExamMarks = () => {
             </Box>
 
             <div style={{ textAlign: 'right', color: 'red', paddingRight: '20px' }}>
-              *
+              * Mandatory Fields
             </div>
             <Box>
               <Tooltip title={`Assign marks to each student in the class for the selected subject and click on &quot;Save&quot;. Once marks are submitted to class-teacher you can modify it from exam results.`}>
@@ -437,6 +438,7 @@ const SubjectExamMarks = () => {
             {TestName && TestName.Grade_Or_Marks == "M" &&
               <TextField
                 fullWidth
+                label={"Total Marks"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Subject_Total_Marks
@@ -463,6 +465,7 @@ const SubjectExamMarks = () => {
               // />
               <TextField
                 fullWidth
+                label={"Passing Marks"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Passing_Total_Marks
@@ -475,6 +478,7 @@ const SubjectExamMarks = () => {
             {TestName && TestName.Grade_Or_Marks == "G" &&
               <TextField
                 fullWidth
+                label={"Passing Grade"}
                 value={
                   (TestName && Object.keys(TestName).length > 0) ?
                     TestName.Grade_Name
