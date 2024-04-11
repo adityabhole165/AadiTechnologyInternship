@@ -1,21 +1,22 @@
-import QuestionMark from '@mui/icons-material/QuestionMark';
 import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import QuestionMark from '@mui/icons-material/QuestionMark';
 import { Box, Grid, IconButton, TextField, Tooltip } from '@mui/material';
 import { grey } from '@mui/material/colors';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router';
 import {
-  IGetTestMarkBody,GetStudentsForSubjectMarkMouseOverBody
+  GetStudentsForSubjectMarkMouseOverBody,
+  IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
 import {
-  gettestmarklist,studentmouseoverlist
+  gettestmarklist, studentmouseoverlist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
 import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { StandardDivisionId, teacherName, examName, subjectName } = useParams();
+  const { TestId,StandardDivisionId,getExamName,getTeacherName} = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const HeaderList = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
@@ -38,12 +39,12 @@ const SubjectMarkList = () => {
     "asShowTotalAsPerOutOfMarks": "Y"
   }
   const GetStudentsForSubjectMarkMouseOver: GetStudentsForSubjectMarkMouseOverBody = {
-    "asSchoolId":18,
-    "asAcademicYearId":54,
-    "asStandardDivId":1266,
-    "asNoOfRecord":15,
-    "asTestId":592,
-    "asSubjectId":2344
+    "asSchoolId": 18,
+    "asAcademicYearId": 54,
+    "asStandardDivId": 1266,
+    "asNoOfRecord": 15,
+    "asTestId": 592,
+    "asSubjectId": 2344
 
   }
   useEffect(() => {
@@ -73,7 +74,7 @@ const SubjectMarkList = () => {
                 label={"Class"}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={teacherName}
+                value={getTeacherName}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -85,7 +86,7 @@ const SubjectMarkList = () => {
                 label={"Exam "}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={examName}
+                value={getExamName}
                 InputProps={{
                   readOnly: true,
                 }}
@@ -97,7 +98,7 @@ const SubjectMarkList = () => {
                 label={"Subject Name"}
                 InputLabelProps={{ shrink: true }}
                 sx={{ bgcolor: '#e3f2fd' }}
-                value={subjectName}
+                value={""}
                 InputProps={{
                   readOnly: true,
                 }}
