@@ -525,7 +525,7 @@ const TransferOptionalSubjectMarks = () => {
                         TRANSFER
                     </Button>
                 )}
-                <Button
+                {/* <Button
                     variant="contained"
                     style={{
                         backgroundColor: 'Red',
@@ -534,7 +534,7 @@ const TransferOptionalSubjectMarks = () => {
                     }}
                     onClick={ExamResultBase} >
                     BACK
-                </Button>
+                </Button> */}
             </Box>
         </Box>
     );
