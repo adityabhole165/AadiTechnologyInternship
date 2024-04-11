@@ -22,7 +22,7 @@ const TransferOptionalSubjectMarks = () => {
     const asAcademicYearId = Number(sessionStorage.getItem('AcademicYearId'));
     const asStandardDivisionId = Number(sessionStorage.getItem('StandardDivisionId'));
     const UserId = Number(localStorage.getItem('UserId'));
-    const [selectClasstecaher, setselectClasstecaher] = useState();
+    const [selectClasstecaher, setselectClasstecaher] = useState("0");
     const [Title, setTitle] = useState('');
     const [SubjectList, setSubjectList] = useState([]);
     const [SearchText, setSearchText] = useState('');
@@ -80,13 +80,13 @@ const TransferOptionalSubjectMarks = () => {
     const GetClassTeachersBody: IGetClassTeachersBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asTeacherId: selectClasstecaher
+        asTeacherId: Number(selectClasstecaher)
     };
 
     const GetStudentsToTransferMarksBody: IGetStudentsToTransferMarksBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: selectClasstecaher,
+        asStandardDivisionId: Number(selectClasstecaher),
         asName: SearchText,
         asEndIndex: 20,
         asStartRowIndex: 0
@@ -95,7 +95,7 @@ const TransferOptionalSubjectMarks = () => {
     const GetOptionalSubjectsForMarksTransferBody: IGetOptionalSubjectsForMarksTransferBody = {
         asSchoolId: asSchoolId,
         asAcademicYearId: asAcademicYearId,
-        asStandardDivisionId: selectClasstecaher
+        asStandardDivisionId: Number(selectClasstecaher)
     };
 
 
@@ -204,7 +204,7 @@ const TransferOptionalSubjectMarks = () => {
     const itemsPerPage = 20;
 
     const startIndex = (page - 1) * itemsPerPage + 1;
-    const endIndex = startIndex + itemsPerPage -1;
+    const endIndex = startIndex + itemsPerPage - 1;
     useEffect(() => {
         const startIndex = (page - 1) * itemsPerPage;
         const endIndex = startIndex + itemsPerPage;
@@ -216,7 +216,7 @@ const TransferOptionalSubjectMarks = () => {
         };
 
         dispatch(CDAStudentsToTransferMarks(newGetStudentsToTransferMarksBody));
-    }, [page]);
+    }, [page, selectClasstecaher]);
 
 
 
@@ -272,10 +272,6 @@ const TransferOptionalSubjectMarks = () => {
     useEffect(() => {
         dispatch(CDAGetClassTeachers(GetClassTeachersBody));
     }, []);
-
-    useEffect(() => {
-        dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
-    }, [selectClasstecaher]);
 
     useEffect(() => {
         dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
