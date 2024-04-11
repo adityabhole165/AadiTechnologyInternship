@@ -17,7 +17,7 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { TestId, StandardDivisionId, getExamName, getTeacherName } = useParams();
+  const { Id, TestId, StandardDivisionId, getExamName, getTeacherName } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
   const Note: string = "Displays brief mark list with toppers for selected class-subject."
