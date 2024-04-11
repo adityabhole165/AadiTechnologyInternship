@@ -9,6 +9,7 @@ import {
   GetStudentsForSubjectMarkMouseOverBody,
   IGetTestMarkBody
 } from 'src/interfaces/ExamResult/ISubjectMarkList';
+import DynamicList from 'src/libraries/list/DynamicList';
 import {
   gettestmarklist, studentmouseoverlist
 } from 'src/requests/ExamResult/RequestSubjectMarkList';
@@ -16,16 +17,17 @@ import { RootState, useSelector } from 'src/store';
 import CommonPageHeader from '../CommonPageHeader';
 const SubjectMarkList = () => {
   const dispatch = useDispatch();
-  const { TestId,StandardDivisionId,getExamName,getTeacherName} = useParams();
+  const { TestId, StandardDivisionId, getExamName, getTeacherName } = useParams();
   const asSchoolId = localStorage.getItem('localSchoolId');
   const asAcademicYearId = sessionStorage.getItem('AcademicYearId');
-  const HeaderList = ['Rank', 'Class', 'Roll No.', 'Student Name', 'Marks'];
   const Note: string = "Displays brief mark list with toppers for selected class-subject."
   const HoverNote: string = "To view the student name take your mouse on the roll number."
 
   const TestMarkList: any = useSelector(
     (state: RootState) => state.SubjectMarkList.listTestMark);
-  // console.log(TestMarkList, "jhshf");
+  const HeaderList: any = useSelector(
+    (state: RootState) => state.SubjectMarkList.HeaderList);
+
   const StudentNamelistMouseOver: any = useSelector(
     (state: RootState) => state.SubjectMarkList.StudentNameMouseOver);
   console.log(StudentNamelistMouseOver, "jjjjj");
@@ -139,14 +141,15 @@ const SubjectMarkList = () => {
 
           </Grid>
         </Box>
-        {/* <DynamicList
-          HeaderList={HeaderList}
-          ItemList={TestMarkList}
-          IconList={""}
-          ClickItem={""}
-          // LinkList={true}
-          ClickLink={true}
-        /> */}
+        {(HeaderList.length > 0) &&
+          <DynamicList
+            HeaderList={HeaderList}
+            ItemList={TestMarkList}
+            IconList={[]}
+            ClickItem={""}
+            // LinkList={true}
+            ClickLink={true}
+          />}
       </Box>
     </>
   )

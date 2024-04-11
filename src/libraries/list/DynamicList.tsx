@@ -77,7 +77,7 @@ const DynamicList = ({
             {ItemList.map((item, index) => {
               return (
                 <TableRow key={index}>
-                  {item.map((obj, i) => {
+                  {item.length > 0 && item.map((obj, i) => {
                     return (
                       <TableCell align="center" key={i}
                         onClick={() => {
@@ -109,6 +109,15 @@ const DynamicList = ({
                   )}
                   {item.Text3 != undefined && (
                     <TableCell align="center">{item.Text3}</TableCell>
+                  )}
+                  {item.Text4 != undefined && (
+                    <TableCell align="center">{item.Text4}</TableCell>
+                  )}
+                  {item.Text5 != undefined && (
+                    <TableCell align="center">{item.Text5}</TableCell>
+                  )}
+                  {item.Text6 != undefined && (
+                    <TableCell align="center">{item.Text6}</TableCell>
                   )}
                   {IconList?.map((obj, i) => {
                     return (
