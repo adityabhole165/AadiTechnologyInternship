@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Pagination, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -531,10 +531,20 @@ const onSelectEndDate = (value) => {
 
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
               Select a page:
-              <ButtonGroup color="primary" aria-label="outlined primary button group">
+              {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-              </ButtonGroup>
+              </ButtonGroup> */}
+
+              <Pagination
+                                count={5}
+                                variant={"outlined"}
+                                shape='rounded' showFirstButton
+                                showLastButton
+                                onChange={(event, value) => {
+                                    handlePageChange(value);
+                                }}
+                            />
 
             </Box>
           ) : (<span></span>)
