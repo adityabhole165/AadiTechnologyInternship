@@ -465,31 +465,32 @@ const TransferOptionalSubjectMarks = () => {
                     )
                     }
                 </Box>
-                {StudentsList.length > 0 ? (
-                    <Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                            Select a page:
-                            <Pagination
-                                count={5}
-                                variant={"outlined"}
-                                shape='rounded' showFirstButton
-                                showLastButton
-                                onChange={(event, value) => {
-                                    handlePageChange(value);
-                                }}
-                            />
-                        </Box>
-                        <Box sx={{ textAlign: 'center' }}>
-                            {`${startIndex} To ${endIndex} Out Of 39 Records`}
-                        </Box>
+                {selectClasstecaher !== '0' ? (
+    StudentsList.length > 0 ? (
+        <Box>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                Select a page:
+                <Pagination
+                    count={5}
+                    variant={"outlined"}
+                    shape='rounded' showFirstButton
+                    showLastButton
+                    onChange={(event, value) => {
+                        handlePageChange(value);
+                    }}
+                />
+            </Box>
+            <Box sx={{ textAlign: 'center' }}>
+                {`${startIndex} To ${endIndex} Out Of 39 Records`}
+            </Box>
+        </Box>
+    ) : (
+        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+            <b>No Record Found.</b>
+        </Typography>
+    )
+) : null}
 
-                    </Box>
-                ) : (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No Record Found.</b>
-                    </Typography>
-                )
-                }
             </Box>
 
 
