@@ -68,7 +68,10 @@ export const CDAlessonplanlist =
         Text3: item.Remarks,
         SubmitedByReportingUser: item.SubmitedByReportingUser,
         Text2: item.IsSubmitted,
-        UserId: item.UserId
+        UserId: item.UserId,
+        IsSuggisionAdded:item.IsSuggisionAdded,
+        IsSuggisitionRead: item.IsSuggisitionRead
+        
       }));
 
       let listResult2nd = response.data.listResult2nd.map(item => ({

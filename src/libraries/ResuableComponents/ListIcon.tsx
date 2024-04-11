@@ -84,8 +84,9 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.Id}>
-                                <TableCell>{item.StartDate}</TableCell>
-                                <TableCell>{item.EndDate}</TableCell>
+                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
+                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
+
                                 <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
                                         (
@@ -128,10 +129,11 @@ function ListIcon({
 
                                 <TableCell align="center">
                                     {item.Text5}
-                                    <Link component="button" onClick={() => clickExport(item.Id)}>
+                                    <Link component="button" onClick={() => clickExport(item.Id)} sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>
                                         Export
                                     </Link>
                                 </TableCell>
+
                                 <TableCell align="center">
                                     {ReportingConfigs.map((config) => {
                                         if (config.StartDate === item.StartDate && config.EndDate === item.EndDate) {
