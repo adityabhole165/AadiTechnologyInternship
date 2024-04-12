@@ -344,15 +344,13 @@ const TransferOptionalSubjectMarks = () => {
                                 SearchNameChange(e.target.value);
                             }}
                         />
-                        {StudentsList.length > 0 ? (
-                            <Button onClick={changeSearchText} variant="contained">
-                                Search
-                            </Button>
-                        ) : (
-                            <Button variant="contained" disabled>
-                                Search
-                            </Button>
-                        )}
+                        <Button
+                            onClick={changeSearchText}
+                            variant="contained"
+                            disabled={selectClasstecaher === '0'}
+                        >
+                            Search
+                        </Button>
 
                         <Box>
                             <Tooltip title={"Transfer student's marks from one optional subject to another optional subject"}>
@@ -468,35 +466,32 @@ const TransferOptionalSubjectMarks = () => {
                     )
                     }
                 </Box>
-                {StudentsList.length > 0 ? (
-                    <Box>
-                        <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
-                            Select a page:
-                            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
-                            <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
-                            <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
-                        </ButtonGroup> */}
-                            <Pagination
-                                count={5}
-                                variant={"outlined"}
-                                shape='rounded' showFirstButton
-                                showLastButton
-                                onChange={(event, value) => {
-                                    handlePageChange(value);
-                                }}
-                            />
+                {selectClasstecaher !== '0' ? (
+                    StudentsList.length > 0 ? (
+                        <Box>
+                            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center' }}>
+                                Select a page:
+                                <Pagination
+                                    count={5}
+                                    variant={"outlined"}
+                                    shape='rounded' showFirstButton
+                                    showLastButton
+                                    onChange={(event, value) => {
+                                        handlePageChange(value);
+                                    }}
+                                />
+                            </Box>
+                            <Box sx={{ textAlign: 'center' }}>
+                                {`${startIndex} To ${endIndex} Out Of 39 Records`}
+                            </Box>
                         </Box>
-                        <Box sx={{ textAlign: 'center' }}>
-                            {`${startIndex} To ${endIndex} Out Of 39 Records`}
-                        </Box>
+                    ) : (
+                        <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
+                            <b>No Record Found.</b>
+                        </Typography>
+                    )
+                ) : null}
 
-                    </Box>
-                ) : (
-                    <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
-                        <b>No Record Found.</b>
-                    </Typography>
-                )
-                }
             </Box>
 
 
