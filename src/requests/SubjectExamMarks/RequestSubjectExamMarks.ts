@@ -189,7 +189,7 @@ export const getSubjectExamMarkslist =
                             Id: Item.TestType_Id,
                             Text1: parseInt(Item.Marks_Scored == "" ? "0" : Item.Marks_Scored).toString(),
                             Text2: Item.TestType_Total_Marks,
-                            ExamStatus: "0",
+                            ExamStatus: Item.Is_Absent,
                             ExamGrade: "0",
                             IsActive: true,
                             IsActiveGrade: true,
@@ -199,10 +199,10 @@ export const getSubjectExamMarkslist =
                 return arr
             }
 
+
             const getTotalMarksForStudent = (StudentId) => {
                 let TotalMarks = "0"
                 response2.data.listStudentTestMarkDetails.map((Item, i) => {
-                    // console.log(Item.Student_Id, " == ", StudentId)
                     if (Item.Student_Id == StudentId)
                         TotalMarks = Item.Total_Marks_Scored
                 });
@@ -244,13 +244,13 @@ export const getSubjectExamMarkslist =
 
 
             const response4 = await SubjectExamMarksApi.GetSubjectExamMarkslists(body2);
-            let responseData4 = [{ Id: '0', Name: 'Select', Value: '0' }];
+            let responseData4 = [{ Id: '0', Name: 'Select', Value: 'N' }];
 
             response4.data.listDisplayNameDetail.map((Item, i) => {
                 responseData4.push({
                     Id: Item.ExamStatusId,
                     Name: Item.DisplayName,
-                    Value: Item.ExamStatusId
+                    Value: Item.ShortName
                 });
             });
 
