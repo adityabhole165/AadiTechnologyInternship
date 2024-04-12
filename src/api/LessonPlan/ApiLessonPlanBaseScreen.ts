@@ -8,7 +8,8 @@ import {
   IGetAllTeachersOfLessonPlanResult,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody,
-  IGetLessonPlanListResult
+  IGetLessonPlanListResult,
+  IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import http from '../../requests/SchoolService/schoolServices';
 
@@ -36,6 +37,9 @@ const GetAllTeachersOfLessonPlan = (data: IGetAllTeachersOfLessonPlanBody) => {
 const GetAllLessonPlanReportingConfigs = (data: IGetAllLessonPlanReportingConfigsBody) => {
   return http.post<IGetAllLessonPlanReportingConfigsResult[]>('Teacher/GetAllLessonPlanReportingConfigs', data);
 };
+const UpdateReadSuggestion = (data: IUpdateReadSuggestionBody) => {
+  return http.post('Teacher/UpdateReadSuggestion', data);
+};
 
 
 const LessonPlanApi = {
@@ -44,7 +48,8 @@ const LessonPlanApi = {
   LessonPlanReport,
   AddOrEditLessonPlanDetails,
   GetAllTeachersOfLessonPlan,
-  GetAllLessonPlanReportingConfigs
+  GetAllLessonPlanReportingConfigs,
+  UpdateReadSuggestion
 };
 
 export default LessonPlanApi;

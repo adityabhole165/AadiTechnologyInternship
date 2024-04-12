@@ -1,7 +1,7 @@
 import Add from '@mui/icons-material/Add';
 import Download from '@mui/icons-material/Download';
 import QuestionMark from '@mui/icons-material/QuestionMark';
-import { Box, Button, ButtonGroup, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Pagination, Stack, TextField, Tooltip, Typography } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, Divider, IconButton, Pagination, Stack, TextField, Tooltip, Typography } from '@mui/material';
 import { grey } from '@mui/material/colors';
 // import jsPDF from 'jspdf';
 import { useEffect, useState } from 'react';
@@ -14,7 +14,8 @@ import {
   IGetAllLessonPlanReportingConfigsBody,
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
-  IGetLessonPlanListBody
+  IGetLessonPlanListBody,
+  IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
 import ListIcon from 'src/libraries/ResuableComponents/ListIcon';
@@ -22,6 +23,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
+  CDAUpdateReadSuggestion,
   CDAlessonplanlist,
   GetLessonPlanreport,
   deletelessonplan,
@@ -70,7 +72,6 @@ const LessonPlanBaseScreen = () => {
   );
 
 
-  console.log(LessonPlanList, "LessonPlanList");
 
 
   const USGetAllLessonPlanReportingConfigs: any = useSelector(
@@ -83,6 +84,12 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.DeletePlan
   );
 
+  const USUpdateReadSuggestion: any = useSelector(
+    (state: RootState) => state.LessonPlanBase.ISUpdateReadSuggestion
+  );
+
+  console.log(USUpdateReadSuggestion, "USUpdateReadSuggestion");
+
   const LessonPlanReport: any = useSelector(
     (state: RootState) => state.LessonPlanBase.LessonReport
   );
@@ -91,7 +98,6 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISAddOrEditLessonPlanDetails
   );
 
-  console.log(USAddOrEditLessonPlanDetails, "USAddOrEditLessonPlanDetails");
 
 
   const USGetAllTeachersOfLessonPlan: any = useSelector(
@@ -136,7 +142,7 @@ const LessonPlanBaseScreen = () => {
   }, [StartDate, EndDate]);
 
 
-  
+
 
 
   useEffect(() => {
@@ -202,6 +208,18 @@ const LessonPlanBaseScreen = () => {
   // }, []);
 
 
+  const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asUpdatedById: asUserId,
+    asUserId: asUserId,
+    asStartDate: StartDate,
+    asEndDate: EndDate
+  }
+
+  useEffect(() => {
+    dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+  }, []);
 
   const GetLessonPlanReportBody: IGetLessonPlanDetailsForReportBody = {
     asSchoolId: asSchoolId,
@@ -250,45 +268,52 @@ const LessonPlanBaseScreen = () => {
     }
   }, [DeleteLessonPlan, dispatch, GetLessonPlanListBody, isDeleteEffectTriggered]);
 
- const onSelectStartDate = (value) => {
-  setStartDate(value);
-  if (!value) {
-    const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
-      ...GetLessonPlanListBody,
-      asStartDate: null, // Set the start date to null or whatever default value you prefer
-    };
-    dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
-  }
-};
+  const onSelectStartDate = (value) => {
+    setStartDate(value);
+    if (!value) {
+      const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+        ...GetLessonPlanListBody,
+        asStartDate: null, // Set the start date to null or whatever default value you prefer
+      };
+      dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+    }
+  };
 
-const onSelectEndDate = (value) => {
-  setEndDate(value);
-  if (!value) {
-    const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
-      ...GetLessonPlanListBody,
-      asEndDate: null, // Set the end date to null or whatever default value you prefer
-    };
-    dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
-    return;
-  }
+  const onSelectEndDate = (value) => {
+    setEndDate(value);
+    if (!value) {
+      const newGetStudentsToTransferMarksBody: IGetLessonPlanListBody = {
+        ...GetLessonPlanListBody,
+        asEndDate: null, // Set the end date to null or whatever default value you prefer
+      };
+      dispatch(CDAlessonplanlist(newGetStudentsToTransferMarksBody));
+      return;
+    }
 
-  // Check if end date is less than or equal to start date
-  if (StartDate && new Date(value) <= new Date(StartDate)) {
-    setErrorMessage('End Date should be greater than Start Date');
-  } else {
-    setErrorMessage('');
-  }
-};
+    // Check if end date is less than or equal to start date
+    if (StartDate && new Date(value) <= new Date(StartDate)) {
+      setErrorMessage('End Date should be greater than Start Date');
+    } else {
+      setErrorMessage('');
+    }
+  };
 
 
 
 
 
   const [ViewRemarks, setViewRemarks] = useState('')
+
   const clickView = (Id, Remarks) => {
     setOpenViewRemarkDialog(true);
-    setViewRemarks(Remarks)
-  }
+    setViewRemarks(Remarks);
+    
+    // Check if any item in LessonPlanList meets the conditions
+    if (LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+      dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+    }
+  };
+  
 
   const ClickSelctTecher = (value) => {
     setselectClasstecahernew(value)
@@ -527,26 +552,26 @@ const onSelectEndDate = (value) => {
             </Typography>
           )}
 
-        
-            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop:'10px' }}>
-              Select a page:
-              {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
+
+          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, justifyContent: 'center', marginTop: '10px' }}>
+            Select a page:
+            {/* <ButtonGroup color="primary" aria-label="outlined primary button group">
                 <Button value={"1"} onClick={() => handlePageChange("1")}>1</Button>
                 <Button value={"2"} onClick={() => handlePageChange("2")}>2</Button>
               </ButtonGroup> */}
 
-              <Pagination
-                                count={5}
-                                variant={"outlined"}
-                                shape='rounded' showFirstButton
-                                showLastButton
-                                onChange={(event, value) => {
-                                    handlePageChange(value);
-                                }}
-                            />
+            <Pagination
+              count={5}
+              variant={"outlined"}
+              shape='rounded' showFirstButton
+              showLastButton
+              onChange={(event, value) => {
+                handlePageChange(value);
+              }}
+            />
 
-            </Box>
-          
+          </Box>
+
           <Box sx={{ display: 'flex', gap: '20px', mt: 2 }}>
             <DotLegends2
               color="secondary"

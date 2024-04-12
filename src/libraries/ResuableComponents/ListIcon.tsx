@@ -84,8 +84,8 @@ function ListIcon({
                     <TableBody>
                         {ItemList.map((item) => (
                             <TableRow key={item.Id}>
-                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
-                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
+                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.StartDate}</TableCell>
+                                <TableCell sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>{item.EndDate}</TableCell>
 
                                 <TableCell align="center">
                                     {getIsRemarkView(item.UserId, item.StartDate, item.EndDate) ?
@@ -129,7 +129,7 @@ function ListIcon({
 
                                 <TableCell align="center">
                                     {item.Text5}
-                                    <Link component="button" onClick={() => clickExport(item.Id)} sx={{ color: item.IsSuggisionAdded === "True" ? '#3498db' : 'inherit' }}>
+                                    <Link component="button" onClick={() => clickExport(item.Id)} sx={{ color: item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False" ? '#3498db' : 'inherit' }}>
                                         Export
                                     </Link>
                                 </TableCell>

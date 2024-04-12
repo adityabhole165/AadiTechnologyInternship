@@ -166,3 +166,11 @@ export interface IGetAllLessonPlanReportingConfigsResult {
   MaxDate: string
 }
 
+export interface IUpdateReadSuggestionBody {
+  asSchoolId: number
+  asAcadmicYearId: number
+  asUpdatedById: number
+  asUserId: number
+  asStartDate: string
+  asEndDate: string
+}
