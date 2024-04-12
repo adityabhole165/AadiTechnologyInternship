@@ -67,7 +67,7 @@ const AddLessonPlan = () => {
   const [OldStartDate, setOldStartDate] = useState('');
   const [OldEndDate, setOldEndDate] = useState('');
   const [ItemList, setItemList] = useState('');
-  const [ApproverComment, setApproverComment] = useState('');
+  const [ApproverComment, setApproverComment] = useState([]);
   const [errorStartDate, seterrorStartDate] = useState('');
   const [errorEndDate, seterrorEndDate] = useState('')
   const [errorComment, seterrorComment] = useState('');
@@ -98,6 +98,9 @@ const AddLessonPlan = () => {
   // const EnableSaveButton = GetEnableButtonList.EnableSaveButton;
   // const EnableSubmitButton = GetEnableButtonList.EnableSubmitButton;
 
+  useEffect(() => {
+    setApproverComment(SubmittedApproverDate)
+  }, [SubmittedApproverDate])
   function getXML() {
     let a = [];
     let asLessonPlanXML = "<ArrayOfLessonPlanDetails xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"" +
@@ -261,7 +264,7 @@ const AddLessonPlan = () => {
     seterrorexampleLessonDetails("Lesson Plan should be set for at least one parameter.")
     returnVal = false
 
-    if (ApproverComment === "") {
+    if (getApproverComment() == "") {
 
       seterrorComment("Please fix the following error(s): Comment should not be blank.");
       returnVal = false;
@@ -270,7 +273,15 @@ const AddLessonPlan = () => {
     return returnVal;
   };
 
-
+  const getApproverComment = () => {
+    let returnVal = ""
+    ApproverComment.map((Item, i) => {
+      if (Item.ReportingUserId == asUserId && Item.Comment !== "") {
+        returnVal = Item.Comment
+      }
+    })
+    return returnVal
+  }
   const onClickSave = () => {
     if (IsFormValid()) {
       const SaveLessonPlanBody: ISaveLessonPlanBody = {
@@ -327,7 +338,7 @@ const AddLessonPlan = () => {
       asReportingUserId: Number(ReportingUserId),
       aasStartDate: StartDate,
       aasEndDate: EndDate,
-      asApproverComment: ApproverComment,
+      asApproverComment: getApproverComment(),
       asUpdatedById: Number(UpdatedById),
       asOldStartDate: StartDate,
       asOldEndDate: EndDate,
@@ -335,7 +346,13 @@ const AddLessonPlan = () => {
 
     dispatch(getUpdateLessonPlanDate(UpdateLessonPlanDateBody));
   };
-  const onClickApproverComment = (value) => {
+  const onClickApproverComment = (value, index) => {
+    setApproverComment(SubmittedApproverDate.map((Item, i) => {
+      return i == index ? { ...Item, Comment: value } : Item
+    }))
+
+  };
+  const cliclApprove = () => {
     const SaveApproverCommentBody: ISaveApproverCommentBody = {
       asSchoolId: asSchoolId,
       asAcademicYearId: asAcademicYearId,
@@ -343,14 +360,14 @@ const AddLessonPlan = () => {
       asReportingUserId: Number(asUserId),
       aasStartDate: StartDate,
       aasEndDate: EndDate,
-      asApproverComment: ApproverComment,
+      asApproverComment: getApproverComment(),
       asUpdatedById: Number(UpdatedById),
       asOldStartDate: StartDate,
       asOldEndDate: EndDate,
     };
-    setApproverComment(value)
     dispatch(getSaveApproverComment(SaveApproverCommentBody))
-  };
+
+  }
   const IsShowApprove = () => {
     let isShowApprove = false;
 
@@ -488,8 +505,8 @@ const AddLessonPlan = () => {
         }
       />
 
-      <FileLink filePath="../DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
-      <FileLink filePath="../DOWNLOADS/Lesson Plan/GOOGLE TOOL GUIDE.pdf" fileName="Translation Guide" />
+      <FileLink filePath="http://web.aaditechnology.info/RITESchool/DOWNLOADS/Lesson Plan/InputToolsSetup.exe" fileName="Translation Tool" />
+      <FileLink filePath="http://web.aaditechnology.info/riteschool/DOWNLOADS/Lesson%20Plan/GOOGLE%20TOOL%20GUIDE.pdf" fileName="Translation Guide" />
       <Box sx={{ p: 2, background: 'white' }}>
         <Grid container spacing={2}>
           <Grid item xs={3}>
@@ -605,24 +622,25 @@ const AddLessonPlan = () => {
                     </Typography>
                   )
                 )}
-
-                <Grid xs={12} md={12} item>
-                  <TextField
-
-                    multiline
-                    rows={3}
-                    value={SubmittedApproverDate[i]?.Comment || ''}
-                    onChange={(e) => {
-                      onClickApproverComment(e.target.value);
-                    }}
-                    error={errorComment !== ''}
-                    helperText={errorComment}
-                    fullWidth
-                    sx={{
-                      resize: 'both'
-                    }}
-                  />
-                </Grid>
+                {i != 0 &&
+                  <Grid xs={12} md={12} item>
+                    <TextField
+                      disabled={Item.ReportingUserId != asUserId}
+                      multiline
+                      rows={3}
+                      value={ApproverComment[i]?.Comment || ''}
+                      onChange={(e) => {
+                        onClickApproverComment(e.target.value, i);
+                      }}
+                      error={errorComment !== ''}
+                      helperText={errorComment}
+                      fullWidth
+                      sx={{
+                        resize: 'both'
+                      }}
+                    />
+                  </Grid>
+                }
               </Grid>)
             })
             }
