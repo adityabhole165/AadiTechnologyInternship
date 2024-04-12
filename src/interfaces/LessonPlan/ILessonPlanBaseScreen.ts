@@ -174,3 +174,18 @@ export interface IUpdateReadSuggestionBody {
   asStartDate: string
   asEndDate: string
 }
+
+export interface IGetLessonPlanRecordCountBody {
+  asSchoolId: number
+  asAcadmicYearId: number
+  asUserId: number
+  asReportingUserId: number
+  asStartIndex: number
+  asEndIndex: number
+  asStartDate: any
+  asEndDate: any
+}
+
+export interface IGetLessonPlanRecordCountResult {
+  RecordCount: string
+}
