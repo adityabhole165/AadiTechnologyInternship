@@ -246,6 +246,7 @@ const TransferOptionalSubjectMarks = () => {
         setIsDirty(false)
 
         setStudentsList(USStudentsToTransferMarks);
+        setErrorMessage('')
     }, [USStudentsToTransferMarks]);
 
 
@@ -261,6 +262,7 @@ const TransferOptionalSubjectMarks = () => {
     const Changevalue = (value) => {
         setIsDirty(true)
         setStudentsList(value);
+        setErrorMessage('')
     };
 
     const ExamResultBase = (value) => {
@@ -310,6 +312,7 @@ const TransferOptionalSubjectMarks = () => {
             dispatch(CDAresetMessage());
             dispatch(CDAOptionalSubjectsForMarksTransfer(GetOptionalSubjectsForMarksTransferBody));
             dispatch(CDAStudentsToTransferMarks(GetStudentsToTransferMarksBody));
+            setErrorMessage('');
         }
 
 
@@ -341,7 +344,7 @@ const TransferOptionalSubjectMarks = () => {
                             variant={'outlined'}
                             size={"small"}
                             onChange={(e) => {
-                                SearchNameChange(e.target.value);
+                                SearchNameChange(e.target.value); 
                             }}
                         />
                         <Button
