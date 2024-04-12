@@ -92,7 +92,7 @@ function ListIcon({
                                         (
                                             <Tooltip title={"View Remark"}>
                                                 <Visibility onClick={() =>
-                                                    clickView(item.Id, item.Text3)} />
+                                                    clickView(item.Id, item.Text3 , item.StartDate, item.EndDate, item.UserId)} />
                                             </Tooltip>
                                         ) :
                                         "-"

@@ -298,21 +298,37 @@ const LessonPlanBaseScreen = () => {
     }
   };
 
-
-
-
-
   const [ViewRemarks, setViewRemarks] = useState('')
 
-  const clickView = (Id, Remarks) => {
+  const clickView = (Id, Remarks, sStartDate, sEndDate, sUserId) => {
     setOpenViewRemarkDialog(true);
     setViewRemarks(Remarks);
-    
-    // Check if any item in LessonPlanList meets the conditions
-    if (LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+    if  ( sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+      const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
+        asSchoolId: asSchoolId,
+        asAcadmicYearId: asAcademicYearId,
+        asUpdatedById: asUserId,
+        asUserId: asUserId,
+        asStartDate: sStartDate,
+        asEndDate: sEndDate
+      };
       dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+
     }
   };
+
+
+  // const clickView = (Id, Remarks) => {
+  //   setOpenViewRemarkDialog(true);
+  //   setViewRemarks(Remarks);
+    
+  //   // Check if any item in LessonPlanList meets the conditions
+  //   if (LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+  //     dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+  //   }
+  // };
+
   
 
   const ClickSelctTecher = (value) => {
