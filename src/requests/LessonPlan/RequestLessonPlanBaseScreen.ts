@@ -8,7 +8,8 @@ import {
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody,
-  IUpdateReadSuggestionBody
+  IUpdateReadSuggestionBody,
+  IGetLessonPlanRecordCountBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import { AppThunk } from 'src/store';
 
@@ -21,6 +22,7 @@ const LessonPlanBaseScreenSlice = createSlice({
     ISUpdateReadSuggestion:'',
     LessonReport: [],
     ISAddOrEditLessonPlanDetails: {},
+    ISGetLessonPlanRecordCount:{},
     ISGetAllTeachersOfLessonPlan: [],
     ISGetAllLessonPlanReportingConfigs: []
   },
@@ -56,6 +58,11 @@ const LessonPlanBaseScreenSlice = createSlice({
     RUpdateReadSuggestion(state, action) {
       state.ISUpdateReadSuggestion = action.payload;
     },
+    RGetLessonPlanRecordCount(state, action) {
+      state.ISGetLessonPlanRecordCount = action.payload;
+    }
+
+    
 
     
 
@@ -168,6 +175,18 @@ export const CDAGetAllLessonPlanReportingConfigs =
       dispatch(LessonPlanBaseScreenSlice.actions.RUpdateReadSuggestion(response.data));
       
     };
+
+
+    
+    export const CDAGetLessonPlanRecordCount =
+  (data: IGetLessonPlanRecordCountBody): AppThunk =>
+    async (dispatch) => {
+      const response = await LessonPlanApi.GetLessonPlanRecordCount(data);
+      dispatch(LessonPlanBaseScreenSlice.actions.RGetLessonPlanRecordCount(response.data));
+      
+      
+    };
+
 
 
 export default LessonPlanBaseScreenSlice.reducer;

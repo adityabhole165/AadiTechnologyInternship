@@ -15,6 +15,7 @@ import {
   IGetAllTeachersOfLessonPlanBody,
   IGetLessonPlanDetailsForReportBody,
   IGetLessonPlanListBody,
+  IGetLessonPlanRecordCountBody,
   IUpdateReadSuggestionBody
 } from 'src/interfaces/LessonPlan/ILessonPlanBaseScreen';
 import DotLegends2 from 'src/libraries/ResuableComponents/DotLegends2';
@@ -23,6 +24,7 @@ import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropd
 import {
   CDAAddOrEditLessonPlanDetails,
   CDAGetAllTeachersOfLessonPlan,
+  CDAGetLessonPlanRecordCount,
   CDAUpdateReadSuggestion,
   CDAlessonplanlist,
   GetLessonPlanreport,
@@ -88,7 +90,12 @@ const LessonPlanBaseScreen = () => {
     (state: RootState) => state.LessonPlanBase.ISUpdateReadSuggestion
   );
 
-  console.log(USUpdateReadSuggestion, "USUpdateReadSuggestion");
+
+
+  const USGetLessonPlanRecordCount: any = useSelector(
+    (state: RootState) => state.LessonPlanBase.ISGetLessonPlanRecordCount
+  );
+
 
   const LessonPlanReport: any = useSelector(
     (state: RootState) => state.LessonPlanBase.LessonReport
@@ -183,6 +190,22 @@ const LessonPlanBaseScreen = () => {
     IsNewMode: false
   }
 
+  const GetLessonPlanRecordCountBody: IGetLessonPlanRecordCountBody = {
+    asSchoolId: asSchoolId,
+    asAcadmicYearId: asAcademicYearId,
+    asUserId: asUserId,
+    asReportingUserId: asUserId,
+    asStartIndex: 0,
+    asEndIndex: 20,
+    asStartDate: null,
+    asEndDate: null
+  }
+
+  useEffect(() => {
+    dispatch(CDAGetLessonPlanRecordCount(GetLessonPlanRecordCountBody));
+  }, []);
+
+
 
   useEffect(() => {
     const GetAllTeachersOfLessonBody: IGetAllTeachersOfLessonPlanBody = {
@@ -208,18 +231,18 @@ const LessonPlanBaseScreen = () => {
   // }, []);
 
 
-  const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
-    asSchoolId: asSchoolId,
-    asAcadmicYearId: asAcademicYearId,
-    asUpdatedById: asUserId,
-    asUserId: asUserId,
-    asStartDate: StartDate,
-    asEndDate: EndDate
-  }
+  // const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
+  //   asSchoolId: asSchoolId,
+  //   asAcadmicYearId: asAcademicYearId,
+  //   asUpdatedById: asUserId,
+  //   asUserId: asUserId,
+  //   asStartDate: StartDate,
+  //   asEndDate: EndDate
+  // }
 
-  useEffect(() => {
-    dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+  // }, []);
 
   const GetLessonPlanReportBody: IGetLessonPlanDetailsForReportBody = {
     asSchoolId: asSchoolId,
@@ -298,22 +321,38 @@ const LessonPlanBaseScreen = () => {
     }
   };
 
-
-
-
-
   const [ViewRemarks, setViewRemarks] = useState('')
 
-  const clickView = (Id, Remarks) => {
+  const clickView = (Id, Remarks, sStartDate, sEndDate, sUserId) => {
     setOpenViewRemarkDialog(true);
     setViewRemarks(Remarks);
-    
-    // Check if any item in LessonPlanList meets the conditions
-    if (LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+    if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+      const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
+        asSchoolId: asSchoolId,
+        asAcadmicYearId: asAcademicYearId,
+        asUpdatedById: asUserId,
+        asUserId: asUserId,
+        asStartDate: sStartDate,
+        asEndDate: sEndDate
+      };
       dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+
     }
   };
-  
+
+
+  // const clickView = (Id, Remarks) => {
+  //   setOpenViewRemarkDialog(true);
+  //   setViewRemarks(Remarks);
+
+  //   // Check if any item in LessonPlanList meets the conditions
+  //   if (LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
+  //     dispatch(CDAUpdateReadSuggestion(UpdateReadSuggestionBody));
+  //   }
+  // };
+
+
 
   const ClickSelctTecher = (value) => {
     setselectClasstecahernew(value)
@@ -361,7 +400,6 @@ const LessonPlanBaseScreen = () => {
     return htmlString != "" ? htmlString.replace(/<[^>]*>?/gm, '') : "";
   };
   const itemToDisplay = LessonPlanList.length > 0 ? LessonPlanList[0] : null;
-  console.log(itemToDisplay, "itemToDisplay");
 
   const [page, setPage] = useState(1);
 
@@ -369,7 +407,7 @@ const LessonPlanBaseScreen = () => {
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
-  const itemsPerPage = 10;
+  const itemsPerPage = 20;
 
   const startIndex = (page - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
