@@ -74,17 +74,40 @@ export const CDAlessonplanlist =
       const response = await LessonPlanApi.LessonPlanList(data);
 
 
-      let listResult1st = response.data.listResult1st.map((item, i) => ({
-        StartDate: getDateMonthYearFormatted(item.StartDate),
-        EndDate: getDateMonthYearFormatted(item.EndDate),
-        Text3: item.Remarks,
-        SubmitedByReportingUser: item.SubmitedByReportingUser,
-        Text2: item.IsSubmitted,
-        UserId: item.UserId,
-        IsSuggisionAdded:item.IsSuggisionAdded,
-        IsSuggisitionRead: item.IsSuggisitionRead
+      // let listResult1st = response.data.listResult1st.map((item, i) => ({
+      //   StartDate: getDateMonthYearFormatted(item.StartDate),
+      //   EndDate: getDateMonthYearFormatted(item.EndDate),
+      //   Text3: item.Remarks,
+      //   Text4: item.Remarks,
+      //   SubmitedByReportingUser: item.SubmitedByReportingUser,
+      //   Text2: item.IsSubmitted,
+      //   UserId: item.UserId,
+      //   IsSuggisionAdded:item.IsSuggisionAdded,
+      //   IsSuggisitionRead: item.IsSuggisitionRead
         
-      }));
+      // }));
+
+      let listResult1st = response.data.listResult1st.map((item, i) => {
+      
+        const nameRegex = /<b>(.*?)<\/b>/g;
+        const remarkRegex = /<\/b><br\/>(.*?)<br\/>/g;
+        const names = item.Remarks.match(nameRegex);
+        const remarks = item.Remarks.match(remarkRegex);
+        const Text3 = names && remarks ? `${names[0]}${remarks[0]}` : '';
+        const Text4 = names && remarks ? `${names[1]}${remarks[1]}` : '';
+        return {
+          StartDate: getDateMonthYearFormatted(item.StartDate),
+          EndDate: getDateMonthYearFormatted(item.EndDate),
+          Text3: Text3,
+          Text4: Text4,
+          SubmitedByReportingUser: item.SubmitedByReportingUser,
+          Text2: item.IsSubmitted,
+          UserId: item.UserId,
+          IsSuggisionAdded: item.IsSuggisionAdded,
+          IsSuggisitionRead: item.IsSuggisitionRead
+        };
+      });
+      
 
       let listResult2nd = response.data.listResult2nd.map(item => ({
         StartDate: getDateMonthYearFormatted(item.StartDate),

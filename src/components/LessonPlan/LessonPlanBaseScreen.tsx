@@ -328,10 +328,14 @@ const LessonPlanBaseScreen = () => {
   };
 
   const [ViewRemarks, setViewRemarks] = useState('')
+  const [ViewRemarks1, setViewRemarks1] = useState('')
 
-  const clickView = (Id, Remarks, sStartDate, sEndDate, sUserId) => {
+
+  const clickView = (Id, Remarks, Remarks1, sStartDate, sEndDate, sUserId) => {
     setOpenViewRemarkDialog(true);
+    
     setViewRemarks(Remarks);
+    setViewRemarks1(Remarks1);
     if (sUserId == asUserId && LessonPlanList.some((item) => item.IsSuggisionAdded === "True" && item.IsSuggisitionRead === "False")) {
       const UpdateReadSuggestionBody: IUpdateReadSuggestionBody = {
         asSchoolId: asSchoolId,
@@ -657,6 +661,11 @@ const LessonPlanBaseScreen = () => {
                 <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
                   {stripHtmlTags(ViewRemarks)}
                 </Typography>
+                <Typography variant={"h4"} style={{ marginBottom: '10px' }}>
+                  {stripHtmlTags( ViewRemarks1)}
+                </Typography>
+
+               
               </div>
             </Stack>
           </Stack>
