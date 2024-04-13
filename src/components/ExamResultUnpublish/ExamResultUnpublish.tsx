@@ -26,7 +26,8 @@ const ExamResultUnpublish = ({ open, setOpen, ExamName, TeacherName, ClickCloseD
 
 
   const ClickOk = () => {
-    if (Reason !== '') clickPublishUnpublish(false,Reason);
+    if (Reason !== '') clickPublishUnpublish(false, Reason);
+    
   };
 
 

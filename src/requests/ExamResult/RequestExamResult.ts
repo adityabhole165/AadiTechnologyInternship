@@ -14,6 +14,7 @@ const SliceExamResult = createSlice({
   initialState: {
     ClassTeachers: [],
     ClasswiseExam: [],
+    ClassPassDetailsForButton: null,
     ClassPassFailDetailsForTest: [],
     ClassPassFailDetailsForTestData: [],
     PublishUnpublishExam: '',
@@ -38,6 +39,10 @@ const SliceExamResult = createSlice({
     GetClassPassFailDetailsForTest(state, action) {
       state.Loading = false;
       state.ClassPassFailDetailsForTest = action.payload;
+    },
+    GetClassPassFailDetailsForButton(state, action) {
+      state.Loading = false;
+      state.ClassPassDetailsForButton = action.payload;
     },
     GetClassPassFailDetailsForTestData(state, action) {
       state.Loading = false;
@@ -65,6 +70,14 @@ const SliceExamResult = createSlice({
     }
   }
 });
+export const getClassPassFailDetailsForButton =
+  (data: IGetClassPassFailDetailsForTestBody): AppThunk =>
+    async (dispatch) => {
+      dispatch(SliceExamResult.actions.getLoading(true));
+      const response = await ApiExamResult.GetClassPassFailDetailsForTestApi(data);
+      dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(response.data));
+      console.log(response, "abc")
+    };
 
 export const getClassTeachers =
   (data: IGetClassTeachersBody): AppThunk =>
@@ -182,6 +195,7 @@ export const getClassPassFailDetailsForTest =
 
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTest(Column));
       dispatch(SliceExamResult.actions.GetClassPassFailDetailsForTestData(ColumnData));
+      // dispatch(SliceExamResult.actions.GetClassPassFailDetailsForButton(ColumnData))
     };
 
 export default SliceExamResult.reducer;

@@ -17,7 +17,7 @@ const DynamicList = ({
   ClickLink = undefined,
   Data = undefined
 }) => {
-  console.log(ItemList, "SubjectMarkList");
+
   const handleMouseEnter = (text) => {
     console.log("Mouse entered: ", text);
 

@@ -17,6 +17,7 @@ import SuspenseLoader from 'src/layouts/components/SuspenseLoader';
 import SearchableDropdown from 'src/libraries/ResuableComponents/SearchableDropdown';
 import DynamicList from 'src/libraries/list/DynamicList';
 import {
+  getClassPassFailDetailsForButton,
   getClassPassFailDetailsForTest,
   getClassTeachers, getClasswiseExam,
   getProgressSheetStatus,
@@ -36,27 +37,29 @@ const ExamResultBase = () => {
   //const [SelectTeacher, setSelectTeacher] = useState( Number(sessionStorage.getItem('TeacherId')));
   const [Reason, setReason] = useState('');
   const [TestId, setTestId] = useState("0");
-  const [DisplayNote, setDisplayNote] = useState([]);
+  const [DisplayNote, setDisplayNote] = useState('');
   const [Open, setOpen] = useState(false);
 
-  const [isPublished, setIsPublished] = useState(false);
+
+  // const [isPublished, setIsPublished] = useState(true);
   //const [unpublishReason, setUnpublishReason] = useState('');
 
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
-  console.log('ScreensAccessPermission', ScreensAccessPermission);
+
 
   const [IconList, setIconList] = useState([]);
   const LinkList = [0]
   const ClassTeachers: any = useSelector(
     (state: RootState) => state.ExamResult.ClassTeachers
   );
-  console.log('ClassTeachers', ClassTeachers);
 
-  const IsSubmitted: any = useSelector(
+
+  const Submitted: any = useSelector(
     (state: RootState) => state.ExamResult.IsSubmitted
   );
+  console.log(Submitted, "Submit")
 
   const HeaderList: any = useSelector(
     (state: RootState) => state.ExamResult.HeaderList
@@ -65,14 +68,22 @@ const ExamResultBase = () => {
   const ClassPassFailDetailsForTest: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTest
   );
+
+
   const ClassPassFailDetailsForTestData: any = useSelector(
     (state: RootState) => state.ExamResult.ClassPassFailDetailsForTestData
   );
 
+
+  const ClassPassFailDetailsForButton: any = useSelector(
+    (state: RootState) => state.ExamResult.ClassPassDetailsForButton
+  );
+
+
   const ClasswiseExams: any = useSelector(
     (state: RootState) => state.ExamResult.ClasswiseExam
   );
-  console.log('ClasswiseExams', ClasswiseExams);
+
 
   const PublishUnpublish: any = useSelector(
     (state: RootState) => state.ExamResult.PublishUnpublishExam
@@ -82,7 +93,7 @@ const ExamResultBase = () => {
   const ProgressSheet: any = useSelector(
     (state: RootState) => state.ExamResult.ProgressSheetStatus
   );
-  console.log('ProgressSheet', ProgressSheet);
+
 
   const loading = useSelector((state: RootState) => state.ExamResult.Loading);
 
@@ -121,23 +132,37 @@ const ExamResultBase = () => {
     asTest_Id: Number(TestId)
   };
 
+  // useEffect(() => {
+  //   console.log("Submitted:", Submitted);
+  //   if (Submitted.IsSubmitted == 'N') {
+  //     setIconList([]);
+  //     setDisplayNote(['Not all results for this exam have been submitted.']);
+  //   }
+
+  //   if (Submitted.IsSubmitted == 'Y')
+  //     setDisplayNote(['Results for this exam have been published.']);
+  //   setIconList([
+  //     {
+  //       Id: 1,
+  //       Icon: <EditIcon />,
+  //       Action: 'Edit'
+  //     }
+  //   ]);
+  // }, [Submitted]);
   useEffect(() => {
-    if (IsSubmitted == 'N') {
-      setIconList([]);
-      setDisplayNote(['Not all results for this exam have been submitted.']);
+    if (Submitted.IsSubmitted == 'N') {
+      setDisplayNote('Not all results for this exam have been submitted.');
+    } else if (Submitted.IsSubmitted == 'Y') {
+      setDisplayNote('Results for this exam have been published.');
+      setIconList([
+        {
+          Id: 1,
+          Icon: <EditIcon />,
+          Action: 'Edit'
+        }
+      ]);
     }
-
-    if (IsSubmitted == 'Y')
-      setDisplayNote(['Results for this exam have been published.']);
-    setIconList([
-      {
-        Id: 1,
-        Icon: <EditIcon />,
-        Action: 'Edit'
-      }
-    ]);
-  }, [IsSubmitted]);
-
+  }, [Submitted]);
   useEffect(() => {
     dispatch(getClassTeachers(ClassTeachersBody));
   }, []);
@@ -184,13 +209,16 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClassPassFailDetailsForTest(ClassPassFailDetailsForTestBody));
   }, [StandardDivisionId, TestId]);
+  useEffect(() => {
+    dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody));
+  }, [StandardDivisionId, TestId]);
 
   const clickTeacher = (value) => {
     setStandardDivisionId(value);
   };
   const clickExam = (value) => {
     setTestId(value);
-    console.log(value, "value")
+
   };
 
   const ClickItem = (value) => {
@@ -301,6 +329,7 @@ const ExamResultBase = () => {
         };
 
         dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+
         // toast.success(PublishUnpublish)
       }
     }
@@ -310,18 +339,21 @@ const ExamResultBase = () => {
     if (PublishUnpublish !== '') {
       toast.success(PublishUnpublish)
       dispatch(resetPublishUnpublishExams())
-
+      dispatch(getClassPassFailDetailsForButton(ClassPassFailDetailsForTestBody))
     }
   }, [PublishUnpublish])
-  useEffect(() => {
+  // useEffect(() => {
+  //   setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
+  // }, [ClassPassFailDetailsForTestData]);
+  // useEffect(() => {
 
-    if (ClassPassFailDetailsForTestData !== '') {
-      setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
-    } else {
-      setIsPublished(false);
+  //   if (ClassPassFailDetailsForTestData !== '') {
+  //     setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
+  //   } else {
+  //     setIsPublished(true);
 
-    }
-  }, [ClassPassFailDetailsForTestData]);
+  //   }
+  // }, [ClassPassFailDetailsForTestData]);
   const getDropdownName = (List, value) => {
     let returnVal = ""
     List.map((Item) => {
@@ -421,18 +453,18 @@ const ExamResultBase = () => {
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
 
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={!isPublished}>
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
           VIEW PROGRESS REPORT
         </Button>
-        <Button variant="contained" color="primary">
+        <Button variant="contained" color="primary" disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.ToppersGenerated}>
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={!isPublished}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={isPublished}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={Submitted.IsSubmitted === 'N' || Submitted.IsSubmitted === 'Y' || ClassPassFailDetailsForButton && !ClassPassFailDetailsForButton.IsPublish}>
           UNPUBLISH ALL
         </Button>
 
@@ -458,7 +490,7 @@ const ExamResultBase = () => {
           Termwise Height-Weight
         </Button>
       </Box>
-    </Box>
+    </Box >
   );
 };
 
