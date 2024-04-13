@@ -291,6 +291,12 @@ const LessonPlanBaseScreen = () => {
     }
   }, [DeleteLessonPlan, dispatch, GetLessonPlanListBody, isDeleteEffectTriggered]);
 
+  useEffect(() => {
+    if (USUpdateReadSuggestion !=='') {
+      dispatch(CDAlessonplanlist(GetLessonPlanListBody));
+    }
+  }, [USUpdateReadSuggestion]);
+
   const onSelectStartDate = (value) => {
     setStartDate(value);
     if (!value) {
@@ -340,6 +346,7 @@ const LessonPlanBaseScreen = () => {
 
     }
   };
+
 
 
   // const clickView = (Id, Remarks) => {
