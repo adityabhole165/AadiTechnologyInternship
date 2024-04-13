@@ -89,6 +89,8 @@ const AddLessonPlan = () => {
   const ApproverDetails: any = useSelector((state: RootState) => state.addlessonplan.ApproverDetails);
   const SubmittedApproverDate: any = useSelector((state: RootState) => state.addlessonplan.SubmittedApproverDate);
   console.log(SubmittedApproverDate, "GetLessonPlanStatusList");
+  const GetTeacherSubjectList = useSelector((state: RootState) => state.addlessonplan.TeacherSubjectList);
+  console.log(GetTeacherSubjectList, "GetTeacherSubjectList");
   const SaveLessonPlans = useSelector((state: RootState) => state.addlessonplan.saveLessonPlanmsg);
   const SubmitLessonPlans = useSelector((state: RootState) => state.addlessonplan.submitLessonPlanmsg);
   const SaveApproverComment = useSelector((state: RootState) => state.addlessonplan.saveApproverCommentmsg);
@@ -217,6 +219,11 @@ const AddLessonPlan = () => {
   };
   const onClickClass = (value) => {
     setSelectClass(value);
+    // Filter the AddOrEditLessonPlanDetails based on the selected class
+    const filteredLessonPlanDetails = GetTeacherSubjectList.filter((detail) => detail.ClassName === value);
+    // Update the exampleLessonDetails state with the filtered list
+    setExampleLessonDetails(filteredLessonPlanDetails);
+
   };
 
   const onClickBack = () => {
