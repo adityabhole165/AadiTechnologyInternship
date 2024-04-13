@@ -39,6 +39,9 @@ const ExamResultBase = () => {
   const [DisplayNote, setDisplayNote] = useState([]);
   const [Open, setOpen] = useState(false);
 
+  const [isPublished, setIsPublished] = useState(false);
+  //const [unpublishReason, setUnpublishReason] = useState('');
+
   const ScreensAccessPermission = JSON.parse(
     sessionStorage.getItem('ScreensAccessPermission')
   );
@@ -141,19 +144,11 @@ const ExamResultBase = () => {
   useEffect(() => {
     dispatch(getClasswiseExam(GetClasswiseExamDropdown));
   }, []);
-  // useEffect(() => {
-  //   dispatch(getPublishUnpublishExam(GetPublishUnpublish));
-  // }, []);
+
   useEffect(() => {
     dispatch(getProgressSheetStatus(GetPrePrimaryProgressSheetStatusBody));
   }, []);
 
-
-  // useEffect(() => {
-  //   if (ClassTeachers.length > 0) {
-  //     setStandardDivisionId(ClassTeachers[1].Value);
-  //   }
-  // }, [ClassTeachers]);
   useEffect(() => {
     if (ClassTeachers.length > 0)
       setStandardDivisionId(ClassTeachers[0].Id);
@@ -281,21 +276,8 @@ const ExamResultBase = () => {
   const ClickSubject = (Id) => {
     navigate('/extended-sidebar/Teacher/SubjectMarkList/' + Id);
   };
-  // const clickPublishUnpublish = () => {
-  //   if (Reason !== '') {
-  //     const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
-  //       asSchoolId: Number(asSchoolId),
-  //       asStdDivId: Number(StandardDivisionId),
-  //       asAcadmicYearId: Number(asAcademicYearId),
-  //       asTest_Id: Number(TestId),
-  //       asUnpublishReason: Reason,
-  //       asPublishById: 0
-  //     };
 
-  //     dispatch(getPublishUnpublishExam(GetPublishUnpublish))
-  //   }
-  // };
-  const clickPublishUnpublish = (publish) => {
+  const clickPublishUnpublish = (publish, Reason = '') => {
     if (publish) {
       const GetPublishUnpublish: IPublishUnpublishExamResultBody = {
         asSchoolId: Number(asSchoolId),
@@ -319,6 +301,7 @@ const ExamResultBase = () => {
         };
 
         dispatch(getPublishUnpublishExam(GetPublishUnpublish));
+        // toast.success(PublishUnpublish)
       }
     }
   };
@@ -330,7 +313,15 @@ const ExamResultBase = () => {
 
     }
   }, [PublishUnpublish])
+  useEffect(() => {
 
+    if (ClassPassFailDetailsForTestData !== '') {
+      setIsPublished(ClassPassFailDetailsForTestData.IsPublish);
+    } else {
+      setIsPublished(false);
+
+    }
+  }, [ClassPassFailDetailsForTestData]);
   const getDropdownName = (List, value) => {
     let returnVal = ""
     List.map((Item) => {
@@ -405,6 +396,9 @@ const ExamResultBase = () => {
             <Typography variant={'h4'} mb={1}>
               Results
             </Typography>
+            {/* <Typography variant="body1" color="textSecondary">
+              {isPublished ? "Result for this exam has been published" : "No record found"}
+            </Typography> */}
             {ClassPassFailDetailsForTest && ClassPassFailDetailsForTest.length === 0 ? (
               <Typography variant="body1" sx={{ textAlign: 'center', marginTop: 1, backgroundColor: '#324b84', padding: 1, borderRadius: 2, color: 'white' }}>
                 <b>No Record Found.</b>
@@ -426,18 +420,19 @@ const ExamResultBase = () => {
       )}
 
       <Box sx={{ display: 'flex', justifyContent: 'flex-start', gap: '8px' }}>
-        <Button variant="contained" color="primary" onClick={ViewProgressRemark}>
+
+        <Button variant="contained" color="primary" onClick={ViewProgressRemark} disabled={!isPublished}>
           VIEW PROGRESS REPORT
         </Button>
         <Button variant="contained" color="primary">
           GENERATE TOPPERS
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)}>
+        <Button color={"primary"} variant={"contained"} onClick={() => clickPublishUnpublish(true)} disabled={!isPublished}>
           PUBLISH ALL
         </Button>
 
-        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox}>
+        <Button color={"primary"} variant={"contained"} onClick={ClickOpenDialogbox} disabled={isPublished}>
           UNPUBLISH ALL
         </Button>
 
